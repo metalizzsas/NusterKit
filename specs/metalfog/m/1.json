@@ -1,0 +1,201 @@
+{
+    "automatons":
+    {
+        "0":
+        {
+            "name": "em4",
+            "ip": "10.0.0.2",
+            "protocol": "modbus",
+            "port": 502
+        },
+        "1": 
+        {
+            "ip": "localhost",
+            "port": 503
+        }
+    },
+    "inputs": {
+        "emergencyStop": {
+            "type": "bit",
+            "automaton": 0,
+            "wordID": 0,
+            "wordPosition": 0,
+            "defaultValue": false
+        },
+        "nitrogenSensor": {
+            "type": "bit",
+            "automaton": 0,
+            "wordID": 0,
+            "wordPosition": 1,
+            "defaultValue": false
+        },
+        "airSensor": {
+            "type": "bit",
+            "automaton": 0,
+            "wordID": 0,
+            "wordPosition": 2,
+            "defaultValue": false
+        },
+        "coverClosed": {
+            "type": "bit",
+            "automaton": 0,
+            "wordID": 0,
+            "wordPosition": 3,
+            "defaultValue": false
+        },
+        "uvLampClosed": {
+            "type": "bit",
+            "automaton": 0,
+            "wordID": 0,
+            "wordPosition": 4,
+            "defaultValue": false
+        },
+        "uvLampOpen": {
+            "type": "bit",
+            "automaton": 0,
+            "wordID": 0,
+            "wordPosition": 5,
+            "defaultValue": false
+        },
+        "buseSlotAOpen": {
+            "type": "bit",
+            "automaton": 0,
+            "wordID": 0,
+            "wordPosition": 6,
+            "defaultValue": false
+        },
+        "buseSlotAClosed": {
+            "type": "bit",
+            "automaton": 0,
+            "wordID": 0,
+            "wordPosition": 7,
+            "defaultValue": false
+        },
+        "buseSlotBOpen": {
+            "type": "bit",
+            "automaton": 0,
+            "wordID": 0,
+            "wordPosition": 8,
+            "defaultValue": false
+        },
+        "buseSlotBClosed": {
+            "type": "bit",
+            "automaton": 0,
+            "wordID": 0,
+            "wordPosition": 9,
+            "defaultValue": false
+        },
+        "irLampOpen": {
+            "type": "bit",
+            "automaton": 0,
+            "wordID": 0,
+            "wordPosition": 10,
+            "defaultValue": false
+        },
+        "irLampClosed": {
+            "type": "bit",
+            "automaton": 0,
+            "wordID": 0,
+            "wordPosition": 11,
+            "defaultValue": false
+        }
+    },
+    "outputs": {
+        "motorSpeed": {
+            "type": "word",
+            "defaultValue": 0,
+            "automaton": 0,
+            "wordID": 1
+        },
+        "uvLightLevel": {
+            "type": "word",
+            "defaultValue": 0,
+            "automaton": 0,
+            "wordID": 2
+        },
+        "motorDirection": {
+            "type": "bit",
+            "automaton": 0,
+            "wordID": 0,
+            "wordPosition": 0,
+            "defaultValue": false
+        },
+        "uvLight": {
+            "type": "bit",
+            "automaton": 0,
+            "wordID": 0,
+            "wordPosition": 1,
+            "defaultValue": false
+        },
+        "plvSlotA": {
+            "type": "bit",
+            "automaton": 0,
+            "wordID": 0,
+            "wordPosition": 2,
+            "defaultValue": false
+        },
+        "plvSlotB": {
+            "type": "bit",
+            "automaton": 0,
+            "wordID": 0,
+            "wordPosition": 3,
+            "defaultValue": false
+        },
+        "ventilation": {
+            "type": "bit",
+            "automaton": 0,
+            "wordID": 0,
+            "wordPosition": 4,
+            "defaultValue": false
+        },
+        "buseAHidden": {
+            "type": "bit",
+            "automaton": 0,
+            "wordID": 0,
+            "wordPosition": 5,
+            "defaultValue": true
+        },
+        "buseBHidden": {
+            "type": "bit",
+            "automaton": 0,
+            "wordID": 0,
+            "wordPosition": 6,
+            "defaultValue": true
+        },
+        "vacuum": {
+            "type": "bit",
+            "automaton": 0,
+            "wordID": 0,
+            "wordPosition": 7,
+            "defaultValue": false
+        },
+        "lampsHidden": {
+            "type": "bit",
+            "automaton": 0,
+            "wordID": 0,
+            "wordPosition": 8,
+            "defaultValue": true
+        },
+        "inerting": {
+            "type": "bit",
+            "automaton": 0,
+            "wordID": 0,
+            "wordPosition": 9,
+            "defaultValue": false
+        },
+        "irLight": {
+            "type": "bit",
+            "automaton": 0,
+            "wordID": 0,
+            "wordPosition": 10,
+            "defaultValue": false
+        },
+        "lampsVentilation": {
+            "type": "bit",
+            "automaton": 0,
+            "wordID": 0,
+            "wordPosition": 11,
+            "defaultValue": false
+        }
+    }
+}

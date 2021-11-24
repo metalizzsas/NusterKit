@@ -42,3 +42,4 @@ MachineC.configureRouters();
 server.app.use('/maintenance', MachineC.maintenanceController!.router)
 server.app.use('/io', MachineC.ioController!.router)
 server.app.use('/profile', MachineC.profileController!.router)
+server.app.use('/slot', MachineC.slotController!.router)

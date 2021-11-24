@@ -1,3 +1,4 @@
+import { IOController } from "../controllers/IOController";
 import { MaintenanceController } from "../controllers/MaintenanceController";
 
 export class Machine{
@@ -8,6 +9,7 @@ export class Machine{
     serial: string;
 
     maintenanceController?: MaintenanceController;
+    ioController?: IOController;
 
     constructor(model: string, variant: string, revision: number, serial: string)
     {
@@ -20,6 +22,7 @@ export class Machine{
     public configureRouters()
     {
         this.maintenanceController = new MaintenanceController(this);
+        this.ioController = new IOController(this);
 
         return true;
     }

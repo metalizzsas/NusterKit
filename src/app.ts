@@ -18,3 +18,4 @@ let MachineC = new Machine("metalfog", "m", 2, "123456");
 MachineC.configureRouters();
 
 server.app.use('/maintenance', MachineC.maintenanceController!.router)
+server.app.use('/io', MachineC.ioController!.router)

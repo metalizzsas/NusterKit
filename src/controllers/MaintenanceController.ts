@@ -4,25 +4,21 @@ import { Machine } from "../classes/Machine";
 import path from "path";
 import fs from "fs";
 import { Request, Response, NextFunction, Router } from "express";
+import { Controller } from "./Controller";
 
-export class MaintenanceController
+export class MaintenanceController extends Controller
 {
 
     private tasks: Maintenance[] = []
-    private _router = Router();
     private machine: Machine
 
     constructor(machine: Machine)
     {
+        super()
         this.machine = machine;
 
         this._configureRouter();
         this._configure();
-    }
-
-    get router()
-    {
-        return this._router;
     }
 
     private async _configure()
@@ -39,6 +35,7 @@ export class MaintenanceController
 
     private _configureRouter()
     {
+        
         this._router.get("/", async (req: Request, res: Response) => {
             for(let [index, maintenance] of this.tasks.entries())
             {
@@ -48,7 +45,7 @@ export class MaintenanceController
             res.status(200).json(this.tasks);
         });
 
-        this._router.put("/:name", async (req: Request, res: Response) => {
+        this._router.delete("/:name", async (req: Request, res: Response) => {
             for(let [index, maintenance] of this.tasks.entries())
             {
                 if(maintenance.name == req.params.name)

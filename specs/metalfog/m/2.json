@@ -1,310 +1,348 @@
 {
-    "iomap": {
-        "automatons": [
-            {
-                "name": "M820",
-                "type": "micro-820",
-                "ip": "192.168.0.2"
-            },
-            {
-                "name": "EX260",
-                "type": "ex260-sen1",
-                "ip": "192.168.0.3"
-            }
-        ],
-        "gates": {
-            "emergency_stop": {
-                "type": "bit",
-                "bus": "in",
-                "automaton": 0,
-                "address": "_IO_EM_DI_04",
-                "default": 0
-            },
-            "air_sensor": {
-                "type": "bit",
-                "bus": "in",
-                "automaton": 0,
-                "address": "_IO_EM_DI_05",
-                "default": 0
-            },
-            "cover_closed": {
-                "type": "bit",
-                "bus": "in",
-                "automaton": 0,
-                "address": "_IO_EM_DI_06",
-                "default": 0
-            },
-            "levels_edi-n": {
-                "type": "bit",
-                "bus": "in",
-                "automaton": 0,
-                "address": "_IO_EM_DI_07",
-                "default": 0
-            },
-            "levels_act-n": {
-                "type": "bit",
-                "bus": "in",
-                "automaton": 0,
-                "address": "_IO_EM_DI_08",
-                "default": 0
-            },
-            "levels_eff-n": {
-                "type": "bit",
-                "bus": "in",
-                "automaton": 0,
-                "address": "_IO_EM_DI_09",
-                "default": 0
-            },
-            "levels_edi-a": {
-                "type": "word",
-                "gateType": "sharp",
-                "bus": "in",
-                "automaton": 0,
-                "address": "_IO_EM_AI_00",
-                "default": 0, 
-
-                "minHeight": 10,
-                "maxHeight": 57
-            },
-            "levels_act-a": {
-                "type": "word",
-                "gateType": "sharp",
-                "bus": "in",
-                "automaton": 0,
-                "address": "_IO_EM_AI_01",
-                "default": 0,
-
-                "minHeight": 10,
-                "maxHeight": 29
-            },
-            "levels_ox-a": {
-                "type": "word",
-                "gateType": "sharp",
-                "bus": "in",
-                "automaton": 0,
-                "address": "_IO_EM_AI_02",
-                "default": 0,
-
-                "minHeight": 10,
-                "maxHeight": 41
-            },
-            "levels_rd-a": {
-                "type": "word",
-                "gateType": "sharp",
-                "bus": "in",
-                "automaton": 0,
-                "address": "_IO_EM_AI_03",
-                "default": 0,
-
-                "minHeight": 10,
-                "maxHeight": 41
-            },
-            "motor-speed": {
-                "type": "word",
-                "gateType": "a10v",
-                "bus": "out",
-                "automaton": 0,
-                "address": "_IO_EM_AO_00",
-                "default": 0
-            },
-            "motor-direction": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 0,
-                "address": "_IO_EM_DO_00",
-                "default": 0
-            },
-            "ventilation": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 0,
-                "address": "_IO_EM_DO_02",
-                "default": 0
-            },
-            "act-res": {
-                "type": "bit",
-                "bus":"out",
-                "automaton": 1,
-                "address": 31,
-                "default": 0
-            },
-            "edi-res": {
-                "type": "bit",
-                "bus":"out",
-                "automaton": 1,
-                "address": 30,
-                "default": 0
-            },
-            "ox-res": {
-                "type": "bit",
-                "bus":"out",
-                "automaton": 1,
-                "address": 29,
-                "default": 0
-            },
-            "rd-res": {
-                "type": "bit",
-                "bus":"out",
-                "automaton": 1,
-                "address": 28,
-                "default": 0
-            },
-            "act-plv_high": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 1,
-                "address": 27,
-                "default": 0
-            },
-            "act-plv_low": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 1,
-                "address": 26,
-                "default": 0
-            },
-            "met-plv_high": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 1,
-                "address": 25,
-                "default": 0
-            },
-            "met-plv_medium": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 1,
-                "address": 24,
-                "default": 0
-            },
-            "met-plv_low": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 1,
-                "address": 23,
-                "default": 0
-            },
-            "act-lq_high": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 1,
-                "address": 21,
-                "default": 0
-            },
-            "act-lq_low": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 1,
-                "address": 20,
-                "default": 0
-            },
-            "edi-lq_high": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 1,
-                "address": 19,
-                "default": 0
-            },
-            "edi-lq_low": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 1,
-                "address": 18,
-                "default": 0
-            },
-            "rd-lq_high": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 1,
-                "address": 17,
-                "default": 0
-            },
-            "ox-lq_high": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 1,
-                "address": 16,
-                "default": 0
-            },
-            "rd-lq_medium": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 1,
-                "address": 15,
-                "default": 0
-            },
-            "ox-lq_medium": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 1,
-                "address": 14,
-                "default": 0
-            },
-            "rd-lq_low": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 1,
-                "address": 13,
-                "default": 0
-            },
-            "ox-lq_low": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 1,
-                "address": 12,
-                "default": 0
-            },
-            "rd-air_cleaning_high": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 1,
-                "address": 11,
-                "default": 0
-            },
-            "ox-air_cleaning_high": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 1,
-                "address": 10,
-                "default": 0
-            },
-            "rd-air_cleaning_medium": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 1,
-                "address": 9,
-                "default": 0
-            },
-            "ox-air_cleaning_medium": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 1,
-                "address": 8,
-                "default": 0
-            },
-            "rd-air_cleaning_low": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 1,
-                "address": 7,
-                "default": 0
-            },
-            "ox-air_cleaning_low": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 1,
-                "address": 6,
-                "default": 0
-            },
-            "edi-lq_fill_act": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 1,
-                "address": 5,
-                "default": 0
-            }
+    "iohandlers": [
+        {
+            "name": "M820",
+            "type": "micro-820",
+            "ip": "192.168.0.2"
+        },
+        {
+            "name": "EX260",
+            "type": "ex260-sen1",
+            "ip": "192.168.0.3"
         }
-    },
+    ],
+    "iogates": [
+        {
+            "name": "emergency_stop",
+            "type": "bit",
+            "bus": "in",
+            "automaton": 0,
+            "address": "_IO_EM_DI_04",
+            "default": 0
+        },
+        {
+            "name": "air_sensor",
+            "type": "bit",
+            "bus": "in",
+            "automaton": 0,
+            "address": "_IO_EM_DI_05",
+            "default": 0
+        },
+        {
+            "name": "cover_closed",
+            "type": "bit",
+            "bus": "in",
+            "automaton": 0,
+            "address": "_IO_EM_DI_06",
+            "default": 0
+        },
+        {
+            "name": "levels_edi-n",
+            "type": "bit",
+            "bus": "in",
+            "automaton": 0,
+            "address": "_IO_EM_DI_07",
+            "default": 0         
+        },
+        {
+            "name": "levels_act-n",
+            "type": "bit",
+            "bus": "in",
+            "automaton": 0,
+            "address": "_IO_EM_DI_08",
+            "default": 0           
+        },
+        {
+            "name": "levels_eff-n",
+            "type": "bit",
+            "bus": "in",
+            "automaton": 0,
+            "address": "_IO_EM_DI_09",
+            "default": 0
+        },
+        {
+            "name": "levels_edi-a",
+            "type": "word",
+            "gateType": "sharp",
+            "bus": "in",
+            "automaton": 0,
+            "address": "_IO_EM_AI_00",
+            "default": 0, 
+
+            "minHeight": 10,
+            "maxHeight": 57
+        },
+        {
+            "name": "levels_act-a",
+            "type": "word",
+            "gateType": "sharp",
+            "bus": "in",
+            "automaton": 0,
+            "address": "_IO_EM_AI_01",
+            "default": 0,
+
+            "minHeight": 10,
+            "maxHeight": 29           
+        },
+        {
+            "name": "levels_ox-a",
+            "type": "word",
+            "gateType": "sharp",
+            "bus": "in",
+            "automaton": 0,
+            "address": "_IO_EM_AI_02",
+            "default": 0,
+
+            "minHeight": 10,
+            "maxHeight": 41            
+        },
+        {
+            "name": "levels_rd-a",
+            "type": "word",
+            "gateType": "sharp",
+            "bus": "in",
+            "automaton": 0,
+            "address": "_IO_EM_AI_03",
+            "default": 0,
+
+            "minHeight": 10,
+            "maxHeight": 41           
+        },
+        {
+            "name": "motor-speed",
+            "type": "word",
+            "gateType": "a10v",
+            "bus": "out",
+            "automaton": 0,
+            "address": "_IO_EM_AO_00",
+            "default": 0           
+        },
+        {
+            "name": "motor-direction",
+            "type": "bit",
+            "bus": "out",
+            "automaton": 0,
+            "address": "_IO_EM_DO_00",
+            "default": 0
+        },
+        {
+            "name": "ventilation",
+            "type": "bit",
+            "bus": "out",
+            "automaton": 0,
+            "address": "_IO_EM_DO_02",
+            "default": 0
+        },
+        {
+            "name": "act-res",
+            "type": "bit",
+            "bus":"out",
+            "automaton": 1,
+            "address": 31,
+            "default": 0
+        },
+        {
+            "name": "edi-res",
+            "type": "bit",
+            "bus":"out",
+            "automaton": 1,
+            "address": 30,
+            "default": 0            
+        },
+        {
+            "name": "ox-res",
+            "type": "bit",
+            "bus":"out",
+            "automaton": 1,
+            "address": 29,
+            "default": 0           
+        },
+        {
+            "name": "rd-res",
+            "type": "bit",
+            "bus":"out",
+            "automaton": 1,
+            "address": 28,
+            "default": 0
+        },
+        {
+            "name": "hybrid-plv_high",
+            "type": "bit",
+            "bus": "out",
+            "automaton": 1,
+            "address": 27,
+            "default": 0
+        },
+        {
+            "name": "hybrid-plv_low",
+            "type": "bit",
+            "bus": "out",
+            "automaton": 1,
+            "address": 26,
+            "default": 0
+        },
+        {
+            "name": "met-plv_high",
+            "type": "bit",
+            "bus": "out",
+            "automaton": 1,
+            "address": 25,
+            "default": 0
+        },
+        {
+            "name": "met-plv_medium",
+            "type": "bit",
+            "bus": "out",
+            "automaton": 1,
+            "address": 24,
+            "default": 0
+        },
+        {
+            "name": "met-plv_low",
+            "type": "bit",
+            "bus": "out",
+            "automaton": 1,
+            "address": 23,
+            "default": 0
+        },
+        {
+            "name": "act-lq_high",
+            "type": "bit",
+            "bus": "out",
+            "automaton": 1,
+            "address": 21,
+            "default": 0
+        },
+        {
+            "name": "act-lq_low",
+            "type": "bit",
+            "bus": "out",
+            "automaton": 1,
+            "address": 20,
+            "default": 0
+        },
+        {
+            "name": "edi-lq_high",
+            "type": "bit",
+            "bus": "out",
+            "automaton": 1,
+            "address": 19,
+            "default": 0
+        },
+        {
+            "name": "edi-lq_low",
+            "type": "bit",
+            "bus": "out",
+            "automaton": 1,
+            "address": 18,
+            "default": 0
+        },
+        {
+            "name": "rd-lq_high",
+            "type": "bit",
+            "bus": "out",
+            "automaton": 1,
+            "address": 17,
+            "default": 0
+        },
+        {
+            "name": "ox-lq_high",
+            "type": "bit",
+            "bus": "out",
+            "automaton": 1,
+            "address": 16,
+            "default": 0
+        },
+        {
+            "name": "rd-lq_medium",
+            "type": "bit",
+            "bus": "out",
+            "automaton": 1,
+            "address": 15,
+            "default": 0           
+        },
+        {
+            "name": "ox-lq_medium",
+            "type": "bit",
+            "bus": "out",
+            "automaton": 1,
+            "address": 14,
+            "default": 0
+        },
+        {
+            "name": "rd-lq_low",
+            "type": "bit",
+            "bus": "out",
+            "automaton": 1,
+            "address": 13,
+            "default": 0
+
+        },
+        {
+            "name": "ox-lq_low",
+            "type": "bit",
+            "bus": "out",
+            "automaton": 1,
+            "address": 12,
+            "default": 0
+        },
+        {
+            "name": "rd-air_cleaning_high",
+            "type": "bit",
+            "bus": "out",
+            "automaton": 1,
+            "address": 11,
+            "default": 0
+        },
+        {
+            "name": "ox-air_cleaning_high",
+            "type": "bit",
+            "bus": "out",
+            "automaton": 1,
+            "address": 10,
+            "default": 0
+        },
+        {
+            "name": "rd-air_cleaning_medium",
+            "type": "bit",
+            "bus": "out",
+            "automaton": 1,
+            "address": 9,
+            "default": 0
+        },
+        {
+            "name": "ox-air_cleaning_medium",
+            "type": "bit",
+            "bus": "out",
+            "automaton": 1,
+            "address": 8,
+            "default": 0
+        },
+        {
+            "name": "rd-air_cleaning_low",
+            "type": "bit",
+            "bus": "out",
+            "automaton": 1,
+            "address": 7,
+            "default": 0
+        },
+        {
+            "name": "ox-air_cleaning_low",
+            "type": "bit",
+            "bus": "out",
+            "automaton": 1,
+            "address": 6,
+            "default": 0
+        },
+        {
+            "name": "edi-lq_fill_act",
+            "type": "bit",
+            "bus": "out",
+            "automaton": 1,
+            "address": 5,
+            "default": 0
+        }
+    ],
     "slots": [
         {
             "name": "ox",
@@ -588,5 +626,5 @@
             }
         }
     ],
-    "passives": {}
+    "passives": []
 }

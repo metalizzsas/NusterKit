@@ -1,5 +1,17 @@
-class Controller{
+import { Router } from "express";
 
-    constructor(){}
+export class Controller{
+
+    _router = Router();
+
+    constructor()
+    {
+        
+    }
+
+    get router()
+    {
+        return this._router;
+    }
 
 }

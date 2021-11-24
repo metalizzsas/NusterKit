@@ -7,6 +7,8 @@ export class IOGate
     address: string | number;
     default: number;
 
+    value?: number;
+
     constructor(name: string, type: string, bus: IOGateBus, automaton: number, address: string | number, defaultv: number)
     {
         this.name = name;
@@ -15,6 +17,11 @@ export class IOGate
         this.automaton = automaton;
         this.address = address;
         this.default = defaultv;
+    }
+
+    public async toggle(state: number)
+    {
+        this.value = state;
     }
 }
 

@@ -626,5 +626,27 @@
             }
         }
     ],
-    "passives": []
+    "passives": [],
+    "manual": [
+        {
+            "name": "plv_act_high",
+            "controls": ["act-res", "hybrid-plv_high", "act-lq_high"],
+            "incompatibility": ["plv_edi_high"]
+        },
+        {
+            "name": "plv_act_low",
+            "controls": ["act-res", "hybrid-plv_low", "act-lq_low"],
+            "incompatibility": ["plv_edi_low"]
+        },
+        {
+            "name": "plv_edi_high",
+            "controls": ["edi-res", "hybrid-plv_high", "edi-lq_high"],
+            "incompatibility": ["plv_act_high"]
+        },
+        {
+            "name": "plv_edi_low",
+            "controls": ["edi-res", "hybrid-plv_low", "edi-lq_low"],
+            "incompatibility": ["plv_act_low"]
+        }
+    ]
 }

@@ -1,5 +1,6 @@
 import { IOController } from "../controllers/IOController";
 import { MaintenanceController } from "../controllers/MaintenanceController";
+import { ProfileController } from "../controllers/ProfilesController";
 
 export class Machine{
 
@@ -10,6 +11,7 @@ export class Machine{
 
     maintenanceController?: MaintenanceController;
     ioController?: IOController;
+    profileController?: ProfileController;
 
     constructor(model: string, variant: string, revision: number, serial: string)
     {
@@ -23,6 +25,7 @@ export class Machine{
     {
         this.maintenanceController = new MaintenanceController(this);
         this.ioController = new IOController(this);
+        this.profileController = new ProfileController(this);
 
         return true;
     }

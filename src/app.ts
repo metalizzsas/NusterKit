@@ -1,44 +1,99 @@
 import express from "express";
 import mongoose from "mongoose";
+import websocket, { WebSocketServer } from "ws";
+import { Server } from "http";
+
+import dgram from "dgram";
+
 import { Machine } from "./classes/Machine";
 
-class Server{
+class NTurbine
+{
     public app = express();
+    public httpServer?: Server;
+    public wsServer?: WebSocketServer;
+
+    public machine: Machine;
+
+    constructor()
+    {
+        this.machine = new Machine();
+
+        this.machine.configureRouters();
+
+        this._express();
+        this._discovery();
+        this._websocket();
+        this._mongoose();
+
+        this._machine();
+    }
+    /**
+     * Configure Express over network
+     */
+    private _express()
+    {
+        this.httpServer = this.app.listen(80, () => { console.log("Listning on 80"); });
+        this.app.use(express.json());
+    }
+    /**
+     * Create UDP4 discovery service
+     */
+    private _discovery()
+    {
+        const udp = dgram.createSocket('udp4');
+
+        setInterval(() => {
+            udp.send("test", 2222, '255.255.255.255', (error: Error | null, bytes: number) => {
+                console.log("sent", bytes);
+            });
+        }, 1000);
+    }
+    /**
+     * Create websocket handlers
+     */
+    private _websocket()
+    {
+        this.wsServer = new websocket.Server({server: this.httpServer });
+        this.wsServer.on('connection', (ws: websocket.WebSocket) => { this.wsServer!.clients.add(ws); console.log("new client")});
+    }
+    /**
+     * Connect and configure mongoose
+     */
+    private _mongoose()
+    {
+        mongoose.connect('mongodb://localhost/nuster2');
+
+        //move id to _id
+        //remove __v
+
+        mongoose.set('toJSON', {
+            virtuals: true,
+            transform: (doc, converted) => {
+                delete converted._id;
+                delete converted.__v;
+            }
+        });
+
+        mongoose.set('toObject', {
+            virtuals: true,
+            transform: (doc, converted) => {
+                delete converted._id;
+                delete converted.__v;
+            }
+        });
+    }
+    /**
+     * Add all machines routes to express
+     */
+    private _machine()
+    {
+        this.app.use('/maintenance', this.machine.maintenanceController!.router)
+        this.app.use('/io', this.machine.ioController!.router)
+        this.app.use('/profile', this.machine.profileController!.router)
+        this.app.use('/slot', this.machine.slotController!.router)
+        this.app.use('/manual', this.machine.manualmodeController!.router)
+    }
 }
 
-const server  = new Server();
-
-server.app.use(express.json());
-
-server.app.listen(80, () => { console.log("Listening on port 80")});
-
-mongoose.connect('mongodb://localhost/nuster2');
-
-mongoose.set('toJSON', {
-    virtuals: true,
-    transform: (doc, converted) => {
-        delete converted._id;
-        delete converted.__v;
-    }
-});
-
-//_id moved to id
-//deleted __v
-//in toObject
-mongoose.set('toObject', {
-    virtuals: true,
-    transform: (doc, converted) => {
-        delete converted._id;
-        delete converted.__v;
-    }
-});
-
-let MachineC = new Machine();
-
-MachineC.configureRouters();
-
-server.app.use('/maintenance', MachineC.maintenanceController!.router)
-server.app.use('/io', MachineC.ioController!.router)
-server.app.use('/profile', MachineC.profileController!.router)
-server.app.use('/slot', MachineC.slotController!.router)
-server.app.use('/manual', MachineC.manualmodeController!.router)
+new NTurbine();

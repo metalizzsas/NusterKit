@@ -49,9 +49,7 @@ export class Machine{
         {
             deepExtend(specsParsed, parsed.options)
         }
-
-        console.log(specsParsed);
-
+        
         this.specs = specsParsed;
     }
 

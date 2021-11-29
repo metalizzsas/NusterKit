@@ -21,6 +21,7 @@ export class IOGate
 
     public async toggle(state: number)
     {
+        console.log("Set", this.name, "to", state);
         this.value = state;
     }
 }

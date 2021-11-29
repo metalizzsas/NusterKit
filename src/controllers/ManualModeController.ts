@@ -74,26 +74,20 @@ export class ManualModeController extends Controller
 
                     for(let activeKeys of this.keys.filter((m => m.state == true && m.name != req.params.name)))
                     {
-                        activeGates.concat(activeKeys.controls);
+                        activeGates.push(...activeKeys.controls);
                     }
 
                     let activeGatesSet = [...new Set(activeGates)]
-
-                    console.log("will ingore", activeGatesSet);
 
                     let gateIndex = this.machine.ioController!.gates.findIndex((g) => g.name == gate)
 
                     if(gateIndex > -1)
                     {
-
                         //skip this gate updating routine because it is enabled in another manual mode
                         if(!(activeGatesSet.findIndex((g) => g == gate) > -1))
                             this.machine.ioController!.gates[gateIndex].toggle(req.params.value == "true" ? 1 : 0)
 
-
                         this.keys[concernedKeyIndex].state = (req.params.value == "true");
-                        res.status(200).end();
-                        return;
                     }
                     else
                     {
@@ -102,6 +96,9 @@ export class ManualModeController extends Controller
                         return;
                     }
                 }
+
+                res.status(200).end();
+                return;
             }
             else
             {

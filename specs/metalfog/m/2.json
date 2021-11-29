@@ -648,5 +648,6 @@
             "controls": ["edi-res", "hybrid-plv_low", "edi-lq_low"],
             "incompatibility": ["plv_act_low"]
         }
-    ]
+    ],
+    "cycle": ["primary", "secondary"]
 }

@@ -25,13 +25,10 @@ export class ProfileController extends Controller{
 
     private _configure()
     {
-        let raw = fs.readFileSync(path.resolve("specs", this.machine.model, this.machine.variant, this.machine.revision + ".json"), {encoding: "utf-8"});
-        let json = JSON.parse(raw).profile;
-
         this.defaultProfile = {
             name: "profile-default-name",
             modificationDate: Date.now(),
-            fieldGroups: json.fieldGroups
+            fieldGroups: this.machine.specs.profile
         };
 
         return true;

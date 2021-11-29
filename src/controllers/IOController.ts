@@ -28,21 +28,14 @@ export class IOController extends Controller
 
     private _configure()
     {
-        let raw = fs.readFileSync(path.resolve("specs", this.machine.model, this.machine.variant, this.machine.revision + ".json"), {encoding: "utf-8"});
-    
-        let json = JSON.parse(raw);
-
-        let jsonGates = json.iogates;
-        let jsonHandlers = json.iohandlers;
-
-        for(let handler of jsonHandlers)
+        for(let handler of this.machine.specs.iohandlers)
         {
             this.handlers.push(new IOHandler(handler.name, handler.type, handler.ip));
 
             //TODO: Connect to Handler
         }
 
-        for(let gate of jsonGates)
+        for(let gate of this.machine.specs.iogates)
         {
             this.gates.push(new IOGate(gate.name, gate.type, gate.bus, gate.automaton, gate.address, gate.default))
 

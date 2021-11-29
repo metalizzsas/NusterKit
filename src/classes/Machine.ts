@@ -4,12 +4,21 @@ import { ManualModeController } from "../controllers/ManualModeController";
 import { ProfileController } from "../controllers/ProfilesController";
 import { SlotController } from "../controllers/SlotController";
 
+import fs from "fs";
+import path from "path";
+
+import deepExtend from "deep-extend";
+
 export class Machine{
+
+    name: string;
+    serial: string;
 
     model: string;
     variant: string;
     revision: number;
-    serial: string;
+
+    public specs: IMachine;
 
     maintenanceController?: MaintenanceController;
     ioController?: IOController;
@@ -17,12 +26,33 @@ export class Machine{
     slotController?: SlotController;
     manualmodeController?: ManualModeController
 
-    constructor(model: string, variant: string, revision: number, serial: string)
+    constructor()
     {
-        this.model = model;
-        this.variant = variant;
-        this.revision = revision;
-        this.serial = serial;
+        //Loading JSON info file
+        let infos = fs.readFileSync(path.resolve("data", "info.json"), {encoding: "utf-8"});
+
+        let parsed = JSON.parse(infos);
+
+        this.name = parsed.name;
+        this.serial = parsed.serial;
+
+        this.model = parsed.model;
+        this.variant = parsed.variant;
+        this.revision = parsed.revision;
+
+        let raw = fs.readFileSync(path.resolve("specs", this.model, this.variant, this.revision + ".json"), {encoding: "utf-8"});
+
+        let specsParsed = JSON.parse(raw);
+
+        //if informations has optionals specs, deep extending it to match all specs
+        if(parsed.options !== undefined)
+        {
+            deepExtend(specsParsed, parsed.options)
+        }
+
+        console.log(specsParsed);
+
+        this.specs = specsParsed;
     }
 
     public configureRouters()
@@ -35,4 +65,17 @@ export class Machine{
 
         return true;
     }
+}
+
+//machine json interface
+interface IMachine
+{
+    iohandlers: any,
+    iogates: any,
+    slots: any,
+    profile: any,
+    maintenance: any,
+    passives: any,
+    manual: any,
+    cycle: string[]
 }

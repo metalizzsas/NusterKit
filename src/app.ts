@@ -4,7 +4,6 @@ import { Machine } from "./classes/Machine";
 
 class Server{
     public app = express();
-    
 }
 
 const server  = new Server();
@@ -32,10 +31,9 @@ mongoose.set('toObject', {
         delete converted._id;
         delete converted.__v;
     }
-})
+});
 
-
-let MachineC = new Machine("metalfog", "m", 2, "123456");
+let MachineC = new Machine();
 
 MachineC.configureRouters();
 

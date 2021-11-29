@@ -25,11 +25,7 @@ export class SlotController extends Controller
 
     private _configure()
     {
-        let raw = fs.readFileSync(path.resolve("specs", this.machine.model, this.machine.variant, this.machine.revision + ".json"), {encoding: "utf-8"});
-    
-        let json = JSON.parse(raw).slots;
-
-        for(let slot of json)
+        for(let slot of this.machine.specs.slots)
         {
             this.slots.push(new Slot(slot.name, slot.type, slot.isProductable, slot.sensors))
         }

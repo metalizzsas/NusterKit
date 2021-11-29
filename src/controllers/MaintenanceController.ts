@@ -23,11 +23,7 @@ export class MaintenanceController extends Controller
 
     private async _configure()
     {
-        let raw = fs.readFileSync(path.resolve("specs", this.machine.model, this.machine.variant, this.machine.revision + ".json"), {encoding: "utf-8"});
-    
-        let json = JSON.parse(raw).maintenance;
-
-        for(let maintenance of json)
+        for(let maintenance of this.machine.specs.maintenance)
         {
             this.tasks.push(new Maintenance(maintenance.name, maintenance.durationType, maintenance.durationLimit, maintenance.procedure));
         }

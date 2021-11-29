@@ -1,5 +1,4 @@
 import { Schema, model } from "mongoose";
-import { Field } from "sparkson";
 
 export interface IProfile
 {

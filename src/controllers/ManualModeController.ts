@@ -25,10 +25,7 @@ export class ManualModeController extends Controller
 
     private async _configure()
     {
-        let raw = fs.readFileSync(path.resolve("specs", this.machine.model, this.machine.variant, this.machine.revision + ".json"), {encoding: "utf-8"});
-        let json = JSON.parse(raw).manual;
-
-        for(let manual of json)
+        for(let manual of this.machine.specs.manual)
         {
             this.keys.push(new ManualMode(manual.name, manual.controls, manual.incompatibility))
         }

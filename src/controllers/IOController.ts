@@ -1,5 +1,5 @@
 import { IOGate, IOGateBus } from "../classes/IOGate"
-import { IOHandler } from "../classes/IOHandler"
+import { IOHandler } from "../classes/IOHandlers/IOHandler"
 import { Controller } from "./Controller"
 
 import fs from "fs";

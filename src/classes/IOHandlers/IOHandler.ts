@@ -1,8 +1,8 @@
 export class IOHandler
 {
-    name: string;
-    type: string;
-    ip: string;
+    public name: string;
+    public type: string;
+    public ip: string;
 
     constructor(name: string, type: string, ip: string)
     {

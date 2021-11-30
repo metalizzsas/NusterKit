@@ -1,4 +1,4 @@
-import express from "express";
+import express,  {NextFunction, Request, Response} from "express";
 import mongoose from "mongoose";
 import websocket, { WebSocketServer } from "ws";
 import { Server } from "http";
@@ -33,22 +33,13 @@ class NTurbine
      */
     private _express()
     {
-        this.httpServer = this.app.listen(80, () => { console.log("Listning on 80"); });
+        this.httpServer = this.app.listen(80, () => { console.log("Listening on 80"); });
         this.app.use(express.json());
     }
     /**
      * Create UDP4 discovery service
      */
-    private _discovery()
-    {
-        const udp = dgram.createSocket('udp4');
-
-        setInterval(() => {
-            udp.send("test", 2222, '255.255.255.255', (error: Error | null, bytes: number) => {
-                console.log("sent", bytes);
-            });
-        }, 1000);
-    }
+    private _discovery() {}
     /**
      * Create websocket handlers
      */
@@ -88,11 +79,20 @@ class NTurbine
      */
     private _machine()
     {
-        this.app.use('/maintenance', this.machine.maintenanceController!.router)
-        this.app.use('/io', this.machine.ioController!.router)
-        this.app.use('/profile', this.machine.profileController!.router)
-        this.app.use('/slot', this.machine.slotController!.router)
-        this.app.use('/manual', this.machine.manualmodeController!.router)
+        this.app.all("*", (req: Request, res: Response, next: NextFunction) => {
+            console.log(req.method, ":", req.url);
+            next();
+        });
+        this.app.use('/v1/maintenance', this.machine.maintenanceController!.router)
+        this.app.use('/v1/io', this.machine.ioController!.router)
+        this.app.use('/v1/profiles', this.machine.profileController!.router)
+        this.app.use('/v1/slots', this.machine.slotController!.router)
+        this.app.use('/v1/manual', this.machine.manualmodeController!.router)
+        this.app.use('/v1/cycle', this.machine.cycleController!.router)
+
+        this.app.get("/qr", (req: Request, res: Response) => {
+            res.status(200).end();
+        })
     }
 }
 

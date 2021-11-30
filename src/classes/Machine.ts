@@ -8,6 +8,7 @@ import fs from "fs";
 import path from "path";
 
 import deepExtend from "deep-extend";
+import { CycleController } from "../controllers/CycleController";
 
 export class Machine{
 
@@ -25,6 +26,7 @@ export class Machine{
     profileController?: ProfileController;
     slotController?: SlotController;
     manualmodeController?: ManualModeController
+    cycleController?: CycleController
 
     constructor()
     {
@@ -49,7 +51,7 @@ export class Machine{
         {
             deepExtend(specsParsed, parsed.options)
         }
-        
+
         this.specs = specsParsed;
     }
 
@@ -60,6 +62,7 @@ export class Machine{
         this.profileController = new ProfileController(this);
         this.slotController = new SlotController(this);
         this.manualmodeController = new ManualModeController(this);
+        this.cycleController = new CycleController(this);
 
         return true;
     }

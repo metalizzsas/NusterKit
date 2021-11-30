@@ -7,6 +7,8 @@ import fs from "fs";
 import path from "path";
 import { IProfile, ProfileModel } from "../models/Profile";
 import { randomUUID } from "crypto";
+import { Cycle } from "../classes/Cycle";
+import { Metalfog2cycle } from "../classes/Metalfog2Cycle";
 
 export class CycleController extends Controller{
 
@@ -15,6 +17,8 @@ export class CycleController extends Controller{
     private supportedCycles: CycleTypes[] = [];
 
     private runKey?: string;
+
+    private cycle?: Cycle
 
    constructor(machine: Machine)
    {
@@ -37,53 +41,26 @@ export class CycleController extends Controller{
    {
        //list all supported cycles types by this machine
         this._router.get("/", (req: Request, res: Response) => {
-            res.json(this.supportedCycles);
+            if(this.cycle != null)
+                res.json(this.cycle!).end();
+            else
+                res.status(404).end();
         });
 
         //Get a runkey 
-        this._router.post("/:cycle/:id", async (req: Request, res: Response) => {
-
-            if(this.supportedCycles.findIndex((s) => s == req.params.cycle) > -1)
-            {
-                let profile = ProfileModel.findById(req.params.id);
-
-                if(profile != undefined)
-                {
-                    console.log(profile);
-    
-                    this.runKey = randomUUID();
-    
-                    //Profile found, cycle authorized
-                    //a runKey is distributed
-                    res.json({"runKey": this.runKey});
-                    return;
-                }
-                else
-                {
-                    //profile has not been found
-                    res.status(404).end();
-                    return;
-                }
-            }
-            else
-            {
-                //Cycle used is not authorized in current context
-                res.status(403).end();
-                return;
-            }
-        });
-
-        this._router.put("/:runKey", async (req: Request, res: Response) => {
-
+        this._router.post("/:id", async (req: Request, res: Response) => {
+            this.cycle = new Metalfog2cycle(await ProfileModel.findById(req.params.id) as IProfile);
+            this.cycle.run();
+            res.status(200).end();
         });
    }
    private _handleSocket(ws: WebSocket)
    {
-    
+
    }
 }
 
 export enum CycleTypes{
-    METALFOG_MAIN = "metalfog_main",
-    METALFOG_FILLACT = "metalfog_secondary"
+    METALFOG_MAIN = "metalfog2_primary",
+    METALFOG_FILLACT = "metalfog2_secondary"
 }

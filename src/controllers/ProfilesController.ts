@@ -35,7 +35,6 @@ export class ProfileController extends Controller{
     }
     private _configureRouter()
     {
-        console.log("Configuring profile router");
         /**
          * Route to List profiles
          */

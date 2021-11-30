@@ -121,6 +121,9 @@ class CycleStepInformations
         this.type = (runAmount !== undefined && runAmount > 1) ? CycleStepType.MULTIPLE : CycleStepType.SINGLE;
 
         this.runAmount = runAmount;
+
+        if(this.runAmount != undefined)
+            this.runCount = 0;
     }
 
     /**
@@ -129,10 +132,6 @@ class CycleStepInformations
      */
     start():boolean
     {
-        console.log("Checking step runnability");
-        console.log(this.runAmount);
-        console.log(this.runCount);
-
         this.startTime = Date.now();
 
         if(this.runAmount !== undefined && this.runCount !== undefined)
@@ -160,10 +159,17 @@ class CycleStepInformations
 
         switch(this.state)
         {
+            case CycleStepState.STARTED:
+            {
+                if(this.type == CycleStepType.MULTIPLE)
+                    return parseFloat((this.runCount! / this.runAmount!).toFixed(2)) + parseFloat(((Date.now() - this.startTime!) / this.duration!).toFixed(2)) * parseFloat((1 / this.runAmount!).toFixed(2));
+                else
+                    return parseFloat(((Date.now() - this.startTime!) / this.duration!).toFixed(2));
+            }
             case CycleStepState.STOPPED:
             {
                 if(this.duration !== undefined && this.startTime !== undefined && this.endTime !== undefined)
-                    return Math.floor(this.endTime / (this.startTime + this.duration) * 100) / 100;
+                    return parseFloat(((this.endTime - this.startTime) / this.duration).toFixed(2));
                 else
                     return 0;
             }
@@ -173,45 +179,12 @@ class CycleStepInformations
             }
             case CycleStepState.PARTIAL:
             {
-                if(this.duration !== undefined && this.startTime !== undefined && this.endTime !== undefined)
-                    return Math.floor((this.runCount! / this.runAmount! + (Date.now() / (this.startTime + this.duration!) / this.runAmount!)) * 100) / 100;
-                else
-                    return Math.floor(100 * (this.runCount! / this.runAmount!)) / 100;
+                return parseFloat((this.runCount! / this.runAmount!).toFixed(2));
             }
             default: {
                 return 0;
             }
         }
-
-        // if(this.duration != null)
-        // {
-        //     if(this.startTime != null)
-        //     {
-        //         if(this.endTime != null && this.state == CycleStepState.ENDED)
-        //             return 1;
-        //         else if(this.endTime != null && this.state == CycleStepState.STOPPED)
-        //             return this.endTime / (this.startTime + this.duration);
-        //         else
-        //             return Date.now() / (this.startTime + this.duration);
-        //     }
-        //     else
-        //         return 0;
-        // }
-        // else if(this.state == CycleStepState.ENDED)
-        //     return 1;
-        // else if(this.state == CycleStepState.PARTIAL)
-        // {
-        //     if(this.startTime != null)
-        //     {
-        //         return this.runCount! / this.runAmount! + (Date.now() / (this.startTime + this.duration!) / this.runAmount!);
-        //     }
-        //     else
-        //     {
-        //         return this.runCount! / this.runAmount!;
-        //     }
-        // } 
-        // else
-        //     return 0;
     }
 
     toJSON()

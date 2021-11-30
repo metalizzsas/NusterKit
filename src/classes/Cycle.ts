@@ -97,10 +97,11 @@ export class Cycle
 
     toJSON()
     {
+        this.status.progress = this.progress()
+
         return {
             status: this.status,
             steps: this.steps,
-            progress: this.progress
         }
     }
 }
@@ -113,6 +114,8 @@ interface ICycleStatus
     startDate?: number,
     endDate?: number,
     endReason?: string
+
+    progress?: number
 }
 
 /**

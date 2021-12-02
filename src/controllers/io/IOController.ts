@@ -1,10 +1,9 @@
-import { IOGate, IOGateBus } from "../classes/IOGate"
-import { IOHandler } from "../classes/IOHandlers/IOHandler"
-import { Controller } from "./Controller"
-import { Machine } from "../classes/Machine";
+import { IOGate, IOGateBus } from "./IOGate"
+import { IOHandler } from "./IOHandlers/IOHandler"
+import { Controller } from "../Controller"
+import { Machine } from "../../Machine";
 
 import {Request, Response } from "express";
-
 
 export class IOController extends Controller
 {

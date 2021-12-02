@@ -1,11 +1,8 @@
-import { Machine } from "../classes/Machine";
-import { Controller } from "./Controller";
+import { Machine } from "../../Machine";
+import { Controller } from "../Controller";
 
 import { Request, Response } from "express";
-import { IProfile, ProfileModel } from "../models/Profile";
-
-import fs from "fs";
-import path from "path";
+import { IProfile, ProfileModel } from "./Profile";
 
 export class ProfileController extends Controller{
 

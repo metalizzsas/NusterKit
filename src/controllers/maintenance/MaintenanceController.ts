@@ -1,10 +1,10 @@
-import { Maintenance } from "../models/Maintenance";
-import { Machine } from "../classes/Machine";
+import { Maintenance } from "./Maintenance";
+import { Machine } from "../../Machine";
 
 import path from "path";
 import fs from "fs";
 import { Request, Response, NextFunction, Router } from "express";
-import { Controller } from "./Controller";
+import { Controller } from "../Controller";
 
 export class MaintenanceController extends Controller
 {

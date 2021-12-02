@@ -1,11 +1,8 @@
-import { Machine } from "../classes/Machine";
-import { Controller } from "./Controller";
-import { ManualMode } from "../classes/ManualMode";
+import { Machine } from "../../Machine";
+import { Controller } from "../Controller";
+import { ManualMode } from "./ManualMode";
 
 import { Request, Response } from "express";
-
-import fs from "fs";
-import path from "path";
 
 export class ManualModeController extends Controller
 {
@@ -20,7 +17,6 @@ export class ManualModeController extends Controller
 
         this._configure();
         this._configureRouter();
-
     }
 
     private async _configure()

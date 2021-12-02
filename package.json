@@ -25,6 +25,8 @@
     "mongoose": "^6.0.13",
     "st-ethernet-ip": "^2.4.4",
     "ts-ethernet-ip": "git+https://github.com/cmseaton42/ts-ethernet-ip.git",
+    "ts-udp-discovery": "^1.0.0",
+    "udp-discovery": "^2.0.2",
     "ws": "^8.3.0"
   },
   "devDependencies": {

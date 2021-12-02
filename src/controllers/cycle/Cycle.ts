@@ -1,4 +1,4 @@
-import { IProfile } from "../models/Profile";
+import { IProfile } from "../profile/Profile";
 import { CycleStep, CycleStepResult, CycleStepState, CycleStepType } from "./CycleStep";
 
 export class Cycle

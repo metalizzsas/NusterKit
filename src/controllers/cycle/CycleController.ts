@@ -1,11 +1,11 @@
-import { Machine } from "../classes/Machine";
-import { Controller } from "./Controller";
+import { Machine } from "../../Machine";
+import { Controller } from "../Controller";
 
 import { Request, Response } from "express";
 
-import { IProfile, ProfileModel } from "../models/Profile";
-import { Cycle } from "../classes/Cycle";
-import { Metalfog2cycle } from "../classes/Metalfog2Cycle";
+import { IProfile, ProfileModel } from "../profile/Profile";
+import { Cycle } from "./Cycle";
+import { Metalfog2cycle } from "./Metalfog2Cycle";
 
 export class CycleController extends Controller{
 

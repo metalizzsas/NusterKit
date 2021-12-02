@@ -1,14 +1,14 @@
-import { IOController } from "../controllers/IOController";
-import { MaintenanceController } from "../controllers/MaintenanceController";
-import { ManualModeController } from "../controllers/ManualModeController";
-import { ProfileController } from "../controllers/ProfilesController";
-import { SlotController } from "../controllers/SlotController";
+import { IOController } from "./controllers/io/IOController";
+import { MaintenanceController } from "./controllers/maintenance/MaintenanceController";
+import { ManualModeController } from "./controllers/manual/ManualModeController";
+import { ProfileController } from "./controllers/profile/ProfilesController";
+import { SlotController } from "./controllers/slot/SlotController";
 
 import fs from "fs";
 import path from "path";
 
 import deepExtend from "deep-extend";
-import { CycleController } from "../controllers/CycleController";
+import { CycleController } from "./controllers/cycle/CycleController";
 
 export class Machine{
 
@@ -73,6 +73,18 @@ export class Machine{
             "cycle": this.cycleController?.socketData,
             "slots": this.slotController?.socketData
         }
+    }
+
+    toJSON()
+    {
+        return {
+            name: this.name,
+            serial: this.serial,
+
+            model: this.model,
+            variant: this.variant,
+            revision: this.revision
+        };
     }
 }
 

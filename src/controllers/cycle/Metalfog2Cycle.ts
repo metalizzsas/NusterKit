@@ -1,4 +1,4 @@
-import { IProfile } from "../models/Profile";
+import { IProfile } from "../profile/Profile";
 import { Cycle } from "./Cycle";
 import { CycleStep } from "./CycleStep";
 

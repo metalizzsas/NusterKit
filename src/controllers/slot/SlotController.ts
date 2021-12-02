@@ -1,11 +1,8 @@
-import { Machine } from "../classes/Machine";
-import { Slot } from "../models/Slot";
-import { Controller } from "./Controller";
+import { Machine } from "../../Machine";
+import { Slot } from "./Slot";
+import { Controller } from "../Controller";
 
 import { Request, Response } from "express";
-
-import fs from "fs";
-import path from "path";
 
 export class SlotController extends Controller
 {

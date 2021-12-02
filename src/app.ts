@@ -1,11 +1,10 @@
-import express,  {NextFunction, Request, Response} from "express";
+import express,  { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 import { WebSocket, WebSocketServer } from "ws";
 import { IncomingMessage, Server } from "http";
-
 import dgram from "dgram";
 
-import { Machine } from "./classes/Machine";
+import { Machine } from "./Machine";
 
 class NTurbine
 {
@@ -40,7 +39,29 @@ class NTurbine
     /**
      * Create UDP4 discovery service
      */
-    private _discovery() {}
+    private _discovery() 
+    {
+        const multicast_addr = "1.1.1.1",
+            bin_addr = "0.0.0.0",
+            port = 2222;
+
+        var listener = dgram.createSocket({type:"udp4", reuseAddr:true}),
+            sender = dgram.createSocket({type:"udp4", reuseAddr:true});
+
+        listener.bind(port, multicast_addr, function(){
+            listener.addMembership(multicast_addr);
+            listener.setBroadcast(true);
+        });
+
+        setInterval(() => {
+
+            let string = JSON.stringify(this.machine);
+            let data = Buffer.from(string);
+
+            sender.send(data, 0, data.length, port, multicast_addr);
+        }, 1000);
+
+    }
     /**
      * Create websocket handlers
      */

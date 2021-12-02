@@ -1,7 +1,7 @@
 import express,  {NextFunction, Request, Response} from "express";
 import mongoose from "mongoose";
-import websocket, { WebSocketServer } from "ws";
-import { Server } from "http";
+import { WebSocket, WebSocketServer } from "ws";
+import { IncomingMessage, Server } from "http";
 
 import dgram from "dgram";
 
@@ -9,6 +9,7 @@ import { Machine } from "./classes/Machine";
 
 class NTurbine
 {
+    //servers related vars
     public app = express();
     public httpServer?: Server;
     public wsServer?: WebSocketServer;
@@ -45,8 +46,29 @@ class NTurbine
      */
     private _websocket()
     {
-        this.wsServer = new websocket.Server({server: this.httpServer });
-        this.wsServer.on('connection', (ws: websocket.WebSocket) => { this.wsServer!.clients.add(ws); console.log("new client")});
+        this.wsServer = new WebSocketServer({server: this.httpServer });
+
+        this.wsServer.on('connection', (ws: WebSocket, request: IncomingMessage) => { 
+            this.wsServer!.clients.add(ws); 
+            console.log("new client");
+
+            ws.on("close", () => {
+                console.log("client disconnected");
+            });
+        });
+
+        setInterval(() => {
+            if(this.wsServer !== undefined)
+            {
+                for(let ws of this.wsServer.clients)
+                {
+                    ws.send(JSON.stringify(this.machine.socketData), (err) => {
+                        if(err !== undefined)
+                            console.log(err);
+                    });
+                }
+            }
+        }, 500);
     }
     /**
      * Connect and configure mongoose
@@ -57,7 +79,6 @@ class NTurbine
 
         //move id to _id
         //remove __v
-
         mongoose.set('toJSON', {
             virtuals: true,
             transform: (doc, converted) => {

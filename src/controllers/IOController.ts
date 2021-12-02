@@ -1,9 +1,6 @@
 import { IOGate, IOGateBus } from "../classes/IOGate"
 import { IOHandler } from "../classes/IOHandlers/IOHandler"
 import { Controller } from "./Controller"
-
-import fs from "fs";
-import path from "path";
 import { Machine } from "../classes/Machine";
 
 import {Request, Response } from "express";
@@ -31,7 +28,6 @@ export class IOController extends Controller
         for(let handler of this.machine.specs.iohandlers)
         {
             this.handlers.push(new IOHandler(handler.name, handler.type, handler.ip));
-
             //TODO: Connect to Handler
         }
 

@@ -3,10 +3,7 @@ import { Controller } from "./Controller";
 
 import { Request, Response } from "express";
 
-import fs from "fs";
-import path from "path";
 import { IProfile, ProfileModel } from "../models/Profile";
-import { randomUUID } from "crypto";
 import { Cycle } from "../classes/Cycle";
 import { Metalfog2cycle } from "../classes/Metalfog2Cycle";
 
@@ -19,6 +16,8 @@ export class CycleController extends Controller{
     private runKey?: string;
 
     private cycle?: Cycle
+
+    private wsClients: WebSocket[] = [];
 
    constructor(machine: Machine)
    {
@@ -54,9 +53,10 @@ export class CycleController extends Controller{
             res.status(200).end();
         });
    }
-   private _handleSocket(ws: WebSocket)
-   {
 
+   public get socketData()
+   {
+        return this.cycle;
    }
 }
 

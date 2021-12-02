@@ -85,4 +85,8 @@ export class SlotController extends Controller
             }
         });
     }
+    public get socketData()
+    {
+        return this.slots;
+    }
 }

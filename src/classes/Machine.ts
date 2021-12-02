@@ -66,6 +66,14 @@ export class Machine{
 
         return true;
     }
+
+    public get socketData()
+    {
+        return {
+            "cycle": this.cycleController?.socketData,
+            "slots": this.slotController?.socketData
+        }
+    }
 }
 
 //machine json interface

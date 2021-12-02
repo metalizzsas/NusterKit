@@ -6,7 +6,7 @@ import dgram from "dgram";
 
 import { Machine } from "./Machine";
 
-class NTurbine
+class NusterTurbine
 {
     //servers related vars
     public app = express();
@@ -35,6 +35,8 @@ class NTurbine
     {
         this.httpServer = this.app.listen(80, () => { console.log("Listening on 80"); });
         this.app.use(express.json());
+
+        this.app.use("/assets", express.static("/assets"));
     }
     /**
      * Create UDP4 discovery service
@@ -138,4 +140,4 @@ class NTurbine
     }
 }
 
-new NTurbine();
+new NusterTurbine();

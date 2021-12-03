@@ -1,6 +1,12 @@
-import { Cycle } from "./Cycle";
+import { Cycle, ICycle } from "./Cycle";
 
-export class CycleStep
+export interface ICycleStep
+{
+    name: string,
+    status: ICycleStepInformations
+}
+
+export class CycleStep implements ICycleStep
 {
     private parentCycle: Cycle;
 
@@ -73,37 +79,31 @@ export class CycleStep
     }
 }
 
-interface ICycleStepInformations
+export interface ICycleStepInformations
 {
     isEnabled: boolean,
 
+    type?: string,
+    state?: string,
+
     duration?: number,
+    startTime?: number,
+    endTime?: number,
+
     runAmount?: number,
+    runCount?: number
 }
 
-export enum CycleStepType
-{
-    SINGLE = "single",
-    MULTIPLE = "multiple"
-}
-
-export enum CycleStepResult
-{
-    FAILED = "failed",
-    PARTIAL = "partial",
-    END = "end"
-}
-
-class CycleStepInformations
+export class CycleStepInformations implements ICycleStepInformations
 {
     public isEnabled: boolean;
     public type: CycleStepType = CycleStepType.SINGLE;
     
     public state: CycleStepState = CycleStepState.WAITING;
 
-    private duration?: number;
-    private startTime?: number;
-    private endTime?: number;
+    public duration?: number;
+    public startTime?: number;
+    public endTime?: number;
 
     public runAmount?: number;
     public runCount?: number;
@@ -212,4 +212,17 @@ export enum CycleStepState
     STOPPED = "stopped",
     ENDED = "ended",
     DISABLED = "disabled"
+}
+
+export enum CycleStepType
+{
+    SINGLE = "single",
+    MULTIPLE = "multiple"
+}
+
+export enum CycleStepResult
+{
+    FAILED = "failed",
+    PARTIAL = "partial",
+    END = "end"
 }

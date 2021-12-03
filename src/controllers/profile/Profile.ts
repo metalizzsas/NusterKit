@@ -23,7 +23,7 @@ interface IProfileField
     floatStep?: number;
 }
 
-var ProfileFieldSchema = new Schema<IProfileField>({
+const ProfileFieldSchema = new Schema<IProfileField>({
     name: {type: String, required: true},
     type: {type: String, required: true},
     value: {type: Number, required: true},
@@ -34,12 +34,12 @@ var ProfileFieldSchema = new Schema<IProfileField>({
     floatStep: Number
 });
 
-var ProfileFieldGroupSchema = new Schema<IProfileFieldGroup>({
+const ProfileFieldGroupSchema = new Schema<IProfileFieldGroup>({
     name: {type: String, required: true},
     fields: {type: [ProfileFieldSchema], required: true}
 });
 
-const ProfileSchema = new Schema<IProfile>({
+export const ProfileSchema = new Schema<IProfile>({
     name: {type: String, required: true},
     modificationDate: {type: Number, default: Date.now, required: true},
     fieldGroups: {type: [ProfileFieldGroupSchema], required: true}

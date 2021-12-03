@@ -1,7 +1,7 @@
 import { IProfile } from "../profile/Profile";
-import { CycleStep, CycleStepResult, CycleStepState, CycleStepType } from "./CycleStep";
+import { CycleStep, CycleStepResult, CycleStepState, CycleStepType, ICycleStep } from "./CycleStep";
 
-export class Cycle
+export class Cycle implements ICycle
 {
     public status: ICycleStatus;
 
@@ -106,14 +106,20 @@ export class Cycle
     }
 }
 
+export interface ICycle
+{
+    status: ICycleStatus,
+    profile: IProfile,
+    steps: ICycleStep[]
+}
 
-interface ICycleStatus
+export interface ICycleStatus
 {
     mode: CycleMode,
     
     startDate?: number,
     endDate?: number,
-    endReason?: string
+    endReason?: string,
 
     progress?: number
 }
@@ -121,7 +127,7 @@ interface ICycleStatus
 /**
  * This defines all the cycle modes
  */
-enum CycleMode
+export enum CycleMode
 {
     CREATED = "created",
     STARTED = "started",

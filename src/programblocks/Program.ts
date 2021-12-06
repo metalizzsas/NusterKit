@@ -1,9 +1,5 @@
-import { Cycle, ICycle } from "../controllers/cycle/Cycle";
+import { Cycle } from "../controllers/cycle/Cycle";
 import { Machine } from "../Machine";
-import util from "util";
-
-import _, { isNull } from "lodash";
-import { Controller } from "../controllers/Controller";
 
 export class BlockProgramInterpreter
 {
@@ -11,7 +7,6 @@ export class BlockProgramInterpreter
 
     name: string;
     machine: Machine;
-
 
     cycle?: ProgramBlockRunner;
 
@@ -25,13 +20,7 @@ export class BlockProgramInterpreter
 
         if(index > -1)
         {
-            //this.cycle = new ProgramBlockRunner(this.machine.specs.cycle[index].name, this.machine.specs.cycle[index].steps);
-            
-            //this.cycle = _.merge(new ProgramBlockRunner("", []), this.machine.specs.cycle[index]);
-
             this.cycle = new ProgramBlockRunner(this.cycleInstance, this.machine.specs.cycle[index]);  
-            
-            console.log(this.cycle);
         }
     }
 
@@ -41,8 +30,6 @@ export class BlockProgramInterpreter
         {
             for(let block of step.blocks)
             {
-                console.log("executing", block.name, "in", step.name);
-                console.log(block.constructor.name);
                 await block.execute(this.cycleInstance);
             }
         }
@@ -86,7 +73,13 @@ class ProgramBlockStep implements IProgramStep
 
         for(let block of obj.blocks)
         {
-            this.blocks.push(new ProgramBlock(this.cycle, block))
+            switch(block.name)
+            {
+                case "for": this.blocks?.push(new ForLoopProgramBlock(this.cycle, block)); break;
+                case "io": this.blocks?.push(new IOAccessProgramBlock(this.cycle, block)); break;
+                case "sleep": this.blocks?.push(new SleepProgramBlock(this.cycle, block)); break;
+                default: this.blocks?.push(new ProgramBlock(this.cycle, block)); break;
+            } 
         }
     }
 }
@@ -113,6 +106,7 @@ export class ProgramBlock extends Block implements IProgramBlock
         super(cycleInstance);
 
         this.name = obj.name
+        this.options = obj.options;
 
         if(obj.params !== undefined)
         {
@@ -134,6 +128,7 @@ export class ProgramBlock extends Block implements IProgramBlock
                 console.log(i.name);
                 switch(i.name)
                 {
+                    //FIXME: duplicate of ProgramStep
                     case "for": this.instructions?.push(new ForLoopProgramBlock(this.cycleInstance, i)); break;
                     case "io": this.instructions?.push(new IOAccessProgramBlock(this.cycleInstance, i)); break;
                     case "sleep": this.instructions?.push(new SleepProgramBlock(this.cycleInstance, i)); break;
@@ -186,11 +181,18 @@ export class IOAccessProgramBlock extends ProgramBlock
     constructor(cycleInstance: Cycle, obj: IProgramBlock)
     {
         super(cycleInstance, obj);
+
+        console.log("raw", obj);
+
+        console.log("options", this.options);
     }
 
     public async execute(): Promise<number>
     {
         return new Promise(async (resolve, reject) => {
+
+            console.log("promise options", this.options);
+
             if(this.options!.direction == IOAccessProgramBlockMethod.READ)
             {
                 await this.cycleInstance.ioExplorer?.explore(this.options!.gate)!.read();

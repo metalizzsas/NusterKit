@@ -1,12 +1,13 @@
+import { Machine } from "../../Machine";
 import { IProfile } from "../profile/Profile";
 import { Cycle } from "./Cycle";
 import { CycleStep } from "./CycleStep";
 
 export class Metalfog2cycle extends Cycle
 {
-    constructor(profile: IProfile)
+    constructor(machine: Machine, profile: IProfile)
     {
-        super(profile);
+        super(machine, "metalfog2", profile);
 
         this.steps = [
             new CycleStep(this, "test", {isEnabled: true, duration: 6000}, async () => {

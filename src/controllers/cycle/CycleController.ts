@@ -31,10 +31,14 @@ export class CycleController extends Controller{
 
    private _configure()
    {
-        for(let cycle of this.machine.specs.cycle)
-        {
-            this.supportedCycles.push(cycle as CycleTypes);
-        }
+        ProfileModel.findById("619e3c1dd150a81349a3bd08", {}, {}, (err, profile) => {
+            new Cycle(this.machine, "primary", profile as IProfile);
+        });
+       
+        // for(let cycle of this.machine.specs.cycle)
+        // {
+        //     //this.supportedCycles.push(cycle as CycleTypes);
+        // }
    }
 
    private _configureRouter()
@@ -49,7 +53,7 @@ export class CycleController extends Controller{
 
         //prepare the cycle
         this._router.post("/:id", async (req: Request, res: Response) => {
-            this.cycle = new Metalfog2cycle(await ProfileModel.findById(req.params.id) as IProfile);
+            this.cycle = new Metalfog2cycle(this.machine, await ProfileModel.findById(req.params.id) as IProfile);
             
             res.status(200).end();
         });

@@ -9,6 +9,7 @@ import path from "path";
 
 import deepExtend from "deep-extend";
 import { CycleController } from "./controllers/cycle/CycleController";
+import { IProgram } from "./programblocks/Program";
 
 export class Machine{
 
@@ -75,6 +76,11 @@ export class Machine{
         }
     }
 
+    public get io()
+    {
+        return this.ioController;
+    }
+
     toJSON()
     {
         return {
@@ -98,5 +104,5 @@ interface IMachine
     maintenance: any,
     passives: any,
     manual: any,
-    cycle: string[]
+    cycle: IProgram[]
 }

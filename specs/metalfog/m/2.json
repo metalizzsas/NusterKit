@@ -649,5 +649,75 @@
             "incompatibility": ["plv_act_low"]
         }
     ],
-    "cycle": ["primary", "secondary"]
+    "cycle": [
+        {
+            "name": "primary",
+            "steps": [
+                {
+                    "name": "start",
+                    "isEnabled": {
+                        "name": "const",
+                        "value": "1"
+                    },
+                    "duration": {
+                        "name": "const",
+                        "value": "3000"
+                    },
+                    "blocks": [
+                        {
+                            "name": "io",
+                            "params": [{
+                                "name": "const",
+                                "value": 1
+                            }],
+                            "options": {
+                                "gate": "ventilation",
+                                "direction": "write"
+                            }
+                        },
+                        {
+                            "name": "sleep",
+                            "params": [
+                                {
+                                    "name": "const",
+                                    "value": "3000" 
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "activation",
+                    "isEnabled": {
+                        "name": "profile",
+                        "value": "activation.enabled"
+                    },
+                    "duration": {
+                        "method": "eval",
+                        "value": "this.profileExplorer.explore('activation.count') * (this.profileExplorer.activation.timeOn + this.profileExplorer.activation.timeOff)"
+                    },
+                    "blocks": [
+                        {
+                            "name": "for",
+                            "params": [
+                                {
+                                    "name": "profile",
+                                    "value": "activation.count"
+                                }
+                            ],
+                            "instrutions": [
+                                {
+                                    "name": "io",
+                                    "value": "1",
+                                    "options": {
+                                        "gate": "ventilation"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
 }

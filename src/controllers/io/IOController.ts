@@ -69,4 +69,13 @@ export class IOController extends Controller
             }
         });
     }
+    /**
+     * Find any gate by its name
+     * @param name Gate name to find
+     * @returns iogates
+     */
+    public gFinder(name: string): IOGate | undefined
+    {
+        return this.gates.find((g) => g.name == name);
+    }
 }

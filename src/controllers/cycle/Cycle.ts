@@ -1,20 +1,44 @@
+import { Machine } from "../../Machine";
+import { BlockProgramInterpreter } from "../../programblocks/Program";
+import { IOExplorer } from "../io/IOExplorer";
 import { IProfile } from "../profile/Profile";
+import { ProfileExplorer } from "../profile/ProfileExplorer";
 import { CycleStep, CycleStepResult, CycleStepState, CycleStepType, ICycleStep } from "./CycleStep";
 
 export class Cycle implements ICycle
 {
     public status: ICycleStatus;
 
+    public machine: Machine;
+    public name: string;
     public profile: IProfile;
+
+    public profileExplorer?: ProfileExplorer;
+    public ioExplorer?: IOExplorer;
 
     public currentStepIndex: number = 0;
 
-    public steps: CycleStep[] = []
+    public steps: CycleStep[] = [];
 
-    constructor(profile: IProfile)
+    public programBlockInterpreter: BlockProgramInterpreter
+
+    constructor(machine: Machine, name: string, profile: IProfile)
     {
         this.status = { mode: CycleMode.CREATED };
+        this.machine = machine;
         this.profile = profile;
+        this.name = name;
+
+        this.profileExplorer = new ProfileExplorer(this.profile);
+
+        this.ioExplorer = new IOExplorer(this.machine.ioController!);
+
+        //create steps based of configuration file.
+
+        this.programBlockInterpreter = new BlockProgramInterpreter(this, this.name, this.machine);
+
+        this.programBlockInterpreter.start();
+
     }
 
     public async run(): Promise<boolean>
@@ -83,7 +107,7 @@ export class Cycle implements ICycle
         this.end("cycle-stopped");
     }
 
-    private progress()
+    public progress()
     {
         let duration = 0;
 
@@ -108,9 +132,25 @@ export class Cycle implements ICycle
 
 export interface ICycle
 {
+    machine: Machine;
+    name: string;
+
+    profileExplorer?: ProfileExplorer;
+    ioExplorer?: IOExplorer;
+
+    currentStepIndex: number;
+
+    programBlockInterpreter: BlockProgramInterpreter
+
     status: ICycleStatus,
     profile: IProfile,
     steps: ICycleStep[]
+
+    run(): Promise<boolean>
+    end(reason?: string): void
+    stop(): void
+    progress(): number
+    toJSON(): Object
 }
 
 export interface ICycleStatus

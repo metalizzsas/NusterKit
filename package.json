@@ -22,6 +22,7 @@
   "dependencies": {
     "deep-extend": "^0.6.0",
     "express": "^4.17.1",
+    "lodash": "^4.17.21",
     "mongoose": "^6.0.13",
     "st-ethernet-ip": "^2.4.4",
     "ts-ethernet-ip": "git+https://github.com/cmseaton42/ts-ethernet-ip.git",
@@ -32,6 +33,7 @@
   "devDependencies": {
     "@types/deep-extend": "^0.4.32",
     "@types/express": "^4.17.13",
+    "@types/lodash": "^4.14.177",
     "@types/node": "^16.11.9",
     "@types/ws": "^8.2.0",
     "nodemon": "^2.0.15",

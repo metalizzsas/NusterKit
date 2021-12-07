@@ -10,6 +10,7 @@ import path from "path";
 import deepExtend from "deep-extend";
 import { CycleController } from "./controllers/cycle/CycleController";
 import { IProgram } from "./programblocks/ProgramBlockRunner";
+import { IProfile } from "./controllers/profile/Profile";
 
 export class Machine{
 
@@ -100,7 +101,7 @@ interface IMachine
     iohandlers: any,
     iogates: any,
     slots: any,
-    profile: any,
+    profile: [IProfile],
     maintenance: any,
     passives: any,
     manual: any,

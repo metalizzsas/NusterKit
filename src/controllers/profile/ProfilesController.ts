@@ -2,13 +2,13 @@ import { Machine } from "../../Machine";
 import { Controller } from "../Controller";
 
 import { Request, Response } from "express";
-import { IProfile, ProfileModel } from "./Profile";
+import { IProfileMapper, IProfile, ProfileModel } from "./Profile";
 
 export class ProfileController extends Controller{
 
     private machine: Machine;
 
-    private defaultProfile?: IProfile;
+    private profileMap: IProfileMapper = {};
 
     constructor(machine: Machine)
     {
@@ -22,22 +22,35 @@ export class ProfileController extends Controller{
 
     private _configure()
     {
-        this.defaultProfile = {
-            identifier: "default",
-            name: "profile-default-name",
-            modificationDate: Date.now(),
-            fieldGroups: this.machine.specs.profile
-        };
-
+        for(let p of this.machine.specs.profile)
+        {
+            this.profileMap[p.identifier] = p;
+        }
         return true;
     }
     private _configureRouter()
     {
         /**
+         * List available profile maps
+         */
+         this._router.get('/map', (_req: Request, res: Response) => {
+            res.json(Object.keys(this.profileMap));
+        });
+
+        /**
          * Route to List profiles
          */
-        this._router.get('/', async (req: Request, res: Response) => {
+        this._router.get('/', async (_req: Request, res: Response) => {
             let profiles = await ProfileModel.find();
+            res.json(profiles);
+        });
+
+        /**
+         * Route to List profile by identifier
+         */
+        this._router.get('/:type', async (req: Request, res: Response) => {
+            let profiles = await ProfileModel.find({ identifier: req.params.type });
+
             res.json(profiles);
         });
 
@@ -92,8 +105,8 @@ export class ProfileController extends Controller{
         /**
          * Route to create a default profile with the given JSON Structure
          */
-        this._router.post('/', async (req: Request, res: Response) => {
-            res.json(await ProfileModel.create(this.defaultProfile!))
+        this._router.post('/:type', async (req: Request, res: Response) => {
+            res.json(await ProfileModel.create(this.profileMap[req.params.type]))
         });
     }
 }

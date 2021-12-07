@@ -5,14 +5,14 @@ import { ForLoopProgramBlock, IOAccessProgramBlock, IProgramBlock, ProgramBlock,
 
 export class ProgramBlockRunner implements IProgram
 {
-    expectedProfile: string;
+    profileIdentifier: string;
     name: string;
     cycle: Cycle;
     steps: ProgramBlockStep[] = [];
 
     constructor(cycleInstance: Cycle, object: IProgram)
     {
-        this.expectedProfile = object.expectedProfile;
+        this.profileIdentifier = object.profileIdentifier;
         this.cycle = cycleInstance;
         this.name = object.name;
 
@@ -120,7 +120,7 @@ interface IProgramStep
 export interface IProgram
 {
     name: string;
-    expectedProfile: string;
+    profileIdentifier: string;
     cycle: Cycle;
     steps: IProgramStep[];
 }

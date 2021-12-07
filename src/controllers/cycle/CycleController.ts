@@ -5,7 +5,6 @@ import { Request, Response } from "express";
 
 import { IProfile, ProfileModel } from "../profile/Profile";
 import { Cycle, CycleMode } from "./Cycle";
-import { Metalfog2cycle } from "./Metalfog2Cycle";
 import { CycleHistoryModel } from "./CycleHistory";
 
 export class CycleController extends Controller{
@@ -50,6 +49,13 @@ export class CycleController extends Controller{
             let profile = (req.params.id) ? undefined : await ProfileModel.findById(req.params.id) as IProfile;
             
             this.cycle = new Cycle(this.machine, req.params.name, profile);
+
+            if(this.cycle.program.profileIdentifier != profile?.identifier)
+            {
+                this.cycle = undefined;
+                res.status(403).write("Profile is not compatible with this cycle");
+                return;
+            }
 
             res.status(200).end();
         });

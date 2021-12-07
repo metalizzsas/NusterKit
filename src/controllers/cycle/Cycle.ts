@@ -1,9 +1,9 @@
 import { Machine } from "../../Machine";
-import { BlockProgramInterpreter } from "../../programblocks/ProgramInterpreter";
+import { ProgramBlockRunner } from "../../programblocks/ProgramBlockRunner";
 import { IOExplorer } from "../io/IOExplorer";
 import { IProfile } from "../profile/Profile";
 import { ProfileExplorer } from "../profile/ProfileExplorer";
-import { CycleStep, CycleStepResult, CycleStepState, CycleStepType, ICycleStep } from "./CycleStep";
+import { CycleStep, CycleStepResult, CycleStepType, ICycleStep } from "./CycleStep";
 
 export class Cycle implements ICycle
 {
@@ -20,7 +20,7 @@ export class Cycle implements ICycle
 
     public steps: CycleStep[] = [];
 
-    public programBlockInterpreter: BlockProgramInterpreter
+    public program: ProgramBlockRunner
 
     constructor(machine: Machine, name: string, profile?: IProfile)
     {
@@ -34,10 +34,8 @@ export class Cycle implements ICycle
 
         this.ioExplorer = new IOExplorer(this.machine.ioController!);
 
-        //create steps based of configuration file.
-
-        this.programBlockInterpreter = new BlockProgramInterpreter(this, this.name, this.machine);
-
+        //create programBlockRunner
+        this.program = new ProgramBlockRunner(this, this.machine.specs.cycle.find((c) => c.name == this.name)!);
     }
 
     public async run(): Promise<boolean>
@@ -49,9 +47,9 @@ export class Cycle implements ICycle
 
         while(this.currentStepIndex < this.steps.length)
         {
-            let result = await this.programBlockInterpreter.cycle?.steps[this.currentStepIndex].execute();
+            let result = await this.program.steps[this.currentStepIndex].execute();
 
-            console.log(this.programBlockInterpreter.cycle?.steps[this.currentStepIndex].name, result);
+            console.log(this.program.steps[this.currentStepIndex].name, result);
 
             switch(result)
             {
@@ -139,7 +137,7 @@ export interface ICycle
 
     currentStepIndex: number;
 
-    programBlockInterpreter: BlockProgramInterpreter
+    program: ProgramBlockRunner
 
     status: ICycleStatus,
     profile?: IProfile,

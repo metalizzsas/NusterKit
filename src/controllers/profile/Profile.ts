@@ -1,5 +1,9 @@
 import { Schema, model } from "mongoose";
 
+export interface IProfileMapper {
+    [key: string]: IProfile
+}
+
 export interface IProfile
 {
     identifier: string;

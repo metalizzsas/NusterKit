@@ -12,7 +12,7 @@ export class CycleController extends Controller{
 
     private machine: Machine;
 
-    private supportedCycles: CycleTypes[] = [];
+    private supportedCycles: string[] = [];
 
     private runKey?: string;
 
@@ -31,30 +31,26 @@ export class CycleController extends Controller{
 
    private _configure()
    {
-        ProfileModel.findById("619e3c1dd150a81349a3bd08", {}, {}, (err, profile) => {
-            new Cycle(this.machine, "primary", profile as IProfile);
-        });
-       
-        // for(let cycle of this.machine.specs.cycle)
-        // {
-        //     //this.supportedCycles.push(cycle as CycleTypes);
-        // }
+        for(let cycle of this.machine.specs.cycle)
+        {
+            this.supportedCycles.push(cycle.name);
+        }
    }
 
    private _configureRouter()
    {
        //list all supported cycles types by this machine
-        this._router.get("/", (req: Request, res: Response) => {
-            if(this.cycle != null)
-                res.json(this.cycle!).end();
-            else
-                res.status(404).end();
+        this._router.get("/", (_req: Request, res: Response) => {
+            res.json(this.supportedCycles);
         });
 
         //prepare the cycle
-        this._router.post("/:id", async (req: Request, res: Response) => {
-            this.cycle = new Metalfog2cycle(this.machine, await ProfileModel.findById(req.params.id) as IProfile);
+        this._router.post("/:name/:id?", async (req: Request, res: Response) => {
+
+            let profile = (req.params.id) ? undefined : await ProfileModel.findById(req.params.id) as IProfile;
             
+            this.cycle = new Cycle(this.machine, req.params.name, profile);
+
             res.status(200).end();
         });
 
@@ -114,9 +110,4 @@ export class CycleController extends Controller{
    {
         return this.cycle;
    }
-}
-
-export enum CycleTypes{
-    METALFOG_MAIN = "metalfog2_primary",
-    METALFOG_FILLACT = "metalfog2_secondary"
 }

@@ -9,7 +9,7 @@ import path from "path";
 
 import deepExtend from "deep-extend";
 import { CycleController } from "./controllers/cycle/CycleController";
-import { IProgram } from "./programblocks/Program";
+import { IProgram } from "./programblocks/ProgramBlockRunner";
 
 export class Machine{
 

@@ -2,6 +2,7 @@ import { Schema, model } from "mongoose";
 
 export interface IProfile
 {
+    identifier: string;
     name: string;
     modificationDate: number;
     fieldGroups: IProfileFieldGroup[]
@@ -40,6 +41,7 @@ const ProfileFieldGroupSchema = new Schema<IProfileFieldGroup>({
 });
 
 export const ProfileSchema = new Schema<IProfile>({
+    identifier: {type: String, required: true},
     name: {type: String, required: true},
     modificationDate: {type: Number, default: Date.now, required: true},
     fieldGroups: {type: [ProfileFieldGroupSchema], required: true}

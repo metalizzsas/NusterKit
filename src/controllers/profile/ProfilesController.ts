@@ -23,6 +23,7 @@ export class ProfileController extends Controller{
     private _configure()
     {
         this.defaultProfile = {
+            identifier: "default",
             name: "profile-default-name",
             modificationDate: Date.now(),
             fieldGroups: this.machine.specs.profile

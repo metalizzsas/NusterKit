@@ -1,5 +1,5 @@
 import { Machine } from "../../Machine";
-import { BlockProgramInterpreter } from "../../programblocks/Program";
+import { BlockProgramInterpreter } from "../../programblocks/ProgramInterpreter";
 import { IOExplorer } from "../io/IOExplorer";
 import { IProfile } from "../profile/Profile";
 import { ProfileExplorer } from "../profile/ProfileExplorer";
@@ -11,7 +11,7 @@ export class Cycle implements ICycle
 
     public machine: Machine;
     public name: string;
-    public profile: IProfile;
+    public profile?: IProfile;
 
     public profileExplorer?: ProfileExplorer;
     public ioExplorer?: IOExplorer;
@@ -22,22 +22,21 @@ export class Cycle implements ICycle
 
     public programBlockInterpreter: BlockProgramInterpreter
 
-    constructor(machine: Machine, name: string, profile: IProfile)
+    constructor(machine: Machine, name: string, profile?: IProfile)
     {
         this.status = { mode: CycleMode.CREATED };
         this.machine = machine;
         this.profile = profile;
         this.name = name;
 
-        this.profileExplorer = new ProfileExplorer(this.profile);
+        if(this.profile)
+            this.profileExplorer = new ProfileExplorer(this.profile);
 
         this.ioExplorer = new IOExplorer(this.machine.ioController!);
 
         //create steps based of configuration file.
 
         this.programBlockInterpreter = new BlockProgramInterpreter(this, this.name, this.machine);
-
-        this.programBlockInterpreter.start();
 
     }
 
@@ -50,9 +49,9 @@ export class Cycle implements ICycle
 
         while(this.currentStepIndex < this.steps.length)
         {
-            let result = await this.steps[this.currentStepIndex].run();
+            let result = await this.programBlockInterpreter.cycle?.steps[this.currentStepIndex].execute();
 
-            console.log(this.steps[this.currentStepIndex].name, result);
+            console.log(this.programBlockInterpreter.cycle?.steps[this.currentStepIndex].name, result);
 
             switch(result)
             {
@@ -143,7 +142,7 @@ export interface ICycle
     programBlockInterpreter: BlockProgramInterpreter
 
     status: ICycleStatus,
-    profile: IProfile,
+    profile?: IProfile,
     steps: ICycleStep[]
 
     run(): Promise<boolean>

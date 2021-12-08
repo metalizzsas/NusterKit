@@ -21,6 +21,7 @@
     "deep-extend": "^0.6.0",
     "express": "^4.17.1",
     "lodash": "^4.17.21",
+    "modbus-serial": "^8.0.5",
     "mongoose": "^6.0.13",
     "st-ethernet-ip": "^2.4.4",
     "ts-ethernet-ip": "git+https://github.com/cmseaton42/ts-ethernet-ip.git",

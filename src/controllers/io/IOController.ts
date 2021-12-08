@@ -4,10 +4,12 @@ import { Controller } from "../Controller"
 import { Machine } from "../../Machine";
 
 import {Request, Response } from "express";
+import { WAGO } from "./IOHandlers/WAGO";
+import { EX260S3 } from "./IOHandlers/EX260S3";
 
 export class IOController extends Controller
 {
-    private handlers: IOHandler[] = []
+    handlers: IOHandler[] = []
     gates: IOGate[] = []
 
     private machine: Machine
@@ -26,7 +28,13 @@ export class IOController extends Controller
     {
         for(let handler of this.machine.specs.iohandlers)
         {
-            this.handlers.push(new IOHandler(handler.name, handler.type, handler.ip));
+            switch(handler.name)
+            {
+                case "WAGO": this.handlers.push(new WAGO(handler.ip)); break;
+                //case "EX260S3": this.handlers.push(new EX260S3(handler.ip)); break;
+                default: this.handlers.push(new IOHandler(handler.name, handler.type, handler.ip)); break;
+            }
+            
             //TODO: Connect to Handler
         }
 
@@ -47,15 +55,17 @@ export class IOController extends Controller
             res.json(this.gates);
         });
 
-        this._router.post("/:name/:value", async (req: Request, res: Response) => {
+        this._router.get("/:name/:value", async (req: Request, res: Response) => {
 
-            let index = this.gates.findIndex((value: IOGate) => {value.name == req.params.name });
+            let index = this.gates.findIndex((g) => g.name == req.params.name);
 
             if(index > -1)
             {
-                if(this.gates[index].bus == IOGateBus.IN)
+                if(this.gates[index].bus != IOGateBus.IN)
                 {
                     //TODO: Update gate to value specified
+                    await this.gates[index].write(this, parseInt(req.params.value));
+                    res.status(200).end();
                 }
                 else
                 {

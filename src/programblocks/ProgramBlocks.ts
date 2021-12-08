@@ -86,12 +86,12 @@ export class IOAccessProgramBlock extends ProgramBlock
 
             if(this.options!.direction == IOAccessProgramBlockMethod.READ)
             {
-                await this.cycleInstance.ioExplorer?.explore(this.options!.gate)!.read();
+                await this.cycleInstance.ioExplorer?.explore(this.options!.gate)!.read(this.cycleInstance.machine.ioController!);
                 resolve(this.cycleInstance.ioExplorer?.explore(this.options!.gate)!.value!)
             }
             else
             {
-                await this.cycleInstance.ioExplorer?.explore(this.options!.gate)!.write(this.params[0].data());
+                await this.cycleInstance.ioExplorer?.explore(this.options!.gate)!.write(this.cycleInstance.machine.ioController!, this.params[0].data());
                 resolve(0);
             }
         });

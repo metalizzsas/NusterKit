@@ -10,4 +10,7 @@ export class IOHandler
         this.type = type;
         this.ip = ip;
     }
+
+    async writeData(address: number, data: number, word?: boolean): Promise<void> {}
+    async readData(address: number, word?: boolean): Promise<number> { return 0; }
 }

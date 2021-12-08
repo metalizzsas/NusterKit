@@ -1,15 +1,17 @@
+import { IOController } from "./IOController";
+
 export class IOGate
 {
     name: string;
     type: string;
     bus: IOGateBus;
     automaton: number;
-    address: string | number;
+    address: number;
     default: number;
 
     value: number;
 
-    constructor(name: string, type: string, bus: IOGateBus, automaton: number, address: string | number, defaultv: number)
+    constructor(name: string, type: string, bus: IOGateBus, automaton: number, address: number, defaultv: number)
     {
         this.name = name;
         this.type = type;
@@ -26,13 +28,17 @@ export class IOGate
         this.value = state;
     }
 
-    public async read()
+    public async read(ioController: IOController)
     {
+        this.value = await ioController.handlers[this.automaton].readData(this.address);
         return true;
     }
 
-    public async write(data: number)
+    public async write(ioController: IOController, data: number)
     {
+        let word = this.type == "word" ? true : undefined;
+        
+        await ioController.handlers[this.automaton].writeData(this.address, data, word)
         return true;
     }
 }

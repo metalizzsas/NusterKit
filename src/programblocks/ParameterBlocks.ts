@@ -79,3 +79,24 @@ export interface IParameterBlock
 
     data(): number
 }
+
+/**
+ * Defines Parameter block properly from configuration object
+ * @param cycleInstance cycle instance to attach parameter to 
+ * @param obj IParameter json object extracted from configuration file
+ * @returns Parameter block defined properly
+ */
+export function ParameterBlockRegistry(cycleInstance: Cycle, obj: IParameterBlock): ParameterBlock
+{
+    switch(obj.name)
+    {
+        case "const": return new ConstantParameterBlock(cycleInstance, obj);
+        case "conststr": return new ConstantStringParameterBlock(cycleInstance, obj);
+        case "profile": return new ProfileParameterBlock(cycleInstance, obj);
+        case "io": return new IOReadParameterBlock(cycleInstance, obj);
+        default: {
+            console.log("WARNING: Block ", obj.name, "is not defined properly");
+            return new ParameterBlock(cycleInstance, obj);
+        }
+    }
+}

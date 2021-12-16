@@ -1,7 +1,6 @@
 import { Cycle } from "../controllers/cycle/Cycle";
 import { Block } from "./Block";
-import { ParameterBlock, ProfileParameterBlock, ConstantParameterBlock, IParameterBlock, ConstantStringParameterBlock, IOReadParameterBlock } from "./ParameterBlocks";
-
+import { ParameterBlock, ProfileParameterBlock, ConstantParameterBlock, IParameterBlock, ConstantStringParameterBlock, IOReadParameterBlock, ParameterBlockRegistry } from "./ParameterBlocks";
 
 export class ProgramBlock extends Block implements IProgramBlock
 {
@@ -20,14 +19,7 @@ export class ProgramBlock extends Block implements IProgramBlock
         {
             for(let p of obj.params)
             {
-                switch(p.name)
-                {
-                    case "profile": this.params.push(new ProfileParameterBlock(this.cycleInstance, p)); break;
-                    case "const": this.params.push(new ConstantParameterBlock(this.cycleInstance, p)); break;
-                    case "conststr": this.params.push(new ConstantStringParameterBlock(this.cycleInstance, p)); break;
-                    case "io": this.params.push(new IOReadParameterBlock(this.cycleInstance, p)); break;
-                    default: this.params.push(new ParameterBlock(this.cycleInstance, p)); break;
-                }
+                this.params.push(ParameterBlockRegistry(this.cycleInstance, p));
             }
         }
 
@@ -35,15 +27,7 @@ export class ProgramBlock extends Block implements IProgramBlock
         {
             for(let b of obj.blocks)
             {
-                switch(b.name)
-                {
-                    //FIXME: duplicate of ProgramStep
-                    case "for": this.blocks.push(new ForLoopProgramBlock(this.cycleInstance, b)); break;
-                    case "if": this.blocks.push(new IfProgramBlock(this.cycleInstance, b)); break;
-                    case "io": this.blocks.push(new IOWriteProgramBlock(this.cycleInstance, b)); break;
-                    case "sleep": this.blocks.push(new SleepProgramBlock(this.cycleInstance, b)); break;
-                    default: this.blocks.push(new ProgramBlock(this.cycleInstance, b)); break;
-                }                
+                this.blocks.push(ProgramBlockRegistry(this.cycleInstance, b));              
             }
         }
     }
@@ -149,4 +133,19 @@ export interface IProgramBlock
     name: string;
     params: IParameterBlock[];
     blocks: IProgramBlock[];
+}
+
+export function ProgramBlockRegistry(cycleInstance: Cycle, obj: IProgramBlock)
+{
+    switch(obj.name)
+    {
+        case "for": return new ForLoopProgramBlock(cycleInstance, obj);
+        case "if": return new IfProgramBlock(cycleInstance, obj);
+        case "sleep": return new SleepProgramBlock(cycleInstance, obj);
+        case "io": return new IOWriteProgramBlock(cycleInstance, obj);
+        default: {
+            console.log("WARNING: Program block", obj.name, "is not defined properly");
+            return new ProgramBlock(cycleInstance, obj);
+        }
+    }
 }

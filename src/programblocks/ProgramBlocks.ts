@@ -1,6 +1,6 @@
 import { Cycle } from "../controllers/cycle/Cycle";
 import { Block } from "./Block";
-import { ParameterBlock, ProfileParameterBlock, ConstantParameterBlock, IParameterBlock, ConstantStringParameterBlock } from "./ParameterBlocks";
+import { ParameterBlock, ProfileParameterBlock, ConstantParameterBlock, IParameterBlock, ConstantStringParameterBlock, IOReadParameterBlock } from "./ParameterBlocks";
 
 
 export class ProgramBlock extends Block implements IProgramBlock
@@ -25,6 +25,7 @@ export class ProgramBlock extends Block implements IProgramBlock
                     case "profile": this.params.push(new ProfileParameterBlock(this.cycleInstance, p)); break;
                     case "const": this.params.push(new ConstantParameterBlock(this.cycleInstance, p)); break;
                     case "conststr": this.params.push(new ConstantStringParameterBlock(this.cycleInstance, p)); break;
+                    case "io": this.params.push(new IOReadParameterBlock(this.cycleInstance, p)); break;
                     default: this.params.push(new ParameterBlock(this.cycleInstance, p)); break;
                 }
             }
@@ -47,7 +48,9 @@ export class ProgramBlock extends Block implements IProgramBlock
         }
     }
 
-    public async execute(): Promise<any>{}
+    public async execute(): Promise<any>{
+        console.log("ProgramBlocks: This Blocks does nothing");
+    }
 }
 
 export class ForLoopProgramBlock extends ProgramBlock
@@ -55,6 +58,11 @@ export class ForLoopProgramBlock extends ProgramBlock
     constructor(cycleInstance: Cycle, obj: IProgramBlock)
     {
         super(cycleInstance, obj);
+
+        if(obj.params.length == 0)
+            throw new Error("ForProgramBlock: Not enought parameters")
+        if(obj.blocks.length == 0)
+            throw Error("ForProgramBlock: No blocks for for loop");
     }
 
     public async execute()
@@ -74,7 +82,6 @@ export class ForLoopProgramBlock extends ProgramBlock
 
 export class IfProgramBlock extends ProgramBlock
 {
-
     operators: {[x: string]: Function} = {
         ">": (x: any, y: any) => x > y,
         "<": (x: any, y: any) => x < y,
@@ -137,21 +144,9 @@ export class SleepProgramBlock extends ProgramBlock
     }
 }
 
-enum IOAccessProgramBlockMethod
-{
-    READ = "read",
-    WRITE = "write"
-}
-
-export interface IOAccessProgramBlockOptions
-{
-    gate: string,
-    direction: IOAccessProgramBlockMethod
-}
-
 export interface IProgramBlock
 {
     name: string;
     params: IParameterBlock[];
-    blocks?: IProgramBlock[];
+    blocks: IProgramBlock[];
 }

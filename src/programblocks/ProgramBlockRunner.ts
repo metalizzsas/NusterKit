@@ -2,7 +2,7 @@ import { Cycle, ICycleStatus } from "../controllers/cycle/Cycle";
 import { CycleStep, CycleStepResult, CycleStepState } from "../controllers/cycle/CycleStep";
 import { IWatchdogCondition } from "../controllers/cycle/CycleWatchdog";
 import { IParameterBlock, ParameterBlock } from "./ParameterBlocks";
-import { ForLoopProgramBlock, IOWriteProgramBlock, IProgramBlock, ProgramBlock, SleepProgramBlock } from "./ProgramBlocks";
+import { ForLoopProgramBlock, IfProgramBlock, IOWriteProgramBlock, IProgramBlock, ProgramBlock, SleepProgramBlock } from "./ProgramBlocks";
 
 export class ProgramBlockRunner implements IProgram
 {
@@ -10,7 +10,6 @@ export class ProgramBlockRunner implements IProgram
     name: string;
     cycle: Cycle;
     steps: ProgramBlockStep[] = [];
-    watchdogConditions: IWatchdogCondition[];
 
     constructor(cycleInstance: Cycle, object: IProgram)
     {
@@ -21,11 +20,6 @@ export class ProgramBlockRunner implements IProgram
         for(let step of object.steps)
         {
             this.steps.push(new ProgramBlockStep(this.cycle, step));
-        }
-
-        for(let cnd of object.watchdogConditions)
-        {
-            this.watchdogConditions.push()
         }
     }
 }
@@ -63,10 +57,11 @@ export class ProgramBlockStep implements IProgramStep
         {
             switch(block.name)
             {
-                case "for": this.blocks?.push(new ForLoopProgramBlock(this.cycle, block)); break;
-                case "io": this.blocks?.push(new IOAccessProgramBlock(this.cycle, block)); break;
-                case "sleep": this.blocks?.push(new SleepProgramBlock(this.cycle, block)); break;
-                default: this.blocks?.push(new ProgramBlock(this.cycle, block)); break;
+                case "for": this.blocks.push(new ForLoopProgramBlock(this.cycle, block)); break;
+                case "if": this.blocks.push(new IfProgramBlock(this.cycle, block)); break;
+                case "io": this.blocks.push(new IOWriteProgramBlock(this.cycle, block)); break;
+                case "sleep": this.blocks.push(new SleepProgramBlock(this.cycle, block)); break;
+                default: this.blocks.push(new ProgramBlock(this.cycle, block)); break;
             } 
         }
     }
@@ -130,5 +125,4 @@ export interface IProgram
     profileIdentifier: string;
     cycle: Cycle;
     steps: IProgramStep[];
-    watchdogConditions: IWatchdogCondition[];
 }

@@ -4,7 +4,9 @@
   "description": "Complete rewrite of NusterEngine in Typescript",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon src/app.ts"
+    "dev": "nodemon src/app.ts",
+    "docs": "typedoc --out docs src/**/*.ts",
+    "prod": " tsc --outDir ./dist/; node ./dist/app.js"
   },
   "repository": {
     "type": "git",

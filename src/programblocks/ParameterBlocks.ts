@@ -20,7 +20,7 @@ export class ParameterBlock extends Block implements IParameterBlock
     }
 }
 
-export class ProfileParameterBlock extends ParameterBlock implements IParameterBlock
+export class ProfileParameterBlock extends ParameterBlock
 {
     constructor(cycleInstance: Cycle, obj: IParameterBlock)
     {

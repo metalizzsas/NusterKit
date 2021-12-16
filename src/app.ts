@@ -104,7 +104,7 @@ class NusterTurbine
         //remove __v
         mongoose.set('toJSON', {
             virtuals: true,
-            transform: (doc, converted) => {
+            transform: (doc: any, converted: any) => {
                 delete converted._id;
                 delete converted.__v;
             }
@@ -112,7 +112,7 @@ class NusterTurbine
 
         mongoose.set('toObject', {
             virtuals: true,
-            transform: (doc, converted) => {
+            transform: (doc: any, converted: any) => {
                 delete converted._id;
                 delete converted.__v;
             }

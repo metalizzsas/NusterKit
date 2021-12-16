@@ -1,0 +1,797 @@
+{
+   "iohandlers": [
+      {
+         "name": "WAGO",
+         "type": "wago",
+         "ip": "192.168.49.71"
+      },
+      {
+         "name": "EX260S3",
+         "type": "ex260s3",
+         "ip": "192.168.0.3"
+      }
+   ],
+   "iogates": [
+      {
+         "name": "emergency_stop",
+         "type": "default",
+         "bus": "in",
+         "automaton": 0,
+         "address": 0,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "air_sensor",
+         "type": "default",
+         "bus": "in",
+         "automaton": 0,
+         "address": 1,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "cover_closed",
+         "type": "default",
+         "bus": "in",
+         "automaton": 0,
+         "address": 2,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "levels_edi-n",
+         "type": "default",
+         "bus": "in",
+         "automaton": 0,
+         "address": 3,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "levels_act-n",
+         "type": "default",
+         "bus": "in",
+         "automaton": 0,
+         "address": 4,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "levels_eff-n",
+         "type": "default",
+         "bus": "in",
+         "automaton": 0,
+         "address": 5,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "levels_edi-a",
+         "type": "default",
+         "gateType": "um18",
+         "bus": "in",
+         "automaton": 0,
+         "address": 0,
+         "default": 0,
+         "level": {
+            "minHeight": 10,
+            "maxHeight": 57
+         },
+         "size": "word"
+      },
+      {
+         "name": "levels_act-a",
+         "type": "default",
+         "gateType": "um18",
+         "bus": "in",
+         "automaton": 0,
+         "address": 1,
+         "default": 0,
+         "level": {
+            "minHeight": 10,
+            "maxHeight": 29
+         },
+         "size": "word"
+      },
+      {
+         "name": "levels_ox-a",
+         "type": "default",
+         "gateType": "um18",
+         "bus": "in",
+         "automaton": 0,
+         "address": 2,
+         "default": 0,
+         "level": {
+            "minHeight": 10,
+            "maxHeight": 41
+         },
+         "size": "word"
+      },
+      {
+         "name": "levels_rd-a",
+         "type": "um18",
+         "gateType": "um18",
+         "bus": "in",
+         "automaton": 0,
+         "address": 3,
+         "default": 0,
+         "level": {
+            "minHeight": 10,
+            "maxHeight": 41
+         },
+         "size": "word"
+      },
+      {
+         "name": "motor-speed",
+         "type": "a10v",
+         "gateType": "a10v",
+         "bus": "out",
+         "automaton": 0,
+         "address": 0,
+         "default": 0,
+         "size": "word"
+      },
+      {
+         "name": "motor-direction",
+         "type": "default",
+         "bus": "out",
+         "automaton": 0,
+         "address": 0,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "ventilation",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 0,
+         "address": 1,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "act-res",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 31,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "edi-res",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 30,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "ox-res",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 29,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "rd-res",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 28,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "hybrid-plv_high",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 27,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "hybrid-plv_low",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 26,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "met-plv_high",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 25,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "met-plv_medium",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 24,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "met-plv_low",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 23,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "act-lq_high",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 21,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "act-lq_low",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 20,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "edi-lq_high",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 19,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "edi-lq_low",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 18,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "rd-lq_high",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 17,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "ox-lq_high",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 16,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "rd-lq_medium",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 15,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "ox-lq_medium",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 14,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "rd-lq_low",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 13,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "ox-lq_low",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 12,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "rd-air_cleaning_high",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 11,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "ox-air_cleaning_high",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 10,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "rd-air_cleaning_medium",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 9,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "ox-air_cleaning_medium",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 8,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "rd-air_cleaning_low",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 7,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "ox-air_cleaning_low",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 6,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "edi-lq_fill_act",
+         "type": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 5,
+         "default": 0,
+         "size": "bit"
+      }
+   ],
+   "slots": [
+      {
+         "name": "ox",
+         "type": "psp",
+         "isProductable": true,
+         "sensors": [
+            {
+               "io": "levels_ox-a",
+               "type": "level-a"
+            }
+         ]
+      },
+      {
+         "name": "rd",
+         "type": "psp",
+         "isProductable": true,
+         "sensors": [
+            {
+               "io": "levels_rd-a",
+               "type": "level-a"
+            }
+         ]
+      },
+      {
+         "name": "act",
+         "type": "psp",
+         "isProductable": true,
+         "sensors": [
+            {
+               "io": "levels_act-a",
+               "type": "level-a"
+            },
+            {
+               "io": "levels_act-n",
+               "type": "level-n"
+            }
+         ]
+      },
+      {
+         "name": "edi",
+         "type": "psp",
+         "isProductable": false,
+         "sensors": [
+            {
+               "io": "levels_edi-a",
+               "type": "level-a"
+            },
+            {
+               "io": "levels_edi-n",
+               "type": "level-n"
+            }
+         ]
+      },
+      {
+         "name": "eff",
+         "type": "cnt",
+         "isProductable": false,
+         "sensors": [
+            {
+               "io": "levels_eff-n",
+               "type": "level-n"
+            }
+         ]
+      }
+   ],
+   "profiles": [
+      {
+         "__desc": "Metalfog M 2 Profile descriptor",
+         "identifier": "default",
+         "version": 0,
+         "fieldGroups": [
+            {
+               "name": "act-edi-nozzles",
+               "fields": [
+                  {
+                     "name": "act-edi-high",
+                     "type": "bool",
+                     "value": 1
+                  },
+                  {
+                     "name": "act-edi-low",
+                     "type": "bool",
+                     "value": 1
+                  }
+               ]
+            },
+            {
+               "name": "met-nozzles",
+               "fields": [
+                  {
+                     "name": "met-high",
+                     "type": "bool",
+                     "value": 1
+                  },
+                  {
+                     "name": "met-medium",
+                     "type": "bool",
+                     "value": 1
+                  },
+                  {
+                     "name": "met-low",
+                     "type": "bool",
+                     "value": 1
+                  }
+               ]
+            },
+            {
+               "name": "motor",
+               "fields": [
+                  {
+                     "name": "enabled",
+                     "type": "bool",
+                     "value": 1
+                  },
+                  {
+                     "name": "speed",
+                     "type": "float",
+                     "unity": "%",
+                     "value": 50,
+                     "floatMin": 0,
+                     "floatMax": 100,
+                     "floatStep": 5
+                  }
+               ]
+            },
+            {
+               "name": "activation",
+               "fields": [
+                  {
+                     "name": "enabled",
+                     "type": "bool",
+                     "value": 1
+                  },
+                  {
+                     "name": "timeOn",
+                     "type": "float",
+                     "unity": "s",
+                     "value": 2,
+                     "floatMin": 0,
+                     "floatMax": 10,
+                     "floatStep": 0.5
+                  },
+                  {
+                     "name": "timeOff",
+                     "type": "float",
+                     "unity": "s",
+                     "value": 10,
+                     "floatMin": 0,
+                     "floatMax": 30,
+                     "floatStep": 1
+                  },
+                  {
+                     "name": "count",
+                     "type": "int",
+                     "value": 5
+                  }
+               ]
+            },
+            {
+               "name": "wash1",
+               "fields": [
+                  {
+                     "name": "enabled",
+                     "type": "bool",
+                     "value": 1
+                  },
+                  {
+                     "name": "duration",
+                     "type": "int",
+                     "unity": "m-s",
+                     "value": 15
+                  }
+               ]
+            },
+            {
+               "name": "metalization",
+               "fields": [
+                  {
+                     "name": "enabled",
+                     "type": "bool",
+                     "value": 1
+                  },
+                  {
+                     "name": "timeOn",
+                     "type": "float",
+                     "unity": "s",
+                     "value": 2,
+                     "floatMin": 0,
+                     "floatMax": 10,
+                     "floatStep": 0.5
+                  },
+                  {
+                     "name": "timeOff",
+                     "type": "float",
+                     "unity": "s",
+                     "value": 10,
+                     "floatMin": 0,
+                     "floatMax": 30,
+                     "floatStep": 1
+                  },
+                  {
+                     "name": "count",
+                     "type": "int",
+                     "value": 5
+                  }
+               ]
+            },
+            {
+               "name": "wash2",
+               "fields": [
+                  {
+                     "name": "enabled",
+                     "type": "bool",
+                     "value": 1
+                  },
+                  {
+                     "name": "duration",
+                     "type": "int",
+                     "unity": "m-s",
+                     "value": 45
+                  }
+               ]
+            },
+            {
+               "name": "drying",
+               "fields": [
+                  {
+                     "name": "enabled",
+                     "type": "bool",
+                     "value": 1
+                  },
+                  {
+                     "name": "duration",
+                     "type": "int",
+                     "unity": "m-s",
+                     "value": 45
+                  }
+               ]
+            },
+            {
+               "name": "vapors-extraction",
+               "fields": [
+                  {
+                     "name": "enabled",
+                     "type": "bool",
+                     "value": 1
+                  },
+                  {
+                     "name": "duration",
+                     "unity": "m-s",
+                     "type": "int",
+                     "value": 45
+                  }
+               ]
+            }
+         ]
+      }
+   ],
+   "maintenance": [
+      {
+         "name": "mfm-filter",
+         "durationType": "cycle",
+         "durationLimit": 50,
+         "procedure": {
+            "desc": "mfm-filter-desc",
+            "steps": [
+               {
+                  "name": "unscrew-mfm-filter",
+                  "images": [
+                     "assets/maintenances/metalfogm2/filter/0.jpg"
+                  ]
+               },
+               {
+                  "name": "replace-mfm-new-filter",
+                  "images": [
+                     "assets/maintenances/metalfogm2/filter/1.jpg",
+                     "assets/maintenances/metalfogm2/filter/2.jpg",
+                     "assets/maintenances/metalfogm2/filter/1.jpg"
+                  ]
+               }
+            ]
+         }
+      }
+   ],
+   "passives": [],
+   "manual": [
+      {
+         "name": "plv_act_high",
+         "controls": [
+            "act-res",
+            "hybrid-plv_high",
+            "act-lq_high"
+         ],
+         "incompatibility": [
+            "plv_edi_high"
+         ]
+      },
+      {
+         "name": "plv_act_low",
+         "controls": [
+            "act-res",
+            "hybrid-plv_low",
+            "act-lq_low"
+         ],
+         "incompatibility": [
+            "plv_edi_low"
+         ]
+      },
+      {
+         "name": "plv_edi_high",
+         "controls": [
+            "edi-res",
+            "hybrid-plv_high",
+            "edi-lq_high"
+         ],
+         "incompatibility": [
+            "plv_act_high"
+         ]
+      },
+      {
+         "name": "plv_edi_low",
+         "controls": [
+            "edi-res",
+            "hybrid-plv_low",
+            "edi-lq_low"
+         ],
+         "incompatibility": [
+            "plv_act_low"
+         ]
+      }
+   ],
+   "cycles": [
+      {
+         "name": "primary",
+         "profileIdentifier": "default",
+         "steps": [
+            {
+               "name": "start",
+               "isEnabled": {
+                  "name": "const",
+                  "value": "1"
+               },
+               "duration": {
+                  "name": "const",
+                  "value": "3000"
+               },
+               "blocks": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "const",
+                           "value": 1
+                        }
+                     ],
+                     "options": {
+                        "gate": "ventilation",
+                        "direction": "write"
+                     }
+                  },
+                  {
+                     "name": "sleep",
+                     "params": [
+                        {
+                           "name": "const",
+                           "value": "3"
+                        }
+                     ]
+                  }
+               ]
+            },
+            {
+               "name": "activation",
+               "isEnabled": {
+                  "name": "profile",
+                  "value": "activation.enabled"
+               },
+               "duration": {
+                  "method": "eval",
+                  "value": "this.profileExplorer.explore('activation.count') * (this.profileExplorer.activation.timeOn + this.profileExplorer.activation.timeOff)",
+                  "name": "const"
+               },
+               "blocks": [
+                  {
+                     "name": "for",
+                     "params": [
+                        {
+                           "name": "profile",
+                           "value": "activation.count"
+                        }
+                     ],
+                     "blocks": [
+                        {
+                           "name": "io",
+                           "value": "1",
+                           "params": [],
+                           "options": {
+                              "gate": "ventilation"
+                           },
+                           "blocks": []
+                        }
+                     ]
+                  }
+               ]
+            }
+         ],
+         "profileIndentifier": "default"
+      }
+   ]
+}

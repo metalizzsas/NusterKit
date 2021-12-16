@@ -1,6 +1,6 @@
 import { Cycle } from "../controllers/cycle/Cycle";
 import { Block } from "./Block";
-import { ParameterBlock, ProfileParameterBlock, ConstantParameterBlock, IParameterBlock } from "./ParameterBlocks";
+import { ParameterBlock, ProfileParameterBlock, ConstantParameterBlock, IParameterBlock, ConstantStringParameterBlock } from "./ParameterBlocks";
 
 
 export class ProgramBlock extends Block implements IProgramBlock
@@ -8,15 +8,13 @@ export class ProgramBlock extends Block implements IProgramBlock
     name: string;
 
     params: ParameterBlock[] = [];
-    instructions?: ProgramBlock[] = [];
-    options?: IOAccessProgramBlockOptions;
+    blocks: ProgramBlock[] = [];
 
     constructor(cycleInstance: Cycle, obj: IProgramBlock)
     {
         super(cycleInstance);
 
         this.name = obj.name
-        this.options = obj.options;
 
         if(obj.params !== undefined)
         {
@@ -26,23 +24,24 @@ export class ProgramBlock extends Block implements IProgramBlock
                 {
                     case "profile": this.params.push(new ProfileParameterBlock(this.cycleInstance, p)); break;
                     case "const": this.params.push(new ConstantParameterBlock(this.cycleInstance, p)); break;
+                    case "conststr": this.params.push(new ConstantStringParameterBlock(this.cycleInstance, p)); break;
                     default: this.params.push(new ParameterBlock(this.cycleInstance, p)); break;
                 }
             }
         }
 
-        if(obj.instructions !== undefined)
+        if(obj.blocks !== undefined)
         {
-            for(let i of obj.instructions)
+            for(let b of obj.blocks)
             {
-                console.log(i.name);
-                switch(i.name)
+                switch(b.name)
                 {
                     //FIXME: duplicate of ProgramStep
-                    case "for": this.instructions?.push(new ForLoopProgramBlock(this.cycleInstance, i)); break;
-                    case "io": this.instructions?.push(new IOAccessProgramBlock(this.cycleInstance, i)); break;
-                    case "sleep": this.instructions?.push(new SleepProgramBlock(this.cycleInstance, i)); break;
-                    default: this.instructions?.push(new ProgramBlock(this.cycleInstance, i)); break;
+                    case "for": this.blocks.push(new ForLoopProgramBlock(this.cycleInstance, b)); break;
+                    case "if": this.blocks.push(new IfProgramBlock(this.cycleInstance, b)); break;
+                    case "io": this.blocks.push(new IOWriteProgramBlock(this.cycleInstance, b)); break;
+                    case "sleep": this.blocks.push(new SleepProgramBlock(this.cycleInstance, b)); break;
+                    default: this.blocks.push(new ProgramBlock(this.cycleInstance, b)); break;
                 }                
             }
         }
@@ -63,7 +62,7 @@ export class ForLoopProgramBlock extends ProgramBlock
         return new Promise<void>(async (resolve) => {
             for(let i = 0; i < this.params[0].data(); i++)
             {
-                for(let instuction of this.instructions!)
+                for(let instuction of this.blocks)
                 {
                     console.log(typeof instuction);
                     await instuction.execute();
@@ -73,27 +72,52 @@ export class ForLoopProgramBlock extends ProgramBlock
     }
 }
 
-export class IOAccessProgramBlock extends ProgramBlock
+export class IfProgramBlock extends ProgramBlock
+{
+
+    operators: {[x: string]: Function} = {
+        ">": (x: any, y: any) => x > y,
+        "<": (x: any, y: any) => x < y,
+        "==": (x: any, y: any) => x == y,
+        "!=": (x: any, y: any) => x != y
+    };
+
+    constructor(cycleInstance: Cycle, obj: IProgramBlock)
+    {
+        super(cycleInstance, obj);
+    }
+
+    public async execute()
+    {
+        return new Promise<void>(async (resolve) => {
+            if(this.operators[this.params[1].value](this.params[0].value, this.params[2].value))
+            {
+                if(this.blocks !== undefined)
+                    await this.blocks[0].execute();
+            }
+            else
+            {
+                if(this.blocks !== undefined)
+                    await this.blocks[1].execute();
+            }
+        });
+    }
+}
+
+export class IOWriteProgramBlock extends ProgramBlock
 {
     constructor(cycleInstance: Cycle, obj: IProgramBlock)
     {
         super(cycleInstance, obj);
     }
 
-    public async execute(): Promise<number>
+    public async execute(): Promise<void>
     {
-        return new Promise(async (resolve, reject) => {
+        return new Promise(async (resolve, _reject) => {
 
-            if(this.options!.direction == IOAccessProgramBlockMethod.READ)
-            {
-                await this.cycleInstance.ioExplorer?.explore(this.options!.gate)!.read(this.cycleInstance.machine.ioController!);
-                resolve(this.cycleInstance.ioExplorer?.explore(this.options!.gate)!.value!)
-            }
-            else
-            {
-                await this.cycleInstance.ioExplorer?.explore(this.options!.gate)!.write(this.cycleInstance.machine.ioController!, this.params[0].data());
-                resolve(0);
-            }
+            await this.cycleInstance.ioExplorer?.explore(this.params[0].data())?.write(this.cycleInstance.machine.ioController!, this.params[1].data());
+
+            resolve();
         });
     }
 }
@@ -129,6 +153,5 @@ export interface IProgramBlock
 {
     name: string;
     params: IParameterBlock[];
-    instructions?: IProgramBlock[]
-    options?: IOAccessProgramBlockOptions;
+    blocks?: IProgramBlock[];
 }

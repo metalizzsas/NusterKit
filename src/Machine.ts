@@ -73,7 +73,8 @@ export class Machine{
     {
         return {
             "cycle": this.cycleController?.socketData,
-            "slots": this.slotController?.socketData
+            "slots": this.slotController?.socketData,
+            "io": this.ioController?.socketData
         }
     }
 
@@ -101,9 +102,9 @@ interface IMachine
     iohandlers: any,
     iogates: any,
     slots: any,
-    profile: [IProfile],
+    profiles: [IProfile],
     maintenance: any,
     passives: any,
     manual: any,
-    cycle: IProgram[]
+    cycles: IProgram[]
 }

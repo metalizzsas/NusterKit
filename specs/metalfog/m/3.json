@@ -1,0 +1,122 @@
+{
+    "iohandlers": [
+        {
+            "name": "string",
+            "type": "string",
+            "ip": "string"
+        }
+    ],
+    "iogates": [
+        {
+            "name": "string",
+            "type": "string(bit|word)",
+            "gateType": "string",
+            "bus": "string(in|out)",
+            "automaton": "number",
+            "address": "number",
+            "default": "number",
+
+            "level": {
+                "minHeight": "number",
+                "maxHeight": "number"   
+            } 
+        }
+    ],
+    "slots": [
+        {
+            "name": "string",
+            "type": "string",
+            "isProductable": "boolean",
+            "sensors": [
+                {
+                    "io": "string",
+                    "type": "string(level-a|level-n)"
+                }
+            ]
+        }
+    ],
+    "profile": [
+        {
+            "identifier": "string",
+
+            "fieldGroups": [
+                {
+                    "name": "string",
+                    "fields": [
+                        {
+                            "name": "string",
+                            "type": "string(float|int)",
+                            "value": "number",
+
+                            "unity": "string?",
+                            "floatMin": "number?",
+                            "floatMax": "number?",
+                            "floatStep": "number?"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "maintenance": [
+        {
+            "name": "string",
+            "durationType": "string(cycle|time)",
+            "durationLimit": "number",
+            
+            "procedure": {
+                "desc": "string",
+                "steps": [
+                    {
+                        "name": "string",
+                        "images": [
+                            "string"
+                        ]
+                    }
+                ]
+            }
+        }
+    ],
+    "passives": [
+        "tbd"
+    ],
+    "manual": [
+        {
+            "name": "string",
+            "controls": ["string"],
+            "incompatibility": ["string"]
+        }
+    ],
+    "cycle": [
+        {
+            "name": "string",
+            "profileIdentifier": "string(linked to profile identifiers)",
+            "steps": [
+                {
+                    "name": "string",
+                    "isEnabled": {
+                        "name": "string",
+                        "value": "string"
+                    },
+                    "duration": {
+                        "name": "string",
+                        "value": "string"
+                    },
+                    "blocks": [
+                        {
+                            "name": "string",
+                            "params": [{
+                                "name": "string",
+                                "value": "string"
+                            }],
+                            "options": {
+                                "gate": "string",
+                                "direction": "string"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

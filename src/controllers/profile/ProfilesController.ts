@@ -22,7 +22,7 @@ export class ProfileController extends Controller{
 
     private _configure()
     {
-        for(let p of this.machine.specs.profile)
+        for(let p of this.machine.specs.profiles)
         {
             this.profileMap[p.identifier] = p;
         }

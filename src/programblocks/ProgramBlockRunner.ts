@@ -1,7 +1,8 @@
 import { Cycle, ICycleStatus } from "../controllers/cycle/Cycle";
 import { CycleStep, CycleStepResult, CycleStepState } from "../controllers/cycle/CycleStep";
+import { IWatchdogCondition } from "../controllers/cycle/CycleWatchdog";
 import { IParameterBlock, ParameterBlock } from "./ParameterBlocks";
-import { ForLoopProgramBlock, IOAccessProgramBlock, IProgramBlock, ProgramBlock, SleepProgramBlock } from "./ProgramBlocks";
+import { ForLoopProgramBlock, IOWriteProgramBlock, IProgramBlock, ProgramBlock, SleepProgramBlock } from "./ProgramBlocks";
 
 export class ProgramBlockRunner implements IProgram
 {
@@ -9,6 +10,7 @@ export class ProgramBlockRunner implements IProgram
     name: string;
     cycle: Cycle;
     steps: ProgramBlockStep[] = [];
+    watchdogConditions: IWatchdogCondition[];
 
     constructor(cycleInstance: Cycle, object: IProgram)
     {
@@ -19,6 +21,11 @@ export class ProgramBlockRunner implements IProgram
         for(let step of object.steps)
         {
             this.steps.push(new ProgramBlockStep(this.cycle, step));
+        }
+
+        for(let cnd of object.watchdogConditions)
+        {
+            this.watchdogConditions.push()
         }
     }
 }
@@ -123,5 +130,5 @@ export interface IProgram
     profileIdentifier: string;
     cycle: Cycle;
     steps: IProgramStep[];
+    watchdogConditions: IWatchdogCondition[];
 }
-

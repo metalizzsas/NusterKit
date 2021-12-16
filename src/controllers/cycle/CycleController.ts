@@ -30,7 +30,7 @@ export class CycleController extends Controller{
 
    private _configure()
    {
-        for(let cycle of this.machine.specs.cycle)
+        for(let cycle of this.machine.specs.cycles)
         {
             this.supportedCycles.push(cycle.name);
         }

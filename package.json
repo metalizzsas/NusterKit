@@ -23,8 +23,7 @@
     "lodash": "^4.17.21",
     "modbus-serial": "^8.0.5",
     "mongoose": "^6.0.13",
-    "st-ethernet-ip": "^2.4.4",
-    "ts-ethernet-ip": "git+https://github.com/cmseaton42/ts-ethernet-ip.git",
+    "st-ethernet-ip": "git+https://github.com/Kworz/ST-node-ethernet-ip.git",
     "ts-udp-discovery": "^1.0.0",
     "udp-discovery": "^2.0.2",
     "ws": "^8.3.0"
@@ -37,6 +36,7 @@
     "@types/ws": "^8.2.0",
     "nodemon": "^2.0.15",
     "ts-node": "^10.4.0",
+    "typedoc": "^0.22.10",
     "typescript": "^4.5.2"
   }
 }

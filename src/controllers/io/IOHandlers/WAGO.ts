@@ -10,6 +10,7 @@ export class WAGO extends IOHandler
         super("WAGO", "modbus", ip);
 
         this.client = new ModbusTCP();
+        this.connect();
     }
     async connect()
     {
@@ -41,6 +42,7 @@ export class WAGO extends IOHandler
         if(word && word == true)
         {
             result = await this.client.readInputRegisters(address, 1);
+            //console.log(result);
             return result.data[0];
         }
         else

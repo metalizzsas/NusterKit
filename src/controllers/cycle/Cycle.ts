@@ -35,7 +35,7 @@ export class Cycle implements ICycle
         this.ioExplorer = new IOExplorer(this.machine.ioController!);
 
         //create programBlockRunner
-        this.program = new ProgramBlockRunner(this, this.machine.specs.cycle.find((c) => c.name == this.name)!);
+        this.program = new ProgramBlockRunner(this, this.machine.specs.cycles.find((c) => c.name == this.name)!);
     }
 
     public async run(): Promise<boolean>

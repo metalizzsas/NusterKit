@@ -14,7 +14,7 @@ export class ParameterBlock extends Block implements IParameterBlock
         this.value = obj.value;
     }
 
-    public data(): number
+    public data(): any
     {
         return parseInt(this.value);
     }
@@ -44,6 +44,31 @@ export class ConstantParameterBlock extends ParameterBlock
     public data(): number
     {
         return parseInt(this.value);
+    }
+}
+
+export class ConstantStringParameterBlock extends ParameterBlock
+{
+    constructor(cycleInstance: Cycle, obj: IParameterBlock)
+    {
+        super(cycleInstance, obj);
+    }
+    public data(): string
+    {
+        return this.value;
+    }
+}
+
+export class IOReadParameterBlock extends ParameterBlock
+{
+    constructor(cycleInstance: Cycle, obj: IParameterBlock)
+    {
+        super(cycleInstance, obj);
+    }
+
+    public data(): number
+    {
+        return this.cycleInstance.ioExplorer?.explore(this.name)?.value || 0;
     }
 }
 

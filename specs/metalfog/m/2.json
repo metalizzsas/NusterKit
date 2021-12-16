@@ -6,8 +6,8 @@
             "ip": "192.168.49.71"
         },
         {
-            "name": "EX260",
-            "type": "ex260-sen1",
+            "name": "EX260S3",
+            "type": "ethernetip",
             "ip": "192.168.0.3"
         }
     ],
@@ -63,50 +63,58 @@
         {
             "name": "levels_edi-a",
             "type": "word",
-            "gateType": "sharp",
+            "gateType": "um18",
             "bus": "in",
             "automaton": 0,
             "address": 0,
             "default": 0, 
 
-            "minHeight": 10,
-            "maxHeight": 57
+            "level": {
+                "minHeight": 10,
+                "maxHeight": 57
+            }
         },
         {
             "name": "levels_act-a",
             "type": "word",
-            "gateType": "sharp",
+            "gateType": "um18",
             "bus": "in",
             "automaton": 0,
             "address": 1,
             "default": 0,
 
-            "minHeight": 10,
-            "maxHeight": 29           
+            "level": {
+                "minHeight": 10,
+                "maxHeight": 29   
+            }      
         },
         {
             "name": "levels_ox-a",
             "type": "word",
-            "gateType": "sharp",
+            "gateType": "um18",
             "bus": "in",
             "automaton": 0,
             "address": 2,
             "default": 0,
 
-            "minHeight": 10,
-            "maxHeight": 41            
+            "level": {
+                "minHeight": 10,
+                "maxHeight": 41  
+            }      
         },
         {
             "name": "levels_rd-a",
             "type": "word",
-            "gateType": "sharp",
+            "gateType": "um18",
             "bus": "in",
             "automaton": 0,
             "address": 3,
             "default": 0,
 
-            "minHeight": 10,
-            "maxHeight": 41           
+            "level": {
+                "minHeight": 10,
+                "maxHeight": 41   
+            }   
         },
         {
             "name": "motor-speed",
@@ -408,7 +416,7 @@
             ]
         }
     ],
-    "profile": [
+    "profiles": [
         {
             "__desc": "Metalfog M 2 Profile descriptor",
             "identifier": "default",
@@ -651,7 +659,7 @@
             "incompatibility": ["plv_act_low"]
         }
     ],
-    "cycle": [
+    "cycles": [
         {
             "name": "primary",
             "profileIdentifier": "default",
@@ -708,7 +716,7 @@
                                     "value": "activation.count"
                                 }
                             ],
-                            "instrutions": [
+                            "blocks": [
                                 {
                                     "name": "io",
                                     "value": "1",

@@ -1,5 +1,5 @@
 import { IOController } from "./IOController";
-import { IOGate } from "./IOGate";
+import { IOGate } from "./IOGates/IOGate";
 
 /**
  * A tool to explorer Gate annuary in NusterTurbine

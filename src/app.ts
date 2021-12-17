@@ -1,7 +1,7 @@
 import express,  { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 import { WebSocket, WebSocketServer } from "ws";
-import { IncomingMessage, Server } from "http";
+import { Server } from "http";
 import dgram from "dgram";
 
 import { Machine } from "./Machine";
@@ -44,7 +44,6 @@ class NusterTurbine
     private _discovery() 
     {
         const multicast_addr = "1.1.1.1",
-            bin_addr = "0.0.0.0",
             port = 2222;
 
         const listener = dgram.createSocket({type:"udp4", reuseAddr:true}),
@@ -71,7 +70,7 @@ class NusterTurbine
     {
         this.wsServer = new WebSocketServer({server: this.httpServer });
 
-        this.wsServer.on('connection', (ws: WebSocket, _request: IncomingMessage) => { 
+        this.wsServer.on('connection', (ws: WebSocket) => { 
             if(this.wsServer)
             {
                 this.wsServer.clients.add(ws); 
@@ -107,7 +106,7 @@ class NusterTurbine
         //remove __v
         mongoose.set('toJSON', {
             virtuals: true,
-            transform: (doc: any, converted: any) => {
+            transform: (doc: Record<string, unknown>, converted: Record<string, unknown>) => {
                 delete converted._id;
                 delete converted.__v;
             }
@@ -115,7 +114,7 @@ class NusterTurbine
 
         mongoose.set('toObject', {
             virtuals: true,
-            transform: (doc: any, converted: any) => {
+            transform: (doc: Record<string, unknown>, converted: Record<string, unknown>) => {
                 delete converted._id;
                 delete converted.__v;
             }

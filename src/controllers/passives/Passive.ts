@@ -36,7 +36,7 @@ export class Passive implements IPassive
 
         this.event = new EventEmitter();
 
-        PassiveModel.findOne({name: this.name}, {}, {}, (err, doc) => {
+        PassiveModel.findOne({name: this.name}, {}, {}, (err) => {
             if(err)
                 PassiveModel.create({name: this.name, value: this.default});  
         });

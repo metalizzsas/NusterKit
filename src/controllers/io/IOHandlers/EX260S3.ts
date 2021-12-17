@@ -76,18 +76,18 @@ export class EX260S3 extends IOHandler
         //Path for ethernet ip protocol
         const idPath = Buffer.from([0x20, 0x04, 0x24, 0x96, 0x30, 0x03]);
 
-        let res = await this.readData2(0x96);
+        const res = await this.readData2(0x96);
 
-        let result = res.readUIntLE(4, 2);
+        const result = res.readUIntLE(4, 2);
 
         console.log(result);
 
-        let strBinaryArray = ("00000000000000000000000000000000" + result.toString(2)).slice(-32);
+        const strBinaryArray = ("0000000000000000" + result.toString(2)).slice(-16);
 
         //spliting string
-        let binaryArray = strBinaryArray.split("");
+        const binaryArray = strBinaryArray.split("");
 
-        let intArray: number[] = [];
+        const intArray: number[] = [];
 
         //replcing String to Int
         binaryArray.forEach((part, index, array) => {
@@ -107,12 +107,12 @@ export class EX260S3 extends IOHandler
         }
 
         //converting array of bit to long bit
-        let newOutputsStates = binaryArray.join("");
+        const newOutputsStates = binaryArray.join("");
 
         //convert bin array to int
-        let newDecimalOutputState = parseInt(newOutputsStates, 2);
+        const newDecimalOutputState = parseInt(newOutputsStates, 2);
 
-        let buf = Buffer.alloc(4);
+        const buf = Buffer.alloc(2);
         buf.writeUInt32LE(newDecimalOutputState);
 
         //Message router packet

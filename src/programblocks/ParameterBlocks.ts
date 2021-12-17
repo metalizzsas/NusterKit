@@ -29,7 +29,7 @@ export class ProfileParameterBlock extends ParameterBlock
 
     public data(): number
     {
-        let val = this.pbrInstance.profileExplorer?.explore(this.value)!;
+        const val = this.pbrInstance.profileExplorer.explore(this.value)!;
         return val;
     }   
 }

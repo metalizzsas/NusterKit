@@ -6,7 +6,7 @@ import { Request, Response } from "express";
 import { IProfile, ProfileModel } from "../profile/Profile";
 import { CycleMode } from "./Cycle";
 import { CycleHistoryModel } from "./CycleHistory";
-import { IProgram, ProgramBlockRunner } from "../../programblocks/ProgramBlockRunner";
+import { ProgramBlockRunner } from "../../programblocks/ProgramBlockRunner";
 
 export class CycleController extends Controller{
 
@@ -26,7 +26,7 @@ export class CycleController extends Controller{
 
    private _configure()
    {
-        for(let cycle of this.machine.specs.cycles)
+        for(const cycle of this.machine.specs.cycles)
         {
             this.supportedCycles.push(cycle.name);
         }
@@ -42,11 +42,11 @@ export class CycleController extends Controller{
         //prepare the cycle
         this._router.post("/:name/:id?", async (req: Request, res: Response) => {
 
-            let profile = (req.params.id) ? undefined : await ProfileModel.findById(req.params.id) as IProfile;
+            const profile = (req.params.id) ? undefined : await ProfileModel.findById(req.params.id) as IProfile;
 
             if(profile)
             {
-                let cycle = this.machine.specs.cycles.find((ip, i) => ip.name == req.params.name);
+                const cycle = this.machine.specs.cycles.find((ip) => ip.name == req.params.name);
 
                 if(cycle)
                 {
@@ -89,9 +89,9 @@ export class CycleController extends Controller{
 
         //rate the cycle and remove it
         this._router.patch("/:rating", async (req: Request, res: Response) => {
-            if(this.program !== undefined)
+            if(this.program)
             {
-                if(this.program!.status.mode != CycleMode.ENDED || CycleMode.STOPPED)
+                if(this.program.status.mode != CycleMode.ENDED || CycleMode.STOPPED)
                 {
                     await CycleHistoryModel.create({
                         rating: parseInt(req.params.rating) || 0,

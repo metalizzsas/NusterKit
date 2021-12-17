@@ -29,8 +29,8 @@ export class ProgramBlockRunner implements IProgram
     profile: IProfile;
 
     //explorers
-    profileExplorer?: ProfileExplorer;
-    ioExplorer?: IOExplorer;
+    profileExplorer: ProfileExplorer;
+    ioExplorer: IOExplorer;
 
     //event
     event: EventEmitter;
@@ -48,14 +48,14 @@ export class ProgramBlockRunner implements IProgram
 
         //Explorers setup
         this.profileExplorer = new ProfileExplorer(this.profile);
-        this.ioExplorer = new IOExplorer(machine.ioController!);
+        this.ioExplorer = new IOExplorer(machine.ioController);
 
         //steps and watchdog
-        for(let watchdog of object.watchdogConditions)
+        for(const watchdog of object.watchdogConditions)
         {
             this.watchdogConditions.push(new WatchdogCondition(this, watchdog));
         }
-        for(let step of object.steps)
+        for(const step of object.steps)
         {
             this.steps.push(new ProgramBlockStep(this, step));
         }
@@ -75,7 +75,7 @@ export class ProgramBlockRunner implements IProgram
 
         while(this.currentStepIndex < this.steps.length)
         {
-            let result = await this.steps[this.currentStepIndex].execute();
+            const result = await this.steps[this.currentStepIndex].execute();
 
             console.log(this.steps[this.currentStepIndex].name, result);
 
@@ -97,7 +97,7 @@ export class ProgramBlockRunner implements IProgram
                     if(this.steps[this.currentStepIndex + 1].type != CycleStepType.MULTIPLE)
                     {
 
-                        let j = this.steps.findIndex((step) => step.type == CycleStepType.MULTIPLE)
+                        const j = this.steps.findIndex((step) => step.type == CycleStepType.MULTIPLE)
 
                         console.log("first found multiple task index", j);
 
@@ -136,7 +136,7 @@ export class ProgramBlockRunner implements IProgram
     {
         let duration = 0;
 
-        for(let step of this.steps)
+        for(const step of this.steps)
         {
             duration += step.progress;
         }
@@ -187,7 +187,7 @@ export class ProgramBlockStep implements IProgramStep
         }
             
 
-        for(let block of obj.blocks)
+        for(const block of obj.blocks)
         {
             this.blocks.push(ProgramBlockRegistry(this.pbrInstance, block));
         }
@@ -197,7 +197,7 @@ export class ProgramBlockStep implements IProgramStep
     {
         this.state = CycleStepState.STARTED;
 
-        for(let b of this.blocks)
+        for(const b of this.blocks)
         {
             if(this.state !== CycleStepState.STARTED)
                 return CycleStepResult.FAILED;
@@ -210,7 +210,7 @@ export class ProgramBlockStep implements IProgramStep
         {
             this.runCount = (this.runCount) ? this.runCount + 1 : 0;
 
-            if(this.runCount! == this.runAmount.data()!)
+            if(this.runCount && this.runAmount && (this.runCount == this.runAmount.data()))
             {
                 this.state = CycleStepState.ENDED;
                 return CycleStepResult.END;
@@ -239,8 +239,8 @@ export class ProgramBlockStep implements IProgramStep
         {
             case CycleStepState.STARTED:
             {
-                if(this.type == CycleStepType.MULTIPLE)
-                    return parseFloat((this.runCount! / this.runAmount?.data()!).toFixed(2)) + parseFloat(((Date.now() - this.startTime!) / this.duration.data()!).toFixed(2)) * parseFloat((1 / this.runAmount?.data()!).toFixed(2));
+                if(this.type == CycleStepType.MULTIPLE && this.runCount && this.runAmount)
+                    return parseFloat((this.runCount / this.runAmount.data()).toFixed(2)) + parseFloat(((Date.now() - this.startTime!) / this.duration.data()).toFixed(2)) * parseFloat((1 / this.runAmount.data()).toFixed(2));
                 else
                     return parseFloat(((Date.now() - this.startTime!) / this.duration.data()!).toFixed(2));
             }
@@ -257,7 +257,10 @@ export class ProgramBlockStep implements IProgramStep
             }
             case CycleStepState.PARTIAL:
             {
-                return parseFloat((this.runCount! / this.runAmount?.data()!).toFixed(2));
+                if(this.runAmount && this.runCount)
+                    return parseFloat((this.runCount / this.runAmount.data()).toFixed(2));
+                else
+                    throw new Error("RunAmount & runCount are not defined");
             }
             default: {
                 return 0;

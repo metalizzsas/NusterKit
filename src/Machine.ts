@@ -23,19 +23,19 @@ export class Machine{
 
     public specs: IMachine;
 
-    maintenanceController?: MaintenanceController;
-    ioController?: IOController;
-    profileController?: ProfileController;
-    slotController?: SlotController;
-    manualmodeController?: ManualModeController
-    cycleController?: CycleController
+    maintenanceController: MaintenanceController;
+    ioController: IOController;
+    profileController: ProfileController;
+    slotController: SlotController;
+    manualmodeController: ManualModeController
+    cycleController: CycleController
 
     constructor()
     {
         //Loading JSON info file
-        let infos = fs.readFileSync(path.resolve("data", "info.json"), {encoding: "utf-8"});
+        const infos = fs.readFileSync(path.resolve("data", "info.json"), {encoding: "utf-8"});
 
-        let parsed = JSON.parse(infos);
+        const parsed = JSON.parse(infos);
 
         this.name = parsed.name;
         this.serial = parsed.serial;
@@ -44,9 +44,9 @@ export class Machine{
         this.variant = parsed.variant;
         this.revision = parsed.revision;
 
-        let raw = fs.readFileSync(path.resolve("specs", this.model, this.variant, this.revision + ".json"), {encoding: "utf-8"});
+        const raw = fs.readFileSync(path.resolve("specs", this.model, this.variant, this.revision + ".json"), {encoding: "utf-8"});
 
-        let specsParsed = JSON.parse(raw);
+        const specsParsed = JSON.parse(raw);
 
         //if informations has optionals specs, deep extending it to match all specs
         if(parsed.options !== undefined)
@@ -55,10 +55,7 @@ export class Machine{
         }
 
         this.specs = specsParsed;
-    }
 
-    public configureRouters()
-    {
         this.maintenanceController = new MaintenanceController(this);
         this.ioController = new IOController(this);
         this.profileController = new ProfileController(this);
@@ -66,6 +63,10 @@ export class Machine{
         this.manualmodeController = new ManualModeController(this);
         this.cycleController = new CycleController(this);
 
+    }
+
+    public configureRouters()
+    {
         return true;
     }
 

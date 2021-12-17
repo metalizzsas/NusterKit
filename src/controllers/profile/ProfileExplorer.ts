@@ -19,7 +19,7 @@ export class ProfileExplorer
      */
     public explore(key: string): number | undefined
     {
-        let keyPath = key.split(".");
+        const keyPath = key.split(".");
         return this.profile.fieldGroups.find((f) => f.name == keyPath[0])?.fields.find((f) => f.name == keyPath[1])?.value;
     }   
 }

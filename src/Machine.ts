@@ -89,11 +89,6 @@ export class Machine{
         }
     }
 
-    public get io()
-    {
-        return this.ioController;
-    }
-
     toJSON()
     {
         return {

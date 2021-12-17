@@ -5,6 +5,7 @@ export class ParameterBlock extends Block implements IParameterBlock
 {
     name: string;
     value: string;
+    params: ParameterBlock[] = [];
 
     constructor(instance: ProgramBlockRunner, obj: IParameterBlock)
     {
@@ -12,6 +13,11 @@ export class ParameterBlock extends Block implements IParameterBlock
 
         this.name = obj.name;
         this.value = obj.value;
+
+        for(const p of obj.params)
+        {
+            this.params.push(ParameterBlockRegistry(instance, p));
+        }
     }
 
     public data(): unknown
@@ -74,10 +80,51 @@ export class IOReadParameterBlock extends ParameterBlock
     }
 }
 
+export class AdditionParameterBlock extends ParameterBlock
+{
+    constructor(instance: ProgramBlockRunner, obj: IParameterBlock)
+    {
+        super(instance, obj);
+    }
+
+    public data(): number
+    {
+        return (this.params[0].data() as number) + (this.params[1].data() as number);
+    }
+}
+
+export class MultiplyParameterBlock extends ParameterBlock
+{
+    constructor(instance: ProgramBlockRunner, obj: IParameterBlock)
+    {
+        super(instance, obj);
+    }
+
+    public data(): number
+    {
+        return (this.params[0].data() as number) * (this.params[1].data() as number);
+    }
+}
+
+export class ReverseParameterBlock extends ParameterBlock
+{
+    constructor(instance: ProgramBlockRunner, obj: IParameterBlock)
+    {
+        super(instance, obj);
+    }
+    
+    public data(): number
+    {
+        return this.params[0].data() as number == 1 ? 0 : 1;
+    }
+}
+
 export interface IParameterBlock
 {
     name: string;
     value: string;
+
+    params: IParameterBlock[]
 
     data(): unknown
 }
@@ -96,6 +143,9 @@ export function ParameterBlockRegistry(pbrInstance: ProgramBlockRunner, obj: IPa
         case "conststr": return new ConstantStringParameterBlock(pbrInstance, obj);
         case "profile": return new ProfileParameterBlock(pbrInstance, obj);
         case "io": return new IOReadParameterBlock(pbrInstance, obj);
+        case "add": return new AdditionParameterBlock(pbrInstance, obj);
+        case "multiply": return new MultiplyParameterBlock(pbrInstance, obj);
+        case "reverse": return new ReverseParameterBlock(pbrInstance, obj);
         default: {
             console.log("WARNING: Block ", obj.name, "is not defined properly");
             return new ParameterBlock(pbrInstance, obj);

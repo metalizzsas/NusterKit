@@ -6,7 +6,7 @@ export class WatchdogCondition implements IWatchdogCondition
     gateName: string;
     gateValue: number;
     startOnly: boolean;
-    result: boolean = false;
+    result = false;
     
     constructor(cycle: ProgramBlockRunner, obj: IWatchdogCondition)
     {
@@ -16,7 +16,7 @@ export class WatchdogCondition implements IWatchdogCondition
 
         setInterval(() => {
 
-            let tmp = cycle.ioExplorer?.explore(this.gateName)?.value == this.gateValue;
+            const tmp = cycle.ioExplorer?.explore(this.gateName)?.value == this.gateValue;
 
             //if this watchdog condition is only at startup
             //ignore its result

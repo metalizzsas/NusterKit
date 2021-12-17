@@ -14,7 +14,7 @@ export class ParameterBlock extends Block implements IParameterBlock
         this.value = obj.value;
     }
 
-    public data(): any
+    public data(): unknown
     {
         return parseInt(this.value);
     }
@@ -29,8 +29,9 @@ export class ProfileParameterBlock extends ParameterBlock
 
     public data(): number
     {
-        const val = this.pbrInstance.profileExplorer.explore(this.value)!;
-        return val;
+        const val = this.pbrInstance.profileExplorer.explore(this.value);
+        //FIXME: Throw error if the profile row is undefined
+        return val ? val : 0;
     }   
 }
 
@@ -78,7 +79,7 @@ export interface IParameterBlock
     name: string;
     value: string;
 
-    data(): number
+    data(): unknown
 }
 
 /**

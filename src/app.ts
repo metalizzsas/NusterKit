@@ -47,7 +47,7 @@ class NusterTurbine
             bin_addr = "0.0.0.0",
             port = 2222;
 
-        var listener = dgram.createSocket({type:"udp4", reuseAddr:true}),
+        const listener = dgram.createSocket({type:"udp4", reuseAddr:true}),
             sender = dgram.createSocket({type:"udp4", reuseAddr:true});
 
         listener.bind(port, multicast_addr, function(){
@@ -57,8 +57,8 @@ class NusterTurbine
 
         setInterval(() => {
 
-            let string = JSON.stringify(this.machine);
-            let data = Buffer.from(string);
+            const string = JSON.stringify(this.machine);
+            const data = Buffer.from(string);
 
             sender.send(data, 0, data.length, port, multicast_addr);
         }, 1000);
@@ -71,19 +71,22 @@ class NusterTurbine
     {
         this.wsServer = new WebSocketServer({server: this.httpServer });
 
-        this.wsServer.on('connection', (ws: WebSocket, request: IncomingMessage) => { 
-            this.wsServer!.clients.add(ws); 
-            console.log("new client");
-
-            ws.on("close", () => {
-                console.log("client disconnected");
-            });
+        this.wsServer.on('connection', (ws: WebSocket, _request: IncomingMessage) => { 
+            if(this.wsServer)
+            {
+                this.wsServer.clients.add(ws); 
+                console.log("new client");
+    
+                ws.on("close", () => {
+                    console.log("client disconnected");
+                });
+            }
         });
 
         setInterval(() => {
             if(this.wsServer !== undefined)
             {
-                for(let ws of this.wsServer.clients)
+                for(const ws of this.wsServer.clients)
                 {
                     ws.send(JSON.stringify(this.machine.socketData), (err) => {
                         if(err !== undefined)
@@ -127,12 +130,12 @@ class NusterTurbine
             console.log(req.method, ":", req.url);
             next();
         });
-        this.app.use('/v1/maintenance', this.machine.maintenanceController!.router)
-        this.app.use('/v1/io', this.machine.ioController!.router)
-        this.app.use('/v1/profiles', this.machine.profileController!.router)
-        this.app.use('/v1/slots', this.machine.slotController!.router)
-        this.app.use('/v1/manual', this.machine.manualmodeController!.router)
-        this.app.use('/v1/cycle', this.machine.cycleController!.router)
+        this.app.use('/v1/maintenance', this.machine.maintenanceController.router)
+        this.app.use('/v1/io', this.machine.ioController.router)
+        this.app.use('/v1/profiles', this.machine.profileController.router)
+        this.app.use('/v1/slots', this.machine.slotController.router)
+        this.app.use('/v1/manual', this.machine.manualmodeController.router)
+        this.app.use('/v1/cycle', this.machine.cycleController.router)
 
         this.app.get("/qr", (req: Request, res: Response) => {
             res.status(200).end();

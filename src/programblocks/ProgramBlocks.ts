@@ -17,7 +17,7 @@ export class ProgramBlock extends Block implements IProgramBlock
 
         if(obj.params !== undefined)
         {
-            for(let p of obj.params)
+            for(const p of obj.params)
             {
                 this.params.push(ParameterBlockRegistry(this.pbrInstance, p));
             }
@@ -25,15 +25,16 @@ export class ProgramBlock extends Block implements IProgramBlock
 
         if(obj.blocks !== undefined)
         {
-            for(let b of obj.blocks)
+            for(const b of obj.blocks)
             {
                 this.blocks.push(ProgramBlockRegistry(this.pbrInstance, b));              
             }
         }
     }
 
-    public async execute(): Promise<any>{
+    public async execute(): Promise<unknown>{
         console.log("ProgramBlocks: This Blocks does nothing");
+        return;
     }
 }
 
@@ -51,26 +52,24 @@ export class ForLoopProgramBlock extends ProgramBlock
 
     public async execute()
     {
-        return new Promise<void>(async (resolve) => {
-            for(let i = 0; i < this.params[0].data(); i++)
+        for(let i = 0; i < (this.params[0].data() as number); i++)
+        {
+            for(const instuction of this.blocks)
             {
-                for(let instuction of this.blocks)
-                {
-                    console.log(typeof instuction);
-                    await instuction.execute();
-                }
+                console.log(typeof instuction);
+                await instuction.execute();
             }
-        });
+        }
     }
 }
 
 export class IfProgramBlock extends ProgramBlock
 {
-    operators: {[x: string]: Function} = {
-        ">": (x: any, y: any) => x > y,
-        "<": (x: any, y: any) => x < y,
-        "==": (x: any, y: any) => x == y,
-        "!=": (x: any, y: any) => x != y
+    operators: {[x: string]: (x: number, y: number) => boolean; } = {
+        ">": (x: number, y: number) => x > y,
+        "<": (x: number, y: number) => x < y,
+        "==": (x: number, y: number) => x == y,
+        "!=": (x: number, y: number) => x != y
     };
 
     constructor(pbrInstance: ProgramBlockRunner, obj: IProgramBlock)
@@ -80,18 +79,16 @@ export class IfProgramBlock extends ProgramBlock
 
     public async execute()
     {
-        return new Promise<void>(async (resolve) => {
-            if(this.operators[this.params[1].value](this.params[0].value, this.params[2].value))
-            {
-                if(this.blocks !== undefined)
-                    await this.blocks[0].execute();
-            }
-            else
-            {
-                if(this.blocks !== undefined)
-                    await this.blocks[1].execute();
-            }
-        });
+        if(this.operators[(this.params[1].data() as string)]((this.params[0].data() as number), (this.params[2].data() as number)))
+        {
+            if(this.blocks !== undefined)
+                await this.blocks[0].execute();
+        }
+        else
+        {
+            if(this.blocks !== undefined)
+                await this.blocks[1].execute();
+        }
     }
 }
 
@@ -104,12 +101,7 @@ export class IOWriteProgramBlock extends ProgramBlock
 
     public async execute(): Promise<void>
     {
-        return new Promise(async (resolve, _reject) => {
-
-            await this.pbrInstance.ioExplorer?.explore(this.params[0].data())?.write(this.pbrInstance.machine.ioController!, this.params[1].data());
-
-            resolve();
-        });
+        await this.pbrInstance.ioExplorer?.explore(this.params[0].data() as string)?.write(this.pbrInstance.machine.ioController, this.params[1].data() as number);
     }
 }
 
@@ -123,7 +115,7 @@ export class SleepProgramBlock extends ProgramBlock
     public execute(): Promise<void>
     {
         return new Promise((resolve) => {
-            setTimeout(resolve, this.params[0].data() * 1000);
+            setTimeout(resolve, (this.params[0].data() as number) * 1000);
         });
     }
 }

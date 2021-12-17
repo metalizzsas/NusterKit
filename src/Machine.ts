@@ -14,6 +14,10 @@ import { IProfile } from "./controllers/profile/Profile";
 import { IIOGate } from "./controllers/io/IOGates/IOGate";
 import { IIOHandler } from "./controllers/io/IOHandlers/IOHandler";
 import { IConfigSlot } from "./controllers/slot/Slot";
+import { IManualMode } from "./controllers/manual/ManualMode";
+import { IConfigMaintenance } from "./controllers/maintenance/Maintenance";
+import { PassiveController } from "./controllers/passives/PassiveController";
+import { IPassive } from "./controllers/passives/Passive";
 
 export class Machine{
 
@@ -30,8 +34,9 @@ export class Machine{
     ioController: IOController;
     profileController: ProfileController;
     slotController: SlotController;
-    manualmodeController: ManualModeController
-    cycleController: CycleController
+    manualmodeController: ManualModeController;
+    cycleController: CycleController;
+    passiveController: PassiveController;
 
     constructor()
     {
@@ -65,6 +70,7 @@ export class Machine{
         this.slotController = new SlotController(this);
         this.manualmodeController = new ManualModeController(this);
         this.cycleController = new CycleController(this);
+        this.passiveController = new PassiveController(this);
 
     }
 
@@ -76,9 +82,10 @@ export class Machine{
     public get socketData()
     {
         return {
-            "cycle": this.cycleController?.socketData,
-            "slots": this.slotController?.socketData,
-            "io": this.ioController?.socketData
+            "cycle": this.cycleController.socketData,
+            "slots": this.slotController.socketData,
+            "io": this.ioController.socketData,
+            "passives": this.passiveController.socketData
         }
     }
 
@@ -101,14 +108,14 @@ export class Machine{
 }
 
 //machine json interface
-interface IMachine
+export interface IMachine
 {
     iohandlers: IIOHandler[],
     iogates: IIOGate[],
     slots: IConfigSlot[],
     profiles: IProfile[],
-    maintenance: any,
-    passives: any,
-    manual: any,
+    maintenance: IConfigMaintenance[],
+    passives: IPassive[],
+    manual: IManualMode[],
     cycles: IProgram[]
 }

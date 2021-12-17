@@ -130,12 +130,13 @@ class NusterTurbine
             console.log(req.method, ":", req.url);
             next();
         });
-        this.app.use('/v1/maintenance', this.machine.maintenanceController.router)
-        this.app.use('/v1/io', this.machine.ioController.router)
-        this.app.use('/v1/profiles', this.machine.profileController.router)
-        this.app.use('/v1/slots', this.machine.slotController.router)
-        this.app.use('/v1/manual', this.machine.manualmodeController.router)
-        this.app.use('/v1/cycle', this.machine.cycleController.router)
+        this.app.use('/v1/maintenance', this.machine.maintenanceController.router);
+        this.app.use('/v1/io', this.machine.ioController.router);
+        this.app.use('/v1/profiles', this.machine.profileController.router);
+        this.app.use('/v1/slots', this.machine.slotController.router);
+        this.app.use('/v1/manual', this.machine.manualmodeController.router);
+        this.app.use('/v1/cycle', this.machine.cycleController.router);
+        this.app.use('/v1/passives', this.machine.passiveController.router);
 
         this.app.get("/qr", (req: Request, res: Response) => {
             res.status(200).end();

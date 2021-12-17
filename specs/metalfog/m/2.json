@@ -636,7 +636,14 @@
             }
         }
     ],
-    "passives": [],
+    "passives": [
+        {
+            "name": "temp-ox",
+            "sensor": "ox-temp",
+            "actuator": "ox-heat",
+            "mode": "<"
+        }
+    ],
     "manual": [
         {
             "name": "plv_act_high",

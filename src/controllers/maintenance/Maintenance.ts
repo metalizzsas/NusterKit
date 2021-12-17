@@ -1,5 +1,13 @@
 import {Schema, model} from "mongoose";
 
+export interface IConfigMaintenance extends IMaintenance
+{
+    durationType: string;
+    durationLimit: number;
+
+    procedure: IMaintenanceProcedure;
+}
+
 interface IMaintenance
 {
     name: string;
@@ -7,7 +15,7 @@ interface IMaintenance
     operationDate?: number;
 }
 
-var MaintenanceSchema = new Schema<IMaintenance>({
+const MaintenanceSchema = new Schema<IMaintenance>({
     name: { type: String, required: true }, //maintenance name
     duration: { type: Number, required: true }, // maitenance current duration
     operationDate: Number, // last maintenance operation date
@@ -15,13 +23,13 @@ var MaintenanceSchema = new Schema<IMaintenance>({
 
 const MaintenanceModel = model<IMaintenance>("Maintenance", MaintenanceSchema);
 
-export class Maintenance
+export class Maintenance implements IConfigMaintenance
 {
     name: string;
 
     durationType: string;
     durationLimit: number;
-    durationActual: number; //Actual duration got by reading data from mongoose
+    duration: number; //Actual duration got by reading data from mongoose
     durationProgress: number; //Actual progress as a percentage, got by calculating form mongoose
 
     operationDate?: number;
@@ -34,7 +42,7 @@ export class Maintenance
 
         this.durationType = durationType;
         this.durationLimit = durationLimit;
-        this.durationActual = 0;
+        this.duration = 0;
         this.durationProgress = 0;
 
         this.procedure = procedure;
@@ -44,12 +52,12 @@ export class Maintenance
 
     async refresh()
     {
-        let doc = await MaintenanceModel.findOne({ name: this.name });
+        const doc = await MaintenanceModel.findOne({ name: this.name });
 
         if(doc != undefined)
         {
-            this.durationActual = doc.duration;
-            this.durationProgress = Math.floor((this.durationActual / this.durationLimit) * 100) / 100;
+            this.duration = doc.duration;
+            this.durationProgress = Math.floor((this.duration / this.durationLimit) * 100) / 100;
             this.operationDate = doc.operationDate
         }
         else
@@ -80,7 +88,7 @@ export class Maintenance
 
             durationType: this.durationType,
             durationLimit: this.durationLimit,
-            durationActual: this.durationActual,
+            durationActual: this.duration,
             durationProgress: this.durationProgress,
 
             operationDate: this.operationDate || undefined,

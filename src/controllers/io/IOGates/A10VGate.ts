@@ -1,6 +1,6 @@
 import { map } from "../../../map";
 import { IOController } from "../IOController";
-import { IIOGate, IOGate, IOGateBus } from "./IOGate";
+import { IIOGate, IOGate, IOGateSize } from "./IOGate";
 
 export class A10VIOGate extends IOGate
 {
@@ -18,9 +18,9 @@ export class A10VIOGate extends IOGate
 
     public async write(ioController: IOController, data: number)
     {
-        let word = this.type == "word" ? true : undefined;
+        const word = this.size == IOGateSize.WORD ? true : undefined;
 
-        let v = map(data, 0, 100, 0, 32767);
+        const v = map(data, 0, 100, 0, 32767);
 
         this.value = v;
         

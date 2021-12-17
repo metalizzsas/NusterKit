@@ -2,7 +2,7 @@ import { Machine } from "../../Machine";
 import { Controller } from "../Controller";
 import { ManualMode } from "./ManualMode";
 
-import { Request, Response } from "express";
+import { Request, Response } from "express";
 
 export class ManualModeController extends Controller
 {
@@ -21,7 +21,7 @@ export class ManualModeController extends Controller
 
     private async _configure()
     {
-        for(let manual of this.machine.specs.manual)
+        for(const manual of this.machine.specs.manual)
         {
             this.keys.push(new ManualMode(manual.name, manual.controls, manual.incompatibility))
         }
@@ -35,14 +35,14 @@ export class ManualModeController extends Controller
 
         //TODO: Ehance performance
         this.router.post('/:name/:value', async (req: Request, res: Response) => {
-            let concernedKeyIndex = this.keys.findIndex((k) => k.name == req.params.name);
+            const concernedKeyIndex = this.keys.findIndex((k) => k.name == req.params.name);
 
             if(concernedKeyIndex > -1)
             {
                 //verify that triggering this will not interfer with other manual modes
-                for(let k_incompatibilities of this.keys[concernedKeyIndex].incompatibility)
+                for(const k_incompatibilities of this.keys[concernedKeyIndex].incompatibility)
                 {
-                    let keyToCheck = this.keys.findIndex((k2) => k2.name == k_incompatibilities);
+                    const keyToCheck = this.keys.findIndex((k2) => k2.name == k_incompatibilities);
 
                     if(keyToCheck > -1)
                     {
@@ -61,24 +61,24 @@ export class ManualModeController extends Controller
                 }
 
                 //check of incompatibilities is successful toggle the io now
-                for(let gate of this.keys[concernedKeyIndex].controls)
+                for(const gate of this.keys[concernedKeyIndex].controls)
                 {
-                    let activeGates: string[] = [];
+                    const activeGates: string[] = [];
 
-                    for(let activeKeys of this.keys.filter((m => m.state == true && m.name != req.params.name)))
+                    for(const activeKeys of this.keys.filter((m => m.state == true && m.name != req.params.name)))
                     {
                         activeGates.push(...activeKeys.controls);
                     }
 
-                    let activeGatesSet = [...new Set(activeGates)]
+                    const activeGatesSet = [...new Set(activeGates)]
 
-                    let gateIndex = this.machine.ioController!.gates.findIndex((g) => g.name == gate)
+                    const gateIndex = this.machine.ioController.gates.findIndex((g) => g.name == gate)
 
                     if(gateIndex > -1)
                     {
                         //skip this gate updating routine because it is enabled in another manual mode
                         if(!(activeGatesSet.findIndex((g) => g == gate) > -1))
-                            this.machine.ioController!.gates[gateIndex].toggle(req.params.value == "true" ? 1 : 0)
+                            this.machine.ioController.gates[gateIndex].toggle(req.params.value == "true" ? 1 : 0)
 
                         this.keys[concernedKeyIndex].state = (req.params.value == "true");
                     }

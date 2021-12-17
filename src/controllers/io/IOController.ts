@@ -1,4 +1,4 @@
-import { IOGate, IOGateBus } from "./IOGates/IOGate";
+import { IOGate, IOGateBus, IOGateType } from "./IOGates/IOGate";
 import { IOHandler } from "./IOHandlers/IOHandler";
 import { Controller } from "../Controller";
 import { Machine } from "../../Machine";
@@ -46,11 +46,11 @@ export class IOController extends Controller
         
         for(const gate of this.machine.specs.iogates)
         {
-            switch(gate.gateType)
+            switch(gate.type)
             {
-                case "um18": this.gates.push(new UM18IOGate(gate)); break;
-                case "a10v": this.gates.push(new A10VIOGate(gate)); break;
-                default:  this.gates.push(new IOGate(gate)); break;
+                case IOGateType.UM18: this.gates.push(new UM18IOGate(gate)); break;
+                case IOGateType.A10V: this.gates.push(new A10VIOGate(gate)); break;
+                default: this.gates.push(new IOGate(gate)); break;
             }
         }
 

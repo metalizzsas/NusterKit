@@ -1,23 +1,22 @@
-interface IManualMode
+export interface IManualMode
 {
     name: string,
     controls: string[],
     incompatibility: string[]
 }
 
-export class ManualMode
+export class ManualMode implements IManualMode
 {
     name: string;
     controls: string[];
     incompatibility: string[];
 
-    public state: boolean = false;
+    public state = false;
 
     constructor(name: string, controls: string[], incompatibilty: string[])
     {
         this.name = name;
         this.controls = controls;
         this.incompatibility = incompatibilty;
-
     }
 }

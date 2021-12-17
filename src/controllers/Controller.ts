@@ -6,12 +6,11 @@ export class Controller{
 
     constructor()
     {
-        
+        return;
     }
 
     get router()
     {
         return this._router;
     }
-
 }

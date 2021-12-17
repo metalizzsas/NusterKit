@@ -11,6 +11,9 @@ import deepExtend from "deep-extend";
 import { CycleController } from "./controllers/cycle/CycleController";
 import { IProgram } from "./programblocks/ProgramBlockRunner";
 import { IProfile } from "./controllers/profile/Profile";
+import { IIOGate } from "./controllers/io/IOGates/IOGate";
+import { IIOHandler } from "./controllers/io/IOHandlers/IOHandler";
+import { IConfigSlot } from "./controllers/slot/Slot";
 
 export class Machine{
 
@@ -100,10 +103,10 @@ export class Machine{
 //machine json interface
 interface IMachine
 {
-    iohandlers: any,
-    iogates: any,
-    slots: any,
-    profiles: [IProfile],
+    iohandlers: IIOHandler[],
+    iogates: IIOGate[],
+    slots: IConfigSlot[],
+    profiles: IProfile[],
     maintenance: any,
     passives: any,
     manual: any,

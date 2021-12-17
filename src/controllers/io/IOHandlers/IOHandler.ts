@@ -1,4 +1,4 @@
-export class IOHandler
+export class IOHandler implements IIOHandler
 {
     public name: string;
     public type: string;
@@ -10,7 +10,16 @@ export class IOHandler
         this.type = type;
         this.ip = ip;
     }
+    
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    async writeData(_address: number, _data: number, _word?: boolean): Promise<void> { return; }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    async readData(_address: number, _word?: boolean): Promise<number> { return 0; }
+}
 
-    async writeData(address: number, data: number, word?: boolean): Promise<void> {}
-    async readData(address: number, word?: boolean): Promise<number> { return 0; }
+export interface IIOHandler
+{
+    name: string;
+    type: string;
+    ip: string;
 }

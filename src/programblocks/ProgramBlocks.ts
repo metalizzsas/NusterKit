@@ -33,7 +33,7 @@ export class ProgramBlock extends Block implements IProgramBlock
     }
 
     public async execute(): Promise<unknown>{
-        console.log("ProgramBlocks: This Blocks does nothing");
+        console.log("ProgramBlocks: This Block does nothing");
         return;
     }
 }

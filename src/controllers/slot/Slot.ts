@@ -50,7 +50,16 @@ const SlotSchema = new Schema<ISlot>({
 
 const SlotModel = model('slot', SlotSchema);
 
-export class Slot
+export interface IConfigSlot
+{
+    name: string;
+    type: string;
+    isProductable: boolean;
+
+    sensors: ISlotSensor[];
+}
+
+export class Slot implements IConfigSlot
 {
     name: string;
     type: string;
@@ -80,11 +89,11 @@ export class Slot
      */
     private async _configureSlot()
     {
-        let slot = await SlotModel.findOne({name: this.name});
+        const slot = await SlotModel.findOne({name: this.name});
 
         if(slot == null)
         {
-            let newSlot: ISlot = {
+            const newSlot: ISlot = {
                 name: this.name
             };
 
@@ -98,7 +107,7 @@ export class Slot
      */
     public async loadSlot(product: IProduct): Promise<boolean>
     {
-        let slot = await SlotModel.find({name: this.name});
+        const slot = await SlotModel.find({name: this.name});
 
         if(slot != undefined)
         {
@@ -115,7 +124,7 @@ export class Slot
 
     public async unloadSlot(): Promise<boolean>
     {
-        let slot = await SlotModel.find({name: this.name});
+        const slot = await SlotModel.find({name: this.name});
 
         if(slot != undefined)
         {
@@ -137,8 +146,8 @@ export class Slot
             return null;
         else
         {
-            let slot = await SlotModel.findOne({name: this.name});
-            return (slot?.product != null) ? slot.product! : null;
+            const slot = await SlotModel.findOne({name: this.name});
+            return (slot?.product) ? slot.product! : null;
         }
     }
     /**

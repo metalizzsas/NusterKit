@@ -1,9 +1,9 @@
-import { IOGate, IOGateBus } from "./IOGates/IOGate"
-import { IOHandler } from "./IOHandlers/IOHandler"
-import { Controller } from "../Controller"
+import { IOGate, IOGateBus } from "./IOGates/IOGate";
+import { IOHandler } from "./IOHandlers/IOHandler";
+import { Controller } from "../Controller";
 import { Machine } from "../../Machine";
 
-import {Request, Response } from "express";
+import { Request, Response } from "express";
 import { WAGO } from "./IOHandlers/WAGO";
 import { EX260S3 } from "./IOHandlers/EX260S3";
 import { A10VIOGate } from "./IOGates/A10VGate";
@@ -17,7 +17,6 @@ export class IOController extends Controller
 
     private machine: Machine;
 
-    private ioScanner: boolean = false;
     private timer?: NodeJS.Timer;
 
     constructor(machine: Machine)
@@ -108,7 +107,7 @@ export class IOController extends Controller
                     if(g.bus == IOGateBus.IN)
                         g.read(this);
                 }
-            }, 500);
+            }, 250);
         }
     }
 

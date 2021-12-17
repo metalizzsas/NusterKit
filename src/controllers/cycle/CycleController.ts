@@ -4,20 +4,16 @@ import { Controller } from "../Controller";
 import { Request, Response } from "express";
 
 import { IProfile, ProfileModel } from "../profile/Profile";
-import { Cycle, CycleMode } from "./Cycle";
+import { CycleMode } from "./Cycle";
 import { CycleHistoryModel } from "./CycleHistory";
+import { IProgram, ProgramBlockRunner } from "../../programblocks/ProgramBlockRunner";
 
 export class CycleController extends Controller{
 
     private machine: Machine;
 
     private supportedCycles: string[] = [];
-
-    private runKey?: string;
-
-    private cycle?: Cycle
-
-    private wsClients: WebSocket[] = [];
+    private program?: ProgramBlockRunner
 
    constructor(machine: Machine)
    {
@@ -47,13 +43,31 @@ export class CycleController extends Controller{
         this._router.post("/:name/:id?", async (req: Request, res: Response) => {
 
             let profile = (req.params.id) ? undefined : await ProfileModel.findById(req.params.id) as IProfile;
-            
-            this.cycle = new Cycle(this.machine, req.params.name, profile);
 
-            if(this.cycle.program.profileIdentifier != profile?.identifier)
+            if(profile)
             {
-                this.cycle = undefined;
-                res.status(403).write("Profile is not compatible with this cycle");
+                let cycle = this.machine.specs.cycles.find((ip, i) => ip.name == req.params.name);
+
+                if(cycle)
+                {
+                    this.program = new ProgramBlockRunner(this.machine, profile, cycle);
+
+                    if(this.program.profileIdentifier != profile.identifier)
+                    {
+                        res.status(403).write("Profile is not compatible with this cycle");
+                        this.program = undefined;
+                        return;
+                    }
+                }
+                else
+                {
+                    res.status(404).write("Cycle not found");
+                    return;
+                }
+            }
+            else
+            {
+                res.status(404).write("Profile not found");
                 return;
             }
 
@@ -62,9 +76,9 @@ export class CycleController extends Controller{
 
         //start the cycle
         this._router.put("/", async (req: Request, res: Response) => {
-            if(this.cycle !== undefined)
+            if(this.program !== undefined)
             {
-                this.cycle.run();
+                this.program.run();
                 res.status(200).end();
             }
             else
@@ -75,15 +89,15 @@ export class CycleController extends Controller{
 
         //rate the cycle and remove it
         this._router.patch("/:rating", async (req: Request, res: Response) => {
-            if(this.cycle !== undefined)
+            if(this.program !== undefined)
             {
-                if(this.cycle!.status.mode != CycleMode.ENDED || CycleMode.STOPPED)
+                if(this.program!.status.mode != CycleMode.ENDED || CycleMode.STOPPED)
                 {
                     await CycleHistoryModel.create({
                         rating: parseInt(req.params.rating) || 0,
-                        cycle: this.cycle
+                        cycle: this.program
                     });
-                    this.cycle == undefined;
+                    this.program == undefined;
                 }
                 else
                 {
@@ -100,9 +114,9 @@ export class CycleController extends Controller{
 
         //stops the cycle
         this._router.delete("/", async (req: Request, res: Response) => {
-            if(this.cycle !== undefined)
+            if(this.program !== undefined)
             {
-                await this.cycle.stop();  
+                await this.program.stop();  
                 res.status(200).end(); 
             }
             else
@@ -114,6 +128,6 @@ export class CycleController extends Controller{
 
    public get socketData()
    {
-        return this.cycle;
+        return this.program;
    }
 }

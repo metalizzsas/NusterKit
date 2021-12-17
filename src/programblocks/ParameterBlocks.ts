@@ -1,14 +1,14 @@
-import { Cycle } from "../controllers/cycle/Cycle";
 import { Block } from "./Block";
+import { ProgramBlockRunner } from "./ProgramBlockRunner";
 
 export class ParameterBlock extends Block implements IParameterBlock
 {
     name: string;
     value: string;
 
-    constructor(cycleInstance: Cycle, obj: IParameterBlock)
+    constructor(instance: ProgramBlockRunner, obj: IParameterBlock)
     {
-        super(cycleInstance);
+        super(instance);
 
         this.name = obj.name;
         this.value = obj.value;
@@ -22,23 +22,23 @@ export class ParameterBlock extends Block implements IParameterBlock
 
 export class ProfileParameterBlock extends ParameterBlock
 {
-    constructor(cycleInstance: Cycle, obj: IParameterBlock)
+    constructor(instance: ProgramBlockRunner, obj: IParameterBlock)
     {
-        super(cycleInstance, obj);
+        super(instance, obj);
     }
 
     public data(): number
     {
-        let val = this.cycleInstance.profileExplorer?.explore(this.value)!;
+        let val = this.pbrInstance.profileExplorer?.explore(this.value)!;
         return val;
     }   
 }
 
 export class ConstantParameterBlock extends ParameterBlock
 {
-    constructor(cycleInstance: Cycle, obj: IParameterBlock)
+    constructor(instance: ProgramBlockRunner, obj: IParameterBlock)
     {
-        super(cycleInstance, obj)
+        super(instance, obj);
     }
 
     public data(): number
@@ -49,10 +49,11 @@ export class ConstantParameterBlock extends ParameterBlock
 
 export class ConstantStringParameterBlock extends ParameterBlock
 {
-    constructor(cycleInstance: Cycle, obj: IParameterBlock)
+    constructor(instance: ProgramBlockRunner, obj: IParameterBlock)
     {
-        super(cycleInstance, obj);
+        super(instance, obj);
     }
+
     public data(): string
     {
         return this.value;
@@ -61,14 +62,14 @@ export class ConstantStringParameterBlock extends ParameterBlock
 
 export class IOReadParameterBlock extends ParameterBlock
 {
-    constructor(cycleInstance: Cycle, obj: IParameterBlock)
+    constructor(instance: ProgramBlockRunner, obj: IParameterBlock)
     {
-        super(cycleInstance, obj);
+        super(instance, obj);
     }
 
     public data(): number
     {
-        return this.cycleInstance.ioExplorer?.explore(this.name)?.value || 0;
+        return this.pbrInstance.ioExplorer?.explore(this.name)?.value || 0;
     }
 }
 
@@ -86,17 +87,17 @@ export interface IParameterBlock
  * @param obj IParameter json object extracted from configuration file
  * @returns Parameter block defined properly
  */
-export function ParameterBlockRegistry(cycleInstance: Cycle, obj: IParameterBlock): ParameterBlock
+export function ParameterBlockRegistry(pbrInstance: ProgramBlockRunner, obj: IParameterBlock): ParameterBlock
 {
     switch(obj.name)
     {
-        case "const": return new ConstantParameterBlock(cycleInstance, obj);
-        case "conststr": return new ConstantStringParameterBlock(cycleInstance, obj);
-        case "profile": return new ProfileParameterBlock(cycleInstance, obj);
-        case "io": return new IOReadParameterBlock(cycleInstance, obj);
+        case "const": return new ConstantParameterBlock(pbrInstance, obj);
+        case "conststr": return new ConstantStringParameterBlock(pbrInstance, obj);
+        case "profile": return new ProfileParameterBlock(pbrInstance, obj);
+        case "io": return new IOReadParameterBlock(pbrInstance, obj);
         default: {
             console.log("WARNING: Block ", obj.name, "is not defined properly");
-            return new ParameterBlock(cycleInstance, obj);
+            return new ParameterBlock(pbrInstance, obj);
         }
     }
 }

@@ -1,36 +1,166 @@
-import { Cycle, ICycleStatus } from "../controllers/cycle/Cycle";
-import { CycleStep, CycleStepResult, CycleStepState } from "../controllers/cycle/CycleStep";
-import { IWatchdogCondition } from "../controllers/cycle/CycleWatchdog";
+import { EventEmitter } from "stream";
+import { CycleMode, ICycleStatus } from "../controllers/cycle/Cycle";
+import { CycleStepResult, CycleStepState, CycleStepType } from "../controllers/cycle/CycleStep";
+import { IOExplorer } from "../controllers/io/IOExplorer";
+import { IProfile } from "../controllers/profile/Profile";
+import { ProfileExplorer } from "../controllers/profile/ProfileExplorer";
+import { Machine } from "../Machine";
 import { IParameterBlock, ParameterBlock, ParameterBlockRegistry } from "./ParameterBlocks";
-import { ForLoopProgramBlock, IfProgramBlock, IOWriteProgramBlock, IProgramBlock, ProgramBlock, ProgramBlockRegistry, SleepProgramBlock } from "./ProgramBlocks";
+import { IProgramBlock, ProgramBlock, ProgramBlockRegistry } from "./ProgramBlocks";
+import { IWatchdogCondition, WatchdogCondition } from "./Watchdog";
 
 export class ProgramBlockRunner implements IProgram
 {
-    profileIdentifier: string;
-    name: string;
-    cycle: Cycle;
-    steps: ProgramBlockStep[] = [];
+    status: ICycleStatus;
 
-    constructor(cycleInstance: Cycle, object: IProgram)
+    //identifiers vars
+    name: string;
+    profileIdentifier: string;
+    
+    //Inside definers
+    steps: ProgramBlockStep[] = [];
+    watchdogConditions: IWatchdogCondition[] = [];
+
+    //internals
+    currentStepIndex = 0;
+
+    //statics
+    machine: Machine;
+    profile: IProfile;
+
+    //explorers
+    profileExplorer?: ProfileExplorer;
+    ioExplorer?: IOExplorer;
+
+    //event
+    event: EventEmitter;
+    
+    constructor(machine: Machine, profile: IProfile, object: IProgram)
     {
+        this.status = { mode: CycleMode.CREATED };
+
+        this.machine = machine;
+        this.profile = profile;
+
+        //properties assignment
         this.profileIdentifier = object.profileIdentifier;
-        this.cycle = cycleInstance;
         this.name = object.name;
 
+        //Explorers setup
+        this.profileExplorer = new ProfileExplorer(this.profile);
+        this.ioExplorer = new IOExplorer(machine.ioController!);
+
+        //steps and watchdog
+        for(let watchdog of object.watchdogConditions)
+        {
+            this.watchdogConditions.push(new WatchdogCondition(this, watchdog));
+        }
         for(let step of object.steps)
         {
-            this.steps.push(new ProgramBlockStep(this.cycle, step));
+            this.steps.push(new ProgramBlockStep(this, step));
+        }
+
+        this.event = new EventEmitter();
+
+        this.event.on("end", this.end);
+        this.event.on("stop", this.stop);
+    }
+
+    public async run()
+    {
+        console.log(this.steps);
+
+        console.log("Cycle start");
+        this.status.mode = CycleMode.STARTED;
+
+        while(this.currentStepIndex < this.steps.length)
+        {
+            let result = await this.steps[this.currentStepIndex].execute();
+
+            console.log(this.steps[this.currentStepIndex].name, result);
+
+            switch(result)
+            {
+                case CycleStepResult.FAILED:
+                {
+                    await this.stop();
+                    return false;
+                }
+                case CycleStepResult.PARTIAL:
+                {
+
+                    //reset times at the end of a partial step
+                    this.steps[this.currentStepIndex].resetTimes();
+
+                    //if next step does not exists or next step is not a multiple step,
+                    //return to first multiple step
+                    if(this.steps[this.currentStepIndex + 1].type != CycleStepType.MULTIPLE)
+                    {
+
+                        let j = this.steps.findIndex((step) => step.type == CycleStepType.MULTIPLE)
+
+                        console.log("first found multiple task index", j);
+
+                        if(j > -1)
+                            this.currentStepIndex = j;
+                        else 
+                            throw new Error("Failed to find first Multiple task");
+                        continue;
+                    }
+                }
+            }
+            this.currentStepIndex++;
+        }
+        this.end();
+
+        return true;
+    }
+
+    public end(reason?: string)
+    {
+        this.status.endReason = reason || "cycle-ended";
+        this.status.mode = CycleMode.ENDED;
+        //TODO: Resorbs all timers and everything
+    }
+
+    public async stop()
+    {
+        this.status.mode = CycleMode.WAITING_STOP;
+        await this.steps[this.currentStepIndex].stop();
+        this.status.mode = CycleMode.STOPPED;
+
+        this.end("cycle-stopped");
+    }
+
+    public get progress()
+    {
+        let duration = 0;
+
+        for(let step of this.steps)
+        {
+            duration += step.progress;
+        }
+
+        return duration / this.steps.length;
+    }
+
+    toJSON()
+    {
+        return {
+            status: this.status,
+            steps: this.steps
         }
     }
 }
 
 export class ProgramBlockStep implements IProgramStep
 {
-    cycle: Cycle;
+    pbrInstance: ProgramBlockRunner;
 
     name: string;
 
     state: CycleStepState = CycleStepState.WAITING;
+    type: CycleStepType = CycleStepType.SINGLE;
 
     isEnabled: ParameterBlock;
     duration: ParameterBlock;
@@ -43,19 +173,23 @@ export class ProgramBlockStep implements IProgramStep
     
     blocks: ProgramBlock[] = [];
 
-    constructor(cycleInstance: Cycle, obj: IProgramStep)
+    constructor(pbrInstance: ProgramBlockRunner, obj: IProgramStep)
     {
-        this.cycle = cycleInstance;
+        this.pbrInstance = pbrInstance;
         this.name = obj.name;
-        this.isEnabled = ParameterBlockRegistry(this.cycle, obj.isEnabled);
-        this.duration = ParameterBlockRegistry(this.cycle, obj.duration);
+        this.isEnabled = ParameterBlockRegistry(this.pbrInstance, obj.isEnabled);
+        this.duration = ParameterBlockRegistry(this.pbrInstance, obj.duration);
 
         if(obj.runAmount)
-            this.runAmount = ParameterBlockRegistry(this.cycle, obj.runAmount);
+        {
+            this.runAmount = ParameterBlockRegistry(this.pbrInstance, obj.runAmount);
+            this.type = (this.runAmount.data() > 1 ? CycleStepType.MULTIPLE : CycleStepType.SINGLE);
+        }
+            
 
         for(let block of obj.blocks)
         {
-            this.blocks.push(ProgramBlockRegistry(this.cycle, block));
+            this.blocks.push(ProgramBlockRegistry(this.pbrInstance, block));
         }
     }
 
@@ -98,6 +232,43 @@ export class ProgramBlockStep implements IProgramStep
     {
         this.state = CycleStepState.STOPPED;
     }
+
+    get progress()
+    {
+        switch(this.state)
+        {
+            case CycleStepState.STARTED:
+            {
+                if(this.type == CycleStepType.MULTIPLE)
+                    return parseFloat((this.runCount! / this.runAmount?.data()!).toFixed(2)) + parseFloat(((Date.now() - this.startTime!) / this.duration.data()!).toFixed(2)) * parseFloat((1 / this.runAmount?.data()!).toFixed(2));
+                else
+                    return parseFloat(((Date.now() - this.startTime!) / this.duration.data()!).toFixed(2));
+            }
+            case CycleStepState.STOPPED:
+            {
+                if(this.duration !== undefined && this.startTime !== undefined && this.endTime !== undefined)
+                    return parseFloat(((this.endTime - this.startTime) / this.duration.data()).toFixed(2));
+                else
+                    return 0;
+            }
+            case CycleStepState.ENDED: 
+            {
+                return 1;
+            }
+            case CycleStepState.PARTIAL:
+            {
+                return parseFloat((this.runCount! / this.runAmount?.data()!).toFixed(2));
+            }
+            default: {
+                return 0;
+            }
+        }
+    }
+    public resetTimes()
+    {
+        this.startTime = undefined;
+        this.endTime = undefined;
+    }
 }
 
 interface IProgramStep
@@ -116,6 +287,6 @@ export interface IProgram
 {
     name: string;
     profileIdentifier: string;
-    cycle: Cycle;
     steps: IProgramStep[];
+    watchdogConditions: IWatchdogCondition[];
 }

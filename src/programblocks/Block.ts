@@ -1,10 +1,10 @@
-import { Cycle } from "../controllers/cycle/Cycle";
+import { ProgramBlockRunner } from "./ProgramBlockRunner";
 
-export class Block
-{
-    cycleInstance: Cycle
-    constructor(cycleInstance: Cycle)
-    {
-        this.cycleInstance = cycleInstance;
+export class Block {
+    
+    pbrInstance: ProgramBlockRunner;
+
+    constructor(instance: ProgramBlockRunner) {
+        this.pbrInstance = instance;
     }
 }

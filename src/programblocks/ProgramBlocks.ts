@@ -1,6 +1,6 @@
-import { Cycle } from "../controllers/cycle/Cycle";
 import { Block } from "./Block";
-import { ParameterBlock, ProfileParameterBlock, ConstantParameterBlock, IParameterBlock, ConstantStringParameterBlock, IOReadParameterBlock, ParameterBlockRegistry } from "./ParameterBlocks";
+import { ParameterBlock, IParameterBlock, ParameterBlockRegistry } from "./ParameterBlocks";
+import { ProgramBlockRunner } from "./ProgramBlockRunner";
 
 export class ProgramBlock extends Block implements IProgramBlock
 {
@@ -9,9 +9,9 @@ export class ProgramBlock extends Block implements IProgramBlock
     params: ParameterBlock[] = [];
     blocks: ProgramBlock[] = [];
 
-    constructor(cycleInstance: Cycle, obj: IProgramBlock)
+    constructor(pbrInstance: ProgramBlockRunner, obj: IProgramBlock)
     {
-        super(cycleInstance);
+        super(pbrInstance);
 
         this.name = obj.name
 
@@ -19,7 +19,7 @@ export class ProgramBlock extends Block implements IProgramBlock
         {
             for(let p of obj.params)
             {
-                this.params.push(ParameterBlockRegistry(this.cycleInstance, p));
+                this.params.push(ParameterBlockRegistry(this.pbrInstance, p));
             }
         }
 
@@ -27,7 +27,7 @@ export class ProgramBlock extends Block implements IProgramBlock
         {
             for(let b of obj.blocks)
             {
-                this.blocks.push(ProgramBlockRegistry(this.cycleInstance, b));              
+                this.blocks.push(ProgramBlockRegistry(this.pbrInstance, b));              
             }
         }
     }
@@ -39,9 +39,9 @@ export class ProgramBlock extends Block implements IProgramBlock
 
 export class ForLoopProgramBlock extends ProgramBlock
 {
-    constructor(cycleInstance: Cycle, obj: IProgramBlock)
+    constructor(pbrInstance: ProgramBlockRunner, obj: IProgramBlock)
     {
-        super(cycleInstance, obj);
+        super(pbrInstance, obj);
 
         if(obj.params.length == 0)
             throw new Error("ForProgramBlock: Not enought parameters")
@@ -73,9 +73,9 @@ export class IfProgramBlock extends ProgramBlock
         "!=": (x: any, y: any) => x != y
     };
 
-    constructor(cycleInstance: Cycle, obj: IProgramBlock)
+    constructor(pbrInstance: ProgramBlockRunner, obj: IProgramBlock)
     {
-        super(cycleInstance, obj);
+        super(pbrInstance, obj);
     }
 
     public async execute()
@@ -97,16 +97,16 @@ export class IfProgramBlock extends ProgramBlock
 
 export class IOWriteProgramBlock extends ProgramBlock
 {
-    constructor(cycleInstance: Cycle, obj: IProgramBlock)
+    constructor(pbrInstance: ProgramBlockRunner, obj: IProgramBlock)
     {
-        super(cycleInstance, obj);
+        super(pbrInstance, obj);
     }
 
     public async execute(): Promise<void>
     {
         return new Promise(async (resolve, _reject) => {
 
-            await this.cycleInstance.ioExplorer?.explore(this.params[0].data())?.write(this.cycleInstance.machine.ioController!, this.params[1].data());
+            await this.pbrInstance.ioExplorer?.explore(this.params[0].data())?.write(this.pbrInstance.machine.ioController!, this.params[1].data());
 
             resolve();
         });
@@ -115,9 +115,9 @@ export class IOWriteProgramBlock extends ProgramBlock
 
 export class SleepProgramBlock extends ProgramBlock
 {
-    constructor(cycleInstance: Cycle, obj: IProgramBlock)
+    constructor(pbrInstance: ProgramBlockRunner, obj: IProgramBlock)
     {
-        super(cycleInstance, obj)
+        super(pbrInstance, obj)
     }
 
     public execute(): Promise<void>
@@ -135,17 +135,17 @@ export interface IProgramBlock
     blocks: IProgramBlock[];
 }
 
-export function ProgramBlockRegistry(cycleInstance: Cycle, obj: IProgramBlock)
+export function ProgramBlockRegistry(pbrInstance: ProgramBlockRunner, obj: IProgramBlock)
 {
     switch(obj.name)
     {
-        case "for": return new ForLoopProgramBlock(cycleInstance, obj);
-        case "if": return new IfProgramBlock(cycleInstance, obj);
-        case "sleep": return new SleepProgramBlock(cycleInstance, obj);
-        case "io": return new IOWriteProgramBlock(cycleInstance, obj);
+        case "for": return new ForLoopProgramBlock(pbrInstance, obj);
+        case "if": return new IfProgramBlock(pbrInstance, obj);
+        case "sleep": return new SleepProgramBlock(pbrInstance, obj);
+        case "io": return new IOWriteProgramBlock(pbrInstance, obj);
         default: {
             console.log("WARNING: Program block", obj.name, "is not defined properly");
-            return new ProgramBlock(cycleInstance, obj);
+            return new ProgramBlock(pbrInstance, obj);
         }
     }
 }

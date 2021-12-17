@@ -22,13 +22,13 @@ export class EX260S3 extends IOHandler
     async connect()
     {
         console.log("Connecting");
-        //await this.controller.connect(this.ip);
+        await this.controller.connect(this.ip);
 
         console.log(this.name + " Connected.");
         this.isReady = true;
 
         //recconnect ex260 on lost connexion
-        //this.controller.once('close', async () => { await this.connect() });
+        this.controller.once('close', async () => { await this.connect() });
     }
 
     //Method not implemented

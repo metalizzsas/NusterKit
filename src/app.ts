@@ -141,3 +141,7 @@ class NusterTurbine
 }
 
 new NusterTurbine();
+
+process.on("uncaughtException", (error: Error) => {
+    console.log(error);
+})

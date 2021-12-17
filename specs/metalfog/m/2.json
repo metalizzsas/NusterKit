@@ -689,11 +689,13 @@
                             "params": [
                                 {
                                     "name": "conststr",
-                                    "value": "ventilation"
+                                    "value": "ventilation",
+                                    "params": []
                                 },
                                 {
                                     "name": "const",
-                                    "value": 1
+                                    "value": "1",
+                                    "params": []
                                 }
                             ],
                             "blocks": []
@@ -703,7 +705,8 @@
                             "params": [
                                 {
                                     "name": "const",
-                                    "value": "3" 
+                                    "value": "3",
+                                    "params": [] 
                                 }
                             ],
                             "blocks": []
@@ -718,25 +721,25 @@
                         "params": []
                     },
                     "duration": {
-                        "method": "multiply",
+                        "name": "multiply",
                         "value": "0",
                         "params": [
                             {
-                                "method": "profile",
+                                "name": "profile",
                                 "value": "activation.count",
                                 "params": []
                             },
                             {
-                                "method": "add",
+                                "name": "add",
                                 "value": "0",
                                 "params": [
                                     {
-                                        "method": "profile",
+                                        "name": "profile",
                                         "value": "activation.timeOn",
                                         "params": []
                                     },
                                     {
-                                        "method": "profile",
+                                        "name": "profile",
                                         "value": "activation.timeOff",
                                         "params": []
                                     }
@@ -750,7 +753,8 @@
                             "params": [
                                 {
                                     "name": "profile",
-                                    "value": "activation.count"
+                                    "value": "activation.count",
+                                    "params": []
                                 }
                             ],
                             "blocks": [

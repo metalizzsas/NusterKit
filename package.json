@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon src/app.ts",
     "docs": "typedoc --out docs --entryPointStrategy expand ./src",
-    "prod": " tsc --outDir ./dist/; node ./dist/app.js"
+    "build": "tsc",
+    "start": "node build/app.js"
   },
   "repository": {
     "type": "git",

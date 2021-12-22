@@ -1,779 +1,2432 @@
 {
-    "iohandlers": [
-        {
-            "name": "WAGO",
-            "type": "modbustcp",
-            "ip": "192.168.1.10"
-        },
-        {
-            "name": "EX260S3",
-            "type": "ethernetip",
-            "ip": "192.168.1.3"
-        }
-    ],
-    "iogates": [
-        {
-            "name": "emergency_stop",
-            "type": "bit",
-            "bus": "in",
-            "automaton": 0,
-            "address": 0,
-            "default": 0
-        },
-        {
-            "name": "air_sensor",
-            "type": "bit",
-            "bus": "in",
-            "automaton": 0,
-            "address": 1,
-            "default": 0
-        },
-        {
-            "name": "cover_closed",
-            "type": "bit",
-            "bus": "in",
-            "automaton": 0,
-            "address": 2,
-            "default": 0
-        },
-        {
-            "name": "levels_edi-n",
-            "type": "bit",
-            "bus": "in",
-            "automaton": 0,
-            "address": 3,
-            "default": 0         
-        },
-        {
-            "name": "levels_act-n",
-            "type": "bit",
-            "bus": "in",
-            "automaton": 0,
-            "address": 4,
-            "default": 0           
-        },
-        {
-            "name": "levels_eff-n",
-            "type": "bit",
-            "bus": "in",
-            "automaton": 0,
-            "address": 5,
-            "default": 0
-        },
-        {
-            "name": "levels_edi-a",
-            "type": "word",
-            "gateType": "um18",
-            "bus": "in",
-            "automaton": 0,
-            "address": 0,
-            "default": 0, 
-
-            "level": {
-                "minHeight": 10,
-                "maxHeight": 57
+   "iohandlers": [
+      {
+         "name": "WAGO",
+         "type": "wago",
+         "ip": "192.168.1.10"
+      },
+      {
+         "name": "EX260S1",
+         "type": "ex260s1",
+         "ip": "192.168.1.3"
+      }
+   ],
+   "iogates": [
+      {
+         "name": "emergency_stop",
+         "type": "default",
+         "bus": "in",
+         "automaton": 0,
+         "address": 0,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "air_sensor",
+         "type": "default",
+         "bus": "in",
+         "automaton": 0,
+         "address": 1,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "cover_closed",
+         "type": "default",
+         "bus": "in",
+         "automaton": 0,
+         "address": 2,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "levels_edi-n",
+         "type": "default",
+         "bus": "in",
+         "automaton": 0,
+         "address": 3,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "levels_act-n",
+         "type": "default",
+         "bus": "in",
+         "automaton": 0,
+         "address": 4,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "levels_eff-n",
+         "type": "default",
+         "bus": "in",
+         "automaton": 0,
+         "address": 5,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "levels_edi-a",
+         "type": "um18",
+         "bus": "in",
+         "automaton": 0,
+         "address": 0,
+         "default": 0,
+         "levelMax": 57,
+         "size": "word"
+      },
+      {
+         "name": "levels_act-a",
+         "type": "um18",
+         "bus": "in",
+         "automaton": 0,
+         "address": 1,
+         "default": 0,
+         "levelMax": 29,
+         "size": "word"
+      },
+      {
+         "name": "levels_ox-a",
+         "type": "um18",
+         "bus": "in",
+         "automaton": 0,
+         "address": 2,
+         "default": 0,
+         "levelMax": 41,
+         "size": "word"
+      },
+      {
+         "name": "levels_rd-a",
+         "type": "um18",
+         "bus": "in",
+         "automaton": 0,
+         "address": 3,
+         "default": 0,
+         "levelMax": 41,
+         "size": "word"
+      },
+      {
+         "name": "motor-speed",
+         "type": "a10v",
+         "bus": "out",
+         "automaton": 0,
+         "address": 0,
+         "default": 0,
+         "size": "word"
+      },
+      {
+         "name": "motor-direction",
+         "type": "default",
+         "bus": "out",
+         "automaton": 0,
+         "address": 0,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "ventilation",
+         "type": "default",
+         "bus": "out",
+         "automaton": 0,
+         "address": 1,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "act-res",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 31,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "edi-res",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 30,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "ox-res",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 29,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "rd-res",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 28,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "hybrid-plv_high",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 27,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "hybrid-plv_low",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 26,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "met-plv_high",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 25,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "met-plv_medium",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 24,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "met-plv_low",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 23,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "act-lq_high",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 21,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "act-lq_low",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 20,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "edi-lq_high",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 19,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "edi-lq_low",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 18,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "rd-lq_high",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 17,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "ox-lq_high",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 16,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "rd-lq_medium",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 15,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "ox-lq_medium",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 14,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "rd-lq_low",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 13,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "ox-lq_low",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 12,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "rd-air_cleaning_high",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 11,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "ox-air_cleaning_high",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 10,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "rd-air_cleaning_medium",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 9,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "ox-air_cleaning_medium",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 8,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "rd-air_cleaning_low",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 7,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "ox-air_cleaning_low",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 6,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "edi-lq_fill_act",
+         "type": "default",
+         "bus": "out",
+         "automaton": 1,
+         "address": 5,
+         "default": 0,
+         "size": "bit"
+      }
+   ],
+   "slots": [
+      {
+         "name": "ox",
+         "type": "psp",
+         "isProductable": true,
+         "sensors": [
+            {
+               "io": "levels_ox-a",
+               "type": "levels_ox-a"
             }
-        },
-        {
-            "name": "levels_act-a",
-            "type": "word",
-            "gateType": "um18",
-            "bus": "in",
-            "automaton": 0,
-            "address": 1,
-            "default": 0,
-
-            "level": {
-                "minHeight": 10,
-                "maxHeight": 29   
-            }      
-        },
-        {
-            "name": "levels_ox-a",
-            "type": "word",
-            "gateType": "um18",
-            "bus": "in",
-            "automaton": 0,
-            "address": 2,
-            "default": 0,
-
-            "level": {
-                "minHeight": 10,
-                "maxHeight": 41  
-            }      
-        },
-        {
-            "name": "levels_rd-a",
-            "type": "word",
-            "gateType": "um18",
-            "bus": "in",
-            "automaton": 0,
-            "address": 3,
-            "default": 0,
-
-            "level": {
-                "minHeight": 10,
-                "maxHeight": 41   
-            }   
-        },
-        {
-            "name": "motor-speed",
-            "type": "word",
-            "gateType": "a10v",
-            "bus": "out",
-            "automaton": 0,
-            "address": 0,
-            "default": 0           
-        },
-        {
-            "name": "motor-direction",
-            "type": "bit",
-            "bus": "out",
-            "automaton": 0,
-            "address": 0,
-            "default": 0
-        },
-        {
-            "name": "ventilation",
-            "type": "bit",
-            "bus": "out",
-            "automaton": 0,
-            "address": 1,
-            "default": 0
-        },
-        {
-            "name": "act-res",
-            "type": "bit",
-            "bus":"out",
-            "automaton": 1,
-            "address": 31,
-            "default": 0
-        },
-        {
-            "name": "edi-res",
-            "type": "bit",
-            "bus":"out",
-            "automaton": 1,
-            "address": 30,
-            "default": 0            
-        },
-        {
-            "name": "ox-res",
-            "type": "bit",
-            "bus":"out",
-            "automaton": 1,
-            "address": 29,
-            "default": 0           
-        },
-        {
-            "name": "rd-res",
-            "type": "bit",
-            "bus":"out",
-            "automaton": 1,
-            "address": 28,
-            "default": 0
-        },
-        {
-            "name": "hybrid-plv_high",
-            "type": "bit",
-            "bus": "out",
-            "automaton": 1,
-            "address": 27,
-            "default": 0
-        },
-        {
-            "name": "hybrid-plv_low",
-            "type": "bit",
-            "bus": "out",
-            "automaton": 1,
-            "address": 26,
-            "default": 0
-        },
-        {
-            "name": "met-plv_high",
-            "type": "bit",
-            "bus": "out",
-            "automaton": 1,
-            "address": 25,
-            "default": 0
-        },
-        {
-            "name": "met-plv_medium",
-            "type": "bit",
-            "bus": "out",
-            "automaton": 1,
-            "address": 24,
-            "default": 0
-        },
-        {
-            "name": "met-plv_low",
-            "type": "bit",
-            "bus": "out",
-            "automaton": 1,
-            "address": 23,
-            "default": 0
-        },
-        {
-            "name": "act-lq_high",
-            "type": "bit",
-            "bus": "out",
-            "automaton": 1,
-            "address": 21,
-            "default": 0
-        },
-        {
-            "name": "act-lq_low",
-            "type": "bit",
-            "bus": "out",
-            "automaton": 1,
-            "address": 20,
-            "default": 0
-        },
-        {
-            "name": "edi-lq_high",
-            "type": "bit",
-            "bus": "out",
-            "automaton": 1,
-            "address": 19,
-            "default": 0
-        },
-        {
-            "name": "edi-lq_low",
-            "type": "bit",
-            "bus": "out",
-            "automaton": 1,
-            "address": 18,
-            "default": 0
-        },
-        {
-            "name": "rd-lq_high",
-            "type": "bit",
-            "bus": "out",
-            "automaton": 1,
-            "address": 17,
-            "default": 0
-        },
-        {
-            "name": "ox-lq_high",
-            "type": "bit",
-            "bus": "out",
-            "automaton": 1,
-            "address": 16,
-            "default": 0
-        },
-        {
-            "name": "rd-lq_medium",
-            "type": "bit",
-            "bus": "out",
-            "automaton": 1,
-            "address": 15,
-            "default": 0           
-        },
-        {
-            "name": "ox-lq_medium",
-            "type": "bit",
-            "bus": "out",
-            "automaton": 1,
-            "address": 14,
-            "default": 0
-        },
-        {
-            "name": "rd-lq_low",
-            "type": "bit",
-            "bus": "out",
-            "automaton": 1,
-            "address": 13,
-            "default": 0
-
-        },
-        {
-            "name": "ox-lq_low",
-            "type": "bit",
-            "bus": "out",
-            "automaton": 1,
-            "address": 12,
-            "default": 0
-        },
-        {
-            "name": "rd-air_cleaning_high",
-            "type": "bit",
-            "bus": "out",
-            "automaton": 1,
-            "address": 11,
-            "default": 0
-        },
-        {
-            "name": "ox-air_cleaning_high",
-            "type": "bit",
-            "bus": "out",
-            "automaton": 1,
-            "address": 10,
-            "default": 0
-        },
-        {
-            "name": "rd-air_cleaning_medium",
-            "type": "bit",
-            "bus": "out",
-            "automaton": 1,
-            "address": 9,
-            "default": 0
-        },
-        {
-            "name": "ox-air_cleaning_medium",
-            "type": "bit",
-            "bus": "out",
-            "automaton": 1,
-            "address": 8,
-            "default": 0
-        },
-        {
-            "name": "rd-air_cleaning_low",
-            "type": "bit",
-            "bus": "out",
-            "automaton": 1,
-            "address": 7,
-            "default": 0
-        },
-        {
-            "name": "ox-air_cleaning_low",
-            "type": "bit",
-            "bus": "out",
-            "automaton": 1,
-            "address": 6,
-            "default": 0
-        },
-        {
-            "name": "edi-lq_fill_act",
-            "type": "bit",
-            "bus": "out",
-            "automaton": 1,
-            "address": 5,
-            "default": 0
-        }
-    ],
-    "slots": [
-        {
-            "name": "ox",
-            "type": "psp",
-            "isProductable": true,
-            "sensors": [
-                {
-                    "io": "levels_ox-a",
-                    "type": "level-a"
-                }
-            ]
-        },
-        {
-            "name": "rd",
-            "type": "psp",
-            "isProductable": true,
-            "sensors": [
-                {
-                    "io": "levels_rd-a",
-                    "type": "level-a"
-                }
-            ]
-        },
-        {
-            "name": "act",
-            "type": "psp",
-            "isProductable": true,
-            "sensors": [
-                {
-                    "io": "levels_act-a",
-                    "type": "level-a"
-                },
-                {
-                    "io": "levels_act-n",
-                    "type": "level-n"
-                }
-            ]
-        },
-        {
-            "name": "edi",
-            "type": "psp",
-            "isProductable": false,
-            "sensors": [
-                {
-                    "io": "levels_edi-a",
-                    "type": "level-a"
-                },
-                {
-                    "io": "levels_edi-n",
-                    "type": "level-n"
-                }
-            ]
-        },
-        {
-            "name": "eff",
-            "type": "cnt",
-            "isProductable": false,
-            "sensors": [
-                {
-                    "io": "levels_eff-n",
-                    "type": "level-n"
-                }
-            ]
-        }
-    ],
-    "profiles": [
-        {
-            "__desc": "Metalfog M 2 Profile descriptor",
-            "identifier": "default",
-            "version": 0,
-            "fieldGroups": [
-                {
-                    "name": "act-edi-nozzles",
-                    "fields": [
-                        {
-                            "name": "act-edi-high",
-                            "type": "bool",
-                            "value": 1
-                        },
-                        {
-                            "name": "act-edi-low",
-                            "type": "bool",
-                            "value": 1
-                        }
-                    ]
-                },
-                {
-                    "name": "met-nozzles",
-                    "fields": [
-                        {
-                            "name": "met-high",
-                            "type": "bool",
-                            "value": 1
-                        },
-                        {
-                            "name": "met-medium",
-                            "type": "bool",
-                            "value": 1
-                        },
-                        {
-                            "name": "met-low",
-                            "type": "bool",
-                            "value": 1
-                        }
-                    ]
-                },
-                {
-                    "name": "motor",
-                    "fields": [
-                        {
-                            "name": "enabled",
-                            "type": "bool",
-                            "value": 1
-                        },
-                        {
-                            "name": "speed",
-                            "type": "float",
-                            "unity": "%",
-                            "value": 50,
-                            "floatMin": 0,
-                            "floatMax": 100,
-                            "floatStep": 5
-                        }
-                    ]
-                },
-                {
-                    "name": "activation",
-                    "fields": [
-                        {
-                            "name": "enabled",
-                            "type": "bool",
-                            "value": 1
-                        },
-                        {
-                            "name": "timeOn",
-                            "type": "float",
-                            "unity": "s",
-                            "value": 2,
-                            "floatMin": 0,
-                            "floatMax": 10,
-                            "floatStep": 0.5
-                        },
-                        {
-                            "name": "timeOff",
-                            "type": "float",
-                            "unity": "s",
-                            "value": 10,
-                            "floatMin": 0,
-                            "floatMax": 30,
-                            "floatStep": 1
-                        },
-                        {
-                            "name": "count",
-                            "type": "int",
-                            "value": 5
-                        }
-                    ]
-                },
-                {
-                    "name": "wash1",
-                    "fields": [
-                        {
-                            "name": "enabled",
-                            "type": "bool",
-                            "value": 1
-                        },
-                        {
-                            "name": "duration",
-                            "type": "int",
-                            "unity": "m-s",
-                            "value": 15
-                        }
-                    ]
-                },
-                {
-                    "name": "metalization",
-                    "fields": [
-                        {
-                            "name": "enabled",
-                            "type": "bool",
-                            "value": 1
-                        },
-                        {
-                            "name": "timeOn",
-                            "type": "float",
-                            "unity": "s",
-                            "value": 2,
-                            "floatMin": 0,
-                            "floatMax": 10,
-                            "floatStep": 0.5
-                        },
-                        {
-                            "name": "timeOff",
-                            "type": "float",
-                            "unity": "s",
-                            "value": 10,
-                            "floatMin": 0,
-                            "floatMax": 30,
-                            "floatStep": 1
-                        },
-                        {
-                            "name": "count",
-                            "type": "int",
-                            "value": 5
-                        }
-                    ]
-                },
-                {
-                    "name": "wash2",
-                    "fields": [
-                        {
-                            "name": "enabled",
-                            "type": "bool",
-                            "value": 1
-                        },
-                        {
-                            "name": "duration",
-                            "type": "int",
-                            "unity": "m-s",
-                            "value": 45
-                        }
-                    ]
-                },
-                {
-                    "name": "drying",
-                    "fields": [
-                        {
-                            "name": "enabled",
-                            "type": "bool",
-                            "value": 1
-                        },
-                        {
-                            "name": "duration",
-                            "type": "int",
-                            "unity": "m-s",
-                            "value": 45
-                        }
-                    ]
-                },
-                {
-                    "name": "vapors-extraction",
-                    "fields": [
-                        {
-                            "name": "enabled",
-                            "type": "bool",
-                            "value": 1
-                        },
-                        {
-                            "name": "duration",
-                            "unity": "m-s",
-                            "type": "int",
-                            "value": 45
-                        }
-                    ]
-                }
-            ]
-        }
-    ],
-    "maintenance": [
-        {
-            "name": "mfm-filter",
-            "durationType": "cycle",
-            "durationLimit": 50,
-            
-            "procedure": {
-                "desc": "mfm-filter-desc",
-                "steps": [
-                    {
-                        "name": "unscrew-mfm-filter",
-                        "images": [
-                            "assets/maintenances/metalfogm2/filter/0.jpg"
-                        ]
-                    },
-                    {
-                        "name": "replace-mfm-new-filter",
-                        "images": [
-                            "assets/maintenances/metalfogm2/filter/1.jpg",
-                            "assets/maintenances/metalfogm2/filter/2.jpg",
-                            "assets/maintenances/metalfogm2/filter/1.jpg"
-                        ]
-                    }
-                ]
+         ]
+      },
+      {
+         "name": "rd",
+         "type": "psp",
+         "isProductable": true,
+         "sensors": [
+            {
+               "io": "levels_rd-a",
+               "type": "levels_rd-a"
             }
-        }
-    ],
-    "passives": [
-        {
-            "name": "temp-ox",
-            "sensor": "ox-temp",
-            "actuator": "ox-heat",
-            "mode": "<"
-        }
-    ],
-    "manual": [
-        {
-            "name": "plv_act_high",
-            "controls": ["act-res", "hybrid-plv_high", "act-lq_high"],
-            "incompatibility": ["plv_edi_high"]
-        },
-        {
-            "name": "plv_act_low",
-            "controls": ["act-res", "hybrid-plv_low", "act-lq_low"],
-            "incompatibility": ["plv_edi_low"]
-        },
-        {
-            "name": "plv_edi_high",
-            "controls": ["edi-res", "hybrid-plv_high", "edi-lq_high"],
-            "incompatibility": ["plv_act_high"]
-        },
-        {
-            "name": "plv_edi_low",
-            "controls": ["edi-res", "hybrid-plv_low", "edi-lq_low"],
-            "incompatibility": ["plv_act_low"]
-        }
-    ],
-    "cycles": [
-        {
-            "name": "primary",
-            "profileIdentifier": "default",
+         ]
+      },
+      {
+         "name": "act",
+         "type": "psp",
+         "isProductable": true,
+         "sensors": [
+            {
+               "io": "levels_act-a",
+               "type": "levels_act-a"
+            },
+            {
+               "io": "levels_act-n",
+               "type": "levels_act-n"
+            }
+         ]
+      },
+      {
+         "name": "edi",
+         "type": "psp",
+         "isProductable": false,
+         "sensors": [
+            {
+               "io": "levels_edi-a",
+               "type": "levels_edi-a"
+            },
+            {
+               "io": "levels_edi-n",
+               "type": "levels_edi-n"
+            }
+         ]
+      },
+      {
+         "name": "eff",
+         "type": "cnt",
+         "isProductable": false,
+         "sensors": [
+            {
+               "io": "levels_eff-n",
+               "type": "levels_eff-n"
+            }
+         ]
+      }
+   ],
+   "profiles": [
+      {
+         "__desc": "Metalfog M 2 Profile descriptor",
+         "identifier": "default",
+         "version": 0,
+         "fieldGroups": [
+            {
+               "name": "act-edi-nozzles",
+               "fields": [
+                  {
+                     "name": "act-edi-high",
+                     "type": "bool",
+                     "value": 1
+                  },
+                  {
+                     "name": "act-edi-low",
+                     "type": "bool",
+                     "value": 1
+                  }
+               ]
+            },
+            {
+               "name": "met-nozzles",
+               "fields": [
+                  {
+                     "name": "met-high",
+                     "type": "bool",
+                     "value": 1
+                  },
+                  {
+                     "name": "met-medium",
+                     "type": "bool",
+                     "value": 1
+                  },
+                  {
+                     "name": "met-low",
+                     "type": "bool",
+                     "value": 1
+                  }
+               ]
+            },
+            {
+               "name": "motor",
+               "fields": [
+                  {
+                     "name": "enabled",
+                     "type": "bool",
+                     "value": 1
+                  },
+                  {
+                     "name": "speed",
+                     "type": "float",
+                     "unity": "%",
+                     "value": 50,
+                     "floatMin": 0,
+                     "floatMax": 100,
+                     "floatStep": 5
+                  }
+               ]
+            },
+            {
+               "name": "activation",
+               "fields": [
+                  {
+                     "name": "enabled",
+                     "type": "bool",
+                     "value": 1
+                  },
+                  {
+                     "name": "timeOn",
+                     "type": "float",
+                     "unity": "s",
+                     "value": 2,
+                     "floatMin": 0,
+                     "floatMax": 10,
+                     "floatStep": 0.5
+                  },
+                  {
+                     "name": "timeOff",
+                     "type": "float",
+                     "unity": "s",
+                     "value": 10,
+                     "floatMin": 0,
+                     "floatMax": 30,
+                     "floatStep": 1
+                  },
+                  {
+                     "name": "count",
+                     "type": "int",
+                     "value": 5
+                  }
+               ]
+            },
+            {
+               "name": "wash1",
+               "fields": [
+                  {
+                     "name": "enabled",
+                     "type": "bool",
+                     "value": 1
+                  },
+                  {
+                     "name": "duration",
+                     "type": "int",
+                     "unity": "m-s",
+                     "value": 15
+                  }
+               ]
+            },
+            {
+               "name": "metalization",
+               "fields": [
+                  {
+                     "name": "enabled",
+                     "type": "bool",
+                     "value": 1
+                  },
+                  {
+                     "name": "timeOn",
+                     "type": "float",
+                     "unity": "s",
+                     "value": 2,
+                     "floatMin": 0,
+                     "floatMax": 10,
+                     "floatStep": 0.5
+                  },
+                  {
+                     "name": "timeOff",
+                     "type": "float",
+                     "unity": "s",
+                     "value": 10,
+                     "floatMin": 0,
+                     "floatMax": 30,
+                     "floatStep": 1
+                  },
+                  {
+                     "name": "count",
+                     "type": "int",
+                     "value": 5
+                  }
+               ]
+            },
+            {
+               "name": "wash2",
+               "fields": [
+                  {
+                     "name": "enabled",
+                     "type": "bool",
+                     "value": 1
+                  },
+                  {
+                     "name": "duration",
+                     "type": "int",
+                     "unity": "m-s",
+                     "value": 45
+                  }
+               ]
+            },
+            {
+               "name": "drying",
+               "fields": [
+                  {
+                     "name": "enabled",
+                     "type": "bool",
+                     "value": 1
+                  },
+                  {
+                     "name": "duration",
+                     "type": "int",
+                     "unity": "m-s",
+                     "value": 45
+                  }
+               ]
+            },
+            {
+               "name": "vapors-extraction",
+               "fields": [
+                  {
+                     "name": "enabled",
+                     "type": "bool",
+                     "value": 1
+                  },
+                  {
+                     "name": "duration",
+                     "unity": "m-s",
+                     "type": "int",
+                     "value": 45
+                  }
+               ]
+            }
+         ]
+      }
+   ],
+   "maintenance": [
+      {
+         "name": "mfm-filter",
+         "durationType": "cycle",
+         "durationLimit": 50,
+         "procedure": {
+            "desc": "mfm-filter-desc",
             "steps": [
-                {
-                    "name": "start",
-                    "isEnabled": {
-                        "name": "const",
-                        "value": "1",
-                        "params": []
-                    },
-                    "duration": {
-                        "name": "const",
-                        "value": "3000",
-                        "params": []
-                    },
-                    "blocks": [
+               {
+                  "name": "unscrew-mfm-filter",
+                  "images": [
+                     "assets/maintenances/metalfogm2/filter/0.jpg"
+                  ]
+               },
+               {
+                  "name": "replace-mfm-new-filter",
+                  "images": [
+                     "assets/maintenances/metalfogm2/filter/1.jpg",
+                     "assets/maintenances/metalfogm2/filter/2.jpg",
+                     "assets/maintenances/metalfogm2/filter/1.jpg"
+                  ]
+               }
+            ]
+         }
+      }
+   ],
+   "passives": [
+      {
+         "name": "temp-ox",
+         "sensor": "ox-temp",
+         "actuator": "ox-heat",
+         "mode": "<"
+      }
+   ],
+   "manual": [
+      {
+         "name": "plv_act_high",
+         "controls": [
+            "act-res",
+            "hybrid-plv_high",
+            "act-lq_high"
+         ],
+         "incompatibility": [
+            "plv_edi_high"
+         ]
+      },
+      {
+         "name": "plv_act_low",
+         "controls": [
+            "act-res",
+            "hybrid-plv_low",
+            "act-lq_low"
+         ],
+         "incompatibility": [
+            "plv_edi_low"
+         ]
+      },
+      {
+         "name": "plv_edi_high",
+         "controls": [
+            "edi-res",
+            "hybrid-plv_high",
+            "edi-lq_high"
+         ],
+         "incompatibility": [
+            "plv_act_high"
+         ]
+      },
+      {
+         "name": "plv_edi_low",
+         "controls": [
+            "edi-res",
+            "hybrid-plv_low",
+            "edi-lq_low"
+         ],
+         "incompatibility": [
+            "plv_act_low"
+         ]
+      }
+   ],
+   "cycles": [
+      {
+         "name": "primary",
+         "profileIdentifier": "default",
+         "watchdogConditions": [
+            {
+               "gateName": "emergency_stop",
+               "gateValue": 1,
+               "startOnly": false,
+               "result": false
+            },
+            {
+               "gateName": "air_sensor",
+               "gateValue": 1,
+               "startOnly": false,
+               "result": false
+            },
+            {
+               "gateName": "cover_closed",
+               "gateValue": 1,
+               "startOnly": false,
+               "result": false
+            },
+            {
+               "gateName": "levels_eff-n",
+               "gateValue": 0,
+               "startOnly": true,
+               "result": false
+            }
+         ],
+         "steps": [
+            {
+               "name": "start",
+               "isEnabled": {
+                  "name": "const",
+                  "value": "1",
+                  "params": []
+               },
+               "duration": {
+                  "name": "const",
+                  "value": "3000",
+                  "params": []
+               },
+               "blocks": [
+                  {
+                     "name": "io",
+                     "params": [
                         {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "ventilation",
-                                    "params": []
-                                },
-                                {
-                                    "name": "const",
-                                    "value": "1",
-                                    "params": []
-                                }
-                            ],
-                            "blocks": []
+                           "name": "conststr",
+                           "value": "ventilation",
+                           "params": []
                         },
                         {
-                            "name": "sleep",
-                            "params": [
-                                {
-                                    "name": "const",
-                                    "value": "3",
-                                    "params": [] 
-                                }
-                            ],
-                            "blocks": []
+                           "name": "const",
+                           "value": "1",
+                           "params": []
                         }
-                    ]
-                },
-                {
-                    "name": "activation",
-                    "isEnabled": {
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "if",
+                     "params": [
+                        {
+                           "name": "profile",
+                           "value": "motor.enabled",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "!=",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "motor-speed",
+                                 "params": []
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "motor.speed",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        }
+                     ]
+                  }
+               ]
+            },
+            {
+               "name": "activation",
+               "isEnabled": {
+                  "name": "profile",
+                  "value": "activation.enabled",
+                  "params": []
+               },
+               "duration": {
+                  "name": "multiply",
+                  "value": "0",
+                  "params": [
+                     {
                         "name": "profile",
-                        "value": "activation.enabled",
+                        "value": "activation.count",
                         "params": []
-                    },
-                    "duration": {
-                        "name": "multiply",
+                     },
+                     {
+                        "name": "add",
                         "value": "0",
                         "params": [
-                            {
-                                "name": "profile",
-                                "value": "activation.count",
-                                "params": []
-                            },
-                            {
-                                "name": "add",
-                                "value": "0",
-                                "params": [
-                                    {
-                                        "name": "profile",
-                                        "value": "activation.timeOn",
-                                        "params": []
-                                    },
-                                    {
-                                        "name": "profile",
-                                        "value": "activation.timeOff",
-                                        "params": []
-                                    }
-                                ]
-                            }
+                           {
+                              "name": "profile",
+                              "value": "activation.timeOn",
+                              "params": []
+                           },
+                           {
+                              "name": "profile",
+                              "value": "activation.timeOff",
+                              "params": []
+                           }
                         ]
-                    },
-                    "blocks": [
+                     }
+                  ]
+               },
+               "blocks": [
+                  {
+                     "name": "io",
+                     "params": [
                         {
-                            "name": "for",
-                            "params": [
-                                {
-                                    "name": "profile",
-                                    "value": "activation.count",
-                                    "params": []
-                                }
-                            ],
-                            "blocks": [
-                                {
-                                    "name": "io",
-                                    "params": [
-                                        {
-                                            "name": "conststr",
-                                            "value": "act-plv-high",
-                                            "params": []
-                                        }
-                                    ],
-                                    "blocks": []
-                                }
-                            ]
+                           "name": "conststr",
+                           "value": "act-res",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
                         }
-                    ]
-                }
-            ]
-        }
-    ]
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "for",
+                     "params": [
+                        {
+                           "name": "profile",
+                           "value": "activation.count",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "hybrid-plv_high",
+                                 "params": []
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "act-edi-nozzles.act-edi-high",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "hybrid-plv_low",
+                                 "params": []
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "act-edi-nozzles.act-edi-low",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "sleep",
+                           "params": [
+                              {
+                                 "name": "const",
+                                 "value": "250",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "act-lq_high",
+                                 "params": []
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "act-edi-nozzles.act-edi-high",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "act-lq_low",
+                                 "params": []
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "act-edi-nozzles.act-edi-low",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "sleep",
+                           "params": [
+                              {
+                                 "name": "profile",
+                                 "value": "activation.timeOn",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "act-lq_high",
+                                 "params": []
+                              },
+                              {
+                                 "name": "const",
+                                 "value": "0",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "act-lq_low",
+                                 "params": []
+                              },
+                              {
+                                 "name": "const",
+                                 "value": "0",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "sleep",
+                           "params": [
+                              {
+                                 "name": "const",
+                                 "value": "250",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "hybrid-plv_high",
+                                 "params": []
+                              },
+                              {
+                                 "name": "const",
+                                 "value": "0",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "hybrid-plv_low",
+                                 "params": []
+                              },
+                              {
+                                 "name": "const",
+                                 "value": "0",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "sleep",
+                           "params": [
+                              {
+                                 "name": "profile",
+                                 "value": "activation.timeOff",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        }
+                     ]
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "act-res",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  }
+               ]
+            },
+            {
+               "name": "wash1",
+               "isEnabled": {
+                  "name": "profile",
+                  "value": "wash1.enabled",
+                  "params": []
+               },
+               "duration": {
+                  "name": "profile",
+                  "value": "wash1.duration",
+                  "params": []
+               },
+               "blocks": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "edi-res",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "sleep",
+                     "params": [
+                        {
+                           "name": "const",
+                           "value": "500",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "hybrid-plv_high",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "act-edi-nozzles.act-edi-high",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "hybrid-plv_low",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "act-edi-nozzles.act-edi-low",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "sleep",
+                     "params": [
+                        {
+                           "name": "const",
+                           "value": "250",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "edi-lq_high",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "act-edi-nozzles.act-edi-high",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "edi-lq_low",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "act-edi-nozzles.act-edi-low",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "sleep",
+                     "params": [
+                        {
+                           "name": "profile",
+                           "value": "wash1.duration",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "edi-res",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "edi-lq_high",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "edi-lq_low",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "hybrid-plv_high",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "hybrid-plv_low",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  }
+               ]
+            },
+            {
+               "name": "metalization",
+               "isEnabled": {
+                  "name": "profile",
+                  "value": "metalization.enabled",
+                  "params": []
+               },
+               "duration": {
+                  "name": "multiply",
+                  "value": "0",
+                  "params": [
+                     {
+                        "name": "profile",
+                        "value": "metalization.count",
+                        "params": []
+                     },
+                     {
+                        "name": "add",
+                        "value": "0",
+                        "params": [
+                           {
+                              "name": "profile",
+                              "value": "metalization.timeOn",
+                              "params": []
+                           },
+                           {
+                              "name": "profile",
+                              "value": "metalization.timeOff",
+                              "params": []
+                           }
+                        ]
+                     }
+                  ]
+               },
+               "blocks": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ox-res",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "rd-res",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "sleep",
+                     "params": [
+                        {
+                           "name": "const",
+                           "value": "250",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "for",
+                     "params": [
+                        {
+                           "name": "profile",
+                           "value": "metalization.count",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met-plv_high",
+                                 "params": []
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "met-nozzles.met-high",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met-plv_medium",
+                                 "params": []
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "met-nozzles.met-medium",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met-plv_low",
+                                 "params": []
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "met-nozzles.met-low",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "sleep",
+                           "params": [
+                              {
+                                 "name": "const",
+                                 "value": "250",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "rd-lq_high",
+                                 "params": []
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "met-nozzles.met-high",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "ox-lq_high",
+                                 "params": []
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "met-nozzles.met-high",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "rd-lq_medium",
+                                 "params": []
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "met-nozzles.met-medium",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "ox-lq_medium",
+                                 "params": []
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "met-nozzles.met-medium",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "rd-lq_low",
+                                 "params": []
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "met-nozzles.met-low",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "ox-lq_low",
+                                 "params": []
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "met-nozzles.met-low",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "sleep",
+                           "params": [
+                              {
+                                 "name": "profile",
+                                 "value": "metalization.timeOn",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "rd-lq_high",
+                                 "params": []
+                              },
+                              {
+                                 "name": "const",
+                                 "value": "0",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "ox-lq_high",
+                                 "params": []
+                              },
+                              {
+                                 "name": "const",
+                                 "value": "0",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "rd-lq_medium",
+                                 "params": []
+                              },
+                              {
+                                 "name": "const",
+                                 "value": "0",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "ox-lq_medium",
+                                 "params": []
+                              },
+                              {
+                                 "name": "const",
+                                 "value": "0",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "rd-lq_low",
+                                 "params": []
+                              },
+                              {
+                                 "name": "const",
+                                 "value": "0",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "ox-lq_low",
+                                 "params": []
+                              },
+                              {
+                                 "name": "const",
+                                 "value": "0",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "sleep",
+                           "params": [
+                              {
+                                 "name": "const",
+                                 "value": "250",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met-plv_high",
+                                 "params": []
+                              },
+                              {
+                                 "name": "const",
+                                 "value": "0",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met-plv_medium",
+                                 "params": []
+                              },
+                              {
+                                 "name": "const",
+                                 "value": "0",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met-plv_low",
+                                 "params": []
+                              },
+                              {
+                                 "name": "const",
+                                 "value": "0",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        },
+                        {
+                           "name": "sleep",
+                           "params": [
+                              {
+                                 "name": "profile",
+                                 "value": "metalization.timeOff",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": []
+                        }
+                     ]
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ox-res",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "rd-res",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  }
+               ]
+            },
+            {
+               "name": "nozzleCleaning",
+               "isEnabled": {
+                  "name": "profile",
+                  "value": "metalization.enabled",
+                  "params": []
+               },
+               "duration": {
+                  "name": "const",
+                  "value": "5",
+                  "params": []
+               },
+               "blocks": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "rd-air_cleaning_high",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "met-nozzles.met-high",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ox-air_cleaning_high",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "met-nozzles.met-high",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "rd-air_cleaning_medium",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "met-nozzles.met-medium",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ox-air_cleaning_medium",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "met-nozzles.met-medium",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ox-air_cleaning_low",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "met-nozzles.met-low",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "rd-air_cleaning_low",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "met-nozzles.met-low",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "sleep",
+                     "params": [
+                        {
+                           "name": "const",
+                           "value": "5",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "rd-air_cleaning_low",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "met-nozzles.met-low",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "rd-air_cleaning_low",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "met-nozzles.met-low",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "rd-air_cleaning_low",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "met-nozzles.met-low",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "rd-air_cleaning_low",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "met-nozzles.met-low",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "rd-air_cleaning_low",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "met-nozzles.met-low",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "rd-air_cleaning_low",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "met-nozzles.met-low",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  }
+               ]
+            },
+            {
+               "name": "wash2",
+               "isEnabled": {
+                  "name": "profile",
+                  "value": "wash2.enabled",
+                  "params": []
+               },
+               "duration": {
+                  "name": "profile",
+                  "value": "wash2.duration",
+                  "params": []
+               },
+               "blocks": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "edi-res",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "sleep",
+                     "params": [
+                        {
+                           "name": "const",
+                           "value": "500",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "hybrid-plv_high",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "act-edi-nozzles.act-edi-high",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "hybrid-plv_low",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "act-edi-nozzles.act-edi-low",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "sleep",
+                     "params": [
+                        {
+                           "name": "const",
+                           "value": "250",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "edi-lq_high",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "act-edi-nozzles.act-edi-high",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "edi-lq_low",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "act-edi-nozzles.act-edi-low",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "sleep",
+                     "params": [
+                        {
+                           "name": "profile",
+                           "value": "wash1.duration",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "edi-res",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "edi-lq_high",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "edi-lq_low",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "hybrid-plv_high",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "hybrid-plv_low",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  }
+               ]
+            },
+            {
+               "name": "drying",
+               "isEnabled": {
+                  "name": "profile",
+                  "value": "drying.enabled",
+                  "params": []
+               },
+               "duration": {
+                  "name": "profile",
+                  "value": "drying.duration",
+                  "params": []
+               },
+               "blocks": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "rd-air_cleaning_high",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "met-nozzles.met-high",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ox-air_cleaning_high",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "met-nozzles.met-high",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "rd-air_cleaning_medium",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "met-nozzles.met-medium",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ox-air_cleaning_medium",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "met-nozzles.met-medium",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ox-air_cleaning_low",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "met-nozzles.met-low",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "rd-air_cleaning_low",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "met-nozzles.met-low",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "sleep",
+                     "params": [
+                        {
+                           "name": "const",
+                           "value": "5",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "rd-air_cleaning_low",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "met-nozzles.met-low",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "rd-air_cleaning_low",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "met-nozzles.met-low",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "rd-air_cleaning_low",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "met-nozzles.met-low",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "rd-air_cleaning_low",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "met-nozzles.met-low",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "rd-air_cleaning_low",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "met-nozzles.met-low",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "rd-air_cleaning_low",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "met-nozzles.met-low",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  }
+               ]
+            },
+            {
+               "name": "vaporsExtraction",
+               "isEnabled": {
+                  "name": "profile",
+                  "value": "vapors-extraction.enabled",
+                  "params": []
+               },
+               "duration": {
+                  "name": "profile",
+                  "value": "vapors-extraction.duration",
+                  "params": []
+               },
+               "blocks": [
+                  {
+                     "name": "sleep",
+                     "params": [
+                        {
+                           "name": "profile",
+                           "value": "vapors-extraction.duration",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ventilation",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "motor-speed",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  }
+               ]
+            }
+         ],
+         "profileIndentifier": "default"
+      }
+   ]
 }

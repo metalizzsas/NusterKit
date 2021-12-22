@@ -1,0 +1,17 @@
+version: "2"
+volumes: 
+  resin-data:
+services:
+  mongodb:
+    image: mongo:4.2
+    restart: always
+    network_mode: 'host'
+    volumes: 
+      - 'resin-data:/data'
+  nuster-turbine:
+    build: ./
+    network_mode: "host"
+    depends_on: 
+      - "mongodb"
+    volumes:
+      - "resin-data:/data"

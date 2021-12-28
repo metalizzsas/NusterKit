@@ -114,6 +114,8 @@ export class ProgramBlockRunner implements IProgram
 
     public end(reason?: string)
     {
+        this.incrementCycleCount();
+
         this.status.endReason = reason || "cycle-ended";
         this.status.mode = CycleMode.ENDED;
         //TODO: Resorbs all timers and everything
@@ -122,14 +124,24 @@ export class ProgramBlockRunner implements IProgram
 
     public async stop()
     {
+        this.incrementCycleCount();
+        
         this.status.mode = CycleMode.WAITING_STOP;
         await this.steps[this.currentStepIndex].stop();
         this.status.mode = CycleMode.STOPPED;
 
         this.machine.logger.info(`Stopped cycle ${this.name} with state: ${this.status.mode}.`);
 
-
         //this.end("cycle-stopped");
+    }
+
+    /**
+     * Increment cycle count
+     */
+    private incrementCycleCount()
+    {
+        const m = this.machine.maintenanceController.tasks.find((m) => m.name == "cycleCount");
+        m?.append(1);
     }
 
     public get progress()

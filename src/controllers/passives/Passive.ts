@@ -11,7 +11,7 @@ export class Passive implements IPassive
     sensor: string;
     actuator: string;
 
-    ioController: IOController;
+    private ioController: IOController;
 
     //Elements to handle passive management
     private event: EventEmitter;
@@ -79,6 +79,18 @@ export class Passive implements IPassive
     get isEnabled()
     {
         return this.enabled;
+    }
+
+    toJSON()
+    {
+        return {
+            name: this.name,
+            mode: this.mode,
+            default: this.default,
+
+            sensor: this.sensor,
+            actuator: this.actuator
+        }
     }
 }
 

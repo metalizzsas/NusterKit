@@ -6,8 +6,7 @@ import { Controller } from "../Controller";
 
 export class MaintenanceController extends Controller
 {
-
-    private tasks: Maintenance[] = []
+    public tasks: Maintenance[] = []
     private machine: Machine
 
     constructor(machine: Machine)
@@ -25,6 +24,8 @@ export class MaintenanceController extends Controller
         {
             this.tasks.push(new Maintenance(maintenance.name, maintenance.durationType, maintenance.durationLimit, maintenance.procedure));
         }
+
+        this.tasks.push(new Maintenance("cycleCount", "cycle", Number.MAX_VALUE, {desc: "null", steps: []}))
     }
 
     private _configureRouter()

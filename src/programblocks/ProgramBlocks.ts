@@ -1,3 +1,4 @@
+import { CycleMode } from "../controllers/cycle/Cycle";
 import { Block } from "./Block";
 import { ParameterBlock, IParameterBlock, ParameterBlockRegistry } from "./ParameterBlocks";
 import { ProgramBlockRunner } from "./ProgramBlockRunner";
@@ -32,10 +33,20 @@ export class ProgramBlock extends Block implements IProgramBlock
         }
     }
 
-    public async execute(): Promise<unknown>{
+    public async execute(): Promise<unknown> {
         this.pbrInstance.machine.logger.info(`This Programblock does nothing`);
 
         return;
+    }
+
+    public toJSON()
+    {
+        return {
+            name: this.name,
+
+            params: this.params,
+            blocks: this.blocks
+        };
     }
 }
 
@@ -58,6 +69,9 @@ export class ForLoopProgramBlock extends ProgramBlock
 
         for(let i = 0; i < (lC); i++)
         {
+            if(this.pbrInstance.status.mode == CycleMode.ENDED)
+                break;
+            
             for(const instuction of this.blocks)
             {
                 await instuction.execute();
@@ -68,7 +82,7 @@ export class ForLoopProgramBlock extends ProgramBlock
 
 export class IfProgramBlock extends ProgramBlock
 {
-    operators: {[x: string]: (x: number, y: number) => boolean; } = {
+    private operators: {[x: string]: (x: number, y: number) => boolean; } = {
         ">": (x: number, y: number) => x > y,
         "<": (x: number, y: number) => x < y,
         "==": (x: number, y: number) => x == y,
@@ -87,7 +101,7 @@ export class IfProgramBlock extends ProgramBlock
         const c = (this.params[1].data() as string);
 
         this.pbrInstance.machine.logger.info(`IfBlock: Will compare ${lV} and ${rV} by ${c}`);
-        
+
         if(this.operators[c](lV, rV))
         {
             if(this.blocks !== undefined)
@@ -110,7 +124,6 @@ export class IOWriteProgramBlock extends ProgramBlock
 
     public async execute(): Promise<void>
     {
-
         const gN = this.params[0].data() as string;
         const gV = this.params[1].data() as number;
 
@@ -127,16 +140,41 @@ export class SleepProgramBlock extends ProgramBlock
         super(pbrInstance, obj)
     }
 
-    public execute(): Promise<void>
+    public async execute(): Promise<void>
     {
         const sT = this.params[0].data() as number;
         this.pbrInstance.machine.logger.info(`SleepBlock: Will sleep for ${sT * 1000} ms.`);
 
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve();
-            }, sT * 1000);
-        });
+        for(let i = 0; i < 100; i++)
+        {
+            if(this.pbrInstance.status.mode != CycleMode.ENDED)
+                await new Promise(resolve => {
+                    setTimeout(resolve, (sT * 1000) / 100);
+                });
+            else
+                break;
+        }
+    }
+}
+
+export class MaintenanceProgramBlock extends ProgramBlock
+{
+    constructor(pbrInstance: ProgramBlockRunner, obj: IProgramBlock)
+    {
+        super(pbrInstance, obj)
+    }
+
+    public async execute(): Promise<void>
+    {
+        const mN = this.params[0].data() as string;
+        const mV = this.params[1].data() as number;
+
+        const m = this.pbrInstance.machine.maintenanceController.tasks.find((m) => m.name == mN);
+       
+        if(m)
+        {
+            m.append(mV);
+        }
     }
 }
 
@@ -155,8 +193,9 @@ export function ProgramBlockRegistry(pbrInstance: ProgramBlockRunner, obj: IProg
         case "if": return new IfProgramBlock(pbrInstance, obj);
         case "sleep": return new SleepProgramBlock(pbrInstance, obj);
         case "io": return new IOWriteProgramBlock(pbrInstance, obj);
-        default: {
+        case "maintenance": return new MaintenanceProgramBlock(pbrInstance, obj);
 
+        default: {
             console.log("WARNING: Program block", obj.name, "is not defined properly");
             return new ProgramBlock(pbrInstance, obj);
         }

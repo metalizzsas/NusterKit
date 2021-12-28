@@ -92,6 +92,7 @@ export class Machine{
         const maintenances = await this.maintenanceController.socketData();
 
         return {
+            "machine": this.toJSON(),
             "cycle": this.cycleController.socketData,
             "slots": this.slotController.socketData,
             "io": this.ioController.socketData,

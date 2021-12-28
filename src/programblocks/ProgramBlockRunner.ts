@@ -55,13 +55,10 @@ export class ProgramBlockRunner implements IProgram
 
         //steps and watchdog
         for(const watchdog of object.watchdogConditions)
-        {
             this.watchdogConditions.push(new WatchdogCondition(this, watchdog));
-        }
+
         for(const step of object.steps)
-        {
             this.steps.push(new ProgramBlockStep(this, step));
-        }
 
         this.event = new EventEmitter();
 
@@ -90,7 +87,6 @@ export class ProgramBlockRunner implements IProgram
                 }
                 case CycleStepResult.PARTIAL:
                 {
-
                     //reset times at the end of a partial step
                     this.steps[this.currentStepIndex].resetTimes();
 
@@ -104,7 +100,7 @@ export class ProgramBlockRunner implements IProgram
                         if(j > -1)
                             this.currentStepIndex = j;
                         else 
-                            throw new Error("Failed to find first Multiple task");
+                            throw new Error("Failed to find first Multiple executions step");
                         continue;
                     }
                 }
@@ -130,7 +126,10 @@ export class ProgramBlockRunner implements IProgram
         await this.steps[this.currentStepIndex].stop();
         this.status.mode = CycleMode.STOPPED;
 
-        this.end("cycle-stopped");
+        this.machine.logger.info(`Stopped cycle ${this.name} with state: ${this.status.mode}.`);
+
+
+        //this.end("cycle-stopped");
     }
 
     public get progress()
@@ -138,9 +137,7 @@ export class ProgramBlockRunner implements IProgram
         let duration = 0;
 
         for(const step of this.steps)
-        {
             duration += step.progress;
-        }
 
         return duration / this.steps.length;
     }
@@ -149,7 +146,20 @@ export class ProgramBlockRunner implements IProgram
     {
         return {
             status: this.status,
-            steps: this.steps
+
+            //identifiers vars
+            name: this.name,
+            profileIdentifier: this.profileIdentifier,
+            
+            //Inside definers
+            steps: this.steps,
+            watchdogConditions: this.watchdogConditions,
+
+            //internals
+            currentStepIndex: this.currentStepIndex,
+
+            //statics
+            profile: this.profile
         }
     }
 }
@@ -186,7 +196,6 @@ export class ProgramBlockStep implements IProgramStep
             this.runAmount = ParameterBlockRegistry(this.pbrInstance, obj.runAmount);
             this.type = (this.runAmount.data() as number > 1 ? CycleStepType.MULTIPLE : CycleStepType.SINGLE);
         }
-            
 
         for(const block of obj.blocks)
         {
@@ -286,6 +295,26 @@ export class ProgramBlockStep implements IProgramStep
     {
         this.startTime = undefined;
         this.endTime = undefined;
+    }
+
+    toJSON()
+    {
+        return {
+            name: this.name,
+            state: this.state,
+            type: this.type,
+    
+            isEnabled: this.isEnabled,
+            duration: this.duration,
+    
+            startTime: this.startTime,
+            endTime: this.endTime,
+    
+            runAmount: this.runAmount,
+            runCount: this.runCount,
+            
+            blocks: this.blocks
+        }
     }
 }
 

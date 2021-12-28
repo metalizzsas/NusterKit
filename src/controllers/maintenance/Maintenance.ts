@@ -67,6 +67,16 @@ export class Maintenance implements IConfigMaintenance
         }
     }
 
+    async append(value: number)
+    {
+        const doc = await MaintenanceModel.findOne({name: this.name});
+
+        if(doc)
+        {
+            await MaintenanceModel.findOne({name: this.name}, {$inc: {duration: value}});
+        }
+    }
+
     async reset()
     {
         MaintenanceModel.findOneAndUpdate({ name: this.name }, { duration: 0, operationDate: Date.now() }, (err: Error) => {

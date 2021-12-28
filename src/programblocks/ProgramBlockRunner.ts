@@ -330,7 +330,7 @@ export class ProgramBlockStep implements IProgramStep
     }
 }
 
-interface IProgramStep
+export interface IProgramStep
 {
     name: string;
     
@@ -346,6 +346,7 @@ export interface IProgram
 {
     name: string;
     profileIdentifier: string;
+    status: ICycleStatus;
     steps: IProgramStep[];
     watchdogConditions: IWatchdogCondition[];
 }

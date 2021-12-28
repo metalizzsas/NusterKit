@@ -1,13 +1,8 @@
-import { IOController } from "./controllers/io/IOController";
-import { MaintenanceController } from "./controllers/maintenance/MaintenanceController";
-import { ManualModeController } from "./controllers/manual/ManualModeController";
-import { ProfileController } from "./controllers/profile/ProfilesController";
-import { SlotController } from "./controllers/slot/SlotController";
-
+import pino from "pino";
 import fs from "fs";
 import path from "path";
-
 import deepExtend from "deep-extend";
+
 import { CycleController } from "./controllers/cycle/CycleController";
 import { IProgram } from "./programblocks/ProgramBlockRunner";
 import { IProfile } from "./controllers/profile/Profile";
@@ -18,7 +13,11 @@ import { IManualMode } from "./controllers/manual/ManualMode";
 import { IConfigMaintenance } from "./controllers/maintenance/Maintenance";
 import { PassiveController } from "./controllers/passives/PassiveController";
 import { IPassive } from "./controllers/passives/Passive";
-import pino from "pino";
+import { IOController } from "./controllers/io/IOController";
+import { MaintenanceController } from "./controllers/maintenance/MaintenanceController";
+import { ManualModeController } from "./controllers/manual/ManualModeController";
+import { ProfileController } from "./controllers/profile/ProfilesController";
+import { SlotController } from "./controllers/slot/SlotController";
 
 export class Machine{
 
@@ -86,7 +85,7 @@ export class Machine{
         return true;
     }
 
-    public async  socketData()
+    public async socketData()
     {
         const profiles = await this.profileController.socketData();
         const maintenances = await this.maintenanceController.socketData();

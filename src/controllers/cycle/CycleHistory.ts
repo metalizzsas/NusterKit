@@ -1,12 +1,17 @@
-import { ICycle, ICycleStatus } from "./Cycle";
+import { ICycleStatus } from "./Cycle";
 import { model, Schema } from "mongoose";
 import { ProfileSchema } from "../profile/Profile";
 import { ICycleStep, ICycleStepInformations } from "./CycleStep";
+import { IProgram, IProgramStep } from "../../programblocks/ProgramBlockRunner";
+import { IWatchdogCondition } from "../../programblocks/Watchdog";
+import { IParameterBlock } from "../../programblocks/ParameterBlocks";
+import { IProgramBlock } from "../../programblocks/ProgramBlocks";
+import { runInThisContext } from "vm";
 
 export interface ICycleHistory
 {
     rating?: number,
-    cycle: ICycle
+    cycle: IProgram
 }
 
 const CycleStatusSchema = new Schema<ICycleStatus>({
@@ -19,29 +24,43 @@ const CycleStatusSchema = new Schema<ICycleStatus>({
     progress: Number
 });
 
-const CycleStepInformationsSchema = new Schema<ICycleStepInformations>({
-    isEnabled: {type: Boolean, required: true},
-
-    type: {type: String, required: true},
-    state: {type: String, required: true},
-
-    duration: Number,
-    startTime: Number,
-    endTime: Number,
-
-    runAmount: Number,
-    runCount: Number
-});
-
-const CycleStepSchema = new Schema<ICycleStep>({
+const ParameterBlockSchema = new Schema<IParameterBlock>({
     name: {type: String, required: true},
-    status: CycleStepInformationsSchema
+    value: {type: String, required: true},
 });
 
-const CycleSchema = new Schema<ICycle>({
+const ProgramBlockSchema = new Schema<IProgramBlock>({
+    name: {type: String, required: true},
+    params: {type: [ParameterBlockSchema], required: true}
+});
+
+ProgramBlockSchema.add({
+    blocks: {type: [ProgramBlockSchema], required: true}
+});
+
+const CycleStepSchema = new Schema<IProgramStep>({
+    name: {type: String, required: true},
+    isEnabled: {type: ParameterBlockSchema, required: true},
+    duration: {type: ParameterBlockSchema, required: true},
+    runAmount: {type: ParameterBlockSchema, required: false},
+    blocks: [{type: ProgramBlockSchema, required: true}]
+
+});
+
+const WatchdogConditionSchema = new Schema<IWatchdogCondition>({
+    gateName: {type: String, required: true},
+    gateValue: {type: Number, required: true},
+    startOnly: {type: Boolean, required: true},
+    result: Boolean
+});
+
+const CycleSchema = new Schema<IProgram>({
+    name: {type: String, required: true},
+    profileIdentifier: {type: String, required: true},
+
     status: {type: CycleStatusSchema, required: true},
-    profile: {type: ProfileSchema, required: true},
-    steps: {type: [CycleStepSchema], required: true}
+    steps: {type: [CycleStepSchema], required: true},
+    watchdogConditions: {type: [WatchdogConditionSchema], required: true}
 }); 
 
 const CycleHistorySchema = new Schema<ICycleHistory>({

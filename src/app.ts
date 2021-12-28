@@ -3,8 +3,11 @@ import mongoose from "mongoose";
 import { WebSocket, WebSocketServer } from "ws";
 import { Server } from "http";
 import dgram from "dgram";
+import { pinoHttp } from "pino-http";
+import { pino } from "pino";
 
 import { Machine } from "./Machine";
+import { getCircularReplacer } from "./circularReplacer";
 
 class NusterTurbine
 {
@@ -13,11 +16,18 @@ class NusterTurbine
     public httpServer?: Server;
     public wsServer?: WebSocketServer;
 
+    public logger: pino.Logger;
+
     public machine: Machine;
 
     constructor()
     {
-        this.machine = new Machine();
+        this.logger = pino({
+            level: process.env.NODE_END != "production" ? "trace" : "info"
+        });
+        this.machine = new Machine(this.logger);
+
+        this.logger.info("Starting NusterTurbine");
 
         this.machine.configureRouters();
 
@@ -33,8 +43,9 @@ class NusterTurbine
      */
     private _express()
     {
-        this.httpServer = this.app.listen(80, () => { console.log("Listening on 80"); });
+        this.httpServer = this.app.listen(80, () => { this.logger.info("Express server listening on port 80"); });
         this.app.use(express.json());
+        this.app.use(pinoHttp());
 
         this.app.use("/assets", express.static("/assets"));
     }
@@ -52,6 +63,7 @@ class NusterTurbine
         listener.bind(port, multicast_addr, function(){
             listener.addMembership(multicast_addr);
             listener.setBroadcast(true);
+            
         });
 
         setInterval(() => {
@@ -61,7 +73,7 @@ class NusterTurbine
 
             sender.send(data, 0, data.length, port, multicast_addr);
         }, 1000);
-
+        this.logger.info("Binded discovery protocol");
     }
     /**
      * Create websocket handlers
@@ -74,22 +86,24 @@ class NusterTurbine
             if(this.wsServer)
             {
                 this.wsServer.clients.add(ws); 
-                console.log("new client");
+                this.logger.info("New websocket client");
     
                 ws.on("close", () => {
-                    console.log("client disconnected");
+                    this.logger.info("Websocket client disconnected");
                 });
             }
         });
 
-        setInterval(() => {
+        setInterval(async () => {
             if(this.wsServer !== undefined)
             {
+                const data = await this.machine.socketData();
+
                 for(const ws of this.wsServer.clients)
                 {
-                    ws.send(JSON.stringify(this.machine.socketData), (err) => {
+                    ws.send(JSON.stringify(data, getCircularReplacer()), (err) => {
                         if(err !== undefined)
-                            console.log(err);
+                            this.logger.error(err);
                     });
                 }
             }
@@ -125,10 +139,6 @@ class NusterTurbine
      */
     private _machine()
     {
-        this.app.all("*", (req: Request, res: Response, next: NextFunction) => {
-            console.log(req.method, ":", req.url);
-            next();
-        });
         this.app.use('/v1/maintenance', this.machine.maintenanceController.router);
         this.app.use('/v1/io', this.machine.ioController.router);
         this.app.use('/v1/profiles', this.machine.profileController.router);
@@ -139,12 +149,16 @@ class NusterTurbine
 
         this.app.get("/qr", (req: Request, res: Response) => {
             res.status(200).end();
-        })
+        });
+
+        this.logger.info("Registered express routes");
     }
 }
 
-new NusterTurbine();
+const nt = new NusterTurbine();
 
 process.on("uncaughtException", (error: Error) => {
-    console.log(error);
-})
+    nt.logger.error(error);
+    process.exit(1);
+});
+

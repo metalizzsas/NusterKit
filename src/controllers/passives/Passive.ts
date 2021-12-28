@@ -48,7 +48,6 @@ export class Passive implements IPassive
                 return
             else if (!this.timer && state == true)
                 this.timer = setInterval(async () => {
-                    console.log(this.name, "timer interval");
 
                     const gateActuator = this.ioController.gFinder(this.actuator);
                     const gateSensor = this.ioController.gFinder(this.sensor);

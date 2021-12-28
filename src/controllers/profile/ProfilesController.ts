@@ -106,7 +106,16 @@ export class ProfileController extends Controller{
          * Route to create a default profile with the given JSON Structure
          */
         this._router.post('/:type', async (req: Request, res: Response) => {
-            res.json(await ProfileModel.create(this.profileMap[req.params.type]))
+            const n = this.profileMap[req.params.type];
+
+            n.name = "profile-default-name";
+
+            res.json(await ProfileModel.create(n))
         });
+    }
+
+    public async socketData()
+    {
+        return await ProfileModel.find({});
     }
 }

@@ -22,8 +22,9 @@ export class WatchdogCondition implements IWatchdogCondition
             //ignore its result
             this.result = (this.startOnly && cycle.status.mode != CycleMode.CREATED) ? true : tmp;
 
-            if(this.result == false && cycle.status.mode == CycleMode.STARTED)
-                cycle.event.emit("stop", ["watchdog-" + this.gateName]);
+            if(process.env.NODE_ENV == "production")
+                if(this.result == false && cycle.status.mode == CycleMode.STARTED)
+                    cycle.event.emit("stop", ["watchdog-" + this.gateName]);
            
         }, 250);
     }

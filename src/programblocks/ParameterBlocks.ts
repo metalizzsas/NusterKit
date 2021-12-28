@@ -24,6 +24,15 @@ export class ParameterBlock extends Block implements IParameterBlock
     {
         return parseInt(this.value);
     }
+
+    toJSON()
+    {
+        return{
+            name: this.name,
+            value: this.value,
+            data: this.data()
+        }
+    }
 }
 
 export class ProfileParameterBlock extends ParameterBlock
@@ -50,7 +59,7 @@ export class ConstantParameterBlock extends ParameterBlock
 
     public data(): number
     {
-        return parseInt(this.value);
+        return parseFloat(this.value);
     }
 }
 
@@ -131,7 +140,7 @@ export interface IParameterBlock
 
 /**
  * Defines Parameter block properly from configuration object
- * @param cycleInstance cycle instance to attach parameter to 
+ * @param pbrInstance PBRInstance to attach blocks to it
  * @param obj IParameter json object extracted from configuration file
  * @returns Parameter block defined properly
  */
@@ -147,7 +156,7 @@ export function ParameterBlockRegistry(pbrInstance: ProgramBlockRunner, obj: IPa
         case "multiply": return new MultiplyParameterBlock(pbrInstance, obj);
         case "reverse": return new ReverseParameterBlock(pbrInstance, obj);
         default: {
-            console.log("WARNING: Block ", obj.name, "is not defined properly");
+            pbrInstance.machine.logger.warn(`Block ${obj.name} is not a defined block`);
             return new ParameterBlock(pbrInstance, obj);
         }
     }

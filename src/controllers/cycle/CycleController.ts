@@ -42,7 +42,7 @@ export class CycleController extends Controller{
         //prepare the cycle
         this._router.post("/:name/:id?", async (req: Request, res: Response) => {
 
-            const profile = (req.params.id) ? undefined : await ProfileModel.findById(req.params.id) as IProfile;
+            const profile = (!req.params.id) ? undefined : await ProfileModel.findById(req.params.id) as IProfile;
 
             if(profile)
             {
@@ -50,12 +50,22 @@ export class CycleController extends Controller{
 
                 if(cycle)
                 {
+                    this.machine.logger.info("PBR assigned");
                     this.program = new ProgramBlockRunner(this.machine, profile, cycle);
 
                     if(this.program.profileIdentifier != profile.identifier)
                     {
-                        res.status(403).write("Profile is not compatible with this cycle");
+                        res.status(403);
+                        res.write(`Profile ${this.program.profileIdentifier} is not compatible with cycle profile ${profile.identifier}`);
+                        res.end();
                         this.program = undefined;
+                        return;
+                    }
+                    else
+                    {
+                        res.status(200)
+                        res.write("ok");
+                        res.end();
                         return;
                     }
                 }
@@ -70,8 +80,6 @@ export class CycleController extends Controller{
                 res.status(404).write("Profile not found");
                 return;
             }
-
-            res.status(200).end();
         });
 
         //start the cycle

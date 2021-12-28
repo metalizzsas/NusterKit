@@ -64,7 +64,6 @@ export class EX260S3 extends IOHandler
 
     public async writeData(address: number, value: number, word?: boolean): Promise<void>
     {
-        console.log("Writing " + value + " at " + address);
 
         if(!this.isReady)
             throw new Error("Not ready or not connected");

@@ -15,8 +15,8 @@ export class EX260S1 extends IOHandler
         
         this.isReady = false;
         
-        this.connect();
-        
+        if(process.env.NODE_ENV == "Production")
+            this.connect();
     }
 
     async connect()
@@ -24,7 +24,6 @@ export class EX260S1 extends IOHandler
         console.log("Connecting");
         await this.controller.connect(this.ip);
 
-        console.log(this.name + " Connected.");
         this.isReady = true;
 
         //recconnect ex260 on lost connexion
@@ -64,9 +63,12 @@ export class EX260S1 extends IOHandler
 
     public async writeData(address: number, value: number, word?: boolean): Promise<void>
     {
-        console.log("Writing " + value + " at " + address);
-
         if(!this.isReady)
+            if(process.env.NODE_ENV != "production")
+            {
+                return;
+            }    
+        else
             throw new Error("Not ready or not connected");
 
         await new Promise((resolve) => {

@@ -34,13 +34,6 @@ export class IOGate implements IIOGate
         //Only for um18
         this.maxDist = obj.maxDist;
     }
-    
-
-    public async toggle(state: number)
-    {
-        console.log("Set", this.name, "to", state);
-        this.value = state;
-    }
 
     public async read(ioController: IOController)
     {

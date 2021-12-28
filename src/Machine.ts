@@ -18,6 +18,7 @@ import { IManualMode } from "./controllers/manual/ManualMode";
 import { IConfigMaintenance } from "./controllers/maintenance/Maintenance";
 import { PassiveController } from "./controllers/passives/PassiveController";
 import { IPassive } from "./controllers/passives/Passive";
+import pino from "pino";
 
 export class Machine{
 
@@ -38,8 +39,11 @@ export class Machine{
     cycleController: CycleController;
     passiveController: PassiveController;
 
-    constructor()
+    logger: pino.Logger;
+
+    constructor(logger: pino.Logger)
     {
+        this.logger = logger;
         //Loading JSON info file
         const infos = fs.readFileSync(path.resolve("data", "info.json"), {encoding: "utf-8"});
 
@@ -59,6 +63,7 @@ export class Machine{
         //if informations has optionals specs, deep extending it to match all specs
         if(parsed.options !== undefined)
         {
+            this.logger.warn("This machine has options");
             deepExtend(specsParsed, parsed.options)
         }
 
@@ -72,6 +77,8 @@ export class Machine{
         this.cycleController = new CycleController(this);
         this.passiveController = new PassiveController(this);
 
+        this.logger.info("Finished building controllers");
+
     }
 
     public configureRouters()
@@ -79,13 +86,19 @@ export class Machine{
         return true;
     }
 
-    public get socketData()
+    public async  socketData()
     {
+        const profiles = await this.profileController.socketData();
+        const maintenances = await this.maintenanceController.socketData();
+
         return {
             "cycle": this.cycleController.socketData,
             "slots": this.slotController.socketData,
             "io": this.ioController.socketData,
-            "passives": this.passiveController.socketData
+            "passives": this.passiveController.socketData,
+            //Asyns socketdata
+            "profiles": profiles,
+            "maintenances": maintenances
         }
     }
 

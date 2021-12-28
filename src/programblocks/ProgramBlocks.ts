@@ -33,7 +33,8 @@ export class ProgramBlock extends Block implements IProgramBlock
     }
 
     public async execute(): Promise<unknown>{
-        console.log("ProgramBlocks: This Block does nothing");
+        this.pbrInstance.machine.logger.info(`This Programblock does nothing`);
+
         return;
     }
 }
@@ -52,11 +53,13 @@ export class ForLoopProgramBlock extends ProgramBlock
 
     public async execute()
     {
-        for(let i = 0; i < (this.params[0].data() as number); i++)
+        const lC = this.params[0].data() as number;
+        this.pbrInstance.machine.logger.info(`ForBlock: Will loop ${lC} times.`);
+
+        for(let i = 0; i < (lC); i++)
         {
             for(const instuction of this.blocks)
             {
-                console.log(typeof instuction);
                 await instuction.execute();
             }
         }
@@ -79,7 +82,13 @@ export class IfProgramBlock extends ProgramBlock
 
     public async execute()
     {
-        if(this.operators[(this.params[1].data() as string)]((this.params[0].data() as number), (this.params[2].data() as number)))
+        const lV = (this.params[0].data() as number);
+        const rV = (this.params[2].data() as number);
+        const c = (this.params[1].data() as string);
+
+        this.pbrInstance.machine.logger.info(`IfBlock: Will compare ${lV} and ${rV} by ${c}`);
+        
+        if(this.operators[c](lV, rV))
         {
             if(this.blocks !== undefined)
                 await this.blocks[0].execute();
@@ -101,7 +110,13 @@ export class IOWriteProgramBlock extends ProgramBlock
 
     public async execute(): Promise<void>
     {
-        await this.pbrInstance.ioExplorer?.explore(this.params[0].data() as string)?.write(this.pbrInstance.machine.ioController, this.params[1].data() as number);
+
+        const gN = this.params[0].data() as string;
+        const gV = this.params[1].data() as number;
+
+        this.pbrInstance.machine.logger.info(`IOAccessBlock: Will access ${gN} to write ${gV}`);
+
+        await this.pbrInstance.ioExplorer?.explore(gN)?.write(this.pbrInstance.machine.ioController, gV);
     }
 }
 
@@ -114,8 +129,13 @@ export class SleepProgramBlock extends ProgramBlock
 
     public execute(): Promise<void>
     {
+        const sT = this.params[0].data() as number;
+        this.pbrInstance.machine.logger.info(`SleepBlock: Will sleep for ${sT * 1000} ms.`);
+
         return new Promise((resolve) => {
-            setTimeout(resolve, (this.params[0].data() as number) * 1000);
+            setTimeout(() => {
+                resolve();
+            }, sT * 1000);
         });
     }
 }
@@ -136,6 +156,7 @@ export function ProgramBlockRegistry(pbrInstance: ProgramBlockRunner, obj: IProg
         case "sleep": return new SleepProgramBlock(pbrInstance, obj);
         case "io": return new IOWriteProgramBlock(pbrInstance, obj);
         default: {
+
             console.log("WARNING: Program block", obj.name, "is not defined properly");
             return new ProgramBlock(pbrInstance, obj);
         }

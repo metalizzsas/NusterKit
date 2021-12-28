@@ -35,6 +35,9 @@ export class IOController extends Controller
     {
         for(const handler of this.machine.specs.iohandlers)
         {
+            if(process.env.NODE_END != "production")
+                    handler.ip = "127.0.0.1";
+
             switch(handler.name)
             {
                 case "WAGO": this.handlers.push(new WAGO(handler.ip)); break;

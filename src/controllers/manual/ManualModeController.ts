@@ -78,7 +78,7 @@ export class ManualModeController extends Controller
                     {
                         //skip this gate updating routine because it is enabled in another manual mode
                         if(!(activeGatesSet.findIndex((g) => g == gate) > -1))
-                            this.machine.ioController.gates[gateIndex].toggle(req.params.value == "true" ? 1 : 0)
+                            this.machine.ioController.gates[gateIndex].write(this.machine.ioController, req.params.value == "true" ? 1 : 0)
 
                         this.keys[concernedKeyIndex].state = (req.params.value == "true");
                     }

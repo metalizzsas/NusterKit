@@ -40,6 +40,9 @@ export class ProgramBlockRunner implements IProgram
         this.status = { mode: CycleMode.CREATED };
 
         this.machine = machine;
+
+        this.machine.logger.info("Building PBR...");
+
         this.profile = profile;
 
         //properties assignment
@@ -64,20 +67,19 @@ export class ProgramBlockRunner implements IProgram
 
         this.event.on("end", this.end);
         this.event.on("stop", this.stop);
+
+        this.machine.logger.info("Finished building PBR.");
     }
 
     public async run()
     {
-        console.log(this.steps);
+        this.machine.logger.info(`Started cycle ${this.name}.`);
 
-        console.log("Cycle start");
         this.status.mode = CycleMode.STARTED;
 
         while(this.currentStepIndex < this.steps.length)
         {
             const result = await this.steps[this.currentStepIndex].execute();
-
-            console.log(this.steps[this.currentStepIndex].name, result);
 
             switch(result)
             {
@@ -99,8 +101,6 @@ export class ProgramBlockRunner implements IProgram
 
                         const j = this.steps.findIndex((step) => step.type == CycleStepType.MULTIPLE)
 
-                        console.log("first found multiple task index", j);
-
                         if(j > -1)
                             this.currentStepIndex = j;
                         else 
@@ -121,6 +121,7 @@ export class ProgramBlockRunner implements IProgram
         this.status.endReason = reason || "cycle-ended";
         this.status.mode = CycleMode.ENDED;
         //TODO: Resorbs all timers and everything
+        this.machine.logger.info(`Ended cycle ${this.name} with state: ${this.status.mode}.`);
     }
 
     public async stop()
@@ -155,7 +156,7 @@ export class ProgramBlockRunner implements IProgram
 
 export class ProgramBlockStep implements IProgramStep
 {
-    pbrInstance: ProgramBlockRunner;
+    private pbrInstance: ProgramBlockRunner;
 
     name: string;
 
@@ -197,11 +198,15 @@ export class ProgramBlockStep implements IProgramStep
     {
         this.state = CycleStepState.STARTED;
 
+        this.pbrInstance.machine.logger.info(`Started step: ${this.name}.`);
+
         for(const b of this.blocks)
         {
             if(this.state !== CycleStepState.STARTED)
+            {
+                this.pbrInstance.machine.logger.info(`Ended step: ${this.name}, with state ${CycleStepResult.FAILED}`);
                 return CycleStepResult.FAILED;
-            
+            }
             await b.execute();
         }
 
@@ -213,19 +218,22 @@ export class ProgramBlockStep implements IProgramStep
             if(this.runCount && this.runAmount && (this.runCount == this.runAmount.data()))
             {
                 this.state = CycleStepState.ENDED;
+                this.pbrInstance.machine.logger.info(`Ended step: ${this.name}, with state ${CycleStepResult.END}`);
                 return CycleStepResult.END;
             }
             else
             {
                 this.state = CycleStepState.PARTIAL;
+                this.pbrInstance.machine.logger.info(`Ended step: ${this.name}, with state ${CycleStepResult.PARTIAL}`);
                 return CycleStepResult.PARTIAL;
             }   
         }
         else
         {
             this.state = CycleStepState.ENDED;
+            this.pbrInstance.machine.logger.info(`Ended step: ${this.name}, with state ${CycleStepResult.END}`);
             return CycleStepResult.END;
-        }  
+        } 
     }
 
     public stop()

@@ -8,6 +8,7 @@
     "dev:app": "nodemon src/app.ts | node_modules/.bin/pino-pretty",
     "dev:modbus": "node dev/modbus.mjs",
     "dev:enip": "node dev/enip.mjs",
+    "machine": "export NODE_ENV=\"production\"; nodemon src/app.ts | node_modules/.bin/pino-pretty",
     "docs": "typedoc --out docs --entryPointStrategy expand ./src",
     "build": "tsc",
     "start": "node build/app.js"
@@ -30,7 +31,7 @@
     "mongoose": "^6.0.13",
     "pino": "^7.6.0",
     "pino-http": "^6.5.0",
-    "st-ethernet-ip": "git+https://github.com/Kworz/ST-node-ethernet-ip.git",
+    "st-ethernet-ip": "^2.4.4",
     "ts-udp-discovery": "^1.0.0",
     "udp-discovery": "^2.0.2",
     "ws": "^8.3.0"

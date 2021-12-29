@@ -22,8 +22,9 @@ class NusterTurbine
 
     constructor()
     {
+        console.log(process.env.NODE_ENV);
         this.logger = pino({
-            level: process.env.NODE_END != "production" ? "trace" : "info"
+            level: process.env.NODE_ENV != "production" ? "trace" : "info"
         });
         this.machine = new Machine(this.logger);
 
@@ -101,10 +102,12 @@ class NusterTurbine
 
                 for(const ws of this.wsServer.clients)
                 {
-                    ws.send(JSON.stringify(data, getCircularReplacer()), (err) => {
-                        if(err !== undefined)
-                            this.logger.error(err);
-                    });
+                    //check if the websocket is still open
+                    if(ws.readyState === WebSocket.OPEN)
+                        ws.send(JSON.stringify(data, getCircularReplacer()), (err) => {
+                            if(err !== undefined)
+                                this.logger.error(err);
+                        });
                 }
             }
         }, 500);

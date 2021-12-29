@@ -11,7 +11,6 @@ import { A10VIOGate } from "./IOGates/A10VGate";
 import { UM18IOGate } from "./IOGates/UM18Gate";
 import path from "path";
 
-
 export class IOController extends Controller
 {
     handlers: IOHandler[] = []
@@ -36,7 +35,7 @@ export class IOController extends Controller
         for(const handler of this.machine.specs.iohandlers)
         {
             if(process.env.NODE_ENV != "production")
-                    handler.ip = "127.0.0.1";
+                handler.ip = "127.0.0.1";
 
             switch(handler.name)
             {
@@ -62,30 +61,27 @@ export class IOController extends Controller
 
     private _configureRouter()
     {
-        this._router.get("/", (req: Request, res: Response) => {
+        this._router.get("/", (_req: Request, res: Response) => {
             res.json(this.gates);
         });
 
-        this._router.get("/realtime", (req: Request, res: Response) => {
+        this._router.get("/realtime", (_req: Request, res: Response) => {
             res.sendFile(path.join(__dirname, "../../../pages/io.html"));
         });
 
         this._router.get("/:name/:value", async (req: Request, res: Response) => {
 
-            const index = this.gates.findIndex((g) => g.name == req.params.name);
+            const gate = this.gates.find((g) => g.name == req.params.name);
 
-            if(index > -1)
+            if(gate)
             {
-                if(this.gates[index].bus != IOGateBus.IN)
+                if(gate.bus != IOGateBus.IN)
                 {
-                    //TODO: Update gate to value specified
-                    await this.gates[index].write(this, parseInt(req.params.value));
+                    await gate.write(this, parseInt(req.params.value));
                     res.status(200).end();
                 }
                 else
-                {
                     res.status(403).end();
-                }
             }
             else
             {

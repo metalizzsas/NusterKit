@@ -1,22 +1,32 @@
 import { IOHandler } from "./IOHandler";
 
-import st from "st-ethernet-ip";
+import st from "st-ethernet-ip/src/enip/index.js";
+
+const { ENIP, CIP } = st;
+
+import process from "process";
+import { Buffer } from "buffer";
 
 export class EX260S3 extends IOHandler
 {
-    private controller: st.EthernetIP.ENIP
-    private isReady: boolean;
+    controller = null;
+    isReady = false;
 
-    constructor(ip: string)
+    /**
+     * Builds an EX260S1 object
+     * @param {String} ip 
+     */
+    constructor(ip)
     {
-        super("ex260s3", "ethip", ip);
+        super("ex260s1", "ethip", ip);
 
-        this.controller = new st.EthernetIP.ENIP();
+        this.controller = new ENIP();
+        this.controller.setMaxListeners(50);
         
         this.isReady = false;
         
-        this.connect();
-        
+        if(process.env.NODE_ENV == "production")
+            this.connect();
     }
 
     async connect()
@@ -24,21 +34,26 @@ export class EX260S3 extends IOHandler
         console.log("Connecting");
         await this.controller.connect(this.ip);
 
-        console.log(this.name + " Connected.");
         this.isReady = true;
 
         //recconnect ex260 on lost connexion
-        this.controller.once('close', async () => { this.isReady = false; await this.connect() });
+        this.controller.once('close', async () => { await this.connect() });
     }
 
     //Method not implemented
-    public async readData(address: number, word?: boolean): Promise<number>
+    /**
+     * 
+     * @param {number} _address 
+     * @param {Boolean?} _word 
+     * @returns {Promise<number>}
+     */
+    async readData(_address, _word = undefined)
     {
         throw new Error("Method not implemented");
     }
 
     //Shall only be used for local applications
-    public async readData2(address: number): Promise<Buffer>
+    async readData2(address)
     {
         console.log("Reading at " + address);
 
@@ -55,17 +70,28 @@ export class EX260S3 extends IOHandler
         this.controller.write_cip(MR, false, 10, null);
 
         return new Promise((resolve, reject) => {
-            this.controller.once("SendRRData Received", (data: any | PromiseLike<any>) => {
+            this.controller.once("SendRRData Received", (data) => {
                 resolve(data[1].data);
             });
             setTimeout(() => {reject("Reading Data timed out...")}, 10000);
         })
     }
 
-    public async writeData(address: number, value: number, word?: boolean): Promise<void>
+    /**
+     * Write data to EX260-SEN1 module
+     * @param {number} address 
+     * @param {number} value 
+     * @param {Boolean?} word Optional
+     * @returns 
+     */
+    async writeData(address, value, word = false)
     {
-
         if(!this.isReady)
+            if(process.env.NODE_ENV != "production")
+            {
+                return;
+            }    
+        else
             throw new Error("Not ready or not connected");
 
         await new Promise((resolve) => {
@@ -77,7 +103,7 @@ export class EX260S3 extends IOHandler
 
         const res = await this.readData2(0x96);
 
-        const result = res.readUIntLE(4, 2);
+        const result = res.readUIntLE(4, 1);
 
         console.log(result);
 
@@ -86,7 +112,7 @@ export class EX260S3 extends IOHandler
         //spliting string
         const binaryArray = strBinaryArray.split("");
 
-        const intArray: number[] = [];
+        const intArray = [];
 
         //replcing String to Int
         binaryArray.forEach((part, index, array) => {
@@ -111,16 +137,16 @@ export class EX260S3 extends IOHandler
         //convert bin array to int
         const newDecimalOutputState = parseInt(newOutputsStates, 2);
 
-        const buf = Buffer.alloc(2);
+        const buf = Buffer.alloc(4);
         buf.writeUInt32LE(newDecimalOutputState);
 
         //Message router packet
-        const MR = st.EthernetIP.CIP.MessageRouter.build(0x10, idPath, buf);
+        const MR = CIP.MessageRouter.build(0x10, idPath, buf);
         
         //write data to the controller
 
         return new Promise((resolve, reject) => {
-            this.controller.write_cip(MR, false, 10, (err: any) => {
+            this.controller.write_cip(MR, false, 10, (err) => {
                 if(err) reject(err);
                 else resolve();
             });

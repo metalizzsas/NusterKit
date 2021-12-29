@@ -42,6 +42,7 @@ export class Passive implements IPassive
         });
         
         this.event.on("state-change", (state) => {
+
             if(this.timer && state == false)
                 clearInterval(this.timer);
             else if(this.timer && state == true)
@@ -87,6 +88,8 @@ export class Passive implements IPassive
             name: this.name,
             mode: this.mode,
             default: this.default,
+
+            enabled: this.enabled,
 
             sensor: this.sensor,
             actuator: this.actuator

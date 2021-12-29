@@ -35,7 +35,7 @@ export class IOController extends Controller
     {
         for(const handler of this.machine.specs.iohandlers)
         {
-            if(process.env.NODE_END != "production")
+            if(process.env.NODE_ENV != "production")
                     handler.ip = "127.0.0.1";
 
             switch(handler.name)
@@ -106,14 +106,12 @@ export class IOController extends Controller
 
     public startIOScanner()
     {
-        if(!this.timer){
+        if(!this.timer)
+        {
             this.timer = setInterval(() => {
-                for(const g of this.gates)
-                {
-                    if(g.bus == IOGateBus.IN)
-                        g.read(this);
-                }
-            }, 250);
+                for(const g of this.gates.filter((g) => g.bus == IOGateBus.IN))
+                    g.read(this);
+            }, 500);
         }
     }
 

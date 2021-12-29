@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { IOHandler } from "./IOHandler";
 
 import st from "st-ethernet-ip/src/enip/index.js";
@@ -83,10 +84,10 @@ export class EX260S1 extends IOHandler
      * Write data to EX260-SEN1 module
      * @param {number} address 
      * @param {number} value 
-     * @param {Boolean?} word Optional
+     * @param {Boolean?} _word Optional
      * @returns 
      */
-    async writeData(address, value, word = false)
+    async writeData(address, value, _word = false)
     {
         if(!this.isReady)
             if(process.env.NODE_ENV != "production")

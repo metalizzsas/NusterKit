@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { IOHandler } from "./IOHandler";
 
 import st from "st-ethernet-ip/src/enip/index.js";

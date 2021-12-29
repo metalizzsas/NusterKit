@@ -730,7 +730,7 @@
             },
             {
                "gateName": "levels_eff-n",
-               "gateValue": 0,
+               "gateValue": 1,
                "startOnly": true,
                "result": false
             }
@@ -2272,8 +2272,24 @@
                      "name": "sleep",
                      "params": [
                         {
+                           "name": "profile",
+                           "value": "drying.duration",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "rd-air_cleaning_low",
+                           "params": []
+                        },
+                        {
                            "name": "const",
-                           "value": "5",
+                           "value": "0",
                            "params": []
                         }
                      ],
@@ -2284,12 +2300,12 @@
                      "params": [
                         {
                            "name": "conststr",
-                           "value": "rd-air_cleaning_low",
+                           "value": "ox-air_cleaning_low",
                            "params": []
                         },
                         {
-                           "name": "profile",
-                           "value": "met-nozzles.met-low",
+                           "name": "const",
+                           "value": "0",
                            "params": []
                         }
                      ],
@@ -2300,12 +2316,12 @@
                      "params": [
                         {
                            "name": "conststr",
-                           "value": "rd-air_cleaning_low",
+                           "value": "rd-air_cleaning_medium",
                            "params": []
                         },
                         {
-                           "name": "profile",
-                           "value": "met-nozzles.met-low",
+                           "name": "const",
+                           "value": "0",
                            "params": []
                         }
                      ],
@@ -2316,12 +2332,12 @@
                      "params": [
                         {
                            "name": "conststr",
-                           "value": "rd-air_cleaning_low",
+                           "value": "ox-air_cleaning_medium",
                            "params": []
                         },
                         {
-                           "name": "profile",
-                           "value": "met-nozzles.met-low",
+                           "name": "const",
+                           "value": "0",
                            "params": []
                         }
                      ],
@@ -2332,12 +2348,12 @@
                      "params": [
                         {
                            "name": "conststr",
-                           "value": "rd-air_cleaning_low",
+                           "value": "rd-air_cleaning_high",
                            "params": []
                         },
                         {
-                           "name": "profile",
-                           "value": "met-nozzles.met-low",
+                           "name": "const",
+                           "value": "0",
                            "params": []
                         }
                      ],
@@ -2348,28 +2364,12 @@
                      "params": [
                         {
                            "name": "conststr",
-                           "value": "rd-air_cleaning_low",
+                           "value": "ox-air_cleaning_high",
                            "params": []
                         },
                         {
-                           "name": "profile",
-                           "value": "met-nozzles.met-low",
-                           "params": []
-                        }
-                     ],
-                     "blocks": []
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "rd-air_cleaning_low",
-                           "params": []
-                        },
-                        {
-                           "name": "profile",
-                           "value": "met-nozzles.met-low",
+                           "name": "const",
+                           "value": "0",
                            "params": []
                         }
                      ],

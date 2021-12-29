@@ -124,7 +124,7 @@ export class CycleController extends Controller{
         this._router.delete("/", async (req: Request, res: Response) => {
             if(this.program !== undefined)
             {
-                await this.program.stop();  
+                await this.program.end("user");  
                 res.status(200).end(); 
             }
             else

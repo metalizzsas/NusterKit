@@ -158,7 +158,13 @@ class NusterTurbine
 const nt = new NusterTurbine();
 
 process.on("uncaughtException", (error: Error) => {
-    nt.logger.error(error);
+    nt.logger.fatal("unCaughtException");
+    nt.logger.fatal(error);
     process.exit(1);
 });
 
+process.on('unhandledRejection', error => {
+    nt.logger.fatal("Unhandledpromise");
+    nt.logger.fatal(error);
+    process.exit(2);
+  });

@@ -62,14 +62,23 @@ export class ProgramBlockRunner implements IProgram
 
         this.event = new EventEmitter();
 
-        this.event.on("end", this.end);
-        this.event.on("stop", this.stop);
+        this.event.on("end", (ev) => this.end(ev[0] || "event"));
 
         this.machine.logger.info("Finished building PBR.");
     }
 
     public async run()
     {
+        this.machine.logger.info("Checking Watchdog Conditions");
+
+        const w = this.watchdogConditions.filter((watchdog) => watchdog.result == false);
+
+        if(w.length > 0)
+        {
+            this.machine.logger.error("Watchdog conditions are not ok to start.");
+            return;
+        }
+
         this.machine.logger.info(`Started cycle ${this.name}.`);
 
         this.status.mode = CycleMode.STARTED;
@@ -82,7 +91,6 @@ export class ProgramBlockRunner implements IProgram
             {
                 case CycleStepResult.FAILED:
                 {
-                    await this.stop();
                     return false;
                 }
                 case CycleStepResult.PARTIAL:
@@ -107,6 +115,7 @@ export class ProgramBlockRunner implements IProgram
             }
             this.currentStepIndex++;
         }
+
         this.end();
 
         return true;
@@ -114,34 +123,16 @@ export class ProgramBlockRunner implements IProgram
 
     public end(reason?: string)
     {
-        this.incrementCycleCount();
+        if(this.status.mode == CycleMode.ENDED)
+            return;
+        
+        const m = this.machine.maintenanceController.tasks.find((m) => m.name == "cycleCount");
+        m?.append(1);
 
         this.status.endReason = reason || "cycle-ended";
         this.status.mode = CycleMode.ENDED;
         //TODO: Resorbs all timers and everything
-        this.machine.logger.info(`Ended cycle ${this.name} with state: ${this.status.mode}.`);
-    }
-
-    public async stop()
-    {
-        this.incrementCycleCount();
-        
-        this.status.mode = CycleMode.WAITING_STOP;
-        await this.steps[this.currentStepIndex].stop();
-        this.status.mode = CycleMode.STOPPED;
-
-        this.machine.logger.info(`Stopped cycle ${this.name} with state: ${this.status.mode}.`);
-
-        //this.end("cycle-stopped");
-    }
-
-    /**
-     * Increment cycle count
-     */
-    private incrementCycleCount()
-    {
-        const m = this.machine.maintenanceController.tasks.find((m) => m.name == "cycleCount");
-        m?.append(1);
+        this.machine.logger.info(`Ended cycle ${this.name} with state: ${this.status.mode} and reason ${reason}.`);
     }
 
     public get progress()
@@ -221,6 +212,12 @@ export class ProgramBlockStep implements IProgramStep
 
         this.pbrInstance.machine.logger.info(`Started step: ${this.name}.`);
 
+        if(this.pbrInstance.status.mode == CycleMode.ENDED)
+        {
+            this.pbrInstance.machine.logger.warn(`Tried to execute step ${this.name} while cycle ended.`);
+            return CycleStepResult.FAILED;
+        }
+
         for(const b of this.blocks)
         {
             if(this.state !== CycleStepState.STARTED)
@@ -228,6 +225,7 @@ export class ProgramBlockStep implements IProgramStep
                 this.pbrInstance.machine.logger.info(`Ended step: ${this.name}, with state ${CycleStepResult.FAILED}`);
                 return CycleStepResult.FAILED;
             }
+            
             await b.execute();
         }
 

@@ -70,7 +70,7 @@ export class ForLoopProgramBlock extends ProgramBlock
         for(let i = 0; i < (lC); i++)
         {
             if(this.pbrInstance.status.mode == CycleMode.ENDED)
-                break;
+                return;
             
             for(const instuction of this.blocks)
             {
@@ -152,7 +152,7 @@ export class SleepProgramBlock extends ProgramBlock
                     setTimeout(resolve, (sT * 1000) / 100);
                 });
             else
-                break;
+                return;
         }
     }
 }

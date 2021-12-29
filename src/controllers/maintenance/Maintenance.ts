@@ -73,7 +73,7 @@ export class Maintenance implements IConfigMaintenance
 
         if(doc)
         {
-            await MaintenanceModel.findOne({name: this.name}, {$inc: {duration: value}});
+            await MaintenanceModel.findOneAndUpdate({name: this.name}, {$inc: {"duration": value}});
         }
     }
 

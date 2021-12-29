@@ -3,30 +3,46 @@ import { ProgramBlockRunner } from "./ProgramBlockRunner";
 
 export class WatchdogCondition implements IWatchdogCondition
 {
+    private pbr: ProgramBlockRunner;
     gateName: string;
     gateValue: number;
     startOnly: boolean;
     result = false;
+
+    timer?: NodeJS.Timer;
     
-    constructor(cycle: ProgramBlockRunner, obj: IWatchdogCondition)
+    constructor(pbr: ProgramBlockRunner, obj: IWatchdogCondition)
     {
+        this.pbr = pbr;
+
         this.gateName = obj.gateName;
         this.gateValue = obj.gateValue;
         this.startOnly = obj.startOnly;
+    }
 
-        setInterval(() => {
+    public startTimer()
+    {
+        this.timer = setInterval(() => {
 
-            const tmp = cycle.ioExplorer?.explore(this.gateName)?.value == this.gateValue;
+            const tmp = this.pbr.ioExplorer?.explore(this.gateName)?.value == this.gateValue;
 
             //if this watchdog condition is only at startup
             //ignore its result
-            this.result = (this.startOnly && cycle.status.mode != CycleMode.CREATED) ? true : tmp;
+            this.result = (this.startOnly && this.pbr.status.mode != CycleMode.CREATED) ? true : tmp;
 
             if(process.env.NODE_ENV == "production")
-                if(this.result == false && cycle.status.mode == CycleMode.STARTED)
-                    cycle.event.emit("stop", ["watchdog-" + this.gateName]);
-           
+                if(this.result == false && this.pbr.status.mode == CycleMode.STARTED)
+                {
+                    this.stopTimer();
+                    this.pbr.event.emit("stop", ["watchdog-" + this.gateName]);
+                }
         }, 250);
+    }
+
+    public stopTimer()
+    {
+        if(this.timer)
+            clearInterval(this.timer);
     }
 }
 

@@ -36,9 +36,10 @@ export class EX260S1 extends IOHandler
             await this.controller.connect(this.ip);
 
             this.isReady = true;
+            this.connected = true;
 
             //recconnect ex260 on lost connexion
-            this.controller.once('close', async () => { await this.connect() });
+            this.controller.once('close', async () => { this.connected = false; await this.connect() });
         }
         catch(error)
         {

@@ -15,6 +15,13 @@ export class WAGO extends IOHandler
     async connect()
     {
         await this.client.connectTCP(this.ip, {port: 502});
+
+        this.connected = this.client.isOpen;
+
+        //check if the TCP tunnel is alive
+        setInterval(() => {
+            this.connected = this.client.isOpen;
+        }, 2000);
     }
 
     async writeData(address: number, data: number, word?: boolean): Promise<void>

@@ -7,7 +7,6 @@ import { pinoHttp } from "pino-http";
 import { pino } from "pino";
 
 import { Machine } from "./Machine";
-import { getCircularReplacer } from "./circularReplacer";
 
 class NusterTurbine
 {
@@ -22,7 +21,6 @@ class NusterTurbine
 
     constructor()
     {
-        console.log(process.env.NODE_ENV);
         this.logger = pino({
             level: process.env.NODE_ENV != "production" ? "trace" : "info"
         });
@@ -46,7 +44,9 @@ class NusterTurbine
     {
         this.httpServer = this.app.listen(80, () => { this.logger.info("Express server listening on port 80"); });
         this.app.use(express.json());
-        this.app.use(pinoHttp());
+        this.app.use(pinoHttp({
+            logger: this.logger
+        }));
 
         this.app.use("/assets", express.static("/assets"));
     }
@@ -104,10 +104,7 @@ class NusterTurbine
                 {
                     //check if the websocket is still open
                     if(ws.readyState === WebSocket.OPEN)
-                        ws.send(JSON.stringify(data, getCircularReplacer()), (err) => {
-                            if(err !== undefined)
-                                this.logger.error(err);
-                        });
+                        ws.send(JSON.stringify(data));
                 }
             }
         }, 500);

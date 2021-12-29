@@ -31,7 +31,6 @@ export class EX260S1 extends IOHandler
 
     async connect()
     {
-        console.log("Connecting");
         await this.controller.connect(this.ip);
 
         this.isReady = true;

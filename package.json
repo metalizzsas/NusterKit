@@ -34,7 +34,8 @@
     "st-ethernet-ip": "^2.4.4",
     "ts-udp-discovery": "^1.0.0",
     "udp-discovery": "^2.0.2",
-    "ws": "^8.3.0"
+    "ws": "^8.3.0",
+    "nuster-turbine-machines": "git+git@github.com:Kworz/NusterTurbineMachines.git"
   },
   "devDependencies": {
     "@types/deep-extend": "^0.4.32",

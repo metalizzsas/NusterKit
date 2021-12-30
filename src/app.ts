@@ -48,7 +48,8 @@ class NusterTurbine
             logger: this.logger
         }));
 
-        this.app.use("/assets", express.static("/assets"));
+        this.machine.logger.info(`Will use ${this.machine.assetsFolder} as the assets folder.`);
+        this.app.use("/assets", express.static(this.machine.assetsFolder));
     }
     /**
      * Create UDP4 discovery service

@@ -1,5 +1,4 @@
-import { CycleMode } from "../controllers/cycle/Cycle";
-import { ProgramBlockRunner } from "./ProgramBlockRunner";
+import { PBRMode, ProgramBlockRunner } from "./ProgramBlockRunner";
 
 export class WatchdogCondition implements IWatchdogCondition
 {
@@ -30,7 +29,7 @@ export class WatchdogCondition implements IWatchdogCondition
         this.timer = setInterval(() => {
 
             //remove the timer if this condition is only active at startup
-            if(this.startOnly && this.pbr.status.mode == CycleMode.STARTED)
+            if(this.startOnly && this.pbr.status.mode == PBRMode.STARTED)
             {
                 this.stopTimer();
                 return;
@@ -40,7 +39,7 @@ export class WatchdogCondition implements IWatchdogCondition
 
             //if this watchdog condition is only at startup
             //ignore its result
-            this.result = (this.startOnly && this.pbr.status.mode != CycleMode.CREATED) ? true : tmp;
+            this.result = (this.startOnly && this.pbr.status.mode != PBRMode.CREATED) ? true : tmp;
 
             if(process.env.NODE_ENV == "production")
             {
@@ -54,7 +53,7 @@ export class WatchdogCondition implements IWatchdogCondition
                 
                 if(this.result == false)
                 {
-                    if(this.pbr.status.mode == CycleMode.CREATED)
+                    if(this.pbr.status.mode == PBRMode.CREATED)
                     {
                         if(!this.cantStartLog)
                         {

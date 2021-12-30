@@ -1,0 +1,214 @@
+import { IParameterBlock, ParameterBlock, ParameterBlockRegistry } from "./ParameterBlocks";
+import { PBRMode, ProgramBlockRunner } from "./ProgramBlockRunner";
+import { IProgramBlock, ProgramBlock, ProgramBlockRegistry } from "./ProgramBlocks";
+
+export class ProgramBlockStep implements IProgramStep
+{
+    private pbrInstance: ProgramBlockRunner;
+
+    name: string;
+
+    state: ProgramStepState = ProgramStepState.WAITING;
+    type: ProgramStepType = ProgramStepType.SINGLE;
+
+    isEnabled: ParameterBlock;
+    duration: ParameterBlock;
+
+    startTime?: number;
+    endTime?: number;
+
+    runAmount?: ParameterBlock;
+    runCount?: number;
+    
+    blocks: ProgramBlock[] = [];
+
+    constructor(pbrInstance: ProgramBlockRunner, obj: IProgramStep)
+    {
+        this.pbrInstance = pbrInstance;
+        this.name = obj.name;
+        this.isEnabled = ParameterBlockRegistry(this.pbrInstance, obj.isEnabled);
+        this.duration = ParameterBlockRegistry(this.pbrInstance, obj.duration);
+
+        if(obj.runAmount)
+        {
+            this.runAmount = ParameterBlockRegistry(this.pbrInstance, obj.runAmount);
+            this.type = (this.runAmount.data() as number > 1 ? ProgramStepType.MULTIPLE : ProgramStepType.SINGLE);
+        }
+
+        for(const block of obj.blocks)
+        {
+            this.blocks.push(ProgramBlockRegistry(this.pbrInstance, block));
+        }
+    }
+
+    public async execute(): Promise<ProgramStepResult>
+    {
+        this.state = ProgramStepState.STARTED;
+
+        this.pbrInstance.machine.logger.info(`Started step: ${this.name}.`);
+
+        if(this.pbrInstance.status.mode == PBRMode.ENDED)
+        {
+            this.pbrInstance.machine.logger.warn(`Tried to execute step ${this.name} while cycle ended.`);
+            return ProgramStepResult.FAILED;
+        }
+
+        for(const b of this.blocks)
+        {
+            if(this.state !== ProgramStepState.STARTED)
+            {
+                this.pbrInstance.machine.logger.info(`Ended step: ${this.name}, with state ${ProgramStepResult.FAILED}`);
+                return ProgramStepResult.FAILED;
+            }
+            
+            await b.execute();
+        }
+
+        //handling of multiple runned steps
+        if(this.runAmount && this.runAmount.data() as number > 1)
+        {
+            this.runCount = (this.runCount) ? this.runCount + 1 : 0;
+
+            if(this.runCount && this.runAmount && (this.runCount == this.runAmount.data()))
+            {
+                this.state = ProgramStepState.ENDED;
+                this.pbrInstance.machine.logger.info(`Ended step: ${this.name}, with state ${ProgramStepResult.END}`);
+                return ProgramStepResult.END;
+            }
+            else
+            {
+                this.state = ProgramStepState.PARTIAL;
+                this.pbrInstance.machine.logger.info(`Ended step: ${this.name}, with state ${ProgramStepResult.PARTIAL}`);
+                return ProgramStepResult.PARTIAL;
+            }   
+        }
+        else
+        {
+            this.state = ProgramStepState.ENDED;
+            this.pbrInstance.machine.logger.info(`Ended step: ${this.name}, with state ${ProgramStepResult.END}`);
+            return ProgramStepResult.END;
+        } 
+    }
+
+    public stop()
+    {
+        this.state = ProgramStepState.STOPPED;
+    }
+
+    get progress()
+    {
+        if(this.startTime)
+        {
+            switch(this.state)
+            {
+                case ProgramStepState.STARTED:
+                {
+                    //TODO: Clean this mess
+                    
+                    if(this.type == ProgramStepType.MULTIPLE && this.runCount && this.runAmount)
+                        return parseFloat((this.runCount / (this.runAmount.data() as number)).toFixed(2)) + parseFloat(((Date.now() - this.startTime) / (this.duration.data() as number)).toFixed(2)) * parseFloat((1 / (this.runAmount.data() as number)).toFixed(2));
+                    else
+                        return parseFloat(((Date.now() - this.startTime) / (this.duration.data() as number)).toFixed(2));
+                }
+                case ProgramStepState.STOPPED:
+                {
+                    if(this.duration !== undefined && this.startTime !== undefined && this.endTime !== undefined)
+                        return parseFloat(((this.endTime - this.startTime) / (this.duration.data() as number)).toFixed(2));
+                    else
+                        return 0;
+                }
+                case ProgramStepState.ENDED: 
+                {
+                    return 1;
+                }
+                case ProgramStepState.PARTIAL:
+                {
+                    if(this.runAmount && this.runCount)
+                        return parseFloat((this.runCount / (this.runAmount.data() as number)).toFixed(2));
+                    else
+                        throw new Error("RunAmount & runCount are not defined");
+                }
+                default: {
+                    return 0;
+                }
+            }
+        }
+        else
+            return 0; //progress cant be established because step has no starttime
+    }
+    public resetTimes()
+    {
+        this.startTime = undefined;
+        this.endTime = undefined;
+    }
+
+    toJSON()
+    {
+        return {
+            name: this.name,
+            state: this.state,
+            type: this.type,
+    
+            isEnabled: this.isEnabled,
+            duration: this.duration,
+    
+            startTime: this.startTime,
+            endTime: this.endTime,
+    
+            runAmount: this.runAmount,
+            runCount: this.runCount,
+            
+            blocks: this.blocks
+        }
+    }
+}
+
+export interface IProgramStep
+{
+    name: string;
+    
+    isEnabled: IParameterBlock;
+    duration: IParameterBlock;
+
+    runAmount?: IParameterBlock;
+
+    blocks: IProgramBlock[]
+}
+
+export interface IProgramStepInformations
+{
+    isEnabled: boolean,
+
+    type?: string,
+    state?: string,
+
+    duration?: number,
+    startTime?: number,
+    endTime?: number,
+
+    runAmount?: number,
+    runCount?: number
+}
+
+export enum ProgramStepState
+{
+    WAITING = "waiting",
+    STARTED = "started",
+    PARTIAL = "partial",
+    STOPPED = "stopped",
+    ENDED = "ended",
+    DISABLED = "disabled"
+}
+
+export enum ProgramStepType
+{
+    SINGLE = "single",
+    MULTIPLE = "multiple"
+}
+
+export enum ProgramStepResult
+{
+    FAILED = "failed",
+    PARTIAL = "partial",
+    END = "end"
+}

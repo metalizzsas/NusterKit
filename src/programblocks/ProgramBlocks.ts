@@ -1,7 +1,6 @@
-import { CycleMode } from "../controllers/cycle/Cycle";
 import { Block } from "./Block";
 import { ParameterBlock, IParameterBlock, ParameterBlockRegistry } from "./ParameterBlocks";
-import { ProgramBlockRunner } from "./ProgramBlockRunner";
+import { PBRMode, ProgramBlockRunner } from "./ProgramBlockRunner";
 
 export class ProgramBlock extends Block implements IProgramBlock
 {
@@ -9,6 +8,8 @@ export class ProgramBlock extends Block implements IProgramBlock
 
     params: ParameterBlock[] = [];
     blocks: ProgramBlock[] = [];
+
+    executed = false;
 
     constructor(pbrInstance: ProgramBlockRunner, obj: IProgramBlock)
     {
@@ -36,6 +37,7 @@ export class ProgramBlock extends Block implements IProgramBlock
     public async execute(): Promise<unknown> {
         this.pbrInstance.machine.logger.info(`This Programblock does nothing`);
 
+        this.executed = true;
         return;
     }
 
@@ -45,7 +47,9 @@ export class ProgramBlock extends Block implements IProgramBlock
             name: this.name,
 
             params: this.params,
-            blocks: this.blocks
+            blocks: this.blocks,
+
+            executed: this.executed
         };
     }
 }
@@ -69,7 +73,7 @@ export class ForLoopProgramBlock extends ProgramBlock
 
         for(let i = 0; i < (lC); i++)
         {
-            if(this.pbrInstance.status.mode == CycleMode.ENDED)
+            if(this.pbrInstance.status.mode == PBRMode.ENDED)
                 return;
             
             for(const instuction of this.blocks)
@@ -77,6 +81,7 @@ export class ForLoopProgramBlock extends ProgramBlock
                 await instuction.execute();
             }
         }
+        this.executed = true;
     }
 }
 
@@ -112,6 +117,7 @@ export class IfProgramBlock extends ProgramBlock
             if(this.blocks !== undefined)
                 await this.blocks[1].execute();
         }
+        this.executed = true;
     }
 }
 
@@ -130,6 +136,8 @@ export class IOWriteProgramBlock extends ProgramBlock
         this.pbrInstance.machine.logger.info(`IOAccessBlock: Will access ${gN} to write ${gV}`);
 
         await this.pbrInstance.ioExplorer?.explore(gN)?.write(this.pbrInstance.machine.ioController, gV);
+        this.executed = true;
+
     }
 }
 
@@ -147,13 +155,14 @@ export class SleepProgramBlock extends ProgramBlock
 
         for(let i = 0; i < 100; i++)
         {
-            if(this.pbrInstance.status.mode != CycleMode.ENDED)
+            if(this.pbrInstance.status.mode != PBRMode.ENDED)
                 await new Promise(resolve => {
                     setTimeout(resolve, (sT * 1000) / 100);
                 });
             else
                 return;
         }
+        this.executed = true;
     }
 }
 
@@ -175,6 +184,8 @@ export class MaintenanceProgramBlock extends ProgramBlock
         {
             m.append(mV);
         }
+        this.executed = true;
+
     }
 }
 
@@ -183,6 +194,8 @@ export interface IProgramBlock
     name: string;
     params: IParameterBlock[];
     blocks: IProgramBlock[];
+
+    executed: boolean;
 }
 
 export function ProgramBlockRegistry(pbrInstance: ProgramBlockRunner, obj: IProgramBlock)

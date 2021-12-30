@@ -4,9 +4,8 @@ import { Controller } from "../Controller";
 import { Request, Response } from "express";
 
 import { IProfile, ProfileModel } from "../profile/Profile";
-import { CycleMode } from "./Cycle";
 import { CycleHistoryModel } from "./CycleHistory";
-import { ProgramBlockRunner } from "../../programblocks/ProgramBlockRunner";
+import { PBRMode, ProgramBlockRunner } from "../../programblocks/ProgramBlockRunner";
 
 export class CycleController extends Controller{
 
@@ -99,7 +98,7 @@ export class CycleController extends Controller{
         this._router.patch("/:rating", async (req: Request, res: Response) => {
             if(this.program)
             {
-                if(this.program.status.mode != CycleMode.ENDED || CycleMode.STOPPED)
+                if(this.program.status.mode != PBRMode.ENDED || PBRMode.STOPPED)
                 {
                     await CycleHistoryModel.create({
                         rating: parseInt(req.params.rating) || 0,

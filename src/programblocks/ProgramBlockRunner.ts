@@ -62,15 +62,19 @@ export class ProgramBlockRunner implements IProgram
         this.event.on("end", (ev) => this.end(ev[0] || "event"));
 
         this.machine.logger.info("Finished building PBR.");
+
     }
 
     public async run()
     {
+        //TODO: Add resume program option
+        //TODO: Should be done by looking into the ProgramHistoryObject
+
         this.machine.logger.info("Checking Watchdog Conditions");
 
         const w = this.watchdogConditions.filter((watchdog) => watchdog.result == false);
 
-        if(w.length > 0)
+        if(w.length > 0 && process.env.NODE_ENV == "production")
         {
             this.machine.logger.error("Watchdog conditions are not ok to start.");
             return;
@@ -82,7 +86,13 @@ export class ProgramBlockRunner implements IProgram
 
         while(this.currentStepIndex < this.steps.length)
         {
-            const result = await this.steps[this.currentStepIndex].execute();
+            let result = null;
+            
+            // TypeScriptCompiler is not able to understand that status.mode can be changed externally
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore: disabled overlap checking
+            if(this.status.mode != PBRMode.ENDED)
+                result = await this.steps[this.currentStepIndex].execute();
 
             switch(result)
             {
@@ -178,6 +188,9 @@ export interface IProgram
 {
     name: string;
     profileIdentifier: string;
+
+    currentStepIndex?: number;
+
     status: IPBRStatus;
     steps: IProgramStep[];
     watchdogConditions: IWatchdogCondition[];

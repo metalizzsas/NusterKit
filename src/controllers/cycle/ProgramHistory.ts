@@ -36,9 +36,19 @@ ProgramBlockSchema.add({blocks: [ProgramBlockSchema]});
 
 const ProgramStepSchema = new Schema<IProgramStep>({
     name: {type: String, required: true},
+
+    state: {type: String, required: true},
+    type: {type: String, required: true},
+
     isEnabled: {type: ParameterBlockSchema, required: true},
     duration: {type: ParameterBlockSchema, required: true},
+
     runAmount: ParameterBlockSchema,
+    runCount: Number,
+
+    startTime: Number,
+    endTime: Number,
+
     blocks: [ProgramBlockSchema]
 });
 
@@ -50,16 +60,22 @@ const WatchdogConditionSchema = new Schema<IWatchdogCondition>({
 });
 
 const ProgramSchema = new Schema<IProgram>({
+
     name: {type: String, required: true},
     profileIdentifier: String,
+
     status: {type: PBRStatusSchema, required: true},
+
+    currentStepIndex: Number,
+
     steps: {type: [ProgramStepSchema], required: true},
+
     watchdogConditions: {type: [WatchdogConditionSchema], required: true}
 });
 
-const CycleHistorySchema = new Schema<IProgramHistory>({
+const ProgramHistorySchema = new Schema<IProgramHistory>({
     rating: Number,
     cycle: {type: ProgramSchema, required: true}
 });
 
-export const CycleHistoryModel = model("history", CycleHistorySchema);
+export const ProgramHistoryModel = model("history", ProgramHistorySchema);

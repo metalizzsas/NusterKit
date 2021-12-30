@@ -4,7 +4,7 @@ import { Controller } from "../Controller";
 import { Request, Response } from "express";
 
 import { IProfile, ProfileModel } from "../profile/Profile";
-import { CycleHistoryModel } from "./CycleHistory";
+import { ProgramHistoryModel } from "./ProgramHistory";
 import { PBRMode, ProgramBlockRunner } from "../../programblocks/ProgramBlockRunner";
 
 export class CycleController extends Controller{
@@ -86,11 +86,13 @@ export class CycleController extends Controller{
             if(this.program !== undefined)
             {
                 this.program.run();
-                res.status(200).end();
+                res.status(200);
+                res.end();
             }
             else
             {
-                res.status(404).end();
+                res.status(404);
+                res.end();
             }
         });
 
@@ -100,22 +102,29 @@ export class CycleController extends Controller{
             {
                 if(this.program.status.mode != PBRMode.ENDED || PBRMode.STOPPED)
                 {
-                    await CycleHistoryModel.create({
+                    await ProgramHistoryModel.create({
                         rating: parseInt(req.params.rating) || 0,
                         cycle: this.program
                     });
                     this.program == undefined;
+
+                    res.status(200);
+                    res.write("ok");
+                    res.end();
                 }
                 else
                 {
-                    res.status(403).write("Can't rate a cycle that has not ended");
+                    res.status(403);
+                    res.write("Can't rate a cycle that has not ended");
+                    res.end();
                 }
             }
             else
             {
                 //cycle is not defined
-                res.status(404).write("Can't rate a non existing cycle");
-
+                res.status(404);
+                res.write("Can't rate a non existing cycle");
+                res.end();
             }
         });
 
@@ -124,11 +133,13 @@ export class CycleController extends Controller{
             if(this.program !== undefined)
             {
                 await this.program.end("user");  
-                res.status(200).end(); 
+                res.status(200);
+                res.end(); 
             }
             else
             {
-                res.status(404).end();
+                res.status(404);
+                res.end();
             }
         });
    }

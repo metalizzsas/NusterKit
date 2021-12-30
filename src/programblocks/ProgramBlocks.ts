@@ -32,6 +32,8 @@ export class ProgramBlock extends Block implements IProgramBlock
                 this.blocks.push(ProgramBlockRegistry(this.pbrInstance, b));              
             }
         }
+
+        this.executed = obj.executed || false;
     }
 
     public async execute(): Promise<unknown> {
@@ -74,8 +76,11 @@ export class ForLoopProgramBlock extends ProgramBlock
         for(let i = 0; i < (lC); i++)
         {
             if(this.pbrInstance.status.mode == PBRMode.ENDED)
+            {
+                this.executed = true;
                 return;
-            
+            }
+
             for(const instuction of this.blocks)
             {
                 await instuction.execute();
@@ -195,7 +200,7 @@ export interface IProgramBlock
     params: IParameterBlock[];
     blocks: IProgramBlock[];
 
-    executed: boolean;
+    executed?: boolean;
 }
 
 export function ProgramBlockRegistry(pbrInstance: ProgramBlockRunner, obj: IProgramBlock)

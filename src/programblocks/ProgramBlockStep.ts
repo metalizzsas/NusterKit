@@ -71,7 +71,7 @@ export class ProgramBlockStep implements IProgramStep
 
             if(this.runCount && this.runAmount && (this.runCount == this.runAmount.data()))
             {
-                this.state = ProgramStepState.ENDED;
+                this.state = ProgramStepState.COMPLETED;
                 this.pbrInstance.machine.logger.info(`Ended step: ${this.name}, with state ${ProgramStepResult.END}`);
                 return ProgramStepResult.END;
             }
@@ -84,7 +84,7 @@ export class ProgramBlockStep implements IProgramStep
         }
         else
         {
-            this.state = ProgramStepState.ENDED;
+            this.state = ProgramStepState.COMPLETED;
             this.pbrInstance.machine.logger.info(`Ended step: ${this.name}, with state ${ProgramStepResult.END}`);
             return ProgramStepResult.END;
         } 
@@ -117,7 +117,7 @@ export class ProgramBlockStep implements IProgramStep
                     else
                         return 0;
                 }
-                case ProgramStepState.ENDED: 
+                case ProgramStepState.COMPLETED: 
                 {
                     return 1;
                 }
@@ -166,11 +166,18 @@ export class ProgramBlockStep implements IProgramStep
 export interface IProgramStep
 {
     name: string;
+
+    state: ProgramStepState;
+    type: ProgramStepType;
     
     isEnabled: IParameterBlock;
     duration: IParameterBlock;
 
+    startTime?: number;
+    endTime?: number;
+
     runAmount?: IParameterBlock;
+    runCount?: number;
 
     blocks: IProgramBlock[]
 }
@@ -196,7 +203,7 @@ export enum ProgramStepState
     STARTED = "started",
     PARTIAL = "partial",
     STOPPED = "stopped",
-    ENDED = "ended",
+    COMPLETED = "completed",
     DISABLED = "disabled"
 }
 

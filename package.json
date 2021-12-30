@@ -25,17 +25,18 @@
   },
   "homepage": "https://github.com/Kworz/NusterTurbine#readme",
   "dependencies": {
+    "argon2": "^0.28.3",
     "deep-extend": "^0.6.0",
     "express": "^4.17.1",
     "modbus-serial": "^8.0.5",
     "mongoose": "^6.0.13",
+    "nuster-turbine-machines": "git+git@github.com:Kworz/NusterTurbineMachines.git",
     "pino": "^7.6.0",
     "pino-http": "^6.5.0",
     "st-ethernet-ip": "^2.4.4",
     "ts-udp-discovery": "^1.0.0",
     "udp-discovery": "^2.0.2",
-    "ws": "^8.3.0",
-    "nuster-turbine-machines": "git+git@github.com:Kworz/NusterTurbineMachines.git"
+    "ws": "^8.3.0"
   },
   "devDependencies": {
     "@types/deep-extend": "^0.4.32",

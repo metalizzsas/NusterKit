@@ -1,0 +1,19 @@
+{
+  "name": "nuster-turbine-machines",
+  "version": "1.0.0",
+  "description": "metalizz machines descriptions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kworz/NusterTurbineMachines.git"
+  },
+  "author": "Metalizz",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/Kworz/NusterTurbineMachines/issues"
+  },
+  "homepage": "https://github.com/Kworz/NusterTurbineMachines#readme"
+}

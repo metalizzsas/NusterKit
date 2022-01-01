@@ -7,15 +7,12 @@ import { pinoHttp } from "pino-http";
 import { pino } from "pino";
 
 import { Machine } from "./Machine";
-import { AuthManager } from "./auth/auth";
 
 class NusterTurbine
 {
     public app = express();
     public httpServer?: Server;
     public wsServer?: WebSocketServer;
-
-    public authManager: AuthManager;
 
     public logger: pino.Logger;
 
@@ -26,9 +23,8 @@ class NusterTurbine
         this.logger = pino({
             level: process.env.NODE_ENV != "production" ? "trace" : "info"
         });
-        this.machine = new Machine(this.logger);
 
-        this.authManager = new AuthManager();
+        this.machine = new Machine(this.logger);
 
         this.logger.info("Starting NusterTurbine");
 
@@ -40,7 +36,6 @@ class NusterTurbine
         this._mongoose();
 
         this._machine();
-
     }
     /**
      * Configure Express over network
@@ -49,6 +44,12 @@ class NusterTurbine
     {
         this.httpServer = this.app.listen(80, () => { this.logger.info("Express server listening on port 80"); });
         this.app.use(express.json());
+
+        //authing middleware
+        if(process.env.NODE_ENV == "production")
+            this.app.use(this.machine.authManager.middleware.bind(this.machine.authManager));
+
+        //logging middleware
         this.app.use(pinoHttp({
             logger: this.logger,
 
@@ -58,8 +59,6 @@ class NusterTurbine
                 res: pino.stdSerializers.res
               }
         }));
-
-        this.app.use(this.authManager.middleware);
 
         this.machine.logger.info(`Will use ${this.machine.assetsFolder} as the assets folder.`);
         this.app.use("/assets", express.static(this.machine.assetsFolder));

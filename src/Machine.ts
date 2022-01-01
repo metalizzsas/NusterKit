@@ -18,6 +18,7 @@ import { MaintenanceController } from "./controllers/maintenance/MaintenanceCont
 import { ManualModeController } from "./controllers/manual/ManualModeController";
 import { ProfileController } from "./controllers/profile/ProfilesController";
 import { SlotController } from "./controllers/slot/SlotController";
+import { AuthManager } from "./auth/auth";
 
 export class Machine{
 
@@ -40,9 +41,14 @@ export class Machine{
 
     logger: pino.Logger;
 
-    constructor(logger: pino.Logger)
+    authManager: AuthManager;
+
+     constructor(logger: pino.Logger)
     {
         this.logger = logger;
+
+        this.authManager = new AuthManager(this.logger);
+
         //Loading JSON info file
         const infos = fs.readFileSync(path.resolve("data", "info.json"), {encoding: "utf-8"});
 

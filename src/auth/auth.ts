@@ -2,22 +2,27 @@ import { randomUUID } from "crypto";
 import { Request, Response, NextFunction, Router } from "express";
 import { model, Schema } from "mongoose";
 import argon2 from "argon2";
+import pino from "pino";
 
 export class AuthManager
 {
     private _router: Router;
 
+    private logger: pino.Logger;
+
     private safeEndPoints: string[] = [
         "/v1/auth/login",
         "/v1/auth/register",
-        "/v1/auth/logout",
+        "/v1/auth/logout"
     ];
 
     private permissionRegistry: { [key: string]: string[] } = {};
 
-    constructor()
+    constructor(logger: pino.Logger)
     {
         this._router = Router();
+
+        this.logger = logger;
 
         //tools to manage users
         this._router.post('/register', this.register);
@@ -28,7 +33,27 @@ export class AuthManager
         this._router.post('/edit', this.edit);
         this._router.delete('/delete', this.delete);
         
-        console.log("Initialized AuthManager");
+        this.logger.info("Initialized AuthManager");
+
+        this.logger.trace("Checking for existing admin account...");
+
+        AuthModel.exists({ username: "admin" }).then(exists => {
+            if(!exists)
+            {
+                this.logger.info("No admin account found, creating one...");
+
+                const admin = new AuthModel({
+                    username: "admin",
+                    password: "metalizz",
+                    permissions: ["admin"],
+                    isAdmin: true
+                });
+
+                admin.save();
+            }
+            else
+                this.logger.trace("Admin account found");
+        });
     }
 
     private async login(req: Request, res: Response)
@@ -166,31 +191,41 @@ export class AuthManager
 
     private async checkPermissionForEndpoint(sessionID: string, endpoint: string): Promise<boolean>
     {
+        //if the user is an admin any route should be allowed for him
+        if(await this.checkAdmin(sessionID))
+            return true;
+
+        //test if the path is a static path
+        if(new RegExp(/assets/g).test(endpoint))
+            return true;
+
         //ignore safe endpoints
         if(this.safeEndPoints.includes(endpoint))
             return true;
         
-        for(const p of this.permissionRegistry.entries)
+        if(this.permissionRegistry.entries)
         {
-            const ep = this.permissionRegistry[p].find(e => e == endpoint);
-
-            if(ep)
+            for(const p of this.permissionRegistry.entries)
             {
-                const doc = await AuthModel.findOne({ sessionID: sessionID });
-                return (doc) ? doc.permissions.includes(ep) : false;
-            }
-            else
-            {
-                return false;
+                const ep = this.permissionRegistry[p].find(e => e == endpoint);
+    
+                if(ep)
+                {
+                    const doc = await AuthModel.findOne({ sessionID: sessionID });
+                    return (doc) ? doc.permissions.includes(ep) : false;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
-
         return false;
     }
 
     public async middleware(req: Request, res: Response, next: NextFunction)
     {
-        if(req.cookies.sessionID)
+        if(req.cookies && req.cookies.sessionID)
         {
             if(await this.checkLogin(req.cookies.sessionID))
             {
@@ -206,7 +241,8 @@ export class AuthManager
         }
         else
         {
-            if(this.safeEndPoints.includes(req.path))
+            
+            if(await this.checkPermissionForEndpoint("", req.path))
             {
                 next();
             }

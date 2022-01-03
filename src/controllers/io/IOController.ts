@@ -65,7 +65,7 @@ export class IOController extends Controller
             res.json(this.gates);
         });
 
-        this.machine.authManager.registerEndpointPermission("io.list", {endpoint: "/v1/io/", method: "get"});
+        this.machine.authManager.registerEndpointPermission("io.list", {endpoint: "/v1/io", method: "get"});
 
         this._router.get("/realtime", (_req: Request, res: Response) => {
             res.sendFile(path.join(__dirname, "../../../pages/io.html"));

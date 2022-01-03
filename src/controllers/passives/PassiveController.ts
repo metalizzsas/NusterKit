@@ -27,6 +27,8 @@ export class PassiveController extends Controller
             res.json(this.passives);
         });
 
+        this.machine.authManager.registerEndpointPermission("passives.list", {endpoint: "/v1/passives/", method: "get"});
+
         this._router.post("/:passive/:state", (req: Request, res: Response) => {
             
             const passive = this.passives.findIndex((p) => p.name == req.params.passive);
@@ -42,6 +44,8 @@ export class PassiveController extends Controller
                 res.status(404).write("Could not find a passive with this name");
             }
         });
+
+        this.machine.authManager.registerEndpointPermission("passives.state", {endpoint: new RegExp("/v1/passives/.*/.*", "g"), method: "post"});
     }
 
     public get socketData()

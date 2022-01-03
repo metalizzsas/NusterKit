@@ -22,7 +22,7 @@ export class ProfileController extends Controller{
 
     private _configure()
     {
-        for(let p of this.machine.specs.profiles)
+        for(const p of this.machine.specs.profiles)
         {
             this.profileMap[p.identifier] = p;
         }
@@ -37,22 +37,28 @@ export class ProfileController extends Controller{
             res.json(Object.keys(this.profileMap));
         });
 
+        this.machine.authManager.registerEndpointPermission("profiles.list", {endpoint: "/v1/profiles/map", method: "get"});
+
         /**
          * Route to List profiles
          */
         this._router.get('/', async (_req: Request, res: Response) => {
-            let profiles = await ProfileModel.find();
+            const profiles = await ProfileModel.find();
             res.json(profiles);
         });
+
+        this.machine.authManager.registerEndpointPermission("profiles.list", {endpoint: "/v1/profiles/", method: "get"});
 
         /**
          * Route to List profile by identifier
          */
         this._router.get('/:type', async (req: Request, res: Response) => {
-            let profiles = await ProfileModel.find({ identifier: req.params.type });
+            const profiles = await ProfileModel.find({ identifier: req.params.type });
 
             res.json(profiles);
         });
+
+        this.machine.authManager.registerEndpointPermission("profiles.list", {endpoint: new RegExp("/v1/profiles/.*", "g"), method: "get"});
 
         /**
          * Route to delete a profile with its given ID
@@ -60,7 +66,7 @@ export class ProfileController extends Controller{
         this._router.delete('/:id', async (req: Request, res: Response) => {
             if(req.params.id != null)
             {
-                let profile = await ProfileModel.findById(req.params.id);
+                const profile = await ProfileModel.findById(req.params.id);
 
                 if(profile != undefined)
                 {
@@ -80,6 +86,8 @@ export class ProfileController extends Controller{
             }
         });
 
+        this.machine.authManager.registerEndpointPermission("profiles.delete", {endpoint: new RegExp("/v1/profiles/.*", "g"), method: "delete"});
+
         /**
          * Route to copy a profile
          */
@@ -88,7 +96,7 @@ export class ProfileController extends Controller{
             if(req.body.id == "copied")
             {
                 delete req.body.id;
-                let profile = req.body as IProfile;
+                const profile = req.body as IProfile;
 
                 await ProfileModel.create(profile);
                 

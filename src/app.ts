@@ -22,14 +22,12 @@ class NusterTurbine
     constructor()
     {
         this.logger = pino({
-            level: process.env.NODE_ENV != "production" ? "trace" : "info"
+            level: process.env.DISABLE_TRACE_LOG != "" ? "trace" : "info"
         });
 
         this.machine = new Machine(this.logger);
 
         this.logger.info("Starting NusterTurbine");
-
-        this.machine.configureRouters();
 
         this._express();
         this._discovery();
@@ -48,7 +46,7 @@ class NusterTurbine
         this.app.use(cookieParser());
 
         //authing middleware
-        if(process.env.NODE_ENV == "production")
+        if(!process.env.DISABLE_AUTH)
             this.app.use(this.machine.authManager.middleware.bind(this.machine.authManager));
 
         //logging middleware

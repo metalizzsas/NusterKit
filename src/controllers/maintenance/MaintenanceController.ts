@@ -40,6 +40,8 @@ export class MaintenanceController extends Controller
             res.status(200).json(this.tasks);
         });
 
+        this.machine.authManager.registerEndpointPermission("maintenance.list", {endpoint: "/v1/maintenance/", method: "get"});
+
         this._router.delete("/:name", async (req: Request, res: Response) => {
             for(const [index, maintenance] of this.tasks.entries())
             {
@@ -53,6 +55,8 @@ export class MaintenanceController extends Controller
             }
             res.status(404).end();
         });
+
+        this.machine.authManager.registerEndpointPermission("maintenance.reset", {endpoint: new RegExp("/v1/maintenance/.*", "g"), method: "delete"});
     }
 
     public async socketData(): Promise<Maintenance[]>

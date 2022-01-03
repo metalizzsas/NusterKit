@@ -4,6 +4,18 @@ import { model, Schema } from "mongoose";
 import argon2 from "argon2";
 import pino from "pino";
 
+type Endpoint = string | RegExp;
+
+//add a toJSON method to RegExp
+Object.defineProperty(RegExp.prototype, "toJSON", {
+    value: RegExp.prototype.toString
+});
+
+interface IEndPoint{
+    endpoint: Endpoint;
+    method: string;
+}
+
 export class AuthManager
 {
     private _router: Router;
@@ -11,12 +23,13 @@ export class AuthManager
     private logger: pino.Logger;
 
     private safeEndPoints: string[] = [
+        "/v1/auth/permissions",
         "/v1/auth/login",
         "/v1/auth/register",
         "/v1/auth/logout"
     ];
 
-    private permissionRegistry: { [key: string]: string[] } = {};
+    private permissionRegistry: { [key: string]: IEndPoint[] } = {};
 
     constructor(logger: pino.Logger)
     {
@@ -26,6 +39,9 @@ export class AuthManager
 
         //tools to manage users
         this._router.get('/', this.list.bind(this));
+        this._router.get('/permissions', (req: Request, res: Response) => {
+            res.json(this.permissionRegistry);
+        });
         this._router.post('/register', this.register.bind(this));
         this._router.post('/login', this.login.bind(this));
         this._router.get('/logout', this.logout.bind(this));
@@ -230,37 +246,66 @@ export class AuthManager
         return (doc) ? true : false;
     }
 
-    private async checkPermissionForEndpoint(sessionID: string, endpoint: string): Promise<boolean>
+    private async checkPermissionForEndpoint(sessionID: string, endpoint: string, method = "get"): Promise<boolean>
     {
+        //avoid any misconception of method casing
+        method = method.toLowerCase();
+
         //if the user is an admin any route should be allowed for him
         if(await this.checkAdmin(sessionID))
+        {
+            this.logger.trace(`sID: ${sessionID} is admin, allowing access to ${endpoint}`);
             return true;
+        }
 
         //test if the path is a static path
         if(new RegExp(/assets/g).test(endpoint))
+        {
+            this.logger.trace(`sID: ${sessionID} is accessing assets folder, allowing access to ${endpoint}`);
             return true;
+        }
 
         //ignore safe endpoints
         if(this.safeEndPoints.includes(endpoint))
+        {
+            this.logger.trace(`sID: ${sessionID} is accessing a safe endpoint, allowing access to ${endpoint}`);
             return true;
+        }
         
         if(this.permissionRegistry.entries)
         {
-            for(const p of this.permissionRegistry.entries)
+            for(const permission of Object.keys(this.permissionRegistry.keys))
             {
-                const ep = this.permissionRegistry[p].find(e => e == endpoint);
-    
-                if(ep)
+                let matchedPermission = null;
+
+                for(const ep of this.permissionRegistry[permission])
+                {
+                    if(typeof ep == "string")
+                    {
+                        matchedPermission = this.permissionRegistry[permission].find(p => p == { endpoint: endpoint, method: method}) ? permission : null;
+                    }
+                    else
+                    {
+                        matchedPermission = this.permissionRegistry[permission].find(p => { return (p.endpoint as RegExp).test(endpoint) && p.method == method })  ? permission : null;
+                    }
+                }
+
+                if(matchedPermission != null)
                 {
                     const doc = await AuthModel.findOne({ sessionID: sessionID });
-                    return (doc) ? doc.permissions.includes(ep) : false;
+                    const result = (doc) ? doc.permissions.includes(matchedPermission) : false;
+
+                    this.logger.trace(`sID: ${sessionID} has ${result ? "" : "not"} permission ${matchedPermission} for ${endpoint}`);
+                    return result;
                 }
                 else
                 {
+                    this.logger.trace(`sID: ${sessionID} has not permission ${matchedPermission} for ${endpoint}`);
                     return false;
                 }
             }
         }
+        this.logger.trace(`sID: ${sessionID} has not permission for ${endpoint}`);
         return false;
     }
 
@@ -277,7 +322,7 @@ export class AuthManager
         {
             if(await this.checkLogin(req.cookies.sessionID))
             {
-                if(await this.checkPermissionForEndpoint(req.cookies.sessionID, req.path))
+                if(await this.checkPermissionForEndpoint(req.cookies.sessionID, req.path, req.method))
                 {
                     next();
                 }
@@ -289,7 +334,7 @@ export class AuthManager
         }
         else
         {
-            if(await this.checkPermissionForEndpoint("", req.path))
+            if(await this.checkPermissionForEndpoint("", req.path, req.method))
             {
                 next();
             }
@@ -307,12 +352,13 @@ export class AuthManager
      * @param permission permission to add endpoint to 
      * @param endpoint enpoint to add to permission
      */
-    public registerEndpointPermission(permission: string, endpoint: string)
+    public registerEndpointPermission(permission: string, endpoint: IEndPoint)
     {
-        if(!this.permissionRegistry[endpoint])
+        if(!this.permissionRegistry[permission])
         {
-            this.permissionRegistry[endpoint].push(permission);
+            this.permissionRegistry[permission] = [];
         }
+        this.permissionRegistry[permission].push(endpoint);
     }
 }
 

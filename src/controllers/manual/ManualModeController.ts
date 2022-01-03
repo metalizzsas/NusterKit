@@ -33,6 +33,8 @@ export class ManualModeController extends Controller
             res.json(this.keys);
         });
 
+        this.machine.authManager.registerEndpointPermission("manual.list", {endpoint: "/v1/manual/", method: "get"});
+
         //TODO: Ehance performance
         this.router.post('/:name/:value', async (req: Request, res: Response) => {
             const concernedKeyIndex = this.keys.findIndex((k) => k.name == req.params.name);
@@ -100,5 +102,7 @@ export class ManualModeController extends Controller
                 return;
             }
         });
+
+        this.machine.authManager.registerEndpointPermission("manual.toggle", {endpoint: new RegExp("/v1/manual/.*/.*", "g"), method: "post"});
     }
 }

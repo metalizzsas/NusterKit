@@ -65,9 +65,13 @@ export class IOController extends Controller
             res.json(this.gates);
         });
 
+        this.machine.authManager.registerEndpointPermission("io.list", {endpoint: "/v1/io/", method: "get"});
+
         this._router.get("/realtime", (_req: Request, res: Response) => {
             res.sendFile(path.join(__dirname, "../../../pages/io.html"));
         });
+
+        this.machine.authManager.registerEndpointPermission("io.list", {endpoint: "/v1/io/realtime", method: "get"});
 
         this._router.get("/:name/:value", async (req: Request, res: Response) => {
 
@@ -89,6 +93,8 @@ export class IOController extends Controller
                 return;
             }
         });
+
+        this.machine.authManager.registerEndpointPermission("io.toggle", {endpoint: new RegExp("/v1/io/.*/.*", "g"), method: "get"});
     }
     /**
      * Find any gate by its name

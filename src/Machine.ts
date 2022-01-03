@@ -86,11 +86,6 @@ export class Machine{
 
     }
 
-    public configureRouters()
-    {
-        return true;
-    }
-
     public async socketData()
     {
         const profiles = await this.profileController.socketData();

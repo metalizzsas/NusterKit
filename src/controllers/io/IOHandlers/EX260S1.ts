@@ -1,32 +1,32 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { IOHandler } from "./IOHandler";
 
-import st from "st-ethernet-ip/src/enip/index.js";
-
-const { ENIP, CIP } = st;
+// st-ethernet-ip has no definitions going blind here
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import st from "st-ethernet-ip";
 
 import process from "process";
 import { Buffer } from "buffer";
 
 export class EX260S1 extends IOHandler
 {
-    isReady = false;
+
+    private controller: st.EthernetIP.ENIP;
 
     /**
      * Builds an EX260S1 object
      * @param {String} ip 
      */
-    constructor(ip)
+    constructor(ip: string)
     {
         super("ex260s1", "ethip", ip);
 
-        this.controller = new ENIP();
-        this.controller.setMaxListeners(50);
+        this.controller = new st.EthernetIP.ENIP();
         
-        this.isReady = false;
+        this.connected = false;
         
-        if(process.env.NODE_ENV == "production")
-            this.connect();
+        this.connect();
     }
 
     async connect()
@@ -35,54 +35,47 @@ export class EX260S1 extends IOHandler
         {
             await this.controller.connect(this.ip);
 
-            this.isReady = true;
             this.connected = true;
 
             //recconnect ex260 on lost connexion
-            //this.controller.once('close', async () => { this.connected = false; await this.connect(); });
+            this.controller.once('close', async () => { this.connected = false; await this.connect(); });
         }
         catch(error)
         {
-            console.log(error);
-            this.isReady = false;
+            this.connected = false;
+            throw error; // will be catched by process.on('uncaughtException');
             return;
         }
     }
 
-    //Method not implemented
-    /**
-     * 
-     * @param {number} _address 
-     * @param {Boolean | undefined} _word 
-     * @returns {Promise<number>}
-     */
-    async readData(_address, _word = undefined)
+    async readData(_address: number, _word?: boolean | undefined)
     {
         throw new Error("Method not implemented");
+        return 0;
     }
 
     //Shall only be used for local applications
-    /**
-     * Read assignated data
-     * @param {Number} address 
-     * @returns {Promise<Buffer>}
-     */
-    async readData2(address)
+    async readData2(address: number): Promise<Buffer>
     {
-        if(!this.isReady)
-            throw new Error("Not ready or not connected");
+        if(process.env.DISABLE_HANDLERS && process.env.DISABLE_HANDLERS == "true")
+        {
+            throw new Error("Handlers disabled");
+        }
+
+        if(!this.connected)
+            await this.connect();
         
         //Path for ethernet ip protocol
         const idPath = Buffer.from([0x20, 0x04, 0x24, address, 0x30, 0x03]);
 
         //Message router packet
-        const MR = CIP.MessageRouter.build(0x0E, idPath, Buffer.alloc(0));
+        const MR = st.EthernetIP.CIP.MessageRouter.build(0x0E, idPath, Buffer.alloc(0));
 
         //write data to the controller
         this.controller.write_cip(MR, false, 10, null);
 
         return new Promise((resolve, reject) => {
-            this.controller.once("SendRRData Received", (data) => {
+            this.controller.once("SendRRData Received", (data: any) => {
                 resolve(data[1].data);
             });
             setTimeout(() => {reject("Reading Data timed out...")}, 10000);
@@ -96,20 +89,20 @@ export class EX260S1 extends IOHandler
      * @param {Boolean?} _word Optional
      * @returns 
      */
-    async writeData(address, value, _word = false)
+    async writeData(address: number, value: number, _word = false): Promise<void>
     {
-        if(!this.isReady)
-            if(process.env.NODE_ENV != "production")
-            {
-                return;
-            }
-            else
-                await this.connect();    
-        else
-            throw new Error("Not ready or not connected");
+        if(process.env.DISABLE_HANDLERS && process.env.DISABLE_HANDLERS == "true")
+        {
+            throw new Error("Handlers disabled");
+            return;
+        }
 
+        if(!this.connected)
+            await this.connect();    
+
+        //patch to prevent writing too early
         await new Promise((resolve) => {
-            setTimeout(resolve, 100);
+            setTimeout(resolve, 150);
         });
 
         //Path for ethernet ip protocol
@@ -150,12 +143,12 @@ export class EX260S1 extends IOHandler
         buf.writeUInt32LE(newDecimalOutputState);
 
         //Message router packet
-        const MR = CIP.MessageRouter.build(0x10, idPath, buf);
+        const MR = st.EthernetIP.CIP.MessageRouter.build(0x10, idPath, buf);
         
         //write data to the controller
 
         return new Promise((resolve, reject) => {
-            this.controller.write_cip(MR, false, 10, (err) => {
+            this.controller.write_cip(MR, false, 10, (err: any) => {
                 if(err) reject(err);
                 else resolve();
             });

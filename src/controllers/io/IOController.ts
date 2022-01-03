@@ -125,6 +125,6 @@ export class IOController extends Controller
 
     public get socketData()
     {
-        return this.gates;
+        return [this.gates, this.handlers];
     }
 }

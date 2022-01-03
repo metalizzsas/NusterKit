@@ -95,7 +95,8 @@ export class Machine{
             "machine": this.toJSON(),
             "cycle": this.cycleController.socketData,
             "slots": this.slotController.socketData,
-            "io": this.ioController.socketData,
+            "io": this.ioController.socketData[0],
+            "handlers": this.ioController.socketData[1],
             "passives": this.passiveController.socketData,
             //Asyns socketdata
             "profiles": profiles,

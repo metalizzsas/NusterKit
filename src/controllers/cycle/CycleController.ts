@@ -40,6 +40,42 @@ export class CycleController extends Controller{
 
         this.machine.authManager.registerEndpointPermission("cycle.list", {endpoint: "/v1/cycle/", method: "get"});
 
+        //restart cycle, put it there beacause it conflicts with the POST /:name/:id? route
+        this._router.post("/restart/:history_id", async (req: Request, res: Response) => {
+
+            const history = await ProgramHistoryModel.findById(req.params.history_id);
+
+            if(history)
+            {
+                this.machine.logger.info("PBR assigned for restart");
+
+                this.program = new ProgramBlockRunner(this.machine, history.profile, history.cycle);
+
+                if(this.program.profileIdentifier != history.profile.identifier)
+                {
+                    res.status(403);
+                    res.write(`Profile ${this.program.profileIdentifier} is not compatible with cycle profile ${history.profile.identifier}`);
+                    res.end();
+                    this.program = undefined;
+                    return;
+                }
+                else
+                {
+                    res.status(200)
+                    res.write("ok");
+                    res.end();
+                    return;
+                }
+            }
+            else
+            {
+                res.status(404).write("HistoryPoint not found");
+                return;
+            }
+        });
+
+        this.machine.authManager.registerEndpointPermission("cycle.run", {endpoint: new RegExp("/v1/cycle/restart/.*", "g"), method: "post"});
+
         //prepare the cycle
         this._router.post("/:name/:id?", async (req: Request, res: Response) => {
 
@@ -84,41 +120,6 @@ export class CycleController extends Controller{
         });
 
         this.machine.authManager.registerEndpointPermission("cycle.run", {endpoint: new RegExp("/v1/cycle/.*", "g"), method: "post"});
-
-        this._router.post("/restart/:history_id", async (req: Request, res: Response) => {
-
-            const history = await ProgramHistoryModel.findById(req.params.history_id);
-
-            if(history)
-            {
-                this.machine.logger.info("PBR assigned for restart");
-
-                this.program = new ProgramBlockRunner(this.machine, history.profile, history.cycle);
-
-                if(this.program.profileIdentifier != history.profile.identifier)
-                {
-                    res.status(403);
-                    res.write(`Profile ${this.program.profileIdentifier} is not compatible with cycle profile ${history.profile.identifier}`);
-                    res.end();
-                    this.program = undefined;
-                    return;
-                }
-                else
-                {
-                    res.status(200)
-                    res.write("ok");
-                    res.end();
-                    return;
-                }
-            }
-            else
-            {
-                res.status(404).write("HistoryPoint not found");
-                return;
-            }
-        });
-
-        this.machine.authManager.registerEndpointPermission("cycle.run", {endpoint: new RegExp("/v1/cycle/restart/.*", "g"), method: "post"});
 
         //start the cycle
         this._router.put("/", async (req: Request, res: Response) => {

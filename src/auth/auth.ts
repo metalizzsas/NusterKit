@@ -30,6 +30,7 @@ export class AuthManager
     private logger: pino.Logger;
 
     private safeEndPoints: string[] = [
+        "/ws",
         "/status",
         "/v1/auth/permissions",
         "/v1/auth/login",

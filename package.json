@@ -11,7 +11,8 @@
     "machine": "export NODE_ENV=\"production\"; nodemon src/app.ts | node_modules/.bin/pino-pretty",
     "docs": "typedoc --out docs --entryPointStrategy expand ./src",
     "build": "tsc",
-    "start": "node build/app.js"
+    "start": "node build/app.js",
+    "lc": "find './src' -name '*.ts' | xargs wc -l"
   },
   "repository": {
     "type": "git",

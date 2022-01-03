@@ -82,17 +82,18 @@ class NusterTurbine
         this.app.use("/assets", express.static(this.machine.assetsFolder));
 
         this.app.get("/status", (req: Request, res: Response) => res.json(this.status));
+        this.app.get("/ws", async (req: Request, res: Response) => res.json(await this.machine.socketData()));
     }
     /**
      * Create UDP4 discovery service
      */
     private _discovery() 
     {
-        const multicast_addr = "1.1.1.1",
-            port = 2222;
+        const multicast_addr = "1.1.1.1";
+        const port = 2222;
 
-        const listener = dgram.createSocket({type:"udp4", reuseAddr:true}),
-            sender = dgram.createSocket({type:"udp4", reuseAddr:true});
+        const listener = dgram.createSocket({type: "udp4", reuseAddr: true});
+        const sender = dgram.createSocket({type: "udp4", reuseAddr: true});
 
         listener.bind(port, multicast_addr, function(){
             listener.addMembership(multicast_addr);

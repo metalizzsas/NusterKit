@@ -97,6 +97,8 @@ export class ProgramBlockRunner implements IProgram
             // @ts-ignore: disabled overlap checking
             if(this.status.mode != PBRMode.ENDED)
                 result = await this.steps[this.currentStepIndex].execute();
+            else
+                break;
 
             switch(result)
             {

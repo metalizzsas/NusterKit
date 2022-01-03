@@ -22,7 +22,7 @@ export class SlotController extends Controller
 
     private _configure()
     {
-        for(let slot of this.machine.specs.slots)
+        for(const slot of this.machine.specs.slots)
         {
             this.slots.push(new Slot(slot.name, slot.type, slot.isProductable, slot.sensors))
         }
@@ -35,7 +35,7 @@ export class SlotController extends Controller
          */
         this._router.get('/', async (req: Request, res: Response) => {
 
-            for(let slot of this.slots)
+            for(const slot of this.slots)
             {
                 await slot.readSensors();
             }
@@ -48,11 +48,11 @@ export class SlotController extends Controller
          */
         this._router.post('/:name', async (req: Request, res: Response) => {
 
-            let targetSlot = this.slots.findIndex((slot) => slot.name == req.params.name)
+            const targetSlot = this.slots.findIndex((slot) => slot.name == req.params.name)
 
             if(targetSlot > -1)
             {
-                let result = await this.slots[targetSlot].loadSlot(req.body);
+                const result = await this.slots[targetSlot].loadSlot(req.body);
 
                 res.status(result ? 200 : 400).end();
                 return;
@@ -66,11 +66,11 @@ export class SlotController extends Controller
 
         this._router.delete('/:name', async (req: Request, res: Response) => {
 
-            let targetSlot = this.slots.findIndex((slot) => slot.name == req.params.name);
+            const targetSlot = this.slots.findIndex((slot) => slot.name == req.params.name);
 
             if(targetSlot > -1)
             {
-                let result = await this.slots[targetSlot].unloadSlot();
+                const result = await this.slots[targetSlot].unloadSlot();
 
                 res.status(result ? 200 : 400).end();
                 return;

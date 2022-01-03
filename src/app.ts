@@ -9,6 +9,12 @@ import { pino } from "pino";
 
 import { Machine } from "./Machine";
 
+interface IStatus
+{
+    mode: string;
+    errors: string[];
+}
+
 class NusterTurbine
 {
     public app = express();
@@ -19,8 +25,15 @@ class NusterTurbine
 
     public machine: Machine;
 
+    public status: IStatus;
+
     constructor()
     {
+        this.status = {
+            mode: "starting",
+            errors: []
+        };
+
         this.logger = pino({
             level: process.env.DISABLE_TRACE_LOG != "" ? "trace" : "info"
         });
@@ -28,6 +41,8 @@ class NusterTurbine
         this.machine = new Machine(this.logger);
 
         this.logger.info("Starting NusterTurbine");
+
+        this.status.mode = "running";
 
         this._express();
         this._discovery();
@@ -41,7 +56,10 @@ class NusterTurbine
      */
     private _express()
     {
-        this.httpServer = this.app.listen(80, () => { this.logger.info("Express server listening on port 80"); });
+        this.httpServer = this.app.listen(80, () => { 
+            this.logger.info("Express server listening on port 80"); 
+        });
+
         this.app.use(express.json());
         this.app.use(cookieParser());
 
@@ -62,6 +80,8 @@ class NusterTurbine
 
         this.machine.logger.info(`Will use ${this.machine.assetsFolder} as the assets folder.`);
         this.app.use("/assets", express.static(this.machine.assetsFolder));
+
+        this.app.get("/status", (req: Request, res: Response) => res.json(this.status));
     }
     /**
      * Create UDP4 discovery service
@@ -93,16 +113,16 @@ class NusterTurbine
      */
     private _websocket()
     {
-        this.wsServer = new WebSocketServer({server: this.httpServer });
+        this.wsServer = new WebSocketServer({server: this.httpServer }, () => { this.logger.info("Websocket server listening on port 80"); });
 
         this.wsServer.on('connection', (ws: WebSocket) => { 
             if(this.wsServer)
             {
                 this.wsServer.clients.add(ws); 
-                this.logger.info("New websocket client");
+                this.logger.trace("New websocket client");
     
                 ws.on("close", () => {
-                    this.logger.info("Websocket client disconnected");
+                    this.logger.trace("Websocket client disconnected");
                 });
             }
         });
@@ -126,7 +146,17 @@ class NusterTurbine
      */
     private _mongoose()
     {
-        mongoose.connect('mongodb://localhost/nuster2');
+        try
+        {
+            mongoose.connect('mongodb://localhost/nuster2');
+        }
+        catch(err)
+        {
+            this.logger.fatal(err);
+
+            this.status.mode = "errored";
+            this.status.errors.push("Failed to connect to mongoDB");
+        }
 
         //move id to _id
         //remove __v
@@ -171,14 +201,18 @@ class NusterTurbine
 
 const nt = new NusterTurbine();
 
-process.on("uncaughtException", (error: Error) => {
-    nt.logger.fatal("unCaughtException");
-    nt.logger.fatal(error);
-    process.exit(1);
+process.on("uncaughtException", error => {
+    nt.logger.error("unCaughtException");
+    nt.logger.error(error);
+
+    nt.status.mode = "errored";
+    nt.status.errors.push(error.message);
 });
 
 process.on('unhandledRejection', error => {
-    nt.logger.fatal("Unhandledpromise");
-    nt.logger.fatal(error);
-    process.exit(2);
-  });
+    nt.logger.error("Unhandledpromise");
+    nt.logger.error(error);
+
+    nt.status.mode = "errored";
+    nt.status.errors.push(`${error}`);
+});

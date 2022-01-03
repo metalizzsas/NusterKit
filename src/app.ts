@@ -1,4 +1,5 @@
 import express,  { Request, Response } from "express";
+import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import { WebSocket, WebSocketServer } from "ws";
 import { Server } from "http";
@@ -44,6 +45,7 @@ class NusterTurbine
     {
         this.httpServer = this.app.listen(80, () => { this.logger.info("Express server listening on port 80"); });
         this.app.use(express.json());
+        this.app.use(cookieParser());
 
         //authing middleware
         if(process.env.NODE_ENV == "production")
@@ -77,7 +79,6 @@ class NusterTurbine
         listener.bind(port, multicast_addr, function(){
             listener.addMembership(multicast_addr);
             listener.setBroadcast(true);
-            
         });
 
         setInterval(() => {
@@ -159,6 +160,8 @@ class NusterTurbine
         this.app.use('/v1/manual', this.machine.manualmodeController.router);
         this.app.use('/v1/cycle', this.machine.cycleController.router);
         this.app.use('/v1/passives', this.machine.passiveController.router);
+
+        this.app.use('/v1/auth', this.machine.authManager.router);
 
         this.app.get("/qr", (req: Request, res: Response) => {
             res.status(200).end();

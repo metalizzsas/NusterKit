@@ -25,26 +25,27 @@ export class AuthManager
         this.logger = logger;
 
         //tools to manage users
-        this._router.post('/register', this.register);
-        this._router.post('/login', this.login);
-        this._router.post('/logout', this.logout);
+        this._router.get('/', this.list.bind(this));
+        this._router.post('/register', this.register.bind(this));
+        this._router.post('/login', this.login.bind(this));
+        this._router.get('/logout', this.logout.bind(this));
 
         //Tools to edit / delete accounts
-        this._router.post('/edit', this.edit);
-        this._router.delete('/delete', this.delete);
+        this._router.post('/edit', this.edit.bind(this));
+        this._router.delete('/delete', this.delete.bind(this));
         
         this.logger.info("Initialized AuthManager");
 
         this.logger.trace("Checking for existing admin account...");
 
-        AuthModel.exists({ username: "admin" }).then(exists => {
+        AuthModel.exists({ username: "admin" }).then(async (exists) => {
             if(!exists)
             {
                 this.logger.info("No admin account found, creating one...");
 
                 const admin = new AuthModel({
                     username: "admin",
-                    password: "metalizz",
+                    password: await argon2.hash("signal"),
                     permissions: ["admin"],
                     isAdmin: true
                 });
@@ -54,6 +55,46 @@ export class AuthManager
             else
                 this.logger.trace("Admin account found");
         });
+    }
+
+    private async list(req: Request, res: Response)
+    {
+        if(req.cookies && req.cookies.sessionID)
+        {
+            if(await this.checkAdmin(req.cookies.sessionID))
+            {
+                const users = await AuthModel.find({});
+
+                interface IUser{
+                    id?: string;
+                    username: string;
+                    permissions: string[];
+                    isAdmin: boolean;
+                }
+
+                const returned: IUser[] = [];
+
+                for(const user of users)
+                {
+                    returned.push({
+                        id: user.id,
+                        username: user.username,
+                        permissions: user.permissions,
+                        isAdmin: user.isAdmin
+                    });
+                }
+
+                res.json(returned);
+            }
+            else
+            {
+                res.status(403).send("Forbidden");
+            }
+        }
+        else
+        {
+            res.status(401).send("Unauthorized");
+        }
     }
 
     private async login(req: Request, res: Response)
@@ -71,16 +112,16 @@ export class AuthManager
                 await doc.save();
 
                 res.cookie("sessionID", sessionID, {
-                    maxAge: 1000 * 60 * 60 * 24 * 7,
-                    httpOnly: true
+                    maxAge: 1000 * 60 * 60 * 24 * 7
                 });
 
                 res.status(200).end("auth ok");
+                return;
             }
             else
-                res.status(401).end("password incorrect");
+                res.status(401).end("password incorrect"); return;
         }
-        res.status(401).end("username incorrect");
+        res.status(401).end("username not found");
     }
 
     private async register(req: Request, res: Response)
@@ -108,7 +149,7 @@ export class AuthManager
 
         if(doc)
         {
-            delete doc.sessionID;
+            doc.sessionID = undefined;
 
             await doc.save();
 
@@ -117,7 +158,7 @@ export class AuthManager
             res.status(200).end("logout ok");
         }
         else
-            res.status(401).end("no session");
+            res.status(401).end("no session to logout");
     }
 
     private async edit(req: Request, res: Response)
@@ -225,6 +266,13 @@ export class AuthManager
 
     public async middleware(req: Request, res: Response, next: NextFunction)
     {
+        //check if the route is considered as a safe endpoint
+        if(this.safeEndPoints.includes(req.path))
+        {
+            next();
+            return;
+        }
+        
         if(req.cookies && req.cookies.sessionID)
         {
             if(await this.checkLogin(req.cookies.sessionID))
@@ -241,7 +289,6 @@ export class AuthManager
         }
         else
         {
-            
             if(await this.checkPermissionForEndpoint("", req.path))
             {
                 next();

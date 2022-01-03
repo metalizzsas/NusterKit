@@ -39,7 +39,7 @@ export class EX260S1 extends IOHandler
             this.connected = true;
 
             //recconnect ex260 on lost connexion
-            this.controller.once('close', async () => { this.connected = false; await this.connect() });
+            //this.controller.once('close', async () => { this.connected = false; await this.connect(); });
         }
         catch(error)
         {
@@ -102,7 +102,9 @@ export class EX260S1 extends IOHandler
             if(process.env.NODE_ENV != "production")
             {
                 return;
-            }    
+            }
+            else
+                await this.connect();    
         else
             throw new Error("Not ready or not connected");
 

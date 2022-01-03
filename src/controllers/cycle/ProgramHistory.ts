@@ -4,11 +4,13 @@ import { IPBRStatus, IProgram } from "../../programblocks/ProgramBlockRunner";
 import { IProgramBlock } from "../../programblocks/ProgramBlocks";
 import { IProgramStep } from "../../programblocks/ProgramBlockStep";
 import { IWatchdogCondition } from "../../programblocks/Watchdog";
+import { IProfile, ProfileSchema } from "../profile/Profile";
 
 export interface IProgramHistory
 {
     rating?: number,
-    cycle: IProgram
+    cycle: IProgram,
+    profile: IProfile
 }
 
 const PBRStatusSchema = new Schema<IPBRStatus>({
@@ -75,7 +77,8 @@ const ProgramSchema = new Schema<IProgram>({
 
 const ProgramHistorySchema = new Schema<IProgramHistory>({
     rating: Number,
-    cycle: {type: ProgramSchema, required: true}
+    cycle: {type: ProgramSchema, required: true},
+    profile: {type: ProfileSchema, required: true}
 });
 
 export const ProgramHistoryModel = model("history", ProgramHistorySchema);

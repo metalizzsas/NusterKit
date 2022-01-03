@@ -40,6 +40,10 @@ export class ProgramBlockRunner implements IProgram
 
         this.machine.logger.info("Building PBR...");
 
+        //if this is defined it should be a cycle restart
+        if(object.currentStepIndex)
+            this.currentStepIndex = object.currentStepIndex;
+
         this.profile = profile;
 
         //properties assignment

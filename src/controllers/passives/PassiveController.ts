@@ -45,7 +45,7 @@ export class PassiveController extends Controller
             }
         });
 
-        this.machine.authManager.registerEndpointPermission("passives.state", {endpoint: new RegExp("/v1/passives/.*/.*", "g"), method: "post"});
+        this.machine.authManager.registerEndpointPermission("passives.toggle", {endpoint: new RegExp("/v1/passives/.*/.*", "g"), method: "post"});
     }
 
     public get socketData()

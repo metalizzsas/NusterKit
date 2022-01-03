@@ -11,7 +11,14 @@ Object.defineProperty(RegExp.prototype, "toJSON", {
     value: RegExp.prototype.toString
 });
 
-interface IEndPoint{
+interface IEndPoint
+{
+    endpoint: Endpoint;
+    method: string;
+}
+
+interface IEndpointPermission{
+    permission: string;
     endpoint: Endpoint;
     method: string;
 }
@@ -30,7 +37,7 @@ export class AuthManager
         "/v1/auth/logout"
     ];
 
-    private permissionRegistry: { [key: string]: IEndPoint[] } = {};
+    private permissionRegistry: IEndpointPermission[] = [];
 
     constructor(logger: pino.Logger)
     {
@@ -272,40 +279,39 @@ export class AuthManager
             this.logger.trace(`sID: ${sessionID} is accessing a safe endpoint, allowing access to ${endpoint}`);
             return true;
         }
-        
-        if(this.permissionRegistry.entries)
+
+        const z = this.permissionRegistry.find(p => {
+
+            if(typeof p.endpoint === "string")
+                return p.endpoint == endpoint && p.method == method;
+            else
+                return p.endpoint.test(endpoint) && p.method == method;
+        });
+
+        if(z)
         {
-            for(const permission of Object.keys(this.permissionRegistry.keys))
+            const doc = await AuthModel.findOne({ sessionID: sessionID });
+
+            if(doc)
             {
-                let matchedPermission = null;
-
-                for(const ep of this.permissionRegistry[permission])
+                if(doc.permissions.includes(z.permission))
                 {
-                    if(typeof ep == "string")
-                    {
-                        matchedPermission = this.permissionRegistry[permission].find(p => p == { endpoint: endpoint, method: method}) ? permission : null;
-                    }
-                    else
-                    {
-                        matchedPermission = this.permissionRegistry[permission].find(p => { return (p.endpoint as RegExp).test(endpoint) && p.method == method })  ? permission : null;
-                    }
-                }
-
-                if(matchedPermission != null)
-                {
-                    const doc = await AuthModel.findOne({ sessionID: sessionID });
-                    const result = (doc) ? doc.permissions.includes(matchedPermission) : false;
-
-                    this.logger.trace(`sID: ${sessionID} has ${result ? "" : "not"} permission ${matchedPermission} for ${endpoint}`);
-                    return result;
+                    this.logger.trace(`sID: ${sessionID} has permission ${z.permission} for ${endpoint}`);
+                    return true;
                 }
                 else
                 {
-                    this.logger.trace(`sID: ${sessionID} has not permission ${matchedPermission} for ${endpoint}`);
+                    this.logger.trace(`sID: ${sessionID} has no permission ${z.permission} for ${endpoint}`);
                     return false;
                 }
             }
+            else
+            {
+                this.logger.trace(`sID: ${sessionID} is not logged in, denying access to ${endpoint}`);
+                return false;
+            }
         }
+        
         this.logger.trace(`sID: ${sessionID} has not permission for ${endpoint}`);
         return false;
     }
@@ -355,11 +361,13 @@ export class AuthManager
      */
     public registerEndpointPermission(permission: string, endpoint: IEndPoint)
     {
-        if(!this.permissionRegistry[permission])
-        {
-            this.permissionRegistry[permission] = [];
-        }
-        this.permissionRegistry[permission].push(endpoint);
+        const t  = {
+            permission: permission,
+            endpoint: endpoint.endpoint,
+            method: endpoint.method
+        };
+        
+        this.permissionRegistry.push(t);
     }
 }
 

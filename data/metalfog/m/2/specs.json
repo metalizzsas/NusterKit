@@ -748,7 +748,7 @@
                   "value": "3",
                   "params": []
                },
-               "blocks": [
+               "startingIO": [
                   {
                      "name": "io",
                      "params": [
@@ -766,43 +766,35 @@
                      "blocks": []
                   },
                   {
-                     "name": "if",
+                     "name": "io",
                      "params": [
                         {
-                           "name": "profile",
-                           "value": "motor.enabled",
-                           "params": []
-                        },
-                        {
                            "name": "conststr",
-                           "value": "!=",
+                           "value": "motor-speed",
                            "params": []
                         },
                         {
-                           "name": "const",
-                           "value": "0",
-                           "params": []
-                        }
-                     ],
-                     "blocks": [
-                        {
-                           "name": "io",
+                           "name": "multiply",
+                           "value": "1",
                            "params": [
                               {
-                                 "name": "conststr",
-                                 "value": "motor-speed",
+                                 "name": "profile",
+                                 "value": "motor.enabled",
                                  "params": []
                               },
                               {
-                                 "name": "profile",
-                                 "value": "motor.speed",
+                                 "name": "const",
+                                 "value": "1",
                                  "params": []
                               }
-                           ],
-                           "blocks": []
+                           ]
                         }
-                     ]
-                  },
+                     ],
+                     "blocks": []
+                  }
+               ],
+               "endingIO": [],
+               "blocks": [
                   {
                      "name": "sleep",
                      "params": [
@@ -850,7 +842,50 @@
                      }
                   ]
                },
-               "blocks": [
+               "startingIO": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ventilation",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "motor-speed",
+                           "params": []
+                        },
+                        {
+                           "name": "multiply",
+                           "value": "0",
+                           "params": [
+                              {
+                                 "name": "const",
+                                 "value": "1",
+                                 "params": []
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "motor.enabled",
+                                 "params": []
+                              }
+                           ]
+                        }
+                     ],
+                     "blocks": []
+                  },
                   {
                      "name": "io",
                      "params": [
@@ -866,7 +901,27 @@
                         }
                      ],
                      "blocks": []
-                  },
+                  }
+               ],
+               "endingIO": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "act-res",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  }
+               ],
+               "blocks": [
                   {
                      "name": "for",
                      "params": [
@@ -1050,22 +1105,6 @@
                            "blocks": []
                         }
                      ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "act-res",
-                           "params": []
-                        },
-                        {
-                           "name": "const",
-                           "value": "0",
-                           "params": []
-                        }
-                     ],
-                     "blocks": []
                   }
                ]
             },
@@ -1081,6 +1120,52 @@
                   "value": "wash1.duration",
                   "params": []
                },
+               "startingIO": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ventilation",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "motor-speed",
+                           "params": []
+                        },
+                        {
+                           "name": "multiply",
+                           "value": "0",
+                           "params": [
+                              {
+                                 "name": "const",
+                                 "value": "1",
+                                 "params": []
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "motor.enabled",
+                                 "params": []
+                              }
+                           ]
+                        }
+                     ],
+                     "blocks": []
+                  }
+               ],
+               "endingIO": [],
                "blocks": [
                   {
                      "name": "io",
@@ -1311,6 +1396,52 @@
                      }
                   ]
                },
+               "startingIO": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ventilation",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "motor-speed",
+                           "params": []
+                        },
+                        {
+                           "name": "multiply",
+                           "value": "0",
+                           "params": [
+                              {
+                                 "name": "const",
+                                 "value": "1",
+                                 "params": []
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "motor.enabled",
+                                 "params": []
+                              }
+                           ]
+                        }
+                     ],
+                     "blocks": []
+                  }
+               ],
+               "endingIO": [],
                "blocks": [
                   {
                      "name": "io",
@@ -1745,6 +1876,52 @@
                   "value": "5",
                   "params": []
                },
+               "startingIO": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ventilation",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "motor-speed",
+                           "params": []
+                        },
+                        {
+                           "name": "multiply",
+                           "value": "0",
+                           "params": [
+                              {
+                                 "name": "const",
+                                 "value": "1",
+                                 "params": []
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "motor.enabled",
+                                 "params": []
+                              }
+                           ]
+                        }
+                     ],
+                     "blocks": []
+                  }
+               ],
+               "endingIO": [],
                "blocks": [
                   {
                      "name": "io",
@@ -1963,6 +2140,52 @@
                   "value": "wash2.duration",
                   "params": []
                },
+               "startingIO": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ventilation",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "motor-speed",
+                           "params": []
+                        },
+                        {
+                           "name": "multiply",
+                           "value": "0",
+                           "params": [
+                              {
+                                 "name": "const",
+                                 "value": "1",
+                                 "params": []
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "motor.enabled",
+                                 "params": []
+                              }
+                           ]
+                        }
+                     ],
+                     "blocks": []
+                  }
+               ],
+               "endingIO": [],
                "blocks": [
                   {
                      "name": "io",
@@ -2171,7 +2394,50 @@
                   "value": "drying.duration",
                   "params": []
                },
-               "blocks": [
+               "startingIO": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ventilation",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "motor-speed",
+                           "params": []
+                        },
+                        {
+                           "name": "multiply",
+                           "value": "0",
+                           "params": [
+                              {
+                                 "name": "const",
+                                 "value": "1",
+                                 "params": []
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "motor.enabled",
+                                 "params": []
+                              }
+                           ]
+                        }
+                     ],
+                     "blocks": []
+                  },
                   {
                      "name": "io",
                      "params": [
@@ -2267,18 +2533,9 @@
                         }
                      ],
                      "blocks": []
-                  },
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "profile",
-                           "value": "drying.duration",
-                           "params": []
-                        }
-                     ],
-                     "blocks": []
-                  },
+                  }
+               ],
+               "endingIO": [
                   {
                      "name": "io",
                      "params": [
@@ -2375,6 +2632,19 @@
                      ],
                      "blocks": []
                   }
+               ],
+               "blocks": [
+                  {
+                     "name": "sleep",
+                     "params": [
+                        {
+                           "name": "profile",
+                           "value": "drying.duration",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  }
                ]
             },
             {
@@ -2389,18 +2659,8 @@
                   "value": "vapors-extraction.duration",
                   "params": []
                },
-               "blocks": [
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "profile",
-                           "value": "vapors-extraction.duration",
-                           "params": []
-                        }
-                     ],
-                     "blocks": []
-                  },
+               "startingIO": [],
+               "endingIO": [
                   {
                      "name": "io",
                      "params": [
@@ -2428,6 +2688,80 @@
                         {
                            "name": "const",
                            "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  }
+               ],
+               "blocks": [
+                  {
+                     "name": "sleep",
+                     "params": [
+                        {
+                           "name": "profile",
+                           "value": "vapors-extraction.duration",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  }
+               ]
+            },
+            {
+               "name": "end",
+               "isEnabled": {
+                  "name": "const",
+                  "value": "1",
+                  "params": []
+               },
+               "duration": {
+                  "name": "const",
+                  "value": "3",
+                  "params": []
+               },
+               "startingIO": [],
+               "endingIO": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "motor-speed",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ventilation",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  }
+               ],
+               "blocks": [
+                  {
+                     "name": "sleep",
+                     "params": [
+                        {
+                           "name": "const",
+                           "value": "3",
                            "params": []
                         }
                      ],

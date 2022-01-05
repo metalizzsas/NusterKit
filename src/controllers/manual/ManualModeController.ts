@@ -35,70 +35,55 @@ export class ManualModeController extends Controller
 
         this.machine.authManager.registerEndpointPermission("manual.list", {endpoint: "/v1/manual/", method: "get"});
 
-        //TODO: Ehance performance
         this.router.post('/:name/:value', async (req: Request, res: Response) => {
-            const concernedKeyIndex = this.keys.findIndex((k) => k.name == req.params.name);
 
-            if(concernedKeyIndex > -1)
+            const key = this.keys.find(k => k.name === req.params.name);
+
+            //find manual mode to update
+            if(key)
             {
-                //verify that triggering this will not interfer with other manual modes
-                for(const k_incompatibilities of this.keys[concernedKeyIndex].incompatibility)
+                const value = req.params.value === "true" ? true : false;
+                
+                //Key is going to be enabled, so check if it is compatible with other keys
+                if(value)
                 {
-                    const keyToCheck = this.keys.findIndex((k2) => k2.name == k_incompatibilities);
-
-                    if(keyToCheck > -1)
+                    //check if one of the key to toggle ON is compatible to already active keys
+                    if(this.keys.filter(k => k.state).find(k => k.incompatibility.includes(key.name)))
                     {
-                        if(this.keys[keyToCheck].state == true)
-                        {
-                            res.status(403).end();
-                            return;
-                        }
+                        res.status(403).send("incompatibility detected");
+                        return;
                     }
                     else
                     {
-                        //incompatibility is not checkable
-                        res.status(500).end();
-                        return;
+                        //key is ready to be toggled
+                        //toggle gates but not if they are already active
+
+                        const activeGates = this.keys.filter(k => k.state).flatMap(k => k.controls);
+
+                        const gatesToToggle = key.controls.filter(g => !activeGates.includes(g));
+
+                        for(const gate of gatesToToggle)
+                            this.machine.ioController.gFinder(gate)?.write(this.machine.ioController, 1);
+
+                        res.status(200).send("ok");
                     }
                 }
-
-                //check of incompatibilities is successful toggle the io now
-                for(const gate of this.keys[concernedKeyIndex].controls)
+                else
                 {
-                    const activeGates: string[] = [];
+                    //manual mode is going to be disabled, set concerned gates to false
+                    const activeGatesThatStay = this.keys.filter(k => k.state && k.name !== key.name).flatMap(k => k.controls);
 
-                    for(const activeKeys of this.keys.filter((m => m.state == true && m.name != req.params.name)))
-                    {
-                        activeGates.push(...activeKeys.controls);
-                    }
+                    const gatesToToggleOff = key.controls.filter(g => !activeGatesThatStay.includes(g));
 
-                    const activeGatesSet = [...new Set(activeGates)]
-
-                    const gateIndex = this.machine.ioController.gates.findIndex((g) => g.name == gate)
-
-                    if(gateIndex > -1)
-                    {
-                        //skip this gate updating routine because it is enabled in another manual mode
-                        if(!(activeGatesSet.findIndex((g) => g == gate) > -1))
-                            this.machine.ioController.gates[gateIndex].write(this.machine.ioController, req.params.value == "true" ? 1 : 0)
-
-                        this.keys[concernedKeyIndex].state = (req.params.value == "true");
-                    }
-                    else
-                    {
-                        //gate controls are wrongly defined
-                        res.status(500).end();
-                        return;
-                    }
+                    for(const gate of gatesToToggleOff)
+                        this.machine.ioController.gFinder(gate)?.write(this.machine.ioController, 0);
+                    
+                    res.status(200).send("ok");
                 }
-
-                res.status(200).end();
-                return;
             }
             else
             {
-                //the manual key is undefined
-                res.status(404).end();
+                res.status(404).send("manual mode not found");
                 return;
             }
         });

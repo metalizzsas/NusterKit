@@ -66,7 +66,6 @@ export class ProgramBlockRunner implements IProgram
         this.event.on("end", (ev) => this.end(ev[0] || "event"));
 
         this.machine.logger.info("Finished building PBR.");
-
     }
 
     public async run()
@@ -141,10 +140,10 @@ export class ProgramBlockRunner implements IProgram
         const m = this.machine.maintenanceController.tasks.find((m) => m.name == "cycleCount");
         m?.append(1);
 
-        this.status.endReason = reason || "cycle-ended";
+        this.status.endReason = reason || "finished";
         this.status.mode = PBRMode.ENDED;
         //TODO: Resorbs all timers and everything
-        this.machine.logger.info(`Ended cycle ${this.name} with state: ${this.status.mode} and reason ${reason}.`);
+        this.machine.logger.info(`Ended cycle ${this.name} with state: ${this.status.mode} and reason ${this.status.endReason}.`);
     }
 
     public get progress()

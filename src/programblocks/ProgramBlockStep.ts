@@ -8,6 +8,9 @@ export class ProgramBlockStep implements IProgramStep
 
     name: string;
 
+    startingIO: ProgramBlock[] = [];
+    endingIO: ProgramBlock[] = [];
+
     state: ProgramStepState = ProgramStepState.WAITING;
     type: ProgramStepType = ProgramStepType.SINGLE;
 
@@ -35,6 +38,24 @@ export class ProgramBlockStep implements IProgramStep
             this.type = (this.runAmount.data() as number > 1 ? ProgramStepType.MULTIPLE : ProgramStepType.SINGLE);
         }
 
+        //Adding io starting blocks
+        for(const io of obj.startingIO)
+        {
+            this.startingIO.push(ProgramBlockRegistry(this.pbrInstance, io));
+        }
+
+        console.log("starting", this.name, this.startingIO);
+
+        //Adding io ending blocks
+        for(const io of obj.endingIO)
+        {
+            this.endingIO.push(ProgramBlockRegistry(this.pbrInstance, io));
+        }
+
+        console.log("ending", this.name, this.endingIO);
+
+
+        //adding program blocks
         for(const block of obj.blocks)
         {
             this.blocks.push(ProgramBlockRegistry(this.pbrInstance, block));
@@ -43,16 +64,22 @@ export class ProgramBlockStep implements IProgramStep
 
     public async execute(): Promise<ProgramStepResult>
     {
-        this.state = ProgramStepState.STARTED;
-
-        this.pbrInstance.machine.logger.info(`Started step: ${this.name}.`);
-
         if(this.pbrInstance.status.mode == PBRMode.ENDED)
         {
             this.pbrInstance.machine.logger.warn(`Tried to execute step ${this.name} while cycle ended.`);
             return ProgramStepResult.FAILED;
         }
 
+        this.pbrInstance.machine.logger.info(`Started step: ${this.name}.`);
+        this.state = ProgramStepState.STARTED;
+
+        this.pbrInstance.machine.logger.info(`Executing io starter blocks.`);
+        for(const io of this.startingIO)
+        {
+            await io.execute();
+        }
+
+        this.pbrInstance.machine.logger.info(`Executing step main blocks.`);
         for(const b of this.blocks)
         {
             if(this.state !== ProgramStepState.STARTED)
@@ -62,6 +89,12 @@ export class ProgramBlockStep implements IProgramStep
             }
             
             await b.execute();
+        }
+
+        this.pbrInstance.machine.logger.info(`Executing io ending blocks.`);
+        for(const io of this.endingIO)
+        {
+            await io.execute();
         }
 
         //handling of multiple runned steps
@@ -157,6 +190,9 @@ export class ProgramBlockStep implements IProgramStep
     
             runAmount: this.runAmount,
             runCount: this.runCount,
+
+            startingIO: this.startingIO,
+            endingIO: this.endingIO,
             
             blocks: this.blocks
         }
@@ -179,6 +215,9 @@ export interface IProgramStep
     runAmount?: IParameterBlock;
     runCount?: number;
 
+    startingIO: IProgramBlock[];
+    endingIO: IProgramBlock[];
+
     blocks: IProgramBlock[]
 }
 
@@ -195,6 +234,12 @@ export interface IProgramStepInformations
 
     runAmount?: number,
     runCount?: number
+}
+
+export interface IProgramStepIOStarter
+{
+    name: ParameterBlock;
+    value: ParameterBlock;
 }
 
 export enum ProgramStepState

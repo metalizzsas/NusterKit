@@ -104,7 +104,7 @@ export class EX260S3 extends IOHandler
 
         const res = await this.readData2(0x96);
 
-        const result = res.readUIntLE(4, 1);
+        const result = res.readUIntLE(4, 2);
 
         console.log(result);
 

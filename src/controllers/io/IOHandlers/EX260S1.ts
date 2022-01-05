@@ -14,6 +14,8 @@ export class EX260S1 extends IOHandler
 
     private controller: st.EthernetIP.ENIP;
 
+    private prevBuffer: Buffer = Buffer.alloc(0);
+
     /**
      * Builds an EX260S1 object
      * @param {String} ip 
@@ -102,7 +104,7 @@ export class EX260S1 extends IOHandler
 
         //patch to prevent writing too early
         await new Promise((resolve) => {
-            setTimeout(resolve, 150);
+            setTimeout(resolve, 10);
         });
 
         //Path for ethernet ip protocol
@@ -110,14 +112,14 @@ export class EX260S1 extends IOHandler
 
         const res = await this.readData2(0x96);
 
-        const result = res.readUIntLE(4, 2);
+        const result = res.readUIntLE(4, 4);
 
         const strBinaryArray = ("00000000000000000000000000000000" + result.toString(2)).slice(-32);
 
         //spliting string
         const binaryArray = strBinaryArray.split("");
 
-        const intArray = [];
+        const intArray: number[] = [];
 
         //replcing String to Int
         binaryArray.forEach((part, index, array) => {

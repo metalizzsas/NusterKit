@@ -65,7 +65,7 @@ export enum IOGateSize
 
 export enum IOGateType
 {
-    A10V = "a10V",
+    A10V = "a10v",
     UM18 = "um18",
     DEFAULT = "default"
 }

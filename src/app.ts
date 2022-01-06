@@ -7,7 +7,11 @@ import dgram from "dgram";
 import { pinoHttp } from "pino-http";
 import { pino } from "pino";
 
+import QRCode from "qrcode";
+import { PassThrough } from 'stream';
+
 import { Machine } from "./Machine";
+import { getIPAddress } from "./util";
 
 interface IStatus
 {
@@ -83,6 +87,33 @@ class NusterTurbine
 
         this.app.get("/status", (req: Request, res: Response) => res.json(this.status));
         this.app.get("/ws", async (req: Request, res: Response) => res.json(await this.machine.socketData()));
+
+        this.app.get('/qr', async (req, res) => {
+            try{
+        
+                const content = {
+                    model: this.machine.model,
+                    modelVariant: this.machine.variant,
+                    modelRevision: this.machine.revision,
+                    serial: this.machine.serial,
+                    networkName: getIPAddress(),
+                    dateBuilt: "disabled"
+                };
+                  
+                const qrStream = new PassThrough();
+                await QRCode.toFileStream(qrStream, JSON.stringify(content),
+                            {
+                                type: 'png',
+                                width: 200,
+                                errorCorrectionLevel: 'H'
+                            }
+                        );
+        
+                qrStream.pipe(res);
+            } catch(err){
+                console.error('Failed to return content', err);
+            }
+        });
     }
     /**
      * Create UDP4 discovery service
@@ -114,7 +145,7 @@ class NusterTurbine
      */
     private _websocket()
     {
-        this.wsServer = new WebSocketServer({server: this.httpServer }, () => { this.logger.info("Websocket server listening on port 80"); });
+        this.wsServer = new WebSocketServer({server: this.httpServer, path: "/v1"}, () => { this.logger.info("Websocket server listening on port 80"); });
 
         this.wsServer.on('connection', (ws: WebSocket) => { 
             if(this.wsServer)

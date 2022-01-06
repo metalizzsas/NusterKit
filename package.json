@@ -10,7 +10,7 @@
     "dev:enip": "node dev/enip.mjs",
     "machine": "export NODE_ENV=\"production\"; nodemon src/app.ts | node_modules/.bin/pino-pretty",
     "docs": "typedoc --out docs --entryPointStrategy expand ./src",
-    "build": "tsc",
+    "build": "node_modules/.bin/tsc",
     "start": "node build/app.js",
     "lc": "find './src' -name '*.ts' | xargs wc -l"
   },
@@ -35,10 +35,12 @@
     "nuster-turbine-machines": "git+git@github.com:Kworz/NusterTurbineMachines.git",
     "pino": "^7.6.0",
     "pino-http": "^6.5.0",
+    "qrcode": "^1.5.0",
     "st-ethernet-ip": "^2.4.4",
     "ts-udp-discovery": "^1.0.0",
     "udp-discovery": "^2.0.2",
-    "ws": "^8.3.0"
+    "ws": "^8.3.0",
+    "typescript": "^4.5.2"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.2",
@@ -46,6 +48,7 @@
     "@types/express": "^4.17.13",
     "@types/lodash": "^4.14.177",
     "@types/node": "^16.11.9",
+    "@types/qrcode": "^1.4.2",
     "@types/ws": "^8.2.0",
     "@typescript-eslint/eslint-plugin": "^5.7.0",
     "@typescript-eslint/parser": "^5.7.0",
@@ -54,7 +57,6 @@
     "nodemon": "^2.0.15",
     "pino-pretty": "^7.3.0",
     "ts-node": "^10.4.0",
-    "typedoc": "^0.22.10",
-    "typescript": "^4.5.2"
+    "typedoc": "^0.22.10"
   }
 }

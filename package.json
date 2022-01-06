@@ -1,7 +1,7 @@
 {
   "name": "nuster-turbine",
   "version": "1.0.0",
-  "description": "Complete rewrite of NusterEngine in Typescript",
+  "description": "Typescript project running on Docker and RPi4.",
   "main": "app.js",
   "scripts": {
     "dev": "./node_modules/.bin/concurrently --kill-others \"npm run dev:app\" \"npm run dev:modbus\" \"npm run dev:enip\"",
@@ -11,8 +11,9 @@
     "machine": "export NODE_ENV=\"production\"; nodemon src/app.ts | node_modules/.bin/pino-pretty",
     "docs": "typedoc --out docs --entryPointStrategy expand ./src",
     "build": "node_modules/.bin/tsc",
-    "start": "node build/app.js",
-    "lc": "find './src' -name '*.ts' | xargs wc -l"
+    "start": "node build/app.js | node_modules/.bin/pino-pretty",
+    "lc": "find './src' -name '*.ts' | xargs wc -l",
+    "publish": "zsh ./env.sh && zsh ./nuster-desktop/publish.sh && balena push NusterTurbine"
   },
   "repository": {
     "type": "git",
@@ -26,15 +27,23 @@
   },
   "homepage": "https://github.com/Kworz/NusterTurbine#readme",
   "dependencies": {
+    "@types/cookie-parser": "^1.4.2",
+    "@types/deep-extend": "^0.4.32",
+    "@types/express": "^4.17.13",
+    "@types/lodash": "^4.14.177",
+    "@types/node": "^16.11.9",
+    "@types/qrcode": "^1.4.2",
+    "@types/ws": "^8.2.0",
     "argon2": "^0.28.3",
     "cookie-parser": "^1.4.6",
     "deep-extend": "^0.6.0",
     "express": "^4.17.1",
     "modbus-serial": "^8.0.5",
     "mongoose": "^6.0.13",
-    "nuster-turbine-machines": "git+git@github.com:Kworz/NusterTurbineMachines.git",
+    "nuster-turbine-machines": "git+https://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:x-oauth-basic@github.com/metalizzsas/NusterTurbineMachines.git",
     "pino": "^7.6.0",
     "pino-http": "^6.5.0",
+    "pino-pretty": "^7.3.0",
     "qrcode": "^1.5.0",
     "st-ethernet-ip": "^2.4.4",
     "ts-udp-discovery": "^1.0.0",
@@ -43,19 +52,11 @@
     "typescript": "^4.5.2"
   },
   "devDependencies": {
-    "@types/cookie-parser": "^1.4.2",
-    "@types/deep-extend": "^0.4.32",
-    "@types/express": "^4.17.13",
-    "@types/lodash": "^4.14.177",
-    "@types/node": "^16.11.9",
-    "@types/qrcode": "^1.4.2",
-    "@types/ws": "^8.2.0",
     "@typescript-eslint/eslint-plugin": "^5.7.0",
     "@typescript-eslint/parser": "^5.7.0",
     "concurrently": "^6.1.0",
     "eslint": "^8.4.1",
     "nodemon": "^2.0.15",
-    "pino-pretty": "^7.3.0",
     "ts-node": "^10.4.0",
     "typedoc": "^0.22.10"
   }

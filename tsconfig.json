@@ -104,6 +104,7 @@
   "exclude": [
       "./docs/**/*",
       "./dev/**/*",
-      "./build/**/*"
+      "./build/**/*",
+      "./nuster-desktop/**/*",
   ]
 }

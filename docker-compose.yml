@@ -26,7 +26,7 @@ services:
       - "nuster-turbine"
       - "mongodb"
   kiosk:
-    image: balenablocks/browser
+    image: balenablocks/browser:latest
     privileged: true # required for UDEV to find plugged in peripherals such as a USB mouse
     network_mode: host
     ports:

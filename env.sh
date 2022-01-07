@@ -1,8 +1,10 @@
-#!/bin/zsh
+#!/bin/bash
 input=".env"
 while IFS= read -r line
 do
-    vars=$(echo $line | tr "=" "\n")
+    IFS=':' read -r -a array <<< "$line"
 
-    balena env add ${vars[1]} ${vars[2]} --fleet NusterTurbine
+    echo "Setting ${array[0]} to ${array[1]}"
+
+    balena env add "${array[0]}" "${array[1]}" --fleet NusterTurbine
 done < "$input"

@@ -1,6 +1,6 @@
-#! /bin/sh
+#! /bin/bash
 
-echo "grabbing latest nuster-desktop version from github..."
+echo "Grabbing latest nuster-desktop version from github..."
 
 if [[ -d ./nuster-desktop/repo ]]
 then

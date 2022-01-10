@@ -1,6 +1,6 @@
 export interface IWSContent {
   machine: Machine;
-  cycle: Cycle;
+  cycle?: Cycle;
   slots: Slot[];
   io: Io[];
   passives: Passive[];
@@ -53,7 +53,7 @@ interface Io {
   value: number;
 }
 
-interface Slot {
+export interface Slot {
   name: string;
   type: string;
   isProductable: boolean;

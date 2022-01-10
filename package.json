@@ -19,12 +19,14 @@
 		"Chrome 89"
 	],
 	"dependencies": {
+		"@fontsource/montserrat": "^4.5.1",
 		"autoprefixer": "^10.0.2",
 		"electron-context-menu": "^2.5.2",
 		"electron-reloader": "^1.2.1",
 		"electron-serve": "^1.1.0",
 		"electron-window-state": "^5.0.3",
 		"postcss": "^8.1.0",
+		"svelte-navigator": "^3.1.5",
 		"tailwindcss": "^3.0.0"
 	},
 	"devDependencies": {

@@ -1,33 +1,27 @@
 <script lang="ts">
-	import Header from '$lib/main/header.svelte';
+	import '$lib/app.css';
+	import { Router, Route, Link } from 'svelte-navigator';
+	import { onMount } from 'svelte';
+
+	import { machineData } from '$lib/utils/store';
+	import Profiles from '$lib/nuster/Profiles.svelte';
 	import MachineMain from '$lib/nuster/MachineMain.svelte';
 
-	import { selectedMachine } from '$lib/utils/store';
+	onMount(() => {
+		const ws = new WebSocket('ws://127.0.0.1/v1');
+
+		ws.onmessage = (event) => {
+			$machineData = JSON.parse(event.data);
+			console.log($machineData);
+		};
+	});
 </script>
 
-<main>
-	{#if $selectedMachine}
-		<MachineMain />
-	{:else}
-		<Header />
-	{/if}
-</main>
+<Router>
+	<main>
+		<Route component={MachineMain} />
 
-<style>
-	:root {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-			Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-	}
-
-	:global(body) {
-		margin: 0;
-		padding: 0;
-	}
-
-	main {
-		padding: 2em 1em 1em 1em;
-		text-align: center;
-		animation: fade 1s;
-		margin: 0 auto;
-	}
-</style>
+		<Route path="/profiles" component={Profiles} />
+		<!-- <Route path="Gates" componenent={Gates}></Route> -->
+	</main>
+</Router>

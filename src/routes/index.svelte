@@ -4,7 +4,8 @@
 	import { onMount } from 'svelte';
 
 	import { machineData } from '$lib/utils/store';
-	import Profiles from '$lib/nuster/Profiles.svelte';
+	import Profiles from '$lib/nuster/profiles/Profiles.svelte';
+	import Profile from '$lib/nuster/profiles/Profile.svelte';
 	import MachineMain from '$lib/nuster/MachineMain.svelte';
 
 	onMount(() => {
@@ -21,7 +22,8 @@
 	<main>
 		<Route component={MachineMain} />
 
-		<Route path="/profiles" component={Profiles} />
+		<Route path="/profiles/" component={Profiles} />
+		<Route path="/profile/*id" component={Profile} />
 		<!-- <Route path="Gates" componenent={Gates}></Route> -->
 	</main>
 </Router>

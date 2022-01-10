@@ -5,7 +5,13 @@
 	const navigate = useNavigate();
 </script>
 
-<button class="bg-zinc-200 p-2 rounded-full" on:click={() => navigate(-1)}>
+<button
+	class="bg-zinc-200 p-2 rounded-full"
+	on:click={() => {
+		console.log('ret');
+		navigate(-1);
+	}}
+>
 	<svg
 		id="glyphicons-basic"
 		xmlns="http://www.w3.org/2000/svg"

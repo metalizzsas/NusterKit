@@ -1,5 +1,6 @@
 import ModbusTCP from "modbus-serial";
 import { IOHandler } from "./IOHandler";
+import ping from "ping";
 
 export class WAGO extends IOHandler
 {
@@ -14,18 +15,36 @@ export class WAGO extends IOHandler
     }
     async connect()
     {
-        await this.client.connectTCP(this.ip, {port: 502});
+        if(this.unreachable)
+            return;
+        
+        const available = await new Promise((resolve) => {
+            ping.sys.probe(this.ip, (isAlive) => resolve(isAlive || false));
+        });
+        
+        if(available)
+        {
+            await this.client.connectTCP(this.ip, {port: 502});
 
-        this.connected = this.client.isOpen;
-
-        //check if the TCP tunnel is alive
-        setInterval(() => {
             this.connected = this.client.isOpen;
-        }, 2000);
+    
+            //check if the TCP tunnel is alive
+            setInterval(() => {
+                this.connected = this.client.isOpen;
+            }, 2000);
+        }
+        else
+        {
+            this.unreachable = true;
+            throw Error(`Failed to ping to ${this.name}, cancelling connection.`);
+        }
     }
 
     async writeData(address: number, data: number, word?: boolean): Promise<void>
     {
+        if(this.unreachable)
+            return;
+        
         if(!this.client.isOpen)
             await this.connect();
 
@@ -40,6 +59,8 @@ export class WAGO extends IOHandler
     }
     async readData(address: number, word?: boolean): Promise<number>
     {
+        if(this.unreachable)
+            return 0;
 
         if(!this.client.isOpen)
             await this.connect();

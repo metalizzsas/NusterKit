@@ -1,4 +1,5 @@
 node_modules/
+data/
 nuster-desktop/repo/
 package-lock.json
 .DS_store

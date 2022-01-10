@@ -50,6 +50,12 @@ export class Machine{
         this.authManager = new AuthManager(this.logger);
 
         //Loading JSON info file
+
+        if(!fs.existsSync(path.resolve("data", "info.json")))
+        {
+            this.logger.fatal("Machine info file not found");
+        }
+
         const infos = fs.readFileSync(path.resolve("data", "info.json"), {encoding: "utf-8"});
 
         const parsed = JSON.parse(infos);

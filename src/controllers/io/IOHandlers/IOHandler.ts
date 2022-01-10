@@ -6,6 +6,8 @@ export class IOHandler implements IIOHandler
 
     public connected = false;
 
+    public unreachable = false;
+
     constructor(name: string, type: string, ip: string)
     {
         this.name = name;

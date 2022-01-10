@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import express,  { Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
@@ -12,6 +13,8 @@ import { PassThrough } from 'stream';
 
 import { Machine } from "./Machine";
 import { getIPAddress } from "./util";
+import path from "path";
+import fs from "fs";
 
 interface IStatus
 {
@@ -27,7 +30,7 @@ class NusterTurbine
 
     public logger: pino.Logger;
 
-    public machine: Machine;
+    public machine?: Machine;
 
     public status: IStatus;
 
@@ -42,18 +45,46 @@ class NusterTurbine
             level: process.env.DISABLE_TRACE_LOG != "" ? "trace" : "info"
         });
 
-        this.machine = new Machine(this.logger);
-
         this.logger.info("Starting NusterTurbine");
 
         this.status.mode = "running";
 
-        this._express();
-        this._discovery();
-        this._websocket();
-        this._mongoose();
+        if(fs.existsSync(path.resolve("data", "info.json")))
+        {
+            this.machine = new Machine(this.logger);
 
-        this._machine();
+            this._express();
+            this._discovery();
+            this._websocket();
+            this._mongoose();
+    
+            this._machine();
+        }
+        else
+        {
+            this.logger.warn("Machine info file not found");
+            this.status.mode = "waiting-config";
+            this._expressConfig();
+        }
+    }
+    private _expressConfig()
+    {
+        this.httpServer = this.app.listen(80, () => {
+            this.logger.info("Express config server running on port 80");
+
+            this.app.use(express.json());
+
+            this.app.post("/config", (req: Request, res: Response) => {
+                if(req.body)
+                {
+                    fs.mkdirSync(path.resolve("data"), {recursive: true});
+                    fs.writeFileSync(path.resolve("data", "info.json"), JSON.stringify(req.body, null, 4));
+                    this.logger.info("Config written, restarting NusterTurbine.");
+                    res.end();
+                    process.exit(1);
+                }
+            });
+        })
     }
     /**
      * Configure Express over network
@@ -69,7 +100,7 @@ class NusterTurbine
 
         //authing middleware
         if(!process.env.DISABLE_AUTH)
-            this.app.use(this.machine.authManager.middleware.bind(this.machine.authManager));
+            this.app.use(this.machine!.authManager.middleware.bind(this.machine!.authManager));
 
         //logging middleware
         this.app.use(pinoHttp({
@@ -82,20 +113,20 @@ class NusterTurbine
               }
         }));
 
-        this.machine.logger.info(`Will use ${this.machine.assetsFolder} as the assets folder.`);
-        this.app.use("/assets", express.static(this.machine.assetsFolder));
+        this.machine!.logger.info(`Will use ${this.machine!.assetsFolder} as the assets folder.`);
+        this.app.use("/assets", express.static(this.machine!.assetsFolder));
 
         this.app.get("/status", (req: Request, res: Response) => res.json(this.status));
-        this.app.get("/ws", async (req: Request, res: Response) => res.json(await this.machine.socketData()));
+        this.app.get("/ws", async (req: Request, res: Response) => res.json(await this.machine!.socketData()));
 
         this.app.get('/qr', async (req, res) => {
             try{
         
                 const content = {
-                    model: this.machine.model,
-                    modelVariant: this.machine.variant,
-                    modelRevision: this.machine.revision,
-                    serial: this.machine.serial,
+                    model: this.machine!.model,
+                    modelVariant: this.machine!.variant,
+                    modelRevision: this.machine!.revision,
+                    serial: this.machine!.serial,
                     networkName: getIPAddress(),
                     dateBuilt: "disabled"
                 };
@@ -162,7 +193,7 @@ class NusterTurbine
         setInterval(async () => {
             if(this.wsServer !== undefined)
             {
-                const data = await this.machine.socketData();
+                const data = await this.machine!.socketData();
 
                 for(const ws of this.wsServer.clients)
                 {
@@ -213,15 +244,15 @@ class NusterTurbine
      */
     private _machine()
     {
-        this.app.use('/v1/maintenance', this.machine.maintenanceController.router);
-        this.app.use('/v1/io', this.machine.ioController.router);
-        this.app.use('/v1/profiles', this.machine.profileController.router);
-        this.app.use('/v1/slots', this.machine.slotController.router);
-        this.app.use('/v1/manual', this.machine.manualmodeController.router);
-        this.app.use('/v1/cycle', this.machine.cycleController.router);
-        this.app.use('/v1/passives', this.machine.passiveController.router);
+        this.app.use('/v1/maintenance', this.machine!.maintenanceController.router);
+        this.app.use('/v1/io', this.machine!.ioController.router);
+        this.app.use('/v1/profiles', this.machine!.profileController.router);
+        this.app.use('/v1/slots', this.machine!.slotController.router);
+        this.app.use('/v1/manual', this.machine!.manualmodeController.router);
+        this.app.use('/v1/cycle', this.machine!.cycleController.router);
+        this.app.use('/v1/passives', this.machine!.passiveController.router);
 
-        this.app.use('/v1/auth', this.machine.authManager.router);
+        this.app.use('/v1/auth', this.machine!.authManager.router);
 
         this.app.get("/qr", (req: Request, res: Response) => {
             res.status(200).end();

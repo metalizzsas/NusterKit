@@ -8,6 +8,7 @@ import st from "st-ethernet-ip";
 
 import process from "process";
 import { Buffer } from "buffer";
+import ping from "ping";
 
 export class EX260S1 extends IOHandler
 {
@@ -33,20 +34,37 @@ export class EX260S1 extends IOHandler
 
     async connect()
     {
-        try
-        {
-            await this.controller.connect(this.ip);
-
-            this.connected = true;
-
-            //recconnect ex260 on lost connexion
-            this.controller.once('close', async () => { this.connected = false; await this.connect(); });
-        }
-        catch(error)
-        {
-            this.connected = false;
-            throw error; // will be catched by process.on('uncaughtException');
+        if(this.unreachable)
             return;
+        
+        const available = await new Promise((resolve) => {
+            ping.sys.probe(this.ip, (isAlive) => {
+                resolve(isAlive);
+            });
+        });
+
+        if(available)
+        {
+            try
+            {
+                await this.controller.connect(this.ip);
+    
+                this.connected = true;
+    
+                //recconnect ex260 on lost connexion
+                this.controller.once('close', async () => { this.connected = false; await this.connect(); });
+            }
+            catch(error)
+            {
+                this.connected = false;
+                throw error; // will be catched by process.on('uncaughtException');
+                return;
+            }
+        }
+        else
+        {
+            this.unreachable = true;
+            throw Error(`Failed to ping to ${this.name}, cancelling connection.`);
         }
     }
 
@@ -59,6 +77,10 @@ export class EX260S1 extends IOHandler
     //Shall only be used for local applications
     async readData2(address: number): Promise<Buffer>
     {
+
+        if(this.unreachable)
+            return Buffer.alloc(0);
+
         if(process.env.DISABLE_HANDLERS && process.env.DISABLE_HANDLERS == "true")
         {
             throw new Error("Handlers disabled");
@@ -93,6 +115,9 @@ export class EX260S1 extends IOHandler
      */
     async writeData(address: number, value: number, _word = false): Promise<void>
     {
+        if(this.unreachable)
+            return;
+        
         if(process.env.DISABLE_HANDLERS && process.env.DISABLE_HANDLERS == "true")
         {
             throw new Error("Handlers disabled");

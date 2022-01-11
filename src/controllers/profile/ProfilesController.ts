@@ -52,13 +52,20 @@ export class ProfileController extends Controller{
         /**
          * Route to List profile by identifier
          */
-        this._router.get('/:type', async (req: Request, res: Response) => {
+        this._router.get('/type/:type', async (req: Request, res: Response) => {
             const profiles = await ProfileModel.find({ identifier: req.params.type });
 
             res.json(profiles);
         });
 
         this.machine.authManager.registerEndpointPermission("profiles.list", {endpoint: new RegExp("/v1/profiles/.*", "g"), method: "get"});
+
+        this._router.get('/:id', async (req: Request, res: Response) => {
+            const profile = await ProfileModel.findById(req.params.id);
+
+            res.status(profile ? 200 : 404).json(profile);
+        });
+
 
         /**
          * Route to delete a profile with its given ID

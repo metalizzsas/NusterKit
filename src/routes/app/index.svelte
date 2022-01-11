@@ -1,10 +1,7 @@
 <script lang="ts">
 	import '$lib/app.css';
-
-	import Slot from './Slot.svelte';
-
+	import SlotProduct from '$lib/components/SlotProduct.svelte';
 	import { machineData } from '$lib/utils/store';
-	import { Router, Route, Link } from 'svelte-navigator';
 </script>
 
 <div class="text-left">
@@ -21,27 +18,27 @@
 	<div class="">
 		<h2 class="text-xl text-zinc-800 my-3">Procédures</h2>
 		<div class="flex flex-col gap-4">
-			<Link to="/cycles">
+			<a href="app/cycles">
 				<button
 					class="shadow-xl bg-gradient-to-r from-indigo-500 to-purple-500 py-3 px-5 text-white text-left font-semibold rounded-full"
 				>
 					Cycles
 				</button>
-			</Link>
-			<Link to="/profiles">
+			</a>
+			<a href="app/profiles">
 				<button
 					class="shadow-xl bg-gradient-to-r from-indigo-500 to-purple-500 py-3 px-5 text-white text-left font-semibold rounded-full"
 				>
 					Profils
 				</button>
-			</Link>
-			<Link to="/manual">
+			</a>
+			<a href="app/manual">
 				<button
 					class="shadow-xl bg-gradient-to-r from-indigo-500 to-purple-500 py-3 px-5 text-white text-left font-semibold rounded-full"
 				>
 					Mode manuel
 				</button>
-			</Link>
+			</a>
 		</div>
 	</div>
 
@@ -49,7 +46,7 @@
 		<h2 class="text-xl text-zinc-800 my-3">Slots</h2>
 		<div class="flex flex-row flex-wrap justify-items-start gap-4">
 			{#each $machineData.slots as slot, i}
-				<Slot bind:slot />
+				<SlotProduct bind:slot />
 			{/each}
 		</div>
 	</div>

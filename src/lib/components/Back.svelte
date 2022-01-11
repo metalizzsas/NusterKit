@@ -1,17 +1,8 @@
 <script lang="ts">
 	import '$lib/app.css';
-
-	import { useNavigate } from 'svelte-navigator';
-	const navigate = useNavigate();
 </script>
 
-<button
-	class="bg-zinc-200 p-2 rounded-full"
-	on:click={() => {
-		console.log('ret');
-		navigate(-1);
-	}}
->
+<button on:click={() => window.history.back()} class="bg-black fill-white p-2 rounded-full">
 	<svg
 		id="glyphicons-basic"
 		xmlns="http://www.w3.org/2000/svg"

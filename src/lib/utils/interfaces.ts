@@ -28,7 +28,7 @@ interface Step2 {
   images: string[];
 }
 
-interface Profile2 {
+export interface Profile2 {
   name: string;
   modificationDate: number;
   fieldGroups: FieldGroup[];
@@ -42,7 +42,7 @@ interface Passive {
   actuator: string;
 }
 
-interface Io {
+export interface Io {
   name: string;
   size: string;
   type: string;

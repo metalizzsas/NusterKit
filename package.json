@@ -34,11 +34,12 @@
     "@types/express": "^4.17.13",
     "@types/lodash": "^4.14.177",
     "@types/node": "^16.11.9",
+    "@types/ping": "^0.4.1",
     "@types/qrcode": "^1.4.2",
     "@types/ws": "^8.2.0",
-    "@types/ping": "^0.4.1",
     "argon2": "^0.28.3",
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "deep-extend": "^0.6.0",
     "express": "^4.17.1",
     "modbus-serial": "^8.0.5",
@@ -56,6 +57,7 @@
     "ws": "^8.3.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.12",
     "@typescript-eslint/eslint-plugin": "^5.7.0",
     "@typescript-eslint/parser": "^5.7.0",
     "concurrently": "^6.1.0",

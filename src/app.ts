@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import express,  { Request, Response } from "express";
+import express,  { NextFunction, Request, Response } from "express";
+import cors from "cors";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import { WebSocket, WebSocketServer } from "ws";
@@ -96,6 +97,7 @@ class NusterTurbine
         });
 
         this.app.use(express.json());
+        this.app.use(cors());
         this.app.use(cookieParser());
 
         //authing middleware

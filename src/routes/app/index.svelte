@@ -32,7 +32,7 @@
 					Profils
 				</button>
 			</a>
-			<a href="app/manual">
+			<a href="app/advanced">
 				<button
 					class="shadow-xl bg-gradient-to-r from-indigo-500 to-purple-500 py-3 px-5 text-white text-left font-semibold rounded-full"
 				>

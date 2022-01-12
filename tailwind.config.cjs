@@ -14,4 +14,8 @@ module.exports = {
     ],
     enabled: production // disable purge in dev
   },
+  safeList: [
+    "justify-items-start",
+    "justify-items-end"
+  ]
 };

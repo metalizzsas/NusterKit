@@ -7,6 +7,7 @@
 </script>
 
 <script lang="ts">
+	import '$lib/app.css';
 	import HeaderBack from '$lib/components/HeaderBack.svelte';
 
 	import type { Profile2 } from '$lib/utils/interfaces';
@@ -39,7 +40,7 @@
 	<div id="profileListWrapper" class="flex flex-col flex-nowrap justify-between gap-4">
 		{#each profiles as profile}
 			<div class="grid grid-cols-12 gap-4">
-				<a href="profiles/{profile.id}" class="col-span-11">
+				<a href="profiles/{profile.id}" class="col-span-10">
 					<div
 						class="bg-black text-white py-2 px-4 rounded-full flex flex-row justify-between"
 					>
@@ -67,7 +68,7 @@
 					</div>
 				</a>
 				<!-- Profile Buttons -->
-				<div class="flex flex-row justify-around">
+				<div class="flex flex-row justify-around gap-4 col-span-2">
 					<button class="self-center bg-red-500 text-white p-2 rounded-full">
 						<svg
 							id="glyphicons-basic"

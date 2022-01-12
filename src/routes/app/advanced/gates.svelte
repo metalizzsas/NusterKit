@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	export async function load(ctx) {
-		let data = await fetch('http://localhost/v1/io');
+		let data = await fetch('http://127.0.0.1/v1/io');
 
 		let gates: Io[] = await data.json();
 

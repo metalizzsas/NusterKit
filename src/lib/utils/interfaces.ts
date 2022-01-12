@@ -1,10 +1,11 @@
-export interface IWSContent {
+export interface IWSObject {
   machine: Machine;
-  cycle?: Cycle;
   slots: Slot[];
   io: Io[];
+  handlers: Handler[];
   passives: Passive[];
-  profiles: Profile2[];
+  manuals: Manual[];
+  profiles: Profile[];
   maintenances: Maintenance[];
 }
 
@@ -20,15 +21,15 @@ interface Maintenance {
 
 interface Procedure {
   desc: string;
-  steps: Step2[];
+  steps: Step[];
 }
 
-interface Step2 {
+interface Step {
   name: string;
   images: string[];
 }
 
-export interface Profile2 {
+export interface Profile {
   name: string;
   modificationDate: number;
   fieldGroups: FieldGroup[];
@@ -36,10 +37,43 @@ export interface Profile2 {
   identifier?: string;
 }
 
+interface FieldGroup {
+  name: string;
+  fields: Field[];
+  id: string;
+}
+
+interface Field {
+  name: string;
+  type: string;
+  value: number;
+  id: string;
+  unity?: string;
+  floatMin?: number;
+  floatMax?: number;
+  floatStep?: number;
+}
+
+export interface Manual {
+  state: boolean;
+  name: string;
+  controls: string[];
+  incompatibility: string[];
+}
+
 interface Passive {
   name: string;
+  mode: string;
+  enabled: boolean;
   sensor: string;
   actuator: string;
+}
+
+interface Handler {
+  name: string;
+  type: string;
+  ip: string;
+  connected: boolean;
 }
 
 export interface Io {
@@ -63,91 +97,6 @@ export interface Slot {
 interface Sensor {
   io: string;
   type: string;
-}
-
-interface Cycle {
-  status: Status;
-  name: string;
-  profileIdentifier: string;
-  steps: Step[];
-  watchdogConditions: WatchdogCondition[];
-  currentStepIndex: number;
-  profile: Profile;
-}
-
-interface Profile {
-  identifier: string;
-  name: string;
-  fieldGroups: FieldGroup[];
-  modificationDate: number;
-  id: string;
-}
-
-interface FieldGroup {
-  name: string;
-  fields: Field[];
-  id: string;
-}
-
-interface Field {
-  name: string;
-  type: string;
-  value: number;
-  id: string;
-  unity?: string;
-  floatMin?: number;
-  floatMax?: number;
-  floatStep?: number;
-}
-
-interface WatchdogCondition {
-  result: boolean;
-  gateName: string;
-  gateValue: number;
-  startOnly: boolean;
-}
-
-interface Step {
-  name: string;
-  state: string;
-  type: string;
-  isEnabled: IsEnabled;
-  duration: IsEnabled;
-  blocks: Block2[];
-}
-
-interface Block2 {
-  name: string;
-  params: Param[];
-  blocks: Block[][];
-}
-
-interface Block {
-  name: string;
-  params: Param2[];
-  blocks: any[];
-}
-
-interface Param2 {
-  name: string;
-  value: string;
-  data: (number | string)[];
-}
-
-interface Param {
-  name: string;
-  value: string;
-  data: number | number | string;
-}
-
-interface IsEnabled {
-  name: string;
-  value: string;
-  data: number;
-}
-
-interface Status {
-  mode: string;
 }
 
 interface Machine {

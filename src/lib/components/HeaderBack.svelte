@@ -1,7 +1,9 @@
 <script lang="ts">
 	export let title: string = 'default';
 
-	export var call: Function | null;
+	export let call: Function = () => {};
+
+	export let preventDefault: boolean = false;
 </script>
 
 <div class="mb-5">
@@ -13,7 +15,7 @@
 						console.log('call is present');
 						await call();
 					}
-					window.history.back();
+					if (!preventDefault) window.history.back();
 				}}
 				class="bg-black fill-white p-2 rounded-full"
 			>

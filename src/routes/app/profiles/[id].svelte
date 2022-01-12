@@ -5,7 +5,7 @@
 
 		const content = await fetch(`http://127.0.0.1/v1/profiles/${profileID}`);
 
-		let profile: Profile2 = await content.json();
+		let profile: Profile = await content.json();
 
 		return { props: { profile } };
 	}
@@ -14,10 +14,14 @@
 <script lang="ts">
 	import '$lib/app.css';
 	import HeaderBack from '$lib/components/HeaderBack.svelte';
+	import Modal from '$lib/components/modal.svelte';
 	import TimeSelector from '$lib/components/TimeSelector.svelte';
-	import type { Profile2 } from '$lib/utils/interfaces';
+	import Toggle from '$lib/components/toggle.svelte';
+	import type { Profile } from '$lib/utils/interfaces';
 
-	export let profile: Profile2;
+	let saveModalShown = false;
+
+	export let profile: Profile;
 
 	async function save() {
 		await fetch('http://127.0.0.1/v1/profiles', {
@@ -27,12 +31,45 @@
 			},
 			body: JSON.stringify(profile),
 		});
+		//after saving return back to profile list
+		window.history.back();
 	}
 </script>
 
+<Modal
+	bind:shown={saveModalShown}
+	message={'Souhaitez vous sauvegarder le profil ?'}
+	title={'Sauvegarder?'}
+	buttons={[
+		{
+			text: 'Oui',
+			color: 'bg-green-400',
+			callback: () => {
+				save();
+			},
+		},
+		{
+			text: 'Non',
+			color: 'bg-red-400',
+			callback: () => {
+				window.history.back();
+			},
+		},
+		{
+			text: 'Annuler',
+			color: 'bg-gray-400',
+			callback: () => {},
+		},
+	]}
+/>
+
 <main>
 	<!-- TODO: Add exit save && checkf or permission ton edit this content -->
-	<HeaderBack bind:title={profile.name} call={save} />
+	<HeaderBack
+		bind:title={profile.name}
+		call={() => (saveModalShown = true)}
+		preventDefault={true}
+	/>
 
 	<span class="bg-gradient-to-r from-zinc-700 to-zinc-800 py-2 px-3 rounded-full mb-3 text-white">
 		Informations
@@ -56,28 +93,33 @@
 	<div id="fieldsGroupsWrapper" class="mt-4 mb-8">
 		{#each profile.fieldGroups as fg}
 			<div class="ml-4 mb-6">
-				<div class="inline-block">
+				<div class="flex flex-row gap-4">
 					<span
 						class="bg-gradient-to-r from-stone-700 to-stone-800 py-1 px-2 rounded-full text-white"
 					>
 						{fg.name}
 					</span>
-
-					{#if fg.fields.find((f) => f.name === 'enabled')}
-						<span class="bg-purple-600 text-white py-1 px-2 rounded-full">
-							Étape activée:
-							<!-- TODO: Fix checkbox not used-->
-							<input type="checkbox" />
-						</span>
-					{/if}
+					{#each fg.fields.filter((f) => f.name === 'enabled') as f}
+						<Toggle
+							bind:value={f.value}
+							on:change={(e) => {
+								let d = fg.fields.find((f) => f.name === 'enabled');
+								if (d) {
+									d.value = e.detail.value;
+								}
+							}}
+						/>
+					{/each}
 				</div>
 
 				<div id="fieldsWrapper{fg.name}" class="disabled my-2 ml-4 flex flex-col gap-2">
 					{#each fg.fields.filter((f) => f.name !== 'enabled') as f}
-						<div class="inline-block rounded-full py-2 px-2 bg-black items-center">
-							<span class="text-white mr-4">{f.name}:</span>
+						<div
+							class="flex flex-row items-center gap-2 rounded-full py-2 px-2 bg-black"
+						>
+							<span class="text-white mr-4">{f.name}</span>
 							{#if f.type === 'bool'}
-								<input type="checkbox" bind:value={f.value} />
+								<Toggle bind:value={f.value} />
 							{:else if f.type === 'float'}
 								<input
 									type="range"
@@ -103,7 +145,7 @@
 							{/if}
 
 							{#if f.unity && f.unity != 'm-s'}
-								<span class="bg-white text-black py-1 px-2 rounded-full">
+								<span class="bg-white text-black py-0.5 px-2 rounded-full">
 									{f.value}
 									{f.unity}
 								</span>

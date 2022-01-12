@@ -33,7 +33,7 @@ export interface Profile {
   name: string;
   modificationDate: number;
   fieldGroups: FieldGroup[];
-  id: string;
+  id: string | undefined;
   identifier?: string;
 }
 

@@ -7,20 +7,146 @@
 </script>
 
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import '$lib/app.css';
 	import HeaderBack from '$lib/components/HeaderBack.svelte';
+	import Modal from '$lib/components/modal.svelte';
+	import ModalPrompt from '$lib/components/ModalPrompt.svelte';
 
-	import type { Profile2 } from '$lib/utils/interfaces';
+	import type { Profile } from '$lib/utils/interfaces';
 
-	export var profiles: Profile2[];
+	export var profiles: Profile[];
 
-	console.log(profiles);
+	let copyProfileModalShown = false;
+	let addProfileModalShown = false;
+	let deleteProfileModalShown = false;
+
+	let selectedProfileToCopy: Profile | undefined;
+	let selectedProfileToDelete: Profile | undefined;
+
+	async function copyProfile(profile: Profile, newName: string) {
+		let newProfile = profile;
+
+		newProfile.id = 'copied';
+		newProfile.name = newName;
+
+		await fetch('http://127.0.0.1/v1/profiles/', {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(newProfile),
+		});
+
+		location.reload();
+	}
+
+	async function listProfileBlueprint() {
+		let response = await fetch('http://127.0.0.1/v1/profiles/map');
+		let types = (await response.json()) as string[];
+
+		if (types.length == 1) {
+			createProfile(types[0]);
+		} else {
+			addProfileModalShown = true;
+		}
+	}
+
+	async function createProfile(type: string) {
+		let response = await fetch('http://127.0.0.1/v1/profiles/create/' + type, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+
+		let p = (await response.json()) as Profile;
+
+		goto(`profiles/${p.id}`);
+	}
+
+	async function deleteProfile(profile: Profile) {
+		await fetch('http://127.0.0.1/v1/profiles/' + profile.id, {
+			method: 'DELETE',
+		});
+		//force reload
+		location.reload();
+	}
 </script>
+
+<ModalPrompt
+	bind:shown={copyProfileModalShown}
+	title="Copie d'un profile"
+	message="Choisissez le nom du profil copié"
+	buttons={[
+		{
+			text: 'Ok',
+			color: 'bg-green-400',
+			callback: (value) => {
+				if (selectedProfileToCopy) {
+					copyProfile(selectedProfileToCopy, value);
+				}
+			},
+		},
+		{
+			text: 'Annuler',
+			color: 'bg-gray-400',
+			callback: () => {
+				selectedProfileToCopy = undefined;
+			},
+		},
+	]}
+/>
+
+<ModalPrompt
+	bind:shown={addProfileModalShown}
+	title="Création d'un profil"
+	message="Choissiez le blueprint du profil a créer"
+	buttons={[
+		{
+			text: 'Ok',
+			color: 'bg-green-400',
+			callback: (value) => {
+				createProfile(value);
+			},
+		},
+		{
+			text: 'Annuler',
+			color: 'bg-gray-400',
+			callback: () => {
+				selectedProfileToCopy = undefined;
+			},
+		},
+	]}
+/>
+
+<Modal
+	bind:shown={deleteProfileModalShown}
+	title="Suppression"
+	message="Souhaitez vous supprimer ce profil ?"
+	buttons={[
+		{
+			text: 'Oui',
+			color: 'bg-red-400',
+			callback: () => {
+				if (selectedProfileToDelete) {
+					deleteProfile(selectedProfileToDelete);
+				}
+			},
+		},
+		{
+			text: 'Non',
+			color: 'bg-gray-400',
+			callback: () => {},
+		},
+	]}
+/>
 
 <main>
 	<HeaderBack title="Liste des profils">
 		<button
 			class="bg-green-600 text-white py-1 px-2 rounded-full flex flex-row gap-2 items-center"
+			on:click={listProfileBlueprint}
 		>
 			<svg
 				id="glyphicons-basic"
@@ -69,7 +195,13 @@
 				</a>
 				<!-- Profile Buttons -->
 				<div class="flex flex-row justify-around gap-4 col-span-2">
-					<button class="self-center bg-red-500 text-white p-2 rounded-full">
+					<button
+						class="self-center bg-red-500 text-white p-2 rounded-full"
+						on:click={() => {
+							selectedProfileToDelete = profile;
+							deleteProfileModalShown = true;
+						}}
+					>
 						<svg
 							id="glyphicons-basic"
 							xmlns="http://www.w3.org/2000/svg"
@@ -82,7 +214,13 @@
 							/>
 						</svg>
 					</button>
-					<button class="self-center bg-orange-500 text-white p-2 rounded-full">
+					<button
+						class="self-center bg-orange-500 text-white p-2 rounded-full"
+						on:click={() => {
+							selectedProfileToCopy = profile;
+							copyProfileModalShown = true;
+						}}
+					>
 						<svg
 							id="glyphicons-basic"
 							xmlns="http://www.w3.org/2000/svg"

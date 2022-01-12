@@ -72,12 +72,12 @@
 	/>
 
 	<span class="bg-gradient-to-r from-zinc-700 to-zinc-800 py-2 px-3 rounded-full mb-3 text-white">
-		Informations
+		Informations globales
 	</span>
 
 	<div id="headWrapper" class="mt-4 mb-8">
 		<div class="inline-block rounded-full py-2 px-2 bg-black items-center">
-			<span class="text-white mr-4">Nom du profil:</span>
+			<span class="text-white mr-4">Nom du profil</span>
 			<input
 				type="text"
 				bind:value={profile.name}

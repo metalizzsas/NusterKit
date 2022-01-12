@@ -65,6 +65,8 @@ export class ManualModeController extends Controller
                         for(const gate of gatesToToggle)
                             this.machine.ioController.gFinder(gate)?.write(this.machine.ioController, 1);
 
+                        key.state = true;
+
                         res.status(200).send("ok");
                     }
                 }
@@ -77,6 +79,8 @@ export class ManualModeController extends Controller
 
                     for(const gate of gatesToToggleOff)
                         this.machine.ioController.gFinder(gate)?.write(this.machine.ioController, 0);
+
+                    key.state = false;
                     
                     res.status(200).send("ok");
                 }
@@ -89,5 +93,10 @@ export class ManualModeController extends Controller
         });
 
         this.machine.authManager.registerEndpointPermission("manual.toggle", {endpoint: new RegExp("/v1/manual/.*/.*", "g"), method: "post"});
+    }
+
+    public get socketData()
+    {
+        return this.keys;
     }
 }

@@ -66,6 +66,25 @@ export class ProfileController extends Controller{
             res.status(profile ? 200 : 404).json(profile);
         });
 
+        /**
+         * Route to create a default profile with the given JSON Structure
+         */
+         this._router.post('/create/:type', async (req: Request, res: Response) => {
+            const n = this.profileMap[req.params.type];
+
+            n.name = "profile-default-name";
+
+            res.json(await ProfileModel.create(n))
+        });
+
+        this._router.post('/', async (req: Request, res: Response) => {
+            const p: IProfile = req.body;
+
+            p.modificationDate = Date.now();
+            
+            await ProfileModel.findByIdAndUpdate(req.body.id, p);
+            res.status(200).end();
+        });
 
         /**
          * Route to delete a profile with its given ID
@@ -104,6 +123,7 @@ export class ProfileController extends Controller{
             {
                 delete req.body.id;
                 const profile = req.body as IProfile;
+                profile.modificationDate = Date.now();
 
                 await ProfileModel.create(profile);
                 
@@ -115,17 +135,6 @@ export class ProfileController extends Controller{
                 res.status(400).end();
                 return;
             }
-        });
-
-        /**
-         * Route to create a default profile with the given JSON Structure
-         */
-        this._router.post('/:type', async (req: Request, res: Response) => {
-            const n = this.profileMap[req.params.type];
-
-            n.name = "profile-default-name";
-
-            res.json(await ProfileModel.create(n))
         });
     }
 

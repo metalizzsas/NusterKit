@@ -104,6 +104,7 @@ export class Machine{
             "io": this.ioController.socketData[0],
             "handlers": this.ioController.socketData[1],
             "passives": this.passiveController.socketData,
+            "manuals": this.manualmodeController.socketData,
             //Asyns socketdata
             "profiles": profiles,
             "maintenances": maintenances

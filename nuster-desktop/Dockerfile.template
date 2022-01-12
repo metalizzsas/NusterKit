@@ -14,7 +14,9 @@ COPY repo/ ./
 RUN npm run build:svelte
 
 # NGINX SERVER
-FROM nginx:latest
+FROM balenalib/%%BALENA_MACHINE_NAME%%-node:16
 
 # Copy svelte files built buy stage 1
-COPY --from=build /usr/src/app/build /usr/share/nginx/html
+COPY --from=build /usr/src/app/build /usr/share/app
+
+CMD ["node", "index.js"]

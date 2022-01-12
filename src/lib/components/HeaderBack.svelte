@@ -1,13 +1,34 @@
 <script lang="ts">
-	import Back from '$lib/components/Back.svelte';
-
 	export let title: string = 'default';
+
+	export var call: Function | null;
 </script>
 
 <div class="mb-5">
 	<div class="flex flex-row justify-between items-center">
 		<div class="flex flex-row justify-items-end gap-4 items-center">
-			<Back />
+			<button
+				on:click={async () => {
+					if (call) {
+						console.log('call is present');
+						await call();
+					}
+					window.history.back();
+				}}
+				class="bg-black fill-white p-2 rounded-full"
+			>
+				<svg
+					id="glyphicons-basic"
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 32 32"
+					class="h-5 w-5"
+				>
+					<path
+						id="chevron-left"
+						d="M22.41406,23.37866a.5.5,0,0,1,0,.70709L19.586,26.91425a.50007.50007,0,0,1-.70715,0L8.67151,16.70709a.99988.99988,0,0,1,0-1.41418L18.87885,5.08575a.50007.50007,0,0,1,.70715,0l2.82806,2.8285a.5.5,0,0,1,0,.70709L15.03564,16Z"
+					/>
+				</svg>
+			</button>
 			<h1 class="text-xl text-white bg-black py-1 px-3 rounded-full">{title}</h1>
 		</div>
 		<slot />

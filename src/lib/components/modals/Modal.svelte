@@ -1,6 +1,4 @@
 <script lang="ts">
-	import Button from './button.svelte';
-
 	interface buttonOption {
 		text: string;
 		color: string;
@@ -19,7 +17,7 @@
 {#if shown}
 	<div class="absolute top-0 right-0 left-0 bottom-0 backdrop-blur-sm backdrop-brightness-50">
 		<div
-			class="relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl p-4 w-1/2 shadow-white"
+			class="relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl p-4 w-2/3 shadow-white"
 		>
 			<div id="modalHeader" class="flex flex-row justify-between items-center">
 				<span class="font-semibold">{title}</span>

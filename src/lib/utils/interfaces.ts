@@ -97,6 +97,7 @@ export interface Slot {
 interface Sensor {
   io: string;
   type: string;
+  value: number;
 }
 
 interface Machine {

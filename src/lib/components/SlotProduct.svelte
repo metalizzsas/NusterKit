@@ -2,29 +2,52 @@
 	import '$lib/app.css';
 	import type { Slot } from '$lib/utils/interfaces';
 
-	export let slot: Slot;
+	export var slotContent: Slot;
+
+	let tr: { [k: string]: string } = {
+		'level-a': 'Niveau',
+		'level-n': 'Niveau',
+		temperature: 'temperature',
+	};
+	//TODO: Use a better way to display sensors
 </script>
 
-<div
-	class="shadow-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-3xl overflow-hidden"
->
-	<div class="backdrop-blur p-3 text-white">
+<div class="shadow-xl bg-gradient-to-br from-indigo-500 to-purple-500 rounded-3xl overflow-hidden">
+	<div class="backdrop-blur p-3 text-white rounded-full">
 		<div class="flex flex-row justify-between">
-			<span class="text-zinc-800 bg-white font-semibold text-left py-1 px-2 rounded-full">
-				{slot.name}
+			<span class="text-zinc-800 bg-white font-semibold text-left py-1 px-5 rounded-full">
+				{slotContent.name}
 			</span>
-			<span
-				class="text-zinc-800 bg-white font-semibold text-left py-1 px-2 rounded-full"
-				on:click={() => {
-					return; /*TODO: add window for slot management*/
-				}}
-			>
+			{#if slotContent.isProductable}
+				<span
+					class="text-zinc-800 bg-white text-left py-1 px-2 rounded-full"
+					on:click={() => {
+						return; /*TODO: add window for slot management*/
+					}}
 				>
-			</span>
+					Produit
+				</span>
+			{/if}
 		</div>
 
-		<div class="absolute left-0 bottom-0 font-black text-7xl opacity-10 uppercase">
-			{slot.type}
+		<div class="mt-1">
+			<span class="inline-block my-2 border-b-2 border-white font-semibold text-lg">
+				Capteurs
+			</span>
+			<div class="flex flex-col gap-2">
+				{#each slotContent.sensors as s}
+					<span class="bg-white px-2 py-1 rounded-full text-neutral-700 font-semibold">
+						{tr[s.type] || s.type} :
+						{#if s.type == 'level-a'}
+							{Math.ceil(s.value * 100)} %
+						{:else if s.type == 'level-n'}
+							{s.value == 1 ? 'Actif' : 'Inactif'}
+						{:else}
+							{s.value}
+						{/if}
+					</span>
+				{/each}
+			</div>
 		</div>
 	</div>
 </div>

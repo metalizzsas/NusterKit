@@ -1,10 +1,10 @@
 <script lang="ts">
-	import Button from './button.svelte';
+	import { fade } from 'svelte/transition';
 
 	interface buttonOption {
 		text: string;
 		color: string;
-		callback: Function;
+		callback(val?: string): void;
 		textColor?: string;
 	}
 
@@ -13,7 +13,7 @@
 	export let message: string | undefined;
 	export let buttons: buttonOption[] = [];
 
-	export let selectOptions: string[] | undefined;
+	export let selectOptions: string[] | undefined = undefined;
 
 	let value: string;
 
@@ -21,9 +21,13 @@
 </script>
 
 {#if shown}
-	<div class="absolute top-0 right-0 left-0 bottom-0 backdrop-blur-sm backdrop-brightness-50">
+	<div
+		class="absolute top-0 right-0 left-0 bottom-0 backdrop-blur-sm backdrop-brightness-50"
+		in:fade={{ duration: 300 }}
+		out:fade={{ duration: 300 }}
+	>
 		<div
-			class="relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl p-4 w-1/2 shadow-white"
+			class="relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl p-4 w-2/3 shadow-white"
 		>
 			<div id="modalHeader" class="flex flex-row justify-between items-center">
 				<span class="font-semibold">{title}</span>

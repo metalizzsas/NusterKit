@@ -1,12 +1,11 @@
 import sveltePreprocess from 'svelte-preprocess';
-import adapter from '@sveltejs/adapter-static';
+import adapter from '@sveltejs/adapter-node';
 
 /** @type {import("@sveltejs/kit").Config} */
 const config = {
 	kit: {
-		adapter: adapter(),
-		target: '#svelte',
-		ssr: true,
+		adapter: adapter({out: "./svelte-build"}),
+		target: '#svelte'
 	},
 	preprocess: sveltePreprocess(),
 };

@@ -7,6 +7,13 @@ module.exports = {
   plugins: [
 
   ],
+  theme:{
+    extend:{
+      animation: {
+        'spin-ease': 'spin 1s ease-in-out infinite',
+      }
+    }
+  },
   purge: {
     content: [
      "./src/**/*.svelte",

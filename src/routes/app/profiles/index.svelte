@@ -1,44 +1,30 @@
 <script context="module" lang="ts">
-	export async function load(ctx) {
-		let data = await fetch('http://localhost/v1/profiles');
+	import type { Load } from '@sveltejs/kit';
+
+	export const load: Load = async (ctx) => {
+		let data = await ctx.fetch('http://localhost/v1/profiles');
 
 		return { props: { profiles: await data.json() } };
-	}
+	};
 </script>
 
 <script lang="ts">
 	import { goto } from '$app/navigation';
+
 	import '$lib/app.css';
-	import HeaderBack from '$lib/components/HeaderBack.svelte';
-	import Modal from '$lib/components/modal.svelte';
-	import ModalPrompt from '$lib/components/ModalPrompt.svelte';
+	import ModalPrompt from '$lib/components/modals/ModalPrompt.svelte';
 
-	import type { Profile } from '$lib/utils/interfaces';
+	import Profile from '$lib/components/Profile.svelte';
+	import type { Profile as ProfileModel } from '$lib/utils/interfaces';
 
-	export var profiles: Profile[];
-
-	let copyProfileModalShown = false;
 	let addProfileModalShown = false;
-	let deleteProfileModalShown = false;
 
-	let selectedProfileToCopy: Profile | undefined;
-	let selectedProfileToDelete: Profile | undefined;
+	export var profiles: ProfileModel[];
 
-	async function copyProfile(profile: Profile, newName: string) {
-		let newProfile = profile;
-
-		newProfile.id = 'copied';
-		newProfile.name = newName;
-
-		await fetch('http://127.0.0.1/v1/profiles/', {
-			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(newProfile),
-		});
-
-		location.reload();
+	function reload() {
+		setTimeout(async () => {
+			profiles = await (await fetch('http://localhost/v1/profiles')).json();
+		}, 300);
 	}
 
 	async function listProfileBlueprint() {
@@ -60,43 +46,11 @@
 			},
 		});
 
-		let p = (await response.json()) as Profile;
+		let p = (await response.json()) as ProfileModel;
 
 		goto(`profiles/${p.id}`);
 	}
-
-	async function deleteProfile(profile: Profile) {
-		await fetch('http://127.0.0.1/v1/profiles/' + profile.id, {
-			method: 'DELETE',
-		});
-		//force reload
-		location.reload();
-	}
 </script>
-
-<ModalPrompt
-	bind:shown={copyProfileModalShown}
-	title="Copie d'un profile"
-	message="Choisissez le nom du profil copié"
-	buttons={[
-		{
-			text: 'Ok',
-			color: 'bg-green-400',
-			callback: (value) => {
-				if (selectedProfileToCopy) {
-					copyProfile(selectedProfileToCopy, value);
-				}
-			},
-		},
-		{
-			text: 'Annuler',
-			color: 'bg-gray-400',
-			callback: () => {
-				selectedProfileToCopy = undefined;
-			},
-		},
-	]}
-/>
 
 <ModalPrompt
 	bind:shown={addProfileModalShown}
@@ -107,134 +61,63 @@
 			text: 'Ok',
 			color: 'bg-green-400',
 			callback: (value) => {
-				createProfile(value);
+				createProfile(value || 'default');
 			},
 		},
 		{
 			text: 'Annuler',
-			color: 'bg-gray-400',
-			callback: () => {
-				selectedProfileToCopy = undefined;
-			},
-		},
-	]}
-/>
-
-<Modal
-	bind:shown={deleteProfileModalShown}
-	title="Suppression"
-	message="Souhaitez vous supprimer ce profil ?"
-	buttons={[
-		{
-			text: 'Oui',
-			color: 'bg-red-400',
-			callback: () => {
-				if (selectedProfileToDelete) {
-					deleteProfile(selectedProfileToDelete);
-				}
-			},
-		},
-		{
-			text: 'Non',
 			color: 'bg-gray-400',
 			callback: () => {},
 		},
 	]}
 />
 
-<main>
-	<HeaderBack title="Liste des profils">
+<div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-200 dark:bg-neutral-800 shadow-xl group">
+	<div class="flex flex-row gap-5 justify-items-end -translate-y-4">
+		<a
+			href="/app"
+			class="rounded-xl bg-red-400 text-white py-1 px-3 font-semibold flex flex-row gap-2 items-center"
+		>
+			<svg
+				id="glyphicons-basic"
+				xmlns="http://www.w3.org/2000/svg"
+				viewBox="0 0 32 32"
+				class="h-5 w-5 fill-white"
+			>
+				<path
+					id="chevron-left"
+					d="M22.41406,23.37866a.5.5,0,0,1,0,.70709L19.586,26.91425a.50007.50007,0,0,1-.70715,0L8.67151,16.70709a.99988.99988,0,0,1,0-1.41418L18.87885,5.08575a.50007.50007,0,0,1,.70715,0l2.82806,2.8285a.5.5,0,0,1,0,.70709L15.03564,16Z"
+				/>
+			</svg>
+		</a>
+		<div
+			class="rounded-xl bg-indigo-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
+		>
+			Liste des profils
+		</div>
+	</div>
+
+	<div id="profilesContainer" class="flex flex-col gap-4">
+		{#each profiles as profile}
+			<Profile bind:profile delCb={reload} />
+		{/each}
 		<button
-			class="bg-green-600 text-white py-1 px-2 rounded-full flex flex-row gap-2 items-center"
+			class="bg-green-400 rounded-xl font-semibold py-2 px-5 text-white flex flex-row gap-4 justify-center items-center"
 			on:click={listProfileBlueprint}
 		>
 			<svg
 				id="glyphicons-basic"
 				xmlns="http://www.w3.org/2000/svg"
 				viewBox="0 0 32 32"
-				class="fill-white h-5 w-5"
+				class="h-5 w-5 fill-white"
 			>
 				<path
-					id="plus"
-					d="M27,14v4a1,1,0,0,1-1,1H19v7a1,1,0,0,1-1,1H14a1,1,0,0,1-1-1V19H6a1,1,0,0,1-1-1V14a1,1,0,0,1,1-1h7V6a1,1,0,0,1,1-1h4a1,1,0,0,1,1,1v7h7A1,1,0,0,1,27,14Z"
+					id="user-plus"
+					d="M9.36481,13.37427A1.2749,1.2749,0,0,1,10,11.62988V9c0-3,2-5,5.5-5a6.79133,6.79133,0,0,1,2.64575.50122,7.94842,7.94842,0,0,0,3.59918,8.26123,1.71227,1.71227,0,0,1-.10974.61182l-.28.75146a2.99115,2.99115,0,0,1-1.31073,1.462l-.66583,3.05176A2.99994,2.99994,0,0,1,16.44763,21H14.55237a2.99994,2.99994,0,0,1-2.931-2.36047l-.66583-3.05176a2.99143,2.99143,0,0,1-1.31073-1.462ZM32,6a6,6,0,1,1-6-6A6,6,0,0,1,32,6Zm-3-.5a.5.5,0,0,0-.5-.5H27V3.5a.5.5,0,0,0-.5-.5h-1a.5.5,0,0,0-.5.5V5H23.5a.5.5,0,0,0-.5.5v1a.5.5,0,0,0,.5.5H25V8.5a.5.5,0,0,0,.5.5h1a.5.5,0,0,0,.5-.5V7h1.5a.5.5,0,0,0,.5-.5ZM26.06885,22.87207l-5.13623-2.7052A5.02336,5.02336,0,0,1,16.44727,23H14.55273a5.02379,5.02379,0,0,1-4.48553-2.833l-5.136,2.70508A1.57806,1.57806,0,0,0,4,24.23669V27a1,1,0,0,0,1,1H26a1,1,0,0,0,1-1V24.23669A1.57806,1.57806,0,0,0,26.06885,22.87207Z"
 				/>
 			</svg>
-			Ajouter Un profil
-		</button>
-	</HeaderBack>
 
-	<div id="profileListWrapper" class="flex flex-col flex-nowrap justify-between gap-4">
-		{#each profiles as profile}
-			<div class="grid grid-cols-12 gap-4">
-				<a href="profiles/{profile.id}" class="col-span-10">
-					<div
-						class="bg-black text-white py-2 px-4 rounded-full flex flex-row justify-between"
-					>
-						<div class="flex flex-col">
-							<span class="text-md font-semibold">{profile.name}</span>
-							<span class="text-xs text-gray-300 italic">
-								Date de modification: {new Date(
-									profile.modificationDate,
-								).toLocaleString()}
-							</span>
-						</div>
-						<div class="self-center">
-							<svg
-								id="glyphicons-basic"
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 32 32"
-								class="fill-white h-5 w-5"
-							>
-								<path
-									id="chevron-right"
-									d="M23.32849,16.70709,13.12115,26.91425a.50007.50007,0,0,1-.70715,0l-2.82806-2.8285a.5.5,0,0,1,0-.70709L16.96436,16,9.58594,8.62134a.5.5,0,0,1,0-.70709L12.414,5.08575a.50007.50007,0,0,1,.70715,0L23.32849,15.29291A.99988.99988,0,0,1,23.32849,16.70709Z"
-								/>
-							</svg>
-						</div>
-					</div>
-				</a>
-				<!-- Profile Buttons -->
-				<div class="flex flex-row justify-around gap-4 col-span-2">
-					<button
-						class="self-center bg-red-500 text-white p-2 rounded-full"
-						on:click={() => {
-							selectedProfileToDelete = profile;
-							deleteProfileModalShown = true;
-						}}
-					>
-						<svg
-							id="glyphicons-basic"
-							xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 0 32 32"
-							class="fill-white w-5 h-5"
-						>
-							<path
-								id="bin"
-								d="M7,26a2.00006,2.00006,0,0,0,2,2H23a2.00006,2.00006,0,0,0,2-2V10H7ZM20,14a1,1,0,0,1,2,0V24a1,1,0,0,1-2,0Zm-5,0a1,1,0,0,1,2,0V24a1,1,0,0,1-2,0Zm-5,0a1,1,0,0,1,2,0V24a1,1,0,0,1-2,0ZM26,6V8H6V6A1,1,0,0,1,7,5h6V4a1,1,0,0,1,1-1h4a1,1,0,0,1,1,1V5h6A1,1,0,0,1,26,6Z"
-							/>
-						</svg>
-					</button>
-					<button
-						class="self-center bg-orange-500 text-white p-2 rounded-full"
-						on:click={() => {
-							selectedProfileToCopy = profile;
-							copyProfileModalShown = true;
-						}}
-					>
-						<svg
-							id="glyphicons-basic"
-							xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 0 32 32"
-							class="fill-white w-5 h-5"
-						>
-							<path
-								id="clipboard"
-								d="M22,18.5v1a.5.5,0,0,1-.5.5h-11a.5.5,0,0,1-.5-.5v-1a.5.5,0,0,1,.5-.5h11A.5.5,0,0,1,22,18.5ZM21.5,22h-11a.5.5,0,0,0-.5.5v1a.5.5,0,0,0,.5.5h11a.5.5,0,0,0,.5-.5v-1A.5.5,0,0,0,21.5,22Zm0-8h-11a.5.5,0,0,0-.5.5v1a.5.5,0,0,0,.5.5h11a.5.5,0,0,0,.5-.5v-1A.5.5,0,0,0,21.5,14ZM26,10V26a2.00229,2.00229,0,0,1-2,2H8a2.00229,2.00229,0,0,1-2-2V10A2.00229,2.00229,0,0,1,8,8h2V7a1,1,0,0,1,1-1h2a2.00006,2.00006,0,0,1,2-2h2a2.00006,2.00006,0,0,1,2,2h2a1,1,0,0,1,1,1V8h2A2.00229,2.00229,0,0,1,26,10ZM24.001,26,24,10H22v1a1,1,0,0,1-1,1H11a1,1,0,0,1-1-1V10H8V26Z"
-							/>
-						</svg>
-					</button>
-				</div>
-			</div>
-		{/each}
+			Ajouter un profil
+		</button>
 	</div>
-</main>
+</div>

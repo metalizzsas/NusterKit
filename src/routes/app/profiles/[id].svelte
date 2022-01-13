@@ -1,20 +1,21 @@
 <script context="module" lang="ts">
-	/** @type {import('svelte/kit').Load} */
-	export async function load(ctx) {
-		let profileID = ctx.page.params.id;
+	import type { Load } from '@sveltejs/kit';
 
-		const content = await fetch(`http://127.0.0.1/v1/profiles/${profileID}`);
+	export const load: Load = async (ctx) => {
+		let profileID = ctx.params.id;
+
+		const content = await ctx.fetch(`http://127.0.0.1/v1/profiles/${profileID}`);
 
 		let profile: Profile = await content.json();
 
 		return { props: { profile } };
-	}
+	};
 </script>
 
 <script lang="ts">
 	import '$lib/app.css';
 	import HeaderBack from '$lib/components/HeaderBack.svelte';
-	import Modal from '$lib/components/modal.svelte';
+	import Modal from '$lib/components/modals/modal.svelte';
 	import TimeSelector from '$lib/components/TimeSelector.svelte';
 	import Toggle from '$lib/components/toggle.svelte';
 	import type { Profile } from '$lib/utils/interfaces';

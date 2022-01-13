@@ -17,7 +17,7 @@
 					}
 					if (!preventDefault) window.history.back();
 				}}
-				class="bg-black fill-white p-2 rounded-full"
+				class="backdrop-brightness-125 fill-neutral-700 hover:fill-neutral-500 hover:backdrop-brightness-75 transition-all duration-200 p-2 rounded-full"
 			>
 				<svg
 					id="glyphicons-basic"
@@ -31,7 +31,9 @@
 					/>
 				</svg>
 			</button>
-			<h1 class="text-xl text-white bg-black py-1 px-3 rounded-full">{title}</h1>
+			<h1 class="text-xl text-neutral-700 backdrop-brightness-125 py-1 px-3 rounded-full">
+				{title}
+			</h1>
 		</div>
 		<slot />
 	</div>

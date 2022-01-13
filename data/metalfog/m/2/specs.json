@@ -398,7 +398,7 @@
          "sensors": [
             {
                "io": "levels_act-a",
-               "type": "levels-a"
+               "type": "level-a"
             },
             {
                "io": "levels_act-n",

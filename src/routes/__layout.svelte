@@ -1,4 +1,6 @@
 <script lang="ts">
+	import PageTransition from '$lib/components/PageTransition.svelte';
+
 	import { onMount } from 'svelte';
 
 	let ready: boolean = false;
@@ -8,15 +10,7 @@
 <!-- <div class="dragbar" /> -->
 
 {#if ready}
-	<slot />
+	<PageTransition>
+		<slot />
+	</PageTransition>
 {/if}
-
-<style>
-	.dragbar {
-		-webkit-app-region: drag;
-		position: absolute;
-		z-index: 100;
-		height: 40px;
-		width: 100%;
-	}
-</style>

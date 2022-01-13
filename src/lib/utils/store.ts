@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-import type { IWSContent } from "./interfaces";
+import type { IWSObject } from "./interfaces";
 
 export let machineList = writable<IMachine[]>([{
     serial: "null",
@@ -22,8 +22,8 @@ export interface IMachine {
     modelVariant: string;
     modelRevision: number;
 }
-
-export var machineData = writable<IWSContent>({
+//FIXME: change default definition
+export var machineData = writable<IWSObject>({
     machine: {
         name: "metalfogx1",
         serial: "null",

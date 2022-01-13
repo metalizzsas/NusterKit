@@ -18,6 +18,7 @@
     @apply rounded-lg border-slate-500;
   }
   body{
-    padding: 1em;
+    padding: 1.5em;
+    @apply bg-neutral-50;
   }
 }

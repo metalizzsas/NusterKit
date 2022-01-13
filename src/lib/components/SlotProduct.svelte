@@ -8,7 +8,7 @@
 <div
 	class="shadow-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-3xl overflow-hidden"
 >
-	<div class="backdrop-blur p-3 text-white h-40 w-40">
+	<div class="backdrop-blur p-3 text-white">
 		<div class="flex flex-row justify-between">
 			<span class="text-zinc-800 bg-white font-semibold text-left py-1 px-2 rounded-full">
 				{slot.name}

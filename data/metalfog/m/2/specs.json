@@ -376,7 +376,7 @@
          "sensors": [
             {
                "io": "levels_ox-a",
-               "type": "levels_ox-a"
+               "type": "level-a"
             }
          ]
       },
@@ -387,7 +387,7 @@
          "sensors": [
             {
                "io": "levels_rd-a",
-               "type": "levels_rd-a"
+               "type": "level-a"
             }
          ]
       },
@@ -398,11 +398,11 @@
          "sensors": [
             {
                "io": "levels_act-a",
-               "type": "levels_act-a"
+               "type": "levels-a"
             },
             {
                "io": "levels_act-n",
-               "type": "levels_act-n"
+               "type": "level-n"
             }
          ]
       },
@@ -413,11 +413,11 @@
          "sensors": [
             {
                "io": "levels_edi-a",
-               "type": "levels_edi-a"
+               "type": "level-a"
             },
             {
                "io": "levels_edi-n",
-               "type": "levels_edi-n"
+               "type": "level-n"
             }
          ]
       },
@@ -428,7 +428,7 @@
          "sensors": [
             {
                "io": "levels_eff-n",
-               "type": "levels_eff-n"
+               "type": "level-n"
             }
          ]
       }

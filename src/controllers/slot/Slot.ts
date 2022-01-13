@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import { IOController } from "../io/IOController";
 
 export interface ISlot{
     name: string;
@@ -59,6 +60,38 @@ export interface IConfigSlot
     sensors: ISlotSensor[];
 }
 
+class SlotSensor implements ISlotSensor
+{
+    io: string;
+    type: string;
+    val: number;
+
+    private ioController: IOController;
+
+    constructor(slot: ISlotSensor, iomgr: IOController)
+    {
+        this.ioController = iomgr;
+
+        this.io = slot.io;
+        this.type = slot.type;
+        this.val = 0;
+    }
+
+    get value(): number
+    {
+        return this.ioController.gFinder(this.io)?.value || 0;
+    }
+
+    toJSON() 
+    {
+        return {
+            io: this.io,
+            type: this.type,
+            value: this.value
+        }
+    }
+}
+
 export class Slot implements IConfigSlot
 {
     name: string;
@@ -69,18 +102,17 @@ export class Slot implements IConfigSlot
 
     product?: IProduct;
 
-    constructor(name: string, type: string, isProductable: boolean, sensors: ISlotSensor[])
+    constructor(slot: IConfigSlot, ioMgr: IOController)
     {
-        this.name = name;
-        this.type = type;
-        this.isProductable = isProductable;
+        this.name = slot.name;
+        this.type = slot.type;
+        this.isProductable = slot.isProductable;
 
-        this.sensors = sensors;
+        this.sensors = slot.sensors.map(s => new SlotSensor(s, ioMgr));
 
         if(this.isProductable)
         {
             this._configureSlot();
-            this.readSensors();
         }
     }
 
@@ -149,13 +181,5 @@ export class Slot implements IConfigSlot
             const slot = await SlotModel.findOne({name: this.name});
             return (slot?.product) ? slot.product! : null;
         }
-    }
-    /**
-     * Reads all the sensors of this slot
-     * @returns {Boolean}
-     */
-    public async readSensors(): Promise<boolean>
-    {
-        return true;
     }
 }

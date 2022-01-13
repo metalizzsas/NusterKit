@@ -24,7 +24,7 @@ export class SlotController extends Controller
     {
         for(const slot of this.machine.specs.slots)
         {
-            this.slots.push(new Slot(slot.name, slot.type, slot.isProductable, slot.sensors))
+            this.slots.push(new Slot(slot, this.machine.ioController));
         }
     }
 
@@ -34,12 +34,6 @@ export class SlotController extends Controller
          * List all avalables slots fo this machine
          */
         this._router.get('/', async (req: Request, res: Response) => {
-
-            for(const slot of this.slots)
-            {
-                await slot.readSensors();
-            }
-
             res.json(this.slots);
         });
 

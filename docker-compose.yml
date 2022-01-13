@@ -33,5 +33,7 @@ services:
         - '5011' # management API (optional)
         - '35173' # Chromium debugging port (optional)
     environment:
-      LAUNCH_URL: 'http://127.0.0.1:8080/'
+      LAUNCH_URL: 'http://127.0.0.1:8080/app'
       KIOSK: '1'
+      ROTATE_DISPLAY: 'left'
+      ENABLE_GPU: 1

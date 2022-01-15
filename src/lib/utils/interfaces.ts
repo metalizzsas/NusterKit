@@ -1,5 +1,6 @@
 export interface IWSObject {
   machine: Machine;
+  cycle?: Cycle;
   slots: Slot[];
   io: Io[];
   handlers: Handler[];
@@ -9,7 +10,7 @@ export interface IWSObject {
   maintenances: Maintenance[];
 }
 
-interface Maintenance {
+export interface Maintenance {
   name: string;
   durationType: string;
   durationLimit: number;
@@ -19,39 +20,14 @@ interface Maintenance {
   procedure: Procedure;
 }
 
-interface Procedure {
+export interface Procedure {
   desc: string;
-  steps: Step[];
+  steps: Step2[];
 }
 
-interface Step {
+export interface Step2 {
   name: string;
   images: string[];
-}
-
-export interface Profile {
-  name: string;
-  modificationDate: number;
-  fieldGroups: FieldGroup[];
-  id: string | undefined;
-  identifier?: string;
-}
-
-interface FieldGroup {
-  name: string;
-  fields: Field[];
-  id: string;
-}
-
-interface Field {
-  name: string;
-  type: string;
-  value: number;
-  id: string;
-  unity?: string;
-  floatMin?: number;
-  floatMax?: number;
-  floatStep?: number;
 }
 
 export interface Manual {
@@ -61,7 +37,7 @@ export interface Manual {
   incompatibility: string[];
 }
 
-interface Passive {
+export interface Passive {
   name: string;
   mode: string;
   enabled: boolean;
@@ -69,7 +45,7 @@ interface Passive {
   actuator: string;
 }
 
-interface Handler {
+export interface Handler {
   name: string;
   type: string;
   ip: string;
@@ -94,13 +70,116 @@ export interface Slot {
   sensors: Sensor[];
 }
 
-interface Sensor {
+export interface Sensor {
   io: string;
   type: string;
   value: number;
 }
 
-interface Machine {
+export interface Cycle {
+  status: Status;
+  name: string;
+  profileIdentifier: string;
+  steps: Step[];
+  watchdogConditions: WatchdogCondition[];
+  currentStepIndex: number;
+  profile: Profile;
+}
+
+export interface Profile {
+  identifier: string;
+  name: string;
+  fieldGroups: FieldGroup[];
+  modificationDate: number;
+  id: string;
+}
+
+export interface FieldGroup {
+  name: string;
+  fields: Field[];
+  id: string;
+}
+
+export interface Field {
+  name: string;
+  type: string;
+  value: number;
+  id: string;
+  unity?: string;
+  floatMin?: number;
+  floatMax?: number;
+  floatStep?: number;
+}
+
+export interface WatchdogCondition {
+  gateName: string;
+  gateValue: number;
+  startOnly: boolean;
+  result: boolean;
+}
+
+export interface Step {
+  name: string;
+  state: string;
+  type: string;
+  isEnabled: IsEnabled;
+  duration: IsEnabled;
+  startingIO: StartingIO[];
+  endingIO: StartingIO[];
+  blocks: Block2[];
+}
+
+export interface Block2 {
+  name: string;
+  params: Param2[];
+  blocks: (Block | Block)[];
+  executed: boolean;
+}
+
+export interface Block {
+  name: string;
+  params: Param3[];
+  blocks: any[];
+  executed: boolean;
+}
+
+export interface Param3 {
+  name: string;
+  value: string;
+  data: number | number | string;
+}
+
+export interface Param2 {
+  name: string;
+  value: string;
+  data: number | number | number | string;
+}
+
+export interface StartingIO {
+  name: string;
+  params: Param[];
+  blocks: any[];
+  executed: boolean;
+}
+
+export interface Param {
+  name: string;
+  value: string;
+  data: number | string;
+}
+
+export interface IsEnabled {
+  name: string;
+  value: string;
+  data: number;
+}
+
+export interface Status {
+  mode: string;
+  progress: number;
+}
+
+export interface Machine {
   name: string;
   serial: string;
   model: string;

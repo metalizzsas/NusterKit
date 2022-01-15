@@ -17,7 +17,7 @@
 	import HeaderBack from '$lib/components/HeaderBack.svelte';
 	import Modal from '$lib/components/modals/modal.svelte';
 	import TimeSelector from '$lib/components/TimeSelector.svelte';
-	import Toggle from '$lib/components/toggle.svelte';
+	import Toggle from '$lib/components/Toggle.svelte';
 	import type { Profile } from '$lib/utils/interfaces';
 
 	let saveModalShown = false;
@@ -64,97 +64,135 @@
 	]}
 />
 
-<main>
-	<!-- TODO: Add exit save && checkf or permission ton edit this content -->
-	<HeaderBack
-		bind:title={profile.name}
-		call={() => (saveModalShown = true)}
-		preventDefault={true}
-	/>
-
-	<span class="bg-gradient-to-r from-zinc-700 to-zinc-800 py-2 px-3 rounded-full mb-3 text-white">
-		Informations globales
-	</span>
-
-	<div id="headWrapper" class="mt-4 mb-8">
-		<div class="inline-block rounded-full py-2 px-2 bg-black items-center">
-			<span class="text-white mr-4">Nom du profil</span>
-			<input
-				type="text"
-				bind:value={profile.name}
-				class="border-0 py-1 px-2 rounded-full bg-white text-black"
-			/>
+<div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-200 dark:bg-neutral-800 shadow-xl group">
+	<div class="flex flex-row gap-5 justify-items-end -translate-y-4">
+		<a
+			href="/app/profiles"
+			class="rounded-xl bg-red-400 text-white py-1 px-3 font-semibold flex flex-row gap-2 items-center"
+			on:click|preventDefault={() => {
+				saveModalShown = true;
+			}}
+		>
+			<svg
+				id="glyphicons-basic"
+				xmlns="http://www.w3.org/2000/svg"
+				viewBox="0 0 32 32"
+				class="h-5 w-5 fill-white"
+			>
+				<path
+					id="chevron-left"
+					d="M22.41406,23.37866a.5.5,0,0,1,0,.70709L19.586,26.91425a.50007.50007,0,0,1-.70715,0L8.67151,16.70709a.99988.99988,0,0,1,0-1.41418L18.87885,5.08575a.50007.50007,0,0,1,.70715,0l2.82806,2.8285a.5.5,0,0,1,0,.70709L15.03564,16Z"
+				/>
+			</svg>
+		</a>
+		<div
+			class="rounded-xl bg-indigo-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
+		>
+			{profile.name}
 		</div>
 	</div>
-
-	<span class="bg-gradient-to-r from-zinc-700 to-zinc-800 py-2 px-3 rounded-full mb-3 text-white">
-		Paramètres
-	</span>
-
-	<div id="fieldsGroupsWrapper" class="mt-4 mb-8">
-		{#each profile.fieldGroups as fg}
-			<div class="ml-4 mb-6">
-				<div class="flex flex-row gap-4">
-					<span
-						class="bg-gradient-to-r from-stone-700 to-stone-800 py-1 px-2 rounded-full text-white"
+	<div id="profile-content" class="mt-3 flex flex-col gap-10">
+		<div>
+			<span class="rounded-xl bg-slate-500 px-5 py-2 text-white font-semibold">
+				Informations globales
+			</span>
+			<div class="flex flex-row gap-4 mt-5">
+				<ul>
+					<li
+						class="p-3 ring-1 ring-gray-900/10 bg-neutral-100 hover:ring-gray-900/50 transition rounded-xl flex flex-row gap-4 items-center text-gray-600/100"
 					>
-						{fg.name}
-					</span>
-					{#each fg.fields.filter((f) => f.name === 'enabled') as f}
-						<Toggle
-							bind:value={f.value}
-							on:change={(e) => {
-								let d = fg.fields.find((f) => f.name === 'enabled');
-								if (d) {
-									d.value = e.detail.value;
-								}
-							}}
+						<span class="font-medium">Nom du profil:</span>
+						<input
+							type="text"
+							class="border-0 bg-neutral-100"
+							bind:value={profile.name}
 						/>
-					{/each}
-				</div>
-
-				<div id="fieldsWrapper{fg.name}" class="disabled my-2 ml-4 flex flex-col gap-2">
-					{#each fg.fields.filter((f) => f.name !== 'enabled') as f}
-						<div
-							class="flex flex-row items-center gap-2 rounded-full py-2 px-2 bg-black"
-						>
-							<span class="text-white mr-4">{f.name}</span>
-							{#if f.type === 'bool'}
-								<Toggle bind:value={f.value} />
-							{:else if f.type === 'float'}
-								<input
-									type="range"
-									bind:value={f.value}
-									min={f.floatMin}
-									max={f.floatMax}
-									step={f.floatStep}
-								/>
-							{:else if f.type === 'int'}
-								{#if f.unity === 'm-s'}
-									<TimeSelector bind:value={f.value} />
-								{:else}
-									<input
-										type="number"
-										class="w-25 bg-white px-2 py-1 rounded-full"
-										min="0"
-										max="59"
-										bind:value={f.value}
-									/>
-								{/if}
-							{:else}
-								<span class="text-red">Type {f.type} unsupported</span>
-							{/if}
-
-							{#if f.unity && f.unity != 'm-s'}
-								<span class="bg-white text-black py-0.5 px-2 rounded-full">
-									{f.value}
-									{f.unity}
-								</span>
-							{/if}
-						</div>
-					{/each}
-				</div>
+					</li>
+				</ul>
 			</div>
-		{/each}
+		</div>
+
+		<div>
+			<span class="rounded-xl bg-slate-500 px-5 py-2 text-white font-semibold">Réglages</span>
+			<div class="flex flex-col gap-5 mt-5 mb-3">
+				{#each profile.fieldGroups as fg, index}
+					<div class="flex flex-row gap-4">
+						<div class="ml-4">
+							<div
+								id="catheader"
+								class="flex flex-row justify-items-end items-center gap-4"
+							>
+								<span
+									class="rounded ring-1 ring-slate-600/50 shadow-xl p-0.5 h-5 w-5 bg-white text-center text-xs text-gray-500"
+								>
+									{index}
+								</span>
+								<span
+									class="rounded-xl bg-blue-400/50 px-5 py-2 text-white font-semibold"
+								>
+									{fg.name}
+								</span>
+								{#if fg.fields.filter((f) => f.name === 'enabled').length > 0}
+									{#each fg.fields.filter((f) => f.name === 'enabled') as f}
+										<Toggle
+											bind:value={f.value}
+											on:change={(e) => {
+												let d = fg.fields.find((f) => f.name === 'enabled');
+												if (d) {
+													d.value = e.detail.value;
+												}
+											}}
+										/>
+									{/each}
+								{/if}
+							</div>
+							<div class="flex flex-col gap-5 mt-3 ml-16">
+								{#each fg.fields.filter((f) => f.name !== 'enabled') as f}
+									<div
+										class="flex flex-row items-center gap-2 rounded-xl ring-1 ring-gray-500/10 py-2 px-2 bg-gray-500/75 mb-0.5"
+									>
+										<span class="text-white mr-4">{f.name}</span>
+										{#if f.type === 'bool'}
+											<Toggle bind:value={f.value} />
+										{:else if f.type === 'float'}
+											<input
+												type="range"
+												bind:value={f.value}
+												min={f.floatMin}
+												max={f.floatMax}
+												step={f.floatStep}
+											/>
+										{:else if f.type === 'int'}
+											{#if f.unity === 'm-s'}
+												<TimeSelector bind:value={f.value} />
+											{:else}
+												<input
+													type="number"
+													class="w-25 bg-white px-2 py-1 rounded-full"
+													min="0"
+													max="59"
+													bind:value={f.value}
+												/>
+											{/if}
+										{:else}
+											<span class="text-red">Type {f.type} unsupported</span>
+										{/if}
+
+										{#if f.unity && f.unity != 'm-s'}
+											<span
+												class="bg-white text-black py-0.5 px-2 rounded-full"
+											>
+												{f.value}
+												{f.unity}
+											</span>
+										{/if}
+									</div>
+								{/each}
+							</div>
+						</div>
+					</div>
+				{/each}
+			</div>
+		</div>
 	</div>
-</main>
+</div>

@@ -1,24 +1,49 @@
 <script lang="ts">
 	import '$lib/app.css';
-	import { createEventDispatcher } from 'svelte';
-	import { fade } from 'svelte/transition';
+	import { createEventDispatcher, onMount } from 'svelte';
 	export let value: boolean | number;
+
+	let aria = false;
 
 	const dispatch = createEventDispatcher();
 
 	export let change = () => dispatch('change', { value: value });
+
+	onMount(() => {
+		if (typeof value === 'boolean') aria = value;
+		else value == 0 ? (aria = true) : (aria = false);
+	});
 </script>
 
 <div
-	class="bg-gray-200 w-12 flex flex-row justify-items-end rounded-full p-1 shadow-orange-100 self-center"
+	class="toggle"
+	aria-checked={aria}
 	on:click={() => {
-		if (typeof value === 'boolean') value = !value;
-		else value == 0 ? (value = 1) : (value = 0);
+		if (typeof value === 'boolean') {
+			value = !value;
+			aria = value;
+		} else {
+			value == 0 ? (value = 1) : (value = 0);
+			value == 0 ? (aria = true) : (aria = false);
+		}
 		change();
 	}}
->
-	{#if value == true}
-		<div class="w-6 bg-transparent" transition:fade />
-	{/if}
-	<div class="w-4 h-4 rounded-full {value ? 'bg-green-500' : 'bg-red-500'}" />
-</div>
+/>
+
+<style>
+	.toggle {
+		@apply block rounded-full h-6 w-12 bg-white;
+	}
+
+	.toggle::before {
+		content: '';
+		@apply block bg-red-500 h-4 w-4 rounded-full m-1;
+		transition: all 0.1s ease-in-out;
+	}
+
+	div[aria-checked='true'].toggle::before {
+		@apply bg-green-500;
+		transform: translateX(1.5em);
+		transition: all 0.1s ease-in-out;
+	}
+</style>

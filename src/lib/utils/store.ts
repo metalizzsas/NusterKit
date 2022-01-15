@@ -22,18 +22,4 @@ export interface IMachine {
     modelVariant: string;
     modelRevision: number;
 }
-//FIXME: change default definition
-export var machineData = writable<IWSObject>({
-    machine: {
-        name: "metalfogx1",
-        serial: "null",
-        model: "metalfog",
-        variant: "m",
-        revision: 1
-    },
-    slots: [],
-    io: [],
-    passives: [],
-    profiles: [],
-    maintenances: []
-});
+export var machineData = writable<IWSObject>();

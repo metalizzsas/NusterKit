@@ -102,7 +102,7 @@
 			<Profile bind:profile delCb={reload} />
 		{/each}
 		<button
-			class="bg-green-400 rounded-xl font-semibold py-2 px-5 text-white flex flex-row gap-4 justify-center items-center"
+			class="bg-indigo-400 rounded-xl font-semibold py-2 px-5 text-white flex flex-row gap-4 justify-center items-center"
 			on:click={listProfileBlueprint}
 		>
 			<svg

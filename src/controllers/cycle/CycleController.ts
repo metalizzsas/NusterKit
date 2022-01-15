@@ -142,14 +142,19 @@ export class CycleController extends Controller{
         this._router.patch("/:rating", async (req: Request, res: Response) => {
             if(this.program)
             {
-                if(this.program.status.mode != PBRMode.ENDED || PBRMode.STOPPED)
+                if(this.program.status.mode == PBRMode.ENDED || PBRMode.STOPPED || PBRMode.CREATED)
                 {
-                    await ProgramHistoryModel.create({
-                        rating: parseInt(req.params.rating) || 0,
-                        cycle: this.program,
-                        profile: this.program.profile
-                    });
-                    this.program == undefined;
+                    //do not save the history if the program was just created and never started
+                    if(this.program.status.mode != PBRMode.CREATED)
+                    {
+                        await ProgramHistoryModel.create({
+                            rating: parseInt(req.params.rating) || 0,
+                            cycle: this.program,
+                            profile: this.program.profile
+                        });
+                    }
+                    
+                    this.program = undefined;
 
                     res.status(200);
                     res.write("ok");

@@ -12,7 +12,6 @@ export class ProgramBlockRunner implements IProgram
 
     //identifiers vars
     name: string;
-    profileIdentifier: string;
     
     //Inside definers
     steps: ProgramBlockStep[] = [];
@@ -47,7 +46,6 @@ export class ProgramBlockRunner implements IProgram
         this.profile = profile;
 
         //properties assignment
-        this.profileIdentifier = object.profileIdentifier;
         this.name = object.name;
 
         //Explorers setup
@@ -159,11 +157,10 @@ export class ProgramBlockRunner implements IProgram
     toJSON()
     {
         return {
-            status: this.status,
+            status: {...this.status, progress: this.progress},
 
             //identifiers vars
             name: this.name,
-            profileIdentifier: this.profileIdentifier,
             
             //Inside definers
             steps: this.steps,
@@ -192,7 +189,6 @@ export interface IPBRStatus
 export interface IProgram
 {
     name: string;
-    profileIdentifier: string;
 
     currentStepIndex?: number;
 

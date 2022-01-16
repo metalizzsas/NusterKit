@@ -64,7 +64,6 @@ const WatchdogConditionSchema = new Schema<IWatchdogCondition>({
 const ProgramSchema = new Schema<IProgram>({
 
     name: {type: String, required: true},
-    profileIdentifier: String,
 
     status: {type: PBRStatusSchema, required: true},
 

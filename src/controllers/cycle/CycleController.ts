@@ -51,10 +51,10 @@ export class CycleController extends Controller{
 
                 this.program = new ProgramBlockRunner(this.machine, history.profile, history.cycle);
 
-                if(this.program.profileIdentifier != history.profile.identifier)
+                if(this.program.name != history.profile.identifier)
                 {
                     res.status(403);
-                    res.write(`Profile ${this.program.profileIdentifier} is not compatible with cycle profile ${history.profile.identifier}`);
+                    res.write(`Profile ${this.program.name} is not compatible with cycle profile ${history.profile.identifier}`);
                     res.end();
                     this.program = undefined;
                     return;
@@ -90,10 +90,10 @@ export class CycleController extends Controller{
                     this.machine.logger.info("PBR assigned");
                     this.program = new ProgramBlockRunner(this.machine, profile, cycle);
 
-                    if(this.program.profileIdentifier != profile.identifier)
+                    if(this.program.name != profile.identifier)
                     {
                         res.status(403);
-                        res.write(`Profile ${this.program.profileIdentifier} is not compatible with cycle profile ${profile.identifier}`);
+                        res.write(`Profile ${this.program.name} is not compatible with cycle profile ${profile.identifier}`);
                         res.end();
                         this.program = undefined;
                         return;

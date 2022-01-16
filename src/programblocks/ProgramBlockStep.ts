@@ -184,6 +184,8 @@ export class ProgramBlockStep implements IProgramStep
     
             isEnabled: this.isEnabled,
             duration: this.duration,
+
+            progress: this.progress,
     
             startTime: this.startTime,
             endTime: this.endTime,

@@ -63,7 +63,6 @@
     "concurrently": "^6.1.0",
     "eslint": "^8.4.1",
     "nodemon": "^2.0.15",
-    "ts-node": "^10.4.0",
-    "typedoc": "^0.22.10"
+    "ts-node": "^10.4.0"
   }
 }

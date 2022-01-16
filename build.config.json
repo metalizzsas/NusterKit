@@ -1,6 +1,6 @@
 {
-	"appId": "com.example.app",
-	"productName": "Svelte Electron",
+	"appId": "com.metalizz.nusterdesktop",
+	"productName": "NusterDesktop",
 	"directories": {
 		"output": "dist"
 	},

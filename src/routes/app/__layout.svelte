@@ -10,9 +10,10 @@
 
 	import { machineData } from '$lib/utils/store';
 	import type { IWSObject } from '$lib/utils/interfaces';
+	import { fade, scale } from 'svelte/transition';
 
 	onMount(() => {
-		let ws = new WebSocket('ws://localhost/v1');
+		let ws = new WebSocket('ws://127.0.0.1/v1');
 
 		ws.onmessage = (e: MessageEvent) => {
 			setTimeout(() => {
@@ -27,13 +28,17 @@
 </script>
 
 {#if ready}
-	<PageTransition>
-		<HeadPage />
-		<slot />
-	</PageTransition>
+	<!-- <PageTransition> -->
+	<HeadPage />
+	<slot />
+	<!-- </PageTransition> -->
 {:else}
-	<div class="absolute top-0 bottom-0 right-0 left-0">
-		<div class="bg-zinc-700 w-1/2 p-10 mx-auto text-white rounded-3xl translate-y-1/2">
+	<div class="absolute top-0 bottom-0 right-0 left-0" in:fade out:fade>
+		<div
+			class="bg-zinc-700 w-1/2 p-10 mx-auto text-white rounded-3xl translate-y-1/2"
+			in:scale
+			out:scale
+		>
 			<div class="flex flex-row">
 				<svg
 					id="glyphicons-basic"

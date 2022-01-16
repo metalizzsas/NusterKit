@@ -15,8 +15,8 @@
 	</div>
 
 	<div class="grid grid-cols-3 gap-4">
-		<button
-			href="#"
+		<a
+			href="app/cycle"
 			class="flex flex-row items-center justify-center gap-4 shadow-xl bg-gradient-to-br from-indigo-500 to-purple-500 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:skew-y-1 duration-200 ease-in-out"
 		>
 			Cycles
@@ -50,7 +50,7 @@
 					{$machineData.cycle.status.progress ? $machineData.cycle.status.progress : '0'} %
 				</span>
 			{/if}
-		</button>
+		</a>
 		<a
 			href="app/profiles"
 			class="shadow-xl bg-gradient-to-br from-indigo-500 to-purple-500 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:-skew-y-1 duration-200 ease-in-out"

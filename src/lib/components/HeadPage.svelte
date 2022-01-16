@@ -29,9 +29,14 @@
 					<span
 						class="inline-block text-white font-semibold {!isShrinked
 							? 'border-b-zinc-100 border-b-2'
-							: ''} text-lg"
+							: ''} text-lg {isShrinked ? 'cursor-pointer' : ''}"
 						in:fade
 						out:fade
+						on:click={() => {
+							if (isShrinked) {
+								window.location.href = '/app';
+							}
+						}}
 					>
 						{isShrinked ? 'Nuster' : 'Informations machine'}
 					</span>

@@ -122,6 +122,7 @@ export interface Step {
   name: string;
   state: string;
   type: string;
+  progress: number;
   isEnabled: IsEnabled;
   duration: IsEnabled;
   startingIO: StartingIO[];

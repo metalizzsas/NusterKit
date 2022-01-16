@@ -9,13 +9,12 @@
 </script>
 
 <script lang="ts">
-	import InputBlock from '$lib/components/io/InputBlock.svelte';
-
 	import type { Io, IWSObject } from '$lib/utils/interfaces';
 
 	import Toggle from '$lib/components/Toggle.svelte';
 	import { onMount } from 'svelte';
 	import type { Load } from '@sveltejs/kit';
+	import InputBlock from '$lib/components/io/inputBlock.svelte';
 
 	export let gates: Io[];
 

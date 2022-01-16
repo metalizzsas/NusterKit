@@ -14,7 +14,6 @@
 
 <script lang="ts">
 	import '$lib/app.css';
-	import HeaderBack from '$lib/components/HeaderBack.svelte';
 	import Modal from '$lib/components/modals/modal.svelte';
 	import TimeSelector from '$lib/components/TimeSelector.svelte';
 	import Toggle from '$lib/components/Toggle.svelte';

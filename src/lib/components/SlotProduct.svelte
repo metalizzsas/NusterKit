@@ -22,7 +22,7 @@
 			</span>
 			{#if slotContent.isProductable}
 				<span
-					class="text-zinc-800 bg-white text-left py-1 px-2 rounded-full hover:scale-["
+					class="text-zinc-800 bg-white text-left py-1 px-2 rounded-full"
 					on:click={() => {
 						return; /*TODO: add window for slot management*/
 					}}

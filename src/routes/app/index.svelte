@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '$lib/app.css';
+	import Maintenance from '$lib/components/maintenance/maintenance.svelte';
 	import SlotProduct from '$lib/components/SlotProduct.svelte';
 	import { machineData } from '$lib/utils/store';
 	import { fade } from 'svelte/transition';
@@ -91,9 +92,9 @@
 		</div>
 	</div>
 
-	<div class="flex flex-col gap-4">
+	<div class="grid grid-cols-2 gap-4">
 		{#each $machineData.maintenances.filter((m) => m.name !== 'cycleCount') as m}
-			<span>{m.name}</span>
+			<Maintenance bind:maintenance={m} />
 		{/each}
 	</div>
 </div>

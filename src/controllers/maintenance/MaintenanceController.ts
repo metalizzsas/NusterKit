@@ -42,6 +42,22 @@ export class MaintenanceController extends Controller
 
         this.machine.authManager.registerEndpointPermission("maintenance.list", {endpoint: "/v1/maintenance/", method: "get"});
 
+
+        this._router.get("/:name", async (req: Request, res: Response) => {
+            const maintenance = this.tasks.find(task => task.name == req.params.name);
+
+            if(maintenance)
+            {
+                res.json(maintenance);
+            }
+            else
+            {
+                res.status(404).end("not found");
+            }
+        });
+
+        this.machine.authManager.registerEndpointPermission("maintenance.list", {endpoint: new RegExp("/v1/maintenance/.*", "g"), method: "get"});
+
         this._router.delete("/:name", async (req: Request, res: Response) => {
             for(const [index, maintenance] of this.tasks.entries())
             {

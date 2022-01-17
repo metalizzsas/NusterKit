@@ -6,8 +6,14 @@
 
 	import { machineData } from '$lib/utils/store';
 	import { onMount } from 'svelte';
-	import { select_options } from 'svelte/internal';
 	import { fade } from 'svelte/transition';
+
+	import endSound from '$lib/sounds/cycle-end.wav';
+
+	let endSoundStarted = false;
+	let endSoundInstance: howler.Howl | null = null;
+
+	import howler from 'howler';
 
 	let cycleTypes: string[] = [];
 	let cycleTypeIndexSelected = -1;
@@ -68,8 +74,23 @@
 				'Content-Type': 'application/json',
 			},
 		});
+		endSoundInstance!.stop();
 		window.location.href = '/app';
 	};
+
+	$: if ($machineData.cycle) {
+		if ($machineData.cycle!.status.mode === 'ended' && endSoundStarted == false) {
+			endSoundInstance = new howler.Howl({
+				src: [endSound],
+				loop: true,
+				volume: 0.5,
+			});
+
+			endSoundInstance.play();
+
+			endSoundStarted = true;
+		}
+	}
 </script>
 
 <Modal

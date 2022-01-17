@@ -13,8 +13,10 @@
 
 <script lang="ts">
 	import '$lib/app.css';
-	import Toggle from '$lib/components/Toggle.svelte';
+
 	import { onMount } from 'svelte';
+
+	import Toggle from '$lib/components/Toggle.svelte';
 
 	export let data: Manual[];
 

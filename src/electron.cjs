@@ -1,7 +1,5 @@
 const windowStateManager = require('electron-window-state');
-const contextMenu = require('electron-context-menu');
 const { app, BrowserWindow } = require('electron');
-const serve = require('electron-serve');
 
 try {
 	require('electron-reloader')(module);
@@ -9,7 +7,6 @@ try {
 	console.error(e);
 }
 
-const serveURL = serve({ directory: "." });
 const port = process.env.PORT || 3000;
 const dev = !app.isPackaged;
 let mainWindow;
@@ -53,20 +50,8 @@ function createWindow() {
 	mainWindow.on('close', () => {
 		windowState.saveState(mainWindow);
 	});
-
 	return mainWindow;
 }
-
-contextMenu({
-	showLookUpSelection: false,
-	showSearchWithGoogle: false,
-	showCopyImage: false,
-	prepend: (defaultActions, params, browserWindow) => [
-		{
-			label: 'Make App 💻',
-		},
-	],
-});
 
 function loadVite(port) {
 	mainWindow.loadURL(`http://localhost:${port}`).catch((e) => {

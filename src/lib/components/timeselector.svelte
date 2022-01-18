@@ -18,8 +18,20 @@
 </script>
 
 <div class="inline-block rounded-full p-1 px-2 bg-white">
-	<input type="number" class="w-10" min="0" max="59" bind:value={minutes} on:change={update} />
+	<select class="w-15" name="minutes" bind:value={minutes} on:change={update}>
+		{#each Array.from({ length: 99 }, (_, i) => i + 1).map((x) => x - 1) as count}
+			<option value={count}>{count}</option>
+			>
+		{/each}
+	</select>
+
 	<div class="px-1 font-semibold inline-block">Minutes :</div>
-	<input type="number" class="w-10" min="0" max="59" bind:value={seconds} on:change={update} />
+
+	<select name="seconds" class="w-15" bind:value={seconds} on:change={update}>
+		{#each Array.from({ length: 60 }, (_, i) => i + 1).map((x) => x - 1) as count}
+			<option value={count}>{count}</option>
+			>
+		{/each}
+	</select>
 	<div class="px-1 font-semibold inline-block">Secondes</div>
 </div>

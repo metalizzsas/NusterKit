@@ -103,8 +103,10 @@
 						<span class="font-medium">Nom du profil:</span>
 						<input
 							type="text"
-							class="border-0 bg-neutral-100"
+							class="jsvk border-0 bg-neutral-100"
 							bind:value={profile.name}
+							data-kioskboard-type="all"
+							data-kioskboard-specialcharacters="true"
 						/>
 					</li>
 				</ul>
@@ -167,10 +169,12 @@
 											{:else}
 												<input
 													type="number"
-													class="w-25 bg-white px-2 py-1 rounded-full"
+													class="jsvk w-25 bg-white px-2 py-1 rounded-full"
 													min="0"
 													max="59"
 													bind:value={f.value}
+													data-kioskboard-type="numpad"
+													data-kioskboard-specialcharacters="false"
 												/>
 											{/if}
 										{:else}

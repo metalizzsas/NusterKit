@@ -19,6 +19,7 @@
 			enable source maps by default.
 			*/
 		"sourceMap": true,
+		"resolveJsonModule": true,
 		"esModuleInterop": true,
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,

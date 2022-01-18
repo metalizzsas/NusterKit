@@ -16,7 +16,7 @@
 
 	import { onMount } from 'svelte';
 
-	import Toggle from '$lib/components/Toggle.svelte';
+	import Toggle from '$lib/components/toggle.svelte';
 
 	export let data: Manual[];
 

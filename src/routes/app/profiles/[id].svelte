@@ -15,8 +15,8 @@
 <script lang="ts">
 	import '$lib/app.css';
 	import Modal from '$lib/components/modals/modal.svelte';
-	import TimeSelector from '$lib/components/TimeSelector.svelte';
-	import Toggle from '$lib/components/Toggle.svelte';
+	import TimeSelector from '$lib/components/timeselector.svelte';
+	import Toggle from '$lib/components/toggle.svelte';
 	import type { Profile } from '$lib/utils/interfaces';
 
 	let saveModalShown = false;

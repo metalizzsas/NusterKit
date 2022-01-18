@@ -1,8 +1,8 @@
 <script lang="ts">
 	import '$lib/app.css';
-	import HeadPage from '$lib/components/HeadPage.svelte';
+	import HeadPage from '$lib/components/headPage.svelte';
 
-	import PageTransition from '$lib/components/PageTransition.svelte';
+	import PageTransition from '$lib/components/pageTransition.svelte';
 
 	import { onMount } from 'svelte';
 

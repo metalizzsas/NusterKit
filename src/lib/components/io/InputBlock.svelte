@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Io } from '$lib/utils/interfaces';
-	import Toggle from '$lib/components/Toggle.svelte';
+	import Toggle from '$lib/components/toggle.svelte';
 	export let gate: Io;
 </script>
 

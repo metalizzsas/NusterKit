@@ -20,16 +20,19 @@ services:
   nuster-desktop:
     build: ./nuster-desktop/
     restart: always
-    expose:
-      - "3000"
-    ports:
-      - "3000:3000"
+    network_mode: host
     depends_on: 
       - "nuster-turbine"
       - "mongodb"
   nuster-kiosk:
-    build: ./nuster-kiosk/
+    image: balenablocks/browser:latest
     privileged: true # required for UDEV to find plugged in peripherals such as a USB mouse
     network_mode: host
     depends_on:
       - 'nuster-desktop'
+    ports:
+        - '5011' # management API (optional)
+        - '35173' # Chromium debugging port (optional)
+    environment:
+      LAUNCH_URL: 'http://127.0.0.1:3000/app'
+      KIOSK: '1'

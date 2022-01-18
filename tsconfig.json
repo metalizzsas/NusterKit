@@ -106,5 +106,6 @@
       "./dev/**/*",
       "./build/**/*",
       "./nuster-desktop/**/*",
+      "./nuster-kiosk/**/*"
   ]
 }

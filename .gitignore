@@ -1,6 +1,7 @@
 node_modules/
 data/
 nuster-desktop/
+nuster-kiosk/
 package-lock.json
 .DS_store
 docs/

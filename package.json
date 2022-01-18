@@ -10,12 +10,12 @@
     "dev:enip": "node dev/enip.mjs",
     "machine": "export NODE_ENV=\"production\"; nodemon src/app.ts | node_modules/.bin/pino-pretty",
     "docs": "typedoc --out docs --entryPointStrategy expand ./src",
-    "build": "node_modules/.bin/tsc",
-    "start": "node build/app.js | node_modules/.bin/pino-pretty",
+    "build": "tsc",
+    "start": "node build/app.js | pino-pretty",
     "lc": "find './src' -name '*.ts' | xargs wc -l",
     "balena-env": "bash ./env.sh",
-    "balena-publish": "bash nuster-desktop.sh && balena push NusterTurbine",
-    "balena-publish-vm": "bash nuster-desktop.sh && balena push NTx64"
+    "balena-publish": "bash nuster-kiosk.sh && bash nuster-desktop.sh && balena push NusterTurbine",
+    "balena-publish-vm": "bash nuster-kiosk.sh && bash nuster-desktop.sh && balena push NTx64"
   },
   "repository": {
     "type": "git",

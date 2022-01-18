@@ -15,25 +15,21 @@ services:
       - "mongodb"
     volumes:
       - "resin-data:/data"
+    environment:
+      DISABLE_AUTH: 'true'
   nuster-desktop:
     build: ./nuster-desktop/
     restart: always
     expose:
       - "3000"
     ports:
-      - "3000:80"
+      - "3000:3000"
     depends_on: 
       - "nuster-turbine"
       - "mongodb"
-  kiosk:
-    image: balenablocks/browser:latest
+  nuster-kiosk:
+    build: ./nuster-kiosk/
     privileged: true # required for UDEV to find plugged in peripherals such as a USB mouse
     network_mode: host
-    ports:
-        - '5011' # management API (optional)
-        - '35173' # Chromium debugging port (optional)
-    environment:
-      LAUNCH_URL: 'http://127.0.0.1:8080/app'
-      KIOSK: '1'
-      ROTATE_DISPLAY: 'left'
-      ENABLE_GPU: 1
+    depends_on:
+      - 'nuster-desktop'

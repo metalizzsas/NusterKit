@@ -14,8 +14,8 @@
     "start": "node build/app.js | node_modules/.bin/pino-pretty",
     "lc": "find './src' -name '*.ts' | xargs wc -l",
     "balena-env": "bash ./env.sh",
-    "balena-publish": "bash ./nuster-desktop/publish.sh && balena push NusterTurbine",
-    "balena-publish-vm": "bash ./nuster-desktop/publish.sh && balena push NTx64"
+    "balena-publish": "bash nuster-desktop.sh && balena push NusterTurbine",
+    "balena-publish-vm": "bash nuster-desktop.sh && balena push NTx64"
   },
   "repository": {
     "type": "git",

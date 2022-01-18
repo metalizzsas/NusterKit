@@ -16,7 +16,7 @@ services:
     volumes:
       - "resin-data:/data"
   nuster-desktop:
-    build: ./nuster-desktop
+    build: ./nuster-desktop/
     restart: always
     expose:
       - "8080"

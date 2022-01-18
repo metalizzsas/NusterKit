@@ -13,4 +13,4 @@ COPY ./ ./
 #Build build svelte project to html
 RUN npm run build:svelte
 
-CMD ["npm", "run", "start:svelte"]
+CMD ["node", "build/index.js"]

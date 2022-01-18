@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Profile } from '$lib/utils/interfaces';
 	import Modal from '$lib/components/modals/modal.svelte';
-	import ModalPrompt from '$lib/components/modals/modalPrompt.svelte';
+	import ModalPrompt from '$lib/components/modals/modalprompt.svelte';
 	import { fly } from 'svelte/transition';
 
 	export let profile: Profile;

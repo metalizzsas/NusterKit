@@ -14,7 +14,7 @@
 	import Toggle from '$lib/components/toggle.svelte';
 	import { onMount } from 'svelte';
 	import type { Load } from '@sveltejs/kit';
-	import InputBlock from '$lib/components/io/inputBlock.svelte';
+	import InputBlock from '$lib/components/io/inputblock.svelte';
 
 	export let gates: Io[];
 

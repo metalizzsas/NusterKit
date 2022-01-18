@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '$lib/app.css';
 	import Maintenance from '$lib/components/maintenance/maintenance.svelte';
-	import SlotProduct from '$lib/components/slotProduct.svelte';
+	import SlotProduct from '$lib/components/slotproduct.svelte';
 	import { machineData } from '$lib/utils/store';
 	import { fade } from 'svelte/transition';
 </script>

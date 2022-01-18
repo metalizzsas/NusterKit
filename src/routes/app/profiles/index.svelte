@@ -12,7 +12,7 @@
 	import { goto } from '$app/navigation';
 
 	import '$lib/app.css';
-	import ModalPrompt from '$lib/components/modals/modalPrompt.svelte';
+	import ModalPrompt from '$lib/components/modals/modalprompt.svelte';
 
 	import Profile from '$lib/components/profile.svelte';
 	import type { Profile as ProfileModel } from '$lib/utils/interfaces';

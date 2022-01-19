@@ -11,7 +11,7 @@
 		{gate.name}
 	</span>
 	{#if gate.size == 'bit'}
-		<Toggle bind:value={gate.value} />
+		<Toggle bind:value={gate.value} locked={true} />
 	{:else}
 		<input type="range" min="0" max="100" bind:value={gate.value} />
 	{/if}

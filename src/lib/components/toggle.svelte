@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '$lib/app.css';
-	import { createEventDispatcher, onMount } from 'svelte';
+	import { createEventDispatcher, beforeUpdate } from 'svelte';
 	export let value: boolean | number;
 
 	let aria = false;
@@ -9,9 +9,11 @@
 
 	export let change = () => dispatch('change', { value: value });
 
-	onMount(() => {
+	export let locked = false;
+
+	beforeUpdate(() => {
 		if (typeof value === 'boolean') aria = value;
-		else value == 0 ? (aria = true) : (aria = false);
+		else value == 0 ? (aria = false) : (aria = true);
 	});
 </script>
 
@@ -19,14 +21,16 @@
 	class="toggle"
 	aria-checked={aria}
 	on:click={() => {
-		if (typeof value === 'boolean') {
-			value = !value;
-			aria = value;
-		} else {
-			value == 0 ? (value = 1) : (value = 0);
-			value == 0 ? (aria = true) : (aria = false);
+		if (!locked) {
+			if (typeof value === 'boolean') {
+				value = !value;
+				aria = value;
+			} else {
+				value == 0 ? (value = 1) : (value = 0);
+				value == 0 ? (aria = true) : (aria = false);
+			}
+			change();
 		}
-		change();
 	}}
 />
 

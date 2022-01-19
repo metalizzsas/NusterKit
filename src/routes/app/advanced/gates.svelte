@@ -26,6 +26,10 @@
 			gates = data.io;
 		};
 	});
+
+	function update(gate: string, value: number) {
+		fetch(`http://127.0.0.1/v1/io/${gate}/${value}`);
+	}
 </script>
 
 <div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-200 dark:bg-neutral-800 shadow-xl group">
@@ -91,9 +95,18 @@
 							{output.name}
 						</span>
 						{#if output.size == 'bit'}
-							<Toggle bind:value={output.value} />
+							<Toggle
+								bind:value={output.value}
+								on:change={(val) => update(output.name, val.detail.value)}
+							/>
 						{:else}
-							<input type="range" min="0" max="100" bind:value={output.value} />
+							<input
+								type="range"
+								min="0"
+								max="100"
+								bind:value={output.value}
+								on:change={() => update(output.name, output.value)}
+							/>
 						{/if}
 					</div>
 				{/each}

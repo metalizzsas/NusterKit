@@ -63,7 +63,9 @@ export class ManualModeController extends Controller
                         const gatesToToggle = key.controls.filter(g => !activeGates.includes(g));
 
                         for(const gate of gatesToToggle)
-                            this.machine.ioController.gFinder(gate)?.write(this.machine.ioController, 1);
+                        {
+                            await this.machine.ioController.gFinder(gate)?.write(this.machine.ioController, 1);
+                        }
 
                         key.state = true;
 
@@ -78,7 +80,7 @@ export class ManualModeController extends Controller
                     const gatesToToggleOff = key.controls.filter(g => !activeGatesThatStay.includes(g));
 
                     for(const gate of gatesToToggleOff)
-                        this.machine.ioController.gFinder(gate)?.write(this.machine.ioController, 0);
+                        await this.machine.ioController.gFinder(gate)?.write(this.machine.ioController, 0);
 
                     key.state = false;
                     

@@ -3,7 +3,6 @@
 	import Maintenance from '$lib/components/maintenance/maintenance.svelte';
 	import SlotProduct from '$lib/components/slotproduct.svelte';
 	import { machineData } from '$lib/utils/store';
-	import { fade } from 'svelte/transition';
 </script>
 
 <main id="content">
@@ -22,12 +21,8 @@
 				class="flex flex-row items-center justify-center gap-4 shadow-xl bg-gradient-to-br from-indigo-500 to-purple-500 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:skew-y-1 duration-200 ease-in-out"
 			>
 				Cycles
-				{#if $machineData.cycle}
-					<span
-						class="grid grid-cols-1 h-3 w-3 items-center justify-items-center "
-						in:fade
-						out:fade
-					>
+				{#if $machineData.cycle !== undefined}
+					<span class="grid grid-cols-1 h-3 w-3 items-center justify-items-center ">
 						<span
 							class="relative inline-flex rounded-full h-3 w-3 {$machineData.cycle
 								.status.mode != 'ended'
@@ -46,8 +41,6 @@
 
 					<span
 						class="rounded-full bg-white text-gray-700/75 py-1 px-2 font-semibold text-xs"
-						in:fade
-						out:fade
 					>
 						{$machineData.cycle.status.progress
 							? $machineData.cycle.status.progress

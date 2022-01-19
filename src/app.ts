@@ -50,7 +50,9 @@ class NusterTurbine
 
         this.status.mode = "running";
 
-        if(fs.existsSync(path.resolve("data", "info.json")))
+        const infoPath = (process.env.NODE_ENV != 'production' || process.env.FORCE_DEV_CONFIG == 'true') ? path.resolve("data", "info.json") : "/data/info.json";
+
+        if(fs.existsSync(infoPath))
         {
             this.machine = new Machine(this.logger);
 

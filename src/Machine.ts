@@ -51,12 +51,15 @@ export class Machine{
 
         //Loading JSON info file
 
-        if(!fs.existsSync(path.resolve("data", "info.json")))
+        const infoPath = (process.env.NODE_ENV != 'production' || process.env.FORCE_DEV_CONFIG == 'true') ? path.resolve("data", "info.json") : "/data/info.json";
+
+
+        if(!fs.existsSync(infoPath))
         {
             this.logger.fatal("Machine info file not found");
         }
 
-        const infos = fs.readFileSync(path.resolve("data", "info.json"), {encoding: "utf-8"});
+        const infos = fs.readFileSync(infoPath, {encoding: "utf-8"});
 
         const parsed = JSON.parse(infos);
 

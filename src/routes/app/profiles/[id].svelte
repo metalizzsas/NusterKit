@@ -18,11 +18,17 @@
 	import TimeSelector from '$lib/components/timeselector.svelte';
 	import Toggle from '$lib/components/toggle.svelte';
 	import type { Profile } from '$lib/utils/interfaces';
+	import { onMount } from 'svelte';
 
 	let saveModalShown = false;
 
+	let initialProfile: string;
+
 	export let profile: Profile;
 
+	onMount(() => {
+		initialProfile = JSON.stringify(profile);
+	});
 	async function save() {
 		await fetch('http://127.0.0.1/v1/profiles', {
 			method: 'POST',
@@ -69,7 +75,8 @@
 			href="/app/profiles"
 			class="rounded-xl bg-red-400 text-white py-1 px-3 font-semibold flex flex-row gap-2 items-center"
 			on:click|preventDefault={() => {
-				saveModalShown = true;
+				if (JSON.stringify(profile) !== initialProfile) saveModalShown = true;
+				else window.history.back();
 			}}
 		>
 			<svg

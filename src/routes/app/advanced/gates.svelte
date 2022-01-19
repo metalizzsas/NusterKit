@@ -57,7 +57,7 @@
 		</div>
 	</div>
 
-	<div class="grid grid-cols-2 gap-4">
+	<div class="grid grid-cols-1 gap-4">
 		<div>
 			<div class="flex flex-row items-center gap-4">
 				<span
@@ -107,6 +107,9 @@
 								bind:value={output.value}
 								on:change={() => update(output.name, output.value)}
 							/>
+							<span class="py-1 px-2 rounded-full bg-white text-gray-800 text-sm">
+								{Math.ceil(output.value)}
+							</span>
 						{/if}
 					</div>
 				{/each}

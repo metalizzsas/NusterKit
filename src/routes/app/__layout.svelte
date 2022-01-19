@@ -1,30 +1,20 @@
-<script lang="ts" context="module">
-	import type { Load } from '@sveltejs/kit';
-	export const load: Load = async (ctx) => {
-		let data = await ctx.fetch('http://127.0.0.1/ws');
-
-		let json = (await data.json()) as IWSObject;
-
-		return { props: { wsdata: json } };
-	};
-</script>
-
 <script lang="ts">
 	import '@fontsource/montserrat';
 	import '@fontsource/montserrat/400-italic.css';
 	import '@fontsource/montserrat/500.css';
 	import '@fontsource/montserrat/600.css';
 	import '@fontsource/montserrat/700.css';
+
 	import '$lib/app.css';
+
 	import kbDisplay from '$lib/json/kb.json';
-	import HeadPage from '$lib/components/headpage.svelte';
-
-	import PageTransition from '$lib/components/pagetransition.svelte';
-
-	import { afterUpdate, beforeUpdate, onMount } from 'svelte';
-
 	//@ts-ignore
 	import KioskBoard from 'kioskboard';
+
+	import HeadPage from '$lib/components/headpage.svelte';
+	import Pagetransition from '$lib/components/pagetransition.svelte';
+
+	import { afterUpdate, onDestroy, onMount } from 'svelte';
 
 	let ready: boolean = false;
 
@@ -32,15 +22,9 @@
 	import type { IWSObject } from '$lib/utils/interfaces';
 	import { fade, scale } from 'svelte/transition';
 
-	export let wsdata: IWSObject;
-
-	beforeUpdate(() => ($machineData = wsdata));
+	let ws: WebSocket;
 
 	onMount(() => {
-		// Initialize KioskBoard (default/all options)
-
-		console.log('Mount');
-
 		KioskBoard.init({
 			keysArrayOfObjects: kbDisplay,
 
@@ -64,17 +48,17 @@
 
 			autoScroll: true,
 		});
-		let ws = new WebSocket('ws://127.0.0.1/v1');
+		ws = new WebSocket('ws://127.0.0.1/v1');
 
 		ws.onmessage = (e: MessageEvent) => {
-			setTimeout(() => {
-				ready = true;
-			}, 100);
-
 			let data = JSON.parse(e.data) as IWSObject;
 
 			$machineData = data;
+			ready = true;
 		};
+	});
+	onDestroy(() => {
+		if (ws) ws.close();
 	});
 
 	afterUpdate(() => {
@@ -113,10 +97,10 @@
 		</div>
 	{:else}
 		<div>
-			<!-- <PageTransition> -->
-			<HeadPage />
-			<slot />
-			<!-- </PageTransition> -->
+			<Pagetransition>
+				<HeadPage />
+				<slot />
+			</Pagetransition>
 		</div>
 	{/if}
 </div>

@@ -40,7 +40,7 @@
 				<Cyclepreparation />
 			{:else if $machineData.cycle.status.mode === 'created'}
 				<Cyclewatchdog />
-			{:else if $machineData.cycle.status.mode === 'running'}
+			{:else if $machineData.cycle.status.mode === 'started'}
 				<Cyclerunning />
 			{:else if $machineData.cycle.status.mode === 'ended'}
 				<Cycleend />

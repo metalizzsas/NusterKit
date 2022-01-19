@@ -87,7 +87,7 @@ class NusterTurbine
                     }
                     else
                     {
-                        fs.mkdirSync("/data", {recursive: true});
+                        //do not create /data folder, it should already be there because of context
                         fs.writeFileSync("/data/info.json", JSON.stringify(req.body, null, 4));
                     }
 

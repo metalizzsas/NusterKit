@@ -13,4 +13,4 @@
 	});
 </script>
 
-<main>Main page</main>
+<main><a href="/app">Access main content</a></main>

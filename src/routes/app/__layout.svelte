@@ -25,6 +25,11 @@
 	let ws: WebSocket;
 
 	onMount(() => {
+		//disabling right click
+		window.addEventListener('contextmenu', function (e) {
+			e.preventDefault();
+		});
+
 		KioskBoard.init({
 			keysArrayOfObjects: kbDisplay,
 

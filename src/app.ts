@@ -80,8 +80,17 @@ class NusterTurbine
             this.app.post("/config", (req: Request, res: Response) => {
                 if(req.body)
                 {
-                    fs.mkdirSync(path.resolve("data"), {recursive: true});
-                    fs.writeFileSync(path.resolve("data", "info.json"), JSON.stringify(req.body, null, 4));
+                    if(process.env.NODE_END != 'production')
+                    {
+                        fs.mkdirSync(path.resolve("data"), {recursive: true});
+                        fs.writeFileSync(path.resolve("data", "info.json"), JSON.stringify(req.body, null, 4));
+                    }
+                    else
+                    {
+                        fs.mkdirSync("/data", {recursive: true});
+                        fs.writeFileSync("/data/info.json", JSON.stringify(req.body, null, 4));
+                    }
+
                     this.logger.info("Config written, restarting NusterTurbine.");
                     res.end();
                     process.exit(1);

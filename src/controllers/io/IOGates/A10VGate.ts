@@ -20,9 +20,9 @@ export class A10VIOGate extends IOGate
     {
         const word = this.size == IOGateSize.WORD ? true : undefined;
 
-        const v = map(data, 0, 100, 0, 32767);
+        this.value = data;
 
-        this.value = v;
+        const v = map(data, 0, 100, 0, 32767);
         
         await ioController.handlers[this.automaton].writeData(this.address, v, word)
         return true;

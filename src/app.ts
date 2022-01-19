@@ -80,7 +80,7 @@ class NusterTurbine
             this.app.post("/config", (req: Request, res: Response) => {
                 if(req.body)
                 {
-                    if(process.env.NODE_END != 'production')
+                    if(process.env.NODE_ENV != 'production')
                     {
                         fs.mkdirSync(path.resolve("data"), {recursive: true});
                         fs.writeFileSync(path.resolve("data", "info.json"), JSON.stringify(req.body, null, 4));

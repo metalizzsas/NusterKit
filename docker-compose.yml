@@ -30,9 +30,10 @@ services:
     network_mode: host
     depends_on:
       - 'nuster-desktop'
-    ports:
-        - '5011' # management API (optional)
-        - '35173' # Chromium debugging port (optional)
     environment:
       LAUNCH_URL: 'http://127.0.0.1:3000/app'
-      KIOSK: '1'
+      KIOSK: 1
+      ENABLE_GPU: 1
+      ROTATE_DISPLAY: 'right'
+      TOUCHSCREEN: 'wch Touch'
+      WINDOW_SIZE: 600, 1024

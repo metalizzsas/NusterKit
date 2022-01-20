@@ -15,6 +15,9 @@
 		//fetch cycles types from machine api
 		let cycleTypesData = await fetch('http://127.0.0.1/v1/cycle');
 		cycleTypes = (await cycleTypesData.json()) as string[];
+
+		if (cycleTypes.length == 1) cycleTypeIndexSelected = 0;
+		cycleTypeFolded = true;
 	});
 
 	const prepareCycle = async () => {
@@ -84,12 +87,12 @@
 			/>
 		</div>
 
-		<div class="grid grid-cols-3 gap-4 mt-3">
+		<div class="grid grid-cols-1 gap-4 mt-3">
 			{#each $machineData.profiles.filter((p) => p.identifier === cycleTypes[cycleTypeIndexSelected]) as p}
 				<button
 					class="{p.id === selectedProfileID
-						? 'bg-emerald-500'
-						: 'bg-gray-300'} px-3 py-2 rounded-xl transition-all hover:bg-gray-800/80 text-white font-semibold flex flex-col"
+						? 'bg-gray-800 hover:bg-gray-800/80'
+						: 'bg-gray-500 hover:bg-gray-500/80'} px-3 py-2 rounded-xl transition-all  text-white font-semibold flex flex-col"
 					on:click={() => {
 						selectedProfileID = selectedProfileID != p.id ? p.id : '';
 					}}
@@ -106,7 +109,7 @@
 	{#if selectedProfileID != ''}
 		<div id="cyclePrepare" class="mt-6 flex flex-row justify-center">
 			<button
-				class="bg-indigo-600 rounded-xl py-2 px-5 text-white font-semibold"
+				class="bg-indigo-600 hover:bg-indigo-600/80 rounded-xl py-2 px-5 text-white font-semibold transition-all"
 				on:click={prepareCycle}
 			>
 				Préparer le cycle

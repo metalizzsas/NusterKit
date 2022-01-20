@@ -4,6 +4,7 @@
 	import { onDestroy, onMount } from 'svelte';
 
 	import howler from 'howler';
+	import { machineData } from '$lib/utils/store';
 
 	let rating = 2;
 
@@ -39,13 +40,33 @@
 
 <div>
 	<div class="flex flex-col gap-4">
-		<div class="flex flex-row items-center gap-4">
+		<p class="rounded-xl py-2 px-3 bg-white text-gray-800 flex flex-col font-semibold">
+			Le cycle est terminé
+			<span class="text-xs text-italic font-normal">
+				Raison de fin : {$machineData.cycle?.status.mode}
+			</span>
+		</p>
+		<div class="rounded-xl py-2 px-3 bg-white text-gray-800 font-semibold">
+			Notez le cycle
+			<p class="font-normal">
+				La notation du cycle n'est pas obligatoire mais elle permet a nos équipes de mieux
+				comprendre votre utilisation de la machine.
+			</p>
+			<p class="font-normal mt-2">
+				La notation permet aussi de classifier dans l'historique des cycles.
+			</p>
+		</div>
+		<div
+			class="flex flex-row items-center gap-4 self-center bg-white rounded-full p-2 shadow-xs"
+		>
 			{#each [1, 2, 3, 4, 5] as i}
 				<svg
 					id="glyphicons-basic"
 					xmlns="http://www.w3.org/2000/svg"
 					viewBox="0 0 32 32"
-					class="h-5 w-5 self-center {rating >= i ? 'fill-amber-500' : 'fill-gray-500'}"
+					class="h-7 w-7 self-center transition-all {rating >= i
+						? 'fill-amber-500'
+						: 'fill-gray-500'}"
 					on:click={() => (rating = i)}
 				>
 					<path

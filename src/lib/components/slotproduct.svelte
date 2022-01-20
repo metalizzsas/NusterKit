@@ -13,7 +13,7 @@
 </script>
 
 <div
-	class="shadow-xl bg-gradient-to-br from-sky-400 to-blue-600 rounded-2xl overflow-hidden hover:scale-[1.01] transition-all"
+	class="shadow-xl bg-gradient-to-br from-purple-500 to-cyan-500 rounded-2xl overflow-hidden hover:scale-[1.01] transition-all"
 >
 	<div class="backdrop-blur p-3 text-white rounded-full">
 		<div class="flex flex-row justify-between">

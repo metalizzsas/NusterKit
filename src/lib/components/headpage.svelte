@@ -5,6 +5,8 @@
 	import img from '$lib/img/1024.png';
 
 	let isShrinked = true;
+
+	let isStartButtonShrinked = true;
 </script>
 
 <!-- header info block -->
@@ -42,25 +44,50 @@
 					</span>
 				</div>
 
-				<button
-					class="rounded-full backdrop-brightness-125 p-1 transition hover:rotate-180 duration-300"
-					on:click={() => {
-						isShrinked = !isShrinked;
-						console.log('is', isShrinked);
-					}}
-				>
-					<svg
-						id="glyphicons-basic"
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 32 32"
-						class="fill-white h-5 w-5"
+				<div class="flex flex-row gap-5 items-center">
+					<button
+						class="rounded-full backdrop-brightness-125 p-1 transition hover:rotate-180 duration-300"
+						on:click={() => {
+							isStartButtonShrinked = !isStartButtonShrinked;
+
+							if (isStartButtonShrinked === false && isShrinked === false)
+								isShrinked = true;
+						}}
 					>
-						<path
-							id="circle-info"
-							d="M16,4A12,12,0,1,0,28,16,12.01312,12.01312,0,0,0,16,4Zm2.42529,10.91565L16.6,21h1.25958a.5.5,0,0,1,.48505.62134l-.25,1A.50007.50007,0,0,1,17.60962,23H14a1.40763,1.40763,0,0,1-1.42529-1.91565L14.4,15h-.75958a.5.5,0,0,1-.48505-.62134l.25-1A.49994.49994,0,0,1,13.89038,13H17A1.40763,1.40763,0,0,1,18.42529,14.91565Zm.14435-3.33337A.5.5,0,0,1,18.07642,12H15.59021a.5.5,0,0,1-.49316-.58228l.33331-2A.5.5,0,0,1,15.92358,9h2.48621a.5.5,0,0,1,.49316.58228Z"
-						/>
-					</svg>
-				</button>
+						<svg
+							id="glyphicons-basic"
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 32 32"
+							class="fill-red-500 h-5 w-5"
+						>
+							<path
+								id="power"
+								d="M15,16V4a1,1,0,0,1,1-1h1a1,1,0,0,1,1,1V16a1,1,0,0,1-1,1H16A1,1,0,0,1,15,16Zm7.63947-9.21533a1.009,1.009,0,0,0-1.43769.39477l-.45318.89649a.989.989,0,0,0,.34283,1.2799,8.5028,8.5028,0,1,1-9.18683.00257.99122.99122,0,0,0,.3468-1.28247l-.4533-.89673a1.01154,1.01154,0,0,0-1.446-.38916A11.43919,11.43919,0,0,0,5.00647,16.89075,11.50009,11.50009,0,0,0,28,16.5,11.43516,11.43516,0,0,0,22.63947,6.78467Z"
+							/>
+						</svg>
+					</button>
+
+					<button
+						class="rounded-full backdrop-brightness-125 p-1 transition hover:rotate-180 duration-300"
+						on:click={() => {
+							isShrinked = !isShrinked;
+							if (isStartButtonShrinked === false && isShrinked === false)
+								isStartButtonShrinked = true;
+						}}
+					>
+						<svg
+							id="glyphicons-basic"
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 32 32"
+							class="fill-white h-5 w-5"
+						>
+							<path
+								id="circle-info"
+								d="M16,4A12,12,0,1,0,28,16,12.01312,12.01312,0,0,0,16,4Zm2.42529,10.91565L16.6,21h1.25958a.5.5,0,0,1,.48505.62134l-.25,1A.50007.50007,0,0,1,17.60962,23H14a1.40763,1.40763,0,0,1-1.42529-1.91565L14.4,15h-.75958a.5.5,0,0,1-.48505-.62134l.25-1A.49994.49994,0,0,1,13.89038,13H17A1.40763,1.40763,0,0,1,18.42529,14.91565Zm.14435-3.33337A.5.5,0,0,1,18.07642,12H15.59021a.5.5,0,0,1-.49316-.58228l.33331-2A.5.5,0,0,1,15.92358,9h2.48621a.5.5,0,0,1,.49316.58228Z"
+							/>
+						</svg>
+					</button>
+				</div>
 			</div>
 
 			{#if !isShrinked}
@@ -89,6 +116,14 @@
 							Numéro de série: {$machineData.machine.serial.toLocaleUpperCase()}
 						</span>
 					</div>
+				</div>
+			{/if}
+
+			{#if !isStartButtonShrinked}
+				<div in:scale out:scale class="mt-3">
+					<button class="bg-red-500 rounded-xl py-2 px-3 text-white font-semibold">
+						Redémarrer la machine
+					</button>
 				</div>
 			{/if}
 		</div>

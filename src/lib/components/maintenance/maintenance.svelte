@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { _ } from 'svelte-i18n';
 	import type { Maintenance } from '$lib/utils/interfaces';
 
 	export let maintenance: Maintenance;
@@ -9,7 +10,7 @@
 >
 	<div class="flex flex-row justify-between items-center">
 		<span class="bg-white py-1 px-3 rounded-full text-gray-600 font-semibold">
-			{maintenance.name}
+			{$_(maintenance.name)}
 		</span>
 		<span class="bg-white py-1 px-3 rounded-full text-gray-600">
 			{maintenance.durationActual} / {maintenance.durationLimit}
@@ -17,14 +18,14 @@
 		</span>
 	</div>
 
-	<p class="py-2 text-white text-lg">{maintenance.name}-desc</p>
+	<p class="py-2 text-white text-lg">{$_(maintenance.name + '-desc')}</p>
 
 	<div class="flex flex-row justify-center mt-7">
 		<a
 			href="app/maintenance/{maintenance.name}"
 			class="bg-white py-2 px-3 rounded-xl font-semibold text-gray-700 hover:bg-gray-100/100 transition-all"
 		>
-			Voir le detail
+			{$_('maintenance-button')}
 		</a>
 	</div>
 </div>

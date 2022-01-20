@@ -1,3 +1,13 @@
+<script context="module" lang="ts">
+	import { waitLocale } from 'svelte-i18n';
+	import type { Load } from '@sveltejs/kit';
+
+	export const load: Load = async (ctx) => {
+		await waitLocale();
+		return {};
+	};
+</script>
+
 <script lang="ts">
 	import '@fontsource/montserrat';
 	import '@fontsource/montserrat/400-italic.css';
@@ -6,6 +16,8 @@
 	import '@fontsource/montserrat/700.css';
 
 	import '$lib/app.css';
+
+	import { initI18n } from '$lib/utils/i18n';
 
 	import kbDisplay from '$lib/json/kb.json';
 	//@ts-ignore
@@ -25,6 +37,8 @@
 	let ws: WebSocket;
 
 	onMount(() => {
+		initI18n(document);
+
 		//disabling right click
 		window.addEventListener('contextmenu', function (e) {
 			e.preventDefault();

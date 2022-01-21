@@ -17,6 +17,8 @@
 		newProfile.id = 'copied';
 		newProfile.name = newName;
 
+		console.log('copied', newProfile.name);
+
 		await fetch('http://127.0.0.1/v1/profiles/', {
 			method: 'PUT',
 			headers: {
@@ -44,8 +46,8 @@
 		{
 			text: $_('ok'),
 			color: 'bg-green-400',
-			callback: (value) => {
-				copyProfile(profile, value || '');
+			callback: (val) => {
+				copyProfile(profile, val || '');
 			},
 		},
 		{

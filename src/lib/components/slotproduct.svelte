@@ -37,7 +37,7 @@
 			<span class="inline-block my-2 border-b-2 border-white font-semibold text-lg">
 				{$_('sensors')}
 			</span>
-			<div class="grid grid-cols-2 gap-2">
+			<div class="grid grid-cols-2 gap-2 items-center">
 				{#each slotContent.sensors as s}
 					<span class="bg-white px-2 py-1 rounded-full text-neutral-700 font-semibold">
 						{$_(s.type)} :

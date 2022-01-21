@@ -134,6 +134,13 @@ export class ProgramBlockRunner implements IProgram
     {
         if(this.status.mode == PBRMode.ENDED)
             return;
+
+        if(this.currentStepIndex < this.steps.length)
+        {
+            this.machine.logger.error(`Program ended before all steps were executed.`);
+            this.machine.logger.error(`Executing ending IO of last step.`);
+            this.steps.at(-1)?.executeLastIO();
+        }
         
         const m = this.machine.maintenanceController.tasks.find((m) => m.name == "cycleCount");
         m?.append(1);

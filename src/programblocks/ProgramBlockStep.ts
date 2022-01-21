@@ -54,7 +54,6 @@ export class ProgramBlockStep implements IProgramStep
 
         console.log("ending", this.name, this.endingIO);
 
-
         //adding program blocks
         for(const block of obj.blocks)
         {
@@ -72,6 +71,8 @@ export class ProgramBlockStep implements IProgramStep
 
         this.pbrInstance.machine.logger.info(`Started step: ${this.name}.`);
         this.state = ProgramStepState.STARTED;
+
+        this.startTime = Date.now();
 
         this.pbrInstance.machine.logger.info(`Executing io starter blocks.`);
         for(const io of this.startingIO)
@@ -106,12 +107,14 @@ export class ProgramBlockStep implements IProgramStep
             {
                 this.state = ProgramStepState.COMPLETED;
                 this.pbrInstance.machine.logger.info(`Ended step: ${this.name}, with state ${ProgramStepResult.END}`);
+                this.endTime = Date.now();
                 return ProgramStepResult.END;
             }
             else
             {
                 this.state = ProgramStepState.PARTIAL;
                 this.pbrInstance.machine.logger.info(`Ended step: ${this.name}, with state ${ProgramStepResult.PARTIAL}`);
+                this.endTime = Date.now();
                 return ProgramStepResult.PARTIAL;
             }   
         }
@@ -119,8 +122,18 @@ export class ProgramBlockStep implements IProgramStep
         {
             this.state = ProgramStepState.COMPLETED;
             this.pbrInstance.machine.logger.info(`Ended step: ${this.name}, with state ${ProgramStepResult.END}`);
+            this.endTime = Date.now();
             return ProgramStepResult.END;
         } 
+    }
+
+    public async executeLastIO()
+    {
+        this.pbrInstance.machine.logger.info(`Executing io ending blocks.`);
+        for(const io of this.endingIO)
+        {
+            await io.execute();
+        }
     }
 
     public stop()
@@ -141,12 +154,12 @@ export class ProgramBlockStep implements IProgramStep
                     if(this.type == ProgramStepType.MULTIPLE && this.runCount && this.runAmount)
                         return parseFloat((this.runCount / (this.runAmount.data() as number)).toFixed(2)) + parseFloat(((Date.now() - this.startTime) / (this.duration.data() as number)).toFixed(2)) * parseFloat((1 / (this.runAmount.data() as number)).toFixed(2));
                     else
-                        return parseFloat(((Date.now() - this.startTime) / (this.duration.data() as number)).toFixed(2));
+                        return parseFloat(((Date.now() - this.startTime) / ((this.duration.data() as number) * 1000)).toFixed(2));
                 }
                 case ProgramStepState.STOPPED:
                 {
                     if(this.duration !== undefined && this.startTime !== undefined && this.endTime !== undefined)
-                        return parseFloat(((this.endTime - this.startTime) / (this.duration.data() as number)).toFixed(2));
+                        return parseFloat(((this.endTime - this.startTime) / ((this.duration.data() as number) * 1000)).toFixed(2));
                     else
                         return 0;
                 }

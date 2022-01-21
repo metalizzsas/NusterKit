@@ -1,13 +1,60 @@
 <script lang="ts">
+	import { _ } from 'svelte-i18n';
 	import { machineData } from '$lib/utils/store';
 	import { scale, fade } from 'svelte/transition';
 
 	import img from '$lib/img/1024.png';
+	import Modalcontent from './modals/modalcontent.svelte';
+	import Toggle from './toggle.svelte';
+	import { getLang, readDarkMode, setLang, updateDarkMode } from '$lib/utils/settings';
+	import { onMount } from 'svelte';
 
 	let isShrinked = true;
 
 	let isStartButtonShrinked = true;
+
+	let displayOptions = false;
+
+	/// Modal options
+	let dark = false;
+	let lang = 'en';
+
+	onMount(() => {
+		dark = readDarkMode();
+		lang = getLang();
+	});
 </script>
+
+<!--- options modal -->
+<Modalcontent bind:shown={displayOptions} title={$_('options')}>
+	<div class="flex flex-col gap-4">
+		<div
+			class="flex flex-row justify-between bg-black rounded-full text-white py-2 px-3 pr-2 items-center font-semibold"
+		>
+			Enable dark mode
+			<Toggle bind:value={dark} on:change={(e) => updateDarkMode(e.detail.value)} />
+		</div>
+		<div
+			class="flex flex-row gap-4 justify-between bg-black rounded-full text-white py-2 px-3 pr-2 items-center font-semibold"
+		>
+			Language
+			<select bind:value={lang} class="text-gray-800 py-1 px-2">
+				<option value="en">English</option>
+				<option value="fr">Français</option>
+			</select>
+
+			<button
+				on:click={() => {
+					setLang(lang);
+					window.location.reload();
+				}}
+				class="bg-indigo-500 py-1 px-2 rounded-xl text-white font-semibold"
+			>
+				{$_('apply-lang')}
+			</button>
+		</div>
+	</div>
+</Modalcontent>
 
 <!-- header info block -->
 <div
@@ -45,6 +92,25 @@
 				</div>
 
 				<div class="flex flex-row gap-5 items-center">
+					<button
+						class="rounded-full backdrop-brightness-125 p-1 transition hover:rotate-180 duration-300"
+						on:click={() => {
+							displayOptions = !displayOptions;
+						}}
+					>
+						<svg
+							id="glyphicons-basic"
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 32 32"
+							class="fill-white h-5 w-5"
+						>
+							<path
+								id="wrench"
+								d="M27.405,12.91907a6.38551,6.38551,0,0,1-7.78314,3.70154L8.82825,27.41418A1,1,0,0,1,7.414,27.41412L4.58594,24.58575A.99993.99993,0,0,1,4.586,23.17157L15.33209,12.42548a6.4047,6.4047,0,0,1,3.69947-7.92487,6.22745,6.22745,0,0,1,2.77825-.49127.4987.4987,0,0,1,.34015.84857L19.73254,7.27533a.4961.4961,0,0,0-.131.469l.82916,3.38044a.496.496,0,0,0,.36365.36364l3.38068.82935a.49614.49614,0,0,0,.469-.131l2.419-2.41889a.49433.49433,0,0,1,.8446.30078A6.22117,6.22117,0,0,1,27.405,12.91907Z"
+							/>
+						</svg>
+					</button>
+
 					<button
 						class="rounded-full backdrop-brightness-125 p-1 transition hover:rotate-180 duration-300"
 						on:click={() => {

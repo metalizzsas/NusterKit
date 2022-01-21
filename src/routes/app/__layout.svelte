@@ -33,11 +33,13 @@
 	import { machineData } from '$lib/utils/store';
 	import type { IWSObject } from '$lib/utils/interfaces';
 	import { fade, scale } from 'svelte/transition';
+	import { loadDarkMode } from '$lib/utils/settings';
 
 	let ws: WebSocket;
 
 	onMount(() => {
 		initI18n(document);
+		loadDarkMode();
 
 		//disabling right click
 		window.addEventListener('contextmenu', function (e) {

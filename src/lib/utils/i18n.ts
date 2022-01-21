@@ -1,5 +1,6 @@
 import { register, init } from 'svelte-i18n';
 import { getCookie } from './cookies';
+import { getLang } from './settings';
 
 export function initI18n(document: Document)
 {
@@ -8,6 +9,6 @@ export function initI18n(document: Document)
     
     init({
         fallbackLocale: 'en',
-        initialLocale: getCookie(document, "lang"),
+        initialLocale: getLang(),
     });
 }

@@ -22,7 +22,7 @@
 		out:fade={{ duration: 100 }}
 	>
 		<div
-			class="relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-50 dark:bg-neutral-800 shadow-xl group"
+			class="relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5/6 rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-50 dark:bg-neutral-800 shadow-xl group"
 		>
 			<div class="flex flex-row gap-5 justify-items-end -translate-y-4">
 				{#if displayClose}

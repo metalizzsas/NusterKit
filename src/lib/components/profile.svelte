@@ -3,6 +3,7 @@
 	import Modal from '$lib/components/modals/modal.svelte';
 	import ModalPrompt from '$lib/components/modals/modalprompt.svelte';
 	import { fly } from 'svelte/transition';
+	import { _, date, time } from 'svelte-i18n';
 
 	export let profile: Profile;
 	export let delCb: Function;
@@ -37,18 +38,18 @@
 
 <ModalPrompt
 	bind:shown={copyProfileModalShown}
-	title="Copie du profil {profile.name}."
-	message="Choisissez le nom du profil copié."
+	title={$_('profile-copy-title').replace('{profile.name}', profile.name)}
+	message={$_('profile-copy-message')}
 	buttons={[
 		{
-			text: 'Ok',
+			text: $_('ok'),
 			color: 'bg-green-400',
 			callback: (value) => {
 				copyProfile(profile, value || '');
 			},
 		},
 		{
-			text: 'Annuler',
+			text: $_('cancel'),
 			color: 'bg-gray-400',
 			callback: () => {},
 		},
@@ -58,15 +59,15 @@
 <Modal
 	bind:shown={deleteProfileModalShown}
 	title="Suppression."
-	message="Souhaitez vous supprimer {profile.name} ?"
+	message={$_('profile-delete-message').replace('{profile.name}', profile.name)}
 	buttons={[
 		{
-			text: 'Oui',
+			text: $_('yes'),
 			color: 'bg-red-400',
 			callback: () => deleteProfile(profile),
 		},
 		{
-			text: 'Non',
+			text: $_('no'),
 			color: 'bg-gray-400',
 			callback: () => {},
 		},
@@ -77,7 +78,12 @@
 		<a class="flex flex-col" href="profiles/{profile.id}">
 			<span class="text-md font-semibold">{profile.name}</span>
 			<span class="text-xs text-gray-300 italic">
-				Date de modification: {new Date(profile.modificationDate).toLocaleString()}
+				{$_('profile-modification-date')}: {$date(new Date(profile.modificationDate), {
+					format: 'medium',
+				})}
+				{$time(new Date(profile.modificationDate), {
+					format: 'short',
+				})}
 			</span>
 		</a>
 		<div class="flex flex-row gap-4 self-center">

@@ -10,6 +10,7 @@
 	export let change = () => dispatch('change', { value: value });
 
 	export let locked = false;
+	export let enableGrayScale = false;
 
 	beforeUpdate(() => {
 		if (typeof value === 'boolean') aria = value;
@@ -18,7 +19,7 @@
 </script>
 
 <div
-	class="toggle"
+	class="toggle {locked && enableGrayScale ? 'grayscale' : ''}"
 	aria-checked={aria}
 	on:click={() => {
 		if (!locked) {

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { machineData } from '$lib/utils/store';
 	import { _ } from 'svelte-i18n';
-	import { fade } from 'svelte/transition';
 
 	const stopCycle = async () => {
 		fetch('http://127.0.0.1/v1/cycle', {
@@ -25,7 +24,7 @@
 			<div
 				class="bg-gray-800 text-white font-semibold py-3 pl-6 pr-3 rounded-full flex flex-row gap-4 justify-between items-center"
 			>
-				<div class="flex flex-col gap-2">
+				<div class="flex flex-col">
 					<span>{$_(s.name)}</span>
 					<span class="italic text-xs text-gray-300">{$_(s.name) + '-desc'}</span>
 				</div>
@@ -37,7 +36,7 @@
 						{s.blocks.filter((b) => b.executed == true).length} / {s.blocks.length}
 					</span>
 					<span class="bg-white rounded-full px-2 py-1 text-gray-800 text-xs">
-						{s.progress} %
+						{Math.ceil(s.progress * 100) > 99 ? '100' : Math.ceil(s.progress * 100)} %
 					</span>
 					<div class="rounded-full p-1 bg-white self-center">
 						{#if s.state == 'waiting'}

@@ -15,9 +15,8 @@
 			src: [endSound],
 			loop: true,
 			volume: 0.5,
+			autoplay: true,
 		});
-
-		endSoundInstance.play();
 	});
 
 	onDestroy(() => {
@@ -43,7 +42,7 @@
 		<p class="rounded-xl py-2 px-3 bg-white text-gray-800 flex flex-col font-semibold">
 			Le cycle est terminé
 			<span class="text-xs text-italic font-normal">
-				Raison de fin : {$machineData.cycle?.status.mode}
+				Raison de fin : {$machineData.cycle?.status.endReason}
 			</span>
 		</p>
 		<div class="rounded-xl py-2 px-3 bg-white text-gray-800 font-semibold">

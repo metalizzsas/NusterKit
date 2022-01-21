@@ -5,7 +5,7 @@
 
 	import img from '$lib/img/1024.png';
 	import Modalcontent from './modals/modalcontent.svelte';
-	import Toggle from './toggle.svelte';
+	import Toggle from '$lib/components/toggle.svelte';
 	import { getLang, readDarkMode, setLang, updateDarkMode } from '$lib/utils/settings';
 	import { onMount } from 'svelte';
 
@@ -29,15 +29,15 @@
 <Modalcontent bind:shown={displayOptions} title={$_('options')}>
 	<div class="flex flex-col gap-4">
 		<div
-			class="flex flex-row justify-between bg-black rounded-full text-white py-2 px-3 pr-2 items-center font-semibold"
+			class="flex flex-row justify-between bg-black rounded-full text-white py-2 px-3 pr-2 items-center text-md font-semibold"
 		>
-			Enable dark mode
+			{$_('enable-dark-mode')}
 			<Toggle bind:value={dark} on:change={(e) => updateDarkMode(e.detail.value)} />
 		</div>
 		<div
-			class="flex flex-row gap-4 justify-between bg-black rounded-full text-white py-2 px-3 pr-2 items-center font-semibold"
+			class="flex flex-row gap-4 justify-between bg-black rounded-full text-white py-2 px-3 pr-2 text-md items-center font-semibold"
 		>
-			Language
+			{$_('language')}
 			<select bind:value={lang} class="text-gray-800 py-1 px-2">
 				<option value="en">English</option>
 				<option value="fr">Français</option>
@@ -50,7 +50,7 @@
 				}}
 				class="bg-indigo-500 py-1 px-2 rounded-xl text-white font-semibold"
 			>
-				{$_('apply-lang')}
+				{$_('apply-language')}
 			</button>
 		</div>
 	</div>
@@ -87,7 +87,7 @@
 							}
 						}}
 					>
-						{isShrinked ? 'Nuster' : 'Informations machine'}
+						{isShrinked ? 'Nuster' : $_('machine-informations')}
 					</span>
 				</div>
 
@@ -162,24 +162,24 @@
 						<span
 							class="block text-white font-medium py-2 px-4 rounded-full backdrop-brightness-125"
 						>
-							Modèle: {$machineData.machine.model.toLocaleLowerCase()}
+							{$_('model')}: {$machineData.machine.model.toLocaleLowerCase()}
 						</span>
 						<span
 							class="block text-white font-medium py-2 px-4 rounded-full backdrop-brightness-125"
 						>
-							Variante: {$machineData.machine.variant.toUpperCase()}
+							{$_('variant')}: {$machineData.machine.variant.toUpperCase()}
 						</span>
 						<span
 							class="block text-white font-medium py-2 px-4 rounded-full backdrop-brightness-125"
 						>
-							Révision: {$machineData.machine.revision}
+							{$_('revision')}: {$machineData.machine.revision}
 						</span>
 					</div>
 					<div class="flex flex-col mt-3">
 						<span
 							class="block text-white font-medium py-2 px-4 rounded-full backdrop-brightness-125"
 						>
-							Numéro de série: {$machineData.machine.serial.toLocaleUpperCase()}
+							{$_('serial')}: {$machineData.machine.serial.toLocaleUpperCase()}
 						</span>
 					</div>
 				</div>

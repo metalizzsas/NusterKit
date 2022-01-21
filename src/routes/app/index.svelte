@@ -44,7 +44,7 @@
 						class="rounded-full bg-white text-gray-700/75 py-1 px-2 font-semibold text-xs"
 					>
 						{$machineData.cycle.status.progress
-							? $machineData.cycle.status.progress
+							? Math.ceil($machineData.cycle.status.progress * 100)
 							: '0'} %
 					</span>
 				{/if}
@@ -59,7 +59,7 @@
 				href="app/advanced"
 				class="shadow-xl bg-gradient-to-br from-indigo-500 to-purple-500 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:skew-y-1 duration-200 ease-in-out"
 			>
-				{$_('manual_mode')}
+				{$_('manual-mode')}
 			</a>
 		</div>
 	</div>

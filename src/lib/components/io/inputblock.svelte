@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Io } from '$lib/utils/interfaces';
 	import Toggle from '$lib/components/toggle.svelte';
+	import { _ } from 'svelte-i18n';
 	export let gate: Io;
 </script>
 
@@ -8,7 +9,7 @@
 	class="flex flex-row justify-between gap-4 bg-slate-100 py-2 px-4 rounded-xl ring-1 ring-slate-400/10 font-semibold items-center"
 >
 	<span>
-		{gate.name}
+		{$_('gate.' + gate.name)}
 	</span>
 	{#if gate.size == 'bit'}
 		<Toggle bind:value={gate.value} locked={true} />

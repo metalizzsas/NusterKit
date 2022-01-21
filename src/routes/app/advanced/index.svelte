@@ -14,23 +14,11 @@
 <script lang="ts">
 	import '$lib/app.css';
 
-	import { onMount } from 'svelte';
-
 	import Toggle from '$lib/components/toggle.svelte';
-
-	export let data: Manual[];
-
-	onMount(() => {
-		let ws = new WebSocket('ws://127.0.0.1/v1');
-
-		ws.onmessage = (ev: MessageEvent) => {
-			const d: IWSObject = JSON.parse(ev.data);
-			data = d.manuals;
-		};
-	});
+	import { _ } from 'svelte-i18n';
+	import { machineData } from '$lib/utils/store';
 
 	function toggleState(name: string, state: boolean) {
-		console.log('setting', name, 'to', state);
 		fetch(`http://127.0.0.1/v1/manual/${name}/${state}`, {
 			method: 'POST',
 			headers: {
@@ -61,14 +49,14 @@
 		<div
 			class="rounded-xl bg-indigo-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
 		>
-			Mode manuel
+			{$_('manual-mode')}
 		</div>
 
 		<a
 			class="rounded-xl bg-orange-500 text-white font-semibold py-1 px-3 shadow-md"
 			href="/app/advanced/gates"
 		>
-			Portes IO
+			{$_('gates')}
 		</a>
 	</div>
 
@@ -78,17 +66,21 @@
 		>
 			!
 		</span>
-		Les modes manuels permettent d'activer un groupe d'organes de la machines pour qu'ils fonctionnent
-		ensemble.
+		{$_('manual-mode-warning')}
 	</div>
 
 	<div class="mt-5 flex flex-col gap-4">
-		{#each data as item}
+		{#each $machineData.manuals as item}
 			<div class="rounded-xl bg-black px-3 py-2 flex flex-row justify-between">
-				<span class="text-white font-semibold">{item.name}</span>
+				<span class="text-white font-semibold">{$_('manual.' + item.name)}</span>
 				<Toggle
 					bind:value={item.state}
 					on:change={(e) => toggleState(item.name, e.detail.value)}
+					enableGrayScale={true}
+					locked={$machineData.manuals
+						.filter((m) => m.state === true && m.name != item.name)
+						.map((m) => m.incompatibility)
+						.filter((m) => m.includes(item.name)).length == 1}
 				/>
 			</div>
 		{/each}

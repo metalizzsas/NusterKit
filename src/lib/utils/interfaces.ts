@@ -178,6 +178,7 @@ export interface IsEnabled {
 export interface Status {
   mode: string;
   progress: number;
+  endReason?: string;
 }
 
 export interface Machine {

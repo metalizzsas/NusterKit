@@ -16,6 +16,7 @@
 
 	import Profile from '$lib/components/profile.svelte';
 	import type { Profile as ProfileModel } from '$lib/utils/interfaces';
+	import { _ } from 'svelte-i18n';
 
 	let addProfileModalShown = false;
 
@@ -55,18 +56,18 @@
 <main>
 	<ModalPrompt
 		bind:shown={addProfileModalShown}
-		title="Création d'un profil"
-		message="Choissiez le blueprint du profil a créer"
+		title={$_('profile-create-title')}
+		message={$_('profile-create-message')}
 		buttons={[
 			{
-				text: 'Ok',
+				text: $_('ok'),
 				color: 'bg-green-400',
 				callback: (value) => {
 					createProfile(value || 'default');
 				},
 			},
 			{
-				text: 'Annuler',
+				text: $_('cancel'),
 				color: 'bg-gray-400',
 				callback: () => {},
 			},
@@ -94,7 +95,7 @@
 			<div
 				class="rounded-xl bg-indigo-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
 			>
-				Liste des profils
+				{$_('profiles-list')}
 			</div>
 		</div>
 
@@ -118,7 +119,7 @@
 					/>
 				</svg>
 
-				Ajouter un profil
+				{$_('profile-add-button')}
 			</button>
 		</div>
 	</div>

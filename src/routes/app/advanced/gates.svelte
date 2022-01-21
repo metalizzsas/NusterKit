@@ -15,6 +15,7 @@
 	import { onMount } from 'svelte';
 	import type { Load } from '@sveltejs/kit';
 	import InputBlock from '$lib/components/io/inputblock.svelte';
+	import { _ } from 'svelte-i18n';
 
 	export let gates: Io[];
 
@@ -53,7 +54,7 @@
 		<div
 			class="rounded-xl bg-indigo-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
 		>
-			Portes I/O
+			{$_('gates')}
 		</div>
 	</div>
 
@@ -63,7 +64,7 @@
 				<span
 					class="rounded-xl bg-sky-600/80 py-1 px-6 text-white font-semibold mb-2 inline-block shadow-xl"
 				>
-					Entrées
+					{$_('gates-inputs')}
 				</span>
 
 				<div class="h-0.5 bg-slate-600/10 w-full mb-2" />
@@ -80,7 +81,7 @@
 				<span
 					class="rounded-xl bg-sky-600/80 py-1 px-6 text-white font-semibold mb-2 inline-block shadow-xl"
 				>
-					Sorties
+					{$_('gates-outputs')}
 				</span>
 
 				<div class="h-0.5 bg-slate-600/10 w-full mb-2" />
@@ -92,7 +93,7 @@
 						class="flex flex-row justify-between gap-4 bg-slate-100 py-2 px-4 rounded-xl ring-1 ring-slate-400/10 font-semibold"
 					>
 						<span>
-							{output.name}
+							{$_('gate.' + output.name)}
 						</span>
 						{#if output.size == 'bit'}
 							<Toggle

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '$lib/app.css';
 	import { onMount } from 'svelte';
+	import { _ } from 'svelte-i18n';
 
 	let seconds: number = 0;
 	let minutes: number = 0;
@@ -25,7 +26,7 @@
 		{/each}
 	</select>
 
-	<div class="px-1 font-semibold inline-block">Minutes :</div>
+	<div class="px-1 font-semibold inline-block">{$_('minutes')} :</div>
 
 	<select name="seconds" class="w-15" bind:value={seconds} on:change={update}>
 		{#each Array.from({ length: 60 }, (_, i) => i + 1).map((x) => x - 1) as count}
@@ -33,5 +34,5 @@
 			>
 		{/each}
 	</select>
-	<div class="px-1 font-semibold inline-block">Secondes</div>
+	<div class="px-1 font-semibold inline-block">{$_('seconds')}</div>
 </div>

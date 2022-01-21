@@ -3,7 +3,7 @@
 	import { fade } from 'svelte/transition';
 
 	import { machineData } from '$lib/utils/store';
-	import { _ } from 'svelte-i18n';
+	import { date, time, _ } from 'svelte-i18n';
 
 	let cycleTypes: string[] = [];
 	let cycleTypeIndexSelected: number = -1;
@@ -99,8 +99,11 @@
 					}}
 				>
 					<span>{p.name}</span>
-					<span class="italic text-gray-400/50 text-sm">
-						{p.modificationDate}
+					<span class="italic text-gray-200/50 text-sm">
+						{$time(new Date(p.modificationDate), { format: 'medium' })} : {$date(
+							new Date(p.modificationDate),
+							{ format: 'short' },
+						)}
 					</span>
 				</button>
 			{/each}

@@ -3,6 +3,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: get Nuster Desktop
+        run: bash ./nuster-desktop.sh
       - uses: balena-io/deploy-to-balena-action@master
         id: build
         with:

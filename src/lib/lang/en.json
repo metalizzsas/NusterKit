@@ -1,37 +1,30 @@
 {
-    "machine_informations": "Machine informations",
-    "model": "Model",
-    "variant": "Variant",
-    "revision": "Revision",
-    "serial": "Serial number",
-
-    "procedures": "Procedures",
-    "cycle": "Cycle",
-    "profiles": "Profiles",
-    "manual_mode": "Manual mode",
-
-    "slots": "Containers",
-    "product": "Product",
-    "sensors": "Sensors",
-
-    "ox": "Oxydiser",
-    "rd": "Reducer",
-    "act": "Activator",
-    "edi": "DI Water",
-    "eff": "Effluents",
-
-    "level-n": "Limit switch",
-    "level-a": "Level",
-    "temperature": "Temperature",
-    
-    "binary_false": "Disabled",    
-    "binary_true": "Enabled",
-
-    "maintenances": "Maintenances",
-
-    "maintenance-button": "See details",
-
-    "mfm-filter": "Gas filter",
-    "mfm-filter-desc": "Metalfog gaz filter filters all gases produced by the chemicals reactions done inside the machine."
-    
+  "machine_informations": "Machine informations",
+  "model": "Model",
+  "variant": "Variant",
+  "revision": "Revision",
+  "serial": "Serial number",
+  "procedures": "Procedures",
+  "cycle": "Cycle",
+  "profiles": "Profiles",
+  "manual_mode": "Manual mode",
+  "slots": "Containers",
+  "product": "Product",
+  "sensors": "Sensors",
+  "ox": "Oxydiser",
+  "rd": "Reducer",
+  "act": "Activator",
+  "edi": "DI Water",
+  "eff": "Effluents",
+  "level-n": "Limit switch",
+  "level-a": "Level",
+  "temperature": "Temperature",
+  "binary_false": "Disabled",
+  "binary_true": "Enabled",
+  "maintenances": "Maintenances",
+  "maintenance-button": "See details",
+  "mfm-filter": "Gas filter",
+  "mfm-filter-desc": "Metalfog gaz filter filters all gases produced by the chemicals reactions done inside the machine.",
+  "loading-screen-title": "Loading...",
+  "loading-screen-desc": "Please wait while Nuster is loading."
 }

@@ -3,6 +3,7 @@
 	import { fade } from 'svelte/transition';
 
 	import { machineData } from '$lib/utils/store';
+	import { _ } from 'svelte-i18n';
 
 	let cycleTypes: string[] = [];
 	let cycleTypeIndexSelected: number = -1;
@@ -40,7 +41,7 @@
 				1
 			</span>
 			<span class="bg-gray-500 py-1 px-3 rounded-xl font-semibold text-white">
-				Choix du cycle
+				{$_('cycle-choice')}
 			</span>
 			<div class="h-[0.125em] shadow-lg w-7/12 block bg-gray-400/50 rounded-full" />
 			<div
@@ -77,7 +78,7 @@
 				2
 			</span>
 			<span class="bg-gray-500 py-1 px-3 rounded-xl font-semibold text-white">
-				Choix du profil
+				{$_('profile-choice')}
 			</span>
 			<div class="h-[0.125em] shadow-lg w-7/12 block bg-gray-400/50 rounded-full" />
 			<div
@@ -112,7 +113,7 @@
 				class="bg-indigo-600 hover:bg-indigo-600/80 rounded-xl py-2 px-5 text-white font-semibold transition-all"
 				on:click={prepareCycle}
 			>
-				Préparer le cycle
+				{$_('cycle-prepare-button')}
 			</button>
 		</div>
 	{/if}

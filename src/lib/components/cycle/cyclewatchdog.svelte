@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Modal from '../modals/modal.svelte';
 	import { machineData } from '$lib/utils/store';
+	import { _ } from 'svelte-i18n';
 
 	let displayWatchdogError = false;
 
@@ -23,8 +24,8 @@
 
 <div id="cyclewatchdog">
 	<Modal
-		title="Watchdog"
-		message="Les conditions de démarrage ne sont pas valides"
+		title={$_('watchdog')}
+		message={$_('watchdog-error')}
 		displayClose={false}
 		bind:shown={displayWatchdogError}
 		buttons={[
@@ -40,7 +41,7 @@
 		<span
 			class="rounded-xl bg-sky-500 py-1 px-5 text-white text-xl font-semibold shadow-2xl self-start my-3"
 		>
-			Conditions de démarrage
+			{$_('cycle-start-conditions')}
 		</span>
 		{#if $machineData.cycle}
 			<div class="grid grid-cols-2 gap-5">
@@ -48,7 +49,7 @@
 					<span
 						class="flex flex-row justify-between items-center rounded-full bg-gray-800 py-1 pr-2 pl-3 text-white font-semibold"
 					>
-						{wdc.gateName}
+						{$_(wdc.gateName)}
 						<div
 							class="h-5 w-5 rounded-full {!wdc.result
 								? 'bg-red-500'
@@ -64,7 +65,7 @@
 					: 'bg-emerald-500 hover:bg-emerald-500/80 hover:scale-[1.01]'} rounded-xl py-2 px-5 self-center text-white font-semibold transition:all mt-3"
 				on:click={startCycle}
 			>
-				Lancer le cycle
+				{$_('cycle-start')}
 			</button>
 		{/if}
 	</div>

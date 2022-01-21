@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { _ } from 'svelte-i18n';
 	import '$lib/app.css';
 
 	import { machineData } from '$lib/utils/store';
@@ -31,7 +32,7 @@
 			<div
 				class="rounded-xl bg-indigo-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
 			>
-				{$machineData.cycle ? 'Cycle' : 'Préparation cycle'}
+				{$machineData.cycle ? $_('cycle') : $_('cycle-preparation')}
 			</div>
 		</div>
 

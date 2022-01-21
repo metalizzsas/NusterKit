@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { machineData } from '$lib/utils/store';
+	import { _ } from 'svelte-i18n';
 	import { fade } from 'svelte/transition';
 
 	const stopCycle = async () => {
@@ -16,7 +17,7 @@
 	<span
 		class="rounded-xl bg-sky-500 py-1 px-5 text-white text-xl font-semibold shadow-2xl self-start my-3 mb-1"
 	>
-		Étapes du cycle
+		{$_('cycle-steps')}
 	</span>
 
 	{#if $machineData.cycle}
@@ -24,7 +25,11 @@
 			<div
 				class="bg-gray-800 text-white font-semibold py-3 pl-6 pr-3 rounded-full flex flex-row gap-4 justify-between items-center"
 			>
-				<span>{s.name}</span>
+				<div class="flex flex-col gap-2">
+					<span>{$_(s.name)}</span>
+					<span class="italic text-xs text-gray-300">{$_(s.name) + '-desc'}</span>
+				</div>
+
 				<div class="flex flex-row gap-4 self-center items-center group">
 					<span
 						class="bg-white rounded-full px-2 py-1 text-gray-800 text-xs hidden group-hover:block"
@@ -83,7 +88,7 @@
 			class="bg-red-500 rounded-xl py-2 px-5 text-white font-semibold"
 			on:click={stopCycle}
 		>
-			Arrêter le cycle
+			{$_('cycle-stop')}
 		</button>
 
 		<!-- TODO: Add options.nextstepEnabled button options on cycle

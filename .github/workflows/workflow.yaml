@@ -1,3 +1,6 @@
+on:
+  workflow_dispatch
+  
 jobs:
   balena_cloud_build:
     runs-on: ubuntu-latest

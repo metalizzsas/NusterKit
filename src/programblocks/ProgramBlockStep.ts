@@ -44,15 +44,11 @@ export class ProgramBlockStep implements IProgramStep
             this.startingIO.push(ProgramBlockRegistry(this.pbrInstance, io));
         }
 
-        console.log("starting", this.name, this.startingIO);
-
         //Adding io ending blocks
         for(const io of obj.endingIO)
         {
             this.endingIO.push(ProgramBlockRegistry(this.pbrInstance, io));
         }
-
-        console.log("ending", this.name, this.endingIO);
 
         //adding program blocks
         for(const block of obj.blocks)

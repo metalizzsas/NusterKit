@@ -1,6 +1,7 @@
 version: "2"
 volumes: 
   resin-data:
+  settings: 
 services:
   mongodb:
     image: mongo:4.2
@@ -36,4 +37,7 @@ services:
       ENABLE_GPU: 1
       ROTATE_DISPLAY: 'right'
       TOUCHSCREEN: 'wch Touch'
-      WINDOW_SIZE: 600, 1024
+      PERSISTANT: 1
+      WINDOW_SIZE: 1024, 600
+    volumes:
+      - 'settings:/data'

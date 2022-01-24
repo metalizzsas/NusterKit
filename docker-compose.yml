@@ -32,12 +32,13 @@ services:
     depends_on:
       - 'nuster-desktop'
     environment:
+      DISPLAY_NUM: 1
       LAUNCH_URL: 'http://127.0.0.1:3000/app'
       KIOSK: 1
       ENABLE_GPU: 1
-      ROTATE_DISPLAY: 'right'
-      TOUCHSCREEN: 'wch Touch'
+      #ROTATE_DISPLAY: 'right'
+      #TOUCHSCREEN: 'wch Touch'
       PERSISTANT: 1
-      WINDOW_SIZE: 1024, 600
+      #WINDOW_SIZE: 600, 1024
     volumes:
       - 'settings:/data'

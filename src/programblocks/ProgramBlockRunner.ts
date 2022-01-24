@@ -12,6 +12,8 @@ export class ProgramBlockRunner implements IProgram
 
     //identifiers vars
     name: string;
+
+    variables: IProgramVariable[] = [];
     
     //Inside definers
     steps: ProgramBlockStep[] = [];
@@ -42,6 +44,9 @@ export class ProgramBlockRunner implements IProgram
         //if this is defined it should be a cycle restart
         if(object.currentStepIndex)
             this.currentStepIndex = object.currentStepIndex;
+
+        if(object.variables)
+            this.variables = object.variables;
 
         this.profile = profile;
 
@@ -199,6 +204,8 @@ export interface IProgram
 
     currentStepIndex?: number;
 
+    variables: IProgramVariable[];
+
     status: IPBRStatus;
     steps: IProgramStep[];
     watchdogConditions: IWatchdogCondition[];
@@ -213,4 +220,10 @@ export enum PBRMode
     STOPPED = "stopped",
     WAITING_STOP = "waiting-for-stop",
     ENDED = "ended"
+}
+
+export interface IProgramVariable
+{
+    name: string;
+    value: number;
 }

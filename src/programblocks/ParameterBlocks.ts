@@ -45,7 +45,7 @@ export class ProfileParameterBlock extends ParameterBlock
     public data(): number
     {
         const val = this.pbrInstance.profileExplorer.explore(this.value);
-        //FIXME: Throw error if the profile row is undefined
+        this.pbrInstance.machine.logger.warn(`Profile row ${this.value} not found`);
         return val ? val : 0;
     }   
 }
@@ -128,6 +128,50 @@ export class ReverseParameterBlock extends ParameterBlock
     }
 }
 
+export class VariableParameterBlock extends ParameterBlock
+{
+    constructor(instance: ProgramBlockRunner, obj: IParameterBlock)
+    {
+        super(instance, obj);
+    }
+
+    public data(): number
+    {
+        if(this.value == "currentStepIndex")
+            return this.pbrInstance.currentStepIndex;
+        else if(this.value == "currentStepRunCount")
+            return this.pbrInstance.steps[this.pbrInstance.currentStepIndex].runCount || 0;
+        else
+        {
+            this.pbrInstance.machine.logger.warn(`The variable ${this.value} is not defined.`);
+            return this.pbrInstance.variables.find(v => v.name == this.value)?.value || 0; // this variable might have never been defined
+        }
+    }
+}
+
+export class ConditionalParameterBlock extends ParameterBlock
+{
+    private operators: {[x: string]: (x: number, y: number) => boolean; } = {
+        ">": (x: number, y: number) => x > y,
+        "<": (x: number, y: number) => x < y,
+        "==": (x: number, y: number) => x == y,
+        "!=": (x: number, y: number) => x != y
+    };
+
+    constructor(instance: ProgramBlockRunner, obj: IParameterBlock)
+    {
+        super(instance, obj);
+    }
+
+    //return param 3 if condition between param 0 and param 2 is true else it returns params 4
+    public data(): number
+    {
+        if(this.params.length != 4) return 0; //if param count doesnt match for this block return 0
+        
+        return (this.operators[this.params[1].data() as string](this.params[0].data() as number, this.params[2].data() as number)) ? this.params[3].data() as number : this.params[4].data() as number;
+    }
+}
+
 export interface IParameterBlock
 {
     name: string;
@@ -155,6 +199,9 @@ export function ParameterBlockRegistry(pbrInstance: ProgramBlockRunner, obj: IPa
         case "add": return new AdditionParameterBlock(pbrInstance, obj);
         case "multiply": return new MultiplyParameterBlock(pbrInstance, obj);
         case "reverse": return new ReverseParameterBlock(pbrInstance, obj);
+        case "conditional": return new ConditionalParameterBlock(pbrInstance, obj);
+        case "variable": return new VariableParameterBlock(pbrInstance, obj);
+
         default: {
             pbrInstance.machine.logger.warn(`Block ${obj.name} is not a defined block`);
             return new ParameterBlock(pbrInstance, obj);

@@ -134,6 +134,15 @@
          "size": "bit"
       },
       {
+         "name": "air_heater",
+         "type": "default",
+         "bus": "out",
+         "automaton": 0,
+         "address": 2,
+         "default": 0,
+         "size": "bit"
+      },
+      {
          "name": "act-res",
          "type": "default",
          "bus": "out",

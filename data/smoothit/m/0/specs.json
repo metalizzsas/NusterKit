@@ -1,375 +1,1743 @@
 {
-    "iomap": {
-        "automatons":
-        {
-            "0":
+   "iohandlers": [
+      {
+         "name": "WAGO",
+         "type": "wago",
+         "ip": "192.168.1.10"
+      },
+      {
+         "name": "EX260S3",
+         "type": "ex260s3",
+         "ip": "192.168.1.3"
+      }
+   ],
+   "iogates": [
+      {
+         "name": "emergency_stop",
+         "type": "default",
+         "bus": "in",
+         "automaton": 0,
+         "address": 0,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "nitrogen_sensor",
+         "type": "default",
+         "bus": "in",
+         "automaton": 0,
+         "address": 1,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "cover_closed",
+         "type": "default",
+         "bus": "in",
+         "automaton": 0,
+         "address": 2,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "resin-slot_sensor",
+         "type": "default",
+         "size": "bit",
+         "bus": "in",
+         "automaton": 0,
+         "address": 3,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "nozzle-sensor+",
+         "type": "default",
+         "size": "bit",
+         "bus": "in",
+         "automaton": 0,
+         "address": 4,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "nozzle-sensor-",
+         "type": "default",
+         "size": "bit",
+         "bus": "in",
+         "automaton": 0,
+         "address": 5,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "ir_sensor+",
+         "type": "default",
+         "size": "bit",
+         "bus": "in",
+         "automaton": 0,
+         "address": 6,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "ir_sensor-",
+         "type": "default",
+         "size": "bit",
+         "bus": "in",
+         "automaton": 0,
+         "address": 7,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "uv_sensor+",
+         "type": "default",
+         "size": "bit",
+         "bus": "in",
+         "automaton": 0,
+         "address": 8,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "uv_sensor-",
+         "type": "default",
+         "size": "bit",
+         "bus": "in",
+         "automaton": 0,
+         "address": 9,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "motor-direction",
+         "type": "default",
+         "size": "bit",
+         "bus": "out",
+         "automaton": 0,
+         "address": 0,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "uv-enable",
+         "type": "default",
+         "size": "bit",
+         "bus": "out",
+         "automaton": 0,
+         "address": 1,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "uv-ventil",
+         "type": "default",
+         "size": "bit",
+         "bus": "out",
+         "automaton": 0,
+         "address": 2,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "ir-enable",
+         "type": "default",
+         "size": "bit",
+         "bus": "out",
+         "automaton": 0,
+         "address": 3,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "ir-ventil",
+         "type": "default",
+         "size": "bit",
+         "bus": "out",
+         "automaton": 0,
+         "address": 4,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "ventilation",
+         "type": "default",
+         "size": "bit",
+         "bus": "out",
+         "automaton": 0,
+         "address": 5,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "air_heater",
+         "type": "default",
+         "size": "bit",
+         "bus": "out",
+         "automaton": 0,
+         "address": 6,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "motor-speed",
+         "type": "a10v",
+         "size": "bit",
+         "bus": "out",
+         "automaton": 0,
+         "address": 0,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "uv-power",
+         "type": "a10v",
+         "size": "bit",
+         "bus": "out",
+         "automaton": 0,
+         "address": 1,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "nozzle-pulverization",
+         "type": "default",
+         "size": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 16,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "resin-pressure",
+         "type": "default",
+         "size": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 14,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "inerting",
+         "type": "default",
+         "size": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 12,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "nozzle-cache",
+         "type": "default",
+         "size": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 10,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "uv-cache",
+         "type": "default",
+         "size": "bit",
+         "bus": "out",
+         "automaton": 1,
+         "address": 8,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "ir-cache",
+         "type": "default",
+         "size": "bit",
+         "bus": "out",
+         "automaton": 0,
+         "address": 6,
+         "default": 0,
+         "levelMax": 0
+      }
+   ],
+   "slots": [
+      {
+         "name": "resin",
+         "type": "cnt",
+         "isProductable": true,
+         "sensors": [
             {
-                "name": "em4",
-                "ip": "10.0.0.2",
-                "protocol": "modbus",
-                "port": 502
+               "io": "levels_ox-a",
+               "type": "resin-slot_sensor"
             }
-        },
-        "gates": {
-            "emergency_stop": {
-                "type": "bit",
-                "bus": "in",
-                "automaton": 0,
-                "address": 1016,
-                "default": 0
-            },
-            "nitrogen_sensor": {
-                "type": "bit",
-                "bus": "in",
-                "automaton": 0,
-                "address": 1017,
-                "default": 0
-            },
-            "cover_closed": {
-                "type": "bit",
-                "bus": "in",
-                "automaton": 0,
-                "address": 1018,
-                "default": 0
-            },
-            "jack-uv_closed": {
-                "type": "bit",
-                "bus": "in",
-                "automaton": 0,
-                "address": 1019,
-                "default": 0
-            },
-            "jack-uv_open": {
-                "type": "bit",
-                "bus": "in",
-                "automaton": 0,
-                "address": 1020,
-                "default": 0
-            },
-            "jack-slot_closed": {
-                "type": "bit",
-                "bus": "in",
-                "automaton": 0,
-                "address": 1021,
-                "default": 0
-            },
-            "jack-slot_open": {
-                "type": "bit",
-                "bus": "in",
-                "automaton": 0,
-                "address": 1022,
-                "default": 0
-            },
-            "jack-ir_closed": {
-                "type": "bit",
-                "bus": "in",
-                "automaton": 0,
-                "address": 1024,
-                "default": 0
-            },
-            "jack-ir_open": {
-                "type": "bit",
-                "bus": "in",
-                "automaton": 0,
-                "address": 1023,
-                "default": 0
-            },
-            "motor-speed": {
-                "type": "word",
-                "gateType": "a10v",
-                "bus": "out",
-                "automaton": 0,
-                "address": 1,
-                "default": 0
-            },
-            "motor-direction": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 0,
-                "address": 1000,
-                "default": 0
-            },
-            "uvlamp-enabled": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 0,
-                "address": 1001,
-                "default": 0
-            },
-            "uvlamp-dim": {
-                "type": "word",
-                "gateType": "a10v",
-                "bus": "out",
-                "automaton": 0,
-                "address": 2,
-                "default": 0
-            },
-            "slot-plv": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 0,
-                "address": 1002,
-                "default": 0
-            },
-            "cache-uv": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 0,
-                "address": 1004,
-                "default": 0
-            },
-            "cache-ir": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 0,
-                "address": 1006,
-                "default": 0
-            },
-            "cache-slot": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 0,
-                "address": 1005,
-                "default": 0
-            },
-            "inerting": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 0,
-                "address": 1007,
-                "default": 0
-            },
-            "irlamp-enabled": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 0,
-                "address": 1008,
-                "default": 0
-            },
-            "irlamp-ventilation": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 0,
-                "address": 1009,
-                "default": 0
-            },
-            "ventilation": {
-                "type": "bit",
-                "bus": "out",
-                "automaton": 0,
-                "address": 1003,
-                "default": 0
-            } 
-        }
-    },
-    "slots": [
-        {
-            "name": "Résine",
-            "type": "resin",
-            "isProductable": true,
-            "sensors": []
-        }
-    ],
-    "maintenance": [
-        {
-            "name": "lampir",
-            "durationType": "time",
-            "durationLimit": 2000
-        },
-        {
-            "name": "lampuv",
-            "durationType": "time",
-            "durationLimit": 20000
-        },
-        {
-            "name": "filter-smt",
-            "durationType": "cycle",
-            "durationLimit": 45
-        },
-        {
-            "name": "inner",
-            "durationType": "cycle",
-            "durationLimit": 100
-        },
-        {
-            "name": "rotation.center",
-            "durationType": "cycle",
-            "durationLimit": 100
-        }
-    ],
-    "profile": {
-        "__desc": "Smoothit M 0 Profile descriptor",
-        "type": "basecoat",
-        "version": 0,
-        "fieldGroups": [
+         ]
+      },
+      {
+         "name": "eff",
+         "type": "cnt",
+         "isProductable": true,
+         "sensors": []
+      }
+   ],
+   "profiles": [
+      {
+         "identifier": "default",
+         "version": 0,
+         "fieldGroups": [
             {
-                "name": "support",
-                "fields": [
-                    {
-                        "name": "gyroscopic",
-                        "type": "bool",
-                        "value": 1
-                    }
-                ]
+               "name": "pulverization",
+               "fields": [
+                  {
+                     "name": "timeOn",
+                     "type": "float",
+                     "value": "2",
+                     "floatMin": 10,
+                     "floatStep": 0.25,
+                     "unity": "s"
+                  },
+                  {
+                     "name": "timeOff",
+                     "type": "float",
+                     "value": "8",
+                     "floatMin": 60,
+                     "floatStep": 1,
+                     "unity": "s"
+                  },
+                  {
+                     "name": "count",
+                     "type": "int",
+                     "unity": "",
+                     "value": "4",
+                     "floatMax": 0,
+                     "floatMin": 0,
+                     "floatStep": 0
+                  },
+                  {
+                     "name": "motor-speed",
+                     "type": "int",
+                     "unity": "%",
+                     "value": "60",
+                     "floatMax": 0,
+                     "floatMin": 0,
+                     "floatStep": 0
+                  },
+                  {
+                     "name": "enabled",
+                     "type": "bool",
+                     "unity": "",
+                     "value": "1",
+                     "floatMax": 0,
+                     "floatMin": 0,
+                     "floatStep": 0
+                  }
+               ]
             },
             {
-                "name": "pulverization",
-                "fields": [
-                    {
-                        "name": "enabled",
-                        "type": "bool",
-                        "value": 1
-                    },
-                    {
-                        "name": "timeOn",
-                        "type": "float",
-                        "unity": "s",
-                        "value": 2,
-                        "floatMin": 0,
-                        "floatMax": 10,
-                        "floatStep": 0.5
-                    },
-                    {
-                        "name": "timeOff",
-                        "type": "float",
-                        "unity": "s",
-                        "value": 10,
-                        "floatMin": 0,
-                        "floatMax": 30,
-                        "floatStep": 0.5
-                    },
-                    {
-                        "name": "count",
-                        "type": "int",
-                        "value": 5
-                    },
-                    {
-                        "name": "motorSpeed",
-                        "type": "float",
-                        "value": 80,
-                        "floatMin": 0,
-                        "floatMax": 100,
-                        "floatStep": 5
-                    }
-                ]
+               "name": "ir-curing",
+               "fields": [
+                  {
+                     "name": "enabled",
+                     "type": "bool",
+                     "value": 1
+                  },
+                  {
+                     "name": "duration",
+                     "type": "int",
+                     "value": "180",
+                     "unity": "m-s"
+                  },
+                  {
+                     "name": "motor-speed",
+                     "type": "float",
+                     "value": 1,
+                     "unity": "%"
+                  }
+               ]
             },
             {
-                "name": "dynamicDripping",
-                "fields": [
-                    {
-                        "name": "enabled",
-                        "type": "bool",
-                        "value": 1
-                    },
-                    {
-                        "name": "duration",
-                        "type": "int",
-                        "unity": "m-s",
-                        "value": 30
-                    },
-                    {
-                        "name": "motorSpeed",
-                        "type": "float",
-                        "value": 80,
-                        "floatMin": 0,
-                        "floatMax": 100,
-                        "floatStep": 5
-                    }
-                ]
+               "name": "inerting",
+               "fields": [
+                  {
+                     "name": "enabled",
+                     "type": "bool",
+                     "value": 1
+                  },
+                  {
+                     "name": "duration",
+                     "type": "int",
+                     "unity": "m-s",
+                     "value": "10",
+                     "floatMin": 0,
+                     "floatMax": 100,
+                     "floatStep": 5
+                  }
+               ]
             },
             {
-                "name": "irCuring",
-                "fields": [
-                    {
-                        "name": "enabled",
-                        "type": "bool",
-                        "value": 1
-                    },
-                    {
-                        "name": "duration",
-                        "type": "int",
-                        "unity": "m-s",
-                        "value": 30
-                    },
-                    {
-                        "name": "motorSpeed",
-                        "type": "float",
-                        "value": 80,
-                        "floatMin": 0,
-                        "floatMax": 100,
-                        "floatStep": 5
-                    }
-                ]
+               "name": "uv-curing",
+               "fields": [
+                  {
+                     "name": "enabled",
+                     "type": "bool",
+                     "value": 1
+                  },
+                  {
+                     "name": "duration",
+                     "type": "int",
+                     "unity": "m-s",
+                     "value": "40",
+                     "floatMin": 0,
+                     "floatMax": 10,
+                     "floatStep": 0.5
+                  },
+                  {
+                     "name": "uv-power",
+                     "type": "float",
+                     "unity": "%",
+                     "value": 10,
+                     "floatMin": 100,
+                     "floatMax": 30,
+                     "floatStep": 5
+                  },
+                  {
+                     "name": "motor-speed",
+                     "type": "float",
+                     "value": "80",
+                     "unity": "%"
+                  }
+               ]
             },
             {
-                "name": "inerting",
-                "fields": [
-                    {
-                        "name": "enabled",
-                        "type": "bool",
-                        "value": 1
-                    },
-                    {
-                        "name": "duration",
-                        "type": "int",
-                        "unity": "m-s",
-                        "value": 10
-                    }
-                ]
+               "name": "vapors-extraction",
+               "fields": [
+                  {
+                     "name": "enabled",
+                     "type": "bool",
+                     "value": 1
+                  },
+                  {
+                     "name": "duration",
+                     "unity": "m-s",
+                     "type": "int",
+                     "value": 45
+                  }
+               ]
             },
             {
-                "name": "uvCuring",
-                "fields": [
-                    {
-                        "name": "enabled",
-                        "type": "bool",
-                        "value": 1
-                    },
-                    {
-                        "name": "duration",
-                        "type": "int",
-                        "unity": "m-s",
-                        "value": 120
-                    },
-                    {
-                        "name": "uvPower",
-                        "type": "float",
-                        "value": 80,
-                        "floatMin": 0,
-                        "floatMax": 100,
-                        "floatStep": 5
-                    },
-                    {
-                        "name": "motorSpeed",
-                        "type": "float",
-                        "value": 80,
-                        "floatMin": 0,
-                        "floatMax": 100,
-                        "floatStep": 5
-                    }
-                ]
+               "name": "Multilayer",
+               "fields": [
+                  {
+                     "name": "enabled",
+                     "type": "bool",
+                     "value": "0"
+                  },
+                  {
+                     "name": "count",
+                     "type": "int",
+                     "unity": "",
+                     "value": "5"
+                  },
+                  {
+                     "name": "interlayer-uvduration",
+                     "type": "int",
+                     "unity": "m-s",
+                     "value": "15",
+                     "floatMax": 0,
+                     "floatMin": 0,
+                     "floatStep": 0
+                  }
+               ]
             },
             {
-                "name": "multiLayer",
-                "fields": [
-                    {
-                        "name": "enabled",
-                        "type": "bool",
-                        "value": 1
-                    },
-                    {
-                        "name": "count",
-                        "type": "int",
-                        "value": 3
-                    },
-                    {
-                        "name": "partialDuration",
-                        "type": "int",
-                        "unity": "m-s",
-                        "value": 15
-                    }
-                ]
+               "name": "motor",
+               "fields": [
+                  {
+                     "name": "enabled",
+                     "type": "bool",
+                     "value": 1
+                  }
+               ]
             }
-        ]
-    }
+         ]
+      }
+   ],
+   "maintenance": [
+      {
+         "name": "smt-filter",
+         "durationType": "cycle",
+         "durationLimit": 50,
+         "procedure": {
+            "desc": "smt-filter-desc",
+            "steps": [
+               {
+                  "name": "unscrew-mfm-filter",
+                  "images": [
+                     "assets/maintenances/metalfogm2/filter/0.jpg"
+                  ]
+               },
+               {
+                  "name": "replace-mfm-new-filter",
+                  "images": [
+                     "assets/maintenances/metalfogm2/filter/1.jpg",
+                     "assets/maintenances/metalfogm2/filter/2.jpg",
+                     "assets/maintenances/metalfogm2/filter/1.jpg"
+                  ]
+               }
+            ]
+         }
+      }
+   ],
+   "passives": [],
+   "manual": [
+      {
+         "name": "uv-cache",
+         "incompatibility": [
+            "nozzle-cache"
+         ],
+         "controls": [
+            "uv-cache"
+         ]
+      },
+      {
+         "name": "ir-cache",
+         "incompatibility": [
+            "nozzle-cache"
+         ],
+         "controls": [
+            "ir-cache"
+         ]
+      },
+      {
+         "name": "nozzle-cache",
+         "incompatibility": [
+            "ir-cache",
+            "uv-cache"
+         ],
+         "controls": [
+            "nozzle-cache"
+         ]
+      },
+      {
+         "name": "nozzle-pulverization",
+         "incompatibility": [
+            "uv-cache",
+            "ir-cache",
+            "+nozzle-cache"
+         ],
+         "controls": [
+            "resin-pressure",
+            "nozzle-pulverization"
+         ]
+      },
+      {
+         "name": "ventilation",
+         "incompatibility": [],
+         "controls": [
+            "ventilation"
+         ]
+      },
+      {
+         "name": "ir-curing",
+         "incompatibility": [
+            "uv-cache",
+            "nozzle-cache",
+            "+ir-cache"
+         ],
+         "controls": [
+            "ir-enable",
+            "ir-ventil"
+         ]
+      },
+      {
+         "name": "uv-curing",
+         "incompatibility": [
+            "ir-cache",
+            "nozzle-cache",
+            "+uv-cache"
+         ],
+         "controls": [
+            "uv-enable",
+            "uv-ventil"
+         ]
+      },
+      {
+         "name": "inerting",
+         "incompatibility": [],
+         "controls": [
+            "inerting"
+         ]
+      }
+   ],
+   "cycles": [
+      {
+         "name": "default cycle name",
+         "profileIndentifier": "default",
+         "watchdogConditions": [
+            {
+               "gateName": "emergency_stop",
+               "gateValue": 1,
+               "startOnly": false,
+               "result": false
+            },
+            {
+               "gateName": "nitrogen_sensor",
+               "gateValue": 1,
+               "startOnly": false,
+               "result": false
+            },
+            {
+               "gateName": "cover_closed",
+               "gateValue": 1,
+               "startOnly": false,
+               "result": false
+            },
+            {
+               "gateName": "resin-slot_sensor",
+               "gateValue": 1,
+               "startOnly": false,
+               "result": false
+            }
+         ],
+         "steps": [
+            {
+               "name": "start",
+               "isEnabled": {
+                  "name": "const",
+                  "value": "1",
+                  "params": []
+               },
+               "duration": {
+                  "name": "const",
+                  "value": "3",
+                  "params": []
+               },
+               "blocks": [
+                  {
+                     "name": "sleep",
+                     "params": [
+                        {
+                           "name": "const",
+                           "value": "3",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": false
+                  }
+               ],
+               "startingIO": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "motor-speed",
+                           "params": []
+                        },
+                        {
+                           "name": "multiply",
+                           "value": "",
+                           "params": [
+                              {
+                                 "name": "profile",
+                                 "value": "pulverization.motor-speed",
+                                 "params": []
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "motor.enabled",
+                                 "params": []
+                              }
+                           ]
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": false
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ventilation",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": false
+                  }
+               ],
+               "endingIO": [],
+               "_folded": true
+            },
+            {
+               "name": "pulverization",
+               "isEnabled": {
+                  "name": "profile",
+                  "value": "pulverization.enabled",
+                  "params": []
+               },
+               "duration": {
+                  "name": "multiply",
+                  "value": "1",
+                  "params": [
+                     {
+                        "name": "profile",
+                        "value": "pulverization.count",
+                        "params": []
+                     },
+                     {
+                        "name": "add",
+                        "value": "0",
+                        "params": [
+                           {
+                              "name": "profile",
+                              "value": "pulverization.timeOn",
+                              "params": []
+                           },
+                           {
+                              "name": "profile",
+                              "value": "pulverization.timeOff",
+                              "params": []
+                           }
+                        ]
+                     }
+                  ]
+               },
+               "runAmount": {
+                  "name": "conditional",
+                  "value": "==",
+                  "params": [
+                     {
+                        "name": "profile",
+                        "value": "Multilayer.enabled",
+                        "params": []
+                     },
+                     {
+                        "name": "const",
+                        "value": "1",
+                        "params": []
+                     },
+                     {
+                        "name": "profile",
+                        "value": "Multilayer.count",
+                        "params": []
+                     },
+                     {
+                        "name": "const",
+                        "value": "1",
+                        "params": []
+                     }
+                  ]
+               },
+               "blocks": [
+                  {
+                     "name": "if",
+                     "params": [
+                        {
+                           "name": "io",
+                           "value": "nozzle-sensor-",
+                           "params": []
+                        },
+                        {
+                           "name": "conststr",
+                           "value": "!=",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [
+                        {
+                           "name": "stop",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "nozzle-cache-wrong",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": [],
+                           "_folded": false
+                        }
+                     ],
+                     "_folded": true
+                  },
+                  {
+                     "name": "if",
+                     "params": [
+                        {
+                           "name": "io",
+                           "value": "uv-sensor+",
+                           "params": []
+                        },
+                        {
+                           "name": "conststr",
+                           "value": "!=",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [
+                        {
+                           "name": "stop",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "uv-cache-wrong",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": [],
+                           "_folded": false
+                        }
+                     ],
+                     "_folded": true
+                  },
+                  {
+                     "name": "if",
+                     "params": [
+                        {
+                           "name": "io",
+                           "value": "ir-sensor+",
+                           "params": []
+                        },
+                        {
+                           "name": "conststr",
+                           "value": "!=",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [
+                        {
+                           "name": "stop",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "ir-cache-wrong",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": [],
+                           "_folded": false
+                        }
+                     ],
+                     "_folded": true
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "resin-pressure",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  },
+                  {
+                     "name": "for",
+                     "params": [
+                        {
+                           "name": "profile",
+                           "value": "pulverization.count",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "nozzle-pulverization",
+                                 "params": []
+                              },
+                              {
+                                 "name": "const",
+                                 "value": "1",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": [],
+                           "_folded": true
+                        },
+                        {
+                           "name": "sleep",
+                           "params": [
+                              {
+                                 "name": "profile",
+                                 "value": "pulverization.timeOn",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": [],
+                           "_folded": true
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "nozzle-pulverization",
+                                 "params": []
+                              },
+                              {
+                                 "name": "const",
+                                 "value": "0",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": [],
+                           "_folded": true
+                        },
+                        {
+                           "name": "sleep",
+                           "params": [
+                              {
+                                 "name": "profile",
+                                 "value": "pulverization.timeOff",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": [],
+                           "_folded": true
+                        }
+                     ],
+                     "_folded": true
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "resin-pressure",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  }
+               ],
+               "startingIO": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "nozzle-cache",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "uv-cache",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ir-cache",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  }
+               ],
+               "endingIO": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "nozzle-cache",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  }
+               ],
+               "_folded": true
+            },
+            {
+               "name": "ir-curing",
+               "isEnabled": {
+                  "name": "profile",
+                  "value": "ir-curing.enabled",
+                  "params": []
+               },
+               "duration": {
+                  "name": "profile",
+                  "value": "ir-curing.duration",
+                  "params": []
+               },
+               "runAmount": {
+                  "name": "conditional",
+                  "value": "==",
+                  "params": [
+                     {
+                        "name": "profile",
+                        "value": "Multilayer.enabled",
+                        "params": []
+                     },
+                     {
+                        "name": "const",
+                        "value": "1",
+                        "params": []
+                     },
+                     {
+                        "name": "profile",
+                        "value": "Multilayer.count",
+                        "params": []
+                     },
+                     {
+                        "name": "const",
+                        "value": "1",
+                        "params": []
+                     }
+                  ]
+               },
+               "blocks": [
+                  {
+                     "name": "if",
+                     "params": [
+                        {
+                           "name": "io",
+                           "value": "ir_sensor+",
+                           "params": []
+                        },
+                        {
+                           "name": "conststr",
+                           "value": "!=",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [
+                        {
+                           "name": "stop",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "ir-cache-wrong",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": [],
+                           "_folded": false
+                        }
+                     ],
+                     "_folded": true
+                  },
+                  {
+                     "name": "if",
+                     "params": [
+                        {
+                           "name": "io",
+                           "value": "nozzle-sensor-",
+                           "params": []
+                        },
+                        {
+                           "name": "conststr",
+                           "value": "!=",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [
+                        {
+                           "name": "stop",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "nozzle-cache-wrong",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": [],
+                           "_folded": false
+                        }
+                     ],
+                     "_folded": true
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ir-ventil",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ir-enable",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  },
+                  {
+                     "name": "sleep",
+                     "params": [
+                        {
+                           "name": "profile",
+                           "value": "ir-curing.duration",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ir-enable",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  }
+               ],
+               "startingIO": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ir-cache",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  }
+               ],
+               "endingIO": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ir-cache",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  }
+               ],
+               "_folded": true
+            },
+            {
+               "name": "inerting",
+               "isEnabled": {
+                  "name": "profile",
+                  "value": "inerting.enabled",
+                  "params": []
+               },
+               "duration": {
+                  "name": "profile",
+                  "value": "inerting.duration",
+                  "params": []
+               },
+               "runAmount": {
+                  "name": "conditional",
+                  "value": "==",
+                  "params": [
+                     {
+                        "name": "profile",
+                        "value": "Multilayer.enabled",
+                        "params": []
+                     },
+                     {
+                        "name": "const",
+                        "value": "1",
+                        "params": []
+                     },
+                     {
+                        "name": "profile",
+                        "value": "Multilayer.count",
+                        "params": []
+                     },
+                     {
+                        "name": "const",
+                        "value": "1",
+                        "params": []
+                     }
+                  ]
+               },
+               "blocks": [
+                  {
+                     "name": "sleep",
+                     "params": [
+                        {
+                           "name": "profile",
+                           "value": "inerting.duration",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  }
+               ],
+               "startingIO": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "inerting",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  }
+               ],
+               "endingIO": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "inerting",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  }
+               ],
+               "_folded": true
+            },
+            {
+               "name": "uv-curing",
+               "isEnabled": {
+                  "name": "profile",
+                  "value": "uv-curing.enabled",
+                  "params": []
+               },
+               "duration": {
+                  "name": "profile",
+                  "value": "uv-curing.duration",
+                  "params": []
+               },
+               "runAmount": {
+                  "name": "conditional",
+                  "value": "==",
+                  "params": [
+                     {
+                        "name": "profile",
+                        "value": "Multilayer.enabled",
+                        "params": []
+                     },
+                     {
+                        "name": "const",
+                        "value": "1",
+                        "params": []
+                     },
+                     {
+                        "name": "profile",
+                        "value": "Multilayer.count",
+                        "params": []
+                     },
+                     {
+                        "name": "const",
+                        "value": "1",
+                        "params": []
+                     }
+                  ]
+               },
+               "blocks": [
+                  {
+                     "name": "if",
+                     "params": [
+                        {
+                           "name": "io",
+                           "value": "uv_sensor-",
+                           "params": []
+                        },
+                        {
+                           "name": "conststr",
+                           "value": "!=",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [
+                        {
+                           "name": "stop",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "uv-cache-wrong",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": [],
+                           "_folded": false
+                        }
+                     ],
+                     "_folded": true
+                  },
+                  {
+                     "name": "if",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "nozzle-sensor+",
+                           "params": []
+                        },
+                        {
+                           "name": "conststr",
+                           "value": "!=",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [
+                        {
+                           "name": "stop",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "nozzle-cache-wrong",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": [],
+                           "_folded": false
+                        }
+                     ],
+                     "_folded": true
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "uv-power",
+                           "params": []
+                        },
+                        {
+                           "name": "profile",
+                           "value": "uv-curing.uv-power",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "uv-enable",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  },
+                  {
+                     "name": "sleep",
+                     "params": [
+                        {
+                           "name": "conditional",
+                           "value": "==",
+                           "params": [
+                              {
+                                 "name": "profile",
+                                 "value": "Multilayer.enabled",
+                                 "params": []
+                              },
+                              {
+                                 "name": "const",
+                                 "value": "1",
+                                 "params": []
+                              },
+                              {
+                                 "name": "conditional",
+                                 "value": "==",
+                                 "params": [
+                                    {
+                                       "name": "variable",
+                                       "value": "currentStepRunCount",
+                                       "params": []
+                                    },
+                                    {
+                                       "name": "profile",
+                                       "value": "Multilayer.count",
+                                       "params": []
+                                    },
+                                    {
+                                       "name": "profile",
+                                       "value": "uv-curing.duration",
+                                       "params": []
+                                    },
+                                    {
+                                       "name": "profile",
+                                       "value": "Multilayer.interlayer-uvduration",
+                                       "params": []
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "uv-curing.duration",
+                                 "params": []
+                              }
+                           ]
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "uv-power",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "uv-enable",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  }
+               ],
+               "startingIO": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "uv-cache",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  }
+               ],
+               "endingIO": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "uv-cache",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  }
+               ],
+               "_folded": true
+            },
+            {
+               "name": "vapors-extraction",
+               "isEnabled": {
+                  "name": "const",
+                  "value": "1",
+                  "params": []
+               },
+               "duration": {
+                  "name": "profile",
+                  "value": "vapors-extraction.duration",
+                  "params": []
+               },
+               "runAmount": {
+                  "name": "const",
+                  "value": "1",
+                  "params": []
+               },
+               "blocks": [
+                  {
+                     "name": "sleep",
+                     "params": [
+                        {
+                           "name": "profile",
+                           "value": "vapors-extraction.duration",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  }
+               ],
+               "startingIO": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "air_heater",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  }
+               ],
+               "endingIO": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ventilation",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "motor-speed",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "nozzle-cache",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "uv-cache",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ir-cache",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  }
+               ],
+               "_folded": true
+            }
+         ]
+      }
+   ]
 }

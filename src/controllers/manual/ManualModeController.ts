@@ -47,12 +47,17 @@ export class ManualModeController extends Controller
                 //Key is going to be enabled, so check if it is compatible with other keys
                 if(value)
                 {
-                    //check if one of the key to toggle ON is compatible to already active keys
-                    if(this.keys.filter(k => k.state).find(k => k.incompatibility.includes(key.name)))
+                    if(
+                        key.incompatibility.filter(k => {
+                        k.startsWith("+") ? 
+                            this.keys.filter(j => j.name == k.slice(0, 1) && j.state == false) : 
+                            this.keys.filter(j => j.name == k && j.state == true)
+                    }).length > 0
+                    )
                     {
                         res.status(403).send("incompatibility detected");
                         return;
-                    }
+                    } 
                     else
                     {
                         //key is ready to be toggled

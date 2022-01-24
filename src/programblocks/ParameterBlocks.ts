@@ -163,12 +163,12 @@ export class ConditionalParameterBlock extends ParameterBlock
         super(instance, obj);
     }
 
-    //return param 3 if condition between param 0 and param 2 is true else it returns params 4
+    //return param 2 if condition between param 0 and param 1 is true else it returns params 3
     public data(): number
     {
         if(this.params.length != 4) return 0; //if param count doesnt match for this block return 0
         
-        return (this.operators[this.params[1].data() as string](this.params[0].data() as number, this.params[2].data() as number)) ? this.params[3].data() as number : this.params[4].data() as number;
+        return (this.operators[this.value as string](this.params[0].data() as number, this.params[1].data() as number)) ? this.params[2].data() as number : this.params[3].data() as number;
     }
 }
 

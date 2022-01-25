@@ -50,6 +50,10 @@ export class ProgramBlockRunner implements IProgram
 
         this.profile = profile;
 
+        if(this.profile === undefined)
+            this.machine.logger.warn("This PBR is build without any profile.");
+
+
         //properties assignment
         this.name = object.name;
 
@@ -73,9 +77,6 @@ export class ProgramBlockRunner implements IProgram
 
     public async run()
     {
-        //TODO: Add resume program option
-        //TODO: Should be done by looking into the ProgramHistoryObject
-
         this.machine.logger.info("Checking Watchdog Conditions");
 
         const w = this.watchdogConditions.filter((watchdog) => watchdog.result == false);

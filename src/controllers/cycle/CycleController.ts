@@ -74,6 +74,13 @@ export class CycleController extends Controller{
             }
         });
 
+        this.machine.authManager.registerEndpointPermission("cycle.list", {endpoint: "/v1/cycle/history", method: "get"});
+
+        this._router.get("/history", async (_req: Request, res: Response) => {
+            const histories = ProgramHistoryModel.find({});
+            res.json(histories);
+        });
+
         this.machine.authManager.registerEndpointPermission("cycle.run", {endpoint: new RegExp("/v1/cycle/restart/.*", "g"), method: "post"});
 
         //prepare the cycle

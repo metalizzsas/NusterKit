@@ -67,6 +67,15 @@
          "size": "bit"
       },
       {
+         "name": "eff_container_sensor",
+         "type": "default",
+         "bus": "in",
+         "automaton": 0,
+         "address": 6,
+         "default": 0,
+         "size": "bit"
+      },
+      {
          "name": "levels_edi-a",
          "type": "um18",
          "bus": "in",
@@ -677,7 +686,8 @@
             "act-lq_high"
          ],
          "incompatibility": [
-            "plv_edi_high"
+            "plv_edi_high",
+            "+ventilation"
          ]
       },
       {
@@ -688,7 +698,8 @@
             "act-lq_low"
          ],
          "incompatibility": [
-            "plv_edi_low"
+            "plv_edi_low",
+            "+ventilation"
          ]
       },
       {
@@ -699,7 +710,8 @@
             "edi-lq_high"
          ],
          "incompatibility": [
-            "plv_act_high"
+            "plv_act_high",
+            "+ventilation"
          ]
       },
       {
@@ -710,7 +722,189 @@
             "edi-lq_low"
          ],
          "incompatibility": [
-            "plv_act_low"
+            "plv_act_low",
+            "+ventilation"
+         ]
+      },
+      {
+         "name": "plv_ox_high",
+         "incompatibility": [
+            "+ventilation"
+         ],
+         "controls": [
+            "ox-res",
+            "ox-lq_high",
+            "met-plv_high"
+         ]
+      },
+      {
+         "name": "plv_rd_high",
+         "incompatibility": [
+            "+ventilation"
+         ],
+         "controls": [
+            "rd-res",
+            "rd-lq_high",
+            "met-plv_high"
+         ]
+      },
+      {
+         "name": "plv_ox_mid",
+         "incompatibility": [
+            "+ventilation"
+         ],
+         "controls": [
+            "ox-res",
+            "ox-lq_medium",
+            "met-plv_medium"
+         ]
+      },
+      {
+         "name": "plv_rd_mid",
+         "incompatibility": [
+            "+ventilation"
+         ],
+         "controls": [
+            "rd-res",
+            "rd-lq_medium",
+            "met-plv_medium"
+         ]
+      },
+      {
+         "name": "plv_ox_low",
+         "incompatibility": [
+            "+ventilation"
+         ],
+         "controls": [
+            "ox-res",
+            "ox-lq_low",
+            "met-plv_low"
+         ]
+      },
+      {
+         "name": "plv_rd_low",
+         "incompatibility": [
+            "+ventilation"
+         ],
+         "controls": [
+            "rd-res",
+            "rd-lq_low",
+            "met-plv_low"
+         ]
+      },
+      {
+         "name": "ventilation",
+         "incompatibility": [],
+         "controls": [
+            "ventilation"
+         ]
+      },
+      {
+         "name": "air_heater",
+         "incompatibility": [],
+         "controls": [
+            "air_heater"
+         ]
+      },
+      {
+         "name": "empty_act",
+         "incompatibility": [
+            "plv_act_high",
+            "plv_act_low",
+            "plv_edi_high",
+            "plv_edi_low",
+            "plv_ox_high",
+            "plv_rd_high",
+            "plv_ox_mid",
+            "plv_rd_mid",
+            "plv_ox_low",
+            "plv_rd_low",
+            "empty_edi",
+            "fill_act"
+         ],
+         "controls": [
+            "act-res",
+            "act-lq_high",
+            "act-lq_low"
+         ]
+      },
+      {
+         "name": "empty_edi",
+         "incompatibility": [
+            "plv_act_high",
+            "plv_act_low",
+            "plv_edi_high",
+            "plv_edi_low",
+            "plv_ox_high",
+            "plv_rd_high",
+            "plv_ox_mid",
+            "plv_rd_mid",
+            "plv_ox_low",
+            "plv_rd_low",
+            "empty_act",
+            "fill_act"
+         ],
+         "controls": [
+            "edi-res",
+            "edi-lq_high",
+            "edi-lq_low"
+         ]
+      },
+      {
+         "name": "empty_ox",
+         "incompatibility": [
+            "plv_act_high",
+            "plv_act_low",
+            "plv_edi_high",
+            "plv_edi_low",
+            "plv_ox_high",
+            "plv_rd_high",
+            "plv_ox_mid",
+            "plv_rd_mid",
+            "plv_ox_low",
+            "plv_rd_low"
+         ],
+         "controls": [
+            "ox-res",
+            "ox-lq_high",
+            "ox-lq_medium",
+            "ox-lq_low"
+         ]
+      },
+      {
+         "name": "empty_rd",
+         "incompatibility": [
+            "plv_act_high",
+            "plv_act_low",
+            "plv_edi_high",
+            "plv_edi_low",
+            "plv_ox_high",
+            "plv_rd_high",
+            "plv_ox_mid",
+            "plv_rd_mid",
+            "plv_ox_low",
+            "plv_rd_low"
+         ],
+         "controls": [
+            "rd-res",
+            "rd-lq_high",
+            "rd-lq_medium",
+            "rd-lq_low"
+         ]
+      },
+      {
+         "name": "fill_act",
+         "incompatibility": [
+            "plv_act_high",
+            "plv_act_low",
+            "plv_edi_high",
+            "plv_edi_low",
+            "empty_act",
+            "empty_edi"
+         ],
+         "controls": [
+            "edi-res",
+            "edi-lq_fill_act"
          ]
       }
    ],
@@ -740,6 +934,12 @@
                "gateName": "levels_eff-n",
                "gateValue": 1,
                "startOnly": true,
+               "result": false
+            },
+            {
+               "gateName": "eff_container_sensor",
+               "gateValue": 1,
+               "startOnly": false,
                "result": false
             }
          ],
@@ -1990,7 +2190,8 @@
                            "params": []
                         }
                      ],
-                     "blocks": []
+                     "blocks": [],
+                     "_folded": false
                   }
                ],
                "_folded": true
@@ -2983,7 +3184,173 @@
                "_folded": true
             }
          ],
-         "profileIndentifier": "default"
+         "profileRequired": true
+      },
+      {
+         "name": "act-fill",
+         "profileRequired": false,
+         "watchdogConditions": [
+            {
+               "gateName": "emergency_stop",
+               "gateValue": 1,
+               "startOnly": false,
+               "result": false
+            },
+            {
+               "gateName": "air_sensor",
+               "gateValue": 1,
+               "startOnly": false,
+               "result": false
+            },
+            {
+               "gateName": "cover_closed",
+               "gateValue": 1,
+               "startOnly": false,
+               "result": false
+            },
+            {
+               "gateName": "levels_eff-n",
+               "gateValue": 1,
+               "startOnly": false,
+               "result": false
+            },
+            {
+               "gateName": "eff_container_sensor",
+               "gateValue": 1,
+               "startOnly": false,
+               "result": false
+            }
+         ],
+         "steps": [
+            {
+               "name": "act-fill",
+               "isEnabled": {
+                  "name": "const",
+                  "value": "1",
+                  "params": []
+               },
+               "duration": {
+                  "name": "const",
+                  "value": "120",
+                  "params": []
+               },
+               "runAmount": {
+                  "name": "const",
+                  "value": "1",
+                  "params": []
+               },
+               "blocks": [
+                  {
+                     "name": "while",
+                     "params": [
+                        {
+                           "name": "io",
+                           "value": "levels_act-n",
+                           "params": []
+                        },
+                        {
+                           "name": "conststr",
+                           "value": "!=",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [
+                        {
+                           "name": "sleep",
+                           "params": [
+                              {
+                                 "name": "const",
+                                 "value": "0.5",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": [],
+                           "_folded": false
+                        }
+                     ],
+                     "_folded": true
+                  }
+               ],
+               "startingIO": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "io",
+                           "value": "edi-res",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "io",
+                           "value": "edi-lq_fill_act",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  }
+               ],
+               "endingIO": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "edi-res",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "edi-lq_fill_act",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [],
+                     "_folded": true
+                  }
+               ],
+               "_folded": true
+            }
+         ]
       }
    ]
 }

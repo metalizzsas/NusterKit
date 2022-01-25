@@ -22,7 +22,7 @@
 	{#if $machineData.cycle}
 		{#each $machineData.cycle.steps as s}
 			<div
-				class="bg-gray-800 text-white font-semibold py-3 pl-6 pr-3 rounded-full flex flex-row gap-4 justify-between items-center"
+				class="bg-gray-800 text-white font-semibold p-3 rounded-xl flex flex-row gap-4 justify-between items-center"
 			>
 				<div class="flex flex-col">
 					<span>{$_(s.name)}</span>

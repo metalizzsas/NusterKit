@@ -10,8 +10,23 @@
 
 <script lang="ts">
 	import type { Maintenance } from '$lib/utils/interfaces';
+	import { _ } from 'svelte-i18n';
+	import { fly } from 'svelte/transition';
 
 	export let maintenance: Maintenance;
+
+	let showProcedure: boolean = false;
+
+	let procedureIndex: number = 0;
+	let procedureImageIndex: number = 0;
+
+	async function resetMaintenance() {
+		await fetch('http://localhost/v1/maintenance/' + maintenance.name, {
+			method: 'DELETE',
+		});
+
+		window.location.reload();
+	}
 </script>
 
 <div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-200 dark:bg-neutral-800 shadow-xl group">
@@ -39,6 +54,115 @@
 		</div>
 	</div>
 	<div id="maintenanceContent">
-		{maintenance.name}
+		<div class="flex flex-col gap-4">
+			<span class="rounded-full bg-white py-1 px-3 self-start">
+				<span class="font-semibold">{$_('maintenance.duration')}:</span>
+				{maintenance.durationActual} / {maintenance.durationLimit}
+				{$_('maintenance.unity.' + maintenance.durationType)}
+			</span>
+			<span class="rounded-full bg-white py-1 px-3 self-start">
+				<span class="font-semibold">{$_('maintenance.percentage')}:</span>
+				{maintenance.durationProgress} %
+			</span>
+			<p class="rounded-xl bg-zinc-900 py-2 px-3 text-white text-xl mb-3">
+				{$_(maintenance.name + '-desc')}
+			</p>
+			<button
+				class="bg-indigo-500 rounded-xl py-2 px-4 self-center text-white font-semibold"
+				on:click={() => (showProcedure = !showProcedure)}
+			>
+				{$_('maintenance.procedure.' + (!showProcedure ? 'display' : 'hide'))}
+			</button>
+		</div>
+
+		{#if showProcedure}
+			<div class="procedure mt-5">
+				<div class="container flex flex-col justify-center">
+					{#each maintenance.procedure.steps as step, index}
+						{#if procedureIndex == index}
+							<div
+								class="step rounded-xl overflow-hidden"
+								out:fly={{ x: -100, duration: 50 }}
+								in:fly={{ x: 100, duration: 50 }}
+							>
+								<img
+									src="http://localhost/assets/maintenance/{maintenance.name}/{step
+										.images[procedureImageIndex]}"
+									alt="procedure image"
+									class="shrink-0"
+								/>
+								{#if step.images.length > 0}
+									<div class="flex flex-row justify-center">
+										<div class="absolute flex flex-row gap-4 -translate-y-40">
+											{#each step.images as image, indeximge}
+												<div
+													class="transition-all {procedureImageIndex !=
+													indeximge
+														? 'grayscale'
+														: 'grayscale-50'}"
+													on:click={() =>
+														(procedureImageIndex = indeximge)}
+												>
+													<!-- svelte-ignore a11y-missing-attribute -->
+													<img
+														src="http://localhost/assets/maintenance/{maintenance.name}/{image}"
+														class="h-32 ring-white rounded-md"
+													/>
+												</div>
+											{/each}
+										</div>
+									</div>
+								{/if}
+								<div class="bg-white p-3">
+									<h2>{step.name}</h2>
+								</div>
+							</div>
+						{/if}
+					{/each}
+				</div>
+
+				<div class="flex flex-row gap-4 mt-4 w-full justify-items-center">
+					{#if procedureIndex > 0}
+						<button
+							class="bg-gray-700 text-white font-semibold rounded-xl py-2 px-4 self-start"
+							on:click={() => procedureIndex--}
+						>
+							{$_('maintenance.procedure.previous')}
+						</button>
+					{/if}
+
+					{#if procedureIndex < maintenance.procedure.steps.length - 1}
+						<button
+							class="bg-gray-600 text-white font-semibold rounded-xl py-2 px-4 self-end"
+							on:click={() => procedureIndex++}
+						>
+							{$_('maintenance.procedure.next')}
+						</button>
+					{/if}
+
+					{#if procedureIndex == maintenance.procedure.steps.length - 1}
+						<button
+							class="bg-red-500 text-white font-semibold rounded-xl py-2 px-4"
+							on:click={() => resetMaintenance()}
+						>
+							{$_('maintenance.procedure.reset')}
+						</button>
+					{/if}
+				</div>
+
+				<!-- <div class="flex flex-row gap-4 flex-nowrap overflow-scroll">
+					{#each maintenance.procedure.steps as step}
+						<div class="rounded-3xl h-1/3 clip overflow-clip">
+							 svelte-ignore a11y-img-redundant-alt
+							<img
+								src="http://localhost/assets/maintenance/{maintenance.name}/{step
+									.images[0]}"
+								alt="procedure image"
+							/>
+						</div>
+					{/each}
+				</div> -->
+			</div>
+		{/if}
 	</div>
 </div>

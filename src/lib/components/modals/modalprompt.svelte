@@ -15,7 +15,11 @@
 
 	export let selectOptions: string[] | undefined = undefined;
 
-	let value: string;
+	let val = '';
+
+	$: val, console.log(val);
+
+	let selectval = '';
 
 	export let shown: boolean = false;
 </script>
@@ -62,7 +66,7 @@
 				{/if}
 
 				{#if selectOptions}
-					<select name="selector" id="selectof" bind:value>
+					<select name="selector" id="selectof" bind:value={selectval}>
 						{#each selectOptions as o}
 							<option value={o}>{o}</option>
 						{/each}
@@ -71,7 +75,7 @@
 				{:else}
 					<input
 						type="text"
-						bind:value
+						bind:value={val}
 						class="jsvk rounded-xl py-2 px-3 ring-1 ring-gray-500/50 text-gray-400/80 mb-3 mt-1"
 					/>
 				{/if}
@@ -82,7 +86,7 @@
 							class="{button.color} rounded-xl px-3 py-1 {button.textColor ||
 								'text-white'} font-semibold"
 							on:click={() => {
-								button.callback(value);
+								button.callback(selectOptions ? val : selectval);
 								shown = false;
 							}}
 						>

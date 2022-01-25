@@ -179,6 +179,7 @@ export interface Status {
   mode: string;
   progress: number;
   endReason?: string;
+  endDate?: number;
 }
 
 export interface Machine {

@@ -7,10 +7,10 @@
 </script>
 
 <main id="content">
-	<div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-200 dark:bg-neutral-800 shadow-xl group">
+	<div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-200 dark:bg-neutral-800  group">
 		<div class="flex flex-row justify-items-end -translate-y-4">
 			<div
-				class="rounded-xl bg-indigo-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
+				class="rounded-xl bg-indigo-500 text-white py-1 px-8 font-semibold  group-hover:scale-105 transition-all"
 			>
 				{$_('procedures')}
 			</div>
@@ -19,7 +19,7 @@
 		<div class="grid grid-cols-3 gap-4">
 			<a
 				href="app/cycle"
-				class="flex flex-row items-center justify-center gap-4 shadow-xl bg-gradient-to-br from-indigo-500 to-purple-500 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:skew-y-1 duration-200 ease-in-out"
+				class="flex flex-row items-center justify-center gap-4  bg-gradient-to-br from-indigo-500 to-purple-500 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:skew-y-1 duration-200 ease-in-out"
 			>
 				{$_('cycle')}
 				{#if $machineData.cycle !== undefined}
@@ -51,23 +51,23 @@
 			</a>
 			<a
 				href="app/profiles"
-				class="shadow-xl bg-gradient-to-br from-indigo-500 to-purple-500 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:-skew-y-1 duration-200 ease-in-out"
+				class=" bg-gradient-to-br from-indigo-500 to-purple-500 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:-skew-y-1 duration-200 ease-in-out"
 			>
 				{$_('profiles')}
 			</a>
 			<a
 				href="app/advanced"
-				class="shadow-xl bg-gradient-to-br from-indigo-500 to-purple-500 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:skew-y-1 duration-200 ease-in-out"
+				class=" bg-gradient-to-br from-indigo-500 to-purple-500 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:skew-y-1 duration-200 ease-in-out"
 			>
 				{$_('manual-mode')}
 			</a>
 		</div>
 	</div>
 
-	<div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-200 dark:bg-neutral-800 shadow-xl group">
+	<div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-200 dark:bg-neutral-800  group">
 		<div class="flex flex-row justify-items-end -translate-y-4">
 			<div
-				class="rounded-xl bg-purple-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
+				class="rounded-xl bg-purple-500 text-white py-1 px-8 font-semibold  group-hover:scale-105 transition-all"
 			>
 				{$_('slots')}
 			</div>
@@ -80,10 +80,10 @@
 		</div>
 	</div>
 
-	<div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-200 dark:bg-neutral-800 shadow-xl group">
+	<div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-200 dark:bg-neutral-800  group">
 		<div class="flex flex-row justify-items-end -translate-y-4">
 			<div
-				class="rounded-xl bg-cyan-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
+				class="rounded-xl bg-cyan-500 text-white py-1 px-8 font-semibold  group-hover:scale-105 transition-all"
 			>
 				{$_('maintenances')}
 			</div>

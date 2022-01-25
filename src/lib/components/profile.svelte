@@ -11,7 +11,7 @@
 	let copyProfileModalShown = false;
 	let deleteProfileModalShown = false;
 
-	async function copyProfile(profile: Profile, newName: string) {
+	async function copyProfile(newName: string) {
 		let newProfile = profile;
 
 		newProfile.id = 'copied';
@@ -46,9 +46,7 @@
 		{
 			text: $_('ok'),
 			color: 'bg-green-400',
-			callback: (val) => {
-				copyProfile(profile, val || '');
-			},
+			callback: (val) => copyProfile,
 		},
 		{
 			text: $_('cancel'),

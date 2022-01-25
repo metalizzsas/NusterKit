@@ -4,17 +4,10 @@
 	import type { Slot } from '$lib/utils/interfaces';
 
 	export var slotContent: Slot;
-
-	let tr: { [k: string]: string } = {
-		'level-a': 'Niveau',
-		'level-n': 'Limite',
-		temperature: 'temperature',
-	};
-	//TODO: Use a better way to display sensors
 </script>
 
 <div
-	class="shadow-xl bg-gradient-to-br from-purple-500 to-cyan-500 rounded-2xl overflow-hidden hover:scale-[1.01] transition-all"
+	class="bg-gradient-to-br from-purple-500 to-cyan-500 rounded-2xl overflow-hidden hover:scale-[1.01] transition-all"
 >
 	<div class="backdrop-blur p-3 text-white rounded-full">
 		<div class="flex flex-row justify-between">
@@ -33,22 +26,28 @@
 			{/if}
 		</div>
 
-		<div class="mt-1">
-			<span class="inline-block my-2 border-b-2 border-white font-semibold text-lg">
-				{$_('sensors')}
-			</span>
-			<div class="grid grid-cols-2 gap-2 items-center">
+		<div class="mt-3 -m-3 bg-white p-3 -pt-3">
+			<div class="flex flex-row items-center justify-around -translate-y-7">
+				<span class="bg-purple-500 rounded-xl py-1 px-3 font-semibold shadow-sm">
+					{$_('sensors')}
+				</span>
+			</div>
+			<div class="flex flex-col gap-3">
 				{#each slotContent.sensors as s}
-					<span class="bg-white px-2 py-1 rounded-full text-neutral-700 font-semibold">
-						{$_(s.type)} :
-						{#if s.type == 'level-a'}
-							{Math.ceil(s.value * 100)} %
-						{:else if s.type == 'level-n'}
-							{$_(`binary_${s.value == 1}`)}
-						{:else}
-							{Math.ceil(s.value * 100)}
-						{/if}
-					</span>
+					<div
+						class="bg-gray-200 pr-1 pl-5 py-1 rounded-full text-neutral-700 font-semibold flex flex-row justify-between items-center"
+					>
+						{$_(s.type)}
+						<span class="bg-gray-900 p-1 px-5 rounded-full text-white">
+							{#if s.type == 'level-a'}
+								{Math.ceil(s.value * 100)} %
+							{:else if s.type == 'level-n'}
+								{$_(`binary_${s.value == 1}`)}
+							{:else}
+								{Math.ceil(s.value * 100)}
+							{/if}
+						</span>
+					</div>
 				{/each}
 			</div>
 		</div>

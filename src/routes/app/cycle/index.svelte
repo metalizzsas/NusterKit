@@ -34,6 +34,13 @@
 			>
 				{$machineData.cycle ? $_('cycle') : $_('cycle-preparation')}
 			</div>
+			<!-- TODO: Add check if some histories are available -->
+			<a
+				class="rounded-xl bg-orange-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-[1.01] transition-all self-end"
+				href="cycle/histories"
+			>
+				{$_('cycle.history')}
+			</a>
 		</div>
 
 		<div id="cycle">

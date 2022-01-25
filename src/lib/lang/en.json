@@ -70,16 +70,11 @@
   "language": "Language",
   "apply-language": "Apply lang change",
   "options": "Settings",
-
   "cycle-preparation": "Cycle preparation",
   "cycle-choice": "Cycle type",
-
   "profile-choice": "Profile choice",
-
   "cycle-prepare-button": "Prepare cycle",
-
   "cycle-start-conditions": "Cycle start conditions",
-
   "gate": {
     "emergency_stop": "Emergency stop button",
     "air_sensor": "Air pressure sensor",
@@ -87,11 +82,12 @@
     "level_eff-n": "Effluents limit",
     "eff_container_sensor": "Effluents container sensor"
   },
-
   "manual": {
     "plv_act_high": "Activator pulverisation high",
     "plv_act_low": "Activator pulverisation low",
     "plv_edi_high": "DI Water pulverisation high",
     "plv_edi_low": "DI Water pulverisation low"
-  }
+  },
+  "cycle-count": "Cycle count",
+  "restart-machine": "Restart machine"
 }

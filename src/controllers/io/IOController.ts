@@ -9,7 +9,6 @@ import { EX260S1 } from "./IOHandlers/EX260S1";
 import { EX260S3 } from "./IOHandlers/EX260S3";
 import { A10VIOGate } from "./IOGates/A10VGate";
 import { UM18IOGate } from "./IOGates/UM18Gate";
-import path from "path";
 
 export class IOController extends Controller
 {
@@ -66,12 +65,6 @@ export class IOController extends Controller
         });
 
         this.machine.authManager.registerEndpointPermission("io.list", {endpoint: "/v1/io", method: "get"});
-
-        this._router.get("/realtime", (_req: Request, res: Response) => {
-            res.sendFile(path.join(__dirname, "../../../pages/io.html"));
-        });
-
-        this.machine.authManager.registerEndpointPermission("io.list", {endpoint: "/v1/io/realtime", method: "get"});
 
         this._router.get("/:name/:value", async (req: Request, res: Response) => {
 

@@ -53,7 +53,6 @@ export class Machine{
 
         const infoPath = (process.env.NODE_ENV != 'production' || process.env.FORCE_DEV_CONFIG == 'true') ? path.resolve("data", "info.json") : "/data/info.json";
 
-
         if(!fs.existsSync(infoPath))
         {
             this.logger.fatal("Machine info file not found");

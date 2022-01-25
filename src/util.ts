@@ -12,7 +12,7 @@ export function getIPAddress() {
         {
             for (let i = 0; i < iface.length; i++) {
                 const alias = iface[i];
-                if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal && alias.address !== '10.0.0.1')
+                if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal && alias.address !== '192.168.1.1')
                     return alias.address;
             }
         }

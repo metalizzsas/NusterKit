@@ -32,7 +32,7 @@ services:
     depends_on:
       - 'nuster-desktop'
     environment:
-      DISPLAY_NUM: 1
+      DISPLAY_NUM: 0
       LAUNCH_URL: 'http://127.0.0.1:3000/app'
       KIOSK: 1
       ENABLE_GPU: 1

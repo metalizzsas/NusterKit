@@ -13,6 +13,8 @@ export class ProgramBlockRunner implements IProgram
     //identifiers vars
     name: string;
 
+    profileRequired: boolean;
+
     variables: IProgramVariable[] = [];
     
     //Inside definers
@@ -24,7 +26,7 @@ export class ProgramBlockRunner implements IProgram
 
     //statics
     machine: Machine;
-    profile: IProfile;
+    profile?: IProfile;
 
     //explorers
     profileExplorer: ProfileExplorer;
@@ -33,13 +35,15 @@ export class ProgramBlockRunner implements IProgram
     //event
     event: EventEmitter;
     
-    constructor(machine: Machine, profile: IProfile, object: IProgram)
+    constructor(machine: Machine, object: IProgram, profile?: IProfile)
     {
         this.status = { mode: PBRMode.CREATED };
 
         this.machine = machine;
 
         this.machine.logger.info("Building PBR...");
+
+        this.profileRequired = object.profileRequired;
 
         //if this is defined it should be a cycle restart
         if(object.currentStepIndex)
@@ -52,7 +56,6 @@ export class ProgramBlockRunner implements IProgram
 
         if(this.profile === undefined)
             this.machine.logger.warn("This PBR is build without any profile.");
-
 
         //properties assignment
         this.name = object.name;
@@ -202,6 +205,8 @@ export interface IPBRStatus
 export interface IProgram
 {
     name: string;
+
+    profileRequired: boolean;
 
     currentStepIndex?: number;
 

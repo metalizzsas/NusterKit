@@ -7,11 +7,11 @@ import { IProfile, ProfileModel } from "../profile/Profile";
 import { ProgramHistoryModel } from "./ProgramHistory";
 import { PBRMode, ProgramBlockRunner } from "../../programblocks/ProgramBlockRunner";
 
-export class CycleController extends Controller{
+export class CycleController extends Controller {
 
     private machine: Machine;
 
-    private supportedCycles: string[] = [];
+    private supportedCycles: {name:string, profileRequired: boolean}[] = [];
     private program?: ProgramBlockRunner
 
    constructor(machine: Machine)
@@ -27,7 +27,7 @@ export class CycleController extends Controller{
    {
         for(const cycle of this.machine.specs.cycles)
         {
-            this.supportedCycles.push(cycle.name);
+            this.supportedCycles.push({name: cycle.name, profileRequired: cycle.profileRequired});
         }
    }
 
@@ -49,7 +49,7 @@ export class CycleController extends Controller{
             {
                 this.machine.logger.info("PBR assigned for restart");
 
-                this.program = new ProgramBlockRunner(this.machine, history.profile, history.cycle);
+                this.program = new ProgramBlockRunner(this.machine, history.cycle, history.profile);
 
                 if(this.program.name != history.profile.identifier)
                 {
@@ -86,42 +86,46 @@ export class CycleController extends Controller{
         //prepare the cycle
         this._router.post("/:name/:id?", async (req: Request, res: Response) => {
 
-            const profile = (!req.params.id) ? undefined : await ProfileModel.findById(req.params.id) as IProfile;
+            // const profile = (!req.params.id) ? undefined : await ProfileModel.findById(req.params.id) as IProfile;
 
-            if(profile)
+            let profile = undefined;
+
+            if(req.params.id)
             {
-                const cycle = this.machine.specs.cycles.find((ip) => ip.name == req.params.name);
+                profile = await ProfileModel.findById(req.params.id) as IProfile;
+                res.status(404);
+                res.end("Profile id was given but profile was not found");
+                return;
+            }
+            
+            const cycle = this.machine.specs.cycles.find((ip) => ip.name == req.params.name);
 
-                if(cycle)
+            if(cycle)
+            {
+                this.machine.logger.info("PBR assigned");
+                this.program = new ProgramBlockRunner(this.machine, cycle, profile);
+
+                if(this.program.profileRequired && profile !== undefined)
                 {
-                    this.machine.logger.info("PBR assigned");
-                    this.program = new ProgramBlockRunner(this.machine, profile, cycle);
-
-                    if(this.program.name != profile.identifier)
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    if(this.program.name != (profile as IProfile).identifier)
                     {
                         res.status(403);
-                        res.write(`Profile ${this.program.name} is not compatible with cycle profile ${profile.identifier}`);
+                        res.write(`Profile ${this.program.name} is not compatible with cycle profile ${(profile as IProfile).identifier}`);
                         res.end();
                         this.program = undefined;
                         return;
                     }
-                    else
-                    {
-                        res.status(200)
-                        res.write("ok");
-                        res.end();
-                        return;
-                    }
                 }
-                else
-                {
-                    res.status(404).write("Cycle not found");
-                    return;
-                }
+
+                res.status(200)
+                res.write("ok");
+                res.end();
+                return;
             }
             else
             {
-                res.status(404).write("Profile not found");
+                res.status(404).write("Cycle not found");
                 return;
             }
         });

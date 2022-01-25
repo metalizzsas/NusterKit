@@ -77,7 +77,7 @@ const ProgramSchema = new Schema<IProgram>({
 const ProgramHistorySchema = new Schema<IProgramHistory>({
     rating: Number,
     cycle: {type: ProgramSchema, required: true},
-    profile: {type: ProfileSchema, required: true}
+    profile: ProfileSchema
 });
 
 export const ProgramHistoryModel = model("history", ProgramHistorySchema);

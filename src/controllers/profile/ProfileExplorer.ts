@@ -6,9 +6,9 @@ import { IProfile } from "./Profile";
  */
 export class ProfileExplorer
 {
-    profile: IProfile;
+    profile?: IProfile;
 
-    constructor(profile: IProfile)
+    constructor(profile?: IProfile)
     {
         this.profile = profile;
     }

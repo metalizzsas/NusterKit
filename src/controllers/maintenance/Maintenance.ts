@@ -5,7 +5,7 @@ export interface IConfigMaintenance extends IMaintenance
     durationType: string;
     durationLimit: number;
 
-    procedure: IMaintenanceProcedure;
+    procedure?: IMaintenanceProcedure;
 }
 
 interface IMaintenance
@@ -34,9 +34,9 @@ export class Maintenance implements IConfigMaintenance
 
     operationDate?: number;
 
-    procedure: IMaintenanceProcedure;
+    procedure?: IMaintenanceProcedure;
 
-    constructor(name: string, durationType: string, durationLimit: number, procedure: IMaintenanceProcedure)
+    constructor(name: string, durationType: string, durationLimit: number, procedure?: IMaintenanceProcedure)
     {
         this.name = name;
 

@@ -1,4 +1,4 @@
-import { Maintenance } from "./Maintenance";
+import { IConfigMaintenance, Maintenance } from "./Maintenance";
 import { Machine } from "../../Machine";
 
 import { Request, Response } from "express";
@@ -20,12 +20,10 @@ export class MaintenanceController extends Controller
 
     private async _configure()
     {
-        for(const maintenance of this.machine.specs.maintenance)
+        for(const maintenance of [...this.machine.specs.maintenance, {name: "cycleCount", durationType: 'cycle', durationLimit: Number.MAX_VALUE} as IConfigMaintenance])
         {
             this.tasks.push(new Maintenance(maintenance.name, maintenance.durationType, maintenance.durationLimit, maintenance.procedure));
         }
-
-        this.tasks.push(new Maintenance("cycleCount", "cycle", Number.MAX_VALUE, {desc: "null", steps: []}))
     }
 
     private _configureRouter()

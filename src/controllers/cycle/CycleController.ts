@@ -77,7 +77,7 @@ export class CycleController extends Controller {
         this.machine.authManager.registerEndpointPermission("cycle.list", {endpoint: "/v1/cycle/history", method: "get"});
 
         this._router.get("/history", async (_req: Request, res: Response) => {
-            const histories = ProgramHistoryModel.find({});
+            const histories = await ProgramHistoryModel.find({});
             res.json(histories);
         });
 

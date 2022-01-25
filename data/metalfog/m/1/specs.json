@@ -654,15 +654,15 @@
                {
                   "name": "unscrew-mfm-filter",
                   "images": [
-                     "assets/maintenances/metalfogm2/filter/0.jpg"
+                     "0.jpg"
                   ]
                },
                {
                   "name": "replace-mfm-new-filter",
                   "images": [
-                     "assets/maintenances/metalfogm2/filter/1.jpg",
-                     "assets/maintenances/metalfogm2/filter/2.jpg",
-                     "assets/maintenances/metalfogm2/filter/1.jpg"
+                     "1.jpg",
+                     "2.jpg",
+                     "1.jpg"
                   ]
                }
             ]

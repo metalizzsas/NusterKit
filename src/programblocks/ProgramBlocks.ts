@@ -90,6 +90,37 @@ export class ForLoopProgramBlock extends ProgramBlock
     }
 }
 
+export class WhileLoopProgramBlock extends ProgramBlock
+{
+    private operators: {[x: string]: (x: number, y: number) => boolean; } = {
+        ">": (x: number, y: number) => x > y,
+        "<": (x: number, y: number) => x < y,
+        "==": (x: number, y: number) => x == y,
+        "!=": (x: number, y: number) => x != y
+    };
+
+    constructor(pbrInstance: ProgramBlockRunner, obj: IProgramBlock)
+    {
+        super(pbrInstance, obj);
+
+        if(obj.params.length < 3)
+            throw new Error("WhileProgramBlock: Not enought parameters");
+        if(obj.blocks.length == 0)
+            throw Error("WhileProgramBlock: No blocks for while loop");
+    }
+
+    public async execute(): Promise<void>
+    {
+        while(this.operators[this.params[1].data() as string](this.params[0].data() as number, this.params[2].data() as number))
+        {
+            for(const b of this.blocks)
+            {
+                await b.execute();
+            }
+        }
+    }
+}
+
 export class IfProgramBlock extends ProgramBlock
 {
     private operators: {[x: string]: (x: number, y: number) => boolean; } = {
@@ -247,6 +278,7 @@ export function ProgramBlockRegistry(pbrInstance: ProgramBlockRunner, obj: IProg
     switch(obj.name)
     {
         case "for": return new ForLoopProgramBlock(pbrInstance, obj);
+        case "while": return new WhileLoopProgramBlock(pbrInstance, obj);
         case "if": return new IfProgramBlock(pbrInstance, obj);
         case "sleep": return new SleepProgramBlock(pbrInstance, obj);
         case "io": return new IOWriteProgramBlock(pbrInstance, obj);

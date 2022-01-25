@@ -29,6 +29,7 @@ Program blocks are used to run functions
 | ProgramBlock | Function | require params ? | required params count | Require Child Blocks |
 | ------------ | -------- | ---------------- | ----------------------| -------------------- |
 | for | will loop `params[0]`to execute child blocks | ```true```| ```1``` | ```true```|
+| for | will loop `blocks` while `params[0]` compared to `params[2]` with `params[1]` operator is true. | ```true```| ```3``` | ```true```|
 | if | Will compare `Params[0]` with `Params[1]` by `Params[2]` Comparator | ```true``` | ```3``` | ```true```|
 | sleep | Will sleep `Params[0]` seconds | ```true```| ```1``` | ```false``` |
 | iowrite | Will write `Params[1]` to `Params[0]` gate | ```true```| ```2``` | ```false``` |

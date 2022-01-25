@@ -156,6 +156,7 @@ export class ProgramBlockRunner implements IProgram
 
         this.status.endReason = reason || "finished";
         this.status.mode = PBRMode.ENDED;
+        this.status.endDate = Date.now();
         //TODO: Resorbs all timers and everything
         this.machine.logger.info(`Ended cycle ${this.name} with state: ${this.status.mode} and reason ${this.status.endReason}.`);
     }

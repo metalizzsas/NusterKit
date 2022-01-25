@@ -85,7 +85,7 @@ export class IOReadParameterBlock extends ParameterBlock
 
     public data(): number
     {
-        return this.pbrInstance.ioExplorer?.explore(this.name)?.value || 0;
+        return this.pbrInstance.ioExplorer?.explore(this.value)?.value || 0;
     }
 }
 

@@ -113,6 +113,12 @@ export class WhileLoopProgramBlock extends ProgramBlock
     {
         while(this.operators[this.params[1].data() as string](this.params[0].data() as number, this.params[2].data() as number))
         {
+            if(this.pbrInstance.status.mode == PBRMode.ENDED)
+            {
+                this.executed = true;
+                return;
+            }
+            
             for(const b of this.blocks)
             {
                 await b.execute();

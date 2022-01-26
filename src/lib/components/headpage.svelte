@@ -179,7 +179,7 @@
 						>
 							{$_('cycle-count')}: {$machineData.maintenances.find(
 								(k) => k.name == 'cycleCount',
-							)?.durationActual || '?'}
+							)?.durationActual || '0'}
 						</span>
 					</div>
 					<div class="flex flex-col mt-3">

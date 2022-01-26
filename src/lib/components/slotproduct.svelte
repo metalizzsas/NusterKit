@@ -39,7 +39,7 @@
 					{$_(s.type)}
 					<span class="bg-gray-900 p-1 px-5 rounded-full text-white">
 						{#if s.type == 'level-a'}
-							{Math.ceil(s.value * 100)} %
+							{Math.ceil(s.value)} %
 						{:else if s.type == 'level-n'}
 							{$_(`binary_${s.value == 1}`)}
 						{:else}

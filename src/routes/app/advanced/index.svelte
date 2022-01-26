@@ -15,7 +15,7 @@
 	import '$lib/app.css';
 
 	import Toggle from '$lib/components/toggle.svelte';
-	import { _ } from 'svelte-i18n';
+	import { json, _ } from 'svelte-i18n';
 	import { machineData } from '$lib/utils/store';
 
 	function toggleState(name: string, state: boolean) {
@@ -29,7 +29,7 @@
 </script>
 
 <div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-200 dark:bg-neutral-800 shadow-xl group">
-	<div class="flex flex-row gap-5 justify-items-end -translate-y-4">
+	<div class="flex flex-row gap-5 -translate-y-4">
 		<a
 			href="/app"
 			class="rounded-xl bg-red-400 text-white py-1 px-3 font-semibold flex flex-row gap-2 items-center"
@@ -53,7 +53,7 @@
 		</div>
 
 		<a
-			class="rounded-xl bg-orange-500 text-white font-semibold py-1 px-3 shadow-md"
+			class="rounded-xl bg-orange-500 text-white font-semibold py-1 px-3 shadow-md self-end"
 			href="/app/advanced/gates"
 		>
 			{$_('gates')}
@@ -70,18 +70,65 @@
 	</div>
 
 	<div class="mt-5 flex flex-col gap-4">
-		{#each $machineData.manuals as item}
-			<div class="rounded-xl bg-black px-3 py-2 flex flex-row justify-between">
-				<span class="text-white font-semibold">{$_('manual.' + item.name)}</span>
-				<Toggle
-					bind:value={item.state}
-					on:change={(e) => toggleState(item.name, e.detail.value)}
-					enableGrayScale={true}
-					locked={$machineData.manuals
-						.filter((m) => m.state === true && m.name != item.name)
-						.map((m) => m.incompatibility)
-						.filter((m) => m.includes(item.name)).length == 1}
-				/>
+		{#each $machineData.manuals
+			.map((mn) => {
+				let z = mn.name.split('_');
+				return z[0] == mn.name ? 'generic' : $machineData.manuals.filter( (h) => h.name.startsWith(z[0]), ).length == 1 ? 'generic' : z[0];
+			})
+			.sort((a, b) => a.localeCompare(b))
+			.filter((i, p, a) => a.indexOf(i) == p)
+			.sort((a, b) => (a == 'generic' ? -1 : 1)) as cat}
+			<span class="rounded-xl bg-indigo-500 text-white py-1 px-3 font-semibold self-start">
+				{$_('manual.category.' + cat)}
+			</span>
+			<div class="flex flex-col gap-2 ml-4">
+				{#each $machineData.manuals.filter((g, i, a) => g.name.startsWith(cat) || (cat == 'generic' && $machineData.manuals.filter( (h) => h.name.startsWith(g.name.split('_')[0]), ).length == 1) || (cat == 'generic' && g.name.split('_').length == 1)) as manual, index}
+					<div
+						class="rounded-xl bg-zinc-900 px-3 py-2 pr-2 pl-3 flex flex-row justify-between items-center"
+					>
+						<div class="flex flex-col gap-1">
+							<span class="text-white font-semibold">
+								{$_('manual.' + manual.name)}
+							</span>
+
+							{#if manual.incompatibility
+								.map( (i) => $machineData.manuals.find( (j) => (i.startsWith('+') ? j.name == i.substring(1) && j.state == false : j.name == i && j.state == true), ), )
+								.filter((x) => x !== undefined).length > 0}
+								<span
+									class="font-semibold flex flex-row items-center gap-2 text-white text-sm italic"
+								>
+									incompatibilities: <div
+										class="flex flex-row gap-2 not-italic"
+									/>
+									{#each manual.incompatibility
+										.map( (i) => $machineData.manuals.find( (j) => (i.startsWith('+') ? j.name == i.substring(1) && j.state == false : j.name == i && j.state == true), ), )
+										.filter((x) => x !== undefined) as mni}
+										<span
+											class="text-zinc-900 bg-white rounded-full py-[0.5] px-2 text-sm not-italic"
+										>
+											{$_('manual.' + mni?.name)}
+										</span>
+									{/each}
+								</span>
+							{/if}
+						</div>
+
+						<Toggle
+							bind:value={manual.state}
+							on:change={(e) => toggleState(manual.name, e.detail.value)}
+							enableGrayScale={true}
+							locked={manual.incompatibility
+								.map((i) =>
+									$machineData.manuals.find((j) =>
+										i.startsWith('+')
+											? j.name == i.substring(1) && j.state == false
+											: j.name == i && j.state == true,
+									),
+								)
+								.filter((x) => x !== undefined).length > 0}
+						/>
+					</div>
+				{/each}
 			</div>
 		{/each}
 	</div>

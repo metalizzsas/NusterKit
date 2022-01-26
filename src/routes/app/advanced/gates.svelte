@@ -14,7 +14,6 @@
 	import Toggle from '$lib/components/toggle.svelte';
 	import { onMount } from 'svelte';
 	import type { Load } from '@sveltejs/kit';
-	import InputBlock from '$lib/components/io/inputblock.svelte';
 	import { _ } from 'svelte-i18n';
 
 	export let gates: Io[];
@@ -58,63 +57,69 @@
 		</div>
 	</div>
 
-	<div class="grid grid-cols-1 gap-4">
-		<div>
-			<div class="flex flex-row items-center gap-4">
-				<span
-					class="rounded-xl bg-sky-600/80 py-1 px-6 text-white font-semibold mb-2 inline-block shadow-xl"
-				>
-					{$_('gates-inputs')}
-				</span>
-
-				<div class="h-0.5 bg-slate-600/10 w-full mb-2" />
-			</div>
-
-			<div class="flex flex-col gap-4">
-				{#each gates.filter((g) => g.bus == 'in') as input}
-					<InputBlock bind:gate={input} />
-				{/each}
-			</div>
-		</div>
-		<div>
-			<div class="flex flex-row items-center gap-4">
-				<span
-					class="rounded-xl bg-sky-600/80 py-1 px-6 text-white font-semibold mb-2 inline-block shadow-xl"
-				>
-					{$_('gates-outputs')}
-				</span>
-
-				<div class="h-0.5 bg-slate-600/10 w-full mb-2" />
-			</div>
-
-			<div class="flex flex-col gap-4">
-				{#each gates.filter((g) => g.bus == 'out') as output}
-					<div
-						class="flex flex-row justify-between gap-4 bg-slate-100 py-2 px-4 rounded-xl ring-1 ring-slate-400/10 font-semibold"
+	<div class="grid grid-cols-1 gap-8">
+		{#each ['in', 'out'] as bus}
+			<div>
+				<div class="flex flex-row items-center gap-4">
+					<div class="h-0.5 bg-slate-600/10 w-full -translate-y-1" />
+					<span
+						class="rounded-xl bg-indigo-500 py-1 px-6 text-white font-semibold mb-2 inline-block shadow-xl"
 					>
-						<span>
-							{$_('gate.' + output.name)}
+						{$_('gates.bus.' + bus)}
+					</span>
+
+					<div class="h-0.5 bg-slate-600/10 w-full -translate-y-1" />
+				</div>
+
+				<div class="flex flex-col gap-4">
+					{#each gates
+						.filter((g) => g.bus == bus)
+						.map((io) => {
+							let z = io.name.split('-');
+							return z[0] == io.name ? 'generic' : gates.filter((h) => h.bus == bus && h.name.startsWith(z[0])).length == 1 ? 'generic' : z[0];
+						})
+						.sort((a, b) => a.localeCompare(b))
+						.filter((i, p, a) => a.indexOf(i) == p)
+						.sort((a, b) => (a == 'generic' ? -1 : 1)) as cat}
+						<span
+							class="rounded-xl bg-sky-600 py-1 px-4 text-white font-semibold self-start"
+						>
+							{$_('gates.category.' + cat)}
 						</span>
-						{#if output.size == 'bit'}
-							<Toggle
-								bind:value={output.value}
-								on:change={(val) => update(output.name, val.detail.value)}
-							/>
-						{:else}
-							<input
-								type="range"
-								min="0"
-								max="100"
-								bind:value={output.value}
-								on:change={() => update(output.name, output.value)}
-							/>
-							<span class="py-1 px-2 rounded-full bg-white text-gray-800 text-sm">
-								{Math.ceil(output.value)}
-							</span>
-						{/if}
-					</div>
-				{/each}
+						<div class=" flex flex-col gap-2 last:mb-2">
+							{#each gates.filter((g, i, a) => g.bus == bus && (g.name.startsWith(cat) || (cat == 'generic' && gates.filter((h) => h.bus == bus && h.name.startsWith(g.name.split('-')[0])).length == 1) || (cat == 'generic' && g.name.split('-').length == 1))) as output, index}
+								<div
+									class="text-white flex flex-row justify-between gap-4 bg-zinc-900 py-2 pl-3 pr-2 rounded-xl ring-1 ring-slate-400/10 font-semibold ml-4"
+								>
+									<span>
+										{$_('gate.' + output.name)}
+									</span>
+									{#if output.size == 'bit'}
+										<Toggle
+											bind:value={output.value}
+											on:change={(val) =>
+												update(output.name, val.detail.value)}
+										/>
+									{:else}
+										<input
+											type="range"
+											min="0"
+											max="100"
+											bind:value={output.value}
+											on:change={() => update(output.name, output.value)}
+										/>
+										<span
+											class="py-1 px-2 rounded-full bg-white text-gray-800 text-sm"
+										>
+											{Math.ceil(output.value)}
+										</span>
+									{/if}
+								</div>
+							{/each}
+						</div>
+					{/each}
+				</div>
 			</div>
-		</div>
+		{/each}
 	</div>
 </div>

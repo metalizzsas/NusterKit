@@ -19,7 +19,7 @@
 		<div class="grid grid-cols-3 gap-4">
 			<a
 				href="app/cycle"
-				class="flex flex-row items-center justify-center gap-4  bg-gradient-to-br from-indigo-500 to-purple-500 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:skew-y-1 duration-200 ease-in-out"
+				class="flex flex-row items-center justify-center gap-4  bg-gradient-to-br from-indigo-500 to-indigo-600 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:skew-y-[0.25deg] duration-200 ease-in-out"
 			>
 				{$_('cycle')}
 				{#if $machineData.cycle !== undefined}
@@ -51,13 +51,13 @@
 			</a>
 			<a
 				href="app/profiles"
-				class=" bg-gradient-to-br from-indigo-500 to-purple-500 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:-skew-y-1 duration-200 ease-in-out"
+				class=" bg-gradient-to-br from-indigo-500 to-indigo-600 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:-skew-y-[0.25deg] duration-200 ease-in-out"
 			>
 				{$_('profiles')}
 			</a>
 			<a
 				href="app/advanced"
-				class=" bg-gradient-to-br from-indigo-500 to-purple-500 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:skew-y-1 duration-200 ease-in-out"
+				class=" bg-gradient-to-br from-indigo-500 to-indigo-600 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:skew-y-[0.25deg] duration-200 ease-in-out"
 			>
 				{$_('manual-mode')}
 			</a>

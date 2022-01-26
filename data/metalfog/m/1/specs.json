@@ -669,14 +669,7 @@
          }
       }
    ],
-   "passives": [
-      {
-         "name": "temp-ox",
-         "sensor": "ox-temp",
-         "actuator": "ox-heat",
-         "mode": "<"
-      }
-   ],
+   "passives": [],
    "manual": [
       {
          "name": "plv_act_high",
@@ -687,6 +680,8 @@
          ],
          "incompatibility": [
             "plv_edi_high",
+            "empty_act",
+            "empty_edi",
             "+ventilation"
          ]
       },
@@ -699,6 +694,8 @@
          ],
          "incompatibility": [
             "plv_edi_low",
+            "empty_act",
+            "empty_edi",
             "+ventilation"
          ]
       },
@@ -711,6 +708,8 @@
          ],
          "incompatibility": [
             "plv_act_high",
+            "empty_act",
+            "empty_edi",
             "+ventilation"
          ]
       },
@@ -723,13 +722,16 @@
          ],
          "incompatibility": [
             "plv_act_low",
+            "empty_act",
+            "empty_edi",
             "+ventilation"
          ]
       },
       {
          "name": "plv_ox_high",
          "incompatibility": [
-            "+ventilation"
+            "+ventilation",
+            "empty_ox"
          ],
          "controls": [
             "ox-res",
@@ -740,7 +742,8 @@
       {
          "name": "plv_rd_high",
          "incompatibility": [
-            "+ventilation"
+            "+ventilation",
+            "empty_rd"
          ],
          "controls": [
             "rd-res",
@@ -751,7 +754,8 @@
       {
          "name": "plv_ox_mid",
          "incompatibility": [
-            "+ventilation"
+            "+ventilation",
+            "empty_ox"
          ],
          "controls": [
             "ox-res",
@@ -762,7 +766,8 @@
       {
          "name": "plv_rd_mid",
          "incompatibility": [
-            "+ventilation"
+            "+ventilation",
+            "empty_rd"
          ],
          "controls": [
             "rd-res",
@@ -773,7 +778,8 @@
       {
          "name": "plv_ox_low",
          "incompatibility": [
-            "+ventilation"
+            "+ventilation",
+            "empty_ox"
          ],
          "controls": [
             "ox-res",
@@ -784,7 +790,8 @@
       {
          "name": "plv_rd_low",
          "incompatibility": [
-            "+ventilation"
+            "+ventilation",
+            "empty_rd"
          ],
          "controls": [
             "rd-res",

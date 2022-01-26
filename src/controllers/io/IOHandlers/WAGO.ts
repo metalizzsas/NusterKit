@@ -69,8 +69,7 @@ export class WAGO extends IOHandler
 
         if(word && word == true)
         {
-            result = await this.client.readInputRegisters(address, 1);
-            //console.log(result);
+            result = await this.client.readHoldingRegisters(address, 1);
             return result.data[0];
         }
         else

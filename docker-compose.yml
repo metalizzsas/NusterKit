@@ -39,6 +39,6 @@ services:
       #ROTATE_DISPLAY: 'right'
       #TOUCHSCREEN: 'wch Touch'
       PERSISTANT: 1
-      #WINDOW_SIZE: 600, 1024
+      WINDOW_SIZE: 1024, 600
     volumes:
       - 'settings:/data'

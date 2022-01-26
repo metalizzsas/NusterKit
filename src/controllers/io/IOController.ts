@@ -8,7 +8,7 @@ import { WAGO } from "./IOHandlers/WAGO";
 import { EX260S1 } from "./IOHandlers/EX260S1";
 import { EX260S3 } from "./IOHandlers/EX260S3";
 import { A10VIOGate } from "./IOGates/A10VGate";
-import { UM18IOGate } from "./IOGates/UM18Gate";
+import { IUM18Gate, UM18IOGate } from "./IOGates/UM18Gate";
 
 export class IOController extends Controller
 {
@@ -49,7 +49,7 @@ export class IOController extends Controller
         {
             switch(gate.type)
             {
-                case IOGateType.UM18: this.gates.push(new UM18IOGate(gate)); break;
+                case IOGateType.UM18: this.gates.push(new UM18IOGate(gate, (gate as IUM18Gate).levelMax)); break;
                 case IOGateType.A10V: this.gates.push(new A10VIOGate(gate)); break;
                 default: this.gates.push(new IOGate(gate)); break;
             }

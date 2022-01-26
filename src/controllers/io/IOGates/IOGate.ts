@@ -13,8 +13,6 @@ export class IOGate implements IIOGate
 
     default: number;
 
-    maxDist: number;
-
     value: number;
 
     constructor(obj: IIOGate)
@@ -31,8 +29,6 @@ export class IOGate implements IIOGate
         this.default = obj.default;
         this.value = this.default;
 
-        //Only for um18
-        this.maxDist = obj.maxDist;
     }
 
     public async read(ioController: IOController)
@@ -82,7 +78,4 @@ export interface IIOGate
     address: number;
 
     default: number;
-
-    //maximum distance for UM18 sensor
-    maxDist: number;
 }

@@ -2,17 +2,25 @@ import { map } from "../../../map";
 import { IOController } from "../IOController";
 import { IIOGate, IOGate, IOGateSize } from "./IOGate";
 
-export class UM18IOGate extends IOGate
+export class UM18IOGate extends IOGate implements IUM18Gate
 {
-    constructor(obj: IIOGate)
+    public levelMax: number;
+
+    constructor(obj: IIOGate, levelMax: number)
     {
         super(obj);
+
+        this.levelMax = levelMax;
     }
 
     public async read(ioController: IOController)
     {
         await super.read(ioController);
-        this.value = map(this.value, 0, 32767, 0, 100);
+         //convert to mm
+        //this.value = map(this.value, 0, 32767, 0, 100);
+        const tempv = 0.0263 * this.value + (this.value != 0 ? 120 : 0);
+
+        this.value = map(tempv, this.levelMax * 10, 120, 0, 100);
         return true;
     }
 
@@ -29,4 +37,9 @@ export class UM18IOGate extends IOGate
         await ioController.handlers[this.automaton].writeData(this.address, v, word)
         return true;
     }
+}
+
+export interface IUM18Gate extends IIOGate
+{
+    levelMax: number;
 }

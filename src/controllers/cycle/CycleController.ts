@@ -86,16 +86,18 @@ export class CycleController extends Controller {
         //prepare the cycle
         this._router.post("/:name/:id?", async (req: Request, res: Response) => {
 
-            // const profile = (!req.params.id) ? undefined : await ProfileModel.findById(req.params.id) as IProfile;
-
             let profile = undefined;
 
             if(req.params.id)
             {
                 profile = await ProfileModel.findById(req.params.id) as IProfile;
-                res.status(404);
-                res.end("Profile id was given but profile was not found");
-                return;
+
+                if(!profile)
+                {
+                    res.status(404);
+                    res.end("Profile id was given but profile was not found");
+                    return;
+                }
             }
             
             const cycle = this.machine.specs.cycles.find((ip) => ip.name == req.params.name);
@@ -107,7 +109,6 @@ export class CycleController extends Controller {
 
                 if(this.program.profileRequired && profile !== undefined)
                 {
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     if(this.program.name != (profile as IProfile).identifier)
                     {
                         res.status(403);

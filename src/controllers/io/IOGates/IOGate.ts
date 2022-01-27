@@ -15,6 +15,8 @@ export class IOGate implements IIOGate
 
     value: number;
 
+    isCritical?: boolean;
+
     constructor(obj: IIOGate)
     {
         this.name = obj.name;
@@ -29,6 +31,7 @@ export class IOGate implements IIOGate
         this.default = obj.default;
         this.value = this.default;
 
+        this.isCritical = obj.isCritical;
     }
 
     public async read(ioController: IOController)
@@ -78,4 +81,6 @@ export interface IIOGate
     address: number;
 
     default: number;
+
+    isCritical?: boolean;
 }

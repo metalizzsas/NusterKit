@@ -103,9 +103,15 @@ export class IOController extends Controller
     {
         if(!this.timer)
         {
+            let skip = 1;
             this.timer = setInterval(() => {
                 for(const g of this.gates.filter((g) => g.bus == IOGateBus.IN))
-                    g.read(this);
+                {
+                    if(g.isCritical || skip % 10 == 0)
+                        g.read(this);
+                    
+                    skip % 10 == 0 ? skip = 1 : skip++;
+                }
             }, 500);
         }
     }

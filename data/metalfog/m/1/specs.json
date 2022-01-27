@@ -19,7 +19,8 @@
          "automaton": 0,
          "address": 0,
          "default": 0,
-         "size": "bit"
+         "size": "bit",
+         "isCritical": true
       },
       {
          "name": "air_sensor",
@@ -28,7 +29,8 @@
          "automaton": 0,
          "address": 1,
          "default": 0,
-         "size": "bit"
+         "size": "bit",
+         "isCritical": true
       },
       {
          "name": "cover_closed",
@@ -37,7 +39,8 @@
          "automaton": 0,
          "address": 2,
          "default": 0,
-         "size": "bit"
+         "size": "bit",
+         "isCritical": true
       },
       {
          "name": "levels_edi-n",
@@ -46,7 +49,9 @@
          "automaton": 0,
          "address": 3,
          "default": 0,
-         "size": "bit"
+         "size": "bit",
+         "isCritical": true
+
       },
       {
          "name": "levels_act-n",
@@ -55,7 +60,9 @@
          "automaton": 0,
          "address": 4,
          "default": 0,
-         "size": "bit"
+         "size": "bit",
+         "isCritical": true
+
       },
       {
          "name": "levels_eff-n",
@@ -64,7 +71,9 @@
          "automaton": 0,
          "address": 5,
          "default": 0,
-         "size": "bit"
+         "size": "bit",
+         "isCritical": true
+
       },
       {
          "name": "eff_container_sensor",
@@ -73,7 +82,9 @@
          "automaton": 0,
          "address": 6,
          "default": 0,
-         "size": "bit"
+         "size": "bit",
+         "isCritical": true
+
       },
       {
          "name": "levels_edi-a",

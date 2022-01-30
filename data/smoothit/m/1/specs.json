@@ -267,15 +267,15 @@
          "isProductable": true,
          "sensors": [
             {
-               "io": "levels_ox-a",
-               "type": "resin-slot_sensor"
+               "io": "resin-slot_sensor",
+               "type": "level-np"
             }
          ]
       },
       {
          "name": "eff",
          "type": "cnt",
-         "isProductable": true,
+         "isProductable": false,
          "sensors": []
       }
    ],

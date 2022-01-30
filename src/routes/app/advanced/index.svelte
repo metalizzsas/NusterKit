@@ -79,7 +79,7 @@
 			.filter((i, p, a) => a.indexOf(i) == p)
 			.sort((a, b) => (a == 'generic' ? -1 : 1)) as cat}
 			<span class="rounded-xl bg-indigo-500 text-white py-1 px-3 font-semibold self-start">
-				{$_('manual.category.' + cat)}
+				{$_('manual.categories.' + cat)}
 			</span>
 			<div class="flex flex-col gap-2 ml-4">
 				{#each $machineData.manuals.filter((g, i, a) => g.name.startsWith(cat) || (cat == 'generic' && $machineData.manuals.filter( (h) => h.name.startsWith(g.name.split('_')[0]), ).length == 1) || (cat == 'generic' && g.name.split('_').length == 1)) as manual, index}
@@ -88,7 +88,7 @@
 					>
 						<div class="flex flex-col gap-1">
 							<span class="text-white font-semibold">
-								{$_('manual.' + manual.name)}
+								{$_('manual.tasks.' + manual.name)}
 							</span>
 
 							{#if manual.incompatibility
@@ -97,16 +97,15 @@
 								<span
 									class="font-semibold flex flex-row items-center gap-2 text-white text-sm italic"
 								>
-									incompatibilities: <div
-										class="flex flex-row gap-2 not-italic"
-									/>
+									{$_('manual.incompatibilities')}:
+									<div class="flex flex-row gap-2 not-italic" />
 									{#each manual.incompatibility
 										.map( (i) => $machineData.manuals.find( (j) => (i.startsWith('+') ? j.name == i.substring(1) && j.state == false : j.name == i && j.state == true), ), )
 										.filter((x) => x !== undefined) as mni}
 										<span
 											class="text-zinc-900 bg-white rounded-full py-[0.5] px-2 text-sm not-italic"
 										>
-											{$_('manual.' + mni?.name)}
+											{$_('manual.tasks.' + mni?.name)}
 										</span>
 									{/each}
 								</span>

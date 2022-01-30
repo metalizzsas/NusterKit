@@ -48,7 +48,7 @@
 		<div
 			class="rounded-xl bg-indigo-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
 		>
-			{maintenance.name}
+			{$_('maintenance.tasks.' + maintenance.name + '.name')}
 		</div>
 	</div>
 	<div id="maintenanceContent">

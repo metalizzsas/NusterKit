@@ -83,7 +83,7 @@
 	});
 
 	afterUpdate(() => {
-		//reload keyboard only if some dom elements with jsvk are found
+		//reload keyboard only if some dom elements with jsvk class are found
 		if (document.querySelectorAll('.jsvk').length > 0) KioskBoard.run('.jsvk');
 	});
 </script>

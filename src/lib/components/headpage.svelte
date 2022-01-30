@@ -29,16 +29,16 @@
 <Modalcontent bind:shown={displayOptions} title={$_('settings.main')}>
 	<div class="flex flex-col gap-4">
 		<div
-			class="flex flex-row justify-between bg-black rounded-full text-white py-2 px-3 pr-2 items-center text-md font-semibold"
+			class="flex flex-row justify-between dark:text-white text-gray-800 py-2 px-3 pr-2 items-center font-semibold"
 		>
 			{$_('settings.enable-dark-mode')}
 			<Toggle bind:value={dark} on:change={(e) => updateDarkMode(e.detail.value)} />
 		</div>
 		<div
-			class="flex flex-row gap-4 justify-between bg-black rounded-full text-white py-2 px-3 pr-2 text-md items-center font-semibold"
+			class="flex flex-row gap-4 justify-between dark:text-white text-gray-800 py-2 px-3 pr-2 items-center font-semibold"
 		>
 			{$_('settings.language')}
-			<select bind:value={lang} class="text-gray-800 py-1 px-2">
+			<select bind:value={lang} class="text-gray-800 py-1 px-2 bg-gray-300">
 				<option value="en">English</option>
 				<option value="fr">Français</option>
 			</select>
@@ -48,7 +48,7 @@
 					setLang(lang);
 					window.location.reload();
 				}}
-				class="bg-indigo-500 py-1 px-2 rounded-xl text-white font-semibold"
+				class="bg-indigo-500 py-1 px-2 rounded-xl text-white text-sm font-semibold"
 			>
 				{$_('settings.apply-language')}
 			</button>

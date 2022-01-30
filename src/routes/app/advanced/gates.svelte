@@ -84,7 +84,7 @@
 						<span
 							class="rounded-xl bg-sky-600 py-1 px-4 text-white font-semibold self-start"
 						>
-							{$_('gates.category.' + cat)}
+							{$_('gates.categories.' + cat)}
 						</span>
 						<div class=" flex flex-col gap-2 last:mb-2">
 							{#each gates.filter((g, i, a) => g.bus == bus && (g.name.startsWith(cat) || (cat == 'generic' && gates.filter((h) => h.bus == bus && h.name.startsWith(g.name.split('-')[0])).length == 1) || (cat == 'generic' && g.name.split('-').length == 1))) as output, index}
@@ -92,7 +92,7 @@
 									class="text-white flex flex-row justify-between gap-4 bg-zinc-900 py-2 pl-3 pr-2 rounded-xl ring-1 ring-slate-400/10 font-semibold ml-4"
 								>
 									<span>
-										{$_('gate.' + output.name)}
+										{$_('gates.names.' + output.name)}
 									</span>
 									{#if output.size == 'bit'}
 										<Toggle

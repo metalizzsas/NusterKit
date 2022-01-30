@@ -15,7 +15,7 @@
 	import '$lib/app.css';
 
 	import Toggle from '$lib/components/toggle.svelte';
-	import { json, _ } from 'svelte-i18n';
+	import { _ } from 'svelte-i18n';
 	import { machineData } from '$lib/utils/store';
 
 	function toggleState(name: string, state: boolean) {
@@ -49,14 +49,14 @@
 		<div
 			class="rounded-xl bg-indigo-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
 		>
-			{$_('manual-mode')}
+			{$_('manual.list')}
 		</div>
 
 		<a
 			class="rounded-xl bg-orange-500 text-white font-semibold py-1 px-3 shadow-md self-end"
 			href="/app/advanced/gates"
 		>
-			{$_('gates')}
+			{$_('gates.name')}
 		</a>
 	</div>
 
@@ -66,7 +66,7 @@
 		>
 			!
 		</span>
-		{$_('manual-mode-warning')}
+		{$_('manual.warning')}
 	</div>
 
 	<div class="mt-5 flex flex-col gap-4">

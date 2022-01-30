@@ -24,13 +24,13 @@
 
 <div id="cyclewatchdog">
 	<Modal
-		title={$_('watchdog')}
-		message={$_('watchdog-error')}
+		title={$_('cycle.modals.watchdog.title')}
+		message={$_('cycle.modals.watchdog.message')}
 		displayClose={false}
 		bind:shown={displayWatchdogError}
 		buttons={[
 			{
-				text: 'ok',
+				text: $_('ok'),
 				color: 'bg-gray-600',
 				callback: () => {},
 			},
@@ -41,7 +41,7 @@
 		<span
 			class="rounded-xl bg-sky-500 py-1 px-5 text-white text-xl font-semibold shadow-2xl self-start my-3"
 		>
-			{$_('cycle-start-conditions')}
+			{$_('cycle.watchdog.conditions')}
 		</span>
 		{#if $machineData.cycle}
 			<div class="grid grid-cols-2 gap-5">
@@ -65,7 +65,7 @@
 					: 'bg-emerald-500 hover:bg-emerald-500/80 hover:scale-[1.01]'} rounded-xl py-2 px-5 self-center text-white font-semibold transition:all mt-3"
 				on:click={startCycle}
 			>
-				{$_('cycle-start')}
+				{$_('cycle.buttons.start')}
 			</button>
 		{/if}
 	</div>

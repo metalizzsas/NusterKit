@@ -1,93 +1,154 @@
 {
-  "machine-informations": "Machine informations",
-  "model": "Model",
-  "variant": "Variant",
-  "revision": "Revision",
-  "serial": "Serial number",
-  "procedures": "Procedures",
-  "cycle": "Cycle",
-  "manual-mode": "Manual mode",
-  "slots": "Containers",
-  "product": "Product",
-  "sensors": "Sensors",
-  "ox": "Oxydiser",
-  "rd": "Reducer",
-  "act": "Activator",
-  "edi": "DI Water",
-  "eff": "Effluents",
-  "level-n": "Limit switch",
-  "level-a": "Level",
-  "temperature": "Temperature",
-  "binary_false": "Disabled",
-  "binary_true": "Enabled",
-  "maintenances": "Maintenances",
-  "maintenance-button": "See details",
-  "mfm-filter": "Gas filter",
-  "mfm-filter-desc": "Metalfog gaz filter filters all gases produced by the chemicals reactions done inside the machine.",
-  "loading-screen-title": "Loading...",
-  "loading-screen-desc": "Please wait while Nuster is loading.",
   "ok": "Ok",
   "yes": "Yes",
   "no": "No",
   "cancel": "Cancel",
-  "profiles": "Profiles",
-  "profiles-list": "Profile list",
-  "profile-modification-date": "Last modification date",
-  "profile-add-button": "Add a new profile",
-  "profile-delete-title": "Profile deletion",
-  "profile-delete-message": "Do you want to delete {profile.name} ?",
-  "profile-copy-title": "Copy profile {profile.name}",
-  "profile-copy-message": "Write a new name for the copied profile.",
-  "profile-globals": "Global Informations",
-  "profile-name": "Profile name",
-  "profile-settings": "Profile Settings",
-  "profile-act-edi-nozzles": "Activator & DI Water nozzles",
-  "profile-act-edi-high": "High row nozzles",
-  "profile-act-edi-low": "Low row nozzles",
-  "profile-met-nozzles": "Metalization nozzles",
-  "profile-met-high": "High row nozzles",
-  "profile-met-medium": "Middle row nozzles",
-  "profile-met-low": "Low row nozzles",
-  "profile-motor": "Rotation Motor",
-  "profile-speed": "Speed",
-  "profile-enabled": "Enabled",
-  "profile-activation": "Activation",
-  "profile-timeOn": "Time enabled",
-  "profile-timeOff": "Time disabled",
-  "profile-count": "Iteration count",
-  "profile-wash1": "Wash 1",
-  "profile-wash2": "Wash 2",
-  "profile-duration": "Duration",
-  "profile-drying": "Parts drying",
-  "profile-vapors-extraction": "Vapors extractions",
-  "profile-create-title": "Create a profile",
-  "profile-create-message": "Choose a profile blueprint",
-  "manual-mode-warning": "Manual modes helps you to articulate the machine manually. Be careful Security restrictions are disabled here.",
-  "gates": "IO Controls",
-  "gates-inputs": "Inputs",
-  "gates-outputs": "Outputs",
-  "enable-dark-mode": "Enable dark mode",
-  "language": "Language",
-  "apply-language": "Apply lang change",
-  "options": "Settings",
-  "cycle-preparation": "Cycle preparation",
-  "cycle-choice": "Cycle type",
-  "profile-choice": "Profile choice",
-  "cycle-prepare-button": "Prepare cycle",
-  "cycle-start-conditions": "Cycle start conditions",
-  "gate": {
-    "emergency_stop": "Emergency stop button",
-    "air_sensor": "Air pressure sensor",
-    "cover_closed": "Cover closed",
-    "level_eff-n": "Effluents limit",
-    "eff_container_sensor": "Effluents container sensor"
+  "minutes": "Minutes",
+  "seconds": "Seconds",
+
+  "machine": {
+    "informations": "Machine informations",
+    "model": "Model",
+    "variant": "Variant",
+    "revision": "Revision",
+    "serial": "Serial number",
+    "cycleCount": "Cycle count"
+  },
+  "procedures": "Procedures",
+  "slots": {
+    "name": "Containers",
+    "types": {
+      "ox": "Oxydiser",
+      "rd": "Reducer",
+      "act": "Activator",
+      "edi": "DI Water",
+      "eff": "Effluents"
+    },
+    "sensors": {
+      "name": "Sensors",
+      "types": {
+        "level-n": "Limit switch",
+        "level-np": "Presence switch",
+        "level-a": "Level",
+        "temperature": "Temperature"
+      }
+    }
+  },
+  "profile": {
+    "button": "Profiles",
+    "list": "Profile list",
+    "modification-date": "Last modification date",
+    "name": "Profile name",
+    "globals": "Global informations",
+    "settings": "Profile settings",
+    "buttons": {
+      "add": "Add a new profile"
+    },
+    "modals": {
+      "create": {
+        "title": "New profile",
+        "message": "Choose a profile blueprint"
+      },
+      "copy": {
+        "title": "Copy profile {profile.name}",
+        "message": "Choose a new name for the copied profile."
+      },
+      "delete": {
+        "title": "Delete profile {profile.name}",
+        "message": "Do you want to delete {profile.name} ?"
+      }
+    },
+    "categories": {
+      "act-edi-nozzles": "Activator & DI Water nozzles",
+      "met-nozzles": "Metalization nozzles",
+      "motor": "Rotation Motor",
+      "activation": "Activation",
+      "metalization": "Metalization",
+      "wash1": "Wash 1",
+      "wash2": "Wash 2",
+      "drying": "Drying",
+      "vaporsExtraction": "Vapors extraction"
+    },
+    "rows": {
+      "enabled": "Enabled",
+      "act-edi-high": "High row nozzles",
+      "act-edi-low": "Low row nozzles",
+      "met-high": "High row nozzles",
+      "met-medium": "Medium row nozzles",
+      "met-low": "Low row nozzles",
+      "speed": "Speed",
+      "duration": "Duration",
+      "count": "Iteration count",
+      "timeOn": "Time enabled",
+      "timeOff": "Time disabled"
+    }
+  },
+  "settings": {
+    "main": "Settings",
+    "enable-dark-mode": "Enable dark mode",
+    "language": "Language",
+    "apply-language": "Apply lang change",
+    "restart": "Restart machine"
+  },
+  "cycle": {
+    "button": "Cycle",
+    "name": "Cycles",
+    "modals": {
+      "watchdog": {
+        "title": "Watchdog error",
+        "message": "Cycle can't start. A watchdog condition error has occured."
+      }
+    },
+    "buttons": {
+      "prepare": "Prepare cycle",
+      "end": "Stop cycle",
+      "finish": "Finish cycle",
+      "start": "Start cycle"
+    },
+    "preparation": "Cycle preparation",
+    "choice": "Cycle choice",
+    "profile.choice": "Profile choice",
+    "steps": "Cycle steps",
+    "watchdog": "Watchdog",
+    "watchdog.conditions": "Watchdog conditions",
+    "history": "Histories"
+  },
+  "gates": {
+    "name": "IO Controls",
+    "input": "Inputs",
+    "output": "Outputs",
+    "names": {
+      "emergency_stop": "Emergency stop button",
+      "air_sensor": "Air pressure sensor",
+      "cover_closed": "Cover closed",
+      "level_eff-n": "Effluents limit",
+      "eff_container_sensor": "Effluents container sensor"
+    }
   },
   "manual": {
-    "plv_act_high": "Activator pulverisation high",
-    "plv_act_low": "Activator pulverisation low",
-    "plv_edi_high": "DI Water pulverisation high",
-    "plv_edi_low": "DI Water pulverisation low"
+    "button": "Manual mode",
+    "list": "Manual modes",
+    "warning": "Manual modes helps you to articulate the machine manually. Be careful Security restrictions are disabled here.",
+    "tasks": {
+      "plv_act_high": "Activator pulverisation high",
+      "plv_act_low": "Activator pulverisation low",
+      "plv_edi_high": "DI Water pulverisation high",
+      "plv_edi_low": "DI Water pulverisation low"
+    }
   },
-  "cycle-count": "Cycle count",
-  "restart-machine": "Restart machine"
+  "maintenance": {
+    "list": "Maintenance tasks",
+    "duration": "Duration",
+    "percentage": "Percentage",
+    "procedure": "Maintenance procedure",
+    "procedure.next": "Next",
+    "procedure.previous": "Previous",
+    "procedure.reset": "Maintenance task validation",
+    "tasks": {
+      "mfm-filter": {
+        "name": "Gas filter",
+        "desc": "Metalfog gaz filter filters all gases produced by the chemicals reactions done inside the machine."
+      }
+    }
+  }
 }

@@ -1,30 +1,155 @@
 {
-  "manual_mode": "Mode manuel",
-  "act": "Activant",
-  "binary_false": "Activé",
-  "binary_true": "Activé",
-  "cycle": "cycle",
-  "edi": "Eau désionisée",
-  "eff": "Éffluents",
-  "level-a": "Niveau",
-  "level-n": "Limite",
-  "loading-screen-desc": "Chargement",
-  "loading-screen-title": "Merci de patienter pendant que Nuste démarre.",
-  "machine_informations": "Informations machine",
-  "maintenance-button": "Voir le détail",
-  "maintenances": "Maintenances",
-  "mfm-filter": "Filtre CA",
-  "mfm-filter-desc": "La cartouche filtrante de la metalfog permet de pieger les gazs nocifs générés par les réactions chimiques dans la machine.",
-  "model": "Modèle",
-  "ox": "Oxydant",
+  "ok": "Ok",
+  "yes": "Oui",
+  "no": "non",
+  "cancel": "anuler",
+  "minutes": "Minutes",
+  "seconds": "Secondes",
+
+  "machine": {
+    "informations": "Informations machine",
+    "model": "Modèle",
+    "variant": "Variante",
+    "revision": "Révision",
+    "serial": "Numéro de série",
+    "cycleCount": "Nombre de cycles"
+  },
   "procedures": "Procédures",
-  "product": "Produit",
-  "profiles": "Profils",
-  "rd": "Réducteur",
-  "revision": "Révision",
-  "sensors": "Capteurs",
-  "serial": "Numéro de série",
-  "slots": "Slots",
-  "temperature": "Température",
-  "variant": "Variante"
+  "slots": {
+    "name": "Conteneurs",
+    "types": {
+      "ox": "Oxidant",
+      "rd": "réducteur",
+      "act": "Activant",
+      "edi": "Eau désionisée",
+      "eff": "Éffluents"
+    },
+    "sensors": {
+      "name": "Capteurs",
+      "types": {
+        "level-n": "Limite max.",
+        "level-np": "Présence",
+        "level-a": "Niveau",
+        "temperature": "Température"
+      }
+    }
+  },
+  "profile": {
+    "button": "Profils",
+    "list": "Liste des profils",
+    "modification-date": "Date de dernière modification",
+    "name": "Nom du profil",
+    "globals": "Informations globales",
+    "settings": "Réglages du profil",
+    "buttons": {
+      "add": "Ajouter un nouveau profil"
+    },
+    "modals": {
+      "create": {
+        "title": "Nouveau profil",
+        "message": "Choisir le modèle de profil"
+      },
+      "copy": {
+        "title": "Copie du profil {profile.name}",
+        "message": "Choisissez un nouveau nom de profil pour {profile.name}"
+      },
+      "delete": {
+        "title": "Suppression de {profile.name}",
+        "message": "Voulez vous supprimmer {profile.name} ?"
+      }
+    },
+    "categories": {
+      "act-edi-nozzles": "Buses activant et eau désionisée",
+      "met-nozzles": "Buses de métallisation",
+      "motor": "Moteur de rotation",
+      "activation": "Activation",
+      "metalization": "Metalisation",
+      "wash1": "Rinçage 1",
+      "wash2": "Rinçage 2",
+      "drying": "Séchage",
+      "vaporsExtraction": "Extraction des vapeurs"
+    },
+    "rows": {
+      "enabled": "Activé",
+      "act-edi-high": "Rang de buses haut",
+      "act-edi-low": "Range de buses bas",
+      "met-high": "Range de buses haut",
+      "met-medium": "Range de buses millieu",
+      "met-low": "Range de buses bas",
+      "speed": "Vitesse",
+      "duration": "Durée",
+      "count": "Nombre d'itérations",
+      "timeOn": "Temps activé",
+      "timeOff": "Temps désactivé"
+    }
+  },
+  "settings": {
+    "main": "Réglages",
+    "enable-dark-mode": "Mode sombre activé",
+    "language": "Langue",
+    "apply-language": "Appliquer changement de langue",
+    "restart": "Redémarrer la machine"
+  },
+  "cycle": {
+    "button": "Cycle",
+    "name": "Cycles",
+    "modals": {
+      "watchdog": {
+        "title": "Erreur de watchdog",
+        "message": "Le cycle ne peux pas démarrer. Une erreur de conditions de démarrage est présente."
+      }
+    },
+    "buttons": {
+      "prepare": "Préparer le cycle",
+      "end": "Arreter le cycle",
+      "finish": "Terminer le cycle",
+      "start": "Démarrer le cycle"
+    },
+    "preparation": "Préparartion du cycle",
+    "choice": "Choix du cycle",
+    "profile.choice": "Choix du profil",
+    "steps": "Étapes du cycle",
+    "watchdog": "Watchdog",
+    "watchdog.conditions": "Conditions du watchdog",
+    "history": "Historiques"
+  },
+  "gates": {
+    "name": "Controles I/O",
+    "input": "Entrées",
+    "output": "Sorties",
+    "names": {
+      "emergency_stop": "Boutton d'arret d'urgence",
+      "air_sensor": "Capteur de préssion d'air",
+      "nitrogen_sensor": "Capteur de préssion d'azote",
+      "cover_closed": "Capteur de couvercle",
+      "level_eff-n": "Capteur de limite d'éffluents",
+      "eff_container_sensor": "Capteur de présence du conteneur d'éffluents"
+    }
+  },
+  "manual": {
+    "button": "Mode manuel",
+    "list": "Modes manuels",
+    "warning": "Les models manuels vous permettent de gérer la machine manuellement. Attention les conditions de sécuritée sont désactivés ici.",
+    "tasks": {
+      "plv_act_high": "Pulvérization haute activant",
+      "plv_act_low": "Pulvérization basse activant",
+      "plv_edi_high": "Pulvérization haute eau désionisée",
+      "plv_edi_low": "Pulvérization basse eau désionisée"
+    }
+  },
+  "maintenance": {
+    "list": "Taches de maintenance",
+    "duration": "Duration",
+    "percentage": "Pourcentage",
+    "procedure": "Procédure de maintenance",
+    "procedure.next": "Suivant",
+    "procedure.previous": "Précédent",
+    "procedure.reset": "Valider la tache de maintenance",
+    "tasks": {
+      "mfm-filter": {
+        "name": "Filtre a gaz",
+        "desc": "Le filtre a gaz de la metalfog permet de capturer tout les gazs nocifs crées par les reactions chimliques dans la cuve."
+      }
+    }
+  }
 }

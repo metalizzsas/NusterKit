@@ -26,18 +26,18 @@
 </script>
 
 <!--- options modal -->
-<Modalcontent bind:shown={displayOptions} title={$_('options')}>
+<Modalcontent bind:shown={displayOptions} title={$_('settings.main')}>
 	<div class="flex flex-col gap-4">
 		<div
 			class="flex flex-row justify-between bg-black rounded-full text-white py-2 px-3 pr-2 items-center text-md font-semibold"
 		>
-			{$_('enable-dark-mode')}
+			{$_('settings.enable-dark-mode')}
 			<Toggle bind:value={dark} on:change={(e) => updateDarkMode(e.detail.value)} />
 		</div>
 		<div
 			class="flex flex-row gap-4 justify-between bg-black rounded-full text-white py-2 px-3 pr-2 text-md items-center font-semibold"
 		>
-			{$_('language')}
+			{$_('settings.language')}
 			<select bind:value={lang} class="text-gray-800 py-1 px-2">
 				<option value="en">English</option>
 				<option value="fr">Français</option>
@@ -50,7 +50,7 @@
 				}}
 				class="bg-indigo-500 py-1 px-2 rounded-xl text-white font-semibold"
 			>
-				{$_('apply-language')}
+				{$_('settings.apply-language')}
 			</button>
 		</div>
 	</div>
@@ -87,7 +87,7 @@
 							}
 						}}
 					>
-						{isShrinked ? 'Nuster' : $_('machine-informations')}
+						{isShrinked ? 'Nuster' : $_('machine.informations')}
 					</span>
 				</div>
 
@@ -162,22 +162,22 @@
 						<span
 							class="block text-white font-medium py-2 px-4 rounded-full backdrop-brightness-125"
 						>
-							{$_('model')}: {$machineData.machine.model.toLocaleLowerCase()}
+							{$_('machine.model')}: {$machineData.machine.model.toLocaleLowerCase()}
 						</span>
 						<span
 							class="block text-white font-medium py-2 px-4 rounded-full backdrop-brightness-125"
 						>
-							{$_('variant')}: {$machineData.machine.variant.toUpperCase()}
+							{$_('machine.variant')}: {$machineData.machine.variant.toUpperCase()}
 						</span>
 						<span
 							class="block text-white font-medium py-2 px-4 rounded-full backdrop-brightness-125"
 						>
-							{$_('revision')}: {$machineData.machine.revision}
+							{$_('machine.revision')}: {$machineData.machine.revision}
 						</span>
 						<span
 							class="block text-white font-medium py-2 px-4 rounded-full backdrop-brightness-125"
 						>
-							{$_('cycle-count')}: {$machineData.maintenances.find(
+							{$_('machine.cycleCount')}: {$machineData.maintenances.find(
 								(k) => k.name == 'cycleCount',
 							)?.durationActual || '0'}
 						</span>
@@ -186,7 +186,7 @@
 						<span
 							class="block text-white font-medium py-2 px-4 rounded-full backdrop-brightness-125"
 						>
-							{$_('serial')}: {$machineData.machine.serial.toLocaleUpperCase()}
+							{$_('machine.serial')}: {$machineData.machine.serial.toLocaleUpperCase()}
 						</span>
 					</div>
 				</div>
@@ -195,7 +195,7 @@
 			{#if !isStartButtonShrinked}
 				<div in:scale out:scale class="mt-3">
 					<button class="bg-red-500 rounded-xl py-2 px-3 text-white font-semibold">
-						{$_('restart-machine')}
+						{$_('settings.restart')}
 					</button>
 				</div>
 			{/if}

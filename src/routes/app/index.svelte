@@ -21,7 +21,7 @@
 				href="app/cycle"
 				class="flex flex-row items-center justify-center gap-4  bg-gradient-to-br from-indigo-500 to-indigo-600 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:skew-y-[0.25deg] duration-200 ease-in-out"
 			>
-				{$_('cycle')}
+				{$_('cycle.button')}
 				{#if $machineData.cycle !== undefined}
 					<span class="grid grid-cols-1 h-3 w-3 items-center justify-items-center ">
 						<span
@@ -53,13 +53,13 @@
 				href="app/profiles"
 				class=" bg-gradient-to-br from-indigo-500 to-indigo-600 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:-skew-y-[0.25deg] duration-200 ease-in-out"
 			>
-				{$_('profiles')}
+				{$_('profile.button')}
 			</a>
 			<a
 				href="app/advanced"
 				class=" bg-gradient-to-br from-indigo-500 to-indigo-600 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:skew-y-[0.25deg] duration-200 ease-in-out"
 			>
-				{$_('manual-mode')}
+				{$_('manual.button')}
 			</a>
 		</div>
 	</div>
@@ -69,7 +69,7 @@
 			<div
 				class="rounded-xl bg-purple-500 text-white py-1 px-8 font-semibold  group-hover:scale-105 transition-all"
 			>
-				{$_('slots')}
+				{$_('slots.name')}
 			</div>
 		</div>
 
@@ -85,7 +85,7 @@
 			<div
 				class="rounded-xl bg-cyan-500 text-white py-1 px-8 font-semibold  group-hover:scale-105 transition-all"
 			>
-				{$_('maintenances')}
+				{$_('maintenance.list')}
 			</div>
 		</div>
 

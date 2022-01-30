@@ -16,7 +16,7 @@
 	<span
 		class="rounded-xl bg-sky-500 py-1 px-5 text-white text-xl font-semibold shadow-2xl self-start my-3 mb-1"
 	>
-		{$_('cycle-steps')}
+		{$_('cycle.steps')}
 	</span>
 
 	{#if $machineData.cycle}
@@ -87,7 +87,7 @@
 			class="bg-red-500 rounded-xl py-2 px-5 text-white font-semibold"
 			on:click={stopCycle}
 		>
-			{$_('cycle-stop')}
+			{$_('cycle.buttons.end')}
 		</button>
 
 		<!-- TODO: Add options.nextstepEnabled button options on cycle

@@ -40,8 +40,8 @@
 
 <ModalPrompt
 	bind:shown={copyProfileModalShown}
-	title={$_('profile-copy-title').replace('{profile.name}', profile.name)}
-	message={$_('profile-copy-message')}
+	title={$_('profile.modals.copy.title').replace('{profile.name}', profile.name)}
+	message={$_('profile.modals.copy.message')}
 	buttons={[
 		{
 			text: $_('ok'),
@@ -58,8 +58,8 @@
 
 <Modal
 	bind:shown={deleteProfileModalShown}
-	title="Suppression."
-	message={$_('profile-delete-message').replace('{profile.name}', profile.name)}
+	title={$_('profile.modals.delete.title').replace('{profile.name}', profile.name)}
+	message={$_('profile.modals.delete.message').replace('{profile.name}', profile.name)}
 	buttons={[
 		{
 			text: $_('yes'),
@@ -78,7 +78,7 @@
 		<a class="flex flex-col" href="profiles/{profile.id}">
 			<span class="text-md font-semibold">{profile.name}</span>
 			<span class="text-xs text-gray-300 italic">
-				{$_('profile-modification-date')}: {$date(new Date(profile.modificationDate), {
+				{$_('profile.modification-date')}: {$date(new Date(profile.modificationDate), {
 					format: 'medium',
 				})}
 				{$time(new Date(profile.modificationDate), {

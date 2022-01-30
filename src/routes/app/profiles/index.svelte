@@ -56,8 +56,8 @@
 <main>
 	<ModalPrompt
 		bind:shown={addProfileModalShown}
-		title={$_('profile-create-title')}
-		message={$_('profile-create-message')}
+		title={$_('profile.modals.create.title')}
+		message={$_('profile.modals.create.message')}
 		buttons={[
 			{
 				text: $_('ok'),
@@ -95,7 +95,7 @@
 			<div
 				class="rounded-xl bg-indigo-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
 			>
-				{$_('profiles-list')}
+				{$_('profile.list')}
 			</div>
 		</div>
 
@@ -119,7 +119,7 @@
 					/>
 				</svg>
 
-				{$_('profile-add-button')}
+				{$_('profile.buttons.add')}
 			</button>
 		</div>
 	</div>

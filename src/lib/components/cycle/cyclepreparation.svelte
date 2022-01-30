@@ -44,7 +44,7 @@
 				1
 			</span>
 			<span class="bg-gray-500 py-1 px-3 rounded-xl font-semibold text-white">
-				{$_('cycle-choice')}
+				{$_('cycle.choice')}
 			</span>
 			<div class="h-[0.125em] shadow-lg w-7/12 block bg-gray-400/50 rounded-full" />
 			<div
@@ -88,7 +88,7 @@
 						2
 					</span>
 					<span class="bg-gray-500 py-1 px-3 rounded-xl font-semibold text-white">
-						{$_('profile-choice')}
+						{$_('cycle.profile.choice')}
 					</span>
 					<div class="h-[0.125em] shadow-lg w-7/12 block bg-gray-400/50 rounded-full" />
 					<div
@@ -127,7 +127,7 @@
 					class="bg-indigo-600 hover:bg-indigo-600/80 rounded-xl py-2 px-5 text-white font-semibold transition-all"
 					on:click={prepareCycle}
 				>
-					{$_('cycle-prepare-button')}
+					{$_('cycle.buttons.prepare')}
 				</button>
 			</div>
 		{/if}

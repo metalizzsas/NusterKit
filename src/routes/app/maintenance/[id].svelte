@@ -63,7 +63,7 @@
 				{maintenance.durationProgress} %
 			</span>
 			<p class="rounded-xl bg-zinc-900 py-2 px-3 text-white text-xl mb-3">
-				{$_(maintenance.name + '-desc')}
+				{$_('maintenance.tasks.' + maintenance.name + '.desc')}
 			</p>
 		</div>
 
@@ -105,7 +105,14 @@
 								</div>
 							{/if}
 							<div class="bg-white p-3">
-								<h2>{step.name}</h2>
+								<h2>
+									{$_(
+										'maintenance.tasks.' +
+											maintenance.name +
+											'.steps.' +
+											step.name,
+									)}
+								</h2>
 							</div>
 						</div>
 					{/if}

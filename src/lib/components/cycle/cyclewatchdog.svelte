@@ -49,7 +49,7 @@
 					<span
 						class="flex flex-row justify-between items-center rounded-full bg-gray-800 py-1 pr-2 pl-3 text-white font-semibold"
 					>
-						{$_('gate.' + wdc.gateName)}
+						{$_('gates.names.' + wdc.gateName)}
 						<div
 							class="h-5 w-5 rounded-full {!wdc.result
 								? 'bg-red-500'

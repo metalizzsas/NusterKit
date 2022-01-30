@@ -1,5 +1,6 @@
 {
   "ok": "Ok",
+  "nok": "Not ok",
   "yes": "Yes",
   "no": "No",
   "cancel": "Cancel",
@@ -24,7 +25,8 @@
       "rd": "Reducer",
       "act": "Activator",
       "edi": "DI Water",
-      "eff": "Effluents"
+      "eff": "Effluents",
+      "resin": "Coat"
     },
     "sensors": {
       "name": "Sensors",
@@ -140,9 +142,11 @@
     "names": {
       "emergency_stop": "Emergency stop button",
       "air_sensor": "Air pressure sensor",
+      "nitrogen_sensor": "Nitrogen pressure sensor",
       "cover_closed": "Cover closed",
       "levels_eff-n": "Effluents limit",
       "eff_container_sensor": "Effluents container sensor",
+      "resin-slot_sensor": "Resin container sensor",
       "levels_ox-a": "Oxidiser level",
       "levels_rd-a": "Reducer level",
 
@@ -222,6 +226,10 @@
       "mfm-filter": {
         "name": "Gas filter",
         "desc": "Metalfog gaz filter filters all gases produced by the chemicals reactions done inside the machine."
+      },
+      "smt-filter": {
+        "name": "Solvants filter",
+        "desc": "Smoothit gaz filter filters all coating solvants produced by the coating done inside the machine."
       }
     }
   }

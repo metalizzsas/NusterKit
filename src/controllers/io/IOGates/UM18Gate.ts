@@ -16,11 +16,17 @@ export class UM18IOGate extends IOGate implements IUM18Gate
     public async read(ioController: IOController)
     {
         await super.read(ioController);
-         //convert to mm
-        //this.value = map(this.value, 0, 32767, 0, 100);
-        const tempv = 0.0263 * this.value + (this.value != 0 ? 120 : 0);
 
-        this.value = map(tempv, this.levelMax * 10, 120, 0, 100);
+        //convert raw value to millimeters
+        const tempv = 0.0263 * this.value + 120;
+
+        //this.value = tempv;
+
+        //convert millimeters to Range percentage
+        const mapped = map(tempv, this.levelMax, 130, 0, 100);
+
+        //divide percentage to blocks of 5% 
+        this.value = Math.ceil(((mapped < 0) ? 0 : mapped) / 5 ) * 5;
         return true;
     }
 

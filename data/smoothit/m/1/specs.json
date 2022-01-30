@@ -570,8 +570,8 @@
    ],
    "cycles": [
       {
-         "name": "default cycle name",
-         "profileIndentifier": "default",
+         "name": "default",
+         "profileRequired": true,
          "watchdogConditions": [
             {
                "gateName": "emergency_stop",

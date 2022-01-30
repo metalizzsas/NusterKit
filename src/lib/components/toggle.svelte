@@ -19,7 +19,7 @@
 </script>
 
 <div
-	class="shrink-0 toggle {locked && enableGrayScale ? 'grayscale' : ''}"
+	class="dark:bg-white bg-gray-700 toggle {locked && enableGrayScale ? 'grayscale' : ''}"
 	aria-checked={aria}
 	on:click={() => {
 		if (!locked) {
@@ -37,7 +37,7 @@
 
 <style>
 	.toggle {
-		@apply block rounded-full h-6 w-12 bg-white shrink-0;
+		@apply block rounded-full h-6 w-12;
 	}
 
 	.toggle::before {
@@ -48,7 +48,7 @@
 
 	div[aria-checked='true'].toggle::before {
 		@apply bg-green-500;
-		transform: translateX(1.5em);
+		transform: translateX(1.5rem);
 		transition: all 0.1s ease-in-out;
 	}
 </style>

@@ -21,7 +21,7 @@
 	<h2 class="text-sm">{title}</h2>
 
 	<div
-		on:click={() => goto('/app')}
+		on:click={() => goto('/machine')}
 		class="inline-block py-2 px-5 rounded-xl font-semibold bg-orange-500 text-white mt-3"
 	>
 		Return to main App

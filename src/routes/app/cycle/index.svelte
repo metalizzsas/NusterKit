@@ -9,6 +9,10 @@
 	import Cyclerunning from '$lib/components/cycle/cyclerunning.svelte';
 	import Cycleend from '$lib/components/cycle/cycleend.svelte';
 	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
+	import { page, session } from '$app/stores';
+
+	console.log('ipd', $session);
 </script>
 
 <div>

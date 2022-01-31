@@ -21,7 +21,9 @@
 	],
 	"dependencies": {
 		"@fontsource/montserrat": "^4.5.1",
+		"@types/cookie": "^0.4.1",
 		"autoprefixer": "^10.0.2",
+		"cookie": "^0.4.1",
 		"electron-context-menu": "^2.5.2",
 		"electron-reloader": "^1.2.1",
 		"electron-serve": "^1.1.0",

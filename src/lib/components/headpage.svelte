@@ -8,6 +8,8 @@
 	import Toggle from '$lib/components/toggle.svelte';
 	import { getLang, readDarkMode, setLang, updateDarkMode } from '$lib/utils/settings';
 	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+	import { Linker } from '$lib/utils/linker';
 
 	let isShrinked = true;
 
@@ -19,9 +21,13 @@
 	let dark = false;
 	let lang = 'en';
 
-	onMount(() => {
+	let ip: string = '';
+
+	onMount(async () => {
 		dark = readDarkMode();
 		lang = getLang();
+
+		ip = $Linker;
 	});
 </script>
 
@@ -46,7 +52,7 @@
 			<button
 				on:click={() => {
 					setLang(lang);
-					window.location.reload();
+					goto('/app');
 				}}
 				class="bg-indigo-500 py-1 px-2 rounded-xl text-white text-sm font-semibold"
 			>
@@ -83,7 +89,7 @@
 						out:fade
 						on:click={() => {
 							if (isShrinked) {
-								window.location.href = '/app';
+								ip == '127.0.0.1' ? goto('/app') : goto('/');
 							}
 						}}
 					>

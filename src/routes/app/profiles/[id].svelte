@@ -21,6 +21,7 @@
 	import { onMount } from 'svelte';
 	import { _ } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 
 	let saveModalShown = false;
 
@@ -30,6 +31,7 @@
 
 	onMount(() => {
 		initialProfile = JSON.stringify(profile);
+		console.log($page.stuff);
 	});
 	async function save() {
 		await fetch('http://127.0.0.1/v1/profiles', {
@@ -40,7 +42,7 @@
 			body: JSON.stringify(profile),
 		});
 		//after saving return back to profile list
-		window.history.back();
+		goto('/app/profiles');
 	}
 </script>
 
@@ -60,7 +62,7 @@
 			text: 'Non',
 			color: 'bg-red-400',
 			callback: () => {
-				window.history.back();
+				goto('/app/profiles');
 			},
 		},
 		{
@@ -74,11 +76,10 @@
 <div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-200 dark:bg-neutral-800 shadow-xl group">
 	<div class="flex flex-row gap-5 justify-items-end -translate-y-4">
 		<div
-			on:click={() => goto('/app/profiles')}
 			class="rounded-xl bg-red-400 text-white py-1 px-3 font-semibold flex flex-row gap-2 items-center"
 			on:click|preventDefault={() => {
 				if (JSON.stringify(profile) !== initialProfile) saveModalShown = true;
-				else window.history.back();
+				else goto('/app/profiles');
 			}}
 		>
 			<svg

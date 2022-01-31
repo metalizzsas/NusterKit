@@ -4,6 +4,7 @@
 	import ModalPrompt from '$lib/components/modals/modalprompt.svelte';
 	import { fly } from 'svelte/transition';
 	import { _, date, time } from 'svelte-i18n';
+	import { goto } from '$app/navigation';
 
 	export let profile: Profile;
 	export let delCb: Function;
@@ -75,7 +76,7 @@
 />
 <div in:fly={{ x: -50, duration: 100 }} out:fly={{ x: 50, duration: 100 }}>
 	<div class="bg-black text-white py-2 px-4 rounded-2xl flex flex-row justify-between">
-		<div class="flex flex-col" on:click={() => goto('profiles/{profile.id}')}>
+		<div class="flex flex-col" on:click={() => goto('profiles/' + profile.id)}>
 			<span class="text-md font-semibold">{profile.name}</span>
 			<span class="text-xs text-gray-300 italic">
 				{$_('profile.modification-date')}: {$date(new Date(profile.modificationDate), {

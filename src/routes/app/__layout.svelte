@@ -3,20 +3,14 @@
 	import type { Load } from '@sveltejs/kit';
 
 	export const load: Load = async (ctx) => {
+		const content = await ctx.fetch('/app/getip').then((r) => r.json());
+
 		await waitLocale();
-		return {};
+		return { props: { ip: content.ip } };
 	};
 </script>
 
 <script lang="ts">
-	import '@fontsource/montserrat';
-	import '@fontsource/montserrat/400-italic.css';
-	import '@fontsource/montserrat/500.css';
-	import '@fontsource/montserrat/600.css';
-	import '@fontsource/montserrat/700.css';
-
-	import '$lib/app.css';
-
 	import { initI18n } from '$lib/utils/i18n';
 
 	import kbDisplay from '$lib/json/kb.json';
@@ -28,22 +22,27 @@
 
 	import { afterUpdate, beforeUpdate, onDestroy, onMount } from 'svelte';
 
-	let ready: boolean = false;
-
 	import { machineData } from '$lib/utils/store';
 	import type { IWSObject } from '$lib/utils/interfaces';
 	import { fade, scale } from 'svelte/transition';
 	import { getLang, loadDarkMode } from '$lib/utils/settings';
+
 	import { Linker } from '$lib/utils/linker';
+	import { goto } from '$app/navigation';
+
+	let ready: boolean = false;
 
 	let ws: WebSocket;
-
 	let wsAtempt: number = 0;
-
 	let wsError: boolean = false;
 
+	export let ip: string;
+
+	beforeUpdate(() => {
+		$Linker = ip;
+	});
+
 	onMount(async () => {
-		console.log($Linker);
 		initI18n(document);
 		loadDarkMode();
 
@@ -84,7 +83,7 @@
 				break;
 			}
 
-			ws = new WebSocket('ws://127.0.0.1/v1');
+			ws = new WebSocket('ws://' + $Linker + '/v1');
 
 			const result = await new Promise<boolean>((resolve) => {
 				ws.onopen = () => {
@@ -156,7 +155,17 @@
 							/>
 						</svg>
 
-						<p class="text-red-500 font-semibold text-center">Connection Error</p>
+						<p class="text-red-500 font-semibold text-center">
+							Connection Error {$Linker} is unreachable
+							{#if ip !== '127.0.0.1'}
+								<button
+									class="bg-gray-500 text-white font-semibold py-1 px-2 rounded-xl"
+									on:click={() => goto('/')}
+								>
+									Return to NusterDesktop
+								</button>
+							{/if}
+						</p>
 					{/if}
 				</div>
 			</div>

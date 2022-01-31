@@ -6,9 +6,9 @@
 	export let maintenance: Maintenance;
 </script>
 
-<div on:click={() => goto('app/maintenance/{maintenance.name}')}>
+<div on:click={() => goto('app/maintenance/{maintenance.name}')} class="hover:scale-[1.005]">
 	<div
-		class="p-3 bg-gradient-to-br from-sky-500 to-sky-600 rounded-tr-2xl rounded-tl-2xl overflow-hidden hover:scale-[1.005] transition-all flex flex-row justify-between"
+		class="p-3 bg-gradient-to-br from-sky-500 to-sky-600 rounded-tr-2xl rounded-tl-2xl overflow-hidden transition-all flex flex-row justify-between"
 	>
 		<span class="bg-white py-1 px-3 rounded-full text-gray-800 font-semibold">
 			{$_('maintenance.tasks.' + maintenance.name + '.name')}

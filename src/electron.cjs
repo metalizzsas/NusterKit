@@ -19,7 +19,7 @@ function createWindow() {
 	
 	const mainWindow = new BrowserWindow({
 		backgroundColor: 'whitesmoke',
-		titleBarStyle: 'hidden',
+		titleBarStyle: 'default',
 		autoHideMenuBar: true,
 		trafficLightPosition: {
 			x: 17,
@@ -38,6 +38,7 @@ function createWindow() {
 		y: windowState.y,
 		width: windowState.width,
 		height: windowState.height,
+		
 	});
 
 	windowState.manage(mainWindow);
@@ -54,7 +55,7 @@ function createWindow() {
 }
 
 function loadVite(port) {
-	mainWindow.loadURL(`http://localhost:${port}`).catch((e) => {
+	mainWindow.loadURL(`http://localhost:${port}/`).catch((e) => {
 		console.log('Error loading URL, retrying', e);
 		setTimeout(() => {
 			loadVite(port);
@@ -77,5 +78,5 @@ app.on('activate', () => {
 	}
 });
 app.on('window-all-closed', () => {
-	if (process.platform !== 'darwin') app.quit();
+	app.quit();
 });

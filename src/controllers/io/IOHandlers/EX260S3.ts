@@ -34,7 +34,7 @@ export class EX260S3 extends IOHandler
 
     async connect()
     {
-        if(this.unreachable)
+        if(this.unreachable || process.env.DISABLE_EX260 == 'true')
             return;
         
         const available = await new Promise((resolve) => {
@@ -78,13 +78,8 @@ export class EX260S3 extends IOHandler
     async readData2(address: number): Promise<Buffer>
     {
 
-        if(this.unreachable)
+        if(this.unreachable || process.env.DISABLE_EX260 == 'true')
             return Buffer.alloc(0);
-
-        if(process.env.DISABLE_HANDLERS && process.env.DISABLE_HANDLERS == "true")
-        {
-            throw new Error("Handlers disabled");
-        }
 
         if(!this.connected)
             await this.connect();
@@ -115,14 +110,8 @@ export class EX260S3 extends IOHandler
      */
     async writeData(address: number, value: number, _word = false): Promise<void>
     {
-        if(this.unreachable)
+        if(this.unreachable || process.env.DISABLE_EX260 == 'true')
             return;
-        
-        if(process.env.DISABLE_HANDLERS && process.env.DISABLE_HANDLERS == "true")
-        {
-            throw new Error("Handlers disabled");
-            return;
-        }
 
         if(!this.connected)
             await this.connect();    

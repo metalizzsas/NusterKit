@@ -4,10 +4,9 @@
   "description": "Typescript project running on Docker and RPi4.",
   "main": "app.js",
   "scripts": {
-    "dev": "./node_modules/.bin/concurrently --kill-others \"npm run dev:app\" \"npm run dev:modbus\" \"npm run dev:enip\"",
+    "dev": "export DISABLE_EX260=\"true\" && ./node_modules/.bin/concurrently --kill-others \"npm run dev:app\" \"npm run dev:modbus\"",
     "dev:app": "nodemon src/app.ts | node_modules/.bin/pino-pretty",
     "dev:modbus": "node dev/modbus.mjs",
-    "dev:enip": "node dev/enip.mjs",
     "machine": "export NODE_ENV=\"production\"; nodemon src/app.ts | node_modules/.bin/pino-pretty",
     "docs": "typedoc --out docs --entryPointStrategy expand ./src",
     "build": "tsc",

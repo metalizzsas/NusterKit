@@ -4,6 +4,7 @@
 	import Maintenance from '$lib/components/maintenance/maintenance.svelte';
 	import SlotProduct from '$lib/components/slotproduct.svelte';
 	import { machineData } from '$lib/utils/store';
+	import { goto } from '$app/navigation';
 </script>
 
 <main id="content">
@@ -17,8 +18,8 @@
 		</div>
 
 		<div class="grid grid-cols-3 gap-4">
-			<a
-				href="app/cycle"
+			<div
+				on:click={() => goto('app/cycle')}
 				class="flex flex-row items-center justify-center gap-4  bg-gradient-to-br from-indigo-500 to-indigo-600 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:skew-y-[0.25deg] duration-200 ease-in-out"
 			>
 				{$_('cycle.button')}
@@ -48,19 +49,19 @@
 							: '0'} %
 					</span>
 				{/if}
-			</a>
-			<a
-				href="app/profiles"
+			</div>
+			<div
+				on:click={() => goto('app/profiles')}
 				class=" bg-gradient-to-br from-indigo-500 to-indigo-600 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:-skew-y-[0.25deg] duration-200 ease-in-out"
 			>
 				{$_('profile.button')}
-			</a>
-			<a
-				href="app/advanced"
+			</div>
+			<div
+				on:click={() => goto('app/advanced')}
 				class=" bg-gradient-to-br from-indigo-500 to-indigo-600 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:skew-y-[0.25deg] duration-200 ease-in-out"
 			>
 				{$_('manual.button')}
-			</a>
+			</div>
 		</div>
 	</div>
 

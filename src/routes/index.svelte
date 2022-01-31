@@ -2,6 +2,7 @@
 	import '$lib/app.css';
 	import { onMount } from 'svelte';
 	import { machineData } from '$lib/utils/store';
+	import { goto } from '$app/navigation';
 
 	onMount(() => {
 		const ws = new WebSocket('ws://127.0.0.1/v1');
@@ -13,4 +14,4 @@
 	});
 </script>
 
-<main><a href="/app">Access main content</a></main>
+<main><div on:click={() => goto('/app')}>Access main content</div></main>

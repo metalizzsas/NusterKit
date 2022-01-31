@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import type { Maintenance } from '$lib/utils/interfaces';
+	import { goto } from '$app/navigation';
 
 	export let maintenance: Maintenance;
 </script>
 
-<a href="app/maintenance/{maintenance.name}">
+<div on:click={() => goto('app/maintenance/{maintenance.name}')}>
 	<div
 		class="p-3 bg-gradient-to-br from-sky-500 to-sky-600 rounded-tr-2xl rounded-tl-2xl overflow-hidden hover:scale-[1.005] transition-all flex flex-row justify-between"
 	>
@@ -23,4 +24,4 @@
 			{$_('maintenance.tasks.' + maintenance.name + '.desc')}
 		</p>
 	</div>
-</a>
+</div>

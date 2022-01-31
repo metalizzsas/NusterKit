@@ -75,7 +75,7 @@
 />
 <div in:fly={{ x: -50, duration: 100 }} out:fly={{ x: 50, duration: 100 }}>
 	<div class="bg-black text-white py-2 px-4 rounded-2xl flex flex-row justify-between">
-		<a class="flex flex-col" href="profiles/{profile.id}">
+		<div class="flex flex-col" on:click={() => goto('profiles/{profile.id}')}>
 			<span class="text-md font-semibold">{profile.name}</span>
 			<span class="text-xs text-gray-300 italic">
 				{$_('profile.modification-date')}: {$date(new Date(profile.modificationDate), {
@@ -85,7 +85,7 @@
 					format: 'short',
 				})}
 			</span>
-		</a>
+		</div>
 		<div class="flex flex-row gap-4 self-center">
 			<button
 				class="self-center bg-red-500 text-white p-2 rounded-full"

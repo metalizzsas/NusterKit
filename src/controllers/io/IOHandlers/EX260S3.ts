@@ -156,7 +156,7 @@ export class EX260S3 extends IOHandler
         const newDecimalOutputState = parseInt(newOutputsStates, 2);
 
         const buf = Buffer.alloc(2);
-        buf.writeUInt32LE(newDecimalOutputState);
+        buf.writeUInt16LE(newDecimalOutputState);
 
         //Message router packet
         const MR = st.EthernetIP.CIP.MessageRouter.build(0x10, idPath, buf);

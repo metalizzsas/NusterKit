@@ -1,5 +1,8 @@
 {
   "name": "nuster-turbine",
+  "engines": {
+    "node": "16.x"
+  },
   "version": "1.0.0",
   "description": "Typescript project running on Docker and RPi4.",
   "main": "app.js",

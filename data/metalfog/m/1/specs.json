@@ -43,7 +43,7 @@
          "isCritical": true
       },
       {
-         "name": "levels_edi-n",
+         "name": "levels_edi-max-n",
          "type": "default",
          "bus": "in",
          "automaton": 0,
@@ -51,10 +51,9 @@
          "default": 0,
          "size": "bit",
          "isCritical": true
-
       },
       {
-         "name": "levels_act-n",
+         "name": "levels_act-max-n",
          "type": "default",
          "bus": "in",
          "automaton": 0,
@@ -62,10 +61,9 @@
          "default": 0,
          "size": "bit",
          "isCritical": true
-
       },
       {
-         "name": "levels_eff-n",
+         "name": "levels_eff-max-n",
          "type": "default",
          "bus": "in",
          "automaton": 0,
@@ -73,7 +71,6 @@
          "default": 0,
          "size": "bit",
          "isCritical": true
-
       },
       {
          "name": "eff_container_sensor",
@@ -84,47 +81,46 @@
          "default": 0,
          "size": "bit",
          "isCritical": true
-
       },
       {
-         "name": "levels_edi-a",
-         "type": "um18",
+         "name": "levels_edi-min-n",
+         "type": "default",
          "bus": "in",
          "automaton": 0,
-         "address": 0,
+         "address": 7,
          "default": 0,
-         "levelMax": 520,
-         "size": "word"
+         "size": "bit",
+         "isCritical": true
       },
       {
-         "name": "levels_act-a",
-         "type": "um18",
+         "name": "levels_act-min-n",
+         "type": "default",
          "bus": "in",
          "automaton": 0,
-         "address": 1,
+         "address": 8,
          "default": 0,
-         "levelMax": 260,
-         "size": "word"
+         "size": "bit",
+         "isCritical": true
       },
       {
-         "name": "levels_ox-a",
-         "type": "um18",
+         "name": "levels_ox-min-n",
+         "type": "default",
          "bus": "in",
          "automaton": 0,
-         "address": 2,
+         "address": 9,
          "default": 0,
-         "levelMax": 350,
-         "size": "word"
+         "size": "bit",
+         "isCritical": true
       },
       {
-         "name": "levels_rd-a",
-         "type": "um18",
+         "name": "levels_rd-min-n",
+         "type": "default",
          "bus": "in",
          "automaton": 0,
-         "address": 3,
+         "address": 10,
          "default": 0,
-         "levelMax": 350,
-         "size": "word"
+         "size": "bit",
+         "isCritical": true
       },
       {
          "name": "motor-speed",

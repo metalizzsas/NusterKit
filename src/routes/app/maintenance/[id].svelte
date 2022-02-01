@@ -66,18 +66,18 @@
 				<span class="font-semibold">{$_('maintenance.percentage')}:</span>
 				{maintenance.durationProgress} %
 			</span>
-			<p class="rounded-xl bg-zinc-900 py-2 px-3 text-white text-xl mb-3">
+			<p class="rounded-xl bg-zinc-900 py-2 px-3 text-white mb-3">
 				{$_('maintenance.tasks.' + maintenance.name + '.desc')}
 			</p>
 		</div>
 
 		<div class="procedure mt-5">
-			<h1 class="text-xl">{$_('maintenance.procedure')}</h1>
+			<h1 class="text-2xl text-gray-800 mb-3 text-center">{$_('maintenance.procedure')}</h1>
 			<div class="container flex flex-col justify-center">
 				{#each maintenance.procedure.steps as step, index}
 					{#if procedureIndex == index}
 						<div
-							class="step rounded-xl overflow-hidden"
+							class="step rounded-xl overflow-hidden mx-16"
 							out:fly={{ x: -100, duration: 50 }}
 							in:fly={{ x: 100, duration: 50 }}
 						>
@@ -85,9 +85,9 @@
 								src="http://{$Linker}/assets/maintenance/{maintenance.name}/{step
 									.images[procedureImageIndex]}"
 								alt="procedure"
-								class="shrink-0"
+								class="shrink-0 transition-all"
 							/>
-							{#if step.images.length > 0}
+							{#if step.images.length > 1}
 								<div class="flex flex-row justify-center">
 									<div class="absolute flex flex-row gap-4 -translate-y-40">
 										{#each step.images as image, indeximge}
@@ -101,7 +101,7 @@
 												<!-- svelte-ignore a11y-missing-attribute -->
 												<img
 													src="http://localhost/assets/maintenance/{maintenance.name}/{image}"
-													class="h-32 ring-white rounded-md"
+													class="h-32 ring-white rounded-md ring-1"
 												/>
 											</div>
 										{/each}
@@ -123,7 +123,7 @@
 				{/each}
 			</div>
 
-			<div class="flex flex-row gap-4 mt-4 w-full justify-items-center">
+			<div class="flex flex-row gap-4 mt-4 w-full justify-items-center mx-16">
 				{#if procedureIndex > 0}
 					<button
 						class="bg-gray-700 text-white font-semibold rounded-xl py-2 px-4 self-start"
@@ -144,7 +144,7 @@
 
 				{#if procedureIndex == maintenance.procedure.steps.length - 1}
 					<button
-						class="bg-red-500 text-white font-semibold rounded-xl py-2 px-4"
+						class="bg-indigo-500 text-white font-semibold rounded-xl py-2 px-4"
 						on:click={() => resetMaintenance()}
 					>
 						{$_('maintenance.procedure.reset')}

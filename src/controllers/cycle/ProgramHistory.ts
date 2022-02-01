@@ -1,7 +1,7 @@
 import { model, Schema } from "mongoose";
 import { IParameterBlock } from "../../programblocks/ParameterBlocks";
 import { IPBRStatus, IProgram } from "../../programblocks/ProgramBlockRunner";
-import { IProgramBlock } from "../../programblocks/ProgramBlocks";
+import { IForLoopProgramBlock, IProgramBlock } from "../../programblocks/ProgramBlocks";
 import { IProgramStep } from "../../programblocks/ProgramBlockStep";
 import { IWatchdogCondition } from "../../programblocks/Watchdog";
 import { IProfile, ProfileSchema } from "../profile/Profile";
@@ -28,10 +28,11 @@ const ParameterBlockSchema = new Schema<IParameterBlock>({
 
 ParameterBlockSchema.add({params: [ParameterBlockSchema]});
 
-const ProgramBlockSchema = new Schema<IProgramBlock>({
+const ProgramBlockSchema = new Schema<IProgramBlock & IForLoopProgramBlock>({
     name: {type: String, required: true},
     executed: {type: Boolean, required: true, default: false},
     params: [ParameterBlockSchema],
+    currentIteration: Number, // for for-loop only
 });
 
 ProgramBlockSchema.add({blocks: [ProgramBlockSchema]});

@@ -8,8 +8,8 @@ var vector = {
         return addr;
     },
     getHoldingRegister: function(addr, unitID, callback) {
-        console.log(Date.now(), "reading holding register :", addr);
-        console.log(parseInt([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1].reverse().join(""), 2));
+        //console.log(Date.now(), "reading holding register :", addr);
+        //console.log(parseInt([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1].reverse().join(""), 2));
         if(addr > 26)
             callback(null, 81)
         else
@@ -25,12 +25,12 @@ var vector = {
     },
     setRegister: function(addr, value, unitID) {
         // Asynchronous handling supported also here
-        console.log("set register", addr, value, unitID);
+        //console.log("set register", addr, value, unitID);
         return;
     },
     setCoil: function(addr, value, unitID) {
         // Asynchronous handling supported also here
-        console.log("set coil", addr, value, unitID);
+        //console.log("set coil", addr, value, unitID);
         return;
     },
     readDeviceIdentification: function(addr) {

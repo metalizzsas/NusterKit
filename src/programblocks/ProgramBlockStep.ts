@@ -39,19 +39,19 @@ export class ProgramBlockStep implements IProgramStep
         }
 
         //Adding io starting blocks
-        for(const io of obj.startingIO)
+        for(const io of obj.startingIO || [])
         {
             this.startingIO.push(ProgramBlockRegistry(this.pbrInstance, io));
         }
 
         //Adding io ending blocks
-        for(const io of obj.endingIO)
+        for(const io of obj.endingIO || [])
         {
             this.endingIO.push(ProgramBlockRegistry(this.pbrInstance, io));
         }
 
         //adding program blocks
-        for(const block of obj.blocks)
+        for(const block of obj.blocks || [])
         {
             this.blocks.push(ProgramBlockRegistry(this.pbrInstance, block));
         }

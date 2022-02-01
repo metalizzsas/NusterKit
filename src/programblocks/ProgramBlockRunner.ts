@@ -131,7 +131,12 @@ export class ProgramBlockRunner implements IProgram
                     }
                 }
             }
-            this.currentStepIndex++;
+            
+            // TypeScriptCompiler is not able to understand that status.mode can be changed externally
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore: disabled overlap checking
+            if(this.status.mode != PBRMode.ENDED)
+                this.currentStepIndex++;
         }
 
         this.end();

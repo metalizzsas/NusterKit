@@ -56,9 +56,15 @@ export class ProgramBlock extends Block implements IProgramBlock
     }
 }
 
-export class ForLoopProgramBlock extends ProgramBlock
+export interface IForLoopProgramBlock extends IProgramBlock {
+    currentIteration?: number;
+}
+
+export class ForLoopProgramBlock extends ProgramBlock implements IForLoopProgramBlock
 {
-    constructor(pbrInstance: ProgramBlockRunner, obj: IProgramBlock)
+    public currentIteration: number;
+
+    constructor(pbrInstance: ProgramBlockRunner, obj: IForLoopProgramBlock)
     {
         super(pbrInstance, obj);
 
@@ -66,18 +72,20 @@ export class ForLoopProgramBlock extends ProgramBlock
             throw new Error("ForProgramBlock: Not enought parameters")
         if(obj.blocks.length == 0)
             throw Error("ForProgramBlock: No blocks for for loop");
+
+        this.currentIteration = obj.currentIteration || 0;
     }
 
     public async execute()
     {
         const lC = this.params[0].data() as number;
-        this.pbrInstance.machine.logger.info(`ForBlock: Will loop ${lC} times.`);
+        this.pbrInstance.machine.logger.info(`ForBlock: Will loop ${lC} times. Starting from: ${this.currentIteration}`);
 
-        for(let i = 0; i < (lC); i++)
+        for(; this.currentIteration < (lC); this.currentIteration++)
         {
             if(this.pbrInstance.status.mode == PBRMode.ENDED)
             {
-                this.executed = true;
+                this.executed = (this.currentIteration + 1 == (lC));
                 return;
             }
 

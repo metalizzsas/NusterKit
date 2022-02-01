@@ -4,7 +4,9 @@
 	export const load: Load = async (ctx) => {
 		let profileID = ctx.params.id;
 
-		const content = await ctx.fetch(`http://127.0.0.1/v1/profiles/${profileID}`);
+		const content = await ctx.fetch(
+			`http://${ctx.session.ip || '127.0.0.1'}/v1/profiles/${profileID}`,
+		);
 
 		let profile: Profile = await content.json();
 
@@ -22,6 +24,7 @@
 	import { _ } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import { Linker } from '$lib/utils/linker';
 
 	let saveModalShown = false;
 
@@ -34,7 +37,7 @@
 		console.log($page.stuff);
 	});
 	async function save() {
-		await fetch('http://127.0.0.1/v1/profiles', {
+		await fetch('http://' + $Linker + '/v1/profiles', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

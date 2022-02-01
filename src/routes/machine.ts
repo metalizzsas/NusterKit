@@ -11,7 +11,6 @@ export const get: RequestHandler = async (ctx) => {
     const headers = {
         'Set-Cookie': cookie.serialize('ip', ip, {
             httpOnly: true,
-            maxAge: 60 * 60 * 24 * 7,
             sameSite: 'strict',
             path: '/'
         }),

@@ -4,6 +4,7 @@
 
 	import { machineData } from '$lib/utils/store';
 	import { date, time, _ } from 'svelte-i18n';
+	import { Linker } from '$lib/utils/linker';
 
 	let cycleTypes: { name: string; profileRequired: boolean }[] = [];
 	let cycleTypeIndexSelected: number = -1;
@@ -14,7 +15,7 @@
 
 	onMount(async () => {
 		//fetch cycles types from machine api
-		let cycleTypesData = await fetch('http://127.0.0.1/v1/cycle');
+		let cycleTypesData = await fetch('http://' + $Linker + '/v1/cycle');
 		cycleTypes = (await cycleTypesData.json()) as { name: string; profileRequired: boolean }[];
 		console.log(cycleTypes);
 
@@ -26,7 +27,7 @@
 
 	const prepareCycle = async () => {
 		fetch(
-			`http://127.0.0.1/v1/cycle/${cycleTypes[cycleTypeIndexSelected].name}/${selectedProfileID}`,
+			`http://${$Linker}/v1/cycle/${cycleTypes[cycleTypeIndexSelected].name}/${selectedProfileID}`,
 			{
 				method: 'POST',
 				headers: {

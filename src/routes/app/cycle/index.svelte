@@ -41,7 +41,7 @@
 			</div>
 			<!-- TODO: Add check if some histories are available -->
 			<div
-				on:click={() => goto('app/cycle/histories')}
+				on:click={() => goto('/app/cycle/histories')}
 				class="rounded-xl bg-orange-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-[1.01] transition-all self-end"
 			>
 				{$_('cycle.history')}

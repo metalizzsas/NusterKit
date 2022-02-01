@@ -17,6 +17,7 @@
 	import Profile from '$lib/components/profile.svelte';
 	import type { Profile as ProfileModel } from '$lib/utils/interfaces';
 	import { _ } from 'svelte-i18n';
+	import { Linker } from '$lib/utils/linker';
 
 	let addProfileModalShown = false;
 
@@ -24,12 +25,12 @@
 
 	function reload() {
 		setTimeout(async () => {
-			profiles = await (await fetch('http://localhost/v1/profiles')).json();
+			profiles = await (await fetch('http://' + $Linker + '/v1/profiles')).json();
 		}, 300);
 	}
 
 	async function listProfileBlueprint() {
-		let response = await fetch('http://127.0.0.1/v1/profiles/map');
+		let response = await fetch('http://' + $Linker + '/v1/profiles/map');
 		let types = (await response.json()) as string[];
 
 		if (types.length == 1) {
@@ -40,7 +41,7 @@
 	}
 
 	async function createProfile(type: string) {
-		let response = await fetch('http://127.0.0.1/v1/profiles/create/' + type, {
+		let response = await fetch('http://' + $Linker + '/v1/profiles/create/' + type, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

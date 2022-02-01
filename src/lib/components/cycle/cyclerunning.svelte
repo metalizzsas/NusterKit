@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { Linker } from '$lib/utils/linker';
+
 	import { machineData } from '$lib/utils/store';
 	import { _ } from 'svelte-i18n';
 
 	const stopCycle = async () => {
-		fetch('http://127.0.0.1/v1/cycle', {
+		fetch('http://' + $Linker + '/v1/cycle', {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',

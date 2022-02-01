@@ -5,6 +5,7 @@
 
 	import howler from 'howler';
 	import { machineData } from '$lib/utils/store';
+	import { Linker } from '$lib/utils/linker';
 
 	let rating = 2;
 
@@ -26,7 +27,7 @@
 	});
 
 	async function patchCycle() {
-		await fetch('http://127.0.0.1/v1/cycle/' + rating, {
+		await fetch('http://' + $Linker + '/v1/cycle/' + rating, {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',

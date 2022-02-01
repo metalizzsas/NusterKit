@@ -1,9 +1,8 @@
 <script lang="ts">
 	import '$lib/app.css';
 	import { onMount } from 'svelte';
-	import { machineData } from '$lib/utils/store';
-	import { goto } from '$app/navigation';
 	import Modalcontent from '$lib/components/modals/modalcontent.svelte';
+	import { fly } from 'svelte/transition';
 
 	let displayAddMachine = false;
 
@@ -57,7 +56,7 @@
 
 <main>
 	<div class="flex flex-row justify-between items-center my-4">
-		<h1 class="text-3xl">NusterDesktop</h1>
+		<h1 class="text-3xl text-gray-800">NusterDesktop</h1>
 
 		<button
 			on:click={() => (displayAddMachine = true)}
@@ -72,6 +71,8 @@
 			<div
 				class="flex flex-row bg-slate-500 text-white rounded-xl p-2 items-center justify-between"
 				on:click={() => (window.location.href = '/machine?ip=' + machine.ip)}
+				in:fly
+				out:fly
 			>
 				<div>
 					<span class="block font-semibold">{machine.name}</span>

@@ -1,16 +1,3 @@
-<script context="module" lang="ts">
-	import type { Load } from '@sveltejs/kit';
-	import type { IWSObject, Manual } from '$lib/utils/interfaces';
-
-	export const load: Load = async (ctx) => {
-		let cnt = await fetch('http://127.0.0.1/v1/manual');
-
-		let data: Manual[] = await cnt.json();
-
-		return { props: { data: data } };
-	};
-</script>
-
 <script lang="ts">
 	import '$lib/app.css';
 
@@ -18,9 +5,10 @@
 	import { _ } from 'svelte-i18n';
 	import { machineData } from '$lib/utils/store';
 	import { goto } from '$app/navigation';
+	import { Linker } from '$lib/utils/linker';
 
 	function toggleState(name: string, state: boolean) {
-		fetch(`http://127.0.0.1/v1/manual/${name}/${state}`, {
+		fetch(`http://${$Linker}/v1/manual/${name}/${state}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

@@ -1,35 +1,14 @@
-<script context="module" lang="ts">
-	export const load: Load = async (ctx) => {
-		let data = await ctx.fetch('http://127.0.0.1/v1/io');
-
-		let gates: Io[] = await data.json();
-
-		return { props: { gates: gates } };
-	};
-</script>
-
 <script lang="ts">
-	import type { Io, IWSObject } from '$lib/utils/interfaces';
-
 	import Toggle from '$lib/components/toggle.svelte';
-	import { onMount } from 'svelte';
-	import type { Load } from '@sveltejs/kit';
 	import { _ } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
+	import { Linker } from '$lib/utils/linker';
+	import { machineData } from '$lib/utils/store';
 
-	export let gates: Io[];
-
-	onMount(() => {
-		let ws = new WebSocket('ws://127.0.0.1/v1');
-
-		ws.onmessage = (event) => {
-			let data: IWSObject = JSON.parse(event.data);
-			gates = data.io;
-		};
-	});
+	$: gates = $machineData.io;
 
 	function update(gate: string, value: number) {
-		fetch(`http://127.0.0.1/v1/io/${gate}/${value}`);
+		fetch(`http://${$Linker}/v1/io/${gate}/${value}`);
 	}
 </script>
 

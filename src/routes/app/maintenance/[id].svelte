@@ -2,7 +2,9 @@
 	import type { Load } from '@sveltejs/kit';
 
 	export const load: Load = async (ctx) => {
-		let dt = await ctx.fetch('http://127.0.0.1/v1/maintenance/' + ctx.params.id);
+		let dt = await ctx.fetch(
+			'http://' + (ctx.session.ip || '127.0.0.1') + '/v1/maintenance/' + ctx.params.id,
+		);
 
 		return { props: { maintenance: await dt.json() } };
 	};
@@ -13,6 +15,7 @@
 	import type { Maintenance } from '$lib/utils/interfaces';
 	import { _ } from 'svelte-i18n';
 	import { fly } from 'svelte/transition';
+	import { Linker } from '$lib/utils/linker';
 
 	export let maintenance: Maintenance;
 
@@ -20,7 +23,7 @@
 	let procedureImageIndex: number = 0;
 
 	async function resetMaintenance() {
-		await fetch('http://localhost/v1/maintenance/' + maintenance.name, {
+		await fetch('http://' + $Linker + '/v1/maintenance/' + maintenance.name, {
 			method: 'DELETE',
 		});
 
@@ -79,7 +82,7 @@
 							in:fly={{ x: 100, duration: 50 }}
 						>
 							<img
-								src="http://127.0.0.1/assets/maintenance/{maintenance.name}/{step
+								src="http://{$Linker}/assets/maintenance/{maintenance.name}/{step
 									.images[procedureImageIndex]}"
 								alt="procedure"
 								class="shrink-0"

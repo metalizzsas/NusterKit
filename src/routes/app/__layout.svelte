@@ -75,6 +75,18 @@
 			autoScroll: true,
 		});
 
+		registerWebsocket();
+	});
+	onDestroy(() => {
+		if (ws) ws.close();
+	});
+
+	afterUpdate(() => {
+		//reload keyboard only if some dom elements with jsvk class are found
+		if (document.querySelectorAll('.jsvk').length > 0) KioskBoard.run('.jsvk');
+	});
+
+	async function registerWebsocket() {
 		for (let i = 1; i < 12; i++) {
 			wsAtempt = i;
 
@@ -102,22 +114,18 @@
 				continue;
 			}
 		}
-
 		ws.onmessage = (e: MessageEvent) => {
 			let data = JSON.parse(e.data) as IWSObject;
 
 			$machineData = data;
 			ready = true;
 		};
-	});
-	onDestroy(() => {
-		if (ws) ws.close();
-	});
-
-	afterUpdate(() => {
-		//reload keyboard only if some dom elements with jsvk class are found
-		if (document.querySelectorAll('.jsvk').length > 0) KioskBoard.run('.jsvk');
-	});
+		ws.onclose = (e: Event) => {
+			ready = false;
+			wsAtempt = 0;
+			registerWebsocket();
+		};
+	}
 </script>
 
 <div>

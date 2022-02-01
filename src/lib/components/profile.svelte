@@ -5,6 +5,7 @@
 	import { fly } from 'svelte/transition';
 	import { _, date, time } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
+	import { Linker } from '$lib/utils/linker';
 
 	export let profile: Profile;
 	export let delCb: Function;
@@ -20,7 +21,7 @@
 
 		console.log('copied', newProfile.name);
 
-		await fetch('http://127.0.0.1/v1/profiles/', {
+		await fetch('http://' + $Linker + '/v1/profiles/', {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
@@ -32,7 +33,7 @@
 	}
 
 	async function deleteProfile(profile: Profile) {
-		await fetch('http://127.0.0.1/v1/profiles/' + profile.id, {
+		await fetch('http://' + $Linker + '/v1/profiles/' + profile.id, {
 			method: 'DELETE',
 		});
 		delCb();

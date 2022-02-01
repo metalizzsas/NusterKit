@@ -4,7 +4,9 @@
 	import type { Load } from '@sveltejs/kit';
 
 	export const load: Load = async (ctx) => {
-		let content = await ctx.fetch('http://127.0.0.1/v1/cycle/history');
+		let content = await ctx.fetch(
+			'http://' + (ctx.session.ip || '127.0.0.1') + '/v1/cycle/history',
+		);
 
 		return { props: { histories: (await content.json()) as IHistory[] } };
 	};
@@ -21,8 +23,14 @@
 	import { date, time, _ } from 'svelte-i18n';
 	import '$lib/app.css';
 	import { goto } from '$app/navigation';
+	import { Linker } from '$lib/utils/linker';
 
 	export let histories: IHistory[];
+
+	async function restartCycle(his: IHistory) {
+		await fetch('http://' + $Linker + '/v1/cycle/restart/' + his.id, { method: 'POST' });
+		goto('/app/cycle/');
+	}
 </script>
 
 <div>
@@ -67,6 +75,15 @@
 						</span>
 					</div>
 					<div class="flex flex-row items-center gap-2">
+						{#if history.cycle.status.endReason != 'finished'}
+							<button
+								class="bg-red-500 rounded-xl text-white font-semibold py-1 px-2"
+								on:click={() => restartCycle(history)}
+							>
+								Reprise
+							</button>
+							<!-- content here -->
+						{/if}
 						<div
 							class="rounded-full bg-white  py-1 px-3 {(history.cycle.status
 								.endReason || 'user') == 'finished'

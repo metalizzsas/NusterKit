@@ -2,6 +2,7 @@
 	import Modal from '../modals/modal.svelte';
 	import { machineData } from '$lib/utils/store';
 	import { _ } from 'svelte-i18n';
+	import { Linker } from '$lib/utils/linker';
 
 	let displayWatchdogError = false;
 
@@ -13,7 +14,7 @@
 			//return;
 		}
 
-		fetch('http://127.0.0.1/v1/cycle/', {
+		fetch('http://' + $Linker + '/v1/cycle/', {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',

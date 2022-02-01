@@ -182,7 +182,7 @@
       {
          "name": "motor-speed",
          "type": "a10v",
-         "size": "bit",
+         "size": "word",
          "bus": "out",
          "automaton": 0,
          "address": 0,
@@ -192,7 +192,7 @@
       {
          "name": "uv-power",
          "type": "a10v",
-         "size": "bit",
+         "size": "word",
          "bus": "out",
          "automaton": 0,
          "address": 1,
@@ -205,7 +205,7 @@
          "size": "bit",
          "bus": "out",
          "automaton": 1,
-         "address": 16,
+         "address": 15,
          "default": 0,
          "levelMax": 0
       },
@@ -215,7 +215,7 @@
          "size": "bit",
          "bus": "out",
          "automaton": 1,
-         "address": 14,
+         "address": 13,
          "default": 0,
          "levelMax": 0
       },
@@ -225,7 +225,7 @@
          "size": "bit",
          "bus": "out",
          "automaton": 1,
-         "address": 12,
+         "address": 11,
          "default": 0,
          "levelMax": 0
       },
@@ -235,7 +235,7 @@
          "size": "bit",
          "bus": "out",
          "automaton": 1,
-         "address": 10,
+         "address": 9,
          "default": 0,
          "levelMax": 0
       },
@@ -245,7 +245,7 @@
          "size": "bit",
          "bus": "out",
          "automaton": 1,
-         "address": 8,
+         "address": 7,
          "default": 0,
          "levelMax": 0
       },
@@ -255,7 +255,7 @@
          "size": "bit",
          "bus": "out",
          "automaton": 0,
-         "address": 6,
+         "address": 5,
          "default": 0,
          "levelMax": 0
       }
@@ -470,17 +470,17 @@
             "desc": "smt-filter-desc",
             "steps": [
                {
-                  "name": "unscrew-mfm-filter",
+                  "name": "unscrew-smt-filter",
                   "images": [
-                     "assets/maintenances/metalfogm2/filter/0.jpg"
+                     "0.jpg"
                   ]
                },
                {
-                  "name": "replace-mfm-new-filter",
+                  "name": "replace-smt-new-filter",
                   "images": [
-                     "assets/maintenances/metalfogm2/filter/1.jpg",
-                     "assets/maintenances/metalfogm2/filter/2.jpg",
-                     "assets/maintenances/metalfogm2/filter/1.jpg"
+                     "1.jpg",
+                     "2.jpg",
+                     "1.jpg"
                   ]
                }
             ]

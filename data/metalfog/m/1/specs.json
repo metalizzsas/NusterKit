@@ -400,8 +400,8 @@
          "isProductable": true,
          "sensors": [
             {
-               "io": "levels_ox-a",
-               "type": "level-a"
+               "io": "levels_ox-min-n",
+               "type": "level-n"
             }
          ]
       },
@@ -411,8 +411,8 @@
          "isProductable": true,
          "sensors": [
             {
-               "io": "levels_rd-a",
-               "type": "level-a"
+               "io": "levels_rd-min-n",
+               "type": "level-n"
             }
          ]
       },
@@ -422,11 +422,11 @@
          "isProductable": true,
          "sensors": [
             {
-               "io": "levels_act-a",
-               "type": "level-a"
+               "io": "levels_act-min-n",
+               "type": "level-n"
             },
             {
-               "io": "levels_act-n",
+               "io": "levels_act-max-n",
                "type": "level-n"
             }
          ]
@@ -437,11 +437,11 @@
          "isProductable": false,
          "sensors": [
             {
-               "io": "levels_edi-a",
-               "type": "level-a"
+               "io": "levels_edi-min-a",
+               "type": "level-n"
             },
             {
-               "io": "levels_edi-n",
+               "io": "levels_edi-max-n",
                "type": "level-n"
             }
          ]
@@ -452,7 +452,7 @@
          "isProductable": false,
          "sensors": [
             {
-               "io": "levels_eff-n",
+               "io": "levels_eff-max-n",
                "type": "level-n"
             }
          ]
@@ -945,13 +945,37 @@
                "result": false
             },
             {
-               "gateName": "levels_eff-n",
+               "gateName": "levels_eff-max-n",
                "gateValue": 1,
-               "startOnly": true,
+               "startOnly": false,
                "result": false
             },
             {
                "gateName": "eff_container_sensor",
+               "gateValue": 1,
+               "startOnly": false,
+               "result": false
+            },
+            {
+               "gateName": "levels_edi-min-n",
+               "gateValue": 1,
+               "startOnly": false,
+               "result": false
+            },
+            {
+               "gateName": "levels_act-min-n",
+               "gateValue": 1,
+               "startOnly": false,
+               "result": false
+            },
+            {
+               "gateName": "levels_ox-min-n",
+               "gateValue": 1,
+               "startOnly": false,
+               "result": false
+            },
+            {
+               "gateName": "levels_rd-min-n",
                "gateValue": 1,
                "startOnly": false,
                "result": false
@@ -3223,7 +3247,7 @@
                "result": false
             },
             {
-               "gateName": "levels_eff-n",
+               "gateName": "levels_eff-max-n",
                "gateValue": 1,
                "startOnly": false,
                "result": false

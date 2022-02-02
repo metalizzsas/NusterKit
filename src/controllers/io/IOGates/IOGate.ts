@@ -34,15 +34,18 @@ export class IOGate implements IIOGate
         this.isCritical = obj.isCritical;
     }
 
-    public async read(ioController: IOController)
+    public async read(ioController: IOController): Promise<boolean>
     {
+        if(this.bus == 'out') return true;
+
         const word = this.size == IOGateSize.WORD ? true : undefined;
         this.value = await ioController.handlers[this.automaton].readData(this.address, word);
         return true;
     }
 
-    public async write(ioController: IOController, data: number)
+    public async write(ioController: IOController, data: number): Promise<boolean>
     {
+        if(this.bus == 'in') return true;
         const word = this.size == IOGateSize.WORD ? true : undefined;
         
         await ioController.handlers[this.automaton].writeData(this.address, data, word)

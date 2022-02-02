@@ -3,6 +3,7 @@ import { IOExplorer } from "../controllers/io/IOExplorer";
 import { IProfile } from "../controllers/profile/Profile";
 import { ProfileExplorer } from "../controllers/profile/ProfileExplorer";
 import { Machine } from "../Machine";
+import { IProgramBlock } from "./ProgramBlocks";
 import { IProgramStep, ProgramBlockStep, ProgramStepResult, ProgramStepType } from "./ProgramBlockStep";
 import { IWatchdogCondition, WatchdogCondition } from "./Watchdog";
 
@@ -16,6 +17,7 @@ export class ProgramBlockRunner implements IProgram
     profileRequired: boolean;
 
     variables: IProgramVariable[] = [];
+    timers: IProgramTimer[] = [];
     
     //Inside definers
     steps: ProgramBlockStep[] = [];
@@ -41,7 +43,7 @@ export class ProgramBlockRunner implements IProgram
 
         this.machine = machine;
 
-        this.machine.logger.info("Building PBR...");
+        this.machine.logger.info("PBR: Building PBR...");
 
         this.profileRequired = object.profileRequired;
 
@@ -55,7 +57,7 @@ export class ProgramBlockRunner implements IProgram
         this.profile = profile;
 
         if(this.profile === undefined)
-            this.machine.logger.warn("This PBR is build without any profile.");
+            this.machine.logger.warn("PBR: This PBR is build without any profile.");
 
         //properties assignment
         this.name = object.name;
@@ -75,22 +77,22 @@ export class ProgramBlockRunner implements IProgram
 
         this.event.on("end", (ev) => this.end(ev[0] || "event"));
 
-        this.machine.logger.info("Finished building PBR.");
+        this.machine.logger.info("PBR: Finished building PBR.");
     }
 
     public async run()
     {
-        this.machine.logger.info("Checking Watchdog Conditions");
+        this.machine.logger.info("PBR: Checking Watchdog Conditions");
 
         const w = this.watchdogConditions.filter((watchdog) => watchdog.result == false);
 
         if(w.length > 0 && process.env.NODE_ENV == "production")
         {
-            this.machine.logger.error("Watchdog conditions are not ok to start.");
+            this.machine.logger.error("PBR: Watchdog conditions are not ok to start.");
             return;
         }
 
-        this.machine.logger.info(`Started cycle ${this.name}.`);
+        this.machine.logger.info(`PBR: Started cycle ${this.name}.`);
 
         this.status.mode = PBRMode.STARTED;
 
@@ -151,10 +153,22 @@ export class ProgramBlockRunner implements IProgram
 
         if(this.currentStepIndex < this.steps.length)
         {
-            this.machine.logger.error(`Program ended before all steps were executed.`);
-            this.machine.logger.error(`Executing ending IO of last step.`);
+            this.machine.logger.error(`PBR: Program ended before all steps were executed.`);
+            this.machine.logger.error(`PBR: Executing ending IO of last step.`);
             this.steps.at(-1)?.executeLastIO();
         }
+
+        //clearing timers
+        if(this.timers.length > 0)
+        {
+            this.machine.logger.warn("PBR: Cleaning timers.");
+            for(const timer of this.timers.filter(t => t.enabled))
+            {
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                clearInterval(timer.timer!);
+            }
+        }
+        
         
         const m = this.machine.maintenanceController.tasks.find((m) => m.name == "cycleCount");
         m?.append(1);
@@ -163,7 +177,7 @@ export class ProgramBlockRunner implements IProgram
         this.status.mode = PBRMode.ENDED;
         this.status.endDate = Date.now();
         //TODO: Resorbs all timers and everything
-        this.machine.logger.info(`Ended cycle ${this.name} with state: ${this.status.mode} and reason ${this.status.endReason}.`);
+        this.machine.logger.info(`PBR: Ended cycle ${this.name} with state: ${this.status.mode} and reason ${this.status.endReason}.`);
     }
 
     public get progress()
@@ -217,6 +231,7 @@ export interface IProgram
     currentStepIndex?: number;
 
     variables: IProgramVariable[];
+    timers: IProgramTimer[];
 
     status: IPBRStatus;
     steps: IProgramStep[];
@@ -238,4 +253,12 @@ export interface IProgramVariable
 {
     name: string;
     value: number;
+}
+
+export interface IProgramTimer
+{
+    name: string;
+    enabled: boolean;
+    blocks: IProgramBlock[];
+    timer: NodeJS.Timer;
 }

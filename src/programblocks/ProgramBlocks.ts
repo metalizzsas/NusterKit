@@ -278,6 +278,48 @@ export class VariableProgramBlock extends ProgramBlock
     }
 }
 
+export class StartTimerProgramBlock extends ProgramBlock
+{
+    constructor(pbrInstance: ProgramBlockRunner, obj: IProgramBlock)
+    {
+        super(pbrInstance, obj);
+    }
+
+    public async execute(): Promise<void> {
+        const tN = this.params[0].data() as string;
+        const tI = this.params[1].data() as number;
+
+        const timer = setInterval(async () => {
+            for(const b of this.blocks)
+            {
+                await b.execute();
+            }
+        }, tI);
+
+        this.pbrInstance.timers.push({name: tN, timer: timer, blocks: this.blocks, enabled: true});
+    }
+}
+
+export class StopTimerProgramBlock extends ProgramBlock
+{
+    constructor(pbrInstance: ProgramBlockRunner, obj: IProgramBlock)
+    {
+        super(pbrInstance, obj);
+    }
+
+    public async execute(): Promise<void> {
+        const tN = this.params[0].data() as string;
+
+        const timer = this.pbrInstance.timers.find((t) => t.name == tN);
+
+        if(timer && timer.enabled)
+        {
+            clearInterval(timer.timer);
+            timer.enabled = false;
+        }
+    }
+}
+
 export interface IProgramBlock
 {
     name: string;
@@ -299,6 +341,8 @@ export function ProgramBlockRegistry(pbrInstance: ProgramBlockRunner, obj: IProg
         case "maintenance": return new MaintenanceProgramBlock(pbrInstance, obj);
         case "stop": return new StopProgramBlock(pbrInstance, obj);
         case "variable": return new VariableProgramBlock(pbrInstance, obj);
+        case "startTimer": return new StartTimerProgramBlock(pbrInstance, obj);
+        case "stopTimer": return new StopTimerProgramBlock(pbrInstance, obj);
 
         default: {
             pbrInstance.machine.logger.warn("Program block", obj.name, "is not defined properly.");

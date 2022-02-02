@@ -79,6 +79,7 @@
 											bind:value={output.value}
 											on:change={(val) =>
 												update(output.name, val.detail.value)}
+											locked={bus == 'in'}
 										/>
 									{:else}
 										<input
@@ -87,6 +88,7 @@
 											max="100"
 											bind:value={output.value}
 											on:change={() => update(output.name, output.value)}
+											disabled={bus == 'in'}
 										/>
 										<span
 											class="py-1 px-2 rounded-full bg-white text-gray-800 text-sm"

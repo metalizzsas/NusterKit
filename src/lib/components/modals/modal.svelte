@@ -18,9 +18,9 @@
 
 {#if shown}
 	<div
-		class="absolute top-0 right-0 left-0 bottom-0 bg-white/50 backdrop-grayscale z-50"
-		in:fade={{ duration: 100 }}
-		out:fade={{ duration: 100 }}
+		class="absolute top-0 right-0 left-0 bottom-0 bg-gray-600 le z-50"
+		in:fade={{ duration: 50 }}
+		out:fade={{ duration: 50 }}
 	>
 		<div
 			class="relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5/6 rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-50 dark:bg-neutral-800 shadow-xl group"

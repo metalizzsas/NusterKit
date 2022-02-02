@@ -128,6 +128,9 @@ export interface Step {
   startingIO: StartingIO[];
   endingIO: StartingIO[];
   blocks: Block2[];
+
+  runAmount?: IsEnabled;
+  runCount?: number;
 }
 
 export interface Block2 {

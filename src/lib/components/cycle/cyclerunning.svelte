@@ -33,10 +33,17 @@
 
 				<div class="flex flex-row gap-4 self-center items-center group">
 					<span
-						class="bg-white rounded-full px-2 py-1 text-gray-800 text-xs hidden group-hover:block"
+						class="bg-rose-400 rounded-full px-2 py-1 text-gray-800 text-xs hidden group-hover:block"
 					>
 						{s.blocks.filter((b) => b.executed == true).length} / {s.blocks.length}
 					</span>
+					{#if s.type != 'single'}
+						<span class="bg-white rounded-full px-2 py-1 text-gray-800 text-xs">
+							{s.runCount === undefined ? '?' : s.runCount + 0} / {s.runAmount
+								?.data || '?'}
+						</span>
+					{/if}
+
 					<span class="bg-white rounded-full px-2 py-1 text-gray-800 text-xs">
 						{Math.ceil(s.progress * 100) > 99 ? '100' : Math.ceil(s.progress * 100)} %
 					</span>

@@ -444,7 +444,7 @@
                   {
                      "name": "speed",
                      "type": "float",
-                     "unity": "",
+                     "unity": "%",
                      "value": "50",
                      "floatMax": 100,
                      "floatMin": 0,

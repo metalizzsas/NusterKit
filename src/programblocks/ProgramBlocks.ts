@@ -159,12 +159,12 @@ export class IfProgramBlock extends ProgramBlock
 
         if(this.operators[c](lV, rV))
         {
-            if(this.blocks !== undefined)
+            if(this.blocks !== undefined && this.blocks[0])
                 await this.blocks[0].execute();
         }
         else
         {
-            if(this.blocks !== undefined)
+            if(this.blocks !== undefined && this.blocks[1])
                 await this.blocks[1].execute();
         }
         this.executed = true;

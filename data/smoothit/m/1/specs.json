@@ -15,29 +15,32 @@
       {
          "name": "emergency_stop",
          "type": "default",
+         "size": "bit",
          "bus": "in",
          "automaton": 0,
          "address": 0,
          "default": 0,
-         "size": "bit"
+         "isCritical": true
       },
       {
          "name": "nitrogen_sensor",
          "type": "default",
+         "size": "bit",
          "bus": "in",
          "automaton": 0,
          "address": 1,
          "default": 0,
-         "size": "bit"
+         "isCritical": true
       },
       {
          "name": "cover_closed",
          "type": "default",
+         "size": "bit",
          "bus": "in",
          "automaton": 0,
          "address": 2,
          "default": 0,
-         "size": "bit"
+         "isCritical": true
       },
       {
          "name": "resin-slot_sensor",
@@ -47,67 +50,73 @@
          "automaton": 0,
          "address": 3,
          "default": 0,
-         "levelMax": 0
+         "isCritical": true
       },
       {
-         "name": "nozzle-sensor+",
+         "name": "nozzle-sensor_open",
          "type": "default",
          "size": "bit",
          "bus": "in",
          "automaton": 0,
          "address": 4,
          "default": 0,
-         "levelMax": 0
+         "levelMax": 0,
+         "isCritical": true
       },
       {
-         "name": "nozzle-sensor-",
+         "name": "nozzle-sensor_closed",
          "type": "default",
          "size": "bit",
          "bus": "in",
          "automaton": 0,
          "address": 5,
          "default": 0,
-         "levelMax": 0
+         "levelMax": 0,
+         "isCritical": true
       },
       {
-         "name": "ir_sensor+",
+         "name": "ir-sensor_open",
          "type": "default",
          "size": "bit",
          "bus": "in",
          "automaton": 0,
          "address": 6,
          "default": 0,
-         "levelMax": 0
+         "levelMax": 0,
+         "isCritical": true
       },
       {
-         "name": "ir_sensor-",
+         "name": "ir-sensor_closed",
          "type": "default",
          "size": "bit",
          "bus": "in",
          "automaton": 0,
          "address": 7,
          "default": 0,
-         "levelMax": 0
+         "levelMax": 0,
+         "isCritical": true
       },
       {
-         "name": "uv_sensor+",
+         "name": "uv-sensor_open",
          "type": "default",
          "size": "bit",
          "bus": "in",
          "automaton": 0,
          "address": 8,
          "default": 0,
-         "levelMax": 0
+         "levelMax": 0,
+         "isCritical": true
       },
       {
-         "name": "uv_sensor-",
+         "name": "uv-sensor_closed",
          "type": "default",
          "size": "bit",
          "bus": "in",
          "automaton": 0,
          "address": 9,
          "default": 0,
-         "levelMax": 0
+         "levelMax": 0,
+         "isCritical": true
       },
       {
          "name": "motor-direction",
@@ -741,7 +750,7 @@
                      "params": [
                         {
                            "name": "io",
-                           "value": "nozzle-sensor-",
+                           "value": "nozzle-sensor_closed",
                            "params": []
                         },
                         {
@@ -1065,7 +1074,7 @@
                      "params": [
                         {
                            "name": "io",
-                           "value": "ir_sensor+",
+                           "value": "ir-sensor_open",
                            "params": []
                         },
                         {
@@ -1100,7 +1109,7 @@
                      "params": [
                         {
                            "name": "io",
-                           "value": "nozzle-sensor-",
+                           "value": "nozzle-sensor_closed",
                            "params": []
                         },
                         {
@@ -1370,7 +1379,7 @@
                      "params": [
                         {
                            "name": "io",
-                           "value": "uv_sensor-",
+                           "value": "uv-sensor_closed",
                            "params": []
                         },
                         {
@@ -1405,7 +1414,7 @@
                      "params": [
                         {
                            "name": "conststr",
-                           "value": "nozzle-sensor+",
+                           "value": "nozzle-sensor_open",
                            "params": []
                         },
                         {

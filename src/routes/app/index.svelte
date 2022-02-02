@@ -5,9 +5,27 @@
 	import SlotProduct from '$lib/components/slotproduct.svelte';
 	import { machineData } from '$lib/utils/store';
 	import { goto } from '$app/navigation';
+	import Machine from '$lib/main/machine.svelte';
+	import Infoblock from '$lib/components/infoblock.svelte';
 </script>
 
 <main id="content">
+	<div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-200 dark:bg-neutral-800  group">
+		<div class="flex flex-row justify-items-end -translate-y-4">
+			<div
+				class="rounded-xl bg-rose-500 text-white py-1 px-8 font-semibold  group-hover:scale-105 transition-all"
+			>
+				{$_('informations')}
+			</div>
+		</div>
+
+		<div class="grid grid-cols-2 gap-4">
+			{#each $machineData.machine._nuster.mainInformations as info}
+				<Infoblock {info} />
+			{/each}
+		</div>
+	</div>
+
 	<div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-200 dark:bg-neutral-800  group">
 		<div class="flex flex-row justify-items-end -translate-y-4">
 			<div
@@ -20,7 +38,7 @@
 		<div class="grid grid-cols-3 gap-4">
 			<div
 				on:click={() => goto('app/cycle')}
-				class="flex flex-row items-center justify-center gap-4  bg-gradient-to-br from-indigo-500 to-indigo-600 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:skew-y-[0.25deg] duration-200 ease-in-out"
+				class="flex flex-row items-center justify-center gap-4 bg-gradient-to-br from-indigo-500 to-indigo-600 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:skew-y-[0.25deg] duration-200 ease-in-out"
 			>
 				{$_('cycle.button')}
 				{#if $machineData.cycle !== undefined}

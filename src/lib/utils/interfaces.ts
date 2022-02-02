@@ -188,4 +188,16 @@ export interface Machine {
   model: string;
   variant: string;
   revision: number;
+  _nuster: INuster
+}
+
+export interface INuster
+{
+  mainInformations: INusterMainInformations[]
+}
+
+export interface INusterMainInformations
+{
+  type: string;
+  reference: string;
 }

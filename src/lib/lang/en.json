@@ -230,6 +230,9 @@
       "smt-filter": {
         "name": "Solvants filter",
         "desc": "Smoothit gaz filter filters all coating solvants produced by the coating done inside the machine."
+      },
+      "cycleCount": {
+        "name": "Cycle count"
       }
     }
   }

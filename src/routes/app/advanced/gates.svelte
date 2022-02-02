@@ -82,19 +82,21 @@
 											locked={bus == 'in'}
 										/>
 									{:else}
-										<input
-											type="range"
-											min="0"
-											max="100"
-											bind:value={output.value}
-											on:change={() => update(output.name, output.value)}
-											disabled={bus == 'in'}
-										/>
-										<span
-											class="py-1 px-2 rounded-full bg-white text-gray-800 text-sm"
-										>
-											{Math.ceil(output.value)}
-										</span>
+										<div class="flex flex-row gap-4">
+											<input
+												type="range"
+												min="0"
+												max="100"
+												bind:value={output.value}
+												on:change={() => update(output.name, output.value)}
+												disabled={bus == 'in'}
+											/>
+											<span
+												class="py-1 px-2 rounded-full bg-white text-gray-800 text-sm"
+											>
+												{Math.ceil(output.value)} %
+											</span>
+										</div>
 									{/if}
 								</div>
 							{/each}

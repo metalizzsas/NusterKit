@@ -35,7 +35,8 @@ export class ProgramBlockStep implements IProgramStep
         if(obj.runAmount)
         {
             this.runAmount = ParameterBlockRegistry(this.pbrInstance, obj.runAmount);
-            this.type = (this.runAmount.data() as number > 1 ? ProgramStepType.MULTIPLE : ProgramStepType.SINGLE);
+            this.runCount = obj.runCount || 0;
+            this.type = (this.runAmount.data() as number >= 1 ? ProgramStepType.MULTIPLE : ProgramStepType.SINGLE);
         }
 
         //Adding io starting blocks

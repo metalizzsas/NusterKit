@@ -1,4 +1,20 @@
 {
+   "_nuster": {
+      "mainInformations": [
+         {
+            "type": "gate",
+            "reference": "emergency_sensor"
+         },
+         {
+            "type": "gate",
+            "reference": "air_sensor"
+         },
+         {
+            "type": "maintenance",
+            "reference": "cycleCount"
+         }
+      ]
+   },
    "iohandlers": [
       {
          "name": "WAGO",

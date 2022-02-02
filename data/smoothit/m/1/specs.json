@@ -1,4 +1,24 @@
 {
+   "_nuster": {
+      "mainInformations": [
+         {
+            "type": "gate",
+            "reference": "emergency_sensor"
+         },
+         {
+            "type": "gate",
+            "reference": "nitrogen_sensor"
+         },
+         {
+            "type": "gate",
+            "reference": "uv-overheat"
+         },
+         {
+            "type": "maintenance",
+            "reference": "cycleCount"
+         }
+      ]
+   },
    "iohandlers": [
       {
          "name": "WAGO",

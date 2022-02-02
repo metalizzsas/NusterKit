@@ -640,7 +640,7 @@
                },
                "duration": {
                   "name": "const",
-                  "value": "3",
+                  "value": "30",
                   "params": []
                },
                "blocks": [
@@ -649,7 +649,7 @@
                      "params": [
                         {
                            "name": "const",
-                           "value": "3",
+                           "value": "30",
                            "params": []
                         }
                      ],
@@ -658,6 +658,22 @@
                   }
                ],
                "startingIO": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "air_heater",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
                   {
                      "name": "io",
                      "params": [
@@ -1252,7 +1268,7 @@
                      "params": [
                         {
                            "name": "io",
-                           "value": "uv-sensor_open",
+                           "value": "uv-sensor_closed",
                            "params": []
                         },
                         {
@@ -1864,6 +1880,22 @@
                   }
                ],
                "endingIO": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "air_heater",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "0",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
                   {
                      "name": "io",
                      "params": [

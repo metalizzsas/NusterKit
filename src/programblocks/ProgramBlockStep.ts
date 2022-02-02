@@ -96,9 +96,9 @@ export class ProgramBlockStep implements IProgramStep
         }
 
         //handling of multiple runned steps
-        if(this.runAmount && this.runAmount.data() as number > 1)
+        if(this.runAmount !== undefined && this.runCount !== undefined && this.runAmount.data() as number > 1)
         {
-            this.runCount = (this.runCount) ? this.runCount + 1 : 0;
+            this.runCount++;
 
             if(this.runCount && this.runAmount && (this.runCount == this.runAmount.data()))
             {

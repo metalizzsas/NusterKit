@@ -20,7 +20,7 @@ import { ProfileController } from "./controllers/profile/ProfilesController";
 import { SlotController } from "./controllers/slot/SlotController";
 import { AuthManager } from "./auth/auth";
 
-export class Machine{
+export class Machine {
 
     name: string;
     serial: string;
@@ -80,7 +80,7 @@ export class Machine{
             deepExtend(specsParsed, parsed.options)
         }
 
-        this.specs = specsParsed;
+        this.specs = (specsParsed as IMachine);
 
         this.maintenanceController = new MaintenanceController(this);
         this.ioController = new IOController(this);
@@ -126,7 +126,9 @@ export class Machine{
 
             model: this.model,
             variant: this.variant,
-            revision: this.revision
+            revision: this.revision,
+
+            _nuster: this.specs._nuster
         };
     }
 }
@@ -134,6 +136,7 @@ export class Machine{
 //machine json interface
 export interface IMachine
 {
+    _nuster: INuster;
     iohandlers: IIOHandler[],
     iogates: IIOGate[],
     slots: IConfigSlot[],
@@ -142,4 +145,15 @@ export interface IMachine
     passives: IPassive[],
     manual: IManualMode[],
     cycles: IProgram[]
+}
+
+export interface INuster
+{
+    mainInformations: IMainInformation[]
+}
+
+interface IMainInformation
+{
+    type: string;
+    reference: string;
 }

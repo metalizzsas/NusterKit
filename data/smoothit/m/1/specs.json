@@ -322,15 +322,6 @@
                      "floatStep": 0
                   },
                   {
-                     "name": "motor-speed",
-                     "type": "float",
-                     "unity": "%",
-                     "value": 50,
-                     "floatMax": 100,
-                     "floatMin": 0,
-                     "floatStep": 5
-                  },
-                  {
                      "name": "enabled",
                      "type": "bool",
                      "unity": "",
@@ -354,12 +345,6 @@
                      "type": "int",
                      "value": "180",
                      "unity": "m-s"
-                  },
-                  {
-                     "name": "motor-speed",
-                     "type": "float",
-                     "value": 1,
-                     "unity": "%"
                   }
                ]
             },
@@ -407,12 +392,6 @@
                      "floatMin": 100,
                      "floatMax": 30,
                      "floatStep": 5
-                  },
-                  {
-                     "name": "motor-speed",
-                     "type": "float",
-                     "value": "80",
-                     "unity": "%"
                   }
                ]
             },

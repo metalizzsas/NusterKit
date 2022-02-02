@@ -3,7 +3,7 @@
       "mainInformations": [
          {
             "type": "gate",
-            "reference": "emergency_sensor"
+            "reference": "emergency_stop"
          },
          {
             "type": "gate",

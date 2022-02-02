@@ -832,6 +832,17 @@
                },
                "blocks": [
                   {
+                     "name": "sleep",
+                     "params": [
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
                      "name": "if",
                      "params": [
                         {
@@ -1156,6 +1167,17 @@
                },
                "blocks": [
                   {
+                     "name": "sleep",
+                     "params": [
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
                      "name": "if",
                      "params": [
                         {
@@ -1216,6 +1238,41 @@
                               {
                                  "name": "conststr",
                                  "value": "nozzle-cache-wrong",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": [],
+                           "_folded": false
+                        }
+                     ],
+                     "_folded": true
+                  },
+                  {
+                     "name": "if",
+                     "params": [
+                        {
+                           "name": "io",
+                           "value": "uv-sensor_open",
+                           "params": []
+                        },
+                        {
+                           "name": "conststr",
+                           "value": "!=",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [
+                        {
+                           "name": "stop",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "uv-cache-wrong",
                                  "params": []
                               }
                            ],
@@ -1461,6 +1518,17 @@
                },
                "blocks": [
                   {
+                     "name": "sleep",
+                     "params": [
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": []
+                  },
+                  {
                      "name": "if",
                      "params": [
                         {
@@ -1486,6 +1554,41 @@
                               {
                                  "name": "conststr",
                                  "value": "uv-cache-wrong",
+                                 "params": []
+                              }
+                           ],
+                           "blocks": [],
+                           "_folded": false
+                        }
+                     ],
+                     "_folded": true
+                  },
+                  {
+                     "name": "if",
+                     "params": [
+                        {
+                           "name": "io",
+                           "value": "ir-sensor_close",
+                           "params": []
+                        },
+                        {
+                           "name": "conststr",
+                           "value": "!=",
+                           "params": []
+                        },
+                        {
+                           "name": "const",
+                           "value": "1",
+                           "params": []
+                        }
+                     ],
+                     "blocks": [
+                        {
+                           "name": "stop",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "ir-cache-wrong",
                                  "params": []
                               }
                            ],

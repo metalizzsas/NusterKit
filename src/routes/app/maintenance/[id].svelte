@@ -100,7 +100,7 @@
 											>
 												<!-- svelte-ignore a11y-missing-attribute -->
 												<img
-													src="http://localhost/assets/maintenance/{maintenance.name}/{image}"
+													src="http://{$Linker}/assets/maintenance/{maintenance.name}/{image}"
 													class="h-32 ring-white rounded-md ring-1"
 												/>
 											</div>

@@ -1618,7 +1618,7 @@
                      "name": "if",
                      "params": [
                         {
-                           "name": "conststr",
+                           "name": "io",
                            "value": "nozzle-sensor_closed",
                            "params": []
                         },

@@ -2,7 +2,7 @@ on:
   push:
     branches:
       - main
-name: "Balena publish"
+name: "Balena publish (NT)"
 jobs:
   balena_cloud_build:
     runs-on: ubuntu-latest

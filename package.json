@@ -4,7 +4,7 @@
     "node": "16.x"
   },
   "version": "1.0.0",
-  "description": "Typescript project running on Docker and RPi4.",
+  "description": "Typescript project running on BalenaOS and RPi4.",
   "main": "app.js",
   "scripts": {
     "update": "rm -rf ./nuster-turbine-machines && git clone git@github.com:metalizzsas/NusterTurbineMachines.git ./nuster-turbine-machines",
@@ -18,15 +18,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Kworz/NusterTurbine.git"
+    "url": "git+https://github.com/metalizzsas/NusterTurbine.git"
   },
   "keywords": [],
   "author": "Metalizz SAS",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/Kworz/NusterTurbine/issues"
+    "url": "https://github.com/metalizzsas/NusterTurbine/issues"
   },
-  "homepage": "https://github.com/Kworz/NusterTurbine#readme",
+  "homepage": "https://github.com/metalizzsas/NusterTurbine#readme",
   "dependencies": {
     "@types/cookie-parser": "^1.4.2",
     "@types/cors": "^2.8.12",

@@ -7,16 +7,14 @@
   "description": "Typescript project running on Docker and RPi4.",
   "main": "app.js",
   "scripts": {
-    "update": "bash nuster-turbine-machines.sh",
+    "update": "rm -rf ./nuster-turbine-machines && git clone git@github.com:metalizzsas/NusterTurbineMachines.git ./nuster-turbine-machines",
     "dev": "export DISABLE_EX260=\"true\" && ./node_modules/.bin/concurrently --kill-others \"npm run dev:app\" \"npm run dev:modbus\"",
     "dev:app": "nodemon src/app.ts | node_modules/.bin/pino-pretty",
     "dev:modbus": "node dev/modbus.mjs",
     "machine": "export NODE_ENV=\"production\"; nodemon src/app.ts | node_modules/.bin/pino-pretty",
     "build": "tsc",
     "start": "node build/app.js | pino-pretty",
-    "lc": "find './src' -name '*.ts' | xargs wc -l",
-    "balena-env": "bash ./env.sh",
-    "balena-publish": "bash nuster-turbine-machines.sh && bash nuster-desktop.sh && balena push NusterTurbine -c"
+    "lc": "find './src' -name '*.ts' | xargs wc -l"
   },
   "repository": {
     "type": "git",

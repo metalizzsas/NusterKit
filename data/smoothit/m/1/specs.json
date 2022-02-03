@@ -1584,7 +1584,7 @@
                      "params": [
                         {
                            "name": "io",
-                           "value": "ir-sensor_close",
+                           "value": "ir-sensor_closed",
                            "params": []
                         },
                         {

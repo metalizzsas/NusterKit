@@ -248,6 +248,12 @@ export class StopProgramBlock extends ProgramBlock
 
     public async execute(): Promise<void>
     {
+        if(process.env.NODE_ENV != "production")
+        {
+            this.pbrInstance.machine.logger.info("StopBlock: Debug mode will not stop the machine.");
+            return;
+        }
+            
         this.pbrInstance.end(this.params[0].data() as string);
         this.executed = true;
     }

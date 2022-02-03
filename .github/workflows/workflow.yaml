@@ -10,13 +10,13 @@ jobs:
         with:
           repository: metalizzsas/NusterTurbineMachines
           path: ./nuster-turbine-machines
-          token: ${{ github.token }}
+          token: ${{ secrets.GH_TOKEN }}
           ref: main
       - uses: actions/checkout@main
         with:
           repository: metalizzsas/NusterDesktop
           path: ./nuster-desktop
-          token: ${{ github.token }}
+          token: ${{ secrets.GH_TOKEN }}
           ref: main
       - uses: balena-io/deploy-to-balena-action@master
         id: build

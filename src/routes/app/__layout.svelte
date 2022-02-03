@@ -130,9 +130,9 @@
 
 <div>
 	{#if !ready}
-		<div class="absolute top-0 bottom-0 right-0 left-0" in:fade out:fade>
+		<div class="flex h-screen justify-center items-center" in:fade out:fade>
 			<div
-				class="relative bg-zinc-900 w-[50vw] h-[50vw] p-10 mx-auto text-white rounded-3xl translate-y-full"
+				class="relative bg-zinc-900 w-[35%] p-10 text-white rounded-3xl"
 				in:scale
 				out:scale
 			>
@@ -171,6 +171,13 @@
 									on:click={() => goto('/')}
 								>
 									Return to NusterDesktop
+								</button>
+							{:else}
+								<button
+									class="bg-gray-500 text-white font-semibold py-1 px-2 rounded-xl"
+									on:click={() => (window.location.href = '/machine')}
+								>
+									Retry
 								</button>
 							{/if}
 						</p>

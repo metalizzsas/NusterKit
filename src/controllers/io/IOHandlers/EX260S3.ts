@@ -118,7 +118,7 @@ export class EX260S3 extends IOHandler
 
         //patch to prevent writing too early
         await new Promise((resolve) => {
-            setTimeout(resolve, 10);
+            setTimeout(resolve, 25);
         });
 
         //Path for ethernet ip protocol

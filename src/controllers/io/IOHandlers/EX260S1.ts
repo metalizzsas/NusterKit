@@ -94,6 +94,7 @@ export class EX260S1 extends IOHandler
 
         return new Promise((resolve, reject) => {
             this.controller.once("SendRRData Received", (data: any) => {
+                //FIXME: Ajouter un check du packet id 178
                 resolve(data[1].data);
             });
             setTimeout(() => {reject("Reading Data timed out...")}, 10000);
@@ -117,7 +118,7 @@ export class EX260S1 extends IOHandler
 
         //patch to prevent writing too early
         await new Promise((resolve) => {
-            setTimeout(resolve, 10);
+            setTimeout(resolve, 25);
         });
 
         //Path for ethernet ip protocol

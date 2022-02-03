@@ -96,7 +96,6 @@ export class ForLoopProgramBlock extends ProgramBlock implements IForLoopProgram
         }
 
         this.currentIteration = 0; // reset current iteration if we dont, multiple steps execute for loops only at the begining
-
         this.executed = true;
     }
 }

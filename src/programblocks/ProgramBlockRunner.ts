@@ -119,17 +119,29 @@ export class ProgramBlockRunner implements IProgram
                     //reset times at the end of a partial step
                     this.steps[this.currentStepIndex].resetTimes();
 
+                    this.machine.logger.info("PBR: Partial step ended, fetching first multiple step.");
+
                     //if next step does not exists or next step is not a multiple step,
                     //return to first multiple step
                     if(this.steps[this.currentStepIndex + 1].type != ProgramStepType.MULTIPLE)
                     {
-                        const j = this.steps.findIndex((step) => step.type == ProgramStepType.MULTIPLE)
+                        const j = this.steps.findIndex(step => step.type == ProgramStepType.MULTIPLE);
 
-                        if(j > -1)
+                        if(j != -1)
+                        {
+                            this.machine.logger.info("PBR: Next partial step: " + this.steps[j].name);
                             this.currentStepIndex = j;
-                        else 
-                            throw new Error("Failed to find first Multiple executions step");
+                        }
+                        else
+                        {
+                            this.machine.logger.error("PBR: No first multiple step found.");
+                            this.end("partial-definition-error");
+                        }
                         continue;
+                    }
+                    else
+                    {
+                        this.machine.logger.info("PBR: Next partial step not found, going next step.");
                     }
                 }
             }

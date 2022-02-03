@@ -36,7 +36,7 @@ export class ProgramBlockStep implements IProgramStep
         {
             this.runAmount = ParameterBlockRegistry(this.pbrInstance, obj.runAmount);
             this.runCount = obj.runCount || 0;
-            this.type = (this.runAmount.data() as number >= 1 ? ProgramStepType.MULTIPLE : ProgramStepType.SINGLE);
+            this.type = (this.runAmount.data() as number > 1 ? ProgramStepType.MULTIPLE : ProgramStepType.SINGLE);
         }
 
         //Adding io starting blocks
@@ -140,44 +140,46 @@ export class ProgramBlockStep implements IProgramStep
 
     get progress()
     {
-        if(this.startTime)
-        {
+        let progress = 0;
             switch(this.state)
             {
                 case ProgramStepState.STARTED:
                 {
-                    //TODO: Clean this mess
-                    
-                    if(this.type == ProgramStepType.MULTIPLE && this.runCount && this.runAmount)
-                        return parseFloat((this.runCount / (this.runAmount.data() as number)).toFixed(2)) + parseFloat(((Date.now() - this.startTime) / (this.duration.data() as number)).toFixed(2)) * parseFloat((1 / (this.runAmount.data() as number)).toFixed(2));
+                    if(this.startTime)
+                    {
+                        progress = parseFloat(((Date.now() - this.startTime) / ((this.duration.data() as number) * 1000)).toFixed(2));
+                        progress = (progress >= 1 ? 1 : progress);
+                        break;
+                    }
                     else
-                        return parseFloat(((Date.now() - this.startTime) / ((this.duration.data() as number) * 1000)).toFixed(2));
+                    {
+                        progress = 0;
+                        break;
+                    }
                 }
                 case ProgramStepState.STOPPED:
                 {
-                    if(this.duration !== undefined && this.startTime !== undefined && this.endTime !== undefined)
-                        return parseFloat(((this.endTime - this.startTime) / ((this.duration.data() as number) * 1000)).toFixed(2));
-                    else
-                        return 0;
+                    progress = 0;
+                    break;
                 }
-                case ProgramStepState.COMPLETED: 
+                case ProgramStepState.COMPLETED || ProgramStepState.PARTIAL:
                 {
-                    return 1;
-                }
-                case ProgramStepState.PARTIAL:
-                {
-                    if(this.runAmount && this.runCount)
-                        return parseFloat((this.runCount / (this.runAmount.data() as number)).toFixed(2));
-                    else
-                        throw new Error("RunAmount & runCount are not defined");
+                    progress = (this.type == ProgramStepType.SINGLE) ? 1 : 0;
+                    break;
                 }
                 default: {
-                    return 0;
+                    progress = 0;
+                    break;
                 }
             }
-        }
-        else
-            return 0; //progress cant be established because step has no starttime
+            if((this.type == ProgramStepType.MULTIPLE) && this.runAmount)
+            {
+                return ((1 * progress) / (this.runAmount.data() as number)) + ((this.runCount || 0) / (this.runAmount.data() as number))
+            }
+            else
+            {
+                return progress;
+            }
     }
     public resetTimes()
     {

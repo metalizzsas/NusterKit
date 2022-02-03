@@ -52,7 +52,7 @@
 			<button
 				on:click={() => {
 					setLang(lang);
-					goto('/app');
+					window.location.href = '/machine';
 				}}
 				class="bg-indigo-500 py-1 px-2 rounded-xl text-white text-sm font-semibold"
 			>

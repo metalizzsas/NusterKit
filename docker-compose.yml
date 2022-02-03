@@ -37,7 +37,7 @@ services:
       DISPLAY_NUM: 0
       LAUNCH_URL: 'http://127.0.0.1:3000/machine'
       KIOSK: 1
-      ENABLE_GPU: 0
+      ENABLE_GPU: 1
       #ROTATE_DISPLAY: 'right'
       #TOUCHSCREEN: 'wch Touch'
       PERSISTANT: 1

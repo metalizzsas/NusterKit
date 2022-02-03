@@ -69,7 +69,7 @@ export class Machine {
         this.variant = parsed.variant;
         this.revision = parsed.revision;
 
-        const raw = fs.readFileSync(path.resolve("node_modules", "nuster-turbine-machines", "data", this.model, this.variant, `${this.revision}`, "specs.json"), {encoding: "utf-8"});
+        const raw = fs.readFileSync(path.resolve("nuster-turbine-machines", "data", this.model, this.variant, `${this.revision}`, "specs.json"), {encoding: "utf-8"});
 
         const specsParsed = JSON.parse(raw);
 
@@ -115,7 +115,7 @@ export class Machine {
 
     get assetsFolder()
     {
-        return path.resolve("node_modules", "nuster-turbine-machines", "data", this.model, this.variant, `${this.revision}`, "assets");
+        return path.resolve("nuster-turbine-machines", "data", this.model, this.variant, `${this.revision}`, "assets");
     }
 
     toJSON()

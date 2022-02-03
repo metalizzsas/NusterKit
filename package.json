@@ -7,17 +7,16 @@
   "description": "Typescript project running on Docker and RPi4.",
   "main": "app.js",
   "scripts": {
+    "update": "bash nuster-turbine-machines.sh",
     "dev": "export DISABLE_EX260=\"true\" && ./node_modules/.bin/concurrently --kill-others \"npm run dev:app\" \"npm run dev:modbus\"",
     "dev:app": "nodemon src/app.ts | node_modules/.bin/pino-pretty",
     "dev:modbus": "node dev/modbus.mjs",
     "machine": "export NODE_ENV=\"production\"; nodemon src/app.ts | node_modules/.bin/pino-pretty",
-    "docs": "typedoc --out docs --entryPointStrategy expand ./src",
     "build": "tsc",
     "start": "node build/app.js | pino-pretty",
     "lc": "find './src' -name '*.ts' | xargs wc -l",
     "balena-env": "bash ./env.sh",
-    "balena-publish": "bash nuster-desktop.sh && balena push NusterTurbine -c",
-    "balena-publish-vm": "bash nuster-desktop.sh && balena push NTx64"
+    "balena-publish": "bash nuster-turbine-machines.sh && bash nuster-desktop.sh && balena push NusterTurbine -c"
   },
   "repository": {
     "type": "git",
@@ -47,7 +46,6 @@
     "express": "^4.17.1",
     "modbus-serial": "^8.0.5",
     "mongoose": "^6.0.13",
-    "nuster-turbine-machines": "git+https://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:x-oauth-basic@github.com/metalizzsas/NusterTurbineMachines.git",
     "ping": "^0.4.1",
     "pino": "^7.6.0",
     "pino-http": "^6.5.0",

@@ -6,6 +6,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: get Nuster Turbine Machines
+        run: bash ./nuster-turbine-machines.sh
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: get Nuster Desktop
         run: bash ./nuster-desktop.sh
         env:

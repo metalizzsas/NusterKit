@@ -723,18 +723,18 @@
                      "name": "if",
                      "params": [
                         {
-                           "name": "const",
-                           "value": "1",
+                           "name": "profile",
+                           "value": "motor.reverseEnabled",
                            "params": []
                         },
                         {
                            "name": "conststr",
-                           "value": "!=",
+                           "value": "==",
                            "params": []
                         },
                         {
-                           "name": "profile",
-                           "value": "motor.reverseEnabled",
+                           "name": "const",
+                           "value": "1",
                            "params": []
                         }
                      ],
@@ -748,8 +748,8 @@
                                  "params": []
                               },
                               {
-                                 "name": "const",
-                                 "value": "1",
+                                 "name": "profile",
+                                 "value": "motor.reverseTime",
                                  "params": []
                               }
                            ],

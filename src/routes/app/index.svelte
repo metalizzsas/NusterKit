@@ -5,12 +5,11 @@
 	import SlotProduct from '$lib/components/slotproduct.svelte';
 	import { machineData } from '$lib/utils/store';
 	import { goto } from '$app/navigation';
-	import Machine from '$lib/main/machine.svelte';
 	import Infoblock from '$lib/components/infoblock.svelte';
 </script>
 
 <main id="content">
-	<div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-200 dark:bg-neutral-800  group">
+	<div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-300 dark:bg-neutral-800  group">
 		<div class="flex flex-row justify-items-end -translate-y-4">
 			<div
 				class="rounded-xl bg-rose-500 text-white py-1 px-8 font-semibold  group-hover:scale-105 transition-all"
@@ -26,7 +25,7 @@
 		</div>
 	</div>
 
-	<div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-200 dark:bg-neutral-800  group">
+	<div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-300 dark:bg-neutral-800  group">
 		<div class="flex flex-row justify-items-end -translate-y-4">
 			<div
 				class="rounded-xl bg-indigo-500 text-white py-1 px-8 font-semibold  group-hover:scale-105 transition-all"
@@ -83,7 +82,7 @@
 		</div>
 	</div>
 
-	<div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-200 dark:bg-neutral-800  group">
+	<div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-300 dark:bg-neutral-800  group">
 		<div class="flex flex-row justify-items-end -translate-y-4">
 			<div
 				class="rounded-xl bg-purple-500 text-white py-1 px-8 font-semibold  group-hover:scale-105 transition-all"
@@ -99,7 +98,7 @@
 		</div>
 	</div>
 
-	<div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-200 dark:bg-neutral-800  group">
+	<div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-300 dark:bg-neutral-800  group">
 		<div class="flex flex-row justify-items-end -translate-y-4">
 			<div
 				class="rounded-xl bg-cyan-500 text-white py-1 px-8 font-semibold  group-hover:scale-105 transition-all"

@@ -7,7 +7,7 @@
 </script>
 
 <div
-	class="rounded-2xl py-2 px-3 bg-gradient-to-br from-rose-500 to-rose-600 text-white font-semibold flex flex-row justify-between"
+	class="rounded-2xl py-2 px-3 bg-gradient-to-br from-rose-300 to-rose-400 text-white font-semibold flex flex-row justify-between"
 >
 	{#if info.type == 'gate'}
 		<div class="font-semibold">{$_('gates.names.' + info.reference)}</div>

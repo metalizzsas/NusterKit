@@ -32,6 +32,8 @@
       "name": "Sensors",
       "types": {
         "level-n": "Limit switch",
+        "level-min-n": "Minimal limit",
+        "level-max-n": "Maximal limit",
         "level-np": "Presence switch",
         "level-a": "Level",
         "temperature": "Temperature"

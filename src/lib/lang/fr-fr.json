@@ -27,7 +27,9 @@
     "sensors": {
       "name": "Capteurs",
       "types": {
-        "level-n": "Limite max.",
+        "level-n": "Limite",
+        "level-min-n": "Limite min.",
+        "level-max-n": "Limite max.",
         "level-np": "Présence",
         "level-a": "Niveau",
         "temperature": "Température"

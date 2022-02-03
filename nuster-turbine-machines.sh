@@ -8,4 +8,4 @@ then
     rm -rf ./nuster-turbine-machines/
 fi
 
-git clone https://${GH_TOKEN}:x-oauth-basic@github.com/metalizzsas/NusterTurbineMachines.git ./nuster-turbine-machines/
+git clone https://${GITHUB_TOKEN}:x-oauth-basic@github.com/metalizzsas/NusterTurbineMachines.git ./nuster-turbine-machines/

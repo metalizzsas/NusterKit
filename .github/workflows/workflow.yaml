@@ -1,6 +1,6 @@
 on:
   workflow_dispatch
-
+name: "Balena publish"
 jobs:
   balena_cloud_build:
     runs-on: ubuntu-latest
@@ -9,11 +9,11 @@ jobs:
       - name: get Nuster Turbine Machines
         run: bash ./nuster-turbine-machines.sh
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: get Nuster Desktop
         run: bash ./nuster-desktop.sh
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: balena-io/deploy-to-balena-action@master
         id: build
         with:

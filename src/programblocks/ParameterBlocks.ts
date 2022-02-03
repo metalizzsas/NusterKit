@@ -140,7 +140,15 @@ export class VariableParameterBlock extends ParameterBlock
         if(this.value == "currentStepIndex")
             return this.pbrInstance.currentStepIndex;
         else if(this.value == "currentStepRunCount")
-            return this.pbrInstance.steps[this.pbrInstance.currentStepIndex].runCount || 0;
+        {
+            const step = this.pbrInstance.steps[this.pbrInstance.currentStepIndex];
+            if(step)
+            {
+                const rc = step.runCount;
+                return (rc !== undefined) ? rc : 0;
+            }
+            return 0;
+        } 
         else
         {
             this.pbrInstance.machine.logger.warn(`The variable ${this.value} is not defined.`);

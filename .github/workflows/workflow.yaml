@@ -10,10 +10,12 @@ jobs:
         with:
           repository: metalizzsas/NusterTurbineMachines@main
           path: ./nuster-turbine-machines
+          token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v2
         with:
           repository: metalizzsas/NusterDesktop@main
           path: ./nuster-desktop
+          token: ${{ secrets.GITHUB_TOKEN }}
       - uses: balena-io/deploy-to-balena-action@master
         id: build
         with:

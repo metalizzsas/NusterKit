@@ -94,6 +94,9 @@ export class ForLoopProgramBlock extends ProgramBlock implements IForLoopProgram
                 await instuction.execute();
             }
         }
+
+        this.currentIteration = 0; // reset current iteration if we dont, multiple steps execute for loops only at the begining
+
         this.executed = true;
     }
 }
@@ -300,8 +303,8 @@ export class StartTimerProgramBlock extends ProgramBlock
             {
                 await b.execute();
             }
-        }, tI);
-
+        }, tI * 1000);
+        this.pbrInstance.machine.logger.info("StartTimerBlock: Will start timer with name: " + tN + " and interval: " + tI * 1000 + " ms.");
         this.pbrInstance.timers.push({name: tN, timer: timer, blocks: this.blocks, enabled: true});
     }
 }
@@ -322,6 +325,7 @@ export class StopTimerProgramBlock extends ProgramBlock
         {
             clearInterval(timer.timer);
             timer.enabled = false;
+            this.pbrInstance.machine.logger.info("StopTimerBlock: Will stop timer with name: " + tN);
         }
     }
 }

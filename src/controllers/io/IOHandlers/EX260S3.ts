@@ -99,15 +99,16 @@ export class EX260S3 extends IOHandler
 
         return new Promise((resolve, reject) => {
             this.controller.once("SendRRData Received", (result: any) => {
+                const timer = setTimeout(() => {reject("Reading Data timed out..."); this.machine?.cycleController.program?.end("controllerTimeout")}, 10000);
                 for(const packet of result)
                 {
                     if(packet.TypeID == 178)
                     {
+                        clearTimeout(timer);
                         resolve(packet.data);
                     }
                 }
             });
-            setTimeout(() => {reject("Reading Data timed out..."); this.machine?.cycleController.program?.end("controllerTimeout")}, 10000);
 
         })
     }

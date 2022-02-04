@@ -546,9 +546,9 @@
       {
          "name": "nozzle-pulverization",
          "incompatibility": [
-            "uv-cache",
-            "ir-cache",
-            "+nozzle-cache"
+            "+uv-cache",
+            "+ir-cache",
+            "nozzle-cache"
          ],
          "controls": [
             "resin-pressure",
@@ -565,9 +565,9 @@
       {
          "name": "ir-curing",
          "incompatibility": [
-            "uv-cache",
-            "nozzle-cache",
-            "+ir-cache"
+            "+uv-cache",
+            "+nozzle-cache",
+            "ir-cache"
          ],
          "controls": [
             "ir-enable",
@@ -577,9 +577,9 @@
       {
          "name": "uv-curing",
          "incompatibility": [
-            "ir-cache",
-            "nozzle-cache",
-            "+uv-cache"
+            "+ir-cache",
+            "+nozzle-cache",
+            "uv-cache"
          ],
          "controls": [
             "uv-enable",

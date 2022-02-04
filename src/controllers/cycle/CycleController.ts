@@ -12,7 +12,7 @@ export class CycleController extends Controller {
     private machine: Machine;
 
     private supportedCycles: {name:string, profileRequired: boolean}[] = [];
-    private program?: ProgramBlockRunner
+    public program?: ProgramBlockRunner
 
    constructor(machine: Machine)
    {

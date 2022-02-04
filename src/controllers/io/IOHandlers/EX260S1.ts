@@ -173,7 +173,11 @@ export class EX260S1 extends IOHandler
 
         return new Promise((resolve, reject) => {
             this.controller.write_cip(MR, false, 10, (err: any) => {
-                if(err) reject(err);
+                if(err)
+                {
+                    reject(err);
+                    this.machine?.cycleController.program?.end("controllerError");
+                }
                 else resolve();
             });
         });

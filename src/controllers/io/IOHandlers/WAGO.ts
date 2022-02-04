@@ -1,16 +1,20 @@
 import ModbusTCP from "modbus-serial";
 import { IOHandler } from "./IOHandler";
 import ping from "ping";
+import { Machine } from "../../../Machine";
 
 export class WAGO extends IOHandler
 {
     public client: ModbusTCP;
 
-    constructor(ip: string)
+    private machine?: Machine;
+
+    constructor(ip: string, machine?: Machine)
     {
         super("WAGO", "modbus", ip);
 
         this.client = new ModbusTCP();
+        this.machine = machine;
         this.connect();
     }
     async connect()
@@ -43,7 +47,10 @@ export class WAGO extends IOHandler
     async writeData(address: number, data: number, word?: boolean): Promise<void>
     {
         if(this.unreachable)
+        {
+            this.machine?.cycleController.program?.end("controllerUnreachable");
             return;
+        }
         
         if(!this.client.isOpen)
             await this.connect();
@@ -60,7 +67,10 @@ export class WAGO extends IOHandler
     async readData(address: number, word?: boolean): Promise<number>
     {
         if(this.unreachable)
+        {
+            this.machine?.cycleController.program?.end("controllerUnreachable");
             return 0;
+        }
 
         if(!this.client.isOpen)
             await this.connect();

@@ -52,7 +52,10 @@ const ProgramStepSchema = new Schema<IProgramStep>({
     startTime: Number,
     endTime: Number,
 
-    blocks: [ProgramBlockSchema]
+    blocks: [ProgramBlockSchema],
+
+    startingIO: [ParameterBlockSchema],
+    endingIO: [ParameterBlockSchema],
 });
 
 const WatchdogConditionSchema = new Schema<IWatchdogCondition>({

@@ -43,7 +43,7 @@ export class Machine {
 
     authManager: AuthManager;
 
-     constructor(logger: pino.Logger)
+    constructor(logger: pino.Logger)
     {
         this.logger = logger;
 

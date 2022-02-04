@@ -1,21 +1,20 @@
 version: "2"
 volumes: 
-  resin-data:
-  settings: 
+  nuster-data:
 services:
   mongodb:
     image: mongo:4.2
     restart: always
     network_mode: 'host'
     volumes: 
-      - 'resin-data:/data'
+      - 'nuster-data:/data'
   nuster-turbine:
     build: ./
     network_mode: "host"
     depends_on: 
       - "mongodb"
     volumes:
-      - "resin-data:/data"
+      - 'nuster-data:/data'
     environment:
       DISABLE_AUTH: 'true'
   nuster-desktop:
@@ -42,9 +41,9 @@ services:
       #TOUCHSCREEN: 'wch Touch'
       PERSISTANT: 1
       WINDOW_SIZE: 1024, 600
-      FLAGS: "--overscroll-history-navigation=0"
+      FLAGS: "--overscroll-history-navigation=0 --user-data-dir=/data/chromium-user-data"
     volumes:
-      - 'settings:/data'
+      - 'nuster-data:/data'
   wifi-connect:
     build: ./wifi-connect/
     restart: always

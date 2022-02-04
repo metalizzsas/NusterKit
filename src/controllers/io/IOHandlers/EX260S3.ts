@@ -102,7 +102,7 @@ export class EX260S3 extends IOHandler
                 const timer = setTimeout(() => {reject("Reading Data timed out..."); this.machine?.cycleController.program?.end("controllerTimeout")}, 10000);
                 for(const packet of result)
                 {
-                    if(packet.TypeID == 178)
+                    if(packet.TypeID == 178 && packet.data.length == 6 && packet.data.readUIntLE(0, 1) == 0x8E)
                     {
                         clearTimeout(timer);
                         resolve(packet.data);

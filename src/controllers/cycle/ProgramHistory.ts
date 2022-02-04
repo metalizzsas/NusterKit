@@ -23,7 +23,7 @@ const PBRStatusSchema = new Schema<IPBRStatus>({
 
 const ParameterBlockSchema = new Schema<IParameterBlock>({
     name: {type: String, required: true},
-    value: {type: String, required: true},
+    value: String
 });
 
 ParameterBlockSchema.add({params: [ParameterBlockSchema]});

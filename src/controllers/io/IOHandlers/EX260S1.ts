@@ -93,9 +93,14 @@ export class EX260S1 extends IOHandler
         this.controller.write_cip(MR, false, 10, null);
 
         return new Promise((resolve, reject) => {
-            this.controller.once("SendRRData Received", (data: any) => {
-                //FIXME: Ajouter un check du packet id 178
-                resolve(data[1].data);
+            this.controller.once("SendRRData Received", (result: any) => {
+                for(const packet of result)
+                {
+                    if(packet.TypeID == 178 && packet.data.length == 8)
+                    {
+                        resolve(packet.data);
+                    }
+                }
             });
             setTimeout(() => {reject("Reading Data timed out...")}, 10000);
         })

@@ -9,25 +9,28 @@ import st from "st-ethernet-ip";
 import process from "process";
 import { Buffer } from "buffer";
 import ping from "ping";
+import { Machine } from "../../../Machine";
 
 export class EX260S1 extends IOHandler
 {
-
     private controller: st.EthernetIP.ENIP;
-
     private prevBuffer: Buffer = Buffer.alloc(0);
+
+    private machine?: Machine;
 
     /**
      * Builds an EX260S1 object
      * @param {String} ip 
      */
-    constructor(ip: string)
+    constructor(ip: string, machine?: Machine)
     {
         super("ex260s1", "ethip", ip);
 
         this.controller = new st.EthernetIP.ENIP();
         
         this.connected = false;
+
+        this.machine = machine;
         
         this.connect();
     }
@@ -96,13 +99,13 @@ export class EX260S1 extends IOHandler
             this.controller.once("SendRRData Received", (result: any) => {
                 for(const packet of result)
                 {
-                    if(packet.TypeID == 178 && packet.data.length == 8)
+                    if(packet.TypeID == 178)
                     {
                         resolve(packet.data);
                     }
                 }
             });
-            setTimeout(() => {reject("Reading Data timed out...")}, 10000);
+            setTimeout(() => {reject("Reading Data timed out..."); this.machine?.cycleController.program?.end("controllerTimeout")}, 10000);
         })
     }
 

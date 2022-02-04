@@ -13,19 +13,15 @@
 <script lang="ts">
 	import { initI18n } from '$lib/utils/i18n';
 
-	import kbDisplay from '$lib/json/kb.json';
-	//@ts-ignore
-	import KioskBoard from 'kioskboard';
-
 	import HeadPage from '$lib/components/headpage.svelte';
 	import Pagetransition from '$lib/components/pagetransition.svelte';
 
-	import { afterUpdate, beforeUpdate, onDestroy, onMount } from 'svelte';
+	import { beforeUpdate, onDestroy, onMount } from 'svelte';
 
 	import { machineData } from '$lib/utils/store';
 	import type { IWSObject } from '$lib/utils/interfaces';
 	import { fade, scale } from 'svelte/transition';
-	import { getLang, loadDarkMode } from '$lib/utils/settings';
+	import { loadDarkMode } from '$lib/utils/settings';
 
 	import { Linker } from '$lib/utils/linker';
 	import { goto } from '$app/navigation';
@@ -47,43 +43,14 @@
 		loadDarkMode();
 
 		//disabling right click
-		window.addEventListener('contextmenu', function (e) {
-			e.preventDefault();
-		});
-
-		KioskBoard.init({
-			keysArrayOfObjects: kbDisplay,
-
-			language: getLang(),
-			theme: 'flat',
-
-			capsLockActive: false,
-			allowRealKeyboard: true,
-			allowMobileKeyboard: false,
-
-			cssAnimations: true,
-			cssAnimationsDuration: 150,
-			cssAnimationsStyle: 'slide',
-
-			keysAllowSpacebar: true,
-			keysSpacebarText: 'Space',
-			keysFontFamily: 'sans-serif',
-			keysFontSize: '22px',
-			keysFontWeight: 'normal',
-			keysIconSize: '25px',
-
-			autoScroll: true,
-		});
+		//window.addEventListener('contextmenu', function (e) {
+		//e.preventDefault();
+		//});
 
 		registerWebsocket();
 	});
 	onDestroy(() => {
 		if (ws) ws.close();
-	});
-
-	afterUpdate(() => {
-		//reload keyboard only if some dom elements with jsvk class are found
-		if (document.querySelectorAll('.jsvk').length > 0) KioskBoard.run('.jsvk');
 	});
 
 	async function registerWebsocket() {

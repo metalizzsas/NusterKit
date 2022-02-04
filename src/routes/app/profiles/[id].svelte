@@ -25,6 +25,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { Linker } from '$lib/utils/linker';
+	import Inputkb from '$lib/components/inputkb.svelte';
 
 	let saveModalShown = false;
 
@@ -34,7 +35,6 @@
 
 	onMount(() => {
 		initialProfile = JSON.stringify(profile);
-		console.log($page.stuff);
 	});
 	async function save() {
 		await fetch('http://' + $Linker + '/v1/profiles', {
@@ -81,6 +81,7 @@
 		<div
 			class="rounded-xl bg-red-400 text-white py-1 px-3 font-semibold flex flex-row gap-2 items-center"
 			on:click|preventDefault={() => {
+				console.log(profile);
 				if (JSON.stringify(profile) !== initialProfile) saveModalShown = true;
 				else goto('/app/profiles');
 			}}
@@ -114,12 +115,9 @@
 						class="p-3 ring-1 ring-gray-900/10 bg-neutral-100 hover:ring-gray-900/50 transition rounded-xl flex flex-row gap-4 items-center text-gray-600/100"
 					>
 						<span class="font-medium">{$_('profile.name')}</span>
-						<input
-							type="text"
-							class="jsvk border-0 bg-neutral-100"
+						<Inputkb
 							bind:value={profile.name}
-							data-kioskboard-type="all"
-							data-kioskboard-specialcharacters="true"
+							options={{ class: 'border-0 bg-neutral-100' }}
 						/>
 					</li>
 				</ul>
@@ -184,14 +182,11 @@
 											{#if f.unity === 'm-s'}
 												<TimeSelector bind:value={f.value} />
 											{:else}
-												<input
-													type="number"
-													class="jsvk w-25 bg-white px-2 py-1 rounded-full"
-													min="0"
-													max="59"
+												<Inputkb
 													bind:value={f.value}
-													data-kioskboard-type="numpad"
-													data-kioskboard-specialcharacters="false"
+													options={{
+														class: 'w-25 bg-white px-2 py-1 rounded-full',
+													}}
 												/>
 											{/if}
 										{:else}

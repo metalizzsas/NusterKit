@@ -38,7 +38,7 @@ export class IOController extends Controller
 
             switch(handler.name)
             {
-                case "WAGO": this.handlers.push(new WAGO(handler.ip)); break;
+                case "WAGO": this.handlers.push(new WAGO(handler.ip, this.machine)); break;
                 case "EX260S3": this.handlers.push(new EX260S3(handler.ip, this.machine)); break;
                 case "EX260S1": this.handlers.push(new EX260S1(handler.ip, this.machine)); break;
                 default: this.handlers.push(new IOHandler(handler.name, handler.type, handler.ip)); break;

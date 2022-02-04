@@ -54,8 +54,8 @@ const ProgramStepSchema = new Schema<IProgramStep>({
 
     blocks: [ProgramBlockSchema],
 
-    startingIO: [ParameterBlockSchema],
-    endingIO: [ParameterBlockSchema],
+    startingIO: [ProgramBlockSchema],
+    endingIO: [ProgramBlockSchema],
 });
 
 const WatchdogConditionSchema = new Schema<IWatchdogCondition>({

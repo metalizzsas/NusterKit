@@ -12,7 +12,7 @@
 	}
 </script>
 
-<div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-200 dark:bg-neutral-800 shadow-xl group">
+<div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-300 dark:bg-neutral-800 shadow-xl group">
 	<div class="flex flex-row gap-5 justify-items-end -translate-y-4">
 		<div
 			on:click={() => goto('/app/advanced')}

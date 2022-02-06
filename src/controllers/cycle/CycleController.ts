@@ -12,6 +12,7 @@ export class CycleController extends Controller {
     private machine: Machine;
 
     private supportedCycles: {name:string, profileRequired: boolean}[] = [];
+    private premadeCycles: {name:string, profile: string, cycle: string }[] = [];
     public program?: ProgramBlockRunner
 
    constructor(machine: Machine)
@@ -25,20 +26,30 @@ export class CycleController extends Controller {
 
    private _configure()
    {
-        for(const cycle of this.machine.specs.cycles)
+        for(const cycle of this.machine.specs.cycles.types)
         {
             this.supportedCycles.push({name: cycle.name, profileRequired: cycle.profileRequired});
+        }
+
+        for(const premade of this.machine.specs.cycles.premades)
+        {
+            this.premadeCycles.push({name: premade.name, profile: premade.profile, cycle: premade.cycle});
         }
    }
 
    private _configureRouter()
    {
-       //list all supported cycles types by this machine
-        this._router.get("/", (_req: Request, res: Response) => {
+       //list all supported cycles premades by this machine
+       this._router.get("/premades", (_req: Request, res: Response) => {
+           res.json(this.premadeCycles);
+        });
+        this.machine.authManager.registerEndpointPermission("cycle.list", {endpoint: "/v1/cycle/premades", method: "get"});
+        
+        //list all supported cycles types by this machine
+        this._router.get("/custom", (_req: Request, res: Response) => {
             res.json(this.supportedCycles);
         });
-
-        this.machine.authManager.registerEndpointPermission("cycle.list", {endpoint: "/v1/cycle/", method: "get"});
+        this.machine.authManager.registerEndpointPermission("cycle.list", {endpoint: "/v1/cycle/custom", method: "get"});
 
         //restart cycle, put it there beacause it conflicts with the POST /:name/:id? route
         this._router.post("/restart/:history_id", async (req: Request, res: Response) => {
@@ -51,10 +62,10 @@ export class CycleController extends Controller {
 
                 this.program = new ProgramBlockRunner(this.machine, history.cycle, history.profile);
 
-                if(this.program.name != history.profile.identifier)
+                if(this.program.name != history.profile.skeleton)
                 {
                     res.status(403);
-                    res.write(`Profile ${this.program.name} is not compatible with cycle profile ${history.profile.identifier}`);
+                    res.write(`Profile ${this.program.name} is not compatible with cycle profile ${history.profile.skeleton}`);
                     res.end();
                     this.program = undefined;
                     return;
@@ -90,7 +101,10 @@ export class CycleController extends Controller {
 
             if(req.params.id)
             {
-                profile = await ProfileModel.findById(req.params.id) as IProfile;
+                if(req.params.id.startsWith("premade_"))
+                   profile = this.machine.profileController.retreiveProfile(this.machine.profileController.getPremade(req.params.id)!);
+                else
+                   profile = await ProfileModel.findById(req.params.id) as IProfile
 
                 if(!profile)
                 {
@@ -100,7 +114,7 @@ export class CycleController extends Controller {
                 }
             }
             
-            const cycle = this.machine.specs.cycles.find((ip) => ip.name == req.params.name);
+            const cycle = this.machine.specs.cycles.types.find((ip) => ip.name == req.params.name);
 
             if(cycle)
             {
@@ -109,10 +123,10 @@ export class CycleController extends Controller {
 
                 if(this.program.profileRequired && profile !== undefined)
                 {
-                    if(this.program.name != (profile as IProfile).identifier)
+                    if(this.program.name != (profile as IProfile).skeleton)
                     {
                         res.status(403);
-                        res.write(`Profile ${this.program.name} is not compatible with cycle profile ${(profile as IProfile).identifier}`);
+                        res.write(`Profile ${this.program.name} is not compatible with cycle profile ${(profile as IProfile).skeleton}`);
                         res.end();
                         this.program = undefined;
                         return;

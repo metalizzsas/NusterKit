@@ -2,13 +2,16 @@ import { Machine } from "../../Machine";
 import { Controller } from "../Controller";
 
 import { Request, Response } from "express";
-import { IProfileMapper, IProfile, ProfileModel } from "./Profile";
+import { IProfile, ProfileModel } from "./Profile";
+import { IProfileExportable, IProfileSkeleton} from "./ProfileSkeleton";
 
 export class ProfileController extends Controller{
 
     private machine: Machine;
 
-    private profileMap: IProfileMapper = {};
+    private profileSkeletons: {[key: string]: IProfileSkeleton} = {};
+
+    private profilePremades: IProfileExportable[] = [];
 
     constructor(machine: Machine)
     {
@@ -20,12 +23,19 @@ export class ProfileController extends Controller{
         this._configureRouter();
     }
 
-    private _configure()
+    private async _configure()
     {
-        for(const p of this.machine.specs.profiles)
+        for(const p of this.machine.specs.profiles.skeletons)
         {
-            this.profileMap[p.identifier] = p;
+            this.profileSkeletons[p.identifier] = p;
         }
+
+        for(const p of this.machine.specs.profiles.premades)
+        {
+            p.id = "premade_" + p.name;
+            this.profilePremades.push(this.convertProfile(p));
+        }
+
         return true;
     }
     private _configureRouter()
@@ -33,8 +43,8 @@ export class ProfileController extends Controller{
         /**
          * List available profile maps
          */
-         this._router.get('/map', (_req: Request, res: Response) => {
-            res.json(Object.keys(this.profileMap));
+         this._router.get('/skeletons', (_req: Request, res: Response) => {
+            res.json(Object.keys(this.profileSkeletons));
         });
 
         this.machine.authManager.registerEndpointPermission("profiles.list", {endpoint: "/v1/profiles/map", method: "get"});
@@ -44,7 +54,10 @@ export class ProfileController extends Controller{
          */
         this._router.get('/', async (_req: Request, res: Response) => {
             const profiles = await ProfileModel.find();
-            res.json(profiles);
+
+            profiles.map(p => this.convertProfile(p));
+
+            res.json([...profiles, ...this.profilePremades]);
         });
 
         this.machine.authManager.registerEndpointPermission("profiles.list", {endpoint: "/v1/profiles/", method: "get"});
@@ -61,28 +74,65 @@ export class ProfileController extends Controller{
         this.machine.authManager.registerEndpointPermission("profiles.list", {endpoint: new RegExp("/v1/profiles/.*", "g"), method: "get"});
 
         this._router.get('/:id', async (req: Request, res: Response) => {
-            const profile = await ProfileModel.findById(req.params.id);
 
-            res.status(profile ? 200 : 404).json(profile);
+            if(req.params.id.startsWith("premade_"))
+            {
+                const profile = this.profilePremades.find(p => p.name === req.params.id.split("_")[1]);
+                if(profile)
+                {
+                    res.json(profile);
+                }
+                else
+                {
+                    res.status(404).json("Profile not found");
+                }
+            }
+            else
+            {
+                const profile = await ProfileModel.findById(req.params.id);
+    
+                res.status(profile ? 200 : 404);
+    
+                if(profile)
+                    res.json(this.convertProfile(profile));
+                else
+                    res.end();
+            }
         });
 
         /**
          * Route to create a default profile with the given JSON Structure
          */
          this._router.post('/create/:type', async (req: Request, res: Response) => {
-            const n = this.profileMap[req.params.type];
+            const p: IProfile = {
+                name: "profile-default-name",
+                skeleton: req.params.type,
+                modificationDate: Date.now(),
+                overwriteable: true,
+                removable: true,
+                values: {}
+            };
 
-            n.name = "profile-default-name";
+            const newp = await ProfileModel.create(p);
 
-            res.json(await ProfileModel.create(n))
+            res.json(this.convertProfile(newp));
         });
 
         this._router.post('/', async (req: Request, res: Response) => {
-            const p: IProfile = req.body;
+
+            if(req.body.id.startsWith("premade_"))
+            {
+                res.status(403).write("cant edit premade profiles");
+                return;
+            }
+
+            const p: IProfileExportable = req.body;
 
             p.modificationDate = Date.now();
+
+            const profile = this.retreiveProfile(p);
             
-            await ProfileModel.findByIdAndUpdate(req.body.id, p);
+            await ProfileModel.findByIdAndUpdate(profile.id, profile);
             res.status(200).end();
         });
 
@@ -122,10 +172,12 @@ export class ProfileController extends Controller{
             if(req.body.id == "copied")
             {
                 delete req.body.id;
-                const profile = req.body as IProfile;
+                const profile = req.body as IProfileExportable;
                 profile.modificationDate = Date.now();
 
-                await ProfileModel.create(profile);
+                const copied = this.retreiveProfile(profile);
+
+                await ProfileModel.create(copied);
                 
                 res.status(200).end();
                 return;
@@ -138,8 +190,60 @@ export class ProfileController extends Controller{
         });
     }
 
+    public convertProfile(profile: IProfile): IProfileExportable
+    {
+        const skeleton = this.profileSkeletons[profile.skeleton];
+
+        const exportable: IProfileExportable = {...skeleton, ...{
+            id: profile.id,
+            name: profile.name,
+            modificationDate: profile.modificationDate || Date.now(),
+            removable: profile.removable,
+            overwriteable: profile.overwriteable
+        }};
+
+        for(const fg of exportable.fieldGroups)
+        {
+            for(const f of fg.fields)
+            {
+                f.value = profile.values[fg.name + "#" + f.name] || f.value;
+            }
+        }
+
+        return exportable;
+    }
+
+    public retreiveProfile(profileexp: IProfileExportable): IProfile
+    {
+        const profile: IProfile = {
+            id: profileexp.id,
+            skeleton: profileexp.identifier,
+            name: profileexp.name,
+            modificationDate: profileexp.modificationDate,
+            removable: profileexp.removable,
+            overwriteable: profileexp.overwriteable,
+            values: {}
+        };
+
+        for(const fg of profileexp.fieldGroups)
+        {
+            for(const f of fg.fields)
+            {
+                profile.values[fg.name + "#" + f.name] = f.value;
+            }
+        }
+
+        return profile;
+    }
+
+    public getPremade(id: string): IProfileExportable | undefined
+    {
+        return this.profilePremades.find(p => p.id === id);
+    }
+
     public async socketData()
     {
-        return await ProfileModel.find({});
+        const list = await ProfileModel.find({}); 
+        return [...list.map(p => this.convertProfile(p)), ...this.profilePremades]
     }
 }

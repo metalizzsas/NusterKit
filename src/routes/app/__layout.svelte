@@ -43,9 +43,9 @@
 		loadDarkMode();
 
 		//disabling right click
-		//window.addEventListener('contextmenu', function (e) {
-		//e.preventDefault();
-		//});
+		window.addEventListener('contextmenu', function (e) {
+			e.preventDefault();
+		});
 
 		registerWebsocket();
 	});

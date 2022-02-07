@@ -6,7 +6,7 @@ export interface IProfileMapper {
 
 export interface IProfile
 {
-    id?: Types.ObjectId | string;
+    id?: Types.ObjectId;
     modificationDate?: number;
     skeleton: string;
     name: string;

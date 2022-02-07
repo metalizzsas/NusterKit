@@ -24,7 +24,8 @@ interface IProfileSkeletonField
 
 export interface IProfileExportable extends IProfileSkeleton
 {
-    id?: Types.ObjectId | string;
+    id?: Types.ObjectId;
+    isPremade: boolean;
     name: string;
     modificationDate: number;
     removable: boolean;

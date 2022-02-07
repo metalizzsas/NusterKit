@@ -6,8 +6,9 @@
 	import howler from 'howler';
 	import { machineData } from '$lib/utils/store';
 	import { Linker } from '$lib/utils/linker';
+	import { _ } from 'svelte-i18n';
 
-	let rating = 2;
+	let rating = 0;
 
 	let endSoundInstance: howler.Howl | null = null;
 
@@ -41,19 +42,20 @@
 <div>
 	<div class="flex flex-col gap-4">
 		<p class="rounded-xl py-2 px-3 bg-white text-gray-800 flex flex-col font-semibold">
-			Le cycle est terminé
+			{$_('cycle.end.cycle-ended')}
 			<span class="text-xs text-italic font-normal">
-				Raison de fin : {$machineData.cycle?.status.endReason}
+				{$_('cycle.end.cycle-ended-reason')} : {$_(
+					'cycle.endreasons.' + $machineData.cycle?.status.endReason,
+				)}
 			</span>
 		</p>
 		<div class="rounded-xl py-2 px-3 bg-white text-gray-800 font-semibold">
-			Notez le cycle
+			{$_('cycle.end.cycle-rating-lead')}
 			<p class="font-normal">
-				La notation du cycle n'est pas obligatoire mais elle permet a nos équipes de mieux
-				comprendre votre utilisation de la machine.
+				{$_('cycle.end.cycle-rating-text')}
 			</p>
 			<p class="font-normal mt-2">
-				La notation permet aussi de classifier dans l'historique des cycles.
+				{$_('cycle.end.cycle-rating-text2')}
 			</p>
 		</div>
 		<div
@@ -67,7 +69,7 @@
 					class="h-7 w-7 self-center transition-all {rating >= i
 						? 'fill-amber-500'
 						: 'fill-gray-500'}"
-					on:click={() => (rating = i)}
+					on:click={() => (rating == i ? (rating = 0) : (rating = i))}
 				>
 					<path
 						id="star"
@@ -81,7 +83,7 @@
 			class="bg-indigo-500 py-2 px-4 rounded-xl text-white font-semibold"
 			on:click={patchCycle}
 		>
-			Terminer le cycle
+			{$_('cycle.buttons.complete')}
 		</button>
 	</div>
 </div>

@@ -73,7 +73,13 @@
       "wash1": "Wash 1",
       "wash2": "Wash 2",
       "drying": "Drying",
-      "vaporsExtraction": "Vapors extraction"
+      "vaporsExtraction": "Vapors extraction",
+      "vapors-extraction": "Vapors extraction",
+      "pulverization": "Pulverization",
+      "ir-curing": "IR curing",
+      "uv-curing": "UV curing",
+      "inerting": "Inerting",
+      "multilayer": "Multilayer"
     },
     "rows": {
       "enabled": "Enabled",
@@ -86,7 +92,11 @@
       "duration": "Duration",
       "count": "Iteration count",
       "timeOn": "Time enabled",
-      "timeOff": "Time disabled"
+      "timeOff": "Time disabled",
+      "interlayer-uvduration": "UV Curing time between layers",
+      "uv-power": "UV Power",
+      "reverseEnabled": "Motor direction reverse",
+      "reverseTime": "Motor reverser timer"
     }
   },
   "settings": {
@@ -114,6 +124,13 @@
       }
     },
     "end": {
+      "cycle-ended": "Cycle has ended !",
+      "cycle-ended-reason": "End reason",
+      "cycle-rating-lead": "Rate the cycle",
+      "cycle-rating-text": "Rating the cycle is not required but it helps us improving our cycles and machines.",
+      "cycle-rating-text2": "Rating the cycle can also help you in filtering cycle histories."
+    },
+    "endreasons": {
       "user": "User aborted cycle",
       "finished": "Finished successfully",
       "uv-cache-wrong": "UV Cache error",
@@ -133,12 +150,39 @@
       "prepare": "Prepare cycle",
       "end": "Stop cycle",
       "finish": "Finish cycle",
-      "start": "Start cycle"
+      "start": "Start cycle",
+      "complete": "Complete cycle"
+    },
+    "steps": {
+      "title": "Cycle steps",
+      "start": {
+        "name": "Start",
+        "desc": "Starting machine cycle."
+      },
+      "pulverization": {
+        "name": "Pulverization",
+        "desc": "Applying resin on your parts."
+      },
+      "ir-curing": {
+        "name": "IR curing",
+        "desc": "Heating the resin to smooth them."
+      },
+      "inerting": {
+        "name": "Inerting",
+        "desc": "Filling the machine with nitrogen to ehance UV Curing."
+      },
+      "uv-curing": {
+        "name": "UV Curing",
+        "desc": "Hardening the resin on your parts."
+      },
+      "vapors-extraction": {
+        "name": "Vapors filtering",
+        "desc": "Filtering gases and thin particules produced by the machine"
+      }
     },
     "preparation": "Cycle preparation",
     "choice": "Cycle choice",
     "profile.choice": "Profile choice",
-    "steps": "Cycle steps",
     "watchdog": "Watchdog",
     "watchdog.conditions": "Watchdog conditions",
     "history": "Histories"
@@ -162,7 +206,11 @@
       "met": "Metalization",
       "motor": "Rotation Motor",
       "ox": "Oxydiser",
-      "rd": "Reducer"
+      "rd": "Reducer",
+
+      "ir": "Infrared",
+      "uv": "Ultraviolet",
+      "nozzle": "Nozzle"
     },
 
     "names": {
@@ -179,8 +227,18 @@
       "levels_act-n": "Activator limit sensor",
       "levels_act-a": "Activator level",
 
-      "levels_edi-n": "DI Water limit sensor",
-      "levels_edi-a": "DI Water level",
+      "levels_edi-n": "DI water limit sensor",
+      "levels_edi-a": "DI water level",
+
+      "ir-sensor_open": "IR cache open",
+      "ir-sensor_closed": "IR cache closed",
+
+      "uv-sensor_open": "UV cache open",
+      "uv-sensor_closed": "UV cache closed",
+      "uv-overheat": "UV overheat security",
+
+      "nozzle-sensor_open": "Nozzle cache open",
+      "nozzle-sensor_closed": "Nozzle cache closed",
 
       "ventilation": "Vapors extraction",
       "air_heater": "Air heater",
@@ -189,17 +247,33 @@
       "edi-res": "DI Water container pressure",
       "ox-res": "Oxydiser container pressure",
       "rd-res": "Reducer container pressure",
+      "resin-pressure": "Resin container pressure",
+      "inerting": "Inerting",
 
       "act-lq_high": "Activator liquid control high",
       "act-lq_low": "Activator liquid control low",
 
-      "edi-lq_high": "DI Water liquid control high",
-      "edi-lq_low": "DI Water liquid control low",
-      "edi-lq_fill_act": "DI Water liquid control to Activator container",
+      "edi-lq_high": "DI water liquid control high",
+      "edi-lq_low": "DI water liquid control low",
+      "edi-lq_fill_act": "DI water liquid control to Activator container",
 
-      "hybrid-plv_high": "Activator & DI Water pulverization high",
-      "hybrid-plv_low": "Activator & DI Water pulverization low"
+      "hybrid-plv_high": "Activator & DI water pulverization high",
+      "hybrid-plv_low": "Activator & DI water pulverization low",
 
+      "ir-enable": "IR lamp",
+      "ir-ventil": "IR lamp ventilation",
+      "ir-cache": "IR lamp cache",
+
+      "uv-enable": "UV lamp",
+      "uv-ventil": "UV lamp ventilation",
+      "uv-power": "UV lamp power",
+      "uv-cache": "UV lamp cache",
+
+      "motor-direction": "Motor direction",
+      "motor-speed": "Motor speed",
+      
+      "nozzle-pulverization": "Nozzle pulverization",
+      "nozzle-cache": "Nozzle cache"
     }
   },
   "manual": {
@@ -233,7 +307,17 @@
 
       "plv_rd_high": "Reducer pulverisation high",
       "plv_rd_mid": "Reducer pulverisation high",
-      "plv_rd_low": "Reducer pulverisation low"
+      "plv_rd_low": "Reducer pulverisation low",
+
+      "uv-cache": "UV lamp cache",
+      "ir-cache": "IR lamp cache",
+      "nozzle-cache": "Nozzle cache",
+      "nozzle-pulverization": "Nozzle pulverization",
+
+      "ir-curing": "IR curing",
+      "uv-curing": "UV curing",
+
+      "inerting": "Inerting"
     }
   },
   "maintenance": {
@@ -256,6 +340,18 @@
       "smt-filter": {
         "name": "Solvants filter",
         "desc": "Smoothit gaz filter filters all coating solvants produced by the coating done inside the machine."
+      },
+      "inner-cleaning": {
+        "name": "Inner",
+        "desc": "The inner layer masks the machine to avoid resin accumulation on the cuve."
+      },
+      "ir-lamp": {
+        "name": "IR Lamp",
+        "desc": "IR Lamp is used to ehance resin coating smoothing effect."
+      },
+      "uv-lamp": {
+        "name": "UV Lamp",
+        "desc": "UV Lamp is used to harden resin on top of your part."
       },
       "cycleCount": {
         "name": "Cycle count"

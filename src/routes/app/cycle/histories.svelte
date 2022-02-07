@@ -90,7 +90,7 @@
 								? 'text-emerald-500 font-semibold'
 								: 'text-gray-700 font-medium'}"
 						>
-							{$_('cycle.end.' + history.cycle.status.endReason || 'finished')}
+							{$_('cycle.endreasons.' + history.cycle.status.endReason || 'finished')}
 						</div>
 
 						<div

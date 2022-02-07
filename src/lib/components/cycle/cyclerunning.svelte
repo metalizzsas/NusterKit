@@ -27,8 +27,10 @@
 				class="bg-gray-800 text-white font-semibold p-3 rounded-xl flex flex-row gap-4 justify-between items-center"
 			>
 				<div class="flex flex-col">
-					<span>{$_(s.name)}</span>
-					<span class="italic text-xs text-gray-300">{$_(s.name) + '-desc'}</span>
+					<span>{$_('cycle.steps.' + s.name + '.name')}</span>
+					<span class="italic text-xs text-gray-300">
+						{$_('cycle.steps.' + s.name + '.desc')}
+					</span>
 				</div>
 
 				<div class="flex flex-row gap-4 self-center items-center group">

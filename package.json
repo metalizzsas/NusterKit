@@ -1,9 +1,11 @@
 {
 	"name": "nuster-desktop",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"private": true,
 	"description": "NusterApp implementation on desktop",
 	"main": "src/electron.cjs",
+	"license": "UNLICENSED",
+	"author": "Metalizz SAS",
 	"type": "module",
 	"scripts": {
 		"clean": "rm -rf ./node_modules/ && rm package-lock.json && npm i",

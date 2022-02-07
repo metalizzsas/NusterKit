@@ -78,7 +78,7 @@ function createMainWindow() {
 function serveURL(window)
 {
 	//execute electron backend server
-	exec("node ./build/index.js", (err, stdout, stderr) => {
+	exec("node ./index.js", (err, stdout, stderr) => {
 		setTimeout(() => {
 			window.loadURL(`http://localhost:${port}/`).catch((e) => {
 				console.log('Error loading URL, retrying', e);

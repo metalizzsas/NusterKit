@@ -35,7 +35,7 @@
 	<div class="flex flex-row gap-5 justify-items-end -translate-y-4">
 		<div
 			on:click={() => goto('/app')}
-			class="rounded-xl bg-red-400 text-white py-1 px-3 font-semibold flex flex-row gap-2 items-center"
+			class="rounded-full bg-red-400 text-white py-1 px-3 font-semibold flex flex-row gap-2 items-center cursor-pointer"
 		>
 			<svg
 				id="glyphicons-basic"
@@ -50,7 +50,7 @@
 			</svg>
 		</div>
 		<div
-			class="rounded-xl bg-indigo-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
+			class="rounded-full bg-indigo-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
 		>
 			{$_('maintenance.tasks.' + maintenance.name + '.name')}
 		</div>
@@ -77,7 +77,7 @@
 				{#each maintenance.procedure.steps as step, index}
 					{#if procedureIndex == index}
 						<div
-							class="step rounded-xl overflow-hidden mx-16"
+							class="step rounded-xl overflow-hidden h-[50vh]"
 							out:fly={{ x: -100, duration: 50 }}
 							in:fly={{ x: 100, duration: 50 }}
 						>

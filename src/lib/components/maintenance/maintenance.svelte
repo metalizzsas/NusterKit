@@ -6,7 +6,10 @@
 	export let maintenance: Maintenance;
 </script>
 
-<div on:click={() => goto('app/maintenance/' + maintenance.name)} class="hover:scale-[1.005]">
+<div
+	on:click={() => goto('app/maintenance/' + maintenance.name)}
+	class="hover:scale-[1.005] cursor-pointer"
+>
 	<div
 		class="p-3 bg-gradient-to-br from-sky-500 to-sky-600 rounded-tr-2xl rounded-tl-2xl overflow-hidden transition-all flex flex-row justify-between"
 	>

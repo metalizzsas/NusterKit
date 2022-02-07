@@ -21,7 +21,7 @@
 	<div class="flex flex-row gap-5 -translate-y-4">
 		<div
 			on:click={() => goto('/app')}
-			class="rounded-xl bg-red-400 text-white py-1 px-3 font-semibold flex flex-row gap-2 items-center"
+			class="rounded-full bg-red-400 text-white py-1 px-3 font-semibold flex flex-row gap-2 items-center cursor-pointer"
 		>
 			<svg
 				id="glyphicons-basic"
@@ -36,7 +36,7 @@
 			</svg>
 		</div>
 		<div
-			class="rounded-xl bg-indigo-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
+			class="rounded-full bg-indigo-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
 		>
 			{$_('manual.list')}
 		</div>

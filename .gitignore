@@ -8,5 +8,6 @@ svelte-build/
 .DS_Store
 .svelte/
 *.local
-build/
 dist/
+build/*
+!build/entitlements.mac.plist

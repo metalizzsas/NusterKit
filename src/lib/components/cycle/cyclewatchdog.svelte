@@ -21,6 +21,14 @@
 			},
 		});
 	};
+	const cancelCycle = async () => {
+		fetch('http://' + $Linker + '/v1/cycle/0', {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+	};
 </script>
 
 <div id="cyclewatchdog">
@@ -45,7 +53,7 @@
 			{$_('cycle.watchdog.conditions')}
 		</span>
 		{#if $machineData.cycle}
-			<div class="grid grid-cols-2 gap-5">
+			<div class="grid grid-cols-2 gap-3">
 				{#each $machineData.cycle.watchdogConditions as wdc}
 					<span
 						class="flex flex-row justify-between items-center rounded-full bg-gray-800 py-1 pr-2 pl-3 text-white font-semibold"
@@ -59,15 +67,24 @@
 					</span>
 				{/each}
 			</div>
-			<button
-				class="{$machineData.cycle.watchdogConditions.filter((wdc) => wdc.result == false)
-					.length > 0
-					? 'bg-gray-500 hover:bg-gray-500/80'
-					: 'bg-emerald-500 hover:bg-emerald-500/80 hover:scale-[1.01]'} rounded-xl py-2 px-5 self-center text-white font-semibold transition:all mt-3"
-				on:click={startCycle}
-			>
-				{$_('cycle.buttons.start')}
-			</button>
+			<div class="flex flex-row gap-4 items-center justify-items-center w-full">
+				<button
+					class="bg-orange-500 hover:bg-orange-500/80 hover:scale-[1.01] rounded-xl py-2 px-5 self-center text-white font-semibold transition:all mt-3"
+					on:click={cancelCycle}
+				>
+					{$_('cycle.buttons.cancel')}
+				</button>
+				<button
+					class="{$machineData.cycle.watchdogConditions.filter(
+						(wdc) => wdc.result == false,
+					).length > 0
+						? 'bg-gray-400 hover:bg-gray-400/80'
+						: 'bg-indigo-500 hover:bg-indigo-500/80 hover:scale-[1.01]'} rounded-xl py-2 px-5 self-center text-white font-semibold transition:all mt-3"
+					on:click={startCycle}
+				>
+					{$_('cycle.buttons.start')}
+				</button>
+			</div>
 		{/if}
 	</div>
 </div>

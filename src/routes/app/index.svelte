@@ -20,7 +20,7 @@
 		<div class="grid grid-cols-3 gap-4">
 			<div
 				on:click={() => goto('app/cycle')}
-				class="flex flex-row items-center justify-center gap-4 bg-gradient-to-br from-indigo-500 to-indigo-600 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:skew-y-[0.25deg] duration-200 ease-in-out"
+				class="flex flex-row items-center justify-center gap-4 bg-gradient-to-br from-indigo-500 to-indigo-600 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:skew-y-[0.25deg] duration-200 ease-in-out cursor-pointer"
 			>
 				{$_('cycle.button')}
 				{#if $machineData.cycle !== undefined}
@@ -52,13 +52,13 @@
 			</div>
 			<div
 				on:click={() => goto('app/profiles')}
-				class=" bg-gradient-to-br from-indigo-500 to-indigo-600 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:-skew-y-[0.25deg] duration-200 ease-in-out"
+				class=" bg-gradient-to-br from-indigo-500 to-indigo-600 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:-skew-y-[0.25deg] duration-200 ease-in-out cursor-pointer"
 			>
 				{$_('profile.button')}
 			</div>
 			<div
 				on:click={() => goto('app/advanced')}
-				class=" bg-gradient-to-br from-indigo-500 to-indigo-600 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:skew-y-[0.25deg] duration-200 ease-in-out"
+				class=" bg-gradient-to-br from-indigo-500 to-indigo-600 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:skew-y-[0.25deg] duration-200 ease-in-out cursor-pointer"
 			>
 				{$_('manual.button')}
 			</div>

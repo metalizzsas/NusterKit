@@ -60,36 +60,42 @@ export class ProgramBlockStep implements IProgramStep
 
     public async execute(): Promise<ProgramStepResult>
     {
+        if(!this.isEnabled)
+        {
+            this.pbrInstance.machine.logger.warn(`PBS: Step ${this.name} is disabled`);
+            return ProgramStepResult.END;
+        }
+
         if(this.pbrInstance.status.mode == PBRMode.ENDED)
         {
-            this.pbrInstance.machine.logger.warn(`Tried to execute step ${this.name} while cycle ended.`);
+            this.pbrInstance.machine.logger.warn(`PBS: Tried to execute step ${this.name} while cycle ended.`);
             return ProgramStepResult.FAILED;
         }
 
-        this.pbrInstance.machine.logger.info(`Started step: ${this.name}.`);
+        this.pbrInstance.machine.logger.info(`PBS: Started step: ${this.name}.`);
         this.state = ProgramStepState.STARTED;
 
         this.startTime = Date.now();
 
-        this.pbrInstance.machine.logger.info(`Executing io starter blocks.`);
+        this.pbrInstance.machine.logger.info(`PBS: Executing io starter blocks.`);
         for(const io of this.startingIO)
         {
             await io.execute();
         }
 
-        this.pbrInstance.machine.logger.info(`Executing step main blocks.`);
+        this.pbrInstance.machine.logger.info(`PBS: Executing step main blocks.`);
         for(const b of this.blocks)
         {
             if(this.state !== ProgramStepState.STARTED)
             {
-                this.pbrInstance.machine.logger.info(`Ended step: ${this.name}, with state ${ProgramStepResult.FAILED}`);
+                this.pbrInstance.machine.logger.info(`PBS: Ended step: ${this.name}, with state ${ProgramStepResult.FAILED}`);
                 return ProgramStepResult.FAILED;
             }
             
             await b.execute();
         }
 
-        this.pbrInstance.machine.logger.info(`Executing io ending blocks.`);
+        this.pbrInstance.machine.logger.info(`PBS: Executing io ending blocks.`);
         for(const io of this.endingIO)
         {
             await io.execute();
@@ -103,14 +109,14 @@ export class ProgramBlockStep implements IProgramStep
             if(this.runCount && this.runAmount && (this.runCount == this.runAmount.data()))
             {
                 this.state = ProgramStepState.COMPLETED;
-                this.pbrInstance.machine.logger.info(`Ended step: ${this.name}, with state ${ProgramStepResult.END}`);
+                this.pbrInstance.machine.logger.info(`PBS: Ended step: ${this.name}, with state ${ProgramStepResult.END}`);
                 this.endTime = Date.now();
                 return ProgramStepResult.END;
             }
             else
             {
                 this.state = ProgramStepState.PARTIAL;
-                this.pbrInstance.machine.logger.info(`Ended step: ${this.name}, with state ${ProgramStepResult.PARTIAL}`);
+                this.pbrInstance.machine.logger.info(`PBS: Ended step: ${this.name}, with state ${ProgramStepResult.PARTIAL}`);
                 this.endTime = Date.now();
                 return ProgramStepResult.PARTIAL;
             }   
@@ -118,7 +124,7 @@ export class ProgramBlockStep implements IProgramStep
         else
         {
             this.state = ProgramStepState.COMPLETED;
-            this.pbrInstance.machine.logger.info(`Ended step: ${this.name}, with state ${ProgramStepResult.END}`);
+            this.pbrInstance.machine.logger.info(`PBS: Ended step: ${this.name}, with state ${ProgramStepResult.END}`);
             this.endTime = Date.now();
             return ProgramStepResult.END;
         } 
@@ -126,7 +132,7 @@ export class ProgramBlockStep implements IProgramStep
 
     public async executeLastIO()
     {
-        this.pbrInstance.machine.logger.info(`Executing io ending blocks.`);
+        this.pbrInstance.machine.logger.info(`PBS: Executing io ending blocks.`);
         for(const io of this.endingIO)
         {
             await io.execute();

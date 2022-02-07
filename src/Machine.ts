@@ -19,6 +19,7 @@ import { ManualModeController } from "./controllers/manual/ManualModeController"
 import { ProfileController } from "./controllers/profile/ProfilesController";
 import { SlotController } from "./controllers/slot/SlotController";
 import { AuthManager } from "./auth/auth";
+import { IProfileSkeleton } from "./controllers/profile/ProfileSkeleton";
 
 export class Machine {
 
@@ -140,11 +141,21 @@ export interface IMachine
     iohandlers: IIOHandler[],
     iogates: IIOGate[],
     slots: IConfigSlot[],
-    profiles: IProfile[],
+    profiles: {
+        skeletons: IProfileSkeleton[],
+        premades: IProfile[]
+    },
     maintenance: IConfigMaintenance[],
     passives: IPassive[],
     manual: IManualMode[],
-    cycles: IProgram[]
+    cycles: {
+        types: IProgram[],
+        premades: {
+            name: string,
+            profile: string,
+            cycle: string 
+        }[]
+    }
 }
 
 export interface INuster

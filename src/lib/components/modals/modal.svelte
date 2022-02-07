@@ -52,7 +52,7 @@
 				</div>
 			</div>
 
-			<div class="text-xl my-2 p-2 text-gray-900/75">
+			<div class="text-xl my-2 p-2 text-gray-900/75 dark:text-white">
 				{message}
 			</div>
 

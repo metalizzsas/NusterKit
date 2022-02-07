@@ -1,6 +1,6 @@
 {
 	"name": "nuster-desktop",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"private": true,
 	"description": "NusterApp implementation on desktop",
 	"main": "src/electron.cjs",
@@ -65,7 +65,7 @@
 		"typescript": "^4.5.2",
 		"vite": "^2.7.12"
 	},
-	"build:": {
+	"build": {
 		"afterSign": "electron-builder-notarize",
 		"mac": {
 			"hardenedRuntime": true

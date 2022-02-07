@@ -1,6 +1,7 @@
 const windowStateManager = require('electron-window-state');
 const { app, BrowserWindow } = require('electron');
 const { autoUpdater } = require('electron-updater');
+const { exec } = require('child_process');
 
 try {
 	require('electron-reloader')(module);
@@ -68,8 +69,22 @@ function createMainWindow() {
 	mainWindow = createWindow();
 	mainWindow.once('close', () => { mainWindow = null });
 
-	if (dev) loadVite(port);
-	else serveURL(mainWindow);
+	if (dev)
+		loadVite(port);
+	else 
+		serveURL(mainWindow);
+}
+
+function serveURL(window)
+{
+	//execute electron backend server
+	exec("node ./build/index.js", (err, stdout, stderr) => {
+		setTimeout(() => {
+			window.loadURL(`http://localhost:${port}/`).catch((e) => {
+				console.log('Error loading URL, retrying', e);
+			});
+		}, 500);
+	});
 }
 
 app.once('ready', () => {

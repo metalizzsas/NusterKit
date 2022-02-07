@@ -1,6 +1,6 @@
 {
 	"name": "nuster-desktop",
-	"version": "0.0.1",
+	"version": "1.0.0",
 	"private": true,
 	"description": "NusterApp implementation on desktop",
 	"main": "src/electron.cjs",
@@ -11,7 +11,7 @@
 		"dev:all": "concurrently -n=svelte,electron -c='#ff3e00',blue \"npm run dev:svelte\" \"npm run dev:electron\"",
 		"dev:svelte": "svelte-kit dev",
 		"dev:electron": "electron src/electron.cjs",
-		"build": "cross-env NODE_ENV=production npm run build:svelte && npm run build:electron",
+		"build": "cross-env NODE_ENV=production npm run build:svelte",
 		"build:svelte": "svelte-kit build",
 		"build:electron": "electron-builder -mwl --config build.config.json",
 		"start:svelte": "svelte-kit start"
@@ -48,7 +48,7 @@
 		"electron-builder": "^22.14.5",
 		"electron-connect": "^0.6.3",
 		"electron-packager": "^15.4.0",
-		"electron-updater": "^4.6.1",
+		"electron-updater": "^4.6.5",
 		"eslint": "^7.32.0",
 		"eslint-plugin-svelte": "^1.1.2",
 		"howler": "^2.2.3",

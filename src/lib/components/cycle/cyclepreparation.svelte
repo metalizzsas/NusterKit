@@ -71,8 +71,8 @@
 			{#each cyclePremades as ct, index}
 				<div
 					class="{index === premadeCycleSelectedIndex
-						? 'bg-indigo-500 hover:bg-indigo-400'
-						: 'bg-gray-400 hover:bg-gray-300'} text-white px-3 py-2 flex flex-col items-center justify-center rounded-xl transition-all font-semibold {ct.name ==
+						? 'bg-indigo-500 hover:bg-indigo-500/80'
+						: 'bg-gray-400 hover:bg-gray-400/80'} text-white px-3 py-2 flex flex-col items-center justify-center rounded-xl transition-all font-semibold {ct.name ==
 					'custom'
 						? 'col-span-2'
 						: ''}"
@@ -80,6 +80,26 @@
 						premadeCycleSelectedIndex = premadeCycleSelectedIndex != index ? index : -1;
 					}}
 				>
+					{#if ct.name != 'custom'}
+						<!-- svelte-ignore a11y-missing-attribute -->
+						<img
+							src="http://{$Linker}/assets/cycle/{ct.name}.png"
+							class="w-16 h-16 bg-white rounded-full mb-2"
+						/>
+					{:else}
+						<svg
+							id="glyphicons-basic"
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 32 32"
+							class="'w-16 h-16 fill-white"
+						>
+							<path
+								id="wrench"
+								d="M27.405,12.91907a6.38551,6.38551,0,0,1-7.78314,3.70154L8.82825,27.41418A1,1,0,0,1,7.414,27.41412L4.58594,24.58575A.99993.99993,0,0,1,4.586,23.17157L15.33209,12.42548a6.4047,6.4047,0,0,1,3.69947-7.92487,6.22745,6.22745,0,0,1,2.77825-.49127.4987.4987,0,0,1,.34015.84857L19.73254,7.27533a.4961.4961,0,0,0-.131.469l.82916,3.38044a.496.496,0,0,0,.36365.36364l3.38068.82935a.49614.49614,0,0,0,.469-.131l2.419-2.41889a.49433.49433,0,0,1,.8446.30078A6.22117,6.22117,0,0,1,27.405,12.91907Z"
+							/>
+						</svg>
+					{/if}
+
 					<span class="text-xl">{$_('cycle.types.' + ct.name)}</span>
 					{#if ct.name == 'custom'}
 						<div class="flex-col gap-4">

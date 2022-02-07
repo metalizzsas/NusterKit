@@ -1,5 +1,6 @@
 const windowStateManager = require('electron-window-state');
 const { app, BrowserWindow } = require('electron');
+const { autoUpdater } = require('electron-updater');
 
 try {
 	require('electron-reloader')(module);
@@ -71,7 +72,10 @@ function createMainWindow() {
 	else serveURL(mainWindow);
 }
 
-app.once('ready', createMainWindow);
+app.once('ready', () => {
+	createMainWindow();
+	autoUpdater.checkForUpdatesAndNotify();
+});
 app.on('activate', () => {
 	if (!mainWindow) {
 		createMainWindow();

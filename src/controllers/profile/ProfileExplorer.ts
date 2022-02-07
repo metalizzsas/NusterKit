@@ -23,7 +23,7 @@ export class ProfileExplorer
         key = key.replace(".", "#"); //replace . with # for the profile key
         if(this.profile)
         {
-            return this.profile.values[key];
+            return this.profile.values.get(key) || 0;
         }
         return undefined;
     }   

@@ -31,7 +31,13 @@ export class ProfileController extends Controller{
             this.profileSkeletons[p.identifier] = p;
         }
 
-        this.profilePremades = this.machine.specs.profiles.premades.map(p => { p.name = "premade_" + p.name; return this.convertProfile(p); });
+        for(const p of this.machine.specs.profiles.premades)
+        {
+            const k: IProfile = {...p, values: new Map<string, number>()};
+            k.values = new Map(Object.entries(p.values));
+
+            this.profilePremades.push(this.convertProfile(k));
+        }
 
         return true;
     }
@@ -185,7 +191,7 @@ export class ProfileController extends Controller{
         {
             for(const f of fg.fields)
             {
-                f.value = profile.values[fg.name + "#" + f.name] || f.value;
+                f.value = profile.values.get(fg.name + "#" + f.name) || f.value;
             }
         }
 
@@ -201,14 +207,14 @@ export class ProfileController extends Controller{
             modificationDate: profileexp.modificationDate,
             removable: profileexp.removable,
             overwriteable: profileexp.overwriteable,
-            values: {}
+            values: new Map<string, number>()
         };
 
         for(const fg of profileexp.fieldGroups)
         {
             for(const f of fg.fields)
             {
-                profile.values[fg.name + "#" + f.name] = f.value;
+                profile.values.set(fg.name + "#" + f.name, f.value);
             }
         }
 

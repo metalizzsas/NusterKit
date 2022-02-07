@@ -13,10 +13,8 @@ export interface IProfile
     removable: boolean;
     overwriteable: boolean;
 
-    values: ProfileValues
+    values: Map<string, number>
 }
-
-type ProfileValues = {[key:string]: number};
 
 export const ProfileSchema = new Schema<IProfile>({
     skeleton: {type: String, required: true},

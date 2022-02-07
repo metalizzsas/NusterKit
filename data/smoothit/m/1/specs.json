@@ -1857,14 +1857,25 @@
                                     "value": "==",
                                     "params": [
                                        {
-                                          "name": "variable",
-                                          "value": "currentStepRunCount",
-                                          "params": []
-                                       },
-                                       {
                                           "name": "profile",
                                           "value": "multilayer.count",
                                           "params": []
+                                       },
+                                       {
+                                          "name": "add",
+                                          "value": "",
+                                          "params": [
+                                             {
+                                                "name": "const",
+                                                "value": "1",
+                                                "params": []
+                                             },
+                                             {
+                                                "name": "variable",
+                                                "value": "currentStepRunCount",
+                                                "params": []
+                                             }
+                                          ]
                                        },
                                        {
                                           "name": "profile",

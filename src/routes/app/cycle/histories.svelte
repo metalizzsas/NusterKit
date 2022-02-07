@@ -80,7 +80,7 @@
 								class="bg-red-500 rounded-xl text-white font-semibold py-1 px-2"
 								on:click={() => restartCycle(history)}
 							>
-								Reprise
+								{$_('cycle.buttons.resume')}
 							</button>
 							<!-- content here -->
 						{/if}

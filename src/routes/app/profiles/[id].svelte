@@ -118,6 +118,7 @@
 						<Inputkb
 							bind:value={profile.name}
 							options={{ class: 'border-0 bg-neutral-100' }}
+							disabled={!profile.overwriteable}
 						/>
 					</li>
 				</ul>
@@ -150,6 +151,8 @@
 									{#each fg.fields.filter((f) => f.name === 'enabled') as f}
 										<Toggle
 											bind:value={f.value}
+											locked={!profile.overwriteable}
+											enableGrayScale={!profile.overwriteable}
 											on:change={(e) => {
 												let d = fg.fields.find((f) => f.name === 'enabled');
 												if (d) {
@@ -169,7 +172,11 @@
 											{$_('profile.rows.' + f.name)}
 										</span>
 										{#if f.type === 'bool'}
-											<Toggle bind:value={f.value} />
+											<Toggle
+												bind:value={f.value}
+												locked={!profile.overwriteable}
+												enableGrayScale={!profile.overwriteable}
+											/>
 										{:else if f.type === 'float'}
 											<input
 												type="range"
@@ -177,13 +184,18 @@
 												min={f.floatMin}
 												max={f.floatMax}
 												step={f.floatStep}
+												disabled={!profile.overwriteable}
 											/>
 										{:else if f.type === 'int'}
 											{#if f.unity === 'm-s'}
-												<TimeSelector bind:value={f.value} />
+												<TimeSelector
+													bind:value={f.value}
+													disabled={!profile.overwriteable}
+												/>
 											{:else}
 												<Inputkb
 													bind:value={f.value}
+													disabled={!profile.overwriteable}
 													options={{
 														class: 'w-25 bg-white px-2 py-1 rounded-full',
 													}}

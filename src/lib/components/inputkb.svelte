@@ -1,6 +1,8 @@
 <script lang="ts">
 	export let value: string | number;
 
+	export let disabled = false;
+
 	export let options: { [x: string]: string | number } = {};
 
 	import Keyboard from 'simple-keyboard';
@@ -79,6 +81,7 @@
 			focused = true;
 			focusScroll();
 		}}
+		{disabled}
 	/>
 {:else}
 	<input
@@ -92,5 +95,6 @@
 			focused = true;
 			focusScroll();
 		}}
+		{disabled}
 	/>
 {/if}

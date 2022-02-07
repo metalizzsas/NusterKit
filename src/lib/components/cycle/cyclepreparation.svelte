@@ -3,134 +3,132 @@
 	import { fade } from 'svelte/transition';
 
 	import { machineData } from '$lib/utils/store';
-	import { date, time, _ } from 'svelte-i18n';
 	import { Linker } from '$lib/utils/linker';
+	import { _ } from 'svelte-i18n';
 
 	let cycleTypes: { name: string; profileRequired: boolean }[] = [];
-	let cycleTypeIndexSelected: number = -1;
 
-	let cycleTypeFolded = false;
+	let cyclePremades: { name: string; profile: string; cycle: string }[] = [];
 
-	let selectedProfileID: string = '';
+	let customRunProfileSelected: string = '';
+	let customRunCycleSelected: number = -1;
+
+	let premadeCycleSelectedIndex = -1;
+
+	$: startReady =
+		premadeCycleSelectedIndex > -1
+			? cyclePremades[premadeCycleSelectedIndex].name == 'custom'
+				? customRunCycleSelected != -1 && customRunProfileSelected != ''
+				: true
+			: false;
 
 	onMount(async () => {
 		//fetch cycles types from machine api
-		let cycleTypesData = await fetch('http://' + $Linker + '/v1/cycle');
+		let cycleTypesData = await fetch('http://' + $Linker + '/v1/cycle/custom');
 		cycleTypes = (await cycleTypesData.json()) as { name: string; profileRequired: boolean }[];
-		console.log(cycleTypes);
 
-		if (cycleTypes.length == 1) {
-			cycleTypeIndexSelected = 0;
-			cycleTypeFolded = true;
-		}
+		//fetch premade cycles from machine api
+		let cyclePremadesData = await fetch('http://' + $Linker + '/v1/cycle/premades');
+		cyclePremades = (await cyclePremadesData.json()) as {
+			name: string;
+			profile: string;
+			cycle: string;
+		}[];
+		cyclePremades.push({
+			name: 'custom',
+			profile: '',
+			cycle: '',
+		});
 	});
 
 	const prepareCycle = async () => {
-		fetch(
-			`http://${$Linker}/v1/cycle/${cycleTypes[cycleTypeIndexSelected].name}/${selectedProfileID}`,
-			{
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
+		console.log(cyclePremades[premadeCycleSelectedIndex].name);
+		const urlEnd =
+			cyclePremades[premadeCycleSelectedIndex].name == 'custom'
+				? `${cycleTypes[customRunCycleSelected]?.name}/${customRunProfileSelected}`
+				: `${cyclePremades[premadeCycleSelectedIndex].cycle}/${cyclePremades[premadeCycleSelectedIndex].profile}`;
+		const url = 'http://' + $Linker + '/v1/cycle/' + urlEnd;
+
+		console.log(url);
+		fetch(url, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
 			},
-		);
+		});
 	};
 </script>
 
 <div>
 	<div id="cycleTypeChooser">
-		<div class="flex flex-row gap-3 items-center justify-between align-center">
-			<span class="bg-gray-500 h-8 w-8 p-1 rounded-xl text-center font-semibold text-white">
-				1
-			</span>
-			<span class="bg-gray-500 py-1 px-3 rounded-xl font-semibold text-white">
-				{$_('cycle.choice')}
-			</span>
-			<div class="h-[0.125em] shadow-lg w-7/12 block bg-gray-400/50 rounded-full" />
-			<div
-				class="h-4 w-4 rounded-full {cycleTypeIndexSelected == -1
-					? 'bg-red-500'
-					: 'bg-emerald-500'} shadow-lg transition-colors"
-				on:click={() => (cycleTypeFolded = !cycleTypeFolded)}
-			/>
+		<div
+			class="flex flex-row gap-4 bg-gray-800 text-white font-semibold rounded-xl p-2 items-center"
+		>
+			<div class="bg-white text-orange rounded-full p-2 text-orange-500">!</div>
+			<p class="shrink-1">{$_('cycle.choice.message')}</p>
 		</div>
-
-		{#if cycleTypeFolded != true}
-			<div class="grid grid-cols-3 gap-4 mt-3" in:fade out:fade>
-				{#each cycleTypes as ct, index}
-					<button
-						class="{index === cycleTypeIndexSelected
-							? 'bg-emerald-300 hover:bg-emerald-300/80'
-							: 'bg-gray-300 hover:bg-gray-300/80'} px-3 py-2 rounded-xl transition-all text-white font-semibold"
-						on:click={() => {
-							cycleTypeIndexSelected = cycleTypeIndexSelected != index ? index : -1;
-							if (cycleTypeIndexSelected == -1) selectedProfileID = '';
-
-							if (cycleTypeIndexSelected != -1) cycleTypeFolded = true;
-
-							if (!cycleTypes[cycleTypeIndexSelected].profileRequired)
-								selectedProfileID = '';
-						}}
-					>
-						{ct.name}
-					</button>
-				{/each}
-			</div>
-		{/if}
-	</div>
-	{#if cycleTypeIndexSelected != -1}
-		{#if cycleTypes[cycleTypeIndexSelected].profileRequired}
-			<div id="cycleProfileChooser" class="mt-6">
-				<div class="flex flex-row gap-3 items-center justify-between">
-					<span
-						class="bg-gray-500 h-8 w-8 p-1 rounded-xl text-center font-semibold text-white"
-					>
-						2
-					</span>
-					<span class="bg-gray-500 py-1 px-3 rounded-xl font-semibold text-white">
-						{$_('cycle.profile.choice')}
-					</span>
-					<div class="h-[0.125em] shadow-lg w-7/12 block bg-gray-400/50 rounded-full" />
-					<div
-						class="h-4 w-4 rounded-full {selectedProfileID == ''
-							? 'bg-red-500'
-							: 'bg-emerald-500'} shadow-lg transition-colors"
-					/>
-				</div>
-
-				<div class="grid grid-cols-1 gap-4 mt-3">
-					{#each $machineData.profiles.filter((p) => p.identifier === cycleTypes[cycleTypeIndexSelected].name) as p}
-						<button
-							class="{p.id === selectedProfileID
-								? 'bg-gray-800 hover:bg-gray-800/80'
-								: 'bg-gray-500 hover:bg-gray-500/80'} px-3 py-2 rounded-xl transition-all  text-white font-semibold flex flex-col"
-							on:click={() => {
-								selectedProfileID = selectedProfileID != p.id ? p.id : '';
-							}}
-						>
-							<span>{p.name}</span>
-							<span class="italic text-gray-200/50 text-sm">
-								{$time(new Date(p.modificationDate), { format: 'medium' })} : {$date(
-									new Date(p.modificationDate),
-									{ format: 'short' },
-								)}
-							</span>
-						</button>
-					{/each}
-				</div>
-			</div>
-		{/if}
-
-		{#if selectedProfileID != '' || !cycleTypes[cycleTypeIndexSelected].profileRequired}
-			<div id="cyclePrepare" class="mt-6 flex flex-row justify-center">
-				<button
-					class="bg-indigo-600 hover:bg-indigo-600/80 rounded-xl py-2 px-5 text-white font-semibold transition-all"
-					on:click={prepareCycle}
+		<div class="grid grid-cols-3 gap-4 mt-3" in:fade out:fade>
+			{#each cyclePremades as ct, index}
+				<div
+					class="{index === premadeCycleSelectedIndex
+						? 'bg-indigo-500 hover:bg-indigo-400'
+						: 'bg-gray-400 hover:bg-gray-300'} text-white px-3 py-2 flex flex-col items-center justify-center rounded-xl transition-all font-semibold {ct.name ==
+					'custom'
+						? 'col-span-2'
+						: ''}"
+					on:click={() => {
+						premadeCycleSelectedIndex = premadeCycleSelectedIndex != index ? index : -1;
+					}}
 				>
-					{$_('cycle.buttons.prepare')}
-				</button>
-			</div>
-		{/if}
-	{/if}
+					<span class="text-xl">{$_('cycle.types.' + ct.name)}</span>
+					{#if ct.name == 'custom'}
+						<div class="flex-col gap-4">
+							<div class="flex flex-row gap-3">
+								<label for="select-cycle">{$_('cycle.custom.select.cycle')}</label>
+								<select
+									name="select-cycle"
+									class="px-2 py-1 text-gray-800"
+									bind:value={customRunCycleSelected}
+								>
+									{#each cycleTypes as c, index}
+										<option value={index}>{c.name}</option>
+									{/each}
+								</select>
+							</div>
+							{#if customRunCycleSelected != -1 && cycleTypes[customRunCycleSelected].profileRequired}
+								<div class="flex flex-row gap-3">
+									<label for="select-profile">
+										{$_('cycle.custom.select.profile')}
+									</label>
+									<select
+										name="select-profile"
+										class="px-2 py-1 text-gray-800"
+										bind:value={customRunProfileSelected}
+									>
+										{#each $machineData.profiles.filter((p) => p.identifier == cycleTypes[customRunCycleSelected]?.name) as p}
+											<option value={p.id}>{p.name}</option>
+										{/each}
+									</select>
+								</div>
+							{/if}
+						</div>
+					{/if}
+				</div>
+			{/each}
+		</div>
+	</div>
+	<div id="cyclePrepare" class="mt-6 flex flex-row justify-center">
+		<button
+			class="{startReady
+				? 'bg-indigo-600 hover:bg-indigo-600/80'
+				: 'bg-gray-400 hover:bg-gray-500'} rounded-xl py-2 px-5 text-white font-semibold transition-all"
+			on:click={() => {
+				if (startReady) {
+					prepareCycle();
+				}
+			}}
+		>
+			{$_('cycle.buttons.prepare')}
+		</button>
+	</div>
 </div>

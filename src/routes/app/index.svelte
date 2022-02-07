@@ -5,14 +5,13 @@
 	import SlotProduct from '$lib/components/slotproduct.svelte';
 	import { machineData } from '$lib/utils/store';
 	import { goto } from '$app/navigation';
-	import Infoblock from '$lib/components/infoblock.svelte';
 </script>
 
 <main id="content">
 	<div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-300 dark:bg-neutral-800  group">
 		<div class="flex flex-row justify-items-end -translate-y-4">
 			<div
-				class="rounded-xl bg-indigo-500 text-white py-1 px-8 font-semibold  group-hover:scale-105 transition-all"
+				class="rounded-full bg-indigo-500 text-white py-1 px-8 font-semibold  group-hover:scale-105 transition-all"
 			>
 				{$_('procedures')}
 			</div>
@@ -69,14 +68,14 @@
 	<div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-300 dark:bg-neutral-800  group">
 		<div class="flex flex-row justify-items-end -translate-y-4">
 			<div
-				class="rounded-xl bg-purple-500 text-white py-1 px-8 font-semibold  group-hover:scale-105 transition-all"
+				class="rounded-full bg-purple-500 text-white py-1 px-8 font-semibold  group-hover:scale-105 transition-all"
 			>
 				{$_('slots.name')}
 			</div>
 		</div>
 
-		<div class="grid grid-cols-2 gap-4">
-			{#each $machineData.slots as slot}
+		<div class="grid grid-cols-3 gap-4">
+			{#each $machineData.slots.sort((a, b) => a.sensors.length - b.sensors.length) as slot}
 				<SlotProduct bind:slotContent={slot} />
 			{/each}
 		</div>
@@ -85,13 +84,13 @@
 	<div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-300 dark:bg-neutral-800  group">
 		<div class="flex flex-row justify-items-end -translate-y-4">
 			<div
-				class="rounded-xl bg-cyan-500 text-white py-1 px-8 font-semibold  group-hover:scale-105 transition-all"
+				class="rounded-full bg-cyan-500 text-white py-1 px-8 font-semibold  group-hover:scale-105 transition-all"
 			>
 				{$_('maintenance.list')}
 			</div>
 		</div>
 
-		<div class="grid grid-cols-2 gap-4">
+		<div class="grid grid-cols-3 gap-4">
 			{#each $machineData.maintenances.filter((m) => m.name !== 'cycleCount') as m}
 				<Maintenance bind:maintenance={m} />
 			{/each}

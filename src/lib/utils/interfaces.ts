@@ -90,6 +90,8 @@ export interface Profile {
   identifier: string;
   name: string;
   fieldGroups: FieldGroup[];
+  removable: boolean;
+  overwriteable: boolean;
   modificationDate: number;
   id: string;
 }

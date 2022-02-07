@@ -30,7 +30,7 @@
 	}
 
 	async function listProfileBlueprint() {
-		let response = await fetch('http://' + $Linker + '/v1/profiles/map');
+		let response = await fetch('http://' + $Linker + '/v1/profiles/skeletons');
 		let types = (await response.json()) as string[];
 
 		if (types.length == 1) {

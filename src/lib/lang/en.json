@@ -99,6 +99,29 @@
   "cycle": {
     "button": "Cycle",
     "name": "Cycles",
+    "choice.message": "Choose a cycle to begin",
+    "types": {
+      "fdm": "FDM 3D Print",
+      "sla": "SLA / DLP 3D Print",
+      "sls": "SLS / MJF 3D Print",
+      "custom": "Customized cycle and profile",
+      "act-fill": "Activator dilution"
+    },
+    "custom": {
+      "select": {
+        "cycle": "Custom cycle",
+        "profile": "Profile"
+      }
+    },
+    "end": {
+      "user": "User aborted cycle",
+      "finished": "Finished successfully",
+      "uv-cache-wrong": "UV Cache error",
+      "ir-cache-wrong": "IR Cache error",
+      "nozzle-cache-wrong": "Nozzle Cache error",
+      "controllerTimeout": "IO Controller timed out",
+      "controllererror": "IO Controller error"
+    },
     "modals": {
       "watchdog": {
         "title": "Watchdog error",
@@ -106,6 +129,7 @@
       }
     },
     "buttons": {
+      "resume": "Resume cycle",
       "prepare": "Prepare cycle",
       "end": "Stop cycle",
       "finish": "Finish cycle",

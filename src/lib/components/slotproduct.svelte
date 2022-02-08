@@ -28,7 +28,7 @@
 			<div class="flex flex-col gap-3 -mt-3">
 				{#each slotContent.sensors as s}
 					<div
-						class="bg-gray-200 pr-1 pl-5 py-1 rounded-full text-neutral-700 font-semibold flex flex-row justify-between items-center"
+						class="bg-gray-300 pr-1 pl-5 py-1 rounded-full text-neutral-700 font-semibold flex flex-row justify-between items-center"
 					>
 						{$_('slots.sensors.types.' + s.type)}
 						<span class="bg-gray-900 p-1 px-5 rounded-full text-white">

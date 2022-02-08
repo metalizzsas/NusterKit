@@ -33,16 +33,21 @@
         "endreasons": {
             "uv-cache-wrong": "UV Cache error",
             "ir-cache-wrong": "IR Cache error",
-            "nozzle-cache-wrong": "Nozzle Cache error"
+            "nozzle-cache-wrong": "Nozzle Cache error",
+            "watchdog-emergency_stop": "Emergency stop button pressed",
+            "watchdog-nitrogen_sensor": "Nitrogen pressure too low",
+            "watchdog-cover_closed": "Cover open",
+            "watchdog-resin-slot_sensor": "Vanish slot missing",
+            "watchdog-uv-overheat": "UV lamp overheat"
         },
         "steps": {
             "pulverization": {
                 "name": "Pulverization",
-                "desc": "Applying resin on your parts."
+                "desc": "Applying varnish on your parts."
             },
             "ir-curing": {
                 "name": "IR curing",
-                "desc": "Heating the resin to smooth them."
+                "desc": "Heating the varnish to smooth them."
             },
             "inerting": {
                 "name": "Inerting",
@@ -50,7 +55,7 @@
             },
             "uv-curing": {
                 "name": "UV Curing",
-                "desc": "Hardening the resin on your parts."
+                "desc": "Hardening the varnish on your parts."
             },
             "vapors-extraction": {
                 "name": "Vapors filtering",
@@ -75,7 +80,7 @@
             "cover_closed": "Cover closed",
             "levels_eff-n": "Effluents limit",
             "eff_container_sensor": "Effluents container sensor",
-            "resin-slot_sensor": "Resin container sensor",
+            "resin-slot_sensor": "Varnish container sensor",
             "ir-sensor_open": "IR cache open",
             "ir-sensor_closed": "IR cache closed",
             "uv-sensor_open": "UV cache open",
@@ -85,7 +90,7 @@
             "nozzle-sensor_closed": "Nozzle cache closed",
             "ventilation": "Vapors extraction",
             "air_heater": "Air heater",
-            "resin-pressure": "Resin container pressure",
+            "resin-pressure": "Varnish container pressure",
             "inerting": "Inerting",
             "ir-enable": "IR lamp",
             "ir-ventil": "IR lamp ventilation",
@@ -129,11 +134,11 @@
             },
             "inner-cleaning": {
                 "name": "Inner",
-                "desc": "The inner layer masks the machine to avoid resin accumulation on the cuve."
+                "desc": "The inner layer masks the machine to avoid vanish accumulation on the cuve."
             },
             "ir-lamp": {
                 "name": "IR Lamp",
-                "desc": "IR Lamp is used to ehance resin coating smoothing effect.",
+                "desc": "IR Lamp is used to ehance varnish coating smoothing effect.",
                 "procedure": {
                     "unscrew-top": "Unscrew the 4 M4 screw that holds the IR lamp cache in place.",
                     "replace-ir-lamp": "While holding the lamp, shift the lamp toward the ground to unlock the lamp from its socket. Replace the lamp using the same technique.",
@@ -142,7 +147,7 @@
             },
             "uv-lamp": {
                 "name": "UV Lamp",
-                "desc": "UV Lamp is used to harden resin on top of your part."
+                "desc": "UV Lamp is used to harden varnish on top of your part."
             }
         }
     }

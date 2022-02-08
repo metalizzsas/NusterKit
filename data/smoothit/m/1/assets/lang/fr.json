@@ -2,7 +2,7 @@
     "slots": {
         "types": {
             "eff": "Effluents",
-            "resin": "Résine"
+            "resin": "Vernis"
         }
     },
     "profile": {
@@ -33,24 +33,29 @@
         "endreasons": {
             "uv-cache-wrong": "Erreur position cache UV",
             "ir-cache-wrong": "Erreur position cache IR",
-            "nozzle-cache-wrong": "Erreur position cache buse"
+            "nozzle-cache-wrong": "Erreur position cache buse",
+            "watchdog-emergency_stop": "Boutton d'arret d'urgence déclenché",
+            "watchdog-nitrogen_sensor": "Pression d'azote trop basse",
+            "watchdog-cover_closed": "Couvercle ouvert",
+            "watchdog-resin-slot_sensor": "Pot de vernis manquant",
+            "watchdog-uv-overheat": "Surchauffe lampe UV"
         },
         "steps": {
             "pulverization": {
                 "name": "Pulvérisation",
-                "desc": "Application de la résine sur vos pièces."
+                "desc": "Application du vernis sur vos pièces."
             },
             "ir-curing": {
                 "name": "Cuisson IR",
-                "desc": "Chauffe de la résine pour "
+                "desc": "Chauffe du vernis pour lisser la surface."
             },
             "inerting": {
                 "name": "Inertage",
-                "desc": "Remplissage de la cuve d'azote pour ameliorer la cuisson UV."
+                "desc": "Remplissage de la cuve d'azote pour améliorer la cuisson UV."
             },
             "uv-curing": {
                 "name": "Cuisson UV",
-                "desc": "Durcissement de la résine UV."
+                "desc": "Durcissement du vernis UV."
             },
             "vapors-extraction": {
                 "name": "Filtrations des vapeurs",
@@ -123,15 +128,15 @@
             },
             "inner-cleaning": {
                 "name": "Masque interne",
-                "desc": "Le masque interne evite l'accumulation de résine dans la cuve."
+                "desc": "Le masque interne evite l'accumulation de vernis dans la cuve."
             },
             "ir-lamp": {
                 "name": "Lampe IR",
-                "desc": "La lampe IR permet de lisser la résine présente sur vos pièces."
+                "desc": "La lampe IR permet de lisser le vernis présent sur vos pièces."
             },
             "uv-lamp": {
                 "name": "Lampe UV",
-                "desc": "La lampe UV permet de durcir la résine de lissage présente sur vos pièces."
+                "desc": "La lampe UV permet de durcir le vernis de lissage présent sur vos pièces."
             }
         }
     }

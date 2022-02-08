@@ -29,6 +29,17 @@
     }
   },
   "cycle": {
+    "endreasons": {
+      "watchdog-emergency_stop": "Boutton d'arret d'urgence déclenché",
+      "watchdog-air_sensor": "Pression d'air trop basse",
+      "watchdog-cover_closed": "Couvercle ouvert",
+      "watchdog-levels_eff-max-n": "Niveau d'effluents maximal",
+      "watchdog-eff_container_sensor": "Conteneur d'effluents manquant",
+      "watchdog-levels_edi-min-n": "Niveau d'EDI minimal",
+      "watchdog-levels_act-min-n": "Niveau d'activant minimal",
+      "watchdog-levels_ox-min-n": "Niveau d'oxydant minimal",
+      "watchdog-levels_rd-min-n": "Niveau de réducteur minimal"
+    },
     "names": {
       "default": "Cycle de base metalfog",
       "act-fill": "Dilution activant"

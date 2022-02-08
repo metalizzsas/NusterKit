@@ -39,6 +39,17 @@
     }
   },
   "cycle": {
+    "endreasons": {
+      "watchdog-emergency_stop": "Emergency stop button pressed",
+      "watchdog-air_sensor": "Air pressure too low",
+      "watchdog-cover_closed": "Cover open",
+      "watchdog-levels_eff-max-n": "Effluents too high",
+      "watchdog-eff_container_sensor": "Effluents container missing",
+      "watchdog-levels_edi-min-n": "Minimal DI water level",
+      "watchdog-levels_act-min-n": "Minimal Activator level",
+      "watchdog-levels_ox-min-n": "Minimal Oxydiser level",
+      "watchdog-levels_rd-min-n": "Minimal Reducer level"
+    },
     "names": {
       "default": "Base metalfog cycle",
       "act-fill": "Activator dilution"
@@ -101,15 +112,17 @@
     "names": {
       "emergency_stop": "Emergency stop button",
       "air_sensor": "Air pressure sensor",
+      "air_heater": "Air heater",
       "cover_closed": "Cover closed",
-      "levels_eff-n": "Effluents limit",
+      "levels_eff-max-n": "Effluents limit",
       "eff_container_sensor": "Effluents container sensor",
-      "levels_ox-a": "Oxidiser level",
+      "levels_ox-min-n": "Oxydiser minimal level",
+      "levels_rd-min-n": "Oxydiser minimal level",
       "levels_rd-a": "Reducer level",
-      "levels_act-n": "Activator limit sensor",
-      "levels_act-a": "Activator level",
-      "levels_edi-n": "DI water limit sensor",
-      "levels_edi-a": "DI water level",
+      "levels_act-max-n": "Activator maximal level",
+      "levels_act-min-n": "Activator minimal level",
+      "levels_edi-max-n": "DI water maximal level",
+      "levels_edi-min-n": "DI water minimal level",
       "ventilation": "Vapors extraction",
       "act-res": "Activator container pressure",
       "edi-res": "DI Water container pressure",
@@ -122,8 +135,24 @@
       "edi-lq_fill_act": "DI water liquid control to Activator container",
       "hybrid-plv_high": "Activator & DI water pulverization high",
       "hybrid-plv_low": "Activator & DI water pulverization low",
+      "met-plv_high": "Metallization pulverization high",
+      "met-plv_medium": "Metallization pulverization medium",
+      "met-plv_low": "Metallization pulverization low",
       "motor-direction": "Motor direction",
-      "motor-speed": "Motor speed"
+      "motor-speed": "Motor speed",
+      "rd-lq_high": "Reducer liquid control high",
+      "rd-lq_medium": "Reducer liquid control medium",
+      "rd-lq_low": "Reducer liquid control low",
+      "ox-lq_high": "Oxydiser liquid control high",
+      "ox-lq_medium": "Oxydiser liquid control medium",
+      "ox-lq_low": "Oxydiser liquid control low",
+
+      "rd-air_cleaning_high": "Reducer air cleaning high",
+      "rd-air_cleaning_medium": "Reducer air cleaning medium",
+      "rd-air_cleaning_low": "Reducer air cleaning low",
+      "ox-air_cleaning_high": "Oxydiser air cleaning high",
+      "ox-air_cleaning_medium": "Oxydiser air cleaning medium",
+      "ox-air_cleaning_low": "Oxydiser air cleaning low"
     }
   },
   "manual": {

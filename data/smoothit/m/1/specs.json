@@ -610,21 +610,24 @@
                {
                   "name": "unscrew-top",
                   "images": [
-                     "0.jpg"
+                     "0.jpg",
+                     "1.jpg"
                   ]
                },
                {
                   "name": "replace-ir-lamp",
                   "images": [
-                     "1.jpg",
                      "2.jpg",
-                     "1.jpg"
+                     "3.jpg",
+                     "4.jpg",
+                     "5.jpg"
                   ]
                },
                {
                   "name": "screw-top",
                   "images": [
-                     "3.jpg"
+                     "1.jpg",
+                     "0.jpg"
                   ]
                }
             ]
@@ -633,52 +636,7 @@
       {
          "name": "uv-lamp",
          "durationType": "hours",
-         "durationLimit": 30000,
-         "procedure": {
-            "tools": [
-               "allen-wrench-2.5"
-            ],
-            "steps": [
-               {
-                  "name": "unplug-uv-lamp",
-                  "images": [
-                     "0.jpg"
-                  ]
-               },
-               {
-                  "name": "unscrew-top-carter",
-                  "images": [
-                     "1.jpg",
-                     "2.jpg",
-                     "1.jpg"
-                  ]
-               },
-               {
-                  "name": "unscrew-lamp",
-                  "images": [
-                     ""
-                  ]
-               },
-               {
-                  "name": "replace-lamp",
-                  "images": [
-                     ""
-                  ]
-               },
-               {
-                  "name": "screw-lamp-carter",
-                  "images": [
-                     ""
-                  ]
-               },
-               {
-                  "name": "plug-uv-lamp",
-                  "images": [
-                     ""
-                  ]
-               }
-            ]
-         }
+         "durationLimit": 30000
       }
    ],
    "passives": [],

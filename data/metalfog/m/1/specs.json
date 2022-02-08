@@ -470,6 +470,10 @@
             {
                "io": "levels_eff-max-n",
                "type": "level-max-n"
+            },
+            {
+               "io": "eff_container_sensor",
+               "type": "level-np"
             }
          ]
       }

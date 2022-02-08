@@ -18,7 +18,7 @@
 	<span
 		class="rounded-xl bg-sky-500 py-1 px-5 text-white text-xl font-semibold shadow-2xl self-start my-3 mb-1"
 	>
-		{$_('cycle.steps')}
+		{$_('cycle.steps.title')}
 	</span>
 
 	{#if $machineData.cycle}

@@ -39,7 +39,7 @@
 	});
 
 	onMount(async () => {
-		initI18n(document);
+		await initI18n(ip);
 		loadDarkMode();
 
 		//disabling right click

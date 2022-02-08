@@ -17,11 +17,11 @@ export interface Maintenance {
   durationActual: number;
   durationProgress: number;
   operationDate?: number;
-  procedure: Procedure;
+  procedure?: Procedure;
 }
 
 export interface Procedure {
-  desc: string;
+  tools?: string[]
   steps: Step2[];
 }
 
@@ -68,12 +68,21 @@ export interface Slot {
   type: string;
   isProductable: boolean;
   sensors: Sensor[];
+  product?: ISlotProduct
 }
 
 export interface Sensor {
   io: string;
   type: string;
   value: number;
+}
+
+export interface ISlotProduct
+{
+  id: string;
+  name: string;
+  installDate: number;
+  
 }
 
 export interface Cycle {

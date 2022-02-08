@@ -24,7 +24,6 @@
 
 		function onChange(input) {
 			value = input;
-			console.log('Input changed', input);
 		}
 		function onKeyPress(button) {
 			if (focused && button == '{enter}') {

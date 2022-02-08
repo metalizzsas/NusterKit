@@ -65,7 +65,7 @@
 					class="flex flex-row gap-4 justify-between bg-gray-700 p-3 text-white rounded-xl items-center"
 				>
 					<div class="flex flex-col">
-						<span class="font-semibold">{history.cycle.name}</span>
+						<span class="font-semibold">{$_('cycle.names.' + history.cycle.name)}</span>
 						<span class="italic text-gray-300 font-xs">
 							{$date(new Date(history.cycle.status.endDate || 0), {
 								format: 'medium',
@@ -82,7 +82,6 @@
 							>
 								{$_('cycle.buttons.resume')}
 							</button>
-							<!-- content here -->
 						{/if}
 						<div
 							class="rounded-full bg-white  py-1 px-3 {(history.cycle.status

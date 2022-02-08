@@ -21,7 +21,7 @@
 
 		console.log('copied', newProfile.name);
 
-		await fetch('http://' + $Linker + '/v1/profiles/', {
+		const returndata = await fetch('http://' + $Linker + '/v1/profiles/', {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
@@ -29,7 +29,12 @@
 			body: JSON.stringify(newProfile),
 		});
 
-		location.reload();
+		try {
+			const profileData = (await returndata.json()) as Profile;
+			goto('/app/profiles/' + profileData.id);
+		} catch (ex) {
+			console.log(ex);
+		}
 	}
 
 	async function deleteProfile(profile: Profile) {
@@ -48,7 +53,7 @@
 		{
 			text: $_('ok'),
 			color: 'bg-green-400',
-			callback: (val) => copyProfile,
+			callback: copyProfile,
 		},
 		{
 			text: $_('cancel'),

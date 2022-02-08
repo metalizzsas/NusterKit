@@ -23,7 +23,6 @@
 	import { onMount } from 'svelte';
 	import { _ } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
 	import { Linker } from '$lib/utils/linker';
 	import Inputkb from '$lib/components/inputkb.svelte';
 
@@ -81,7 +80,6 @@
 		<div
 			class="rounded-full bg-red-400 text-white py-1 px-3 font-semibold flex flex-row gap-2 items-center cursor-pointer"
 			on:click|preventDefault={() => {
-				console.log(profile);
 				if (JSON.stringify(profile) !== initialProfile) saveModalShown = true;
 				else goto('/app/profiles');
 			}}

@@ -18,7 +18,7 @@
 		</span>
 		<span class="bg-white py-1 px-3 rounded-full text-gray-600 font-medium">
 			{maintenance.durationActual} / {maintenance.durationLimit}
-			{maintenance.durationType.charAt(0).toUpperCase() + maintenance.durationType.slice(1)}
+			{$_('maintenance.unity.' + maintenance.durationType)}
 		</span>
 	</div>
 

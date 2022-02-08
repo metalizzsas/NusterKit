@@ -1,11 +1,13 @@
 <script lang="ts">
+	import { validate_each_argument } from 'svelte/internal';
+
 	import { fade } from 'svelte/transition';
 	import Inputkb from '../inputkb.svelte';
 
 	interface buttonOption {
 		text: string;
 		color: string;
-		callback(val?: string): void;
+		callback(val: string): void;
 		textColor?: string;
 	}
 
@@ -85,7 +87,8 @@
 								class="{button.color} rounded-xl px-3 py-1 {button.textColor ||
 									'text-white'} font-semibold"
 								on:click={() => {
-									button.callback(selectOptions ? val : selectval);
+									console.log('value', val);
+									button.callback(selectOptions ? selectval : val);
 									shown = false;
 								}}
 							>

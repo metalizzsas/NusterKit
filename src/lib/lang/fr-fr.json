@@ -1,10 +1,16 @@
 {
   "ok": "Ok",
+  "nok": "Ko",
   "yes": "Oui",
   "no": "non",
   "cancel": "anuler",
   "minutes": "Minutes",
   "seconds": "Secondes",
+  "binary_true": "Vrai",
+  "binary_false": "Faux",
+  "present": "Présent",
+  "missing": "Absent",
+  "close-keyboard": "Close keyboard",
 
   "machine": {
     "informations": "Informations machine",
@@ -17,13 +23,7 @@
   "procedures": "Procédures",
   "slots": {
     "name": "Conteneurs",
-    "types": {
-      "ox": "Oxidant",
-      "rd": "réducteur",
-      "act": "Activant",
-      "edi": "Eau désionisée",
-      "eff": "Éffluents"
-    },
+    "product": "Produit ↗",
     "sensors": {
       "name": "Capteurs",
       "types": {
@@ -60,24 +60,8 @@
         "message": "Voulez vous supprimmer {profile.name} ?"
       }
     },
-    "categories": {
-      "act-edi-nozzles": "Buses activant et eau désionisée",
-      "met-nozzles": "Buses de métallisation",
-      "motor": "Moteur de rotation",
-      "activation": "Activation",
-      "metalization": "Metalisation",
-      "wash1": "Rinçage 1",
-      "wash2": "Rinçage 2",
-      "drying": "Séchage",
-      "vaporsExtraction": "Extraction des vapeurs"
-    },
     "rows": {
       "enabled": "Activé",
-      "act-edi-high": "Rang de buses haut",
-      "act-edi-low": "Range de buses bas",
-      "met-high": "Range de buses haut",
-      "met-medium": "Range de buses millieu",
-      "met-low": "Range de buses bas",
       "speed": "Vitesse",
       "duration": "Durée",
       "count": "Nombre d'itérations",
@@ -95,17 +79,33 @@
   "cycle": {
     "button": "Cycle",
     "name": "Cycles",
+    "types": {
+      "custom": "Cycle customisé"
+    },
+    "endreasons": {
+      "user": "Fin utilisateur",
+      "finished": "Terminé avec succès",
+      "controllerTimeout": "Delai connection controlleur IO",
+      "controllererror": "Erreur connection controlleur IO"
+    },
     "modals": {
       "watchdog": {
         "title": "Erreur de watchdog",
         "message": "Le cycle ne peux pas démarrer. Une erreur de conditions de démarrage est présente."
       }
     },
+    "custom": {
+      "select": {
+        "cycle": "Choix du cycle",
+        "profile": "Profil utilisé"
+      }
+    },
     "buttons": {
       "prepare": "Préparer le cycle",
       "end": "Arreter le cycle",
       "finish": "Terminer le cycle",
-      "start": "Démarrer le cycle"
+      "start": "Démarrer le cycle",
+      "resume": "Reprendre le cycle"
     },
     "preparation": "Préparartion du cycle",
     "choice": "Choix du cycle",
@@ -117,26 +117,21 @@
   },
   "gates": {
     "name": "Controles I/O",
-    "input": "Entrées",
-    "output": "Sorties",
-    "names": {
-      "emergency_stop": "Boutton d'arret d'urgence",
-      "air_sensor": "Capteur de préssion d'air",
-      "nitrogen_sensor": "Capteur de préssion d'azote",
-      "cover_closed": "Capteur de couvercle",
-      "level_eff-n": "Capteur de limite d'éffluents",
-      "eff_container_sensor": "Capteur de présence du conteneur d'éffluents"
+    "bus": {
+      "in": "Entrées",
+      "out": "Sorties"
+    },
+    "categories": {
+      "generic": "Générique"
     }
   },
   "manual": {
     "button": "Mode manuel",
     "list": "Modes manuels",
     "warning": "Les models manuels vous permettent de gérer la machine manuellement. Attention les conditions de sécuritée sont désactivés ici.",
-    "tasks": {
-      "plv_act_high": "Pulvérization haute activant",
-      "plv_act_low": "Pulvérization basse activant",
-      "plv_edi_high": "Pulvérization haute eau désionisée",
-      "plv_edi_low": "Pulvérization basse eau désionisée"
+    "incompatibilities": "Incompatibilités",
+    "categories": {
+      "generic": "Générique"
     }
   },
   "maintenance": {
@@ -147,11 +142,15 @@
     "procedure.next": "Suivant",
     "procedure.previous": "Précédent",
     "procedure.reset": "Valider la tache de maintenance",
-    "tasks": {
-      "mfm-filter": {
-        "name": "Filtre a gaz",
-        "desc": "Le filtre a gaz de la metalfog permet de capturer tout les gazs nocifs crées par les reactions chimliques dans la cuve."
-      }
+    "unity": {
+      "cycle": "Cycles",
+      "hours": "Heures"
+    },
+    "tools-used": "Outils nécéssaires",
+    "tools": {
+      "allen-wrench-2.5": "Clé allen 2.5mm",
+      "allen-wrench-3": "Clé allen 3mm",
+      "none": "Aucun outil necessaire"
     }
   }
 }

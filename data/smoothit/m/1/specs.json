@@ -1424,7 +1424,7 @@
                               "params": [
                                  {
                                     "name": "const",
-                                    "value": "0.0166667"
+                                    "value": "0.0002777778"
                                  },
                                  {
                                     "name": "profile",
@@ -1819,7 +1819,7 @@
                               "params": [
                                  {
                                     "name": "const",
-                                    "value": "0.0166667"
+                                    "value": "0.0002777778"
                                  },
                                  {
                                     "name": "conditional",

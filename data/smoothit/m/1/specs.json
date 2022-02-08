@@ -1807,28 +1807,19 @@
                         "_folded": true
                      },
                      {
-                        "name": "conststr",
-                        "value": "uv-lamp"
-                     },
-                     {
-                        "name": "multiply",
-                        "value": "",
+                        "name": "maintenance",
                         "params": [
                            {
-                              "name": "const",
-                              "value": "0.0166667"
+                              "name": "conststr",
+                              "value": "uv-lamp"
                            },
                            {
-                              "name": "conditional",
-                              "value": "==",
+                              "name": "multiply",
+                              "value": "",
                               "params": [
                                  {
-                                    "name": "profile",
-                                    "value": "multilayer.enabled"
-                                 },
-                                 {
                                     "name": "const",
-                                    "value": "1"
+                                    "value": "0.0166667"
                                  },
                                  {
                                     "name": "conditional",
@@ -1836,35 +1827,49 @@
                                     "params": [
                                        {
                                           "name": "profile",
-                                          "value": "multilayer.count"
+                                          "value": "multilayer.enabled"
                                        },
                                        {
-                                          "name": "add",
-                                          "value": "",
+                                          "name": "const",
+                                          "value": "1"
+                                       },
+                                       {
+                                          "name": "conditional",
+                                          "value": "==",
                                           "params": [
                                              {
-                                                "name": "const",
-                                                "value": "1"
+                                                "name": "profile",
+                                                "value": "multilayer.count"
                                              },
                                              {
-                                                "name": "variable",
-                                                "value": "currentStepRunCount"
+                                                "name": "add",
+                                                "value": "",
+                                                "params": [
+                                                   {
+                                                      "name": "const",
+                                                      "value": "1"
+                                                   },
+                                                   {
+                                                      "name": "variable",
+                                                      "value": "currentStepRunCount"
+                                                   }
+                                                ]
+                                             },
+                                             {
+                                                "name": "profile",
+                                                "value": "uv-curing.duration"
+                                             },
+                                             {
+                                                "name": "profile",
+                                                "value": "multilayer.interlayer-uvduration"
                                              }
                                           ]
                                        },
                                        {
                                           "name": "profile",
                                           "value": "uv-curing.duration"
-                                       },
-                                       {
-                                          "name": "profile",
-                                          "value": "multilayer.interlayer-uvduration"
                                        }
                                     ]
-                                 },
-                                 {
-                                    "name": "profile",
-                                    "value": "uv-curing.duration"
                                  }
                               ]
                            }

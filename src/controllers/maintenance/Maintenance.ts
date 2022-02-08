@@ -57,7 +57,7 @@ export class Maintenance implements IConfigMaintenance
         if(doc != undefined)
         {
             this.duration = doc.duration;
-            this.durationProgress = Math.floor((this.duration / this.durationLimit) * 100) / 100;
+            this.durationProgress = Math.floor((this.duration / this.durationLimit) * 100);
             this.operationDate = doc.operationDate
         }
         else

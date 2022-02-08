@@ -22,6 +22,9 @@
         }
     },
     "cycle": {
+        "names": {
+            "default": "Cycle de base smoothit"
+        },
         "types": {
             "fdm": "Pièce 3D FDM",
             "sla": "Pièce 3D SLA / DLP",
@@ -120,7 +123,7 @@
             },
             "inner-cleaning": {
                 "name": "Masque interne",
-                "desc": "Le masuque interne evite l'accumulation de résine dans la cuve."
+                "desc": "Le masque interne evite l'accumulation de résine dans la cuve."
             },
             "ir-lamp": {
                 "name": "Lampe IR",

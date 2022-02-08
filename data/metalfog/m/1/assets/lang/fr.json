@@ -1,0 +1,113 @@
+{
+  "slots": {
+    "types": {
+      "ox": "Oxydant",
+      "rd": "Réducteur",
+      "act": "Activant",
+      "edi": "Eau désionisée",
+      "eff": "Éffluents"
+    }
+  },
+  "profile": {
+    "categories": {
+      "act-edi-nozzles": "Buses activant et eau désionisée",
+      "met-nozzles": "Buses de métallisation",
+      "motor": "Moteur de rotation",
+      "activation": "Activation",
+      "metalization": "Métallisation",
+      "wash1": "Rinçage 1",
+      "wash2": "Rinçage 2",
+      "drying": "Séchage",
+      "vaporsExtraction": "Extraction des vapeurs"
+    },
+    "rows": {
+      "act-edi-high": "Rang de buses haut",
+      "act-edi-low": "Rang de buses bas",
+      "met-high": "Rang de buses haut",
+      "met-medium": "Rang de buses millieu",
+      "met-low": "Rang de buses bas"
+    }
+  },
+  "cycle": {
+    "names": {
+      "default": "Cycle de base metalfog",
+      "act-fill": "Dilution activant"
+    },
+    "button": "Cycle",
+    "name": "Cycles",
+    "modals": {
+      "watchdog": {
+        "title": "Erreur de sécurité",
+        "message": "Le cycle ne peux pas démarrer. Une erreur de conditions de démarrage est présente."
+      }
+    },
+    "buttons": {
+      "prepare": "Préparer le cycle",
+      "end": "Arreter le cycle",
+      "finish": "Terminer le cycle",
+      "start": "Démarrer le cycle"
+    },
+    "preparation": "Préparartion du cycle",
+    "choice": "Choix du cycle",
+    "profile.choice": "Choix du profil",
+    "steps": {
+      "name": "Étapes",
+      "steps": {
+        "activation": {
+          "name": "Activation",
+          "desc": "Activation de la surface des pièces."
+        },
+        "wash1": {
+          "name": "Rinçage",
+          "desc": "Rinçage du surplus d'activant."
+        },
+        "metalization": {
+          "name": "Métallisation",
+          "desc": "Application chimique sur la surfaces des pièces"
+        },
+        "nozzle-cleaning": {
+            "name": "Nettoyage buses",
+            "desc": "Nettoyage des buses de métallisation pour améliorer leur fiabilité et leur performance."
+        },
+        "wash2": {
+          "name": "Washing 2",
+          "desc": "Rinçage final avent le rinçage des pièces."
+        },
+        "drying": {
+            "name": "Séchage",
+            "desc": "Séchage des pièces."
+        },
+        "vapors-extraction": {
+          "name": "Filtration des vapeurs",
+          "desc": "Filtrations des gazs et fines particules crées par le programme."
+        }
+      }
+    }
+  },
+  "gates": {
+    "names": {
+      "emergency_stop": "Boutton d'arret d'urgence",
+      "air_sensor": "Capteur de préssion d'air",
+      "nitrogen_sensor": "Capteur de préssion d'azote",
+      "cover_closed": "Capteur de couvercle",
+      "level_eff-n": "Capteur de limite d'éffluents",
+      "eff_container_sensor": "Capteur de présence du conteneur d'éffluents"
+    }
+  },
+  "manual": {
+    "tasks": {
+      "plv_act_high": "Pulvérization haute activant",
+      "plv_act_low": "Pulvérization basse activant",
+      "plv_edi_high": "Pulvérization haute eau désionisée",
+      "plv_edi_low": "Pulvérization basse eau désionisée"
+    }
+  },
+  "maintenance": {
+    "tasks": {
+      "mfm-filter": {
+        "name": "Filtre",
+        "desc": "Le filtre de la metalfog permet de capturer tout les gazs nocifs crées par les reactions chimiques dans la cuve."
+      }
+    }
+  }
+}

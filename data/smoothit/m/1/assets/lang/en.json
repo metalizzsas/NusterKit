@@ -22,6 +22,9 @@
         }
     },
     "cycle": {
+        "names": {
+            "default": "Base smoothit cycle"
+        },
         "types": {
             "fdm": "FDM 3D Print",
             "sla": "SLA / DLP 3D Print",

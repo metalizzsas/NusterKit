@@ -28,7 +28,6 @@ export class MaintenanceController extends Controller
 
     private _configureRouter()
     {
-        
         this._router.get("/", async (req: Request, res: Response) => {
             for(const [index] of this.tasks.entries())
             {

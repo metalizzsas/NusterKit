@@ -110,7 +110,7 @@ export class Maintenance implements IConfigMaintenance
 
 interface IMaintenanceProcedure
 {
-    desc: string;
+    tools: string[];
     steps: IMaintenanceProcedureStep[]
 }
 

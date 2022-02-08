@@ -77,7 +77,7 @@ export class ProfileController extends Controller{
         this._router.get('/:id', async (req: Request, res: Response) => {
             if(req.params.id.startsWith("premade_"))
             {
-                const profile = this.profilePremades.find(p => p.name === req.params.id);
+                const profile = this.profilePremades.find(p => p.name === req.params.id.split("_")[1]);
                 (profile) ? res.json(profile) : res.status(404).json({error: "Profile not found"});
             }
             else
@@ -156,12 +156,12 @@ export class ProfileController extends Controller{
                 delete req.body.id;
                 const profile = req.body as IProfileExportable;
                 profile.modificationDate = Date.now();
+                profile.overwriteable = true;
+                profile.removable = true;
 
                 const copied = this.retreiveProfile(profile);
 
-                await ProfileModel.create(copied);
-                
-                res.status(200).end();
+                res.status(200).json(await ProfileModel.create(copied));
                 return;
             }
             else
@@ -191,7 +191,7 @@ export class ProfileController extends Controller{
         {
             for(const f of fg.fields)
             {
-                f.value = profile.values.get(fg.name + "#" + f.name) || f.value;
+                f.value = profile.values.get(fg.name + "#" + f.name) ?? f.value;
             }
         }
 
@@ -205,18 +205,12 @@ export class ProfileController extends Controller{
             skeleton: profileexp.identifier,
             name: profileexp.name,
             modificationDate: profileexp.modificationDate,
-            removable: profileexp.removable,
-            overwriteable: profileexp.overwriteable,
+            removable: (!profileexp.isPremade) ? profileexp.removable : true,
+            overwriteable: (!profileexp.isPremade) ? profileexp.overwriteable : true,
             values: new Map<string, number>()
         };
 
-        for(const fg of profileexp.fieldGroups)
-        {
-            for(const f of fg.fields)
-            {
-                profile.values.set(fg.name + "#" + f.name, f.value);
-            }
-        }
+        profileexp.fieldGroups.flatMap((f) => f.fields.flatMap(f2 => profile.values.set(f.name + "#" + f2.name, f2.value)));
 
         return profile;
     }

@@ -152,7 +152,7 @@ export class VariableParameterBlock extends ParameterBlock
         else
         {
             this.pbrInstance.machine.logger.warn(`The variable ${this.value} is not defined.`);
-            return this.pbrInstance.variables.find(v => v.name == this.value)?.value || 0; // this variable might have never been defined
+            return this.pbrInstance.variables.find(v => v.name == this.value)?.value ?? 0; // this variable might have never been defined
         }
     }
 }

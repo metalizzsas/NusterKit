@@ -73,7 +73,7 @@ export class ForLoopProgramBlock extends ProgramBlock implements IForLoopProgram
         if(obj.blocks.length == 0)
             throw Error("ForProgramBlock: No blocks for for loop");
 
-        this.currentIteration = obj.currentIteration || 0;
+        this.currentIteration = obj.currentIteration ?? 0;
     }
 
     public async execute()

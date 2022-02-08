@@ -79,7 +79,7 @@ class SlotSensor implements ISlotSensor
 
     get value(): number
     {
-        return this.ioController.gFinder(this.io)?.value || 0;
+        return this.ioController.gFinder(this.io)?.value ?? 0;
     }
 
     toJSON() 

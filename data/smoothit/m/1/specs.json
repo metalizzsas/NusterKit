@@ -555,7 +555,7 @@
          "durationType": "cycle",
          "durationLimit": 75,
          "procedure": {
-            "desc": "smt-filter-desc",
+            "tools": [],
             "steps": [
                {
                   "name": "unscrew-smt-filter",
@@ -579,7 +579,7 @@
          "durationType": "cycle",
          "durationLimit": 50,
          "procedure": {
-            "desc": "smt-filter-desc",
+            "tools": [],
             "steps": [
                {
                   "name": "unscrew-smt-filter",
@@ -603,20 +603,28 @@
          "durationType": "hours",
          "durationLimit": 5000,
          "procedure": {
-            "desc": "smt-filter-desc",
+            "tools": [
+               "allen-wrench-2.5"
+            ],
             "steps": [
                {
-                  "name": "unscrew-smt-filter",
+                  "name": "unscrew-top",
                   "images": [
                      "0.jpg"
                   ]
                },
                {
-                  "name": "replace-smt-new-filter",
+                  "name": "replace-ir-lamp",
                   "images": [
                      "1.jpg",
                      "2.jpg",
                      "1.jpg"
+                  ]
+               },
+               {
+                  "name": "screw-top",
+                  "images": [
+                     "3.jpg"
                   ]
                }
             ]
@@ -627,20 +635,46 @@
          "durationType": "hours",
          "durationLimit": 30000,
          "procedure": {
-            "desc": "smt-filter-desc",
+            "tools": [
+               "allen-wrench-2.5"
+            ],
             "steps": [
                {
-                  "name": "unscrew-smt-filter",
+                  "name": "unplug-uv-lamp",
                   "images": [
                      "0.jpg"
                   ]
                },
                {
-                  "name": "replace-smt-new-filter",
+                  "name": "unscrew-top-carter",
                   "images": [
                      "1.jpg",
                      "2.jpg",
                      "1.jpg"
+                  ]
+               },
+               {
+                  "name": "unscrew-lamp",
+                  "images": [
+                     ""
+                  ]
+               },
+               {
+                  "name": "replace-lamp",
+                  "images": [
+                     ""
+                  ]
+               },
+               {
+                  "name": "screw-lamp-carter",
+                  "images": [
+                     ""
+                  ]
+               },
+               {
+                  "name": "plug-uv-lamp",
+                  "images": [
+                     ""
                   ]
                }
             ]
@@ -1550,6 +1584,33 @@
                         ],
                         "blocks": [],
                         "_folded": true
+                     },
+                     {
+                        "name": "maintenance",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "ir-lamp",
+                              "params": []
+                           },
+                           {
+                              "name": "multiply",
+                              "value": "",
+                              "params": [
+                                 {
+                                    "name": "const",
+                                    "value": "0.0166667"
+                                 },
+                                 {
+                                    "name": "profile",
+                                    "value": "ir-curing.duration",
+                                    "params": []
+                                 }
+                              ]
+                           }
+                        ],
+                        "blocks": [],
+                        "_folded": false
                      }
                   ],
                   "_folded": true
@@ -1988,6 +2049,79 @@
                         ],
                         "blocks": [],
                         "_folded": true
+                     },
+                     {
+                        "name": "conststr",
+                        "value": "uv-lamp",
+                        "params": []
+                     },
+                     {
+                        "name": "multiply",
+                        "value": "",
+                        "params": [
+                           {
+                              "name": "const",
+                              "value": "0.0166667"
+                           },
+                           {
+                              "name": "conditional",
+                              "value": "==",
+                              "params": [
+                                 {
+                                    "name": "profile",
+                                    "value": "multilayer.enabled",
+                                    "params": []
+                                 },
+                                 {
+                                    "name": "const",
+                                    "value": "1",
+                                    "params": []
+                                 },
+                                 {
+                                    "name": "conditional",
+                                    "value": "==",
+                                    "params": [
+                                       {
+                                          "name": "profile",
+                                          "value": "multilayer.count",
+                                          "params": []
+                                       },
+                                       {
+                                          "name": "add",
+                                          "value": "",
+                                          "params": [
+                                             {
+                                                "name": "const",
+                                                "value": "1",
+                                                "params": []
+                                             },
+                                             {
+                                                "name": "variable",
+                                                "value": "currentStepRunCount",
+                                                "params": []
+                                             }
+                                          ]
+                                       },
+                                       {
+                                          "name": "profile",
+                                          "value": "uv-curing.duration",
+                                          "params": []
+                                       },
+                                       {
+                                          "name": "profile",
+                                          "value": "multilayer.interlayer-uvduration",
+                                          "params": []
+                                       }
+                                    ]
+                                 },
+                                 {
+                                    "name": "profile",
+                                    "value": "uv-curing.duration",
+                                    "params": []
+                                 }
+                              ]
+                           }
+                        ]
                      }
                   ],
                   "_folded": true
@@ -2189,6 +2323,38 @@
                         ],
                         "blocks": [],
                         "_folded": false
+                     },
+                     {
+                        "name": "maintenance",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "smt-filter",
+                              "params": []
+                           },
+                           {
+                              "name": "const",
+                              "value": "1",
+                              "params": []
+                           }
+                        ], 
+                        "blocks": []
+                     },
+                     {
+                        "name": "maintenance",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "inner-cleaning",
+                              "params": []
+                           },
+                           {
+                              "name": "const",
+                              "value": "1",
+                              "params": []
+                           }
+                        ], 
+                        "blocks": []
                      }
                   ],
                   "_folded": false

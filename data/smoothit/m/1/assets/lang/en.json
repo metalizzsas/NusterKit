@@ -1,0 +1,137 @@
+{
+    "slots": {
+        "types": {
+            "eff": "Effluents",
+            "resin": "Coat"
+        }
+    },
+    "profile": {
+        "categories": {
+            "vapors-extraction": "Vapors extraction",
+            "pulverization": "Pulverization",
+            "ir-curing": "IR curing",
+            "uv-curing": "UV curing",
+            "inerting": "Inerting",
+            "multilayer": "Multilayer"
+        },
+        "rows": {
+            "interlayer-uvduration": "UV Curing time between layers",
+            "uv-power": "UV Power",
+            "reverseEnabled": "Motor direction reverse",
+            "reverseTime": "Motor reverser timer"
+        }
+    },
+    "cycle": {
+        "types": {
+            "fdm": "FDM 3D Print",
+            "sla": "SLA / DLP 3D Print",
+            "sls": "SLS / MJF 3D Print"
+        },
+        "endreasons": {
+            "uv-cache-wrong": "UV Cache error",
+            "ir-cache-wrong": "IR Cache error",
+            "nozzle-cache-wrong": "Nozzle Cache error"
+        },
+        "steps": {
+            "pulverization": {
+                "name": "Pulverization",
+                "desc": "Applying resin on your parts."
+            },
+            "ir-curing": {
+                "name": "IR curing",
+                "desc": "Heating the resin to smooth them."
+            },
+            "inerting": {
+                "name": "Inerting",
+                "desc": "Filling the machine with nitrogen to ehance UV Curing."
+            },
+            "uv-curing": {
+                "name": "UV Curing",
+                "desc": "Hardening the resin on your parts."
+            },
+            "vapors-extraction": {
+                "name": "Vapors filtering",
+                "desc": "Filtering gases and thin particules produced by the machine"
+            }
+        }
+    },
+    "gates": {
+        "name": "IO Controls",
+        "categories": {
+            "motor": "Rotation Motor",
+            "ox": "Oxydiser",
+            "rd": "Reducer",
+            "ir": "Infrared",
+            "uv": "Ultraviolet",
+            "nozzle": "Nozzle"
+        },
+        "names": {
+            "emergency_stop": "Emergency stop button",
+            "air_sensor": "Air pressure sensor",
+            "nitrogen_sensor": "Nitrogen pressure sensor",
+            "cover_closed": "Cover closed",
+            "levels_eff-n": "Effluents limit",
+            "eff_container_sensor": "Effluents container sensor",
+            "resin-slot_sensor": "Resin container sensor",
+            "ir-sensor_open": "IR cache open",
+            "ir-sensor_closed": "IR cache closed",
+            "uv-sensor_open": "UV cache open",
+            "uv-sensor_closed": "UV cache closed",
+            "uv-overheat": "UV overheat security",
+            "nozzle-sensor_open": "Nozzle cache open",
+            "nozzle-sensor_closed": "Nozzle cache closed",
+            "ventilation": "Vapors extraction",
+            "air_heater": "Air heater",
+            "resin-pressure": "Resin container pressure",
+            "inerting": "Inerting",
+            "ir-enable": "IR lamp",
+            "ir-ventil": "IR lamp ventilation",
+            "ir-cache": "IR lamp cache",
+            "uv-enable": "UV lamp",
+            "uv-ventil": "UV lamp ventilation",
+            "uv-power": "UV lamp power",
+            "uv-cache": "UV lamp cache",
+            "motor-direction": "Motor direction",
+            "motor-speed": "Motor speed",
+            "nozzle-pulverization": "Nozzle pulverization",
+            "nozzle-cache": "Nozzle cache"
+        }
+    },
+    "manual": {
+        "categories": {
+            "empty": "Emptying",
+            "plv": "Pulverization"
+        },
+        "tasks": {
+            "ventilation": "Vapors extraction",
+            "air_heater": "Air heater",
+            "uv-cache": "UV lamp cache",
+            "ir-cache": "IR lamp cache",
+            "nozzle-cache": "Nozzle cache",
+            "nozzle-pulverization": "Nozzle pulverization",
+            "ir-curing": "IR curing",
+            "uv-curing": "UV curing",
+            "inerting": "Inerting"
+        }
+    },
+    "maintenance": {
+        "tasks": {
+            "smt-filter": {
+                "name": "Solvants filter",
+                "desc": "Smoothit gaz filter filters all coating solvants produced by the coating done inside the machine."
+            },
+            "inner-cleaning": {
+                "name": "Inner",
+                "desc": "The inner layer masks the machine to avoid resin accumulation on the cuve."
+            },
+            "ir-lamp": {
+                "name": "IR Lamp",
+                "desc": "IR Lamp is used to ehance resin coating smoothing effect."
+            },
+            "uv-lamp": {
+                "name": "UV Lamp",
+                "desc": "UV Lamp is used to harden resin on top of your part."
+            }
+        }
+    }
+}

@@ -129,16 +129,16 @@
             },
             "inner-cleaning": {
                 "name": "Inner",
-                "desc": "The inner layer masks the machine to avoid resin accumulation on the cuve.",
+                "desc": "The inner layer masks the machine to avoid resin accumulation on the cuve."
+            },
+            "ir-lamp": {
+                "name": "IR Lamp",
+                "desc": "IR Lamp is used to ehance resin coating smoothing effect.",
                 "procedure": {
                     "unscrew-top": "Unscrew the 4 M4 screw that holds the IR lamp cache in place.",
                     "replace-ir-lamp": "While holding the lamp, shift the lamp toward the ground to unlock the lamp from its socket. Replace the lamp using the same technique.",
                     "screw-top": "Place the cache on its initial place and re-screw the 4 M4 screws"
                 }
-            },
-            "ir-lamp": {
-                "name": "IR Lamp",
-                "desc": "IR Lamp is used to ehance resin coating smoothing effect."
             },
             "uv-lamp": {
                 "name": "UV Lamp",

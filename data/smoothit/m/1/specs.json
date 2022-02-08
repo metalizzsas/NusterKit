@@ -577,26 +577,7 @@
       {
          "name": "inner-cleaning",
          "durationType": "cycle",
-         "durationLimit": 50,
-         "procedure": {
-            "tools": [],
-            "steps": [
-               {
-                  "name": "unscrew-smt-filter",
-                  "images": [
-                     "0.jpg"
-                  ]
-               },
-               {
-                  "name": "replace-smt-new-filter",
-                  "images": [
-                     "1.jpg",
-                     "2.jpg",
-                     "1.jpg"
-                  ]
-               }
-            ]
-         }
+         "durationLimit": 50
       },
       {
          "name": "ir-lamp",

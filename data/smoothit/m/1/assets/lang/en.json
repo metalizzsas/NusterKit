@@ -120,8 +120,8 @@
     "maintenance": {
         "tasks": {
             "smt-filter": {
-                "name": "Solvants filter",
-                "desc": "Smoothit gaz filter filters all coating solvants produced by the coating done inside the machine.",
+                "name": "Filter",
+                "desc": "Smoothit filter filters all coating solvants produced by the coating done inside the machine.",
                 "procedure": {
                     "unscrew-smt-filter": "Unscrew the filter from the machine",
                     "replace-smt-new-filter": "Replace the old filter with a new filter"

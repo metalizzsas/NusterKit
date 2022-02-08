@@ -75,10 +75,7 @@
 				<div class="rounded-l-xl overflow-hidden col-span-1">
 					{#each maintenance.procedure.steps as step, index}
 						{#if procedureIndex == index}
-							<div
-								out:fly={{ x: -100, duration: 50 }}
-								in:fly={{ x: 100, duration: 50 }}
-							>
+							<div>
 								<img
 									src="http://{$Linker}/assets/maintenance/{maintenance.name}/{step
 										.images[procedureImageIndex]}"
@@ -90,10 +87,9 @@
 										<div class="absolute flex flex-row gap-4 -translate-y-24">
 											{#each step.images as image, indeximge}
 												<div
-													class="transition-all {procedureImageIndex !=
-													indeximge
-														? 'grayscale'
-														: 'grayscale-50'}"
+													class={procedureImageIndex != indeximge
+														? 'grayscale-0'
+														: 'grayscale'}
 													on:click={() =>
 														(procedureImageIndex = indeximge)}
 												>

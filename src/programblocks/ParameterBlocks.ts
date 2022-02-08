@@ -14,7 +14,7 @@ export class ParameterBlock extends Block implements IParameterBlock
         this.name = obj.name;
         this.value = obj.value;
 
-        for(const p of obj.params)
+        for(const p of obj.params ?? [])
         {
             this.params.push(ParameterBlockRegistry(instance, p));
         }
@@ -185,7 +185,7 @@ export interface IParameterBlock
     name: string;
     value: string;
 
-    params: IParameterBlock[]
+    params?: IParameterBlock[]
 
     data(): unknown
 }

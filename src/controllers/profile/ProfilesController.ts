@@ -201,12 +201,13 @@ export class ProfileController extends Controller{
     public retreiveProfile(profileexp: IProfileExportable & {id?: Types.ObjectId}): IProfile
     {
         const profile: IProfile = {
-            id: (!profileexp.isPremade) ? profileexp.id : undefined,
+            id: (!profileexp.isPremade ?? false) ? profileexp.id : undefined,
             skeleton: profileexp.identifier,
             name: profileexp.name,
             modificationDate: profileexp.modificationDate,
             removable: (!profileexp.isPremade) ? profileexp.removable : true,
             overwriteable: (!profileexp.isPremade) ? profileexp.overwriteable : true,
+            isPremade: profileexp.isPremade,
             values: new Map<string, number>()
         };
 

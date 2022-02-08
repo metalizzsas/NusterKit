@@ -102,7 +102,7 @@ export class CycleController extends Controller {
             if(req.params.id)
             {
                 if(req.params.id.startsWith("premade_"))
-                   profile = this.machine.profileController.retreiveProfile(this.machine.profileController.getPremade(req.params.id)!);
+                   profile = this.machine.profileController.retreiveProfile(this.machine.profileController.getPremade(req.params.id.split("_")[1])!);
                 else
                    profile = await ProfileModel.findById(req.params.id) as IProfile
 

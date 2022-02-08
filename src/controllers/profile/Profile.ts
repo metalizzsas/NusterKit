@@ -10,6 +10,7 @@ export interface IProfile
     modificationDate?: number;
     skeleton: string;
     name: string;
+    isPremade: boolean;
     removable: boolean;
     overwriteable: boolean;
 
@@ -22,6 +23,7 @@ export const ProfileSchema = new Schema<IProfile>({
     modificationDate: {type: Number, default: Date.now, required: true},
     removable: {type: Boolean, default: false, required: true},
     overwriteable: {type: Boolean, default: false, required: true},
+    isPremade: {type: Boolean, default: false, required: true},
     values: {type: Map, of: Number, required: true}
 });
 

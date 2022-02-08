@@ -17,20 +17,14 @@ export class ProgramBlock extends Block implements IProgramBlock
 
         this.name = obj.name
 
-        if(obj.params !== undefined)
+        for(const p of obj.params ?? [])
         {
-            for(const p of obj.params)
-            {
-                this.params.push(ParameterBlockRegistry(this.pbrInstance, p));
-            }
+            this.params.push(ParameterBlockRegistry(this.pbrInstance, p));
         }
 
-        if(obj.blocks !== undefined)
+        for(const b of obj.blocks ?? [])
         {
-            for(const b of obj.blocks)
-            {
-                this.blocks.push(ProgramBlockRegistry(this.pbrInstance, b));              
-            }
+            this.blocks.push(ProgramBlockRegistry(this.pbrInstance, b));              
         }
 
         this.executed = obj.executed || false;
@@ -68,9 +62,9 @@ export class ForLoopProgramBlock extends ProgramBlock implements IForLoopProgram
     {
         super(pbrInstance, obj);
 
-        if(obj.params.length == 0)
+        if(this.params.length == 0)
             throw new Error("ForProgramBlock: Not enought parameters")
-        if(obj.blocks.length == 0)
+        if(this.blocks.length == 0)
             throw Error("ForProgramBlock: No blocks for for loop");
 
         this.currentIteration = obj.currentIteration ?? 0;
@@ -113,9 +107,9 @@ export class WhileLoopProgramBlock extends ProgramBlock
     {
         super(pbrInstance, obj);
 
-        if(obj.params.length < 3)
+        if(this.params.length < 3)
             throw new Error("WhileProgramBlock: Not enought parameters");
-        if(obj.blocks.length == 0)
+        if(this.blocks.length == 0)
             throw Error("WhileProgramBlock: No blocks for while loop");
     }
 
@@ -332,8 +326,8 @@ export class StopTimerProgramBlock extends ProgramBlock
 export interface IProgramBlock
 {
     name: string;
-    params: IParameterBlock[];
-    blocks: IProgramBlock[];
+    params?: IParameterBlock[];
+    blocks?: IProgramBlock[];
 
     executed?: boolean;
 }
@@ -354,7 +348,8 @@ export function ProgramBlockRegistry(pbrInstance: ProgramBlockRunner, obj: IProg
         case "stopTimer": return new StopTimerProgramBlock(pbrInstance, obj);
 
         default: {
-            pbrInstance.machine.logger.warn("Program block", obj.name, "is not defined properly.");
+            pbrInstance.machine.logger.warn("Program block " + obj.name + " is not defined properly.");
+            pbrInstance.machine.logger.warn(obj);
             return new ProgramBlock(pbrInstance, obj);
         }
     }

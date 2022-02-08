@@ -1556,7 +1556,7 @@
                               "name": "const",
                               "value": "3"
                            }
-                        ],
+                        ]
                      },
                      {
                         "name": "if",

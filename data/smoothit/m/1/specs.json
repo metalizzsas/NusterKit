@@ -520,6 +520,36 @@
          },
          {
             "skeleton": "default",
+            "id": "premade_sls",
+            "name": "sls",
+            "removable": false,
+            "overwriteable": false,
+            "isPremade": true,
+            "values": {
+               "pulverization#enabled": 1,
+               "pulverization#timeOn": 0.5,
+               "pulverization#timeOff": 8,
+               "pulverization#count": 4,
+               "ir-curing#enabled": 1,
+               "ir-curing#duration": 240,
+               "inerting#enabled": 1,
+               "inerting#duration": 15,
+               "uv-curing#enabled": 1,
+               "uv-curing#duration": 180,
+               "uv-curing#uv-power": 100,
+               "vapors-extraction#enabled": 1,
+               "vapors-extraction#duration": 45,
+               "multilayer#enabled": 1,
+               "multilayer#count": 6,
+               "multilayer#interlayer-uvduration": 15,
+               "motor#enabled": 1,
+               "motor#speed": 80,
+               "motor#reverseEnabled": 1,
+               "motor#reverseTime": 1
+            }
+         },
+         {
+            "skeleton": "default",
             "id": "premade_sla",
             "name": "sla",
             "removable": false,
@@ -711,7 +741,7 @@
          },
          {
             "name": "sls",
-            "profile": "premade_fdm",
+            "profile": "premade_sls",
             "cycle": "default"
          },
          {

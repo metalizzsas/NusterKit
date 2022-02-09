@@ -7,8 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
-      - name: Install nodejs
       - uses: actions/setup-node@v2
+        name: Install nodejs
         with:
           node-version: '16'
         run: npm i && npm t

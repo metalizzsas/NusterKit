@@ -11,4 +11,8 @@ jobs:
         name: Install nodejs
         with:
           node-version: '16'
-        run: npm i && npm t
+      
+      - run: npm i
+        name: Install packages
+      - run: npm t
+        name: Run tests

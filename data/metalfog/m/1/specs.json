@@ -1216,6 +1216,62 @@
                            }
                         ],
                         "_folded": true
+                     },
+                     {
+                        "name": "if",
+                        "params": [
+                           {
+                              "name": "profile",
+                              "value": "motor.reverseEnabled"
+                           },
+                           {
+                              "name": "conststr",
+                              "value": "=="
+                           },
+                           {
+                              "name": "const",
+                              "value": "1"
+                           }
+                        ],
+                        "blocks": [
+                           {
+                              "name": "startTimer",
+                              "params": [
+                                 {
+                                    "name": "conststr",
+                                    "value": "motorRotation"
+                                 },
+                                 {
+                                    "name": "profile",
+                                    "value": "motor.reverseTime"
+                                 }
+                              ],
+                              "blocks": [
+                                 {
+                                    "name": "io",
+                                    "params": [
+                                       {
+                                          "name": "conststr",
+                                          "value": "motor-direction"
+                                       },
+                                       {
+                                          "name": "reverse",
+                                          "value": "",
+                                          "params": [
+                                             {
+                                                "name": "io",
+                                                "value": "motor-direction"
+                                             }
+                                          ]
+                                       }
+                                    ],
+                                    "_folded": false
+                                 }
+                              ],
+                              "_folded": false
+                           }
+                        ],
+                        "_folded": false
                      }
                   ],
                   "endBlocks": [],
@@ -2932,7 +2988,7 @@
                   "_folded": true
                },
                {
-                  "name": "vaporsExtraction",
+                  "name": "vapors-extraction",
                   "isEnabled": {
                      "name": "profile",
                      "value": "vapors-extraction.enabled"
@@ -2970,6 +3026,16 @@
                            }
                         ],
                         "_folded": true
+                     },
+                     {
+                        "name": "stopTimer",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "motorRotation"
+                           }
+                        ],
+                        "_folded": false
                      }
                   ],
                   "blocks": [
@@ -2979,61 +3045,6 @@
                            {
                               "name": "profile",
                               "value": "vapors-extraction.duration"
-                           }
-                        ],
-                        "_folded": true
-                     }
-                  ],
-                  "_folded": true
-               },
-               {
-                  "name": "end",
-                  "isEnabled": {
-                     "name": "const",
-                     "value": "1"
-                  },
-                  "duration": {
-                     "name": "const",
-                     "value": "3"
-                  },
-                  "startBlocks": [],
-                  "endBlocks": [
-                     {
-                        "name": "io",
-                        "params": [
-                           {
-                              "name": "conststr",
-                              "value": "motor-speed"
-                           },
-                           {
-                              "name": "const",
-                              "value": "0"
-                           }
-                        ],
-                        "_folded": true
-                     },
-                     {
-                        "name": "io",
-                        "params": [
-                           {
-                              "name": "conststr",
-                              "value": "ventilation"
-                           },
-                           {
-                              "name": "const",
-                              "value": "0"
-                           }
-                        ],
-                        "_folded": true
-                     }
-                  ],
-                  "blocks": [
-                     {
-                        "name": "sleep",
-                        "params": [
-                           {
-                              "name": "const",
-                              "value": "3"
                            }
                         ],
                         "_folded": true
@@ -3074,6 +3085,12 @@
                },
                {
                   "gateName": "eff_container_sensor",
+                  "gateValue": 1,
+                  "startOnly": false,
+                  "result": false
+               },
+               {
+                  "gateName": "levels_edi-min-n",
                   "gateValue": 1,
                   "startOnly": false,
                   "result": false

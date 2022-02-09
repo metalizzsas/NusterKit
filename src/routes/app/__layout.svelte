@@ -25,12 +25,17 @@
 
 	import { Linker } from '$lib/utils/linker';
 	import { goto } from '$app/navigation';
+	import Modal from '$lib/components/modals/modal.svelte';
+	import Button from '$lib/components/button.svelte';
 
 	let ready: boolean = false;
 
 	let ws: WebSocket;
 	let wsAtempt: number = 0;
 	let wsError: boolean = false;
+
+	let displayModal: boolean = false;
+	let displayModalMessage: string = '';
 
 	export let ip: string;
 
@@ -82,10 +87,22 @@
 			}
 		}
 		ws.onmessage = (e: MessageEvent) => {
-			let data = JSON.parse(e.data) as IWSObject;
+			interface WSContent {
+				type: string;
+				message: IWSObject | string;
+			}
 
-			$machineData = data;
-			ready = true;
+			let data = JSON.parse(e.data) as WSContent;
+
+			if (data.type == 'status') {
+				$machineData = data.message as IWSObject;
+				ready = true;
+			} else {
+				if (data.type == 'message') {
+					displayModal = true;
+					displayModalMessage = data.message as string;
+				}
+			}
 		};
 		ws.onclose = (e: Event) => {
 			ready = false;
@@ -153,6 +170,11 @@
 			</div>
 		</div>
 	{:else}
+		<Modal
+			bind:shown={displayModal}
+			title={$_('message.modal.title')}
+			message={$_('message.modal.' + displayModalMessage)}
+		/>
 		<div>
 			<Pagetransition>
 				<HeadPage />

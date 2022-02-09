@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '$lib/app.css';
+	import { _ } from 'svelte-i18n';
 	import { fade } from 'svelte/transition';
 	interface buttonOption {
 		text: string;
@@ -67,6 +68,16 @@
 						class="rounded-xl {button.color} text-white py-2 px-4 font-semibold"
 					>
 						{button.text}
+					</a>
+				{:else}
+					<a
+						href="#close"
+						on:click|preventDefault={() => {
+							shown = false;
+						}}
+						class="rounded-xl bg-emerald-500 text-white py-2 px-4 font-semibold"
+					>
+						{$_('ok')}
 					</a>
 				{/each}
 			</div>

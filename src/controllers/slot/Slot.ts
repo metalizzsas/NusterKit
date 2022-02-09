@@ -1,16 +1,10 @@
 import { Schema, model } from "mongoose";
+import { ISlotSensor, IConfigSlot } from "../../interfaces/ISlot";
 import { IOController } from "../io/IOController";
 
 export interface ISlot{
     name: string;
     product?: IProduct;
-}
-
-interface ISlotSensor
-{
-    io: string;
-    type: string;
-    value?: number;
 }
 
 interface IProduct
@@ -50,15 +44,6 @@ const SlotSchema = new Schema<ISlot>({
 });
 
 const SlotModel = model('slot', SlotSchema);
-
-export interface IConfigSlot
-{
-    name: string;
-    type: string;
-    isProductable: boolean;
-
-    sensors: ISlotSensor[];
-}
 
 class SlotSensor implements ISlotSensor
 {

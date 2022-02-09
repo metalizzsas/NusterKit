@@ -1,4 +1,4 @@
-import { IOGate, IOGateBus, IOGateType } from "./IOGates/IOGate";
+import { IOGate } from "./IOGates/IOGate";
 import { IOHandler } from "./IOHandlers/IOHandler";
 import { Controller } from "../Controller";
 import { Machine } from "../../Machine";
@@ -8,7 +8,9 @@ import { WAGO } from "./IOHandlers/WAGO";
 import { EX260S1 } from "./IOHandlers/EX260S1";
 import { EX260S3 } from "./IOHandlers/EX260S3";
 import { A10VIOGate } from "./IOGates/A10VGate";
-import { IUM18Gate, UM18IOGate } from "./IOGates/UM18Gate";
+import { UM18IOGate } from "./IOGates/UM18Gate";
+import { IOGateType, IOGateBus } from "../../interfaces/gates/IIOGate";
+import { IUM18Gate } from "../../interfaces/gates/IUM18Gate";
 
 export class IOController extends Controller
 {

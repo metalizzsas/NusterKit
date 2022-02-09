@@ -1,4 +1,6 @@
-import { PBRMode, ProgramBlockRunner } from "./ProgramBlockRunner";
+import { PBRMode } from "../interfaces/IProgramBlockRunner";
+import { IWatchdogCondition } from "../interfaces/IWatchdogCondition";
+import { ProgramBlockRunner } from "./ProgramBlockRunner";
 
 export class WatchdogCondition implements IWatchdogCondition
 {
@@ -89,13 +91,4 @@ export class WatchdogCondition implements IWatchdogCondition
             result: this.result
         }
     }
-}
-
-export interface IWatchdogCondition
-{
-    gateName: string;
-    gateValue: number;
-    startOnly: boolean;
-
-    result: boolean;
 }

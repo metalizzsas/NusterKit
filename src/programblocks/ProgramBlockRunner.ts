@@ -1,11 +1,13 @@
 import { EventEmitter } from "stream";
 import { IOExplorer } from "../controllers/io/IOExplorer";
-import { IProfile } from "../controllers/profile/Profile";
 import { ProfileExplorer } from "../controllers/profile/ProfileExplorer";
+import { IProfile } from "../interfaces/IProfile";
+import { IProgram, IPBRStatus, IProgramVariable, IProgramTimer, PBRMode } from "../interfaces/IProgramBlockRunner";
+import { ProgramStepResult, ProgramStepType } from "../interfaces/IProgramStep";
+import { IWatchdogCondition } from "../interfaces/IWatchdogCondition";
 import { Machine } from "../Machine";
-import { IProgramBlock } from "./ProgramBlocks";
-import { IProgramStep, ProgramBlockStep, ProgramStepResult, ProgramStepType } from "./ProgramBlockStep";
-import { IWatchdogCondition, WatchdogCondition } from "./Watchdog";
+import { ProgramBlockStep } from "./ProgramBlockStep";
+import { WatchdogCondition } from "./Watchdog";
 
 export class ProgramBlockRunner implements IProgram
 {
@@ -221,56 +223,4 @@ export class ProgramBlockRunner implements IProgram
             profile: this.profile
         }
     }
-}
-
-export interface IPBRStatus
-{
-    mode: PBRMode,
-    
-    startDate?: number,
-    endDate?: number,
-    endReason?: string,
-
-    progress?: number
-}
-
-export interface IProgram
-{
-    name: string;
-
-    profileRequired: boolean;
-
-    currentStepIndex?: number;
-
-    variables: IProgramVariable[];
-    timers: IProgramTimer[];
-
-    status: IPBRStatus;
-    steps: IProgramStep[];
-    watchdogConditions: IWatchdogCondition[];
-}
-
-export enum PBRMode
-{
-    CREATED = "created",
-    STARTED = "started",
-    PAUSED = "paused",
-    WAITING_PAUSE = "waiting-for-pause",
-    STOPPED = "stopped",
-    WAITING_STOP = "waiting-for-stop",
-    ENDED = "ended"
-}
-
-export interface IProgramVariable
-{
-    name: string;
-    value: number;
-}
-
-export interface IProgramTimer
-{
-    name: string;
-    enabled: boolean;
-    blocks: IProgramBlock[];
-    timer: NodeJS.Timer;
 }

@@ -1,6 +1,8 @@
-import { IParameterBlock, ParameterBlock, ParameterBlockRegistry } from "./ParameterBlocks";
-import { PBRMode, ProgramBlockRunner } from "./ProgramBlockRunner";
-import { IProgramBlock, ProgramBlock, ProgramBlockRegistry } from "./ProgramBlocks";
+import { PBRMode } from "../interfaces/IProgramBlockRunner";
+import { IProgramStep, ProgramStepState, ProgramStepType, ProgramStepResult } from "../interfaces/IProgramStep";
+import { ParameterBlock, ParameterBlockRegistry } from "./ParameterBlocks";
+import { ProgramBlockRunner } from "./ProgramBlockRunner";
+import { ProgramBlock, ProgramBlockRegistry } from "./ProgramBlocks";
 
 export class ProgramBlockStep implements IProgramStep
 {
@@ -8,23 +10,22 @@ export class ProgramBlockStep implements IProgramStep
 
     name: string;
 
-    startingIO: ProgramBlock[] = [];
-    endingIO: ProgramBlock[] = [];
-
     state: ProgramStepState = ProgramStepState.WAITING;
     type: ProgramStepType = ProgramStepType.SINGLE;
-
+    
     isEnabled: ParameterBlock;
     duration: ParameterBlock;
-
+    
     startTime?: number;
     endTime?: number;
-
+    
     runAmount?: ParameterBlock;
     runCount?: number;
     
     blocks: ProgramBlock[] = [];
-
+    startBlocks: ProgramBlock[] = [];
+    endBlocks: ProgramBlock[] = [];
+    
     constructor(pbrInstance: ProgramBlockRunner, obj: IProgramStep)
     {
         this.pbrInstance = pbrInstance;
@@ -40,15 +41,15 @@ export class ProgramBlockStep implements IProgramStep
         }
 
         //Adding io starting blocks
-        for(const io of obj.startingIO || [])
+        for(const io of obj.startBlocks || [])
         {
-            this.startingIO.push(ProgramBlockRegistry(this.pbrInstance, io));
+            this.startBlocks.push(ProgramBlockRegistry(this.pbrInstance, io));
         }
 
         //Adding io ending blocks
-        for(const io of obj.endingIO || [])
+        for(const io of obj.endBlocks || [])
         {
-            this.endingIO.push(ProgramBlockRegistry(this.pbrInstance, io));
+            this.endBlocks.push(ProgramBlockRegistry(this.pbrInstance, io));
         }
 
         //adding program blocks
@@ -78,7 +79,7 @@ export class ProgramBlockStep implements IProgramStep
         this.startTime = Date.now();
 
         this.pbrInstance.machine.logger.info(`PBS: Executing io starter blocks.`);
-        for(const io of this.startingIO)
+        for(const io of this.startBlocks)
         {
             await io.execute();
         }
@@ -96,7 +97,7 @@ export class ProgramBlockStep implements IProgramStep
         }
 
         this.pbrInstance.machine.logger.info(`PBS: Executing io ending blocks.`);
-        for(const io of this.endingIO)
+        for(const io of this.endBlocks)
         {
             await io.execute();
         }
@@ -133,7 +134,7 @@ export class ProgramBlockStep implements IProgramStep
     public async executeLastIO()
     {
         this.pbrInstance.machine.logger.info(`PBS: Executing io ending blocks.`);
-        for(const io of this.endingIO)
+        for(const io of this.endBlocks)
         {
             await io.execute();
         }
@@ -211,76 +212,10 @@ export class ProgramBlockStep implements IProgramStep
             runAmount: this.runAmount,
             runCount: this.runCount,
 
-            startingIO: this.startingIO,
-            endingIO: this.endingIO,
+            startBlocks: this.startBlocks,
+            endBlocks: this.endBlocks,
             
             blocks: this.blocks
         }
     }
-}
-
-export interface IProgramStep
-{
-    name: string;
-
-    state: ProgramStepState;
-    type: ProgramStepType;
-    
-    isEnabled: IParameterBlock;
-    duration: IParameterBlock;
-
-    startTime?: number;
-    endTime?: number;
-
-    runAmount?: IParameterBlock;
-    runCount?: number;
-
-    startingIO: IProgramBlock[];
-    endingIO: IProgramBlock[];
-
-    blocks: IProgramBlock[]
-}
-
-export interface IProgramStepInformations
-{
-    isEnabled: boolean,
-
-    type?: string,
-    state?: string,
-
-    duration?: number,
-    startTime?: number,
-    endTime?: number,
-
-    runAmount?: number,
-    runCount?: number
-}
-
-export interface IProgramStepIOStarter
-{
-    name: ParameterBlock;
-    value: ParameterBlock;
-}
-
-export enum ProgramStepState
-{
-    WAITING = "waiting",
-    STARTED = "started",
-    PARTIAL = "partial",
-    STOPPED = "stopped",
-    COMPLETED = "completed",
-    DISABLED = "disabled"
-}
-
-export enum ProgramStepType
-{
-    SINGLE = "single",
-    MULTIPLE = "multiple"
-}
-
-export enum ProgramStepResult
-{
-    FAILED = "failed",
-    PARTIAL = "partial",
-    END = "end"
 }

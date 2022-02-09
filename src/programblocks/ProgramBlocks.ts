@@ -1,6 +1,8 @@
+import { IProgramBlock } from "../interfaces/IProgramBlock";
+import { PBRMode } from "../interfaces/IProgramBlockRunner";
 import { Block } from "./Block";
-import { ParameterBlock, IParameterBlock, ParameterBlockRegistry } from "./ParameterBlocks";
-import { PBRMode, ProgramBlockRunner } from "./ProgramBlockRunner";
+import { ParameterBlock, ParameterBlockRegistry } from "./ParameterBlocks";
+import { ProgramBlockRunner } from "./ProgramBlockRunner";
 
 export class ProgramBlock extends Block implements IProgramBlock
 {
@@ -321,15 +323,6 @@ export class StopTimerProgramBlock extends ProgramBlock
             this.pbrInstance.machine.logger.info("StopTimerBlock: Will stop timer with name: " + tN);
         }
     }
-}
-
-export interface IProgramBlock
-{
-    name: string;
-    params?: IParameterBlock[];
-    blocks?: IProgramBlock[];
-
-    executed?: boolean;
 }
 
 export function ProgramBlockRegistry(pbrInstance: ProgramBlockRunner, obj: IProgramBlock)

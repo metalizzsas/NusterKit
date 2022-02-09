@@ -1,5 +1,6 @@
 import { model, Schema } from "mongoose";
 import { EventEmitter } from "stream";
+import { IPassive } from "../../interfaces/IPassive";
 import { IOController } from "../io/IOController";
 
 export class Passive implements IPassive
@@ -95,17 +96,6 @@ export class Passive implements IPassive
             actuator: this.actuator
         }
     }
-}
-
-export interface IPassive
-{
-    name: string;
-    mode: string;
-    default: number;
-
-    //gates
-    sensor: string;
-    actuator: string;
 }
 
 interface IStoredPassive

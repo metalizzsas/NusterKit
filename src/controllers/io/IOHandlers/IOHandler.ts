@@ -1,3 +1,5 @@
+import { IIOHandler } from "../../../interfaces/IIOHandler";
+
 export class IOHandler implements IIOHandler
 {
     public name: string;
@@ -29,11 +31,4 @@ export class IOHandler implements IIOHandler
             connected: this.connected
         };
     }
-}
-
-export interface IIOHandler
-{
-    name: string;
-    type: string;
-    ip: string;
 }

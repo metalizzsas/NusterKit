@@ -1,6 +1,8 @@
+import { IIOGate, IOGateSize } from "../../../interfaces/gates/IIOGate";
+import { IUM18Gate } from "../../../interfaces/gates/IUM18Gate";
 import { map } from "../../../map";
 import { IOController } from "../IOController";
-import { IIOGate, IOGate, IOGateSize } from "./IOGate";
+import { IOGate } from "./IOGate";
 
 export class UM18IOGate extends IOGate implements IUM18Gate
 {
@@ -43,9 +45,4 @@ export class UM18IOGate extends IOGate implements IUM18Gate
         await ioController.handlers[this.automaton].writeData(this.address, v, word)
         return true;
     }
-}
-
-export interface IUM18Gate extends IIOGate
-{
-    levelMax: number;
 }

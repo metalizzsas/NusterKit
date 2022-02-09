@@ -1,21 +1,5 @@
-import { Schema, model, Types } from "mongoose";
-
-export interface IProfileMapper {
-    [key: string]: IProfile
-}
-
-export interface IProfile
-{
-    id?: Types.ObjectId;
-    modificationDate?: number;
-    skeleton: string;
-    name: string;
-    isPremade: boolean;
-    removable: boolean;
-    overwriteable: boolean;
-
-    values: Map<string, number>
-}
+import { Schema, model} from "mongoose";
+import { IProfile } from "../../interfaces/IProfile";
 
 export const ProfileSchema = new Schema<IProfile>({
     skeleton: {type: String, required: true},

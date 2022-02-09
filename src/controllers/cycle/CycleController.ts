@@ -3,9 +3,11 @@ import { Controller } from "../Controller";
 
 import { Request, Response } from "express";
 
-import { IProfile, ProfileModel } from "../profile/Profile";
+import { ProfileModel } from "../profile/Profile";
 import { ProgramHistoryModel } from "./ProgramHistory";
-import { PBRMode, ProgramBlockRunner } from "../../programblocks/ProgramBlockRunner";
+import { ProgramBlockRunner } from "../../programblocks/ProgramBlockRunner";
+import { IProfile } from "../../interfaces/IProfile";
+import { PBRMode } from "../../interfaces/IProgramBlockRunner";
 
 export class CycleController extends Controller {
 

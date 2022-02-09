@@ -2,9 +2,9 @@ import { Machine } from "../../Machine";
 import { Controller } from "../Controller";
 
 import { Request, Response } from "express";
-import { IProfile, ProfileModel } from "./Profile";
-import { IProfileExportable, IProfileSkeleton} from "./ProfileSkeleton";
-import { Types } from "mongoose";
+import { ProfileModel } from "./Profile";
+import { ObjectId } from "mongoose";
+import { IProfileSkeleton, IProfileExportable, IProfile } from "../../interfaces/IProfile";
 
 export class ProfileController extends Controller{
 
@@ -114,7 +114,7 @@ export class ProfileController extends Controller{
                 return;
             }
 
-            const p: IProfileExportable & {id: Types.ObjectId} = req.body;
+            const p: IProfileExportable & {id: ObjectId} = req.body;
 
             p.modificationDate = Date.now();
 
@@ -158,6 +158,7 @@ export class ProfileController extends Controller{
                 profile.modificationDate = Date.now();
                 profile.overwriteable = true;
                 profile.removable = true;
+                profile.isPremade = false;
 
                 const copied = this.retreiveProfile(profile);
 
@@ -172,7 +173,7 @@ export class ProfileController extends Controller{
         });
     }
 
-    public convertProfile(profile: IProfile & {id?: Types.ObjectId}): IProfileExportable
+    public convertProfile(profile: IProfile & {id?: ObjectId}): IProfileExportable
     {
         const skeleton = this.profileSkeletons[profile.skeleton];
 
@@ -183,7 +184,7 @@ export class ProfileController extends Controller{
                 modificationDate: profile.modificationDate || Date.now(),
                 removable: profile.removable,
                 overwriteable: profile.overwriteable,
-                isPremade: (profile.id === undefined)
+                isPremade: profile.isPremade
             }
         };
 
@@ -198,9 +199,9 @@ export class ProfileController extends Controller{
         return exportable;
     }
 
-    public retreiveProfile(profileexp: IProfileExportable & {id?: Types.ObjectId}): IProfile
+    public retreiveProfile(profileexp: IProfileExportable & {id?: ObjectId}): IProfile & {id?: ObjectId}
     {
-        const profile: IProfile = {
+        const profile: IProfile & {id?: ObjectId} = {
             id: (!profileexp.isPremade ?? false) ? profileexp.id : undefined,
             skeleton: profileexp.identifier,
             name: profileexp.name,

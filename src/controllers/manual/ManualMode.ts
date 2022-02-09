@@ -1,9 +1,4 @@
-export interface IManualMode
-{
-    name: string,
-    controls: string[],
-    incompatibility: string[]
-}
+import { IManualMode } from "../../interfaces/IManualMode";
 
 export class ManualMode implements IManualMode
 {

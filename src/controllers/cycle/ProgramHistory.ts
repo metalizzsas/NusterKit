@@ -1,10 +1,12 @@
 import { model, Schema } from "mongoose";
-import { IParameterBlock } from "../../programblocks/ParameterBlocks";
-import { IPBRStatus, IProgram } from "../../programblocks/ProgramBlockRunner";
-import { IForLoopProgramBlock, IProgramBlock } from "../../programblocks/ProgramBlocks";
-import { IProgramStep } from "../../programblocks/ProgramBlockStep";
-import { IWatchdogCondition } from "../../programblocks/Watchdog";
-import { IProfile, ProfileSchema } from "../profile/Profile";
+import { IParameterBlock } from "../../interfaces/IParameterBlock";
+import { IProfile } from "../../interfaces/IProfile";
+import { IProgramBlock } from "../../interfaces/IProgramBlock";
+import { IProgram, IPBRStatus } from "../../interfaces/IProgramBlockRunner";
+import { IProgramStep } from "../../interfaces/IProgramStep";
+import { IWatchdogCondition } from "../../interfaces/IWatchdogCondition";
+import { IForLoopProgramBlock } from "../../programblocks/ProgramBlocks";
+import { ProfileSchema } from "../profile/Profile";
 
 export interface IProgramHistory
 {
@@ -54,8 +56,8 @@ const ProgramStepSchema = new Schema<IProgramStep>({
 
     blocks: [ProgramBlockSchema],
 
-    startingIO: [ProgramBlockSchema],
-    endingIO: [ProgramBlockSchema],
+    startBlocks: [ProgramBlockSchema],
+    endBlocks: [ProgramBlockSchema],
 });
 
 const WatchdogConditionSchema = new Schema<IWatchdogCondition>({

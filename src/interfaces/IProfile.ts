@@ -1,4 +1,20 @@
-import { Types } from "mongoose";
+import { ObjectId } from "mongoose";
+
+export interface IProfileMapper {
+    [key: string]: IProfile
+}
+
+export interface IProfile
+{
+    modificationDate?: number;
+    skeleton: string;
+    name: string;
+    isPremade: boolean;
+    removable: boolean;
+    overwriteable: boolean;
+
+    values: Map<string, number>
+}
 
 export interface IProfileSkeleton
 {
@@ -24,7 +40,7 @@ interface IProfileSkeletonField
 
 export interface IProfileExportable extends IProfileSkeleton
 {
-    id?: Types.ObjectId;
+    id?: ObjectId;
     isPremade: boolean;
     name: string;
     modificationDate: number;

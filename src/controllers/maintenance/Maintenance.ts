@@ -1,19 +1,5 @@
 import {Schema, model} from "mongoose";
-
-export interface IConfigMaintenance extends IMaintenance
-{
-    durationType: string;
-    durationLimit: number;
-
-    procedure?: IMaintenanceProcedure;
-}
-
-interface IMaintenance
-{
-    name: string;
-    duration: number;
-    operationDate?: number;
-}
+import { IMaintenance, IConfigMaintenance, IMaintenanceProcedure } from "../../interfaces/IMaintenance";
 
 const MaintenanceSchema = new Schema<IMaintenance>({
     name: { type: String, required: true }, //maintenance name
@@ -106,16 +92,4 @@ export class Maintenance implements IConfigMaintenance
             procedure: this.procedure
         }
     }
-}
-
-interface IMaintenanceProcedure
-{
-    tools: string[];
-    steps: IMaintenanceProcedureStep[]
-}
-
-interface IMaintenanceProcedureStep
-{
-    name: string;
-    images: string[];
 }

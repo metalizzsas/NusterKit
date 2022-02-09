@@ -1,8 +1,9 @@
-import { IConfigMaintenance, Maintenance } from "./Maintenance";
+import { Maintenance } from "./Maintenance";
 import { Machine } from "../../Machine";
 
 import { Request, Response } from "express";
 import { Controller } from "../Controller";
+import { IConfigMaintenance } from "../../interfaces/IMaintenance";
 
 export class MaintenanceController extends Controller
 {

@@ -1,3 +1,4 @@
+import { IParameterBlock } from "../interfaces/IParameterBlock";
 import { Block } from "./Block";
 import { ProgramBlockRunner } from "./ProgramBlockRunner";
 
@@ -178,16 +179,6 @@ export class ConditionalParameterBlock extends ParameterBlock
         
         return (this.operators[this.value as string](this.params[0].data() as number, this.params[1].data() as number)) ? this.params[2].data() as number : this.params[3].data() as number;
     }
-}
-
-export interface IParameterBlock
-{
-    name: string;
-    value: string;
-
-    params?: IParameterBlock[]
-
-    data(): unknown
 }
 
 /**

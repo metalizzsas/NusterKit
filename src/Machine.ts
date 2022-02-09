@@ -4,22 +4,14 @@ import path from "path";
 import deepExtend from "deep-extend";
 
 import { CycleController } from "./controllers/cycle/CycleController";
-import { IProgram } from "./programblocks/ProgramBlockRunner";
-import { IProfile } from "./controllers/profile/Profile";
-import { IIOGate } from "./controllers/io/IOGates/IOGate";
-import { IIOHandler } from "./controllers/io/IOHandlers/IOHandler";
-import { IConfigSlot } from "./controllers/slot/Slot";
-import { IManualMode } from "./controllers/manual/ManualMode";
-import { IConfigMaintenance } from "./controllers/maintenance/Maintenance";
 import { PassiveController } from "./controllers/passives/PassiveController";
-import { IPassive } from "./controllers/passives/Passive";
 import { IOController } from "./controllers/io/IOController";
 import { MaintenanceController } from "./controllers/maintenance/MaintenanceController";
 import { ManualModeController } from "./controllers/manual/ManualModeController";
 import { ProfileController } from "./controllers/profile/ProfilesController";
 import { SlotController } from "./controllers/slot/SlotController";
 import { AuthManager } from "./auth/auth";
-import { IProfileSkeleton } from "./controllers/profile/ProfileSkeleton";
+import { IMachine } from "./interfaces/IMachine";
 
 export class Machine {
 
@@ -132,39 +124,4 @@ export class Machine {
             _nuster: this.specs._nuster
         };
     }
-}
-
-//machine json interface
-export interface IMachine
-{
-    _nuster: INuster;
-    iohandlers: IIOHandler[],
-    iogates: IIOGate[],
-    slots: IConfigSlot[],
-    profiles: {
-        skeletons: IProfileSkeleton[],
-        premades: IProfile[]
-    },
-    maintenance: IConfigMaintenance[],
-    passives: IPassive[],
-    manual: IManualMode[],
-    cycles: {
-        types: IProgram[],
-        premades: {
-            name: string,
-            profile: string,
-            cycle: string 
-        }[]
-    }
-}
-
-export interface INuster
-{
-    mainInformations: IMainInformation[]
-}
-
-interface IMainInformation
-{
-    type: string;
-    reference: string;
 }

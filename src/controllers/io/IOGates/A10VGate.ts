@@ -1,6 +1,7 @@
+import { IIOGate, IOGateSize } from "../../../interfaces/gates/IIOGate";
 import { map } from "../../../map";
 import { IOController } from "../IOController";
-import { IIOGate, IOGate, IOGateSize } from "./IOGate";
+import { IOGate } from "./IOGate";
 
 export class A10VIOGate extends IOGate
 {

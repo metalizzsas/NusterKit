@@ -12,6 +12,7 @@ import { ProfileController } from "./controllers/profile/ProfilesController";
 import { SlotController } from "./controllers/slot/SlotController";
 import { AuthManager } from "./auth/auth";
 import { IMachine } from "./interfaces/IMachine";
+import WebSocket from "ws";
 
 export class Machine {
 
@@ -31,6 +32,8 @@ export class Machine {
     manualmodeController: ManualModeController;
     cycleController: CycleController;
     passiveController: PassiveController;
+
+    WebSocketServer?: WebSocket.Server = undefined;
 
     logger: pino.Logger;
 
@@ -85,6 +88,25 @@ export class Machine {
 
         this.logger.info("Finished building controllers");
 
+    }
+
+    public broadcast(message: string)
+    {
+        if(this.WebSocketServer !== undefined)
+        {
+            this.logger.trace("Broadcasting WS Message: " + message);
+            for(const client of this.WebSocketServer.clients)
+            {
+                client.send(JSON.stringify({
+                    type: "message",
+                    message: message
+                }));
+            }
+        }
+        else
+        {
+            this.logger.trace("Unable to broadcast, websocket server is undefined");
+        }
     }
 
     public async socketData()

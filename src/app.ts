@@ -189,7 +189,9 @@ class NusterTurbine
      */
     private _websocket()
     {
-        this.wsServer = new WebSocketServer({server: this.httpServer, path: "/v1"}, () => { this.logger.info("Websocket server listening on port 80"); });
+        this.wsServer = new WebSocketServer({server: this.httpServer, path: "/v1"}, () => { 
+            this.logger.info("Websocket server listening on port 80");
+        });
 
         this.wsServer.on('connection', (ws: WebSocket) => { 
             if(this.wsServer)
@@ -204,16 +206,29 @@ class NusterTurbine
         });
 
         setInterval(async () => {
+
             if(this.wsServer !== undefined)
             {
-                const data = await this.machine!.socketData();
-
-                for(const ws of this.wsServer.clients)
+                if(this.machine)
                 {
-                    //check if the websocket is still open
-                    if(ws.readyState === WebSocket.OPEN)
-                        ws.send(JSON.stringify(data));
+                    if(this.machine.WebSocketServer === undefined)
+                        this.machine.WebSocketServer = this.wsServer;
+
+                    const data = await this.machine!.socketData();
+    
+                    for(const ws of this.wsServer.clients)
+                    {
+                        //check if the websocket is still open
+                        if(ws.readyState === WebSocket.OPEN)
+                        {
+                            ws.send(JSON.stringify({
+                                type: "status",
+                                message: data
+                            }));
+                        }
+                    }
                 }
+
             }
         }, 500);
     }

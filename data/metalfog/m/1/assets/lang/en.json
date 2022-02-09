@@ -48,7 +48,8 @@
       "watchdog-levels_edi-min-n": "Minimal DI water level",
       "watchdog-levels_act-min-n": "Minimal Activator level",
       "watchdog-levels_ox-min-n": "Minimal Oxydiser level",
-      "watchdog-levels_rd-min-n": "Minimal Reducer level"
+      "watchdog-levels_rd-min-n": "Minimal Reducer level",
+      "activator-timed-out": "Activator dilution was too long"
     },
     "names": {
       "default": "Base metalfog cycle",
@@ -73,7 +74,7 @@
       },
       "wash1": {
         "name": "Washing 1",
-        "desc": "Washing the parts"
+        "desc": "Washing the parts."
       },
       "metalization": {
         "name": "Metallization",
@@ -94,6 +95,10 @@
       "vapors-extraction": {
         "name": "Vapors filtering",
         "desc": "Filtering gases and thin particules produced by the program."
+      },
+      "act-fill":{
+        "name": "Activator dilution",
+        "desc": "DI Water is transfered to Activator containter to dilute concentrated activator."
       }
     }
   },

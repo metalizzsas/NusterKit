@@ -2274,10 +2274,10 @@
                   "_folded": true
                },
                {
-                  "name": "nozzleCleaning",
+                  "name": "nozzle-cleaning",
                   "isEnabled": {
-                     "name": "profile",
-                     "value": "drying.enabled"
+                     "name": "const",
+                     "value": "1"
                   },
                   "duration": {
                      "name": "const",

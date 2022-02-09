@@ -482,7 +482,6 @@
       "skeletons": [
          {
             "identifier": "default",
-            "version": 0,
             "fieldGroups": [
                {
                   "name": "act-edi-nozzles",
@@ -516,39 +515,6 @@
                         "name": "met-low",
                         "type": "bool",
                         "value": 1
-                     }
-                  ]
-               },
-               {
-                  "name": "motor",
-                  "fields": [
-                     {
-                        "name": "enabled",
-                        "type": "bool",
-                        "value": 1
-                     },
-                     {
-                        "name": "speed",
-                        "type": "float",
-                        "unity": "%",
-                        "value": 50,
-                        "floatMin": 0,
-                        "floatMax": 100,
-                        "floatStep": 5
-                     },
-                     {
-                        "name": "reverseEnabled",
-                        "type": "bool",
-                        "value": 1
-                     },
-                     {
-                        "name": "reverseTime",
-                        "type": "float",
-                        "unity": "S",
-                        "value": 1,
-                        "floatMin": 0.5,
-                        "floatMax": 5,
-                        "floatStep": 0.5
                      }
                   ]
                },
@@ -681,6 +647,39 @@
                         "value": 45
                      }
                   ]
+               },
+               {
+                  "name": "motor",
+                  "fields": [
+                     {
+                        "name": "enabled",
+                        "type": "bool",
+                        "value": 1
+                     },
+                     {
+                        "name": "speed",
+                        "type": "float",
+                        "unity": "%",
+                        "value": 50,
+                        "floatMin": 0,
+                        "floatMax": 100,
+                        "floatStep": 5
+                     },
+                     {
+                        "name": "reverseEnabled",
+                        "type": "bool",
+                        "value": 1
+                     },
+                     {
+                        "name": "reverseTime",
+                        "type": "float",
+                        "unity": "S",
+                        "value": 1,
+                        "floatMin": 0.5,
+                        "floatMax": 5,
+                        "floatStep": 0.5
+                     }
+                  ]
                }
             ]
          }
@@ -692,6 +691,7 @@
             "name": "usl",
             "removable": false,
             "overwriteable": false,
+            "isPremade": true,
             "values": {
                "act-edi-nozzles#act-edi-high": 1,
                "act-edi-nozzles#act-edi-low": 1,
@@ -733,6 +733,7 @@
             "name": "llc",
             "removable": false,
             "overwriteable": false,
+            "isPremade": true,
             "values": {
                "act-edi-nozzles#act-edi-high": 1,
                "act-edi-nozzles#act-edi-low": 1,
@@ -774,6 +775,7 @@
             "name": "cem",
             "removable": false,
             "overwriteable": false,
+            "isPremade": true,
             "values": {
                "act-edi-nozzles#act-edi-high": 1,
                "act-edi-nozzles#act-edi-low": 1,
@@ -817,7 +819,7 @@
          "durationType": "cycle",
          "durationLimit": 50,
          "procedure": {
-            "desc": "mfm-filter-desc",
+            "tools": [],
             "steps": [
                {
                   "name": "unscrew-mfm-filter",
@@ -1170,30 +1172,25 @@
                   "name": "start",
                   "isEnabled": {
                      "name": "const",
-                     "value": "1",
-                     "params": []
+                     "value": "1"
                   },
                   "duration": {
                      "name": "const",
-                     "value": "3",
-                     "params": []
+                     "value": "3"
                   },
-                  "startingIO": [
+                  "startBlocks": [
                      {
                         "name": "io",
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ventilation",
-                              "params": []
+                              "value": "ventilation"
                            },
                            {
                               "name": "const",
-                              "value": "1",
-                              "params": []
+                              "value": "1"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -1201,8 +1198,7 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "motor-speed",
-                              "params": []
+                              "value": "motor-speed"
                            },
                            {
                               "name": "multiply",
@@ -1210,33 +1206,28 @@
                               "params": [
                                  {
                                     "name": "profile",
-                                    "value": "motor.speed",
-                                    "params": []
+                                    "value": "motor.speed"
                                  },
                                  {
                                     "name": "profile",
-                                    "value": "motor.enabled",
-                                    "params": []
+                                    "value": "motor.enabled"
                                  }
                               ]
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      }
                   ],
-                  "endingIO": [],
+                  "endBlocks": [],
                   "blocks": [
                      {
                         "name": "sleep",
                         "params": [
                            {
                               "name": "const",
-                              "value": "3",
-                              "params": []
+                              "value": "3"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      }
                   ],
@@ -1246,8 +1237,7 @@
                   "name": "activation",
                   "isEnabled": {
                      "name": "profile",
-                     "value": "activation.enabled",
-                     "params": []
+                     "value": "activation.enabled"
                   },
                   "duration": {
                      "name": "multiply",
@@ -1255,8 +1245,7 @@
                      "params": [
                         {
                            "name": "profile",
-                           "value": "activation.count",
-                           "params": []
+                           "value": "activation.count"
                         },
                         {
                            "name": "add",
@@ -1264,34 +1253,29 @@
                            "params": [
                               {
                                  "name": "profile",
-                                 "value": "activation.timeOn",
-                                 "params": []
+                                 "value": "activation.timeOn"
                               },
                               {
                                  "name": "profile",
-                                 "value": "activation.timeOff",
-                                 "params": []
+                                 "value": "activation.timeOff"
                               }
                            ]
                         }
                      ]
                   },
-                  "startingIO": [
+                  "startBlocks": [
                      {
                         "name": "io",
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ventilation",
-                              "params": []
+                              "value": "ventilation"
                            },
                            {
                               "name": "const",
-                              "value": "1",
-                              "params": []
+                              "value": "1"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -1299,8 +1283,7 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "motor-speed",
-                              "params": []
+                              "value": "motor-speed"
                            },
                            {
                               "name": "multiply",
@@ -1308,18 +1291,15 @@
                               "params": [
                                  {
                                     "name": "profile",
-                                    "value": "motor.speed",
-                                    "params": []
+                                    "value": "motor.speed"
                                  },
                                  {
                                     "name": "profile",
-                                    "value": "motor.enabled",
-                                    "params": []
+                                    "value": "motor.enabled"
                                  }
                               ]
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -1327,35 +1307,29 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "act-res",
-                              "params": []
+                              "value": "act-res"
                            },
                            {
                               "name": "const",
-                              "value": "1",
-                              "params": []
+                              "value": "1"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      }
                   ],
-                  "endingIO": [
+                  "endBlocks": [
                      {
                         "name": "io",
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "act-res",
-                              "params": []
+                              "value": "act-res"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      }
                   ],
@@ -1365,8 +1339,7 @@
                         "params": [
                            {
                               "name": "profile",
-                              "value": "activation.count",
-                              "params": []
+                              "value": "activation.count"
                            }
                         ],
                         "blocks": [
@@ -1375,16 +1348,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "hybrid-plv_high",
-                                    "params": []
+                                    "value": "hybrid-plv_high"
                                  },
                                  {
                                     "name": "profile",
-                                    "value": "act-edi-nozzles.act-edi-high",
-                                    "params": []
+                                    "value": "act-edi-nozzles.act-edi-high"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -1392,16 +1362,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "hybrid-plv_low",
-                                    "params": []
+                                    "value": "hybrid-plv_low"
                                  },
                                  {
                                     "name": "profile",
-                                    "value": "act-edi-nozzles.act-edi-low",
-                                    "params": []
+                                    "value": "act-edi-nozzles.act-edi-low"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -1409,11 +1376,9 @@
                               "params": [
                                  {
                                     "name": "const",
-                                    "value": "0.25",
-                                    "params": []
+                                    "value": "0.25"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -1421,16 +1386,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "act-lq_high",
-                                    "params": []
+                                    "value": "act-lq_high"
                                  },
                                  {
                                     "name": "profile",
-                                    "value": "act-edi-nozzles.act-edi-high",
-                                    "params": []
+                                    "value": "act-edi-nozzles.act-edi-high"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -1438,16 +1400,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "act-lq_low",
-                                    "params": []
+                                    "value": "act-lq_low"
                                  },
                                  {
                                     "name": "profile",
-                                    "value": "act-edi-nozzles.act-edi-low",
-                                    "params": []
+                                    "value": "act-edi-nozzles.act-edi-low"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -1455,11 +1414,9 @@
                               "params": [
                                  {
                                     "name": "profile",
-                                    "value": "activation.timeOn",
-                                    "params": []
+                                    "value": "activation.timeOn"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -1467,16 +1424,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "act-lq_high",
-                                    "params": []
+                                    "value": "act-lq_high"
                                  },
                                  {
                                     "name": "const",
-                                    "value": "0",
-                                    "params": []
+                                    "value": "0"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -1484,16 +1438,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "act-lq_low",
-                                    "params": []
+                                    "value": "act-lq_low"
                                  },
                                  {
                                     "name": "const",
-                                    "value": "0",
-                                    "params": []
+                                    "value": "0"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -1501,11 +1452,9 @@
                               "params": [
                                  {
                                     "name": "const",
-                                    "value": "0.25",
-                                    "params": []
+                                    "value": "0.25"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -1513,16 +1462,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "hybrid-plv_high",
-                                    "params": []
+                                    "value": "hybrid-plv_high"
                                  },
                                  {
                                     "name": "const",
-                                    "value": "0",
-                                    "params": []
+                                    "value": "0"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -1530,16 +1476,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "hybrid-plv_low",
-                                    "params": []
+                                    "value": "hybrid-plv_low"
                                  },
                                  {
                                     "name": "const",
-                                    "value": "0",
-                                    "params": []
+                                    "value": "0"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -1547,11 +1490,9 @@
                               "params": [
                                  {
                                     "name": "profile",
-                                    "value": "activation.timeOff",
-                                    "params": []
+                                    "value": "activation.timeOff"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            }
                         ],
@@ -1564,30 +1505,25 @@
                   "name": "wash1",
                   "isEnabled": {
                      "name": "profile",
-                     "value": "wash1.enabled",
-                     "params": []
+                     "value": "wash1.enabled"
                   },
                   "duration": {
                      "name": "profile",
-                     "value": "wash1.duration",
-                     "params": []
+                     "value": "wash1.duration"
                   },
-                  "startingIO": [
+                  "startBlocks": [
                      {
                         "name": "io",
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ventilation",
-                              "params": []
+                              "value": "ventilation"
                            },
                            {
                               "name": "const",
-                              "value": "1",
-                              "params": []
+                              "value": "1"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -1595,8 +1531,7 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "motor-speed",
-                              "params": []
+                              "value": "motor-speed"
                            },
                            {
                               "name": "multiply",
@@ -1604,18 +1539,15 @@
                               "params": [
                                  {
                                     "name": "profile",
-                                    "value": "motor.speed",
-                                    "params": []
+                                    "value": "motor.speed"
                                  },
                                  {
                                     "name": "profile",
-                                    "value": "motor.enabled",
-                                    "params": []
+                                    "value": "motor.enabled"
                                  }
                               ]
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -1623,35 +1555,29 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "edi-res",
-                              "params": []
+                              "value": "edi-res"
                            },
                            {
                               "name": "const",
-                              "value": "1",
-                              "params": []
+                              "value": "1"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      }
                   ],
-                  "endingIO": [
+                  "endBlocks": [
                      {
                         "name": "io",
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "edi-res",
-                              "params": []
+                              "value": "edi-res"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      }
                   ],
@@ -1661,11 +1587,9 @@
                         "params": [
                            {
                               "name": "const",
-                              "value": "0.5",
-                              "params": []
+                              "value": "0.5"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -1673,16 +1597,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "hybrid-plv_high",
-                              "params": []
+                              "value": "hybrid-plv_high"
                            },
                            {
                               "name": "profile",
-                              "value": "act-edi-nozzles.act-edi-high",
-                              "params": []
+                              "value": "act-edi-nozzles.act-edi-high"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -1690,16 +1611,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "hybrid-plv_low",
-                              "params": []
+                              "value": "hybrid-plv_low"
                            },
                            {
                               "name": "profile",
-                              "value": "act-edi-nozzles.act-edi-low",
-                              "params": []
+                              "value": "act-edi-nozzles.act-edi-low"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -1707,11 +1625,9 @@
                         "params": [
                            {
                               "name": "const",
-                              "value": "0.25",
-                              "params": []
+                              "value": "0.25"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -1719,16 +1635,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "edi-lq_high",
-                              "params": []
+                              "value": "edi-lq_high"
                            },
                            {
                               "name": "profile",
-                              "value": "act-edi-nozzles.act-edi-high",
-                              "params": []
+                              "value": "act-edi-nozzles.act-edi-high"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -1736,16 +1649,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "edi-lq_low",
-                              "params": []
+                              "value": "edi-lq_low"
                            },
                            {
                               "name": "profile",
-                              "value": "act-edi-nozzles.act-edi-low",
-                              "params": []
+                              "value": "act-edi-nozzles.act-edi-low"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -1753,11 +1663,9 @@
                         "params": [
                            {
                               "name": "profile",
-                              "value": "wash1.duration",
-                              "params": []
+                              "value": "wash1.duration"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -1765,16 +1673,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "edi-lq_high",
-                              "params": []
+                              "value": "edi-lq_high"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -1782,16 +1687,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "edi-lq_low",
-                              "params": []
+                              "value": "edi-lq_low"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -1799,11 +1701,9 @@
                         "params": [
                            {
                               "name": "const",
-                              "value": "0.25",
-                              "params": []
+                              "value": "0.25"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -1811,16 +1711,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "hybrid-plv_high",
-                              "params": []
+                              "value": "hybrid-plv_high"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -1828,16 +1725,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "hybrid-plv_low",
-                              "params": []
+                              "value": "hybrid-plv_low"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -1845,11 +1739,9 @@
                         "params": [
                            {
                               "name": "const",
-                              "value": "0.5",
-                              "params": []
+                              "value": "0.5"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      }
                   ],
@@ -1859,8 +1751,7 @@
                   "name": "metalization",
                   "isEnabled": {
                      "name": "profile",
-                     "value": "metalization.enabled",
-                     "params": []
+                     "value": "metalization.enabled"
                   },
                   "duration": {
                      "name": "multiply",
@@ -1868,8 +1759,7 @@
                      "params": [
                         {
                            "name": "profile",
-                           "value": "metalization.count",
-                           "params": []
+                           "value": "metalization.count"
                         },
                         {
                            "name": "add",
@@ -1877,34 +1767,29 @@
                            "params": [
                               {
                                  "name": "profile",
-                                 "value": "metalization.timeOn",
-                                 "params": []
+                                 "value": "metalization.timeOn"
                               },
                               {
                                  "name": "profile",
-                                 "value": "metalization.timeOff",
-                                 "params": []
+                                 "value": "metalization.timeOff"
                               }
                            ]
                         }
                      ]
                   },
-                  "startingIO": [
+                  "startBlocks": [
                      {
                         "name": "io",
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ventilation",
-                              "params": []
+                              "value": "ventilation"
                            },
                            {
                               "name": "const",
-                              "value": "1",
-                              "params": []
+                              "value": "1"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -1912,8 +1797,7 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "motor-speed",
-                              "params": []
+                              "value": "motor-speed"
                            },
                            {
                               "name": "multiply",
@@ -1921,18 +1805,15 @@
                               "params": [
                                  {
                                     "name": "profile",
-                                    "value": "motor.speed",
-                                    "params": []
+                                    "value": "motor.speed"
                                  },
                                  {
                                     "name": "profile",
-                                    "value": "motor.enabled",
-                                    "params": []
+                                    "value": "motor.enabled"
                                  }
                               ]
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -1940,16 +1821,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ox-res",
-                              "params": []
+                              "value": "ox-res"
                            },
                            {
                               "name": "const",
-                              "value": "1",
-                              "params": []
+                              "value": "1"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -1957,35 +1835,29 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "rd-res",
-                              "params": []
+                              "value": "rd-res"
                            },
                            {
                               "name": "const",
-                              "value": "1",
-                              "params": []
+                              "value": "1"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      }
                   ],
-                  "endingIO": [
+                  "endBlocks": [
                      {
                         "name": "io",
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ox-res",
-                              "params": []
+                              "value": "ox-res"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -1993,16 +1865,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "rd-res",
-                              "params": []
+                              "value": "rd-res"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      }
                   ],
@@ -2012,11 +1881,9 @@
                         "params": [
                            {
                               "name": "const",
-                              "value": "0.25",
-                              "params": []
+                              "value": "0.25"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2024,8 +1891,7 @@
                         "params": [
                            {
                               "name": "profile",
-                              "value": "metalization.count",
-                              "params": []
+                              "value": "metalization.count"
                            }
                         ],
                         "blocks": [
@@ -2034,16 +1900,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "met-plv_high",
-                                    "params": []
+                                    "value": "met-plv_high"
                                  },
                                  {
                                     "name": "profile",
-                                    "value": "met-nozzles.met-high",
-                                    "params": []
+                                    "value": "met-nozzles.met-high"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -2051,16 +1914,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "met-plv_medium",
-                                    "params": []
+                                    "value": "met-plv_medium"
                                  },
                                  {
                                     "name": "profile",
-                                    "value": "met-nozzles.met-medium",
-                                    "params": []
+                                    "value": "met-nozzles.met-medium"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -2068,16 +1928,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "met-plv_low",
-                                    "params": []
+                                    "value": "met-plv_low"
                                  },
                                  {
                                     "name": "profile",
-                                    "value": "met-nozzles.met-low",
-                                    "params": []
+                                    "value": "met-nozzles.met-low"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -2085,11 +1942,9 @@
                               "params": [
                                  {
                                     "name": "const",
-                                    "value": "0.25",
-                                    "params": []
+                                    "value": "0.25"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -2097,16 +1952,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "rd-lq_high",
-                                    "params": []
+                                    "value": "rd-lq_high"
                                  },
                                  {
                                     "name": "profile",
-                                    "value": "met-nozzles.met-high",
-                                    "params": []
+                                    "value": "met-nozzles.met-high"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -2114,16 +1966,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "ox-lq_high",
-                                    "params": []
+                                    "value": "ox-lq_high"
                                  },
                                  {
                                     "name": "profile",
-                                    "value": "met-nozzles.met-high",
-                                    "params": []
+                                    "value": "met-nozzles.met-high"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -2131,16 +1980,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "rd-lq_medium",
-                                    "params": []
+                                    "value": "rd-lq_medium"
                                  },
                                  {
                                     "name": "profile",
-                                    "value": "met-nozzles.met-medium",
-                                    "params": []
+                                    "value": "met-nozzles.met-medium"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -2148,16 +1994,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "ox-lq_medium",
-                                    "params": []
+                                    "value": "ox-lq_medium"
                                  },
                                  {
                                     "name": "profile",
-                                    "value": "met-nozzles.met-medium",
-                                    "params": []
+                                    "value": "met-nozzles.met-medium"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -2165,16 +2008,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "rd-lq_low",
-                                    "params": []
+                                    "value": "rd-lq_low"
                                  },
                                  {
                                     "name": "profile",
-                                    "value": "met-nozzles.met-low",
-                                    "params": []
+                                    "value": "met-nozzles.met-low"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -2182,16 +2022,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "ox-lq_low",
-                                    "params": []
+                                    "value": "ox-lq_low"
                                  },
                                  {
                                     "name": "profile",
-                                    "value": "met-nozzles.met-low",
-                                    "params": []
+                                    "value": "met-nozzles.met-low"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -2199,11 +2036,9 @@
                               "params": [
                                  {
                                     "name": "profile",
-                                    "value": "metalization.timeOn",
-                                    "params": []
+                                    "value": "metalization.timeOn"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -2211,16 +2046,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "rd-lq_high",
-                                    "params": []
+                                    "value": "rd-lq_high"
                                  },
                                  {
                                     "name": "const",
-                                    "value": "0",
-                                    "params": []
+                                    "value": "0"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -2228,16 +2060,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "ox-lq_high",
-                                    "params": []
+                                    "value": "ox-lq_high"
                                  },
                                  {
                                     "name": "const",
-                                    "value": "0",
-                                    "params": []
+                                    "value": "0"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -2245,16 +2074,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "rd-lq_medium",
-                                    "params": []
+                                    "value": "rd-lq_medium"
                                  },
                                  {
                                     "name": "const",
-                                    "value": "0",
-                                    "params": []
+                                    "value": "0"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -2262,16 +2088,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "ox-lq_medium",
-                                    "params": []
+                                    "value": "ox-lq_medium"
                                  },
                                  {
                                     "name": "const",
-                                    "value": "0",
-                                    "params": []
+                                    "value": "0"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -2279,16 +2102,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "rd-lq_low",
-                                    "params": []
+                                    "value": "rd-lq_low"
                                  },
                                  {
                                     "name": "const",
-                                    "value": "0",
-                                    "params": []
+                                    "value": "0"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -2296,16 +2116,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "ox-lq_low",
-                                    "params": []
+                                    "value": "ox-lq_low"
                                  },
                                  {
                                     "name": "const",
-                                    "value": "0",
-                                    "params": []
+                                    "value": "0"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -2313,11 +2130,9 @@
                               "params": [
                                  {
                                     "name": "const",
-                                    "value": "0.25",
-                                    "params": []
+                                    "value": "0.25"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -2325,16 +2140,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "met-plv_high",
-                                    "params": []
+                                    "value": "met-plv_high"
                                  },
                                  {
                                     "name": "const",
-                                    "value": "0",
-                                    "params": []
+                                    "value": "0"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -2342,16 +2154,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "met-plv_medium",
-                                    "params": []
+                                    "value": "met-plv_medium"
                                  },
                                  {
                                     "name": "const",
-                                    "value": "0",
-                                    "params": []
+                                    "value": "0"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -2359,16 +2168,13 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "met-plv_low",
-                                    "params": []
+                                    "value": "met-plv_low"
                                  },
                                  {
                                     "name": "const",
-                                    "value": "0",
-                                    "params": []
+                                    "value": "0"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            },
                            {
@@ -2376,11 +2182,9 @@
                               "params": [
                                  {
                                     "name": "profile",
-                                    "value": "metalization.timeOff",
-                                    "params": []
+                                    "value": "metalization.timeOff"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            }
                         ],
@@ -2391,11 +2195,9 @@
                         "params": [
                            {
                               "name": "const",
-                              "value": "0.25",
-                              "params": []
+                              "value": "0.25"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2403,16 +2205,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "mfm-filter",
-                              "params": []
+                              "value": "mfm-filter"
                            },
                            {
                               "name": "const",
-                              "value": "1",
-                              "params": []
+                              "value": "1"
                            }
                         ],
-                        "blocks": [],
                         "_folded": false
                      }
                   ],
@@ -2422,30 +2221,25 @@
                   "name": "nozzleCleaning",
                   "isEnabled": {
                      "name": "profile",
-                     "value": "drying.enabled",
-                     "params": []
+                     "value": "drying.enabled"
                   },
                   "duration": {
                      "name": "const",
-                     "value": "10",
-                     "params": []
+                     "value": "10"
                   },
-                  "startingIO": [
+                  "startBlocks": [
                      {
                         "name": "io",
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ventilation",
-                              "params": []
+                              "value": "ventilation"
                            },
                            {
                               "name": "const",
-                              "value": "1",
-                              "params": []
+                              "value": "1"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2453,8 +2247,7 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "motor-speed",
-                              "params": []
+                              "value": "motor-speed"
                            },
                            {
                               "name": "multiply",
@@ -2462,18 +2255,15 @@
                               "params": [
                                  {
                                     "name": "profile",
-                                    "value": "motor.speed",
-                                    "params": []
+                                    "value": "motor.speed"
                                  },
                                  {
                                     "name": "profile",
-                                    "value": "motor.enabled",
-                                    "params": []
+                                    "value": "motor.enabled"
                                  }
                               ]
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2481,16 +2271,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "rd-air_cleaning_high",
-                              "params": []
+                              "value": "rd-air_cleaning_high"
                            },
                            {
                               "name": "profile",
-                              "value": "met-nozzles.met-high",
-                              "params": []
+                              "value": "met-nozzles.met-high"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2498,16 +2285,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ox-air_cleaning_high",
-                              "params": []
+                              "value": "ox-air_cleaning_high"
                            },
                            {
                               "name": "profile",
-                              "value": "met-nozzles.met-high",
-                              "params": []
+                              "value": "met-nozzles.met-high"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2515,16 +2299,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "rd-air_cleaning_medium",
-                              "params": []
+                              "value": "rd-air_cleaning_medium"
                            },
                            {
                               "name": "profile",
-                              "value": "met-nozzles.met-medium",
-                              "params": []
+                              "value": "met-nozzles.met-medium"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2532,16 +2313,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ox-air_cleaning_medium",
-                              "params": []
+                              "value": "ox-air_cleaning_medium"
                            },
                            {
                               "name": "profile",
-                              "value": "met-nozzles.met-medium",
-                              "params": []
+                              "value": "met-nozzles.met-medium"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2549,16 +2327,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ox-air_cleaning_low",
-                              "params": []
+                              "value": "ox-air_cleaning_low"
                            },
                            {
                               "name": "profile",
-                              "value": "met-nozzles.met-low",
-                              "params": []
+                              "value": "met-nozzles.met-low"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2566,35 +2341,29 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "rd-air_cleaning_low",
-                              "params": []
+                              "value": "rd-air_cleaning_low"
                            },
                            {
                               "name": "profile",
-                              "value": "met-nozzles.met-low",
-                              "params": []
+                              "value": "met-nozzles.met-low"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      }
                   ],
-                  "endingIO": [
+                  "endBlocks": [
                      {
                         "name": "io",
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "rd-air_cleaning_low",
-                              "params": []
+                              "value": "rd-air_cleaning_low"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2602,16 +2371,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ox-air_cleaning_low",
-                              "params": []
+                              "value": "ox-air_cleaning_low"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2619,16 +2385,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "rd-air_cleaning_medium",
-                              "params": []
+                              "value": "rd-air_cleaning_medium"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2636,16 +2399,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ox-air_cleaning_medium",
-                              "params": []
+                              "value": "ox-air_cleaning_medium"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2653,16 +2413,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "rd-air_cleaning_high",
-                              "params": []
+                              "value": "rd-air_cleaning_high"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2670,16 +2427,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ox-air_cleaning_high",
-                              "params": []
+                              "value": "ox-air_cleaning_high"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      }
                   ],
@@ -2689,11 +2443,9 @@
                         "params": [
                            {
                               "name": "const",
-                              "value": "10",
-                              "params": []
+                              "value": "10"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      }
                   ],
@@ -2703,30 +2455,25 @@
                   "name": "wash2",
                   "isEnabled": {
                      "name": "profile",
-                     "value": "wash2.enabled",
-                     "params": []
+                     "value": "wash2.enabled"
                   },
                   "duration": {
                      "name": "profile",
-                     "value": "wash2.duration",
-                     "params": []
+                     "value": "wash2.duration"
                   },
-                  "startingIO": [
+                  "startBlocks": [
                      {
                         "name": "io",
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ventilation",
-                              "params": []
+                              "value": "ventilation"
                            },
                            {
                               "name": "const",
-                              "value": "1",
-                              "params": []
+                              "value": "1"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2734,8 +2481,7 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "motor-speed",
-                              "params": []
+                              "value": "motor-speed"
                            },
                            {
                               "name": "multiply",
@@ -2743,18 +2489,15 @@
                               "params": [
                                  {
                                     "name": "profile",
-                                    "value": "motor.speed",
-                                    "params": []
+                                    "value": "motor.speed"
                                  },
                                  {
                                     "name": "profile",
-                                    "value": "motor.enabled",
-                                    "params": []
+                                    "value": "motor.enabled"
                                  }
                               ]
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2762,35 +2505,29 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "edi-res",
-                              "params": []
+                              "value": "edi-res"
                            },
                            {
                               "name": "const",
-                              "value": "1",
-                              "params": []
+                              "value": "1"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      }
                   ],
-                  "endingIO": [
+                  "endBlocks": [
                      {
                         "name": "io",
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "edi-res",
-                              "params": []
+                              "value": "edi-res"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      }
                   ],
@@ -2800,11 +2537,9 @@
                         "params": [
                            {
                               "name": "const",
-                              "value": "0.5",
-                              "params": []
+                              "value": "0.5"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2812,16 +2547,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "hybrid-plv_high",
-                              "params": []
+                              "value": "hybrid-plv_high"
                            },
                            {
                               "name": "profile",
-                              "value": "act-edi-nozzles.act-edi-high",
-                              "params": []
+                              "value": "act-edi-nozzles.act-edi-high"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2829,16 +2561,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "hybrid-plv_low",
-                              "params": []
+                              "value": "hybrid-plv_low"
                            },
                            {
                               "name": "profile",
-                              "value": "act-edi-nozzles.act-edi-low",
-                              "params": []
+                              "value": "act-edi-nozzles.act-edi-low"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2846,11 +2575,9 @@
                         "params": [
                            {
                               "name": "const",
-                              "value": "0.25",
-                              "params": []
+                              "value": "0.25"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2858,16 +2585,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "edi-lq_high",
-                              "params": []
+                              "value": "edi-lq_high"
                            },
                            {
                               "name": "profile",
-                              "value": "act-edi-nozzles.act-edi-high",
-                              "params": []
+                              "value": "act-edi-nozzles.act-edi-high"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2875,16 +2599,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "edi-lq_low",
-                              "params": []
+                              "value": "edi-lq_low"
                            },
                            {
                               "name": "profile",
-                              "value": "act-edi-nozzles.act-edi-low",
-                              "params": []
+                              "value": "act-edi-nozzles.act-edi-low"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2892,11 +2613,9 @@
                         "params": [
                            {
                               "name": "profile",
-                              "value": "wash2.duration",
-                              "params": []
+                              "value": "wash2.duration"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2904,16 +2623,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "edi-lq_high",
-                              "params": []
+                              "value": "edi-lq_high"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2921,16 +2637,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "edi-lq_low",
-                              "params": []
+                              "value": "edi-lq_low"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2938,11 +2651,9 @@
                         "params": [
                            {
                               "name": "const",
-                              "value": "0.25",
-                              "params": []
+                              "value": "0.25"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2950,16 +2661,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "hybrid-plv_high",
-                              "params": []
+                              "value": "hybrid-plv_high"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2967,16 +2675,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "hybrid-plv_low",
-                              "params": []
+                              "value": "hybrid-plv_low"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -2984,11 +2689,9 @@
                         "params": [
                            {
                               "name": "const",
-                              "value": "0.5",
-                              "params": []
+                              "value": "0.5"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      }
                   ],
@@ -2998,30 +2701,25 @@
                   "name": "drying",
                   "isEnabled": {
                      "name": "profile",
-                     "value": "drying.enabled",
-                     "params": []
+                     "value": "drying.enabled"
                   },
                   "duration": {
                      "name": "profile",
-                     "value": "drying.duration",
-                     "params": []
+                     "value": "drying.duration"
                   },
-                  "startingIO": [
+                  "startBlocks": [
                      {
                         "name": "io",
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ventilation",
-                              "params": []
+                              "value": "ventilation"
                            },
                            {
                               "name": "const",
-                              "value": "1",
-                              "params": []
+                              "value": "1"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -3029,8 +2727,7 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "motor-speed",
-                              "params": []
+                              "value": "motor-speed"
                            },
                            {
                               "name": "multiply",
@@ -3038,18 +2735,15 @@
                               "params": [
                                  {
                                     "name": "profile",
-                                    "value": "motor.speed",
-                                    "params": []
+                                    "value": "motor.speed"
                                  },
                                  {
                                     "name": "profile",
-                                    "value": "motor.enabled",
-                                    "params": []
+                                    "value": "motor.enabled"
                                  }
                               ]
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -3057,16 +2751,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "rd-air_cleaning_high",
-                              "params": []
+                              "value": "rd-air_cleaning_high"
                            },
                            {
                               "name": "profile",
-                              "value": "met-nozzles.met-high",
-                              "params": []
+                              "value": "met-nozzles.met-high"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -3074,16 +2765,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ox-air_cleaning_high",
-                              "params": []
+                              "value": "ox-air_cleaning_high"
                            },
                            {
                               "name": "profile",
-                              "value": "met-nozzles.met-high",
-                              "params": []
+                              "value": "met-nozzles.met-high"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -3091,16 +2779,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "rd-air_cleaning_medium",
-                              "params": []
+                              "value": "rd-air_cleaning_medium"
                            },
                            {
                               "name": "profile",
-                              "value": "met-nozzles.met-medium",
-                              "params": []
+                              "value": "met-nozzles.met-medium"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -3108,16 +2793,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ox-air_cleaning_medium",
-                              "params": []
+                              "value": "ox-air_cleaning_medium"
                            },
                            {
                               "name": "profile",
-                              "value": "met-nozzles.met-medium",
-                              "params": []
+                              "value": "met-nozzles.met-medium"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -3125,16 +2807,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ox-air_cleaning_low",
-                              "params": []
+                              "value": "ox-air_cleaning_low"
                            },
                            {
                               "name": "profile",
-                              "value": "met-nozzles.met-low",
-                              "params": []
+                              "value": "met-nozzles.met-low"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -3142,35 +2821,29 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "rd-air_cleaning_low",
-                              "params": []
+                              "value": "rd-air_cleaning_low"
                            },
                            {
                               "name": "profile",
-                              "value": "met-nozzles.met-low",
-                              "params": []
+                              "value": "met-nozzles.met-low"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      }
                   ],
-                  "endingIO": [
+                  "endBlocks": [
                      {
                         "name": "io",
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "rd-air_cleaning_low",
-                              "params": []
+                              "value": "rd-air_cleaning_low"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -3178,16 +2851,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ox-air_cleaning_low",
-                              "params": []
+                              "value": "ox-air_cleaning_low"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -3195,16 +2865,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "rd-air_cleaning_medium",
-                              "params": []
+                              "value": "rd-air_cleaning_medium"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -3212,16 +2879,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ox-air_cleaning_medium",
-                              "params": []
+                              "value": "ox-air_cleaning_medium"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -3229,16 +2893,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "rd-air_cleaning_high",
-                              "params": []
+                              "value": "rd-air_cleaning_high"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -3246,16 +2907,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ox-air_cleaning_high",
-                              "params": []
+                              "value": "ox-air_cleaning_high"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      }
                   ],
@@ -3265,11 +2923,9 @@
                         "params": [
                            {
                               "name": "profile",
-                              "value": "drying.duration",
-                              "params": []
+                              "value": "drying.duration"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      }
                   ],
@@ -3279,31 +2935,26 @@
                   "name": "vaporsExtraction",
                   "isEnabled": {
                      "name": "profile",
-                     "value": "vapors-extraction.enabled",
-                     "params": []
+                     "value": "vapors-extraction.enabled"
                   },
                   "duration": {
                      "name": "profile",
-                     "value": "vapors-extraction.duration",
-                     "params": []
+                     "value": "vapors-extraction.duration"
                   },
-                  "startingIO": [],
-                  "endingIO": [
+                  "startBlocks": [],
+                  "endBlocks": [
                      {
                         "name": "io",
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ventilation",
-                              "params": []
+                              "value": "ventilation"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -3311,16 +2962,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "motor-speed",
-                              "params": []
+                              "value": "motor-speed"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      }
                   ],
@@ -3330,11 +2978,9 @@
                         "params": [
                            {
                               "name": "profile",
-                              "value": "vapors-extraction.duration",
-                              "params": []
+                              "value": "vapors-extraction.duration"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      }
                   ],
@@ -3344,31 +2990,26 @@
                   "name": "end",
                   "isEnabled": {
                      "name": "const",
-                     "value": "1",
-                     "params": []
+                     "value": "1"
                   },
                   "duration": {
                      "name": "const",
-                     "value": "3",
-                     "params": []
+                     "value": "3"
                   },
-                  "startingIO": [],
-                  "endingIO": [
+                  "startBlocks": [],
+                  "endBlocks": [
                      {
                         "name": "io",
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "motor-speed",
-                              "params": []
+                              "value": "motor-speed"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -3376,16 +3017,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ventilation",
-                              "params": []
+                              "value": "ventilation"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      }
                   ],
@@ -3395,11 +3033,9 @@
                         "params": [
                            {
                               "name": "const",
-                              "value": "3",
-                              "params": []
+                              "value": "3"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      }
                   ],
@@ -3448,18 +3084,15 @@
                   "name": "act-fill",
                   "isEnabled": {
                      "name": "const",
-                     "value": "1",
-                     "params": []
+                     "value": "1"
                   },
                   "duration": {
                      "name": "const",
-                     "value": "120",
-                     "params": []
+                     "value": "120"
                   },
                   "runAmount": {
                      "name": "const",
-                     "value": "1",
-                     "params": []
+                     "value": "1"
                   },
                   "blocks": [
                      {
@@ -3467,18 +3100,15 @@
                         "params": [
                            {
                               "name": "io",
-                              "value": "levels_act-n",
-                              "params": []
+                              "value": "levels_act-max-n"
                            },
                            {
                               "name": "conststr",
-                              "value": "!=",
-                              "params": []
+                              "value": "!="
                            },
                            {
                               "name": "const",
-                              "value": "1",
-                              "params": []
+                              "value": "1"
                            }
                         ],
                         "blocks": [
@@ -3487,33 +3117,28 @@
                               "params": [
                                  {
                                     "name": "const",
-                                    "value": "0.5",
-                                    "params": []
+                                    "value": "0.5"
                                  }
                               ],
-                              "blocks": [],
                               "_folded": false
                            }
                         ],
                         "_folded": true
                      }
                   ],
-                  "startingIO": [
+                  "startBlocks": [
                      {
                         "name": "io",
                         "params": [
                            {
                               "name": "io",
-                              "value": "edi-res",
-                              "params": []
+                              "value": "edi-res"
                            },
                            {
                               "name": "const",
-                              "value": "1",
-                              "params": []
+                              "value": "1"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -3521,35 +3146,29 @@
                         "params": [
                            {
                               "name": "io",
-                              "value": "edi-lq_fill_act",
-                              "params": []
+                              "value": "edi-lq_fill_act"
                            },
                            {
                               "name": "const",
-                              "value": "1",
-                              "params": []
+                              "value": "1"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      }
                   ],
-                  "endingIO": [
+                  "endBlocks": [
                      {
                         "name": "io",
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "edi-res",
-                              "params": []
+                              "value": "edi-res"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      },
                      {
@@ -3557,16 +3176,13 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "edi-lq_fill_act",
-                              "params": []
+                              "value": "edi-lq_fill_act"
                            },
                            {
                               "name": "const",
-                              "value": "0",
-                              "params": []
+                              "value": "0"
                            }
                         ],
-                        "blocks": [],
                         "_folded": true
                      }
                   ],

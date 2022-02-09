@@ -322,7 +322,6 @@
       "skeletons":[
          {
             "identifier": "default",
-            "version": 0,
             "fieldGroups": [
                {
                   "name": "pulverization",
@@ -330,7 +329,7 @@
                      {
                         "name": "timeOn",
                         "type": "float",
-                        "value": "2",
+                        "value": 2,
                         "floatMin": 0.5,
                         "floatMax": 10,
                         "floatStep": 0.25,
@@ -339,7 +338,7 @@
                      {
                         "name": "timeOff",
                         "type": "float",
-                        "value": "8",
+                        "value": 8,
                         "floatMin": 1,
                         "floatMax": 60,
                         "floatStep": 1,
@@ -349,13 +348,13 @@
                         "name": "count",
                         "type": "int",
                         "unity": "",
-                        "value": "4"
+                        "value": 4
                      },
                      {
                         "name": "enabled",
                         "type": "bool",
                         "unity": "",
-                        "value": "1"
+                        "value": 1
                      }
                   ]
                },
@@ -370,7 +369,7 @@
                      {
                         "name": "duration",
                         "type": "int",
-                        "value": "180",
+                        "value": 180,
                         "unity": "m-s"
                      }
                   ]
@@ -387,7 +386,7 @@
                         "name": "duration",
                         "type": "int",
                         "unity": "m-s",
-                        "value": "10"
+                        "value": 10
                      }
                   ]
                },
@@ -403,13 +402,13 @@
                         "name": "duration",
                         "type": "int",
                         "unity": "m-s",
-                        "value": "40"
+                        "value": 40
                      },
                      {
                         "name": "uv-power",
                         "type": "float",
                         "unity": "%",
-                        "value": "50",
+                        "value": 50,
                         "floatMin": 20,
                         "floatMax": 100,
                         "floatStep": 5
@@ -438,19 +437,19 @@
                      {
                         "name": "enabled",
                         "type": "bool",
-                        "value": "0"
+                        "value": 0
                      },
                      {
                         "name": "count",
                         "type": "int",
                         "unity": "",
-                        "value": "5"
+                        "value": 5
                      },
                      {
                         "name": "interlayer-uvduration",
                         "type": "int",
                         "unity": "m-s",
-                        "value": "15"
+                        "value": 15
                      }
                   ]
                },
@@ -466,7 +465,7 @@
                         "name": "speed",
                         "type": "float",
                         "unity": "%",
-                        "value": "50",
+                        "value": 50,
                         "floatMax": 100,
                         "floatMin": 0,
                         "floatStep": 5
@@ -475,13 +474,13 @@
                         "name": "reverseEnabled",
                         "type": "bool",
                         "unity": "",
-                        "value": "1"
+                        "value": 1
                      },
                      {
                         "name": "reverseTime",
                         "type": "int",
                         "unity": "m-s",
-                        "value": "1"
+                        "value": 1
                      }
                   ]
                }
@@ -780,7 +779,7 @@
                         "_folded": false
                      }
                   ],
-                  "startingIO": [
+                  "startBlocks": [
                      {
                         "name": "io",
                         "params": [
@@ -889,7 +888,7 @@
                         "_folded": false
                      }
                   ],
-                  "endingIO": [],
+                  "endBlocks": [],
                   "_folded": false
                },
                {
@@ -1133,7 +1132,7 @@
                         "_folded": true
                      }
                   ],
-                  "startingIO": [
+                  "startBlocks": [
                      {
                         "name": "io",
                         "params": [
@@ -1177,7 +1176,7 @@
                         "_folded": true
                      }
                   ],
-                  "endingIO": [
+                  "endBlocks": [
                      {
                         "name": "io",
                         "params": [
@@ -1366,7 +1365,7 @@
                         "_folded": true
                      }
                   ],
-                  "startingIO": [
+                  "startBlocks": [
                      {
                         "name": "io",
                         "params": [
@@ -1396,7 +1395,7 @@
                         "_folded": true
                      }
                   ],
-                  "endingIO": [
+                  "endBlocks": [
                      {
                         "name": "io",
                         "params": [
@@ -1482,7 +1481,7 @@
                         "_folded": true
                      }
                   ],
-                  "startingIO": [
+                  "startBlocks": [
                      {
                         "name": "io",
                         "params": [
@@ -1498,7 +1497,7 @@
                         "_folded": true
                      }
                   ],
-                  "endingIO": [
+                  "endBlocks": [
                      {
                         "name": "io",
                         "params": [
@@ -1761,7 +1760,7 @@
                         "_folded": true
                      }
                   ],
-                  "startingIO": [
+                  "startBlocks": [
                      {
                         "name": "io",
                         "params": [
@@ -1791,7 +1790,7 @@
                         "_folded": true
                      }
                   ],
-                  "endingIO": [
+                  "endBlocks": [
                      {
                         "name": "io",
                         "params": [
@@ -1904,7 +1903,7 @@
                         "_folded": true
                      }
                   ],
-                  "startingIO": [
+                  "startBlocks": [
                      {
                         "name": "io",
                         "params": [
@@ -1920,7 +1919,7 @@
                         "_folded": true
                      }
                   ],
-                  "endingIO": [
+                  "endBlocks": [
                      {
                         "name": "io",
                         "params": [

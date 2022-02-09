@@ -4,7 +4,7 @@
   "description": "metalizz machines descriptions",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx jest"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,15 @@
   "bugs": {
     "url": "https://github.com/Kworz/NusterTurbineMachines/issues"
   },
-  "homepage": "https://github.com/Kworz/NusterTurbineMachines#readme"
+  "homepage": "https://github.com/Kworz/NusterTurbineMachines#readme",
+  "dependencies": {
+    "@types/jest-json-schema": "^6.1.0",
+    "jest": "^27.5.1",
+    "jest-json-schema": "^6.1.0",
+    "ts-jest": "^27.1.3",
+    "ts-node": "^10.5.0",
+    "typescript": "^4.5.5",
+    "npx": "^10.2.2"
+  },
+  "devDependencies": {}
 }

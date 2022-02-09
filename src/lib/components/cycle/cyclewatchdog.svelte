@@ -47,11 +47,13 @@
 	/>
 
 	<div id="cyclePreparation" class="flex flex-col gap-4">
-		<span
-			class="rounded-xl bg-sky-500 py-1 px-5 text-white text-xl font-semibold shadow-2xl self-start my-3"
-		>
-			{$_('cycle.watchdog.conditions')}
-		</span>
+		<div class="flex flex-row justify-center">
+			<span
+				class="rounded-full bg-violet-500 py-1 px-5 text-white text-xl font-semibold shadow-2xl self-start my-3"
+			>
+				{$_('cycle.watchdog.conditions')}
+			</span>
+		</div>
 		{#if $machineData.cycle}
 			<div class="grid grid-cols-2 gap-3">
 				{#each $machineData.cycle.watchdogConditions as wdc}
@@ -67,7 +69,7 @@
 					</span>
 				{/each}
 			</div>
-			<div class="flex flex-row gap-4 items-center justify-items-center w-full">
+			<div class="flex flex-row gap-4 items-center justify-center w-full">
 				<button
 					class="bg-orange-500 hover:bg-orange-500/80 hover:scale-[1.01] rounded-xl py-2 px-5 self-center text-white font-semibold transition:all mt-3"
 					on:click={cancelCycle}

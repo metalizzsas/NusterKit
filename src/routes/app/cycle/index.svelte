@@ -11,6 +11,7 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { page, session } from '$app/stores';
+	import Profile from '$lib/components/profile.svelte';
 
 	console.log('ipd', $session);
 </script>
@@ -34,12 +35,25 @@
 					/>
 				</svg>
 			</div>
-			<div
-				class="rounded-full bg-indigo-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all place-self-start"
-			>
-				{$machineData.cycle ? $_('cycle.button') : $_('cycle.preparation')}
-			</div>
-			<!-- TODO: Add check if some histories are available -->
+			{#if $machineData.cycle}
+				<div
+					class="rounded-full bg-blue-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-[1.01] transition-all"
+				>
+					{$_('cycle.names.' + $machineData.cycle.name)}
+					{#if $machineData.cycle.profile}
+						/ {$machineData.cycle.profile.isPremade
+							? $_('cycle.types.' + $machineData.cycle.profile.name)
+							: $machineData.cycle.profile.name}
+					{/if}
+				</div>
+			{:else}
+				<div
+					class="rounded-full bg-indigo-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all place-self-start"
+				>
+					{$machineData.cycle ? $_('cycle.button') : $_('cycle.preparation')}
+				</div>
+			{/if}
+
 			{#if !$machineData.cycle}
 				<div
 					on:click={() => goto('/app/cycle/histories')}

@@ -114,7 +114,8 @@
       "end": "Stop cycle",
       "finish": "Finish cycle",
       "start": "Start cycle",
-      "complete": "Complete cycle"
+      "complete": "Complete cycle",
+      "cancel": "Cancel cycle"
     },
     "steps": {
       "title": "Cycle steps",

@@ -87,16 +87,16 @@
 										<div class="absolute flex flex-row gap-4 -translate-y-24">
 											{#each step.images as image, indeximge}
 												<div
-													class={procedureImageIndex != indeximge
-														? 'grayscale-0'
-														: 'grayscale'}
 													on:click={() =>
 														(procedureImageIndex = indeximge)}
 												>
 													<!-- svelte-ignore a11y-missing-attribute -->
 													<img
 														src="http://{$Linker}/assets/maintenance/{maintenance.name}/{image}"
-														class="h-20 ring-white rounded-md ring-1"
+														class="h-20 rounded-md {procedureImageIndex !=
+														indeximge
+															? 'ring-white ring-1'
+															: 'ring-blue-500 ring-offset-2 ring-2'}"
 													/>
 												</div>
 											{/each}

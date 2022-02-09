@@ -18,7 +18,9 @@
 	$: startReady =
 		premadeCycleSelectedIndex > -1
 			? cyclePremades[premadeCycleSelectedIndex].name == 'custom'
-				? customRunCycleSelected != -1 && customRunProfileSelected != ''
+				? customRunCycleSelected != -1 &&
+				  (customRunProfileSelected != '' ||
+						!cycleTypes[customRunCycleSelected].profileRequired)
 				: true
 			: false;
 

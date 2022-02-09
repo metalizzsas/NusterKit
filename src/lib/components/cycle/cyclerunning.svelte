@@ -15,11 +15,13 @@
 </script>
 
 <div id="cycleRunner" class="flex flex-col gap-4">
-	<span
-		class="rounded-xl bg-sky-500 py-1 px-5 text-white text-xl font-semibold shadow-2xl self-start my-3 mb-1"
-	>
-		{$_('cycle.steps.title')}
-	</span>
+	<div class="flex flex-row justify-center">
+		<span
+			class="rounded-full bg-violet-500 py-1 px-5 text-white text-xl font-semibold shadow-2xl self-start my-3"
+		>
+			{$_('cycle.steps.title')}
+		</span>
+	</div>
 
 	{#if $machineData.cycle}
 		{#each $machineData.cycle.steps as s}

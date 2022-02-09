@@ -92,7 +92,7 @@ export interface Cycle {
   steps: Step[];
   watchdogConditions: WatchdogCondition[];
   currentStepIndex: number;
-  profile: Profile;
+  profile?: Profile;
 }
 
 export interface Profile {
@@ -101,6 +101,7 @@ export interface Profile {
   fieldGroups: FieldGroup[];
   removable: boolean;
   overwriteable: boolean;
+  isPremade?: boolean;
   modificationDate: number;
   id: string;
 }

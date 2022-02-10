@@ -28,6 +28,7 @@ export class WatchdogCondition implements IWatchdogCondition
 
     public startTimer()
     {
+        this.pbr.machine.logger.info("Watchdog: Starting checking for: " + this.gateName);
         this.timer = setInterval(() => {
 
             //remove the timer if this condition is only active at startup
@@ -79,7 +80,10 @@ export class WatchdogCondition implements IWatchdogCondition
     public stopTimer()
     {
         if(this.timer)
+        {
+            this.pbr.machine.logger.info("Watchdog: Clearing timer for: " + this.gateName);
             clearInterval(this.timer);
+        }
     }
 
     toJSON()

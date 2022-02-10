@@ -45,9 +45,17 @@ export class ProfileParameterBlock extends ParameterBlock
 
     public data(): number
     {
-        const val = this.pbrInstance.profileExplorer.explore(this.value);
-        if(val === undefined) this.pbrInstance.machine.logger.warn(`Profile row ${this.value} not found`);
-        return val ? val : 0;
+        if(this.pbrInstance.profileExplorer !== undefined)
+        {
+            const val = this.pbrInstance.profileExplorer.explore(this.value);
+            if(val === undefined) this.pbrInstance.machine.logger.warn(`Profile row ${this.value} not found`);
+            return val ? val : 0;
+        }
+        else
+        {
+            this.pbrInstance.machine.logger.warn("Profile not defined, returning 0");
+            return 0;
+        }
     }   
 }
 

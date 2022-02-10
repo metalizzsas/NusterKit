@@ -4,7 +4,6 @@ import { ProfileExplorer } from "../controllers/profile/ProfileExplorer";
 import { IProfile } from "../interfaces/IProfile";
 import { IProgram, IPBRStatus, IProgramVariable, IProgramTimer, PBRMode } from "../interfaces/IProgramBlockRunner";
 import { ProgramStepResult, ProgramStepType } from "../interfaces/IProgramStep";
-import { IWatchdogCondition } from "../interfaces/IWatchdogCondition";
 import { Machine } from "../Machine";
 import { ProgramBlockStep } from "./ProgramBlockStep";
 import { WatchdogCondition } from "./Watchdog";
@@ -23,7 +22,7 @@ export class ProgramBlockRunner implements IProgram
     
     //Inside definers
     steps: ProgramBlockStep[] = [];
-    watchdogConditions: IWatchdogCondition[] = [];
+    watchdogConditions: WatchdogCondition[] = [];
 
     //internals
     currentStepIndex = 0;
@@ -33,7 +32,7 @@ export class ProgramBlockRunner implements IProgram
     profile?: IProfile;
 
     //explorers
-    profileExplorer: ProfileExplorer;
+    profileExplorer?: ProfileExplorer;
     ioExplorer: IOExplorer;
 
     //event
@@ -60,12 +59,14 @@ export class ProgramBlockRunner implements IProgram
 
         if(this.profile === undefined)
             this.machine.logger.warn("PBR: This PBR is build without any profile.");
+        else
+            this.profileExplorer = new ProfileExplorer(this.profile);
 
         //properties assignment
         this.name = object.name;
 
         //Explorers setup
-        this.profileExplorer = new ProfileExplorer(this.profile);
+        
         this.ioExplorer = new IOExplorer(machine.ioController);
 
         //steps and watchdog
@@ -170,6 +171,15 @@ export class ProgramBlockRunner implements IProgram
             this.machine.logger.error(`PBR: Program ended before all steps were executed.`);
             this.machine.logger.error(`PBR: Executing ending IO of last step.`);
             this.steps.at(-1)?.executeLastIO();
+        }
+
+        if(this.watchdogConditions.length > 0)
+        {
+            this.machine.logger.info("PBR: Removing Watchdog checks.");
+            for(const w of this.watchdogConditions)
+            {
+                w.stopTimer();
+            }
         }
 
         //clearing timers

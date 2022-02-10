@@ -25,6 +25,8 @@ export class ProgramBlockStep implements IProgramStep
     blocks: ProgramBlock[] = [];
     startBlocks: ProgramBlock[] = [];
     endBlocks: ProgramBlock[] = [];
+
+    stepOvertimeTimer?: NodeJS.Timeout;
     
     constructor(pbrInstance: ProgramBlockRunner, obj: IProgramStep)
     {
@@ -63,44 +65,49 @@ export class ProgramBlockStep implements IProgramStep
     {
         if(!this.isEnabled)
         {
-            this.pbrInstance.machine.logger.warn(`PBS: Step ${this.name} is disabled`);
+            this.pbrInstance.machine.logger.warn(`${this.name}: Step is disabled.`);
             return ProgramStepResult.END;
         }
 
         if(this.pbrInstance.status.mode == PBRMode.ENDED)
         {
-            this.pbrInstance.machine.logger.warn(`PBS: Tried to execute step ${this.name} while cycle ended.`);
+            this.pbrInstance.machine.logger.warn(`${this.name}: Tried to execute step while cycle ended.`);
             return ProgramStepResult.FAILED;
         }
 
-        this.pbrInstance.machine.logger.info(`PBS: Started step: ${this.name}.`);
+        this.pbrInstance.machine.logger.info(`${this.name}: Started step.`);
         this.state = ProgramStepState.STARTED;
+
+        this.stepOvertimeTimer = setTimeout(() => { this.pbrInstance.end("stepOvertime"); this.pbrInstance.machine.logger.error(`${this.name}: Step has been too long. Triggering stepOvertime.`); }, (this.duration.data() as number) * 2000);
 
         this.startTime = Date.now();
 
-        this.pbrInstance.machine.logger.info(`PBS: Executing io starter blocks.`);
+        this.pbrInstance.machine.logger.info(`${this.name}: Executing io starter blocks.`);
         for(const io of this.startBlocks)
         {
             await io.execute();
         }
 
-        this.pbrInstance.machine.logger.info(`PBS: Executing step main blocks.`);
+        this.pbrInstance.machine.logger.info(`${this.name}: Executing step main blocks.`);
         for(const b of this.blocks)
         {
             if(this.state !== ProgramStepState.STARTED)
             {
-                this.pbrInstance.machine.logger.info(`PBS: Ended step: ${this.name}, with state ${ProgramStepResult.FAILED}`);
+                this.pbrInstance.machine.logger.info(`${this.name}: Ended with state ${ProgramStepResult.FAILED}`);
                 return ProgramStepResult.FAILED;
             }
             
             await b.execute();
         }
 
-        this.pbrInstance.machine.logger.info(`PBS: Executing io ending blocks.`);
+        this.pbrInstance.machine.logger.info(`${this.name}: Executing io ending blocks.`);
         for(const io of this.endBlocks)
         {
             await io.execute();
         }
+
+        if(this.stepOvertimeTimer)
+            clearTimeout(this.stepOvertimeTimer);
 
         //handling of multiple runned steps
         if(this.runAmount !== undefined && this.runCount !== undefined && this.runAmount.data() as number > 1)
@@ -143,6 +150,11 @@ export class ProgramBlockStep implements IProgramStep
     public stop()
     {
         this.state = ProgramStepState.STOPPED;
+    }
+
+    public nextStepToggle()
+    {
+        this.state = ProgramStepState.SKIPPED;
     }
 
     get progress()

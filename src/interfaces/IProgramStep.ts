@@ -52,7 +52,8 @@ export enum ProgramStepState
     PARTIAL = "partial",
     STOPPED = "stopped",
     COMPLETED = "completed",
-    DISABLED = "disabled"
+    DISABLED = "disabled",
+    SKIPPED = "skipped"
 }
 
 export enum ProgramStepType

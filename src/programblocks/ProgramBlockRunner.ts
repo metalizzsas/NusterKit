@@ -37,6 +37,8 @@ export class ProgramBlockRunner implements IProgram
 
     //event
     event: EventEmitter;
+
+    nextStepButtonEnabled = false;
     
     constructor(machine: Machine, object: IProgram, profile?: IProfile)
     {
@@ -159,6 +161,11 @@ export class ProgramBlockRunner implements IProgram
         this.end();
 
         return true;
+    }
+
+    public nextStep()
+    {
+        //this.steps[this.currentStepIndex].end();
     }
 
     public end(reason?: string)

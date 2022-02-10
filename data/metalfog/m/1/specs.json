@@ -853,6 +853,16 @@
             "empty_act",
             "empty_edi",
             "+ventilation"
+         ],
+         "watchdog": [
+            {
+               "gateName": "levels_eff-max-n",
+               "gateValue": 1
+            },
+            {
+               "gateName": "eff_container_sensor",
+               "gateValue": 1
+            }
          ]
       },
       {
@@ -867,6 +877,16 @@
             "empty_act",
             "empty_edi",
             "+ventilation"
+         ],
+         "watchdog": [
+            {
+               "gateName": "levels_eff-max-n",
+               "gateValue": 1
+            },
+            {
+               "gateName": "eff_container_sensor",
+               "gateValue": 1
+            }
          ]
       },
       {
@@ -881,6 +901,16 @@
             "empty_act",
             "empty_edi",
             "+ventilation"
+         ],
+         "watchdog": [
+            {
+               "gateName": "levels_eff-max-n",
+               "gateValue": 1
+            },
+            {
+               "gateName": "eff_container_sensor",
+               "gateValue": 1
+            }
          ]
       },
       {
@@ -895,6 +925,16 @@
             "empty_act",
             "empty_edi",
             "+ventilation"
+         ],
+         "watchdog": [
+            {
+               "gateName": "levels_eff-max-n",
+               "gateValue": 1
+            },
+            {
+               "gateName": "eff_container_sensor",
+               "gateValue": 1
+            }
          ]
       },
       {
@@ -907,6 +947,16 @@
             "ox-res",
             "ox-lq_high",
             "met-plv_high"
+         ],
+         "watchdog": [
+            {
+               "gateName": "levels_eff-max-n",
+               "gateValue": 1
+            },
+            {
+               "gateName": "eff_container_sensor",
+               "gateValue": 1
+            }
          ]
       },
       {
@@ -919,6 +969,16 @@
             "rd-res",
             "rd-lq_high",
             "met-plv_high"
+         ],
+         "watchdog": [
+            {
+               "gateName": "levels_eff-max-n",
+               "gateValue": 1
+            },
+            {
+               "gateName": "eff_container_sensor",
+               "gateValue": 1
+            }
          ]
       },
       {
@@ -931,6 +991,16 @@
             "ox-res",
             "ox-lq_medium",
             "met-plv_medium"
+         ],
+         "watchdog": [
+            {
+               "gateName": "levels_eff-max-n",
+               "gateValue": 1
+            },
+            {
+               "gateName": "eff_container_sensor",
+               "gateValue": 1
+            }
          ]
       },
       {
@@ -943,6 +1013,16 @@
             "rd-res",
             "rd-lq_medium",
             "met-plv_medium"
+         ],
+         "watchdog": [
+            {
+               "gateName": "levels_eff-max-n",
+               "gateValue": 1
+            },
+            {
+               "gateName": "eff_container_sensor",
+               "gateValue": 1
+            }
          ]
       },
       {
@@ -955,6 +1035,16 @@
             "ox-res",
             "ox-lq_low",
             "met-plv_low"
+         ],
+         "watchdog": [
+            {
+               "gateName": "levels_eff-max-n",
+               "gateValue": 1
+            },
+            {
+               "gateName": "eff_container_sensor",
+               "gateValue": 1
+            }
          ]
       },
       {
@@ -967,6 +1057,16 @@
             "rd-res",
             "rd-lq_low",
             "met-plv_low"
+         ],
+         "watchdog": [
+            {
+               "gateName": "levels_eff-max-n",
+               "gateValue": 1
+            },
+            {
+               "gateName": "eff_container_sensor",
+               "gateValue": 1
+            }
          ]
       },
       {
@@ -1003,6 +1103,16 @@
             "act-res",
             "act-lq_high",
             "act-lq_low"
+         ],
+         "watchdog": [
+            {
+               "gateName": "levels_eff-max-n",
+               "gateValue": 1
+            },
+            {
+               "gateName": "eff_container_sensor",
+               "gateValue": 1
+            }
          ]
       },
       {
@@ -1025,6 +1135,16 @@
             "edi-res",
             "edi-lq_high",
             "edi-lq_low"
+         ],
+         "watchdog": [
+            {
+               "gateName": "levels_eff-max-n",
+               "gateValue": 1
+            },
+            {
+               "gateName": "eff_container_sensor",
+               "gateValue": 1
+            }
          ]
       },
       {
@@ -1046,6 +1166,16 @@
             "ox-lq_high",
             "ox-lq_medium",
             "ox-lq_low"
+         ],
+         "watchdog": [
+            {
+               "gateName": "levels_eff-max-n",
+               "gateValue": 1
+            },
+            {
+               "gateName": "eff_container_sensor",
+               "gateValue": 1
+            }
          ]
       },
       {
@@ -1067,6 +1197,16 @@
             "rd-lq_high",
             "rd-lq_medium",
             "rd-lq_low"
+         ],
+         "watchdog": [
+            {
+               "gateName": "levels_eff-max-n",
+               "gateValue": 1
+            },
+            {
+               "gateName": "eff_container_sensor",
+               "gateValue": 1
+            }
          ]
       },
       {
@@ -1082,6 +1222,20 @@
          "controls": [
             "edi-res",
             "edi-lq_fill_act"
+         ],
+         "watchdog": [
+            {
+               "gateName": "levels_eff-max-n",
+               "gateValue": 1
+            },
+            {
+               "gateName": "eff_container_sensor",
+               "gateValue": 1
+            },
+            {
+               "gateName": "levels_act-max-n",
+               "gateValue": 0
+            }
          ]
       }
    ],

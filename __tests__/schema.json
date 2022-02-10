@@ -273,7 +273,7 @@
       "type": "object"
     },
     "IManualMode": {
-      "additionalProperties": true,
+      "additionalProperties": false,
       "properties": {
         "controls": {
           "items": {
@@ -289,12 +289,34 @@
         },
         "name": {
           "type": "string"
+        },
+        "watchdog": {
+          "items": {
+            "$ref": "#/definitions/IManualWatchdogCondition"
+          },
+          "type": "array"
         }
       },
       "required": [
         "name",
         "controls",
         "incompatibility"
+      ],
+      "type": "object"
+    },
+    "IManualWatchdogCondition": {
+      "additionalProperties": false,
+      "properties": {
+        "gateName": {
+          "type": "string"
+        },
+        "gateValue": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "gateName",
+        "gateValue"
       ],
       "type": "object"
     },

@@ -691,6 +691,12 @@
          "controls": [
             "resin-pressure",
             "nozzle-pulverization"
+         ],
+         "watchdog": [
+            {
+               "gateName": "resin-slot_sensor",
+               "gateValue": 1
+            }
          ]
       },
       {

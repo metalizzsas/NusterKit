@@ -18,7 +18,9 @@
     "variant": "Variant",
     "revision": "Revision",
     "serial": "Serial number",
-    "cycleCount": "Cycle count"
+    "cycleCount": "Cycle count",
+    "nusterVersion": "NusterTurbine version",
+    "balenaVersion": "Balena version"
   },
   "procedures": "Procedures",
   "slots": {
@@ -142,10 +144,15 @@
       "generic": "Generic"
     }
   },
+  "message": {
+    "modal": {
+      "manual-mode-watchdog-error": "There was a security error one one of the enabled manual modes. It has been automatically disabled."
+    }
+  },
   "manual": {
     "button": "Manual mode",
     "list": "Manual modes",
-    "warning": "Manual modes helps you to articulate the machine manually. Be careful Security restrictions are disabled here.",
+    "warning": "Manual modes helps you to articulate the machine manually. Be careful Security restrictions are partialy disabled here.",
     "incompatibilities": "Incompatibilities",
     "categories": {
       "generic": "Generic"

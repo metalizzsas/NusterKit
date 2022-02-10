@@ -37,7 +37,7 @@
 							{:else if s.type == 'level-np'}
 								{$_(s.value == 1 ? 'present' : 'missing')}
 							{:else if s.type == 'level-min-n' || s.type == 'level-max-n'}
-								{$_(`binary_${s.value == 1}`)}
+								{$_(`binary_${s.value != 1}`)}
 							{:else}
 								{Math.ceil(s.value * 100)}
 							{/if}

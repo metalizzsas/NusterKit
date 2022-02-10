@@ -203,6 +203,8 @@ export interface Machine {
   model: string;
   variant: string;
   revision: number;
+  nusterVersion: string;
+  balenaVersion?: string;
   _nuster: INuster
 }
 

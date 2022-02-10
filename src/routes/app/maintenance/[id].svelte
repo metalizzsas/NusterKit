@@ -85,19 +85,19 @@
 								{#if step.images.length > 1}
 									<div class="flex flex-row justify-center">
 										<div class="absolute flex flex-row gap-4 -translate-y-24">
-											{#each step.images as image, indeximge}
+											{#each step.images as _image, indeximge}
 												<div
 													on:click={() =>
 														(procedureImageIndex = indeximge)}
 												>
-													<!-- svelte-ignore a11y-missing-attribute -->
-													<img
-														src="http://{$Linker}/assets/maintenance/{maintenance.name}/{image}"
-														class="h-20 rounded-md {procedureImageIndex !=
+													<div
+														class="h-10 w-10 bg-gray-800 text-white text-xl flex flex-row items-center justify-center rounded-md {procedureImageIndex !=
 														indeximge
 															? 'ring-white ring-1'
 															: 'ring-blue-500 ring-offset-2 ring-2'}"
-													/>
+													>
+														{indeximge + 1}
+													</div>
 												</div>
 											{/each}
 										</div>

@@ -59,8 +59,10 @@ export class EX260S1 extends IOHandler
             }
             catch(error)
             {
+                this.machine?.logger.error(error);
                 this.connected = false;
-                throw error; // will be catched by process.on('uncaughtException');
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                await this.connect();
                 return;
             }
         }

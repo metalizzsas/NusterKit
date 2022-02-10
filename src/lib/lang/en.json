@@ -93,7 +93,7 @@
       }
     },
     "end": {
-      "cycle-ended": "Cycle has ended !",
+      "cycle-ended": "Cycle has ended.",
       "cycle-ended-reason": "End reason",
       "cycle-rating-lead": "Rate the cycle",
       "cycle-rating-text": "Rating the cycle is not required but it helps us improving our cycles and machines.",
@@ -103,7 +103,9 @@
       "user": "User aborted cycle",
       "finished": "Finished successfully",
       "controllerTimeout": "IO Controller timed out",
-      "controllererror": "IO Controller error"
+      "controllerError": "IO Controller error",
+      "controllerUnreachable": "IO Controller is unreachable",
+      "stepOvertime": "Cycle step has take too much time to end. Strange behavior might have happened"
     },
     "modals": {
       "watchdog": {
@@ -118,7 +120,8 @@
       "finish": "Finish cycle",
       "start": "Start cycle",
       "complete": "Complete cycle",
-      "cancel": "Cancel cycle"
+      "cancel": "Cancel cycle",
+      "nextStep": "Next Step"
     },
     "steps": {
       "title": "Cycle steps",
@@ -131,7 +134,7 @@
     "choice": "Cycle choice",
     "profile.choice": "Profile choice",
     "watchdog": "Watchdog",
-    "watchdog.conditions": "Watchdog conditions",
+    "watchdog.conditions": "Starting security conditions",
     "history": "Histories"
   },
   "gates": {

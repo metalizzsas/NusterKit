@@ -2,6 +2,9 @@ import pino from "pino";
 import fs from "fs";
 import path from "path";
 import deepExtend from "deep-extend";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import pkg from "../package.json";
 
 import { CycleController } from "./controllers/cycle/CycleController";
 import { PassiveController } from "./controllers/passives/PassiveController";
@@ -142,6 +145,9 @@ export class Machine {
             model: this.model,
             variant: this.variant,
             revision: this.revision,
+
+            balenaVersion: process.env.BALENA_HOST_OS_VERSION,
+            nusterVersion: pkg.version,
 
             _nuster: this.specs._nuster
         };

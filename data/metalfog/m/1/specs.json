@@ -453,7 +453,7 @@
          "isProductable": false,
          "sensors": [
             {
-               "io": "levels_edi-min-a",
+               "io": "levels_edi-min-n",
                "type": "level-min-n"
             },
             {

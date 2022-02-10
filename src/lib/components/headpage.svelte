@@ -164,7 +164,7 @@
 
 			{#if !isShrinked}
 				<div in:scale out:scale>
-					<div class="flex flex-row gap-5 items-center mt-4">
+					<div class="flex flex-row flex-wrap gap-5 items-center mt-4">
 						<span
 							class="block text-white font-medium py-2 px-4 rounded-full backdrop-brightness-125"
 						>
@@ -199,8 +199,6 @@
 								{$_('machine.balenaVersion')}: {$machineData.machine.balenaVersion}
 							</span>
 						{/if}
-					</div>
-					<div class="flex flex-col mt-3">
 						<span
 							class="block text-white font-medium py-2 px-4 rounded-full backdrop-brightness-125"
 						>

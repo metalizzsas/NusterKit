@@ -76,7 +76,8 @@
     "enable-dark-mode": "Enable dark mode",
     "language": "Language",
     "apply-language": "Apply lang change",
-    "restart": "Restart machine"
+    "restart": "Restart machine",
+    "reload-nuster": "Reload interface"
   },
   "cycle": {
     "button": "Cycle",
@@ -146,6 +147,7 @@
   },
   "message": {
     "modal": {
+      "title": "Message",
       "manual-mode-watchdog-error": "There was a security error one one of the enabled manual modes. It has been automatically disabled."
     }
   },

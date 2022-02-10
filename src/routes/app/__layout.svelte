@@ -26,7 +26,6 @@
 	import { Linker } from '$lib/utils/linker';
 	import { goto } from '$app/navigation';
 	import Modal from '$lib/components/modals/modal.svelte';
-	import Button from '$lib/components/button.svelte';
 
 	let ready: boolean = false;
 
@@ -170,12 +169,12 @@
 			</div>
 		</div>
 	{:else}
-		<Modal
-			bind:shown={displayModal}
-			title={$_('message.modal.title')}
-			message={$_('message.modal.' + displayModalMessage)}
-		/>
 		<div>
+			<Modal
+				bind:shown={displayModal}
+				title={$_('message.modal.title')}
+				message={$_('message.modal.' + displayModalMessage)}
+			/>
 			<Pagetransition>
 				<HeadPage />
 				<slot />

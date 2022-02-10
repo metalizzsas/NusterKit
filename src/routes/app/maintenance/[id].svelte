@@ -71,7 +71,14 @@
 		</p>
 
 		{#if maintenance.procedure}
-			<div class="grid grid-cols-3">
+			<div class="relative grid grid-cols-3 mt-10">
+				<div class="z-50 absolute left-4 -translate-y-2">
+					<span
+						class="text-white font-semibold mb-3 bg-violet-700 py-2 px-4 rounded-full m-auto"
+					>
+						{$_('maintenance.procedure')}
+					</span>
+				</div>
 				<div class="rounded-l-xl overflow-hidden col-span-1">
 					{#each maintenance.procedure.steps as step, index}
 						{#if procedureIndex == index}
@@ -108,14 +115,6 @@
 					{/each}
 				</div>
 				<div class="bg-white rounded-r-xl col-span-2 p-5 relative">
-					<div class="flex flex-row justify-center">
-						<span
-							class="text-white font-semibold mb-3 bg-violet-700 py-2 px-4 rounded-full m-auto"
-						>
-							{$_('maintenance.procedure')}
-						</span>
-					</div>
-
 					<div class="mb-5 flex flex-row gap-4 justify-items-start">
 						<span class="rounded-full bg-violet-500 py-1 px-5 text-white font-medium">
 							{$_('maintenance.tools-used')}

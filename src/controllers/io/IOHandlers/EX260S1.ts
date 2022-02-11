@@ -51,7 +51,7 @@ export class EX260S1 extends IOHandler
         {
             try
             {
-                await this.controller.connect(this.ip);
+                await this.controller.connect_enip(this.ip);
     
                 this.connected = true;
     

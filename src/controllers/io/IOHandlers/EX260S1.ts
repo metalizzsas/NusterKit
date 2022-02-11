@@ -49,23 +49,24 @@ export class EX260S1 extends IOHandler
 
         if(available)
         {
-            try
+            const sessionID = await this.controller.connect_enip(this.ip);
+
+            if(sessionID !== null)
             {
-                await this.controller.connect_enip(this.ip);
-    
                 this.connected = true;
-    
                 //recconnect ex260 on lost connexion
                 this.controller.once('close', async () => { this.connected = false; await this.connect(); });
+
             }
-            catch(error)
+            else
             {
-                this.machine?.logger.error(error);
                 this.connected = false;
+                this.machine?.logger.error("EX260S1: Failed to connect");
+                this.machine?.cycleController.program?.end("controllerError");
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 await this.connect();
                 return;
-            }
+            } 
         }
         else
         {

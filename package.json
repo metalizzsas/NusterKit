@@ -49,6 +49,7 @@
     "pino-pretty": "^7.3.0",
     "qrcode": "^1.5.0",
     "st-ethernet-ip": "^2.4.4",
+    "ts-enip": "git+https://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:x-oauth-basic@github.com/metalizzsas/ts-enip.git#build",
     "ts-udp-discovery": "^1.0.0",
     "typescript": "^4.5.2",
     "udp-discovery": "^2.0.2",

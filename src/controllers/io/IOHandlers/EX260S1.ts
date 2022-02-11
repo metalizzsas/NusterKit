@@ -4,17 +4,18 @@ import { IOHandler } from "./IOHandler";
 // st-ethernet-ip has no definitions going blind here
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import st from "st-ethernet-ip";
+//import st from "st-ethernet-ip";
 
 import process from "process";
 import { Buffer } from "buffer";
 import ping from "ping";
 import { Machine } from "../../../Machine";
+import { ENIP } from "ts-enip";
+import { MessageRouter } from "ts-enip/dist/enip/cip/messageRouter";
 
 export class EX260S1 extends IOHandler
 {
-    private controller: st.EthernetIP.ENIP;
-    private prevBuffer: Buffer = Buffer.alloc(0);
+    private controller: ENIP;
 
     private machine?: Machine;
 
@@ -26,7 +27,7 @@ export class EX260S1 extends IOHandler
     {
         super("ex260s1", "ethip", ip);
 
-        this.controller = new st.EthernetIP.ENIP();
+        this.controller = new ENIP();
         
         this.connected = false;
 
@@ -92,10 +93,20 @@ export class EX260S1 extends IOHandler
         const idPath = Buffer.from([0x20, 0x04, 0x24, address, 0x30, 0x03]);
 
         //Message router packet
-        const MR = st.EthernetIP.CIP.MessageRouter.build(0x0E, idPath, Buffer.alloc(0));
+        const MR = MessageRouter.build(0x0E, idPath, Buffer.alloc(0));
 
         //write data to the controller
-        this.controller.write_cip(MR, false, 10, null);
+        const write = await new Promise<Error | undefined>((resolve) => {
+            this.controller.write_cip(MR, false, 10, (err?) => {
+                resolve(err);
+            });
+        });
+
+        if(write)
+        {
+            this.machine?.cycleController.program?.end("controllerError");
+            return Buffer.alloc(0);
+        }
 
         return new Promise((resolve, reject) => {
             this.controller.once("SendRRData Received", (result: any) => {
@@ -170,12 +181,12 @@ export class EX260S1 extends IOHandler
         buf.writeUInt32LE(newDecimalOutputState);
 
         //Message router packet
-        const MR = st.EthernetIP.CIP.MessageRouter.build(0x10, idPath, buf);
+        const MR = MessageRouter.build(0x10, idPath, buf);
         
         //write data to the controller
 
         return new Promise((resolve, reject) => {
-            this.controller.write_cip(MR, false, 10, (err: any) => {
+            this.controller.write_cip(MR, false, 10, (err?: Error) => {
                 if(err)
                 {
                     reject(err);

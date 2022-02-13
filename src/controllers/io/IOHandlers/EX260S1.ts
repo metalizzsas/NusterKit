@@ -1,22 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { IOHandler } from "./IOHandler";
-
-// st-ethernet-ip has no definitions going blind here
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-//import st from "st-ethernet-ip";
-
 import process from "process";
 import { Buffer } from "buffer";
 import ping from "ping";
 import { Machine } from "../../../Machine";
 import { ENIP } from "ts-enip";
 import { MessageRouter } from "ts-enip/dist/enip/cip/messageRouter";
+import { Encapsulation } from "ts-enip/dist/enip/encapsulation";
 
 export class EX260S1 extends IOHandler
 {
-    private controller: ENIP;
-
+    private controller: ENIP.SocketController;
     private machine?: Machine;
 
     /**
@@ -26,9 +19,8 @@ export class EX260S1 extends IOHandler
     constructor(ip: string, machine?: Machine)
     {
         super("ex260s1", "ethip", ip);
-
-        this.controller = new ENIP();
         
+        this.controller = new ENIP.SocketController();
         this.connected = false;
 
         this.machine = machine;
@@ -36,10 +28,10 @@ export class EX260S1 extends IOHandler
         this.connect();
     }
 
-    async connect()
+    async connect(): Promise<boolean>
     {
         if(this.unreachable || process.env.DISABLE_EX260 == 'true')
-            return;
+            return false;
         
         const available = await new Promise((resolve) => {
             ping.sys.probe(this.ip, (isAlive) => {
@@ -49,14 +41,17 @@ export class EX260S1 extends IOHandler
 
         if(available)
         {
-            const sessionID = await this.controller.connect_enip(this.ip);
+            const sessionID = await this.controller.connect(this.ip);
 
-            if(sessionID !== null)
+            if(sessionID !== undefined)
             {
                 this.connected = true;
+                this.machine?.logger.info("EX260S1: Connected");
                 //recconnect ex260 on lost connexion
-                this.controller.once('close', async () => { this.connected = false; await this.connect(); });
-
+                this.controller.events.once('close', async () => { 
+                    this.machine?.logger.info("EX260S1: Disconnected");
+                    this.connected = false; await this.connect(); });
+                return true;
             }
             else
             {
@@ -64,18 +59,18 @@ export class EX260S1 extends IOHandler
                 this.machine?.logger.error("EX260S1: Failed to connect");
                 this.machine?.cycleController.program?.end("controllerError");
                 await new Promise(resolve => setTimeout(resolve, 1000));
-                await this.connect();
-                return;
+                return await this.connect();
             } 
         }
         else
         {
             this.unreachable = true;
-            throw Error(`Failed to ping to ${this.name}, cancelling connection.`);
+            this.machine?.logger.error(`EX260S1: Failed to ping, cancelling connection.`);
+            return false;
         }
     }
 
-    async readData(_address: number, _word?: boolean | undefined)
+    override async readData()
     {
         throw new Error("Method not implemented");
         return 0;
@@ -87,7 +82,7 @@ export class EX260S1 extends IOHandler
         if(this.unreachable || process.env.DISABLE_EX260 == 'true')
             return Buffer.alloc(0);
 
-        if(!this.connected)
+        if(!this.connected || this.controller === undefined)
             await this.connect();
         
         //Path for ethernet ip protocol
@@ -98,7 +93,7 @@ export class EX260S1 extends IOHandler
 
         //write data to the controller
         const write = await new Promise<Error | undefined>((resolve) => {
-            this.controller.write_cip(MR, false, 10, (err?) => {
+            this.controller.write(MR, false, 10, (err?: Error) => {
                 resolve(err);
             });
         });
@@ -110,7 +105,7 @@ export class EX260S1 extends IOHandler
         }
 
         return new Promise((resolve, reject) => {
-            this.controller.once("SendRRData Received", (result: any) => {
+            this.controller.events.once("SendRRData Received", (result: Encapsulation.CPF.dataItem[]) => {
                 const timer = setTimeout(() => {reject("Reading Data timed out..."); this.machine?.cycleController.program?.end("controllerTimeout")}, 10000);
                 for(const packet of result)
                 {
@@ -131,7 +126,7 @@ export class EX260S1 extends IOHandler
      * @param {Boolean?} _word Optional
      * @returns 
      */
-    async writeData(address: number, value: number, _word = false): Promise<void>
+    override async writeData(address: number, value: number): Promise<void>
     {
         if(this.unreachable || process.env.DISABLE_EX260 == 'true')
             return;
@@ -187,7 +182,7 @@ export class EX260S1 extends IOHandler
         //write data to the controller
 
         return new Promise((resolve, reject) => {
-            this.controller.write_cip(MR, false, 10, (err?: Error) => {
+            this.controller.write(MR, false, 10, (err?: Error) => {
                 if(err)
                 {
                     reject(err);

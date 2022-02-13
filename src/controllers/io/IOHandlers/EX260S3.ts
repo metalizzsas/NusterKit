@@ -1,34 +1,27 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { IOHandler } from "./IOHandler";
-
-// st-ethernet-ip has no definitions going blind here
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import st from "st-ethernet-ip";
-
 import process from "process";
 import { Buffer } from "buffer";
 import ping from "ping";
 import { Machine } from "../../../Machine";
+import { ENIP } from "ts-enip";
+import { MessageRouter } from "ts-enip/dist/enip/cip/messageRouter";
+import { Encapsulation } from "ts-enip/dist/enip/encapsulation";
 
 export class EX260S3 extends IOHandler
 {
-
-    private controller: st.EthernetIP.ENIP;
-    private prevBuffer: Buffer = Buffer.alloc(0);
-
-    private machine?: Machine
+    private controller: ENIP.SocketController;
+    private machine?: Machine;
 
     /**
      * Builds an EX260S1 object
-     * @param {String} ip 
+     * @param ip Ip address to connect to
+     * @param machine Machine used to log 
      */
     constructor(ip: string, machine?: Machine)
     {
         super("ex260s3", "ethip", ip);
-
-        this.controller = new st.EthernetIP.ENIP();
         
+        this.controller = new ENIP.SocketController();
         this.connected = false;
 
         this.machine = machine;
@@ -36,10 +29,10 @@ export class EX260S3 extends IOHandler
         this.connect();
     }
 
-    async connect()
+    async connect(): Promise<boolean>
     {
         if(this.unreachable || process.env.DISABLE_EX260 == 'true')
-            return;
+            return false;
         
         const available = await new Promise((resolve) => {
             ping.sys.probe(this.ip, (isAlive) => {
@@ -49,31 +42,36 @@ export class EX260S3 extends IOHandler
 
         if(available)
         {
-            try
+            const sessionID = await this.controller.connect(this.ip);
+
+            if(sessionID !== undefined)
             {
-                await this.controller.connect(this.ip);
-    
                 this.connected = true;
+                this.machine?.logger.info("EX260S3: Connected");
                 //recconnect ex260 on lost connexion
-                this.controller.once('close', async () => { this.connected = false; await this.connect(); });
+                this.controller.events.once('close', async () => { 
+                    this.machine?.logger.info("EX260S3: Disconnected");
+                    this.connected = false; await this.connect(); });
+                return true;
             }
-            catch(error)
+            else
             {
-                this.machine?.logger.error(error);
                 this.connected = false;
+                this.machine?.logger.error("EX260S3: Failed to connect");
+                this.machine?.cycleController.program?.end("controllerError");
                 await new Promise(resolve => setTimeout(resolve, 1000));
-                await this.connect();
-                return;
-            }
+                return await this.connect();
+            } 
         }
         else
         {
             this.unreachable = true;
-            throw Error(`Failed to ping to ${this.name}, cancelling connection.`);
+            this.machine?.logger.error(`EX260S3: Failed to ping to ${this.name}, cancelling connection.`);
+            return false;
         }
     }
 
-    async readData(_address: number, _word?: boolean | undefined)
+    override async readData()
     {
         throw new Error("Method not implemented");
         return 0;
@@ -82,35 +80,43 @@ export class EX260S3 extends IOHandler
     //Shall only be used for local applications
     async readData2(address: number): Promise<Buffer>
     {
-
         if(this.unreachable || process.env.DISABLE_EX260 == 'true')
             return Buffer.alloc(0);
 
-        if(!this.connected)
+        if(!this.connected || this.controller === undefined)
             await this.connect();
         
         //Path for ethernet ip protocol
         const idPath = Buffer.from([0x20, 0x04, 0x24, address, 0x30, 0x03]);
 
         //Message router packet
-        const MR = st.EthernetIP.CIP.MessageRouter.build(0x0E, idPath, Buffer.alloc(0));
+        const MR = MessageRouter.build(0x0E, idPath, Buffer.alloc(0));
 
         //write data to the controller
-        this.controller.write_cip(MR, false, 10, null);
+        const write = await new Promise<Error | undefined>((resolve) => {
+            this.controller.write(MR, false, 10, (err?: Error) => {
+                resolve(err);
+            });
+        });
+
+        if(write)
+        {
+            this.machine?.cycleController.program?.end("controllerError");
+            return Buffer.alloc(0);
+        }
 
         return new Promise((resolve, reject) => {
-            this.controller.once("SendRRData Received", (result: any) => {
+            this.controller.events.once("SendRRData Received", (result: Encapsulation.CPF.dataItem[]) => {
                 const timer = setTimeout(() => {reject("Reading Data timed out..."); this.machine?.cycleController.program?.end("controllerTimeout")}, 10000);
                 for(const packet of result)
                 {
-                    if(packet.TypeID == 178 && packet.data.length == 6 && packet.data.readUIntLE(0, 1) == 0x8E)
+                    if(packet.TypeID == 178 && packet.data.length == 8 && packet.data.readUIntLE(0, 1) == 0x8E)
                     {
                         clearTimeout(timer);
                         resolve(packet.data);
                     }
                 }
             });
-
         })
     }
 
@@ -121,7 +127,7 @@ export class EX260S3 extends IOHandler
      * @param {Boolean?} _word Optional
      * @returns 
      */
-    async writeData(address: number, value: number, _word = false): Promise<void>
+    override async writeData(address: number, value: number): Promise<void>
     {
         if(this.unreachable || process.env.DISABLE_EX260 == 'true')
             return;
@@ -172,12 +178,12 @@ export class EX260S3 extends IOHandler
         buf.writeUInt16LE(newDecimalOutputState);
 
         //Message router packet
-        const MR = st.EthernetIP.CIP.MessageRouter.build(0x10, idPath, buf);
+        const MR = MessageRouter.build(0x10, idPath, buf);
         
         //write data to the controller
 
         return new Promise((resolve, reject) => {
-            this.controller.write_cip(MR, false, 10, (err: any) => {
+            this.controller.write(MR, false, 10, (err?: Error) => {
                 if(err)
                 {
                     reject(err);

@@ -16,7 +16,8 @@ export class IOHandler implements IIOHandler
         this.type = type;
         this.ip = ip;
     }
-    
+
+    async connect(): Promise<boolean> { return false; }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async writeData(_address: number, _data: number, _word?: boolean): Promise<void> { return; }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

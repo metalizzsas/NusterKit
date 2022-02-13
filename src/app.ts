@@ -301,7 +301,7 @@ process.on("uncaughtException", error => {
 });
 
 process.on('unhandledRejection', error => {
-    nt.logger.error("Unhandledpromise");
+    nt.logger.error("unhandledPromise");
     nt.logger.error(error);
 
     nt.status.mode = "errored";

@@ -9,38 +9,61 @@ export class WAGO extends IOHandler
 
     private machine?: Machine;
 
+    private connectTimer?: NodeJS.Timer;
+
     constructor(ip: string, machine?: Machine)
     {
         super("WAGO", "modbus", ip);
 
         this.client = new ModbusTCP();
         this.machine = machine;
-        this.connect();
+        this.connect(); 
     }
-    async connect()
+    async connect(): Promise<boolean>
     {
         if(this.unreachable)
-            return;
+            return false;
         
-        const available = await new Promise((resolve) => {
-            ping.sys.probe(this.ip, (isAlive) => resolve(isAlive || false));
+        const available = await new Promise<boolean>((resolve) => {
+            ping.sys.probe(this.ip, (isAlive) => resolve(isAlive ?? false));
         });
         
-        if(available)
+        if(available === true)
         {
-            await this.client.connectTCP(this.ip, {port: 502});
+            await this.client.connectTCP(this.ip, {port: 502}).catch(error => console.log(error));
 
             this.connected = this.client.isOpen;
+
+            if(this.connected)
+            {
+                this.machine?.logger.info("WAGO: Connected");
+
+                //check if the TCP tunnel is alive
+                if(this.connectTimer)
+                    clearInterval(this.connectTimer);
     
-            //check if the TCP tunnel is alive
-            setInterval(() => {
-                this.connected = this.client.isOpen;
-            }, 2000);
+                this.connectTimer = setInterval(() => {
+                    this.connected = this.client.isOpen;
+                    if(this.connected === false)
+                    {
+                        this.machine?.logger.info("WAGO: Disconnected");
+                        this.connect();
+                    }
+                        
+                }, 2000);
+    
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         else
         {
             this.unreachable = true;
-            throw Error(`Failed to ping to ${this.name}, cancelling connection.`);
+            this.machine?.logger.error(`WAGO: Failed to ping, cancelling connection.`);
+            return false;
         }
     }
 
@@ -53,7 +76,12 @@ export class WAGO extends IOHandler
         }
         
         if(!this.client.isOpen)
-            await this.connect();
+        {
+            const connected = await this.connect();
+
+            if(!connected)
+                return;
+        }
 
         if(word && word == true)
         {
@@ -73,7 +101,12 @@ export class WAGO extends IOHandler
         }
 
         if(!this.client.isOpen)
-            await this.connect();
+        {
+            const connected = await this.connect();
+
+            if(!connected)
+                return 0;
+        }
 
         let result = null;
 

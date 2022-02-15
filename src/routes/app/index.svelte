@@ -84,7 +84,7 @@
 	<div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-300 dark:bg-neutral-800  group">
 		<div class="flex flex-row justify-items-end -translate-y-4">
 			<div
-				class="rounded-full bg-cyan-500 text-white py-1 px-8 font-semibold  group-hover:scale-105 transition-all"
+				class="rounded-full bg-sky-500 text-white py-1 px-8 font-semibold  group-hover:scale-105 transition-all"
 			>
 				{$_('maintenance.list')}
 			</div>

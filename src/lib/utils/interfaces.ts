@@ -35,6 +35,7 @@ export interface Manual {
   name: string;
   controls: string[];
   incompatibility: string[];
+  analogScale?: {min: number, max: number}
 }
 
 export interface Passive {

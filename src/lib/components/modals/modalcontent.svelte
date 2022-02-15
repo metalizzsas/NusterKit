@@ -10,7 +10,7 @@
 
 {#if shown}
 	<div
-		class="absolute top-0 right-0 left-0 bottom-0 bg-gray-600 z-50"
+		class="fixed top-0 right-0 left-0 bottom-0 bg-gray-600 z-50"
 		in:fade={{ duration: 50 }}
 		out:fade={{ duration: 50 }}
 	>

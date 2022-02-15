@@ -113,7 +113,11 @@
 
 <div>
 	{#if !ready}
-		<div class="flex h-screen justify-center items-center" in:fade out:fade>
+		<div
+			class="fixed flex top-0 bottom-0 left-0 right-0 justify-center items-center"
+			in:fade
+			out:fade
+		>
 			<div
 				class="relative bg-zinc-900 w-[35%] p-10 text-white rounded-3xl"
 				in:scale

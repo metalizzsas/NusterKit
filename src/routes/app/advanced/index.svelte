@@ -7,8 +7,8 @@
 	import { goto } from '$app/navigation';
 	import { Linker } from '$lib/utils/linker';
 
-	function toggleState(name: string, state: boolean) {
-		fetch(`http://${$Linker}/v1/manual/${name}/${state}`, {
+	async function toggleState(name: string, state: boolean) {
+		await fetch(`http://${$Linker}/v1/manual/${name}/${state}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -42,7 +42,7 @@
 		</div>
 
 		<div
-			class="rounded-xl bg-orange-500 text-white font-semibold py-1 px-3 shadow-md self-end"
+			class="rounded-xl bg-orange-500 text-white font-semibold py-1 px-3 shadow-md ml-auto self-end"
 			on:click={() => goto('/app/advanced/gates')}
 		>
 			{$_('gates.name')}
@@ -101,20 +101,48 @@
 							{/if}
 						</div>
 
-						<Toggle
-							bind:value={manual.state}
-							on:change={(e) => toggleState(manual.name, e.detail.value)}
-							enableGrayScale={true}
-							locked={manual.incompatibility
-								.map((i) =>
-									$machineData.manuals.find((j) =>
-										i.startsWith('+')
-											? j.name == i.substring(1) && j.state == false
-											: j.name == i && j.state == true,
-									),
-								)
-								.filter((x) => x !== undefined).length > 0}
-						/>
+						{#if manual.analogScale === undefined}
+							<Toggle
+								bind:value={manual.state}
+								on:change={async (e) =>
+									await toggleState(manual.name, e.detail.value)}
+								enableGrayScale={true}
+								locked={manual.incompatibility
+									.map((i) =>
+										$machineData.manuals.find((j) =>
+											i.startsWith('+')
+												? j.name == i.substring(1) && j.state == false
+												: j.name == i && j.state == true,
+										),
+									)
+									.filter((x) => x !== undefined).length > 0}
+							/>
+						{:else}
+							<div class="flex flex-row items-center gap-4">
+								<input
+									type="range"
+									min={manual.analogScale.min}
+									max={manual.analogScale.max}
+									bind:value={manual.state}
+									on:change={async () =>
+										await toggleState(manual.name, manual.state)}
+									disabled={manual.incompatibility
+										.map((i) =>
+											$machineData.manuals.find((j) =>
+												i.startsWith('+')
+													? j.name == i.substring(1) && j.state == false
+													: j.name == i && j.state == true,
+											),
+										)
+										.filter((x) => x !== undefined).length > 0}
+								/>
+								<span
+									class="bg-white rounded-full py-1 px-3 text-gray-800 text-xs font-semibold"
+								>
+									{manual.state} %
+								</span>
+							</div>
+						{/if}
 					</div>
 				{/each}
 			</div>

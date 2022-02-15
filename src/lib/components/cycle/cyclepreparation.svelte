@@ -118,7 +118,9 @@
 									on:click|stopPropagation={() => {}}
 								>
 									{#each cycleTypes as c, index}
-										<option value={index}>{c.name}</option>
+										<option value={index}>
+											{$_('cycle.names.' + c.name)}
+										</option>
 									{/each}
 								</select>
 							</div>
@@ -134,7 +136,11 @@
 										on:click|stopPropagation={() => {}}
 									>
 										{#each $machineData.profiles.filter((p) => p.identifier == cycleTypes[customRunCycleSelected]?.name) as p}
-											<option value={p.id}>{p.name}</option>
+											<option value={p.id}>
+												{p.isPremade === true
+													? $_('cycle.types.' + p.name)
+													: p.name}
+											</option>
 										{/each}
 									</select>
 								</div>

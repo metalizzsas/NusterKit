@@ -210,9 +210,11 @@
 
 			{#if !isStartButtonShrinked}
 				<div in:scale out:scale class="mt-3 flex flex-row gap-4 justify-items-start">
-					<button class="bg-red-500 rounded-xl py-2 px-3 text-white font-semibold">
-						{$_('settings.restart')}
-					</button>
+					<!--
+						<button class="bg-red-500 rounded-xl py-2 px-3 text-white font-semibold">
+							{$_('settings.restart')}
+						</button>
+					-->
 					<button
 						class="bg-orange-500 rounded-xl py-2 px-3 text-white font-semibold"
 						on:click={() => (window.location.href = '/machine')}

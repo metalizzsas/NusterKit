@@ -17,7 +17,7 @@ export class IOController extends Controller
     handlers: IOHandler[] = []
     gates: IOGate[] = []
 
-    private machine: Machine;
+    machine: Machine;
 
     private timer?: NodeJS.Timer;
 

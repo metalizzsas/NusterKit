@@ -842,11 +842,28 @@
    "passives": [],
    "manual": [
       {
+         "name": "motor-rotation",
+         "incompatibility": [],
+         "controls": [
+            {"name": "motor-speed", "analogScaleDependant": true}
+         ],
+         "analogScale": {
+            "min": 0,
+            "max": 100
+         },
+         "watchdog": [
+            {
+               "gateName": "cover_closed",
+               "gateValue": 1
+            }
+         ]
+      },
+      {
          "name": "plv_act_high",
          "controls": [
-            "act-res",
-            "hybrid-plv_high",
-            "act-lq_high"
+            {"name": "act-res"},
+            {"name": "hybrid-plv_high"},
+            {"name": "act-lq_high"}
          ],
          "incompatibility": [
             "plv_edi_high",
@@ -868,9 +885,9 @@
       {
          "name": "plv_act_low",
          "controls": [
-            "act-res",
-            "hybrid-plv_low",
-            "act-lq_low"
+            {"name": "act-res"},
+            {"name": "hybrid-plv_low"},
+            {"name": "act-lq_low"}
          ],
          "incompatibility": [
             "plv_edi_low",
@@ -892,9 +909,9 @@
       {
          "name": "plv_edi_high",
          "controls": [
-            "edi-res",
-            "hybrid-plv_high",
-            "edi-lq_high"
+            {"name": "edi-res"},
+            {"name": "hybrid-plv_high"},
+            {"name": "edi-lq_high"}
          ],
          "incompatibility": [
             "plv_act_high",
@@ -916,9 +933,9 @@
       {
          "name": "plv_edi_low",
          "controls": [
-            "edi-res",
-            "hybrid-plv_low",
-            "edi-lq_low"
+            {"name": "edi-res"},
+            {"name": "hybrid-plv_low"},
+            {"name": "edi-lq_low"}
          ],
          "incompatibility": [
             "plv_act_low",
@@ -944,9 +961,9 @@
             "empty_ox"
          ],
          "controls": [
-            "ox-res",
-            "ox-lq_high",
-            "met-plv_high"
+            {"name": "ox-res"},
+            {"name": "ox-lq_high"},
+            {"name": "met-plv_high"}
          ],
          "watchdog": [
             {
@@ -966,9 +983,9 @@
             "empty_rd"
          ],
          "controls": [
-            "rd-res",
-            "rd-lq_high",
-            "met-plv_high"
+            {"name": "rd-res"},
+            {"name": "rd-lq_high"},
+            {"name": "met-plv_high"}
          ],
          "watchdog": [
             {
@@ -988,9 +1005,9 @@
             "empty_ox"
          ],
          "controls": [
-            "ox-res",
-            "ox-lq_medium",
-            "met-plv_medium"
+            {"name": "ox-res"},
+            {"name": "ox-lq_medium"},
+            {"name": "met-plv_medium"}
          ],
          "watchdog": [
             {
@@ -1010,9 +1027,9 @@
             "empty_rd"
          ],
          "controls": [
-            "rd-res",
-            "rd-lq_medium",
-            "met-plv_medium"
+            {"name": "rd-res"},
+            {"name": "rd-lq_medium"},
+            {"name": "met-plv_medium"}
          ],
          "watchdog": [
             {
@@ -1032,9 +1049,9 @@
             "empty_ox"
          ],
          "controls": [
-            "ox-res",
-            "ox-lq_low",
-            "met-plv_low"
+            {"name": "ox-res"},
+            {"name": "ox-lq_low"},
+            {"name": "met-plv_low"}
          ],
          "watchdog": [
             {
@@ -1054,9 +1071,9 @@
             "empty_rd"
          ],
          "controls": [
-            "rd-res",
-            "rd-lq_low",
-            "met-plv_low"
+            {"name": "rd-res"},
+            {"name": "rd-lq_low"},
+            {"name": "met-plv_low"}
          ],
          "watchdog": [
             {
@@ -1073,14 +1090,14 @@
          "name": "ventilation",
          "incompatibility": [],
          "controls": [
-            "ventilation"
+            {"name": "ventilation"}
          ]
       },
       {
          "name": "air_heater",
          "incompatibility": [],
          "controls": [
-            "air_heater"
+            {"name": "air_heater"}
          ]
       },
       {
@@ -1100,9 +1117,9 @@
             "fill_act"
          ],
          "controls": [
-            "act-res",
-            "act-lq_high",
-            "act-lq_low"
+            {"name": "act-res"},
+            {"name": "act-lq_high"},
+            {"name": "act-lq_low"}
          ],
          "watchdog": [
             {
@@ -1132,9 +1149,9 @@
             "fill_act"
          ],
          "controls": [
-            "edi-res",
-            "edi-lq_high",
-            "edi-lq_low"
+            {"name": "edi-res"},
+            {"name": "edi-lq_high"},
+            {"name": "edi-lq_low"}
          ],
          "watchdog": [
             {
@@ -1162,10 +1179,10 @@
             "plv_rd_low"
          ],
          "controls": [
-            "ox-res",
-            "ox-lq_high",
-            "ox-lq_medium",
-            "ox-lq_low"
+            {"name": "ox-res"},
+            {"name": "ox-lq_high"},
+            {"name": "ox-lq_medium"},
+            {"name": "ox-lq_low"}
          ],
          "watchdog": [
             {
@@ -1193,10 +1210,10 @@
             "plv_rd_low"
          ],
          "controls": [
-            "rd-res",
-            "rd-lq_high",
-            "rd-lq_medium",
-            "rd-lq_low"
+            {"name": "rd-res"},
+            {"name": "rd-lq_high"},
+            {"name": "rd-lq_medium"},
+            {"name": "rd-lq_low"}
          ],
          "watchdog": [
             {
@@ -1220,8 +1237,8 @@
             "empty_edi"
          ],
          "controls": [
-            "edi-res",
-            "edi-lq_fill_act"
+            {"name": "edi-res"},
+            {"name": "edi-lq_fill_act"}
          ],
          "watchdog": [
             {
@@ -3125,6 +3142,16 @@
                            }
                         ],
                         "_folded": true
+                     },
+                     {
+                        "name": "stopTimer",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "motorRotation"
+                           }
+                        ],
+                        "_folded": false
                      }
                   ],
                   "blocks": [
@@ -3180,16 +3207,6 @@
                            }
                         ],
                         "_folded": true
-                     },
-                     {
-                        "name": "stopTimer",
-                        "params": [
-                           {
-                              "name": "conststr",
-                              "value": "motorRotation"
-                           }
-                        ],
-                        "_folded": false
                      }
                   ],
                   "blocks": [

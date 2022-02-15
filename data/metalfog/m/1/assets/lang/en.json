@@ -167,6 +167,7 @@
       "plv": "Pulverization"
     },
     "tasks": {
+      "motor-rotation": "Motor speed",
       "ventilation": "Vapors extraction",
       "air_heater": "Air heater",
       "fill_act": "Fill activator container",

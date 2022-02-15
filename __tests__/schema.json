@@ -277,7 +277,18 @@
       "properties": {
         "controls": {
           "items": {
-            "type": "string"
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "analogScaleDependant": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "name"
+            ]
           },
           "type": "array"
         },
@@ -295,6 +306,17 @@
             "$ref": "#/definitions/IManualWatchdogCondition"
           },
           "type": "array"
+        },
+        "analogScale": {
+          "type": "object",
+          "properties": {
+            "min": {
+              "type":"number"
+            },
+            "max": {
+              "type": "number"
+            }
+          }
         }
       },
       "required": [
@@ -319,6 +341,10 @@
         "gateValue"
       ],
       "type": "object"
+    },
+    "IManualModeOptions": {
+      "additionalProperties": false,
+      "properties": {}
     },
     "INuster": {
       "additionalProperties": true,

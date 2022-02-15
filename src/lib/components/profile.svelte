@@ -19,8 +19,6 @@
 		newProfile.id = 'copied';
 		newProfile.name = newName;
 
-		console.log('copied', newProfile.name);
-
 		const returndata = await fetch('http://' + $Linker + '/v1/profiles/', {
 			method: 'PUT',
 			headers: {
@@ -86,7 +84,9 @@
 		on:click={() => goto('profiles/' + profile.id)}
 	>
 		<div class="flex flex-col">
-			<span class="text-md font-semibold">{profile.name}</span>
+			<span class="text-md font-semibold">
+				{profile.isPremade === true ? $_('cycle.types.' + profile.name) : profile.name}
+			</span>
 			<span class="text-xs text-gray-300 italic">
 				{$_('profile.modification-date')}: {$date(new Date(profile.modificationDate), {
 					format: 'medium',

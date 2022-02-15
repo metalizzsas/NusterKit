@@ -1,23 +1,25 @@
-import { IManualMode } from "../../interfaces/IManualMode";
+import { IManualMode, IManualModeControl, IManualModeOptions } from "../../interfaces/IManualMode";
 import { Machine } from "../../Machine";
 import { ManualWatchdogCondition } from "./ManualModeWatchdog";
 
 export class ManualMode implements IManualMode
 {
     name: string;
-    controls: string[];
+    controls: (string | IManualModeControl)[];
     incompatibility: string[];
     watchdog: ManualWatchdogCondition[] = [];
+    options?: IManualModeOptions;
 
     machine: Machine;
 
-    public state = false;
+    public state: boolean | number = 0;
 
     constructor(obj: IManualMode, machine: Machine)
     {
         this.name = obj.name;
         this.controls = obj.controls;
         this.incompatibility = obj.incompatibility;
+        this.options = obj.options;
 
         this.machine = machine;
 
@@ -27,9 +29,29 @@ export class ManualMode implements IManualMode
         }
     }
 
-    public async toggle(state: boolean): Promise<boolean>
+    public async toggle(state: number): Promise<boolean>
     {
-        if(state === true)
+        let trigger = false;
+
+        if(this.options?.analogScale)
+        {
+            if(state <= this.options.analogScaleMax  && state >= this.options.analogScaleMin)
+            {
+                if(state > this.options.analogScaleMin)
+                    trigger = true;
+                else if(state == this.options.analogScaleMin)
+                    trigger = false;
+            }
+        }
+        else
+        {
+            if(state > 1)
+                state = 1;
+
+            trigger = state == 1 ? true : false;
+        }
+
+        if(trigger)
         {
             if(
                 this.incompatibility.filter(k => {
@@ -52,7 +74,14 @@ export class ManualMode implements IManualMode
 
                 for(const gate of gatesToToggle)
                 {
-                    await this.machine.ioController.gFinder(gate)?.write(this.machine.ioController, 1);
+                    if(typeof gate == "string")
+                    {
+                        await this.machine.ioController.gFinder(gate)?.write(this.machine.ioController, 1);
+                    }
+                    else
+                    {
+                        await this.machine.ioController.gFinder(gate.name)?.write(this.machine.ioController, state);
+                    }
                 }
 
                 this.watchdog.forEach(w => w.startTimer());
@@ -70,7 +99,12 @@ export class ManualMode implements IManualMode
             const gatesToToggleOff = this.controls.filter(g => !activeGatesThatStay.includes(g));
     
             for(const gate of gatesToToggleOff)
-                await this.machine.ioController.gFinder(gate)?.write(this.machine.ioController, 0);
+            {
+                if(typeof gate == "string")
+                    await this.machine.ioController.gFinder(gate)?.write(this.machine.ioController, 0);
+                else
+                    await this.machine.ioController.gFinder(gate.name)?.write(this.machine.ioController, 0);
+            }
     
             this.state = false;
             this.watchdog.forEach(w => w.stopTimer());

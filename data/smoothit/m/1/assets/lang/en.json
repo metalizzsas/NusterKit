@@ -12,7 +12,8 @@
             "ir-curing": "IR curing",
             "uv-curing": "UV curing",
             "inerting": "Inerting",
-            "multilayer": "Multilayer"
+            "multilayer": "Multilayer",
+            "motor": "Rotation Motor"
         },
         "rows": {
             "interlayer-uvduration": "UV Curing time between layers",
@@ -111,6 +112,7 @@
             "plv": "Pulverization"
         },
         "tasks": {
+            "motor-rotation": "Motor rotation",
             "ventilation": "Vapors extraction",
             "air_heater": "Air heater",
             "uv-cache": "UV lamp cache",

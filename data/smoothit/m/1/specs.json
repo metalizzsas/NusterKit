@@ -654,12 +654,29 @@
    "passives": [],
    "manual": [
       {
+         "name": "motor-rotation",
+         "incompatibility": [],
+         "controls": [
+            {"name": "motor-speed", "analogScaleDependant": true}
+         ],
+         "analogScale": {
+            "min": 0,
+            "max": 100
+         },
+         "watchdog": [
+            {
+               "gateName": "cover_closed",
+               "gateValue": 1
+            }
+         ]
+      },
+      {
          "name": "uv-cache",
          "incompatibility": [
             "nozzle-cache"
          ],
          "controls": [
-            "uv-cache"
+            {"name": "uv-cache"}
          ]
       },
       {
@@ -668,7 +685,13 @@
             "nozzle-cache"
          ],
          "controls": [
-            "ir-cache"
+            {"name": "ir-cache"}
+         ],
+         "watchdog": [
+            {
+               "gateName": "cover_closed",
+               "gateValue": 1
+            }
          ]
       },
       {
@@ -678,7 +701,13 @@
             "uv-cache"
          ],
          "controls": [
-            "nozzle-cache"
+            {"name": "nozzle-cache"}
+         ],
+         "watchdog": [
+            {
+               "gateName": "cover_closed",
+               "gateValue": 1
+            }
          ]
       },
       {
@@ -689,12 +718,16 @@
             "nozzle-cache"
          ],
          "controls": [
-            "resin-pressure",
-            "nozzle-pulverization"
+            {"name": "resin-pressure"},
+            {"name": "nozzle-pulverization"}
          ],
          "watchdog": [
             {
                "gateName": "resin-slot_sensor",
+               "gateValue": 1
+            },
+            {
+               "gateName": "cover_closed",
                "gateValue": 1
             }
          ]
@@ -703,7 +736,7 @@
          "name": "ventilation",
          "incompatibility": [],
          "controls": [
-            "ventilation"
+            {"name": "ventilation"}
          ]
       },
       {
@@ -714,8 +747,14 @@
             "ir-cache"
          ],
          "controls": [
-            "ir-enable",
-            "ir-ventil"
+            {"name": "ir-enable"},
+            {"name": "ir-ventil"}
+         ],
+         "watchdog": [
+            {
+               "gateName": "cover_closed",
+               "gateValue": 1
+            }
          ]
       },
       {
@@ -726,15 +765,25 @@
             "uv-cache"
          ],
          "controls": [
-            "uv-enable",
-            "uv-ventil"
+            {"name": "uv-enable", "analogScaleDependant": true},
+            {"name": "uv-ventil"}
+         ],
+         "analogScale": {
+            "min": 0,
+            "max": 100
+         },
+         "watchdog": [
+            {
+               "gateName": "cover_closed",
+               "gateValue": 1
+            }
          ]
       },
       {
          "name": "inerting",
          "incompatibility": [],
          "controls": [
-            "inerting"
+            {"name": "inerting"}
          ]
       }
    ],
@@ -1531,6 +1580,20 @@
                            }
                         ],
                         "_folded": true
+                     },
+                     {
+                        "name": "io",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "ventilation"
+                           },
+                           {
+                              "name": "const",
+                              "value": "0"
+                           }
+                        ],
+                        "_folded": true
                      }
                   ],
                   "endBlocks": [
@@ -1824,6 +1887,20 @@
                            }
                         ],
                         "_folded": true
+                     },
+                     {
+                        "name": "io",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "ventilation"
+                           },
+                           {
+                              "name": "const",
+                              "value": "0"
+                           }
+                        ],
+                        "_folded": true
                      }
                   ],
                   "endBlocks": [
@@ -1909,6 +1986,30 @@
                               ]
                            }
                         ]
+                     },
+                     {
+                        "name": "io",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "ventilation"
+                           },
+                           {
+                              "name": "const",
+                              "value": "1"
+                           }
+                        ],
+                        "_folded": true
+                     },
+                     {
+                        "name": "stopTimer",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "motorRotation"
+                           }
+                        ],
+                        "_folded": false
                      }
                   ],
                   "_folded": true
@@ -2066,16 +2167,6 @@
                            }
                         ],
                         "_folded": true
-                     },
-                     {
-                        "name": "stopTimer",
-                        "params": [
-                           {
-                              "name": "conststr",
-                              "value": "motorRotation"
-                           }
-                        ],
-                        "_folded": false
                      },
                      {
                         "name": "maintenance",

@@ -40,6 +40,9 @@ export class IOGate implements IIOGate
         if(this.bus == 'out') return true;
 
         const word = this.size == IOGateSize.WORD ? true : undefined;
+
+        //ioController.machine.logger.trace("IOG-" + this.name + ": Reading from fieldbus.");
+
         this.value = await ioController.handlers[this.automaton].readData(this.address, word);
         return true;
     }
@@ -49,6 +52,8 @@ export class IOGate implements IIOGate
         if(this.bus == 'in') return true;
         const word = this.size == IOGateSize.WORD ? true : undefined;
         
+        ioController.machine.logger.trace("IOG-" + this.name + ": Writing (" + data + ") to fieldbus.");
+
         await ioController.handlers[this.automaton].writeData(this.address, data, word)
         this.value = data;
         return true;

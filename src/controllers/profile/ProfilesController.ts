@@ -6,7 +6,7 @@ import { ProfileModel } from "./Profile";
 import { ObjectId } from "mongoose";
 import { IProfileSkeleton, IProfileExportable, IProfile } from "../../interfaces/IProfile";
 
-export class ProfileController extends Controller{
+export class ProfileController extends Controller {
 
     private machine: Machine;
 
@@ -34,11 +34,12 @@ export class ProfileController extends Controller{
         for(const p of this.machine.specs.profiles.premades)
         {
             const k: IProfile = {...p, values: new Map<string, number>()};
+
             k.values = new Map(Object.entries(p.values));
+            const converted = JSON.parse(JSON.stringify(this.convertProfile(k))); // avoid skeletton modification and profile premade links
 
-            this.profilePremades.push(this.convertProfile(k));
+            this.profilePremades.push(converted);
         }
-
         return true;
     }
     private _configureRouter()
@@ -56,11 +57,10 @@ export class ProfileController extends Controller{
          */
         this.machine.authManager.registerEndpointPermission("profiles.list", {endpoint: "/v1/profiles/", method: "get"});
         this._router.get('/', async (_req: Request, res: Response) => {
+
             const profiles = await ProfileModel.find();
 
-            profiles.map(p => this.convertProfile(p));
-
-            res.json([...profiles, ...this.profilePremades]);
+            res.json([...profiles.map(p => this.convertProfile(p)), ...this.profilePremades]);
         });
 
         /**
@@ -175,7 +175,7 @@ export class ProfileController extends Controller{
 
     public convertProfile(profile: IProfile & {id?: ObjectId}): IProfileExportable
     {
-        const skeleton = this.profileSkeletons[profile.skeleton];
+        const skeleton = this.profileSkeletons[profile.skeleton]; // avoid skeleton modifications
 
         const exportable: IProfileExportable = {
             ...skeleton, ...{
@@ -212,7 +212,13 @@ export class ProfileController extends Controller{
             values: new Map<string, number>()
         };
 
-        profileexp.fieldGroups.flatMap((f) => f.fields.flatMap(f2 => profile.values.set(f.name + "#" + f2.name, f2.value)));
+        for(const fg of profileexp.fieldGroups)
+        {
+            for(const f of fg.fields)
+            {
+                profile.values.set(fg.name + "#" + f.name, f.value);
+            }
+        }
 
         return profile;
     }

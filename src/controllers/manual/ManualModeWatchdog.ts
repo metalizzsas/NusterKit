@@ -31,13 +31,14 @@ export class ManualWatchdogCondition implements IManualWatchdogCondition
             this.result = ((this.machine.ioController.gFinder(this.gateName)?.value || 0) === this.gateValue);
             if(this.result == false)
             {
-                if(this.manual.state == true)
+                if(this.manual.state > 0)
                 {
                     this.machine.logger.warn("Manual watchdog condition failed, toggling manual mode off.");
+                    this.machine.broadcast(`manual-mode-watchdog-error`);
+
                     if(process.env.NODE_ENV == "production")
                     {
-                        this.manual.toggle(false);
-                        this.machine.broadcast(`manual-mode-watchdog-error`);
+                        this.manual.toggle(0);
                         this.stopTimer();
                     }
                 }

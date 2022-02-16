@@ -672,18 +672,14 @@
       },
       {
          "name": "uv-cache",
-         "incompatibility": [
-            "nozzle-cache"
-         ],
+         "incompatibility": [],
          "controls": [
             {"name": "uv-cache"}
          ]
       },
       {
          "name": "ir-cache",
-         "incompatibility": [
-            "nozzle-cache"
-         ],
+         "incompatibility": [],
          "controls": [
             {"name": "ir-cache"}
          ],
@@ -696,10 +692,7 @@
       },
       {
          "name": "nozzle-cache",
-         "incompatibility": [
-            "ir-cache",
-            "uv-cache"
-         ],
+         "incompatibility": [],
          "controls": [
             {"name": "nozzle-cache"}
          ],

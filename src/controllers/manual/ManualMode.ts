@@ -5,19 +5,21 @@ import { ManualWatchdogCondition } from "./ManualModeWatchdog";
 export class ManualMode implements IManualMode
 {
     name: string;
-    controls: string[];
+    controls: {name: string, analogScaleDependant: boolean}[];
     incompatibility: string[];
     watchdog: ManualWatchdogCondition[] = [];
+    analogScale?: {min: number, max: number};
 
     machine: Machine;
 
-    public state = false;
+    public state = 0;
 
     constructor(obj: IManualMode, machine: Machine)
     {
         this.name = obj.name;
         this.controls = obj.controls;
         this.incompatibility = obj.incompatibility;
+        this.analogScale = obj.analogScale;
 
         this.machine = machine;
 
@@ -27,15 +29,35 @@ export class ManualMode implements IManualMode
         }
     }
 
-    public async toggle(state: boolean): Promise<boolean>
+    public async toggle(state: number): Promise<boolean>
     {
-        if(state === true)
+        let trigger = false;
+
+        if(this.analogScale)
+        {
+            if(state <= this.analogScale.max  && state >= this.analogScale.min)
+            {
+                if(state > this.analogScale.min)
+                    trigger = true;
+                else if(state == this.analogScale.max)
+                    trigger = false;
+            }
+        }
+        else
+        {
+            if(state > 1)
+                state = 1;
+
+            trigger = state == 1 ? true : false;
+        }
+
+        if(trigger)
         {
             if(
                 this.incompatibility.filter(k => {
                 k.startsWith("+") ? 
-                    this.machine.manualmodeController.keys.filter(j => j.name == k.slice(0, 1) && j.state == false) : 
-                    this.machine.manualmodeController.keys.filter(j => j.name == k && j.state == true)
+                    this.machine.manualmodeController.keys.filter(j => j.name == k.slice(0, 1) && j.state == 0 ) : 
+                    this.machine.manualmodeController.keys.filter(j => j.name == k && j.state > 1)
             }).length > 0
             )
             {
@@ -52,12 +74,12 @@ export class ManualMode implements IManualMode
 
                 for(const gate of gatesToToggle)
                 {
-                    await this.machine.ioController.gFinder(gate)?.write(this.machine.ioController, 1);
+                    await this.machine.ioController.gFinder(gate.name)?.write(this.machine.ioController, (gate.analogScaleDependant === true) ? state : ((state > 0) ? 1 : 0));
                 }
 
                 this.watchdog.forEach(w => w.startTimer());
 
-                this.state = true;
+                this.state = state;
 
                 return true;
             }
@@ -65,14 +87,19 @@ export class ManualMode implements IManualMode
         else
         {
             //manual mode is going to be disabled, set concerned gates to false
-            const activeGatesThatStay = this.machine.manualmodeController.keys.filter(k => k.state && k.name !== this.name).flatMap(k => k.controls);
+            const activeGatesThatStay = this.machine.manualmodeController.keys.filter(k => (k.state > 0) && k.name !== this.name).flatMap(k => k.controls);
     
             const gatesToToggleOff = this.controls.filter(g => !activeGatesThatStay.includes(g));
     
             for(const gate of gatesToToggleOff)
-                await this.machine.ioController.gFinder(gate)?.write(this.machine.ioController, 0);
+            {
+                if(typeof gate == "string")
+                    await this.machine.ioController.gFinder(gate)?.write(this.machine.ioController, 0);
+                else
+                    await this.machine.ioController.gFinder(gate.name)?.write(this.machine.ioController, 0);
+            }
     
-            this.state = false;
+            this.state = 0;
             this.watchdog.forEach(w => w.stopTimer());
 
             return true;

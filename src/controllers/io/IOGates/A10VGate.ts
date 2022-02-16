@@ -13,6 +13,7 @@ export class A10VIOGate extends IOGate
     public async read(ioController: IOController)
     {
         await super.read(ioController);
+        ioController.machine.logger.trace("A10V:" + this.name + ": Reading data from fieldbus.");
         this.value = map(this.value, 0, 32767, 0, 100);
         return true;
     }
@@ -23,7 +24,9 @@ export class A10VIOGate extends IOGate
 
         this.value = data;
 
-        const v = map(data, 0, 100, 0, 32767);
+        const v = Math.floor(map(data, 0, 100, 0, 32767));
+
+        ioController.machine.logger.trace("A10V-" + this.name + ": Writing (" + v + ") to fieldbus.");
         
         await ioController.handlers[this.automaton].writeData(this.address, v, word)
         return true;

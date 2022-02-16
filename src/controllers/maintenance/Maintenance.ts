@@ -84,7 +84,7 @@ export class Maintenance implements IConfigMaintenance
 
             durationType: this.durationType,
             durationLimit: this.durationLimit,
-            durationActual: this.duration,
+            durationActual: Math.floor(this.duration),
             durationProgress: this.durationProgress,
 
             operationDate: this.operationDate || undefined,

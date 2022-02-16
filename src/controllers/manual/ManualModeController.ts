@@ -33,14 +33,13 @@ export class ManualModeController extends Controller
         this.machine.authManager.registerEndpointPermission("manual.list", {endpoint: "/v1/manual/", method: "get"});
 
         this.router.post('/:name/:value', async (req: Request, res: Response) => {
-
+            
             const key = this.keys.find(k => k.name === req.params.name);
 
             //find manual mode to update
             if(key)
             {
-                const value = req.params.value === "true" ? true : false;
-                const result = await key.toggle(value);
+                const result = await key.toggle(parseInt(req.params.value));
 
                 res.status(result ? 200 : 403).write(result ? "ok" : "error");
                 return;

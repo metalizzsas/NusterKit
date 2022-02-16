@@ -1,25 +1,25 @@
-import { IManualMode, IManualModeControl, IManualModeOptions } from "../../interfaces/IManualMode";
+import { IManualMode } from "../../interfaces/IManualMode";
 import { Machine } from "../../Machine";
 import { ManualWatchdogCondition } from "./ManualModeWatchdog";
 
 export class ManualMode implements IManualMode
 {
     name: string;
-    controls: (string | IManualModeControl)[];
+    controls: {name: string, analogScaleDependant: boolean}[];
     incompatibility: string[];
     watchdog: ManualWatchdogCondition[] = [];
-    options?: IManualModeOptions;
+    analogScale?: {min: number, max: number};
 
     machine: Machine;
 
-    public state: boolean | number = 0;
+    public state = 0;
 
     constructor(obj: IManualMode, machine: Machine)
     {
         this.name = obj.name;
         this.controls = obj.controls;
         this.incompatibility = obj.incompatibility;
-        this.options = obj.options;
+        this.analogScale = obj.analogScale;
 
         this.machine = machine;
 
@@ -33,13 +33,13 @@ export class ManualMode implements IManualMode
     {
         let trigger = false;
 
-        if(this.options?.analogScale)
+        if(this.analogScale)
         {
-            if(state <= this.options.analogScaleMax  && state >= this.options.analogScaleMin)
+            if(state <= this.analogScale.max  && state >= this.analogScale.min)
             {
-                if(state > this.options.analogScaleMin)
+                if(state > this.analogScale.min)
                     trigger = true;
-                else if(state == this.options.analogScaleMin)
+                else if(state == this.analogScale.max)
                     trigger = false;
             }
         }
@@ -56,8 +56,8 @@ export class ManualMode implements IManualMode
             if(
                 this.incompatibility.filter(k => {
                 k.startsWith("+") ? 
-                    this.machine.manualmodeController.keys.filter(j => j.name == k.slice(0, 1) && j.state == false) : 
-                    this.machine.manualmodeController.keys.filter(j => j.name == k && j.state == true)
+                    this.machine.manualmodeController.keys.filter(j => j.name == k.slice(0, 1) && j.state == 0 ) : 
+                    this.machine.manualmodeController.keys.filter(j => j.name == k && j.state > 1)
             }).length > 0
             )
             {
@@ -74,19 +74,12 @@ export class ManualMode implements IManualMode
 
                 for(const gate of gatesToToggle)
                 {
-                    if(typeof gate == "string")
-                    {
-                        await this.machine.ioController.gFinder(gate)?.write(this.machine.ioController, 1);
-                    }
-                    else
-                    {
-                        await this.machine.ioController.gFinder(gate.name)?.write(this.machine.ioController, state);
-                    }
+                    await this.machine.ioController.gFinder(gate.name)?.write(this.machine.ioController, (gate.analogScaleDependant === true) ? state : ((state > 0) ? 1 : 0));
                 }
 
                 this.watchdog.forEach(w => w.startTimer());
 
-                this.state = true;
+                this.state = state;
 
                 return true;
             }
@@ -94,7 +87,7 @@ export class ManualMode implements IManualMode
         else
         {
             //manual mode is going to be disabled, set concerned gates to false
-            const activeGatesThatStay = this.machine.manualmodeController.keys.filter(k => k.state && k.name !== this.name).flatMap(k => k.controls);
+            const activeGatesThatStay = this.machine.manualmodeController.keys.filter(k => (k.state > 0) && k.name !== this.name).flatMap(k => k.controls);
     
             const gatesToToggleOff = this.controls.filter(g => !activeGatesThatStay.includes(g));
     
@@ -106,7 +99,7 @@ export class ManualMode implements IManualMode
                     await this.machine.ioController.gFinder(gate.name)?.write(this.machine.ioController, 0);
             }
     
-            this.state = false;
+            this.state = 0;
             this.watchdog.forEach(w => w.stopTimer());
 
             return true;

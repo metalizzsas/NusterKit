@@ -104,14 +104,12 @@ export class EX260S1 extends IOHandler
             return Buffer.alloc(0);
         }
 
-        return new Promise((resolve, reject) => {
+        return new Promise<Buffer>((resolve) => {
             this.controller.events.once("SendRRData Received", (result: Encapsulation.CPF.dataItem[]) => {
-                const timer = setTimeout(() => {reject("Reading Data timed out..."); this.machine?.cycleController.program?.end("controllerTimeout")}, 10000);
                 for(const packet of result)
                 {
                     if(packet.TypeID == 178 && packet.data.length == 8 && packet.data.readUIntLE(0, 1) == 0x8E)
                     {
-                        clearTimeout(timer);
                         resolve(packet.data);
                     }
                 }

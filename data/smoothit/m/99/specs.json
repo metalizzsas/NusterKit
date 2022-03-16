@@ -273,8 +273,8 @@
          "type": "default",
          "size": "bit",
          "bus": "out",
-         "automaton": 27,
-         "address": 9,
+         "automaton": 1,
+         "address": 27,
          "default": 0,
          "levelMax": 0
       },

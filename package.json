@@ -3,7 +3,7 @@
   "engines": {
     "node": "16.x"
   },
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Typescript project running on BalenaOS and RPi4.",
   "main": "app.js",
   "scripts": {

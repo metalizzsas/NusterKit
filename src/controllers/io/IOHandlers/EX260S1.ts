@@ -47,10 +47,13 @@ export class EX260S1 extends IOHandler
             {
                 this.connected = true;
                 this.machine?.logger.info("EX260S1: Connected");
-                //recconnect ex260 on lost connexion
+
+                //change state if disconnected
                 this.controller.events.once('close', async () => { 
                     this.machine?.logger.info("EX260S1: Disconnected");
-                    this.connected = false; await this.connect(); });
+                    this.connected = false; 
+                });
+
                 return true;
             }
             else
@@ -92,13 +95,9 @@ export class EX260S1 extends IOHandler
         const MR = MessageRouter.build(0x0E, idPath, Buffer.alloc(0));
 
         //write data to the controller
-        const write = await new Promise<Error | undefined>((resolve) => {
-            this.controller.write(MR, false, 10, (err?: Error) => {
-                resolve(err);
-            });
-        });
+        const write = await this.controller.write(MR, false, 10);
 
-        if(write)
+        if(!write)
         {
             this.machine?.cycleController.program?.end("controllerError");
             return Buffer.alloc(0);
@@ -179,15 +178,11 @@ export class EX260S1 extends IOHandler
         
         //write data to the controller
 
-        return new Promise((resolve, reject) => {
-            this.controller.write(MR, false, 10, (err?: Error) => {
-                if(err)
-                {
-                    reject(err);
-                    this.machine?.cycleController.program?.end("controllerError");
-                }
-                else resolve();
-            });
-        });
+        const write = await this.controller.write(MR, false, 10);
+
+        if(write === false)
+        {
+            this.machine?.cycleController.program?.end("controllerError");
+        }
     }
 }

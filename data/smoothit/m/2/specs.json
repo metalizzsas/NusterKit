@@ -1993,16 +1993,6 @@
                            }
                         ],
                         "_folded": true
-                     },
-                     {
-                        "name": "stopTimer",
-                        "params": [
-                           {
-                              "name": "conststr",
-                              "value": "motorRotation"
-                           }
-                        ],
-                        "_folded": false
                      }
                   ],
                   "_folded": true
@@ -2047,6 +2037,16 @@
                            }
                         ],
                         "_folded": true
+                     },
+                     {
+                        "name": "stopTimer",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "motorRotation"
+                           }
+                        ],
+                        "_folded": false
                      }
                   ],
                   "endBlocks": [

@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-import express,  { Request, Response } from "express";
+import express,  { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import { WebSocket, WebSocketServer } from "ws";
 import { Server } from "http";
-import dgram from "dgram";
 import { pinoHttp } from "pino-http";
 import { pino } from "pino";
 
@@ -16,6 +14,7 @@ import { Machine } from "./Machine";
 import { getIPAddress } from "./util";
 import path from "path";
 import fs from "fs";
+import { UpdateLocker } from "./updateLocker";
 
 interface IStatus
 {
@@ -34,6 +33,8 @@ class NusterTurbine
     public machine?: Machine;
 
     public status: IStatus;
+
+    public updateLocker: UpdateLocker;
 
     constructor()
     {
@@ -57,7 +58,6 @@ class NusterTurbine
             this.machine = new Machine(this.logger);
 
             this._express();
-            this._discovery();
             this._websocket();
             this._mongoose();
     
@@ -69,6 +69,8 @@ class NusterTurbine
             this.status.mode = "waiting-config";
             this._expressConfig();
         }
+
+        this.updateLocker = new UpdateLocker("/tmp/balena/updates.lock", this.logger);
     }
     private _expressConfig()
     {
@@ -96,7 +98,7 @@ class NusterTurbine
                     process.exit(1);
                 }
             });
-        })
+        });
     }
     /**
      * Configure Express over network
@@ -112,8 +114,10 @@ class NusterTurbine
         this.app.use(cookieParser());
 
         //authing middleware
-        if(!process.env.DISABLE_AUTH)
-            this.app.use(this.machine!.authManager.middleware.bind(this.machine!.authManager));
+        if(!process.env.DISABLE_AUTH && this.machine)
+            this.app.use(this.machine.authManager.middleware.bind(this.machine.authManager));
+        else
+            this.logger.warn("Auth manager disabled");
 
         //logging middleware
         this.app.use(pinoHttp({
@@ -126,63 +130,55 @@ class NusterTurbine
               }
         }));
 
-        this.machine!.logger.info(`Will use ${this.machine!.assetsFolder} as the assets folder.`);
-        this.app.use("/assets", express.static(this.machine!.assetsFolder));
+        this.logger.info(`Will use ${this.machine?.assetsFolder} as the assets folder.`);
+
+        if(this.machine)
+            this.app.use("/assets", express.static(this.machine.assetsFolder));
 
         this.app.get("/status", (req: Request, res: Response) => res.json(this.status));
-        this.app.get("/ws", async (req: Request, res: Response) => res.json(await this.machine!.socketData()));
+        this.app.get("/ws", async (req: Request, res: Response) => res.json(await this.machine?.socketData()));
 
         this.app.get('/qr', async (req, res) => {
-            try{
-        
-                const content = {
-                    model: this.machine!.model,
-                    modelVariant: this.machine!.variant,
-                    modelRevision: this.machine!.revision,
-                    serial: this.machine!.serial,
-                    networkName: getIPAddress(),
-                    dateBuilt: "disabled"
-                };
+            try
+            {
+                if(this.machine)
+                {
+                    const content = {
+                        model: this.machine.model,
+                        modelVariant: this.machine.variant,
+                        modelRevision: this.machine.revision,
+                        serial: this.machine.serial,
+                        networkName: getIPAddress(),
+                        dateBuilt: "disabled"
+                    };
+                    const qrStream = new PassThrough();
+                    await QRCode.toFileStream(qrStream, JSON.stringify(content),
+                                {
+                                    type: 'png',
+                                    width: 200,
+                                    errorCorrectionLevel: 'H'
+                                }
+                            );
+            
+                    qrStream.pipe(res);
+                }
+                else
+                {
+                    res.status(500).send("Machine not ready");
+                }
                   
-                const qrStream = new PassThrough();
-                await QRCode.toFileStream(qrStream, JSON.stringify(content),
-                            {
-                                type: 'png',
-                                width: 200,
-                                errorCorrectionLevel: 'H'
-                            }
-                        );
-        
-                qrStream.pipe(res);
-            } catch(err){
+            } 
+            catch(err)
+            {
                 console.error('Failed to return content', err);
+                res.status(500).send("Failed to return content");
             }
         });
-    }
-    /**
-     * Create UDP4 discovery service
-     */
-    private _discovery() 
-    {
-        const multicast_addr = "1.1.1.1";
-        const port = 2222;
 
-        const listener = dgram.createSocket({type: "udp4", reuseAddr: true});
-        const sender = dgram.createSocket({type: "udp4", reuseAddr: true});
-
-        listener.bind(port, multicast_addr, function(){
-            listener.addMembership(multicast_addr);
-            listener.setBroadcast(true);
+        this.app.all("*", (_req: Request, _res: Response, next: NextFunction) => {
+            this.updateLocker.lockFor(60000 * 2);
+            next();
         });
-
-        setInterval(() => {
-
-            const string = JSON.stringify(this.machine);
-            const data = Buffer.from(string);
-
-            sender.send(data, 0, data.length, port, multicast_addr);
-        }, 1000);
-        this.logger.info("Binded discovery protocol");
     }
     /**
      * Create websocket handlers
@@ -214,7 +210,7 @@ class NusterTurbine
                     if(this.machine.WebSocketServer === undefined)
                         this.machine.WebSocketServer = this.wsServer;
 
-                    const data = await this.machine!.socketData();
+                    const data = await this.machine.socketData();
     
                     for(const ws of this.wsServer.clients)
                     {
@@ -272,15 +268,23 @@ class NusterTurbine
      */
     private _machine()
     {
-        this.app.use('/v1/maintenance', this.machine!.maintenanceController.router);
-        this.app.use('/v1/io', this.machine!.ioController.router);
-        this.app.use('/v1/profiles', this.machine!.profileController.router);
-        this.app.use('/v1/slots', this.machine!.slotController.router);
-        this.app.use('/v1/manual', this.machine!.manualmodeController.router);
-        this.app.use('/v1/cycle', this.machine!.cycleController.router);
-        this.app.use('/v1/passives', this.machine!.passiveController.router);
-
-        this.app.use('/v1/auth', this.machine!.authManager.router);
+        if(this.machine)
+        {
+            this.app.use('/v1/maintenance', this.machine.maintenanceController.router);
+            this.app.use('/v1/io', this.machine.ioController.router);
+            this.app.use('/v1/profiles', this.machine.profileController.router);
+            this.app.use('/v1/slots', this.machine.slotController.router);
+            this.app.use('/v1/manual', this.machine.manualmodeController.router);
+            this.app.use('/v1/cycle', this.machine.cycleController.router);
+            this.app.use('/v1/passives', this.machine.passiveController.router);
+    
+            this.app.use('/v1/auth', this.machine.authManager.router);
+        }
+        else
+        {
+            this.logger.error("No machine defined, cannot add routes.");
+            throw new Error("No machine defined, cannot add routes.");
+        }
 
         this.app.get("/qr", (req: Request, res: Response) => {
             res.status(200).end();

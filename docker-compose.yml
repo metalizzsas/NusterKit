@@ -17,6 +17,8 @@ services:
       - 'nuster-data:/data'
     environment:
       DISABLE_AUTH: 'true'
+    labels:
+      - io.balena.features.supervisor-api
   nuster-desktop:
     build: ./nuster-desktop/
     restart: always
@@ -24,6 +26,8 @@ services:
     depends_on: 
       - "nuster-turbine"
       - "mongodb"
+    labels:
+      - io.balena.features.supervisor-api
   nuster-kiosk:
     image: balenablocks/browser:latest
     privileged: true # required for UDEV to find plugged in peripherals such as a USB mouse
@@ -44,8 +48,6 @@ services:
       FLAGS: "--overscroll-history-navigation=0 --user-data-dir=/data/chromium-user-data"
     volumes:
       - 'nuster-data:/data'
-    labels:
-      - io.balena.features.supervisor-api
   wifi-connect:
     build: ./wifi-connect/
     restart: always

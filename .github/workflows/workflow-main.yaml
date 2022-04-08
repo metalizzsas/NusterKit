@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
+      - uses: actions/checkout@main
         with:
           repository: metalizzsas/NusterTurbine
           path: ./nuster-turbine

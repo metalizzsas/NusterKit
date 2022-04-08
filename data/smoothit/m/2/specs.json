@@ -40,7 +40,8 @@
          "automaton": 0,
          "address": 0,
          "default": 0,
-         "isCritical": true
+         "isCritical": true,
+         "manualModeWatchdog": true
       },
       {
          "name": "nitrogen_sensor",
@@ -758,7 +759,8 @@
             "uv-cache"
          ],
          "controls": [
-            {"name": "uv-enable", "analogScaleDependant": true},
+            {"name": "uv-enable"},
+            {"name": "uv-power", "analogScaleDependant": true},
             {"name": "uv-ventil"}
          ],
          "analogScale": {

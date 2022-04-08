@@ -22,32 +22,39 @@ export class UpdateLocker
 
     public lockFor(time: number)
     {
-        if(this.currentLockTime > time)
+        if(this.automaticUpdatesEnabled === true)
         {
-            this.logger.warn("Lock time is less than current lock time, ignoring.");
-            return;
-        }
-
-        this.currentLockTime = time;
-
-        if(this.timer !== undefined)
-        {
-            clearTimeout(this.timer);
-        }
-
-        lockFile.lock(this.lockfilePath, (err) => {
-            if(err)
+            if(this.currentLockTime > time)
             {
-                this.logger.error("Failed to lock file: " + err);
+                this.logger.warn("Lock time is less than current lock time, ignoring.");
                 return;
             }
-            else
+    
+            this.currentLockTime = time;
+    
+            if(this.timer !== undefined)
             {
-                this.automaticUpdatesEnabled = false;
-                this.timer = setTimeout(this.unlock, time);
-                this.logger.info("Locked automatic updated for " + time + "ms");
+                clearTimeout(this.timer);
             }
-        });
+    
+            lockFile.lock(this.lockfilePath, (err) => {
+                if(err)
+                {
+                    this.logger.error("Failed to lock file: " + err);
+                    return;
+                }
+                else
+                {
+                    this.automaticUpdatesEnabled = false;
+                    this.timer = setTimeout(this.unlock, time);
+                    this.logger.info("Locked automatic updated for " + time + "ms");
+                }
+            });
+        }
+        else
+        {
+            this.logger.trace("Skipping locking, it is already locked");
+        }
     }
 
     public unlock()

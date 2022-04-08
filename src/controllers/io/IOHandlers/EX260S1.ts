@@ -61,8 +61,7 @@ export class EX260S1 extends IOHandler
                 this.connected = false;
                 this.machine?.logger.error("EX260S1: Failed to connect");
                 this.machine?.cycleController.program?.end("controllerError");
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                return await this.connect();
+                return false;
             } 
         }
         else
@@ -120,7 +119,6 @@ export class EX260S1 extends IOHandler
      * Write data to EX260-SEN1 module
      * @param {number} address 
      * @param {number} value 
-     * @param {Boolean?} _word Optional
      * @returns 
      */
     override async writeData(address: number, value: number): Promise<void>

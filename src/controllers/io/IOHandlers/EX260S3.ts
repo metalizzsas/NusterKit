@@ -51,7 +51,8 @@ export class EX260S3 extends IOHandler
                 //recconnect ex260 on lost connexion
                 this.controller.events.once('close', async () => { 
                     this.machine?.logger.info("EX260S3: Disconnected");
-                    this.connected = false; await this.connect(); });
+                    this.connected = false;
+                });
                 return true;
             }
             else
@@ -59,8 +60,7 @@ export class EX260S3 extends IOHandler
                 this.connected = false;
                 this.machine?.logger.error("EX260S3: Failed to connect");
                 this.machine?.cycleController.program?.end("controllerError");
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                return await this.connect();
+                return false;
             } 
         }
         else

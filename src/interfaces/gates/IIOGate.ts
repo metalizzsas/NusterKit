@@ -30,4 +30,5 @@ export interface IIOGate
     default: number;
 
     isCritical?: boolean;
+    manualModeWatchdog?: boolean;
 }

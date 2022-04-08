@@ -27,6 +27,11 @@ export class ManualMode implements IManualMode
         {
             this.watchdog.push(new ManualWatchdogCondition(this, w, this.machine));
         }
+
+        for(const io of this.machine.ioController.gates.filter(g => g.manualModeWatchdog == true))
+        {
+            this.watchdog.push(new ManualWatchdogCondition(this, {gateName: io.name, gateValue: 1}, this.machine));
+        }
     }
 
     public async toggle(state: number): Promise<boolean>

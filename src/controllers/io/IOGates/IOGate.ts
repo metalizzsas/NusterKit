@@ -17,6 +17,7 @@ export class IOGate implements IIOGate
     value: number;
 
     isCritical?: boolean;
+    manualModeWatchdog?: boolean;
 
     constructor(obj: IIOGate)
     {
@@ -33,6 +34,8 @@ export class IOGate implements IIOGate
         this.value = this.default;
 
         this.isCritical = obj.isCritical;
+
+        this.manualModeWatchdog = obj.manualModeWatchdog;
     }
 
     public async read(ioController: IOController): Promise<boolean>

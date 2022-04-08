@@ -33,20 +33,26 @@ export class ManualModeController extends Controller
         this.machine.authManager.registerEndpointPermission("manual.list", {endpoint: "/v1/manual/", method: "get"});
 
         this.router.post('/:name/:value', async (req: Request, res: Response) => {
+
+            console.log(req.params.name, req.params.value);
             
-            const key = this.keys.find(k => k.name === req.params.name);
+            const mode = this.keys.find(k => k.name === req.params.name);
 
             //find manual mode to update
-            if(key)
+            if(mode)
             {
-                const result = await key.toggle(parseInt(req.params.value));
+                const result = await mode.toggle(parseInt(req.params.value));
 
-                res.status(result ? 200 : 403).write(result ? "ok" : "error");
+                res.status(result ? 200 : 403);
+                res.write(result ? "ok" : "error");
+                res.end();
                 return;
             }
             else
             {
-                res.status(404).write("manual mode not found");
+                res.status(404);
+                res.write("manual mode not found");
+                res.end();
                 return;
             }
         });

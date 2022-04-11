@@ -4,72 +4,92 @@ import lockFile from "lockfile";
 export class UpdateLocker
 {
     private lockfilePath: string;
-    private automaticUpdatesEnabled: boolean;
-
-    private timer?: NodeJS.Timeout;
-
-    private currentLockTime: number;
-
     private logger: pino.Logger;
 
-    constructor(lockFilePath: string, logger: pino.Logger)
+    private updatesLocked: boolean;
+    private lockTimer?: NodeJS.Timeout;
+
+    constructor(lockfilePath: string, logger: pino.Logger)
     {
-        this.lockfilePath = lockFilePath;
-        this.automaticUpdatesEnabled = false;
-        this.currentLockTime = 0;
+        this.lockfilePath = lockfilePath;
         this.logger = logger;
+
+        this.updatesLocked = true;
     }
 
-    public lockFor(time: number)
+    /**
+     * Lock the updated to force balena to not update
+     * @returns true if the lockfile was created, false if it already existed
+     */
+    async lockUpdates(): Promise<boolean>
     {
-        if(this.automaticUpdatesEnabled === true)
-        {
-            if(this.currentLockTime > time)
-            {
-                this.logger.warn("Lock time is less than current lock time, ignoring.");
-                return;
-            }
-    
-            this.currentLockTime = time;
-    
-            if(this.timer !== undefined)
-            {
-                clearTimeout(this.timer);
-            }
-    
+        return new Promise<boolean>((resolve, reject) => {
             lockFile.lock(this.lockfilePath, (err) => {
                 if(err)
                 {
-                    this.logger.error("Failed to lock file: " + err);
-                    return;
+                    reject(err)
+                    this.logger.error("Updates locking failed", err);
                 }
                 else
                 {
-                    this.automaticUpdatesEnabled = false;
-                    this.timer = setTimeout(this.unlock, time);
-                    this.logger.info("Locked automatic updated for " + time + "ms");
+                    resolve(true);
+                    this.updatesLocked = true;
                 }
-            });
-        }
-        else
-        {
-            this.logger.trace("Skipping locking, it is already locked");
-        }
-    }
+            })
 
-    public unlock()
-    {
-        lockFile.unlock(this.lockfilePath, (err) => {
-            if(err)
-            {
-                this.logger.error("Failed to unlock lockfile" + err);
-            }
-            this.automaticUpdatesEnabled = true;
         });
     }
 
-    get isLocked()
+    /**
+     * Unlock updates to allow balena to updated the software
+     * @returns true if the lock was released, false if it was not locked
+     */
+    async unlockUpdates(): Promise<boolean>
     {
-        return !this.automaticUpdatesEnabled;
+        return new Promise<boolean>((resolve, reject) => {
+            lockFile.unlock(this.lockfilePath, (err) => {
+                if(err)
+                {
+                    reject(err);
+                    this.logger.error("Updates unlocking failed", err);
+                }
+                else
+                {
+                    resolve(true);
+                    this.updatesLocked = false;
+                }
+            })
+        });
+    }
+
+    /**
+     * Temporary lock the updates to force balena to not update
+     * @param time time in milliseconds to wait before unlocking updates
+     */
+    async temporaryLockUpdates(time: number)
+    {
+        if(this.lockTimer)
+        {
+            this.logger.warn("A locking timer instance was found, removing it.");
+            clearTimeout(this.lockTimer);
+        }
+
+        const lockresult = await this.lockUpdates();
+
+        if(lockresult)
+        {
+            this.lockTimer = setTimeout(async () => {
+                await this.unlockUpdates();
+            }, time);
+        }
+        else
+        {
+            this.logger.warn("Temporary locking failed, updates lock is stuck to " + this.updatesLocked);
+        }
+    }
+
+    get updable(): boolean
+    {
+        return !this.updatesLocked;
     }
 }

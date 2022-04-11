@@ -16,6 +16,7 @@ import { SlotController } from "./controllers/slot/SlotController";
 import { AuthManager } from "./auth/auth";
 import { IMachine } from "./interfaces/IMachine";
 import WebSocket from "ws";
+import { UpdateLocker } from "./updateLocker";
 
 export class Machine {
 
@@ -41,6 +42,8 @@ export class Machine {
     logger: pino.Logger;
 
     authManager: AuthManager;
+
+    public updateLocker: UpdateLocker;
 
     constructor(logger: pino.Logger)
     {
@@ -90,6 +93,9 @@ export class Machine {
         this.passiveController = new PassiveController(this);
 
         this.logger.info("Finished building controllers");
+
+        this.logger.info("Registering Update Locker");
+        this.updateLocker = new UpdateLocker("/tmp/balena/updates.lock", this.logger);
 
     }
 

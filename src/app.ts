@@ -14,7 +14,6 @@ import { Machine } from "./Machine";
 import { getIPAddress } from "./util";
 import path from "path";
 import fs from "fs";
-import { UpdateLocker } from "./updateLocker";
 
 interface IStatus
 {
@@ -34,8 +33,6 @@ class NusterTurbine
 
     public status: IStatus;
 
-    public updateLocker: UpdateLocker;
-
     constructor()
     {
         this.status = {
@@ -45,7 +42,7 @@ class NusterTurbine
 
         this.logger = pino({
             level: process.env.DISABLE_TRACE_LOG != "" ? "trace" : "info"
-        });
+        }, process.env.NODE_ENV == "production" ? pino.destination(`/data/logs/nuster-turbine.log`) : pino.destination(process.stdout));
 
         this.logger.info("Starting NusterTurbine");
 
@@ -70,7 +67,7 @@ class NusterTurbine
             this._expressConfig();
         }
 
-        this.updateLocker = new UpdateLocker("/tmp/balena/updates.lock", this.logger);
+        
     }
     private _expressConfig()
     {
@@ -175,10 +172,11 @@ class NusterTurbine
             }
         });
 
+        //Adding machine updatelocker middleware
         this.app.all("*", (_req: Request, _res: Response, next: NextFunction) => {
-            this.updateLocker.lockFor(60000 * 2);
+            this.machine?.updateLocker.temporaryLockUpdates(2 * 60 * 1000);
             next();
-        });
+        });       
     }
     /**
      * Create websocket handlers
@@ -310,4 +308,20 @@ process.on('unhandledRejection', error => {
 
     nt.status.mode = "errored";
     nt.status.errors.push(`${error}`);
+});
+
+/**
+ * Handling SIGTERM Events
+ */
+process.on("SIGTERM", async () => {
+    nt.logger.info("Shutdown detected");
+
+    //Reseting io on shutdown
+    if(nt.machine?.ioController)
+    {
+        for(const g of nt.machine.ioController.gates ?? [])
+        {
+            await g.write(nt.machine.ioController, g.default);
+        }
+    }
 });

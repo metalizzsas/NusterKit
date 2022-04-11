@@ -48,7 +48,7 @@ class NusterTurbine
 
         this.logger = pino({
             level: process.env.DISABLE_TRACE_LOG != "" ? "trace" : "info"
-        }, process.env.NODE_ENV == "production" ? pino.destination(`/data/logs/nuster-turbine.log`) : pino.destination(process.stdout));
+        }, process.env.NODE_ENV == "production" ? pino.destination(fs.createWriteStream(path.resolve("data", "logs", "nuster-tubine.log"), {autoClose: true})) : pino.destination(process.stdout));
 
         this.logger.info("Starting NusterTurbine");
 

@@ -6,7 +6,12 @@
 		const content = await ctx.fetch('/app/getip').then((r) => r.json());
 
 		await waitLocale();
-		return { props: { ip: content.ip } };
+		return {
+			props: {
+				ip: content.ip,
+				hypervisorIp: import.meta.env.BALENA_SUPERVISOR_ADDRESS,
+			},
+		};
 	};
 </script>
 
@@ -37,6 +42,7 @@
 	let displayModalMessage: string = '';
 
 	export let ip: string;
+	export let hypervisorIp: string;
 
 	beforeUpdate(() => {
 		$Linker = ip;
@@ -100,6 +106,8 @@
 				if (data.type == 'message') {
 					displayModal = true;
 					displayModalMessage = data.message as string;
+				} else if (data.type == 'update') {
+					goto('/update');
 				}
 			}
 		};
@@ -180,7 +188,7 @@
 				message={$_('message.modal.' + displayModalMessage)}
 			/>
 			<Pagetransition>
-				<HeadPage />
+				<HeadPage {hypervisorIp} />
 				<slot />
 			</Pagetransition>
 		</div>

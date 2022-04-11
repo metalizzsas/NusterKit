@@ -40,6 +40,12 @@ class NusterTurbine
             errors: []
         };
 
+        if(process.env.NODE_ENV === "production")
+        {
+            if(!fs.existsSync(path.resolve("data", "logs")))
+                fs.mkdirSync(path.resolve("data", "logs"), {recursive: true});
+        }
+
         this.logger = pino({
             level: process.env.DISABLE_TRACE_LOG != "" ? "trace" : "info"
         }, process.env.NODE_ENV == "production" ? pino.destination(`/data/logs/nuster-turbine.log`) : pino.destination(process.stdout));
@@ -82,6 +88,7 @@ class NusterTurbine
                     if(process.env.NODE_ENV != 'production')
                     {
                         fs.mkdirSync(path.resolve("data"), {recursive: true});
+                        
                         fs.writeFileSync(path.resolve("data", "info.json"), JSON.stringify(req.body, null, 4));
                     }
                     else

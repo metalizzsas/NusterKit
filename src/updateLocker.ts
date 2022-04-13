@@ -23,11 +23,11 @@ export class UpdateLocker
      */
     async lockUpdates(): Promise<boolean>
     {
-        return new Promise<boolean>((resolve, reject) => {
+        return new Promise<boolean>((resolve) => {
             lockFile.lock(this.lockfilePath, (err) => {
                 if(err)
                 {
-                    reject(err)
+                    resolve(false);
                     this.logger.error("Updates locking failed", err);
                 }
                 else
@@ -46,11 +46,11 @@ export class UpdateLocker
      */
     async unlockUpdates(): Promise<boolean>
     {
-        return new Promise<boolean>((resolve, reject) => {
+        return new Promise<boolean>((resolve) => {
             lockFile.unlock(this.lockfilePath, (err) => {
                 if(err)
                 {
-                    reject(err);
+                    resolve(false);
                     this.logger.error("Updates unlocking failed", err);
                 }
                 else

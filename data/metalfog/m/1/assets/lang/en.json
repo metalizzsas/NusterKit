@@ -122,7 +122,7 @@
       "levels_eff-max-n": "Effluents limit",
       "eff_container_sensor": "Effluents container sensor",
       "levels_ox-min-n": "Oxydiser minimal level",
-      "levels_rd-min-n": "Oxydiser minimal level",
+      "levels_rd-min-n": "Reducer minimal level",
       "levels_rd-a": "Reducer level",
       "levels_act-max-n": "Activator maximal level",
       "levels_act-min-n": "Activator minimal level",

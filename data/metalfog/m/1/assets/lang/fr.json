@@ -1,5 +1,6 @@
 {
   "slots": {
+    "name": "Conteneurs",
     "types": {
       "ox": "Oxydant",
       "rd": "Réducteur",
@@ -25,7 +26,15 @@
       "act-edi-low": "Rang de buses bas",
       "met-high": "Rang de buses haut",
       "met-medium": "Rang de buses millieu",
-      "met-low": "Rang de buses bas"
+      "met-low": "Rang de buses bas",
+      "enabled": "Activé",
+      "speed": "Vitesse",
+      "duration": "Durée",
+      "count": "Nombre d'itérations",
+      "timeOn": "Temps activé",
+      "timeOff": "Temps désactivé",
+      "reverseEnabled": "Inversion moteur",
+      "reverseTime": "Durée entre chaque inversions moteur"
     }
   },
   "cycle": {
@@ -38,86 +47,151 @@
       "watchdog-levels_edi-min-n": "Niveau d'EDI minimal",
       "watchdog-levels_act-min-n": "Niveau d'activant minimal",
       "watchdog-levels_ox-min-n": "Niveau d'oxydant minimal",
-      "watchdog-levels_rd-min-n": "Niveau de réducteur minimal"
+      "watchdog-levels_rd-min-n": "Niveau de réducteur minimal",
+      "activator-timed-out": "La dilution d'activant à été trop longue"
     },
     "names": {
       "default": "Cycle de base metalfog",
       "act-fill": "Dilution activant"
     },
-    "button": "Cycle",
-    "name": "Cycles",
+    "types": {
+      "llc": "Look like chromium",
+      "usl": "Utility silver layer",
+      "cem": "Blindage CEM",
+      "act-fill": "Dilution activant"
+    },
     "modals": {
       "watchdog": {
         "title": "Erreur de sécurité",
         "message": "Le cycle ne peux pas démarrer. Une erreur de conditions de démarrage est présente."
       }
     },
-    "buttons": {
-      "prepare": "Préparer le cycle",
-      "end": "Arreter le cycle",
-      "finish": "Terminer le cycle",
-      "start": "Démarrer le cycle"
-    },
-    "preparation": "Préparartion du cycle",
-    "choice": "Choix du cycle",
-    "profile.choice": "Choix du profil",
     "steps": {
-      "name": "Étapes",
-      "steps": {
-        "activation": {
-          "name": "Activation",
-          "desc": "Activation de la surface des pièces."
-        },
-        "wash1": {
-          "name": "Rinçage",
-          "desc": "Rinçage du surplus d'activant."
-        },
-        "metalization": {
-          "name": "Métallisation",
-          "desc": "Application chimique sur la surfaces des pièces"
-        },
-        "nozzle-cleaning": {
-            "name": "Nettoyage buses",
-            "desc": "Nettoyage des buses de métallisation pour améliorer leur fiabilité et leur performance."
-        },
-        "wash2": {
-          "name": "Washing 2",
-          "desc": "Rinçage final avent le rinçage des pièces."
-        },
-        "drying": {
-            "name": "Séchage",
-            "desc": "Séchage des pièces."
-        },
-        "vapors-extraction": {
-          "name": "Filtration des vapeurs",
-          "desc": "Filtrations des gazs et fines particules crées par le programme."
-        }
+      "activation": {
+        "name": "Activation",
+        "desc": "Activation de la surface des pièces."
+      },
+      "wash1": {
+        "name": "Rinçage",
+        "desc": "Rinçage du surplus d'activant."
+      },
+      "metalization": {
+        "name": "Métallisation",
+        "desc": "Application chimique sur la surfaces des pièces"
+      },
+      "nozzle-cleaning": {
+          "name": "Nettoyage buses",
+          "desc": "Nettoyage des buses de métallisation pour améliorer leur fiabilité et leur performance."
+      },
+      "wash2": {
+        "name": "Washing 2",
+        "desc": "Rinçage final avent le rinçage des pièces."
+      },
+      "drying": {
+          "name": "Séchage",
+          "desc": "Séchage des pièces."
+      },
+      "vapors-extraction": {
+        "name": "Filtration des vapeurs",
+        "desc": "Filtrations des gazs et fines particules crées par le programme."
       }
     }
   },
   "gates": {
+    "categories": {
+      "levels_act": "Niveaux activant",
+      "levels_edi": "Niveaux eau désionisée",
+      "act": "Activant",
+      "edi": "Eau désionisée",
+      "hybrid": "Activant & Eau désionisée",
+      "met": "Métallisation",
+      "motor": "Moteur de rotation",
+      "ox": "Oxydant",
+      "rd": "Réducteur"
+    },
     "names": {
       "emergency_stop": "Boutton d'arret d'urgence",
       "air_sensor": "Capteur de préssion d'air",
-      "nitrogen_sensor": "Capteur de préssion d'azote",
       "cover_closed": "Capteur de couvercle",
       "level_eff-n": "Capteur de limite d'éffluents",
-      "eff_container_sensor": "Capteur de présence du conteneur d'éffluents"
+      "eff_container_sensor": "Capteur de présence du conteneur d'éffluents",
+      "air_heater": "Réchauffeur d'air",
+      "levels_eff-max-n": "Limite niveau éffluents",
+      "levels_ox-min-n": "Niveau minimal oxydant",
+      "levels_rd-min-n": "Niveau minimal réducteur",
+      "levels_rd-a": "Niveau réducteur",
+      "levels_act-max-n": "Niveau maximal activant",
+      "levels_act-min-n": "Niveau minimal activant",
+      "levels_edi-max-n": "Niveau maximal eau désionisée",
+      "levels_edi-min-n": "Niveau maximal eau désionisée",
+      "ventilation": "Extraction des vapeurs",
+      "act-res": "Mise sous pression conteneur activant",
+      "edi-res": "Mise sous pression conteneur eau désionisée",
+      "ox-res": "Mise sous pression conteneur oxydant",
+      "rd-res": "Mise sous pression conteneur réducteur",
+      "act-lq_high": "Contrôle liquide activant haut",
+      "act-lq_low": "Contrôle liquide activant bas",
+      "edi-lq_high": "Contrôle liquide eau désionisée haut",
+      "edi-lq_low": "Contrôle liquide eau désionisée bas",
+      "edi-lq_fill_act": "Contrôle liquide eau désionisée vers conteur activant",
+      "hybrid-plv_high": "Pulvérisation Activant ou Eau désionisée haut",
+      "hybrid-plv_low": "Pulvérisation Activant ou Eau désionisée bas",
+      "met-plv_high": "Pulvérisation métallisation haute",
+      "met-plv_medium": "Pulvérisation métallisation millieu",
+      "met-plv_low": "Pulvérisation métallisation bas",
+      "motor-direction": "Direction du moteur",
+      "motor-speed": "Vitesse du moteur",
+      "rd-lq_high": "Contrôle liquide réducteur haut",
+      "rd-lq_medium": "Contrôle liquide réducteur millieu",
+      "rd-lq_low": "Contrôle liquide réducteur base",
+      "ox-lq_high": "Contrôle liquide oxydant haut",
+      "ox-lq_medium": "Contrôle liquide oxydant millieu",
+      "ox-lq_low": "Contrôle liquide oxydant base",
+
+      "rd-air_cleaning_high": "Nettoyage buse reducteur haut",
+      "rd-air_cleaning_medium": "Nettoyage buse reducteur millieu",
+      "rd-air_cleaning_low": "Nettoyage buse reducteur bas",
+      "ox-air_cleaning_high": "Nettoyage buse oxydant haut",
+      "ox-air_cleaning_medium": "Nettoyage buse oxydant millieu",
+      "ox-air_cleaning_low": "Nettoyage buse oxydant bas"
     }
   },
   "manual": {
+    "categories": {
+      "generic": "Generique",
+      "empty": "Vidange",
+      "plv": "Pulvérisation"
+    },
     "tasks": {
+      "motor-rotation": "Motor speed",
+      "ventilation": "Vapors extraction",
+      "air_heater": "Air heater",
+      "fill_act": "Fill activator container",
+      "empty_act": "Vidange conteneur Activant",
+      "empty_edi": "Vidange conteneur Eau désionisée",
+      "empty_ox": "Vidange conteneur Oxydant",
+      "empty_rd": "Vidange conteneur Réducteur",
       "plv_act_high": "Pulvérization haute activant",
       "plv_act_low": "Pulvérization basse activant",
       "plv_edi_high": "Pulvérization haute eau désionisée",
-      "plv_edi_low": "Pulvérization basse eau désionisée"
+      "plv_edi_low": "Pulvérization basse eau désionisée",
+      "plv_ox_high": "Pulvérization haute oxydant",
+      "plv_ox_mid": "Pulvérization millieu oxydant",
+      "plv_ox_low": "Pulvérization bas oxydant",
+      "plv_rd_high": "Pulvérization haute réducteur",
+      "plv_rd_mid": "Pulvérization millieu réducteur",
+      "plv_rd_low": "Pulvérization bas réducteur"
     }
   },
   "maintenance": {
     "tasks": {
       "mfm-filter": {
         "name": "Filtre",
-        "desc": "Le filtre de la metalfog permet de capturer tout les gazs nocifs crées par les reactions chimiques dans la cuve."
+        "desc": "Le filtre de la metalfog permet de capturer tout les gazs nocifs crées par les reactions chimiques dans la cuve.",
+        "procedure":{
+          "unscrew-mfm-filter": "Dévisser le filtre de la machine",
+          "replace-mfm-new-filter": "Replacer le filtre avec un nouveau filtre"
+        }
       }
     }
   }

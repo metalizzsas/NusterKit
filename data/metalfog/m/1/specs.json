@@ -700,9 +700,9 @@
                "met-nozzles#met-low": 1,
 
                "motor#enabled": 1,
-               "motor#speed": 80,
+               "motor#speed": 50,
                "motor#reverseEnabled": 1,
-               "motor#reverseTime": 1,
+               "motor#reverseTime": 5,
                
                "activation#enabled": 1,
                "activation#timeOn": 5,
@@ -716,6 +716,48 @@
                "metalization#timeOn": 6,
                "metalization#timeOff": 10,
                "metalization#count": 10,
+               
+               "wash2#enabled": 1,
+               "wash2#duration": 35,
+
+               "drying#enabled": 1,
+               "drying#duration": 120,
+               
+               "vapors-extraction#enabled": 1,
+               "vapors-extranction#duration": 45
+            }
+         },
+         {
+            "skeleton": "default",
+            "id": "premade_cem",
+            "name": "cem",
+            "removable": false,
+            "overwriteable": false,
+            "isPremade": true,
+            "values": {
+               "act-edi-nozzles#act-edi-high": 1,
+               "act-edi-nozzles#act-edi-low": 1,
+               "met-nozzles#met-high": 1,
+               "met-nozzles#met-medium": 1,
+               "met-nozzles#met-low": 1,
+
+               "motor#enabled": 1,
+               "motor#speed": 50,
+               "motor#reverseEnabled": 1,
+               "motor#reverseTime": 5,
+               
+               "activation#enabled": 1,
+               "activation#timeOn": 5,
+               "activation#timeOff": 10,
+               "activation#count": 3,
+
+               "wash1#enabled": 1,
+               "wash1#duration": 35,
+
+               "metalization#enabled": 1,
+               "metalization#timeOn": 6,
+               "metalization#timeOff": 10,
+               "metalization#count": 20,
 
                "wash2#enabled": 1,
                "wash2#duration": 35,
@@ -742,9 +784,9 @@
                "met-nozzles#met-low": 1,
 
                "motor#enabled": 1,
-               "motor#speed": 80,
+               "motor#speed": 50,
                "motor#reverseEnabled": 1,
-               "motor#reverseTime": 1,
+               "motor#reverseTime": 5,
                
                "activation#enabled": 1,
                "activation#timeOn": 5,
@@ -771,8 +813,8 @@
          },
          {
             "skeleton": "default",
-            "id": "premade_cem",
-            "name": "cem",
+            "id": "premade_cem_retake",
+            "name": "cem_retake",
             "removable": false,
             "overwriteable": false,
             "isPremade": true,
@@ -784,11 +826,11 @@
                "met-nozzles#met-low": 1,
 
                "motor#enabled": 1,
-               "motor#speed": 80,
+               "motor#speed": 50,
                "motor#reverseEnabled": 1,
-               "motor#reverseTime": 1,
+               "motor#reverseTime": 5,
                
-               "activation#enabled": 1,
+               "activation#enabled": 0,
                "activation#timeOn": 5,
                "activation#timeOff": 10,
                "activation#count": 3,
@@ -800,6 +842,48 @@
                "metalization#timeOn": 6,
                "metalization#timeOff": 10,
                "metalization#count": 20,
+
+               "wash2#enabled": 1,
+               "wash2#duration": 35,
+
+               "drying#enabled": 1,
+               "drying#duration": 120,
+
+               "vapors-extraction#enabled": 1,
+               "vapors-extranction#duration": 45
+            }
+         },
+         {
+            "skeleton": "default",
+            "id": "premade_usl_retake",
+            "name": "usl_retake",
+            "removable": false,
+            "overwriteable": false,
+            "isPremade": true,
+            "values": {
+               "act-edi-nozzles#act-edi-high": 1,
+               "act-edi-nozzles#act-edi-low": 1,
+               "met-nozzles#met-high": 1,
+               "met-nozzles#met-medium": 1,
+               "met-nozzles#met-low": 1,
+
+               "motor#enabled": 1,
+               "motor#speed": 50,
+               "motor#reverseEnabled": 1,
+               "motor#reverseTime": 5,
+               
+               "activation#enabled": 0,
+               "activation#timeOn": 5,
+               "activation#timeOff": 10,
+               "activation#count": 3,
+
+               "wash1#enabled": 1,
+               "wash1#duration": 35,
+
+               "metalization#enabled": 1,
+               "metalization#timeOn": 6,
+               "metalization#timeOff": 10,
+               "metalization#count": 10,
 
                "wash2#enabled": 1,
                "wash2#duration": 35,
@@ -2452,7 +2536,7 @@
                   },
                   "duration": {
                      "name": "const",
-                     "value": "10"
+                     "value": "30"
                   },
                   "startBlocks": [
                      {
@@ -2670,7 +2754,7 @@
                         "params": [
                            {
                               "name": "const",
-                              "value": "10"
+                              "value": "30"
                            }
                         ],
                         "_folded": true

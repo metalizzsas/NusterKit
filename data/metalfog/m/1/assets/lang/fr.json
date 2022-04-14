@@ -57,7 +57,9 @@
     "types": {
       "llc": "Look like chromium",
       "usl": "Utility silver layer",
+      "usl_retake": "Renforcement Utility silver layer",
       "cem": "Blindage CEM",
+      "cem_retake": "Renforcement Blindage CEM",
       "act-fill": "Dilution activant"
     },
     "modals": {

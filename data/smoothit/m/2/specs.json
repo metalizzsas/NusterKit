@@ -331,9 +331,9 @@
                         "name": "timeOn",
                         "type": "float",
                         "value": 2,
-                        "floatMin": 0.5,
-                        "floatMax": 10,
-                        "floatStep": 0.25,
+                        "floatMin": 0.10,
+                        "floatMax": 5,
+                        "floatStep": 0.10,
                         "unity": "s"
                      },
                      {

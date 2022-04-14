@@ -813,8 +813,8 @@
          },
          {
             "skeleton": "default",
-            "id": "premade_cem_retake",
-            "name": "cem_retake",
+            "id": "premade_cem-retake",
+            "name": "cem-retake",
             "removable": false,
             "overwriteable": false,
             "isPremade": true,
@@ -855,8 +855,8 @@
          },
          {
             "skeleton": "default",
-            "id": "premade_usl_retake",
-            "name": "usl_retake",
+            "id": "premade_usl-retake",
+            "name": "usl-retake",
             "removable": false,
             "overwriteable": false,
             "isPremade": true,

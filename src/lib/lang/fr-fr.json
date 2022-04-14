@@ -105,7 +105,10 @@
       "end": "Arreter le cycle",
       "finish": "Terminer le cycle",
       "start": "Démarrer le cycle",
-      "resume": "Reprendre le cycle"
+      "resume": "Reprendre le cycle",
+      "complete": "Terminer le cycle",
+      "cancel": "Anuller le cycle",
+      "nextStep": "Sauter l'étape"
     },
     "preparation": "Préparartion du cycle",
     "choice": "Choix du cycle",

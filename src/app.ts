@@ -142,6 +142,8 @@ class NusterTurbine
         this.app.get("/status", (req: Request, res: Response) => res.json(this.status));
         this.app.get("/ws", async (req: Request, res: Response) => res.json(await this.machine?.socketData()));
 
+        this.app.get("/unlockUpdates", (_req, res: Response) => {this.machine?.updateLocker.unlockUpdates(); res.end();});
+
         this.app.get('/qr', async (req, res) => {
             try
             {

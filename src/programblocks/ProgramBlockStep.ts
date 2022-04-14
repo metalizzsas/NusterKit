@@ -63,7 +63,7 @@ export class ProgramBlockStep implements IProgramStep
 
     public async execute(): Promise<ProgramStepResult>
     {
-        if(!this.isEnabled)
+        if(this.isEnabled.data() === false)
         {
             this.pbrInstance.machine.logger.warn(`${this.name}: Step is disabled.`);
             return ProgramStepResult.END;

@@ -1348,6 +1348,11 @@
             "cycle": "default"
          },
          {
+            "name": "usl-retake",
+            "profile": "premade_usl-retake",
+            "cycle": "default"
+         },
+         {
             "name": "llc",
             "profile": "premade_llc",
             "cycle": "default"
@@ -1355,6 +1360,11 @@
          {
             "name": "cem",
             "profile": "premade_cem",
+            "cycle": "default"
+         },
+         {
+            "name": "cem-retake",
+            "profile": "premade_cem-retake",
             "cycle": "default"
          },
          {

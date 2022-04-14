@@ -58,9 +58,9 @@
     "types": {
       "llc": "Look like chromium",
       "usl": "Utility silver layer",
+      "usl-retake": "Utility silver layer retake",
       "cem": "CEM shielding",
-      "usl_retake": "Utility silver layer retake",
-      "cem_retake": "CEM shielding retake",
+      "cem-retake": "CEM shielding retake",
       "act-fill": "Activator dilution"
     },
     "modals": {

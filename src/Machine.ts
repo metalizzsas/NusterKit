@@ -14,7 +14,7 @@ import { ManualModeController } from "./controllers/manual/ManualModeController"
 import { ProfileController } from "./controllers/profile/ProfilesController";
 import { SlotController } from "./controllers/slot/SlotController";
 import { AuthManager } from "./auth/auth";
-import { IMachine } from "./interfaces/IMachine";
+import { IConfiguration, IMachine } from "./interfaces/IMachine";
 import WebSocket from "ws";
 import { UpdateLocker } from "./updateLocker";
 
@@ -28,6 +28,7 @@ export class Machine {
     revision: number;
 
     public specs: IMachine;
+    public settings?: IConfiguration["settings"];
 
     maintenanceController: MaintenanceController;
     ioController: IOController;
@@ -62,7 +63,7 @@ export class Machine {
 
         const infos = fs.readFileSync(infoPath, {encoding: "utf-8"});
 
-        const parsed = JSON.parse(infos);
+        const parsed = JSON.parse(infos) as IConfiguration;
 
         this.name = parsed.name;
         this.serial = parsed.serial;
@@ -73,7 +74,7 @@ export class Machine {
 
         const raw = fs.readFileSync(path.resolve("nuster-turbine-machines", "data", this.model, this.variant, `${this.revision}`, "specs.json"), {encoding: "utf-8"});
 
-        const specsParsed = JSON.parse(raw);
+        const specsParsed = JSON.parse(raw) as IMachine;
 
         //if informations has optionals specs, deep extending it to match all specs
         if(parsed.options !== undefined)
@@ -83,6 +84,7 @@ export class Machine {
         }
 
         this.specs = (specsParsed as IMachine);
+        this.settings = parsed.settings;
 
         this.maintenanceController = new MaintenanceController(this);
         this.ioController = new IOController(this);

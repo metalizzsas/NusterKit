@@ -32,10 +32,11 @@ export class CycleController extends Controller {
         {
             this.supportedCycles.push({name: cycle.name, profileRequired: cycle.profileRequired});
         }
-
         for(const premade of this.machine.specs.cycles.premades)
         {
-            this.premadeCycles.push({name: premade.name, profile: premade.profile, cycle: premade.cycle});
+            //skip the premade if its masked on machine settings
+            if(!this.machine.settings?.maskedPremades.includes(premade.name))
+                this.premadeCycles.push({name: premade.name, profile: premade.profile, cycle: premade.cycle});
         }
    }
 

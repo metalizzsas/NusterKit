@@ -31,6 +31,22 @@ export declare interface IMachine
     }
 }
 
+export declare interface IMachineSettings
+{
+    maskedPremades: string[]
+}
+
+export interface IConfiguration
+{
+    name: string;
+    serial: string;
+    model: string;
+    variant: string;
+    revision: number;
+    options: IMachine;
+    settings: IMachineSettings;
+}
+
 export interface INuster
 {
     mainInformations: IMainInformation[]

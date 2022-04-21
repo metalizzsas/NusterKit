@@ -33,7 +33,8 @@ export declare interface IMachine
 
 export declare interface IMachineSettings
 {
-    maskedPremades: string[]
+    maskedPremades: string[];
+    maskedProfiles: string[];
 }
 
 export interface IConfiguration

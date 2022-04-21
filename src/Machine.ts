@@ -157,7 +157,9 @@ export class Machine {
             balenaVersion: process.env.BALENA_HOST_OS_VERSION,
             nusterVersion: pkg.version,
 
-            _nuster: this.specs._nuster
+            _nuster: this.specs._nuster,
+
+            settings: this.settings
         };
     }
 }

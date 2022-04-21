@@ -33,12 +33,20 @@ export class ProfileController extends Controller {
 
         for(const p of this.machine.specs.profiles.premades)
         {
-            const k: IProfile = {...p, values: new Map<string, number>()};
-
-            k.values = new Map(Object.entries(p.values));
-            const converted = JSON.parse(JSON.stringify(this.convertProfile(k))); // avoid skeletton modification and profile premade links
-
-            this.profilePremades.push(converted);
+            //mask profile if it is masked on machine settings
+            if((this.machine.settings?.maskedProfiles ?? []).includes(p.name))
+            {
+                this.machine.logger.info(`Skipping premade profile ${p.name} because it is masked on machine settings.`);
+            }
+            else
+            {
+                const k: IProfile = {...p, values: new Map<string, number>()};
+    
+                k.values = new Map(Object.entries(p.values));
+                const converted = JSON.parse(JSON.stringify(this.convertProfile(k))); // avoid skeletton modification and profile premade links
+    
+                this.profilePremades.push(converted);
+            }
         }
         return true;
     }

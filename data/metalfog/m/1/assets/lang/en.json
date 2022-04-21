@@ -59,6 +59,7 @@
       "llc": "Look like chromium",
       "usl": "Utility silver layer",
       "usl-retake": "Utility silver layer retake",
+      "usl-activation-porous": "USL Porous parts activation",
       "cem": "CEM shielding",
       "cem-retake": "CEM shielding retake",
       "act-fill": "Activator dilution"

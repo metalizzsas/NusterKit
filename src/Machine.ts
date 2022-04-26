@@ -14,7 +14,7 @@ import { ManualModeController } from "./controllers/manual/ManualModeController"
 import { ProfileController } from "./controllers/profile/ProfilesController";
 import { SlotController } from "./controllers/slot/SlotController";
 import { AuthManager } from "./auth/auth";
-import { IConfiguration, IMachine } from "./interfaces/IMachine";
+import { IConfiguration, IMachine, IMachineSettings } from "./interfaces/IMachine";
 import WebSocket from "ws";
 import { UpdateLocker } from "./updateLocker";
 
@@ -28,7 +28,7 @@ export class Machine {
     revision: number;
 
     public specs: IMachine;
-    public settings?: IConfiguration["settings"];
+    public settings: IMachineSettings;
 
     maintenanceController: MaintenanceController;
     ioController: IOController;
@@ -79,12 +79,24 @@ export class Machine {
         //if informations has optionals specs, deep extending it to match all specs
         if(parsed.options !== undefined)
         {
-            this.logger.warn("This machine has options");
+            this.logger.warn("This machine has options.");
             deepExtend(specsParsed, parsed.options)
         }
 
         this.specs = (specsParsed as IMachine);
-        this.settings = parsed.settings;
+
+        //initiate settings with empty array in case of no settings in configuration file
+        this.settings = {
+            maskedPremades: [],
+            maskedProfiles: []
+        };
+
+        //if config file has settings let them is the settings var
+        if(parsed.settings !== undefined)
+        {
+            this.logger.warn("This machine has custom settings.");
+            this.settings = parsed.settings;
+        }
 
         this.maintenanceController = new MaintenanceController(this);
         this.ioController = new IOController(this);

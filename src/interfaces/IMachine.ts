@@ -45,7 +45,7 @@ export interface IConfiguration
     variant: string;
     revision: number;
     options: IMachine;
-    settings: IMachineSettings;
+    settings?: IMachineSettings;
 }
 
 export interface INuster

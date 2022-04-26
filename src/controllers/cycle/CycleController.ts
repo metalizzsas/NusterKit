@@ -44,8 +44,8 @@ export class CycleController extends Controller {
 
    private _configureRouter()
    {
-       //list all supported cycles premades by this machine
-       this._router.get("/premades", (_req: Request, res: Response) => {
+        //list all supported cycles premades by this machine
+        this._router.get("/premades", (_req: Request, res: Response) => {
            res.json(this.premadeCycles);
         });
         this.machine.authManager.registerEndpointPermission("cycle.list", {endpoint: "/v1/cycle/premades", method: "get"});

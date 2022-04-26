@@ -30,24 +30,21 @@
 		}[];
 	});
 
-	const prepareCycle = async () => {
+	async function prepareCycle() {
 		const urlEnd =
 			userIndexSelected != -1
-				? userCycleTypeSelected + '/' + $machineData.profiles.at(userIndexSelected)?.id
-				: cyclePremades[premadeIndexSelected].cycle +
-				  '/' +
-				  cyclePremades[premadeIndexSelected].profile;
+				? `${userCycleTypeSelected}/${$machineData.profiles.at(userIndexSelected)?.id}`
+				: `${cyclePremades[premadeIndexSelected].cycle}/${cyclePremades[premadeIndexSelected].profile}`;
 
 		const url = 'http://' + $Linker + '/v1/cycle/' + urlEnd;
 
-		console.log(url);
-		fetch(url, {
+		await fetch(url, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 		});
-	};
+	}
 </script>
 
 <div>
@@ -55,7 +52,7 @@
 		<span class="font-semibold text-zinc-600 rounded-full py-1 px-3 my-2 bg-white inline-block">
 			{$_('cycle.presets')}
 		</span>
-		<div class="grid grid-cols-3 gap-4 mt-3" in:fade out:fade>
+		<div class="grid grid-cols-3 gap-4 mt-3">
 			{#each cyclePremades as ct, index}
 				<div
 					class="{index === premadeIndexSelected
@@ -89,7 +86,7 @@
 				{$_('cycle.user')}
 			</span>
 
-			<div class="grid grid-cols-3 gap-4 mt-3" in:fade out:fade>
+			<div class="grid grid-cols-3 gap-4 mt-3">
 				{#each cycleTypes.filter((k) => k.profileRequired) as ct}
 					{#each $machineData.profiles.filter((p) => p.identifier == ct.name && p.isPremade == false) as p, index}
 						<div
@@ -137,9 +134,9 @@
 			class="{startReady
 				? 'bg-indigo-600 hover:bg-indigo-600/80'
 				: 'bg-gray-400 hover:bg-gray-500'} rounded-xl py-2 px-5 text-white font-semibold transition-all"
-			on:click={() => {
+			on:click={async () => {
 				if (startReady) {
-					prepareCycle();
+					await prepareCycle();
 				}
 			}}
 		>

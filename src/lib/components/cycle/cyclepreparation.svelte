@@ -10,19 +10,11 @@
 
 	let cyclePremades: { name: string; profile: string; cycle: string }[] = [];
 
-	let customRunProfileSelected: string = '';
-	let customRunCycleSelected: number = -1;
+	let premadeIndexSelected = -1;
+	let userIndexSelected = -1;
+	let userCycleTypeSelected = '';
 
-	let premadeCycleSelectedIndex = -1;
-
-	$: startReady =
-		premadeCycleSelectedIndex > -1
-			? cyclePremades[premadeCycleSelectedIndex].name == 'custom'
-				? customRunCycleSelected != -1 &&
-				  (customRunProfileSelected != '' ||
-						!cycleTypes[customRunCycleSelected].profileRequired)
-				: true
-			: false;
+	$: startReady = premadeIndexSelected != -1 || userIndexSelected != -1;
 
 	onMount(async () => {
 		//fetch cycles types from machine api
@@ -36,19 +28,16 @@
 			profile: string;
 			cycle: string;
 		}[];
-		cyclePremades.push({
-			name: 'custom',
-			profile: '',
-			cycle: '',
-		});
 	});
 
 	const prepareCycle = async () => {
-		console.log(cyclePremades[premadeCycleSelectedIndex].name);
 		const urlEnd =
-			cyclePremades[premadeCycleSelectedIndex].name == 'custom'
-				? `${cycleTypes[customRunCycleSelected]?.name}/${customRunProfileSelected}`
-				: `${cyclePremades[premadeCycleSelectedIndex].cycle}/${cyclePremades[premadeCycleSelectedIndex].profile}`;
+			userIndexSelected != -1
+				? userCycleTypeSelected + '/' + $machineData.profiles.at(userIndexSelected)?.id
+				: cyclePremades[premadeIndexSelected].cycle +
+				  '/' +
+				  cyclePremades[premadeIndexSelected].profile;
+
 		const url = 'http://' + $Linker + '/v1/cycle/' + urlEnd;
 
 		console.log(url);
@@ -63,93 +52,85 @@
 
 <div>
 	<div id="cycleTypeChooser">
-		<div
-			class="flex flex-row gap-4 bg-gray-800 text-white font-semibold rounded-xl p-2 items-center"
-		>
-			<div class="bg-white text-orange rounded-full p-2 text-orange-500">!</div>
-			<div class="shrink-1">{$_('cycle.choice.message')}</div>
-		</div>
+		<span class="font-semibold text-zinc-600 rounded-full py-1 px-3 my-2 bg-white inline-block">
+			{$_('cycle.presets')}
+		</span>
 		<div class="grid grid-cols-3 gap-4 mt-3" in:fade out:fade>
 			{#each cyclePremades as ct, index}
 				<div
-					class="{index === premadeCycleSelectedIndex
+					class="{index === premadeIndexSelected
 						? 'bg-indigo-500 hover:bg-indigo-500/80'
 						: 'bg-gray-400 hover:bg-gray-400/80'} text-white p-2 flex flex-col items-center justify-center rounded-xl transition-all font-semibold {ct.name ==
 					'custom'
 						? 'col-span-2'
 						: ''}"
 					on:click={() => {
-						premadeCycleSelectedIndex = premadeCycleSelectedIndex != index ? index : -1;
-						customRunCycleSelected = -1;
-						customRunProfileSelected = '';
+						premadeIndexSelected = premadeIndexSelected != index ? index : -1;
+						userIndexSelected = -1;
+						userCycleTypeSelected = '';
 					}}
 				>
 					<div class="flex flex-row gap-4 items-center justify-items-start w-full">
-						{#if ct.name != 'custom'}
-							<!-- svelte-ignore a11y-missing-attribute -->
-							<img
-								src="http://{$Linker}/assets/cycle/{ct.name}.png"
-								class="w-10 aspect-square bg-white rounded-full"
-							/>
-						{:else}
-							<svg
-								id="glyphicons-basic"
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 32 32"
-								class="w-10 aspect-square fill-white"
-							>
-								<path
-									id="wrench"
-									d="M27.405,12.91907a6.38551,6.38551,0,0,1-7.78314,3.70154L8.82825,27.41418A1,1,0,0,1,7.414,27.41412L4.58594,24.58575A.99993.99993,0,0,1,4.586,23.17157L15.33209,12.42548a6.4047,6.4047,0,0,1,3.69947-7.92487,6.22745,6.22745,0,0,1,2.77825-.49127.4987.4987,0,0,1,.34015.84857L19.73254,7.27533a.4961.4961,0,0,0-.131.469l.82916,3.38044a.496.496,0,0,0,.36365.36364l3.38068.82935a.49614.49614,0,0,0,.469-.131l2.419-2.41889a.49433.49433,0,0,1,.8446.30078A6.22117,6.22117,0,0,1,27.405,12.91907Z"
-								/>
-							</svg>
-						{/if}
-
+						<!-- svelte-ignore a11y-missing-attribute -->
+						<img
+							src="http://{$Linker}/assets/cycle/{ct.name}.png"
+							class="w-10 aspect-square bg-white rounded-full"
+						/>
 						<div class="text-md">{$_('cycle.types.' + ct.name)}</div>
 					</div>
-					{#if ct.name == 'custom' && premadeCycleSelectedIndex == cyclePremades.length - 1}
-						<div class="flex flex-col gap-4">
-							<div class="flex flex-row gap-3">
-								<label for="select-cycle">{$_('cycle.custom.select.cycle')}</label>
-								<select
-									name="select-cycle"
-									class="px-2 py-1 text-gray-800"
-									bind:value={customRunCycleSelected}
-									on:click|stopPropagation={() => {}}
-								>
-									{#each cycleTypes as c, index}
-										<option value={index}>
-											{$_('cycle.names.' + c.name)}
-										</option>
-									{/each}
-								</select>
-							</div>
-							{#if customRunCycleSelected != -1 && cycleTypes[customRunCycleSelected].profileRequired}
-								<div class="flex flex-row gap-3">
-									<label for="select-profile">
-										{$_('cycle.custom.select.profile')}
-									</label>
-									<select
-										name="select-profile"
-										class="px-2 py-1 text-gray-800"
-										bind:value={customRunProfileSelected}
-										on:click|stopPropagation={() => {}}
-									>
-										{#each $machineData.profiles.filter((p) => p.identifier == cycleTypes[customRunCycleSelected]?.name) as p}
-											<option value={p.id}>
-												{p.isPremade === true
-													? $_('cycle.types.' + p.name)
-													: p.name}
-											</option>
-										{/each}
-									</select>
-								</div>
-							{/if}
-						</div>
-					{/if}
 				</div>
 			{/each}
 		</div>
+
+		{#if $machineData.profiles.filter((p) => p.isPremade == false).length > 0}
+			<span
+				class="font-semibold text-zinc-600 rounded-full py-1 px-3 mb-2 mt-5 bg-white inline-block"
+			>
+				{$_('cycle.user')}
+			</span>
+
+			<div class="grid grid-cols-3 gap-4 mt-3" in:fade out:fade>
+				{#each cycleTypes.filter((k) => k.profileRequired) as ct}
+					{#each $machineData.profiles.filter((p) => p.identifier == ct.name && p.isPremade == false) as p, index}
+						<div
+							class="{index === userIndexSelected
+								? 'bg-indigo-500 hover:bg-indigo-500/80'
+								: 'bg-gray-400 hover:bg-gray-400/80'} text-white p-2 flex flex-col items-center justify-center rounded-xl transition-all font-semibold {ct.name ==
+							'custom'
+								? 'col-span-2'
+								: ''}"
+							on:click={() => {
+								userIndexSelected = userIndexSelected != index ? index : -1;
+								userCycleTypeSelected =
+									userCycleTypeSelected != ct.name ? ct.name : '';
+								premadeIndexSelected = -1;
+							}}
+						>
+							<div
+								class="flex flex-row gap-4 items-center justify-items-start w-full"
+							>
+								<svg
+									id="glyphicons-basic"
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 32 32"
+									class="w-10 aspect-square fill-white"
+								>
+									<path
+										id="user"
+										d="M27,24.23669V27a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V24.23669a1.57806,1.57806,0,0,1,.93115-1.36462L10.0672,20.167A5.02379,5.02379,0,0,0,14.55273,23h1.89454a5.02336,5.02336,0,0,0,4.48535-2.83313l5.13623,2.7052A1.57806,1.57806,0,0,1,27,24.23669ZM9.64478,14.12573a2.99143,2.99143,0,0,0,1.31073,1.462l.66583,3.05176A2.99994,2.99994,0,0,0,14.55237,21h1.89526a2.99994,2.99994,0,0,0,2.931-2.36047l.66583-3.05176a2.99115,2.99115,0,0,0,1.31073-1.462l.28-.75146A1.2749,1.2749,0,0,0,21,11.62988V9c0-3-2-5-5.5-5S10,6,10,9v2.62988a1.2749,1.2749,0,0,0-.63519,1.74439Z"
+									/>
+								</svg>
+
+								<div class="flex flex-col">
+									<div class="text-md">{p.name}</div>
+									<div class="text-xs">{$_('cycle.names.' + ct.name)}</div>
+								</div>
+							</div>
+						</div>
+					{/each}
+				{/each}
+			</div>
+		{/if}
 	</div>
 	<div id="cyclePrepare" class="mt-6 flex flex-row justify-center">
 		<button

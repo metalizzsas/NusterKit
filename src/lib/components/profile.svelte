@@ -46,7 +46,7 @@
 <ModalPrompt
 	bind:shown={copyProfileModalShown}
 	title={$_('profile.modals.copy.title').replace('{profile.name}', profile.name)}
-	message={$_('profile.modals.copy.message')}
+	message={$_('profile.modals.copy.message').replace('{profile.name}', profile.name)}
 	buttons={[
 		{
 			text: $_('ok'),

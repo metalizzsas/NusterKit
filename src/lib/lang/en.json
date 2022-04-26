@@ -81,6 +81,8 @@
   },
   "cycle": {
     "button": "Cycle",
+    "presets": "Constructor defined cycles",
+    "user": "User defined cycles",
     "name": "Cycles",
     "choice.message": "Choose a cycle to begin",
     "types": {

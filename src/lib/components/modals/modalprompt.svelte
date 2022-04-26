@@ -76,7 +76,7 @@
 						<Inputkb
 							bind:value={val}
 							options={{
-								class: 'rounded-xl py-2 px-3 ring-1 ring-gray-500/50 text-gray-400/80 mb-3 mt-1',
+								class: 'rounded-xl py-2 px-3 ring-1 ring-gray-500/50 text-zinc-700 mb-3 mt-1',
 							}}
 						/>
 					{/if}

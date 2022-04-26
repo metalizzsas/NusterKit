@@ -57,7 +57,7 @@
       },
       "delete": {
         "title": "Suppression de {profile.name}",
-        "message": "Voulez vous supprimmer {profile.name} ?"
+        "message": "Souhaitez vous supprimer le profil {profile.name} ?"
       }
     },
     "rows": {
@@ -79,6 +79,8 @@
   "cycle": {
     "button": "Cycle",
     "name": "Cycles",
+    "presets": "Cycles contructeur",
+    "user": "Cycles utilisateur",
     "types": {
       "custom": "Cycle customisé"
     },

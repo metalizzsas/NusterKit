@@ -11,7 +11,7 @@
 	class="hover:scale-[1.005] cursor-pointer"
 >
 	<div
-		class="p-3 bg-gradient-to-br from-sky-500 to-sky-600 rounded-tr-2xl rounded-tl-2xl overflow-hidden transition-all flex flex-row justify-between"
+		class="p-3 bg-gradient-to-br from-indigo-500 to-indigo-400 rounded-tr-2xl rounded-tl-2xl overflow-hidden transition-all flex flex-row justify-between"
 	>
 		<span class="bg-white py-1 px-3 rounded-full text-gray-800 font-semibold">
 			{$_('maintenance.tasks.' + maintenance.name + '.name')}

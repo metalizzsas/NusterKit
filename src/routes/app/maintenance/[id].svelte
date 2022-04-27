@@ -50,7 +50,7 @@
 			</svg>
 		</div>
 		<div
-			class="rounded-full bg-indigo-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
+			class="rounded-full bg-indigo-400 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
 		>
 			{$_('maintenance.tasks.' + maintenance.name + '.name')}
 		</div>
@@ -69,122 +69,121 @@
 		<p class="rounded-xl bg-white py-2 px-3 text-gray-800 mb-3 mr-auto">
 			{$_('maintenance.tasks.' + maintenance.name + '.desc')}
 		</p>
-
-		{#if maintenance.procedure}
-			<div class="relative grid grid-cols-3 mt-10">
-				<div class="z-50 absolute left-4 -translate-y-2">
-					<span
-						class="text-white font-semibold mb-3 bg-violet-700 py-2 px-4 rounded-full m-auto"
-					>
-						{$_('maintenance.procedure')}
-					</span>
-				</div>
-				<div class="rounded-l-xl overflow-hidden col-span-1">
-					{#each maintenance.procedure.steps as step, index}
-						{#if procedureIndex == index}
-							<div>
-								<img
-									src="http://{$Linker}/assets/maintenance/{maintenance.name}/{step
-										.images[procedureImageIndex]}"
-									alt="procedure"
-									class="shrink-0 transition-all"
-								/>
-								{#if step.images.length > 1}
-									<div class="flex flex-row justify-center">
-										<div class="absolute flex flex-row gap-4 -translate-y-24">
-											{#each step.images as _image, indeximge}
-												<div
-													on:click={() =>
-														(procedureImageIndex = indeximge)}
-												>
-													<div
-														class="h-10 w-10 bg-gray-800 text-white text-xl flex flex-row items-center justify-center rounded-md {procedureImageIndex !=
-														indeximge
-															? 'ring-white ring-1'
-															: 'ring-blue-500 ring-offset-2 ring-2'}"
-													>
-														{indeximge + 1}
-													</div>
-												</div>
-											{/each}
-										</div>
-									</div>
-								{/if}
-							</div>
-						{/if}
-					{/each}
-				</div>
-				<div class="bg-white rounded-r-xl col-span-2 p-5 relative">
-					<div class="mb-5 flex flex-row gap-4 justify-items-start">
-						<span class="rounded-full bg-violet-500 py-1 px-5 text-white font-medium">
-							{$_('maintenance.tools-used')}
-						</span>
-
-						{#each maintenance.procedure.tools ?? [] as tool}
-							<span class="bg-violet-300 py-1 px-3 text-white rounded-full">
-								{$_('maintenance.tools.' + tool)}
-							</span>
-						{:else}
-							<span class="bg-violet-300 py-1 px-3 text-white rounded-full">
-								{$_('maintenance.tools.none')}
-							</span>
-						{/each}
-					</div>
-
-					<p class="font-semibold text-gray-800">
-						{$_(
-							'maintenance.tasks.' +
-								maintenance.name +
-								'.procedure.' +
-								maintenance.procedure.steps[procedureIndex].name,
-						)}
-					</p>
-
-					<div
-						class="absolute bottom-5 right-5 left-5 flex flex-row gap-4 mt-4 justify-items-start"
-					>
-						<button
-							class="{procedureIndex < 1
-								? 'bg-gray-300'
-								: 'bg-indigo-500'} text-white font-semibold rounded-xl py-2 px-4 self-start"
-							on:click={() => {
-								if (procedureIndex > 0) {
-									procedureIndex--;
-									procedureImageIndex = 0;
-								}
-							}}
-						>
-							{$_('maintenance.procedure.previous')}
-						</button>
-
-						<button
-							class="{procedureIndex < maintenance.procedure.steps.length - 1
-								? 'bg-indigo-500'
-								: 'bg-gray-300'} text-white font-semibold rounded-xl py-2 px-4 self-end"
-							on:click={() => {
-								if (procedureIndex < maintenance.procedure.steps.length - 1) {
-									procedureIndex++;
-									procedureImageIndex = 0;
-								}
-							}}
-						>
-							{$_('maintenance.procedure.next')}
-						</button>
-
-						<button
-							class="{procedureIndex == maintenance.procedure.steps.length - 1
-								? 'bg-emerald-500'
-								: 'bg-gray-300'} text-white font-semibold rounded-xl py-2 px-4"
-							on:click={() => {
-								if (procedureIndex == maintenance.procedure.steps.length - 1)
-									resetMaintenance();
-							}}
-						>
-							{$_('maintenance.procedure.reset')}
-						</button>
-					</div>
-				</div>
-			</div>
-		{/if}
 	</div>
 </div>
+
+{#if maintenance.procedure !== undefined}
+	<div class="rounded-xl pt-0 -m-2 mt-12 bg-neutral-300 dark:bg-neutral-800 shadow-xl group">
+		<div class="relative grid grid-cols-3 mt-10">
+			<div class="z-50 absolute left-4 -translate-y-2">
+				<span
+					class="text-white font-semibold mb-3 bg-indigo-400 py-2 px-4 rounded-full m-auto"
+				>
+					{$_('maintenance.procedure')}
+				</span>
+			</div>
+			<div class="rounded-l-xl overflow-hidden col-span-1">
+				{#each maintenance.procedure.steps as step, index}
+					{#if procedureIndex == index}
+						<div>
+							<img
+								src="http://{$Linker}/assets/maintenance/{maintenance.name}/{step
+									.images[procedureImageIndex]}"
+								alt="procedure"
+								class="shrink-0 transition-all"
+							/>
+							{#if step.images.length > 1}
+								<div class="flex flex-row justify-center">
+									<div class="absolute flex flex-row gap-4 -translate-y-24">
+										{#each step.images as _image, indeximge}
+											<div on:click={() => (procedureImageIndex = indeximge)}>
+												<div
+													class="h-10 w-10 bg-gray-800 text-white text-xl flex flex-row items-center justify-center rounded-md {procedureImageIndex !=
+													indeximge
+														? 'ring-white ring-1'
+														: 'ring-blue-500 ring-offset-2 ring-2'}"
+												>
+													{indeximge + 1}
+												</div>
+											</div>
+										{/each}
+									</div>
+								</div>
+							{/if}
+						</div>
+					{/if}
+				{/each}
+			</div>
+			<div class="bg-neutral-300 rounded-r-xl col-span-2 p-5 relative">
+				<div class="mb-5 flex flex-row gap-4 justify-items-start">
+					<span class="rounded-full bg-indigo-400 py-1 px-5 text-white font-medium">
+						{$_('maintenance.tools-used')}
+					</span>
+
+					{#each maintenance.procedure.tools ?? [] as tool}
+						<span class="bg-violet-300 py-1 px-3 text-white rounded-full">
+							{$_('maintenance.tools.' + tool)}
+						</span>
+					{:else}
+						<span class="bg-violet-300 py-1 px-3 text-white rounded-full">
+							{$_('maintenance.tools.none')}
+						</span>
+					{/each}
+				</div>
+
+				<p class="font-semibold text-gray-800">
+					{$_(
+						'maintenance.tasks.' +
+							maintenance.name +
+							'.procedure.' +
+							maintenance.procedure.steps[procedureIndex].name,
+					)}
+				</p>
+
+				<div
+					class="absolute bottom-5 right-5 left-5 flex flex-row gap-4 mt-4 justify-items-start"
+				>
+					<button
+						class="{procedureIndex < 1
+							? 'bg-indigo-500/50'
+							: 'bg-indigo-500'} text-white font-semibold rounded-xl py-2 px-4 self-start"
+						on:click={() => {
+							if (procedureIndex > 0) {
+								procedureIndex--;
+								procedureImageIndex = 0;
+							}
+						}}
+					>
+						{$_('maintenance.procedure.previous')}
+					</button>
+
+					<button
+						class="{procedureIndex < maintenance.procedure.steps.length - 1
+							? 'bg-indigo-500'
+							: 'bg-indigo-500/50'} text-white font-semibold rounded-xl py-2 px-4 self-end"
+						on:click={() => {
+							if (procedureIndex < maintenance.procedure.steps.length - 1) {
+								procedureIndex++;
+								procedureImageIndex = 0;
+							}
+						}}
+					>
+						{$_('maintenance.procedure.next')}
+					</button>
+
+					<button
+						class="{procedureIndex == maintenance.procedure.steps.length - 1
+							? 'bg-emerald-500'
+							: 'bg-emerald-500/50'} text-white font-semibold rounded-xl py-2 px-4"
+						on:click={() => {
+							if (procedureIndex == maintenance.procedure.steps.length - 1)
+								resetMaintenance();
+						}}
+					>
+						{$_('maintenance.procedure.reset')}
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+{/if}

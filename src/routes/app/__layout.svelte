@@ -23,7 +23,7 @@
 
 	import { beforeUpdate, onDestroy, onMount } from 'svelte';
 
-	import { machineData } from '$lib/utils/store';
+	import { lockMachineData, machineData } from '$lib/utils/store';
 	import type { IWSObject } from '$lib/utils/interfaces';
 	import { fade, scale } from 'svelte/transition';
 	import { loadDarkMode } from '$lib/utils/settings';
@@ -100,8 +100,10 @@
 			let data = JSON.parse(e.data) as WSContent;
 
 			if (data.type == 'status') {
-				$machineData = data.message as IWSObject;
-				ready = true;
+				if ($lockMachineData === false) {
+					$machineData = data.message as IWSObject;
+					ready = true;
+				}
 			} else {
 				if (data.type == 'message') {
 					displayModal = true;

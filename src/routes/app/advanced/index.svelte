@@ -3,7 +3,7 @@
 
 	import Toggle from '$lib/components/toggle.svelte';
 	import { _ } from 'svelte-i18n';
-	import { machineData } from '$lib/utils/store';
+	import { machineData, lockMachineData } from '$lib/utils/store';
 	import { goto } from '$app/navigation';
 	import { Linker } from '$lib/utils/linker';
 
@@ -36,29 +36,22 @@
 			</svg>
 		</div>
 		<div
-			class="rounded-full bg-indigo-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
+			class="rounded-full bg-indigo-400 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
 		>
 			{$_('manual.list')}
 		</div>
 
-		<div
-			class="rounded-xl bg-orange-500 text-white font-semibold py-1 px-3 shadow-md ml-auto self-end"
-			on:click={() => goto('/app/advanced/gates')}
-		>
-			{$_('gates.name')}
-		</div>
+		{#if !$machineData.machine.settings.ioControlsMasked}
+			<div
+				class="rounded-xl bg-orange-400 text-white font-semibold py-1 px-3 shadow-md ml-auto self-end"
+				on:click={() => goto('/app/advanced/gates')}
+			>
+				{$_('gates.name')}
+			</div>
+		{/if}
 	</div>
 
-	<div class="bg-orange-500 text-white my-4 p-3 rounded-xl flex flex-row gap-4 items-center">
-		<span
-			class="block rounded-full p-2 bg-white text-orange-500 font-bold h-8 w-8 text-center shadow-md leading-4"
-		>
-			!
-		</span>
-		{$_('manual.warning')}
-	</div>
-
-	<div class="mt-5 flex flex-col gap-4">
+	<div class="flex flex-col gap-4">
 		{#each $machineData.manuals
 			.map((mn) => {
 				let z = mn.name.split('_');
@@ -67,13 +60,13 @@
 			.sort((a, b) => a.localeCompare(b))
 			.filter((i, p, a) => a.indexOf(i) == p)
 			.sort((a, b) => (a == 'generic' ? -1 : 1)) as cat}
-			<span class="rounded-xl bg-indigo-500 text-white py-1 px-3 font-semibold self-start">
+			<span class="rounded-full bg-indigo-400 text-white py-1 px-5 font-semibold self-start">
 				{$_('manual.categories.' + cat)}
 			</span>
-			<div class="flex flex-col gap-2 ml-4">
+			<div class="flex flex-col gap-2">
 				{#each $machineData.manuals.filter((g, i, a) => g.name.startsWith(cat) || (cat == 'generic' && $machineData.manuals.filter( (h) => h.name.startsWith(g.name.split('_')[0]), ).length == 1) || (cat == 'generic' && g.name.split('_').length == 1)) as manual, index}
 					<div
-						class="rounded-xl bg-zinc-900 px-3 py-2 pr-2 pl-3 flex flex-row justify-between items-center"
+						class="rounded-xl bg-zinc-700 px-3 py-2 pr-2 pl-3 flex flex-row justify-between items-center"
 					>
 						<div class="flex flex-col gap-1">
 							<span class="text-white font-semibold">
@@ -124,8 +117,13 @@
 									min={manual.analogScale.min}
 									max={manual.analogScale.max}
 									bind:value={manual.state}
-									on:change={async () =>
-										await toggleState(manual.name, manual.state)}
+									on:input={() => {
+										$lockMachineData = true;
+									}}
+									on:change={async (e) => {
+										$lockMachineData = false;
+										await toggleState(manual.name, manual.state);
+									}}
 									disabled={manual.incompatibility
 										.map((i) =>
 											$machineData.manuals.find((j) =>

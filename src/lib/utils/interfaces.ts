@@ -206,7 +206,13 @@ export interface Machine {
   revision: number;
   nusterVersion: string;
   balenaVersion?: string;
-  _nuster: INuster
+  _nuster: INuster,
+  settings: {
+    maskedPremades: string[],
+    maskedProfiles: string[],
+    maskedManuals: string[],
+    ioControlsMasked: boolean
+  }
 }
 
 export interface INuster

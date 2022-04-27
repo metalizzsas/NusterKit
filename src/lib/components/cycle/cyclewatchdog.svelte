@@ -47,13 +47,30 @@
 	/>
 
 	<div id="cyclePreparation" class="flex flex-col gap-4">
-		<div class="flex flex-row justify-center">
+		<div class="flex flex-row gap-3 items-center">
 			<span
-				class="rounded-full bg-violet-500 py-1 px-5 text-white text-xl font-semibold shadow-2xl self-start my-3"
+				class="rounded-full bg-indigo-400 py-1 px-5 text-white font-semibold shadow-2xl mt-2"
 			>
 				{$_('cycle.watchdog.conditions')}
 			</span>
+
+			<button
+				class="bg-orange-500 hover:bg-orange-500/80 hover:scale-[1.01] rounded-xl py-1 px-3 self-center text-white font-semibold transition:all mt-3 ml-auto"
+				on:click={cancelCycle}
+			>
+				{$_('cycle.buttons.cancel')}
+			</button>
+			<button
+				class="{$machineData.cycle.watchdogConditions.filter((wdc) => wdc.result == false)
+					.length > 0
+					? 'bg-gray-400 hover:bg-gray-400/80'
+					: 'bg-emerald-500 hover:bg-emerald-500/80 hover:scale-[1.01]'} rounded-xl py-1 px-3 self-center text-white font-semibold transition:all mt-3"
+				on:click={startCycle}
+			>
+				{$_('cycle.buttons.start')}
+			</button>
 		</div>
+
 		{#if $machineData.cycle}
 			<div class="grid grid-cols-2 gap-3">
 				{#each $machineData.cycle.watchdogConditions as wdc}
@@ -68,24 +85,6 @@
 						/>
 					</span>
 				{/each}
-			</div>
-			<div class="flex flex-row gap-4 items-center justify-center w-full">
-				<button
-					class="bg-orange-500 hover:bg-orange-500/80 hover:scale-[1.01] rounded-xl py-2 px-5 self-center text-white font-semibold transition:all mt-3"
-					on:click={cancelCycle}
-				>
-					{$_('cycle.buttons.cancel')}
-				</button>
-				<button
-					class="{$machineData.cycle.watchdogConditions.filter(
-						(wdc) => wdc.result == false,
-					).length > 0
-						? 'bg-gray-400 hover:bg-gray-400/80'
-						: 'bg-indigo-500 hover:bg-indigo-500/80 hover:scale-[1.01]'} rounded-xl py-2 px-5 self-center text-white font-semibold transition:all mt-3"
-					on:click={startCycle}
-				>
-					{$_('cycle.buttons.start')}
-				</button>
 			</div>
 		{/if}
 	</div>

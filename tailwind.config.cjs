@@ -2,6 +2,17 @@ module.exports = {
   darkMode: 'class',
   mode: 'jit',
   content: ["./src/**/*.svelte"],
+  safelist: [
+    {
+      pattern: /bg-(.*)/
+    },
+    {
+      pattern: /to-(.*)/
+    },
+    {
+      pattern: /from-(.*)/
+    }
+  ],
   theme:{
     extend:{
       animation: {

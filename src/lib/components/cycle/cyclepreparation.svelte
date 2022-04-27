@@ -49,7 +49,9 @@
 
 <div>
 	<div id="cycleTypeChooser">
-		<span class="font-semibold text-zinc-600 rounded-full py-1 px-3 my-2 bg-white inline-block">
+		<span
+			class="font-semibold text-white rounded-full py-1 px-3 my-2 bg-indigo-400 inline-block"
+		>
 			{$_('cycle.presets')}
 		</span>
 		<div class="grid grid-cols-3 gap-4 mt-3">
@@ -81,7 +83,7 @@
 
 		{#if $machineData.profiles.filter((p) => p.isPremade == false).length > 0}
 			<span
-				class="font-semibold text-zinc-600 rounded-full py-1 px-3 mb-2 mt-5 bg-white inline-block"
+				class="font-semibold bg-indigo-400 rounded-full py-1 px-3 mb-2 mt-5 text-white inline-block"
 			>
 				{$_('cycle.user')}
 			</span>

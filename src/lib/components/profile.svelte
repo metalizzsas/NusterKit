@@ -80,7 +80,7 @@
 />
 <div in:fly={{ x: -50, duration: 100 }} out:fly={{ x: 50, duration: 100 }}>
 	<div
-		class="bg-black text-white py-2 px-4 rounded-2xl flex flex-row justify-between"
+		class="bg-zinc-700 text-white py-2 px-4 rounded-2xl flex flex-row justify-between"
 		on:click={() => goto('profiles/' + profile.id)}
 	>
 		<div class="flex flex-col">

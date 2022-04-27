@@ -38,7 +38,7 @@
 						<a
 							href="#close"
 							on:click|preventDefault={() => (shown = false)}
-							class="rounded-xl bg-red-400 text-white py-1 px-1 font-semibold flex flex-row gap-2 items-center"
+							class="rounded-full bg-red-400 text-white py-1 px-3 font-semibold flex flex-row gap-2 items-center"
 						>
 							<svg
 								id="glyphicons-basic"
@@ -54,7 +54,7 @@
 						</a>
 					{/if}
 					<div
-						class="rounded-xl bg-gray-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
+						class="rounded-full bg-gray-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
 					>
 						{title}
 					</div>

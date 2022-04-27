@@ -23,3 +23,5 @@ export interface IMachine {
     modelRevision: number;
 }
 export var machineData = writable<IWSObject>();
+
+export var lockMachineData = writable<boolean>(false);

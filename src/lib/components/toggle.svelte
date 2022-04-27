@@ -19,7 +19,7 @@
 </script>
 
 <div
-	class="dark:bg-white bg-gray-700 toggle {locked && enableGrayScale ? 'grayscale' : ''}"
+	class="dark:bg-white bg-black toggle {locked && enableGrayScale ? 'grayscale' : ''}"
 	aria-checked={aria}
 	on:click={() => {
 		if (!locked) {
@@ -38,16 +38,22 @@
 <style>
 	.toggle {
 		@apply block rounded-full h-6 w-12;
+		position: relative;
 	}
 
 	.toggle::before {
 		content: '';
-		@apply block bg-red-500 h-4 w-4 rounded-full m-1;
+		position: absolute;
+		top: 0.25rem;
+		left: 0.25rem;
+		@apply block bg-red-500 h-4 w-4 rounded-full;
 		transition: all 0.1s ease-in-out;
 	}
 
 	div[aria-checked='true'].toggle::before {
 		@apply bg-green-500;
+		top: 0.25rem;
+		right: 0.25rem;
 		transform: translateX(1.5rem);
 		transition: all 0.1s ease-in-out;
 	}

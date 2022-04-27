@@ -15,18 +15,30 @@
 </script>
 
 <div id="cycleRunner" class="flex flex-col gap-4">
-	<div class="flex flex-row justify-center">
-		<span
-			class="rounded-full bg-violet-500 py-1 px-5 text-white text-xl font-semibold shadow-2xl self-start my-3"
-		>
+	<div class="flex flex-row gap-3 items-center">
+		<span class="rounded-full bg-indigo-400 py-1 px-5 text-white font-semibold shadow-2xl mt-2">
 			{$_('cycle.steps.title')}
 		</span>
+
+		<button
+			class="bg-red-500 rounded-xl py-1 px-3 text-white font-semibold ml-auto"
+			on:click={stopCycle}
+		>
+			{$_('cycle.buttons.end')}
+		</button>
+
+		<!-- TODO: Add options.nextstepEnabled button options on cycle
+        {#if $machineData.cycle.options.nextStepEnabled === true}
+			<button class="bg-orange-500 rounded-xl py-2 px-5 text-white font-semibold">
+				Passer a l'étape suivante
+			</button>
+		{/if} -->
 	</div>
 
 	{#if $machineData.cycle}
 		{#each $machineData.cycle.steps as s}
 			<div
-				class="bg-gray-800 text-white font-semibold p-3 rounded-xl flex flex-row gap-4 justify-between items-center"
+				class="bg-zinc-700 text-white font-semibold p-3 rounded-xl flex flex-row gap-4 justify-between items-center"
 			>
 				<div class="flex flex-col">
 					<span>{$_('cycle.steps.' + s.name + '.name')}</span>
@@ -101,20 +113,4 @@
 			</div>
 		{/each}
 	{/if}
-
-	<div class="flex flex-row gap-4 self-center">
-		<button
-			class="bg-red-500 rounded-xl py-2 px-5 text-white font-semibold"
-			on:click={stopCycle}
-		>
-			{$_('cycle.buttons.end')}
-		</button>
-
-		<!-- TODO: Add options.nextstepEnabled button options on cycle
-        {#if $machineData.cycle.options.nextStepEnabled === true}
-    <button class="bg-indigo-500 rounded-xl py-2 px-5 text-white font-semibold">
-        Passer a l'étape suivante
-    </button>
-    {/if} -->
-	</div>
 </div>

@@ -3,7 +3,7 @@
 	import { _ } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
 	import { Linker } from '$lib/utils/linker';
-	import { machineData } from '$lib/utils/store';
+	import { machineData, lockMachineData } from '$lib/utils/store';
 
 	$: gates = $machineData.io;
 
@@ -31,19 +31,19 @@
 			</svg>
 		</div>
 		<div
-			class="rounded-full bg-indigo-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
+			class="rounded-full bg-indigo-400 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
 		>
 			{$_('gates.name')}
 		</div>
 	</div>
 
-	<div class="grid grid-cols-1 gap-8">
+	<div class="grid grid-cols-2 gap-8">
 		{#each ['in', 'out'] as bus}
 			<div>
 				<div class="flex flex-row items-center gap-4">
 					<div class="h-0.5 bg-slate-600/10 w-full -translate-y-1" />
 					<span
-						class="rounded-xl bg-indigo-500 py-1 px-6 text-white font-semibold mb-2 inline-block shadow-xl"
+						class="rounded-full bg-indigo-900 py-1 px-6 text-white font-semibold mb-2 inline-block shadow-xl"
 					>
 						{$_('gates.bus.' + bus)}
 					</span>
@@ -62,14 +62,14 @@
 						.filter((i, p, a) => a.indexOf(i) == p)
 						.sort((a, b) => (a == 'generic' ? -1 : 1)) as cat}
 						<span
-							class="rounded-xl bg-sky-600 py-1 px-4 text-white font-semibold self-start"
+							class="rounded-full bg-indigo-400 py-1 px-4 text-white font-semibold self-start"
 						>
 							{$_('gates.categories.' + cat)}
 						</span>
-						<div class=" flex flex-col gap-2 last:mb-2">
+						<div class="flex flex-col gap-2 last:mb-2">
 							{#each gates.filter((g, i, a) => g.bus == bus && (g.name.startsWith(cat) || (cat == 'generic' && gates.filter((h) => h.bus == bus && h.name.startsWith(g.name.split('-')[0])).length == 1) || (cat == 'generic' && g.name.split('-').length == 1))) as output, index}
 								<div
-									class="text-white flex flex-row justify-between gap-4 bg-zinc-900 py-2 pl-3 pr-2 rounded-xl ring-1 ring-slate-400/10 font-semibold ml-4"
+									class="text-white flex flex-row justify-between gap-4 bg-zinc-700 py-2 pl-3 pr-2 rounded-xl font-semibold"
 								>
 									<span>
 										{$_('gates.names.' + output.name)}
@@ -87,8 +87,14 @@
 												type="range"
 												min="0"
 												max="100"
+												on:input={() => {
+													$lockMachineData = true;
+												}}
 												bind:value={output.value}
-												on:change={() => update(output.name, output.value)}
+												on:change={() => {
+													$lockMachineData = false;
+													update(output.name, output.value);
+												}}
 												disabled={bus == 'in'}
 											/>
 											<span

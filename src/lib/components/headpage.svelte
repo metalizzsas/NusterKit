@@ -69,7 +69,7 @@
 
 <!-- header info block -->
 <div
-	class="bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-b-3xl -m-6 mb-5 p-5 text-white shadow-2xl"
+	class="bg-gradient-to-br from-indigo-400 to-indigo-500 rounded-b-3xl -m-6 mb-5 p-5 text-white shadow-2xl"
 	id="informationWrapper"
 >
 	<div class="grid grid-col-2 gap-4">

@@ -9,7 +9,7 @@
 </script>
 
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { goto, invalidate } from '$app/navigation';
 
 	import '$lib/app.css';
 	import ModalPrompt from '$lib/components/modals/modalprompt.svelte';
@@ -22,12 +22,6 @@
 	let addProfileModalShown = false;
 
 	export var profiles: ProfileModel[];
-
-	function reload() {
-		setTimeout(async () => {
-			profiles = await (await fetch('http://' + $Linker + '/v1/profiles')).json();
-		}, 300);
-	}
 
 	async function listProfileBlueprint() {
 		let response = await fetch('http://' + $Linker + '/v1/profiles/skeletons');
@@ -94,18 +88,12 @@
 				</svg>
 			</div>
 			<div
-				class="rounded-full bg-indigo-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
+				class="rounded-full bg-indigo-400 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
 			>
 				{$_('profile.list')}
 			</div>
-		</div>
-
-		<div id="profilesContainer" class="flex flex-col gap-4">
-			{#each profiles as profile}
-				<Profile bind:profile delCb={reload} />
-			{/each}
 			<button
-				class="bg-indigo-400 rounded-xl font-semibold py-2 px-5 text-white flex flex-row gap-4 justify-center items-center"
+				class="bg-indigo-500 rounded-xl font-semibold py-1 px-3 text-white flex flex-row gap-4 justify-center items-center ml-auto"
 				on:click={listProfileBlueprint}
 			>
 				<svg
@@ -122,6 +110,15 @@
 
 				{$_('profile.buttons.add')}
 			</button>
+		</div>
+
+		<div id="profilesContainer" class="flex flex-col gap-4">
+			{#each profiles as profile}
+				<Profile
+					bind:profile
+					delCb={async () => await invalidate('http://' + $Linker + '/v1/profiles')}
+				/>
+			{/each}
 		</div>
 	</div>
 </main>

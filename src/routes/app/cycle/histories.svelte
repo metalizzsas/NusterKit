@@ -53,7 +53,7 @@
 				</svg>
 			</div>
 			<div
-				class="rounded-full bg-indigo-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
+				class="rounded-full bg-indigo-400 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
 			>
 				{$_('cycle.history')}
 			</div>
@@ -62,7 +62,7 @@
 		<div id="content" class="flex flex-col gap-4">
 			{#each histories.reverse() as history}
 				<div
-					class="flex flex-row gap-4 justify-between bg-gray-700 p-3 text-white rounded-xl items-center"
+					class="flex flex-row gap-4 justify-between bg-zinc-700 p-3 text-white rounded-xl items-center"
 				>
 					<div class="flex flex-col">
 						<span class="font-semibold">{$_('cycle.names.' + history.cycle.name)}</span>

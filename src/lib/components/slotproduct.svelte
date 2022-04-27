@@ -8,8 +8,9 @@
 
 <div class="hover:scale-[1.005]">
 	<div
-		class="bg-gradient-to-br from-purple-500 to-purple-600 {slotContent.sensors.length > 0 ||
-		slotContent.product
+		class="bg-gradient-to-br {$_('slots.colors.' + slotContent.name, {
+			default: 'from-indigo-400 to to-indigo-500',
+		})} {slotContent.sensors.length > 0 || slotContent.product
 			? 'rounded-tr-2xl rounded-tl-2xl'
 			: 'rounded-2xl'} transition-all flex flex-row justify-between p-3"
 	>
@@ -20,12 +21,7 @@
 
 	{#if slotContent.sensors.length > 0}
 		<div class="bg-white p-3 {slotContent.product ? '' : 'rounded-br-2xl rounded-bl-2xl'}">
-			<div class="flex flex-row items-center justify-around -translate-y-7">
-				<span class="bg-purple-500 rounded-xl py-1 px-3 font-semibold shadow-sm text-white">
-					{$_('slots.sensors.name')}
-				</span>
-			</div>
-			<div class="flex flex-col gap-3 -mt-3">
+			<div class="flex flex-col gap-3">
 				{#each slotContent.sensors as s}
 					<div
 						class="bg-gray-300 pr-1 pl-5 py-1 rounded-full text-neutral-700 font-semibold flex flex-row justify-between items-center"

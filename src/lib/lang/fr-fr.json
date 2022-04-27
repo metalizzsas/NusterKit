@@ -1,15 +1,15 @@
 {
   "ok": "Ok",
   "nok": "Ko",
-  "yes": "Oui",
-  "no": "non",
-  "cancel": "anuler",
+  "yes": "Oui ✓",
+  "no": "Non ✗",
+  "cancel": "Annuler",
   "minutes": "Minutes",
   "seconds": "Secondes",
-  "binary_true": "Vrai",
-  "binary_false": "Faux",
-  "present": "Présent",
-  "missing": "Absent",
+  "binary_true": "Vrai ✓",
+  "binary_false": "Faux ✗",
+  "present": "Présent ✓",
+  "missing": "Absent ✗",
   "close-keyboard": "Close keyboard",
 
   "machine": {
@@ -109,7 +109,7 @@
       "start": "Démarrer le cycle",
       "resume": "Reprendre le cycle",
       "complete": "Terminer le cycle",
-      "cancel": "Anuller le cycle",
+      "cancel": "Annuler le cycle",
       "nextStep": "Sauter l'étape"
     },
     "preparation": "Préparartion du cycle",

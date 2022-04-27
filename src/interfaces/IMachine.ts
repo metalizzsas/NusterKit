@@ -35,6 +35,8 @@ export declare interface IMachineSettings
 {
     maskedPremades: string[];
     maskedProfiles: string[];
+    maskedManuals: string[];
+    ioControlsMasked: boolean;
 }
 
 export interface IConfiguration

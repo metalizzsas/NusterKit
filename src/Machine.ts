@@ -88,7 +88,9 @@ export class Machine {
         //initiate settings with empty array in case of no settings in configuration file
         this.settings = {
             maskedPremades: [],
-            maskedProfiles: []
+            maskedProfiles: [],
+            maskedManuals: [],
+            ioControlsMasked: false
         };
 
         //if config file has settings let them is the settings var

@@ -110,13 +110,14 @@ export class ManualMode implements IManualMode
             return true;
         }
     }
-    toJson()
+    toJSON()
     {
         return {
             name: this.name,
             controls: this.controls,
             incompatibility: this.incompatibility,
-            state: this.state
+            state: this.state,
+            analogScale: this.analogScale,
         }
     } 
 }

@@ -27,7 +27,7 @@ export class ManualModeController extends Controller
     private _configureRouter()
     {
         this._router.get('/', async (req: Request, res: Response) => {
-            res.json(this.keys);
+            res.json(this.socketData);
         });
 
         this.machine.authManager.registerEndpointPermission("manual.list", {endpoint: "/v1/manual/", method: "get"});
@@ -62,6 +62,6 @@ export class ManualModeController extends Controller
 
     public get socketData()
     {
-        return this.keys;
+        return this.keys.filter(k => !this.machine.settings.maskedManuals.includes(k.name));
     }
 }

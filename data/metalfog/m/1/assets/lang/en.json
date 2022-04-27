@@ -7,6 +7,13 @@
       "act": "Activator",
       "edi": "DI Water",
       "eff": "Effluents"
+    },
+    "colors": {
+      "act": "from-red-500 to-red-600",
+      "edi": "from-blue-800 to-blue-900",
+      "eff": "from-zinc-700 to-zinc-800",
+      "ox": "from-emerald-800 to-emerald-900",
+      "rd": "from-zinc-400 to-zinc-500"
     }
   },
   "profile": {
@@ -56,9 +63,9 @@
       "act-fill": "Activator dilution"
     },
     "types": {
-      "llc": "Look like chromium",
-      "usl": "Utility silver layer",
-      "usl-retake": "Utility silver layer retake",
+      "llc": "Look Like Chromium — LLC",
+      "usl": "Utility Silver Layer — USL",
+      "usl-retake": "USL retake",
       "usl-activation-porous": "USL Porous parts activation",
       "cem": "CEM shielding",
       "cem-retake": "CEM shielding retake",

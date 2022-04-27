@@ -55,10 +55,10 @@
       "act-fill": "Dilution activant"
     },
     "types": {
-      "llc": "Look like chromium",
-      "usl": "Utility silver layer",
-      "usl-retake": "Renforcement Utility silver layer",
-      "usl-activation-porous": "USL Activation poreuse",
+      "llc": "Look Like Chromium — LLC",
+      "usl": "Utility Silver Layer — USL",
+      "usl-retake": "Renforcement USL",
+      "usl-activation-porous": "Activation pièces poreuses USL",
       "cem": "Blindage CEM",
       "cem-retake": "Renforcement Blindage CEM",
       "act-fill": "Dilution activant"
@@ -87,7 +87,7 @@
           "desc": "Nettoyage des buses de métallisation pour améliorer leur fiabilité et leur performance."
       },
       "wash2": {
-        "name": "Washing 2",
+        "name": "Rinçage 2",
         "desc": "Rinçage final avent le rinçage des pièces."
       },
       "drying": {
@@ -126,7 +126,7 @@
       "levels_act-max-n": "Niveau maximal activant",
       "levels_act-min-n": "Niveau minimal activant",
       "levels_edi-max-n": "Niveau maximal eau désionisée",
-      "levels_edi-min-n": "Niveau maximal eau désionisée",
+      "levels_edi-min-n": "Niveau minimal eau désionisée",
       "ventilation": "Extraction des vapeurs",
       "act-res": "Mise sous pression conteneur activant",
       "edi-res": "Mise sous pression conteneur eau désionisée",

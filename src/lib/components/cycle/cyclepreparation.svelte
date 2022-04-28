@@ -13,8 +13,6 @@
 	let userIndexSelected = -1;
 	let userCycleTypeSelected = '';
 
-	$: startReady = premadeIndexSelected != -1 || userIndexSelected != -1;
-
 	onMount(async () => {
 		//fetch cycles types from machine api
 		let cycleTypesData = await fetch('http://' + $Linker + '/v1/cycle/custom');
@@ -29,15 +27,8 @@
 		}[];
 	});
 
-	function prepareCycle() {
-		const urlEnd =
-			userIndexSelected != -1
-				? `${userCycleTypeSelected}/${$machineData.profiles.at(userIndexSelected)?.id}`
-				: `${cyclePremades[premadeIndexSelected].cycle}/${cyclePremades[premadeIndexSelected].profile}`;
-
-		const url = 'http://' + $Linker + '/v1/cycle/' + urlEnd;
-
-		fetch(url, {
+	function prepareCycle(cycleType: string, profileID: string) {
+		fetch('http://' + $Linker + '/v1/cycle/' + cycleType + '/' + profileID, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -56,17 +47,8 @@
 		<div class="grid grid-cols-3 gap-4 mt-3">
 			{#each cyclePremades as ct, index}
 				<div
-					class="{index === premadeIndexSelected
-						? 'bg-indigo-500 hover:bg-indigo-500/80'
-						: 'bg-gray-400 hover:bg-gray-400/80'} text-white p-2 flex flex-col items-center justify-center rounded-xl transition-all font-semibold {ct.name ==
-					'custom'
-						? 'col-span-2'
-						: ''}"
-					on:click={() => {
-						premadeIndexSelected = premadeIndexSelected != index ? index : -1;
-						userIndexSelected = -1;
-						userCycleTypeSelected = '';
-					}}
+					class="bg-indigo-900 text-white p-2 flex flex-col items-center justify-center rounded-xl transition-all font-semibold"
+					on:click={() => prepareCycle(ct.cycle, ct.profile)}
 				>
 					<div class="flex flex-row gap-4 items-center justify-items-start w-full">
 						<!-- svelte-ignore a11y-missing-attribute -->
@@ -91,18 +73,8 @@
 				{#each cycleTypes.filter((k) => k.profileRequired) as ct}
 					{#each $machineData.profiles.filter((p) => p.identifier == ct.name && p.isPremade == false) as p, index}
 						<div
-							class="{index === userIndexSelected
-								? 'bg-indigo-500 hover:bg-indigo-500/80'
-								: 'bg-gray-400 hover:bg-gray-400/80'} text-white p-2 flex flex-col items-center justify-center rounded-xl transition-all font-semibold {ct.name ==
-							'custom'
-								? 'col-span-2'
-								: ''}"
-							on:click={() => {
-								userIndexSelected = userIndexSelected != index ? index : -1;
-								userCycleTypeSelected =
-									userCycleTypeSelected != ct.name ? ct.name : '';
-								premadeIndexSelected = -1;
-							}}
+							class="bg-indigo-500 text-white p-2 flex flex-col items-center justify-center rounded-xl transition-all font-semibold"
+							on:click={() => prepareCycle(ct.name, p.id)}
 						>
 							<div
 								class="flex flex-row gap-4 items-center justify-items-start w-full"
@@ -129,15 +101,5 @@
 				{/each}
 			</div>
 		{/if}
-	</div>
-	<div id="cyclePrepare" class="mt-6 flex flex-row justify-center">
-		<button
-			class="{startReady
-				? 'bg-indigo-500 hover:bg-indigo-500/80'
-				: 'bg-gray-400 hover:bg-gray-500'} rounded-xl py-2 px-5 text-white font-semibold transition-all"
-			on:click={prepareCycle}
-		>
-			{$_('cycle.buttons.prepare')}
-		</button>
 	</div>
 </div>

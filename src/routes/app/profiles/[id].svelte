@@ -146,7 +146,7 @@
 						{$_('profile.rows.' + f.name)}
 					</span>
 
-					<div class="-mr-2">
+					<div class="-mr-2 flex flex-row gap-3">
 						{#if f.type === 'bool'}
 							<Toggle
 								bind:value={f.value}
@@ -156,7 +156,7 @@
 						{:else if f.type === 'float'}
 							<input
 								type="range"
-								class="w-['30vw']"
+								class="w-[20vw]"
 								bind:value={f.value}
 								min={f.floatMin}
 								max={f.floatMax}
@@ -185,7 +185,9 @@
 						{/if}
 
 						{#if f.unity && f.unity != 'm-s'}
-							<span class="bg-white text-black py-0.5 px-2 rounded-full">
+							<span
+								class="bg-white text-black py-0.5 text-center rounded-full block w-16"
+							>
 								{f.value}
 								<span class="font-semibold">{f.unity}</span>
 							</span>

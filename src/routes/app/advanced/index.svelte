@@ -113,6 +113,7 @@
 						{:else}
 							<div class="flex flex-row items-center gap-4">
 								<input
+									class="w-[20vw]"
 									type="range"
 									min={manual.analogScale.min}
 									max={manual.analogScale.max}
@@ -135,7 +136,7 @@
 										.filter((x) => x !== undefined).length > 0}
 								/>
 								<span
-									class="bg-white rounded-full py-1 px-3 text-gray-800 text-xs font-semibold"
+									class="bg-white rounded-full py-1 text-gray-800 text-xs font-semibold w-16 text-center"
 								>
 									{manual.state} %
 								</span>

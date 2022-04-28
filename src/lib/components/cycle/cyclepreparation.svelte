@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { fade } from 'svelte/transition';
 
 	import { machineData } from '$lib/utils/store';
 	import { Linker } from '$lib/utils/linker';
@@ -30,7 +29,7 @@
 		}[];
 	});
 
-	async function prepareCycle() {
+	function prepareCycle() {
 		const urlEnd =
 			userIndexSelected != -1
 				? `${userCycleTypeSelected}/${$machineData.profiles.at(userIndexSelected)?.id}`
@@ -38,7 +37,7 @@
 
 		const url = 'http://' + $Linker + '/v1/cycle/' + urlEnd;
 
-		await fetch(url, {
+		fetch(url, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -134,13 +133,9 @@
 	<div id="cyclePrepare" class="mt-6 flex flex-row justify-center">
 		<button
 			class="{startReady
-				? 'bg-indigo-600 hover:bg-indigo-600/80'
+				? 'bg-indigo-500 hover:bg-indigo-500/80'
 				: 'bg-gray-400 hover:bg-gray-500'} rounded-xl py-2 px-5 text-white font-semibold transition-all"
-			on:click={async () => {
-				if (startReady) {
-					await prepareCycle();
-				}
-			}}
+			on:click={prepareCycle}
 		>
 			{$_('cycle.buttons.prepare')}
 		</button>

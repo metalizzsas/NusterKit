@@ -72,9 +72,8 @@ export class ManualMode implements IManualMode
             {
                 //key is ready to be toggled
                 //toggle gates but not if they are already active
-
-                const activeGates = this.machine.manualmodeController.keys.filter(k => k.state).flatMap(k => k.controls);
-
+                //unless this gate is analogdependant
+                const activeGates = this.machine.manualmodeController.keys.filter(k => (k.state && k.analogScale === undefined)).flatMap(k => k.controls);
                 const gatesToToggle = this.controls.filter(g => !activeGates.includes(g));
 
                 for(const gate of gatesToToggle)

@@ -1,12 +1,18 @@
+<script context="module">
+	export const hydrate = false;
+</script>
+
 <script lang="ts">
 	import '$lib/app.css';
 	import { onMount } from 'svelte';
 	import Modalcontent from '$lib/components/modals/modalcontent.svelte';
 	import { fly } from 'svelte/transition';
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 
 	let displayAddMachine = false;
 
-	let machineList: { name: string; ip: string }[] = [{ name: 'local', ip: '127.0.0.1' }];
+	let machineList: { name: string; ip: string }[] = [];
 
 	onMount(() => {
 		const localData = localStorage.getItem('machines');
@@ -67,10 +73,10 @@
 	</div>
 
 	<div class="flex flex-col gap-4">
-		{#each machineList as machine, index}
+		{#each [{ name: 'Machine', ip: $page.url.hostname }, ...machineList] as machine, index}
 			<div
 				class="flex flex-row bg-slate-500 text-white rounded-xl p-2 items-center justify-between"
-				on:click={() => (window.location.href = '/machine?ip=' + machine.ip)}
+				on:click={() => goto('machine?ip=' + machine.ip)}
 				in:fly
 				out:fly
 			>
@@ -82,7 +88,7 @@
 				<button
 					class="bg-red-500 py-1 px-2 rounded-xl text-white font-semibold"
 					on:click|preventDefault={() => {
-						machineList.splice(index, 1);
+						machineList.splice(index + 1, 1);
 						updateMachineList();
 					}}
 				>

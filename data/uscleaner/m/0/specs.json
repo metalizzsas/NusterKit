@@ -363,6 +363,19 @@
                                 ]
                             },
                             {
+                                "name": "io",
+                                "params": [
+                                    {
+                                        "name": "conststr",
+                                        "value": "us_power"
+                                    },
+                                    {
+                                        "name": "const",
+                                        "value": "1"
+                                    }
+                                ]
+                            },
+                            {
                                 "name": "startTimer",
                                 "params": [
                                     {
@@ -512,17 +525,38 @@
                                 "params": [
                                     {
                                         "name": "conststr",
+                                        "value": "us_power"
+                                    },
+                                    {
+                                        "name": "const",
+                                        "value": "0"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "io",
+                                "params": [
+                                    {
+                                        "name": "conststr",
                                         "value": "motor-speed"
                                     },
                                     {
                                         "name": "profile",
-                                        "value": "cleaning.motor-speed"
+                                        "value": "principal.motor-speed"
                                     }
                                 ]
                             }
                         ],
                         "blocks": [
-
+                            {
+                                "name": "sleep",
+                                "params": [
+                                    {
+                                        "name": "profile",
+                                        "value": "principal.duration"
+                                    }
+                                ]
+                            }
                         ]
                     }
                 ]

@@ -322,12 +322,6 @@
                         "gateValue": 1,
                         "startOnly": false,
                         "result": false
-                    },
-                    {
-                        "gateName": "temperature",
-                        "gateValue": 80,
-                        "startOnly": false,
-                        "result": false
                     }
                 ],
                 "steps": [

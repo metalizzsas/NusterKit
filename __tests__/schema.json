@@ -390,6 +390,8 @@
     },
     "IOGateType": {
       "enum": [
+        "em4temp",
+        "em4a10v",
         "a10v",
         "um18",
         "default"

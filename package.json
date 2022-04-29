@@ -48,7 +48,7 @@
     "mongoose": "^6.2.1",
     "ping": "^0.4.1",
     "pino": "^7.6.0",
-    "pino-http": "^6.5.0",
+    "pino-http": "^7.0.0",
     "pino-pretty": "^7.3.0",
     "qrcode": "^1.5.0",
     "ts-enip": "github:metalizzsas/ts-enip#build",

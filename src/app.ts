@@ -118,10 +118,10 @@ class NusterTurbine
         this.app.use(cookieParser());
 
         //authing middleware
-        if(!process.env.DISABLE_AUTH && this.machine)
-            this.app.use(this.machine.authManager.middleware.bind(this.machine.authManager));
-        else
-            this.logger.warn("Auth manager disabled");
+        //if(!process.env.DISABLE_AUTH && this.machine)
+        //    this.app.use(this.machine.authManager.middleware.bind(this.machine.authManager));
+        //else
+        //    this.logger.warn("Auth manager disabled");
 
         //logging middleware
         this.app.use(pinoHttp({
@@ -243,6 +243,7 @@ class NusterTurbine
         try
         {
             mongoose.connect('mongodb://localhost/nuster2');
+            this.logger.info("Connected to mongodb");
         }
         catch(err)
         {

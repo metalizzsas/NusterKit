@@ -12,8 +12,10 @@ export enum IOGateSize
 export enum IOGateType
 {
     A10V = "a10v",
+    EM4A10V = "em4a10v",
+    EM4TEMP = "em4temp",
     UM18 = "um18",
-    DEFAULT = "default"
+    DEFAULT = "default",
 }
 
 export interface IIOGate

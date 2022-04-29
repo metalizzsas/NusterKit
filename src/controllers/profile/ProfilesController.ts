@@ -44,6 +44,7 @@ export class ProfileController extends Controller {
     
                 k.values = new Map(Object.entries(p.values));
                 const converted = JSON.parse(JSON.stringify(this.convertProfile(k))); // avoid skeletton modification and profile premade links
+                //const converted = structuredClone(this.convertProfile(k));
     
                 this.profilePremades.push(converted);
             }

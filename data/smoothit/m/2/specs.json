@@ -1551,11 +1551,72 @@
                   },
                   "blocks": [
                      {
-                        "name": "sleep",
+                        "name": "if",
                         "params": [
                            {
                               "name": "profile",
-                              "value": "inerting.duration"
+                              "value": "multilayer.enabled"
+                           },
+                           {
+                              "name": "conststr",
+                              "value": "=="
+                           },
+                           {
+                              "name": "const",
+                              "value": "1"
+                           }
+                        ],
+                        "blocks": [
+                           {
+                              "name": "sleep",
+                              "params": [
+                                 {
+                                    "name": "profile",
+                                    "value": "inerting.duration"
+                                 }
+                              ],
+                              "_folded": true,
+                              "_comment": "Sleep if the multilayer is disabled"
+                           },
+                           {
+                              "name": "if",
+                              "params": [
+                                 {
+                                    "name": "variable",
+                                    "value": "currentStepRunCount" 
+                                 },
+                                 {
+                                    "name": "conststr",
+                                    "value": "=="
+                                 },
+                                 {
+                                    "name": "add",
+                                    "value": "",
+                                    "params": [
+                                       {
+                                          "name": "profile",
+                                          "value": "multilayer.count"
+                                       },
+                                       {
+                                          "name": "const",
+                                          "value": "-1"
+                                       }
+                                    ]
+                                 }
+                              ],
+                              "blocks":[
+                                 {
+                                    "name": "sleep",
+                                    "params": [
+                                       {
+                                          "name": "profile",
+                                          "value": "inerting.duration"
+                                       }
+                                    ],
+                                    "_folded": true,
+                                    "_comment": "Sleep if the multilayer is enabled and if finalStepRunCount has been reached"
+                                 }
+                              ]
                            }
                         ],
                         "_folded": true

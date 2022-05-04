@@ -11,7 +11,7 @@
 		"clean": "rm -rf ./node_modules/ && rm package-lock.json && npm i",
 		"dev": "NODE_ENV=dev npm run dev:all",
 		"dev:all": "concurrently -n=svelte,electron -c='#ff3e00',blue \"npm run dev:svelte\" \"npm run dev:electron\"",
-		"dev:svelte": "svelte-kit dev --port 3001",
+		"dev:svelte": "svelte-kit dev --port 3001 --expose",
 		"dev:electron": "electron src/electron.cjs",
 		"build": "cross-env NODE_ENV=production npm run build:svelte",
 		"build:svelte": "svelte-kit build",

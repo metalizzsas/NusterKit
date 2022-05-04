@@ -1,7 +1,3 @@
-<script context="module">
-	export const hydrate = false;
-</script>
-
 <script lang="ts">
 	import '$lib/app.css';
 	import { onMount } from 'svelte';

@@ -1,4 +1,4 @@
-import express,  { NextFunction, Request, Response } from "express";
+import express,  { Request, Response } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
@@ -7,11 +7,7 @@ import { Server } from "http";
 import { pinoHttp } from "pino-http";
 import { pino } from "pino";
 
-import QRCode from "qrcode";
-import { PassThrough } from 'stream';
-
 import { Machine } from "./Machine";
-import { getIPAddress } from "./util";
 import path from "path";
 import fs from "fs";
 
@@ -142,50 +138,15 @@ class NusterTurbine
         this.app.get("/status", (req: Request, res: Response) => res.json(this.status));
         this.app.get("/ws", async (req: Request, res: Response) => res.json(await this.machine?.socketData()));
 
-        this.app.get("/unlockUpdates", (_req, res: Response) => {this.machine?.updateLocker.unlockUpdates(); res.end();});
+        //Tell the balena Hypervisor to force the pending update.
+        this.app.get("/forceUpdate", async (_req, res: Response) => {
+            const req = await fetch("http://127.0.0.1:48484/v1/update?apikey=" + process.env.BALENA_SUPERVISOR_API_KEY, {headers: {"Content-Type": "application/json"}, body: JSON.stringify({force: true}), method: 'POST'});
 
-        this.app.get('/qr', async (req, res) => {
-            try
-            {
-                if(this.machine)
-                {
-                    const content = {
-                        model: this.machine.model,
-                        modelVariant: this.machine.variant,
-                        modelRevision: this.machine.revision,
-                        serial: this.machine.serial,
-                        networkName: getIPAddress(),
-                        dateBuilt: "disabled"
-                    };
-                    const qrStream = new PassThrough();
-                    await QRCode.toFileStream(qrStream, JSON.stringify(content),
-                                {
-                                    type: 'png',
-                                    width: 200,
-                                    errorCorrectionLevel: 'H'
-                                }
-                            );
-            
-                    qrStream.pipe(res);
-                }
-                else
-                {
-                    res.status(500).send("Machine not ready");
-                }
-                  
-            } 
-            catch(err)
-            {
-                console.error('Failed to return content', err);
-                res.status(500).send("Failed to return content");
-            }
-        });
-
-        //Adding machine updatelocker middleware
-        this.app.all("*", (_req: Request, _res: Response, next: NextFunction) => {
-            this.machine?.updateLocker.temporaryLockUpdates(2 * 60 * 1000);
-            next();
-        });       
+            if(req.status == 204)
+                res.end();
+            else
+                res.status(req.status).end();
+        });   
     }
     /**
      * Create websocket handlers
@@ -242,7 +203,7 @@ class NusterTurbine
     {
         try
         {
-            mongoose.connect('mongodb://localhost/nuster2');
+            mongoose.connect('mongodb://127.0.0.1/nuster2');
             this.logger.info("Connected to mongodb");
         }
         catch(err)

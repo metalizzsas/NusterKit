@@ -845,7 +845,7 @@
                   },
                   "duration": {
                      "name": "const",
-                     "value": "30"
+                     "value": "90"
                   },
                   "blocks": [
                      {
@@ -853,7 +853,7 @@
                         "params": [
                            {
                               "name": "const",
-                              "value": "30"
+                              "value": "90"
                            }
                         ],
                         "_folded": false

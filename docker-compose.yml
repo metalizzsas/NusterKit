@@ -19,7 +19,7 @@ services:
     environment:
       DISABLE_AUTH: 'true'
     labels:
-      - io.balena.features.supervisor-api
+      io.balena.features.supervisor-api: '1'
   nuster-desktop:
     build: ./nuster-desktop/
     restart: always
@@ -28,7 +28,7 @@ services:
       - "nuster-turbine"
       - "mongodb"
     labels:
-      - io.balena.features.supervisor-api
+      io.balena.features.supervisor-api: '1'
   nuster-kiosk:
     image: balenablocks/browser:latest
     privileged: true # required for UDEV to find plugged in peripherals such as a USB mouse
@@ -62,8 +62,3 @@ services:
     environment:
       PORTAL_LISTENING_PORT: 8080
       PORTAL_SSID: 'Nuster Wifi Configurator'
-  network-check:
-    build: ./network-check/
-    network_mode: 'host'
-    privileged: true
-    restart: 'unless-stopped'

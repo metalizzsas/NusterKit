@@ -14,4 +14,4 @@ RUN npm run build
 
 ENV NODE_ENV=production
 
-CMD ["npm", "start"]
+CMD ["bash", "entrypoint.sh"]

@@ -1,6 +1,7 @@
 import { EventEmitter } from "stream";
 import { IOExplorer } from "../controllers/io/IOExplorer";
 import { ProfileExplorer } from "../controllers/profile/ProfileExplorer";
+import { IOGateBus } from "../interfaces/gates/IIOGate";
 import { IProfile } from "../interfaces/IProfile";
 import { IProgram, IPBRStatus, IProgramVariable, IProgramTimer, PBRMode } from "../interfaces/IProgramBlockRunner";
 import { ProgramStepResult, ProgramStepType } from "../interfaces/IProgramStep";
@@ -180,8 +181,6 @@ export class ProgramBlockRunner implements IProgram
         if(this.currentStepIndex < this.steps.length)
         {
             this.machine.logger.error(`PBR: Program ended before all steps were executed.`);
-            this.machine.logger.error(`PBR: Executing ending IO of last step.`);
-            this.steps.at(-1)?.executeLastIO();
         }
 
         if(this.watchdogConditions.length > 0)
@@ -202,6 +201,12 @@ export class ProgramBlockRunner implements IProgram
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 clearInterval(timer.timer!);
             }
+        }
+
+        this.machine.logger.info("PBR: Resetting all io gates to default values.");
+        for(const g of this.machine.ioController.gates.filter(g => g.bus == IOGateBus.OUT))
+        {
+            g.write(this.machine.ioController, g.default);
         }
         
         

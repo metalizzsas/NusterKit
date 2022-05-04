@@ -17,6 +17,7 @@ import { AuthManager } from "./auth/auth";
 import { IConfiguration, IMachine, IMachineSettings } from "./interfaces/IMachine";
 import WebSocket from "ws";
 import { UpdateLocker } from "./updateLocker";
+import { IHypervisorDevice } from "./interfaces/balena/IHypervisorDevice";
 
 export class Machine {
 
@@ -45,6 +46,8 @@ export class Machine {
     authManager: AuthManager;
 
     public updateLocker: UpdateLocker;
+
+    hypervisorData?: IHypervisorDevice;
 
     constructor(logger: pino.Logger)
     {
@@ -113,6 +116,13 @@ export class Machine {
         this.logger.info("Registering Update Locker");
         this.updateLocker = new UpdateLocker("/tmp/balena/updates.lock", this.logger);
 
+        setInterval(async () => {
+            const hyperv = await fetch("http://127.0.0.1:48484/v1/device", {headers: {"Content-Type": "application/json"}});
+
+            if(hyperv.status == 200)
+                this.hypervisorData = await hyperv.json();
+
+        }, 5000);
     }
 
     public broadcast(message: string)
@@ -147,7 +157,7 @@ export class Machine {
             "handlers": this.ioController.socketData[1],
             "passives": this.passiveController.socketData,
             "manuals": this.manualmodeController.socketData,
-            //Asyns socketdata
+            //Async socketdata
             "profiles": profiles,
             "maintenances": maintenances
         }
@@ -169,6 +179,7 @@ export class Machine {
             revision: this.revision,
 
             balenaVersion: process.env.BALENA_HOST_OS_VERSION,
+            hypervisorData: this.hypervisorData,
             nusterVersion: pkg.version,
 
             _nuster: this.specs._nuster,

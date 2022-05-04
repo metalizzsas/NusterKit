@@ -2,7 +2,6 @@
 	import '$lib/app.css';
 	import { onMount } from 'svelte';
 	import Modalcontent from '$lib/components/modals/modalcontent.svelte';
-	import { fly } from 'svelte/transition';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 
@@ -70,11 +69,12 @@
 
 	<div class="flex flex-col gap-4">
 		{#each [{ name: 'Machine', ip: $page.url.hostname }, ...machineList] as machine, index}
-			<a
+			<div
 				class="flex flex-row bg-slate-500 text-white rounded-xl p-2 items-center justify-between cursor-pointer"
-				href="machine?ip={machine.ip}"
-				in:fly
-				out:fly
+				on:click={async () => {
+					await fetch(`/machine?ip=${machine.ip}`);
+					await goto('/app');
+				}}
 			>
 				<div>
 					<span class="block font-semibold">{machine.name}</span>
@@ -90,7 +90,7 @@
 				>
 					Supprimer
 				</button>
-			</a>
+			</div>
 		{/each}
 	</div>
 </main>

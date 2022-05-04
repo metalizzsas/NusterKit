@@ -119,7 +119,7 @@ export class Machine {
         setInterval(async () => {
             try
             {
-                const hyperv = await fetch("http://127.0.0.1:48484/v1/device", {headers: {"Content-Type": "application/json"}});
+                const hyperv = await fetch("http://127.0.0.1:48484/v1/device?apikey=" + process.env.BALENA_SUPERVISOR_API_KEY, {headers: {"Content-Type": "application/json"}});
     
                 if(hyperv.status == 200)
                     this.hypervisorData = await hyperv.json();

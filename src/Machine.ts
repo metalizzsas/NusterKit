@@ -117,12 +117,18 @@ export class Machine {
         this.updateLocker = new UpdateLocker("/tmp/balena/updates.lock", this.logger);
 
         setInterval(async () => {
-            const hyperv = await fetch("http://127.0.0.1:48484/v1/device", {headers: {"Content-Type": "application/json"}});
-
-            if(hyperv.status == 200)
-                this.hypervisorData = await hyperv.json();
-
-        }, 5000);
+            try
+            {
+                const hyperv = await fetch("http://127.0.0.1:48484/v1/device", {headers: {"Content-Type": "application/json"}});
+    
+                if(hyperv.status == 200)
+                    this.hypervisorData = await hyperv.json();
+            }
+            catch(ex)
+            {
+                this.logger.warn("Hypervisor: Failed to get Hypervisor data.");
+            }
+        }, 10000);
     }
 
     public broadcast(message: string)

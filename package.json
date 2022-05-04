@@ -1,9 +1,9 @@
 {
   "name": "nuster-turbine",
   "engines": {
-    "node": "17.x"
+    "node": "18.x"
   },
-  "version": "1.0.22",
+  "version": "1.0.23",
   "description": "Typescript project running on BalenaOS and RPi4.",
   "main": "app.js",
   "scripts": {

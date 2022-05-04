@@ -7,7 +7,7 @@
   "description": "Typescript project running on BalenaOS and RPi4.",
   "main": "app.js",
   "scripts": {
-    "update": "rm -rf ./nuster-turbine-machines && git clone -b next git@github.com:metalizzsas/NusterTurbineMachines.git ./nuster-turbine-machines",
+    "update": "rm -rf ./nuster-turbine-machines && git clone -b next git@github.com:metalizzsas/NusterTurbineMachines.git ./nuster-turbine-machines && rm -rf ./nuster && git clone git@github.com:metalizzsas/Nuster.git ./nuster",
     "dev": "export DISABLE_EX260=\"true\" && export DISABLE_AUTH=\"true\" && export FORCE_DEV_CONFIG=\"true\" && ./node_modules/.bin/concurrently --kill-others \"npm run dev:app\" \"npm run dev:modbus\"",
     "dev:preview": "export DISABLE_EX260=\"true\" && export DISABLE_AUTH=\"true\" && export FORCE_DEV_CONFIG=\"true\" && ./node_modules/.bin/concurrently --kill-others \"node build/app.js\" \"npm run dev:modbus\"",
     "dev:app": "nodemon src/app.ts | node_modules/.bin/pino-pretty",

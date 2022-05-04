@@ -4,7 +4,7 @@ import path from "path";
 import deepExtend from "deep-extend";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import pkg from "../package.json";
+import version from "../nuster/version.json";
 
 import { CycleController } from "./controllers/cycle/CycleController";
 import { PassiveController } from "./controllers/passives/PassiveController";
@@ -16,7 +16,6 @@ import { SlotController } from "./controllers/slot/SlotController";
 import { AuthManager } from "./auth/auth";
 import { IConfiguration, IMachine, IMachineSettings } from "./interfaces/IMachine";
 import WebSocket from "ws";
-import { UpdateLocker } from "./updateLocker";
 import { IHypervisorDevice } from "./interfaces/balena/IHypervisorDevice";
 
 export class Machine {
@@ -44,8 +43,6 @@ export class Machine {
     logger: pino.Logger;
 
     authManager: AuthManager;
-
-    public updateLocker: UpdateLocker;
 
     hypervisorData?: IHypervisorDevice;
 
@@ -113,9 +110,6 @@ export class Machine {
 
         this.logger.info("Finished building controllers");
 
-        this.logger.info("Registering Update Locker");
-        this.updateLocker = new UpdateLocker("/tmp/balena/updates.lock", this.logger);
-
         setInterval(async () => {
             try
             {
@@ -163,7 +157,6 @@ export class Machine {
             "handlers": this.ioController.socketData[1],
             "passives": this.passiveController.socketData,
             "manuals": this.manualmodeController.socketData,
-            //Async socketdata
             "profiles": profiles,
             "maintenances": maintenances
         }
@@ -186,7 +179,7 @@ export class Machine {
 
             balenaVersion: process.env.BALENA_HOST_OS_VERSION,
             hypervisorData: this.hypervisorData,
-            nusterVersion: pkg.version,
+            nusterVersion: version.version,
 
             _nuster: this.specs._nuster,
 

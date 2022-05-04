@@ -10,6 +10,11 @@ import { pino } from "pino";
 import { Machine } from "./Machine";
 import path from "path";
 import fs from "fs";
+import lockFile from "lockfile";
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import version from "../nuster/version.json";
 
 interface IStatus
 {
@@ -59,7 +64,6 @@ class NusterTurbine
             this._express();
             this._websocket();
             this._mongoose();
-    
             this._machine();
         }
         else
@@ -69,7 +73,17 @@ class NusterTurbine
             this._expressConfig();
         }
 
-        
+        lockFile.lock("/tmp/balena/updates.lock", (err) => {
+            if(err)
+            {
+                this.logger.error("Updates locking failed.", err);
+            }
+            else
+            {
+                this.logger.info("Updates are now locked.");
+            }
+        });
+
     }
     private _expressConfig()
     {
@@ -135,18 +149,30 @@ class NusterTurbine
         if(this.machine)
             this.app.use("/assets", express.static(this.machine.assetsFolder));
 
-        this.app.get("/status", (req: Request, res: Response) => res.json(this.status));
-        this.app.get("/ws", async (req: Request, res: Response) => res.json(await this.machine?.socketData()));
+        this.app.get("/status", (_req, res: Response) => res.json(this.status));
+        this.app.get("/ws", async (_req, res: Response) => res.json(await this.machine?.socketData()));
 
         //Tell the balena Hypervisor to force the pending update.
         this.app.get("/forceUpdate", async (_req, res: Response) => {
             const req = await fetch("http://127.0.0.1:48484/v1/update?apikey=" + process.env.BALENA_SUPERVISOR_API_KEY, {headers: {"Content-Type": "application/json"}, body: JSON.stringify({force: true}), method: 'POST'});
 
             if(req.status == 204)
-                res.end();
+                res.status(200).end();
             else
                 res.status(req.status).end();
-        });   
+        }); 
+        
+        this.app.get("/currentReleaseNotes", (_req, res: Response) => {
+            try
+            {
+                const releaseNotes = fs.readFileSync(path.resolve("nuster", "patch-notes", `${version.version}.md`), "utf8");
+                res.send(releaseNotes);
+            }
+            catch(err)
+            {
+                res.send("Releases notes not available");
+            }
+        });
     }
     /**
      * Create websocket handlers
@@ -246,7 +272,6 @@ class NusterTurbine
             this.app.use('/v1/manual', this.machine.manualmodeController.router);
             this.app.use('/v1/cycle', this.machine.cycleController.router);
             this.app.use('/v1/passives', this.machine.passiveController.router);
-    
             this.app.use('/v1/auth', this.machine.authManager.router);
         }
         else

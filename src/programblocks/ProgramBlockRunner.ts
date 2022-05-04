@@ -85,9 +85,6 @@ export class ProgramBlockRunner implements IProgram
 
         this.machine.logger.info("PBR: Finished building PBR.");
         
-        //locking updates after cycle build
-        this.machine.updateLocker.lockUpdates();
-
     }
 
     public async run()
@@ -178,6 +175,8 @@ export class ProgramBlockRunner implements IProgram
         if(this.status.mode == PBRMode.ENDED)
             return;
 
+        this.machine.logger.warn("PBR: Triggered cycle end with reason: " + reason);
+
         if(this.currentStepIndex < this.steps.length)
         {
             this.machine.logger.error(`PBR: Program ended before all steps were executed.`);
@@ -218,9 +217,6 @@ export class ProgramBlockRunner implements IProgram
         this.status.endDate = Date.now();
         //TODO: Resorbs all timers and everything
         this.machine.logger.info(`PBR: Ended cycle ${this.name} with state: ${this.status.mode} and reason ${this.status.endReason}.`);
-
-        //unlock updates after cycle end
-        this.machine.updateLocker.unlockUpdates();
     }
 
     public get progress()

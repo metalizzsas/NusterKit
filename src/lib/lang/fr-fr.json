@@ -18,7 +18,9 @@
     "variant": "Variante",
     "revision": "Révision",
     "serial": "Numéro de série",
-    "cycleCount": "Nombre de cycles"
+    "cycleCount": "Nombre de cycles",
+    "nusterVersion": "Version de nuster",
+    "balenaVersion": "Version de balena" 
   },
   "procedures": "Procédures",
   "slots": {

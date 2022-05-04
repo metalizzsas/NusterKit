@@ -11,9 +11,11 @@
 	import { goto } from '$app/navigation';
 	import { Linker } from '$lib/utils/linker';
 
-	let isShrinked = true;
+	import SvelteMarkdown from 'svelte-markdown';
 
+	let isShrinked = true;
 	let isStartButtonShrinked = true;
+	let isUpdateShrinked = true;
 
 	let displayOptions = false;
 
@@ -24,15 +26,31 @@
 	let ip: string = '';
 	export let hypervisorIp: string;
 
+	let markdownReleaseNotes = '';
+	let displayUpdateNotes = false;
+	let displayUpdateScreen = false;
+
 	onMount(async () => {
 		dark = readDarkMode();
 		lang = getLang();
 
 		ip = $Linker;
+
+		const releaseNotesRequest = await fetch('http://' + $Linker + '/currentReleaseNotes');
+
+		markdownReleaseNotes = await releaseNotesRequest.text();
 	});
 
 	function restartMachine() {
 		fetch(hypervisorIp + '/v1/reboot');
+	}
+
+	async function triggerUpdate() {
+		const req = await fetch('http://' + $Linker + '/forceUpdate');
+
+		if (req.status == 200) {
+			displayUpdateScreen = true;
+		}
 	}
 </script>
 
@@ -65,6 +83,18 @@
 			</button>
 		</div>
 	</div>
+</Modalcontent>
+
+<Modalcontent bind:shown={displayUpdateNotes} title={$_('settings.updateNotes')}>
+	<SvelteMarkdown source={markdownReleaseNotes} />
+</Modalcontent>
+
+<Modalcontent
+	bind:shown={displayUpdateScreen}
+	title={$_('settings.updateGoing.title')}
+	displayClose={false}
+>
+	{$_('settings.updateGoing.desc')}
 </Modalcontent>
 
 <!-- header info block -->
@@ -103,6 +133,40 @@
 				</div>
 
 				<div class="flex flex-row gap-5 items-center">
+					{#if $machineData.machine.hypervisorData !== undefined}
+						{#if ($machineData.machine.hypervisorData.download_progress ?? 0 > 0) || $machineData.machine.hypervisorData.update_pending}
+							<button
+								class="rounded-full backdrop-brightness-125 p-1 transition hover:rotate-180 duration-300"
+								on:click={() => {
+									isUpdateShrinked = !isUpdateShrinked;
+									isShrinked = true;
+									isStartButtonShrinked = true;
+								}}
+							>
+								<span
+									class="grid grid-cols-1 h-5 w-5 items-center justify-items-center self-center"
+								>
+									<svg
+										id="glyphicons-basic"
+										xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 32 32"
+										class="relative inline-flex fill-white h-5 w-5"
+										style="grid-area: 1/1/1/1;"
+									>
+										<path
+											id="history"
+											d="M17.01257,9.98438v4.2998a1.947,1.947,0,0,1,.91315,2.22729l1.6098,1.60987a1,1,0,0,1-1.41418,1.41418l-1.6098-1.60974a1.99075,1.99075,0,0,1-1.499-3.65527V9.98438a1,1,0,1,1,2,0ZM15.89484,4.00049A12.01,12.01,0,0,0,4.05066,15H1.95428a.50006.50006,0,0,0-.41113.78467l3.54578,5.12158a.5.5,0,0,0,.82214,0l3.54578-5.12158A.50006.50006,0,0,0,9.04572,15H7.059a9.0112,9.0112,0,0,1,8.7652-7.99829,9.102,9.102,0,0,1,9.17169,8.72412A8.9935,8.9935,0,0,1,9.827,22.54053a.99317.99317,0,0,0-1.50342.15136l-.57239.82691a1.01274,1.01274,0,0,0,.16272,1.32471A11.98253,11.98253,0,0,0,27.99036,15.5144,12.11761,12.11761,0,0,0,15.89484,4.00049Z"
+										/>
+									</svg>
+									<span
+										class="animate-ping relative inline-flex h-3 w-3 rounded-full bg-orange-500 opacity-75"
+										style="grid-area: 1/1/1/1;"
+									/>
+								</span>
+							</button>
+						{/if}
+					{/if}
+
 					<button
 						class="rounded-full backdrop-brightness-125 p-1 transition hover:rotate-180 duration-300"
 						on:click={() => {
@@ -126,8 +190,8 @@
 						class="rounded-full backdrop-brightness-125 p-1 transition hover:rotate-180 duration-300"
 						on:click={() => {
 							isShrinked = !isShrinked;
-							if (isStartButtonShrinked === false && isShrinked === false)
-								isStartButtonShrinked = true;
+							isUpdateShrinked = true;
+							isStartButtonShrinked = true;
 						}}
 					>
 						<svg
@@ -148,8 +212,8 @@
 						on:click={() => {
 							isStartButtonShrinked = !isStartButtonShrinked;
 
-							if (isStartButtonShrinked === false && isShrinked === false)
-								isShrinked = true;
+							isShrinked = true;
+							isUpdateShrinked = true;
 						}}
 					>
 						<svg
@@ -193,9 +257,10 @@
 							)?.durationActual || '0'}
 						</span>
 						<span
-							class="block text-white font-medium py-2 px-4 rounded-full backdrop-brightness-125"
+							class="block text-white font-medium py-2 px-4 rounded-full backdrop-brightness-150 cursor-pointer"
+							on:click={() => (displayUpdateNotes = true)}
 						>
-							{$_('machine.nusterVersion')}: {$machineData.machine.nusterVersion}
+							{$_('machine.nusterVersion')}: {$machineData.machine.nusterVersion} ↗
 						</span>
 						{#if $machineData.machine.balenaVersion}
 							<span
@@ -229,6 +294,35 @@
 						{$_('settings.reload-nuster')}
 					</button>
 				</div>
+			{/if}
+
+			{#if $machineData.machine.hypervisorData !== undefined}
+				{#if !isUpdateShrinked}
+					<div in:scale out:scale>
+						<div class="flex flex-row flex-wrap gap-5 items-center mt-4">
+							<div class="rounded-full h-8 p-1 w-1/3 backdrop-brightness-125">
+								<div
+									class="h-6 w-[{$machineData.machine.hypervisorData
+										.download_progress ??
+										0}%] bg-white text-xs rounded-full text-zinc-700 flex flex-row justify-center items-center"
+								>
+									{#if $machineData.machine.hypervisorData.download_progress ?? 0 > 10}
+										{$machineData.machine.hypervisorData.download_progress} %
+									{/if}
+								</div>
+							</div>
+
+							{#if $machineData.machine.hypervisorData.update_downloaded}
+								<button
+									class="backdrop-brightness-150 rounded-xl py-2 px-3 text-white font-semibold pointer-cursor"
+									on:click={triggerUpdate}
+								>
+									{$_('settings.triggerUpdate')}
+								</button>
+							{/if}
+						</div>
+					</div>
+				{/if}
 			{/if}
 		</div>
 	</div>

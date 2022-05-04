@@ -19,7 +19,7 @@
     "revision": "Revision",
     "serial": "Serial number",
     "cycleCount": "Cycle count",
-    "nusterVersion": "NusterTurbine version",
+    "nusterVersion": "Nuster version",
     "balenaVersion": "Balena version"
   },
   "procedures": "Procedures",

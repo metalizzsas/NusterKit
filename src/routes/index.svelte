@@ -70,9 +70,9 @@
 
 	<div class="flex flex-col gap-4">
 		{#each [{ name: 'Machine', ip: $page.url.hostname }, ...machineList] as machine, index}
-			<div
-				class="flex flex-row bg-slate-500 text-white rounded-xl p-2 items-center justify-between"
-				on:click={() => goto('machine?ip=' + machine.ip)}
+			<a
+				class="flex flex-row bg-slate-500 text-white rounded-xl p-2 items-center justify-between cursor-pointer"
+				href="machine?ip={machine.ip}"
 				in:fly
 				out:fly
 			>
@@ -90,7 +90,7 @@
 				>
 					Supprimer
 				</button>
-			</div>
+			</a>
 		{/each}
 	</div>
 </main>

@@ -307,8 +307,8 @@
     "cycles": {
         "premades": [
             {
-                "name": "5min-30deg",
-                "profile": "premade_5min-30deg",
+                "name": "5min30deg",
+                "profile": "premade_5min30deg",
                 "cycle": "default"
             }
         ],

@@ -13,8 +13,8 @@ export class CycleController extends Controller {
 
     private machine: Machine;
 
-    private supportedCycles: {name:string, profileRequired: boolean}[] = [];
-    private premadeCycles: {name:string, profile: string, cycle: string }[] = [];
+    private supportedCycles: {name: string, profileRequired: boolean}[] = [];
+    private premadeCycles: {name: string, profile: string, cycle: string }[] = [];
     public program?: ProgramBlockRunner
 
    constructor(machine: Machine)
@@ -93,7 +93,8 @@ export class CycleController extends Controller {
         this.machine.authManager.registerEndpointPermission("cycle.list", {endpoint: "/v1/cycle/history", method: "get"});
 
         this._router.get("/history", async (_req: Request, res: Response) => {
-            const histories = await ProgramHistoryModel.find({});
+
+            const histories = await ProgramHistoryModel.find({}).limit(25).sort({ "cycle.status.endDate": "desc" });
             res.json(histories);
         });
 
@@ -107,7 +108,17 @@ export class CycleController extends Controller {
             if(req.params.id)
             {
                 if(req.params.id.startsWith("premade_"))
-                   profile = this.machine.profileController.retreiveProfile(this.machine.profileController.getPremade(req.params.id.split("_")[1])!);
+                {  
+                    const premadeProfile = this.machine.profileController.getPremade(req.params.id.split("_")[1]);
+
+                    if(premadeProfile)
+                        profile = this.machine.profileController.retreiveProfile(premadeProfile);
+                    else
+                    {
+                        res.status(404).write("Premade Profile not found");
+                        return;
+                    }
+                }
                 else
                    profile = await ProfileModel.findById(req.params.id) as IProfile
 
@@ -151,6 +162,12 @@ export class CycleController extends Controller {
         });
 
         this.machine.authManager.registerEndpointPermission("cycle.run", {endpoint: new RegExp("/v1/cycle/.*", "g"), method: "post"});
+
+        this._router.post("/:name", async (req: Request, res: Response) => {
+            res.end("Not implemented");
+        });
+
+        this.machine.authManager.registerEndpointPermission("cycle.run", {endpoint: "/v1/cycle/", method: "post"});
 
         //start the cycle
         this._router.put("/", async (req: Request, res: Response) => {
@@ -213,7 +230,7 @@ export class CycleController extends Controller {
         this._router.delete("/", async (req: Request, res: Response) => {
             if(this.program !== undefined)
             {
-                await this.program.end("user");  
+                this.program.end("user");  
                 res.status(200);
                 res.end(); 
             }

@@ -201,11 +201,11 @@ export class SleepProgramBlock extends ProgramBlock
         const sT = this.params[0].data() as number;
         this.pbrInstance.machine.logger.info(`SleepBlock: Will sleep for ${sT * 1000} ms.`);
 
-        for(let i = 0; i < 100; i++)
+        for(let i = 0; i < ((sT * 1000) / 10); i++)
         {
             if(this.pbrInstance.status.mode != PBRMode.ENDED)
                 await new Promise(resolve => {
-                    setTimeout(resolve, (sT * 1000) / 100);
+                    setTimeout(resolve, 10);
                 });
             else
                 return;

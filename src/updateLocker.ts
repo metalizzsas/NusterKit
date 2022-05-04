@@ -7,14 +7,13 @@ export class UpdateLocker
     private logger: pino.Logger;
 
     private updatesLocked: boolean;
-    private lockTimer?: NodeJS.Timeout;
 
     constructor(lockfilePath: string, logger: pino.Logger)
     {
         this.lockfilePath = lockfilePath;
         this.logger = logger;
 
-        this.updatesLocked = true;
+        this.updatesLocked = false;
     }
 
     /**
@@ -62,33 +61,7 @@ export class UpdateLocker
         });
     }
 
-    /**
-     * Temporary lock the updates to force balena to not update
-     * @param time time in milliseconds to wait before unlocking updates
-     */
-    async temporaryLockUpdates(time: number)
-    {
-        if(this.lockTimer)
-        {
-            this.logger.warn("A locking timer instance was found, removing it.");
-            clearTimeout(this.lockTimer);
-        }
-
-        const lockresult = await this.lockUpdates();
-
-        if(lockresult)
-        {
-            this.lockTimer = setTimeout(async () => {
-                await this.unlockUpdates();
-            }, time);
-        }
-        else
-        {
-            this.logger.warn("Temporary locking failed, updates lock is stuck to " + this.updatesLocked);
-        }
-    }
-
-    get updable(): boolean
+    get updateable(): boolean
     {
         return !this.updatesLocked;
     }

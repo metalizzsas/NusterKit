@@ -26,6 +26,9 @@ jobs:
           path: ./nuster-desktop
           token: ${{ secrets.GH_TOKEN_2 }}
           ref: main
+      - run: "mkdir ./nuster-turbine/nuster"
+      - run: "cp ./version.json ./nuster-turbine/nuster/version.json"
+      - run: "cp -R ./patch-notes/ ./nuster-turbine/nuster/patch-notes/"
       - uses: actions/setup-node@v3
         with:
           node-version: '12'

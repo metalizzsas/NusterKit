@@ -1,0 +1,39 @@
+on:
+  push:
+    branches:
+      - next
+name: "Balena publish (NT)"
+jobs:
+  balena_cloud_build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - uses: actions/checkout@main
+        with:
+          repository: metalizzsas/NusterTurbine
+          path: ./nuster-turbine
+          token: ${{ secrets.GH_TOKEN_2 }}
+          ref: main
+      - uses: actions/checkout@main
+        with:
+          repository: metalizzsas/NusterTurbineMachines
+          path: ./nuster-turbine/nuster-turbine-machines
+          token: ${{ secrets.GH_TOKEN_2 }}
+          ref: main
+      - uses: actions/checkout@main
+        with:
+          repository: metalizzsas/NusterDesktop
+          path: ./nuster-desktop
+          token: ${{ secrets.GH_TOKEN_2 }}
+          ref: main
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '12'
+      - uses: balena-io/deploy-to-balena-action@v0.10.6
+        id: build
+        with:
+          finalize: false
+          balena_token: ${{ secrets.BALENA_TOKEN }}
+          fleet: romain_sapet/nusterturbine
+      - name: Log release ID built
+        run: echo "Built release ID ${{ steps.build.outputs.release_id }}"

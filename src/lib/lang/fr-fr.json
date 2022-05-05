@@ -10,7 +10,7 @@
   "binary_false": "Faux ✗",
   "present": "Présent ✓",
   "missing": "Absent ✗",
-  "close-keyboard": "Close keyboard",
+  "close-keyboard": "Fermer le clavier",
 
   "machine": {
     "informations": "Informations machine",
@@ -76,7 +76,12 @@
     "enable-dark-mode": "Mode sombre activé",
     "language": "Langue",
     "apply-language": "Appliquer changement de langue",
-    "restart": "Redémarrer la machine"
+    "restart": "Redémarrer la machine",
+    "updateNotes": "Notes de version",
+    "updateGoing": {
+      "desc": "La mise à jour est en cours d'installation, merci de patienter quelques instants.",
+      "title": "Mise à jour"
+    }
   },
   "cycle": {
     "button": "Cycle",

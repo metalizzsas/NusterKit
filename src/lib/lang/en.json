@@ -1,16 +1,16 @@
 {
   "ok": "Ok",
-  "nok": "Not ok",
-  "yes": "Yes",
-  "no": "No",
+  "nok": "Ko",
+  "yes": "Yes ✓",
+  "no": "No ✗",
   "cancel": "Cancel",
   "minutes": "Minutes",
   "seconds": "Seconds",
-  "binary_true": "Enabled",
-  "binary_false": "Disabled",
-  "present": "Present",
-  "missing": "Missing",
-  "close-keyboard": "Close keyboard",
+  "binary_true": "True ✓",
+  "binary_false": "False ✗",
+  "present": "Ok ✓",
+  "missing": "Missing ✗",
+  "close-keyboard": "Close the keyboard",
 
   "machine": {
     "informations": "Machine informations",
@@ -77,7 +77,12 @@
     "language": "Language",
     "apply-language": "Apply lang change",
     "restart": "Restart machine",
-    "reload-nuster": "Reload interface"
+    "reload-nuster": "Reload interface",
+    "updateNotes": "Release notes",
+    "updateGoing": {
+      "desc": "Installing the update, please wait...",
+      "title": "Updating"
+    }
   },
   "cycle": {
     "button": "Cycle",

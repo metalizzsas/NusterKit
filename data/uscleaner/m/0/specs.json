@@ -333,7 +333,7 @@
                         },
                         "duration": {
                             "name": "profile",
-                            "value": "cleaning.duration"
+                            "value": "principal.duration"
                         },
                         "startBlocks": [
                             {
@@ -358,7 +358,7 @@
                                     },
                                     {
                                         "name": "profile",
-                                        "value": "cleaning.motor-speed"
+                                        "value": "principal.motor-speed"
                                     }
                                 ]
                             },

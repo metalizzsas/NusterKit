@@ -86,7 +86,7 @@
 			if (result === true) {
 				break;
 			} else {
-				await new Promise((resolve) => setTimeout(resolve, 1000));
+				await new Promise((resolve) => setTimeout(resolve, 5000));
 				ws.close();
 				continue;
 			}

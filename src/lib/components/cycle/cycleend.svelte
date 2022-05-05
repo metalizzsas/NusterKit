@@ -6,7 +6,7 @@
 	import howler from 'howler';
 	import { machineData } from '$lib/utils/store';
 	import { Linker } from '$lib/utils/linker';
-	import { _ } from 'svelte-i18n';
+	import { time, _ } from 'svelte-i18n';
 
 	let rating = 0;
 
@@ -43,11 +43,18 @@
 	<div class="flex flex-col gap-4">
 		<p class="rounded-xl py-2 px-3 bg-white text-gray-800 flex flex-col font-semibold">
 			{$_('cycle.end.cycle-ended')}
-			<span class="text-xs text-italic font-normal">
-				{$_('cycle.end.cycle-ended-reason')} : {$_(
-					'cycle.endreasons.' + $machineData.cycle?.status.endReason,
-				)}
+			<span class="text-base text-italic font-normal">
+				{$_('cycle.endreasons.' + $machineData.cycle?.status.endReason)}
 			</span>
+
+			{#if $machineData.cycle?.status.startDate && $machineData.cycle?.status.endDate}
+				<span class="text-xs text-italic font-normal">
+					{$_('cycle.end.cycle-duration')} : {$time(
+						$machineData.cycle?.status.endDate - $machineData.cycle?.status.startDate,
+						{ format: 'medium' },
+					)}
+				</span>
+			{/if}
 		</p>
 		<div class="rounded-xl py-2 px-3 bg-white text-gray-800 font-semibold">
 			{$_('cycle.end.cycle-rating-lead')}

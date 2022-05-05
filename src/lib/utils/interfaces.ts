@@ -196,6 +196,7 @@ export interface Status {
   progress: number;
   endReason?: string;
   endDate?: number;
+  startDate?: number;
 }
 
 export interface Machine {

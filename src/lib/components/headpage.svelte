@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
+	import { locale, locales } from 'svelte-i18n';
 	import { machineData } from '$lib/utils/store';
 	import { scale, fade } from 'svelte/transition';
 
 	import img from '$lib/img/1024.png';
 	import Modalcontent from './modals/modalcontent.svelte';
 	import Toggle from '$lib/components/toggle.svelte';
-	import { getLang, readDarkMode, setLang, updateDarkMode } from '$lib/utils/settings';
+	import { readDarkMode, updateDarkMode } from '$lib/utils/settings';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { Linker } from '$lib/utils/linker';
@@ -21,7 +22,10 @@
 
 	/// Modal options
 	let dark = false;
-	let lang = 'en';
+	const langs: { [x: string]: string } = {
+		fr: 'Français',
+		en: 'English',
+	};
 
 	let ip: string = '';
 	export let hypervisorIp: string;
@@ -32,7 +36,6 @@
 
 	onMount(async () => {
 		dark = readDarkMode();
-		lang = getLang();
 
 		ip = $Linker;
 
@@ -67,20 +70,11 @@
 			class="flex flex-row gap-4 justify-between dark:text-white text-gray-800 py-2 px-3 pr-2 items-center font-semibold"
 		>
 			{$_('settings.language')}
-			<select bind:value={lang} class="text-gray-800 py-1 px-2 bg-gray-300">
-				<option value="en">English</option>
-				<option value="fr">Français</option>
+			<select bind:value={$locale} class="text-gray-800 py-1 px-2 bg-gray-300">
+				{#each $locales as locale}
+					<option value={locale}>{langs[locale]}</option>
+				{/each}
 			</select>
-
-			<button
-				on:click={() => {
-					setLang(lang);
-					window.location.href = '/machine';
-				}}
-				class="bg-indigo-500 py-1 px-2 rounded-xl text-white text-sm font-semibold"
-			>
-				{$_('settings.apply-language')}
-			</button>
 		</div>
 	</div>
 </Modalcontent>

@@ -86,7 +86,9 @@
 </Modalcontent>
 
 <Modalcontent bind:shown={displayUpdateNotes} title={$_('settings.updateNotes')}>
-	<SvelteMarkdown source={markdownReleaseNotes} />
+	<div class="markdown">
+		<SvelteMarkdown source={markdownReleaseNotes} />
+	</div>
 </Modalcontent>
 
 <Modalcontent
@@ -134,7 +136,7 @@
 
 				<div class="flex flex-row gap-5 items-center">
 					{#if $machineData.machine.hypervisorData !== undefined}
-						{#if ($machineData.machine.hypervisorData.download_progress ?? 0 > 0) || $machineData.machine.hypervisorData.update_pending}
+						{#if ($machineData.machine.hypervisorData.overallDownloadProgress || 0) > 0 || $machineData.machine.hypervisorData.appState != 'applied'}
 							<button
 								class="rounded-full backdrop-brightness-125 p-1 transition hover:rotate-180 duration-300"
 								on:click={() => {
@@ -159,7 +161,7 @@
 										/>
 									</svg>
 									<span
-										class="animate-ping relative inline-flex h-3 w-3 rounded-full bg-orange-500 opacity-75"
+										class="animate-ping relative inline-flex h-3 w-3 rounded-full bg-white opacity-75"
 										style="grid-area: 1/1/1/1;"
 									/>
 								</span>
@@ -300,19 +302,22 @@
 				{#if !isUpdateShrinked}
 					<div in:scale out:scale>
 						<div class="flex flex-row flex-wrap gap-5 items-center mt-4">
-							<div class="rounded-full h-8 p-1 w-1/3 backdrop-brightness-125">
-								<div
-									class="h-6 w-[{$machineData.machine.hypervisorData
-										.download_progress ??
-										0}%] bg-white text-xs rounded-full text-zinc-700 flex flex-row justify-center items-center"
-								>
-									{#if $machineData.machine.hypervisorData.download_progress ?? 0 > 10}
-										{$machineData.machine.hypervisorData.download_progress} %
-									{/if}
+							{#if $machineData.machine.hypervisorData.overallDownloadProgress !== null}
+								<div class="rounded-full h-8 p-1 w-1/3 backdrop-brightness-125">
+									<div
+										class="h-6 w-[{$machineData.machine.hypervisorData
+											.overallDownloadProgress ||
+											0}%] bg-white animate-pulse text-xs rounded-full text-zinc-700 flex flex-row justify-center items-center"
+									>
+										{#if $machineData.machine.hypervisorData.overallDownloadProgress ?? 0 > 10}
+											{$machineData.machine.hypervisorData
+												.overallDownloadProgress} %
+										{/if}
+									</div>
 								</div>
-							</div>
+							{/if}
 
-							{#if $machineData.machine.hypervisorData.update_downloaded}
+							{#if $machineData.machine.hypervisorData.appState != 'applied' && $machineData.machine.hypervisorData.overallDownloadProgress == null}
 								<button
 									class="backdrop-brightness-150 rounded-xl py-2 px-3 text-white font-semibold pointer-cursor"
 									on:click={triggerUpdate}

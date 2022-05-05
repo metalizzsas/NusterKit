@@ -44,7 +44,9 @@
 				</div>
 			</div>
 
-			<div class="text-xl my-2 p-2 text-gray-900/75 dark:text-white">
+			<div
+				class="text-xl my-2 p-2 text-gray-900/75 dark:text-white overflow-y-scroll h-[60vh]"
+			>
 				<slot />
 			</div>
 		</div>

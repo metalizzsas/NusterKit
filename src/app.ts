@@ -3,18 +3,18 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import { WebSocket, WebSocketServer } from "ws";
+import path from "path";
+import fs from "fs";
+import lockFile from "lockfile";
 import { Server } from "http";
 import { pinoHttp } from "pino-http";
 import { pino } from "pino";
 
-import { Machine } from "./Machine";
-import path from "path";
-import fs from "fs";
-import lockFile from "lockfile";
-
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import version from "../nuster/version.json";
+
+import { Machine } from "./Machine";
 
 interface IStatus
 {
@@ -29,9 +29,7 @@ class NusterTurbine
     public wsServer?: WebSocketServer;
 
     public logger: pino.Logger;
-
     public machine?: Machine;
-
     public status: IStatus;
 
     constructor()
@@ -74,14 +72,7 @@ class NusterTurbine
         }
 
         lockFile.lock("/tmp/balena/updates.lock", (err) => {
-            if(err)
-            {
-                this.logger.error("Updates locking failed.", err);
-            }
-            else
-            {
-                this.logger.info("Updates are now locked.");
-            }
+            (err) ? this.logger.error("Updates locking failed.", err) : this.logger.info("Updates are now locked.");                
         });
 
     }
@@ -98,7 +89,6 @@ class NusterTurbine
                     if(process.env.NODE_ENV != 'production')
                     {
                         fs.mkdirSync(path.resolve("data"), {recursive: true});
-                        
                         fs.writeFileSync(path.resolve("data", "info.json"), JSON.stringify(req.body, null, 4));
                     }
                     else
@@ -128,15 +118,14 @@ class NusterTurbine
         this.app.use(cookieParser());
 
         //authing middleware
-        //if(!process.env.DISABLE_AUTH && this.machine)
-        //    this.app.use(this.machine.authManager.middleware.bind(this.machine.authManager));
-        //else
-        //    this.logger.warn("Auth manager disabled");
+        if(!process.env.DISABLE_AUTH && this.machine)
+            this.app.use(this.machine.authManager.middleware.bind(this.machine.authManager));
+        else
+            this.logger.warn("Auth manager disabled");
 
         //logging middleware
         this.app.use(pinoHttp({
             logger: this.logger,
-
             serializers: {
                 err: pino.stdSerializers.err,
                 req: pino.stdSerializers.req,
@@ -144,10 +133,11 @@ class NusterTurbine
               }
         }));
 
-        this.logger.info(`Will use ${this.machine?.assetsFolder} as the assets folder.`);
-
         if(this.machine)
+        {
+            this.logger.info(`Will use ${this.machine.assetsFolder} as the assets folder.`);
             this.app.use("/assets", express.static(this.machine.assetsFolder));
+        }
 
         this.app.get("/status", (_req, res: Response) => res.json(this.status));
         this.app.get("/ws", async (_req, res: Response) => res.json(await this.machine?.socketData()));
@@ -196,7 +186,6 @@ class NusterTurbine
         });
 
         setInterval(async () => {
-
             if(this.wsServer !== undefined)
             {
                 if(this.machine)
@@ -218,7 +207,6 @@ class NusterTurbine
                         }
                     }
                 }
-
             }
         }, 500);
     }

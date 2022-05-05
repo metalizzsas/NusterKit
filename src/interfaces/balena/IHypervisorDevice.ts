@@ -1,12 +1,28 @@
-export interface IHypervisorDevice {
-    api_port: number;
-    ip_address: string;
-    os_version: string;
-    mac_address: string;
-    supervisor_version: string;
-    update_pending: boolean;
-    update_failed: boolean;
-    update_downloaded: boolean;
-    commit: string;
+export interface IHypervisorData {
     status: string;
+    appState: string;
+    overallDownloadProgress?: number;
+    containers: Container[];
+    images: Image[];
+    release: string;
+}
+
+interface Image {
+    name: string;
+    appId: number;
+    serviceName: string;
+    imageId: number;
+    dockerImageId: string;
+    status: string;
+    downloadProgress?: number;
+}
+
+interface Container {
+    status: string;
+    serviceName: string;
+    appId: number;
+    imageId: number;
+    serviceId: number;
+    containerId: string;
+    createdAt: string;
 }

@@ -2,6 +2,8 @@ import pino from "pino";
 import fs from "fs";
 import path from "path";
 import deepExtend from "deep-extend";
+import WebSocket from "ws";
+
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import version from "../nuster/version.json";
@@ -14,9 +16,9 @@ import { ManualModeController } from "./controllers/manual/ManualModeController"
 import { ProfileController } from "./controllers/profile/ProfilesController";
 import { SlotController } from "./controllers/slot/SlotController";
 import { AuthManager } from "./auth/auth";
-import { IConfiguration, IMachine, IMachineSettings } from "./interfaces/IMachine";
-import WebSocket from "ws";
-import { IHypervisorDevice } from "./interfaces/balena/IHypervisorDevice";
+
+import type { IConfiguration, IMachine, IMachineSettings } from "./interfaces/IMachine";
+import type { IHypervisorData } from "./interfaces/balena/IHypervisorDevice";
 
 export class Machine {
 
@@ -28,7 +30,12 @@ export class Machine {
     revision: number;
 
     public specs: IMachine;
-    public settings: IMachineSettings;
+    public settings: IMachineSettings = {
+        maskedPremades: [],
+        maskedProfiles: [],
+        maskedManuals: [],
+        ioControlsMasked: false
+    };
 
     maintenanceController: MaintenanceController;
     ioController: IOController;
@@ -44,25 +51,23 @@ export class Machine {
 
     authManager: AuthManager;
 
-    hypervisorData?: IHypervisorDevice;
+    hypervisorData?: IHypervisorData;
 
     constructor(logger: pino.Logger)
     {
         this.logger = logger;
-
         this.authManager = new AuthManager(this.logger);
 
-        //Loading JSON info file
-
+        //Get info file path
         const infoPath = (process.env.NODE_ENV != 'production' || process.env.FORCE_DEV_CONFIG == 'true') ? path.resolve("data", "info.json") : "/data/info.json";
 
         if(!fs.existsSync(infoPath))
         {
-            this.logger.fatal("Machine info file not found");
+            this.logger.fatal("Machine: info file not found");
+            throw Error("Machine: info file not found");
         }
 
         const infos = fs.readFileSync(infoPath, {encoding: "utf-8"});
-
         const parsed = JSON.parse(infos) as IConfiguration;
 
         this.name = parsed.name;
@@ -73,25 +78,16 @@ export class Machine {
         this.revision = parsed.revision;
 
         const raw = fs.readFileSync(path.resolve("nuster-turbine-machines", "data", this.model, this.variant, `${this.revision}`, "specs.json"), {encoding: "utf-8"});
-
         const specsParsed = JSON.parse(raw) as IMachine;
 
         //if informations has optionals specs, deep extending it to match all specs
         if(parsed.options !== undefined)
         {
-            this.logger.warn("This machine has options.");
-            deepExtend(specsParsed, parsed.options)
+            this.logger.warn("Machine: Configuration has options, merging with specs.");
+            deepExtend(specsParsed, parsed.options);
         }
 
         this.specs = (specsParsed as IMachine);
-
-        //initiate settings with empty array in case of no settings in configuration file
-        this.settings = {
-            maskedPremades: [],
-            maskedProfiles: [],
-            maskedManuals: [],
-            ioControlsMasked: false
-        };
 
         //if config file has settings let them is the settings var
         if(parsed.settings !== undefined)
@@ -108,12 +104,13 @@ export class Machine {
         this.cycleController = new CycleController(this);
         this.passiveController = new PassiveController(this);
 
-        this.logger.info("Finished building controllers");
+        this.logger.info("Machine: Finished building controllers");
 
+        //Polling the hypervisor to get container health.
         setInterval(async () => {
             try
             {
-                const hyperv = await fetch("http://127.0.0.1:48484/v1/device?apikey=" + process.env.BALENA_SUPERVISOR_API_KEY, {headers: {"Content-Type": "application/json"}});
+                const hyperv = await fetch("http://127.0.0.1:48484/v2/state/status?apikey=" + process.env.BALENA_SUPERVISOR_API_KEY, {headers: {"Content-Type": "application/json"}});
     
                 if(hyperv.status == 200)
                     this.hypervisorData = await hyperv.json();
@@ -140,7 +137,7 @@ export class Machine {
         }
         else
         {
-            this.logger.trace("Unable to broadcast, websocket server is undefined");
+            this.logger.trace("Websocket: Unable to broadcast, WebSocket server is undefined.");
         }
     }
 

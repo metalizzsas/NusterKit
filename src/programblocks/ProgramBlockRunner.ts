@@ -102,6 +102,7 @@ export class ProgramBlockRunner implements IProgram
         this.machine.logger.info(`PBR: Started cycle ${this.name}.`);
 
         this.status.mode = PBRMode.STARTED;
+        this.status.startDate = Date.now();
 
         while(this.currentStepIndex < this.steps.length)
         {

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { browser } from '$app/env';
+
 	import '$lib/app.css';
 	import { _ } from 'svelte-i18n';
 	import { fade } from 'svelte/transition';
@@ -15,11 +17,13 @@
 	export let buttons: buttonOption[] = [];
 
 	export let shown: boolean = false;
+
+	$: if (browser) document.body.classList.toggle('overflow-hidden', shown);
 </script>
 
 {#if shown}
 	<div
-		class="fixed top-0 right-0 left-0 bottom-0 bg-gray-600 le z-50"
+		class="fixed top-0 right-0 left-0 bottom-0 backdrop-brightness-50 le z-50"
 		in:fade={{ duration: 50 }}
 		out:fade={{ duration: 50 }}
 	>

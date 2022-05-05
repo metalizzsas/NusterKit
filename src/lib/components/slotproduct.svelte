@@ -27,48 +27,34 @@
 						class="bg-gray-300 pr-1 pl-5 py-1 rounded-full text-neutral-700 font-semibold flex flex-row justify-between items-center"
 					>
 						{$_('slots.sensors.types.' + s.type)}
-						<span class="bg-gray-900 p-1 px-5 rounded-full text-white">
-							{#if s.type == 'level-a'}
+
+						{#if s.type == 'level-a'}
+							<span class="bg-gray-900 p-1 px-5 rounded-full text-white">
 								{Math.ceil(s.value)} %
-							{:else if s.type == 'level-np'}
-								{$_(s.value == 1 ? 'present' : 'missing')}
-							{:else if s.type == 'level-min-n'}
-								{$_(`binary_${s.value != 1}`)}
-							{:else if s.type == 'level-max-n'}
-								{$_(`binary_${s.value == 1}`)}
-							{:else}
+							</span>
+						{:else if s.type == 'level-np'}
+							<div
+								class="h-6 w-6 rounded-full {s.value != 1
+									? 'bg-red-500 shadow-md shadow-red-300'
+									: 'bg-emerald-500 shadow-md shadow-emerald-300'}"
+							/>
+						{:else if s.type == 'level-min-n'}
+							<div
+								class="h-6 w-6 rounded-full {s.value != 1
+									? 'bg-red-500 shadow-md shadow-red-300'
+									: 'bg-emerald-500 shadow-md shadow-emerald-300'}"
+							/>
+						{:else if s.type == 'level-max-n'}
+							<div
+								class="h-6 w-6 rounded-full {s.value == 1
+									? 'bg-red-500 shadow-md shadow-red-300'
+									: 'bg-emerald-500 shadow-md shadow-emerald-300'}"
+							/>
+						{:else}
+							<span class="bg-gray-900 p-1 px-5 rounded-full text-white">
 								{Math.ceil(s.value * 100)}
-							{/if}
-						</span>
-					</div>
-				{/each}
-			</div>
-		</div>
-	{/if}
-	{#if slotContent.product}
-		<div class="bg-white p-3 rounded-br-2xl rounded-bl-2xl pt-14">
-			<div class="flex flex-row items-center justify-around -translate-y-7">
-				<span class="bg-violet-500 rounded-xl py-1 px-3 font-semibold shadow-sm text-white">
-					{$_('slots.product.name')}
-				</span>
-			</div>
-			<div class="flex flex-col gap-3 -mt-3">
-				{#each slotContent.sensors as s}
-					<div
-						class="bg-gray-200 pr-1 pl-5 py-1 rounded-full text-neutral-700 font-semibold flex flex-row justify-between items-center"
-					>
-						{$_('slots.sensors.types.' + s.type)}
-						<span class="bg-gray-900 p-1 px-5 rounded-full text-white">
-							{#if s.type == 'level-a'}
-								{Math.ceil(s.value)} %
-							{:else if s.type == 'level-np'}
-								{$_(s.value == 1 ? 'present' : 'missing')}
-							{:else if s.type == 'level-min-n' || s.type == 'level-max-n'}
-								{$_(`binary_${s.value == 1}`)}
-							{:else}
-								{Math.ceil(s.value * 100)}
-							{/if}
-						</span>
+							</span>
+						{/if}
 					</div>
 				{/each}
 			</div>

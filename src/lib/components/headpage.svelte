@@ -7,7 +7,7 @@
 	import img from '$lib/img/1024.png';
 	import Modalcontent from './modals/modalcontent.svelte';
 	import Toggle from '$lib/components/toggle.svelte';
-	import { readDarkMode, updateDarkMode } from '$lib/utils/settings';
+	import { readDarkMode, updateDarkMode, setLang } from '$lib/utils/settings';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { Linker } from '$lib/utils/linker';
@@ -55,11 +55,13 @@
 			displayUpdateScreen = true;
 		}
 	}
+
+	$: setLang($locale as string);
 </script>
 
 <!--- options modal -->
 <Modalcontent bind:shown={displayOptions} title={$_('settings.main')}>
-	<div class="flex flex-col gap-4">
+	<div class="flex flex-col gap-3">
 		<div
 			class="flex flex-row justify-between dark:text-white text-gray-800 py-2 px-3 pr-2 items-center font-semibold"
 		>

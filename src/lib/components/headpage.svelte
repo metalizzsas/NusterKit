@@ -53,6 +53,7 @@
 
 		if (req.status == 200) {
 			displayUpdateScreen = true;
+			isUpdateShrinked = true;
 		}
 	}
 
@@ -157,7 +158,7 @@
 										/>
 									</svg>
 									<span
-										class="animate-ping relative inline-flex h-3 w-3 rounded-full bg-white opacity-75"
+										class="animate-ping relative inline-flex h-3 w-3 rounded-full bg-orange-500 opacity-75"
 										style="grid-area: 1/1/1/1;"
 									/>
 								</span>

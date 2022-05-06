@@ -3,6 +3,7 @@
 	import { machineData } from '$lib/utils/store';
 	import { _ } from 'svelte-i18n';
 	import { Linker } from '$lib/utils/linker';
+	import Round from '../round.svelte';
 
 	let displayWatchdogError = false;
 
@@ -78,10 +79,10 @@
 						class="flex flex-row justify-between items-center rounded-full bg-gray-800 py-1 pr-2 pl-3 text-white font-semibold"
 					>
 						{$_('gates.names.' + wdc.gateName)}
-						<div
-							class="h-5 w-5 rounded-full {!wdc.result
-								? 'bg-red-500'
-								: 'bg-emerald-500'}"
+						<Round
+							size={5}
+							color={wdc.result ? 'emerald-500' : 'red-500'}
+							shadowColor={wdc.result ? 'emerald-300' : 'red-300'}
 						/>
 					</span>
 				{/each}

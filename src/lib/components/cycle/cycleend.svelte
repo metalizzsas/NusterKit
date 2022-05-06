@@ -7,6 +7,7 @@
 	import { machineData } from '$lib/utils/store';
 	import { Linker } from '$lib/utils/linker';
 	import { time, _ } from 'svelte-i18n';
+	import { goto } from '$app/navigation';
 
 	let rating = 0;
 
@@ -35,7 +36,7 @@
 			},
 		});
 
-		window.history.back();
+		goto('/app');
 	}
 </script>
 

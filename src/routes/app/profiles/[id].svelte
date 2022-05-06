@@ -2,11 +2,7 @@
 	import type { Load } from '@sveltejs/kit';
 
 	export const load: Load = async (ctx) => {
-		let profileID = ctx.params.id;
-
-		const content = await ctx.fetch(
-			`http://${ctx.session.ip || '127.0.0.1'}/v1/profiles/${profileID}`,
-		);
+		const content = await ctx.fetch(`http://${ctx.session.ip}/v1/profiles/${ctx.params.id}`);
 
 		let profile: Profile = await content.json();
 

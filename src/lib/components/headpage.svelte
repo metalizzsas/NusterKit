@@ -299,15 +299,22 @@
 					<div in:scale out:scale>
 						<div class="flex flex-row flex-wrap gap-5 items-center mt-4">
 							{#if $machineData.machine.hypervisorData.overallDownloadProgress !== null}
+								<span class="font-semibold">{$_('settings.updateProgress')}</span>
 								<div class="rounded-full h-8 p-1 w-1/3 backdrop-brightness-125">
 									<div
-										class="h-6 w-[{$machineData.machine.hypervisorData
-											.overallDownloadProgress ||
-											0}%] bg-white animate-pulse text-xs rounded-full text-zinc-700 flex flex-row justify-center items-center"
+										class="h-6 bg-white animate-pulse text-xs rounded-full text-zinc-700 flex flex-row justify-center items-center"
+										style="width: {Math.floor(
+											$machineData.machine.hypervisorData
+												.overallDownloadProgress ?? 0,
+										)}%"
 									>
 										{#if $machineData.machine.hypervisorData.overallDownloadProgress ?? 0 > 10}
-											{$machineData.machine.hypervisorData
-												.overallDownloadProgress} %
+											<span class="font-semibold">
+												{Math.floor(
+													$machineData.machine.hypervisorData
+														.overallDownloadProgress ?? 0,
+												)} %
+											</span>
 										{/if}
 									</div>
 								</div>

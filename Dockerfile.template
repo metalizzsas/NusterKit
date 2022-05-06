@@ -1,16 +1,25 @@
-FROM balenalib/%%BALENA_MACHINE_NAME%%-node:16
+FROM balenalib/%%BALENA_MACHINE_NAME%%-node:16 AS builder
 
 RUN install_packages build-essential python3 git openssh-client
-
 WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN JOBS=MAX npm install --unsafe-perm && npm cache verify && rm -rf /tmp/*
-
+RUN JOBS=MAX npm install --unsafe-perm && npm cache verify
 COPY ./ ./
 
-#Build build svelte project to html
 RUN npm run build:svelte
+
+FROM balenalib/%%BALENA_MACHINE_NAME%%-node:16
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+RUN JOBS=MAX npm install --save-prod --unsafe-perm && npm cache verify && rm -rf /tmp/*
+
+COPY --from=builder /usr/src/app/build ./build
+
+EXPOSE 3000
+ENV NODE_ENV=production
 
 CMD ["node", "build/index.js"]

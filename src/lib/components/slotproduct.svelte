@@ -2,6 +2,7 @@
 	import { _ } from 'svelte-i18n';
 	import '$lib/app.css';
 	import type { Slot } from '$lib/utils/interfaces';
+	import Round from './round.svelte';
 
 	export var slotContent: Slot;
 </script>
@@ -32,23 +33,19 @@
 							<span class="bg-gray-900 p-1 px-5 rounded-full text-white">
 								{Math.ceil(s.value)} %
 							</span>
-						{:else if s.type == 'level-np'}
-							<div
-								class="h-6 w-6 rounded-full {s.value != 1
-									? 'bg-red-500 shadow-md shadow-red-300'
-									: 'bg-emerald-500 shadow-md shadow-emerald-300'}"
-							/>
-						{:else if s.type == 'level-min-n'}
-							<div
-								class="h-6 w-6 rounded-full {s.value != 1
-									? 'bg-red-500 shadow-md shadow-red-300'
-									: 'bg-emerald-500 shadow-md shadow-emerald-300'}"
+						{:else if ['level-min-n', 'level-np'].includes(s.type)}
+							<Round
+								size={4}
+								margin={1}
+								color={s.value == 1 ? 'emerald-500' : 'red-500'}
+								shadowColor={s.value == 1 ? 'emerald-300' : 'red-300'}
 							/>
 						{:else if s.type == 'level-max-n'}
-							<div
-								class="h-6 w-6 rounded-full {s.value == 1
-									? 'bg-red-500 shadow-md shadow-red-300'
-									: 'bg-emerald-500 shadow-md shadow-emerald-300'}"
+							<Round
+								size={4}
+								margin={1}
+								color={s.value != 1 ? 'emerald-500' : 'red-500'}
+								shadowColor={s.value != 1 ? 'emerald-300' : 'red-300'}
 							/>
 						{:else}
 							<span class="bg-gray-900 p-1 px-5 rounded-full text-white">

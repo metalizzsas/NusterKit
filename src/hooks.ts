@@ -6,7 +6,8 @@ export const getSession: GetSession = async (ctx) => {
     if(ctx.url.pathname.startsWith("/app"))
     {
         const Cookies = cookie.parse(ctx.headers.cookie || '');
-        return { ip: Cookies["ip"]};
+        console.log(Cookies);
+        return { ip: Cookies["ip"] ?? "127.0.0.1"};
     }
     return {}; 
 };

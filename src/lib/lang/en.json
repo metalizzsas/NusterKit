@@ -82,7 +82,9 @@
     "updateGoing": {
       "desc": "Installing the update, please wait...",
       "title": "Updating"
-    }
+    },
+    "triggerUpdate": "Install update",
+    "updateProgress": "Update downloading progress"
   },
   "cycle": {
     "button": "Cycle",

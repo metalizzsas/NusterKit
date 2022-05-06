@@ -676,6 +676,12 @@
          "incompatibility": [],
          "controls": [
             {"name": "uv-cache"}
+         ],
+         "watchdog": [
+            {
+               "gateName": "cover_closed",
+               "gateValue": 1
+            }
          ]
       },
       {
@@ -2053,6 +2059,20 @@
                            {
                               "name": "const",
                               "value": "1"
+                           }
+                        ],
+                        "_folded": true
+                     },
+                     {
+                        "name": "io",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "uv-ventil"
+                           },
+                           {
+                              "name": "const",
+                              "value": "0"
                            }
                         ],
                         "_folded": true

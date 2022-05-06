@@ -29,8 +29,8 @@ services:
     labels:
       io.balena.features.supervisor-api: '1'
   nuster-kiosk:
-    image: balenablocks/browser:latest
-    privileged: true # required for UDEV to find plugged in peripherals such as a USB mouse
+    image: bh.cr/balenablocks/browser-aarch64
+    privileged: true
     network_mode: host
     depends_on:
       - "nuster-turbine"
@@ -41,11 +41,9 @@ services:
       LAUNCH_URL: 'http://127.0.0.1:3000/machine'
       KIOSK: 1
       ENABLE_GPU: 1
-      #ROTATE_DISPLAY: 'right'
-      #TOUCHSCREEN: 'wch Touch'
       PERSISTANT: 1
       WINDOW_SIZE: 1024, 600
-      FLAGS: "--overscroll-history-navigation=0 --user-data-dir=/data/chromium-user-data"
+      #FLAGS: "--overscroll-history-navigation=0 --user-data-dir=/data/chromium-user-data"
     volumes:
       - 'nuster-data:/data'
   wifi-connect:

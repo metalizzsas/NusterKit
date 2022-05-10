@@ -1,20 +1,5 @@
 {
-    "_nuster": {
-        "mainInformations": [
-            {
-                "type": "gate",
-                "reference": "emergency_stop"
-            },
-            {
-                "type": "gate",
-                "reference": "air_sensor"
-            },
-            {
-                "type": "maintenance",
-                "reference": "cycleCount"
-            }
-        ]
-    },
+    "$schema": "../../../../__tests__/schema.json",
     "iohandlers": [
         {
             "name": "EM4",

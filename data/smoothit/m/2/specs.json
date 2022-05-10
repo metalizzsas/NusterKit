@@ -1,24 +1,5 @@
 {
-   "_nuster": {
-      "mainInformations": [
-         {
-            "type": "gate",
-            "reference": "emergency_stop"
-         },
-         {
-            "type": "gate",
-            "reference": "nitrogen_sensor"
-         },
-         {
-            "type": "gate",
-            "reference": "uv-overheat"
-         },
-         {
-            "type": "maintenance",
-            "reference": "cycleCount"
-         }
-      ]
-   },
+   "$schema": "../../../../__tests__/schema.json",
    "iohandlers": [
       {
          "name": "WAGO",
@@ -320,7 +301,7 @@
       }
    ],
    "profiles": {
-      "skeletons":[
+      "skeletons": [
          {
             "identifier": "default",
             "fieldGroups": [
@@ -658,7 +639,10 @@
          "name": "motor-rotation",
          "incompatibility": [],
          "controls": [
-            {"name": "motor-speed", "analogScaleDependant": true}
+            {
+               "name": "motor-speed",
+               "analogScaleDependant": true
+            }
          ],
          "analogScale": {
             "min": 0,
@@ -675,7 +659,9 @@
          "name": "uv-cache",
          "incompatibility": [],
          "controls": [
-            {"name": "uv-cache"}
+            {
+               "name": "uv-cache"
+            }
          ],
          "watchdog": [
             {
@@ -688,7 +674,9 @@
          "name": "ir-cache",
          "incompatibility": [],
          "controls": [
-            {"name": "ir-cache"}
+            {
+               "name": "ir-cache"
+            }
          ],
          "watchdog": [
             {
@@ -701,7 +689,9 @@
          "name": "nozzle-cache",
          "incompatibility": [],
          "controls": [
-            {"name": "nozzle-cache"}
+            {
+               "name": "nozzle-cache"
+            }
          ],
          "watchdog": [
             {
@@ -718,8 +708,12 @@
             "nozzle-cache"
          ],
          "controls": [
-            {"name": "resin-pressure"},
-            {"name": "nozzle-pulverization"}
+            {
+               "name": "resin-pressure"
+            },
+            {
+               "name": "nozzle-pulverization"
+            }
          ],
          "watchdog": [
             {
@@ -736,7 +730,9 @@
          "name": "ventilation",
          "incompatibility": [],
          "controls": [
-            {"name": "ventilation"}
+            {
+               "name": "ventilation"
+            }
          ]
       },
       {
@@ -747,8 +743,12 @@
             "ir-cache"
          ],
          "controls": [
-            {"name": "ir-enable"},
-            {"name": "ir-ventil"}
+            {
+               "name": "ir-enable"
+            },
+            {
+               "name": "ir-ventil"
+            }
          ],
          "watchdog": [
             {
@@ -765,9 +765,16 @@
             "uv-cache"
          ],
          "controls": [
-            {"name": "uv-enable"},
-            {"name": "uv-power", "analogScaleDependant": true},
-            {"name": "uv-ventil"}
+            {
+               "name": "uv-enable"
+            },
+            {
+               "name": "uv-power",
+               "analogScaleDependant": true
+            },
+            {
+               "name": "uv-ventil"
+            }
          ],
          "analogScale": {
             "min": 0,
@@ -784,7 +791,9 @@
          "name": "inerting",
          "incompatibility": [],
          "controls": [
-            {"name": "inerting"}
+            {
+               "name": "inerting"
+            }
          ]
       }
    ],
@@ -1589,7 +1598,7 @@
                               "params": [
                                  {
                                     "name": "variable",
-                                    "value": "currentStepRunCount" 
+                                    "value": "currentStepRunCount"
                                  },
                                  {
                                     "name": "conststr",
@@ -1610,7 +1619,7 @@
                                     ]
                                  }
                               ],
-                              "blocks":[
+                              "blocks": [
                                  {
                                     "name": "sleep",
                                     "params": [

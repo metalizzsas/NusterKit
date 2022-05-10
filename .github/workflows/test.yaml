@@ -1,7 +1,6 @@
 on:
   push:
-    branches:
-      - main
+  
 jobs:
   machines-definitions-test:
     runs-on: ubuntu-latest

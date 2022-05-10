@@ -1,24 +1,5 @@
 {
-   "_nuster": {
-      "mainInformations": [
-         {
-            "type": "gate",
-            "reference": "emergency_stop"
-         },
-         {
-            "type": "gate",
-            "reference": "nitrogen_sensor"
-         },
-         {
-            "type": "gate",
-            "reference": "uv-overheat"
-         },
-         {
-            "type": "maintenance",
-            "reference": "cycleCount"
-         }
-      ]
-   },
+   "$schema": "../../../../__tests__/schema.json",
    "iohandlers": [
       {
          "name": "WAGO",

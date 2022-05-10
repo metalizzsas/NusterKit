@@ -1,20 +1,5 @@
 {
-   "_nuster": {
-      "mainInformations": [
-         {
-            "type": "gate",
-            "reference": "emergency_stop"
-         },
-         {
-            "type": "gate",
-            "reference": "air_sensor"
-         },
-         {
-            "type": "maintenance",
-            "reference": "cycleCount"
-         }
-      ]
-   },
+   "$schema": "../../../../__tests__/schema.json",
    "iohandlers": [
       {
          "name": "WAGO",
@@ -2277,286 +2262,421 @@
                         ],
                         "blocks": [
                            {
-                              "name": "io",
+                              "name": "if",
+                              "_comment": "If the high pulverisation row is enabled trigger it first",
                               "params": [
-                                 {
-                                    "name": "conststr",
-                                    "value": "met-plv_high"
-                                 },
                                  {
                                     "name": "profile",
                                     "value": "met-nozzles.met-high"
-                                 }
-                              ],
-                              "_folded": false
-                           },
-                           {
-                              "name": "io",
-                              "params": [
+                                 },
                                  {
                                     "name": "conststr",
-                                    "value": "met-plv_medium"
+                                    "value": "=="
                                  },
+                                 {
+                                    "name": "const",
+                                    "value": "1"
+                                 }
+                              ],
+                              "blocks": [
+                                 {
+                                    "name": "group",
+                                    "blocks": [
+                                       {
+                                          "name": "io",
+                                          "params": [
+                                             {
+                                                "name": "conststr",
+                                                "value": "met-plv_high"
+                                             },
+                                             {
+                                                "name": "const",
+                                                "value": "1"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       },
+                                       {
+                                          "name": "sleep",
+                                          "params": [
+                                             {
+                                                "name": "const",
+                                                "value": "0.25"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       },
+                                       {
+                                          "name": "io",
+                                          "params": [
+                                             {
+                                                "name": "conststr",
+                                                "value": "rd-lq_high"
+                                             },
+                                             {
+                                                "name": "const",
+                                                "value": "1"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       },
+                                       {
+                                          "name": "io",
+                                          "params": [
+                                             {
+                                                "name": "conststr",
+                                                "value": "ox-lq_high"
+                                             },
+                                             {
+                                                "name": "const",
+                                                "value": "1"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       },
+                                       {
+                                          "name": "sleep",
+                                          "params": [
+                                             {
+                                                "name": "profile",
+                                                "value": "metalization.timeOn"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       },
+                                       {
+                                          "name": "io",
+                                          "params": [
+                                             {
+                                                "name": "conststr",
+                                                "value": "rd-lq_high"
+                                             },
+                                             {
+                                                "name": "const",
+                                                "value": "0"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       },
+                                       {
+                                          "name": "io",
+                                          "params": [
+                                             {
+                                                "name": "conststr",
+                                                "value": "ox-lq_high"
+                                             },
+                                             {
+                                                "name": "const",
+                                                "value": "0"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       },
+                                       {
+                                          "name": "sleep",
+                                          "params": [
+                                             {
+                                                "name": "const",
+                                                "value": "0.25"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       },
+                                       {
+                                          "name": "io",
+                                          "params": [
+                                             {
+                                                "name": "conststr",
+                                                "value": "met-plv_high"
+                                             },
+                                             {
+                                                "name": "const",
+                                                "value": "0"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       }
+                                    ]
+                                 }
+                              ]
+                           },
+                           {
+                              "name": "if",
+                              "_comment": "If the middle pulverisation row is enabled trigger it first",
+                              "params": [
                                  {
                                     "name": "profile",
                                     "value": "met-nozzles.met-medium"
-                                 }
-                              ],
-                              "_folded": false
-                           },
-                           {
-                              "name": "io",
-                              "params": [
+                                 },
                                  {
                                     "name": "conststr",
-                                    "value": "met-plv_low"
+                                    "value": "=="
                                  },
+                                 {
+                                    "name": "const",
+                                    "value": "1"
+                                 }
+                              ],
+                              "blocks": [
+                                 {
+                                    "name": "group",
+                                    "blocks": [
+                                       {
+                                          "name": "io",
+                                          "params": [
+                                             {
+                                                "name": "conststr",
+                                                "value": "met-plv_medium"
+                                             },
+                                             {
+                                                "name": "const",
+                                                "value": "1"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       },
+                                       {
+                                          "name": "sleep",
+                                          "params": [
+                                             {
+                                                "name": "const",
+                                                "value": "0.25"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       },
+                                       {
+                                          "name": "io",
+                                          "params": [
+                                             {
+                                                "name": "conststr",
+                                                "value": "rd-lq_medium"
+                                             },
+                                             {
+                                                "name": "const",
+                                                "value": "1"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       },
+                                       {
+                                          "name": "io",
+                                          "params": [
+                                             {
+                                                "name": "conststr",
+                                                "value": "ox-lq_medium"
+                                             },
+                                             {
+                                                "name": "const",
+                                                "value": "1"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       },
+                                       {
+                                          "name": "sleep",
+                                          "params": [
+                                             {
+                                                "name": "profile",
+                                                "value": "metalization.timeOn"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       },
+                                       {
+                                          "name": "io",
+                                          "params": [
+                                             {
+                                                "name": "conststr",
+                                                "value": "rd-lq_medium"
+                                             },
+                                             {
+                                                "name": "const",
+                                                "value": "0"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       },
+                                       {
+                                          "name": "io",
+                                          "params": [
+                                             {
+                                                "name": "conststr",
+                                                "value": "ox-lq_medium"
+                                             },
+                                             {
+                                                "name": "const",
+                                                "value": "0"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       },
+                                       {
+                                          "name": "sleep",
+                                          "params": [
+                                             {
+                                                "name": "const",
+                                                "value": "0.25"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       },
+                                       {
+                                          "name": "io",
+                                          "params": [
+                                             {
+                                                "name": "conststr",
+                                                "value": "met-plv_medium"
+                                             },
+                                             {
+                                                "name": "const",
+                                                "value": "0"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       }
+                                    ]
+                                 }
+                              ]
+                           },
+                           {
+                              "name": "if",
+                              "_comment": "If the low pulverisation row is enabled trigger it first",
+                              "params": [
                                  {
                                     "name": "profile",
                                     "value": "met-nozzles.met-low"
-                                 }
-                              ],
-                              "_folded": false
-                           },
-                           {
-                              "name": "sleep",
-                              "params": [
-                                 {
-                                    "name": "const",
-                                    "value": "0.25"
-                                 }
-                              ],
-                              "_folded": false
-                           },
-                           {
-                              "name": "io",
-                              "params": [
-                                 {
-                                    "name": "conststr",
-                                    "value": "rd-lq_high"
                                  },
                                  {
-                                    "name": "profile",
-                                    "value": "met-nozzles.met-high"
-                                 }
-                              ],
-                              "_folded": false
-                           },
-                           {
-                              "name": "io",
-                              "params": [
-                                 {
                                     "name": "conststr",
-                                    "value": "ox-lq_high"
-                                 },
-                                 {
-                                    "name": "profile",
-                                    "value": "met-nozzles.met-high"
-                                 }
-                              ],
-                              "_folded": false
-                           },
-                           {
-                              "name": "io",
-                              "params": [
-                                 {
-                                    "name": "conststr",
-                                    "value": "rd-lq_medium"
-                                 },
-                                 {
-                                    "name": "profile",
-                                    "value": "met-nozzles.met-medium"
-                                 }
-                              ],
-                              "_folded": false
-                           },
-                           {
-                              "name": "io",
-                              "params": [
-                                 {
-                                    "name": "conststr",
-                                    "value": "ox-lq_medium"
-                                 },
-                                 {
-                                    "name": "profile",
-                                    "value": "met-nozzles.met-medium"
-                                 }
-                              ],
-                              "_folded": false
-                           },
-                           {
-                              "name": "io",
-                              "params": [
-                                 {
-                                    "name": "conststr",
-                                    "value": "rd-lq_low"
-                                 },
-                                 {
-                                    "name": "profile",
-                                    "value": "met-nozzles.met-low"
-                                 }
-                              ],
-                              "_folded": false
-                           },
-                           {
-                              "name": "io",
-                              "params": [
-                                 {
-                                    "name": "conststr",
-                                    "value": "ox-lq_low"
-                                 },
-                                 {
-                                    "name": "profile",
-                                    "value": "met-nozzles.met-low"
-                                 }
-                              ],
-                              "_folded": false
-                           },
-                           {
-                              "name": "sleep",
-                              "params": [
-                                 {
-                                    "name": "profile",
-                                    "value": "metalization.timeOn"
-                                 }
-                              ],
-                              "_folded": false
-                           },
-                           {
-                              "name": "io",
-                              "params": [
-                                 {
-                                    "name": "conststr",
-                                    "value": "rd-lq_high"
+                                    "value": "=="
                                  },
                                  {
                                     "name": "const",
-                                    "value": "0"
+                                    "value": "1"
                                  }
                               ],
-                              "_folded": false
-                           },
-                           {
-                              "name": "io",
-                              "params": [
+                              "blocks": [
                                  {
-                                    "name": "conststr",
-                                    "value": "ox-lq_high"
-                                 },
-                                 {
-                                    "name": "const",
-                                    "value": "0"
+                                    "name": "group",
+                                    "blocks": [
+                                       {
+                                          "name": "io",
+                                          "params": [
+                                             {
+                                                "name": "conststr",
+                                                "value": "met-plv_low"
+                                             },
+                                             {
+                                                "name": "const",
+                                                "value": "1"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       },
+                                       {
+                                          "name": "sleep",
+                                          "params": [
+                                             {
+                                                "name": "const",
+                                                "value": "0.25"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       },
+                                       {
+                                          "name": "io",
+                                          "params": [
+                                             {
+                                                "name": "conststr",
+                                                "value": "rd-lq_low"
+                                             },
+                                             {
+                                                "name": "const",
+                                                "value": "1"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       },
+                                       {
+                                          "name": "io",
+                                          "params": [
+                                             {
+                                                "name": "conststr",
+                                                "value": "ox-lq_low"
+                                             },
+                                             {
+                                                "name": "const",
+                                                "value": "1"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       },
+                                       {
+                                          "name": "sleep",
+                                          "params": [
+                                             {
+                                                "name": "profile",
+                                                "value": "metalization.timeOn"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       },
+                                       {
+                                          "name": "io",
+                                          "params": [
+                                             {
+                                                "name": "conststr",
+                                                "value": "rd-lq_low"
+                                             },
+                                             {
+                                                "name": "const",
+                                                "value": "0"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       },
+                                       {
+                                          "name": "io",
+                                          "params": [
+                                             {
+                                                "name": "conststr",
+                                                "value": "ox-lq_low"
+                                             },
+                                             {
+                                                "name": "const",
+                                                "value": "0"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       },
+                                       {
+                                          "name": "sleep",
+                                          "params": [
+                                             {
+                                                "name": "const",
+                                                "value": "0.25"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       },
+                                       {
+                                          "name": "io",
+                                          "params": [
+                                             {
+                                                "name": "conststr",
+                                                "value": "met-plv_low"
+                                             },
+                                             {
+                                                "name": "const",
+                                                "value": "0"
+                                             }
+                                          ],
+                                          "_folded": false
+                                       }
+                                    ]
                                  }
-                              ],
-                              "_folded": false
-                           },
-                           {
-                              "name": "io",
-                              "params": [
-                                 {
-                                    "name": "conststr",
-                                    "value": "rd-lq_medium"
-                                 },
-                                 {
-                                    "name": "const",
-                                    "value": "0"
-                                 }
-                              ],
-                              "_folded": false
-                           },
-                           {
-                              "name": "io",
-                              "params": [
-                                 {
-                                    "name": "conststr",
-                                    "value": "ox-lq_medium"
-                                 },
-                                 {
-                                    "name": "const",
-                                    "value": "0"
-                                 }
-                              ],
-                              "_folded": false
-                           },
-                           {
-                              "name": "io",
-                              "params": [
-                                 {
-                                    "name": "conststr",
-                                    "value": "rd-lq_low"
-                                 },
-                                 {
-                                    "name": "const",
-                                    "value": "0"
-                                 }
-                              ],
-                              "_folded": false
-                           },
-                           {
-                              "name": "io",
-                              "params": [
-                                 {
-                                    "name": "conststr",
-                                    "value": "ox-lq_low"
-                                 },
-                                 {
-                                    "name": "const",
-                                    "value": "0"
-                                 }
-                              ],
-                              "_folded": false
-                           },
-                           {
-                              "name": "sleep",
-                              "params": [
-                                 {
-                                    "name": "const",
-                                    "value": "0.25"
-                                 }
-                              ],
-                              "_folded": false
-                           },
-                           {
-                              "name": "io",
-                              "params": [
-                                 {
-                                    "name": "conststr",
-                                    "value": "met-plv_high"
-                                 },
-                                 {
-                                    "name": "const",
-                                    "value": "0"
-                                 }
-                              ],
-                              "_folded": false
-                           },
-                           {
-                              "name": "io",
-                              "params": [
-                                 {
-                                    "name": "conststr",
-                                    "value": "met-plv_medium"
-                                 },
-                                 {
-                                    "name": "const",
-                                    "value": "0"
-                                 }
-                              ],
-                              "_folded": false
-                           },
-                           {
-                              "name": "io",
-                              "params": [
-                                 {
-                                    "name": "conststr",
-                                    "value": "met-plv_low"
-                                 },
-                                 {
-                                    "name": "const",
-                                    "value": "0"
-                                 }
-                              ],
-                              "_folded": false
+                              ]
                            },
                            {
                               "name": "sleep",

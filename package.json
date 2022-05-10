@@ -15,7 +15,8 @@
     "machine": "export NODE_ENV=\"production\" && export DISABLE_AUTH='true' && nodemon src/app.ts | node_modules/.bin/pino-pretty",
     "build": "tsc",
     "start": "node build/app.js | pino-pretty",
-    "lc": "find './src' -name '*.ts' | xargs wc -l"
+    "lc": "find './src' -name '*.ts' | xargs wc -l",
+    "schema": "npx typescript-json-schema \"src/interfaces/IMachine.ts\" IMachine --ignoreErrors -o \"src/interfaces/schema.json\""
   },
   "repository": {
     "type": "git",

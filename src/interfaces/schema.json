@@ -1,0 +1,678 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "EParameterBlockName": {
+            "enum": [
+                "add",
+                "conditional",
+                "const",
+                "conststr",
+                "io",
+                "multiply",
+                "profile",
+                "reverse",
+                "variable"
+            ],
+            "type": "string"
+        },
+        "EProgramBlockName": {
+            "enum": [
+                "for",
+                "group",
+                "if",
+                "io",
+                "maintenance",
+                "sleep",
+                "startTimer",
+                "stop",
+                "stopTimer",
+                "variable",
+                "while"
+            ],
+            "type": "string"
+        },
+        "IConfigMaintenance": {
+            "properties": {
+                "duration": {
+                    "type": "number"
+                },
+                "durationLimit": {
+                    "type": "number"
+                },
+                "durationType": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "operationDate": {
+                    "type": "number"
+                },
+                "procedure": {
+                    "$ref": "#/definitions/IMaintenanceProcedure"
+                }
+            },
+            "type": "object"
+        },
+        "IConfigSlot": {
+            "properties": {
+                "isProductable": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "sensors": {
+                    "items": {
+                        "$ref": "#/definitions/ISlotSensor"
+                    },
+                    "type": "array"
+                },
+                "type": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "IIOGate": {
+            "properties": {
+                "address": {
+                    "type": "number"
+                },
+                "automaton": {
+                    "type": "number"
+                },
+                "bus": {
+                    "$ref": "#/definitions/IOGateBus"
+                },
+                "default": {
+                    "type": "number"
+                },
+                "isCritical": {
+                    "type": "boolean"
+                },
+                "manualModeWatchdog": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "size": {
+                    "$ref": "#/definitions/IOGateSize"
+                },
+                "type": {
+                    "$ref": "#/definitions/IOGateType"
+                }
+            },
+            "type": "object"
+        },
+        "IIOHandler": {
+            "properties": {
+                "ip": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "IMaintenanceProcedure": {
+            "properties": {
+                "steps": {
+                    "items": {
+                        "$ref": "#/definitions/IMaintenanceProcedureStep"
+                    },
+                    "type": "array"
+                },
+                "tools": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "type": "object"
+        },
+        "IMaintenanceProcedureStep": {
+            "properties": {
+                "images": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "IManualMode": {
+            "properties": {
+                "analogScale": {
+                    "properties": {
+                        "max": {
+                            "type": "number"
+                        },
+                        "min": {
+                            "type": "number"
+                        }
+                    },
+                    "type": "object"
+                },
+                "controls": {
+                    "items": {
+                        "properties": {
+                            "analogScaleDependant": {
+                                "type": "boolean"
+                            },
+                            "name": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "incompatibility": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "watchdog": {
+                    "items": {
+                        "$ref": "#/definitions/IManualWatchdogCondition"
+                    },
+                    "type": "array"
+                }
+            },
+            "type": "object"
+        },
+        "IManualWatchdogCondition": {
+            "properties": {
+                "gateName": {
+                    "type": "string"
+                },
+                "gateValue": {
+                    "type": "number"
+                }
+            },
+            "type": "object"
+        },
+        "IOGateBus": {
+            "enum": [
+                "in",
+                "out"
+            ],
+            "type": "string"
+        },
+        "IOGateSize": {
+            "enum": [
+                "bit",
+                "word"
+            ],
+            "type": "string"
+        },
+        "IOGateType": {
+            "enum": [
+                "a10v",
+                "default",
+                "em4a10v",
+                "em4temp",
+                "um18"
+            ],
+            "type": "string"
+        },
+        "IPBRStatus": {
+            "properties": {
+                "endDate": {
+                    "type": "number"
+                },
+                "endReason": {
+                    "type": "string"
+                },
+                "mode": {
+                    "$ref": "#/definitions/PBRMode"
+                },
+                "progress": {
+                    "type": "number"
+                },
+                "startDate": {
+                    "type": "number"
+                }
+            },
+            "type": "object"
+        },
+        "IParameterBlock": {
+            "properties": {
+                "name": {
+                    "$ref": "#/definitions/EParameterBlockName"
+                },
+                "params": {
+                    "items": {
+                        "$ref": "#/definitions/IParameterBlock"
+                    },
+                    "type": "array"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "IPassive": {
+            "properties": {
+                "actuator": {
+                    "type": "string"
+                },
+                "default": {
+                    "type": "number"
+                },
+                "mode": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "sensor": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "IProfile": {
+            "properties": {
+                "isPremade": {
+                    "type": "boolean"
+                },
+                "modificationDate": {
+                    "type": "number"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "overwriteable": {
+                    "type": "boolean"
+                },
+                "removable": {
+                    "type": "boolean"
+                },
+                "skeleton": {
+                    "type": "string"
+                },
+                "values": {
+                    "$ref": "#/definitions/Map<string,number>"
+                }
+            },
+            "type": "object"
+        },
+        "IProfileSkeleton": {
+            "properties": {
+                "fieldGroups": {
+                    "items": {
+                        "$ref": "#/definitions/IProfileSkeletonFieldGroup"
+                    },
+                    "type": "array"
+                },
+                "identifier": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "IProfileSkeletonField": {
+            "properties": {
+                "floatMax": {
+                    "type": "number"
+                },
+                "floatMin": {
+                    "type": "number"
+                },
+                "floatStep": {
+                    "type": "number"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "unity": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "number"
+                }
+            },
+            "type": "object"
+        },
+        "IProfileSkeletonFieldGroup": {
+            "properties": {
+                "fields": {
+                    "items": {
+                        "$ref": "#/definitions/IProfileSkeletonField"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "IProgram": {
+            "properties": {
+                "currentStepIndex": {
+                    "type": "number"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "profileRequired": {
+                    "type": "boolean"
+                },
+                "status": {
+                    "$ref": "#/definitions/IPBRStatus"
+                },
+                "steps": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramStep"
+                    },
+                    "type": "array"
+                },
+                "timers": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramTimer"
+                    },
+                    "type": "array"
+                },
+                "variables": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramVariable"
+                    },
+                    "type": "array"
+                },
+                "watchdogConditions": {
+                    "items": {
+                        "$ref": "#/definitions/IWatchdogCondition"
+                    },
+                    "type": "array"
+                }
+            },
+            "type": "object"
+        },
+        "IProgramBlock": {
+            "properties": {
+                "blocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlock"
+                    },
+                    "type": "array"
+                },
+                "executed": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "$ref": "#/definitions/EProgramBlockName"
+                },
+                "params": {
+                    "items": {
+                        "$ref": "#/definitions/IParameterBlock"
+                    },
+                    "type": "array"
+                }
+            },
+            "type": "object"
+        },
+        "IProgramStep": {
+            "properties": {
+                "blocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlock"
+                    },
+                    "type": "array"
+                },
+                "duration": {
+                    "$ref": "#/definitions/IParameterBlock"
+                },
+                "endBlocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlock"
+                    },
+                    "type": "array"
+                },
+                "endTime": {
+                    "type": "number"
+                },
+                "isEnabled": {
+                    "$ref": "#/definitions/IParameterBlock"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "runAmount": {
+                    "$ref": "#/definitions/IParameterBlock"
+                },
+                "runCount": {
+                    "type": "number"
+                },
+                "startBlocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlock"
+                    },
+                    "type": "array"
+                },
+                "startTime": {
+                    "type": "number"
+                },
+                "state": {
+                    "$ref": "#/definitions/ProgramStepState"
+                },
+                "type": {
+                    "$ref": "#/definitions/ProgramStepType"
+                }
+            },
+            "type": "object"
+        },
+        "IProgramTimer": {
+            "properties": {
+                "blocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlock"
+                    },
+                    "type": "array"
+                },
+                "enabled": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "timer": {
+                    "$ref": "#/definitions/NodeJS.Timer"
+                }
+            },
+            "type": "object"
+        },
+        "IProgramVariable": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "number"
+                }
+            },
+            "type": "object"
+        },
+        "ISlotSensor": {
+            "properties": {
+                "io": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "number"
+                }
+            },
+            "type": "object"
+        },
+        "IWatchdogCondition": {
+            "properties": {
+                "gateName": {
+                    "type": "string"
+                },
+                "gateValue": {
+                    "type": "number"
+                },
+                "result": {
+                    "type": "boolean"
+                },
+                "startOnly": {
+                    "type": "boolean"
+                }
+            },
+            "type": "object"
+        },
+        "Map<string,number>": {
+            "properties": {
+                "__@toStringTag@3472": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "number"
+                }
+            },
+            "type": "object"
+        },
+        "NodeJS.Timer": {
+            "type": "object"
+        },
+        "PBRMode": {
+            "enum": [
+                "created",
+                "ended",
+                "paused",
+                "started",
+                "stopped",
+                "waiting-for-pause",
+                "waiting-for-stop"
+            ],
+            "type": "string"
+        },
+        "ProgramStepState": {
+            "enum": [
+                "completed",
+                "disabled",
+                "partial",
+                "skipped",
+                "started",
+                "stopped",
+                "waiting"
+            ],
+            "type": "string"
+        },
+        "ProgramStepType": {
+            "enum": [
+                "multiple",
+                "single"
+            ],
+            "type": "string"
+        }
+    },
+    "properties": {
+        "cycles": {
+            "properties": {
+                "premades": {
+                    "items": {
+                        "properties": {
+                            "cycle": {
+                                "type": "string"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "profile": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "types": {
+                    "items": {
+                        "$ref": "#/definitions/IProgram"
+                    },
+                    "type": "array"
+                }
+            },
+            "type": "object"
+        },
+        "iogates": {
+            "items": {
+                "$ref": "#/definitions/IIOGate"
+            },
+            "type": "array"
+        },
+        "iohandlers": {
+            "items": {
+                "$ref": "#/definitions/IIOHandler"
+            },
+            "type": "array"
+        },
+        "maintenance": {
+            "items": {
+                "$ref": "#/definitions/IConfigMaintenance"
+            },
+            "type": "array"
+        },
+        "manual": {
+            "items": {
+                "$ref": "#/definitions/IManualMode"
+            },
+            "type": "array"
+        },
+        "passives": {
+            "items": {
+                "$ref": "#/definitions/IPassive"
+            },
+            "type": "array"
+        },
+        "profiles": {
+            "properties": {
+                "premades": {
+                    "items": {
+                        "$ref": "#/definitions/IProfile"
+                    },
+                    "type": "array"
+                },
+                "skeletons": {
+                    "items": {
+                        "$ref": "#/definitions/IProfileSkeleton"
+                    },
+                    "type": "array"
+                }
+            },
+            "type": "object"
+        },
+        "slots": {
+            "items": {
+                "$ref": "#/definitions/IConfigSlot"
+            },
+            "type": "array"
+        }
+    },
+    "type": "object"
+}
+

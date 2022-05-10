@@ -36,3 +36,4 @@ Program blocks are used to run functions
 | variable | Write PBR variable with `Params[0]` name to `Params[1]` value. | ```false```| ```2``` | ```false```|
 | startTimer | Will start a recuring timer with `Params[0]` name and `Params[1]` repeat time in ms. | ```true```| ```2``` | ```true```|
 | stopTimer | Will stop the recuring timer with `Params[0]` name. | ```true```| ```1``` | ```false```|
+| group | Will execute all the blocks inside `blocks`. | ```false```| ```0``` | ```true```|

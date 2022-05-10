@@ -1,10 +1,10 @@
-import { IParameterBlock } from "../interfaces/IParameterBlock";
+import { EParameterBlockName, IParameterBlock } from "../interfaces/IParameterBlock";
 import { Block } from "./Block";
 import { ProgramBlockRunner } from "./ProgramBlockRunner";
 
 export class ParameterBlock extends Block implements IParameterBlock
 {
-    name: string;
+    name: EParameterBlockName;
     value: string;
     params: ParameterBlock[] = [];
 
@@ -199,15 +199,15 @@ export function ParameterBlockRegistry(pbrInstance: ProgramBlockRunner, obj: IPa
 {
     switch(obj.name)
     {
-        case "const": return new ConstantParameterBlock(pbrInstance, obj);
-        case "conststr": return new ConstantStringParameterBlock(pbrInstance, obj);
-        case "profile": return new ProfileParameterBlock(pbrInstance, obj);
-        case "io": return new IOReadParameterBlock(pbrInstance, obj);
-        case "add": return new AdditionParameterBlock(pbrInstance, obj);
-        case "multiply": return new MultiplyParameterBlock(pbrInstance, obj);
-        case "reverse": return new ReverseParameterBlock(pbrInstance, obj);
-        case "conditional": return new ConditionalParameterBlock(pbrInstance, obj);
-        case "variable": return new VariableParameterBlock(pbrInstance, obj);
+        case EParameterBlockName.CONSTANT: return new ConstantParameterBlock(pbrInstance, obj);
+        case EParameterBlockName.CONSTANT_STRING: return new ConstantStringParameterBlock(pbrInstance, obj);
+        case EParameterBlockName.PROFILE: return new ProfileParameterBlock(pbrInstance, obj);
+        case EParameterBlockName.IO: return new IOReadParameterBlock(pbrInstance, obj);
+        case EParameterBlockName.ADD: return new AdditionParameterBlock(pbrInstance, obj);
+        case EParameterBlockName.MULTIPLY: return new MultiplyParameterBlock(pbrInstance, obj);
+        case EParameterBlockName.REVERSE: return new ReverseParameterBlock(pbrInstance, obj);
+        case EParameterBlockName.CONDITIONAL: return new ConditionalParameterBlock(pbrInstance, obj);
+        case EParameterBlockName.VARIABLE: return new VariableParameterBlock(pbrInstance, obj);
 
         default: {
             pbrInstance.machine.logger.warn(`Block ${obj.name} is not a defined block`);

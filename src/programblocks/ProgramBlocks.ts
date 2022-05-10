@@ -1,4 +1,4 @@
-import { IProgramBlock } from "../interfaces/IProgramBlock";
+import { EProgramBlockName, IProgramBlock } from "../interfaces/IProgramBlock";
 import { PBRMode } from "../interfaces/IProgramBlockRunner";
 import { Block } from "./Block";
 import { ParameterBlock, ParameterBlockRegistry } from "./ParameterBlocks";
@@ -6,7 +6,7 @@ import { ProgramBlockRunner } from "./ProgramBlockRunner";
 
 export class ProgramBlock extends Block implements IProgramBlock
 {
-    name: string;
+    name: EProgramBlockName;
 
     params: ParameterBlock[] = [];
     blocks: ProgramBlock[] = [];
@@ -325,20 +325,38 @@ export class StopTimerProgramBlock extends ProgramBlock
     }
 }
 
+export class GroupProgramBlock extends ProgramBlock
+{
+    constructor(pbrInstance: ProgramBlockRunner, obj: IProgramBlock)
+    {
+        super(pbrInstance, obj);
+    }
+
+    public async execute(): Promise<void> {
+
+        this.pbrInstance.machine.logger.info("GroupsBlock: Will execute " + this.blocks.length + " blocks.");
+        for(const b of this.blocks)
+        {
+            await b.execute();
+        }
+    }
+}
+
 export function ProgramBlockRegistry(pbrInstance: ProgramBlockRunner, obj: IProgramBlock)
 {
     switch(obj.name)
     {
-        case "for": return new ForLoopProgramBlock(pbrInstance, obj);
-        case "while": return new WhileLoopProgramBlock(pbrInstance, obj);
-        case "if": return new IfProgramBlock(pbrInstance, obj);
-        case "sleep": return new SleepProgramBlock(pbrInstance, obj);
-        case "io": return new IOWriteProgramBlock(pbrInstance, obj);
-        case "maintenance": return new MaintenanceProgramBlock(pbrInstance, obj);
-        case "stop": return new StopProgramBlock(pbrInstance, obj);
-        case "variable": return new VariableProgramBlock(pbrInstance, obj);
-        case "startTimer": return new StartTimerProgramBlock(pbrInstance, obj);
-        case "stopTimer": return new StopTimerProgramBlock(pbrInstance, obj);
+        case EProgramBlockName.FOR: return new ForLoopProgramBlock(pbrInstance, obj);
+        case EProgramBlockName.WHILE: return new WhileLoopProgramBlock(pbrInstance, obj);
+        case EProgramBlockName.IF: return new IfProgramBlock(pbrInstance, obj);
+        case EProgramBlockName.SLEEP: return new SleepProgramBlock(pbrInstance, obj);
+        case EProgramBlockName.IO: return new IOWriteProgramBlock(pbrInstance, obj);
+        case EProgramBlockName.MAINTENANCE: return new MaintenanceProgramBlock(pbrInstance, obj);
+        case EProgramBlockName.STOP: return new StopProgramBlock(pbrInstance, obj);
+        case EProgramBlockName.VARIABLE: return new VariableProgramBlock(pbrInstance, obj);
+        case EProgramBlockName.STARTTIMER: return new StartTimerProgramBlock(pbrInstance, obj);
+        case EProgramBlockName.STOPTIMER: return new StopTimerProgramBlock(pbrInstance, obj);
+        case EProgramBlockName.GROUP: return new GroupProgramBlock(pbrInstance, obj);
 
         default: {
             pbrInstance.machine.logger.warn("Program block " + obj.name + " is not defined properly.");

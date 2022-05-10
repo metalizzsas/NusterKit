@@ -1,7 +1,7 @@
 import { EventEmitter } from "stream";
 import { IOExplorer } from "../controllers/io/IOExplorer";
 import { ProfileExplorer } from "../controllers/profile/ProfileExplorer";
-import { IOGateBus } from "../interfaces/gates/IIOGate";
+import { EIOGateBus } from "../interfaces/gates/IIOGate";
 import { IProfile } from "../interfaces/IProfile";
 import { IProgram, IPBRStatus, IProgramVariable, IProgramTimer, PBRMode } from "../interfaces/IProgramBlockRunner";
 import { ProgramStepResult, ProgramStepType } from "../interfaces/IProgramStep";
@@ -204,7 +204,7 @@ export class ProgramBlockRunner implements IProgram
         }
 
         this.machine.logger.info("PBR: Resetting all io gates to default values.");
-        for(const g of this.machine.ioController.gates.filter(g => g.bus == IOGateBus.OUT))
+        for(const g of this.machine.ioController.gates.filter(g => g.bus == EIOGateBus.OUT))
         {
             g.write(this.machine.ioController, g.default);
         }

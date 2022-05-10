@@ -1,15 +1,15 @@
-export enum IOGateBus{
+export enum EIOGateBus{
     IN = "in",
     OUT = "out"
 }
 
-export enum IOGateSize
+export enum EIOGateSize
 {
     BIT = "bit",
     WORD = "word"
 }
 
-export enum IOGateType
+export enum EIOGateType
 {
     A10V = "a10v",
     EM4A10V = "em4a10v",
@@ -22,9 +22,9 @@ export interface IIOGate
 {
     name: string;
 
-    size: IOGateSize;
-    type: IOGateType;
-    bus: IOGateBus;
+    size: EIOGateSize;
+    type: EIOGateType;
+    bus: EIOGateBus;
 
     automaton: number;
     address: number;

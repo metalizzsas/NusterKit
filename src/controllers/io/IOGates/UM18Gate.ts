@@ -1,4 +1,4 @@
-import { IIOGate, IOGateSize } from "../../../interfaces/gates/IIOGate";
+import { IIOGate, EIOGateSize } from "../../../interfaces/gates/IIOGate";
 import { IUM18Gate } from "../../../interfaces/gates/IUM18Gate";
 import { map } from "../../../map";
 import { IOController } from "../IOController";
@@ -34,7 +34,7 @@ export class UM18IOGate extends IOGate implements IUM18Gate
 
     public async write(ioController: IOController, data: number)
     {
-        const word = this.size == IOGateSize.WORD ? true : undefined;
+        const word = this.size == EIOGateSize.WORD ? true : undefined;
 
         const v = map(data, 0, 100, 0, 32767);
 

@@ -1,13 +1,13 @@
-import { IIOGate, IOGateSize, IOGateType, IOGateBus } from "../../../interfaces/gates/IIOGate";
+import { IIOGate, EIOGateSize, EIOGateType, EIOGateBus } from "../../../interfaces/gates/IIOGate";
 import { IOController } from "../IOController";
 
 export class IOGate implements IIOGate
 {
     name: string;
 
-    size: IOGateSize;
-    type: IOGateType;
-    bus: IOGateBus;
+    size: EIOGateSize;
+    type: EIOGateType;
+    bus: EIOGateBus;
 
     automaton: number;
     address: number;
@@ -42,7 +42,7 @@ export class IOGate implements IIOGate
     {
         if(this.bus == 'out') return true;
 
-        const word = this.size == IOGateSize.WORD ? true : undefined;
+        const word = this.size == EIOGateSize.WORD ? true : undefined;
 
         //ioController.machine.logger.trace("IOG-" + this.name + ": Reading from fieldbus.");
 
@@ -53,7 +53,7 @@ export class IOGate implements IIOGate
     public async write(ioController: IOController, data: number): Promise<boolean>
     {
         if(this.bus == 'in') return true;
-        const word = this.size == IOGateSize.WORD ? true : undefined;
+        const word = this.size == EIOGateSize.WORD ? true : undefined;
         
         ioController.machine.logger.trace("IOG-" + this.name + ": Writing (" + data + ") to fieldbus.");
 

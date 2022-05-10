@@ -1,4 +1,4 @@
-import { IIOGate, IOGateSize } from "../../../interfaces/gates/IIOGate";
+import { IIOGate, EIOGateSize } from "../../../interfaces/gates/IIOGate";
 import { IOController } from "../IOController";
 import { IOGate } from "./IOGate";
 
@@ -18,7 +18,7 @@ export class EM4TempGate extends IOGate
 
     public async write(ioController: IOController, data: number)
     {
-        const word = this.size == IOGateSize.WORD ? true : undefined;
+        const word = this.size == EIOGateSize.WORD ? true : undefined;
 
         this.value = data;
 

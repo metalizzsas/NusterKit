@@ -9,11 +9,12 @@ import { EX260S1 } from "./IOHandlers/EX260S1";
 import { EX260S3 } from "./IOHandlers/EX260S3";
 import { A10VIOGate } from "./IOGates/A10VGate";
 import { UM18IOGate } from "./IOGates/UM18Gate";
-import { IOGateType, IOGateBus } from "../../interfaces/gates/IIOGate";
+import { EIOGateType, EIOGateBus } from "../../interfaces/gates/IIOGate";
 import { IUM18Gate } from "../../interfaces/gates/IUM18Gate";
 import { EM4 } from "./IOHandlers/EM4";
 import { EM4A10VIOGate } from "./IOGates/EM4A10VGate";
 import { EM4TempGate } from "./IOGates/EM4Temp";
+import { EIOHandlerType } from "../../interfaces/IIOHandler";
 
 export class IOController extends Controller
 {
@@ -41,12 +42,13 @@ export class IOController extends Controller
             if(process.env.NODE_ENV != "production")
                 handler.ip = "127.0.0.1";
 
-            switch(handler.name)
+            switch(handler.type)
             {
-                case "WAGO": this.handlers.push(new WAGO(handler.ip, this.machine)); break;
-                case "EM4": this.handlers.push(new EM4(handler.ip, this.machine)); break;
-                case "EX260S3": this.handlers.push(new EX260S3(handler.ip, this.machine)); break;
-                case "EX260S1": this.handlers.push(new EX260S1(handler.ip, this.machine)); break;
+                case EIOHandlerType.WAGO: this.handlers.push(new WAGO(handler.ip, this.machine)); break;
+                case EIOHandlerType.EM4: this.handlers.push(new EM4(handler.ip, this.machine)); break;
+                case EIOHandlerType.EX260S1: this.handlers.push(new EX260S1(handler.ip, this.machine)); break;
+                case EIOHandlerType.EX260S3: this.handlers.push(new EX260S3(handler.ip, this.machine)); break;
+
                 default: this.handlers.push(new IOHandler(handler.name, handler.type, handler.ip)); break;
             }
         }
@@ -55,10 +57,12 @@ export class IOController extends Controller
         {
             switch(gate.type)
             {
-                case IOGateType.UM18: this.gates.push(new UM18IOGate(gate, (gate as IUM18Gate).levelMax)); break;
-                case IOGateType.A10V: this.gates.push(new A10VIOGate(gate)); break;
-                case IOGateType.EM4A10V: this.gates.push(new EM4A10VIOGate(gate)); break;
-                case IOGateType.EM4TEMP: this.gates.push(new EM4TempGate(gate)); break;
+                case EIOGateType.UM18: this.gates.push(new UM18IOGate(gate, (gate as IUM18Gate).levelMax)); break;
+                case EIOGateType.A10V: this.gates.push(new A10VIOGate(gate)); break;
+
+                case EIOGateType.EM4A10V: this.gates.push(new EM4A10VIOGate(gate)); break;
+                case EIOGateType.EM4TEMP: this.gates.push(new EM4TempGate(gate)); break;
+
                 default: this.gates.push(new IOGate(gate)); break;
             }
         }
@@ -80,7 +84,7 @@ export class IOController extends Controller
 
             if(gate)
             {
-                if(gate.bus != IOGateBus.IN)
+                if(gate.bus != EIOGateBus.IN)
                 {
                     await gate.write(this, parseInt(req.params.value));
                     res.status(200).end();
@@ -112,19 +116,17 @@ export class IOController extends Controller
         if(!this.timer)
         {
             let skip = 1;
-            let skip2 = 1;
             this.timer = setInterval(() => {
-                for(const g of this.gates.filter((g) => g.bus == IOGateBus.IN))
+                for(const g of this.gates.filter((g) => g.bus == EIOGateBus.IN))
                 {
-                    //make the read function if automaton is em4 to 5 seconds interval
-                    if(this.machine.ioController.handlers.at(g.automaton)?.type == "EM4" && skip2 > 9)
-                        g.read(this);
-                    else
-                        if(g.isCritical || skip > 4)
+                    //skip the io read if the automaton is an EM4
+                    if(this.machine.ioController.handlers.at(g.automaton)?.type == EIOHandlerType.EM4)
+                        continue;
+                    
+                    if(g.isCritical || skip > 4)
                             g.read(this);
                     
                     skip > 4 ? skip = 1 : skip++;
-                    skip2 > 9 ? skip2 = 1 : skip2++;
                 }
 
             }, 500);

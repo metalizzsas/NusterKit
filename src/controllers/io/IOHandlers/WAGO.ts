@@ -2,6 +2,7 @@ import ModbusTCP from "modbus-serial";
 import { IOHandler } from "./IOHandler";
 import ping from "ping";
 import { Machine } from "../../../Machine";
+import { EIOHandlerType } from "../../../interfaces/IIOHandler";
 
 export class WAGO extends IOHandler
 {
@@ -13,7 +14,7 @@ export class WAGO extends IOHandler
 
     constructor(ip: string, machine?: Machine)
     {
-        super("WAGO", "modbus", ip);
+        super("WAGO", EIOHandlerType.WAGO, ip);
 
         this.client = new ModbusTCP();
         this.machine = machine;

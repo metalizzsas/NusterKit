@@ -1,16 +1,16 @@
-import { IIOHandler } from "../../../interfaces/IIOHandler";
+import { EIOHandlerType, IIOHandler } from "../../../interfaces/IIOHandler";
 
 export class IOHandler implements IIOHandler
 {
     public name: string;
-    public type: string;
+    public type: EIOHandlerType;
     public ip: string;
 
     public connected = false;
 
     public unreachable = false;
 
-    constructor(name: string, type: string, ip: string)
+    constructor(name: string, type: EIOHandlerType, ip: string)
     {
         this.name = name;
         this.type = type;

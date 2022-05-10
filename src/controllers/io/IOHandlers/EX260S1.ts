@@ -6,6 +6,7 @@ import { Machine } from "../../../Machine";
 import { ENIP } from "ts-enip";
 import { MessageRouter } from "ts-enip/dist/enip/cip/messageRouter";
 import { Encapsulation } from "ts-enip/dist/enip/encapsulation";
+import { EIOHandlerType } from "../../../interfaces/IIOHandler";
 
 export class EX260S1 extends IOHandler
 {
@@ -18,7 +19,7 @@ export class EX260S1 extends IOHandler
      */
     constructor(ip: string, machine?: Machine)
     {
-        super("ex260s1", "ethip", ip);
+        super("ex260s1", EIOHandlerType.EX260S1, ip);
         
         this.controller = new ENIP.SocketController();
         this.connected = false;

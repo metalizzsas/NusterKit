@@ -10,7 +10,6 @@ import { IConfigSlot } from "./ISlot";
 //machine json interface
 export declare interface IMachine
 {
-    _nuster: INuster;
     iohandlers: IIOHandler[],
     iogates: IIOGate[],
     slots: IConfigSlot[],
@@ -48,15 +47,4 @@ export interface IConfiguration
     revision: number;
     options: IMachine;
     settings?: IMachineSettings;
-}
-
-export interface INuster
-{
-    mainInformations: IMainInformation[]
-}
-
-interface IMainInformation
-{
-    type: string;
-    reference: string;
 }

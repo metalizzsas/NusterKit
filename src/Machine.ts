@@ -178,8 +178,6 @@ export class Machine {
             hypervisorData: this.hypervisorData,
             nusterVersion: version.version,
 
-            _nuster: this.specs._nuster,
-
             settings: this.settings
         };
     }

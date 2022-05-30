@@ -9,7 +9,7 @@ services:
     volumes: 
       - 'nuster-data:/data'
   nuster-turbine:
-    build: ghcr.io/metalizzsas/nusterturbine:main
+    image: ghcr.io/metalizzsas/nusterturbine:main
     network_mode: "host"
     depends_on: 
       - "mongodb"

@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - main
+      - next
 
 name: "Create Balena Cloud draft release"
 
@@ -21,7 +21,7 @@ jobs:
             {
               "ghcr.io": {
                 "username": "${{ github.actor }}",
-                "password": "${{ secrets.GH_TOKEN_2 }}"
+                "password": "${{ secrets.GH_CR_PKG_WRITE }}"
               }
             }
 

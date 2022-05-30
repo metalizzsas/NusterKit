@@ -8,6 +8,9 @@ name: "Create Balena Cloud release"
 jobs:
   balena_cloud_build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@main
 
@@ -20,7 +23,7 @@ jobs:
             {
               "ghcr.io": {
                 "username": "${{ github.actor }}",
-                "password": "${{ secrets.GITHUB_TOKEN }}"
+                "password": "${{ secrets.GH_CR_PKG_WRITE }}"
               }
             }
 

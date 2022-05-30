@@ -6,7 +6,7 @@ import WebSocket from "ws";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import version from "../nuster/version.json";
+import pkg from "../package.json";
 
 import { CycleController } from "./controllers/cycle/CycleController";
 import { PassiveController } from "./controllers/passives/PassiveController";
@@ -176,7 +176,7 @@ export class Machine {
 
             balenaVersion: process.env.BALENA_HOST_OS_VERSION,
             hypervisorData: this.hypervisorData,
-            nusterVersion: version.version,
+            nusterVersion: pkg.version,
 
             settings: this.settings
         };

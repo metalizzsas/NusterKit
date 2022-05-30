@@ -7,7 +7,7 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
-name: "Packing Nuster Turbine"
+name: "Packing Nuster Turbine for balena"
 
 jobs:
   turbine_build:
@@ -41,18 +41,18 @@ jobs:
           version: latest
           install: true
 
-      - name: Login to container regsitry
+      - name: Login to container registry
         uses: docker/login-action@v2
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GH_TOKEN_2 }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v2
         with:
-          github-token: ${{ secrets.GH_TOKEN_2 }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build and push Docker image
@@ -61,5 +61,5 @@ jobs:
           context: .
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          platforms: arm64, amd64
+          platforms: arm64
           push: true

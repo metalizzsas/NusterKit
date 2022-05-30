@@ -3,6 +3,8 @@ on:
     branches:
       - main
 
+name: "Testing buildability"
+
 jobs:
   test:
     runs-on: ubuntu-latest

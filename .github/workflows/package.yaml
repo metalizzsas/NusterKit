@@ -25,7 +25,7 @@ jobs:
           repository: metalizzsas/NusterTurbineMachines
           ref: main
           path: 'nuster-turbine-machines'
-          token: ${{ secrets.GITHUB_TOKEN_2 }}
+          token: ${{ secrets.GH_TOKEN_2 }}
 
       - name: Set up QEMU
         id: qemu
@@ -46,13 +46,13 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GH_TOKEN_2 }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v2
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GH_TOKEN_2 }}
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build and push Docker image

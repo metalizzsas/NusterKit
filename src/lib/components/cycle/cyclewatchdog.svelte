@@ -48,7 +48,7 @@
 	/>
 
 	<div id="cyclePreparation" class="flex flex-col gap-4">
-		<div class="flex flex-row gap-3 items-center">
+		<div class="flex flex-col md:flex-row gap-1 md:gap-3 items-start md:items-center">
 			<span
 				class="rounded-full bg-indigo-400 py-1 px-5 text-white font-semibold shadow-2xl mt-2"
 			>
@@ -56,7 +56,7 @@
 			</span>
 
 			<button
-				class="bg-orange-500 hover:bg-orange-500/80 hover:scale-[1.01] rounded-xl py-1 px-3 self-center text-white font-semibold transition:all mt-3 ml-auto"
+				class="bg-orange-500 hover:bg-orange-500/80 hover:scale-[1.01] rounded-xl py-1 px-3 self-center text-white font-semibold transition:all mt-3 md:ml-auto"
 				on:click={cancelCycle}
 			>
 				{$_('cycle.buttons.cancel')}
@@ -73,7 +73,7 @@
 		</div>
 
 		{#if $machineData.cycle}
-			<div class="grid grid-cols-2 gap-3">
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
 				{#each $machineData.cycle.watchdogConditions as wdc}
 					<span
 						class="flex flex-row justify-between items-center rounded-full bg-gray-800 py-1 pr-2 pl-3 text-white font-semibold"

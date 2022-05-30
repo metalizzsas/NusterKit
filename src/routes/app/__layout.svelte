@@ -1,22 +1,6 @@
-<script context="module" lang="ts">
-	import { waitLocale, _ } from 'svelte-i18n';
-	import type { Load } from '@sveltejs/kit';
-
-	export const load: Load = async (ctx) => {
-		const content = await ctx.fetch('/app/getip').then((r) => r.json());
-
-		await waitLocale();
-		return {
-			props: {
-				ip: content.ip,
-				hypervisorIp: import.meta.env.BALENA_SUPERVISOR_ADDRESS,
-			},
-		};
-	};
-</script>
-
 <script lang="ts">
 	import { initI18n } from '$lib/utils/i18n';
+	import { _ } from 'svelte-i18n';
 
 	import HeadPage from '$lib/components/headpage.svelte';
 	import Pagetransition from '$lib/components/pagetransition.svelte';
@@ -41,15 +25,13 @@
 	let displayModal: boolean = false;
 	let displayModalMessage: string = '';
 
-	export let ip: string;
-	export let hypervisorIp: string;
-
-	beforeUpdate(() => {
+	beforeUpdate(async () => {
+		const ip = window.localStorage.getItem('ip') ?? '127.0.0.1';
 		$Linker = ip;
 	});
 
 	onMount(async () => {
-		await initI18n(ip);
+		await initI18n($Linker);
 		loadDarkMode();
 
 		//disabling right click
@@ -59,6 +41,7 @@
 
 		registerWebsocket();
 	});
+
 	onDestroy(() => {
 		if (ws) ws.close();
 	});
@@ -146,7 +129,10 @@
 								d="M19.87274,10.13794l1.31787-1.48267A8.92382,8.92382,0,0,0,14.93652,7.063,9.0169,9.0169,0,0,0,7.509,19.0083a8.88913,8.88913,0,0,0,5.76245,5.57849,9.01793,9.01793,0,0,0,10.66144-4.34558.9883.9883,0,0,1,1.252-.43762l.9262.38513a1.00842,1.00842,0,0,1,.50147,1.40161A11.99311,11.99311,0,1,1,23.1991,6.39575L24.584,4.83765a.49992.49992,0,0,1,.8595.214l1.47235,6.05273a.5.5,0,0,1-.5462.6145L20.186,10.96643A.5.5,0,0,1,19.87274,10.13794Z"
 							/>
 						</svg>
-						<p class="text-center">Login attempt {wsAtempt} / 10</p>
+						<p class="text-center">
+							{$_('loadingScreen.connectionAttemptCount')}
+							{wsAtempt} / 10
+						</p>
 					{:else}
 						<svg
 							id="glyphicons-basic"
@@ -161,20 +147,20 @@
 						</svg>
 
 						<p class="text-red-500 font-semibold text-center">
-							Connection Error {$Linker} is unreachable
-							{#if ip !== '127.0.0.1'}
+							{$_('loadingScreen.connectionError').replace('#ip', $Linker)}
+							{#if $Linker !== '127.0.0.1'}
 								<button
 									class="bg-gray-500 text-white font-semibold py-1 px-2 rounded-xl"
 									on:click={() => goto('/')}
 								>
-									Return to NusterDesktop
+									{$_('loadingScreen.return')}
 								</button>
 							{:else}
 								<button
 									class="bg-gray-500 text-white font-semibold py-1 px-2 rounded-xl"
-									on:click={() => (window.location.href = '/machine')}
+									on:click={() => goto('/app')}
 								>
-									Retry
+									{$_('loadingScreen.retry')}
 								</button>
 							{/if}
 						</p>
@@ -190,7 +176,7 @@
 				message={$_('message.modal.' + displayModalMessage)}
 			/>
 			<Pagetransition>
-				<HeadPage {hypervisorIp} />
+				<HeadPage />
 				<slot />
 			</Pagetransition>
 		</div>

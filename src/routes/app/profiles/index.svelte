@@ -2,7 +2,9 @@
 	import type { Load } from '@sveltejs/kit';
 
 	export const load: Load = async (ctx) => {
-		let data = await ctx.fetch(`http://${ctx.session.ip}/v1/profiles`);
+		let data = await ctx.fetch(
+			`http://${window.localStorage.getItem('ip') ?? '127.0.0.1'}/v1/profiles`,
+		);
 		return { props: { profiles: await data.json() } };
 	};
 </script>
@@ -92,7 +94,7 @@
 				{$_('profile.list')}
 			</div>
 			<button
-				class="bg-indigo-500 rounded-xl font-semibold py-1 px-3 text-white flex flex-row gap-4 justify-center items-center ml-auto"
+				class="hidden md:flex bg-indigo-500 rounded-xl font-semibold py-1 px-3 text-white flex-row gap-4 justify-center items-center ml-auto"
 				on:click={listProfileBlueprint}
 			>
 				<svg

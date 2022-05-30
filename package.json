@@ -2,35 +2,21 @@
 	"name": "nuster-desktop",
 	"version": "1.0.2",
 	"private": true,
-	"description": "NusterApp implementation on desktop",
-	"main": "src/electron.cjs",
+	"description": "Nuster Desktop",
+	"main": "",
 	"license": "UNLICENSED",
 	"author": "Metalizz SAS",
 	"type": "module",
 	"scripts": {
 		"clean": "rm -rf ./node_modules/ && rm package-lock.json && npm i",
-		"dev": "NODE_ENV=dev npm run dev:all",
-		"dev:all": "concurrently -n=svelte,electron -c='#ff3e00',blue \"npm run dev:svelte\" \"npm run dev:electron\"",
-		"dev:svelte": "svelte-kit dev --port 3001 --host",
-		"dev:electron": "electron src/electron.cjs",
-		"build": "cross-env NODE_ENV=production npm run build:svelte",
-		"build:svelte": "svelte-kit build",
-		"build:electron": "electron-builder -mwl --config build.config.json",
-		"start:svelte": "svelte-kit start"
+		"dev": "svelte-kit dev --port 3001 --host",
+		"build": "svelte-kit build && node pwa.js",
+		"preview": "svelte-kit preview"
 	},
-	"browserslist": [
-		"Chrome 89"
-	],
 	"dependencies": {
 		"@fontsource/montserrat": "^4.5.1",
-		"@types/cookie": "^0.4.1",
 		"autoprefixer": "^10.0.2",
 		"cookie": "^0.4.1",
-		"electron-context-menu": "^2.5.2",
-		"electron-reloader": "^1.2.1",
-		"electron-serve": "^1.1.0",
-		"electron-updater": "^4.6.5",
-		"electron-window-state": "^5.0.3",
 		"postcss": "^8.1.0",
 		"simple-keyboard": "^3.4.44",
 		"simple-keyboard-input-mask": "^3.0.373",
@@ -39,20 +25,13 @@
 		"tailwindcss": "^3.0.0"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-node": "1.0.0-next.62",
-		"@sveltejs/kit": "1.0.0-next.232",
-		"@types/electron-window-state": "^2.0.34",
+		"@sveltejs/adapter-static": "^1.0.0-next.32",
+		"@sveltejs/kit": "1.0.0-next.345",
+		"@types/cookie": "^0.4.1",
 		"@types/howler": "^2.2.4",
 		"@typescript-eslint/eslint-plugin": "^4.33.0",
 		"@typescript-eslint/parser": "^4.33.0",
-		"concurrently": "^6.4.0",
-		"cross-env": "^7.0.3",
 		"dotenv": "^8.6.0",
-		"electron": "^12.2.3",
-		"electron-builder": "^22.14.5",
-		"electron-builder-notarize": "^1.4.0",
-		"electron-connect": "^0.6.3",
-		"electron-packager": "^15.4.0",
 		"eslint": "^7.32.0",
 		"eslint-plugin-svelte": "^1.1.2",
 		"howler": "^2.2.3",
@@ -60,16 +39,12 @@
 		"prettier": "^2.5.1",
 		"prettier-plugin-svelte": "^2.5.0",
 		"sass": "^1.44.0",
-		"svelte": "^3.46.2",
+		"svelte": "^3.48.0",
 		"svelte-check": "^1.6.0",
 		"svelte-preprocess": "^4.9.8",
 		"typescript": "^4.5.2",
-		"vite": "^2.7.12"
-	},
-	"build:": {
-		"afterSign": "electron-builder-notarize",
-		"mac": {
-			"hardenedRuntime": true
-		}
+		"vite": "^2.9.9",
+		"vite-plugin-pwa": "^0.12.0",
+		"workbox-window": "^6.5.3"
 	}
 }

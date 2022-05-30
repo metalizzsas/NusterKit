@@ -1,13 +1,11 @@
 <script context="module" lang="ts">
 	import type { Cycle, Profile } from '$lib/utils/interfaces';
-
 	import type { Load } from '@sveltejs/kit';
 
 	export const load: Load = async (ctx) => {
 		let content = await ctx.fetch(
-			'http://' + (ctx.session.ip || '127.0.0.1') + '/v1/cycle/history',
+			'http://' + (window.localStorage.getItem('ip') ?? '127.0.0.1') + '/v1/cycle/history',
 		);
-
 		return { props: { histories: (await content.json()) as IHistory[] } };
 	};
 

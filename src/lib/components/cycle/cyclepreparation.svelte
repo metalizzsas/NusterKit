@@ -44,7 +44,7 @@
 		>
 			{$_('cycle.presets')}
 		</span>
-		<div class="grid grid-cols-3 gap-4 mt-3">
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
 			{#each cyclePremades as ct, index}
 				<div
 					class="bg-indigo-900 text-white p-2 flex flex-col items-center justify-center rounded-xl transition-all font-semibold"
@@ -69,7 +69,7 @@
 				{$_('cycle.user')}
 			</span>
 
-			<div class="grid grid-cols-3 gap-4 mt-3">
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
 				{#each cycleTypes.filter((k) => k.profileRequired) as ct}
 					{#each $machineData.profiles.filter((p) => p.identifier == ct.name && p.isPremade == false) as p, index}
 						<div

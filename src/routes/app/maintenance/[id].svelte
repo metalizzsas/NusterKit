@@ -3,7 +3,10 @@
 
 	export const load: Load = async (ctx) => {
 		let dt = await ctx.fetch(
-			'http://' + (ctx.session.ip || '127.0.0.1') + '/v1/maintenance/' + ctx.params.id,
+			'http://' +
+				(window.localStorage.getItem('ip') ?? '127.0.0.1') +
+				'/v1/maintenance/' +
+				ctx.params.id,
 		);
 
 		return { props: { maintenance: await dt.json() } };

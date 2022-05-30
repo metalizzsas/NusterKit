@@ -72,7 +72,7 @@
 			<div
 				class="flex flex-row bg-slate-500 text-white rounded-xl p-2 items-center justify-between cursor-pointer"
 				on:click={async () => {
-					await fetch(`/machine?ip=${machine.ip}`);
+					window.localStorage.setItem('ip', machine.ip);
 					await goto('/app');
 				}}
 			>

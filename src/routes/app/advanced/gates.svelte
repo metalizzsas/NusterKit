@@ -37,7 +37,7 @@
 		</div>
 	</div>
 
-	<div class="grid grid-cols-2 gap-8">
+	<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 		{#each ['in', 'out'] as bus}
 			<div>
 				<div class="flex flex-row items-center gap-4">
@@ -61,17 +61,28 @@
 						.sort((a, b) => a.localeCompare(b))
 						.filter((i, p, a) => a.indexOf(i) == p)
 						.sort((a, b) => (a == 'generic' ? -1 : 1)) as cat}
-						<span
-							class="rounded-full bg-indigo-400 py-1 px-4 text-white font-semibold self-start"
-						>
-							{$_('gates.categories.' + cat)}
-						</span>
+						{#if gates
+							.filter((g) => g.bus == bus)
+							.map((io) => {
+								let z = io.name.split('-');
+								return z[0] == io.name ? 'generic' : gates.filter((h) => h.bus == bus && h.name.startsWith(z[0])).length == 1 ? 'generic' : z[0];
+							})
+							.sort((a, b) => a.localeCompare(b))
+							.filter((i, p, a) => a.indexOf(i) == p)
+							.sort((a, b) => (a == 'generic' ? -1 : 1)).length > 1}
+							<span
+								class="rounded-full bg-indigo-400 py-1 px-4 text-white font-semibold self-start"
+							>
+								{$_('gates.categories.' + cat)}
+							</span>
+						{/if}
+
 						<div class="flex flex-col gap-2 last:mb-2">
 							{#each gates.filter((g, i, a) => g.bus == bus && (g.name.startsWith(cat) || (cat == 'generic' && gates.filter((h) => h.bus == bus && h.name.startsWith(g.name.split('-')[0])).length == 1) || (cat == 'generic' && g.name.split('-').length == 1))) as output, index}
 								<div
 									class="text-white flex flex-row justify-between gap-4 bg-zinc-700 py-2 pl-3 pr-2 rounded-xl font-semibold"
 								>
-									<span>
+									<span class="w-1/3 text-ellipsis">
 										{$_('gates.names.' + output.name)}
 									</span>
 									{#if output.size == 'bit'}
@@ -82,21 +93,23 @@
 											locked={bus == 'in'}
 										/>
 									{:else}
-										<div class="flex flex-row gap-4">
-											<input
-												type="range"
-												min="0"
-												max="100"
-												on:input={() => {
-													$lockMachineData = true;
-												}}
-												bind:value={output.value}
-												on:change={() => {
-													$lockMachineData = false;
-													update(output.name, output.value);
-												}}
-												disabled={bus == 'in'}
-											/>
+										<div class="flex flex-col md:flex-row gap-4 align-center">
+											{#if bus == 'out'}
+												<input
+													type="range"
+													min="0"
+													max="100"
+													on:input={() => {
+														$lockMachineData = true;
+													}}
+													bind:value={output.value}
+													on:change={() => {
+														$lockMachineData = false;
+														update(output.name, output.value);
+													}}
+												/>
+											{/if}
+
 											<span
 												class="py-1 px-2 rounded-full bg-white text-gray-800 text-sm"
 											>

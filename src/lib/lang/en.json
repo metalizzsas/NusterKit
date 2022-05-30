@@ -12,6 +12,13 @@
   "missing": "Missing ✗",
   "close-keyboard": "Close the keyboard",
 
+  "loadingScreen": {
+    "connectionAttemptCount": "Connection atempt :",
+    "connectionError": "Connection error, #ip is unreachable.",
+    "retry": "Retry",
+    "return": "Back"
+  },
+
   "machine": {
     "informations": "Machine informations",
     "model": "Model",

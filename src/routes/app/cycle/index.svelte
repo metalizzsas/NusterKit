@@ -37,7 +37,7 @@
 			</div>
 			{#if $machineData.cycle}
 				<div
-					class="rounded-full bg-indigo-400 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-[1.01] transition-all"
+					class="rounded-full bg-indigo-400 text-white p-1 font-semibold shadow-md group-hover:scale-[1.01] transition-all truncate"
 				>
 					{$_('cycle.names.' + $machineData.cycle.name)}
 					{#if $machineData.cycle.profile}
@@ -57,7 +57,7 @@
 			{#if !$machineData.cycle}
 				<div
 					on:click={() => goto('/app/cycle/histories')}
-					class="rounded-xl bg-orange-500 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-[1.01] transition-all ml-auto"
+					class="rounded-xl bg-orange-500 text-white hidden md:block py-1 px-8 font-semibold shadow-md group-hover:scale-[1.01] transition-all ml-auto"
 				>
 					{$_('cycle.history')}
 				</div>

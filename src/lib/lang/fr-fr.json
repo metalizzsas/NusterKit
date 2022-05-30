@@ -12,6 +12,13 @@
   "missing": "Absent ✗",
   "close-keyboard": "Fermer le clavier",
 
+  "loadingScreen": {
+    "connectionAttemptCount": "Essai de connection :",
+    "connectionError": "Erreur de connection, #ip n'est pas accessible.",
+    "retry": "Re-essayer",
+    "return": "Retour"
+  },
+
   "machine": {
     "informations": "Informations machine",
     "model": "Modèle",

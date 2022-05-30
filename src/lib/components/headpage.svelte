@@ -28,7 +28,6 @@
 	};
 
 	let ip: string = '';
-	export let hypervisorIp: string;
 
 	let markdownReleaseNotes = '';
 	let displayUpdateNotes = false;
@@ -43,10 +42,6 @@
 
 		markdownReleaseNotes = await releaseNotesRequest.text();
 	});
-
-	function restartMachine() {
-		fetch(hypervisorIp + '/v1/reboot');
-	}
 
 	async function triggerUpdate() {
 		const req = await fetch('http://' + $Linker + '/forceUpdate');
@@ -135,7 +130,7 @@
 					{#if $machineData.machine.hypervisorData !== undefined}
 						{#if ($machineData.machine.hypervisorData.overallDownloadProgress || 0) > 0 || $machineData.machine.hypervisorData.appState != 'applied'}
 							<button
-								class="rounded-full backdrop-brightness-125 p-1 transition hover:rotate-180 duration-300"
+								class="rounded-full bg-indigo-300 p-1 transition hover:rotate-180 duration-300"
 								on:click={() => {
 									isUpdateShrinked = !isUpdateShrinked;
 									isShrinked = true;
@@ -167,7 +162,7 @@
 					{/if}
 
 					<button
-						class="rounded-full backdrop-brightness-125 p-1 transition hover:rotate-180 duration-300"
+						class="rounded-full bg-indigo-300 p-1 transition hover:rotate-180 duration-300"
 						on:click={() => {
 							displayOptions = !displayOptions;
 						}}
@@ -186,7 +181,7 @@
 					</button>
 
 					<button
-						class="rounded-full backdrop-brightness-125 p-1 transition hover:rotate-180 duration-300"
+						class="rounded-full bg-indigo-300 p-1 transition hover:rotate-180 duration-300"
 						on:click={() => {
 							isShrinked = !isShrinked;
 							isUpdateShrinked = true;
@@ -207,7 +202,7 @@
 					</button>
 
 					<button
-						class="rounded-full backdrop-brightness-125 p-1 transition hover:rotate-180 duration-300"
+						class="rounded-full bg-indigo-300 p-1 transition hover:rotate-180 duration-300"
 						on:click={() => {
 							isStartButtonShrinked = !isStartButtonShrinked;
 
@@ -234,42 +229,42 @@
 				<div in:scale out:scale>
 					<div class="flex flex-row flex-wrap gap-5 items-center mt-4">
 						<span
-							class="block text-white font-medium py-2 px-4 rounded-full backdrop-brightness-125"
+							class="block text-white font-medium py-2 px-4 rounded-full bg-indigo-300"
 						>
 							{$_('machine.model')}: {$machineData.machine.model.toLocaleLowerCase()}
 						</span>
 						<span
-							class="block text-white font-medium py-2 px-4 rounded-full backdrop-brightness-125"
+							class="block text-white font-medium py-2 px-4 rounded-full bg-indigo-300"
 						>
 							{$_('machine.variant')}: {$machineData.machine.variant.toUpperCase()}
 						</span>
 						<span
-							class="block text-white font-medium py-2 px-4 rounded-full backdrop-brightness-125"
+							class="block text-white font-medium py-2 px-4 rounded-full bg-indigo-300"
 						>
 							{$_('machine.revision')}: {$machineData.machine.revision}
 						</span>
 						<span
-							class="block text-white font-medium py-2 px-4 rounded-full backdrop-brightness-125"
+							class="block text-white font-medium py-2 px-4 rounded-full bg-indigo-300"
 						>
 							{$_('machine.cycleCount')}: {$machineData.maintenances.find(
 								(k) => k.name == 'cycleCount',
 							)?.durationActual || '0'}
 						</span>
 						<span
-							class="block text-white font-medium py-2 px-4 rounded-full backdrop-brightness-150 cursor-pointer"
+							class="block text-white font-medium py-2 px-4 rounded-full bg-indigo-400 cursor-pointer"
 							on:click={() => (displayUpdateNotes = true)}
 						>
 							{$_('machine.nusterVersion')}: {$machineData.machine.nusterVersion} ↗
 						</span>
 						{#if $machineData.machine.balenaVersion}
 							<span
-								class="block text-white font-medium py-2 px-4 rounded-full backdrop-brightness-125"
+								class="block text-white font-medium py-2 px-4 rounded-full bg-indigo-300"
 							>
 								{$_('machine.balenaVersion')}: {$machineData.machine.balenaVersion}
 							</span>
 						{/if}
 						<span
-							class="block text-white font-medium py-2 px-4 rounded-full backdrop-brightness-125"
+							class="block text-white font-medium py-2 px-4 rounded-full bg-indigo-300"
 						>
 							{$_('machine.serial')}: {$machineData.machine.serial.toLocaleUpperCase()}
 						</span>
@@ -279,13 +274,6 @@
 
 			{#if !isStartButtonShrinked}
 				<div in:scale out:scale class="mt-3 flex flex-row gap-4 justify-items-start">
-					<button
-						class="bg-red-500 rounded-xl py-2 px-3 text-white font-semibold"
-						on:click={restartMachine}
-					>
-						{$_('settings.restart')}
-					</button>
-
 					<button
 						class="bg-orange-500 rounded-xl py-2 px-3 text-white font-semibold"
 						on:click={() => (window.location.href = '/machine')}
@@ -301,7 +289,7 @@
 						<div class="flex flex-row flex-wrap gap-5 items-center mt-4">
 							{#if $machineData.machine.hypervisorData.overallDownloadProgress !== null}
 								<span class="font-semibold">{$_('settings.updateProgress')}</span>
-								<div class="rounded-full h-8 p-1 w-1/3 backdrop-brightness-125">
+								<div class="rounded-full h-8 p-1 w-1/3 bg-indigo-300">
 									<div
 										class="h-6 bg-white animate-pulse text-xs rounded-full text-zinc-700 flex flex-row justify-center items-center"
 										style="width: {Math.floor(
@@ -323,7 +311,7 @@
 
 							{#if $machineData.machine.hypervisorData.appState != 'applied' && $machineData.machine.hypervisorData.overallDownloadProgress == null}
 								<button
-									class="backdrop-brightness-150 rounded-xl py-2 px-3 text-white font-semibold pointer-cursor"
+									class="bg-indigo-400 rounded-xl py-2 px-3 text-white font-semibold pointer-cursor"
 									on:click={triggerUpdate}
 								>
 									{$_('settings.triggerUpdate')}

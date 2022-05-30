@@ -17,7 +17,7 @@
 			</div>
 		</div>
 
-		<div class="grid grid-cols-3 gap-4">
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 			<div
 				on:click={() => goto('app/cycle')}
 				class="flex flex-row items-center justify-center gap-4 bg-gradient-to-br from-indigo-500 to-indigo-600 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:skew-y-[0.25deg] duration-200 ease-in-out cursor-pointer"
@@ -117,7 +117,7 @@
 			</div>
 		</div>
 
-		<div class="grid grid-cols-3 gap-4">
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 			{#each $machineData.slots.sort((a, b) => b.sensors.length - a.sensors.length) as slot}
 				<SlotProduct bind:slotContent={slot} />
 			{/each}
@@ -133,7 +133,7 @@
 			</div>
 		</div>
 
-		<div class="grid grid-cols-2 gap-4">
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 			{#each $machineData.maintenances.filter((m) => m.name !== 'cycleCount') as m}
 				<Maintenance bind:maintenance={m} />
 			{/each}

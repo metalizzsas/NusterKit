@@ -21,7 +21,6 @@ services:
       io.balena.features.supervisor-api: '1'
   nuster-desktop:
     image: ghcr.io/metalizzsas/nusterdesktop:main
-    build: ./nuster-desktop/
     restart: always
     network_mode: host
     depends_on: 

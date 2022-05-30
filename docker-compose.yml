@@ -9,7 +9,7 @@ services:
     volumes: 
       - 'nuster-data:/data'
   nuster-turbine:
-    build: ./nuster-turbine
+    build: ghcr.io/metalizzsas/nusterturbine:main
     network_mode: "host"
     depends_on: 
       - "mongodb"
@@ -20,14 +20,13 @@ services:
     labels:
       io.balena.features.supervisor-api: '1'
   nuster-desktop:
+    image: ghcr.io/metalizzsas/nusterdesktop:main
     build: ./nuster-desktop/
     restart: always
     network_mode: host
     depends_on: 
       - "nuster-turbine"
       - "mongodb"
-    labels:
-      io.balena.features.supervisor-api: '1'
   nuster-kiosk:
     image: bh.cr/balenablocks/browser-aarch64
     privileged: true
@@ -47,7 +46,7 @@ services:
     volumes:
       - 'nuster-data:/data'
   wifi-connect:
-    build: ./wifi-connect/
+    image: bh.cr/balenablocks/wifi-connect
     restart: always
     network_mode: host
     privileged: true

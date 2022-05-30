@@ -1,6 +1,39 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "definitions": {
+        "EIOGateBus": {
+            "enum": [
+                "in",
+                "out"
+            ],
+            "type": "string"
+        },
+        "EIOGateSize": {
+            "enum": [
+                "bit",
+                "word"
+            ],
+            "type": "string"
+        },
+        "EIOGateType": {
+            "enum": [
+                "a10v",
+                "default",
+                "em4a10v",
+                "em4temp",
+                "um18"
+            ],
+            "type": "string"
+        },
+        "EIOHandlerType": {
+            "enum": [
+                "em4",
+                "ex260s1",
+                "ex260s3",
+                "wago"
+            ],
+            "type": "string"
+        },
         "EParameterBlockName": {
             "enum": [
                 "add",
@@ -83,7 +116,7 @@
                     "type": "number"
                 },
                 "bus": {
-                    "$ref": "#/definitions/IOGateBus"
+                    "$ref": "#/definitions/EIOGateBus"
                 },
                 "default": {
                     "type": "number"
@@ -98,10 +131,10 @@
                     "type": "string"
                 },
                 "size": {
-                    "$ref": "#/definitions/IOGateSize"
+                    "$ref": "#/definitions/EIOGateSize"
                 },
                 "type": {
-                    "$ref": "#/definitions/IOGateType"
+                    "$ref": "#/definitions/EIOGateType"
                 }
             },
             "type": "object"
@@ -115,7 +148,7 @@
                     "type": "string"
                 },
                 "type": {
-                    "type": "string"
+                    "$ref": "#/definitions/EIOHandlerType"
                 }
             },
             "type": "object"
@@ -206,30 +239,6 @@
                 }
             },
             "type": "object"
-        },
-        "IOGateBus": {
-            "enum": [
-                "in",
-                "out"
-            ],
-            "type": "string"
-        },
-        "IOGateSize": {
-            "enum": [
-                "bit",
-                "word"
-            ],
-            "type": "string"
-        },
-        "IOGateType": {
-            "enum": [
-                "a10v",
-                "default",
-                "em4a10v",
-                "em4temp",
-                "um18"
-            ],
-            "type": "string"
         },
         "IPBRStatus": {
             "properties": {
@@ -546,7 +555,7 @@
         },
         "Map<string,number>": {
             "properties": {
-                "__@toStringTag@3472": {
+                "__@toStringTag@3477": {
                     "type": "string"
                 },
                 "size": {

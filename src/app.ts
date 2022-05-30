@@ -12,7 +12,7 @@ import { pino } from "pino";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import version from "../nuster/version.json";
+import packageInfo from "../package.json";
 
 import { Machine } from "./Machine";
 
@@ -155,7 +155,7 @@ class NusterTurbine
         this.app.get("/currentReleaseNotes", (_req, res: Response) => {
             try
             {
-                const releaseNotes = fs.readFileSync(path.resolve("nuster", "patch-notes", `${version.version}.md`), "utf8");
+                const releaseNotes = fs.readFileSync(path.resolve("patch-notes", `${packageInfo.version}.md`), "utf8");
                 res.send(releaseNotes);
             }
             catch(err)

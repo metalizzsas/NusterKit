@@ -171,8 +171,10 @@ class NusterTurbine
      */
     private _websocket()
     {
-        this.wsServer = new WebSocketServer({server: this.httpServer, path: "/v1"}, () => { 
-            this.logger.info("Websocket server listening on port " + this.HTTP_PORT);
+        this.wsServer = new WebSocketServer({server: this.httpServer});
+
+        this.wsServer.on("listening", () => {
+            this.logger.info("Websocket server listening..");
         });
 
         this.wsServer.on('connection', (ws: WebSocket) => { 

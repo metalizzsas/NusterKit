@@ -1,0 +1,32 @@
+version: "2"
+
+volumes: 
+  nuster-data:
+
+services:
+  mongodb:
+    image: mongo:4.2
+    restart: always
+    network_mode: host
+    volumes: 
+      - 'nuster-data:/data'
+
+  nuster-turbine:
+    image: nusterturbine:latest
+    network_mode: host
+    depends_on: 
+      - "mongodb"
+    volumes:
+      - 'nuster-data:/data'
+    environment:
+      DISABLE_AUTH: 'true'
+    labels:
+      io.balena.features.supervisor-api: '1'
+
+  nuster-desktop:
+    image: nusterdesktop:latest
+    restart: always
+    network_mode: host
+    depends_on: 
+      - "nuster-turbine"
+      - "mongodb"

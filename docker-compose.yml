@@ -1,16 +1,19 @@
 version: "2"
+
 volumes: 
   nuster-data:
+  
 services:
   mongodb:
     image: mongo:4.2
     restart: always
-    network_mode: 'host'
+    network_mode: host
     volumes: 
       - 'nuster-data:/data'
+
   nuster-turbine:
     image: ghcr.io/metalizzsas/nusterturbine:main
-    network_mode: "host"
+    network_mode: host
     depends_on: 
       - "mongodb"
     volumes:
@@ -19,6 +22,7 @@ services:
       DISABLE_AUTH: 'true'
     labels:
       io.balena.features.supervisor-api: '1'
+
   nuster-desktop:
     image: ghcr.io/metalizzsas/nusterdesktop:main
     restart: always
@@ -26,6 +30,7 @@ services:
     depends_on: 
       - "nuster-turbine"
       - "mongodb"
+
   nuster-kiosk:
     image: bh.cr/balenablocks/browser-aarch64
     privileged: true
@@ -44,6 +49,7 @@ services:
       #FLAGS: "--overscroll-history-navigation=0 --user-data-dir=/data/chromium-user-data"
     volumes:
       - 'nuster-data:/data'
+
   wifi-connect:
     image: bh.cr/balenablocks/wifi-connect
     restart: always

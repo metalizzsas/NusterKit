@@ -29,6 +29,7 @@
     "nusterVersion": "Nuster version",
     "balenaVersion": "Balena version"
   },
+
   "procedures": "Procedures",
   "slots": {
     "name": "Containers",
@@ -82,7 +83,6 @@
     "main": "Settings",
     "enable-dark-mode": "Enable dark mode",
     "language": "Language",
-    "apply-language": "Apply lang change",
     "restart": "Restart machine",
     "reload-nuster": "Reload interface",
     "updateNotes": "Release notes",
@@ -113,7 +113,8 @@
       "cycle-ended-reason": "End reason",
       "cycle-rating-lead": "Rate the cycle",
       "cycle-rating-text": "Rating the cycle is not required but it helps us improving our cycles and machines.",
-      "cycle-rating-text2": "Rating the cycle can also help you in filtering cycle histories."
+      "cycle-rating-text2": "Rating the cycle can also help you in filtering cycle histories.",
+      "cycle-duration": "Cycle duration"
     },
     "endreasons": {
       "user": "User aborted cycle",
@@ -140,11 +141,7 @@
       "nextStep": "Next Step"
     },
     "steps": {
-      "title": "Cycle steps",
-      "start": {
-        "name": "Start",
-        "desc": "Starting the machine"
-      }
+      "title": "Cycle steps"
     },
     "preparation": "Cycle preparation",
     "choice": "Cycle choice",

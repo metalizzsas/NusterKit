@@ -11,14 +11,12 @@
   "present": "Présent ✓",
   "missing": "Absent ✗",
   "close-keyboard": "Fermer le clavier",
-
   "loadingScreen": {
     "connectionAttemptCount": "Essai de connection :",
     "connectionError": "Erreur de connection, #ip n'est pas accessible.",
     "retry": "Re-essayer",
     "return": "Retour"
   },
-
   "machine": {
     "informations": "Informations machine",
     "model": "Modèle",
@@ -27,7 +25,7 @@
     "serial": "Numéro de série",
     "cycleCount": "Nombre de cycles",
     "nusterVersion": "Version de nuster",
-    "balenaVersion": "Version de balena" 
+    "balenaVersion": "Version de balena"
   },
   "procedures": "Procédures",
   "slots": {
@@ -82,27 +80,41 @@
     "main": "Réglages",
     "enable-dark-mode": "Mode sombre activé",
     "language": "Langue",
-    "apply-language": "Appliquer changement de langue",
     "restart": "Redémarrer la machine",
     "updateNotes": "Notes de version",
     "updateGoing": {
       "desc": "La mise à jour est en cours d'installation, merci de patienter quelques instants.",
       "title": "Mise à jour"
-    }
+    },
+    "triggerUpdate": "Installer la mise à jour",
+    "updateGoing.title": "Mise à jour",
+    "updateGoing.desc": "Instalation de la mise à jour, merci de patienter...",
+    "updateProgress": "Téléchargement de la mise à jour",
+    "reload-nuster": "Recharger l'interface"
   },
   "cycle": {
     "button": "Cycle",
     "name": "Cycles",
     "presets": "Cycles contructeur",
     "user": "Cycles utilisateur",
+    "steps.title": "Étapes du cycle.",
     "types": {
       "custom": "Cycle customisé"
     },
     "endreasons": {
       "user": "Fin utilisateur",
       "finished": "Terminé avec succès",
+      "stepOvertime": "Une etape du cycle as mis trop de temps a se terminer. Un comportement étrange de la machine peu etre observé. Nous vous recommandons de la redémarrer.",
       "controllerTimeout": "Delai connection controlleur IO",
       "controllererror": "Erreur connection controlleur IO"
+    },
+    "end": {
+      "cycle-ended": "Le Cycle est terminé.",
+      "cycle-ended-reason": "Raison de fin",
+      "cycle-rating-lead": "Noter le cycle",
+      "cycle-rating-text": "La noation du cycle n'est pas obligatoire mais elle nous permet d'améliorer nos machines.",
+      "cycle-rating-text2": "La notation du cycle peux aussi vous permettre de mieux filtrer dans les historiques de cycle.",
+      "cycle-duration": "Durée du cycle"
     },
     "modals": {
       "watchdog": {
@@ -147,7 +159,7 @@
   "manual": {
     "button": "Mode manuel",
     "list": "Modes manuels",
-    "warning": "Les models manuels vous permettent de gérer la machine manuellement. Attention les conditions de sécuritée sont désactivés ici.",
+    "warning": "Les models manuels vous permettent de gérer la machine manuellement. Attention les conditions de sécurité sont désactivées ici.",
     "incompatibilities": "Incompatibilités",
     "categories": {
       "generic": "Générique"
@@ -170,6 +182,12 @@
       "allen-wrench-2.5": "Clé allen 2.5mm",
       "allen-wrench-3": "Clé allen 3mm",
       "none": "Aucun outil necessaire"
+    }
+  },
+  "message": {
+    "modal": {
+      "title": "Message",
+      "manual-mode-watchdog-error": "Il y as eu une erreur de sécurité sur un des modes manuels. Il as donc été désactivé."
     }
   }
 }

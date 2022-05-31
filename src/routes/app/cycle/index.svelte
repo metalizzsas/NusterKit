@@ -9,11 +9,7 @@
 	import Cyclerunning from '$lib/components/cycle/cyclerunning.svelte';
 	import Cycleend from '$lib/components/cycle/cycleend.svelte';
 	import { goto } from '$app/navigation';
-	import { onMount } from 'svelte';
-	import { page, session } from '$app/stores';
-	import Profile from '$lib/components/profile.svelte';
-
-	console.log('ipd', $session);
+	import { session } from '$app/stores';
 </script>
 
 <div>
@@ -37,7 +33,7 @@
 			</div>
 			{#if $machineData.cycle}
 				<div
-					class="rounded-full bg-indigo-400 text-white p-1 font-semibold shadow-md group-hover:scale-[1.01] transition-all truncate"
+					class="rounded-full bg-indigo-400 text-white py-1 px-3 font-semibold shadow-md group-hover:scale-[1.01] transition-all truncate"
 				>
 					{$_('cycle.names.' + $machineData.cycle.name)}
 					{#if $machineData.cycle.profile}

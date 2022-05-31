@@ -32,6 +32,8 @@ class NusterTurbine
     public machine?: Machine;
     public status: IStatus;
 
+    private HTTP_PORT = 4080;
+
     constructor()
     {
         this.status = {
@@ -78,8 +80,8 @@ class NusterTurbine
     }
     private _expressConfig()
     {
-        this.httpServer = this.app.listen(80, () => {
-            this.logger.info("Express config server running on port 80");
+        this.httpServer = this.app.listen(this.HTTP_PORT, () => {
+            this.logger.info("Express config server running on port " + this.HTTP_PORT);
 
             this.app.use(express.json());
 
@@ -109,8 +111,8 @@ class NusterTurbine
      */
     private _express()
     {
-        this.httpServer = this.app.listen(80, () => { 
-            this.logger.info("Express server listening on port 80"); 
+        this.httpServer = this.app.listen(this.HTTP_PORT, () => { 
+            this.logger.info("Express server listening on port " + this.HTTP_PORT); 
         });
 
         this.app.use(express.json());
@@ -170,7 +172,7 @@ class NusterTurbine
     private _websocket()
     {
         this.wsServer = new WebSocketServer({server: this.httpServer, path: "/v1"}, () => { 
-            this.logger.info("Websocket server listening on port 80");
+            this.logger.info("Websocket server listening on port " + this.HTTP_PORT);
         });
 
         this.wsServer.on('connection', (ws: WebSocket) => { 

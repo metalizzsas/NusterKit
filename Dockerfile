@@ -1,4 +1,4 @@
-FROM balenalib/raspberrypi4-64-node:18-buster as builder
+FROM node:18 as builder
 
 RUN install_packages build-essential python3 git openssh-client
 WORKDIR /usr/src/app
@@ -23,6 +23,6 @@ COPY ./nuster-turbine-machines/ ./nuster-turbine-machines
 COPY ./entrypoint.sh ./entrypoint.sh
 
 ENV NODE_ENV=production
-EXPOSE 80
+EXPOSE 4080 
 
 CMD ["bash", "entrypoint.sh"]

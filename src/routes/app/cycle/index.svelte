@@ -9,7 +9,6 @@
 	import Cyclerunning from '$lib/components/cycle/cyclerunning.svelte';
 	import Cycleend from '$lib/components/cycle/cycleend.svelte';
 	import { goto } from '$app/navigation';
-	import { session } from '$app/stores';
 </script>
 
 <div>

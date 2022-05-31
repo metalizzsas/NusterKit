@@ -42,30 +42,60 @@
 
 <div>
 	<div class="flex flex-col gap-4">
-		<p class="rounded-xl py-2 px-3 bg-white text-gray-800 flex flex-col font-semibold">
-			{$_('cycle.end.cycle-ended')}
-			<span class="text-base text-italic font-normal">
-				{$_('cycle.endreasons.' + $machineData.cycle?.status.endReason)}
-			</span>
+		<section class="flex flex-row bg-white align-middle items-center rounded-xl">
+			<div class="p-4">
+				{#if $machineData.cycle?.status.endReason != 'ended'}
+					<svg
+						id="glyphicons-basic"
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 32 32"
+						class="fill-red-500 h-16 w-16 rotate-45 animate-pulse"
+					>
+						<path
+							id="plus"
+							d="M27,14v4a1,1,0,0,1-1,1H19v7a1,1,0,0,1-1,1H14a1,1,0,0,1-1-1V19H6a1,1,0,0,1-1-1V14a1,1,0,0,1,1-1h7V6a1,1,0,0,1,1-1h4a1,1,0,0,1,1,1v7h7A1,1,0,0,1,27,14Z"
+						/>
+					</svg>
+				{:else}
+					<svg
+						id="glyphicons-basic"
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 32 32"
+						class="fill-emerald-500 h-16 w-16 animate-pulse"
+					>
+						<path
+							id="check"
+							d="M27.37592,9.70459l-14.151,15.97693a.99985.99985,0,0,1-1.47558.02356L4.59711,18.1322a.99992.99992,0,0,1-.05384-1.31128L5.495,15.63123a.99994.99994,0,0,1,1.22808-.26966L12,18,24.79724,7.09863a.99991.99991,0,0,1,1.35553.0542l1.1817,1.18164A1,1,0,0,1,27.37592,9.70459Z"
+						/>
+					</svg>
+				{/if}
+			</div>
 
-			{#if $machineData.cycle?.status.startDate && $machineData.cycle?.status.endDate}
-				<span class="text-xs text-italic font-normal">
-					{$_('cycle.end.cycle-duration')} : {$time(
-						$machineData.cycle?.status.endDate - $machineData.cycle?.status.startDate,
-						{ format: 'medium' },
-					)}
+			<p class=" text-gray-800 flex flex-col gap-1 font-semibold py-2">
+				{$_('cycle.end.cycle-ended')}
+				{#if $machineData.cycle?.status.startDate && $machineData.cycle?.status.endDate}
+					<span class="text-italic font-normal">
+						{$_('cycle.end.cycle-duration')} : {$time(
+							$machineData.cycle?.status.endDate -
+								$machineData.cycle?.status.startDate,
+							{ format: 'medium' },
+						)}
+					</span>
+				{/if}
+				<span class="text-base text-italic font-normal">
+					{$_('cycle.endreasons.' + $machineData.cycle?.status.endReason)}
 				</span>
-			{/if}
-		</p>
-		<div class="rounded-xl py-2 px-3 bg-white text-gray-800 font-semibold">
-			{$_('cycle.end.cycle-rating-lead')}
+			</p>
+		</section>
+		<section class="rounded-xl p-4 bg-white text-gray-800 font-semibold">
+			<div class="text-center mb-1">{$_('cycle.end.cycle-rating-lead')}</div>
 			<p class="font-normal">
 				{$_('cycle.end.cycle-rating-text')}
 			</p>
-			<p class="font-normal mt-2">
+			<p class="font-normal mt-1">
 				{$_('cycle.end.cycle-rating-text2')}
 			</p>
-		</div>
+		</section>
 		<div
 			class="flex flex-row items-center gap-4 self-center bg-white rounded-full p-2 shadow-xs"
 		>

@@ -1,7 +1,8 @@
 on:
-  push:
+ pull_request:
+    types: [opened, synchronize, closed]
     branches:
-      - next
+      - main
 
 name: "Create Balena Cloud draft release"
 

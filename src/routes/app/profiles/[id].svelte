@@ -3,7 +3,7 @@
 
 	export const load: Load = async (ctx) => {
 		const content = await ctx.fetch(
-			`http://${window.localStorage.getItem('ip') ?? '127.0.0.1'}/v1/profiles/${
+			`http://${window.localStorage.getItem('ip') ?? '127.0.0.1'}/api/v1/profiles/${
 				ctx.params.id
 			}`,
 		);
@@ -36,7 +36,7 @@
 		initialProfile = JSON.stringify(profile);
 	});
 	async function save() {
-		await fetch('http://' + $Linker + '/v1/profiles', {
+		await fetch('http://' + $Linker + '/api/v1/profiles', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

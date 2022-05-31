@@ -15,7 +15,7 @@
 			//return;
 		}
 
-		fetch('http://' + $Linker + '/v1/cycle/', {
+		fetch('http://' + $Linker + '/api/v1/cycle/', {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
@@ -23,7 +23,7 @@
 		});
 	};
 	const cancelCycle = async () => {
-		fetch('http://' + $Linker + '/v1/cycle/0', {
+		fetch('http://' + $Linker + '/api/v1/cycle/0', {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',

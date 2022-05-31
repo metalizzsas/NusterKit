@@ -5,7 +5,7 @@
 	import { _ } from 'svelte-i18n';
 
 	const stopCycle = async () => {
-		fetch('http://' + $Linker + '/v1/cycle', {
+		fetch('http://' + $Linker + '/api/v1/cycle', {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',

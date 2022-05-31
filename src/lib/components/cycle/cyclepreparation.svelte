@@ -15,11 +15,11 @@
 
 	onMount(async () => {
 		//fetch cycles types from machine api
-		let cycleTypesData = await fetch('http://' + $Linker + '/v1/cycle/custom');
+		let cycleTypesData = await fetch('http://' + $Linker + '/api/v1/cycle/custom');
 		cycleTypes = (await cycleTypesData.json()) as { name: string; profileRequired: boolean }[];
 
 		//fetch premade cycles from machine api
-		let cyclePremadesData = await fetch('http://' + $Linker + '/v1/cycle/premades');
+		let cyclePremadesData = await fetch('http://' + $Linker + '/api/v1/cycle/premades');
 		cyclePremades = (await cyclePremadesData.json()) as {
 			name: string;
 			profile: string;
@@ -28,7 +28,7 @@
 	});
 
 	function prepareCycle(cycleType: string, profileID: string) {
-		fetch('http://' + $Linker + '/v1/cycle/' + cycleType + '/' + profileID, {
+		fetch('http://' + $Linker + '/api/v1/cycle/' + cycleType + '/' + profileID, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

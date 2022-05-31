@@ -3,7 +3,7 @@
 
 	export const load: Load = async (ctx) => {
 		let data = await ctx.fetch(
-			`http://${window.localStorage.getItem('ip') ?? '127.0.0.1'}/v1/profiles`,
+			`http://${window.localStorage.getItem('ip') ?? '127.0.0.1'}/api/v1/profiles`,
 		);
 		return { props: { profiles: await data.json() } };
 	};
@@ -25,7 +25,7 @@
 	export var profiles: ProfileModel[];
 
 	async function listProfileBlueprint() {
-		let response = await fetch('http://' + $Linker + '/v1/profiles/skeletons');
+		let response = await fetch('http://' + $Linker + '/api/v1/profiles/skeletons');
 		let types = (await response.json()) as string[];
 
 		if (types.length == 1) {
@@ -36,7 +36,7 @@
 	}
 
 	async function createProfile(type: string) {
-		let response = await fetch('http://' + $Linker + '/v1/profiles/create/' + type, {
+		let response = await fetch('http://' + $Linker + '/api/v1/profiles/create/' + type, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -117,7 +117,7 @@
 			{#each profiles as profile}
 				<Profile
 					bind:profile
-					delCb={async () => await invalidate('http://' + $Linker + '/v1/profiles')}
+					delCb={async () => await invalidate('http://' + $Linker + '/api/v1/profiles')}
 				/>
 			{/each}
 		</div>

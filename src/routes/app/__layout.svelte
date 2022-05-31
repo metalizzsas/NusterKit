@@ -55,7 +55,7 @@
 				break;
 			}
 
-			ws = new WebSocket('ws://' + $Linker + '/v1');
+			ws = new WebSocket('ws://' + $Linker + '/ws/');
 
 			const result = await new Promise<boolean>((resolve) => {
 				ws.onopen = () => {

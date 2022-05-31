@@ -19,7 +19,7 @@
 		newProfile.id = 'copied';
 		newProfile.name = newName;
 
-		const returndata = await fetch('http://' + $Linker + '/v1/profiles/', {
+		const returndata = await fetch('http://' + $Linker + '/api/v1/profiles/', {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
@@ -36,7 +36,7 @@
 	}
 
 	async function deleteProfile(profile: Profile) {
-		await fetch('http://' + $Linker + '/v1/profiles/' + profile.id, {
+		await fetch('http://' + $Linker + '/api/v1/profiles/' + profile.id, {
 			method: 'DELETE',
 		});
 		delCb();

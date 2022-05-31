@@ -5,7 +5,7 @@
 		let dt = await ctx.fetch(
 			'http://' +
 				(window.localStorage.getItem('ip') ?? '127.0.0.1') +
-				'/v1/maintenance/' +
+				'/api/v1/maintenance/' +
 				ctx.params.id,
 		);
 
@@ -26,7 +26,7 @@
 	let procedureImageIndex: number = 0;
 
 	async function resetMaintenance() {
-		await fetch('http://' + $Linker + '/v1/maintenance/' + maintenance.name, {
+		await fetch('http://' + $Linker + '/api/v1/maintenance/' + maintenance.name, {
 			method: 'DELETE',
 		});
 

@@ -4,7 +4,9 @@
 
 	export const load: Load = async (ctx) => {
 		let content = await ctx.fetch(
-			'http://' + (window.localStorage.getItem('ip') ?? '127.0.0.1') + '/v1/cycle/history',
+			'http://' +
+				(window.localStorage.getItem('ip') ?? '127.0.0.1') +
+				'/api/v1/cycle/history',
 		);
 		return { props: { histories: (await content.json()) as IHistory[] } };
 	};
@@ -26,7 +28,7 @@
 	export let histories: IHistory[];
 
 	async function restartCycle(his: IHistory) {
-		await fetch('http://' + $Linker + '/v1/cycle/restart/' + his.id, { method: 'POST' });
+		await fetch('http://' + $Linker + '/api/v1/cycle/restart/' + his.id, { method: 'POST' });
 		goto('/app/cycle/');
 	}
 </script>

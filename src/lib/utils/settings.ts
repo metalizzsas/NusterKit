@@ -3,8 +3,6 @@ export function loadDarkMode()
 {
     const dark = window.localStorage.getItem("dark") == "true";
 
-    console.log("setting darkmode to ", dark);
-
     if(dark)
         document.getElementsByTagName("html")[0].classList.add("dark");
     else    

@@ -3,7 +3,7 @@
 
 	export const load: Load = async (ctx) => {
 		let dt = await ctx.fetch(
-			'http://' +
+			'//' +
 				(window.localStorage.getItem('ip') ?? '127.0.0.1') +
 				'/api/v1/maintenance/' +
 				ctx.params.id,
@@ -17,7 +17,6 @@
 	import { goto } from '$app/navigation';
 	import type { Maintenance } from '$lib/utils/interfaces';
 	import { _ } from 'svelte-i18n';
-	import { fly } from 'svelte/transition';
 	import { Linker } from '$lib/utils/linker';
 
 	export let maintenance: Maintenance;
@@ -26,7 +25,7 @@
 	let procedureImageIndex: number = 0;
 
 	async function resetMaintenance() {
-		await fetch('http://' + $Linker + '/api/v1/maintenance/' + maintenance.name, {
+		await fetch('//' + $Linker + '/api/v1/maintenance/' + maintenance.name, {
 			method: 'DELETE',
 		});
 

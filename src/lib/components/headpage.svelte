@@ -4,7 +4,6 @@
 	import { machineData } from '$lib/utils/store';
 	import { scale, fade } from 'svelte/transition';
 
-	import img from '$lib/img/1024.png';
 	import Modalcontent from './modals/modalcontent.svelte';
 	import Toggle from '$lib/components/toggle.svelte';
 	import { readDarkMode, updateDarkMode, setLang } from '$lib/utils/settings';
@@ -38,13 +37,13 @@
 
 		ip = $Linker;
 
-		const releaseNotesRequest = await fetch('http://' + $Linker + '/currentReleaseNotes');
+		const releaseNotesRequest = await fetch('//' + $Linker + '/api/currentReleaseNotes');
 
 		markdownReleaseNotes = await releaseNotesRequest.text();
 	});
 
 	async function triggerUpdate() {
-		const req = await fetch('http://' + $Linker + '/forceUpdate');
+		const req = await fetch('//' + $Linker + '/api/forceUpdate');
 
 		if (req.status == 200) {
 			displayUpdateScreen = true;
@@ -101,11 +100,10 @@
 			<div class="flex flex-row justify-between items-center">
 				<div class="flex flex-rox gap-4 items-center">
 					{#if isShrinked}
-						<!-- svelte-ignore component-name-lowercase -->
 						<img
 							in:scale
 							out:scale
-							src={img}
+							src="/icons/pwa-512.png"
 							alt="logo nuster"
 							class="w-8 h-8 shadow-sm rounded-md hover:rotate-[2deg] transition-all"
 						/>

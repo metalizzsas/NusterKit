@@ -10,8 +10,8 @@ export async function initI18n(ip: string)
         addMessages('en', en);
         addMessages('fr', fr);
     
-        const frurl = `http://${ip}/assets/lang/fr.json`;
-        const enurl = `http://${ip}/assets/lang/en.json`;
+        const frurl = `//${ip}/api/assets/lang/fr.json`;
+        const enurl = `//${ip}/api/assets/lang/en.json`;
 
         const langEN = fetch(enurl).then((response) => {
             if(response.status == 200)

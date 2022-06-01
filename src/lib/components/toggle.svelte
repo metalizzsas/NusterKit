@@ -37,7 +37,7 @@
 
 <style>
 	.toggle {
-		@apply block rounded-full h-6 w-12;
+		@apply block rounded-full h-6 w-12 min-h-fit min-w-fit;
 		position: relative;
 	}
 

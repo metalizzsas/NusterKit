@@ -8,7 +8,7 @@
 	$: gates = $machineData.io;
 
 	function update(gate: string, value: number) {
-		fetch(`http://${$Linker}/api/v1/io/${gate}/${value}`);
+		fetch(`//${$Linker}/api/v1/io/${gate}/${value}`);
 	}
 </script>
 

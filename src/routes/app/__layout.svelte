@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { initI18n } from '$lib/utils/i18n';
-	import { _ } from 'svelte-i18n';
+	import { waitLocale, _ } from 'svelte-i18n';
 
 	import HeadPage from '$lib/components/headpage.svelte';
 	import Pagetransition from '$lib/components/pagetransition.svelte';
@@ -31,6 +31,7 @@
 	});
 
 	onMount(async () => {
+		await waitLocale('en');
 		await initI18n($Linker);
 		loadDarkMode();
 

@@ -2,10 +2,20 @@
 	import type { Load } from '@sveltejs/kit';
 
 	export const load: Load = async (ctx) => {
-		let data = await ctx.fetch(
-			`http://${window.localStorage.getItem('ip') ?? '127.0.0.1'}/api/v1/profiles`,
+		let profilesList = await ctx.fetch(
+			`//${window.localStorage.getItem('ip') ?? '127.0.0.1'}/api/v1/profiles`,
 		);
-		return { props: { profiles: await data.json() } };
+
+		let profileSkeletons = await ctx.fetch(
+			`//${window.localStorage.getItem('ip') ?? '127.0.0.1'}/api/v1/profiles/skeletons`,
+		);
+
+		return {
+			props: {
+				profiles: await profilesList.json(),
+				profileSkeletons: await profileSkeletons.json(),
+			},
+		};
 	};
 </script>
 
@@ -23,20 +33,22 @@
 	let addProfileModalShown = false;
 
 	export var profiles: ProfileModel[];
+	export var profileSkeletons: string[];
 
 	async function listProfileBlueprint() {
-		let response = await fetch('http://' + $Linker + '/api/v1/profiles/skeletons');
-		let types = (await response.json()) as string[];
-
-		if (types.length == 1) {
-			createProfile(types[0]);
+		if (profileSkeletons.length == 1) {
+			createProfile(profileSkeletons[0]);
 		} else {
 			addProfileModalShown = true;
 		}
 	}
 
 	async function createProfile(type: string) {
-		let response = await fetch('http://' + $Linker + '/api/v1/profiles/create/' + type, {
+		const createUrl = '//' + $Linker + '/api/v1/profiles/create/' + type;
+
+		console.log(createUrl);
+
+		let response = await fetch(createUrl, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -117,7 +129,7 @@
 			{#each profiles as profile}
 				<Profile
 					bind:profile
-					delCb={async () => await invalidate('http://' + $Linker + '/api/v1/profiles')}
+					delCb={async () => await invalidate($Linker + '/api/v1/profiles')}
 				/>
 			{/each}
 		</div>

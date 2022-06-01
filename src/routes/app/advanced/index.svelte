@@ -8,7 +8,7 @@
 	import { Linker } from '$lib/utils/linker';
 
 	async function toggleState(name: string, state: boolean) {
-		await fetch(`http://${$Linker}/api/v1/manual/${name}/${state}`, {
+		await fetch(`//${$Linker}/api/v1/manual/${name}/${state}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

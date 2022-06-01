@@ -165,13 +165,18 @@ class NusterTurbine
                 res.send("Releases notes not available");
             }
         });
+
+        if(process.env.NODE_ENV != "production")
+        {
+            this.app.all("/api/*", (req: Request, res: Response) => res.redirect(307, req.url.replace("/api", "")));
+        }
     }
     /**
      * Create websocket handlers
      */
     private _websocket()
     {
-        this.wsServer = new WebSocketServer({server: this.httpServer});
+        this.wsServer = new WebSocketServer({server: this.httpServer, path: (process.env.NODE_ENV == "production") ? '' : '/ws/'});
 
         this.wsServer.on("listening", () => {
             this.logger.info("Websocket server listening..");

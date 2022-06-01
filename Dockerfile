@@ -15,7 +15,7 @@ RUN install_packages build-essential python3 git openssh-client
 WORKDIR /usr/src/app
 
 COPY package.json ./
-RUN JOBS=MAX npm install --production --unsafe-perm && npm cache verify && rm -rf /tmp/*
+RUN JOBS=MAX npm i --omit=dev --unsafe-perm && npm cache verify && rm -rf /tmp/*
 
 # Copying NusterTurbine built files and essential data
 COPY --from=builder /usr/src/app/build ./build

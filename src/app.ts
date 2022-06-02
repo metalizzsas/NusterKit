@@ -10,10 +10,6 @@ import { Server } from "http";
 import { pinoHttp } from "pino-http";
 import { pino } from "pino";
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import packageInfo from "../package.json";
-
 import { Machine } from "./Machine";
 
 interface IStatus
@@ -157,7 +153,7 @@ class NusterTurbine
         this.app.get("/currentReleaseNotes", (_req, res: Response) => {
             try
             {
-                const releaseNotes = fs.readFileSync(path.resolve("patch-notes", `${packageInfo.version}.md`), "utf8");
+                const releaseNotes = fs.readFileSync(path.resolve("release.md"), "utf8");
                 res.send(releaseNotes);
             }
             catch(err)

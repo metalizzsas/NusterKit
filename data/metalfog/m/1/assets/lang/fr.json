@@ -62,7 +62,10 @@
       "usl-activation-porous": "Activation pièces poreuses USL",
       "cem": "Blindage CEM",
       "cem-retake": "Renforcement Blindage CEM",
-      "act-fill": "Dilution activant"
+      "act-fill": "Dilution activant",
+      "emptying-activator": "Vidange activant",
+      "emptying-reactives": "Vidange réactifs",
+      "container-cleaning": "Netoyyage conteneurs"
     },
     "modals": {
       "watchdog": {
@@ -102,6 +105,18 @@
       "act-fill":{
         "name": "Dilution de l'activant",
         "desc": "De l'eau désionisée est transférée dans le conteneurs d'activant pour diluer la solution."
+      },
+      "container-cleaning":{
+        "name": "Nettoyage",
+        "desc": "Nettoyage des conteneurs de reactifs."
+      },
+      "emptying-activator": {
+        "name": "Vidage activant",
+        "desc": "Vidange du conteneur d'activant"
+      },
+      "emptying-reactives": {
+        "name": "Vidage réactifs",
+        "desc": "Vidange des conteneurs de réactifs"
       }
     }
   },

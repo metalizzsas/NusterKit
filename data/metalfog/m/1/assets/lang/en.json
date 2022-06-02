@@ -69,7 +69,10 @@
       "usl-activation-porous": "USL Porous parts activation",
       "cem": "CEM shielding",
       "cem-retake": "CEM shielding retake",
-      "act-fill": "Activator dilution"
+      "act-fill": "Activator dilution",
+      "container-cleaning": "Container cleaning",
+      "emptying-activator": "Emptying activator",
+      "emptying-reactives": "Emptying reactives"
     },
     "modals": {
       "watchdog": {
@@ -109,6 +112,18 @@
       "act-fill":{
         "name": "Activator dilution",
         "desc": "DI Water is transfered to Activator containter to dilute concentrated activator."
+      },
+      "container-cleaning":{
+        "name": "Cleaning",
+        "desc": "Cleaning reactive containers"
+      },
+      "emptying-activator": {
+        "name": "Emptying activator",
+        "desc": "Emptying activator container"
+      },
+      "emptying-reactives": {
+        "name": "Emptying reactives",
+        "desc": "Emptying reactives containers"
       }
     }
   },

@@ -41,7 +41,7 @@ services:
       - 'nuster-desktop'
     environment:
       DISPLAY_NUM: 0
-      LAUNCH_URL: 'http://127.0.0.1:3000/machine'
+      LAUNCH_URL: 'http://127.0.0.1/'
       KIOSK: 1
       ENABLE_GPU: 1
       PERSISTANT: 1

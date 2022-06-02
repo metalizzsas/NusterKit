@@ -127,7 +127,9 @@
 									{/if}
 								</div>
 							</div>
-							{#if manual.incompatibility.length > 0}
+							{#if manual.incompatibility
+								.map( (i) => $machineData.manuals.find( (j) => (i.startsWith('+') ? j.name == i.substring(1) && j.state == false : j.name == i && j.state == true), ), )
+								.filter((x) => x !== undefined).length > 0}
 								<span
 									class="font-semibold flex flex-row items-center gap-2 text-white text-sm italic mt-2"
 								>

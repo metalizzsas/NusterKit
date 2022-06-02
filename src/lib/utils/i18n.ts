@@ -1,7 +1,8 @@
 import { init, addMessages } from 'svelte-i18n';
 import { getLang } from './settings';
-import fr from "$lib/lang/fr-fr.json";
+
 import en from "$lib/lang/en.json";
+import fr from "$lib/lang/fr.json";
 
 export async function initI18n(ip: string)
 {
@@ -10,8 +11,8 @@ export async function initI18n(ip: string)
         addMessages('en', en);
         addMessages('fr', fr);
     
-        const frurl = `//${ip}/api/assets/lang/fr.json`;
         const enurl = `//${ip}/api/assets/lang/en.json`;
+        const frurl = `//${ip}/api/assets/lang/fr.json`;
 
         const langEN = fetch(enurl).then((response) => {
             if(response.status == 200)
@@ -40,4 +41,10 @@ export async function initI18n(ip: string)
         });
     });
     
+}
+
+export async function initi18nLocal()
+{
+    addMessages('en', en);
+    addMessages('fr', fr);
 }

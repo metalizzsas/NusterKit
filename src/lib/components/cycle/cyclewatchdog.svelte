@@ -12,11 +12,10 @@
 		if (
 			$machineData.cycle!.watchdogConditions.filter((wdc) => wdc.result == false).length > 0
 		) {
-			//displayWatchdogError = true;
 			return;
 		}
 
-		fetch($Linker + '/api/v1/cycle/', {
+		fetch('//' + $Linker + '/api/v1/cycle/', {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
@@ -24,7 +23,7 @@
 		});
 	};
 	const cancelCycle = async () => {
-		fetch($Linker + '/api/v1/cycle/0', {
+		fetch('//' + $Linker + '/api/v1/cycle/0', {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',
@@ -70,25 +69,23 @@
 					</span>
 				{/each}
 			</div>
-		{/if}
 
-		<div class="flex flex-row gap-4 justify-items-center self-center">
-			<button
-				class="bg-orange-500 hover:bg-orange-500/80 hover:scale-[1.01] rounded-xl py-1 px-3 self-center text-white font-semibold transition:all mt-3 md:ml-auto"
-				on:click={cancelCycle}
-			>
-				{$_('cycle.buttons.cancel')}
-			</button>
-			<button
-				class="flex flex-row gap-1 align-middle items-center {$machineData.cycle.watchdogConditions.filter(
-					(wdc) => wdc.result == false,
-				).length > 0
-					? 'bg-gray-400 hover:bg-gray-400/80'
-					: 'bg-emerald-500 hover:bg-emerald-500/80 hover:scale-[1.01]'} rounded-xl py-2 px-5 self-center text-white fill-white font-semibold text-lg transition:all mt-3"
-				on:click={startCycle}
-			>
-				{#if $machineData.cycle.watchdogConditions.filter((wdc) => wdc.result == true).length > 0}
-					<div animate={flip}>
+			<div class="flex flex-row gap-4 justify-items-center self-center">
+				<button
+					class="bg-orange-500 hover:bg-orange-500/80 hover:scale-[1.01] rounded-xl py-1 px-3 self-center text-white font-semibold transition:all mt-3 md:ml-auto"
+					on:click={cancelCycle}
+				>
+					{$_('cycle.buttons.cancel')}
+				</button>
+				<button
+					class="flex flex-row gap-1 align-middle items-center {$machineData.cycle.watchdogConditions.filter(
+						(wdc) => wdc.result == false,
+					).length > 0
+						? 'bg-gray-400 hover:bg-gray-400/80'
+						: 'bg-emerald-500 hover:bg-emerald-500/80 hover:scale-[1.01]'} rounded-xl py-2 px-5 self-center text-white fill-white font-semibold text-lg transition:all mt-3"
+					on:click={startCycle}
+				>
+					{#if $machineData.cycle.watchdogConditions.filter((wdc) => wdc.result == false).length == 0}
 						<svg
 							id="glyphicons-basic"
 							xmlns="http://www.w3.org/2000/svg"
@@ -100,12 +97,12 @@
 								d="M26.82965,16.81921l-9.25622,6.47937A1,1,0,0,1,16,22.47937V19H6a1,1,0,0,1-1-1V14a1,1,0,0,1,1-1H16V9.52063a1,1,0,0,1,1.57343-.81921l9.25622,6.47937A.99994.99994,0,0,1,26.82965,16.81921Z"
 							/>
 						</svg>
-					</div>
-				{/if}
+					{/if}
 
-				{$_('cycle.buttons.start')}
-			</button>
-		</div>
+					{$_('cycle.buttons.start')}
+				</button>
+			</div>
+		{/if}
 	</div>
 </div>
 

@@ -11,10 +11,12 @@
 	import { browser, dev } from '$app/env';
 	import { waitLocale, init } from 'svelte-i18n';
 	import { getLang } from '$lib/utils/settings';
+	import { initi18nLocal } from '$lib/utils/i18n';
 
 	let ReloadPrompt: any;
 
 	beforeUpdate(async () => {
+		initi18nLocal();
 		await waitLocale('en');
 		await init({
 			fallbackLocale: 'en',

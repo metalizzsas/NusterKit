@@ -129,7 +129,7 @@
 			{#each profiles as profile}
 				<Profile
 					bind:profile
-					delCb={async () => await invalidate($Linker + '/api/v1/profiles')}
+					delCb={async () => await invalidate('//' + $Linker + '/api/v1/profiles')}
 				/>
 			{/each}
 		</div>

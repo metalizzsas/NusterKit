@@ -44,7 +44,11 @@
 	});
 
 	onDestroy(() => {
-		if (ws) ws.close();
+		if (ws) {
+			ws.onclose = null;
+			ws.onmessage = null;
+			ws.close();
+		}
 	});
 
 	async function registerWebsocket() {
@@ -112,18 +116,14 @@
 			in:fade
 			out:fade
 		>
-			<div
-				class="relative bg-zinc-900 w-[35%] p-10 text-white rounded-3xl"
-				in:scale
-				out:scale
-			>
-				<div class="flex flex-col">
+			<div class="relative bg-zinc-900 w-[35%] p-5 text-white rounded-3xl" in:scale out:scale>
+				<div class="flex flex-col gap-2">
 					{#if wsError === false}
 						<svg
 							id="glyphicons-basic"
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 32 32"
-							class="fill-white animate-spin-ease"
+							class="fill-white animate-spin-ease w-1/3 aspect-square self-center"
 						>
 							<path
 								id="reload"
@@ -134,12 +134,18 @@
 							{$_('loadingScreen.connectionAttemptCount')}
 							{wsAtempt} / 10
 						</p>
+						<button
+							class="py-1 px-3 bg-red-400 text-white rounded-xl font-semibold"
+							on:click={() => history.back()}
+						>
+							{$_('cancel')}
+						</button>
 					{:else}
 						<svg
 							id="glyphicons-basic"
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 32 32"
-							class="fill-red-400 rotate-45"
+							class="fill-red-400 rotate-45 w-1/3 aspect-square self-center"
 						>
 							<path
 								id="plus"

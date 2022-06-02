@@ -1,6 +1,6 @@
 {
 	"name": "nuster-desktop",
-	"version": "1.0.2",
+	"version": "1.2.1",
 	"private": true,
 	"description": "Nuster Desktop",
 	"main": "",
@@ -11,6 +11,7 @@
 		"clean": "rm -rf ./node_modules/ && rm package-lock.json && npm i",
 		"dev": "svelte-kit dev --port 3001 --host",
 		"build": "svelte-kit build && node pwa.js",
+		"build-bundle": "svelte-kit build",
 		"preview": "svelte-kit preview"
 	},
 	"dependencies": {
@@ -22,6 +23,7 @@
 		"simple-keyboard-input-mask": "^3.0.373",
 		"svelte-i18n": "^3.3.13",
 		"svelte-markdown": "^0.2.2",
+		"svelte-scrollto-element": "^0.7.0",
 		"tailwindcss": "^3.0.0"
 	},
 	"devDependencies": {

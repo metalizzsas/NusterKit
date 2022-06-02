@@ -20,7 +20,7 @@ export function readDarkMode(): boolean{
 }
 
 export function getLang(): string {
-    return window.localStorage.getItem("lang") || "en";
+    return window.localStorage.getItem("lang") ?? "en";
 }
 
 export function setLang(value: string)

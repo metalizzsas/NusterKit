@@ -29,7 +29,7 @@
 	});
 
 	async function patchCycle() {
-		await fetch($Linker + '/api/v1/cycle/' + rating, {
+		await fetch('/' + $Linker + '/api/v1/cycle/' + rating, {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',

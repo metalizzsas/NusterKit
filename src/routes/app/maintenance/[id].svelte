@@ -81,7 +81,7 @@
 				<span
 					class="text-white font-semibold mb-3 bg-indigo-400 py-2 px-4 rounded-full m-auto"
 				>
-					{$_('maintenance.procedure')}
+					{$_('maintenance.procedure.title')}
 				</span>
 			</div>
 			<div class="rounded-l-xl overflow-hidden col-span-1">
@@ -89,8 +89,9 @@
 					{#if procedureIndex == index}
 						<div>
 							<img
-								src="http://{$Linker}/assets/maintenance/{maintenance.name}/{step
-									.images[procedureImageIndex]}"
+								src="//{$Linker}/assets/maintenance/{maintenance.name}/{step.images[
+									procedureImageIndex
+								]}"
 								alt="procedure"
 								class="shrink-0 transition-all"
 							/>

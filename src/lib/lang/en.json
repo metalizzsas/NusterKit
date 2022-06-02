@@ -11,6 +11,16 @@
   "present": "Ok ✓",
   "missing": "Missing ✗",
   "close-keyboard": "Close the keyboard",
+  "connect": "Connect",
+  "machinelist": "Machine list",
+  "machinelist-empty": "Nothing found here! Add a machine first ↗",
+  "machinelist-add": "Add machine",
+
+  "machines": {
+    "metalfog": "Metalfog",
+    "smoothit": "Smoothit",
+    "uscleaner": "USCleaner"
+  },
 
   "loadingScreen": {
     "connectionAttemptCount": "Connection atempt :",
@@ -85,7 +95,11 @@
     "language": "Language",
     "restart": "Restart machine",
     "reload-nuster": "Reload interface",
-    "updateNotes": "Release notes",
+    "updateNotes": {
+      "main": "Release notes",
+      "firmware": "Firmware",
+      "ui": "User interface"
+    },
     "updateGoing": {
       "desc": "Installing the update, please wait...",
       "title": "Updating"
@@ -126,8 +140,8 @@
     },
     "modals": {
       "watchdog": {
-        "title": "Watchdog error",
-        "message": "Cycle can't start. A watchdog condition error has occured."
+        "title": "Security chain error",
+        "message": "Cycle can't start. A security chain error has occured."
       }
     },
     "buttons": {
@@ -146,8 +160,9 @@
     "preparation": "Cycle preparation",
     "choice": "Cycle choice",
     "profile.choice": "Profile choice",
-    "watchdog": "Watchdog",
-    "watchdog.conditions": "Starting security conditions",
+    "watchdog": {
+      "conditions": "Starting security conditions"
+    },
     "history": "Histories"
   },
   "gates": {
@@ -180,11 +195,13 @@
     "list": "Maintenance tasks",
     "duration": "Duration",
     "percentage": "Percentage",
-    "procedure": "Maintenance procedure",
-    "procedure.tools": "Tools used",
-    "procedure.next": "Next",
-    "procedure.previous": "Previous",
-    "procedure.reset": "Maintenance task validation",
+    "procedure": {
+      "title": "Maintenance procedure",
+      "tools": "Tools used",
+      "next": "Next",
+      "previous": "Previous",
+      "reset": "Maintenance task validation"
+    },
     "unity": {
       "cycle": "Cycles",
       "hours": "Hours"

@@ -5,7 +5,7 @@
 	import { _ } from 'svelte-i18n';
 
 	const stopCycle = async () => {
-		fetch($Linker + '/api/v1/cycle', {
+		fetch('//' + $Linker + '/api/v1/cycle', {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
@@ -26,13 +26,6 @@
 		>
 			{$_('cycle.buttons.end')}
 		</button>
-
-		<!-- TODO: Add options.nextstepEnabled button options on cycle
-        {#if $machineData.cycle.options.nextStepEnabled === true}
-			<button class="bg-orange-500 rounded-xl py-2 px-5 text-white font-semibold">
-				Passer a l'étape suivante
-			</button>
-		{/if} -->
 	</div>
 
 	{#if $machineData.cycle}

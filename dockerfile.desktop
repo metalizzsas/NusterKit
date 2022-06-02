@@ -8,6 +8,8 @@ RUN JOBS=MAX npm install --unsafe-perm && npm cache verify
 
 COPY ./ ./
 
+ENV VITE_BUNDLED=false
+
 RUN npm run build
 
 FROM nginx:latest

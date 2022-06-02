@@ -33,7 +33,7 @@
 					<div class="flex flex-row gap-4 items-center justify-items-start w-full">
 						<!-- svelte-ignore a11y-missing-attribute -->
 						<img
-							src="http://{$Linker}/assets/cycle/{ct.name}.png"
+							src="//{$Linker}/api/assets/cycle/{ct.name}.png"
 							class="w-10 aspect-square bg-white rounded-full"
 						/>
 						<div class="text-md">{$_('cycle.types.' + ct.name)}</div>

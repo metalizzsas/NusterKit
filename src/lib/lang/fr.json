@@ -11,6 +11,11 @@
   "present": "Présent ✓",
   "missing": "Absent ✗",
   "close-keyboard": "Fermer le clavier",
+  "connect": "Connexion",
+  "machinelist": "Liste des machines",
+  "machinelist-empty": "Rien n'as été trouvé ici! Ajoutez une machine ↗",
+  "machinelist-add": "Ajouter une machine",
+  
   "loadingScreen": {
     "connectionAttemptCount": "Essai de connection :",
     "connectionError": "Erreur de connection, #ip n'est pas accessible.",
@@ -81,7 +86,11 @@
     "enable-dark-mode": "Mode sombre activé",
     "language": "Langue",
     "restart": "Redémarrer la machine",
-    "updateNotes": "Notes de version",
+    "updateNotes": {
+      "main": "Notes de version",
+      "firmware": "Firmware",
+      "ui": "Interface utilisateur"
+    },
     "updateGoing": {
       "desc": "La mise à jour est en cours d'installation, merci de patienter quelques instants.",
       "title": "Mise à jour"
@@ -118,7 +127,7 @@
     },
     "modals": {
       "watchdog": {
-        "title": "Erreur de watchdog",
+        "title": "Erreur dans la chaine de sécurité",
         "message": "Le cycle ne peux pas démarrer. Une erreur de conditions de démarrage est présente."
       }
     },
@@ -142,8 +151,8 @@
     "choice": "Choix du cycle",
     "profile.choice": "Choix du profil",
     "steps": "Étapes du cycle",
-    "watchdog": "Watchdog",
-    "watchdog.conditions": "Conditions du watchdog",
+    "watchdog": "Chaine de sécurité",
+    "watchdog.conditions": "Conditions de sécurité",
     "history": "Historiques"
   },
   "gates": {

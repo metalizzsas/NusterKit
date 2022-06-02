@@ -58,7 +58,7 @@
 		</div>
 
 		<div id="content" class="flex flex-col gap-4">
-			{#each histories.reverse() as history}
+			{#each histories as history}
 				<div
 					class="flex flex-row gap-4 justify-between bg-zinc-700 p-3 text-white rounded-xl items-center"
 				>
@@ -72,7 +72,7 @@
 							})}
 						</span>
 					</div>
-					<div class="flex flex-row items-center gap-2">
+					<div class="flex flex-row gap-2 ml-auto">
 						{#if history.cycle.status.endReason != 'finished'}
 							<button
 								class="bg-red-500 rounded-xl text-white font-semibold py-1 px-2"
@@ -82,7 +82,7 @@
 							</button>
 						{/if}
 						<div
-							class="rounded-full bg-white  py-1 px-3 {(history.cycle.status
+							class="rounded-full bg-white py-1 px-3 {(history.cycle.status
 								.endReason || 'user') == 'finished'
 								? 'text-emerald-500 font-semibold'
 								: 'text-gray-700 font-medium'}"

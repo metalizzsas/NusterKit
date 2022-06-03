@@ -15,7 +15,6 @@
 	import { BUNDLED } from '$lib/bundle';
 
 	let isShrinked = true;
-	let isStartButtonShrinked = true;
 	let isUpdateShrinked = true;
 
 	let displayOptions = false;
@@ -25,7 +24,6 @@
 	const langs: { [x: string]: string } = {
 		en: 'English',
 		fr: 'Français',
-		it: 'Italiano',
 	};
 
 	let markdownReleaseNotes = '';
@@ -127,7 +125,6 @@
 						on:click={() => {
 							isUpdateShrinked = !isUpdateShrinked;
 							isShrinked = true;
-							isStartButtonShrinked = true;
 						}}
 					>
 						<span
@@ -178,7 +175,6 @@
 				on:click={() => {
 					isShrinked = !isShrinked;
 					isUpdateShrinked = true;
-					isStartButtonShrinked = true;
 				}}
 			>
 				<svg
@@ -190,28 +186,6 @@
 					<path
 						id="circle-info"
 						d="M16,4A12,12,0,1,0,28,16,12.01312,12.01312,0,0,0,16,4Zm2.42529,10.91565L16.6,21h1.25958a.5.5,0,0,1,.48505.62134l-.25,1A.50007.50007,0,0,1,17.60962,23H14a1.40763,1.40763,0,0,1-1.42529-1.91565L14.4,15h-.75958a.5.5,0,0,1-.48505-.62134l.25-1A.49994.49994,0,0,1,13.89038,13H17A1.40763,1.40763,0,0,1,18.42529,14.91565Zm.14435-3.33337A.5.5,0,0,1,18.07642,12H15.59021a.5.5,0,0,1-.49316-.58228l.33331-2A.5.5,0,0,1,15.92358,9h2.48621a.5.5,0,0,1,.49316.58228Z"
-					/>
-				</svg>
-			</button>
-
-			<button
-				class="rounded-full bg-indigo-300 p-1 transition hover:rotate-180 duration-300"
-				on:click={() => {
-					isStartButtonShrinked = !isStartButtonShrinked;
-
-					isShrinked = true;
-					isUpdateShrinked = true;
-				}}
-			>
-				<svg
-					id="glyphicons-basic"
-					xmlns="http://www.w3.org/2000/svg"
-					viewBox="0 0 32 32"
-					class="fill-red-500 h-5 w-5"
-				>
-					<path
-						id="power"
-						d="M15,16V4a1,1,0,0,1,1-1h1a1,1,0,0,1,1,1V16a1,1,0,0,1-1,1H16A1,1,0,0,1,15,16Zm7.63947-9.21533a1.009,1.009,0,0,0-1.43769.39477l-.45318.89649a.989.989,0,0,0,.34283,1.2799,8.5028,8.5028,0,1,1-9.18683.00257.99122.99122,0,0,0,.3468-1.28247l-.4533-.89673a1.01154,1.01154,0,0,0-1.446-.38916A11.43919,11.43919,0,0,0,5.00647,16.89075,11.50009,11.50009,0,0,0,28,16.5,11.43516,11.43516,0,0,0,22.63947,6.78467Z"
 					/>
 				</svg>
 			</button>
@@ -252,17 +226,6 @@
 					{$_('machine.serial')}: {$machineData.machine.serial.toLocaleUpperCase()}
 				</span>
 			</div>
-		</div>
-	{/if}
-
-	{#if !isStartButtonShrinked}
-		<div transition:scale class="mt-3 flex flex-row gap-4 justify-items-start">
-			<button
-				class="bg-orange-500 rounded-xl py-2 px-3 text-white font-semibold"
-				on:click={() => (window.location.href = '/machine')}
-			>
-				{$_('settings.reload-nuster')}
-			</button>
 		</div>
 	{/if}
 

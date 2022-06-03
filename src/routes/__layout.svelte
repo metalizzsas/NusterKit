@@ -12,6 +12,7 @@
 	import { waitLocale, init } from 'svelte-i18n';
 	import { getLang } from '$lib/utils/settings';
 	import { initi18nLocal } from '$lib/utils/i18n';
+	import { BUNDLED } from '$lib/bundle';
 
 	let ReloadPrompt: any;
 
@@ -32,7 +33,7 @@
 </script>
 
 <svelte:head>
-	{#if !dev && browser}
+	{#if !dev && browser && BUNDLED != 'true'}
 		<link rel="manifest" href="/_app/manifest.webmanifest" />
 	{/if}
 </svelte:head>

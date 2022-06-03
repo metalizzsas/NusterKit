@@ -81,12 +81,14 @@
 			focusScroll();
 		}}
 		{disabled}
+		autocomplete="off"
 	/>
 {:else}
 	<input
 		id="inputNumeric"
 		type="number"
 		class={options['class']}
+		autocomplete="off"
 		min={options['min']}
 		max={options['max']}
 		bind:value

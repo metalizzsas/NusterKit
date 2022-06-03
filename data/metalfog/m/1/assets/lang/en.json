@@ -60,7 +60,10 @@
     },
     "names": {
       "default": "Base metalfog cycle",
-      "act-fill": "Activator dilution"
+      "act-fill": "Activator dilution",
+      "container-cleaning": "Container cleaning",
+      "emptying-activator": "Emptying activator",
+      "emptying-reactives": "Emptying reactives"
     },
     "types": {
       "llc": "Look Like Chromium — LLC",

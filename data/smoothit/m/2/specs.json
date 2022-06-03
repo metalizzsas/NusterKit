@@ -925,62 +925,6 @@
                            }
                         ],
                         "_folded": false
-                     },
-                     {
-                        "name": "if",
-                        "params": [
-                           {
-                              "name": "profile",
-                              "value": "motor.reverseEnabled"
-                           },
-                           {
-                              "name": "conststr",
-                              "value": "=="
-                           },
-                           {
-                              "name": "const",
-                              "value": "1"
-                           }
-                        ],
-                        "blocks": [
-                           {
-                              "name": "startTimer",
-                              "params": [
-                                 {
-                                    "name": "conststr",
-                                    "value": "motorRotation"
-                                 },
-                                 {
-                                    "name": "profile",
-                                    "value": "motor.reverseTime"
-                                 }
-                              ],
-                              "blocks": [
-                                 {
-                                    "name": "io",
-                                    "params": [
-                                       {
-                                          "name": "conststr",
-                                          "value": "motor-direction"
-                                       },
-                                       {
-                                          "name": "reverse",
-                                          "value": "",
-                                          "params": [
-                                             {
-                                                "name": "io",
-                                                "value": "motor-direction"
-                                             }
-                                          ]
-                                       }
-                                    ],
-                                    "_folded": false
-                                 }
-                              ],
-                              "_folded": false
-                           }
-                        ],
-                        "_folded": false
                      }
                   ],
                   "endBlocks": [],
@@ -992,30 +936,38 @@
                      "name": "profile",
                      "value": "pulverization.enabled"
                   },
-                  "duration": {
-                     "name": "multiply",
-                     "value": "1",
+                  "duration": 
+                  {
+                     "name": "add",
                      "params": [
                         {
-                           "name": "profile",
-                           "value": "pulverization.count"
-                        },
-                        {
-                           "name": "add",
-                           "value": "0",
+                           "name": "multiply",
                            "params": [
                               {
                                  "name": "profile",
-                                 "value": "pulverization.timeOn"
+                                 "value": "pulverization.count"
                               },
                               {
-                                 "name": "profile",
-                                 "value": "pulverization.timeOff"
+                                 "name": "add",
+                                 "params": [
+                                    {
+                                       "name": "profile",
+                                       "value": "pulverization.timeOn"
+                                    },
+                                    {
+                                       "name": "profile",
+                                       "value": "pulverization.timeOff"
+                                    }
+                                 ]
                               }
                            ]
+                        },
+                        {
+                           "name": "const",
+                           "value": "3"
                         }
                      ]
-                  },
+                  } ,
                   "runAmount": {
                      "name": "conditional",
                      "value": "==",
@@ -1200,6 +1152,27 @@
                               "_folded": true
                            },
                            {
+                              "_comment": "Reverse motor direction after pulverisation",
+                              "name": "io",
+                              "params": [
+                                 {
+                                    "name": "conststr",
+                                    "value": "motor-direction"
+                                 },
+                                 {
+                                    "name": "reverse",
+                                    "value": "",
+                                    "params": [
+                                       {
+                                          "name": "io",
+                                          "value": "motor-direction"
+                                       }
+                                    ]
+                                 }
+                              ],
+                              "_folded": false
+                           },
+                           {
                               "name": "sleep",
                               "params": [
                                  {
@@ -1228,6 +1201,16 @@
                      }
                   ],
                   "startBlocks": [
+                     {
+                        "name": "stopTimer",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "motorRotation"
+                           }
+                        ],
+                        "_folded": false
+                     },
                      {
                         "name": "io",
                         "params": [
@@ -1285,6 +1268,63 @@
                            }
                         ],
                         "_folded": true
+                     },
+                     {
+                        "_comment": "Motor reverse direction",
+                        "name": "if",
+                        "params": [
+                           {
+                              "name": "profile",
+                              "value": "motor.reverseEnabled"
+                           },
+                           {
+                              "name": "conststr",
+                              "value": "=="
+                           },
+                           {
+                              "name": "const",
+                              "value": "1"
+                           }
+                        ],
+                        "blocks": [
+                           {
+                              "name": "startTimer",
+                              "params": [
+                                 {
+                                    "name": "conststr",
+                                    "value": "motorRotation"
+                                 },
+                                 {
+                                    "name": "profile",
+                                    "value": "motor.reverseTime"
+                                 }
+                              ],
+                              "blocks": [
+                                 {
+                                    "name": "io",
+                                    "params": [
+                                       {
+                                          "name": "conststr",
+                                          "value": "motor-direction"
+                                       },
+                                       {
+                                          "name": "reverse",
+                                          "value": "",
+                                          "params": [
+                                             {
+                                                "name": "io",
+                                                "value": "motor-direction"
+                                             }
+                                          ]
+                                       }
+                                    ],
+                                    "_folded": false
+                                 }
+                              ],
+                              "_folded": false
+                           }
+                        ],
+                        "_folded": false
                      }
                   ],
                   "_folded": true
@@ -1296,8 +1336,17 @@
                      "value": "ir-curing.enabled"
                   },
                   "duration": {
-                     "name": "profile",
-                     "value": "ir-curing.duration"
+                     "name":"add",
+                     "params": [
+                        {
+                           "name": "profile",
+                           "value": "ir-curing.duration"
+                        },
+                        {
+                           "name": "const",
+                           "value": "3"
+                        }
+                     ]
                   },
                   "runAmount": {
                      "name": "conditional",
@@ -1692,8 +1741,81 @@
                      "value": "uv-curing.enabled"
                   },
                   "duration": {
-                     "name": "profile",
-                     "value": "uv-curing.duration"
+                     "name": "conditional",
+                     "value": "==",
+                     "params": [
+                        {
+                           "name": "profile",
+                           "value": "multilayer.enabled"
+                        },
+                        {
+                           "name": "const",
+                           "value": "1"
+                        },
+                        {
+                           "name": "conditional",
+                           "value": "==",
+                           "params": [
+                              {
+                                 "name": "profile",
+                                 "value": "multilayer.count"
+                              },
+                              {
+                                 "name": "add",
+                                 "value": "",
+                                 "params": [
+                                    {
+                                       "name": "const",
+                                       "value": "1"
+                                    },
+                                    {
+                                       "name": "variable",
+                                       "value": "currentStepRunCount"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "add",
+                                 "params": [
+                                    {
+                                       "name": "profile",
+                                       "value": "uv-curing.duration"
+                                    },
+                                    {
+                                       "name": "const",
+                                       "value": "3"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "add",
+                                 "params": [
+                                    {
+                                       "name": "profile",
+                                       "value": "multilayer.interlayer-uvduration"
+                                    },
+                                    {
+                                       "name": "const",
+                                       "value": "3"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "add",
+                           "params": [
+                              {
+                                 "name": "profile",
+                                 "value": "uv-curing.duration"
+                              },
+                              {
+                                 "name": "const",
+                                 "value": "3"
+                              }
+                           ]
+                        }
+                     ]
                   },
                   "runAmount": {
                      "name": "conditional",

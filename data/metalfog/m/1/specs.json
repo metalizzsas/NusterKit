@@ -1403,6 +1403,21 @@
             "name": "act-fill",
             "profile": "",
             "cycle": "act-fill"
+         },
+         {
+            "name": "container-cleaning",
+            "profile": "",
+            "cycle": "container-cleaning"
+         },
+         {
+            "name": "emptying-reactives",
+            "profile": "",
+            "cycle": "emptying-reactives"
+         },
+         {
+            "name": "emptying-activator",
+            "profile": "",
+            "cycle": "emptying-activator"
          }
       ],
       "types": [
@@ -2121,7 +2136,6 @@
                   },
                   "duration": {
                      "name": "multiply",
-                     "value": "0",
                      "params": [
                         {
                            "name": "profile",
@@ -2129,11 +2143,32 @@
                         },
                         {
                            "name": "add",
-                           "value": "0",
                            "params": [
                               {
-                                 "name": "profile",
-                                 "value": "metalization.timeOn"
+                                 "name": "multiply",
+                                 "params": [
+                                    {
+                                       "name": "profile",
+                                       "value": "metalization.timeOn"
+                                    },
+                                    {
+                                       "name": "add",
+                                       "params": [
+                                          {
+                                             "name": "profile",
+                                             "value": "met-nozzles.met-high"
+                                          },
+                                          {
+                                             "name": "profile",
+                                             "value": "met-nozzles.met-medium"
+                                          },
+                                          {
+                                             "name": "profile",
+                                             "value": "met-nozzles.met-low"
+                                          }
+                                       ]
+                                    }
+                                 ]
                               },
                               {
                                  "name": "profile",
@@ -3695,6 +3730,573 @@
                      }
                   ],
                   "_folded": true
+               }
+            ]
+         },
+         {
+            "name": "container-cleaning",
+            "profileRequired": false,
+            "watchdogConditions": [
+               {
+                  "gateName": "emergency_stop",
+                  "gateValue": 1,
+                  "startOnly": false,
+                  "result": false
+               },
+               {
+                  "gateName": "air_sensor",
+                  "gateValue": 1,
+                  "startOnly": false,
+                  "result": false
+               },
+               {
+                  "gateName": "cover_closed",
+                  "gateValue": 1,
+                  "startOnly": false,
+                  "result": false
+               },
+               {
+                  "gateName": "levels_eff-max-n",
+                  "gateValue": 1,
+                  "startOnly": false,
+                  "result": false
+               },
+               {
+                  "gateName": "eff_container_sensor",
+                  "gateValue": 1,
+                  "startOnly": false,
+                  "result": false
+               }
+            ],
+            "steps": [
+               {
+                  "name": "container-cleaning",
+                  "duration": {
+                     "name": "const",
+                     "value": "-1"
+                  },
+                  "isEnabled": {
+                     "name": "const",
+                     "value": "1"
+                  },
+                  "startBlocks": [
+                     {
+                        "name": "io",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "res-act"
+                           },
+                           {
+                              "name": "const",
+                              "value": "1"
+                           }
+                        ]
+                     },
+                     {
+                        "name": "io",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "res-ox"
+                           },
+                           {
+                              "name": "const",
+                              "value": "1"
+                           }
+                        ]
+                     },
+                     {
+                        "name": "io",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "res-rd"
+                           },
+                           {
+                              "name": "const",
+                              "value": "1"
+                           }
+                        ]
+                     }
+                  ],
+                  "blocks": [
+                     {
+                        "name": "while",
+                        "params": [
+                           {
+                              "name": "multiply",
+                              "params": [
+                                 {
+                                    "name": "multiply",
+                                    "params": [
+                                       {
+                                          "name": "reverse",
+                                          "params": [
+                                             {
+                                                "name": "io",
+                                                "value": "levels_act-min-n"
+                                             }
+                                          ]
+                                       },
+                                       {
+                                          "name": "reverse",
+                                          "params": [
+                                             {
+                                                "name": "io",
+                                                "value": "levels_rd-min-n"
+                                             }
+                                          ]
+                                       }
+                                    ]
+                                 },
+                                 {
+                                    "name": "reverse",
+                                    "params": [
+                                       {
+                                          "name": "io",
+                                          "value": "levels_ox-min-n"
+                                       }
+                                    ]
+                                 }
+                              ]
+                           },
+                           {
+                              "name": "conststr",
+                              "value": "!="
+                           },
+                           {
+                              "name": "const",
+                              "value": "1"
+                           }
+                        ],
+                        "blocks": [
+                           {
+                              "name": "sleep",
+                              "params": [
+                                 {
+                                    "name": "const",
+                                    "value": "2"
+                                 }
+                              ]
+                           }
+                        ]
+                     },
+                     {
+                        "name": "io",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "ventilation"
+                           },
+                           {
+                              "name": "const",
+                              "value": "1"
+                           }
+                        ]
+                     },
+                     {
+                        "name": "sleep",
+                        "params": [
+                           {
+                              "name": "const",
+                              "value": "10"
+                           }
+                        ]
+                     },
+                     {
+                        "name": "io",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "ventilation"
+                           },
+                           {
+                              "name": "const",
+                              "value": "0"
+                           }
+                        ]
+                     }
+                  ],
+                  "endBlocks": [
+                     {
+                        "name": "io",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "res-act"
+                           },
+                           {
+                              "name": "const",
+                              "value": "0"
+                           }
+                        ]
+                     },
+                     {
+                        "name": "io",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "res-ox"
+                           },
+                           {
+                              "name": "const",
+                              "value": "0"
+                           }
+                        ]
+                     },
+                     {
+                        "name": "io",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "res-rd"
+                           },
+                           {
+                              "name": "const",
+                              "value": "0"
+                           }
+                        ]
+                     }
+                  ]
+               }
+            ]
+         },
+         {
+            "name": "emptying-reactives",
+            "profileRequired": false,
+            "watchdogConditions": [
+               {
+                  "gateName": "emergency_stop",
+                  "gateValue": 1,
+                  "startOnly": false,
+                  "result": false
+               },
+               {
+                  "gateName": "air_sensor",
+                  "gateValue": 1,
+                  "startOnly": false,
+                  "result": false
+               },
+               {
+                  "gateName": "cover_closed",
+                  "gateValue": 1,
+                  "startOnly": false,
+                  "result": false
+               },
+               {
+                  "gateName": "levels_eff-max-n",
+                  "gateValue": 1,
+                  "startOnly": false,
+                  "result": false
+               },
+               {
+                  "gateName": "eff_container_sensor",
+                  "gateValue": 1,
+                  "startOnly": false,
+                  "result": false
+               }
+            ],
+            "steps": [
+               {
+                  "name": "emptying-reactives",
+                  "duration": {
+                     "name": "const",
+                     "value": "-1"
+                  },
+                  "isEnabled": {
+                     "name": "const",
+                     "value": "1"
+                  },
+                  "startBlocks": [
+                     {
+                        "name": "io",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "res-ox"
+                           },
+                           {
+                              "name": "const",
+                              "value": "1"
+                           }
+                        ]
+                     },
+                     {
+                        "name": "io",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "res-rd"
+                           },
+                           {
+                              "name": "const",
+                              "value": "1"
+                           }
+                        ]
+                     }
+                  ],
+                  "blocks": [
+                     {
+                        "name": "while",
+                        "params": [
+                           {
+                              "name": "multiply",
+                              "params": [
+                                 {
+                                    "name": "reverse",
+                                    "params": [
+                                       {
+                                          "name": "io",
+                                          "value": "levels_rd-min-n"
+                                       }
+                                    ]
+                                 },
+                                 {
+                                    "name": "reverse",
+                                    "params": [
+                                       {
+                                          "name": "io",
+                                          "value": "levels_ox-min-n"
+                                       }
+                                    ]
+                                 }
+                              ]
+                           },
+                           {
+                              "name": "conststr",
+                              "value": "!="
+                           },
+                           {
+                              "name": "const",
+                              "value": "1"
+                           }
+                        ],
+                        "blocks": [
+                           {
+                              "name": "sleep",
+                              "params": [
+                                 {
+                                    "name": "const",
+                                    "value": "2"
+                                 }
+                              ]
+                           }
+                        ]
+                     },
+                     {
+                        "name": "io",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "ventilation"
+                           },
+                           {
+                              "name": "const",
+                              "value": "1"
+                           }
+                        ]
+                     },
+                     {
+                        "name": "sleep",
+                        "params": [
+                           {
+                              "name": "const",
+                              "value": "10"
+                           }
+                        ]
+                     },
+                     {
+                        "name": "io",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "ventilation"
+                           },
+                           {
+                              "name": "const",
+                              "value": "0"
+                           }
+                        ]
+                     }
+                  ],
+                  "endBlocks": [
+                     {
+                        "name": "io",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "res-ox"
+                           },
+                           {
+                              "name": "const",
+                              "value": "0"
+                           }
+                        ]
+                     },
+                     {
+                        "name": "io",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "res-rd"
+                           },
+                           {
+                              "name": "const",
+                              "value": "0"
+                           }
+                        ]
+                     }
+                  ]
+               }
+            ]
+         },
+         {
+            "name": "emptying-activator",
+            "profileRequired": false,
+            "watchdogConditions": [
+               {
+                  "gateName": "emergency_stop",
+                  "gateValue": 1,
+                  "startOnly": false,
+                  "result": false
+               },
+               {
+                  "gateName": "air_sensor",
+                  "gateValue": 1,
+                  "startOnly": false,
+                  "result": false
+               },
+               {
+                  "gateName": "cover_closed",
+                  "gateValue": 1,
+                  "startOnly": false,
+                  "result": false
+               },
+               {
+                  "gateName": "levels_eff-max-n",
+                  "gateValue": 1,
+                  "startOnly": false,
+                  "result": false
+               },
+               {
+                  "gateName": "eff_container_sensor",
+                  "gateValue": 1,
+                  "startOnly": false,
+                  "result": false
+               }
+            ],
+            "steps": [
+               {
+                  "name": "emptying-activator",
+                  "duration": {
+                     "name": "const",
+                     "value": "-1"
+                  },
+                  "isEnabled": {
+                     "name": "const",
+                     "value": "1"
+                  },
+                  "startBlocks": [
+                     {
+                        "name": "io",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "res-act"
+                           },
+                           {
+                              "name": "const",
+                              "value": "1"
+                           }
+                        ]
+                     }
+                  ],
+                  "blocks": [
+                     {
+                        "name": "while",
+                        "params": [
+                           {
+                              "name": "reverse",
+                              "params": [
+                                 {
+                                    "name": "io",
+                                    "value": "levels_act-min-n"
+                                 }
+                              ]
+                           },
+                           {
+                              "name": "conststr",
+                              "value": "!="
+                           },
+                           {
+                              "name": "const",
+                              "value": "1"
+                           }
+                        ],
+                        "blocks": [
+                           {
+                              "name": "sleep",
+                              "params": [
+                                 {
+                                    "name": "const",
+                                    "value": "2"
+                                 }
+                              ]
+                           }
+                        ]
+                     },
+                     {
+                        "name": "io",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "ventilation"
+                           },
+                           {
+                              "name": "const",
+                              "value": "1"
+                           }
+                        ]
+                     },
+                     {
+                        "name": "sleep",
+                        "params": [
+                           {
+                              "name": "const",
+                              "value": "10"
+                           }
+                        ]
+                     },
+                     {
+                        "name": "io",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "ventilation"
+                           },
+                           {
+                              "name": "const",
+                              "value": "0"
+                           }
+                        ]
+                     }
+                  ],
+                  "endBlocks": [
+                     {
+                        "name": "io",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "res-act"
+                           },
+                           {
+                              "name": "const",
+                              "value": "0"
+                           }
+                        ]
+                     }
+                  ]
                }
             ]
          }

@@ -7,8 +7,15 @@ import { matchers } from 'jest-json-schema';
 
 expect.extend(matchers);
 
+interface Specs {
+    model: string;
+    variant: string;
+    revision: string;
+    file: string;
+}
+
 let files = fs.readdirSync(path.resolve("data"), { withFileTypes: true });
-let filesToCheck: string[] = [];
+let filesToCheck: Specs[] = [];
 
 for(const f of files.filter(f => f.isDirectory()))
 {
@@ -24,7 +31,12 @@ for(const f of files.filter(f => f.isDirectory()))
 
             for(const f4 of files4.filter(f4 => f4.isFile() && f4.name == "specs.json"))
             {
-                filesToCheck.push(path.resolve("data", f.name, f2.name, f3.name, "specs.json"));
+                filesToCheck.push({
+                    model: f.name,
+                    variant: f2.name,
+                    revision: f3.name,
+                    file: path.resolve("data", f.name, f2.name, f3.name, "specs.json")
+                });
             }
         }
     }
@@ -32,7 +44,8 @@ for(const f of files.filter(f => f.isDirectory()))
 
 for(const file of filesToCheck)
 {
-    it('validating ' + file, () => {
-        expect(JSON.parse(fs.readFileSync(file, {encoding: "utf-8"}))).toMatchSchema(fileSchema);
+    const json = JSON.parse(fs.readFileSync(file.file, {encoding: "utf-8"}))
+    it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' (' + file.file + ')', () => {
+        expect(json).toMatchSchema(fileSchema);
     });
 }

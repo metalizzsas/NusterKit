@@ -3751,6 +3751,14 @@
             "steps": [
                {
                   "name": "container-cleaning",
+                  "duration": {
+                     "name": "const",
+                     "value": "-1"
+                  },
+                  "isEnabled": {
+                     "name": "const",
+                     "value": "1"
+                  },
                   "startBlocks": [
                      {
                         "name": "io",
@@ -3972,6 +3980,14 @@
             "steps": [
                {
                   "name": "emptying-reactives",
+                  "duration": {
+                     "name": "const",
+                     "value": "-1"
+                  },
+                  "isEnabled": {
+                     "name": "const",
+                     "value": "1"
+                  },
                   "startBlocks": [
                      {
                         "name": "io",
@@ -4153,6 +4169,14 @@
             "steps": [
                {
                   "name": "emptying-activator",
+                  "duration": {
+                     "name": "const",
+                     "value": "-1"
+                  },
+                  "isEnabled": {
+                     "name": "const",
+                     "value": "1"
+                  },
                   "startBlocks": [
                      {
                         "name": "io",

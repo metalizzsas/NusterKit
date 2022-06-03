@@ -2136,7 +2136,6 @@
                   },
                   "duration": {
                      "name": "multiply",
-                     "value": "0",
                      "params": [
                         {
                            "name": "profile",
@@ -2144,11 +2143,32 @@
                         },
                         {
                            "name": "add",
-                           "value": "0",
                            "params": [
                               {
-                                 "name": "profile",
-                                 "value": "metalization.timeOn"
+                                 "name": "multiply",
+                                 "params": [
+                                    {
+                                       "name": "profile",
+                                       "value": "metalization.timeOn"
+                                    },
+                                    {
+                                       "name": "add",
+                                       "params": [
+                                          {
+                                             "name": "profile",
+                                             "value": "met-nozzles.met-high"
+                                          },
+                                          {
+                                             "name": "profile",
+                                             "value": "met-nozzles.met-medium"
+                                          },
+                                          {
+                                             "name": "profile",
+                                             "value": "met-nozzles.met-low"
+                                          }
+                                       ]
+                                    }
+                                 ]
                               },
                               {
                                  "name": "profile",

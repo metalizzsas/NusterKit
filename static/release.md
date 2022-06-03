@@ -1,4 +1,6 @@
 # **1.2.1**
 
-- Ehanced machine list
-- Ehanced machine IP storage
+- Cycle: Ehanced display
+  - Unsigned steps now have no percentage shown
+  - splitted default cycle and secondary cycles
+- Head: Removed reload option

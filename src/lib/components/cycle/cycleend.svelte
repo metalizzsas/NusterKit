@@ -29,7 +29,7 @@
 	});
 
 	async function patchCycle() {
-		await fetch('/' + $Linker + '/api/v1/cycle/' + rating, {
+		await fetch('//' + $Linker + '/api/v1/cycle/' + rating, {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',
@@ -44,7 +44,7 @@
 	<div class="flex flex-col gap-4">
 		<section class="flex flex-row bg-white align-middle items-center rounded-xl">
 			<div class="p-4">
-				{#if $machineData.cycle?.status.endReason != 'ended'}
+				{#if $machineData.cycle?.status.endReason != 'finished'}
 					<svg
 						id="glyphicons-basic"
 						xmlns="http://www.w3.org/2000/svg"
@@ -71,10 +71,10 @@
 				{/if}
 			</div>
 
-			<p class=" text-gray-800 flex flex-col gap-1 font-semibold py-2">
-				{$_('cycle.end.cycle-ended')}
+			<p class=" text-gray-800 flex flex-col py-2">
+				<span class="font-semibold">{$_('cycle.end.cycle-ended')}</span>
 				{#if $machineData.cycle?.status.startDate && $machineData.cycle?.status.endDate}
-					<span class="text-italic font-normal">
+					<span class="text-italic">
 						{$_('cycle.end.cycle-duration')} : {$time(
 							$machineData.cycle?.status.endDate -
 								$machineData.cycle?.status.startDate,
@@ -82,17 +82,15 @@
 						)}
 					</span>
 				{/if}
-				<span class="text-base text-italic font-normal">
+				<span class="font-semibold">
 					{$_('cycle.endreasons.' + $machineData.cycle?.status.endReason)}
 				</span>
 			</p>
 		</section>
 		<section class="rounded-xl p-4 bg-white text-gray-800 font-semibold">
-			<div class="text-center mb-1">{$_('cycle.end.cycle-rating-lead')}</div>
+			<p class="mb-1">{$_('cycle.end.cycle-rating-lead')}</p>
 			<p class="font-normal">
 				{$_('cycle.end.cycle-rating-text')}
-			</p>
-			<p class="font-normal mt-1">
 				{$_('cycle.end.cycle-rating-text2')}
 			</p>
 		</section>

@@ -110,6 +110,7 @@
   "cycle": {
     "button": "Cycle",
     "presets": "Constructor defined cycles",
+    "presets-anex": "Secondary constructor cycles",
     "user": "User defined cycles",
     "name": "Cycles",
     "choice.message": "Choose a cycle to begin",

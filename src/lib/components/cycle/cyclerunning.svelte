@@ -29,7 +29,7 @@
 	</div>
 
 	{#if $machineData.cycle}
-		{#each $machineData.cycle.steps as s}
+		{#each $machineData.cycle.steps.filter((s) => s.isEnabled.data == 1) as s}
 			<div
 				class="bg-zinc-700 text-white font-semibold p-3 rounded-xl flex flex-row gap-4 justify-between items-center"
 			>
@@ -47,10 +47,12 @@
 								?.data || '?'}
 						</span>
 					{/if}
-
-					<span class="bg-white rounded-full px-2 py-1 text-gray-800 text-xs">
-						{Math.ceil(s.progress * 100) > 99 ? '100' : Math.ceil(s.progress * 100)} %
-					</span>
+					{#if s.duration.value != '-1'}
+						<span class="bg-white rounded-full px-2 py-1 text-gray-800 text-xs">
+							{Math.ceil(s.progress * 100) > 99 ? '100' : Math.ceil(s.progress * 100)}
+							%
+						</span>
+					{/if}
 					<div class="rounded-full p-1 bg-white self-center">
 						{#if s.state == 'waiting'}
 							<svg

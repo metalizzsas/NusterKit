@@ -105,6 +105,7 @@
     "button": "Cycle",
     "name": "Cycles",
     "presets": "Cycles contructeur",
+    "presets-anex": "Cycles constructeur secondaires",
     "user": "Cycles utilisateur",
     "steps.title": "Étapes du cycle.",
     "types": {

@@ -4,7 +4,6 @@
 	import { _ } from 'svelte-i18n';
 	import { Linker } from '$lib/utils/linker';
 	import Round from '../round.svelte';
-	import { flip } from 'svelte/animate';
 
 	let displayWatchdogError = false;
 

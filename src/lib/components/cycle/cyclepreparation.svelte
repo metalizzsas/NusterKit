@@ -2,6 +2,7 @@
 	import { machineData } from '$lib/utils/store';
 	import { Linker } from '$lib/utils/linker';
 	import { _ } from 'svelte-i18n';
+	import Cyclelabel from './cyclelabel.svelte';
 
 	function prepareCycle(cycleType: string, profileID: string) {
 		fetch('//' + $Linker + '/api/v1/cycle/' + cycleType + '/' + profileID, {
@@ -18,68 +19,76 @@
 </script>
 
 <div>
-	<div id="cycleTypeChooser">
-		<span
-			class="font-semibold text-white rounded-full py-1 px-3 my-2 bg-indigo-400 inline-block"
-		>
-			{$_('cycle.presets')}
-		</span>
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
-			{#each cyclePremades as ct, index}
-				<div
-					class="bg-indigo-900 text-white p-2 flex flex-col items-center justify-center rounded-xl transition-all font-semibold"
-					on:click={() => prepareCycle(ct.cycle, ct.profile)}
+	<div class="flex flex-col gap-4">
+		{#if cyclePremades.filter((c) => c.cycle == 'default').length > 0}
+			<section>
+				<span
+					class="font-semibold text-white rounded-full py-1 px-3 bg-indigo-400 inline-block"
 				>
-					<div class="flex flex-row gap-4 items-center justify-items-start w-full">
-						<!-- svelte-ignore a11y-missing-attribute -->
-						<img
-							src="//{$Linker}/api/assets/cycle/{ct.name}.png"
-							class="w-10 aspect-square bg-white rounded-full"
-						/>
-						<div class="text-md">{$_('cycle.types.' + ct.name)}</div>
-					</div>
+					{$_('cycle.presets')}
+				</span>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-2">
+					{#each cyclePremades.filter((c) => c.cycle == 'default') as ct, index}
+						<Cyclelabel {ct} />
+					{/each}
 				</div>
-			{/each}
-		</div>
+			</section>
+		{/if}
+		{#if cyclePremades.filter((c) => c.cycle != 'default').length > 0}
+			<section>
+				<span
+					class="font-semibold text-white rounded-full py-1 px-3 bg-indigo-400 inline-block"
+				>
+					{$_('cycle.presets-anex')}
+				</span>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-2">
+					{#each cyclePremades.filter((c) => c.cycle != 'default') as ct, index}
+						<Cyclelabel {ct} />
+					{/each}
+				</div>
+			</section>
+		{/if}
 
 		{#if $machineData.profiles.filter((p) => p.isPremade == false).length > 0}
-			<span
-				class="font-semibold bg-indigo-400 rounded-full py-1 px-3 mb-2 mt-5 text-white inline-block"
-			>
-				{$_('cycle.user')}
-			</span>
+			<section>
+				<span
+					class="font-semibold bg-indigo-400 rounded-full py-1 px-3 text-white inline-block"
+				>
+					{$_('cycle.user')}
+				</span>
 
-			<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
-				{#each cycleTypes.filter((k) => k.profileRequired) as ct}
-					{#each $machineData.profiles.filter((p) => p.identifier == ct.name && p.isPremade == false) as p, index}
-						<div
-							class="bg-indigo-500 text-white p-2 flex flex-col items-center justify-center rounded-xl transition-all font-semibold"
-							on:click={() => prepareCycle(ct.name, p.id)}
-						>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-2">
+					{#each cycleTypes.filter((k) => k.profileRequired) as ct}
+						{#each $machineData.profiles.filter((p) => p.identifier == ct.name && p.isPremade == false) as p, index}
 							<div
-								class="flex flex-row gap-4 items-center justify-items-start w-full"
+								class="bg-indigo-500 text-white p-2 flex flex-col items-center justify-center rounded-xl transition-all font-semibold"
+								on:click={() => prepareCycle(ct.name, p.id)}
 							>
-								<svg
-									id="glyphicons-basic"
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 32 32"
-									class="w-10 aspect-square fill-white"
+								<div
+									class="flex flex-row gap-4 items-center justify-items-start w-full"
 								>
-									<path
-										id="user"
-										d="M27,24.23669V27a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V24.23669a1.57806,1.57806,0,0,1,.93115-1.36462L10.0672,20.167A5.02379,5.02379,0,0,0,14.55273,23h1.89454a5.02336,5.02336,0,0,0,4.48535-2.83313l5.13623,2.7052A1.57806,1.57806,0,0,1,27,24.23669ZM9.64478,14.12573a2.99143,2.99143,0,0,0,1.31073,1.462l.66583,3.05176A2.99994,2.99994,0,0,0,14.55237,21h1.89526a2.99994,2.99994,0,0,0,2.931-2.36047l.66583-3.05176a2.99115,2.99115,0,0,0,1.31073-1.462l.28-.75146A1.2749,1.2749,0,0,0,21,11.62988V9c0-3-2-5-5.5-5S10,6,10,9v2.62988a1.2749,1.2749,0,0,0-.63519,1.74439Z"
-									/>
-								</svg>
+									<svg
+										id="glyphicons-basic"
+										xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 32 32"
+										class="w-10 aspect-square fill-white"
+									>
+										<path
+											id="user"
+											d="M27,24.23669V27a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V24.23669a1.57806,1.57806,0,0,1,.93115-1.36462L10.0672,20.167A5.02379,5.02379,0,0,0,14.55273,23h1.89454a5.02336,5.02336,0,0,0,4.48535-2.83313l5.13623,2.7052A1.57806,1.57806,0,0,1,27,24.23669ZM9.64478,14.12573a2.99143,2.99143,0,0,0,1.31073,1.462l.66583,3.05176A2.99994,2.99994,0,0,0,14.55237,21h1.89526a2.99994,2.99994,0,0,0,2.931-2.36047l.66583-3.05176a2.99115,2.99115,0,0,0,1.31073-1.462l.28-.75146A1.2749,1.2749,0,0,0,21,11.62988V9c0-3-2-5-5.5-5S10,6,10,9v2.62988a1.2749,1.2749,0,0,0-.63519,1.74439Z"
+										/>
+									</svg>
 
-								<div class="flex flex-col">
-									<div class="text-md">{p.name}</div>
-									<div class="text-xs">{$_('cycle.names.' + ct.name)}</div>
+									<div class="flex flex-col">
+										<div class="text-md">{p.name}</div>
+										<div class="text-xs">{$_('cycle.names.' + ct.name)}</div>
+									</div>
 								</div>
 							</div>
-						</div>
+						{/each}
 					{/each}
-				{/each}
-			</div>
+				</div>
+			</section>
 		{/if}
 	</div>
 </div>

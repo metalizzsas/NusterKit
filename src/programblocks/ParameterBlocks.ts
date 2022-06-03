@@ -107,7 +107,8 @@ export class AdditionParameterBlock extends ParameterBlock
 
     public data(): number
     {
-        return (this.params[0].data() as number) + (this.params[1].data() as number);
+        return this.params.reduce((acc, p) => acc + (p.data() as number), 0);
+        //return (this.params[0].data() as number) + (this.params[1].data() as number);
     }
 }
 
@@ -120,7 +121,8 @@ export class MultiplyParameterBlock extends ParameterBlock
 
     public data(): number
     {
-        return (this.params[0].data() as number) * (this.params[1].data() as number);
+        return this.params.reduce((acc, p) => acc * (p.data() as number), 1);
+        //return (this.params[0].data() as number) * (this.params[1].data() as number);
     }
 }
 

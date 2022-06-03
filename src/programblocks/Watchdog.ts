@@ -44,6 +44,9 @@ export class WatchdogCondition implements IWatchdogCondition
             //ignore its result
             this.result = (this.startOnly && this.pbr.status.mode != PBRMode.CREATED) ? true : tmp;
 
+            if(process.env.NODE_ENV !== "production")
+                this.result = true;
+
             if(process.env.NODE_ENV == "production")
             {
                 if(this.result && !this.canStartLog)

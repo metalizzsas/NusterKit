@@ -78,7 +78,10 @@ export class ProgramBlockStep implements IProgramStep
         this.pbrInstance.machine.logger.info(`${this.name}: Started step.`);
         this.state = ProgramStepState.STARTED;
 
-        this.stepOvertimeTimer = setTimeout(() => { this.pbrInstance.end("stepOvertime"); this.pbrInstance.machine.logger.error(`${this.name}: Step has been too long. Triggering stepOvertime.`); }, (this.duration.data() as number) * 2000);
+        if(this.duration.data() != -1)
+        {
+            this.stepOvertimeTimer = setTimeout(() => { this.pbrInstance.end("stepOvertime"); this.pbrInstance.machine.logger.error(`${this.name}: Step has been too long. Triggering stepOvertime.`); }, (this.duration.data() as number) * 2000);
+        }
 
         this.startTime = Date.now();
 
@@ -160,11 +163,15 @@ export class ProgramBlockStep implements IProgramStep
     get progress()
     {
         let progress = 0;
-            switch(this.state)
+
+        //precalculate progress
+        switch(this.state)
+        {
+            case ProgramStepState.STARTED:
             {
-                case ProgramStepState.STARTED:
+                if(this.startTime)
                 {
-                    if(this.startTime)
+                    if(this.duration.data() != -1)
                     {
                         progress = parseFloat(((Date.now() - this.startTime) / ((this.duration.data() as number) * 1000)).toFixed(2));
                         progress = (progress >= 1 ? 1 : progress);
@@ -172,33 +179,40 @@ export class ProgramBlockStep implements IProgramStep
                     }
                     else
                     {
-                        progress = 0;
+                        progress = -1;
                         break;
                     }
                 }
-                case ProgramStepState.STOPPED:
+                else
                 {
                     progress = 0;
                     break;
                 }
-                case ProgramStepState.COMPLETED || ProgramStepState.PARTIAL:
-                {
-                    progress = (this.type == ProgramStepType.SINGLE) ? 1 : 0;
-                    break;
-                }
-                default: {
-                    progress = 0;
-                    break;
-                }
             }
-            if((this.type == ProgramStepType.MULTIPLE) && this.runAmount)
+            case ProgramStepState.STOPPED:
             {
-                return ((1 * progress) / (this.runAmount.data() as number)) + ((this.runCount || 0) / (this.runAmount.data() as number))
+                progress = 0;
+                break;
             }
-            else
+            case ProgramStepState.COMPLETED || ProgramStepState.PARTIAL:
             {
-                return progress;
+                progress = (this.type == ProgramStepType.SINGLE) ? 1 : 0;
+                break;
             }
+            default: {
+                progress = 0;
+                break;
+            }
+        }
+        
+        if((this.type == ProgramStepType.MULTIPLE) && this.runAmount)
+        {
+            return ((1 * progress) / (this.runAmount.data() as number)) + ((this.runCount || 0) / (this.runAmount.data() as number))
+        }
+        else
+        {
+            return progress;
+        }
     }
     public resetTimes()
     {

@@ -290,6 +290,10 @@ export class StartTimerProgramBlock extends ProgramBlock
     }
 
     public async execute(): Promise<void> {
+
+        if(this.pbrInstance.status.mode == PBRMode.ENDED)
+            return;
+
         const tN = this.params[0].data() as string;
         const tI = this.params[1].data() as number;
 
@@ -314,13 +318,19 @@ export class StopTimerProgramBlock extends ProgramBlock
     public async execute(): Promise<void> {
         const tN = this.params[0].data() as string;
 
-        const timer = this.pbrInstance.timers.find((t) => t.name == tN);
+        const timerIndex = this.pbrInstance.timers.findIndex((t) => t.name == tN);
+        const timer = this.pbrInstance.timers.at(timerIndex);
 
         if(timer && timer.enabled)
         {
             clearInterval(timer.timer);
             timer.enabled = false;
+            this.pbrInstance.timers.splice(timerIndex, 1); // remove timer from pbr instance
             this.pbrInstance.machine.logger.info("StopTimerBlock: Will stop timer with name: " + tN);
+        }
+        else
+        {
+            this.pbrInstance.machine.logger.warn("StopTimerBlock: Timer " + tN + " has not been found, ignoring.");
         }
     }
 }

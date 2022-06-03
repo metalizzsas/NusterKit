@@ -181,6 +181,18 @@ export class ProgramBlockRunner implements IProgram
         if(this.currentStepIndex < this.steps.length)
         {
             this.machine.logger.error(`PBR: Program ended before all steps were executed.`);
+
+            //Removing 1 to runCount because the step was stopped before its end
+            const s = this.steps.at(this.currentStepIndex)
+            if(s !== undefined)
+            {
+                if(s.type == ProgramStepType.MULTIPLE && s.runCount !== undefined)
+                {
+                    this.machine.logger.error(`PBR: Last executed step was a multiple step. Removing 1 multiple step iteration.`);
+                    s.runCount--;
+                }
+            }
+
         }
 
         if(this.watchdogConditions.length > 0)
@@ -195,11 +207,12 @@ export class ProgramBlockRunner implements IProgram
         //clearing timers
         if(this.timers.length > 0)
         {
-            this.machine.logger.warn("PBR: Cleaning timers.");
-            for(const timer of this.timers.filter(t => t.enabled))
+            this.machine.logger.info("PBR: Cleaning timers.");
+            for(const timer of this.timers)
             {
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                clearInterval(timer.timer!);
+                this.machine.logger.info("PBR: Clearing timer: " + timer.name);
+                if(timer.timer !== undefined)
+                    clearInterval(timer.timer);
             }
         }
 
@@ -208,7 +221,6 @@ export class ProgramBlockRunner implements IProgram
         {
             g.write(this.machine.ioController, g.default);
         }
-        
         
         const m = this.machine.maintenanceController.tasks.find((m) => m.name == "cycleCount");
         m?.append(1);

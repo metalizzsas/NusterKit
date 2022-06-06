@@ -110,7 +110,7 @@
 			}}
 		>
 			<img
-				src="/icons/pwa-512.png"
+				src="/icons/pwa-192.png"
 				alt="logo nuster"
 				class="w-8 h-8 shadow-sm rounded-md hover:rotate-[2deg] transition-all duration-500"
 			/>

@@ -77,7 +77,7 @@
 	<div
 		class="flex flex-row gap-3 items-center bg-gradient-to-br from-indigo-500 to-indigo-600 p-4 rounded-xl"
 	>
-		<img src="/icons/pwa-512.png" class="h-8 w-8 rounded-md" alt="logo nuster" />
+		<img src="/icons/pwa-192.png" class="h-8 w-8 rounded-md" alt="logo nuster" />
 		<h1 class="text-xl text-white align-middle">
 			Nuster <span class="text-sm">/ {$_('machinelist')}</span>
 		</h1>

@@ -1,14 +1,25 @@
 <script lang="ts">
+	import { BUNDLED } from '$lib/bundle';
 	import { useRegisterSW } from 'virtual:pwa-register/svelte';
 
-	const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW({
-		onRegistered(swr) {
-			console.log(`SW registered: ${swr}`);
-		},
-		onRegisterError(error) {
-			console.log('SW registration error', error);
-		},
-	});
+	var offlineReady: any = null;
+	var needRefresh: any = null;
+	var updateServiceWorker: any = null;
+
+	if (BUNDLED != true) {
+		const regsw = useRegisterSW({
+			onRegistered(swr) {
+				console.log(`SW registered: ${swr}`);
+			},
+			onRegisterError(error) {
+				console.log('SW registration error', error);
+			},
+		});
+
+		offlineReady = regsw.offlineReady;
+		needRefresh = regsw.needRefresh;
+		updateServiceWorker = regsw.updateServiceWorker;
+	}
 
 	function close() {
 		offlineReady.set(false);
@@ -18,7 +29,7 @@
 	$: toast = $offlineReady || $needRefresh;
 </script>
 
-{#if toast && window.location.host != '127.0.0.1'}
+{#if toast && BUNDLED != 'true'}
 	<div class="pwa-toast" role="alert">
 		<div class="message">
 			{#if $offlineReady}

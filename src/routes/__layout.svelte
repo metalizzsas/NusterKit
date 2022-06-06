@@ -26,9 +26,9 @@
 	});
 
 	onMount(async () => {
-		!dev &&
-			browser &&
-			(ReloadPrompt = (await import('$lib/components/ReloadPrompt.svelte')).default);
+		if (!dev && browser && BUNDLED != 'true') {
+			ReloadPrompt = (await import('$lib/components/ReloadPrompt.svelte')).default;
+		}
 	});
 </script>
 

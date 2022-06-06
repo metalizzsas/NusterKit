@@ -62,8 +62,6 @@
 
 			const protocol = window.location.protocol == 'https:' ? 'wss' : 'ws';
 
-			console.log('protocol to be used:', protocol);
-
 			ws = new WebSocket(protocol + '://' + $Linker + '/ws/');
 
 			const result = await new Promise<boolean>((resolve) => {

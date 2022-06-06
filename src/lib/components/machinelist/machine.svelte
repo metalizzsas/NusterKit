@@ -28,7 +28,13 @@
 	let editMenuShown = false;
 	let deletePromptShown = false;
 
-	onMount(async () => {
+	$: $machineList, fetchStatus();
+
+	onMount(() => {
+		fetchStatus();
+	});
+
+	const fetchStatus = async () => {
 		try {
 			const status = await fetch('//' + machine.ip + '/api/ws');
 
@@ -37,7 +43,7 @@
 		} catch (ex) {
 			machineAvailable = machineStatus.OFFLINE;
 		}
-	});
+	};
 
 	const login = async () => {
 		localStorage.setItem('ip', machine.ip);

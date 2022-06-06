@@ -1,6 +1,6 @@
 {
 	"name": "nuster-desktop",
-	"version": "1.2.4",
+	"version": "1.2.5",
 	"private": true,
 	"description": "Nuster Desktop",
 	"main": "",
@@ -10,8 +10,8 @@
 	"scripts": {
 		"clean": "rm -rf ./node_modules/ && rm package-lock.json && npm i",
 		"dev": "svelte-kit dev --port 3001 --host",
-		"build": "svelte-kit build && node pwa.js",
-		"build-bundle": "svelte-kit build",
+		"build": "svelte-kit build",
+		"build-desktop": "svelte-kit build && node pwa.js",
 		"preview": "svelte-kit preview"
 	},
 	"dependencies": {

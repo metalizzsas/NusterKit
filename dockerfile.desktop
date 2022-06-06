@@ -10,7 +10,7 @@ COPY ./ ./
 
 ENV VITE_BUNDLED=false
 
-RUN npm run build
+RUN npm run build-desktop
 
 FROM nginx:latest
 

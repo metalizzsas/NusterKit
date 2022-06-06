@@ -10,7 +10,7 @@ COPY ./ ./
 
 ENV VITE_BUNDLED=true
 
-RUN npm run build-bundle
+RUN npm run build
 
 FROM nginx:latest
 

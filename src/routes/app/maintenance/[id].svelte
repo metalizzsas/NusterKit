@@ -89,9 +89,8 @@
 					{#if procedureIndex == index}
 						<div>
 							<img
-								src="//{$Linker}/assets/maintenance/{maintenance.name}/{step.images[
-									procedureImageIndex
-								]}"
+								src="//{$Linker}/api/assets/maintenance/{maintenance.name}/{step
+									.images[procedureImageIndex]}"
 								alt="procedure"
 								class="shrink-0 transition-all"
 							/>

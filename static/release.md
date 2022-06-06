@@ -1,6 +1,3 @@
-# **1.2.1**
+# 1.2.4
 
-- Cycle: Ehanced display
-  - Unsigned steps now have no percentage shown
-  - splitted default cycle and secondary cycles
-- Head: Removed reload option
+- Protocol: Now uses Websockets over TLS if the remote is using TLS

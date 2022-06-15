@@ -70,16 +70,10 @@
       "emptying-reactives": "Vidange réactifs",
       "container-cleaning": "Nettoyage conteneurs"
     },
-    "modals": {
-      "watchdog": {
-        "title": "Erreur de sécurité",
-        "message": "Le cycle ne peux pas démarrer. Une erreur de conditions de démarrage est présente."
-      }
-    },
     "steps": {
       "start": {
         "name": "Démarrage",
-        "desc": "Démarrage du cycle."
+        "desc": "Démarrage du cycle, préchauffe de l'air comprimé."
       },
       "activation": {
         "name": "Activation",
@@ -125,6 +119,21 @@
         "name": "Vidage réactifs",
         "desc": "Vidange des conteneurs de réactifs"
       }
+    },
+    "startconditions": {
+      "emergency_stop": "Bouton d'arret d'urgence",
+      "cover_closed": "Couvercle fermé",
+      "air_sensor": "Pression d'air comprimé",
+      "eff_container_sensor": "Réservoir d'effluents présent",
+      "levels_eff-max-n": "Niveau d'effluent",
+      "level_edi-min-n": "Niveau eau désionisée",
+      "level_act-min-n": "Niveau activant",
+      "level_rd-min-n": "Niveau réducteur",
+      "level_ox-min-n": "Niveau oxydant",
+      "maintenance-filter": "Filtre machine",
+      "oxydiser-life": "Durée de vie oxydant",
+      "activator-life": "Durée de vie activant",
+      "reducer-life": "Durée de vie réducteur"
     }
   },
   "gates": {

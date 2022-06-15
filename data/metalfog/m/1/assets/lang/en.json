@@ -77,13 +77,11 @@
       "emptying-activator": "Emptying activator",
       "emptying-reactives": "Emptying reactives"
     },
-    "modals": {
-      "watchdog": {
-        "title": "Security chain error",
-        "message": "Cycle can't start. There is a security chain error."
-      }
-    },
     "steps": {
+      "start": {
+        "name": "Start",
+        "desc": "Starting the cycle, preheating air."
+      },
       "activation": {
         "name": "Activation",
         "desc": "Activating parts surface."
@@ -128,6 +126,21 @@
         "name": "Emptying reactives",
         "desc": "Emptying reactives containers"
       }
+    },
+    "startconditions": {
+      "emergency_stop": "Emergency stop button",
+      "cover_closed": "Cover closed",
+      "air_sensor": "Air pressure",
+      "eff_container_sensor": "Waste container present",
+      "levels_eff-max-n": "Waste level",
+      "level_edi-min-n": "DI Water level",
+      "level_act-min-n": "Activator level",
+      "level_rd-min-n": "Reducer level",
+      "level_ox-min-n": "Oxydiser level",
+      "maintenance-filter": "Machine filter",
+      "oxydiser-life": "Oxydiser state",
+      "activator-life": "Activator state",
+      "reducer-life": "Reducer state"
     }
   },
   "gates": {

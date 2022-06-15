@@ -2,6 +2,8 @@ version: "2"
 
 volumes: 
   nuster-data:
+  mongodb:
+  nuster-kiosk:
   
 services:
   mongodb:
@@ -9,7 +11,7 @@ services:
     restart: always
     network_mode: host
     volumes: 
-      - 'nuster-data:/data'
+      - mongodb:/data
 
   nuster-turbine:
     image: ghcr.io/metalizzsas/nusterturbine:main
@@ -17,7 +19,7 @@ services:
     depends_on: 
       - "mongodb"
     volumes:
-      - 'nuster-data:/data'
+      - nuster-data:/data
     environment:
       DISABLE_AUTH: 'true'
     labels:
@@ -48,7 +50,7 @@ services:
       WINDOW_SIZE: 1024, 600
       #FLAGS: "--overscroll-history-navigation=0 --user-data-dir=/data/chromium-user-data"
     volumes:
-      - 'nuster-data:/data'
+      - nuster-kiosk:/data
 
   wifi-connect:
     image: bh.cr/balenablocks/wifi-connect

@@ -9,7 +9,7 @@ export interface IConfigMaintenance extends IMaintenance
 export interface IMaintenance
 {
     name: string;
-    duration: number;
+    duration?: number;
     operationDate?: number;
 }
 
@@ -22,5 +22,5 @@ export interface IMaintenanceProcedure
 export interface IMaintenanceProcedureStep
 {
     name: string;
-    images: string[];
+    media: string[]
 }

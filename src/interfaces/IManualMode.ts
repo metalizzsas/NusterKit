@@ -5,7 +5,7 @@ export interface IManualMode
     name: string,
     controls: {
         name: string;
-        analogScaleDependant: boolean;
+        analogScaleDependant?: boolean;
     }[],
     incompatibility: string[],
     watchdog?: IManualWatchdogCondition[]

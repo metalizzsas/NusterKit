@@ -1,10 +1,10 @@
 import { IProgramBlock } from "./IProgramBlock";
 import { IProgramStep } from "./IProgramStep";
-import { IWatchdogCondition } from "./IWatchdogCondition";
+import { IPBRStartCondition } from "./programblocks/startchain/IPBRStartCondition";
 
 export interface IPBRStatus
 {
-    mode: PBRMode,
+    mode: EPBRMode,
     
     startDate?: number,
     endDate?: number,
@@ -21,15 +21,16 @@ export interface IProgram
 
     currentStepIndex?: number;
 
-    variables: IProgramVariable[];
-    timers: IProgramTimer[];
-
-    status: IPBRStatus;
+    variables?: IProgramVariable[];
+    timers?: IProgramTimer[];
+    status?: IPBRStatus;
+    
     steps: IProgramStep[];
-    watchdogConditions: IWatchdogCondition[];
+
+    startConditions: IPBRStartCondition[];
 }
 
-export enum PBRMode
+export enum EPBRMode
 {
     CREATED = "created",
     STARTED = "started",
@@ -51,5 +52,5 @@ export interface IProgramTimer
     name: string;
     enabled: boolean;
     blocks: IProgramBlock[];
-    timer: NodeJS.Timer;
+    timer?: NodeJS.Timer;
 }

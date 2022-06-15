@@ -3,7 +3,7 @@ import { IIOHandler } from "./IIOHandler";
 import { IConfigMaintenance } from "./IMaintenance";
 import { IManualMode } from "./IManualMode";
 import { IPassive } from "./IPassive";
-import { IProfileSkeleton, IProfile } from "./IProfile";
+import { IProfile, IProfileSkeleton } from "./IProfile";
 import { IProgram } from "./IProgramBlockRunner";
 import { IConfigSlot } from "./ISlot";
 

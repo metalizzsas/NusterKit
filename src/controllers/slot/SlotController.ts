@@ -6,13 +6,12 @@ import { Request, Response } from "express";
 
 export class SlotController extends Controller
 {
-    private machine: Machine
-
-    private slots: Slot[] = []
+    private machine: Machine;
+    slots: Slot[] = [];
 
     constructor(machine: Machine)
     {
-        super()
+        super();
 
         this.machine = machine;
 
@@ -34,50 +33,29 @@ export class SlotController extends Controller
          * List all avalables slots fo this machine
          */
         this._router.get('/', async (req: Request, res: Response) => {
-            res.json(this.slots);
+            res.json(await this.socketData());
         });
 
-        /** 
-         * Load a product into this slot
-         */
-        this._router.post('/:name', async (req: Request, res: Response) => {
+        this.router.post("/:slot/load", async (req: Request, res: Response) => {
+            const slot = this.machine.slotController.slots.find(s => s.name == req.params.slot);
 
-            const targetSlot = this.slots.findIndex((slot) => slot.name == req.params.name)
-
-            if(targetSlot > -1)
+            if(slot)
             {
-                const result = await this.slots[targetSlot].loadSlot(req.body);
-
-                res.status(result ? 200 : 400).end();
-                return;
+                await slot.loadSlot();
+                res.end("ok");
             }
             else
             {
-                res.status(404).end();
-                return;
-            }
-        });
-
-        this._router.delete('/:name', async (req: Request, res: Response) => {
-
-            const targetSlot = this.slots.findIndex((slot) => slot.name == req.params.name);
-
-            if(targetSlot > -1)
-            {
-                const result = await this.slots[targetSlot].unloadSlot();
-
-                res.status(result ? 200 : 400).end();
-                return;
-            }
-            else
-            {
-                res.status(404).end();
-                return;
+                res.status(404).end("slot not found");
             }
         });
     }
-    public get socketData()
+    async socketData()
     {
-        return this.slots;
+        const data: any[] = [];
+        for(const s of this.slots){
+            data.push(await s.socketData());
+        }
+        return data;
     }
 }

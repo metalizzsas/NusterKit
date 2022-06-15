@@ -5,7 +5,7 @@ import { ProgramBlockRunner } from "./ProgramBlockRunner";
 export class ParameterBlock extends Block implements IParameterBlock
 {
     name: EParameterBlockName;
-    value: string;
+    value = "";
     params: ParameterBlock[] = [];
 
     constructor(instance: ProgramBlockRunner, obj: IParameterBlock)
@@ -13,7 +13,7 @@ export class ParameterBlock extends Block implements IParameterBlock
         super(instance);
 
         this.name = obj.name;
-        this.value = obj.value;
+        this.value = obj.value ?? "";
 
         for(const p of obj.params ?? [])
         {
@@ -191,6 +191,58 @@ export class ConditionalParameterBlock extends ParameterBlock
     }
 }
 
+export class SlotLifetimeParameterBlock extends ParameterBlock
+{
+    constructor(instance: ProgramBlockRunner, obj: IParameterBlock)
+    {
+        super(instance, obj);
+    }
+
+    public data(): number
+    {
+        const sN = this.params[0].data() as string;
+        return this.pbrInstance.machine.slotController.slots.find(s => s.name == sN)?.productData?.lifetimeProgress ?? 0;
+    }
+}
+
+export class MaintenanceProgressParameterBlock extends ParameterBlock
+{
+    constructor(instance: ProgramBlockRunner, obj: IParameterBlock)
+    {
+        super(instance, obj);
+    }
+
+    public data(): number {
+        return this.pbrInstance.machine.maintenanceController.tasks.find(t => t.name == this.value)?.durationProgress ?? 0;
+    }
+}
+
+//Slot status shall only be used for startConditions
+export class SlotProductStatusParameterBlock extends ParameterBlock 
+{
+    constructor(instance: ProgramBlockRunner, obj: IParameterBlock)
+    {
+        super(instance, obj);
+    }
+
+    public data(): string
+    {
+        const slot = this.pbrInstance.machine.slotController.slots.find(s => s.name == this.value);
+
+        if(slot && slot.productData?.lifetimeRemaining !== undefined)
+        {
+            if(slot.productData.lifetimeRemaining > 0)
+                return "good";
+            else
+                return "warning";
+        }
+        else
+        {
+            return "error";
+        }
+    }
+}
+
 /**
  * Defines Parameter block properly from configuration object
  * @param pbrInstance PBRInstance to attach blocks to it
@@ -210,6 +262,9 @@ export function ParameterBlockRegistry(pbrInstance: ProgramBlockRunner, obj: IPa
         case EParameterBlockName.REVERSE: return new ReverseParameterBlock(pbrInstance, obj);
         case EParameterBlockName.CONDITIONAL: return new ConditionalParameterBlock(pbrInstance, obj);
         case EParameterBlockName.VARIABLE: return new VariableParameterBlock(pbrInstance, obj);
+        case EParameterBlockName.SLOTLIFE: return new SlotLifetimeParameterBlock(pbrInstance, obj);
+        case EParameterBlockName.SLOTSTATUS: return new SlotProductStatusParameterBlock(pbrInstance, obj);
+        case EParameterBlockName.MAINTENANCEPROGRESS: return new MaintenanceProgressParameterBlock(pbrInstance, obj);
 
         default: {
             pbrInstance.machine.logger.warn(`Block ${obj.name} is not a defined block`);

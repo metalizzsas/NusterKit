@@ -9,6 +9,7 @@ export interface IProgramBlock
     executed?: boolean;
 }
 
+
 export enum EProgramBlockName {
     FOR = "for",
     WHILE = "while",
@@ -20,5 +21,7 @@ export enum EProgramBlockName {
     VARIABLE = "variable",
     STARTTIMER = "startTimer",
     STOPTIMER = "stopTimer",
-    GROUP = "group"
+    GROUP = "group",
+    SLOTLOAD = "slotLoad",
+    SLOTUNLOAD = "slotUnload",
 }

@@ -42,8 +42,8 @@ export class Maintenance implements IConfigMaintenance
 
         if(doc != undefined)
         {
-            this.duration = doc.duration;
-            this.durationProgress = Math.ceil(Math.floor((this.duration / this.durationLimit) * 100));
+            this.duration = doc.duration ?? 0;
+            this.durationProgress = Math.floor((this.duration / this.durationLimit));
             this.operationDate = doc.operationDate
         }
         else
@@ -60,6 +60,7 @@ export class Maintenance implements IConfigMaintenance
         if(doc)
         {
             await MaintenanceModel.findOneAndUpdate({name: this.name}, {$inc: {"duration": value}});
+            await this.refresh();
         }
     }
 

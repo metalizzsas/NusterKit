@@ -313,4 +313,16 @@ process.on("SIGTERM", async () => {
             await g.write(nt.machine.ioController, g.default);
         }
     }
+
+    if(nt.wsServer)
+    {
+        for(const ws of nt.wsServer.clients)
+        {
+            ws.send(JSON.stringify({
+                type: "close",
+                message: "dispatch-close-event"
+            }));
+            ws.close();
+        }
+    }
 });

@@ -40,9 +40,12 @@ export class ProfileController extends Controller {
             }
             else
             {
-                const k: IProfile = {...p, values: new Map<string, number>()};
+
+                //Converting profile.values from Object to Map
+                const values = (p.values as unknown as ({[x: string]:number}));
+
+                const k: IProfile = {...p, values: new Map<string, number>(Object.entries(values))};
     
-                k.values = new Map(Object.entries(p.values));
                 const converted = structuredClone(this.convertProfile(k));
     
                 this.profilePremades.push(converted);
@@ -128,8 +131,13 @@ export class ProfileController extends Controller {
 
             const profile = this.retreiveProfile(p);
             
-            await ProfileModel.findByIdAndUpdate(profile.id, profile);
-            res.status(200).end();
+            ProfileModel.findByIdAndUpdate(profile.id, profile, {}, (err) => {
+
+                if(err)
+                    res.status(402).end("not ok");
+                else
+                    res.status(200).end("ok");
+            });
         });
 
         this.machine.authManager.registerEndpointPermission("profiles.delete", {endpoint: new RegExp("/v1/profiles/.*", "g"), method: "delete"});
@@ -203,7 +211,7 @@ export class ProfileController extends Controller {
                 f.value = profile.values.get(fg.name + "#" + f.name) ?? f.value;
             }
         }
-
+        
         return exportable;
     }
 

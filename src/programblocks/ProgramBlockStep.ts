@@ -1,4 +1,4 @@
-import { PBRMode } from "../interfaces/IProgramBlockRunner";
+import { EPBRMode } from "../interfaces/IProgramBlockRunner";
 import { IProgramStep, ProgramStepState, ProgramStepType, ProgramStepResult } from "../interfaces/IProgramStep";
 import { ParameterBlock, ParameterBlockRegistry } from "./ParameterBlocks";
 import { ProgramBlockRunner } from "./ProgramBlockRunner";
@@ -69,7 +69,7 @@ export class ProgramBlockStep implements IProgramStep
             return ProgramStepResult.END;
         }
 
-        if(this.pbrInstance.status.mode == PBRMode.ENDED)
+        if(this.pbrInstance.status.mode == EPBRMode.ENDED)
         {
             this.pbrInstance.machine.logger.warn(`${this.name}: Tried to execute step while cycle ended.`);
             return ProgramStepResult.FAILED;

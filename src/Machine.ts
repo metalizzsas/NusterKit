@@ -145,16 +145,17 @@ export class Machine {
     {
         const profiles = await this.profileController.socketData();
         const maintenances = await this.maintenanceController.socketData();
+        const slot = await this.slotController.socketData();
 
         return {
             "machine": this.toJSON(),
             "cycle": this.cycleController.socketData,
-            "slots": this.slotController.socketData,
+            "slots": slot,
+            "profiles": profiles,
             "io": this.ioController.socketData[0],
             "handlers": this.ioController.socketData[1],
             "passives": this.passiveController.socketData,
             "manuals": this.manualmodeController.socketData,
-            "profiles": profiles,
             "maintenances": maintenances
         }
     }

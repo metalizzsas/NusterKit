@@ -13,7 +13,7 @@ export interface IProfile
     removable: boolean;
     overwriteable: boolean;
 
-    values: Map<string, number>
+    values: Map<string, number>;
 }
 
 export interface IProfileSkeleton

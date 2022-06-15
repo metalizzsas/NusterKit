@@ -7,7 +7,7 @@ import { ProfileModel } from "../profile/Profile";
 import { ProgramHistoryModel } from "./ProgramHistory";
 import { ProgramBlockRunner } from "../../programblocks/ProgramBlockRunner";
 import { IProfile } from "../../interfaces/IProfile";
-import { PBRMode } from "../../interfaces/IProgramBlockRunner";
+import { EPBRMode } from "../../interfaces/IProgramBlockRunner";
 
 export class CycleController extends Controller {
 
@@ -56,7 +56,7 @@ export class CycleController extends Controller {
         });
         this.machine.authManager.registerEndpointPermission("cycle.list", {endpoint: "/v1/cycle/custom", method: "get"});
 
-        //restart cycle, put it there beacause it conflicts with the POST /:name/:id? route
+        //restart cycle, put it there because it conflicts with the POST /:name/:id? route
         this._router.post("/restart/:history_id", async (req: Request, res: Response) => {
 
             const history = await ProgramHistoryModel.findById(req.params.history_id);
@@ -103,7 +103,7 @@ export class CycleController extends Controller {
         //prepare the cycle
         this._router.post("/:name/:id?", async (req: Request, res: Response) => {
 
-            let profile = undefined;
+            let profile: IProfile | undefined = undefined;
 
             if(req.params.id)
             {
@@ -129,12 +129,21 @@ export class CycleController extends Controller {
                     return;
                 }
             }
+            //if the api gets a profile in the body, use it.
+            else if(req.body && req.body.values !== undefined && req.body.name !== undefined && req.body.skeleton !== undefined)
+            {
+                profile = (req.body as IProfile);
+            }
+            else
+            {
+                this.machine.logger.info("CR: Request does not give a profile");
+            }
             
             const cycle = this.machine.specs.cycles.types.find((ip) => ip.name == req.params.name);
 
             if(cycle)
             {
-                this.machine.logger.info("PBR assigned");
+                this.machine.logger.info("CR: PBR assigned");
                 this.program = new ProgramBlockRunner(this.machine, cycle, profile);
 
                 if(this.program.profileRequired && profile !== undefined)
@@ -163,12 +172,6 @@ export class CycleController extends Controller {
 
         this.machine.authManager.registerEndpointPermission("cycle.run", {endpoint: new RegExp("/v1/cycle/.*", "g"), method: "post"});
 
-        this._router.post("/:name", async (req: Request, res: Response) => {
-            res.end("Not implemented");
-        });
-
-        this.machine.authManager.registerEndpointPermission("cycle.run", {endpoint: "/v1/cycle/", method: "post"});
-
         //start the cycle
         this._router.put("/", async (req: Request, res: Response) => {
             if(this.program !== undefined)
@@ -190,10 +193,10 @@ export class CycleController extends Controller {
         this._router.patch("/:rating", async (req: Request, res: Response) => {
             if(this.program)
             {
-                if(this.program.status.mode == PBRMode.ENDED || PBRMode.STOPPED || PBRMode.CREATED)
+                if(this.program.status.mode == EPBRMode.ENDED || EPBRMode.STOPPED || EPBRMode.CREATED)
                 {
                     //do not save the history if the program was just created and never started
-                    if(this.program.status.mode != PBRMode.CREATED)
+                    if(this.program.status.mode != EPBRMode.CREATED)
                     {
                         await ProgramHistoryModel.create({
                             rating: parseInt(req.params.rating) || 0,

@@ -5,7 +5,7 @@ import { ManualWatchdogCondition } from "./ManualModeWatchdog";
 export class ManualMode implements IManualMode
 {
     name: string;
-    controls: {name: string, analogScaleDependant: boolean}[];
+    controls: {name: string, analogScaleDependant?: boolean}[];
     incompatibility: string[];
     watchdog: ManualWatchdogCondition[] = [];
     analogScale?: {min: number, max: number};

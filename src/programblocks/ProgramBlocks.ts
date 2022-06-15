@@ -1,5 +1,5 @@
 import { EProgramBlockName, IProgramBlock } from "../interfaces/IProgramBlock";
-import { PBRMode } from "../interfaces/IProgramBlockRunner";
+import { EPBRMode } from "../interfaces/IProgramBlockRunner";
 import { Block } from "./Block";
 import { ParameterBlock, ParameterBlockRegistry } from "./ParameterBlocks";
 import { ProgramBlockRunner } from "./ProgramBlockRunner";
@@ -79,7 +79,7 @@ export class ForLoopProgramBlock extends ProgramBlock implements IForLoopProgram
 
         for(; this.currentIteration < (lC); this.currentIteration++)
         {
-            if(this.pbrInstance.status.mode == PBRMode.ENDED)
+            if(this.pbrInstance.status.mode == EPBRMode.ENDED)
             {
                 this.executed = (this.currentIteration + 1 == (lC));
                 return;
@@ -119,7 +119,7 @@ export class WhileLoopProgramBlock extends ProgramBlock
     {
         while(this.operators[this.params[1].data() as string](this.params[0].data() as number, this.params[2].data() as number))
         {
-            if(this.pbrInstance.status.mode == PBRMode.ENDED)
+            if(this.pbrInstance.status.mode == EPBRMode.ENDED)
             {
                 this.executed = true;
                 return;
@@ -203,7 +203,7 @@ export class SleepProgramBlock extends ProgramBlock
 
         for(let i = 0; i < ((sT * 1000) / 10); i++)
         {
-            if(this.pbrInstance.status.mode != PBRMode.ENDED)
+            if(this.pbrInstance.status.mode != EPBRMode.ENDED)
                 await new Promise(resolve => {
                     setTimeout(resolve, 10);
                 });
@@ -291,7 +291,7 @@ export class StartTimerProgramBlock extends ProgramBlock
 
     public async execute(): Promise<void> {
 
-        if(this.pbrInstance.status.mode == PBRMode.ENDED)
+        if(this.pbrInstance.status.mode == EPBRMode.ENDED)
             return;
 
         const tN = this.params[0].data() as string;
@@ -321,7 +321,7 @@ export class StopTimerProgramBlock extends ProgramBlock
         const timerIndex = this.pbrInstance.timers.findIndex((t) => t.name == tN);
         const timer = this.pbrInstance.timers.at(timerIndex);
 
-        if(timer && timer.enabled)
+        if(timer && timer.timer && timer.enabled)
         {
             clearInterval(timer.timer);
             timer.enabled = false;
@@ -352,6 +352,36 @@ export class GroupProgramBlock extends ProgramBlock
     }
 }
 
+export class SlotLoadProgramBlock extends ProgramBlock
+{
+    constructor(pbrInstance: ProgramBlockRunner, obj: IProgramBlock)
+    {
+        super(pbrInstance, obj);
+    }
+
+    public async execute(): Promise<void> {
+        const sN = this.params[0].data() as string;
+        this.pbrInstance.machine.logger.info("SlotLoadBlock: Will load slot with name: " + sN);
+
+        this.pbrInstance.machine.slotController.slots.find(s => s.name == sN)?.loadSlot();
+    }
+}
+
+export class SlotUnloadProgramBlock extends ProgramBlock
+{
+    constructor(pbrInstance: ProgramBlockRunner, obj: IProgramBlock)
+    {
+        super(pbrInstance, obj);
+    }
+
+    public async execute(): Promise<void> {
+        const sN = this.params[0].data() as string;
+        this.pbrInstance.machine.logger.info("SlotUnloadBlock: Will unload slot with name: " + sN);
+
+        this.pbrInstance.machine.slotController.slots.find(s => s.name == sN)?.unloadSlot();
+    }
+}
+
 export function ProgramBlockRegistry(pbrInstance: ProgramBlockRunner, obj: IProgramBlock)
 {
     switch(obj.name)
@@ -367,6 +397,8 @@ export function ProgramBlockRegistry(pbrInstance: ProgramBlockRunner, obj: IProg
         case EProgramBlockName.STARTTIMER: return new StartTimerProgramBlock(pbrInstance, obj);
         case EProgramBlockName.STOPTIMER: return new StopTimerProgramBlock(pbrInstance, obj);
         case EProgramBlockName.GROUP: return new GroupProgramBlock(pbrInstance, obj);
+        case EProgramBlockName.SLOTLOAD: return new SlotLoadProgramBlock(pbrInstance, obj);
+        case EProgramBlockName.SLOTUNLOAD: return new SlotUnloadProgramBlock(pbrInstance, obj);
 
         default: {
             pbrInstance.machine.logger.warn("Program block " + obj.name + " is not defined properly.");

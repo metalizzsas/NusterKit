@@ -4,7 +4,8 @@ import { IProfile } from "../../interfaces/IProfile";
 import { IProgramBlock } from "../../interfaces/IProgramBlock";
 import { IProgram, IPBRStatus } from "../../interfaces/IProgramBlockRunner";
 import { IProgramStep } from "../../interfaces/IProgramStep";
-import { IWatchdogCondition } from "../../interfaces/IWatchdogCondition";
+import { IPBRSCCheckChain } from "../../interfaces/programblocks/startchain/IPBRSCCheckChain";
+import { IPBRStartCondition } from "../../interfaces/programblocks/startchain/IPBRStartCondition";
 import { IForLoopProgramBlock } from "../../programblocks/ProgramBlocks";
 import { ProfileSchema } from "../profile/Profile";
 
@@ -60,11 +61,20 @@ const ProgramStepSchema = new Schema<IProgramStep>({
     endBlocks: [ProgramBlockSchema],
 });
 
-const WatchdogConditionSchema = new Schema<IWatchdogCondition>({
-    gateName: {type: String, required: true},
-    gateValue: {type: Number, required: true},
+const PBRSCCheckChainSchema = new Schema<IPBRSCCheckChain>({
+    name: {type: String, required: true},
+
+    parameter: ParameterBlockSchema,
+    io: {
+        gateName: {type: String},
+        gateValue: {type: String}
+    }
+});
+
+const PBRStartConditionSchema = new Schema<IPBRStartCondition>({
+    conditionName: {type: String, required: true},
     startOnly: {type: Boolean, required: true},
-    result: {type: Boolean, required: true, default: false}
+    checkChain: {type: PBRSCCheckChainSchema, required: true}
 });
 
 const ProgramSchema = new Schema<IProgram>({
@@ -77,7 +87,7 @@ const ProgramSchema = new Schema<IProgram>({
 
     steps: {type: [ProgramStepSchema], required: true},
 
-    watchdogConditions: {type: [WatchdogConditionSchema], required: true}
+    startConditions: {type: [PBRStartConditionSchema], required: true}
 });
 
 const ProgramHistorySchema = new Schema<IProgramHistory>({

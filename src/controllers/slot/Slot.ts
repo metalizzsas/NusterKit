@@ -1,170 +1,110 @@
-import { Schema, model } from "mongoose";
-import { ISlotSensor, IConfigSlot } from "../../interfaces/ISlot";
+import { EProductSeries, ICallToAction, IConfigSlot, ISlotProductOptions, ISlotSensor } from "../../interfaces/ISlot";
 import { IOController } from "../io/IOController";
-
-export interface ISlot{
-    name: string;
-    product?: IProduct;
-}
-
-interface IProduct
-{
-    serial: string; // product serial number
-
-    name: string; // product name
-    series: ProductSeries; // product series
-
-    lifetime: number; // lifetime in month
-    lifecycle: number; //lifetime while loaded
-
-    expirationdate: number; // expiration date
-}
-
-enum ProductSeries{
-    LookLikeChromium = "llc",
-    UtilitySilver = "usl",
-    Topcoat = "tc",
-    Basecoat = "bc",
-    WaxRemover = "wr",
-    ResinCleaner = "rc"
-}
-
-const ProductSchema = new Schema<IProduct>({
-    serial: { type: String, required: true },
-    name: { type: String, required: true },
-    series: { type: String, required: true },
-    lifetime: { type: Number, required: true },
-    lifecycle: { type: Number, required: true },
-    expirationdate: { type: Number, required: true }
-});
-
-const SlotSchema = new Schema<ISlot>({
-    name: { type: String, required: true },
-    product: ProductSchema
-});
-
-const SlotModel = model('slot', SlotSchema);
-
-class SlotSensor implements ISlotSensor
-{
-    io: string;
-    type: string;
-    val: number;
-
-    private ioController: IOController;
-
-    constructor(slot: ISlotSensor, iomgr: IOController)
-    {
-        this.ioController = iomgr;
-
-        this.io = slot.io;
-        this.type = slot.type;
-        this.val = 0;
-    }
-
-    get value(): number
-    {
-        return this.ioController.gFinder(this.io)?.value ?? 0;
-    }
-
-    toJSON() 
-    {
-        return {
-            io: this.io,
-            type: this.type,
-            value: this.value
-        }
-    }
-}
+import { SlotModel } from "./SlotModel";
+import { SlotSensor } from "./SlotSensor";
 
 export class Slot implements IConfigSlot
 {
     name: string;
     type: string;
-    isProductable: boolean;
 
     sensors: ISlotSensor[];
+    callToAction: ICallToAction[];
 
-    product?: IProduct;
+    productOptions?: ISlotProductOptions;
+
+    productData?: { productSeries: EProductSeries, loadDate: Date, lifetimeProgress: number, lifetimeRemaining: number };
 
     constructor(slot: IConfigSlot, ioMgr: IOController)
     {
         this.name = slot.name;
         this.type = slot.type;
-        this.isProductable = slot.isProductable;
+        
+        this.sensors = slot.sensors.map(s => new SlotSensor(this, s, ioMgr));
+        this.callToAction = slot.callToAction ?? [];
 
-        this.sensors = slot.sensors.map(s => new SlotSensor(s, ioMgr));
-
-        if(this.isProductable)
-        {
-            this._configureSlot();
-        }
+        this.productOptions = slot.productOptions;
     }
 
-    /**
-     * Creates slot into mongodb if it is productable
-     */
-    private async _configureSlot()
+    async loadSlot(productSeries?: EProductSeries): Promise<boolean>
     {
-        const slot = await SlotModel.findOne({name: this.name});
+        const slot = await SlotModel.findOne({ name: this.name });
 
-        if(slot == null)
+        if(slot && this.productOptions)
         {
-            const newSlot: ISlot = {
-                name: this.name
+            slot.productSeries = productSeries ?? this.productOptions.defaultProductSeries;
+            slot.loadDate = new Date();
+
+            await slot.save();
+        }
+        else if(this.productOptions)
+        {
+            const newTrackedSlot = new SlotModel({
+                name: this.name,
+                productSeries: productSeries ?? this.productOptions.defaultProductSeries,
+            });
+
+            await newTrackedSlot.save();
+        }
+        else
+        {
+            console.log("Failed to load slot");
+        }
+        return true;
+    }
+
+    async unloadSlot()
+    {
+        const slot = await SlotModel.findOne({ name: this.name });
+
+        if(slot)
+        {
+            await slot.delete();
+        }
+        return true;
+    }
+    
+    async fetchSlotData()
+    {
+        const slot = await SlotModel.findOne({ name: this.name });
+
+        if(slot && this.productOptions)
+        {
+            const limitTime = slot.loadDate.getTime() + 1000 * 60 * 60 * 24 * this.productOptions.lifespan;
+
+            //Avoid negative values
+            let lifetimeProgress = 1 - (Date.now() / limitTime);
+            lifetimeProgress = lifetimeProgress < 0 ? 0 : lifetimeProgress;
+
+            let lifetimeRemaining = (limitTime) - Date.now();
+            lifetimeRemaining = lifetimeRemaining < 0 ? 0 : lifetimeRemaining;
+
+            this.productData = { productSeries: slot.productSeries, 
+                loadDate: slot.loadDate, 
+                lifetimeProgress: lifetimeProgress,
+                lifetimeRemaining: lifetimeRemaining
             };
-
-            await SlotModel.create(newSlot);
-        }
-    }
-
-    /**
-     * loads this slot with a product
-     * @param product {IProduct} 
-     */
-    public async loadSlot(product: IProduct): Promise<boolean>
-    {
-        const slot = await SlotModel.find({name: this.name});
-
-        if(slot != undefined)
-        {
-            await SlotModel.findOneAndUpdate({name: this.name}, {product: product});
-
-            return true;
         }
         else
         {
-            //TODO: log the fact that the slot is missing in database but this should never happen
-            return false;
+            this.productData = undefined;
         }
     }
 
-    public async unloadSlot(): Promise<boolean>
+    async isProductLoaded(): Promise<boolean>
     {
-        const slot = await SlotModel.find({name: this.name});
-
-        if(slot != undefined)
-        {
-            await SlotModel.findOneAndUpdate({name: this.name}, {$unset: {product: ""}});
-            return true;
-        }
-        else
-        {
-            //TODO: log the fact that the slot is missing in database but this should never happen
-            return false;
-        }
+        const doc = await SlotModel.findOne({ name: this.name });
+        return doc != null;
     }
-    /**
-     * get product loaded in this slot
-     */
-    public async productLoaded(): Promise<IProduct | null>
+
+    get isProductable(): boolean
     {
-        if(!this.isProductable)
-            return null;
-        else
-        {
-            const slot = await SlotModel.findOne({name: this.name});
-            return (slot?.product) ? slot.product! : null;
-        }
+        return this.productOptions !== undefined;
+    }
+
+    async socketData()
+    {
+        await this.fetchSlotData();
+        return { ...this, isProductable: this.isProductable, productData: this.productData };
     }
 }

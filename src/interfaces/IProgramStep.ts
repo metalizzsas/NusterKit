@@ -5,12 +5,12 @@ import { IProgramBlock } from "./IProgramBlock";
 export interface IProgramStep
 {
     name: string;
-
-    state: ProgramStepState;
-    type: ProgramStepType;
     
     isEnabled: IParameterBlock;
     duration: IParameterBlock;
+
+    state?: ProgramStepState;
+    type?: ProgramStepType;
 
     startTime?: number;
     endTime?: number;

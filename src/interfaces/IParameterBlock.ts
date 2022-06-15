@@ -1,11 +1,9 @@
 export interface IParameterBlock
 {
     name: EParameterBlockName;
-    value: string;
-
+    
+    value?: string;
     params?: IParameterBlock[]
-
-    data(): unknown
 }
 
 export enum EParameterBlockName
@@ -19,4 +17,7 @@ export enum EParameterBlockName
     REVERSE = "reverse",
     CONDITIONAL = "conditional",
     VARIABLE = "variable",
+    SLOTLIFE = "slotlife",
+    SLOTSTATUS = "slotstatus",
+    MAINTENANCEPROGRESS = "maintenance"
 }

@@ -3,11 +3,11 @@ import { IOExplorer } from "../controllers/io/IOExplorer";
 import { ProfileExplorer } from "../controllers/profile/ProfileExplorer";
 import { EIOGateBus } from "../interfaces/gates/IIOGate";
 import { IProfile } from "../interfaces/IProfile";
-import { IProgram, IPBRStatus, IProgramVariable, IProgramTimer, PBRMode } from "../interfaces/IProgramBlockRunner";
+import { IProgram, IPBRStatus, IProgramVariable, IProgramTimer, EPBRMode } from "../interfaces/IProgramBlockRunner";
 import { ProgramStepResult, ProgramStepType } from "../interfaces/IProgramStep";
 import { Machine } from "../Machine";
 import { ProgramBlockStep } from "./ProgramBlockStep";
-import { WatchdogCondition } from "./Watchdog";
+import { PBRStartCondition } from "./startchain/PBRStartCondition";
 
 export class ProgramBlockRunner implements IProgram
 {
@@ -23,7 +23,8 @@ export class ProgramBlockRunner implements IProgram
     
     //Inside definers
     steps: ProgramBlockStep[] = [];
-    watchdogConditions: WatchdogCondition[] = [];
+
+    startConditions: PBRStartCondition[] = [];
 
     //internals
     currentStepIndex = 0;
@@ -43,7 +44,7 @@ export class ProgramBlockRunner implements IProgram
     
     constructor(machine: Machine, object: IProgram, profile?: IProfile)
     {
-        this.status = { mode: PBRMode.CREATED };
+        this.status = { mode: EPBRMode.CREATED };
 
         this.machine = machine;
 
@@ -58,6 +59,9 @@ export class ProgramBlockRunner implements IProgram
         if(object.variables)
             this.variables = object.variables;
 
+        if(object.timers)
+            this.timers = object.timers;
+
         this.profile = profile;
 
         if(this.profile === undefined)
@@ -69,12 +73,11 @@ export class ProgramBlockRunner implements IProgram
         this.name = object.name;
 
         //Explorers setup
-        
         this.ioExplorer = new IOExplorer(machine.ioController);
 
         //steps and watchdog
-        for(const watchdog of object.watchdogConditions)
-            this.watchdogConditions.push(new WatchdogCondition(this, watchdog));
+        for(const sc of object.startConditions)
+            this.startConditions.push(new PBRStartCondition(sc, this));
 
         for(const step of object.steps)
             this.steps.push(new ProgramBlockStep(this, step));
@@ -89,19 +92,32 @@ export class ProgramBlockRunner implements IProgram
 
     public async run()
     {
-        this.machine.logger.info("PBR: Checking Watchdog Conditions");
+        this.machine.logger.info("PBRSC: Checking Start conditions.");
 
-        const w = this.watchdogConditions.filter((watchdog) => watchdog.result == false);
+        const sc = this.startConditions.filter((sc) => sc.canStart == false);
 
-        if(w.length > 0 && process.env.NODE_ENV == "production")
+        if(sc.length > 0 && process.env.NODE_ENV == "production")
         {
-            this.machine.logger.error("PBR: Watchdog conditions are not ok to start.");
+            this.machine.logger.error("PBRSC: Start conditions are not valid.");
             return;
+        }
+
+        this.machine.logger.info("PBRSC: Start conditions are valid.");
+        this.machine.logger.info("PBRSC: Removing Start conditions that are only used at start.");
+
+        for(const sc of this.startConditions)
+        {
+            const index = this.startConditions.indexOf(sc);
+            if(sc.startOnly && index != -1)
+            {
+                this.startConditions.splice(index, 1);
+                this.machine.logger.trace("PBRSC: Removed " + sc.conditionName);
+            }
         }
 
         this.machine.logger.info(`PBR: Started cycle ${this.name}.`);
 
-        this.status.mode = PBRMode.STARTED;
+        this.status.mode = EPBRMode.STARTED;
         this.status.startDate = Date.now();
 
         while(this.currentStepIndex < this.steps.length)
@@ -111,7 +127,7 @@ export class ProgramBlockRunner implements IProgram
             // TypeScriptCompiler is not able to understand that status.mode can be changed externally
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore: disabled overlap checking
-            if(this.status.mode != PBRMode.ENDED)
+            if(this.status.mode != EPBRMode.ENDED)
                 result = await this.steps[this.currentStepIndex].execute();
             else
                 break;
@@ -157,15 +173,15 @@ export class ProgramBlockRunner implements IProgram
             // TypeScriptCompiler is not able to understand that status.mode can be changed externally
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore: disabled overlap checking
-            if(this.status.mode != PBRMode.ENDED)
+            if(this.status.mode != EPBRMode.ENDED)
                 this.currentStepIndex++;
         }
 
         this.end();
-
         return true;
     }
 
+    //TODO: Integrate nextStep
     public nextStep()
     {
         //this.steps[this.currentStepIndex].end();
@@ -173,7 +189,7 @@ export class ProgramBlockRunner implements IProgram
 
     public end(reason?: string)
     {
-        if(this.status.mode == PBRMode.ENDED)
+        if(this.status.mode == EPBRMode.ENDED)
             return;
 
         this.machine.logger.warn("PBR: Triggered cycle end with reason: " + reason);
@@ -192,15 +208,14 @@ export class ProgramBlockRunner implements IProgram
                     s.runCount--;
                 }
             }
-
         }
 
-        if(this.watchdogConditions.length > 0)
+        if(this.startConditions.length > 0)
         {
-            this.machine.logger.info("PBR: Removing Watchdog checks.");
-            for(const w of this.watchdogConditions)
+            this.machine.logger.info("PBR: Removing Start Conditions checks.");
+            for(const sc of this.startConditions)
             {
-                w.stopTimer();
+                sc.stopTimer();
             }
         }
 
@@ -226,7 +241,7 @@ export class ProgramBlockRunner implements IProgram
         m?.append(1);
 
         this.status.endReason = reason || "finished";
-        this.status.mode = PBRMode.ENDED;
+        this.status.mode = EPBRMode.ENDED;
         this.status.endDate = Date.now();
         //TODO: Resorbs all timers and everything
         this.machine.logger.info(`PBR: Ended cycle ${this.name} with state: ${this.status.mode} and reason ${this.status.endReason}.`);
@@ -252,7 +267,7 @@ export class ProgramBlockRunner implements IProgram
             
             //Inside definers
             steps: this.steps,
-            watchdogConditions: this.watchdogConditions,
+            startConditions: this.startConditions,
 
             //internals
             currentStepIndex: this.currentStepIndex,

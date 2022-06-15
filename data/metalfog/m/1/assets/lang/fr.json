@@ -7,6 +7,31 @@
       "act": "Activant",
       "edi": "Eau désionisée",
       "eff": "Éffluents"
+    },
+    "colors": {
+      "act": "from-red-500 to-red-600",
+      "edi": "from-blue-800 to-blue-900",
+      "eff": "from-zinc-700 to-zinc-800",
+      "ox": "from-emerald-800 to-emerald-900",
+      "rd": "from-zinc-400 to-zinc-500"
+    },
+    "modal": {
+      "action":
+      {
+        "act": {
+          "dilution": "Chargement par dilution automatique",
+          "load": "Chargement manuel",
+          "emptying": "Vidange"
+        },
+        "ox": {
+          "load": "Chargement manuel",
+          "emptying": "Vidange réactifs"
+        },
+        "rd": {
+          "load": "Chargement manuel",
+          "emptying": "Vidange réactifs"
+        }
+      }
     }
   },
   "profile": {

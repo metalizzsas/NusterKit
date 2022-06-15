@@ -1,6 +1,5 @@
 {
   "slots": {
-    "name": "Conteneurs",
     "types": {
       "ox": "Oxydant",
       "rd": "Réducteur",

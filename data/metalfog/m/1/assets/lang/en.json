@@ -1,6 +1,5 @@
 {
   "slots": {
-    "name": "Containers",
     "types": {
       "ox": "Oxydiser",
       "rd": "Reducer",

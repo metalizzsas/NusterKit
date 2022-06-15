@@ -1,203 +1,239 @@
 {
-  "ok": "Ok",
-  "nok": "Ko",
-  "yes": "Oui ✓",
-  "no": "Non ✗",
-  "cancel": "Annuler",
-  "minutes": "Minutes",
-  "seconds": "Secondes",
-  "binary_true": "Vrai ✓",
-  "binary_false": "Faux ✗",
-  "present": "Présent ✓",
-  "missing": "Absent ✗",
-  "close-keyboard": "Fermer le clavier",
-  "connect": "Connexion",
-  "machinelist": "Liste des machines",
-  "machinelist-empty": "Rien n'as été trouvé ici! Ajoutez une machine ↗",
-  "machinelist-add": "Ajouter une machine",
-  
-  "loadingScreen": {
-    "connectionAttemptCount": "Essai de connection :",
-    "connectionError": "Erreur de connection, #ip n'est pas accessible.",
-    "retry": "Re-essayer",
-    "return": "Retour"
-  },
-  "machine": {
-    "informations": "Informations machine",
-    "model": "Modèle",
-    "variant": "Variante",
-    "revision": "Révision",
-    "serial": "Numéro de série",
-    "cycleCount": "Nombre de cycles",
-    "nusterVersion": "Version de nuster",
-    "balenaVersion": "Version de balena"
-  },
-  "procedures": "Procédures",
-  "slots": {
-    "name": "Conteneurs",
-    "product": "Produit ↗",
-    "sensors": {
-      "name": "Capteurs",
-      "types": {
-        "level-n": "Limite",
-        "level-min-n": "Limite min.",
-        "level-max-n": "Limite max.",
-        "level-np": "Présence",
-        "level-a": "Niveau",
-        "temperature": "Température"
-      }
+    "ok": "Ok",
+    "nok": "Ko",
+    "yes": "Oui ✓",
+    "no": "Non ✗",
+    "back": "Retour",
+    "cancel": "Annuler",
+    "binary_true": "Vrai ✓",
+    "binary_false": "Faux ✗",
+    "present": "Présent ✓",
+    "missing": "Absent ✗",
+    "close-keyboard": "Fermer le clavier",
+    "close-modal": "Fermer",
+    "connect": "Connexion",
+    "machinelist": "Liste des machines",
+    "machinelist-empty": "Rien n'as été trouvé ici! Ajoutez une machine ↗",
+    "machinelist-add": "Ajouter une machine",
+    "date": {
+        "days": "Jours",
+        "day": "jour",
+        "hours": "Heures",
+        "hour": "Heure",
+        "minutes": "Minutes",
+        "minute": "Minute",
+        "seconds": "Secondes",
+        "second": "Seconde"
+    },
+    "loadingScreen": {
+        "connectionAttemptCount": "Essai de connection :",
+        "connectionError": "Erreur de connection, #ip n'est pas accessible.",
+        "retry": "Re-essayer",
+        "return": "Retour"
+    },
+    "machine": {
+        "informations": "Informations machine",
+        "model": "Modèle",
+        "variant": "Variante",
+        "revision": "Révision",
+        "serial": "Numéro de série",
+        "cycleCount": "Nombre de cycles",
+        "nusterVersion": "Version de nuster",
+        "balenaVersion": "Version de balena"
+    },
+    "procedures": "Procédures",
+    "slots": {
+        "name": "Réservoirs",
+        "product": "Produit",
+        "product.done": "Périmé",
+        "sensors": {
+            "name": "Capteurs",
+            "types": {
+                "level-n": "Limite",
+                "level-min-n": "Limite min.",
+                "level-max-n": "Limite max.",
+                "level-np": "Présence",
+                "level-a": "Niveau",
+                "temperature": "Température"
+            }
+        },
+        "modal": {
+            "informations": "Informations",
+            "productSeries": "Série du produit",
+            "productLifetime": "Durée de vie",
+            "action": "Actions de réservoir"
+        }
+    },
+    "profile": {
+        "button": "Profils",
+        "list": "Liste des profils",
+        "modification-date": "Date de dernière modification",
+        "name": "Nom du profil",
+        "globals": "Informations globales",
+        "settings": "Réglages du profil",
+        "premades": {
+            "true": "Profils constructeur",
+            "false": "Profils utilisateur"
+        },
+        "buttons": {
+            "add": "Ajouter un nouveau profil"
+        },
+        "modals": {
+            "create": {
+                "title": "Nouveau profil",
+                "message": "Choisir le modèle de profil"
+            },
+            "copy": {
+                "title": "Copie du profil {profile.name}",
+                "message": "Choisissez un nouveau nom de profil pour {profile.name}"
+            },
+            "delete": {
+                "title": "Suppression de {profile.name}",
+                "message": "Souhaitez vous supprimer le profil {profile.name} ?"
+            },
+            "save": {
+                "title": "Sauvegarde {profile.name}",
+                "message": "Souhaitez vous sauvegarder {profile.name} ?"
+            }
+        },
+        "rows": {
+            "enabled": "Activé",
+            "speed": "Vitesse",
+            "duration": "Durée",
+            "count": "Nombre d'itérations",
+            "timeOn": "Temps activé",
+            "timeOff": "Temps désactivé"
+        }
+    },
+    "settings": {
+        "main": "Réglages",
+        "enable-dark-mode": "Mode sombre",
+        "language": "Langue",
+        "restart": "Redémarrer la machine",
+        "updateNotes": {
+            "main": "Notes de version",
+            "firmware": "Firmware",
+            "ui": "Interface utilisateur"
+        },
+        "updateGoing": {
+            "desc": "La mise à jour est en cours d'installation, merci de patienter quelques instants.",
+            "title": "Mise à jour"
+        },
+        "triggerUpdate": "Installer la mise à jour",
+        "updateGoing.title": "Mise à jour",
+        "updateGoing.desc": "Instalation de la mise à jour, merci de patienter...",
+        "updateProgress": "Téléchargement de la mise à jour",
+        "reload-nuster": "Recharger l'interface"
+    },
+    "cycle": {
+        "button": "Cycle",
+        "name": "Cycles",
+        "progression": "Progression",
+        "presets": "Cycles contructeur",
+        "presets-anex": "Cycles constructeur secondaires",
+        "user": "Cycles utilisateur",
+        "steps.title": "Étapes du cycle.",
+        "types": {
+            "custom": "Cycle customisé"
+        },
+        "endreasons": {
+            "user": "Fin utilisateur",
+            "finished": "Terminé avec succès",
+            "stepOvertime": "Une etape du cycle as mis trop de temps a se terminer. Un comportement étrange de la machine peu etre observé. Nous vous recommandons de la redémarrer.",
+            "controllerTimeout": "Delai connection controlleur IO",
+            "controllererror": "Erreur connection controlleur IO"
+        },
+        "end": {
+            "cycle-ended": "Le Cycle est terminé",
+            "cycle-ended-reason": "Raison de fin",
+            "cycle-rating-lead": "Noter le cycle",
+            "cycle-rating-text": "La notaion du cycle n'est pas obligatoire mais elle nous permet d'améliorer nos machines.",
+            "cycle-rating-text2": "La notation du cycle peux aussi vous permettre de mieux filtrer dans les historiques de cycle.",
+            "cycle-duration": "Durée du cycle"
+        },
+        "modals": {
+            "watchdog": {
+                "title": "Erreur dans la chaine de sécurité",
+                "message": "Le cycle ne peux pas démarrer. Une erreur de conditions de démarrage est présente."
+            },
+            "watchdog-warning": {
+                "title": "Erreur dans la chaine de sécurité",
+                "message": "Le cycle peux démarrer, mais certains éléments peuvent rendre le résultat du cycle incertain."
+            }
+        },
+        "custom": {
+            "select": {
+                "cycle": "Choix du cycle",
+                "profile": "Profil utilisé"
+            }
+        },
+        "buttons": {
+            "prepare": "Préparer le cycle",
+            "end": "Arreter le cycle",
+            "finish": "Terminer le cycle",
+            "start": "Démarrer le cycle",
+            "resume": "Reprendre le cycle",
+            "complete": "Terminer le cycle",
+            "cancel": "Annuler le cycle",
+            "nextStep": "Sauter l'étape"
+        },
+        "preparation": "Préparation du cycle",
+        "choice": "Choix du cycle",
+        "profile.choice": "Choix du profil",
+        "steps": "Étapes du cycle",
+        "watchdog": "Chaine de sécurité",
+        "watchdog.conditions": "Conditions de sécurité",
+        "history": "Historiques",
+        "histories": {
+            "retake": {
+                "title": "Information sur les cycles relancés.",
+                "main": "Cette manipulation n'est pas encore tout fait fiable. Il est conseillé de ne pas l'utiliser en production. Souhaitez vous continuer ?"
+            }
+        }
+    },
+    "gates": {
+        "name": "Controles I/O",
+        "bus": {
+            "in": "Entrées",
+            "out": "Sorties"
+        },
+        "categories": {
+            "generic": "Générique"
+        }
+    },
+    "manual": {
+        "button": "Mode manuel",
+        "list": "Modes manuels",
+        "warning": "Les models manuels vous permettent de gérer la machine manuellement. Attention les conditions de sécurité sont désactivées ici.",
+        "incompatibilities": "Incompatibilités",
+        "categories": {
+            "generic": "Générique"
+        }
+    },
+    "maintenance": {
+        "list": "Taches de maintenance",
+        "description": "Description de la tache",
+        "duration": "Durée",
+        "percentage": "Pourcentage",
+        "procedure": "Procédure de maintenance",
+        "procedure.next": "Suivant",
+        "procedure.previous": "Précédent",
+        "procedure.reset": "Valider la tache de maintenance",
+        "unity": {
+            "cycle": "Cycles",
+            "hours": "Heures"
+        },
+        "tools-used": "Outils nécéssaires",
+        "tools": {
+            "allen-wrench-2.5": "Clé allen 2.5mm",
+            "allen-wrench-3": "Clé allen 3mm",
+            "none": "Aucun outil necessaire"
+        }
+    },
+    "message": {
+        "modal": {
+            "title": "Message",
+            "manual-mode-watchdog-error": "Il y as eu une erreur de sécurité sur un des modes manuels. Il as donc été désactivé."
+        }
     }
-  },
-  "profile": {
-    "button": "Profils",
-    "list": "Liste des profils",
-    "modification-date": "Date de dernière modification",
-    "name": "Nom du profil",
-    "globals": "Informations globales",
-    "settings": "Réglages du profil",
-    "buttons": {
-      "add": "Ajouter un nouveau profil"
-    },
-    "modals": {
-      "create": {
-        "title": "Nouveau profil",
-        "message": "Choisir le modèle de profil"
-      },
-      "copy": {
-        "title": "Copie du profil {profile.name}",
-        "message": "Choisissez un nouveau nom de profil pour {profile.name}"
-      },
-      "delete": {
-        "title": "Suppression de {profile.name}",
-        "message": "Souhaitez vous supprimer le profil {profile.name} ?"
-      }
-    },
-    "rows": {
-      "enabled": "Activé",
-      "speed": "Vitesse",
-      "duration": "Durée",
-      "count": "Nombre d'itérations",
-      "timeOn": "Temps activé",
-      "timeOff": "Temps désactivé"
-    }
-  },
-  "settings": {
-    "main": "Réglages",
-    "enable-dark-mode": "Mode sombre activé",
-    "language": "Langue",
-    "restart": "Redémarrer la machine",
-    "updateNotes": {
-      "main": "Notes de version",
-      "firmware": "Firmware",
-      "ui": "Interface utilisateur"
-    },
-    "updateGoing": {
-      "desc": "La mise à jour est en cours d'installation, merci de patienter quelques instants.",
-      "title": "Mise à jour"
-    },
-    "triggerUpdate": "Installer la mise à jour",
-    "updateGoing.title": "Mise à jour",
-    "updateGoing.desc": "Instalation de la mise à jour, merci de patienter...",
-    "updateProgress": "Téléchargement de la mise à jour",
-    "reload-nuster": "Recharger l'interface"
-  },
-  "cycle": {
-    "button": "Cycle",
-    "name": "Cycles",
-    "presets": "Cycles contructeur",
-    "presets-anex": "Cycles constructeur secondaires",
-    "user": "Cycles utilisateur",
-    "steps.title": "Étapes du cycle.",
-    "types": {
-      "custom": "Cycle customisé"
-    },
-    "endreasons": {
-      "user": "Fin utilisateur",
-      "finished": "Terminé avec succès",
-      "stepOvertime": "Une etape du cycle as mis trop de temps a se terminer. Un comportement étrange de la machine peu etre observé. Nous vous recommandons de la redémarrer.",
-      "controllerTimeout": "Delai connection controlleur IO",
-      "controllererror": "Erreur connection controlleur IO"
-    },
-    "end": {
-      "cycle-ended": "Le Cycle est terminé.",
-      "cycle-ended-reason": "Raison de fin",
-      "cycle-rating-lead": "Noter le cycle",
-      "cycle-rating-text": "La noation du cycle n'est pas obligatoire mais elle nous permet d'améliorer nos machines.",
-      "cycle-rating-text2": "La notation du cycle peux aussi vous permettre de mieux filtrer dans les historiques de cycle.",
-      "cycle-duration": "Durée du cycle"
-    },
-    "modals": {
-      "watchdog": {
-        "title": "Erreur dans la chaine de sécurité",
-        "message": "Le cycle ne peux pas démarrer. Une erreur de conditions de démarrage est présente."
-      }
-    },
-    "custom": {
-      "select": {
-        "cycle": "Choix du cycle",
-        "profile": "Profil utilisé"
-      }
-    },
-    "buttons": {
-      "prepare": "Préparer le cycle",
-      "end": "Arreter le cycle",
-      "finish": "Terminer le cycle",
-      "start": "Démarrer le cycle",
-      "resume": "Reprendre le cycle",
-      "complete": "Terminer le cycle",
-      "cancel": "Annuler le cycle",
-      "nextStep": "Sauter l'étape"
-    },
-    "preparation": "Préparartion du cycle",
-    "choice": "Choix du cycle",
-    "profile.choice": "Choix du profil",
-    "steps": "Étapes du cycle",
-    "watchdog": "Chaine de sécurité",
-    "watchdog.conditions": "Conditions de sécurité",
-    "history": "Historiques"
-  },
-  "gates": {
-    "name": "Controles I/O",
-    "bus": {
-      "in": "Entrées",
-      "out": "Sorties"
-    },
-    "categories": {
-      "generic": "Générique"
-    }
-  },
-  "manual": {
-    "button": "Mode manuel",
-    "list": "Modes manuels",
-    "warning": "Les models manuels vous permettent de gérer la machine manuellement. Attention les conditions de sécurité sont désactivées ici.",
-    "incompatibilities": "Incompatibilités",
-    "categories": {
-      "generic": "Générique"
-    }
-  },
-  "maintenance": {
-    "list": "Taches de maintenance",
-    "duration": "Duration",
-    "percentage": "Pourcentage",
-    "procedure": "Procédure de maintenance",
-    "procedure.next": "Suivant",
-    "procedure.previous": "Précédent",
-    "procedure.reset": "Valider la tache de maintenance",
-    "unity": {
-      "cycle": "Cycles",
-      "hours": "Heures"
-    },
-    "tools-used": "Outils nécéssaires",
-    "tools": {
-      "allen-wrench-2.5": "Clé allen 2.5mm",
-      "allen-wrench-3": "Clé allen 3mm",
-      "none": "Aucun outil necessaire"
-    }
-  },
-  "message": {
-    "modal": {
-      "title": "Message",
-      "manual-mode-watchdog-error": "Il y as eu une erreur de sécurité sur un des modes manuels. Il as donc été désactivé."
-    }
-  }
 }

@@ -1,10 +1,10 @@
 export interface IWSObject {
   machine: Machine;
-  cycle?: Cycle;
+  cycle: Cycle;
   slots: Slot[];
   io: Io[];
   handlers: Handler[];
-  passives: Passive[];
+  passives: any[];
   manuals: Manual[];
   profiles: Profile[];
   maintenances: Maintenance[];
@@ -16,44 +16,71 @@ export interface Maintenance {
   durationLimit: number;
   durationActual: number;
   durationProgress: number;
-  operationDate?: number;
   procedure?: Procedure;
 }
 
-export interface Procedure {
-  tools?: string[]
+interface Procedure {
+  tools: any[];
   steps: Step2[];
 }
 
-export interface Step2 {
+interface Step2 {
   name: string;
-  images: string[];
+  media: string[];
 }
 
-export interface Manual {
-  state: boolean;
+export interface Profile {
+  identifier: string;
+  fieldGroups: FieldGroup[];
+  id: string;
   name: string;
-  controls: string[];
+  modificationDate: number;
+  removable: boolean;
+  overwriteable: boolean;
+  isPremade: boolean;
+}
+
+interface FieldGroup {
+  name: string;
+  fields: Field[];
+}
+
+interface Field {
+  name: string;
+  type: string;
+  value: number;
+  unity?: string;
+  floatMin?: number;
+  floatMax?: number;
+  floatStep?: number;
+}
+
+interface Manual {
+  name: string;
+  controls: Control[];
   incompatibility: string[];
-  analogScale?: {min: number, max: number}
+  state: number;
+  analogScale?: AnalogScale;
 }
 
-export interface Passive {
+interface AnalogScale {
+  min: number;
+  max: number;
+}
+
+interface Control {
   name: string;
-  mode: string;
-  enabled: boolean;
-  sensor: string;
-  actuator: string;
+  analogScaleDependant?: boolean;
 }
 
-export interface Handler {
+interface Handler {
   name: string;
   type: string;
   ip: string;
   connected: boolean;
 }
 
-export interface Io {
+interface Io {
   name: string;
   size: string;
   type: string;
@@ -62,159 +89,126 @@ export interface Io {
   address: number;
   default: number;
   value: number;
+  isCritical?: boolean;
 }
 
 export interface Slot {
   name: string;
   type: string;
-  isProductable: boolean;
   sensors: Sensor[];
-  product?: ISlotProduct
+  callToAction: CallToAction[];
+  productOptions?: ProductOptions;
+  isProductable: boolean;
+  productData?: ProductData;
 }
 
-export interface Sensor {
+interface ProductData {
+  productSeries: string;
+  loadDate: string;
+  lifetimeProgress: number;
+  lifetimeRemaining: number;
+}
+
+interface ProductOptions {
+  defaultProductSeries: string;
+  lifespan: number;
+}
+
+interface CallToAction {
+  name: string;
+  APIEndpoint: APIEndpoint;
+  UIEndpoint?: string;
+}
+
+interface APIEndpoint {
+  url: string;
+  method: string;
+}
+
+interface Sensor {
   io: string;
   type: string;
   value: number;
 }
 
-export interface ISlotProduct
-{
-  id: string;
-  name: string;
-  installDate: number;
-  
-}
-
 export interface Cycle {
   status: Status;
   name: string;
-  profileIdentifier: string;
   steps: Step[];
-  watchdogConditions: WatchdogCondition[];
+  startConditions: StartCondition[];
   currentStepIndex: number;
-  profile?: Profile;
+  profile: ProfileRaw;
 }
 
-export interface Profile {
-  identifier: string;
+interface ProfileRaw {
+  skeleton: string;
   name: string;
-  fieldGroups: FieldGroup[];
+  modificationDate: number;
   removable: boolean;
   overwriteable: boolean;
-  isPremade?: boolean;
-  modificationDate: number;
-  id: string;
+  isPremade: boolean;
+  values: Record<string, number>;
 }
 
-export interface FieldGroup {
-  name: string;
-  fields: Field[];
-  id: string;
-}
-
-export interface Field {
-  name: string;
-  type: string;
-  value: number;
-  id: string;
-  unity?: string;
-  floatMin?: number;
-  floatMax?: number;
-  floatStep?: number;
-}
-
-export interface WatchdogCondition {
-  gateName: string;
-  gateValue: number;
+interface StartCondition {
+  conditionName: string;
   startOnly: boolean;
-  result: boolean;
+  result: string;
 }
 
-export interface Step {
+interface Step {
   name: string;
   state: string;
   type: string;
+  isEnabled: Param;
+  duration: Param;
   progress: number;
-  isEnabled: IsEnabled;
-  duration: IsEnabled;
-  startingIO: StartingIO[];
-  endingIO: StartingIO[];
-  blocks: Block2[];
-
-  runAmount?: IsEnabled;
+  startTime?: number;
+  startBlocks: Block[];
+  endBlocks: Block[];
+  blocks: Block[];
   runCount?: number;
+  runAmount?: Param;
 }
 
-export interface Block2 {
-  name: string;
-  params: Param2[];
-  blocks: (Block | Block)[];
-  executed: boolean;
-}
-
-export interface Block {
-  name: string;
-  params: Param3[];
-  blocks: any[];
-  executed: boolean;
-}
-
-export interface Param3 {
-  name: string;
-  value: string;
-  data: number | number | string;
-}
-
-export interface Param2 {
-  name: string;
-  value: string;
-  data: number | number | number | string;
-}
-
-export interface StartingIO {
+interface Block {
   name: string;
   params: Param[];
-  blocks: any[];
+  blocks: Block[];
   executed: boolean;
 }
 
-export interface Param {
+interface Param {
   name: string;
   value: string;
   data: number | string;
 }
 
-export interface IsEnabled {
-  name: string;
-  value: string;
-  data: number;
-}
-
-export interface Status {
+interface Status {
   mode: string;
+  startDate: number;
   progress: number;
-  endReason?: string;
-  endDate?: number;
-  startDate?: number;
+  endReason: string;
+  endDate: number;
 }
 
-export interface Machine {
+interface Machine {
   name: string;
   serial: string;
   model: string;
   variant: string;
   revision: number;
   nusterVersion: string;
-  balenaVersion?: string;
-  hypervisorData?: IHypervisorData,
-  _nuster: INuster,
-  settings: {
-    maskedPremades: string[],
-    maskedProfiles: string[],
-    maskedManuals: string[],
-    ioControlsMasked: boolean
-  }
+  balenaVersion: string;
+  settings: Settings;
+  hypervisorData?: IHypervisorData;
+}
+
+interface Settings {
+  maskedPremades: any[];
+  maskedProfiles: any[];
+  maskedManuals: any[];
+  ioControlsMasked: boolean;
 }
 
 export interface IHypervisorData {
@@ -244,15 +238,4 @@ interface Container {
   serviceId: number;
   containerId: string;
   createdAt: string;
-}
-
-export interface INuster
-{
-  mainInformations: INusterMainInformations[]
-}
-
-export interface INusterMainInformations
-{
-  type: string;
-  reference: string;
 }

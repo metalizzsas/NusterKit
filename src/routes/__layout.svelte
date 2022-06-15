@@ -17,12 +17,14 @@
 	let ReloadPrompt: any;
 
 	beforeUpdate(async () => {
-		initi18nLocal();
-		await waitLocale('en');
-		await init({
-			fallbackLocale: 'en',
-			initialLocale: getLang(),
-		});
+		if (browser) {
+			initi18nLocal();
+			await waitLocale('en');
+			await init({
+				fallbackLocale: 'en',
+				initialLocale: getLang(),
+			});
+		}
 	});
 
 	onMount(async () => {
@@ -38,7 +40,7 @@
 	{/if}
 </svelte:head>
 
-<main>
+<main class="p-4">
 	<slot />
 </main>
 

@@ -20,8 +20,14 @@
 	});
 </script>
 
-<div class="inline-block rounded-full p-1 px-2 bg-white">
-	<select class="w-15" name="minutes" bind:value={minutes} on:change={update} {disabled}>
+<div class="inline-block rounded-full p-1 px-2 bg-white dark:bg-zinc-600">
+	<select
+		class="w-15 bg-white dark:bg-zinc-600"
+		name="minutes"
+		bind:value={minutes}
+		on:change={update}
+		{disabled}
+	>
 		{#each Array.from({ length: 99 }, (_, i) => i + 1).map((x) => x - 1) as count}
 			<option value={count}>{count}</option>
 			>
@@ -30,7 +36,13 @@
 
 	<div class="px-1 font-semibold inline-block">{$_('minutes')} :</div>
 
-	<select name="seconds" class="w-15" bind:value={seconds} on:change={update} {disabled}>
+	<select
+		name="seconds"
+		class="w-15 bg-white dark:bg-zinc-600"
+		bind:value={seconds}
+		on:change={update}
+		{disabled}
+	>
 		{#each Array.from({ length: 60 }, (_, i) => i + 1).map((x) => x - 1) as count}
 			<option value={count}>{count}</option>
 			>

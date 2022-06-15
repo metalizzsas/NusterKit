@@ -84,15 +84,21 @@
 
 		<button
 			on:click={() => (displayAddMachine = true)}
-			class="rounded-xl bg-indigo-300 text-white font-semibold py-1 px-5 ml-auto"
+			class="rounded-xl bg-indigo-300 text-white font-semibold py-1 px-5 ml-auto sm:block hidden"
 		>
 			{$_('machinelist-add')}
 		</button>
 	</div>
 
 	<div
-		class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-4 mt-4 p-4 rounded-xl bg-neutral-200 dark:bg-neutral-800"
+		class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl-grid-cols-6 gap-4 mt-4 p-4 rounded-xl bg-neutral-200 dark:bg-neutral-800"
 	>
+		<button
+			on:click={() => (displayAddMachine = true)}
+			class="rounded-xl bg-indigo-300 text-white font-semibold py-1 px-5 sm:hidden block"
+		>
+			{$_('machinelist-add')}
+		</button>
 		{#each $machineList as machine, index}
 			<Machine {machine} machineIndex={index} />
 		{:else}

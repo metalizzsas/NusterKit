@@ -95,26 +95,24 @@
 
 <Modal
 	bind:shown={deletePromptShown}
-	message={'Souhaitez vous supprimer la machine ' + machine.name + ' ?'}
 	title={'Confirmation'}
 	buttons={[
 		{
 			text: 'Oui',
 			color: 'bg-red-400',
-			callback: () => {
-				selfDelete();
-			},
+			callback: () => selfDelete(),
 		},
 		{
 			text: 'Non',
 			color: 'bg-emerald-400',
-			callback: () => {},
 		},
 	]}
-/>
+>
+	{'Souhaitez vous supprimer la machine ' + machine.name + ' ?'}
+</Modal>
 
 <article
-	class="relative w-full aspect-square bg-zinc-700 rounded-xl p-4 flex flex-col gap-2 text-white truncate cursor-pointer group"
+	class="relative w-full aspect-[2/1] md:aspect-square bg-zinc-700 rounded-xl p-4 flex flex-col gap-2 text-white truncate cursor-pointer group"
 	on:click={login}
 >
 	<div class="flex flex-row justify-between items-center">

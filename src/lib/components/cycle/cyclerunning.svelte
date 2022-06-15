@@ -3,6 +3,11 @@
 
 	import { machineData } from '$lib/utils/store';
 	import { _ } from 'svelte-i18n';
+	import { fly } from 'svelte/transition';
+	import Portal from 'svelte-portal';
+	import { navExpandBottom, navTitle } from '$lib/utils/navstack';
+	import { onDestroy, onMount } from 'svelte';
+	import Navcontainertitle from '../navigation/navcontainertitle.svelte';
 
 	const stopCycle = async () => {
 		fetch('//' + $Linker + '/api/v1/cycle', {
@@ -12,32 +17,67 @@
 			},
 		});
 	};
+
+	onMount(() => {
+		$navTitle = [
+			$_('cycle.button'),
+			$_('cycle.names.' + $machineData.cycle.name),
+			$machineData.cycle.profile.isPremade
+				? $_('cycle.types.' + $machineData.cycle.profile.name)
+				: $machineData.cycle.profile.name,
+		];
+		$navExpandBottom = true;
+	});
+	onDestroy(() => {
+		$navExpandBottom = false;
+	});
 </script>
 
-<div id="cycleRunner" class="flex flex-col gap-4">
-	<div class="flex flex-row gap-3 items-center">
-		<span class="rounded-full bg-indigo-400 py-1 px-5 text-white font-semibold shadow-2xl mt-2">
-			{$_('cycle.steps.title')}
-		</span>
-
-		<button
-			class="bg-red-500 rounded-xl py-1 px-3 text-white font-semibold ml-auto"
-			on:click={stopCycle}
-		>
-			{$_('cycle.buttons.end')}
-		</button>
+<Portal target="body">
+	<div
+		class="fixed bottom-5 w-full"
+		in:fly={{ y: 200, duration: 200 }}
+		out:fly={{ y: 200, duration: 200 }}
+	>
+		<div class="flex flex-row items-center justify-around">
+			<div
+				class="bg-neutral-50 rounded-full ring-2 ring-zinc-400 p-2 flex flex-row gap-2 align-middle items-center"
+			>
+				<span class="ml-2">
+					{$_('cycle.progression')}:
+					<span class="dark:text-indigo-400 text-indigo-600 font-semibold">
+						{Math.round($machineData.cycle.status.progress * 100)} %
+					</span>
+				</span>
+				<div class="h-8 border-l-[1px] border-neutral-300" />
+				<button
+					class="bg-red-500 rounded-xl py-0.5 px-2 text-white font-semibold ml-auto"
+					on:click={stopCycle}
+				>
+					{$_('cycle.buttons.end')}
+				</button>
+			</div>
+		</div>
 	</div>
+</Portal>
 
+<Navcontainertitle>{$_('cycle.steps.title')}</Navcontainertitle>
+
+<div class="flex flex-col gap-4">
 	{#if $machineData.cycle}
 		{#each $machineData.cycle.steps.filter((s) => s.isEnabled.data == 1) as s}
 			<div
-				class="bg-zinc-700 text-white font-semibold p-3 rounded-xl flex flex-row gap-4 justify-between items-center"
+				class="bg-zinc-700 text-white font-semibold {s.state == 'completed'
+					? 'pl-3 rounded-l-xl rounded-r-3xl p-1.5'
+					: 'rounded-xl p-3'} flex flex-row gap-4 justify-between items-center"
 			>
 				<div class="flex flex-col">
 					<span>{$_('cycle.steps.' + s.name + '.name')}</span>
-					<span class="italic text-xs text-gray-300">
-						{$_('cycle.steps.' + s.name + '.desc')}
-					</span>
+					{#if s.state != 'completed'}
+						<span class="italic text-xs text-gray-300">
+							{$_('cycle.steps.' + s.name + '.desc')}
+						</span>
+					{/if}
 				</div>
 
 				<div class="flex flex-row gap-4 self-center items-center group">
@@ -47,7 +87,7 @@
 								?.data || '?'}
 						</span>
 					{/if}
-					{#if s.duration.value != '-1'}
+					{#if s.duration.value != '-1' && s.state != 'completed'}
 						<span class="bg-white rounded-full px-2 py-1 text-gray-800 text-xs">
 							{Math.ceil(s.progress * 100) > 99 ? '100' : Math.ceil(s.progress * 100)}
 							%

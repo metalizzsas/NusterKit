@@ -8,6 +8,8 @@
 	import { Linker } from '$lib/utils/linker';
 	import { time, _ } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
+	import { navTitle } from '$lib/utils/navstack';
+	import { parse } from 'postcss';
 
 	let rating = 0;
 
@@ -38,18 +40,40 @@
 
 		goto('/app');
 	}
+
+	const parseDuration = (start: number, end: number) => {
+		const diff = end - start;
+
+		const hours = new Date(diff).getHours() - 1;
+		const minutes = new Date(diff).getMinutes();
+		const seconds = new Date(diff).getSeconds();
+
+		const hoursShown = hours > 0;
+		const hoursPlural = hours != 1;
+		const minutesPlural = minutes != 1;
+		const secondsPlural = seconds != 1;
+
+		return (
+			(hoursShown ? `${hours} ${$_(hoursPlural ? 'date.hours' : 'date.hour')}` : ``) +
+			` ${minutes} ${$_(minutesPlural ? 'date.minutes' : 'date.minute')} ${seconds} ${$_(
+				secondsPlural ? 'date.seconds' : 'date.second',
+			)}`
+		);
+	};
+
+	$navTitle = [$_('cycle.button'), $_('cycle.end.cycle-ended')];
 </script>
 
-<div>
+<div class="text-zinc-800">
 	<div class="flex flex-col gap-4">
-		<section class="flex flex-row bg-white align-middle items-center rounded-xl">
-			<div class="p-4">
+		<section class="flex flex-row gap-4 justify-center align-middle items-center">
+			<div class="rounded-full bg-white p-4 shadow-lg">
 				{#if $machineData.cycle?.status.endReason != 'finished'}
 					<svg
 						id="glyphicons-basic"
 						xmlns="http://www.w3.org/2000/svg"
 						viewBox="0 0 32 32"
-						class="fill-red-500 h-16 w-16 rotate-45 animate-pulse"
+						class="fill-red-500 h-12 w-12 rotate-45"
 					>
 						<path
 							id="plus"
@@ -61,7 +85,7 @@
 						id="glyphicons-basic"
 						xmlns="http://www.w3.org/2000/svg"
 						viewBox="0 0 32 32"
-						class="fill-emerald-500 h-16 w-16 animate-pulse"
+						class="fill-emerald-500 h-12 w-12"
 					>
 						<path
 							id="check"
@@ -71,26 +95,32 @@
 				{/if}
 			</div>
 
-			<p class=" text-gray-800 flex flex-col py-2">
-				<span class="font-semibold">{$_('cycle.end.cycle-ended')}</span>
-				{#if $machineData.cycle?.status.startDate && $machineData.cycle?.status.endDate}
-					<span class="text-italic">
-						{$_('cycle.end.cycle-duration')} : {$time(
-							$machineData.cycle?.status.endDate -
-								$machineData.cycle?.status.startDate,
-							{ format: 'medium' },
-						)}
-					</span>
-				{/if}
+			<div class="flex flex-row gap-2">
+				<div class="bg-gray-400 h-2 aspect-square rounded-xl animate-pulse" />
+				<div class="bg-gray-500 h-2 aspect-square rounded-xl animate-pulse" />
+				<div class="bg-gray-400 h-2 aspect-square rounded-xl animate-pulse" />
+			</div>
+
+			<div class="flex flex-col p-3 rounded-xl bg-white">
 				<span class="font-semibold">
 					{$_('cycle.endreasons.' + $machineData.cycle?.status.endReason)}
 				</span>
-			</p>
+				{#if $machineData.cycle?.status.startDate && $machineData.cycle?.status.endDate}
+					<span class="text-italic">
+						{$_('cycle.end.cycle-duration')} : {parseDuration(
+							$machineData.cycle?.status.startDate,
+							$machineData.cycle?.status.endDate,
+						)}
+					</span>
+				{/if}
+			</div>
 		</section>
-		<section class="rounded-xl p-4 bg-white text-gray-800 font-semibold">
+		<section class="font-semibold text-center p-3 rounded-xl bg-white mx-auto">
 			<p class="mb-1">{$_('cycle.end.cycle-rating-lead')}</p>
 			<p class="font-normal">
 				{$_('cycle.end.cycle-rating-text')}
+			</p>
+			<p class="font-normal">
 				{$_('cycle.end.cycle-rating-text2')}
 			</p>
 		</section>
@@ -114,6 +144,8 @@
 				</svg>
 			{/each}
 		</div>
+
+		<div class="h-[1px] bg-zinc-400 w-2/3 mx-auto" />
 
 		<button
 			class="bg-indigo-500 py-2 px-4 rounded-xl text-white font-semibold"

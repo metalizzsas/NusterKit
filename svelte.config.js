@@ -5,10 +5,14 @@ import { pwaConfiguration } from "./pwa-configuration.js";
 
 console.log(`Vite bundled: ${process.env.VITE_BUNDLED}`);
 
+/** @type {import('@sveltejs/kit').Config} */
 const config = {
+  experimental: {
+    inspector: true
+  },
   kit: {
     adapter: adapter({
-      fallback: "index.html"
+      fallback: "index.html",
     }),
     vite: {
       plugins: [VitePWA(pwaConfiguration)]

@@ -1,8 +1,11 @@
 <script context="module" lang="ts">
 	import '$lib/app.css';
-	import type { ErrorLoad } from '@sveltejs/kit';
-	export const load: ErrorLoad = (ctx) => {
+	import type { Load } from '@sveltejs/kit';
+	export const load: Load = (ctx) => {
 		return {
+			headers: {
+				location: '/',
+			},
 			props: {
 				title: `${ctx.status}: ${ctx.error?.message}`,
 			},

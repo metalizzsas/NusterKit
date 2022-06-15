@@ -3,32 +3,41 @@
   "nok": "Ko",
   "yes": "Yes ✓",
   "no": "No ✗",
+  "back": "Back",
   "cancel": "Cancel",
-  "minutes": "Minutes",
-  "seconds": "Seconds",
   "binary_true": "True ✓",
   "binary_false": "False ✗",
   "present": "Ok ✓",
   "missing": "Missing ✗",
   "close-keyboard": "Close the keyboard",
+  "close-modal": "Close",
   "connect": "Connect",
   "machinelist": "Machine list",
   "machinelist-empty": "Nothing found here! Add a machine first ↗",
   "machinelist-add": "Add machine",
+
+  "date": {
+    "days": "Days",
+    "day": "Day",
+    "hours": "Hours",
+    "hour": "Hour",
+    "minutes": "Minutes",
+    "minute": "Minute",
+    "seconds": "Seconds",
+    "second": "Second"
+  },
 
   "machines": {
     "metalfog": "Metalfog",
     "smoothit": "Smoothit",
     "uscleaner": "USCleaner"
   },
-
   "loadingScreen": {
     "connectionAttemptCount": "Connection atempt :",
     "connectionError": "Connection error, #ip is unreachable.",
     "retry": "Retry",
     "return": "Back"
   },
-
   "machine": {
     "informations": "Machine informations",
     "model": "Model",
@@ -39,11 +48,11 @@
     "nusterVersion": "Nuster version",
     "balenaVersion": "Balena version"
   },
-
   "procedures": "Procedures",
   "slots": {
     "name": "Containers",
-    "product": "Product ↗",
+    "product": "Product",
+    "product.done": "Out of date",
     "sensors": {
       "name": "Sensors",
       "types": {
@@ -54,6 +63,12 @@
         "level-a": "Level",
         "temperature": "Temperature"
       }
+    },
+    "modal": {
+      "informations": "Informations",
+      "productSeries": "Product series",
+      "productLifetime": "Product lifetime",
+      "action": "Slot actions"
     }
   },
   "profile": {
@@ -63,6 +78,10 @@
     "name": "Profile name",
     "globals": "Global informations",
     "settings": "Profile settings",
+    "premades": {
+      "true": "Constructor profiles",
+      "false": "User profiles"
+    },
     "buttons": {
       "add": "Add a new profile"
     },
@@ -78,6 +97,10 @@
       "delete": {
         "title": "Delete profile {profile.name}",
         "message": "Do you want to delete {profile.name} ?"
+      },
+      "save": {
+        "title": "Saving {profile.name}",
+        "message": "Would you like to save {profile.name} ?"
       }
     },
     "rows": {
@@ -91,7 +114,7 @@
   },
   "settings": {
     "main": "Settings",
-    "enable-dark-mode": "Enable dark mode",
+    "enable-dark-mode": "Dark mode",
     "language": "Language",
     "restart": "Restart machine",
     "reload-nuster": "Reload interface",
@@ -158,17 +181,26 @@
     "steps": {
       "title": "Cycle steps"
     },
-    "preparation": "Cycle preparation",
+    "preparation": "Preparation",
+    "running": "Running",
+    "security": "Security",
     "choice": "Cycle choice",
     "profile.choice": "Profile choice",
+    "progression": "Cycle progression",
     "watchdog": {
       "conditions": "Starting security conditions"
     },
-    "history": "Histories"
+    "history": "Histories",
+    "histories":
+    {
+      "retake": {
+        "title": "Warning with retaken cycles",
+        "main": "This feature is not completely implemented. Retaking cycles can have weird behavior, this should be used on critcal parts. Would you like to proceed anyways ?"
+      }
+    }
   },
   "gates": {
     "name": "IO Controls",
-
     "bus": {
       "in": "Inputs",
       "out": "Outputs"
@@ -194,6 +226,7 @@
   },
   "maintenance": {
     "list": "Maintenance tasks",
+    "description": "Maintenance task informations",
     "duration": "Duration",
     "percentage": "Percentage",
     "procedure": {
@@ -213,5 +246,6 @@
       "allen-wrench-3": "3mm Allen wrench",
       "none": "No tools needed"
     }
-  }
+  },
+  "proceed": "Proceed"
 }

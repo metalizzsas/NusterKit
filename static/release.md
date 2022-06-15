@@ -1,7 +1,11 @@
-# 1.2.5
+# 1.3.0
 
-- Maintenance: Procedure images were had a wrong base URL.
-- Images files are now build correctly it they are bundled or not.
-- Reduced image size on head page.
-- List now test the machine connection on machine list update.
-- 
+- Navigation: Now using navstacking to handle navigation more efficently
+- Ehancement: Touch keyboard should now lift input boxes
+- New: Action modal, used by slots
+- Slots: Now able to load / unload / check slot status.
+- Profiles: Profile list is now splitted between customer and constructor types.
+- Profiles: New display on profile edition
+- Maintenance: New UI.
+- Manual mode: New UI.
+- Advanced manual mode: New UI.

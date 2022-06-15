@@ -7,16 +7,16 @@
 	import { goto } from '$app/navigation';
 	import { beforeUpdate } from 'svelte';
 	import { BUNDLED } from '$lib/bundle';
-	import { waitLocale } from 'svelte-i18n';
+	import { browser } from '$app/env';
 
 	beforeUpdate(async () => {
-		await waitLocale('en');
-
-		if (BUNDLED == 'true') {
-			localStorage.setItem('ip', window.location.host);
-			goto('/app');
-		} else {
-			goto('/list');
+		if (browser) {
+			if (BUNDLED == 'true') {
+				localStorage.setItem('ip', window.location.host);
+				goto('/app');
+			} else {
+				goto('/list');
+			}
 		}
 	});
 </script>

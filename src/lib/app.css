@@ -25,7 +25,6 @@
     @apply rounded-lg border-slate-500;
   }
   body{
-    padding: 1.5em;
     @apply bg-neutral-50;
     @apply dark:bg-neutral-700;
   }
@@ -74,5 +73,20 @@
       @apply p-4 bg-neutral-100 border-l-4 border-neutral-500;
     }
   }
+  @keyframes bounceX {
+		0% {
+			transform: translateX(0);
+		}
+		50% {
+			transform: translateX(-2px);
+		}
+		100% {
+			transform: translateX(0);
+		}
+	}
+
+	.animate-bounce-x {
+		animation: bounceX 2s ease-in-out infinite;
+	}
 }
 

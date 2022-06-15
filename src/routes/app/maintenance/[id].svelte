@@ -18,6 +18,10 @@
 	import type { Maintenance } from '$lib/utils/interfaces';
 	import { _ } from 'svelte-i18n';
 	import { Linker } from '$lib/utils/linker';
+	import { navActions, navTitle, useNavContainer } from '$lib/utils/navstack';
+	import Navcontainer from '$lib/components/navigation/navcontainer.svelte';
+	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
+	import Navcontainersubtitle from '$lib/components/navigation/navcontainersubtitle.svelte';
 
 	export let maintenance: Maintenance;
 
@@ -28,82 +32,53 @@
 		await fetch('//' + $Linker + '/api/v1/maintenance/' + maintenance.name, {
 			method: 'DELETE',
 		});
-
-		window.location.reload();
+		goto('/app');
 	}
+
+	$navTitle = [$_('maintenance.list'), $_('maintenance.tasks.' + maintenance.name + '.name')];
+	$useNavContainer = false;
+	$navActions = [];
 </script>
 
-<div class="rounded-xl p-3 pt-0 -m-2 mt-12 bg-neutral-300 dark:bg-neutral-800 shadow-xl group">
-	<div class="flex flex-row gap-5 justify-items-end -translate-y-4">
-		<div
-			on:click={() => goto('/app')}
-			class="rounded-full bg-red-400 text-white py-1 px-3 font-semibold flex flex-row gap-2 items-center cursor-pointer"
-		>
-			<svg
-				id="glyphicons-basic"
-				xmlns="http://www.w3.org/2000/svg"
-				viewBox="0 0 32 32"
-				class="h-5 w-5 fill-white"
-			>
-				<path
-					id="chevron-left"
-					d="M22.41406,23.37866a.5.5,0,0,1,0,.70709L19.586,26.91425a.50007.50007,0,0,1-.70715,0L8.67151,16.70709a.99988.99988,0,0,1,0-1.41418L18.87885,5.08575a.50007.50007,0,0,1,.70715,0l2.82806,2.8285a.5.5,0,0,1,0,.70709L15.03564,16Z"
-				/>
-			</svg>
-		</div>
-		<div
-			class="rounded-full bg-indigo-400 text-white py-1 px-8 font-semibold shadow-md group-hover:scale-105 transition-all"
-		>
-			{$_('maintenance.tasks.' + maintenance.name + '.name')}
-		</div>
-		<span class="rounded-full bg-white py-1 px-3 ml-auto">
-			<span class="font-semibold">{$_('maintenance.duration')}:</span>
-			{maintenance.durationActual} / {maintenance.durationLimit}
+<Navcontainer>
+	<Navcontainertitle>{$_('maintenance.tasks.' + maintenance.name + '.name')}</Navcontainertitle>
+	<div class="bg-neutral-300 dark:bg-zinc-600 rounded-xl p-3 mb-3">
+		<Navcontainersubtitle>{$_('maintenance.description')}</Navcontainersubtitle>
+		<p>{$_('maintenance.tasks.' + maintenance.name + '.desc')}</p>
+		<p class="mt-2">
+			<span class="font-bold">
+				{$_('maintenance.duration')}:
+			</span>
+			<span class="font-semibold">{maintenance.durationActual}</span>
+			/ {maintenance.durationLimit}
 			{$_('maintenance.unity.' + maintenance.durationType)}
-		</span>
-		<span class="rounded-full bg-white py-1 px-3">
-			<span class="font-semibold">{$_('maintenance.percentage')}:</span>
-			{maintenance.durationProgress} %
-		</span>
-	</div>
-
-	<div class="mt-5">
-		<p class="rounded-xl bg-white py-2 px-3 text-gray-800 mb-3 mr-auto">
-			{$_('maintenance.tasks.' + maintenance.name + '.desc')}
 		</p>
 	</div>
-</div>
 
-{#if maintenance.procedure !== undefined}
-	<div class="rounded-xl pt-0 -m-2 mt-12 bg-neutral-300 dark:bg-neutral-800 shadow-xl group">
-		<div class="relative grid grid-cols-3 mt-10">
-			<div class="z-50 absolute left-4 -translate-y-2">
-				<span
-					class="text-white font-semibold mb-3 bg-indigo-400 py-2 px-4 rounded-full m-auto"
-				>
-					{$_('maintenance.procedure.title')}
-				</span>
-			</div>
-			<div class="rounded-l-xl overflow-hidden col-span-1">
+	{#if maintenance.procedure !== undefined}
+		<div class="relative grid grid-cols-3 gap-3">
+			<div class="rounded-xl overflow-hidden col-span-1" style="min-aspect-ratio: 1/1;">
 				{#each maintenance.procedure.steps as step, index}
 					{#if procedureIndex == index}
 						<div>
 							<img
 								src="//{$Linker}/api/assets/maintenance/{maintenance.name}/{step
-									.images[procedureImageIndex]}"
+									.media[procedureImageIndex]}"
 								alt="procedure"
 								class="shrink-0 transition-all"
 							/>
-							{#if step.images.length > 1}
+							{#if step.media.length > 1}
 								<div class="flex flex-row justify-center">
-									<div class="absolute flex flex-row gap-4 -translate-y-24">
-										{#each step.images as _image, indeximge}
+									<div
+										class="absolute flex flex-row bottom-5 rounded-xl overflow-clip ring-1 ring-neutral-300"
+									>
+										{#each step.media as _image, indeximge}
 											<div on:click={() => (procedureImageIndex = indeximge)}>
 												<div
-													class="h-10 w-10 bg-gray-800 text-white text-xl flex flex-row items-center justify-center rounded-md {procedureImageIndex !=
+													class="h-10 aspect-square bg-white text-zinc-800 text-xl flex flex-row items-center justify-center border-r-[1px] border-neutral-300 {procedureImageIndex !=
 													indeximge
-														? 'ring-white ring-1'
-														: 'ring-blue-500 ring-offset-2 ring-2'}"
+														? ''
+														: 'font-bold'}"
 												>
 													{indeximge + 1}
 												</div>
@@ -116,39 +91,40 @@
 					{/if}
 				{/each}
 			</div>
-			<div class="bg-neutral-300 rounded-r-xl col-span-2 p-5 relative">
-				<div class="mb-5 flex flex-row gap-4 justify-items-start">
-					<span class="rounded-full bg-indigo-400 py-1 px-5 text-white font-medium">
-						{$_('maintenance.tools-used')}
-					</span>
-
-					{#each maintenance.procedure.tools ?? [] as tool}
-						<span class="bg-violet-300 py-1 px-3 text-white rounded-full">
-							{$_('maintenance.tools.' + tool)}
-						</span>
-					{:else}
-						<span class="bg-violet-300 py-1 px-3 text-white rounded-full">
-							{$_('maintenance.tools.none')}
-						</span>
-					{/each}
-				</div>
-
-				<p class="font-semibold text-gray-800">
-					{$_(
-						'maintenance.tasks.' +
-							maintenance.name +
-							'.procedure.' +
-							maintenance.procedure.steps[procedureIndex].name,
-					)}
-				</p>
-
-				<div
-					class="absolute bottom-5 right-5 left-5 flex flex-row gap-4 mt-4 justify-items-start"
-				>
+			<div class="bg-neutral-300 dark:bg-zinc-600 rounded-xl col-span-2 p-3 relative">
+				<Navcontainersubtitle>{$_('maintenance.procedure.title')}</Navcontainersubtitle>
+				{#if procedureIndex < maintenance.procedure.steps.length - 1}
+					<!--Next button -->
 					<button
-						class="{procedureIndex < 1
-							? 'bg-indigo-500/50'
-							: 'bg-indigo-500'} text-white font-semibold rounded-xl py-2 px-4 self-start"
+						class="absolute right-0 bottom-3 bg-white rounded-l-full p-3 flex flex-row gap-3 items-center"
+						on:click={() => {
+							//@ts-ignore
+							if (procedureIndex < maintenance.procedure.steps.length - 1) {
+								procedureIndex++;
+								procedureImageIndex = 0;
+							}
+						}}
+					>
+						<span class="text-zinc-700">{$_('maintenance.procedure.next')}</span>
+
+						<svg
+							id="glyphicons-basic"
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 32 32"
+							class=" h-6 w-6 fill-zinc-700 animate-bounce-x"
+						>
+							<path
+								id="arrow-thin-right"
+								d="M27.12152,16.707,19.35358,24.4751a.5.5,0,0,1-.70716,0L16.525,22.35352a.49983.49983,0,0,1,0-.707L20.17139,18H5a1,1,0,0,1-1-1V15a1,1,0,0,1,1-1H20.17139L16.525,10.35352a.49983.49983,0,0,1,0-.707L18.64642,7.5249a.5.5,0,0,1,.70716,0L27.12152,15.293A.99986.99986,0,0,1,27.12152,16.707Z"
+							/>
+						</svg>
+					</button>
+				{/if}
+
+				{#if procedureIndex > 0}
+					<!-- Prev button -->
+					<button
+						class="absolute left-0 bottom-3 bg-white rounded-r-full p-3 flex flex-row gap-2 items-center"
 						on:click={() => {
 							if (procedureIndex > 0) {
 								procedureIndex--;
@@ -156,36 +132,53 @@
 							}
 						}}
 					>
-						{$_('maintenance.procedure.previous')}
+						<svg
+							id="glyphicons-basic"
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 32 32"
+							class=" h-6 w-6 fill-zinc-700 animate-bounce-x"
+						>
+							<path
+								id="arrow-thin-left"
+								d="M28,15v2a1,1,0,0,1-1,1H11.82861L15.475,21.64648a.49983.49983,0,0,1,0,.707L13.35358,24.4751a.5.5,0,0,1-.70716,0L4.87848,16.707a.99986.99986,0,0,1,0-1.41406L12.64642,7.5249a.5.5,0,0,1,.70716,0L15.475,9.64648a.49983.49983,0,0,1,0,.707L11.82861,14H27A1,1,0,0,1,28,15Z"
+							/>
+						</svg>
+						<span class="text-zinc-700">{$_('maintenance.procedure.previous')}</span>
 					</button>
+				{/if}
 
+				{#if procedureIndex == maintenance.procedure.steps.length - 1}
 					<button
-						class="{procedureIndex < maintenance.procedure.steps.length - 1
-							? 'bg-indigo-500'
-							: 'bg-indigo-500/50'} text-white font-semibold rounded-xl py-2 px-4 self-end"
+						class="bg-emerald-500 text-white font-semibold rounded-l-xl py-2 px-4 absolute bottom-5 right-0"
 						on:click={() => {
-							if (procedureIndex < maintenance.procedure.steps.length - 1) {
-								procedureIndex++;
-								procedureImageIndex = 0;
-							}
-						}}
-					>
-						{$_('maintenance.procedure.next')}
-					</button>
-
-					<button
-						class="{procedureIndex == maintenance.procedure.steps.length - 1
-							? 'bg-emerald-500'
-							: 'bg-emerald-500/50'} text-white font-semibold rounded-xl py-2 px-4"
-						on:click={() => {
+							//@ts-ignore
 							if (procedureIndex == maintenance.procedure.steps.length - 1)
 								resetMaintenance();
 						}}
 					>
 						{$_('maintenance.procedure.reset')}
 					</button>
-				</div>
+				{/if}
+
+				{#if maintenance.procedure.tools.length > 0}
+					<div class="mb-5 flex flex-row gap-4 justify-items-start">
+						{#each maintenance.procedure.tools ?? [] as tool}
+							<span class="bg-violet-300 py-1 px-3 text-white rounded-full">
+								{$_('maintenance.tools.' + tool)}
+							</span>
+						{/each}
+					</div>
+				{/if}
+
+				<p class="font-semibold">
+					{$_(
+						'maintenance.tasks.' +
+							maintenance.name +
+							'.procedure.' +
+							maintenance.procedure.steps[procedureIndex].name,
+					)}
+				</p>
 			</div>
 		</div>
-	</div>
-{/if}
+	{/if}
+</Navcontainer>

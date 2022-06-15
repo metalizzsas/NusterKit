@@ -571,13 +571,13 @@
             "steps": [
                {
                   "name": "unscrew-smt-filter",
-                  "images": [
+                  "media": [
                      "0.jpg"
                   ]
                },
                {
                   "name": "replace-smt-new-filter",
-                  "images": [
+                  "media": [
                      "1.jpg",
                      "2.jpg",
                      "1.jpg"
@@ -602,14 +602,14 @@
             "steps": [
                {
                   "name": "unscrew-top",
-                  "images": [
+                  "media": [
                      "0.jpg",
                      "1.jpg"
                   ]
                },
                {
                   "name": "replace-ir-lamp",
-                  "images": [
+                  "media": [
                      "2.jpg",
                      "3.jpg",
                      "4.jpg",
@@ -618,7 +618,7 @@
                },
                {
                   "name": "screw-top",
-                  "images": [
+                  "media": [
                      "1.jpg",
                      "0.jpg"
                   ]
@@ -783,36 +783,61 @@
          {
             "name": "default",
             "profileRequired": true,
-            "watchdogConditions": [
+            "startConditions": [
                {
-                  "gateName": "emergency_stop",
-                  "gateValue": 1,
+                  "conditionName": "emergency_stop",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "emergency_stop",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "nitrogen_sensor",
-                  "gateValue": 1,
+                  "conditionName": "nitrogen_sensor",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "nitrogen_sensor",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "cover_closed",
-                  "gateValue": 1,
+                  "conditionName": "cover_closed",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "cover_closed",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "resin-slot_sensor",
-                  "gateValue": 1,
+                  "conditionName": "resin-slot_sensor",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "resin-slot_sensor",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "uv-overheat",
-                  "gateValue": 1,
+                  "conditionName": "uv-overheat",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "uv-overheat",
+                        "gateValue": "1"
+                     }
+                  }
                }
             ],
             "steps": [

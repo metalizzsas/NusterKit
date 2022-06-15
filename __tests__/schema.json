@@ -34,6 +34,18 @@
             ],
             "type": "string"
         },
+        "EPBRMode": {
+            "enum": [
+                "created",
+                "ended",
+                "paused",
+                "started",
+                "stopped",
+                "waiting-for-pause",
+                "waiting-for-stop"
+            ],
+            "type": "string"
+        },
         "EParameterBlockName": {
             "enum": [
                 "add",
@@ -41,10 +53,24 @@
                 "const",
                 "conststr",
                 "io",
+                "maintenance",
                 "multiply",
                 "profile",
                 "reverse",
+                "slotlife",
+                "slotstatus",
                 "variable"
+            ],
+            "type": "string"
+        },
+        "EProductSeries": {
+            "enum": [
+                "bc",
+                "cr",
+                "llc",
+                "tc",
+                "usl",
+                "wr"
             ],
             "type": "string"
         },
@@ -56,6 +82,8 @@
                 "io",
                 "maintenance",
                 "sleep",
+                "slotLoad",
+                "slotUnload",
                 "startTimer",
                 "stop",
                 "stopTimer",
@@ -63,6 +91,51 @@
                 "while"
             ],
             "type": "string"
+        },
+        "ESlotSensorType": {
+            "enum": [
+                "level-a",
+                "level-max-n",
+                "level-min-n",
+                "level-np",
+                "temperature"
+            ],
+            "type": "string"
+        },
+        "ICallToAction": {
+            "properties": {
+                "APIEndpoint": {
+                    "properties": {
+                        "method": {
+                            "enum": [
+                                "delete",
+                                "get",
+                                "post",
+                                "put"
+                            ],
+                            "type": "string"
+                        },
+                        "url": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "method",
+                        "url"
+                    ],
+                    "type": "object"
+                },
+                "UIEndpoint": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "type": "object"
         },
         "IConfigMaintenance": {
             "properties": {
@@ -85,15 +158,26 @@
                     "$ref": "#/definitions/IMaintenanceProcedure"
                 }
             },
+            "required": [
+                "durationLimit",
+                "durationType",
+                "name"
+            ],
             "type": "object"
         },
         "IConfigSlot": {
             "properties": {
-                "isProductable": {
-                    "type": "boolean"
+                "callToAction": {
+                    "items": {
+                        "$ref": "#/definitions/ICallToAction"
+                    },
+                    "type": "array"
                 },
                 "name": {
                     "type": "string"
+                },
+                "productOptions": {
+                    "$ref": "#/definitions/ISlotProductOptions"
                 },
                 "sensors": {
                     "items": {
@@ -105,6 +189,11 @@
                     "type": "string"
                 }
             },
+            "required": [
+                "name",
+                "sensors",
+                "type"
+            ],
             "type": "object"
         },
         "IIOGate": {
@@ -137,6 +226,15 @@
                     "$ref": "#/definitions/EIOGateType"
                 }
             },
+            "required": [
+                "address",
+                "automaton",
+                "bus",
+                "default",
+                "name",
+                "size",
+                "type"
+            ],
             "type": "object"
         },
         "IIOHandler": {
@@ -151,6 +249,11 @@
                     "$ref": "#/definitions/EIOHandlerType"
                 }
             },
+            "required": [
+                "ip",
+                "name",
+                "type"
+            ],
             "type": "object"
         },
         "IMaintenanceProcedure": {
@@ -168,11 +271,15 @@
                     "type": "array"
                 }
             },
+            "required": [
+                "steps",
+                "tools"
+            ],
             "type": "object"
         },
         "IMaintenanceProcedureStep": {
             "properties": {
-                "images": {
+                "media": {
                     "items": {
                         "type": "string"
                     },
@@ -182,6 +289,10 @@
                     "type": "string"
                 }
             },
+            "required": [
+                "media",
+                "name"
+            ],
             "type": "object"
         },
         "IManualMode": {
@@ -195,6 +306,10 @@
                             "type": "number"
                         }
                     },
+                    "required": [
+                        "max",
+                        "min"
+                    ],
                     "type": "object"
                 },
                 "controls": {
@@ -207,6 +322,9 @@
                                 "type": "string"
                             }
                         },
+                        "required": [
+                            "name"
+                        ],
                         "type": "object"
                     },
                     "type": "array"
@@ -227,6 +345,11 @@
                     "type": "array"
                 }
             },
+            "required": [
+                "controls",
+                "incompatibility",
+                "name"
+            ],
             "type": "object"
         },
         "IManualWatchdogCondition": {
@@ -238,6 +361,62 @@
                     "type": "number"
                 }
             },
+            "required": [
+                "gateName",
+                "gateValue"
+            ],
+            "type": "object"
+        },
+        "IPBRSCCheckChain": {
+            "properties": {
+                "io": {
+                    "properties": {
+                        "gateName": {
+                            "type": "string"
+                        },
+                        "gateValue": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "gateName",
+                        "gateValue"
+                    ],
+                    "type": "object"
+                },
+                "name": {
+                    "enum": [
+                        "io",
+                        "parameter"
+                    ],
+                    "type": "string"
+                },
+                "parameter": {
+                    "$ref": "#/definitions/IParameterBlock"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "type": "object"
+        },
+        "IPBRStartCondition": {
+            "properties": {
+                "checkChain": {
+                    "$ref": "#/definitions/IPBRSCCheckChain"
+                },
+                "conditionName": {
+                    "type": "string"
+                },
+                "startOnly": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "checkChain",
+                "conditionName",
+                "startOnly"
+            ],
             "type": "object"
         },
         "IPBRStatus": {
@@ -249,7 +428,7 @@
                     "type": "string"
                 },
                 "mode": {
-                    "$ref": "#/definitions/PBRMode"
+                    "$ref": "#/definitions/EPBRMode"
                 },
                 "progress": {
                     "type": "number"
@@ -258,6 +437,9 @@
                     "type": "number"
                 }
             },
+            "required": [
+                "mode"
+            ],
             "type": "object"
         },
         "IParameterBlock": {
@@ -275,6 +457,9 @@
                     "type": "string"
                 }
             },
+            "required": [
+                "name"
+            ],
             "type": "object"
         },
         "IPassive": {
@@ -295,6 +480,13 @@
                     "type": "string"
                 }
             },
+            "required": [
+                "actuator",
+                "default",
+                "mode",
+                "name",
+                "sensor"
+            ],
             "type": "object"
         },
         "IProfile": {
@@ -318,9 +510,17 @@
                     "type": "string"
                 },
                 "values": {
-                    "$ref": "#/definitions/Map<string,number>"
+                    "type": "object"
                 }
             },
+            "required": [
+                "isPremade",
+                "name",
+                "overwriteable",
+                "removable",
+                "skeleton",
+                "values"
+            ],
             "type": "object"
         },
         "IProfileSkeleton": {
@@ -335,6 +535,10 @@
                     "type": "string"
                 }
             },
+            "required": [
+                "fieldGroups",
+                "identifier"
+            ],
             "type": "object"
         },
         "IProfileSkeletonField": {
@@ -361,6 +565,11 @@
                     "type": "number"
                 }
             },
+            "required": [
+                "name",
+                "type",
+                "value"
+            ],
             "type": "object"
         },
         "IProfileSkeletonFieldGroup": {
@@ -375,6 +584,10 @@
                     "type": "string"
                 }
             },
+            "required": [
+                "fields",
+                "name"
+            ],
             "type": "object"
         },
         "IProgram": {
@@ -387,6 +600,12 @@
                 },
                 "profileRequired": {
                     "type": "boolean"
+                },
+                "startConditions": {
+                    "items": {
+                        "$ref": "#/definitions/IPBRStartCondition"
+                    },
+                    "type": "array"
                 },
                 "status": {
                     "$ref": "#/definitions/IPBRStatus"
@@ -408,14 +627,14 @@
                         "$ref": "#/definitions/IProgramVariable"
                     },
                     "type": "array"
-                },
-                "watchdogConditions": {
-                    "items": {
-                        "$ref": "#/definitions/IWatchdogCondition"
-                    },
-                    "type": "array"
                 }
             },
+            "required": [
+                "name",
+                "profileRequired",
+                "startConditions",
+                "steps"
+            ],
             "type": "object"
         },
         "IProgramBlock": {
@@ -439,10 +658,12 @@
                     "type": "array"
                 }
             },
+            "required": [
+                "name"
+            ],
             "type": "object"
         },
         "IProgramStep": {
-            "required": ["blocks", "startBlocks", "endBlocks", "duration", "name", "isEnabled"],
             "properties": {
                 "blocks": {
                     "items": {
@@ -490,6 +711,14 @@
                     "$ref": "#/definitions/ProgramStepType"
                 }
             },
+            "required": [
+                "blocks",
+                "duration",
+                "endBlocks",
+                "isEnabled",
+                "name",
+                "startBlocks"
+            ],
             "type": "object"
         },
         "IProgramTimer": {
@@ -510,6 +739,11 @@
                     "$ref": "#/definitions/NodeJS.Timer"
                 }
             },
+            "required": [
+                "blocks",
+                "enabled",
+                "name"
+            ],
             "type": "object"
         },
         "IProgramVariable": {
@@ -521,6 +755,25 @@
                     "type": "number"
                 }
             },
+            "required": [
+                "name",
+                "value"
+            ],
+            "type": "object"
+        },
+        "ISlotProductOptions": {
+            "properties": {
+                "defaultProductSeries": {
+                    "$ref": "#/definitions/EProductSeries"
+                },
+                "lifespan": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "defaultProductSeries",
+                "lifespan"
+            ],
             "type": "object"
         },
         "ISlotSensor": {
@@ -529,56 +782,20 @@
                     "type": "string"
                 },
                 "type": {
-                    "type": "string"
+                    "$ref": "#/definitions/ESlotSensorType"
                 },
                 "value": {
                     "type": "number"
                 }
             },
-            "type": "object"
-        },
-        "IWatchdogCondition": {
-            "properties": {
-                "gateName": {
-                    "type": "string"
-                },
-                "gateValue": {
-                    "type": "number"
-                },
-                "result": {
-                    "type": "boolean"
-                },
-                "startOnly": {
-                    "type": "boolean"
-                }
-            },
-            "type": "object"
-        },
-        "Map<string,number>": {
-            "properties": {
-                "__@toStringTag@3477": {
-                    "type": "string"
-                },
-                "size": {
-                    "type": "number"
-                }
-            },
+            "required": [
+                "io",
+                "type"
+            ],
             "type": "object"
         },
         "NodeJS.Timer": {
             "type": "object"
-        },
-        "PBRMode": {
-            "enum": [
-                "created",
-                "ended",
-                "paused",
-                "started",
-                "stopped",
-                "waiting-for-pause",
-                "waiting-for-stop"
-            ],
-            "type": "string"
         },
         "ProgramStepState": {
             "enum": [
@@ -616,6 +833,11 @@
                                 "type": "string"
                             }
                         },
+                        "required": [
+                            "cycle",
+                            "name",
+                            "profile"
+                        ],
                         "type": "object"
                     },
                     "type": "array"
@@ -627,6 +849,10 @@
                     "type": "array"
                 }
             },
+            "required": [
+                "premades",
+                "types"
+            ],
             "type": "object"
         },
         "iogates": {
@@ -674,6 +900,10 @@
                     "type": "array"
                 }
             },
+            "required": [
+                "premades",
+                "skeletons"
+            ],
             "type": "object"
         },
         "slots": {
@@ -683,6 +913,16 @@
             "type": "array"
         }
     },
+    "required": [
+        "cycles",
+        "iogates",
+        "iohandlers",
+        "maintenance",
+        "manual",
+        "passives",
+        "profiles",
+        "slots"
+    ],
     "type": "object"
 }
 

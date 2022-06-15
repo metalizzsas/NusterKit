@@ -95,7 +95,10 @@
         {
             "name": "bac",
             "type": "media",
-            "isProductable": false,
+            "productOptions": {
+                "defaultProductSeries": "cr",
+                "lifespan": 90
+            },
             "sensors": [
                 {
                     "io": "temperature",
@@ -164,53 +167,53 @@
                 "steps": [
                     {
                         "name": "Ouverture de la porte de maintenance",
-                        "images": [
+                        "media": [
                             "1.jpg"
                         ]
                     },
                     {
                         "name": "Fermeture des vannes reliées a la pompe",
-                        "images": [
+                        "media": [
                             "2.jpg",
                             "3.jpg"
                         ]
                     },
                     {
                         "name": "Dévissage du couvercle de la pompe",
-                        "images": [
+                        "media": [
                             "4.jpg"
                         ]
                     },
                     {
                         "name": "Retirer le filtre de la pompe",
-                        "images": [
+                        "media": [
                             "5.jpg",
                             "6.jpg"
                         ]
                     },
                     {
                         "name": "Remplacement du filtre de la pompe",
-                        "images": [
+                        "media": [
                             "7.jpg",
                             "8.jpg"
                         ]
                     },
                     {
                         "name": "Re-ouverture des vannes",
-                        "images": [
+                        "media": [
                             "9.jpg"
                         ]
                     },
                     {
                         "name": "Fermeture de la pompe",
-                        "images": [
+                        "media": [
                             "5.jpg",
                             "4.jpg"
                         ]
                     },
                     {
                         "name": "Fermeture de la porte",
-                        "images": [
+                        "media": [
                             "1.jpg"
                         ]
                     }
@@ -301,12 +304,17 @@
             {
                 "name": "default",
                 "profileRequired": true,
-                "watchdogConditions": [
+                "startConditions": [
                     {
-                        "gateName": "emergency_stop",
-                        "gateValue": 1,
+                        "conditionName": "emergency_stop",
                         "startOnly": false,
-                        "result": false
+                        "checkChain": {
+                            "name": "io",
+                            "io": {
+                                "gateName": "emergency_stop",
+                                "gateValue": "1"
+                            }
+                        }
                     }
                 ],
                 "steps": [

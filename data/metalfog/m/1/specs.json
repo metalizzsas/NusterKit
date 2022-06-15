@@ -398,29 +398,72 @@
       {
          "name": "ox",
          "type": "psp",
-         "isProductable": true,
+         "productOptions": {
+            "defaultProductSeries": "usl",
+            "lifespan": 7
+         },
          "sensors": [
             {
                "io": "levels_ox-min-n",
                "type": "level-min-n"
+            }
+         ],
+         "callToAction": [
+            {
+               "name": "load",
+               "APIEndpoint": {
+                  "url": "/api/v1/slots/ox/load",
+                  "method": "post"
+               }
+            },
+            {
+               "name": "emptying",
+               "APIEndpoint": {
+                  "url": "/api/v1/cycle/emptying-reactives",
+                  "method": "post"
+               },
+               "UIEndpoint": "/app/cycle/"
             }
          ]
       },
       {
          "name": "rd",
          "type": "psp",
-         "isProductable": true,
+         "productOptions": {
+            "defaultProductSeries": "usl",
+            "lifespan": 7
+         },
          "sensors": [
             {
                "io": "levels_rd-min-n",
                "type": "level-min-n"
+            }
+         ],
+         "callToAction": [
+            {
+               "name": "load",
+               "APIEndpoint": {
+                  "url": "/api/v1/slots/rd/load",
+                  "method": "post"
+               }
+            },
+            {
+               "name": "emptying",
+               "APIEndpoint": {
+                  "url": "/api/v1/cycle/emptying-reactives",
+                  "method": "post"
+               },
+               "UIEndpoint": "/app/cycle/"
             }
          ]
       },
       {
          "name": "act",
          "type": "psp",
-         "isProductable": true,
+         "productOptions": {
+            "defaultProductSeries": "usl",
+            "lifespan": 1
+         },
          "sensors": [
             {
                "io": "levels_act-min-n",
@@ -430,12 +473,36 @@
                "io": "levels_act-max-n",
                "type": "level-max-n"
             }
+         ],
+         "callToAction": [
+            {
+               "name": "dilution",
+               "APIEndpoint": {
+                  "url": "/api/v1/cycle/act-fill",
+                  "method": "post"
+               },
+               "UIEndpoint": "/app/cycle/"
+            },
+            {
+               "name": "load",
+               "APIEndpoint": {
+                  "url": "/api/v1/slots/act/load",
+                  "method": "post"
+               }
+            },
+            {
+               "name": "emptying",
+               "APIEndpoint": {
+                  "url": "/api/v1/cycle/emptying-activator",
+                  "method": "post"
+               },
+               "UIEndpoint": "/app/cycle/"
+            }
          ]
       },
       {
          "name": "edi",
          "type": "psp",
-         "isProductable": false,
          "sensors": [
             {
                "io": "levels_edi-min-n",
@@ -450,7 +517,6 @@
       {
          "name": "eff",
          "type": "cnt",
-         "isProductable": false,
          "sensors": [
             {
                "io": "levels_eff-max-n",
@@ -934,13 +1000,13 @@
             "steps": [
                {
                   "name": "unscrew-mfm-filter",
-                  "images": [
+                  "media": [
                      "0.jpg"
                   ]
                },
                {
                   "name": "replace-mfm-new-filter",
-                  "images": [
+                  "media": [
                      "1.jpg",
                      "2.jpg",
                      "1.jpg"
@@ -1400,83 +1466,175 @@
             "cycle": "default"
          },
          {
-            "name": "act-fill",
-            "profile": "",
-            "cycle": "act-fill"
-         },
-         {
             "name": "container-cleaning",
             "profile": "",
             "cycle": "container-cleaning"
-         },
-         {
-            "name": "emptying-reactives",
-            "profile": "",
-            "cycle": "emptying-reactives"
-         },
-         {
-            "name": "emptying-activator",
-            "profile": "",
-            "cycle": "emptying-activator"
          }
       ],
       "types": [
          {
             "name": "default",
-            "watchdogConditions": [
+            "startConditions": [
                {
-                  "gateName": "emergency_stop",
-                  "gateValue": 1,
+                  "conditionName": "emergency_stop",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "emergency_stop",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "air_sensor",
-                  "gateValue": 1,
+                  "conditionName": "air_sensor",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "air_sensor",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "cover_closed",
-                  "gateValue": 1,
+                  "conditionName": "cover_closed",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "cover_closed",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "levels_eff-max-n",
-                  "gateValue": 1,
+                  "conditionName": "levels_eff-max-n",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "levels_eff-max-n",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "eff_container_sensor",
-                  "gateValue": 1,
+                  "conditionName": "eff_container_sensor",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "eff_container_sensor",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "levels_edi-min-n",
-                  "gateValue": 1,
+                  "conditionName": "levels_edi-min-n",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "levels_edi-min-n",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "levels_act-min-n",
-                  "gateValue": 1,
+                  "conditionName": "levels_act-min-n",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "levels_act-min-n",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "levels_ox-min-n",
-                  "gateValue": 1,
+                  "conditionName": "levels_ox-min-n",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "levels_ox-min-n",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "levels_rd-min-n",
-                  "gateValue": 1,
+                  "conditionName": "levels_rd-min-n",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "levels_rd-min-n",
+                        "gateValue": "1"
+                     }
+                  }
+               },
+               {
+                  "conditionName": "maintenance-filter",
+                  "startOnly": true,
+                  "checkChain": {
+                     "name": "parameter",
+                     "parameter": {
+                        "name": "conditional",
+                        "value": "==",
+                        "params": [
+                           {
+                              "name": "maintenance",
+                              "value": "mfm-filter"
+                           },
+                           {
+                              "name": "const",
+                              "value": "1"
+                           },
+                           {
+                              "name": "conststr",
+                              "value": "warning"
+                           },
+                           {
+                              "name": "conststr",
+                              "value": "good"
+                           }
+                        ]
+                     }  
+                  }
+               },
+               {
+                  "conditionName": "activator-life",
+                  "startOnly": true,
+                  "checkChain": {
+                     "name": "parameter",
+                     "parameter": {
+                        "name": "slotstatus",
+                        "value": "act"
+                     }
+                  }
+               },
+               {
+                  "conditionName": "oxydiser-life",
+                  "startOnly": true,
+                  "checkChain": {
+                     "name": "parameter",
+                     "parameter": {
+                        "name": "slotstatus",
+                        "value": "rd"
+                     }
+                  }
+               },
+               {
+                  "conditionName": "reducer-life",
+                  "startOnly": true,
+                  "checkChain": {
+                     "name": "parameter",
+                     "parameter": {
+                        "name": "slotstatus",
+                        "value": "ox"
+                     }
+                  }
                }
             ],
             "steps": [
@@ -2145,6 +2303,7 @@
                            "name": "add",
                            "params": [
                               {
+                                 "_comment": "Add row time calculation",
                                  "name": "multiply",
                                  "params": [
                                     {
@@ -2171,8 +2330,39 @@
                                  ]
                               },
                               {
+                                 "_comment": "Add sleep times of the for loops",
+                                 "name": "multiply",
+                                 "params": [
+                                    {
+                                       "name": "const",
+                                       "value": "0.5"
+                                    },
+                                    {
+                                       "name": "add",
+                                       "params": [
+                                          {
+                                             "name": "profile",
+                                             "value": "met-nozzles.met-high"
+                                          },
+                                          {
+                                             "name": "profile",
+                                             "value": "met-nozzles.met-medium"
+                                          },
+                                          {
+                                             "name": "profile",
+                                             "value": "met-nozzles.met-low"
+                                          }
+                                       ]
+                                    }
+                                 ]
+                              },
+                              {
                                  "name": "profile",
                                  "value": "metalization.timeOff"
+                              },
+                              {
+                                 "name": "const",
+                                 "value": "0.5"
                               }
                            ]
                         }
@@ -3551,42 +3741,72 @@
          {
             "name": "act-fill",
             "profileRequired": false,
-            "watchdogConditions": [
+            "startConditions": [
                {
-                  "gateName": "emergency_stop",
-                  "gateValue": 1,
+                  "conditionName": "emergency_stop",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "emergency_stop",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "air_sensor",
-                  "gateValue": 1,
+                  "conditionName": "air_sensor",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "air_sensor",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "cover_closed",
-                  "gateValue": 1,
+                  "conditionName": "cover_closed",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "cover_closed",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "levels_eff-max-n",
-                  "gateValue": 1,
+                  "conditionName": "levels_eff-max-n",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "levels_eff-max-n",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "eff_container_sensor",
-                  "gateValue": 1,
+                  "conditionName": "eff_container_sensor",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "eff_container_sensor",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "levels_edi-min-n",
-                  "gateValue": 1,
+                  "conditionName": "levels_edi-min-n",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "levels_edi-min-n",
+                        "gateValue": "1"
+                     }
+                  }
                }
             ],
             "steps": [
@@ -3720,6 +3940,16 @@
                         "_folded": true
                      },
                      {
+                        "_comment": "Load slot at the end of the fill cycle",
+                        "name": "slotLoad",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "act"
+                           }
+                        ]
+                     },
+                     {
                         "name": "stopTimer",
                         "params": [
                            {
@@ -3736,36 +3966,61 @@
          {
             "name": "container-cleaning",
             "profileRequired": false,
-            "watchdogConditions": [
+            "startConditions": [
                {
-                  "gateName": "emergency_stop",
-                  "gateValue": 1,
+                  "conditionName": "emergency_stop",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "emergency_stop",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "air_sensor",
-                  "gateValue": 1,
+                  "conditionName": "air_sensor",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "air_sensor",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "cover_closed",
-                  "gateValue": 1,
+                  "conditionName": "cover_closed",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "cover_closed",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "levels_eff-max-n",
-                  "gateValue": 1,
+                  "conditionName": "levels_eff-max-n",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "levels_eff-max-n",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "eff_container_sensor",
-                  "gateValue": 1,
+                  "conditionName": "eff_container_sensor",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "eff_container_sensor",
+                        "gateValue": "1"
+                     }
+                  }
                }
             ],
             "steps": [
@@ -3965,36 +4220,61 @@
          {
             "name": "emptying-reactives",
             "profileRequired": false,
-            "watchdogConditions": [
+            "startConditions": [
                {
-                  "gateName": "emergency_stop",
-                  "gateValue": 1,
+                  "conditionName": "emergency_stop",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "emergency_stop",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "air_sensor",
-                  "gateValue": 1,
+                  "conditionName": "air_sensor",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "air_sensor",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "cover_closed",
-                  "gateValue": 1,
+                  "conditionName": "cover_closed",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "cover_closed",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "levels_eff-max-n",
-                  "gateValue": 1,
+                  "conditionName": "levels_eff-max-n",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "levels_eff-max-n",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "eff_container_sensor",
-                  "gateValue": 1,
+                  "conditionName": "eff_container_sensor",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "eff_container_sensor",
+                        "gateValue": "1"
+                     }
+                  }
                }
             ],
             "steps": [
@@ -4146,6 +4426,24 @@
                               "value": "0"
                            }
                         ]
+                     },
+                     {
+                        "name": "slotUnload",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "ox"
+                           }
+                        ]
+                     },
+                     {
+                        "name": "slotUnload",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "rd"
+                           }
+                        ]
                      }
                   ]
                }
@@ -4154,36 +4452,61 @@
          {
             "name": "emptying-activator",
             "profileRequired": false,
-            "watchdogConditions": [
+            "startConditions": [
                {
-                  "gateName": "emergency_stop",
-                  "gateValue": 1,
+                  "conditionName": "emergency_stop",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "emergency_stop",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "air_sensor",
-                  "gateValue": 1,
+                  "conditionName": "air_sensor",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "air_sensor",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "cover_closed",
-                  "gateValue": 1,
+                  "conditionName": "cover_closed",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "cover_closed",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "levels_eff-max-n",
-                  "gateValue": 1,
+                  "conditionName": "levels_eff-max-n",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "levels_eff-max-n",
+                        "gateValue": "1"
+                     }
+                  }
                },
                {
-                  "gateName": "eff_container_sensor",
-                  "gateValue": 1,
+                  "conditionName": "eff_container_sensor",
                   "startOnly": false,
-                  "result": false
+                  "checkChain": {
+                     "name": "io",
+                     "io": {
+                        "gateName": "eff_container_sensor",
+                        "gateValue": "1"
+                     }
+                  }
                }
             ],
             "steps": [
@@ -4293,6 +4616,15 @@
                            {
                               "name": "const",
                               "value": "0"
+                           }
+                        ]
+                     },
+                     {
+                        "name": "slotUnload",
+                        "params": [
+                           {
+                              "name": "conststr",
+                              "value": "act"
                            }
                         ]
                      }

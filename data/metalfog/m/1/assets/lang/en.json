@@ -16,7 +16,7 @@
       "rd": "from-zinc-400 to-zinc-500"
     },
     "modal": {
-      "action":
+      "actions":
       {
         "act": {
           "dilution": "Automatic dilution loading",

@@ -15,7 +15,7 @@ export class PassiveController extends Controller
 
         for(const p of this.machine.specs.passives)
         {
-            this.passives.push(new Passive(this.machine.ioController, p));
+            this.passives.push(new Passive(this.machine, p));
         }
 
         this._configureRouter();
@@ -29,23 +29,48 @@ export class PassiveController extends Controller
 
         this.machine.authManager.registerEndpointPermission("passives.list", {endpoint: "/v1/passives/", method: "get"});
 
-        this._router.post("/:passive/:state", (req: Request, res: Response) => {
+        /*
+            This route change Passive mode state
+        */
+        this._router.post("/:passive/state/:state", (req: Request, res: Response) => {
             
-            const passive = this.passives.findIndex((p) => p.name == req.params.passive);
+            const passive = this.passives.find((p) => p.name == req.params.passive);
 
-            if(passive > -1)
+            if(passive)
             {
-                this.passives[passive].isEnabled = (req.params.state == "true")
-                res.status(200).end();
-                return;
+                passive.toggle(req.params.state == "true" ? true : false);
+                res.status(200)
+                res.end();
             }
             else
             {
-                res.status(404).write("Could not find a passive with this name");
+                res.status(404)
+                res.write("Could not find a passive with this name");
+                res.end();
             }
         });
 
-        this.machine.authManager.registerEndpointPermission("passives.toggle", {endpoint: new RegExp("/v1/passives/.*/.*", "g"), method: "post"});
+        /*
+            This route change passive mode target
+        */
+        this._router.post("/:passive/target/:target", (req: Request, res: Response) => {
+            const passive = this.passives.find(p => p.name == req.params.passive);
+
+            if(passive)
+            {
+                passive.setTarget(parseFloat(req.params.target));
+                res.status(200);
+                res.end();
+            }
+            else
+            {
+                res.status(404)
+                res.write("could not find passive to change target to");
+                res.end();
+            }
+        });
+
+        this.machine.authManager.registerEndpointPermission("passives.toggle", {endpoint: new RegExp("/v1/passives/.*/.*/.*", "g"), method: "post"});
     }
 
     public get socketData()

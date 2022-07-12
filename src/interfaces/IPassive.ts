@@ -1,10 +1,17 @@
+import { EIOGateNames } from "./gates/IIOGate";
+
 export interface IPassive
 {
     name: string;
-    mode: string;
-    default: number;
+    target: number;
 
-    //gates
-    sensor: string;
-    actuator: string;
+    sensors: EIOGateNames | EIOGateNames[];
+
+    actuators: {
+        plus: EIOGateNames | EIOGateNames[],
+        minus?: EIOGateNames | EIOGateNames[]
+    };
+
+    //manual mode requirement
+    manualModes?: string | string[];
 }

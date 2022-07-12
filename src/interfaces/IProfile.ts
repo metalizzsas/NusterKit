@@ -4,6 +4,11 @@ export interface IProfileMapper {
     [key: string]: IProfile
 }
 
+export interface IConfigProfile extends Omit<IProfile, "values">
+{
+    values: {[x: string]: number};
+}
+
 export interface IProfile
 {
     modificationDate?: number;

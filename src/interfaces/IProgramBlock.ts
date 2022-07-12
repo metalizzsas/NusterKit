@@ -1,27 +1,41 @@
-import { IParameterBlock } from "./IParameterBlock";
+import { IParameterBlock, IParameterBlocks } from "./IParameterBlock";
+import { IForLoopProgramBlock } from "./programblocks/ProgramBlocks/IForLoopProgramBlock";
+import { IGroupProgramBlock } from "./programblocks/ProgramBlocks/IGroupProgramBlock";
+import { IIfProgramBlock } from "./programblocks/ProgramBlocks/IIfProgramBlock";
+import { IIOProgramBlock } from "./programblocks/ProgramBlocks/IIOProgramBlock";
+import { IMaintenanceProgramBlock } from "./programblocks/ProgramBlocks/IMaintenanceProgramBlock";
+import { ISleepProgramBlock } from "./programblocks/ProgramBlocks/ISleepProgramBlock";
+import { ISlotLoadProgramBlock } from "./programblocks/ProgramBlocks/ISlotLoadProgramBlock";
+import { ISlotUnloadProgramBlock } from "./programblocks/ProgramBlocks/ISlotUnloadProgramBlock";
+import { IStartTimerProgramBlock } from "./programblocks/ProgramBlocks/IStartTimerProgramBlock";
+import { IStopProgramBlock } from "./programblocks/ProgramBlocks/IStopProgramBlock";
+import { IStopTimerProgramBlock } from "./programblocks/ProgramBlocks/IStopTimerProgramBlock";
+import { IVariableProgramBlock } from "./programblocks/ProgramBlocks/IVariableProgramBlock";
+import { IWhileLoopProgramBlock } from "./programblocks/ProgramBlocks/IWhileLoopProgramBlock";
+
+export type ProgramBlockNames = "default" | "for" | "while" | "if" | "sleep" | "io" | "maintenance" | "stop" | "variable" | "startTimer" | "stopTimer" | "group" | "slotLoad" | "slotUnload";
 
 export interface IProgramBlock
 {
-    name: EProgramBlockName;
-    params?: IParameterBlock[];
-    blocks?: IProgramBlock[];
+    name: ProgramBlockNames;
+    params?: IParameterBlocks[];
+    blocks?: IProgramBlocks[];
 
     executed?: boolean;
 }
 
-
-export enum EProgramBlockName {
-    FOR = "for",
-    WHILE = "while",
-    IF = "if",
-    SLEEP = "sleep",
-    IO = "io",
-    MAINTENANCE = "maintenance",
-    STOP = "stop",
-    VARIABLE = "variable",
-    STARTTIMER = "startTimer",
-    STOPTIMER = "stopTimer",
-    GROUP = "group",
-    SLOTLOAD = "slotLoad",
-    SLOTUNLOAD = "slotUnload",
-}
+export type IProgramBlocks = (
+    IForLoopProgramBlock | 
+    IWhileLoopProgramBlock | 
+    IGroupProgramBlock | 
+    IStopProgramBlock | 
+    IStopTimerProgramBlock | 
+    IStartTimerProgramBlock | 
+    IIfProgramBlock | 
+    IVariableProgramBlock | 
+    IIOProgramBlock | 
+    IMaintenanceProgramBlock | 
+    ISlotLoadProgramBlock | 
+    ISlotUnloadProgramBlock | 
+    ISleepProgramBlock
+);

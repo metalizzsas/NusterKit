@@ -3,8 +3,8 @@ import { IIOHandler } from "./IIOHandler";
 import { IConfigMaintenance } from "./IMaintenance";
 import { IManualMode } from "./IManualMode";
 import { IPassive } from "./IPassive";
-import { IProfile, IProfileSkeleton } from "./IProfile";
-import { IProgram } from "./IProgramBlockRunner";
+import { IConfigProfile, IProfileSkeleton } from "./IProfile";
+import { IPBRPremades, IProgram } from "./IProgramBlockRunner";
 import { IConfigSlot } from "./ISlot";
 
 //machine json interface
@@ -15,18 +15,14 @@ export declare interface IMachine
     slots: IConfigSlot[],
     profiles: {
         skeletons: IProfileSkeleton[],
-        premades: IProfile[]
+        premades: IConfigProfile[]
     },
     maintenance: IConfigMaintenance[],
     passives: IPassive[],
     manual: IManualMode[],
     cycles: {
         types: IProgram[],
-        premades: {
-            name: string,
-            profile: string,
-            cycle: string 
-        }[]
+        premades: IPBRPremades[]
     }
 }
 

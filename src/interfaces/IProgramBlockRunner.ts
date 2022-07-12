@@ -2,6 +2,13 @@ import { IProgramBlock } from "./IProgramBlock";
 import { IProgramStep } from "./IProgramStep";
 import { IPBRStartCondition } from "./programblocks/startchain/IPBRStartCondition";
 
+export interface IPBRPremades
+{
+    name: string;
+    profile: string;
+    cycle: string;
+}
+
 export interface IPBRStatus
 {
     mode: EPBRMode,
@@ -16,18 +23,21 @@ export interface IPBRStatus
 export interface IProgram
 {
     name: string;
-
     profileRequired: boolean;
 
-    currentStepIndex?: number;
-
-    variables?: IProgramVariable[];
-    timers?: IProgramTimer[];
-    status?: IPBRStatus;
-    
-    steps: IProgramStep[];
-
     startConditions: IPBRStartCondition[];
+
+    steps: IProgramStep[];
+}
+
+export interface IProgramRunner extends IProgram
+{
+    status: IPBRStatus;
+
+    timers?: IProgramTimer[];
+    variables?: IProgramVariable[];
+
+    currentStepIndex?: number;
 }
 
 export enum EPBRMode

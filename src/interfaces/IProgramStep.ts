@@ -1,27 +1,32 @@
-import { ParameterBlock } from "../programblocks/ParameterBlocks";
-import { IParameterBlock } from "./IParameterBlock";
-import { IProgramBlock } from "./IProgramBlock";
+import { INumericParameterBlock } from "./IParameterBlock";
+import { IProgramBlocks } from "./IProgramBlock";
 
 export interface IProgramStep
 {
     name: string;
     
-    isEnabled: IParameterBlock;
-    duration: IParameterBlock;
+    //params
+    isEnabled: INumericParameterBlock;
+    duration: INumericParameterBlock;
 
-    state?: ProgramStepState;
-    type?: ProgramStepType;
+    runAmount?: INumericParameterBlock;
+    
+    //blocks
+    startBlocks: IProgramBlocks[];
+    endBlocks: IProgramBlocks[];
 
+    blocks: IProgramBlocks[]
+}
+
+export interface IProgramStepRunner extends IProgramStep
+{
     startTime?: number;
     endTime?: number;
 
-    runAmount?: IParameterBlock;
     runCount?: number;
 
-    startBlocks: IProgramBlock[];
-    endBlocks: IProgramBlock[];
-
-    blocks: IProgramBlock[]
+    state?: EProgramStepState;
+    type?: EProgramStepType;
 }
 
 export interface IProgramStepInformations
@@ -39,13 +44,7 @@ export interface IProgramStepInformations
     runCount?: number
 }
 
-export interface IProgramStepIOStarter
-{
-    name: ParameterBlock;
-    value: ParameterBlock;
-}
-
-export enum ProgramStepState
+export enum EProgramStepState
 {
     WAITING = "waiting",
     STARTED = "started",
@@ -56,13 +55,13 @@ export enum ProgramStepState
     SKIPPED = "skipped"
 }
 
-export enum ProgramStepType
+export enum EProgramStepType
 {
     SINGLE = "single",
     MULTIPLE = "multiple"
 }
 
-export enum ProgramStepResult
+export enum EProgramStepResult
 {
     FAILED = "failed",
     PARTIAL = "partial",

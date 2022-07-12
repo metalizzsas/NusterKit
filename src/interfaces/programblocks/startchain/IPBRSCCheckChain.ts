@@ -1,12 +1,13 @@
-import { IParameterBlock } from "../../IParameterBlock";
+import { EIOGateNames } from "../../gates/IIOGate";
+import { IParameterBlocks } from "../../IParameterBlock";
 
 export interface IPBRSCCheckChain
 {
     name: "parameter" | "io";
 
-    parameter?: IParameterBlock;
+    parameter?: IParameterBlocks;
     io?: {
-        gateName: string;
-        gateValue: string;
+        gateName: EIOGateNames;
+        gateValue: number;
     }
 }

@@ -1,6 +1,77 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "definitions": {
+        "EIOGameNames": {
+            "enum": [
+                "act-lq_high",
+                "act-lq_low",
+                "act-res",
+                "air_heater",
+                "air_sensor",
+                "cover_closed",
+                "edi-lq_fill_act",
+                "edi-lq_high",
+                "edi-lq_low",
+                "edi-res",
+                "eff_container_sensor",
+                "emergency_stop",
+                "hybrid-plv_high",
+                "hybrid-plv_low",
+                "inerting",
+                "ir-cache",
+                "ir-enable",
+                "ir-sensor_closed",
+                "ir-sensor_open",
+                "ir-ventil",
+                "levels_act-max-n",
+                "levels_act-min-n",
+                "levels_edi-max-n",
+                "levels_edi-min-n",
+                "levels_eff-max-n",
+                "levels_ox-min-n",
+                "levels_rd-min-n",
+                "met-plv_high",
+                "met-plv_low",
+                "met-plv_medium",
+                "motor-direction",
+                "motor-speed",
+                "nitrogen_sensor",
+                "nozzle-cache",
+                "nozzle-pulverization",
+                "nozzle-sensor_closed",
+                "nozzle-sensor_open",
+                "ox-air_cleaning_high",
+                "ox-air_cleaning_low",
+                "ox-air_cleaning_medium",
+                "ox-lq_high",
+                "ox-lq_low",
+                "ox-lq_medium",
+                "ox-res",
+                "pump",
+                "rd-air_cleaning_high",
+                "rd-air_cleaning_low",
+                "rd-air_cleaning_medium",
+                "rd-lq_high",
+                "rd-lq_low",
+                "rd-lq_medium",
+                "rd-res",
+                "resin-pressure",
+                "resin-slot_sensor",
+                "temperature",
+                "temperature-heater",
+                "temperature-ventilation",
+                "us_power",
+                "uv-cache",
+                "uv-enable",
+                "uv-overheat",
+                "uv-power",
+                "uv-sensor_closed",
+                "uv-sensor_open",
+                "uv-ventil",
+                "ventilation"
+            ],
+            "type": "string"
+        },
         "EIOGateBus": {
             "enum": [
                 "in",
@@ -34,35 +105,6 @@
             ],
             "type": "string"
         },
-        "EPBRMode": {
-            "enum": [
-                "created",
-                "ended",
-                "paused",
-                "started",
-                "stopped",
-                "waiting-for-pause",
-                "waiting-for-stop"
-            ],
-            "type": "string"
-        },
-        "EParameterBlockName": {
-            "enum": [
-                "add",
-                "conditional",
-                "const",
-                "conststr",
-                "io",
-                "maintenance",
-                "multiply",
-                "profile",
-                "reverse",
-                "slotlife",
-                "slotstatus",
-                "variable"
-            ],
-            "type": "string"
-        },
         "EProductSeries": {
             "enum": [
                 "bc",
@@ -71,24 +113,6 @@
                 "tc",
                 "usl",
                 "wr"
-            ],
-            "type": "string"
-        },
-        "EProgramBlockName": {
-            "enum": [
-                "for",
-                "group",
-                "if",
-                "io",
-                "maintenance",
-                "sleep",
-                "slotLoad",
-                "slotUnload",
-                "startTimer",
-                "stop",
-                "stopTimer",
-                "variable",
-                "while"
             ],
             "type": "string"
         },
@@ -101,6 +125,33 @@
                 "temperature"
             ],
             "type": "string"
+        },
+        "IAdditionParameterBlock": {
+            "properties": {
+                "name": {
+                    "enum": [
+                        "add"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": {
+                        "$ref": "#/definitions/INumericParameterBlock"
+                    },
+                    "type": "array"
+                },
+                "value": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                }
+            },
+            "required": [
+                "name",
+                "params"
+            ],
+            "type": "object"
         },
         "ICallToAction": {
             "properties": {
@@ -137,6 +188,124 @@
             ],
             "type": "object"
         },
+        "IConditionalParameterBlock": {
+            "properties": {
+                "name": {
+                    "enum": [
+                        "conditional"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": [
+                        {
+                            "$ref": "#/definitions/INumericParameterBlock"
+                        },
+                        {
+                            "$ref": "#/definitions/INumericParameterBlock"
+                        },
+                        {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IAdditionParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/IConditionalParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/IConstantParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/IConstantStringParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/IIOReadParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/IMaintenanceParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/IMultiplyParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/IProfileParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/IReverseParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/ISlotLifetimeParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/IVariableParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
+                                }
+                            ]
+                        },
+                        {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IAdditionParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/IConditionalParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/IConstantParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/IConstantStringParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/IIOReadParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/IMaintenanceParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/IMultiplyParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/IProfileParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/IReverseParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/ISlotLifetimeParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/IVariableParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
+                                }
+                            ]
+                        }
+                    ],
+                    "maxItems": 4,
+                    "minItems": 4,
+                    "type": "array"
+                },
+                "value": {
+                    "enum": [
+                        "!=",
+                        "<",
+                        "==",
+                        ">"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "params",
+                "value"
+            ],
+            "type": "object"
+        },
         "IConfigMaintenance": {
             "properties": {
                 "duration": {
@@ -162,6 +331,43 @@
                 "durationLimit",
                 "durationType",
                 "name"
+            ],
+            "type": "object"
+        },
+        "IConfigProfile": {
+            "properties": {
+                "isPremade": {
+                    "type": "boolean"
+                },
+                "modificationDate": {
+                    "type": "number"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "overwriteable": {
+                    "type": "boolean"
+                },
+                "removable": {
+                    "type": "boolean"
+                },
+                "skeleton": {
+                    "type": "string"
+                },
+                "values": {
+                    "additionalProperties": {
+                        "type": "number"
+                    },
+                    "type": "object"
+                }
+            },
+            "required": [
+                "isPremade",
+                "name",
+                "overwriteable",
+                "removable",
+                "skeleton",
+                "values"
             ],
             "type": "object"
         },
@@ -196,6 +402,122 @@
             ],
             "type": "object"
         },
+        "IConstantParameterBlock": {
+            "properties": {
+                "name": {
+                    "enum": [
+                        "const"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": {
+                        "$ref": "#/definitions/IParameterBlocks"
+                    },
+                    "type": "array"
+                },
+                "value": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "name",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IConstantStringParameterBlock": {
+            "properties": {
+                "name": {
+                    "enum": [
+                        "conststr"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": {
+                        "$ref": "#/definitions/IParameterBlocks"
+                    },
+                    "type": "array"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IForLoopProgramBlock": {
+            "properties": {
+                "blocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlocks"
+                    },
+                    "type": "array"
+                },
+                "currentIteration": {
+                    "type": "number"
+                },
+                "executed": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "enum": [
+                        "for"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": [
+                        {
+                            "$ref": "#/definitions/INumericParameterBlock"
+                        }
+                    ],
+                    "maxItems": 1,
+                    "minItems": 1,
+                    "type": "array"
+                }
+            },
+            "required": [
+                "blocks",
+                "name",
+                "params"
+            ],
+            "type": "object"
+        },
+        "IGroupProgramBlock": {
+            "properties": {
+                "blocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlocks"
+                    },
+                    "type": "array"
+                },
+                "executed": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "enum": [
+                        "group"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": {
+                        "$ref": "#/definitions/IParameterBlocks"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "blocks",
+                "name"
+            ],
+            "type": "object"
+        },
         "IIOGate": {
             "properties": {
                 "address": {
@@ -217,7 +539,7 @@
                     "type": "boolean"
                 },
                 "name": {
-                    "type": "string"
+                    "$ref": "#/definitions/EIOGameNames"
                 },
                 "size": {
                     "$ref": "#/definitions/EIOGateSize"
@@ -253,6 +575,159 @@
                 "ip",
                 "name",
                 "type"
+            ],
+            "type": "object"
+        },
+        "IIOProgramBlock": {
+            "properties": {
+                "blocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlocks"
+                    },
+                    "type": "array"
+                },
+                "executed": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "enum": [
+                        "io"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": [
+                        {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IConstantStringParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
+                                }
+                            ]
+                        },
+                        {
+                            "$ref": "#/definitions/INumericParameterBlock"
+                        }
+                    ],
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "type": "array"
+                }
+            },
+            "required": [
+                "name",
+                "params"
+            ],
+            "type": "object"
+        },
+        "IIOReadParameterBlock": {
+            "properties": {
+                "name": {
+                    "enum": [
+                        "io"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": {
+                        "$ref": "#/definitions/IParameterBlocks"
+                    },
+                    "type": "array"
+                },
+                "value": {
+                    "$ref": "#/definitions/EIOGameNames"
+                }
+            },
+            "required": [
+                "name",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IIfProgramBlock": {
+            "properties": {
+                "blocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlocks"
+                    },
+                    "type": "array"
+                },
+                "executed": {
+                    "type": "boolean"
+                },
+                "falseBlocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlocks"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "enum": [
+                        "if"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": [
+                        {
+                            "$ref": "#/definitions/INumericParameterBlock"
+                        },
+                        {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IConstantStringParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
+                                }
+                            ]
+                        },
+                        {
+                            "$ref": "#/definitions/INumericParameterBlock"
+                        }
+                    ],
+                    "maxItems": 3,
+                    "minItems": 3,
+                    "type": "array"
+                },
+                "trueBlocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlocks"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "falseBlocks",
+                "name",
+                "params",
+                "trueBlocks"
+            ],
+            "type": "object"
+        },
+        "IMaintenanceParameterBlock": {
+            "properties": {
+                "name": {
+                    "enum": [
+                        "maintenance"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": {
+                        "$ref": "#/definitions/IParameterBlocks"
+                    },
+                    "type": "array"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "value"
             ],
             "type": "object"
         },
@@ -295,6 +770,50 @@
             ],
             "type": "object"
         },
+        "IMaintenanceProgramBlock": {
+            "properties": {
+                "blocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlocks"
+                    },
+                    "type": "array"
+                },
+                "executed": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "enum": [
+                        "maintenance"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": [
+                        {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IConstantStringParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
+                                }
+                            ]
+                        },
+                        {
+                            "$ref": "#/definitions/INumericParameterBlock"
+                        }
+                    ],
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "type": "array"
+                }
+            },
+            "required": [
+                "name",
+                "params"
+            ],
+            "type": "object"
+        },
         "IManualMode": {
             "properties": {
                 "analogScale": {
@@ -314,18 +833,26 @@
                 },
                 "controls": {
                     "items": {
-                        "properties": {
-                            "analogScaleDependant": {
-                                "type": "boolean"
+                        "anyOf": [
+                            {
+                                "properties": {
+                                    "analogScaleDependant": {
+                                        "type": "boolean"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "analogScaleDependant",
+                                    "name"
+                                ],
+                                "type": "object"
                             },
-                            "name": {
+                            {
                                 "type": "string"
                             }
-                        },
-                        "required": [
-                            "name"
-                        ],
-                        "type": "object"
+                        ]
                     },
                     "type": "array"
                 },
@@ -338,6 +865,12 @@
                 "name": {
                     "type": "string"
                 },
+                "requires": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "watchdog": {
                     "items": {
                         "$ref": "#/definitions/IManualWatchdogCondition"
@@ -347,7 +880,6 @@
             },
             "required": [
                 "controls",
-                "incompatibility",
                 "name"
             ],
             "type": "object"
@@ -367,15 +899,76 @@
             ],
             "type": "object"
         },
+        "IMultiplyParameterBlock": {
+            "properties": {
+                "name": {
+                    "enum": [
+                        "multiply"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": {
+                        "$ref": "#/definitions/INumericParameterBlock"
+                    },
+                    "type": "array"
+                },
+                "value": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                }
+            },
+            "required": [
+                "name",
+                "params"
+            ],
+            "type": "object"
+        },
+        "INumericParameterBlock": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/IAdditionParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IConditionalParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IConstantParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IIOReadParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IMaintenanceParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IMultiplyParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IProfileParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IReverseParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/ISlotLifetimeParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IVariableParameterBlock"
+                }
+            ]
+        },
         "IPBRSCCheckChain": {
             "properties": {
                 "io": {
                     "properties": {
                         "gateName": {
-                            "type": "string"
+                            "$ref": "#/definitions/EIOGameNames"
                         },
                         "gateValue": {
-                            "type": "string"
+                            "type": "number"
                         }
                     },
                     "required": [
@@ -392,7 +985,7 @@
                     "type": "string"
                 },
                 "parameter": {
-                    "$ref": "#/definitions/IParameterBlock"
+                    "$ref": "#/definitions/IParameterBlocks"
                 }
             },
             "required": [
@@ -419,48 +1012,45 @@
             ],
             "type": "object"
         },
-        "IPBRStatus": {
-            "properties": {
-                "endDate": {
-                    "type": "number"
+        "IParameterBlocks": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/IAdditionParameterBlock"
                 },
-                "endReason": {
-                    "type": "string"
+                {
+                    "$ref": "#/definitions/IConditionalParameterBlock"
                 },
-                "mode": {
-                    "$ref": "#/definitions/EPBRMode"
+                {
+                    "$ref": "#/definitions/IConstantParameterBlock"
                 },
-                "progress": {
-                    "type": "number"
+                {
+                    "$ref": "#/definitions/IConstantStringParameterBlock"
                 },
-                "startDate": {
-                    "type": "number"
+                {
+                    "$ref": "#/definitions/IIOReadParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IMaintenanceParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IMultiplyParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IProfileParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IReverseParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/ISlotLifetimeParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IVariableParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
                 }
-            },
-            "required": [
-                "mode"
-            ],
-            "type": "object"
-        },
-        "IParameterBlock": {
-            "properties": {
-                "name": {
-                    "$ref": "#/definitions/EParameterBlockName"
-                },
-                "params": {
-                    "items": {
-                        "$ref": "#/definitions/IParameterBlock"
-                    },
-                    "type": "array"
-                },
-                "value": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "name"
-            ],
-            "type": "object"
+            ]
         },
         "IPassive": {
             "properties": {
@@ -489,37 +1079,27 @@
             ],
             "type": "object"
         },
-        "IProfile": {
+        "IProfileParameterBlock": {
             "properties": {
-                "isPremade": {
-                    "type": "boolean"
-                },
-                "modificationDate": {
-                    "type": "number"
-                },
                 "name": {
+                    "enum": [
+                        "profile"
+                    ],
                     "type": "string"
                 },
-                "overwriteable": {
-                    "type": "boolean"
+                "params": {
+                    "items": {
+                        "$ref": "#/definitions/IParameterBlocks"
+                    },
+                    "type": "array"
                 },
-                "removable": {
-                    "type": "boolean"
-                },
-                "skeleton": {
+                "value": {
                     "type": "string"
-                },
-                "values": {
-                    "$ref": "#/definitions/Map<string,number>"
                 }
             },
             "required": [
-                "isPremade",
                 "name",
-                "overwriteable",
-                "removable",
-                "skeleton",
-                "values"
+                "value"
             ],
             "type": "object"
         },
@@ -592,9 +1172,6 @@
         },
         "IProgram": {
             "properties": {
-                "currentStepIndex": {
-                    "type": "number"
-                },
                 "name": {
                     "type": "string"
                 },
@@ -607,24 +1184,9 @@
                     },
                     "type": "array"
                 },
-                "status": {
-                    "$ref": "#/definitions/IPBRStatus"
-                },
                 "steps": {
                     "items": {
                         "$ref": "#/definitions/IProgramStep"
-                    },
-                    "type": "array"
-                },
-                "timers": {
-                    "items": {
-                        "$ref": "#/definitions/IProgramTimer"
-                    },
-                    "type": "array"
-                },
-                "variables": {
-                    "items": {
-                        "$ref": "#/definitions/IProgramVariable"
                     },
                     "type": "array"
                 }
@@ -637,78 +1199,80 @@
             ],
             "type": "object"
         },
-        "IProgramBlock": {
-            "properties": {
-                "blocks": {
-                    "items": {
-                        "$ref": "#/definitions/IProgramBlock"
-                    },
-                    "type": "array"
+        "IProgramBlocks": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/IForLoopProgramBlock"
                 },
-                "executed": {
-                    "type": "boolean"
+                {
+                    "$ref": "#/definitions/IGroupProgramBlock"
                 },
-                "name": {
-                    "$ref": "#/definitions/EProgramBlockName"
+                {
+                    "$ref": "#/definitions/IIfProgramBlock"
                 },
-                "params": {
-                    "items": {
-                        "$ref": "#/definitions/IParameterBlock"
-                    },
-                    "type": "array"
+                {
+                    "$ref": "#/definitions/IIOProgramBlock"
+                },
+                {
+                    "$ref": "#/definitions/IMaintenanceProgramBlock"
+                },
+                {
+                    "$ref": "#/definitions/ISleepProgramBlock"
+                },
+                {
+                    "$ref": "#/definitions/ISlotLoadProgramBlock"
+                },
+                {
+                    "$ref": "#/definitions/ISlotUnloadProgramBlock"
+                },
+                {
+                    "$ref": "#/definitions/IStartTimerProgramBlock"
+                },
+                {
+                    "$ref": "#/definitions/IStopProgramBlock"
+                },
+                {
+                    "$ref": "#/definitions/IStopTimerProgramBlock"
+                },
+                {
+                    "$ref": "#/definitions/IVariableProgramBlock"
+                },
+                {
+                    "$ref": "#/definitions/IWhileLoopProgramBlock"
                 }
-            },
-            "required": [
-                "name"
-            ],
-            "type": "object"
+            ]
         },
         "IProgramStep": {
             "properties": {
                 "blocks": {
                     "items": {
-                        "$ref": "#/definitions/IProgramBlock"
+                        "$ref": "#/definitions/IProgramBlocks"
                     },
                     "type": "array"
                 },
                 "duration": {
-                    "$ref": "#/definitions/IParameterBlock"
+                    "$ref": "#/definitions/INumericParameterBlock"
                 },
                 "endBlocks": {
                     "items": {
-                        "$ref": "#/definitions/IProgramBlock"
+                        "$ref": "#/definitions/IProgramBlocks"
                     },
                     "type": "array"
                 },
-                "endTime": {
-                    "type": "number"
-                },
                 "isEnabled": {
-                    "$ref": "#/definitions/IParameterBlock"
+                    "$ref": "#/definitions/INumericParameterBlock"
                 },
                 "name": {
                     "type": "string"
                 },
                 "runAmount": {
-                    "$ref": "#/definitions/IParameterBlock"
-                },
-                "runCount": {
-                    "type": "number"
+                    "$ref": "#/definitions/INumericParameterBlock"
                 },
                 "startBlocks": {
                     "items": {
-                        "$ref": "#/definitions/IProgramBlock"
+                        "$ref": "#/definitions/IProgramBlocks"
                     },
                     "type": "array"
-                },
-                "startTime": {
-                    "type": "number"
-                },
-                "state": {
-                    "$ref": "#/definitions/ProgramStepState"
-                },
-                "type": {
-                    "$ref": "#/definitions/ProgramStepType"
                 }
             },
             "required": [
@@ -721,43 +1285,133 @@
             ],
             "type": "object"
         },
-        "IProgramTimer": {
+        "IReverseParameterBlock": {
             "properties": {
-                "blocks": {
-                    "items": {
-                        "$ref": "#/definitions/IProgramBlock"
-                    },
-                    "type": "array"
-                },
-                "enabled": {
-                    "type": "boolean"
-                },
                 "name": {
+                    "enum": [
+                        "reverse"
+                    ],
                     "type": "string"
                 },
-                "timer": {
-                    "$ref": "#/definitions/NodeJS.Timer"
+                "params": {
+                    "items": [
+                        {
+                            "$ref": "#/definitions/INumericParameterBlock"
+                        }
+                    ],
+                    "maxItems": 1,
+                    "minItems": 1,
+                    "type": "array"
+                },
+                "value": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
                 }
             },
             "required": [
-                "blocks",
-                "enabled",
-                "name"
+                "name",
+                "params"
             ],
             "type": "object"
         },
-        "IProgramVariable": {
+        "ISleepProgramBlock": {
             "properties": {
+                "blocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlocks"
+                    },
+                    "type": "array"
+                },
+                "executed": {
+                    "type": "boolean"
+                },
                 "name": {
+                    "enum": [
+                        "sleep"
+                    ],
                     "type": "string"
                 },
+                "params": {
+                    "items": [
+                        {
+                            "$ref": "#/definitions/INumericParameterBlock"
+                        }
+                    ],
+                    "maxItems": 1,
+                    "minItems": 1,
+                    "type": "array"
+                }
+            },
+            "required": [
+                "name",
+                "params"
+            ],
+            "type": "object"
+        },
+        "ISlotLifetimeParameterBlock": {
+            "properties": {
+                "name": {
+                    "enum": [
+                        "slotlife"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": {
+                        "$ref": "#/definitions/IParameterBlocks"
+                    },
+                    "type": "array"
+                },
                 "value": {
-                    "type": "number"
+                    "type": "string"
                 }
             },
             "required": [
                 "name",
                 "value"
+            ],
+            "type": "object"
+        },
+        "ISlotLoadProgramBlock": {
+            "properties": {
+                "blocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlocks"
+                    },
+                    "type": "array"
+                },
+                "executed": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "enum": [
+                        "slotLoad"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": [
+                        {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IConstantStringParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
+                                }
+                            ]
+                        }
+                    ],
+                    "maxItems": 1,
+                    "minItems": 1,
+                    "type": "array"
+                }
+            },
+            "required": [
+                "name",
+                "params"
             ],
             "type": "object"
         },
@@ -773,6 +1427,30 @@
             "required": [
                 "defaultProductSeries",
                 "lifespan"
+            ],
+            "type": "object"
+        },
+        "ISlotProductStatusParameterBlock": {
+            "properties": {
+                "name": {
+                    "enum": [
+                        "slotstatus"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": {
+                        "$ref": "#/definitions/IParameterBlocks"
+                    },
+                    "type": "array"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "value"
             ],
             "type": "object"
         },
@@ -794,42 +1472,289 @@
             ],
             "type": "object"
         },
-        "Map<string,number>": {
+        "ISlotUnloadProgramBlock": {
             "properties": {
-                "__@toStringTag@3479": {
+                "blocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlocks"
+                    },
+                    "type": "array"
+                },
+                "executed": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "enum": [
+                        "slotUnload"
+                    ],
                     "type": "string"
                 },
-                "size": {
-                    "type": "number"
+                "params": {
+                    "items": [
+                        {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IConstantStringParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
+                                }
+                            ]
+                        }
+                    ],
+                    "maxItems": 1,
+                    "minItems": 1,
+                    "type": "array"
                 }
             },
             "required": [
-                "__@toStringTag@3479",
-                "size"
+                "name",
+                "params"
             ],
             "type": "object"
         },
-        "NodeJS.Timer": {
+        "IStartTimerProgramBlock": {
+            "properties": {
+                "blocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlocks"
+                    },
+                    "type": "array"
+                },
+                "executed": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "enum": [
+                        "startTimer"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": [
+                        {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IConstantStringParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
+                                }
+                            ]
+                        },
+                        {
+                            "$ref": "#/definitions/INumericParameterBlock"
+                        }
+                    ],
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "type": "array"
+                }
+            },
+            "required": [
+                "blocks",
+                "name",
+                "params"
+            ],
             "type": "object"
         },
-        "ProgramStepState": {
-            "enum": [
-                "completed",
-                "disabled",
-                "partial",
-                "skipped",
-                "started",
-                "stopped",
-                "waiting"
+        "IStopProgramBlock": {
+            "properties": {
+                "blocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlocks"
+                    },
+                    "type": "array"
+                },
+                "executed": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "enum": [
+                        "stop"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": [
+                        {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IConstantStringParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
+                                }
+                            ]
+                        }
+                    ],
+                    "maxItems": 1,
+                    "minItems": 1,
+                    "type": "array"
+                }
+            },
+            "required": [
+                "name",
+                "params"
             ],
-            "type": "string"
+            "type": "object"
         },
-        "ProgramStepType": {
-            "enum": [
-                "multiple",
-                "single"
+        "IStopTimerProgramBlock": {
+            "properties": {
+                "blocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlocks"
+                    },
+                    "type": "array"
+                },
+                "executed": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "enum": [
+                        "stopTimer"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": [
+                        {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IConstantStringParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
+                                }
+                            ]
+                        }
+                    ],
+                    "maxItems": 1,
+                    "minItems": 1,
+                    "type": "array"
+                }
+            },
+            "required": [
+                "name",
+                "params"
             ],
-            "type": "string"
+            "type": "object"
+        },
+        "IVariableParameterBlock": {
+            "properties": {
+                "name": {
+                    "enum": [
+                        "variable"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": {
+                        "$ref": "#/definitions/IParameterBlocks"
+                    },
+                    "type": "array"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IVariableProgramBlock": {
+            "properties": {
+                "blocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlocks"
+                    },
+                    "type": "array"
+                },
+                "executed": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "enum": [
+                        "variable"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": [
+                        {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IConstantStringParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
+                                }
+                            ]
+                        },
+                        {
+                            "$ref": "#/definitions/INumericParameterBlock"
+                        }
+                    ],
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "type": "array"
+                }
+            },
+            "required": [
+                "name",
+                "params"
+            ],
+            "type": "object"
+        },
+        "IWhileLoopProgramBlock": {
+            "properties": {
+                "blocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlocks"
+                    },
+                    "type": "array"
+                },
+                "executed": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "enum": [
+                        "while"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": [
+                        {
+                            "$ref": "#/definitions/INumericParameterBlock"
+                        },
+                        {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IConstantStringParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
+                                }
+                            ]
+                        },
+                        {
+                            "$ref": "#/definitions/INumericParameterBlock"
+                        }
+                    ],
+                    "maxItems": 3,
+                    "minItems": 3,
+                    "type": "array"
+                }
+            },
+            "required": [
+                "blocks",
+                "name",
+                "params"
+            ],
+            "type": "object"
         }
     },
     "properties": {
@@ -904,7 +1829,7 @@
             "properties": {
                 "premades": {
                     "items": {
-                        "$ref": "#/definitions/IProfile"
+                        "$ref": "#/definitions/IConfigProfile"
                     },
                     "type": "array"
                 },

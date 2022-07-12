@@ -37,15 +37,9 @@ class NusterTurbine
             errors: []
         };
 
-        if(process.env.NODE_ENV === "production")
-        {
-            if(!fs.existsSync(path.resolve("data", "logs")))
-                fs.mkdirSync(path.resolve("data", "logs"), {recursive: true});
-        }
-
         this.logger = pino({
             level: process.env.DISABLE_TRACE_LOG != "" ? "trace" : "info"
-        }, process.env.NODE_ENV == "production" ? pino.destination(fs.createWriteStream(path.resolve("data", "logs", "nuster-tubine.log"), {autoClose: true})) : pino.destination(process.stdout));
+        }, pino.destination(process.stdout));
 
         this.logger.info("Starting NusterTurbine");
 
@@ -272,10 +266,6 @@ class NusterTurbine
             this.logger.error("No machine defined, cannot add routes.");
             throw new Error("No machine defined, cannot add routes.");
         }
-
-        this.app.get("/qr", (req: Request, res: Response) => {
-            res.status(200).end();
-        });
 
         this.logger.info("Registered express routes");
     }

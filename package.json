@@ -17,7 +17,8 @@
     "build": "tsc",
     "start": "node build/app.js | pino-pretty",
     "lc": "find './src' -name '*.ts' | xargs wc -l",
-    "schema": "npx typescript-json-schema@0.53.0 \"src/interfaces/IMachine.ts\" IMachine --ignoreErrors --required -o \"src/interfaces/schema.json\""
+    "schema": "npx typescript-json-schema@0.53.0 \"src/interfaces/IMachine.ts\" IMachine --ignoreErrors --required -o \"src/interfaces/schema.json\"",
+    "docs": "npx typedoc --entryPointStrategy expand ./src --out docs"
   },
   "repository": {
     "type": "git",

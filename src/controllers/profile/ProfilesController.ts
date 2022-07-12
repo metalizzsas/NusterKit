@@ -6,6 +6,8 @@ import { ProfileModel } from "./Profile";
 import { ObjectId } from "mongoose";
 import { IProfileSkeleton, IProfileExportable, IProfile } from "../../interfaces/IProfile";
 
+export type IProfileMap = Omit<IProfile, 'values'> & { values: Map<string, number>};
+
 export class ProfileController extends Controller {
 
     private machine: Machine;
@@ -44,7 +46,7 @@ export class ProfileController extends Controller {
                 //Converting profile.values from Object to Map
                 const values = (p.values as unknown as ({[x: string]:number}));
 
-                const k: IProfile = {...p, values: new Map<string, number>(Object.entries(values))};
+                const k: IProfileMap = {...p, values: new Map<string, number>(Object.entries(values))};
     
                 const converted = structuredClone(this.convertProfile(k));
     
@@ -189,7 +191,7 @@ export class ProfileController extends Controller {
         });
     }
 
-    public convertProfile(profile: IProfile & {id?: ObjectId}): IProfileExportable
+    public convertProfile(profile: IProfileMap & {id?: ObjectId}): IProfileExportable
     {
         const skeleton = this.profileSkeletons[profile.skeleton]; // avoid skeleton modifications
 
@@ -215,9 +217,9 @@ export class ProfileController extends Controller {
         return exportable;
     }
 
-    public retreiveProfile(profileexp: IProfileExportable & {id?: ObjectId}): IProfile & {id?: ObjectId}
+    public retreiveProfile(profileexp: IProfileExportable & {id?: ObjectId}): IProfileMap & {id?: ObjectId}
     {
-        const profile: IProfile & {id?: ObjectId} = {
+        const profile: IProfileMap & {id?: ObjectId} = {
             id: (!profileexp.isPremade ?? false) ? profileexp.id : undefined,
             skeleton: profileexp.identifier,
             name: profileexp.name,

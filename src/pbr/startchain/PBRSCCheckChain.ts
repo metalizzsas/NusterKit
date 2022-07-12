@@ -1,7 +1,8 @@
-import { EParameterBlockName } from "../../interfaces/IParameterBlock";
 import { IPBRSCCheckChain } from "../../interfaces/programblocks/startchain/IPBRSCCheckChain";
 import { EPBRStartConditionResult } from "../../interfaces/programblocks/startchain/IPBRStartCondition";
-import { ConditionalParameterBlock, ParameterBlock, ParameterBlockRegistry } from "../ParameterBlocks";
+import { ParameterBlock } from "../ParameterBlocks";
+import { ConditionalParameterBlock } from "../ParameterBlocks/ConditionalParameterBlock";
+import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 import { ProgramBlockRunner } from "../ProgramBlockRunner";
 
 export class PBRSCCheckChain implements IPBRSCCheckChain
@@ -23,23 +24,23 @@ export class PBRSCCheckChain implements IPBRSCCheckChain
         {
             //building a default Conditional parameter block for io related start conditions
             this.#checkChain = new ConditionalParameterBlock(pbrinstance, {
-                name: EParameterBlockName.CONDITIONAL,
+                name: "conditional",
                 value: "==",
                 params: [
                     {
-                        name: EParameterBlockName.IO,
+                        name: "io",
                         value: obj.io.gateName,
                     },
                     {
-                        name: EParameterBlockName.CONSTANT,
+                        name: "const",
                         value: obj.io.gateValue
                     },
                     {
-                        name: EParameterBlockName.CONSTANT_STRING,
+                        name: "conststr",
                         value: "good" 
                     },
                     {
-                        name: EParameterBlockName.CONSTANT_STRING,
+                        name: "conststr",
                         value: "error"
                     }
                 ]

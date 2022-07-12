@@ -1,15 +1,14 @@
 import { EventEmitter } from "stream";
-import { IOExplorer } from "../controllers/io/IOExplorer";
-import { ProfileExplorer } from "../controllers/profile/ProfileExplorer";
+import { IOGate } from "../controllers/io/IOGates/IOGate";
 import { EIOGateBus } from "../interfaces/gates/IIOGate";
 import { IProfile } from "../interfaces/IProfile";
-import { IProgram, IPBRStatus, IProgramVariable, IProgramTimer, EPBRMode } from "../interfaces/IProgramBlockRunner";
-import { ProgramStepResult, ProgramStepType } from "../interfaces/IProgramStep";
+import { IPBRStatus, IProgramVariable, IProgramTimer, EPBRMode, IProgramRunner } from "../interfaces/IProgramBlockRunner";
+import { EProgramStepResult, EProgramStepType } from "../interfaces/IProgramStep";
 import { Machine } from "../Machine";
 import { ProgramBlockStep } from "./ProgramBlockStep";
 import { PBRStartCondition } from "./startchain/PBRStartCondition";
 
-export class ProgramBlockRunner implements IProgram
+export class ProgramBlockRunner implements IProgramRunner
 {
     status: IPBRStatus;
 
@@ -34,15 +33,15 @@ export class ProgramBlockRunner implements IProgram
     profile?: IProfile;
 
     //explorers
-    profileExplorer?: ProfileExplorer;
-    ioExplorer: IOExplorer;
+    profileExplorer?: (name: string) => number;
+    ioExplorer: (name: string) => IOGate | undefined;
 
     //event
     event: EventEmitter;
 
     nextStepButtonEnabled = false;
-    
-    constructor(machine: Machine, object: IProgram, profile?: IProfile)
+
+    constructor(machine: Machine, object: IProgramRunner, profile?: IProfile)
     {
         this.status = { mode: EPBRMode.CREATED };
 
@@ -67,13 +66,13 @@ export class ProgramBlockRunner implements IProgram
         if(this.profile === undefined)
             this.machine.logger.warn("PBR: This PBR is build without any profile.");
         else
-            this.profileExplorer = new ProfileExplorer(this.profile);
+            this.profileExplorer = (name: string) => this.profile?.values.get(name.replace(".", "#")) ?? 0;
 
         //properties assignment
         this.name = object.name;
 
         //Explorers setup
-        this.ioExplorer = new IOExplorer(machine.ioController);
+        this.ioExplorer = (name: string) => this.machine.ioController.gates.find((g) => g.name == name);
 
         //steps and watchdog
         for(const sc of object.startConditions)
@@ -134,11 +133,11 @@ export class ProgramBlockRunner implements IProgram
 
             switch(result)
             {
-                case ProgramStepResult.FAILED:
+                case EProgramStepResult.FAILED:
                 {
                     return false;
                 }
-                case ProgramStepResult.PARTIAL:
+                case EProgramStepResult.PARTIAL:
                 {
                     //reset times at the end of a partial step
                     this.steps[this.currentStepIndex].resetTimes();
@@ -147,9 +146,9 @@ export class ProgramBlockRunner implements IProgram
 
                     //if next step does not exists or next step is not a multiple step,
                     //return to first multiple step
-                    if(this.steps[this.currentStepIndex + 1].type != ProgramStepType.MULTIPLE)
+                    if(this.steps[this.currentStepIndex + 1].type != EProgramStepType.MULTIPLE)
                     {
-                        const j = this.steps.findIndex(step => step.type == ProgramStepType.MULTIPLE);
+                        const j = this.steps.findIndex(step => step.type == EProgramStepType.MULTIPLE);
 
                         if(j != -1)
                         {
@@ -202,7 +201,7 @@ export class ProgramBlockRunner implements IProgram
             const s = this.steps.at(this.currentStepIndex)
             if(s !== undefined)
             {
-                if(s.type == ProgramStepType.MULTIPLE && s.runCount !== undefined)
+                if(s.type == EProgramStepType.MULTIPLE && s.runCount !== undefined)
                 {
                     this.machine.logger.error(`PBR: Last executed step was a multiple step. Removing 1 multiple step iteration.`);
                     s.runCount--;

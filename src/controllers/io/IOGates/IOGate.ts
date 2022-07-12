@@ -1,9 +1,9 @@
-import { IIOGate, EIOGateSize, EIOGateType, EIOGateBus } from "../../../interfaces/gates/IIOGate";
+import { IIOGate, EIOGateSize, EIOGateType, EIOGateBus, EIOGateNames } from "../../../interfaces/gates/IIOGate";
 import { IOController } from "../IOController";
 
 export class IOGate implements IIOGate
 {
-    name: string;
+    name: EIOGateNames;
 
     size: EIOGateSize;
     type: EIOGateType;

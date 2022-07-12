@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-export class Controller{
+export class Controller {
 
     _router = Router();
 

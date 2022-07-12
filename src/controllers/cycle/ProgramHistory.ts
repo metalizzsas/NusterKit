@@ -2,17 +2,16 @@ import { model, Schema } from "mongoose";
 import { IParameterBlock } from "../../interfaces/IParameterBlock";
 import { IProfile } from "../../interfaces/IProfile";
 import { IProgramBlock } from "../../interfaces/IProgramBlock";
-import { IProgram, IPBRStatus } from "../../interfaces/IProgramBlockRunner";
-import { IProgramStep } from "../../interfaces/IProgramStep";
+import { IPBRStatus, IProgramRunner } from "../../interfaces/IProgramBlockRunner";
+import { IProgramStepRunner } from "../../interfaces/IProgramStep";
 import { IPBRSCCheckChain } from "../../interfaces/programblocks/startchain/IPBRSCCheckChain";
 import { IPBRStartCondition } from "../../interfaces/programblocks/startchain/IPBRStartCondition";
-import { IForLoopProgramBlock } from "../../programblocks/ProgramBlocks";
 import { ProfileSchema } from "../profile/Profile";
 
 export interface IProgramHistory
 {
     rating?: number,
-    cycle: IProgram,
+    cycle: IProgramRunner,
     profile: IProfile
 }
 
@@ -31,7 +30,7 @@ const ParameterBlockSchema = new Schema<IParameterBlock>({
 
 ParameterBlockSchema.add({params: [ParameterBlockSchema]});
 
-const ProgramBlockSchema = new Schema<IProgramBlock & IForLoopProgramBlock>({
+const ProgramBlockSchema = new Schema<IProgramBlock & {currentIteration?: number, trueBlocks?: IProgramBlock, falseBlocks?: IProgramBlock}>({
     name: {type: String, required: true},
     executed: {type: Boolean, required: true, default: false},
     params: [ParameterBlockSchema],
@@ -40,7 +39,11 @@ const ProgramBlockSchema = new Schema<IProgramBlock & IForLoopProgramBlock>({
 
 ProgramBlockSchema.add({blocks: [ProgramBlockSchema]});
 
-const ProgramStepSchema = new Schema<IProgramStep>({
+//for if block only
+ProgramBlockSchema.add({trueBlocks: [ProgramBlockSchema]}); 
+ProgramBlockSchema.add({falseBlocks: [ProgramBlockSchema]});
+
+const ProgramStepSchema = new Schema<IProgramStepRunner>({
     name: {type: String, required: true},
 
     state: {type: String, required: true},
@@ -77,7 +80,7 @@ const PBRStartConditionSchema = new Schema<IPBRStartCondition>({
     checkChain: {type: PBRSCCheckChainSchema, required: true}
 });
 
-const ProgramSchema = new Schema<IProgram>({
+const ProgramSchema = new Schema<IProgramRunner>({
 
     name: {type: String, required: true},
 

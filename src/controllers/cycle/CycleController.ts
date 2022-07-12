@@ -5,16 +5,16 @@ import { Request, Response } from "express";
 
 import { ProfileModel } from "../profile/Profile";
 import { ProgramHistoryModel } from "./ProgramHistory";
-import { ProgramBlockRunner } from "../../programblocks/ProgramBlockRunner";
+import { ProgramBlockRunner } from "../../pbr/ProgramBlockRunner";
 import { IProfile } from "../../interfaces/IProfile";
-import { EPBRMode } from "../../interfaces/IProgramBlockRunner";
+import { EPBRMode, IPBRPremades } from "../../interfaces/IProgramBlockRunner";
 
 export class CycleController extends Controller {
 
     private machine: Machine;
 
     private supportedCycles: {name: string, profileRequired: boolean}[] = [];
-    private premadeCycles: {name: string, profile: string, cycle: string }[] = [];
+    private premadeCycles: IPBRPremades[] = [];
     public program?: ProgramBlockRunner
 
    constructor(machine: Machine)
@@ -141,10 +141,10 @@ export class CycleController extends Controller {
             
             const cycle = this.machine.specs.cycles.types.find((ip) => ip.name == req.params.name);
 
-            if(cycle)
+            if(cycle !== undefined)
             {
                 this.machine.logger.info("CR: PBR assigned");
-                this.program = new ProgramBlockRunner(this.machine, cycle, profile);
+                this.program = new ProgramBlockRunner(this.machine, { ...cycle, status: { mode: EPBRMode.CREATED }}, profile);
 
                 if(this.program.profileRequired && profile !== undefined)
                 {

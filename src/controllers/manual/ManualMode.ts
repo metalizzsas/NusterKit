@@ -5,29 +5,46 @@ import { ManualWatchdogCondition } from "./ManualModeWatchdog";
 export class ManualMode implements IManualMode
 {
     name: string;
-    controls: {name: string, analogScaleDependant?: boolean}[];
-    incompatibility: string[];
-    watchdog: ManualWatchdogCondition[] = [];
+    
+    controls: ({name: string, analogScaleDependant: boolean} | string)[];
+
+    incompatibility?: string[];
+    requires?: string[];
+    watchdog: ManualWatchdogCondition[];
+
     analogScale?: {min: number, max: number};
 
     machine: Machine;
 
     public state = 0;
 
+    locked: boolean;
+
     constructor(obj: IManualMode, machine: Machine)
     {
         this.name = obj.name;
+        
+        this.incompatibility = obj.incompatibility ?? [];
+        this.requires = obj.requires;
+
         this.controls = obj.controls;
-        this.incompatibility = obj.incompatibility;
         this.analogScale = obj.analogScale;
 
         this.machine = machine;
 
-        for(const w of obj.watchdog ?? [])
+        this.watchdog = [];
+
+        this.locked = false; // lock this manual mode if it is controlled by something else
+
+        if(obj.watchdog !== undefined)
         {
-            this.watchdog.push(new ManualWatchdogCondition(this, w, this.machine));
+            for(const w of obj.watchdog)
+            {
+                this.watchdog.push(new ManualWatchdogCondition(this, w, this.machine));
+            }
         }
 
+        //Add io gates manual mode watchdog
         for(const io of this.machine.ioController.gates.filter(g => g.manualModeWatchdog == true))
         {
             this.watchdog.push(new ManualWatchdogCondition(this, {gateName: io.name, gateValue: 1}, this.machine));
@@ -58,40 +75,50 @@ export class ManualMode implements IManualMode
 
         if(trigger)
         {
-            if(
-                this.incompatibility.filter(k => {
-                k.startsWith("+") ? 
-                    this.machine.manualmodeController.keys.filter(j => j.name == k.slice(0, 1) && j.state == 0 ) : 
-                    this.machine.manualmodeController.keys.filter(j => j.name == k && j.state > 1)
-            }).length > 0
-            )
+            //if this manual mode has incompatibilities
+            if(this.incompatibility !== undefined)
             {
-                return false;
-            }
-            else
-            {
-                //key is ready to be toggled
-                //toggle gates but not if they are already active
-                //unless this gate is analogdependant
-                const activeGates = this.machine.manualmodeController.keys.filter(k => (k.state && k.analogScale === undefined)).flatMap(k => k.controls);
-                const gatesToToggle = this.controls.filter(g => !activeGates.includes(g));
-
-                for(const gate of gatesToToggle)
+                //find if incompatibilities are enabled
+                if(this.incompatibility.map(k => this.machine.manualmodeController.manualModes.find(j => j.name == k)).filter(k => (k?.state ?? 1) > 1).length > 0)
                 {
-                    await this.machine.ioController.gFinder(gate.name)?.write(this.machine.ioController, (gate.analogScaleDependant === true) ? state : ((state > 0) ? 1 : 0));
+                    return false;
                 }
-
-                this.watchdog.forEach(w => w.startTimer());
-
-                this.state = state;
-
-                return true;
             }
+
+            //if this manual mode has requires
+            if(this.requires !== undefined)
+            {
+                //find if required manual modes are enabled
+                if(this.requires.filter(r => this.machine.manualmodeController.manualModes.find(s => s.name == r)?.state == 0))
+                {
+                    return false;
+                }
+            }
+
+            //key is ready to be toggled
+            //toggle gates but not if they are already active
+            //unless this gate is analogdependant
+            const activeGates = this.machine.manualmodeController.manualModes.filter(k => (k.state && k.analogScale === undefined)).flatMap(k => k.controls);
+            const gatesToToggle = this.controls.filter(g => !activeGates.includes(g));
+
+            for(const gate of gatesToToggle)
+            {
+                if(typeof gate == "string")
+                    await this.machine.ioController.gFinder(gate)?.write(this.machine.ioController, state);
+                else
+                    await this.machine.ioController.gFinder(gate.name)?.write(this.machine.ioController, (gate.analogScaleDependant === true) ? state : ((state > 0) ? 1 : 0));
+            }
+
+            this.watchdog.forEach(w => w.startTimer());
+
+            this.state = state;
+
+            return true;
         }
         else
         {
             //manual mode is going to be disabled, set concerned gates to false
-            const activeGatesThatStay = this.machine.manualmodeController.keys.filter(k => (k.state > 0) && k.name !== this.name).flatMap(k => k.controls);
+            const activeGatesThatStay = this.machine.manualmodeController.manualModes.filter(k => (k.state > 0) && k.name !== this.name).flatMap(k => k.controls);
     
             const gatesToToggleOff = this.controls.filter(g => !activeGatesThatStay.includes(g));
     
@@ -109,13 +136,27 @@ export class ManualMode implements IManualMode
             return true;
         }
     }
+
+    lock()
+    {
+        this.locked = true;
+    }
+    unlock()
+    {
+        this.locked = false;
+    }
+    
     toJSON()
     {
         return {
             name: this.name,
-            controls: this.controls,
-            incompatibility: this.incompatibility,
             state: this.state,
+            locked: this.locked,
+
+            controls: this.controls,
+            
+            incompatibility: this.incompatibility,
+            requires: this.requires,
             analogScale: this.analogScale,
         }
     } 

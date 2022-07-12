@@ -8,7 +8,7 @@ export class ManualModeController extends Controller
 {
     private machine: Machine
 
-    keys: ManualMode[] = []
+    manualModes: ManualMode[] = []
 
     constructor(machine: Machine)
     {
@@ -21,7 +21,7 @@ export class ManualModeController extends Controller
 
     private async _configure()
     {
-        this.keys = this.machine.specs.manual.map(m => new ManualMode(m, this.machine));
+        this.manualModes = this.machine.specs.manual.map(m => new ManualMode(m, this.machine));
     }
 
     private _configureRouter()
@@ -34,17 +34,27 @@ export class ManualModeController extends Controller
 
         this.router.post('/:name/:value', async (req: Request, res: Response) => {
 
-            const mode = this.keys.find(k => k.name === req.params.name);
+            const mode = this.manualModes.find(k => k.name === req.params.name);
 
             //find manual mode to update
             if(mode)
             {
-                const result = await mode.toggle(parseInt(req.params.value));
-
-                res.status(result ? 200 : 403);
-                res.write(result ? "ok" : "error");
-                res.end();
-                return;
+                if(mode.locked)
+                {
+                    res.status(403);
+                    res.write("locked");
+                    res.end();
+                    return;
+                }
+                else
+                {
+                    const result = await mode.toggle(parseInt(req.params.value));
+    
+                    res.status(result ? 200 : 403);
+                    res.write(result ? "ok" : "error");
+                    res.end();
+                    return;
+                }
             }
             else
             {
@@ -60,6 +70,11 @@ export class ManualModeController extends Controller
 
     public get socketData()
     {
-        return this.keys.filter(k => !this.machine.settings.maskedManuals.includes(k.name));
+        return this.manualModes.filter(k => !this.machine.settings.maskedManuals.includes(k.name));
+    }
+
+    find(name: string): ManualMode | undefined
+    {
+        return this.manualModes.find(m => m.name = name);
     }
 }

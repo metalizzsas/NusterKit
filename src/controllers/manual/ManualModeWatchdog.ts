@@ -1,4 +1,4 @@
-import { IManualWatchdogCondition } from "../../interfaces/IManualWatchdogCondition";
+import { IManualWatchdogCondition } from "../../interfaces/IManualMode";
 import { Machine } from "../../Machine";
 import { ManualMode } from "./ManualMode";
 

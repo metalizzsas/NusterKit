@@ -80,7 +80,9 @@ export class IOController extends Controller
 
         this._router.get("/:name/:value", async (req: Request, res: Response) => {
 
-            const gate = this.gates.find((g) => g.name == req.params.name);
+            const name = req.params.name.replace("#", "_");
+
+            const gate = this.gates.find((g) => g.name == name);
 
             if(gate)
             {

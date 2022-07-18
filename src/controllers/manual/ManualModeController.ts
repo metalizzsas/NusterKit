@@ -34,7 +34,9 @@ export class ManualModeController extends Controller
 
         this.router.post('/:name/:value', async (req: Request, res: Response) => {
 
-            const mode = this.manualModes.find(k => k.name === req.params.name);
+            const name = req.params.name.replace("_", "#"); 
+
+            const mode = this.manualModes.find(k => k.name === name);
 
             //find manual mode to update
             if(mode)

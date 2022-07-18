@@ -45,7 +45,7 @@
 
 	let scrollY: number;
 
-	$: if (focused == true && BUNDLED != 'true') {
+	$: if (focused == true && BUNDLED == 'true') {
 		setTimeout(() => {
 			initkb();
 			focusScroll();

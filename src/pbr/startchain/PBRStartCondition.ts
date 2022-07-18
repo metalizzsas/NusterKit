@@ -1,3 +1,4 @@
+import { EPBRMode } from "../../interfaces/IProgramBlockRunner";
 import { EPBRStartConditionResult, IPBRStartCondition } from "../../interfaces/programblocks/startchain/IPBRStartCondition";
 import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { PBRSCCheckChain } from "./PBRSCCheckChain";
@@ -45,6 +46,13 @@ export class PBRStartCondition implements IPBRStartCondition
             else
             {
                 this.result = tempResult;
+
+                //if the condition is not good stop the cycle
+                if(this.result == EPBRStartConditionResult.ERROR && this.#pbrInstance.status.mode == EPBRMode.STARTED)
+                {
+                    this.#pbrInstance.machine.logger.warn("PBRSC: Security condition " + this.conditionName + " has forced the cycle to End.");
+                    this.#pbrInstance.end("security-" + this.conditionName);
+                }
             }
 
         }, 250);

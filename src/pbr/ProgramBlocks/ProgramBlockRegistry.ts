@@ -27,6 +27,8 @@ import { IVariableProgramBlock } from "../../interfaces/programblocks/ProgramBlo
 import { WhileLoopProgramBlock } from "./WhileLoopProgramBlock";
 import { IWhileLoopProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IWhileLoopProgramBlock";
 import { ProgramBlocks } from "./index";
+import { PassiveProgramBlock } from "./PassiveProgramBlock";
+import { IPassiveProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IPassiveProgramBlock";
 
 export function ProgramBlockRegistry(pbrInstance: ProgramBlockRunner, obj: IProgramBlock): ProgramBlocks {
     switch (obj.name as ProgramBlockNames)
@@ -44,6 +46,7 @@ export function ProgramBlockRegistry(pbrInstance: ProgramBlockRunner, obj: IProg
         case "stopTimer": return new StopTimerProgramBlock(pbrInstance, obj as IStopTimerProgramBlock);
         case "variable": return new VariableProgramBlock(pbrInstance, obj as IVariableProgramBlock);
         case "while": return new WhileLoopProgramBlock(pbrInstance, obj as IWhileLoopProgramBlock);
+        case "passive": return new PassiveProgramBlock(pbrInstance, obj as IPassiveProgramBlock);
 
         default: return new SleepProgramBlock(pbrInstance, {name: "sleep", params: [{name: "const", value: 1}]});
     }

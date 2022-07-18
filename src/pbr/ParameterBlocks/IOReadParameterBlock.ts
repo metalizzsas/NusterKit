@@ -1,12 +1,11 @@
 import { ParameterBlock } from ".";
 import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { IIOReadParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IIOReadParameterBlock";
-import { EIOGateNames } from "../../interfaces/gates/IIOGate";
 
 export class IOReadParameterBlock extends ParameterBlock implements IIOReadParameterBlock
 {
     name: "io" = "io";
-    value: EIOGateNames;
+    value: string;
 
     constructor(instance: ProgramBlockRunner, obj: IIOReadParameterBlock)
     {

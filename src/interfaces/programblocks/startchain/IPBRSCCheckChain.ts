@@ -1,4 +1,3 @@
-import { EIOGateNames } from "../../gates/IIOGate";
 import { IParameterBlocks } from "../../IParameterBlock";
 
 export interface IPBRSCCheckChain
@@ -7,7 +6,7 @@ export interface IPBRSCCheckChain
 
     parameter?: IParameterBlocks;
     io?: {
-        gateName: EIOGateNames;
+        gateName: string;
         gateValue: number;
     }
 }

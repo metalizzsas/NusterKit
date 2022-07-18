@@ -17,6 +17,7 @@ import { StopTimerProgramBlock } from "./StopTimerProgramBlock";
 import { VariableProgramBlock } from "./VariableProgramBlock";
 import { WhileLoopProgramBlock } from "./WhileLoopProgramBlock";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
+import { PassiveProgramBlock } from "./PassiveProgramBlock";
 
 export class ProgramBlock extends Block implements IProgramBlock
 {
@@ -89,5 +90,6 @@ export type ProgramBlocks = (
     StopTimerProgramBlock | 
     GroupProgramBlock | 
     SlotLoadProgramBlock | 
-    SlotUnloadProgramBlock
+    SlotUnloadProgramBlock | 
+    PassiveProgramBlock
 ) & IProgramBlocks;

@@ -1,77 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "definitions": {
-        "EIOGameNames": {
-            "enum": [
-                "act-lq_high",
-                "act-lq_low",
-                "act-res",
-                "air_heater",
-                "air_sensor",
-                "cover_closed",
-                "edi-lq_fill_act",
-                "edi-lq_high",
-                "edi-lq_low",
-                "edi-res",
-                "eff_container_sensor",
-                "emergency_stop",
-                "hybrid-plv_high",
-                "hybrid-plv_low",
-                "inerting",
-                "ir-cache",
-                "ir-enable",
-                "ir-sensor_closed",
-                "ir-sensor_open",
-                "ir-ventil",
-                "levels_act-max-n",
-                "levels_act-min-n",
-                "levels_edi-max-n",
-                "levels_edi-min-n",
-                "levels_eff-max-n",
-                "levels_ox-min-n",
-                "levels_rd-min-n",
-                "met-plv_high",
-                "met-plv_low",
-                "met-plv_medium",
-                "motor-direction",
-                "motor-speed",
-                "nitrogen_sensor",
-                "nozzle-cache",
-                "nozzle-pulverization",
-                "nozzle-sensor_closed",
-                "nozzle-sensor_open",
-                "ox-air_cleaning_high",
-                "ox-air_cleaning_low",
-                "ox-air_cleaning_medium",
-                "ox-lq_high",
-                "ox-lq_low",
-                "ox-lq_medium",
-                "ox-res",
-                "pump",
-                "rd-air_cleaning_high",
-                "rd-air_cleaning_low",
-                "rd-air_cleaning_medium",
-                "rd-lq_high",
-                "rd-lq_low",
-                "rd-lq_medium",
-                "rd-res",
-                "resin-pressure",
-                "resin-slot_sensor",
-                "temperature",
-                "temperature-heater",
-                "temperature-ventilation",
-                "us_power",
-                "uv-cache",
-                "uv-enable",
-                "uv-overheat",
-                "uv-power",
-                "uv-sensor_closed",
-                "uv-sensor_open",
-                "uv-ventil",
-                "ventilation"
-            ],
-            "type": "string"
-        },
         "EIOGateBus": {
             "enum": [
                 "in",
@@ -539,7 +468,7 @@
                     "type": "boolean"
                 },
                 "name": {
-                    "$ref": "#/definitions/EIOGameNames"
+                    "type": "string"
                 },
                 "size": {
                     "$ref": "#/definitions/EIOGateSize"
@@ -637,7 +566,7 @@
                     "type": "array"
                 },
                 "value": {
-                    "$ref": "#/definitions/EIOGameNames"
+                    "type": "string"
                 }
             },
             "required": [
@@ -960,12 +889,31 @@
                 }
             ]
         },
+        "IPBRPremades": {
+            "properties": {
+                "cycle": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "profile": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "cycle",
+                "name",
+                "profile"
+            ],
+            "type": "object"
+        },
         "IPBRSCCheckChain": {
             "properties": {
                 "io": {
                     "properties": {
                         "gateName": {
-                            "$ref": "#/definitions/EIOGameNames"
+                            "type": "string"
                         },
                         "gateValue": {
                             "type": "number"
@@ -1054,28 +1002,125 @@
         },
         "IPassive": {
             "properties": {
-                "actuator": {
-                    "type": "string"
+                "actuators": {
+                    "properties": {
+                        "minus": {
+                            "anyOf": [
+                                {
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                },
+                                {
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "plus": {
+                            "anyOf": [
+                                {
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                },
+                                {
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    },
+                    "required": [
+                        "plus"
+                    ],
+                    "type": "object"
                 },
-                "default": {
-                    "type": "number"
-                },
-                "mode": {
-                    "type": "string"
+                "manualModes": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
                 },
                 "name": {
                     "type": "string"
                 },
-                "sensor": {
-                    "type": "string"
+                "sensors": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "target": {
+                    "type": "number"
                 }
             },
             "required": [
-                "actuator",
-                "default",
-                "mode",
+                "actuators",
                 "name",
-                "sensor"
+                "sensors",
+                "target"
+            ],
+            "type": "object"
+        },
+        "IPassiveProgramBlock": {
+            "properties": {
+                "blocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlocks"
+                    },
+                    "type": "array"
+                },
+                "executed": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "enum": [
+                        "passive"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": [
+                        {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IConstantStringParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
+                                }
+                            ]
+                        },
+                        {
+                            "$ref": "#/definitions/INumericParameterBlock"
+                        },
+                        {
+                            "$ref": "#/definitions/INumericParameterBlock"
+                        }
+                    ],
+                    "maxItems": 3,
+                    "minItems": 3,
+                    "type": "array"
+                }
+            },
+            "required": [
+                "name",
+                "params"
             ],
             "type": "object"
         },
@@ -1239,6 +1284,9 @@
                 },
                 {
                     "$ref": "#/definitions/IWhileLoopProgramBlock"
+                },
+                {
+                    "$ref": "#/definitions/IPassiveProgramBlock"
                 }
             ]
         },
@@ -1762,23 +1810,7 @@
             "properties": {
                 "premades": {
                     "items": {
-                        "properties": {
-                            "cycle": {
-                                "type": "string"
-                            },
-                            "name": {
-                                "type": "string"
-                            },
-                            "profile": {
-                                "type": "string"
-                            }
-                        },
-                        "required": [
-                            "cycle",
-                            "name",
-                            "profile"
-                        ],
-                        "type": "object"
+                        "$ref": "#/definitions/IPBRPremades"
                     },
                     "type": "array"
                 },

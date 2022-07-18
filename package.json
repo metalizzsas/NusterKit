@@ -9,13 +9,13 @@
 	"type": "module",
 	"scripts": {
 		"clean": "rm -rf ./node_modules/ && rm package-lock.json && npm i",
-		"dev": "svelte-kit dev --port 3001 --host",
-		"build": "svelte-kit build",
-		"build-desktop": "svelte-kit build && node pwa.js",
-		"preview": "svelte-kit preview"
+		"dev": "vite dev --port 3001 --host",
+		"build": "vite build",
+		"build-desktop": "vite build && node pwa.js",
+		"preview": "vite preview"
 	},
 	"dependencies": {
-		"@fontsource/montserrat": "^4.5.1",
+		"@fontsource/montserrat": "^4.5.11",
 		"autoprefixer": "^10.0.2",
 		"cookie": "^0.4.1",
 		"postcss": "^8.1.0",
@@ -28,8 +28,8 @@
 		"tailwindcss": "^3.0.0"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-static": "^1.0.0-next.32",
-		"@sveltejs/kit": "1.0.0-next.350",
+		"@sveltejs/adapter-static": "^1.0.0-next.36",
+		"@sveltejs/kit": "1.0.0-next.377",
 		"@types/cookie": "^0.4.1",
 		"@types/howler": "^2.2.4",
 		"@typescript-eslint/eslint-plugin": "^4.33.0",
@@ -42,11 +42,11 @@
 		"prettier": "^2.5.1",
 		"prettier-plugin-svelte": "^2.5.0",
 		"sass": "^1.44.0",
-		"svelte": "^3.48.0",
+		"svelte": "^3.49.0",
 		"svelte-check": "^1.6.0",
 		"svelte-preprocess": "^4.9.8",
 		"typescript": "^4.5.2",
-		"vite": "^2.9.9",
+		"vite": "^3.0.1",
 		"vite-plugin-pwa": "^0.12.0",
 		"workbox-window": "^6.5.3"
 	}

@@ -31,7 +31,7 @@ export class ManualWatchdogCondition implements IManualWatchdogCondition
             this.result = ((this.machine.ioController.gFinder(this.gateName)?.value || 0) === this.gateValue);
             if(this.result == false)
             {
-                if(this.manual.state > 0)
+                if(this.manual.state > 0 && process.env.NODE_ENV == "production")
                 {
                     this.machine.logger.warn("Manual watchdog condition failed, toggling manual mode off.");
                     this.machine.broadcast(`manual-mode-watchdog-error`);

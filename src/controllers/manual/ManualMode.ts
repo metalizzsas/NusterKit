@@ -93,7 +93,7 @@ export class ManualMode implements IManualMode
             if(this.requires !== undefined)
             {
                 //find if required manual modes are enabled
-                if(this.requires.filter(r => this.machine.manualmodeController.manualModes.find(s => s.name == r)?.state == 0))
+                if(this.requires.filter(r => this.machine.manualmodeController.manualModes.find(s => s.name == r)?.state == 0).length > 0)
                 {
                     return false;
                 }
@@ -154,6 +154,7 @@ export class ManualMode implements IManualMode
     {
         return {
             name: this.name,
+            category: this.category,
             state: this.state,
             locked: this.locked,
 

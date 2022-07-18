@@ -207,6 +207,7 @@
         "list": "Modes manuels",
         "warning": "Les models manuels vous permettent de gérer la machine manuellement. Attention les conditions de sécurité sont désactivées ici.",
         "incompatibilities": "Incompatibilités",
+        "requires": "Nécessitent",
         "categories": {
             "generic": "Générique"
         }
@@ -234,7 +235,8 @@
     "message": {
         "modal": {
             "title": "Message",
-            "manual-mode-watchdog-error": "Il y as eu une erreur de sécurité sur un des modes manuels. Il as donc été désactivé."
+            "manual-mode-watchdog-error": "Il y as eu une erreur de sécurité sur un des modes manuels. Il as donc été désactivé.",
+            "manual-mode-required-parent-toggle-off": "Un mode manuel parent a été désactivé, tout les modes manuels dépendants on été désactivés aussi."
         }
     }
 }

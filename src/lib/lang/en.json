@@ -213,7 +213,8 @@
   "message": {
     "modal": {
       "title": "Message",
-      "manual-mode-watchdog-error": "There was a security error one one of the enabled manual modes. It has been automatically disabled."
+      "manual-mode-watchdog-error": "There was a security error one one of the enabled manual modes. It has been automatically disabled.",
+      "manual-mode-required-parent-toggle-off": "A parent manual mode has been switched off. All children manuals modes were toggled off too."
     }
   },
   "manual": {
@@ -221,6 +222,7 @@
     "list": "Manual modes",
     "warning": "Manual modes helps you to articulate the machine manually. Be careful Security restrictions are partialy disabled here.",
     "incompatibilities": "Incompatibilities",
+    "requires": "Requires",
     "categories": {
       "generic": "Generic"
     }

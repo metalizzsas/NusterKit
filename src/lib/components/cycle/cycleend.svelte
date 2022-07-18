@@ -9,7 +9,6 @@
 	import { time, _ } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
 	import { navTitle } from '$lib/utils/navstack';
-	import { parse } from 'postcss';
 
 	let rating = 0;
 

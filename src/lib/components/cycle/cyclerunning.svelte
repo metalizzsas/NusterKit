@@ -9,23 +9,27 @@
 	import { onDestroy, onMount } from 'svelte';
 	import Navcontainertitle from '../navigation/navcontainertitle.svelte';
 
-	const stopCycle = async () => {
-		fetch('//' + $Linker + '/api/v1/cycle', {
-			method: 'DELETE',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		});
+	const stopCycle = () => {
+		if ($machineData.cycle.status.mode !== 'ended') {
+			fetch('//' + $Linker + '/api/v1/cycle', {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+		}
 	};
 
 	onMount(() => {
-		$navTitle = [
-			$_('cycle.button'),
-			$_('cycle.names.' + $machineData.cycle.name),
-			$machineData.cycle.profile.isPremade
-				? $_('cycle.types.' + $machineData.cycle.profile.name)
-				: $machineData.cycle.profile.name,
-		];
+		$navTitle = [$_('cycle.button'), $_('cycle.names.' + $machineData.cycle.name)];
+		if ($machineData.cycle.profile) {
+			$navTitle = [
+				...$navTitle,
+				$machineData.cycle.profile.isPremade
+					? $_('cycle.types.' + $machineData.cycle.profile.name)
+					: $machineData.cycle.profile.name,
+			];
+		}
 		$navExpandBottom = true;
 	});
 	onDestroy(() => {
@@ -46,7 +50,11 @@
 				<span class="ml-2">
 					{$_('cycle.progression')}:
 					<span class="dark:text-indigo-400 text-indigo-600 font-semibold">
-						{Math.round($machineData.cycle.status.progress * 100)} %
+						{#if $machineData.cycle.status.progress != -1}
+							{Math.round($machineData.cycle.status.progress * 100)} %
+						{:else}
+							{$_('cycle.eta.null')}
+						{/if}
 					</span>
 				</span>
 				<div class="h-8 border-l-[1px] border-neutral-300" />
@@ -87,7 +95,7 @@
 								?.data || '?'}
 						</span>
 					{/if}
-					{#if s.duration.value != '-1' && s.state != 'completed'}
+					{#if s.duration.data !== -1 && s.state != 'completed'}
 						<span class="bg-white rounded-full px-2 py-1 text-gray-800 text-xs">
 							{Math.ceil(s.progress * 100) > 99 ? '100' : Math.ceil(s.progress * 100)}
 							%

@@ -131,6 +131,7 @@
     "updateProgress": "Update downloading progress"
   },
   "cycle": {
+    "eta.null": "Unknown",
     "button": "Cycle",
     "presets": "Constructor defined cycles",
     "presets-anex": "Secondary constructor cycles",

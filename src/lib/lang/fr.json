@@ -126,6 +126,7 @@
         "reload-nuster": "Recharger l'interface"
     },
     "cycle": {
+        "eta.null": "Inconnu",
         "button": "Cycle",
         "name": "Cycles",
         "progression": "Progression",

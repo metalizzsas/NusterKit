@@ -5,6 +5,8 @@ import { ManualWatchdogCondition } from "./ManualModeWatchdog";
 export class ManualMode implements IManualMode
 {
     name: string;
+
+    category: string;
     
     controls: ({name: string, analogScaleDependant: boolean} | string)[];
 
@@ -23,6 +25,8 @@ export class ManualMode implements IManualMode
     constructor(obj: IManualMode, machine: Machine)
     {
         this.name = obj.name;
+
+        this.category = (obj.name.split("#").length > 1) ? obj.name.split("#")[0] : "generic";
         
         this.incompatibility = obj.incompatibility ?? [];
         this.requires = obj.requires;

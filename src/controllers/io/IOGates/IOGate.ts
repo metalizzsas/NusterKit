@@ -1,9 +1,10 @@
-import { IIOGate, EIOGateSize, EIOGateType, EIOGateBus, EIOGateNames } from "../../../interfaces/gates/IIOGate";
+import { IIOGate, EIOGateSize, EIOGateType, EIOGateBus } from "../../../interfaces/gates/IIOGate";
 import { IOController } from "../IOController";
 
 export class IOGate implements IIOGate
 {
-    name: EIOGateNames;
+    name: string;
+    category: string;
 
     size: EIOGateSize;
     type: EIOGateType;
@@ -22,6 +23,8 @@ export class IOGate implements IIOGate
     constructor(obj: IIOGate)
     {
         this.name = obj.name;
+
+        this.category = (obj.name.split("#").length > 1) ? obj.name.split("#")[0] : "generic";
 
         this.size = obj.size;
         this.type = obj.type;

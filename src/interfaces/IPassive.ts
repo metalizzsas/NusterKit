@@ -1,15 +1,13 @@
-import { EIOGateNames } from "./gates/IIOGate";
-
 export interface IPassive
 {
     name: string;
     target: number;
 
-    sensors: EIOGateNames | EIOGateNames[];
+    sensors: string | string[];
 
     actuators: {
-        plus: EIOGateNames | EIOGateNames[],
-        minus?: EIOGateNames | EIOGateNames[]
+        plus: string | string[],
+        minus?: string | string[]
     };
 
     //manual mode requirement

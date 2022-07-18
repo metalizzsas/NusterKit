@@ -1,5 +1,4 @@
 import { model, Schema } from "mongoose";
-import { EIOGateNames } from "../../interfaces/gates/IIOGate";
 import { IPassive } from "../../interfaces/IPassive";
 import { Machine } from "../../Machine";
 
@@ -12,11 +11,11 @@ export class Passive implements IPassive
     //passive setpoint
     target: number;
 
-    sensors: EIOGateNames | EIOGateNames[];
+    sensors: string | string[];
 
     actuators: {
-        plus: EIOGateNames | EIOGateNames[],
-        minus?: EIOGateNames | EIOGateNames[]
+        plus: string | string[],
+        minus?: string | string[]
     }
 
     manualModes?: string | string[];
@@ -79,8 +78,9 @@ export class Passive implements IPassive
     /**
      * Enable the passive from its 
      * @param value true enables false disables
+     * @param manual Enable manual modes 
      */
-    toggle(value: boolean)
+    toggle(value: boolean, manual = true)
     {
         this.state = value;
         this.saveDocument();
@@ -94,7 +94,7 @@ export class Passive implements IPassive
             else
             {
                 //if manual modes are defined, toggle them to 1 & lock them.
-                if(this.manualModes)
+                if(this.manualModes && manual)
                 {
                     if(typeof this.manualModes == "string")
                     {
@@ -189,7 +189,7 @@ export class Passive implements IPassive
             }
 
             //if manual modes are defined, toggle them to 0 & unlock them.
-            if(this.manualModes)
+            if(this.manualModes && manual)
             {
                 if(typeof this.manualModes == "string")
                 {

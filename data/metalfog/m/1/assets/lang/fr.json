@@ -63,16 +63,31 @@
     },
     "cycle": {
         "endreasons": {
-            "watchdog-emergency_stop": "Boutton d'arret d'urgence déclenché",
-            "watchdog-air_sensor": "Pression d'air trop basse",
-            "watchdog-cover_closed": "Couvercle ouvert",
-            "watchdog-levels_eff-max-n": "Niveau d'effluents maximal",
-            "watchdog-eff_container_sensor": "Conteneur d'effluents manquant",
-            "watchdog-levels_edi-min-n": "Niveau d'EDI minimal",
-            "watchdog-levels_act-min-n": "Niveau d'activant minimal",
-            "watchdog-levels_ox-min-n": "Niveau d'oxydant minimal",
-            "watchdog-levels_rd-min-n": "Niveau de réducteur minimal",
+            "security-emergency-stop": "Boutton d'arret d'urgence déclenché",
+            "security-air-sensor": "Pression d'air trop basse",
+            "security-cover-closed": "Couvercle ouvert",
+            "security-levels#eff-max-n": "Niveau d'effluents maximal",
+            "security-eff-container-sensor": "Conteneur d'effluents manquant",
+            "security-levels#edi-min-n": "Niveau d'EDI minimal",
+            "security-levels#act-min-n": "Niveau d'activant minimal",
+            "security-levels#ox-min-n": "Niveau d'oxydant minimal",
+            "security-levels#rd-min-n": "Niveau de réducteur minimal",
             "activator-timed-out": "La dilution d'activant à été trop longue"
+        },
+        "startconditions": {
+            "emergency-stop": "Bouton d'arret d'urgence",
+            "cover-closed": "Couvercle fermé",
+            "air-sensor": "Pression d'air comprimé",
+            "eff-container-sensor": "Réservoir d'effluents présent",
+            "levels#eff-max-n": "Niveau d'effluent",
+            "levels#edi-min-n": "Niveau eau désionisée",
+            "levels#act-min-n": "Niveau activant",
+            "levels#rd-min-n": "Niveau réducteur",
+            "levels#ox-min-n": "Niveau oxydant",
+            "maintenance-filter": "Filtre machine",
+            "oxydiser-life": "Durée de vie oxydant",
+            "activator-life": "Durée de vie activant",
+            "reducer-life": "Durée de vie réducteur"
         },
         "names": {
             "default": "Cycle de base metalfog",
@@ -142,106 +157,100 @@
                 "name": "Vidage réactifs",
                 "desc": "Vidange des conteneurs de réactifs"
             }
-        },
-        "startconditions": {
-            "emergency_stop": "Bouton d'arret d'urgence",
-            "cover_closed": "Couvercle fermé",
-            "air_sensor": "Pression d'air comprimé",
-            "eff_container_sensor": "Réservoir d'effluents présent",
-            "levels_eff-max-n": "Niveau d'effluent",
-            "levels_edi-min-n": "Niveau eau désionisée",
-            "levels_act-min-n": "Niveau activant",
-            "levels_rd-min-n": "Niveau réducteur",
-            "levels_ox-min-n": "Niveau oxydant",
-            "maintenance-filter": "Filtre machine",
-            "oxydiser-life": "Durée de vie oxydant",
-            "activator-life": "Durée de vie activant",
-            "reducer-life": "Durée de vie réducteur"
         }
     },
     "gates": {
         "categories": {
-            "levels_act": "Niveaux activant",
-            "levels_edi": "Niveaux eau désionisée",
-            "act": "Activant",
-            "edi": "Eau désionisée",
-            "hybrid": "Activant & Eau désionisée",
-            "met": "Métallisation",
             "motor": "Moteur de rotation",
-            "ox": "Oxydant",
-            "rd": "Réducteur"
+            "levels": "Niveaux",
+            "hybrid": "Eau DI & Activant",
+            "met": "Réactifs"
         },
         "names": {
-            "emergency_stop": "Bouton d'arret d'urgence",
-            "air_sensor": "Capteur de préssion d'air",
-            "cover_closed": "Capteur de couvercle",
-            "level_eff-n": "Capteur de limite d'éffluents",
-            "eff_container_sensor": "Capteur de présence du conteneur d'éffluents",
-            "air_heater": "Réchauffeur d'air",
-            "levels_eff-max-n": "Limite niveau éffluents",
-            "levels_ox-min-n": "Niveau minimal oxydant",
-            "levels_rd-min-n": "Niveau minimal réducteur",
-            "levels_rd-a": "Niveau réducteur",
-            "levels_act-max-n": "Niveau maximal activant",
-            "levels_act-min-n": "Niveau minimal activant",
-            "levels_edi-max-n": "Niveau maximal eau désionisée",
-            "levels_edi-min-n": "Niveau minimal eau désionisée",
+            "emergency-stop": "Bouton d'arret d'urgence",
+            "air-sensor": "Capteur de préssion d'air",
+            "cover-closed": "Capteur de couvercle",
+            "eff-container-sensor": "Capteur de présence du conteneur d'éffluents",
+
+            "air-heater": "Réchauffeur d'air",
             "ventilation": "Extraction des vapeurs",
-            "act-res": "Mise sous pression conteneur activant",
-            "edi-res": "Mise sous pression conteneur eau désionisée",
-            "ox-res": "Mise sous pression conteneur oxydant",
-            "rd-res": "Mise sous pression conteneur réducteur",
-            "act-lq_high": "Contrôle liquide activant haut",
-            "act-lq_low": "Contrôle liquide activant bas",
-            "edi-lq_high": "Contrôle liquide eau désionisée haut",
-            "edi-lq_low": "Contrôle liquide eau désionisée bas",
-            "edi-lq_fill_act": "Contrôle liquide eau désionisée vers conteur activant",
-            "hybrid-plv_high": "Pulvérisation Activant ou Eau désionisée haut",
-            "hybrid-plv_low": "Pulvérisation Activant ou Eau désionisée bas",
-            "met-plv_high": "Pulvérisation métallisation haute",
-            "met-plv_medium": "Pulvérisation métallisation millieu",
-            "met-plv_low": "Pulvérisation métallisation bas",
-            "motor-direction": "Direction du moteur",
-            "motor-speed": "Vitesse du moteur",
-            "rd-lq_high": "Contrôle liquide réducteur haut",
-            "rd-lq_medium": "Contrôle liquide réducteur millieu",
-            "rd-lq_low": "Contrôle liquide réducteur base",
-            "ox-lq_high": "Contrôle liquide oxydant haut",
-            "ox-lq_medium": "Contrôle liquide oxydant millieu",
-            "ox-lq_low": "Contrôle liquide oxydant base",
-            "rd-air_cleaning_high": "Nettoyage buse reducteur haut",
-            "rd-air_cleaning_medium": "Nettoyage buse reducteur millieu",
-            "rd-air_cleaning_low": "Nettoyage buse reducteur bas",
-            "ox-air_cleaning_high": "Nettoyage buse oxydant haut",
-            "ox-air_cleaning_medium": "Nettoyage buse oxydant millieu",
-            "ox-air_cleaning_low": "Nettoyage buse oxydant bas"
+
+            "motor#direction": "Direction du moteur",
+            "motor#speed": "Vitesse du moteur",
+
+            "levels#eff-max-n": "Limite niveau éffluents",
+
+            "levels#ox-min-n": "Niveau minimal oxydant",
+            "levels#rd-min-n": "Niveau minimal réducteur",
+            
+            "levels#act-max-n": "Niveau maximal activant",
+            "levels#act-min-n": "Niveau minimal activant",
+            
+            "levels#edi-max-n": "Niveau maximal eau désionisée",
+            "levels#edi-min-n": "Niveau minimal eau désionisée",
+
+            "hybrid#act-res": "Mise sous pression conteneur activant",
+            "hybrid#edi-res": "Mise sous pression conteneur eau désionisée",
+
+            "hybrid#plv-high": "Pulvérisation Activant ou Eau désionisée haut",
+            "hybrid#plv-low": "Pulvérisation Activant ou Eau désionisée bas",
+
+            "hybrid#act-lq-high": "Contrôle liquide activant haut",
+            "hybrid#act-lq-low": "Contrôle liquide activant bas",
+            "hybrid#edi-lq-high": "Contrôle liquide eau désionisée haut",
+            "hybrid#edi-lq-low": "Contrôle liquide eau désionisée bas",
+            "hybrid#lq-fill-act": "Contrôle liquide eau désionisée vers conteur activant",
+
+            "met#ox-res": "Mise sous pression conteneur oxydant",
+            "met#rd-res": "Mise sous pression conteneur réducteur",
+
+            "met#plv-high": "Pulvérisation métallisation haute",
+            "met#plv-mid": "Pulvérisation métallisation millieu",
+            "met#plv-low": "Pulvérisation métallisation bas",
+
+            "met#rd-lq-high": "Contrôle liquide réducteur haut",
+            "met#rd-lq-mid": "Contrôle liquide réducteur millieu",
+            "met#rd-lq-low": "Contrôle liquide réducteur base",
+
+            "met#ox-lq-high": "Contrôle liquide oxydant haut",
+            "met#ox-lq-mid": "Contrôle liquide oxydant millieu",
+            "met#ox-lq-low": "Contrôle liquide oxydant base",
+
+            "met#rd-air-cleaning-high": "Nettoyage buse reducteur haut",
+            "met#rd-air-cleaning-mid": "Nettoyage buse reducteur millieu",
+            "met#rd-air-cleaning-low": "Nettoyage buse reducteur bas",
+
+            "met#ox-air-cleaning-high": "Nettoyage buse oxydant haut",
+            "met#ox-air-cleaning-mid": "Nettoyage buse oxydant millieu",
+            "met#ox-air-cleaning-low": "Nettoyage buse oxydant bas"
         }
     },
     "manual": {
         "categories": {
-            "generic": "Generique",
+            "generic": "Générique",
             "empty": "Vidange",
-            "plv": "Pulvérisation"
+            "hybrid": "Eau DI & Activant",
+            "met": "Réactifs"
         },
         "tasks": {
             "motor-rotation": "Vitesse du moteur",
             "ventilation": "Extraction des vapeurs",
-            "air_heater": "Rechauffeur d'air",
-            "fill_act": "Remplissage conteneur activant",
-            "empty_act": "Vidange conteneur Activant",
-            "empty_edi": "Vidange conteneur Eau désionisée",
-            "empty_ox": "Vidange conteneur Oxydant",
-            "empty_rd": "Vidange conteneur Réducteur",
-            "plv_act_high": "Pulvérization haute activant",
-            "plv_act_low": "Pulvérization basse activant",
-            "plv_edi_high": "Pulvérization haute eau désionisée",
-            "plv_edi_low": "Pulvérization basse eau désionisée",
-            "plv_ox_high": "Pulvérization haute oxydant",
-            "plv_ox_mid": "Pulvérization millieu oxydant",
-            "plv_ox_low": "Pulvérization bas oxydant",
-            "plv_rd_high": "Pulvérization haute réducteur",
-            "plv_rd_mid": "Pulvérization millieu réducteur",
-            "plv_rd_low": "Pulvérization bas réducteur"
+            "air-heater": "Rechauffeur d'air",
+            "fill-act": "Remplissage conteneur activant",
+            "empty#act": "Vidange conteneur Activant",
+            "empty#edi": "Vidange conteneur Eau désionisée",
+            "empty#ox": "Vidange conteneur Oxydant",
+            "empty#rd": "Vidange conteneur Réducteur",
+            "hybrid#act-high": "Pulvérization haute activant",
+            "hybrid#act-low": "Pulvérization basse activant",
+            "hybrid#edi-high": "Pulvérization haute eau désionisée",
+            "hybrid#edi-low": "Pulvérization basse eau désionisée",
+            "met#ox-high": "Pulvérization haute oxydant",
+            "met#ox-mid": "Pulvérization millieu oxydant",
+            "met#ox-low": "Pulvérization bas oxydant",
+            "met#rd-high": "Pulvérization haute réducteur",
+            "met#rd-mid": "Pulvérization millieu réducteur",
+            "met#rd-low": "Pulvérization bas réducteur"
         }
     },
     "maintenance": {

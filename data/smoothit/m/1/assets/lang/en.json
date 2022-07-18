@@ -35,11 +35,18 @@
             "uv-cache-wrong": "UV Cache error",
             "ir-cache-wrong": "IR Cache error",
             "nozzle-cache-wrong": "Nozzle Cache error",
-            "watchdog-emergency_stop": "Emergency stop button pressed",
-            "watchdog-nitrogen_sensor": "Nitrogen pressure too low",
-            "watchdog-cover_closed": "Cover open",
-            "watchdog-resin-slot_sensor": "Vanish slot missing",
-            "watchdog-uv-overheat": "UV lamp overheat"
+            "security-emergency-stop": "Emergency stop button pressed",
+            "security-nitrogen-sensor": "Nitrogen pressure too low",
+            "security-cover-closed": "Cover open",
+            "security-resin#slot-sensor": "Vanish slot missing",
+            "security-uv#overheat": "UV lamp overheat"
+        },
+        "startconditions": {
+            "emergency-stop": "Emergency stop button status",
+            "nitrogen-sensor": "Nitrogen pressure",
+            "cover-closed": "Cover closed",
+            "resin#slot-sensor": "Vanish slot containter",
+            "uv#overheat": "UV lamp temperature"
         },
         "steps": {
             "pulverization": {
@@ -68,60 +75,68 @@
         "name": "IO Controls",
         "categories": {
             "motor": "Rotation Motor",
-            "ox": "Oxydiser",
             "rd": "Reducer",
             "ir": "Infrared",
             "uv": "Ultraviolet",
-            "nozzle": "Nozzle"
+            "nozzle": "Nozzle",
+            "resin": "Varnish"
         },
         "names": {
-            "emergency_stop": "Emergency stop button",
-            "air_sensor": "Air pressure sensor",
-            "nitrogen_sensor": "Nitrogen pressure sensor",
-            "cover_closed": "Cover closed",
-            "levels_eff-n": "Effluents limit",
-            "eff_container_sensor": "Effluents container sensor",
-            "resin-slot_sensor": "Varnish container sensor",
-            "ir-sensor_open": "IR cache open",
-            "ir-sensor_closed": "IR cache closed",
-            "uv-sensor_open": "UV cache open",
-            "uv-sensor_closed": "UV cache closed",
-            "uv-overheat": "UV overheat security",
-            "nozzle-sensor_open": "Nozzle cache open",
-            "nozzle-sensor_closed": "Nozzle cache closed",
+            "emergency-stop": "Emergency stop button",
+            "air-sensor": "Air pressure sensor",
+            "nitrogen-sensor": "Nitrogen pressure sensor",
+            "cover-closed": "Cover closed",
+            "eff-container-sensor": "Effluents container sensor",
             "ventilation": "Vapors extraction",
-            "air_heater": "Air heater",
-            "resin-pressure": "Varnish container pressure",
+            "air-heater": "Air heater",
             "inerting": "Inerting",
-            "ir-enable": "IR lamp",
-            "ir-ventil": "IR lamp ventilation",
-            "ir-cache": "IR lamp cache",
-            "uv-enable": "UV lamp",
-            "uv-ventil": "UV lamp ventilation",
-            "uv-power": "UV lamp power",
-            "uv-cache": "UV lamp cache",
-            "motor-direction": "Motor direction",
-            "motor-speed": "Motor speed",
-            "nozzle-pulverization": "Nozzle pulverization",
-            "nozzle-cache": "Nozzle cache"
+
+            "resin#pressure": "Varnish container pressure",
+            "resin#slot-sensor": "Varnish container sensor",
+
+            "ir#enable": "IR lamp",
+            "ir#ventil": "IR lamp ventilation",
+            "ir#cache": "IR lamp cache",
+            "ir#sensor-open": "IR cache open",
+            "ir#sensor-closed": "IR cache closed",
+            
+            "uv#enable": "UV lamp",
+            "uv#ventil": "UV lamp ventilation",
+            "uv#power": "UV lamp power",
+            "uv#cache": "UV lamp cache",
+            "uv#sensor-open": "UV cache open",
+            "uv#sensor-closed": "UV cache closed",
+            "uv#overheat": "UV overheat security",
+            
+            "motor#direction": "Motor direction",
+            "motor#speed": "Motor speed",
+            
+            "nozzle#pulverization": "Nozzle pulverization",
+            "nozzle#cache": "Nozzle cache",
+            "nozzle#sensor-open": "Nozzle cache open",
+            "nozzle#sensor-closed": "Nozzle cache closed"
         }
     },
     "manual": {
         "categories": {
-            "empty": "Emptying",
-            "plv": "Pulverization"
+            "uv": "Ultraviolet",
+            "ir": "Infrared",
+            "nozzle": "Pulverization"
         },
         "tasks": {
             "motor-rotation": "Motor rotation",
             "ventilation": "Vapors extraction",
-            "air_heater": "Air heater",
-            "uv-cache": "UV lamp cache",
-            "ir-cache": "IR lamp cache",
-            "nozzle-cache": "Nozzle cache",
-            "nozzle-pulverization": "Nozzle pulverization",
-            "ir-curing": "IR curing",
-            "uv-curing": "UV curing",
-            "inerting": "Inerting"
+            "air-heater": "Air heater",
+            "inerting": "Inerting",
+
+            "uv#cache": "UV lamp cache",
+            "uv#curing": "UV curing",
+
+            "ir#cache": "IR lamp cache",
+            "ir#curing": "IR curing",
+
+            "nozzle#cache": "Nozzle cache",
+            "nozzle#pulverization": "Nozzle pulverization"
         }
     },
     "maintenance": {

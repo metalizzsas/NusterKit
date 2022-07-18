@@ -1,5 +1,5 @@
 {
-   "$schema": "../../../../__tests__/schema.json",
+   "$schema": "../../../../src/schema/schema.json",
    "iohandlers": [
       {
          "name": "WAGO",
@@ -14,7 +14,7 @@
    ],
    "iogates": [
       {
-         "name": "emergency_stop",
+         "name": "emergency-stop",
          "type": "default",
          "size": "bit",
          "bus": "in",
@@ -24,7 +24,7 @@
          "isCritical": true
       },
       {
-         "name": "nitrogen_sensor",
+         "name": "nitrogen-sensor",
          "type": "default",
          "size": "bit",
          "bus": "in",
@@ -34,7 +34,7 @@
          "isCritical": true
       },
       {
-         "name": "cover_closed",
+         "name": "cover-closed",
          "type": "default",
          "size": "bit",
          "bus": "in",
@@ -44,7 +44,7 @@
          "isCritical": true
       },
       {
-         "name": "resin-slot_sensor",
+         "name": "resin#slot-sensor",
          "type": "default",
          "size": "bit",
          "bus": "in",
@@ -54,7 +54,7 @@
          "isCritical": true
       },
       {
-         "name": "nozzle-sensor_open",
+         "name": "nozzle#sensor-open",
          "type": "default",
          "size": "bit",
          "bus": "in",
@@ -65,7 +65,7 @@
          "isCritical": true
       },
       {
-         "name": "nozzle-sensor_closed",
+         "name": "nozzle#sensor-closed",
          "type": "default",
          "size": "bit",
          "bus": "in",
@@ -76,7 +76,7 @@
          "isCritical": true
       },
       {
-         "name": "ir-sensor_open",
+         "name": "ir#sensor-open",
          "type": "default",
          "size": "bit",
          "bus": "in",
@@ -87,7 +87,7 @@
          "isCritical": true
       },
       {
-         "name": "ir-sensor_closed",
+         "name": "ir#sensor-closed",
          "type": "default",
          "size": "bit",
          "bus": "in",
@@ -98,7 +98,7 @@
          "isCritical": true
       },
       {
-         "name": "uv-sensor_open",
+         "name": "uv#sensor-open",
          "type": "default",
          "size": "bit",
          "bus": "in",
@@ -109,7 +109,7 @@
          "isCritical": true
       },
       {
-         "name": "uv-sensor_closed",
+         "name": "uv#sensor-closed",
          "type": "default",
          "size": "bit",
          "bus": "in",
@@ -120,7 +120,7 @@
          "isCritical": true
       },
       {
-         "name": "uv-overheat",
+         "name": "uv#overheat",
          "type": "default",
          "size": "bit",
          "bus": "in",
@@ -130,7 +130,7 @@
          "isCritical": true
       },
       {
-         "name": "motor-direction",
+         "name": "motor#direction",
          "type": "default",
          "size": "bit",
          "bus": "out",
@@ -140,7 +140,7 @@
          "levelMax": 0
       },
       {
-         "name": "uv-enable",
+         "name": "uv#enable",
          "type": "default",
          "size": "bit",
          "bus": "out",
@@ -150,7 +150,7 @@
          "levelMax": 0
       },
       {
-         "name": "uv-ventil",
+         "name": "uv#ventil",
          "type": "default",
          "size": "bit",
          "bus": "out",
@@ -160,7 +160,7 @@
          "levelMax": 0
       },
       {
-         "name": "ir-enable",
+         "name": "ir#enable",
          "type": "default",
          "size": "bit",
          "bus": "out",
@@ -170,7 +170,7 @@
          "levelMax": 0
       },
       {
-         "name": "ir-ventil",
+         "name": "ir#ventil",
          "type": "default",
          "size": "bit",
          "bus": "out",
@@ -190,7 +190,7 @@
          "levelMax": 0
       },
       {
-         "name": "air_heater",
+         "name": "air-heater",
          "type": "default",
          "size": "bit",
          "bus": "out",
@@ -200,7 +200,7 @@
          "levelMax": 0
       },
       {
-         "name": "motor-speed",
+         "name": "motor#speed",
          "type": "a10v",
          "size": "word",
          "bus": "out",
@@ -210,7 +210,7 @@
          "levelMax": 0
       },
       {
-         "name": "uv-power",
+         "name": "uv#power",
          "type": "a10v",
          "size": "word",
          "bus": "out",
@@ -220,7 +220,7 @@
          "levelMax": 0
       },
       {
-         "name": "nozzle-pulverization",
+         "name": "nozzle#pulverization",
          "type": "default",
          "size": "bit",
          "bus": "out",
@@ -230,7 +230,7 @@
          "levelMax": 0
       },
       {
-         "name": "resin-pressure",
+         "name": "resin#pressure",
          "type": "default",
          "size": "bit",
          "bus": "out",
@@ -250,7 +250,7 @@
          "levelMax": 0
       },
       {
-         "name": "nozzle-cache",
+         "name": "nozzle#cache",
          "type": "default",
          "size": "bit",
          "bus": "out",
@@ -260,7 +260,7 @@
          "levelMax": 0
       },
       {
-         "name": "uv-cache",
+         "name": "uv#cache",
          "type": "default",
          "size": "bit",
          "bus": "out",
@@ -270,7 +270,7 @@
          "levelMax": 0
       },
       {
-         "name": "ir-cache",
+         "name": "ir#cache",
          "type": "default",
          "size": "bit",
          "bus": "out",
@@ -287,7 +287,7 @@
          "isProductable": true,
          "sensors": [
             {
-               "io": "resin-slot_sensor",
+               "io": "resin#slot-sensor",
                "type": "level-np"
             }
          ]
@@ -636,9 +636,8 @@
    "manual": [
       {
          "name": "motor-rotation",
-         "incompatibility": [],
          "controls": [
-            {"name": "motor-speed", "analogScaleDependant": true}
+            {"name": "motor#speed", "analogScaleDependant": true}
          ],
          "analogScale": {
             "min": 0,
@@ -646,101 +645,109 @@
          },
          "watchdog": [
             {
-               "gateName": "cover_closed",
+               "gateName": "cover-closed",
                "gateValue": 1
             }
          ]
       },
       {
-         "name": "uv-cache",
-         "incompatibility": [],
+         "name": "uv#cache",
          "controls": [
-            {"name": "uv-cache"}
-         ]
-      },
-      {
-         "name": "ir-cache",
-         "incompatibility": [],
-         "controls": [
-            {"name": "ir-cache"}
+            "uv#cache"
          ],
          "watchdog": [
             {
-               "gateName": "cover_closed",
+               "gateName": "cover-closed",
                "gateValue": 1
             }
          ]
       },
       {
-         "name": "nozzle-cache",
-         "incompatibility": [],
+         "name": "ir#cache",
          "controls": [
-            {"name": "nozzle-cache"}
+            "ir#cache"
          ],
          "watchdog": [
             {
-               "gateName": "cover_closed",
+               "gateName": "cover-closed",
                "gateValue": 1
             }
          ]
       },
       {
-         "name": "nozzle-pulverization",
+         "name": "nozzle#cache",
+         "controls": [
+            "nozzle#cache"
+         ],
+         "watchdog": [
+            {
+               "gateName": "cover-closed",
+               "gateValue": 1
+            }
+         ]
+      },
+      {
+         "name": "nozzle#pulverization",
          "incompatibility": [
-            "+uv-cache",
-            "+ir-cache",
-            "nozzle-cache"
+            "nozzle#cache"
+         ],
+         "requires": [
+            "uv#cache",
+            "ir#cache"
          ],
          "controls": [
-            {"name": "resin-pressure"},
-            {"name": "nozzle-pulverization"}
+            "resin#pressure",
+            "nozzle#pulverization"
          ],
          "watchdog": [
             {
-               "gateName": "resin-slot_sensor",
+               "gateName": "resin#slot-sensor",
                "gateValue": 1
             },
             {
-               "gateName": "cover_closed",
+               "gateName": "cover-closed",
                "gateValue": 1
             }
          ]
       },
       {
          "name": "ventilation",
-         "incompatibility": [],
          "controls": [
-            {"name": "ventilation"}
+            "ventilation"
          ]
       },
       {
-         "name": "ir-curing",
+         "name": "ir#curing",
          "incompatibility": [
-            "+uv-cache",
-            "+nozzle-cache",
-            "ir-cache"
+            "ir#cache"
+         ],
+         "requires": [
+            "uv#cache",
+            "nozzle#cache"
          ],
          "controls": [
-            {"name": "ir-enable"},
-            {"name": "ir-ventil"}
+            "ir#enable",
+            "ir#ventil"
          ],
          "watchdog": [
             {
-               "gateName": "cover_closed",
+               "gateName": "cover-closed",
                "gateValue": 1
             }
          ]
       },
       {
-         "name": "uv-curing",
+         "name": "uv#curing",
          "incompatibility": [
-            "+ir-cache",
-            "+nozzle-cache",
-            "uv-cache"
+            "uv#cache"
+         ],
+         "requires": [
+            "ir#cache",
+            "nozzle#cache"
          ],
          "controls": [
-            {"name": "uv-enable", "analogScaleDependant": true},
-            {"name": "uv-ventil"}
+            {"name": "uv#enable", "analogScaleDependant": true},
+            "uv#ventil"
          ],
          "analogScale": {
             "min": 0,
@@ -748,16 +755,15 @@
          },
          "watchdog": [
             {
-               "gateName": "cover_closed",
+               "gateName": "cover-closed",
                "gateValue": 1
             }
          ]
       },
       {
          "name": "inerting",
-         "incompatibility": [],
          "controls": [
-            {"name": "inerting"}
+            "inerting"
          ]
       }
    ],
@@ -785,57 +791,57 @@
             "profileRequired": true,
             "startConditions": [
                {
-                  "conditionName": "emergency_stop",
+                  "conditionName": "emergency-stop",
                   "startOnly": false,
                   "checkChain": {
                      "name": "io",
                      "io": {
-                        "gateName": "emergency_stop",
-                        "gateValue": "1"
+                        "gateName": "emergency-stop",
+                        "gateValue": 1
                      }
                   }
                },
                {
-                  "conditionName": "nitrogen_sensor",
+                  "conditionName": "nitrogen-sensor",
                   "startOnly": false,
                   "checkChain": {
                      "name": "io",
                      "io": {
-                        "gateName": "nitrogen_sensor",
-                        "gateValue": "1"
+                        "gateName": "nitrogen-sensor",
+                        "gateValue": 1
                      }
                   }
                },
                {
-                  "conditionName": "cover_closed",
+                  "conditionName": "cover-closed",
                   "startOnly": false,
                   "checkChain": {
                      "name": "io",
                      "io": {
-                        "gateName": "cover_closed",
-                        "gateValue": "1"
+                        "gateName": "cover-closed",
+                        "gateValue": 1
                      }
                   }
                },
                {
-                  "conditionName": "resin-slot_sensor",
+                  "conditionName": "resin#slot-sensor",
                   "startOnly": false,
                   "checkChain": {
                      "name": "io",
                      "io": {
-                        "gateName": "resin-slot_sensor",
-                        "gateValue": "1"
+                        "gateName": "resin#slot-sensor",
+                        "gateValue": 1
                      }
                   }
                },
                {
-                  "conditionName": "uv-overheat",
+                  "conditionName": "uv#overheat",
                   "startOnly": false,
                   "checkChain": {
                      "name": "io",
                      "io": {
-                        "gateName": "uv-overheat",
-                        "gateValue": "1"
+                        "gateName": "uv#overheat",
+                        "gateValue": 1
                      }
                   }
                }
@@ -845,11 +851,11 @@
                   "name": "start",
                   "isEnabled": {
                      "name": "const",
-                     "value": "1"
+                     "value": 1
                   },
                   "duration": {
                      "name": "const",
-                     "value": "30"
+                     "value": 30
                   },
                   "blocks": [
                      {
@@ -857,7 +863,7 @@
                         "params": [
                            {
                               "name": "const",
-                              "value": "30"
+                              "value": 30
                            }
                         ],
                         "_folded": false
@@ -869,11 +875,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "air_heater"
+                              "value": "air-heater"
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ]
                      },
@@ -882,19 +888,18 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "motor-speed"
+                              "value": "motor#speed"
                            },
                            {
                               "name": "multiply",
-                              "value": "",
                               "params": [
                                  {
                                     "name": "profile",
-                                    "value": "motor.speed"
+                                    "value": "motor#speed"
                                  },
                                  {
                                     "name": "profile",
-                                    "value": "motor.enabled"
+                                    "value": "motor#enabled"
                                  }
                               ]
                            }
@@ -910,7 +915,7 @@
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ],
                         "_folded": false
@@ -920,7 +925,7 @@
                         "params": [
                            {
                               "name": "profile",
-                              "value": "motor.reverseEnabled"
+                              "value": "motor#reverseEnabled"
                            },
                            {
                               "name": "conststr",
@@ -928,10 +933,11 @@
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ],
-                        "blocks": [
+                        "falseBlocks": [],
+                        "trueBlocks": [
                            {
                               "name": "startTimer",
                               "params": [
@@ -941,7 +947,7 @@
                                  },
                                  {
                                     "name": "profile",
-                                    "value": "motor.reverseTime"
+                                    "value": "motor#reverseTime"
                                  }
                               ],
                               "blocks": [
@@ -950,7 +956,7 @@
                                     "params": [
                                        {
                                           "name": "conststr",
-                                          "value": "motor-direction"
+                                          "value": "motor#direction"
                                        },
                                        {
                                           "name": "reverse",
@@ -958,7 +964,7 @@
                                           "params": [
                                              {
                                                 "name": "io",
-                                                "value": "motor-direction"
+                                                "value": "motor#direction"
                                              }
                                           ]
                                        }
@@ -979,7 +985,7 @@
                   "name": "pulverization",
                   "isEnabled": {
                      "name": "profile",
-                     "value": "pulverization.enabled"
+                     "value": "pulverization#enabled"
                   },
                   "duration": {
                      "name": "multiply",
@@ -987,7 +993,7 @@
                      "params": [
                         {
                            "name": "profile",
-                           "value": "pulverization.count"
+                           "value": "pulverization#count"
                         },
                         {
                            "name": "add",
@@ -995,11 +1001,11 @@
                            "params": [
                               {
                                  "name": "profile",
-                                 "value": "pulverization.timeOn"
+                                 "value": "pulverization#timeOn"
                               },
                               {
                                  "name": "profile",
-                                 "value": "pulverization.timeOff"
+                                 "value": "pulverization#timeOff"
                               }
                            ]
                         }
@@ -1011,19 +1017,19 @@
                      "params": [
                         {
                            "name": "profile",
-                           "value": "multilayer.enabled"
+                           "value": "multilayer#enabled"
                         },
                         {
                            "name": "const",
-                           "value": "1"
+                           "value": 1
                         },
                         {
                            "name": "profile",
-                           "value": "multilayer.count"
+                           "value": "multilayer#count"
                         },
                         {
                            "name": "const",
-                           "value": "1"
+                           "value": 1
                         }
                      ]
                   },
@@ -1033,7 +1039,7 @@
                         "params": [
                            {
                               "name": "const",
-                              "value": "3"
+                              "value": 3
                            }
                         ]
                      },
@@ -1042,7 +1048,7 @@
                         "params": [
                            {
                               "name": "io",
-                              "value": "nozzle-sensor_open"
+                              "value": "nozzle#sensor-open"
                            },
                            {
                               "name": "conststr",
@@ -1050,16 +1056,17 @@
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ],
-                        "blocks": [
+                        "falseBlocks": [],
+                        "trueBlocks": [
                            {
                               "name": "stop",
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "nozzle-cache-wrong"
+                                    "value": "nozzle#cache-wrong"
                                  }
                               ],
                               "_folded": false
@@ -1072,7 +1079,7 @@
                         "params": [
                            {
                               "name": "io",
-                              "value": "uv-sensor_closed"
+                              "value": "uv#sensor-closed"
                            },
                            {
                               "name": "conststr",
@@ -1080,16 +1087,17 @@
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ],
-                        "blocks": [
+                        "falseBlocks": [],
+                        "trueBlocks": [
                            {
                               "name": "stop",
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "uv-cache-wrong"
+                                    "value": "uv#cache-wrong"
                                  }
                               ],
                               "_folded": false
@@ -1102,7 +1110,7 @@
                         "params": [
                            {
                               "name": "io",
-                              "value": "ir-sensor_closed"
+                              "value": "ir#sensor-closed"
                            },
                            {
                               "name": "conststr",
@@ -1110,16 +1118,17 @@
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ],
-                        "blocks": [
+                        "falseBlocks": [],
+                        "trueBlocks": [
                            {
                               "name": "stop",
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "ir-cache-wrong"
+                                    "value": "ir#cache-wrong"
                                  }
                               ],
                               "_folded": false
@@ -1132,11 +1141,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "resin-pressure"
+                              "value": "resin#pressure"
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ],
                         "_folded": true
@@ -1146,7 +1155,7 @@
                         "params": [
                            {
                               "name": "profile",
-                              "value": "pulverization.count"
+                              "value": "pulverization#count"
                            }
                         ],
                         "blocks": [
@@ -1155,11 +1164,11 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "nozzle-pulverization"
+                                    "value": "nozzle#pulverization"
                                  },
                                  {
                                     "name": "const",
-                                    "value": "1"
+                                    "value": 1
                                  }
                               ],
                               "_folded": true
@@ -1169,7 +1178,7 @@
                               "params": [
                                  {
                                     "name": "profile",
-                                    "value": "pulverization.timeOn"
+                                    "value": "pulverization#timeOn"
                                  }
                               ],
                               "_folded": true
@@ -1179,11 +1188,11 @@
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "nozzle-pulverization"
+                                    "value": "nozzle#pulverization"
                                  },
                                  {
                                     "name": "const",
-                                    "value": "0"
+                                    "value": 0
                                  }
                               ],
                               "_folded": true
@@ -1193,7 +1202,7 @@
                               "params": [
                                  {
                                     "name": "profile",
-                                    "value": "pulverization.timeOff"
+                                    "value": "pulverization#timeOff"
                                  }
                               ],
                               "_folded": true
@@ -1206,11 +1215,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "resin-pressure"
+                              "value": "resin#pressure"
                            },
                            {
                               "name": "const",
-                              "value": "0"
+                              "value": 0
                            }
                         ],
                         "_folded": true
@@ -1222,11 +1231,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "nozzle-cache"
+                              "value": "nozzle#cache"
                            },
                            {
                               "name": "const",
-                              "value": "0"
+                              "value": 0
                            }
                         ],
                         "_folded": true
@@ -1236,11 +1245,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "uv-cache"
+                              "value": "uv#cache"
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ],
                         "_folded": true
@@ -1250,11 +1259,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ir-cache"
+                              "value": "ir#cache"
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ],
                         "_folded": true
@@ -1266,11 +1275,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "nozzle-cache"
+                              "value": "nozzle#cache"
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ],
                         "_folded": true
@@ -1282,11 +1291,11 @@
                   "name": "ir-curing",
                   "isEnabled": {
                      "name": "profile",
-                     "value": "ir-curing.enabled"
+                     "value": "ir-curing#enabled"
                   },
                   "duration": {
                      "name": "profile",
-                     "value": "ir-curing.duration"
+                     "value": "ir-curing#duration"
                   },
                   "runAmount": {
                      "name": "conditional",
@@ -1294,19 +1303,19 @@
                      "params": [
                         {
                            "name": "profile",
-                           "value": "multilayer.enabled"
+                           "value": "multilayer#enabled"
                         },
                         {
                            "name": "const",
-                           "value": "1"
+                           "value": 1
                         },
                         {
                            "name": "profile",
-                           "value": "multilayer.count"
+                           "value": "multilayer#count"
                         },
                         {
                            "name": "const",
-                           "value": "1"
+                           "value": 1
                         }
                      ]
                   },
@@ -1316,7 +1325,7 @@
                         "params": [
                            {
                               "name": "const",
-                              "value": "3"
+                              "value": 3
                            }
                         ]
                      },
@@ -1325,7 +1334,7 @@
                         "params": [
                            {
                               "name": "io",
-                              "value": "ir-sensor_open"
+                              "value": "ir#sensor-open"
                            },
                            {
                               "name": "conststr",
@@ -1333,16 +1342,17 @@
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ],
-                        "blocks": [
+                        "falseBlocks": [],
+                        "trueBlocks": [
                            {
                               "name": "stop",
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "ir-cache-wrong"
+                                    "value": "ir#cache-wrong"
                                  }
                               ],
                               "_folded": false
@@ -1355,7 +1365,7 @@
                         "params": [
                            {
                               "name": "io",
-                              "value": "nozzle-sensor_closed"
+                              "value": "nozzle#sensor-closed"
                            },
                            {
                               "name": "conststr",
@@ -1363,16 +1373,17 @@
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ],
-                        "blocks": [
+                        "falseBlocks": [],
+                        "trueBlocks": [
                            {
                               "name": "stop",
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "nozzle-cache-wrong"
+                                    "value": "nozzle#cache-wrong"
                                  }
                               ],
                               "_folded": false
@@ -1385,7 +1396,7 @@
                         "params": [
                            {
                               "name": "io",
-                              "value": "uv-sensor_closed"
+                              "value": "uv#sensor-closed"
                            },
                            {
                               "name": "conststr",
@@ -1393,16 +1404,17 @@
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ],
-                        "blocks": [
+                        "falseBlocks": [],
+                        "trueBlocks": [
                            {
                               "name": "stop",
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "uv-cache-wrong"
+                                    "value": "uv#cache-wrong"
                                  }
                               ],
                               "_folded": false
@@ -1415,11 +1427,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ir-enable"
+                              "value": "ir#enable"
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ],
                         "_folded": true
@@ -1429,7 +1441,7 @@
                         "params": [
                            {
                               "name": "profile",
-                              "value": "ir-curing.duration"
+                              "value": "ir-curing#duration"
                            }
                         ],
                         "_folded": true
@@ -1439,11 +1451,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ir-enable"
+                              "value": "ir#enable"
                            },
                            {
                               "name": "const",
-                              "value": "0"
+                              "value": 0
                            }
                         ],
                         "_folded": true
@@ -1455,11 +1467,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ir-cache"
+                              "value": "ir#cache"
                            },
                            {
                               "name": "const",
-                              "value": "0"
+                              "value": 0
                            }
                         ],
                         "_folded": true
@@ -1469,11 +1481,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ir-ventil"
+                              "value": "ir#ventil"
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ],
                         "_folded": true
@@ -1485,11 +1497,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ir-cache"
+                              "value": "ir#cache"
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ],
                         "_folded": true
@@ -1507,11 +1519,11 @@
                               "params": [
                                  {
                                     "name": "const",
-                                    "value": "0.0002777778"
+                                    "value": 0.0002777778
                                  },
                                  {
                                     "name": "profile",
-                                    "value": "ir-curing.duration"
+                                    "value": "ir-curing#duration"
                                  }
                               ]
                            }
@@ -1525,11 +1537,11 @@
                   "name": "inerting",
                   "isEnabled": {
                      "name": "profile",
-                     "value": "inerting.enabled"
+                     "value": "inerting#enabled"
                   },
                   "duration": {
                      "name": "profile",
-                     "value": "inerting.duration"
+                     "value": "inerting#duration"
                   },
                   "runAmount": {
                      "name": "conditional",
@@ -1537,19 +1549,19 @@
                      "params": [
                         {
                            "name": "profile",
-                           "value": "multilayer.enabled"
+                           "value": "multilayer#enabled"
                         },
                         {
                            "name": "const",
-                           "value": "1"
+                           "value": 1
                         },
                         {
                            "name": "profile",
-                           "value": "multilayer.count"
+                           "value": "multilayer#count"
                         },
                         {
                            "name": "const",
-                           "value": "1"
+                           "value": 1
                         }
                      ]
                   },
@@ -1559,7 +1571,7 @@
                         "params": [
                            {
                               "name": "profile",
-                              "value": "inerting.duration"
+                              "value": "inerting#duration"
                            }
                         ],
                         "_folded": true
@@ -1575,7 +1587,7 @@
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ],
                         "_folded": true
@@ -1589,7 +1601,7 @@
                            },
                            {
                               "name": "const",
-                              "value": "0"
+                              "value": 0
                            }
                         ],
                         "_folded": true
@@ -1605,7 +1617,7 @@
                            },
                            {
                               "name": "const",
-                              "value": "0"
+                              "value": 0
                            }
                         ],
                         "_folded": true
@@ -1617,11 +1629,11 @@
                   "name": "uv-curing",
                   "isEnabled": {
                      "name": "profile",
-                     "value": "uv-curing.enabled"
+                     "value": "uv-curing#enabled"
                   },
                   "duration": {
                      "name": "profile",
-                     "value": "uv-curing.duration"
+                     "value": "uv-curing#duration"
                   },
                   "runAmount": {
                      "name": "conditional",
@@ -1629,19 +1641,19 @@
                      "params": [
                         {
                            "name": "profile",
-                           "value": "multilayer.enabled"
+                           "value": "multilayer#enabled"
                         },
                         {
                            "name": "const",
-                           "value": "1"
+                           "value": 1
                         },
                         {
                            "name": "profile",
-                           "value": "multilayer.count"
+                           "value": "multilayer#count"
                         },
                         {
                            "name": "const",
-                           "value": "1"
+                           "value": 1
                         }
                      ]
                   },
@@ -1651,7 +1663,7 @@
                         "params": [
                            {
                               "name": "const",
-                              "value": "3"
+                              "value": 3
                            }
                         ]
                      },
@@ -1660,7 +1672,7 @@
                         "params": [
                            {
                               "name": "io",
-                              "value": "uv-sensor_open"
+                              "value": "uv#sensor-open"
                            },
                            {
                               "name": "conststr",
@@ -1668,16 +1680,17 @@
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ],
-                        "blocks": [
+                        "falseBlocks": [],
+                        "trueBlocks": [
                            {
                               "name": "stop",
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "uv-cache-wrong"
+                                    "value": "uv#cache-wrong"
                                  }
                               ],
                               "_folded": false
@@ -1690,7 +1703,7 @@
                         "params": [
                            {
                               "name": "io",
-                              "value": "ir-sensor_closed"
+                              "value": "ir#sensor-closed"
                            },
                            {
                               "name": "conststr",
@@ -1698,16 +1711,17 @@
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ],
-                        "blocks": [
+                        "falseBlocks": [],
+                        "trueBlocks": [
                            {
                               "name": "stop",
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "ir-cache-wrong"
+                                    "value": "ir#cache-wrong"
                                  }
                               ],
                               "_folded": false
@@ -1720,7 +1734,7 @@
                         "params": [
                            {
                               "name": "io",
-                              "value": "nozzle-sensor_closed"
+                              "value": "nozzle#sensor-closed"
                            },
                            {
                               "name": "conststr",
@@ -1728,16 +1742,17 @@
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ],
-                        "blocks": [
+                        "falseBlocks": [],
+                        "trueBlocks": [
                            {
                               "name": "stop",
                               "params": [
                                  {
                                     "name": "conststr",
-                                    "value": "nozzle-cache-wrong"
+                                    "value": "nozzle#cache-wrong"
                                  }
                               ],
                               "_folded": false
@@ -1750,11 +1765,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "uv-power"
+                              "value": "uv#power"
                            },
                            {
                               "name": "profile",
-                              "value": "uv-curing.uv-power"
+                              "value": "uv-curing#uv-power"
                            }
                         ],
                         "_folded": true
@@ -1764,11 +1779,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "uv-enable"
+                              "value": "uv#enable"
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ],
                         "_folded": true
@@ -1782,11 +1797,11 @@
                               "params": [
                                  {
                                     "name": "profile",
-                                    "value": "multilayer.enabled"
+                                    "value": "multilayer#enabled"
                                  },
                                  {
                                     "name": "const",
-                                    "value": "1"
+                                    "value": 1
                                  },
                                  {
                                     "name": "conditional",
@@ -1794,7 +1809,7 @@
                                     "params": [
                                        {
                                           "name": "profile",
-                                          "value": "multilayer.count"
+                                          "value": "multilayer#count"
                                        },
                                        {
                                           "name": "add",
@@ -1802,7 +1817,7 @@
                                           "params": [
                                              {
                                                 "name": "const",
-                                                "value": "1"
+                                                "value": 1
                                              },
                                              {
                                                 "name": "variable",
@@ -1812,17 +1827,17 @@
                                        },
                                        {
                                           "name": "profile",
-                                          "value": "uv-curing.duration"
+                                          "value": "uv-curing#duration"
                                        },
                                        {
                                           "name": "profile",
-                                          "value": "multilayer.interlayer-uvduration"
+                                          "value": "multilayer#interlayer-uvduration"
                                        }
                                     ]
                                  },
                                  {
                                     "name": "profile",
-                                    "value": "uv-curing.duration"
+                                    "value": "uv-curing#duration"
                                  }
                               ]
                            }
@@ -1834,11 +1849,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "uv-power"
+                              "value": "uv#power"
                            },
                            {
                               "name": "const",
-                              "value": "0"
+                              "value": 0
                            }
                         ],
                         "_folded": true
@@ -1848,11 +1863,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "uv-enable"
+                              "value": "uv#enable"
                            },
                            {
                               "name": "const",
-                              "value": "0"
+                              "value": 0
                            }
                         ],
                         "_folded": true
@@ -1864,11 +1879,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "uv-cache"
+                              "value": "uv#cache"
                            },
                            {
                               "name": "const",
-                              "value": "0"
+                              "value": 0
                            }
                         ],
                         "_folded": true
@@ -1878,11 +1893,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "uv-ventil"
+                              "value": "uv#ventil"
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ],
                         "_folded": true
@@ -1896,7 +1911,7 @@
                            },
                            {
                               "name": "const",
-                              "value": "0"
+                              "value": 0
                            }
                         ],
                         "_folded": true
@@ -1908,11 +1923,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "uv-cache"
+                              "value": "uv#cache"
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ],
                         "_folded": true
@@ -1930,7 +1945,7 @@
                               "params": [
                                  {
                                     "name": "const",
-                                    "value": "0.0002777778"
+                                    "value": 0.0002777778
                                  },
                                  {
                                     "name": "conditional",
@@ -1938,11 +1953,11 @@
                                     "params": [
                                        {
                                           "name": "profile",
-                                          "value": "multilayer.enabled"
+                                          "value": "multilayer#enabled"
                                        },
                                        {
                                           "name": "const",
-                                          "value": "1"
+                                          "value": 1
                                        },
                                        {
                                           "name": "conditional",
@@ -1950,7 +1965,7 @@
                                           "params": [
                                              {
                                                 "name": "profile",
-                                                "value": "multilayer.count"
+                                                "value": "multilayer#count"
                                              },
                                              {
                                                 "name": "add",
@@ -1958,7 +1973,7 @@
                                                 "params": [
                                                    {
                                                       "name": "const",
-                                                      "value": "1"
+                                                      "value": 1
                                                    },
                                                    {
                                                       "name": "variable",
@@ -1968,17 +1983,17 @@
                                              },
                                              {
                                                 "name": "profile",
-                                                "value": "uv-curing.duration"
+                                                "value": "uv-curing#duration"
                                              },
                                              {
                                                 "name": "profile",
-                                                "value": "multilayer.interlayer-uvduration"
+                                                "value": "multilayer#interlayer-uvduration"
                                              }
                                           ]
                                        },
                                        {
                                           "name": "profile",
-                                          "value": "uv-curing.duration"
+                                          "value": "uv-curing#duration"
                                        }
                                     ]
                                  }
@@ -1995,7 +2010,7 @@
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ],
                         "_folded": true
@@ -2017,15 +2032,15 @@
                   "name": "vapors-extraction",
                   "isEnabled": {
                      "name": "const",
-                     "value": "1"
+                     "value": 1
                   },
                   "duration": {
                      "name": "profile",
-                     "value": "vapors-extraction.duration"
+                     "value": "vapors-extraction#duration"
                   },
                   "runAmount": {
                      "name": "const",
-                     "value": "1"
+                     "value": 1
                   },
                   "blocks": [
                      {
@@ -2033,7 +2048,7 @@
                         "params": [
                            {
                               "name": "profile",
-                              "value": "vapors-extraction.duration"
+                              "value": "vapors-extraction#duration"
                            }
                         ],
                         "_folded": true
@@ -2045,11 +2060,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "air_heater"
+                              "value": "air-heater"
                            },
                            {
                               "name": "const",
-                              "value": "0"
+                              "value": 0
                            }
                         ],
                         "_folded": true
@@ -2061,11 +2076,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "air_heater"
+                              "value": "air-heater"
                            },
                            {
                               "name": "const",
-                              "value": "0"
+                              "value": 0
                            }
                         ]
                      },
@@ -2078,7 +2093,7 @@
                            },
                            {
                               "name": "const",
-                              "value": "0"
+                              "value": 0
                            }
                         ],
                         "_folded": true
@@ -2088,11 +2103,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "motor-speed"
+                              "value": "motor#speed"
                            },
                            {
                               "name": "const",
-                              "value": "0"
+                              "value": 0
                            }
                         ],
                         "_folded": true
@@ -2102,11 +2117,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "nozzle-cache"
+                              "value": "nozzle#cache"
                            },
                            {
                               "name": "const",
-                              "value": "0"
+                              "value": 0
                            }
                         ],
                         "_folded": true
@@ -2116,11 +2131,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "uv-cache"
+                              "value": "uv#cache"
                            },
                            {
                               "name": "const",
-                              "value": "0"
+                              "value": 0
                            }
                         ],
                         "_folded": true
@@ -2130,11 +2145,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ir-cache"
+                              "value": "ir#cache"
                            },
                            {
                               "name": "const",
-                              "value": "0"
+                              "value": 0
                            }
                         ],
                         "_folded": true
@@ -2144,11 +2159,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "uv-ventil"
+                              "value": "uv#ventil"
                            },
                            {
                               "name": "const",
-                              "value": "0"
+                              "value": 0
                            }
                         ],
                         "_folded": true
@@ -2158,11 +2173,11 @@
                         "params": [
                            {
                               "name": "conststr",
-                              "value": "ir-ventil"
+                              "value": "ir#ventil"
                            },
                            {
                               "name": "const",
-                              "value": "0"
+                              "value": 0
                            }
                         ],
                         "_folded": true
@@ -2176,7 +2191,7 @@
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ]
                      },
@@ -2189,7 +2204,7 @@
                            },
                            {
                               "name": "const",
-                              "value": "1"
+                              "value": 1
                            }
                         ]
                      }

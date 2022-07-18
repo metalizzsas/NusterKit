@@ -55,11 +55,15 @@ interface Field {
   floatStep?: number;
 }
 
-interface Manual {
+export interface Manual {
   name: string;
-  controls: Control[];
-  incompatibility: string[];
+  category: string;
+  
+  incompatibility?: string[];
+  requires?: string[];
+  
   state: number;
+  controls: (string | Control)[];
   analogScale?: AnalogScale;
 }
 
@@ -82,6 +86,7 @@ interface Handler {
 
 interface Io {
   name: string;
+  category: string;
   size: string;
   type: string;
   bus: string;
@@ -137,7 +142,7 @@ export interface Cycle {
   steps: Step[];
   startConditions: StartCondition[];
   currentStepIndex: number;
-  profile: ProfileRaw;
+  profile?: ProfileRaw;
 }
 
 interface ProfileRaw {

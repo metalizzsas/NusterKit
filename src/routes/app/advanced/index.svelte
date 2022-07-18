@@ -10,9 +10,10 @@
 	import NavContainer from '$lib/components/navigation/navcontainer.svelte';
 	import { onDestroy } from 'svelte';
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
+	import type { Manual } from '$lib/utils/interfaces';
 
 	async function toggleState(name: string, state: number) {
-		await fetch(`//${$Linker}/api/v1/manual/${name}/${state}`, {
+		await fetch(`//${$Linker}/api/v1/manual/${name.replace('#', '_')}/${state}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -34,20 +35,54 @@
 	onDestroy(() => {
 		$useNavContainer = true;
 	});
+
+	const computeIncompatibiltyList = (manual: Manual): Array<Manual> => {
+		if (manual.incompatibility) {
+			const incompList = manual.incompatibility.map((m) =>
+				$machineData.manuals.find((x) => x.name == m),
+			);
+
+			return incompList.filter((x) => x !== undefined && x.state > 0) as Array<Manual>;
+		}
+		return [];
+	};
+
+	const computeRequiresList = (manual: Manual): Array<Manual> => {
+		if (manual.requires) {
+			const requiresList = manual.requires.map((r) =>
+				$machineData.manuals.find((x) => x.name == r),
+			);
+
+			return requiresList.filter((x) => x !== undefined && x.state == 0) as Array<Manual>;
+		}
+		return [];
+	};
+
+	const manualModeLocked = (manual: Manual): boolean => {
+		let incompatibility = true; // if incomp length > 0
+		let requires = true;
+
+		if (manual.incompatibility) {
+			incompatibility = computeIncompatibiltyList(manual).length > 0;
+		} else {
+			incompatibility = false;
+		}
+
+		if (manual.requires) {
+			requires = computeRequiresList(manual).length > 0;
+		} else {
+			requires = false;
+		}
+
+		return !(!incompatibility && !requires);
+	};
 </script>
 
-{#each $machineData.manuals
-	.map((mn) => {
-		let z = mn.name.split('_');
-		return z[0] == mn.name ? 'generic' : $machineData.manuals.filter( (h) => h.name.startsWith(z[0]), ).length == 1 ? 'generic' : z[0];
-	})
-	.sort((a, b) => a.localeCompare(b))
-	.filter((i, p, a) => a.indexOf(i) == p)
-	.sort((a, b) => (a == 'generic' ? -1 : 1)) as cat}
+{#each [...new Set($machineData.manuals.map((m) => m.category))] as cat}
 	<NavContainer>
 		<Navcontainertitle>{$_('manual.categories.' + cat)}</Navcontainertitle>
 		<div class="flex flex-col gap-2">
-			{#each $machineData.manuals.filter((g, i, a) => g.name.startsWith(cat) || (cat == 'generic' && $machineData.manuals.filter( (h) => h.name.startsWith(g.name.split('_')[0]), ).length == 1) || (cat == 'generic' && g.name.split('_').length == 1)) as manual, index}
+			{#each $machineData.manuals.filter((g) => g.category == cat) as manual}
 				<div
 					class="rounded-xl bg-zinc-500 text-white px-3 py-2 pr-2 pl-3 flex flex-row justify-between items-center"
 				>
@@ -63,15 +98,7 @@
 										on:change={async (e) =>
 											await toggleState(manual.name, e.detail.value)}
 										enableGrayScale={true}
-										locked={manual.incompatibility
-											.map((i) =>
-												$machineData.manuals.find((j) =>
-													i.startsWith('+')
-														? j.name == i.substring(1) && j.state == 0
-														: j.name == i && j.state == 1,
-												),
-											)
-											.filter((x) => x !== undefined).length > 0}
+										locked={manualModeLocked(manual)}
 									/>
 								{:else}
 									<div
@@ -89,16 +116,7 @@
 												$lockMachineData = false;
 												await toggleState(manual.name, manual.state);
 											}}
-											disabled={manual.incompatibility
-												.map((i) =>
-													$machineData.manuals.find((j) =>
-														i.startsWith('+')
-															? j.name == i.substring(1) &&
-															  j.state == 0
-															: j.name == i && j.state == 1,
-													),
-												)
-												.filter((x) => x !== undefined).length > 0}
+											disabled={manualModeLocked(manual)}
 										/>
 										<span
 											class="bg-white rounded-full py-1 text-gray-800 text-xs font-semibold w-16 text-center"
@@ -109,21 +127,32 @@
 								{/if}
 							</div>
 						</div>
-						{#if manual.incompatibility
-							.map( (i) => $machineData.manuals.find( (j) => (i.startsWith('+') ? j.name == i.substring(1) && j.state == 0 : j.name == i && j.state == 1), ), )
-							.filter((x) => x !== undefined).length > 0}
+						{#if computeIncompatibiltyList(manual).length > 0}
 							<span
 								class="font-semibold flex flex-row items-center gap-2 text-white text-sm italic mt-2"
 							>
 								{$_('manual.incompatibilities')}:
 								<div class="flex flex-row gap-2 not-italic" />
-								{#each manual.incompatibility
-									.map( (i) => $machineData.manuals.find( (j) => (i.startsWith('+') ? j.name == i.substring(1) && j.state == 0 : j.name == i && j.state == 1), ), )
-									.filter((x) => x !== undefined) as mni}
+								{#each computeIncompatibiltyList(manual) as mni}
 									<span
 										class="text-zinc-900 bg-white rounded-full py-[0.5] px-2 text-sm not-italic"
 									>
-										{$_('manual.tasks.' + mni?.name)}
+										{$_('manual.tasks.' + mni.name)}
+									</span>
+								{/each}
+							</span>
+						{/if}
+						{#if computeRequiresList(manual).length > 0}
+							<span
+								class="font-semibold flex flex-row items-center gap-2 text-white text-sm italic mt-2"
+							>
+								{$_('manual.requires')}:
+								<div class="flex flex-row gap-2 not-italic" />
+								{#each computeRequiresList(manual) as mnr}
+									<span
+										class="text-zinc-900 bg-white rounded-full py-[0.5] px-2 text-sm not-italic"
+									>
+										{$_('manual.tasks.' + mnr.name)}
 									</span>
 								{/each}
 							</span>

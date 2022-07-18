@@ -55,14 +55,15 @@
 							style="grid-area: 1/1/1/1;"
 						/>
 					</span>
-
-					<span
-						class="rounded-full bg-white text-gray-700/75 py-1 px-2 font-semibold text-xs"
-					>
-						{$machineData.cycle.status.progress
-							? Math.ceil($machineData.cycle.status.progress * 100)
-							: '0'} %
-					</span>
+					{#if $machineData.cycle.status.progress != -1}
+						<span
+							class="rounded-full bg-white text-gray-700/75 py-1 px-2 font-semibold text-xs"
+						>
+							{$machineData.cycle.status.progress
+								? Math.ceil($machineData.cycle.status.progress * 100)
+								: '0'} %
+						</span>
+					{/if}
 				{/if}
 			</div>
 		</div>

@@ -18,7 +18,7 @@ export class IOWriteProgramBlock extends ProgramBlock implements IIOProgramBlock
 
         this.params = [
             ParameterBlockRegistry(pbrInstance, obj.params[0]) as StringParameterBlocks, 
-            ParameterBlockRegistry(pbrInstance, obj.params[0]) as NumericParameterBlocks 
+            ParameterBlockRegistry(pbrInstance, obj.params[1]) as NumericParameterBlocks 
         ];
     }
 

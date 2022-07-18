@@ -121,6 +121,17 @@ export class ManualMode implements IManualMode
         }
         else
         {
+            const manualsModesWichRequires = this.machine.manualmodeController.manualModes.filter(m => m.requires?.includes(this.name));
+
+            if(manualsModesWichRequires.length > 0)
+                this.machine.broadcast(`manual-mode-required-parent-toggle-off`);
+
+            //toggle off the manuals modes wich requires this one as a parent
+            for(const manual of manualsModesWichRequires)
+            {
+                await manual.toggle(0);
+            }
+
             //manual mode is going to be disabled, set concerned gates to false
             const activeGatesThatStay = this.machine.manualmodeController.manualModes.filter(k => (k.state > 0) && k.name !== this.name).flatMap(k => k.controls);
     

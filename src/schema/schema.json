@@ -285,7 +285,10 @@
                 },
                 "values": {
                     "additionalProperties": {
-                        "type": "number"
+                        "type": [
+                            "number",
+                            "boolean"
+                        ]
                     },
                     "type": "object"
                 }
@@ -1168,6 +1171,62 @@
         },
         "IProfileSkeletonField": {
             "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "bool",
+                        "float",
+                        "int",
+                        "time"
+                    ],
+                    "type": "string"
+                },
+                "unity": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": [
+                        "number",
+                        "boolean"
+                    ]
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IProfileSkeletonFieldBoolean": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "bool"
+                    ],
+                    "type": "string"
+                },
+                "unity": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IProfileSkeletonFieldFloat": {
+            "properties": {
                 "floatMax": {
                     "type": "number"
                 },
@@ -1181,6 +1240,96 @@
                     "type": "string"
                 },
                 "type": {
+                    "enum": [
+                        "float"
+                    ],
+                    "type": "string"
+                },
+                "unity": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "floatMax",
+                "floatMin",
+                "floatStep",
+                "name",
+                "type",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IProfileSkeletonFieldGroup": {
+            "properties": {
+                "fields": {
+                    "items": {
+                        "anyOf": [
+                            {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/definitions/IProfileSkeletonFieldFloat"
+                                    },
+                                    {
+                                        "$ref": "#/definitions/IProfileSkeletonField"
+                                    }
+                                ]
+                            },
+                            {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/definitions/IProfileSkeletonFieldBoolean"
+                                    },
+                                    {
+                                        "$ref": "#/definitions/IProfileSkeletonField"
+                                    }
+                                ]
+                            },
+                            {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/definitions/IProfileSkeletonFieldNumber"
+                                    },
+                                    {
+                                        "$ref": "#/definitions/IProfileSkeletonField"
+                                    }
+                                ]
+                            },
+                            {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/definitions/IProfileSkeletonFieldTime"
+                                    },
+                                    {
+                                        "$ref": "#/definitions/IProfileSkeletonField"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "fields",
+                "name"
+            ],
+            "type": "object"
+        },
+        "IProfileSkeletonFieldNumber": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "int"
+                    ],
                     "type": "string"
                 },
                 "unity": {
@@ -1197,21 +1346,28 @@
             ],
             "type": "object"
         },
-        "IProfileSkeletonFieldGroup": {
+        "IProfileSkeletonFieldTime": {
             "properties": {
-                "fields": {
-                    "items": {
-                        "$ref": "#/definitions/IProfileSkeletonField"
-                    },
-                    "type": "array"
-                },
                 "name": {
                     "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "time"
+                    ],
+                    "type": "string"
+                },
+                "unity": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "number"
                 }
             },
             "required": [
-                "fields",
-                "name"
+                "name",
+                "type",
+                "value"
             ],
             "type": "object"
         },

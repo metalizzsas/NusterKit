@@ -117,8 +117,7 @@
                         "fields": [
                             {
                                 "name": "duration",
-                                "unity": "m-s",
-                                "type": "int",
+                                "type": "time",
                                 "value": 300
                             },
                             {
@@ -129,11 +128,11 @@
                             },
                             {
                                 "name": "motor-speed",
-                                "unity": "%",
+                                "unity": "RPM",
                                 "type": "float",
                                 "value": 50,
                                 "floatMin": 0,
-                                "floatMax": 100,
+                                "floatMax": 110,
                                 "floatStep": 5
                             }
                         ]

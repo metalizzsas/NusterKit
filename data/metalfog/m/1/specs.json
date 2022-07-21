@@ -540,12 +540,12 @@
                       {
                          "name": "act-edi-high",
                          "type": "bool",
-                         "value": 1
+                         "value": true
                       },
                       {
                          "name": "act-edi-low",
                          "type": "bool",
-                         "value": 1
+                         "value": true
                       }
                    ]
                 },
@@ -555,17 +555,17 @@
                       {
                          "name": "met-high",
                          "type": "bool",
-                         "value": 1
+                         "value": true
                       },
                       {
                          "name": "met-medium",
                          "type": "bool",
-                         "value": 1
+                         "value": true
                       },
                       {
                          "name": "met-low",
                          "type": "bool",
-                         "value": 1
+                         "value": true
                       }
                    ]
                 },
@@ -575,25 +575,18 @@
                       {
                          "name": "enabled",
                          "type": "bool",
-                         "value": 1
+                         "value": true
                       },
                       {
                          "name": "timeOn",
-                         "type": "float",
+                         "type": "int",
                          "unity": "s",
-                         "value": 2,
-                         "floatMin": 0,
-                         "floatMax": 10,
-                         "floatStep": 0.5
+                         "value": 2
                       },
                       {
                          "name": "timeOff",
-                         "type": "float",
-                         "unity": "s",
-                         "value": 10,
-                         "floatMin": 0,
-                         "floatMax": 30,
-                         "floatStep": 1
+                         "type": "time",
+                         "value": 10
                       },
                       {
                          "name": "count",
@@ -608,7 +601,7 @@
                       {
                          "name": "enabled",
                          "type": "bool",
-                         "value": 1
+                         "value": true
                       },
                       {
                          "name": "duration",
@@ -624,7 +617,7 @@
                       {
                          "name": "enabled",
                          "type": "bool",
-                         "value": 1
+                         "value": true
                       },
                       {
                          "name": "timeOn",
@@ -657,12 +650,11 @@
                       {
                          "name": "enabled",
                          "type": "bool",
-                         "value": 1
+                         "value": true
                       },
                       {
                          "name": "duration",
-                         "type": "int",
-                         "unity": "m-s",
+                         "type": "time",
                          "value": 45
                       }
                    ]
@@ -673,12 +665,11 @@
                       {
                          "name": "enabled",
                          "type": "bool",
-                         "value": 1
+                         "value": true
                       },
                       {
                          "name": "duration",
-                         "type": "int",
-                         "unity": "m-s",
+                         "type": "time",
                          "value": 45
                       }
                    ]
@@ -689,12 +680,11 @@
                       {
                          "name": "enabled",
                          "type": "bool",
-                         "value": 1
+                         "value": true
                       },
                       {
                          "name": "duration",
-                         "unity": "m-s",
-                         "type": "int",
+                         "type": "time",
                          "value": 45
                       }
                    ]
@@ -705,12 +695,12 @@
                       {
                          "name": "enabled",
                          "type": "bool",
-                         "value": 1
+                         "value": true
                       },
                       {
                          "name": "speed",
                          "type": "float",
-                         "unity": "%",
+                         "unity": "RPM",
                          "value": 50,
                          "floatMin": 0,
                          "floatMax": 100,
@@ -719,7 +709,7 @@
                       {
                          "name": "reverseEnabled",
                          "type": "bool",
-                         "value": 1
+                         "value": true
                       },
                       {
                          "name": "reverseTime",

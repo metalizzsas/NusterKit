@@ -467,7 +467,7 @@ export interface IConfigProfile {
   removable: boolean;
   skeleton: string;
   values: {
-    [k: string]: number;
+    [k: string]: number | boolean;
   };
   [k: string]: unknown;
 }
@@ -477,16 +477,49 @@ export interface IProfileSkeleton {
   [k: string]: unknown;
 }
 export interface IProfileSkeletonFieldGroup {
-  fields: IProfileSkeletonField[];
+  fields: (
+    | (IProfileSkeletonFieldFloat & IProfileSkeletonField)
+    | (IProfileSkeletonFieldBoolean & IProfileSkeletonField)
+    | (IProfileSkeletonFieldNumber & IProfileSkeletonField)
+    | (IProfileSkeletonFieldTime & IProfileSkeletonField)
+  )[];
   name: string;
   [k: string]: unknown;
 }
-export interface IProfileSkeletonField {
-  floatMax?: number;
-  floatMin?: number;
-  floatStep?: number;
+export interface IProfileSkeletonFieldFloat {
+  floatMax: number;
+  floatMin: number;
+  floatStep: number;
   name: string;
-  type: string;
+  type: "float";
+  unity?: string;
+  value: number;
+  [k: string]: unknown;
+}
+export interface IProfileSkeletonField {
+  name: string;
+  type: "bool" | "float" | "int" | "time";
+  unity?: string;
+  value: number | boolean;
+  [k: string]: unknown;
+}
+export interface IProfileSkeletonFieldBoolean {
+  name: string;
+  type: "bool";
+  unity?: string;
+  value: boolean;
+  [k: string]: unknown;
+}
+export interface IProfileSkeletonFieldNumber {
+  name: string;
+  type: "int";
+  unity?: string;
+  value: number;
+  [k: string]: unknown;
+}
+export interface IProfileSkeletonFieldTime {
+  name: string;
+  type: "time";
   unity?: string;
   value: number;
   [k: string]: unknown;

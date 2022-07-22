@@ -579,13 +579,14 @@
                       },
                       {
                          "name": "timeOn",
-                         "type": "int",
-                         "unity": "s",
+                         "type": "time",
+                         "units": ["seconds", "milliseconds"],
                          "value": 2
                       },
                       {
                          "name": "timeOff",
                          "type": "time",
+                         "units": ["seconds", "milliseconds"],
                          "value": 10
                       },
                       {
@@ -605,8 +606,8 @@
                       },
                       {
                          "name": "duration",
-                         "type": "int",
-                         "unity": "m-s",
+                         "type": "time",
+                         "units": ["minutes", "seconds"],
                          "value": 15
                       }
                    ]
@@ -621,21 +622,15 @@
                       },
                       {
                          "name": "timeOn",
-                         "type": "float",
-                         "unity": "s",
-                         "value": 2,
-                         "floatMin": 0,
-                         "floatMax": 10,
-                         "floatStep": 0.5
+                         "type": "time",
+                         "units": ["seconds", "milliseconds"],
+                         "value": 2
                       },
                       {
                          "name": "timeOff",
-                         "type": "float",
-                         "unity": "s",
-                         "value": 10,
-                         "floatMin": 0,
-                         "floatMax": 30,
-                         "floatStep": 1
+                         "type": "time",
+                         "units": ["seconds", "milliseconds"],
+                         "value": 10
                       },
                       {
                          "name": "count",
@@ -655,6 +650,7 @@
                       {
                          "name": "duration",
                          "type": "time",
+                         "units": ["minutes", "seconds"],
                          "value": 45
                       }
                    ]
@@ -670,6 +666,7 @@
                       {
                          "name": "duration",
                          "type": "time",
+                         "units": ["minutes", "seconds"],
                          "value": 45
                       }
                    ]
@@ -685,6 +682,7 @@
                       {
                          "name": "duration",
                          "type": "time",
+                         "units": ["minutes", "seconds"],
                          "value": 45
                       }
                    ]
@@ -713,12 +711,9 @@
                       },
                       {
                          "name": "reverseTime",
-                         "type": "float",
-                         "unity": "S",
-                         "value": 1,
-                         "floatMin": 0.5,
-                         "floatMax": 5,
-                         "floatStep": 0.5
+                         "type": "time",
+                         "units": ["seconds"],
+                         "value": 1
                       }
                    ]
                 }

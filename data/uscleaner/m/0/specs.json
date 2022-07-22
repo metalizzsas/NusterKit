@@ -118,6 +118,7 @@
                             {
                                 "name": "duration",
                                 "type": "time",
+                                "units": ["minutes", "seconds"],
                                 "value": 300
                             },
                             {

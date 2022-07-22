@@ -1357,6 +1357,18 @@
                     ],
                     "type": "string"
                 },
+                "units": {
+                    "items": {
+                        "enum": [
+                            "hours",
+                            "milliseconds",
+                            "minutes",
+                            "seconds"
+                        ],
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "unity": {
                     "type": "string"
                 },
@@ -1367,6 +1379,7 @@
             "required": [
                 "name",
                 "type",
+                "units",
                 "value"
             ],
             "type": "object"

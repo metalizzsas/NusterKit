@@ -309,16 +309,14 @@
                   "fields": [
                      {
                         "name": "timeOn",
-                        "type": "float",
-                        "value": 2,
-                        "floatMin": 0.5,
-                        "floatMax": 10,
-                        "floatStep": 0.25,
-                        "unity": "s"
+                        "type": "time",
+                        "units": ["seconds", "milliseconds"],
+                        "value": 2.500
                      },
                      {
                         "name": "timeOff",
                         "type": "time",
+                        "units": ["seconds", "milliseconds"],
                         "value": 8
                      },
                      {
@@ -344,6 +342,7 @@
                      {
                         "name": "duration",
                         "type": "time",
+                        "units": ["minutes", "seconds"],
                         "value": 180
                      }
                   ]
@@ -359,6 +358,7 @@
                      {
                         "name": "duration",
                         "type": "time",
+                        "units": ["minutes", "seconds"],
                         "value": 10
                      }
                   ]
@@ -374,6 +374,7 @@
                      {
                         "name": "duration",
                         "type": "time",
+                        "units": ["minutes", "seconds"],
                         "value": 40
                      },
                      {
@@ -398,6 +399,7 @@
                      {
                         "name": "duration",
                         "type": "time",
+                        "units": ["minutes", "seconds"],
                         "value": 45
                      }
                   ]
@@ -418,6 +420,7 @@
                      {
                         "name": "interlayer-uvduration",
                         "type": "time",
+                        "units": ["minutes", "seconds"],
                         "value": 15
                      }
                   ]
@@ -447,6 +450,7 @@
                      {
                         "name": "reverseTime",
                         "type": "time",
+                        "units": ["seconds"],
                         "value": 1
                      }
                   ]

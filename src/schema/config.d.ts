@@ -520,6 +520,7 @@ export interface IProfileSkeletonFieldNumber {
 export interface IProfileSkeletonFieldTime {
   name: string;
   type: "time";
+  units: ("hours" | "milliseconds" | "minutes" | "seconds")[];
   unity?: string;
   value: number;
   [k: string]: unknown;

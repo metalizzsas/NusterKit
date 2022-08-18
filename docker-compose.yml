@@ -47,8 +47,7 @@ services:
       KIOSK: 1
       ENABLE_GPU: 1
       PERSISTANT: 1
-      #WINDOW_SIZE: 1024, 600
-      #FLAGS: "--overscroll-history-navigation=0 --user-data-dir=/data/chromium-user-data"
+      ROTATE: 1
     volumes:
       - nuster-kiosk:/data
 

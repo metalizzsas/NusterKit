@@ -6,13 +6,13 @@ import { ProfileModel } from "./Profile";
 import { ObjectId } from "mongoose";
 import { IProfileSkeleton, IProfileExportable, IProfile } from "../../interfaces/IProfile";
 
-export type IProfileMap = Omit<IProfile, 'values'> & { values: Map<string, number>};
+export type IProfileMap = Omit<IProfile, 'values'> & { values: Map<string, number | boolean>};
 
 export class ProfileController extends Controller {
 
     private machine: Machine;
 
-    private profileSkeletons: {[key: string]: IProfileSkeleton} = {};
+    private profileSkeletons: Map<string, IProfileSkeleton> = new Map<string, IProfileSkeleton>();
 
     private profilePremades: IProfileExportable[] = [];
 
@@ -30,8 +30,10 @@ export class ProfileController extends Controller {
     {
         for(const p of this.machine.specs.profiles.skeletons)
         {
-            this.profileSkeletons[p.identifier] = p;
+            this.profileSkeletons.set(p.identifier, structuredClone(p));
         }
+        
+        console.log(this.profileSkeletons.keys());
 
         for(const p of this.machine.specs.profiles.premades)
         {
@@ -62,7 +64,12 @@ export class ProfileController extends Controller {
          */
         this.machine.authManager.registerEndpointPermission("profiles.list", {endpoint: "/v1/profiles/skeletons", method: "get"});
         this._router.get('/skeletons', (_req: Request, res: Response) => {
-            res.json(Object.keys(this.profileSkeletons));
+            res.json([...this.profileSkeletons.keys()]);
+        });
+
+        this.machine.authManager.registerEndpointPermission("profiles.list", {endpoint: new RegExp("/v1/profiles/skeletons/.*", "g"), method: "get"});
+        this.router.get('/skeletons/:name', (req: Request, res: Response) => {
+            res.json(this.profileSkeletons.get(req.params.name));
         });
 
         /**
@@ -116,6 +123,37 @@ export class ProfileController extends Controller {
                  values: {}
              });
              res.json(this.convertProfile(newp));
+        });
+
+        /**
+         * Route to create a profile from given body
+         */
+         this.machine.authManager.registerEndpointPermission("profile.create", {endpoint: new RegExp("/v1/profiles/create/", "g"), method: "post"});
+         this._router.put('/create/', async (req: Request, res: Response) => {
+
+            if(req.body.id == "created")
+            {
+                delete req.body.id;
+                const profile = req.body as IProfileExportable;
+                profile.modificationDate = Date.now();
+                profile.overwriteable = true;
+                profile.removable = true;
+                profile.isPremade = false;
+
+                console.log(profile);
+
+                const created = this.retreiveProfile(profile);
+
+                console.log(created);
+
+                res.status(200).json(await ProfileModel.create(created));
+                return;
+            }
+            else
+            {
+                res.status(400).end();
+                return;
+            }
         });
 
         this.machine.authManager.registerEndpointPermission("profile.edit", {endpoint: "/v1/profiles/", method: "post"});
@@ -193,7 +231,8 @@ export class ProfileController extends Controller {
 
     public convertProfile(profile: IProfileMap & {id?: ObjectId}): IProfileExportable
     {
-        const skeleton = this.profileSkeletons[profile.skeleton]; // avoid skeleton modifications
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const skeleton = structuredClone(this.profileSkeletons.get(profile.skeleton)!); // avoid skeleton modifications
 
         const exportable: IProfileExportable = {
             ...skeleton, ...{

@@ -19,8 +19,18 @@ export class ProfileParameterBlock extends ParameterBlock implements IProfilePar
         if(this.pbrInstance.profileExplorer !== undefined)
         {
             const val = this.pbrInstance.profileExplorer(this.value);
-            if(val === undefined) this.pbrInstance.machine.logger.warn(`Profile row ${this.value} not found`);
-            return val ? val : 0;
+            if(val === undefined) 
+            {
+                this.pbrInstance.machine.logger.warn(`Profile row ${this.value} not found, returning 0`);
+                return 0;
+            }
+
+            if(val === true)
+                return 1;
+            else if(val === false)
+                return 0;
+            else
+                return val;
         }
         else
         {

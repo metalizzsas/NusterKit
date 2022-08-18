@@ -6,8 +6,9 @@ import { Request, Response } from "express";
 import { ProfileModel } from "../profile/Profile";
 import { ProgramHistoryModel } from "./ProgramHistory";
 import { ProgramBlockRunner } from "../../pbr/ProgramBlockRunner";
-import { IProfile } from "../../interfaces/IProfile";
+import { IProfile, IProfileExportable } from "../../interfaces/IProfile";
 import { EPBRMode, IPBRPremades } from "../../interfaces/IProgramBlockRunner";
+import { IProfileMap } from "../profile/ProfilesController";
 
 export class CycleController extends Controller {
 
@@ -98,12 +99,24 @@ export class CycleController extends Controller {
             res.json(histories);
         });
 
+        this.machine.authManager.registerEndpointPermission("cycle.list", {endpoint: new RegExp("/v1/cycle/history/.*", "g"), method: "get"});
+
+        this._router.get("/history/:id", async (req: Request, res: Response) => {
+
+            const history = await ProgramHistoryModel.findById(req.params.id);
+
+            if(history != null)
+                res.json(history);
+            else
+                res.status(404).end("history not found");
+        });
+
         this.machine.authManager.registerEndpointPermission("cycle.run", {endpoint: new RegExp("/v1/cycle/restart/.*", "g"), method: "post"});
 
         //prepare the cycle
         this._router.post("/:name/:id?", async (req: Request, res: Response) => {
 
-            let profile: IProfile | undefined = undefined;
+            let profile: IProfileMap | undefined = undefined;
 
             if(req.params.id)
             {
@@ -130,9 +143,12 @@ export class CycleController extends Controller {
                 }
             }
             //if the api gets a profile in the body, use it.
-            else if(req.body && req.body.values !== undefined && req.body.name !== undefined && req.body.skeleton !== undefined)
+            else if(Object.keys(req.body).length !== 0)
             {
-                profile = (req.body as IProfile);
+                console.log(req.body);
+                profile = this.machine.profileController.retreiveProfile((req.body as IProfileExportable));
+
+                this.machine.logger.info("CR: Profile given by body");
             }
             else
             {

@@ -28,6 +28,8 @@ export class PassiveProgramBlock extends ProgramBlock implements IPassiveProgram
         {
             passive.toggle(this.params[1].data() == 1, false);
             passive.setTarget(this.params[2].data());
+
+            this.pbrInstance.machine.logger.info("Passive: Setting " + this.params[0].data() + " state to " + this.params[1].data() + " and target to " + this.params[2].data());
         }
     }
 }

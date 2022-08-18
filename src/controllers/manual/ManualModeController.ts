@@ -77,6 +77,6 @@ export class ManualModeController extends Controller
 
     find(name: string): ManualMode | undefined
     {
-        return this.manualModes.find(m => m.name = name);
+        return this.manualModes.find(m => m.name == name);
     }
 }

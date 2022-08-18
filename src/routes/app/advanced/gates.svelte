@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Toggle from '$lib/components/toggle.svelte';
+	import Toggle from '$lib/components/userInputs/toggle.svelte';
 	import { _ } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
 	import { Linker } from '$lib/utils/linker';
@@ -7,6 +7,7 @@
 	import { navActions, navBackFunction, navTitle, useNavContainer } from '$lib/utils/navstack';
 	import Navcontainer from '$lib/components/navigation/navcontainer.svelte';
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
+	import Navcontainertitlesided from '$lib/components/navigation/navcontainertitlesided.svelte';
 
 	$: gates = $machineData.io;
 
@@ -71,9 +72,13 @@
 	</div>
 </Navcontainer>
 
-{#each [...new Set(gates.filter((g) => g.bus == tab).map((g) => g.category))] as cat}
-	<Navcontainer>
-		<Navcontainertitle>{$_('gates.categories.' + cat)}</Navcontainertitle>
+<Navcontainer>
+	{#each [...new Set(gates.filter((g) => g.bus == tab).map((g) => g.category))] as cat, index}
+		{#if index > 0}
+			<Navcontainertitlesided>{$_('gates.categories.' + cat)}</Navcontainertitlesided>
+		{:else}
+			<Navcontainertitle>{$_('gates.categories.' + cat)}</Navcontainertitle>
+		{/if}
 
 		<div class="flex flex-col gap-2 mb-6 last:mb-0">
 			{#each gates.filter((g) => g.bus == tab && g.category == cat) as output, index}
@@ -115,5 +120,5 @@
 				</div>
 			{/each}
 		</div>
-	</Navcontainer>
-{/each}
+	{/each}
+</Navcontainer>

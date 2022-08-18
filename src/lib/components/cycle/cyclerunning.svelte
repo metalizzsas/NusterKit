@@ -1,13 +1,19 @@
 <script lang="ts">
 	import { Linker } from '$lib/utils/linker';
-
 	import { machineData } from '$lib/utils/store';
+	import { navTitle, useNavContainer } from '$lib/utils/navstack';
+	import { parseTime } from '$lib/utils/dateparser';
+
 	import { _ } from 'svelte-i18n';
-	import { fly } from 'svelte/transition';
-	import Portal from 'svelte-portal';
-	import { navExpandBottom, navTitle } from '$lib/utils/navstack';
-	import { onDestroy, onMount } from 'svelte';
+	import { onMount } from 'svelte';
+
 	import Navcontainertitle from '../navigation/navcontainertitle.svelte';
+	import Navcontainer from '../navigation/navcontainer.svelte';
+	import Navcontainertitlesided from '../navigation/navcontainertitlesided.svelte';
+	import Button from '../button.svelte';
+	import Flex from '../layout/flex.svelte';
+	import Cyclestep from './cyclestep.svelte';
+	import Label from '../label.svelte';
 
 	const stopCycle = () => {
 		if ($machineData.cycle.status.mode !== 'ended') {
@@ -20,6 +26,8 @@
 		}
 	};
 
+	$useNavContainer = false;
+
 	onMount(() => {
 		$navTitle = [$_('cycle.button'), $_('cycle.names.' + $machineData.cycle.name)];
 		if ($machineData.cycle.profile) {
@@ -30,130 +38,73 @@
 					: $machineData.cycle.profile.name,
 			];
 		}
-		$navExpandBottom = true;
-	});
-	onDestroy(() => {
-		$navExpandBottom = false;
 	});
 </script>
 
-<Portal target="body">
-	<div
-		class="fixed bottom-5 w-full"
-		in:fly={{ y: 200, duration: 200 }}
-		out:fly={{ y: 200, duration: 200 }}
-	>
-		<div class="flex flex-row items-center justify-around">
-			<div
-				class="bg-neutral-50 rounded-full ring-2 ring-zinc-400 p-2 flex flex-row gap-2 align-middle items-center"
-			>
-				<span class="ml-2">
-					{$_('cycle.progression')}:
+<Flex class="-mt-4">
+	<Navcontainer class="min-w-[65%] max-w-[75%] transition-all self-start">
+		<Navcontainertitle>{$_('cycle.steps.title')}</Navcontainertitle>
+		<Flex direction="col">
+			{#if $machineData.cycle}
+				{#each $machineData.cycle.steps.filter((s) => s.isEnabled.data == 1) as s}
+					<Cyclestep bind:step={s} />
+				{/each}
+			{/if}
+		</Flex>
+	</Navcontainer>
+
+	<Navcontainer class="grow self-start">
+		<Navcontainertitle>{$_('cycle.steps.status')}</Navcontainertitle>
+
+		<Flex direction="col" gap={2}>
+			{#if $machineData.cycle.status.progress != -1}
+				<Label>
+					{$_('cycle.eta.remaining')}:
 					<span class="dark:text-indigo-400 text-indigo-600 font-semibold">
-						{#if $machineData.cycle.status.progress != -1}
-							{Math.round($machineData.cycle.status.progress * 100)} %
-						{:else}
-							{$_('cycle.eta.null')}
+						{#if $machineData.cycle.status.estimatedRunTime !== undefined}
+							{@const done = parseTime(
+								$machineData.cycle.status.startDate / 1000 +
+									$machineData.cycle.status.estimatedRunTime -
+									Date.now() / 1000,
+							)}
+							{#if done.hours}
+								{done.hours}h
+							{/if}
+							{done.minutes}m {done.seconds}s
 						{/if}
 					</span>
-				</span>
-				<div class="h-8 border-l-[1px] border-neutral-300" />
-				<button
-					class="bg-red-500 rounded-xl py-0.5 px-2 text-white font-semibold ml-auto"
-					on:click={stopCycle}
-				>
-					{$_('cycle.buttons.end')}
-				</button>
-			</div>
-		</div>
-	</div>
-</Portal>
+				</Label>
+				<Label>
+					{$_('cycle.eta.estimated')}:
+					<span class="dark:text-indigo-400 text-indigo-600 font-semibold">
+						{#if $machineData.cycle.status.estimatedRunTime !== undefined}
+							{@const done = parseTime($machineData.cycle.status.estimatedRunTime)}
 
-<Navcontainertitle>{$_('cycle.steps.title')}</Navcontainertitle>
-
-<div class="flex flex-col gap-4">
-	{#if $machineData.cycle}
-		{#each $machineData.cycle.steps.filter((s) => s.isEnabled.data == 1) as s}
-			<div
-				class="bg-zinc-700 text-white font-semibold {s.state == 'completed'
-					? 'pl-3 rounded-l-xl rounded-r-3xl p-1.5'
-					: 'rounded-xl p-3'} flex flex-row gap-4 justify-between items-center"
-			>
-				<div class="flex flex-col">
-					<span>{$_('cycle.steps.' + s.name + '.name')}</span>
-					{#if s.state != 'completed'}
-						<span class="italic text-xs text-gray-300">
-							{$_('cycle.steps.' + s.name + '.desc')}
-						</span>
-					{/if}
-				</div>
-
-				<div class="flex flex-row gap-4 self-center items-center group">
-					{#if s.type != 'single'}
-						<span class="bg-white rounded-full px-2 py-1 text-gray-800 text-xs">
-							{s.runCount === undefined ? '?' : s.runCount + 0} / {s.runAmount
-								?.data || '?'}
-						</span>
-					{/if}
-					{#if s.duration.data !== -1 && s.state != 'completed'}
-						<span class="bg-white rounded-full px-2 py-1 text-gray-800 text-xs">
-							{Math.ceil(s.progress * 100) > 99 ? '100' : Math.ceil(s.progress * 100)}
-							%
-						</span>
-					{/if}
-					<div class="rounded-full p-1 bg-white self-center">
-						{#if s.state == 'waiting'}
-							<svg
-								id="glyphicons-basic"
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 32 32"
-								class="fill-red-500 h-5 w-5 rotate-45"
-							>
-								<path
-									id="plus"
-									d="M27,14v4a1,1,0,0,1-1,1H19v7a1,1,0,0,1-1,1H14a1,1,0,0,1-1-1V19H6a1,1,0,0,1-1-1V14a1,1,0,0,1,1-1h7V6a1,1,0,0,1,1-1h4a1,1,0,0,1,1,1v7h7A1,1,0,0,1,27,14Z"
-								/>
-							</svg>
-						{:else if s.state == 'started'}
-							<svg
-								id="glyphicons-basic"
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 32 32"
-								class="fill-orange-500 h-5 w-5 animate-spin-reverse"
-							>
-								<path
-									id="roundabout"
-									d="M20.74066,8.35083a9.46114,9.46114,0,0,0-1.8974-.889A8.86849,8.86849,0,0,0,10.8175,8.65308l1.3147,1.48169a.49991.49991,0,0,1-.314.82812L5.634,11.71021a.50014.50014,0,0,1-.54577-.615L6.56573,5.0437a.49994.49994,0,0,1,.85962-.21326l1.38959,1.566A12.10267,12.10267,0,0,1,10.62982,5.2688a11.96833,11.96833,0,0,1,9.16083-.6543,13.338,13.338,0,0,1,2.41321,1.11682.9863.9863,0,0,1,.37353,1.23133l-.39935.93579A.99067.99067,0,0,1,20.74066,8.35083ZM7.00529,15.71905a9.46141,9.46141,0,0,0,.17877,2.08772,8.86852,8.86852,0,0,0,5.04456,6.35486l.62584-1.8794a.49992.49992,0,0,1,.87419-.14211l3.73926,4.982a.50013.50013,0,0,1-.25971.78015l-5.9795,1.74622a.49993.49993,0,0,1-.6145-.63782l.66144-1.98644a12.10109,12.10109,0,0,1-1.884-1.00789,11.96834,11.96834,0,0,1-5.14706-7.60636,13.33711,13.33711,0,0,1-.2394-2.64831.98629.98629,0,0,1,.87959-.93915l1.01009-.122A.99066.99066,0,0,1,7.00529,15.71905ZM20.254,23.93012a9.46082,9.46082,0,0,0,1.71863-1.19868,8.86842,8.86842,0,0,0,2.9812-7.54615l-1.94053.39772a.49992.49992,0,0,1-.56016-.686l2.44487-5.72928a.50013.50013,0,0,1,.80549-.16516l4.502,4.30529a.49993.49993,0,0,1-.24513.85108l-2.051.42039a12.10248,12.10248,0,0,1,.06916,2.13558,11.96833,11.96833,0,0,1-4.01377,8.26066A13.3379,13.3379,0,0,1,21.791,26.507a.9863.9863,0,0,1-1.25313-.29217l-.61074-.81375A.99067.99067,0,0,1,20.254,23.93012Z"
-								/>
-							</svg>
-						{:else if s.state == 'partial'}
-							<svg
-								id="glyphicons-basic"
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 32 32"
-								class="fill-orange-500 h-5 w-5"
-							>
-								<path
-									id="check"
-									d="M27.37592,9.70459l-14.151,15.97693a.99985.99985,0,0,1-1.47558.02356L4.59711,18.1322a.99992.99992,0,0,1-.05384-1.31128L5.495,15.63123a.99994.99994,0,0,1,1.22808-.26966L12,18,24.79724,7.09863a.99991.99991,0,0,1,1.35553.0542l1.1817,1.18164A1,1,0,0,1,27.37592,9.70459Z"
-								/>
-							</svg>
-						{:else if s.state == 'completed'}
-							<svg
-								id="glyphicons-basic"
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 32 32"
-								class="fill-emerald-500 h-5 w-5"
-							>
-								<path
-									id="check"
-									d="M27.37592,9.70459l-14.151,15.97693a.99985.99985,0,0,1-1.47558.02356L4.59711,18.1322a.99992.99992,0,0,1-.05384-1.31128L5.495,15.63123a.99994.99994,0,0,1,1.22808-.26966L12,18,24.79724,7.09863a.99991.99991,0,0,1,1.35553.0542l1.1817,1.18164A1,1,0,0,1,27.37592,9.70459Z"
-								/>
-							</svg>
+							{#if done.hours > 0}
+								{done.hours}h
+							{/if}
+							{done.minutes > 0 ? done.minutes : 0}m {done.seconds > 0
+								? done.seconds
+								: 0}s
 						{/if}
-					</div>
-				</div>
-			</div>
-		{/each}
-	{/if}
-</div>
+					</span>
+				</Label>
+			{:else}
+				<Label>
+					{$_('cycle.eta.estimated')}:
+					<span class="dark:text-indigo-400 text-indigo-600 font-semibold">
+						{$_('cycle.eta.null')}
+					</span>
+				</Label>
+			{/if}
+
+			<Button color={'bg-red-500'} on:click={stopCycle}>{$_('cycle.buttons.end')}</Button>
+		</Flex>
+
+		{#if $machineData.cycle.status.additionalInfo !== undefined}
+			<Navcontainertitlesided class="mt-6">
+				{$_('cycle.steps.additional-info')}
+			</Navcontainertitlesided>
+		{/if}
+	</Navcontainer>
+</Flex>

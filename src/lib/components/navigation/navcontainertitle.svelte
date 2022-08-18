@@ -1,6 +1,7 @@
-<div class="mb-3 ml-1">
-	<span class="text-xl font-bold text-zinc-700 dark:text-neutral-100">
+<div class="-mt-3">
+	<div
+		class="rounded-b-xl py-1 px-5 text-white bg-indigo-400 inline-block font-semibold mb-4 shadow-xl"
+	>
 		<slot />
-	</span>
-	<div class="h-[2px] w-1/6 bg-gray-600/50 dark:bg-gray-300/50 mt-1" />
+	</div>
 </div>

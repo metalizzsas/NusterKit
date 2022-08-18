@@ -38,11 +38,16 @@
 	$navTitle = [$_('maintenance.list'), $_('maintenance.tasks.' + maintenance.name + '.name')];
 	$useNavContainer = false;
 	$navActions = [];
+
+	let imageExpanded = false;
 </script>
 
-<Navcontainer>
-	<Navcontainertitle>{$_('maintenance.tasks.' + maintenance.name + '.name')}</Navcontainertitle>
-	<div class="bg-neutral-300 dark:bg-zinc-600 rounded-xl p-3 mb-3">
+<div class="flex flex-col gap-6">
+	<Navcontainer classes={'mt-0'}>
+		<Navcontainertitle>
+			{$_('maintenance.tasks.' + maintenance.name + '.name')}
+		</Navcontainertitle>
+
 		<Navcontainersubtitle>{$_('maintenance.description')}</Navcontainersubtitle>
 		<p>{$_('maintenance.tasks.' + maintenance.name + '.desc')}</p>
 		<p class="mt-2">
@@ -53,11 +58,14 @@
 			/ {maintenance.durationLimit}
 			{$_('maintenance.unity.' + maintenance.durationType)}
 		</p>
-	</div>
+	</Navcontainer>
 
 	{#if maintenance.procedure !== undefined}
-		<div class="relative grid grid-cols-3 gap-3">
-			<div class="rounded-xl overflow-hidden col-span-1" style="min-aspect-ratio: 1/1;">
+		<div class="relative grid grid-cols-6 gap-6">
+			<div
+				class="rounded-xl overflow-hidden {imageExpanded ? 'col-span-3' : 'col-span-2'}"
+				style="min-aspect-ratio: 1/1;"
+			>
 				{#each maintenance.procedure.steps as step, index}
 					{#if procedureIndex == index}
 						<div>
@@ -65,7 +73,10 @@
 								src="//{$Linker}/api/assets/maintenance/{maintenance.name}/{step
 									.media[procedureImageIndex]}"
 								alt="procedure"
-								class="shrink-0 transition-all"
+								class="shrink-0 transition-all cursor-pointer w-full"
+								on:click|self={() => {
+									imageExpanded = !imageExpanded;
+								}}
 							/>
 							{#if step.media.length > 1}
 								<div class="flex flex-row justify-center">
@@ -91,8 +102,11 @@
 					{/if}
 				{/each}
 			</div>
-			<div class="bg-neutral-300 dark:bg-zinc-600 rounded-xl col-span-2 p-3 relative">
-				<Navcontainersubtitle>{$_('maintenance.procedure.title')}</Navcontainersubtitle>
+
+			<Navcontainer
+				classes={imageExpanded ? 'col-span-3 mt-0 relative' : 'col-span-4 mt-0 relative'}
+			>
+				<Navcontainertitle>{$_('maintenance.procedure.title')}</Navcontainertitle>
 				{#if procedureIndex < maintenance.procedure.steps.length - 1}
 					<!--Next button -->
 					<button
@@ -178,7 +192,7 @@
 							maintenance.procedure.steps[procedureIndex].name,
 					)}
 				</p>
-			</div>
+			</Navcontainer>
 		</div>
 	{/if}
-</Navcontainer>
+</div>

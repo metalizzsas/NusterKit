@@ -6,8 +6,6 @@
 	import { goto } from '$app/navigation';
 
 	import Actionmodal from '../modals/actionmodal.svelte';
-	import Button from '../button.svelte';
-	import Flex from '../layout/flex.svelte';
 
 	export let slotContent: Slot;
 	export let shown: boolean;
@@ -45,8 +43,8 @@
 </script>
 
 <Actionmodal bind:shown>
-	<Flex direction="col" gap={3}>
-		<Flex class="justify-between align-middle items-center">
+	<div class="flex flex-col gap-3">
+		<div class="flex flex-row justify-between align-middle items-center">
 			<h2 class="text-xl leading-6 text-center">{$_('slots.modal.informations')}</h2>
 			<Label
 				color="bg-gradient-to-br {$_('slots.colors.' + slotContent.name, {
@@ -55,10 +53,9 @@
 			>
 				{$_('slots.types.' + slotContent.name)}
 			</Label>
-		</Flex>
-
+		</div>
 		{#if slotContent.productData?.lifetimeRemaining !== undefined && slotContent.productData?.productSeries}
-			<Flex gap={1} direction={'col'}>
+			<div class="flex flex-col gap-1">
 				{#if slotContent.productData?.productSeries}
 					<span>
 						{$_('slots.modal.productSeries')}:
@@ -75,17 +72,19 @@
 						</span>
 					</span>
 				{/if}
-			</Flex>
+			</div>
 		{/if}
 
 		<h2 class="leading-6">{$_('slots.modal.action')}</h2>
-
-		<Flex gap={3} direction={'col'}>
+		<div class="flex flex-col gap-3">
 			{#each slotContent.callToAction as cta}
-				<Button on:click={async () => await execCTA(cta)}>
+				<button
+					class="rounded-xl py-2 px-5 bg-indigo-600 text-white font-semibold"
+					on:click={async () => await execCTA(cta)}
+				>
 					{$_('slots.modal.actions.' + slotContent.name + '.' + cta.name)}
-				</Button>
+				</button>
 			{/each}
-		</Flex>
-	</Flex>
+		</div>
+	</div>
 </Actionmodal>

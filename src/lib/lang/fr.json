@@ -3,6 +3,7 @@
     "nok": "Ko",
     "yes": "Oui ✓",
     "no": "Non ✗",
+    "proceed": "Continuer",
     "back": "Retour",
     "cancel": "Annuler",
     "binary_true": "Vrai ✓",
@@ -23,7 +24,9 @@
         "minutes": "Minutes",
         "minute": "Minute",
         "seconds": "Secondes",
-        "second": "Seconde"
+        "second": "Seconde",
+        "milliseconds": "Millisecondes",
+        "millisecond": "Milliseconde"
     },
     "loadingScreen": {
         "connectionAttemptCount": "Essai de connection :",
@@ -93,7 +96,8 @@
             },
             "save": {
                 "title": "Sauvegarde {profile.name}",
-                "message": "Souhaitez vous sauvegarder {profile.name} ?"
+                "message": "Souhaitez vous sauvegarder {profile.name} ?",
+                "name-short": "Le nom choisi pour le profil est invalide. Entrez au moins 1 caractère"
             }
         },
         "rows": {
@@ -105,9 +109,19 @@
             "timeOff": "Temps désactivé"
         }
     },
+    "passives": {
+        "list": "Régulation",
+        "settings": "Réglages",
+        "current": "Valeur actuelle",
+        "target": "Valeur souhaitée",
+        "chart": {
+            "title": "Evolution de la régulation passive en fonction du temps."
+        }
+    },
     "settings": {
         "main": "Réglages",
         "enable-dark-mode": "Mode sombre",
+        "layout-format": "Affichage simplifié",
         "language": "Langue",
         "restart": "Redémarrer la machine",
         "updateNotes": {
@@ -126,14 +140,31 @@
         "reload-nuster": "Recharger l'interface"
     },
     "cycle": {
-        "eta.null": "Inconnu",
+        "eta": {
+            "null": "Inconnu",
+            "remaining": "Temps restant",
+            "estimated": "Temps estimé"
+        },
         "button": "Cycle",
         "name": "Cycles",
         "progression": "Progression",
         "presets": "Cycles contructeur",
         "presets-anex": "Cycles constructeur secondaires",
         "user": "Cycles utilisateur",
-        "steps.title": "Étapes du cycle.",
+        "steps": {
+            "title": "Étapes du cycle",
+            "status": "Statut du cycle",
+            "additional-info": "Informations additionelles"
+        },
+        "quickstart": {
+            "head": "Cycle QuickStart",
+            "settings": "Réglages du cycle",
+            "settings-save": "Cycles favoris",
+            "settings-save-action": "Enregistrer",
+            "settings-edit-action": "Éditer",
+            "settings-delete-action": "Supprimer",
+            "start": "Préparer le cycle"
+        },
         "types": {
             "custom": "Cycle customisé"
         },
@@ -148,7 +179,7 @@
             "cycle-ended": "Le Cycle est terminé",
             "cycle-ended-reason": "Raison de fin",
             "cycle-rating-lead": "Noter le cycle",
-            "cycle-rating-text": "La notaion du cycle n'est pas obligatoire mais elle nous permet d'améliorer nos machines.",
+            "cycle-rating-text": "La notation du cycle n'est pas obligatoire mais elle nous permet d'améliorer nos machines.",
             "cycle-rating-text2": "La notation du cycle peux aussi vous permettre de mieux filtrer dans les historiques de cycle.",
             "cycle-duration": "Durée du cycle"
         },
@@ -181,7 +212,6 @@
         "preparation": "Préparation du cycle",
         "choice": "Choix du cycle",
         "profile.choice": "Choix du profil",
-        "steps": "Étapes du cycle",
         "watchdog": "Chaine de sécurité",
         "watchdog.conditions": "Conditions de sécurité",
         "history": "Historiques",
@@ -223,7 +253,8 @@
         "procedure.reset": "Valider la tache de maintenance",
         "unity": {
             "cycle": "Cycles",
-            "hours": "Heures"
+            "hours": "Heures",
+            "time": "Durée"
         },
         "tools-used": "Outils nécéssaires",
         "tools": {

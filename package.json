@@ -17,6 +17,7 @@
 	"dependencies": {
 		"@fontsource/montserrat": "^4.5.11",
 		"autoprefixer": "^10.0.2",
+		"chart.js": "^3.9.1",
 		"cookie": "^0.4.1",
 		"postcss": "^8.1.0",
 		"simple-keyboard": "^3.4.44",

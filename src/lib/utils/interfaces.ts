@@ -4,10 +4,25 @@ export interface IWSObject {
   slots: Slot[];
   io: Io[];
   handlers: Handler[];
-  passives: any[];
+  passives: Passive[];
   manuals: Manual[];
   profiles: Profile[];
   maintenances: Maintenance[];
+}
+
+export interface Passive
+{
+  name: string;
+  target: number;
+  current: number;
+  state: boolean;
+
+  logData: {
+    interpolatedSensorsValue: number;
+    state: boolean;
+    time: string,
+    targetValue: number;
+  }[]
 }
 
 export interface Maintenance {
@@ -40,12 +55,17 @@ export interface Profile {
   isPremade: boolean;
 }
 
+export interface IProfileMapped extends Omit<Profile, "fieldGroups">
+{
+  values: {[x: string]: number}
+}
+
 interface FieldGroup {
   name: string;
   fields: Field[];
 }
 
-interface Field {
+export interface Field {
   name: string;
   type: string;
   value: number;
@@ -63,6 +83,8 @@ export interface Manual {
   requires?: string[];
   
   state: number;
+  locked: boolean;
+
   controls: (string | Control)[];
   analogScale?: AnalogScale;
 }
@@ -155,13 +177,20 @@ interface ProfileRaw {
   values: Record<string, number>;
 }
 
+export interface IHistory {
+  id: string;
+  rating: number;
+  cycle: Cycle;
+  profile: IProfileMapped;
+}
+
 interface StartCondition {
   conditionName: string;
   startOnly: boolean;
   result: string;
 }
 
-interface Step {
+export interface Step {
   name: string;
   state: string;
   type: string;
@@ -176,17 +205,22 @@ interface Step {
   runAmount?: Param;
 }
 
-interface Block {
+export interface Block {
   name: string;
   params: Param[];
   blocks: Block[];
+  
+  trueBlocks?: Block[];
+  falseBlocks?: Block[];
+
   executed: boolean;
 }
 
-interface Param {
+export interface Param {
   name: string;
   value: string;
   data: number | string;
+  params?: Param[]
 }
 
 interface Status {
@@ -195,6 +229,7 @@ interface Status {
   progress: number;
   endReason: string;
   endDate: number;
+  estimatedRunTime?: number;
 }
 
 interface Machine {
@@ -214,6 +249,7 @@ interface Settings {
   maskedProfiles: any[];
   maskedManuals: any[];
   ioControlsMasked: boolean;
+  profilesMasked: boolean;
 }
 
 export interface IHypervisorData {

@@ -6,19 +6,20 @@
 		navTitle,
 		useNavContainer,
 	} from '$lib/utils/navstack';
-	import { locale, locales, _ } from 'svelte-i18n';
+	import { locales, _ } from 'svelte-i18n';
 	import { page } from '$app/stores';
 	import { scale } from 'svelte/transition';
 	import { goto } from '$app/navigation';
 	import { BUNDLED } from '$lib/bundle';
 	import { machineData } from '$lib/utils/store';
-	import { readDarkMode, setLang, updateDarkMode } from '$lib/utils/settings';
 	import { onMount } from 'svelte';
 	import { Linker } from '$lib/utils/linker';
 	import Modalcontent from '../modals/modalcontent.svelte';
-	import Toggle from '../toggle.svelte';
+	import Toggle from '../userInputs/toggle.svelte';
 	import SvelteMarkdown from 'svelte-markdown';
 	import Navcontainer from './navcontainer.svelte';
+	import { lang, dark, layoutSimplified } from '$lib/utils/settings';
+	import Button from '../button.svelte';
 
 	$: index = $page.url.pathname == '/app';
 
@@ -28,7 +29,6 @@
 	let displayOptions = false;
 
 	/// Modal options
-	let dark = false;
 	const langs: { [x: string]: string } = {
 		en: 'English',
 		fr: 'Français',
@@ -40,8 +40,6 @@
 	let displayUpdateScreen = false;
 
 	onMount(async () => {
-		dark = readDarkMode();
-
 		const releaseNotesRequest = await fetch('//' + $Linker + '/api/currentReleaseNotes');
 		const ndreleaseNotesRequest = await fetch('/release.md');
 
@@ -57,20 +55,27 @@
 			isUpdateShrinked = true;
 		}
 	}
-
-	$: setLang($locale as string);
 </script>
 
 <!--- options modal -->
 <Modalcontent bind:shown={displayOptions} title={$_('settings.main')}>
 	<div class="flex flex-col gap-3">
+		{#if $machineData.machine.model == 'uscleaner'}
+			<div class="flex flex-row justify-between dark:text-white text-gray-800 items-center">
+				{$_('settings.layout-format')}
+				<Toggle
+					bind:value={$layoutSimplified}
+					on:change={(e) => ($layoutSimplified = e.detail.value)}
+				/>
+			</div>
+		{/if}
 		<div class="flex flex-row justify-between dark:text-white text-gray-800 items-center">
 			{$_('settings.enable-dark-mode')}
-			<Toggle bind:value={dark} on:change={(e) => updateDarkMode(e.detail.value)} />
+			<Toggle bind:value={$dark} on:change={(e) => ($dark = e.detail.value)} />
 		</div>
 		<div class="flex flex-row gap-4 justify-between dark:text-white text-gray-800 items-center">
 			{$_('settings.language')}
-			<select bind:value={$locale} class="text-gray-800 py-1 px-2 bg-gray-300">
+			<select bind:value={$lang} class="text-gray-800 py-1 px-2 bg-gray-300">
 				{#each $locales as locale}
 					<option value={locale}>{langs[locale]}</option>
 				{/each}
@@ -120,7 +125,7 @@
 					id="glyphicons-basic"
 					xmlns="http://www.w3.org/2000/svg"
 					viewBox="0 0 32 32"
-					class="h-6 w-6 fill-white animate-bounce-x ml-2"
+					class="h-6 w-6 fill-rose-400 animate-bounce-x ml-2"
 				>
 					<path
 						id="arrow-thin-left"
@@ -155,7 +160,10 @@
 			<div class="flex flex-row gap-1 ml-auto">
 				{#if $navActions != null}
 					{#each $navActions as btn}
-						<button on:click={btn.action} class={btn.class}>{btn.label}</button>
+						<Button on:click={btn.action} color={btn.color} size={'small'}>
+							{btn.label}
+						</Button>
+						<!--<button on:click={btn.action} class={btn.class}>{btn.label}</button>-->
 					{/each}
 				{/if}
 			</div>
@@ -278,7 +286,7 @@
 		{#if $machineData.machine.hypervisorData !== undefined}
 			{#if !isUpdateShrinked}
 				<div in:scale out:scale>
-					<div class="flex flex-row flex-wrap gap-5 items-center mt-4">
+					<div class="flex flex-row flex-wrap gap-5 items-center mt-4 p-4">
 						{#if $machineData.machine.hypervisorData.overallDownloadProgress !== null}
 							<span class="font-semibold">{$_('settings.updateProgress')}</span>
 							<div class="rounded-full h-8 p-1 w-1/3 bg-indigo-300">

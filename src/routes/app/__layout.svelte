@@ -1,21 +1,18 @@
 <script lang="ts">
-	import { initI18n } from '$lib/utils/i18n';
-	import { waitLocale, _ } from 'svelte-i18n';
-
-	import Pagetransition from '$lib/components/pagetransition.svelte';
+	import { _ } from 'svelte-i18n';
 
 	import { beforeUpdate, onDestroy, onMount } from 'svelte';
 
 	import { lockMachineData, machineData } from '$lib/utils/store';
 	import type { IWSObject } from '$lib/utils/interfaces';
 	import { fade, scale } from 'svelte/transition';
-	import { loadDarkMode } from '$lib/utils/settings';
 
 	import { Linker } from '$lib/utils/linker';
 	import { goto } from '$app/navigation';
 	import Modal from '$lib/components/modals/modal.svelte';
 	import Navstack from '$lib/components/navigation/navstack.svelte';
 	import { BUNDLED } from '$lib/bundle';
+	import { initI18nMachine } from '$lib/utils/i18nmachine';
 
 	let ready: boolean = false;
 
@@ -32,10 +29,6 @@
 	});
 
 	onMount(async () => {
-		await waitLocale('en');
-		await initI18n($Linker);
-		loadDarkMode();
-
 		//disabling right click
 		window.addEventListener('contextmenu', function (e) {
 			if (BUNDLED == 'true') e.preventDefault();
@@ -75,6 +68,7 @@
 			});
 
 			if (result === true) {
+				await initI18nMachine($Linker);
 				break;
 			} else {
 				await new Promise((resolve) => setTimeout(resolve, 5000));

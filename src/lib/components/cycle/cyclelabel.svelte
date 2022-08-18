@@ -15,14 +15,14 @@
 </script>
 
 <div
-	class="bg-indigo-900 text-white rounded-xl transition-all font-semibold cursor-pointer"
+	class="bg-indigo-900 text-white rounded-xl transition-all font-semibold cursor-pointer hover:scale-[1.005]"
 	on:click={() => prepareCycle(ct.cycle, ct.profile)}
 >
 	<div class="flex flex-row gap-4 items-center justify-items-start">
-		<!-- svelte-ignore a11y-missing-attribute -->
 		<img
 			src="//{$Linker}/api/assets/cycle/{ct.name}.png"
 			class="aspect-square bg-white rounded-l-xl w-16"
+			alt="illutration cycle"
 		/>
 		<div class="text-md">{$_('cycle.types.' + ct.name)}</div>
 	</div>

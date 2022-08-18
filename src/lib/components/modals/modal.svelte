@@ -3,6 +3,7 @@
 
 	import '$lib/app.css';
 	import { _ } from 'svelte-i18n';
+	import Button from '../button.svelte';
 	import Modalcontent from './modalcontent.svelte';
 	interface buttonOption {
 		text: string;
@@ -26,24 +27,24 @@
 	</div>
 	<div class="flex flex-row justify-end gap-4 border-t-[1px] border-neutral-300/25 pt-3 mt-2">
 		{#each buttons as button}
-			<button
-				on:click|preventDefault={async () => {
+			<Button
+				color={button.color}
+				on:click={async () => {
 					if (button.callback) await button.callback();
 					shown = false;
 				}}
-				class="rounded-xl {button.color} text-white py-2 px-4 font-semibold"
 			>
 				{button.text}
-			</button>
+			</Button>
 		{:else}
-			<button
-				on:click|preventDefault={() => {
+			<Button
+				color={'bg-emerald-500'}
+				on:click={() => {
 					shown = false;
 				}}
-				class="rounded-xl bg-emerald-500 text-white py-2 px-4 font-semibold"
 			>
 				{$_('ok')}
-			</button>
+			</Button>
 		{/each}
 	</div>
 </Modalcontent>

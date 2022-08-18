@@ -24,7 +24,9 @@
     "minutes": "Minutes",
     "minute": "Minute",
     "seconds": "Seconds",
-    "second": "Second"
+    "second": "Second",
+    "milliseconds": "Milliseconds",
+    "millisecond": "Millisecond"
   },
 
   "machines": {
@@ -100,7 +102,8 @@
       },
       "save": {
         "title": "Saving {profile.name}",
-        "message": "Would you like to save {profile.name} ?"
+        "message": "Would you like to save {profile.name} ?",
+        "name-short": "The name selected for this profile is invalid, please set the name to at least 1 caracter"
       }
     },
     "rows": {
@@ -112,9 +115,19 @@
       "timeOff": "Time disabled"
     }
   },
+  "passives": {
+    "list": "Regulation",
+    "settings": "Settings",
+    "current": "Actual value",
+    "target": "Target value",
+    "chart": {
+      "title": "Passive evolution over time"
+    }
+  },
   "settings": {
     "main": "Settings",
     "enable-dark-mode": "Dark mode",
+    "layout-format": "Simplified layout",
     "language": "Language",
     "restart": "Restart machine",
     "reload-nuster": "Reload interface",
@@ -131,13 +144,26 @@
     "updateProgress": "Update downloading progress"
   },
   "cycle": {
-    "eta.null": "Unknown",
+    "eta": {
+      "null": "Unknown",
+      "remaining": "Remaining time",
+      "estimated": "Estimated"
+    },
     "button": "Cycle",
     "presets": "Constructor defined cycles",
     "presets-anex": "Secondary constructor cycles",
     "user": "User defined cycles",
     "name": "Cycles",
     "choice.message": "Choose a cycle to begin",
+    "quickstart": {
+      "head": "QuickStart Cycle",
+      "settings": "Cycle settings",
+      "settings-save": "Saved settings",
+      "settings-save-action": "Save",
+      "settings-edit-action": "Edit",
+      "settings-delete-action": "Delete",
+      "start": "Prepare cycle"
+  },
     "types": {
       "custom": "Customized cycle"
     },
@@ -180,7 +206,9 @@
       "nextStep": "Next Step"
     },
     "steps": {
-      "title": "Cycle steps"
+      "title": "Cycle steps",
+      "status": "Cycle status",
+      "additional-info": "Additional informations"
     },
     "preparation": "Preparation",
     "running": "Running",
@@ -241,7 +269,8 @@
     },
     "unity": {
       "cycle": "Cycles",
-      "hours": "Hours"
+      "hours": "Hours",
+      "time": "Duration"
     },
     "tools-used": "Tools required",
     "tools": {

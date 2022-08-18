@@ -8,6 +8,7 @@
 	import { onDestroy } from 'svelte';
 	import Navcontainer from '../navigation/navcontainer.svelte';
 	import Navcontainertitle from '../navigation/navcontainertitle.svelte';
+	import { layoutSimplified } from '$lib/utils/settings';
 
 	function prepareCycle(cycleType: string, profileID: string) {
 		fetch('//' + $Linker + '/api/v1/cycle/' + cycleType + '/' + profileID, {
@@ -27,7 +28,7 @@
 		{
 			action: () => goto('/app/cycle/histories'),
 			label: $_('cycle.history'),
-			class: 'bg-orange-500 px-3 py-1 text-sm font-semibold text-white rounded-xl cursor-pointer',
+			color: 'bg-orange-500',
 		},
 	];
 
@@ -37,6 +38,8 @@
 		$navActions = null;
 		$useNavContainer = true;
 	});
+
+	$: if ($machineData.cycle === undefined && $layoutSimplified == true) goto('/app');
 </script>
 
 <div>

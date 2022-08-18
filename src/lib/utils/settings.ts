@@ -1,29 +1,5 @@
+import { writable } from "svelte/store";
 
-export function loadDarkMode()
-{
-    const dark = window.localStorage.getItem("dark") == "true";
-
-    if(dark)
-        document.getElementsByTagName("html")[0].classList.add("dark");
-    else    
-        document.getElementsByTagName("html")[0].classList.remove("dark");
-}
-
-export function updateDarkMode(value: boolean)
-{
-    window.localStorage.setItem("dark", "" + value);
-    loadDarkMode();
-}
-
-export function readDarkMode(): boolean{
-    return window.localStorage.getItem("dark") == "true";
-}
-
-export function getLang(): string {
-    return window.localStorage.getItem("lang") ?? "en";
-}
-
-export function setLang(value: string)
-{
-    window.localStorage.setItem("lang", value);
-}
+export const lang = writable<string>("en");
+export const dark = writable<boolean>(true);
+export const layoutSimplified = writable<boolean>(false);

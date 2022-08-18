@@ -9,6 +9,9 @@ const config = {
     adapter: adapter({
       fallback: "index.html",
     }),
+    prerender: {
+      enabled: false
+    }
   },
   preprocess: sveltePreprocess()
 };

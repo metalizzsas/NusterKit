@@ -17,9 +17,9 @@
 <script lang="ts">
 	import '$lib/app.css';
 	import Modal from '$lib/components/modals/modal.svelte';
-	import TimeSelector from '$lib/components/timeselector.svelte';
-	import Toggle from '$lib/components/toggle.svelte';
-	import Inputkb from '$lib/components/inputkb.svelte';
+	import ProfileRow from '$lib/components/profile/profileRow.svelte';
+	import Toggle from '$lib/components/userInputs/toggle.svelte';
+	import Inputkb from '$lib/components/userInputs/inputkb.svelte';
 	import type { Profile } from '$lib/utils/interfaces';
 	import { onDestroy, onMount } from 'svelte';
 	import { _ } from 'svelte-i18n';
@@ -28,6 +28,7 @@
 	import { navActions, navBackFunction, navTitle } from '$lib/utils/navstack';
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
 	import Navcontainersubtitle from '$lib/components/navigation/navcontainersubtitle.svelte';
+	import Navcontainertitlesided from '$lib/components/navigation/navcontainertitlesided.svelte';
 
 	export let profile: Profile;
 
@@ -118,21 +119,23 @@
 
 <Navcontainertitle>{$_('profile.globals')}</Navcontainertitle>
 
-<div class="bg-zinc-700 rounded-xl py-1 px-3 flex flex-row justify-between items-center mb-5">
-	<span class="text-white">{$_('profile.name')}</span>
+<div class="bg-zinc-700 rounded-full py-1 px-4 flex flex-row justify-between items-center mb-5">
+	<span class="text-white font-semibold">{$_('profile.name')}</span>
 	<Inputkb
 		bind:value={profile.name}
-		options={{ class: 'border-0 bg-neutral-100 dark:bg-zinc-600 font-semibold p-2 m-1 -mr-1' }}
+		options={{
+			class: 'border-0 bg-neutral-100 dark:bg-zinc-600 font-semibold px-3 py-1 -mr-3 rounded-full w-1/3',
+		}}
 		disabled={!profile.overwriteable}
 	/>
 </div>
 
-<Navcontainertitle>{$_('profile.settings')}</Navcontainertitle>
+<Navcontainertitlesided>{$_('profile.settings')}</Navcontainertitlesided>
 
 <div class="flex flex-col gap-2">
-	{#each profile.fieldGroups as fg, index}
+	{#each profile.fieldGroups as fg}
 		<div class="flex flex-row gap-3 items-center align-middle mb-1 mt-4 first:mt-1">
-			<Navcontainersubtitle underline={false} margin={false}>
+			<Navcontainersubtitle>
 				{$_('profile.categories.' + fg.name)}
 			</Navcontainersubtitle>
 			{#each fg.fields.filter((f) => f.name === 'enabled') as f}
@@ -151,61 +154,7 @@
 		</div>
 
 		{#each fg.fields.filter((z) => z.name !== 'enabled') as f}
-			<div
-				class="bg-zinc-700 rounded-l-xl rounded-r-3xl py-1 px-2 flex flex-row justify-between items-center"
-			>
-				<span class="text-white">
-					{$_('profile.rows.' + f.name)}
-				</span>
-
-				<div class="-mr-1 flex flex-row gap-3">
-					{#if f.type === 'bool'}
-						<Toggle
-							bind:value={f.value}
-							locked={!profile.overwriteable}
-							enableGrayScale={!profile.overwriteable}
-						/>
-					{:else if f.type === 'float'}
-						<input
-							type="range"
-							class="w-[20vw] bg-white dark:bg-zinc-600 accent-indigo-500"
-							bind:value={f.value}
-							min={f.floatMin}
-							max={f.floatMax}
-							step={f.floatStep}
-							disabled={!profile.overwriteable}
-						/>
-					{:else if f.type === 'int'}
-						{#if f.unity === 'm-s'}
-							<div class="text-md">
-								<TimeSelector
-									bind:value={f.value}
-									disabled={!profile.overwriteable}
-								/>
-							</div>
-						{:else}
-							<Inputkb
-								bind:value={f.value}
-								disabled={!profile.overwriteable}
-								options={{
-									class: 'w-25 bg-white dark:bg-zinc-600 px-3 py-1 rounded-full font-semibold',
-								}}
-							/>
-						{/if}
-					{:else}
-						<span class="text-red">Type {f.type} unsupported</span>
-					{/if}
-
-					{#if f.unity && f.unity != 'm-s'}
-						<span
-							class="bg-white text-zinc-800 py-0.5 text-center rounded-full block w-16"
-						>
-							{f.value}
-							<span class="font-semibold">{f.unity}</span>
-						</span>
-					{/if}
-				</div>
-			</div>
+			<ProfileRow bind:row={f} bind:profile />
 		{/each}
 	{/each}
 </div>

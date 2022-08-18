@@ -1,12 +1,12 @@
 <script lang="ts">
-	import Inputkb from '../inputkb.svelte';
+	import Inputkb from '$lib/components/userInputs/inputkb.svelte';
 	import { browser } from '$app/env';
 	import Modalcontent from './modalcontent.svelte';
 
 	interface buttonOption {
 		text: string;
 		color: string;
-		callback(val: string): void;
+		callback: (val: string) => boolean | void;
 		textColor?: string;
 	}
 
@@ -54,8 +54,9 @@
 					class="{button.color} rounded-xl px-4 py-2 {button.textColor ||
 						'text-white'} font-semibold"
 					on:click={() => {
-						button.callback(selectOptions ? selectval : val);
-						shown = false;
+						const result = button.callback(selectOptions ? selectval : val);
+
+						if (result != false) shown = false;
 					}}
 				>
 					{button.text}

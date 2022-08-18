@@ -3,7 +3,7 @@
 	import '$lib/app.css';
 	import ModalPrompt from '$lib/components/modals/modalprompt.svelte';
 	import NavContainer from '$lib/components/navigation/navcontainer.svelte';
-	import Profile from '$lib/components/profile.svelte';
+	import Profile from '$lib/components/profile/profile.svelte';
 	import type { Profile as ProfileModel } from '$lib/utils/interfaces';
 	import { Linker } from '$lib/utils/linker';
 	import { navActions, navBackFunction, navTitle, useNavContainer } from '$lib/utils/navstack';
@@ -30,6 +30,7 @@
 </script>
 
 <script lang="ts">
+	import Flex from '$lib/components/layout/flex.svelte';
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
 
 	let addProfileModalShown = false;
@@ -66,7 +67,7 @@
 	$navActions = [
 		{
 			action: listProfileBlueprint,
-			class: 'py-1 px-3 bg-emerald-500 text-white font-semibold rounded-xl text-sm',
+			color: 'bg-emerald-500',
 			label: $_('profile.buttons.add'),
 		},
 	];
@@ -99,13 +100,13 @@
 {#each [...new Set(profiles.map((p) => p.isPremade))] as premade}
 	<NavContainer>
 		<Navcontainertitle>{$_('profile.premades.' + premade)}</Navcontainertitle>
-		<div class="flex flex-col gap-4">
+		<Flex direction="col">
 			{#each profiles.filter((p) => p.isPremade == premade) as profile}
 				<Profile
 					{profile}
 					delCb={async () => await invalidate('//' + $Linker + '/api/v1/profiles')}
 				/>
 			{/each}
-		</div>
+		</Flex>
 	</NavContainer>
 {/each}

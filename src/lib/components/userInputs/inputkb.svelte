@@ -4,7 +4,7 @@
 
 	import Portal from 'svelte-portal';
 
-	import { onMount } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
 
 	import { _ } from 'svelte-i18n';
@@ -15,8 +15,6 @@
 	export let disabled = false;
 
 	export let options: { class?: string; placeholder?: string; min?: number; max?: number } = {};
-
-	onMount(() => {});
 
 	function focusScroll() {
 		document
@@ -58,7 +56,7 @@
 <svelte:window bind:scrollY />
 
 <Portal target="body">
-	{#if focused}
+	{#if focused && BUNDLED == 'true'}
 		<div
 			class="rounded-t-xl fixed bottom-0 left-0 right-0 z-50 visible"
 			in:fly={{ y: 300, duration: 250 }}

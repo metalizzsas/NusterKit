@@ -4,7 +4,8 @@ type navBackFunction = () => void | Promise<void>
 
 type navActionButton = {
     label: string,
-    class: string,
+    color?: string;
+    class?: string,
     action: () => void | Promise<void>
 }
 

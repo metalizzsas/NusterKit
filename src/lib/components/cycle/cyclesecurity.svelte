@@ -1,11 +1,15 @@
 <script lang="ts">
 	import Modal from '../modals/modal.svelte';
 	import { machineData } from '$lib/utils/store';
+	import { layoutSimplified } from '$lib/utils/settings';
 	import { _ } from 'svelte-i18n';
 	import { Linker } from '$lib/utils/linker';
 	import Round from '../round.svelte';
 	import { navTitle } from '$lib/utils/navstack';
 	import Navcontainertitle from '../navigation/navcontainertitle.svelte';
+	import { goto } from '$app/navigation';
+	import Button from '../button.svelte';
+	import Flex from '../layout/flex.svelte';
 
 	let displayWatchdogError = false;
 	let displayWatchdogWarning = false;
@@ -55,6 +59,8 @@
 				'Content-Type': 'application/json',
 			},
 		});
+
+		if ($layoutSimplified) goto('/app');
 	};
 
 	$navTitle = [
@@ -117,9 +123,9 @@
 		},
 	]}
 >
-	<div class="flex flex-col gap-3">
+	<Flex direction="col" gap={3}>
 		{$_('cycle.modals.watchdog-warning.message')}
-		<div class="flex flex-col gap-3">
+		<Flex direction="col" gap={3}>
 			{#each $machineData.cycle.startConditions.filter((s) => s.result == 'warning') as sc}
 				<span
 					class="flex flex-row justify-between items-center rounded-full bg-zinc-700 py-1 pr-2 pl-3 text-white font-semibold"
@@ -132,13 +138,13 @@
 					/>
 				</span>
 			{/each}
-		</div>
-	</div>
+		</Flex>
+	</Flex>
 </Modal>
 
 <Navcontainertitle>{$_('cycle.watchdog.conditions')}</Navcontainertitle>
 
-<div class="flex flex-col gap-4">
+<Flex direction="col">
 	{#if $machineData.cycle}
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
 			{#each $machineData.cycle.startConditions as sc}
@@ -155,19 +161,17 @@
 			{/each}
 		</div>
 
-		<div class="flex flex-row gap-4 justify-items-center self-center">
-			<button
-				class="bg-red-500 hover:bg-red-500/80 hover:scale-[1.01] rounded-xl py-1 px-3 self-center text-white font-semibold transition:all mt-3 md:ml-auto"
-				on:click={cancelCycle}
-			>
+		<Flex class="justify-items-center self-center">
+			<Button size={'small'} color={'bg-red-500'} class="self-center" on:click={cancelCycle}>
 				{$_('cycle.buttons.cancel')}
-			</button>
-			<button
-				class="flex flex-row gap-1 align-middle items-center {$machineData.cycle.startConditions.filter(
-					(sc) => sc.result == 'error',
-				).length > 0
+			</Button>
+			<Button
+				size="large"
+				color={$machineData.cycle.startConditions.filter((sc) => sc.result == 'error')
+					.length > 0
 					? 'bg-gray-400 hover:bg-gray-400/80'
-					: 'bg-emerald-500 hover:bg-emerald-500/80 hover:scale-[1.01]'} rounded-xl py-2 px-5 self-center text-white fill-white font-semibold text-lg transition:all mt-3"
+					: 'bg-emerald-500 hover:bg-emerald-500/80 hover:scale-[1.01]'}
+				class={'flex flex-row gap-1 align-middle items-center fill-white'}
 				on:click={preStartCycle}
 			>
 				{#if $machineData.cycle.startConditions.filter((sc) => sc.result == 'error').length == 0}
@@ -185,10 +189,10 @@
 				{/if}
 
 				{$_('cycle.buttons.start')}
-			</button>
-		</div>
+			</Button>
+		</Flex>
 	{/if}
-</div>
+</Flex>
 
 <style>
 	@keyframes bounceX {

@@ -6,9 +6,14 @@
 	import howler from 'howler';
 	import { machineData } from '$lib/utils/store';
 	import { Linker } from '$lib/utils/linker';
-	import { time, _ } from 'svelte-i18n';
+	import { _ } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
-	import { navTitle } from '$lib/utils/navstack';
+	import { navTitle, useNavContainer } from '$lib/utils/navstack';
+	import Navcontainer from '../navigation/navcontainer.svelte';
+	import Navcontainertitle from '../navigation/navcontainertitle.svelte';
+	import Button from '../button.svelte';
+	import Flex from '../layout/flex.svelte';
+	import Rating from '../userInputs/rating.svelte';
 
 	let rating = 0;
 
@@ -30,14 +35,16 @@
 	});
 
 	async function patchCycle() {
-		await fetch('//' + $Linker + '/api/v1/cycle/' + rating, {
+		fetch('//' + $Linker + '/api/v1/cycle/' + rating, {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',
 			},
+		}).then(() => {
+			setTimeout(() => {
+				goto('/app');
+			}, 500);
 		});
-
-		goto('/app');
 	}
 
 	const parseDuration = (start: number, end: number) => {
@@ -61,18 +68,20 @@
 	};
 
 	$navTitle = [$_('cycle.button'), $_('cycle.end.cycle-ended')];
+	$useNavContainer = false;
 </script>
 
-<div class="text-zinc-800">
-	<div class="flex flex-col gap-4">
-		<section class="flex flex-row gap-4 justify-center align-middle items-center">
+<Flex class="-mt-6">
+	<Navcontainer classes="min-w-[60%]">
+		<Navcontainertitle>{$_('cycle.end.cycle-ended')}</Navcontainertitle>
+		<Flex class="justify-center items-center">
 			<div class="rounded-full bg-white p-4 shadow-lg">
 				{#if $machineData.cycle?.status.endReason != 'finished'}
 					<svg
 						id="glyphicons-basic"
 						xmlns="http://www.w3.org/2000/svg"
 						viewBox="0 0 32 32"
-						class="fill-red-500 h-12 w-12 rotate-45"
+						class="fill-red-500 h-8 w-8 rotate-45"
 					>
 						<path
 							id="plus"
@@ -84,7 +93,7 @@
 						id="glyphicons-basic"
 						xmlns="http://www.w3.org/2000/svg"
 						viewBox="0 0 32 32"
-						class="fill-emerald-500 h-12 w-12"
+						class="fill-emerald-500 h-8 w-8"
 					>
 						<path
 							id="check"
@@ -94,13 +103,7 @@
 				{/if}
 			</div>
 
-			<div class="flex flex-row gap-2">
-				<div class="bg-gray-400 h-2 aspect-square rounded-xl animate-pulse" />
-				<div class="bg-gray-500 h-2 aspect-square rounded-xl animate-pulse" />
-				<div class="bg-gray-400 h-2 aspect-square rounded-xl animate-pulse" />
-			</div>
-
-			<div class="flex flex-col p-3 rounded-xl bg-white">
+			<Flex direction="col" gap={0} class="rounded-xl bg-white p-3">
 				<span class="font-semibold">
 					{$_('cycle.endreasons.' + $machineData.cycle?.status.endReason)}
 				</span>
@@ -112,45 +115,27 @@
 						)}
 					</span>
 				{/if}
-			</div>
-		</section>
+			</Flex>
+		</Flex>
+
+		<div class="h-[1px] bg-zinc-400 w-2/3 mx-auto my-4" />
+
+		<Flex class="justify-center">
+			<Button on:click={patchCycle}>{$_('cycle.buttons.complete')}</Button>
+		</Flex>
+	</Navcontainer>
+
+	<Navcontainer classes="grow">
+		<Navcontainertitle>{$_('cycle.end.cycle-rating-lead')}</Navcontainertitle>
+
 		<section class="font-semibold text-center p-3 rounded-xl bg-white mx-auto">
-			<p class="mb-1">{$_('cycle.end.cycle-rating-lead')}</p>
 			<p class="font-normal">
 				{$_('cycle.end.cycle-rating-text')}
 			</p>
-			<p class="font-normal">
-				{$_('cycle.end.cycle-rating-text2')}
-			</p>
 		</section>
-		<div
-			class="flex flex-row items-center gap-4 self-center bg-white rounded-full p-2 shadow-xs"
-		>
-			{#each [1, 2, 3, 4, 5] as i}
-				<svg
-					id="glyphicons-basic"
-					xmlns="http://www.w3.org/2000/svg"
-					viewBox="0 0 32 32"
-					class="h-7 w-7 self-center transition-all {rating >= i
-						? 'fill-amber-500'
-						: 'fill-gray-500'}"
-					on:click={() => (rating == i ? (rating = 0) : (rating = i))}
-				>
-					<path
-						id="star"
-						d="M27.34766,14.17944l-6.39209,4.64307,2.43744,7.506a.65414.65414,0,0,1-.62238.85632.643.643,0,0,1-.38086-.12744l-6.38568-4.6383-6.38574,4.6383a.643.643,0,0,1-.38086.12744.65419.65419,0,0,1-.62238-.85632l2.43744-7.506L4.66046,14.17944A.65194.65194,0,0,1,5.04358,13h7.89978L15.384,5.48438a.652.652,0,0,1,1.24018,0L19.06476,13h7.89978A.652.652,0,0,1,27.34766,14.17944Z"
-					/>
-				</svg>
-			{/each}
-		</div>
 
-		<div class="h-[1px] bg-zinc-400 w-2/3 mx-auto" />
-
-		<button
-			class="bg-indigo-500 py-2 px-4 rounded-xl text-white font-semibold"
-			on:click={patchCycle}
-		>
-			{$_('cycle.buttons.complete')}
-		</button>
-	</div>
-</div>
+		<Flex class="justify-center mt-3">
+			<Rating bind:rating />
+		</Flex>
+	</Navcontainer>
+</Flex>

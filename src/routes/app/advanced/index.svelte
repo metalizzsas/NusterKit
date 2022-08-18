@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '$lib/app.css';
 
-	import Toggle from '$lib/components/toggle.svelte';
+	import Toggle from '$lib/components/userInputs/toggle.svelte';
 	import { _ } from 'svelte-i18n';
 	import { machineData, lockMachineData } from '$lib/utils/store';
 	import { goto } from '$app/navigation';
@@ -11,6 +11,7 @@
 	import { onDestroy } from 'svelte';
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
 	import type { Manual } from '$lib/utils/interfaces';
+	import Navcontainertitlesided from '$lib/components/navigation/navcontainertitlesided.svelte';
 
 	async function toggleState(name: string, state: number) {
 		await fetch(`//${$Linker}/api/v1/manual/${name.replace('#', '_')}/${state}`, {
@@ -27,7 +28,7 @@
 		: [
 				{
 					label: $_('gates.name'),
-					class: 'py-1 px-3 bg-orange-500 text-white rounded-xl text-sm font-semibold',
+					color: 'bg-orange-500',
 					action: () => goto('/app/advanced/gates'),
 				},
 		  ];
@@ -74,13 +75,19 @@
 			requires = false;
 		}
 
-		return !(!incompatibility && !requires);
+		return !(!incompatibility && !requires && !manual.locked);
 	};
 </script>
 
-{#each [...new Set($machineData.manuals.map((m) => m.category))] as cat}
-	<NavContainer>
-		<Navcontainertitle>{$_('manual.categories.' + cat)}</Navcontainertitle>
+<NavContainer>
+	{#each [...new Set($machineData.manuals.map((m) => m.category))] as cat, index}
+		{#if index == 0}
+			<Navcontainertitle>{$_('manual.categories.' + cat)}</Navcontainertitle>
+		{:else}
+			<div class="h-4" />
+			<Navcontainertitlesided>{$_('manual.categories.' + cat)}</Navcontainertitlesided>
+		{/if}
+
 		<div class="flex flex-col gap-2">
 			{#each $machineData.manuals.filter((g) => g.category == cat) as manual}
 				<div
@@ -90,6 +97,9 @@
 						<div class="flex flex-row justify-between">
 							<span class="font-semibold w-1/3">
 								{$_('manual.tasks.' + manual.name)}
+								{#if manual.locked}
+									<span class="text-sm italic">— {$_('locked')}</span>
+								{/if}
 							</span>
 							<div class="ctrl">
 								{#if manual.analogScale === undefined}
@@ -161,5 +171,5 @@
 				</div>
 			{/each}
 		</div>
-	</NavContainer>
-{/each}
+	{/each}
+</NavContainer>

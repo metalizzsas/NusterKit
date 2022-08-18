@@ -1,15 +1,8 @@
-import { init, addMessages } from 'svelte-i18n';
-import { getLang } from './settings';
+import { addMessages } from 'svelte-i18n';
 
-import en from "$lib/lang/en.json";
-import fr from "$lib/lang/fr.json";
-
-export async function initI18n(ip: string)
+export async function initI18nMachine(ip: string)
 {
-    return new Promise<void>((resolve) => {
-
-        addMessages('en', en);
-        addMessages('fr', fr);
+    return new Promise<void>(resolve => {
     
         const enurl = `//${ip}/api/assets/lang/en.json`;
         const frurl = `//${ip}/api/assets/lang/fr.json`;
@@ -32,19 +25,10 @@ export async function initI18n(ip: string)
             }
         });
     
-        Promise.all([langEN, langFR]).then(async () => {
-            await init({
-                fallbackLocale: 'en',
-                initialLocale: getLang(),
-            });
-            resolve();
+        
+        Promise.all([langEN, langFR]).then(r => {
+            console.log('Langs from machine loaded');
+            resolve()
         });
     });
-    
-}
-
-export async function initi18nLocal()
-{
-    addMessages('en', en);
-    addMessages('fr', fr);
 }

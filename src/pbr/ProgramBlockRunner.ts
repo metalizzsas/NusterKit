@@ -1,7 +1,7 @@
 import { EventEmitter } from "stream";
 import { IOGate } from "../controllers/io/IOGates/IOGate";
+import { IProfileMap } from "../controllers/profile/ProfilesController";
 import { EIOGateBus } from "../interfaces/gates/IIOGate";
-import { IProfile } from "../interfaces/IProfile";
 import { IPBRStatus, IProgramVariable, IProgramTimer, EPBRMode, IProgramRunner } from "../interfaces/IProgramBlockRunner";
 import { EProgramStepResult, EProgramStepType } from "../interfaces/IProgramStep";
 import { Machine } from "../Machine";
@@ -30,10 +30,10 @@ export class ProgramBlockRunner implements IProgramRunner
 
     //statics
     machine: Machine;
-    profile?: IProfile;
+    profile?: IProfileMap;
 
     //explorers
-    profileExplorer?: (name: string) => number;
+    profileExplorer?: (name: string) => number | boolean;
     ioExplorer: (name: string) => IOGate | undefined;
 
     //event
@@ -41,7 +41,7 @@ export class ProgramBlockRunner implements IProgramRunner
 
     nextStepButtonEnabled = false;
 
-    constructor(machine: Machine, object: IProgramRunner, profile?: IProfile)
+    constructor(machine: Machine, object: IProgramRunner, profile?: IProfileMap)
     {
         this.status = { mode: EPBRMode.CREATED };
 
@@ -256,10 +256,21 @@ export class ProgramBlockRunner implements IProgramRunner
         return duration / this.steps.length;
     }
 
+    public get estimatedRunTime()
+    {
+        let estimation = 0;
+
+        for(const step of this.steps)
+        {
+            estimation += step.duration.data()
+        }
+        return estimation;
+    }
+
     toJSON()
     {
         return {
-            status: {...this.status, progress: this.progress},
+            status: {...this.status, progress: this.progress, estimatedRunTime: this.estimatedRunTime},
 
             //identifiers vars
             name: this.name,

@@ -12,6 +12,8 @@ export interface IPBRPremades
 export interface IPBRStatus
 {
     mode: EPBRMode,
+
+    estimatedRunTime?: number,
     
     startDate?: number,
     endDate?: number,

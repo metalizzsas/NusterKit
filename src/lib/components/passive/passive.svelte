@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { _, time } from 'svelte-i18n';
 	import { Linker } from '$lib/utils/linker';
-	import Chart from 'chart.js/auto';
+	import Chart from 'chart.js/auto/auto.mjs';
 
 	import Toggle from '../userInputs/toggle.svelte';
 	import type { Passive } from '$lib/utils/interfaces';

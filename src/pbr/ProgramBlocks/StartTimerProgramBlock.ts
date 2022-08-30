@@ -44,6 +44,8 @@ export class StartTimerProgramBlock extends ProgramBlock implements IStartTimerP
         }, tI * 1000);
         this.pbrInstance.machine.logger.info("StartTimerBlock: Will start timer with name: " + tN + " and interval: " + tI * 1000 + " ms.");
         this.pbrInstance.timers.push({ name: tN, timer: timer, blocks: this.blocks, enabled: true });
+
+        this.executed = false;
     }
 }
 

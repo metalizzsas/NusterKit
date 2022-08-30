@@ -31,5 +31,7 @@ export class PassiveProgramBlock extends ProgramBlock implements IPassiveProgram
 
             this.pbrInstance.machine.logger.info("Passive: Setting " + this.params[0].data() + " state to " + this.params[1].data() + " and target to " + this.params[2].data());
         }
+
+        this.executed = true;
     }
 }

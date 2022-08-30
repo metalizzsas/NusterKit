@@ -21,6 +21,8 @@ export class SlotUnloadProgramBlock extends ProgramBlock implements ISlotUnloadP
         this.pbrInstance.machine.logger.info("SlotUnloadBlock: Will unload slot with name: " + sN);
 
         this.pbrInstance.machine.slotController.slots.find(s => s.name == sN)?.unloadSlot();
+
+        this.executed = true;
     }
 }
 

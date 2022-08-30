@@ -35,6 +35,8 @@ export class StopTimerProgramBlock extends ProgramBlock implements IStopTimerPro
         else {
             this.pbrInstance.machine.logger.warn("StopTimerBlock: Timer " + tN + " has not been found, ignoring.");
         }
+
+        this.executed = true;
     }
 }
 

@@ -22,6 +22,8 @@ export class SlotLoadProgramBlock extends ProgramBlock implements ISlotLoadProgr
         this.pbrInstance.machine.logger.info("SlotLoadBlock: Will load slot with name: " + sN);
 
         this.pbrInstance.machine.slotController.slots.find(s => s.name == sN)?.loadSlot();
+
+        this.executed = true;
     }
 }
 

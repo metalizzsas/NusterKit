@@ -34,6 +34,8 @@ export class VariableProgramBlock extends ProgramBlock implements IVariableProgr
         else {
             this.pbrInstance.variables.push({ name: vN, value: vV });
         }
+
+        this.executed = true;
     }
 }
 

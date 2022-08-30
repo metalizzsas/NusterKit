@@ -12,7 +12,7 @@
 	$: gates = $machineData.io;
 
 	function update(gate: string, value: number) {
-		fetch(`//${$Linker}/api/v1/io/${gate}/${value}`);
+		fetch(`//${$Linker}/api/v1/io/${gate.replace('#', '_')}/${value}`);
 	}
 
 	$navTitle = [$_('manual.list'), $_('gates.name')];

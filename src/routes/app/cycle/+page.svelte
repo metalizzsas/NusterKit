@@ -1,38 +1,8 @@
-<script lang="ts" context="module">
-	import type { Load } from '@sveltejs/kit';
-
-	export const load: Load = async (ctx) => {
-		//fetch cycles types from machine api
-		let cycleTypesData = await ctx.fetch(
-			'//' + (window.localStorage.getItem('ip') ?? '127.0.0.1') + '/api/v1/cycle/custom',
-		);
-
-		const cycleTypes = (await cycleTypesData.json()) as {
-			name: string;
-			profileRequired: boolean;
-		}[];
-
-		//fetch premade cycles from machine api
-		let cyclePremadesData = await ctx.fetch(
-			'//' + (window.localStorage.getItem('ip') ?? '127.0.0.1') + '/api/v1/cycle/premades',
-		);
-
-		const cyclePremades = (await cyclePremadesData.json()) as {
-			name: string;
-			profile: string;
-			cycle: string;
-		}[];
-
-		return {
-			props: {
-				cycleTypes,
-				cyclePremades,
-			},
-		};
-	};
-</script>
-
 <script lang="ts">
+	throw new Error(
+		'@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)',
+	);
+
 	import { _ } from 'svelte-i18n';
 	import '$lib/app.css';
 

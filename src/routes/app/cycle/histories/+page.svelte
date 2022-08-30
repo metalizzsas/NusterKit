@@ -1,16 +1,20 @@
 <script context="module" lang="ts">
-	import type { IHistory } from '$lib/utils/interfaces';
-	import type { Load } from '@sveltejs/kit';
+	throw new Error("@migration task: Check code was safely removed (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292722)");
 
-	export const load: Load = async (ctx) => {
-		let content = await ctx.fetch(
-			'//' + (window.localStorage.getItem('ip') ?? '127.0.0.1') + '/api/v1/cycle/history',
-		);
-		return { props: { histories: (await content.json()) as IHistory[] } };
-	};
+	// import type { IHistory } from '$lib/utils/interfaces';
+	// import type { Load } from '@sveltejs/kit';
+
+	// export const load: Load = async (ctx) => {
+	// 	let content = await ctx.fetch(
+	// 		'//' + (window.localStorage.getItem('ip') ?? '127.0.0.1') + '/api/v1/cycle/history',
+	// 	);
+	// 	return { props: { histories: (await content.json()) as IHistory[] } };
+	// };
 </script>
 
 <script lang="ts">
+	throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
+
 	import { date, time, _ } from 'svelte-i18n';
 	import '$lib/app.css';
 	import { goto } from '$app/navigation';

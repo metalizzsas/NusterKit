@@ -1,20 +1,6 @@
-<script context="module" lang="ts">
-	import type { Load } from '@sveltejs/kit';
-
-	export const load: Load = async (ctx) => {
-		const content = await ctx.fetch(
-			`//${window.localStorage.getItem('ip') ?? '127.0.0.1'}/api/v1/profiles/${
-				ctx.params.id
-			}`,
-		);
-
-		let profile: Profile = await content.json();
-
-		return { props: { profile } };
-	};
-</script>
-
 <script lang="ts">
+	throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
+
 	import '$lib/app.css';
 	import Modal from '$lib/components/modals/modal.svelte';
 	import ProfileRow from '$lib/components/profile/profileRow.svelte';

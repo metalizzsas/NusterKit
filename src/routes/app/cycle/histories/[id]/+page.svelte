@@ -1,19 +1,6 @@
-<script context="module" lang="ts">
-	import type { Load } from '@sveltejs/kit';
-
-	export const load: Load = async (ctx) => {
-		let dt = await ctx.fetch(
-			'//' +
-				(window.localStorage.getItem('ip') ?? '127.0.0.1') +
-				'/api/v1/cycle/history/' +
-				ctx.params.id,
-		);
-
-		return { props: { history: await dt.json() } };
-	};
-</script>
-
 <script lang="ts">
+	throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
+
 	import Flex from '$lib/components/layout/flex.svelte';
 	import Navcontainersubtitle from '$lib/components/navigation/navcontainersubtitle.svelte';
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';

@@ -3,7 +3,6 @@
 
 	export const load: Load = () => {
 		initi18nLocal(); // Load local translations jsons
-
 		return {};
 	};
 </script>
@@ -19,19 +18,11 @@
 
 	import { locale } from 'svelte-i18n';
 	import { onMount } from 'svelte';
-	import { browser, dev } from '$app/env';
-	import { BUNDLED } from '$lib/bundle';
 	import { lang, dark, layoutSimplified } from '$lib/utils/settings';
 	import { initi18nLocal } from '$lib/utils/i18nlocal';
 	import Loadindicator from '$lib/components/loadindicator.svelte';
 
-	let ReloadPrompt: any;
-
 	onMount(async () => {
-		if (!dev && browser && BUNDLED != 'true') {
-			ReloadPrompt = (await import('$lib/components/ReloadPrompt.svelte')).default;
-		}
-
 		/**
 		 * Theme store (Boolean)
 		 */
@@ -68,18 +59,8 @@
 	});
 </script>
 
-<svelte:head>
-	{#if !dev && browser && BUNDLED != 'true'}
-		<link rel="manifest" href="/_app/manifest.webmanifest" />
-	{/if}
-</svelte:head>
-
 <Loadindicator />
 
 <main class="p-4">
 	<slot />
 </main>
-
-{#if ReloadPrompt}
-	<svelte:component this={ReloadPrompt} />
-{/if}

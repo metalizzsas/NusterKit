@@ -10,12 +10,16 @@ COPY ./ ./
 
 ENV VITE_BUNDLED=true
 
+ENV PORT=4079
+
 RUN npm run build
 
-FROM nginx:1.22
+FROM balenalib/raspberrypi4-64-node:16.17
 
-COPY --from=builder usr/src/app/build /usr/share/nginx/html
+WORKDIR /usr/src/app
 
-COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY --from=builder usr/src/app/build /usr/src/app/build
 
-EXPOSE 80
+EXPOSE 4079
+
+CMD [ "node build/index.js" ]

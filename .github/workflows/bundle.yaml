@@ -52,4 +52,4 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           platforms: arm64
           push: true
-          file: dockerfile.bundle
+          file: dockerfile

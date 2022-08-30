@@ -12,7 +12,8 @@
             "ir-curing": "Cuisson IR",
             "uv-curing": "Cuisson UV",
             "inerting": "Inertage",
-            "multilayer": "Multicouche"
+            "multilayer": "Multicouche",
+            "motor": "Moteur de rotation"
         },
         "rows": {
             "interlayer-uvduration": "UV Curing time between layers",
@@ -34,11 +35,18 @@
             "uv-cache-wrong": "Erreur position cache UV",
             "ir-cache-wrong": "Erreur position cache IR",
             "nozzle-cache-wrong": "Erreur position cache buse",
-            "watchdog-emergency_stop": "Boutton d'arret d'urgence déclenché",
-            "watchdog-nitrogen_sensor": "Pression d'azote trop basse",
-            "watchdog-cover_closed": "Couvercle ouvert",
-            "watchdog-resin-slot_sensor": "Pot de vernis manquant",
-            "watchdog-uv-overheat": "Surchauffe lampe UV"
+            "security-emergency-stop": "Boutton d'arret d'urgence déclenché",
+            "security-nitrogen-sensor": "Pression d'azote trop basse",
+            "security-cover-closed": "Couvercle ouvert",
+            "security-resin#slot-sensor": "Pot de vernis manquant",
+            "security-uv#overheat": "Surchauffe lampe UV"
+        },
+        "startconditions": {
+            "emergency-stop": "Etat bouton d'arret d'urgence",
+            "nitrogen-sensor": "Pression d'azote trop basse",
+            "cover-closed": "Couvercle fermé",
+            "resin#slot-sensor": "Présense pot de vernis",
+            "uv#overheat": "Température lampe UV"
         },
         "steps": {
             "pulverization": {
@@ -66,65 +74,77 @@
     "gates": {
         "categories": {
             "motor": "Moteur de rotation",
-            "rd": "Reducer",
+            "resin": "Varnish",
             "ir": "Infrarouge",
             "uv": "Ultraviolet",
             "nozzle": "Buse"
         },
         "names": {
-            "emergency_stop": "Emergency stop button",
-            "air_sensor": "Air pressure sensor",
-            "nitrogen_sensor": "Nitrogen pressure sensor",
-            "cover_closed": "Cover closed",
-            "levels_eff-n": "Effluents limit",
-            "eff_container_sensor": "Effluents container sensor",
-            "resin-slot_sensor": "Resin container sensor",
-            "ir-sensor_open": "IR cache open",
-            "ir-sensor_closed": "IR cache closed",
-            "uv-sensor_open": "UV cache open",
-            "uv-sensor_closed": "UV cache closed",
-            "uv-overheat": "UV overheat security",
-            "nozzle-sensor_open": "Nozzle cache open",
-            "nozzle-sensor_closed": "Nozzle cache closed",
-            "ventilation": "Vapors extraction",
-            "air_heater": "Air heater",
-            "resin-pressure": "Resin container pressure",
-            "inerting": "Inerting",
-            "ir-enable": "IR lamp",
-            "ir-ventil": "IR lamp ventilation",
-            "ir-cache": "IR lamp cache",
-            "uv-enable": "UV lamp",
-            "uv-ventil": "UV lamp ventilation",
-            "uv-power": "UV lamp power",
-            "uv-cache": "UV lamp cache",
-            "motor-direction": "Motor direction",
-            "motor-speed": "Motor speed",
-            "nozzle-pulverization": "Nozzle pulverization",
-            "nozzle-cache": "Nozzle cache"
+            "emergency-stop": "Bouton d'arret d'urgence",
+            "nitrogen-sensor": "Capteur de pression d'azote",
+            "cover-closed": "Couvercle fermé",
+            "ventilation": "Extraction des vapeurs",
+            "air-heater": "Rechauffeur d'air",
+            "inerting": "Inertage",
+
+            "resin#slot-sensor": "Resin container sensor",
+            "resin#pressure": "Resin container pressure",
+            
+            "ir#sensor-open": "IR cache open",
+            "ir#sensor-closed": "IR cache closed",
+            "ir#enable": "IR lamp",
+            "ir#ventil": "IR lamp ventilation",
+            "ir#cache": "IR lamp cache",
+            
+            "uv#sensor-open": "UV cache open",
+            "uv#sensor-closed": "UV cache closed",
+            "uv#overheat": "UV overheat security",
+            "uv#enable": "UV lamp",
+            "uv#ventil": "UV lamp ventilation",
+            "uv#power": "UV lamp power",
+            "uv#cache": "UV lamp cache",
+            
+            "nozzle#sensor-open": "Nozzle cache open",
+            "nozzle#sensor-closed": "Nozzle cache closed",
+            "nozzle#pulverization": "Nozzle pulverization",
+            "nozzle#cache": "Nozzle cache",
+            
+            "motor#direction": "Motor direction",
+            "motor#speed": "Motor speed"
         }
     },
     "manual": {
         "categories": {
-            "empty": "Emptying",
-            "plv": "Pulverization"
+            "uv": "Ultraviolet",
+            "ir": "Infrarouge",
+            "nozzle": "Pulvérisation"
         },
         "tasks": {
+            "motor-rotation": "Rotation des pièces",
             "ventilation": "Extraction des vapeurs",
-            "air_heater": "Réchauffeur d'air",
-            "uv-cache": "Cache lampe UV",
-            "ir-cache": "Cache lampe IR",
-            "nozzle-cache": "Cache buse",
-            "nozzle-pulverization": "Pulvérization",
-            "ir-curing": "Cuisson IR",
-            "uv-curing": "Cuisson UV",
-            "inerting": "Inertage"
+            "air-heater": "Réchauffeur d'air",
+            "inerting": "Inertage",
+            
+            "uv#cache": "Cache lampe UV",
+            "uv#curing": "Cuisson UV",
+
+            "ir#cache": "Cache lampe IR",
+            "ir#curing": "Cuisson IR",
+
+            "nozzle#cache": "Cache buse",
+            "nozzle#pulverization": "Pulvérization"
         }
     },
     "maintenance": {
         "tasks": {
             "smt-filter": {
                 "name": "Filtre solvants",
-                "desc": "Filtre de Smoothit permet de filtrer les solvants, particules et gazs produits par le programme."
+                "desc": "Filtre de Smoothit permet de filtrer les solvants, particules et gazs produits par le programme.",
+                "procedure": {
+                    "unscrew-smt-filter": "Dévisser le filtre.",
+                    "replace-smt-filter": "Remplacer le filtre.",
+                    "replace-smt-new-filter": "Visser le nouveau filtre."
+                }
             },
             "inner-cleaning": {
                 "name": "Masque interne",
@@ -132,7 +152,12 @@
             },
             "ir-lamp": {
                 "name": "Lampe IR",
-                "desc": "La lampe IR permet de lisser le vernis présent sur vos pièces."
+                "desc": "La lampe IR permet de lisser le vernis présent sur vos pièces.",
+                "procedure": {
+                    "unscrew-top": "Dévisser les 4 vis M4 qui tiennent le carter de la lampe IR en place.",
+                    "replace-ir-lamp": "Tout en tenant la lampe, déloger la lampe en poussant vers le sol. Remplacer la lampe en utilisant la même procédure.",
+                    "screw-top": "Re-placer le cache puis revisser les 4 vis M4."
+                }
             },
             "uv-lamp": {
                 "name": "Lampe UV",

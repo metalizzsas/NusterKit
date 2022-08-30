@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-import * as fileSchema from "./schema.json";
+import * as fileSchema from "../schema/schema.json";
 
 import { matchers } from 'jest-json-schema';
 
@@ -15,6 +15,7 @@ interface Specs {
 }
 
 let files = fs.readdirSync(path.resolve("data"), { withFileTypes: true });
+
 let filesToCheck: Specs[] = [];
 
 for(const f of files.filter(f => f.isDirectory()))
@@ -35,7 +36,7 @@ for(const f of files.filter(f => f.isDirectory()))
                     model: f.name,
                     variant: f2.name,
                     revision: f3.name,
-                    file: path.resolve("data", f.name, f2.name, f3.name, "specs.json")
+                    file: path.resolve("data", f.name, f2.name, f3.name, "specs.json"),
                 });
             }
         }
@@ -44,8 +45,9 @@ for(const f of files.filter(f => f.isDirectory()))
 
 for(const file of filesToCheck)
 {
-    const json = JSON.parse(fs.readFileSync(file.file, {encoding: "utf-8"}))
-    it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' (' + file.file + ')', () => {
+    const json = JSON.parse(fs.readFileSync(file.file, {encoding: "utf-8"}));
+
+    it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' Schema', () => {
         expect(json).toMatchSchema(fileSchema);
     });
 }

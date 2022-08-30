@@ -1,5 +1,5 @@
 {
-    "$schema": "../../../../__tests__/schema.json",
+    "$schema": "../../../../src/schema/schema.json",
     "iohandlers": [
         {
             "name": "EM4",
@@ -9,7 +9,7 @@
     ],
     "iogates": [
         {
-            "name": "emergency_stop",
+            "name": "emergency-stop",
             "type": "default",
             "bus": "in",
             "size": "bit",
@@ -19,7 +19,7 @@
             "isCritical": true
         },
         {
-            "name": "cover_closed",
+            "name": "cover-closed",
             "type": "default",
             "bus": "in",
             "size": "bit",
@@ -28,7 +28,7 @@
             "default": 0
         },
         {
-            "name": "temperature",
+            "name": "temperature#sensor",
             "type": "em4temp",
             "bus": "in",
             "size": "word",
@@ -37,7 +37,7 @@
             "default": 20
         },
         {
-            "name": "motor-speed",
+            "name": "motor#speed",
             "type": "em4a10v",
             "bus": "out",
             "size": "word",
@@ -46,7 +46,7 @@
             "default": 0
         },
         {
-            "name": "motor-direction",
+            "name": "motor#direction",
             "type": "default",
             "bus": "out",
             "size": "bit",
@@ -55,7 +55,7 @@
             "default": 0
         },
         {
-            "name": "us_power",
+            "name": "us-power",
             "type": "default",
             "bus": "out",
             "size": "bit",
@@ -64,7 +64,7 @@
             "default": 0
         },
         {
-            "name": "temperature-heater",
+            "name": "temperature#heater",
             "type": "default",
             "bus": "out",
             "size": "bit",
@@ -73,7 +73,7 @@
             "default": 0
         },
         {
-            "name": "temperature-ventilation",
+            "name": "temperature#ventilation",
             "type": "default",
             "bus": "out",
             "size": "bit",
@@ -101,7 +101,7 @@
             },
             "sensors": [
                 {
-                    "io": "temperature",
+                    "io": "temperature#sensor",
                     "type": "temperature"
                 }
             ]
@@ -117,8 +117,8 @@
                         "fields": [
                             {
                                 "name": "duration",
-                                "unity": "m-s",
-                                "type": "int",
+                                "type": "time",
+                                "units": ["minutes", "seconds"],
                                 "value": 300
                             },
                             {
@@ -129,11 +129,11 @@
                             },
                             {
                                 "name": "motor-speed",
-                                "unity": "%",
+                                "unity": "RPM",
                                 "type": "float",
                                 "value": 50,
                                 "floatMin": 0,
-                                "floatMax": 100,
+                                "floatMax": 110,
                                 "floatStep": 5
                             }
                         ]
@@ -159,60 +159,60 @@
     },
     "maintenance": [
         {
-            "name": "filter",
+            "name": "usc-filter",
             "durationType": "time",
             "durationLimit": 15,
             "procedure": {
                 "tools": [],
                 "steps": [
                     {
-                        "name": "Ouverture de la porte de maintenance",
+                        "name": "open-door",
                         "media": [
                             "1.jpg"
                         ]
                     },
                     {
-                        "name": "Fermeture des vannes reliées a la pompe",
+                        "name": "close-valve-pump",
                         "media": [
                             "2.jpg",
                             "3.jpg"
                         ]
                     },
                     {
-                        "name": "Dévissage du couvercle de la pompe",
+                        "name": "pump-cover-unscrew",
                         "media": [
                             "4.jpg"
                         ]
                     },
                     {
-                        "name": "Retirer le filtre de la pompe",
+                        "name": "filter-out-pump",
                         "media": [
                             "5.jpg",
                             "6.jpg"
                         ]
                     },
                     {
-                        "name": "Remplacement du filtre de la pompe",
+                        "name": "replace-pump-filter",
                         "media": [
                             "7.jpg",
                             "8.jpg"
                         ]
                     },
                     {
-                        "name": "Re-ouverture des vannes",
-                        "media": [
-                            "9.jpg"
-                        ]
-                    },
-                    {
-                        "name": "Fermeture de la pompe",
+                        "name": "pump-cover-screw",
                         "media": [
                             "5.jpg",
                             "4.jpg"
                         ]
                     },
                     {
-                        "name": "Fermeture de la porte",
+                        "name": "open-valve-pump",
+                        "media": [
+                            "9.jpg"
+                        ]
+                    },
+                    {
+                        "name": "door-close",
                         "media": [
                             "1.jpg"
                         ]
@@ -221,14 +221,28 @@
             }
         }
     ],
-    "passives": [],
+    "passives": [
+        {
+            "name": "temperature",
+            "sensors": [
+                "temperature#sensor"
+            ],
+            "target": 25,
+            "manualModes": [
+                "pump"
+            ],
+            "actuators": {
+                "plus": "temperature#heater",
+                "minus": "temperature#ventilation"
+            }
+        }
+    ],
     "manual": [
         {
             "name": "motor-rotation",
-            "incompatibility": [],
             "controls": [
                 {
-                    "name": "motor-speed",
+                    "name": "motor#speed",
                     "analogScaleDependant": true
                 }
             ],
@@ -238,81 +252,69 @@
             },
             "watchdog": [
                 {
-                    "gateName": "cover_closed",
+                    "gateName": "cover-closed",
                     "gateValue": 1
                 }
             ]
         },
         {
             "name": "pump",
-            "incompatibility": [],
             "controls": [
-                {
-                    "name": "pump"
-                }
+                "pump"
             ]
         },
         {
-            "name": "us_cleaning",
-            "incompatibility": [],
+            "name": "us-cleaning",
             "controls": [
-                {
-                    "name": "us_power"
-                }
+                "us-power"
             ]
         },
         {
-            "name": "bac_heating",
+            "name": "bac#heating",
             "incompatibility": [
-                "bac_cooling",
-                "+pump"
+                "bac#cooling"
+            ],
+            "requires": [
+                "pump"
             ],
             "controls": [
-                {
-                    "name": "temperature-heater"
-                }
+                "temperature#heater"
             ],
             "watchdog": [
                 {
-                    "gateName": "temperature",
+                    "gateName": "temperature#sensor",
                     "gateValue": 60
                 }
             ]
         },
         {
-            "name": "bac_cooling",
+            "name": "bac#cooling",
             "incompatibility": [
-                "bac_heating",
-                "+pump"
+                "bac#heating"
+            ],
+            "requires": [
+                "pump"
             ],
             "controls": [
-                {
-                    "name": "temperature-ventilation"
-                }
+                "temperature#ventilation"
             ]
         }
     ],
     "cycles": {
-        "premades": [
-            {
-                "name": "5min30deg",
-                "profile": "premade_5min30deg",
-                "cycle": "default"
-            }
-        ],
+        "premades": [],
         "types": [
             {
                 "name": "default",
                 "profileRequired": true,
                 "startConditions": [
                     {
-                        "conditionName": "emergency_stop",
+                        "conditionName": "emergency-stop",
                         "startOnly": false,
                         "checkChain": {
                             "name": "io",
                             "io": {
-                                "gateName": "emergency_stop",
-                                "gateValue": "1"
+                                "gateName": "emergency-stop",
+                                "gateValue": 1
                             }
                         }
                     }
@@ -322,11 +324,11 @@
                         "name": "cleaning",
                         "isEnabled": {
                             "name": "const",
-                            "value": "1"
+                            "value": 1
                         },
                         "duration": {
                             "name": "profile",
-                            "value": "principal.duration"
+                            "value": "principal#duration"
                         },
                         "startBlocks": [
                             {
@@ -338,7 +340,7 @@
                                     },
                                     {
                                         "name": "const",
-                                        "value": "1"
+                                        "value": 1
                                     }
                                 ]
                             },
@@ -347,11 +349,11 @@
                                 "params": [
                                     {
                                         "name": "conststr",
-                                        "value": "motor-speed"
+                                        "value": "motor#speed"
                                     },
                                     {
                                         "name": "profile",
-                                        "value": "principal.motor-speed"
+                                        "value": "principal#motor-speed"
                                     }
                                 ]
                             },
@@ -360,145 +362,49 @@
                                 "params": [
                                     {
                                         "name": "conststr",
-                                        "value": "us_power"
+                                        "value": "us-power"
                                     },
                                     {
                                         "name": "const",
-                                        "value": "1"
+                                        "value": 1
                                     }
                                 ]
                             },
                             {
-                                "name": "startTimer",
+                                "name": "passive",
                                 "params": [
                                     {
                                         "name": "conststr",
-                                        "value": "temperatureControl"
+                                        "value": "temperature"
                                     },
                                     {
                                         "name": "const",
-                                        "value": "5000"
-                                    }
-                                ],
-                                "blocks": [
-                                    {
-                                        "name": "if",
-                                        "params": [
-                                            {
-                                                "name": "io",
-                                                "value": "temperature"
-                                            },
-                                            {
-                                                "name": "conststr",
-                                                "value": ">"
-                                            },
-                                            {
-                                                "name": "profile",
-                                                "value": "principal.target-temperature"
-                                            }
-                                        ],
-                                        "blocks": [
-                                            {
-                                                "_comment": "Enable heating if temperature is too high",
-                                                "name": "io",
-                                                "params": [
-                                                    {
-                                                        "name": "conststr",
-                                                        "value": "temperature-heater"
-                                                    },
-                                                    {
-                                                        "name": "const",
-                                                        "value": "0"
-                                                    }
-                                                ]
-                                            },
-                                            {
-                                                "_comment": "Disable heating if temperature is too high",
-                                                "name": "io",
-                                                "params": [
-                                                    {
-                                                        "name": "conststr",
-                                                        "value": "temperature-heater"
-                                                    },
-                                                    {
-                                                        "name": "const",
-                                                        "value": "1"
-                                                    }
-                                                ]
-                                            }
-                                        ]
+                                        "value": 1
                                     },
                                     {
-                                        "_comment": "If temperature is more than 2 degress higher than set value enable heat exchanger",
-                                        "name": "if",
-                                        "params": [
-                                            {
-                                                "name": "profile",
-                                                "value": "principal.target-temperature"
-                                            },
-                                            {
-                                                "name": "conststr",
-                                                "value": ">"
-                                            },
-                                            {
-                                                "name": "add",
-                                                "value": "",
-                                                "params": [
-                                                    {
-                                                        "name": "const",
-                                                        "value": "1"
-                                                    },
-                                                    {
-                                                        "name": "io",
-                                                        "value": "temperature"
-                                                    }
-                                                ]
-                                            }
-                                        ],
-                                        "blocks": [
-                                            {
-                                                "_comment": "Enable cooling if temperature is too high",
-                                                "name": "io",
-                                                "params": [
-                                                    {
-                                                        "name": "conststr",
-                                                        "value": "temperature-cooler"
-                                                    },
-                                                    {
-                                                        "name": "const",
-                                                        "value": "1"
-                                                    }
-                                                ]
-                                            },
-                                            {
-                                                "_comment": "Disable cooler if temperature is too low",
-                                                "name": "io",
-                                                "params": [
-                                                    {
-                                                        "name": "conststr",
-                                                        "value": "temperature-cooler"
-                                                    },
-                                                    {
-                                                        "name": "const",
-                                                        "value": "0"
-                                                    }
-                                                ]
-                                            }
-                                        ]
+                                        "name": "profile",
+                                        "value": "principal#target-temperature"
                                     }
                                 ]
                             }
                         ],
                         "endBlocks": [
                             {
-                                "name": "stopTimer",
+                                "name": "passive",
                                 "params": [
                                     {
                                         "name": "conststr",
-                                        "value": "temperatureControl"
+                                        "value": "temperature"
+                                    },
+                                    {
+                                        "name": "const",
+                                        "value": 0
+                                    },
+                                    {
+                                        "name": "profile",
+                                        "value": "principal#target-temperature"
                                     }
-                                ],
-                                "_folded": false
+                                ]
                             },
                             {
                                 "name": "io",
@@ -509,7 +415,7 @@
                                     },
                                     {
                                         "name": "const",
-                                        "value": "1"
+                                        "value": 1
                                     }
                                 ]
                             },
@@ -518,11 +424,11 @@
                                 "params": [
                                     {
                                         "name": "conststr",
-                                        "value": "us_power"
+                                        "value": "us-power"
                                     },
                                     {
                                         "name": "const",
-                                        "value": "0"
+                                        "value": 0
                                     }
                                 ]
                             },
@@ -531,11 +437,11 @@
                                 "params": [
                                     {
                                         "name": "conststr",
-                                        "value": "motor-speed"
+                                        "value": "motor#speed"
                                     },
                                     {
                                         "name": "profile",
-                                        "value": "principal.motor-speed"
+                                        "value": "principal#motor-speed"
                                     }
                                 ]
                             }
@@ -546,7 +452,7 @@
                                 "params": [
                                     {
                                         "name": "profile",
-                                        "value": "principal.duration"
+                                        "value": "principal#duration"
                                     }
                                 ]
                             }

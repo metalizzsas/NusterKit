@@ -42,7 +42,6 @@
             "wash1": "Wash 1",
             "wash2": "Wash 2",
             "drying": "Drying",
-            "vaporsExtraction": "Vapors extraction",
             "vapors-extraction": "Vapors extraction"
         },
         "rows": {
@@ -63,16 +62,31 @@
     },
     "cycle": {
         "endreasons": {
-            "watchdog-emergency_stop": "Emergency stop button pressed",
-            "watchdog-air_sensor": "Air pressure too low",
-            "watchdog-cover_closed": "Cover open",
-            "watchdog-levels_eff-max-n": "Effluents too high",
-            "watchdog-eff_container_sensor": "Effluents container missing",
-            "watchdog-levels_edi-min-n": "Minimal DI water level",
-            "watchdog-levels_act-min-n": "Minimal Activator level",
-            "watchdog-levels_ox-min-n": "Minimal Oxydiser level",
-            "watchdog-levels_rd-min-n": "Minimal Reducer level",
+            "security-emergency-stop": "Emergency stop button pressed",
+            "security-air-sensor": "Air pressure too low",
+            "security-cover-closed": "Cover open",
+            "security-levels#eff-max-n": "Effluents too high",
+            "security-eff-container-sensor": "Effluents container missing",
+            "security-levels#edi-min-n": "Minimal DI water level",
+            "security-levels#act-min-n": "Minimal Activator level",
+            "security-levels#ox-min-n": "Minimal Oxydiser level",
+            "security-levels#rd-min-n": "Minimal Reducer level",
             "activator-timed-out": "Activator dilution was too long"
+        },
+        "startconditions": {
+            "emergency-stop": "Emergency stop button",
+            "cover-closed": "Cover closed",
+            "air-sensor": "Air pressure",
+            "eff-container-sensor": "Waste container present",
+            "levels#eff-max-n": "Waste level",
+            "levels#edi-min-n": "DI Water level",
+            "levels#act-min-n": "Activator level",
+            "levels#rd-min-n": "Reducer level",
+            "levels#ox-min-n": "Oxydiser level",
+            "maintenance-filter": "Machine filter",
+            "oxydiser-life": "Oxydiser state",
+            "activator-life": "Activator state",
+            "reducer-life": "Reducer state"
         },
         "names": {
             "default": "Base metalfog cycle",
@@ -142,105 +156,101 @@
                 "name": "Emptying reactives",
                 "desc": "Emptying reactives containers"
             }
-        },
-        "startconditions": {
-            "emergency_stop": "Emergency stop button",
-            "cover_closed": "Cover closed",
-            "air_sensor": "Air pressure",
-            "eff_container_sensor": "Waste container present",
-            "levels_eff-max-n": "Waste level",
-            "levels_edi-min-n": "DI Water level",
-            "levels_act-min-n": "Activator level",
-            "levels_rd-min-n": "Reducer level",
-            "levels_ox-min-n": "Oxydiser level",
-            "maintenance-filter": "Machine filter",
-            "oxydiser-life": "Oxydiser state",
-            "activator-life": "Activator state",
-            "reducer-life": "Reducer state"
         }
     },
     "gates": {
         "categories": {
-            "levels_act": "Activator levels",
-            "levels_edi": "DI Water levels",
-            "act": "Activator",
-            "edi": "DI Water",
-            "hybrid": "Activator & DI Water",
-            "met": "Metallization",
             "motor": "Rotation Motor",
-            "ox": "Oxydiser",
-            "rd": "Reducer"
+            "levels": "Levels",
+            "hybrid": "Activator & DI Water",
+            "met": "Chemicals"
         },
         "names": {
-            "emergency_stop": "Emergency stop button",
-            "air_sensor": "Air pressure sensor",
-            "air_heater": "Air heater",
-            "cover_closed": "Cover closed",
-            "levels_eff-max-n": "Effluents limit",
-            "eff_container_sensor": "Effluents container sensor",
-            "levels_ox-min-n": "Oxydiser minimal level",
-            "levels_rd-min-n": "Reducer minimal level",
-            "levels_rd-a": "Reducer level",
-            "levels_act-max-n": "Activator maximal level",
-            "levels_act-min-n": "Activator minimal level",
-            "levels_edi-max-n": "DI water maximal level",
-            "levels_edi-min-n": "DI water minimal level",
+            "emergency-stop": "Emergency stop button",
+            "cover-closed": "Cover closed",
+            "air-sensor": "Air pressure sensor",
+            "eff-container-sensor": "Effluents container sensor",
+            
+            "air-heater": "Air heater",
             "ventilation": "Vapors extraction",
-            "act-res": "Activator container pressure",
-            "edi-res": "DI Water container pressure",
-            "ox-res": "Oxydiser container pressure",
-            "rd-res": "Reducer container pressure",
-            "act-lq_high": "Activator liquid control high",
-            "act-lq_low": "Activator liquid control low",
-            "edi-lq_high": "DI water liquid control high",
-            "edi-lq_low": "DI water liquid control low",
-            "edi-lq_fill_act": "DI water liquid control to Activator container",
-            "hybrid-plv_high": "Activator & DI water pulverization high",
-            "hybrid-plv_low": "Activator & DI water pulverization low",
-            "met-plv_high": "Metallization pulverization high",
-            "met-plv_medium": "Metallization pulverization medium",
-            "met-plv_low": "Metallization pulverization low",
-            "motor-direction": "Motor direction",
-            "motor-speed": "Motor speed",
-            "rd-lq_high": "Reducer liquid control high",
-            "rd-lq_medium": "Reducer liquid control medium",
-            "rd-lq_low": "Reducer liquid control low",
-            "ox-lq_high": "Oxydiser liquid control high",
-            "ox-lq_medium": "Oxydiser liquid control medium",
-            "ox-lq_low": "Oxydiser liquid control low",
-            "rd-air_cleaning_high": "Reducer air cleaning high",
-            "rd-air_cleaning_medium": "Reducer air cleaning medium",
-            "rd-air_cleaning_low": "Reducer air cleaning low",
-            "ox-air_cleaning_high": "Oxydiser air cleaning high",
-            "ox-air_cleaning_medium": "Oxydiser air cleaning medium",
-            "ox-air_cleaning_low": "Oxydiser air cleaning low"
+            
+            "motor#direction": "Motor direction",
+            "motor#speed": "Motor speed",
+            
+            "levels#eff-max-n": "Effluents limit",
+            
+            "levels#ox-min-n": "Oxydiser minimal level",
+            "levels#rd-min-n": "Reducer minimal level",
+            
+            "levels#act-max-n": "Activator maximal level",
+            "levels#act-min-n": "Activator minimal level",
+            
+            "levels#edi-max-n": "DI water maximal level",
+            "levels#edi-min-n": "DI water minimal level",
+            
+            "hybrid#act-res": "Activator container pressure",
+            "hybrid#edi-res": "DI Water container pressure",
+
+            "hybrid#plv-high": "Activator & DI water pulverization high",
+            "hybrid#plv-low": "Activator & DI water pulverization low",
+
+            "hybrid#act-lq-high": "Activator liquid control high",
+            "hybrid#act-lq-low": "Activator liquid control low",
+            "hybrid#edi-lq-high": "DI water liquid control high",
+            "hybrid#edi-lq-low": "DI water liquid control low",
+            "hybrid#lq-fill-act": "DI water liquid control to Activator container",
+
+            "met#ox-res": "Oxydiser container pressure",
+            "met#rd-res": "Reducer container pressure",
+
+            "met#plv-high": "Metallization pulverization high",
+            "met#plv-mid": "Metallization pulverization medium",
+            "met#plv-low": "Metallization pulverization low",
+
+            "met#rd-lq-high": "Reducer liquid control high",
+            "met#rd-lq-mid": "Reducer liquid control medium",
+            "met#rd-lq-low": "Reducer liquid control low",
+            "met#ox-lq-high": "Oxydiser liquid control high",
+            "met#ox-lq-mid": "Oxydiser liquid control medium",
+            "met#ox-lq-low": "Oxydiser liquid control low",
+
+            "met#rd-air-cleaning-high": "Reducer air cleaning high",
+            "met#rd-air-cleaning-mid": "Reducer air cleaning medium",
+            "met#rd-air-cleaning-low": "Reducer air cleaning low",
+            "met#ox-air-cleaning-high": "Oxydiser air cleaning high",
+            "met#ox-air-cleaning-mid": "Oxydiser air cleaning medium",
+            "met#ox-air-cleaning-low": "Oxydiser air cleaning low"
         }
     },
     "manual": {
         "categories": {
             "generic": "Generic",
             "empty": "Emptying",
-            "plv": "Pulverization"
+            "hybrid": "Activator & DI Water",
+            "met": "Reactives"
         },
         "tasks": {
             "motor-rotation": "Motor speed",
             "ventilation": "Vapors extraction",
-            "air_heater": "Air heater",
-            "fill_act": "Fill activator container",
-            "empty_act": "Emptying activator container",
-            "empty_edi": "Emptying di water container",
-            "empty_ox": "Emptying oxydiser container",
-            "empty_rd": "Emptying reducer container",
-            "plv_act_high": "Activator pulverisation high",
-            "plv_act_low": "Activator pulverisation low",
-            "plv_edi_high": "DI Water pulverisation high",
-            "plv_edi_low": "DI Water pulverisation low",
-            "plv_ox_high": "Oxydiser pulverisation high",
-            "plv_ox_mid": "Oxydiser pulverisation high",
-            "plv_ox_low": "Oxydiser pulverisation low",
-            "plv_rd_high": "Reducer pulverisation high",
-            "plv_rd_mid": "Reducer pulverisation high",
-            "plv_rd_low": "Reducer pulverisation low"
+            "air-heater": "Air heater",
+            "fill-act": "Fill activator container",
+
+            "empty#act": "Emptying activator container",
+            "empty#edi": "Emptying di water container",
+            "empty#ox": "Emptying oxydiser container",
+            "empty#rd": "Emptying reducer container",
+
+            "hybrid#act-high": "Activator pulverisation high",
+            "hybrid#act-low": "Activator pulverisation low",
+            "hybrid#edi-high": "DI Water pulverisation high",
+            "hybrid#edi-low": "DI Water pulverisation low",
+
+            "met#ox-high": "Oxydiser pulverisation high",
+            "met#ox-mid": "Oxydiser pulverisation high",
+            "met#ox-low": "Oxydiser pulverisation low",
+            "met#rd-high": "Reducer pulverisation high",
+            "met#rd-mid": "Reducer pulverisation high",
+            "met#rd-low": "Reducer pulverisation low"
         }
     },
     "maintenance": {

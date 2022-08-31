@@ -1,6 +1,6 @@
-import type { PageLoad } from '@sveltejs/kit';
+import type { IHistory } from '$lib/utils/interfaces';
+import type { PageLoad } from './$types';
 
-throw new Error("@migration task: Check if you need to migrate the load function input (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292693)");
 export const load: PageLoad = async (ctx) => {
 	let dt = await ctx.fetch(
 		'//' +
@@ -9,5 +9,5 @@ export const load: PageLoad = async (ctx) => {
 			ctx.params.id,
 	);
 
-	return { history: await dt.json() };
+	return { history: await dt.json() as IHistory };
 };

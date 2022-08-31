@@ -1,8 +1,4 @@
 <script lang="ts">
-	throw new Error(
-		'@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)',
-	);
-
 	import { _ } from 'svelte-i18n';
 	import '$lib/app.css';
 
@@ -14,15 +10,15 @@
 	import Cyclesecurity from '$lib/components/cycle/cyclesecurity.svelte';
 	import { navActions } from '$lib/utils/navstack';
 
-	export let cycleTypes: { name: string; profileRequired: boolean }[];
-	export let cyclePremades: { name: string; profile: string; cycle: string }[];
+	import type { PageData } from './$types';
+	export let data: PageData;
 
 	$navActions = [];
 </script>
 
 <div>
 	{#if $machineData.cycle === undefined}
-		<Cyclepreparation {cyclePremades} {cycleTypes} />
+		<Cyclepreparation cyclePremades={data.cyclePremades} cycleTypes={data.cycleTypes} />
 	{:else if $machineData.cycle.status.mode === 'created'}
 		<Cyclesecurity />
 	{:else if $machineData.cycle.status.mode === 'started'}

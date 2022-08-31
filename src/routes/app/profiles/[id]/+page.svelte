@@ -1,6 +1,4 @@
 <script lang="ts">
-	throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
-
 	import '$lib/app.css';
 	import Modal from '$lib/components/modals/modal.svelte';
 	import ProfileRow from '$lib/components/profile/profileRow.svelte';
@@ -16,7 +14,10 @@
 	import Navcontainersubtitle from '$lib/components/navigation/navcontainersubtitle.svelte';
 	import Navcontainertitlesided from '$lib/components/navigation/navcontainertitlesided.svelte';
 
-	export let profile: Profile;
+	import type { PageData } from './$types';
+	export let data: PageData;
+
+	let profile: Profile = data.profile;
 
 	let saveModalShown = false;
 	let saveModalCancel = false;

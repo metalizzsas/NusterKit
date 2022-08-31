@@ -1,20 +1,4 @@
-<script context="module" lang="ts">
-	throw new Error("@migration task: Check code was safely removed (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292722)");
-
-	// import type { IHistory } from '$lib/utils/interfaces';
-	// import type { Load } from '@sveltejs/kit';
-
-	// export const load: Load = async (ctx) => {
-	// 	let content = await ctx.fetch(
-	// 		'//' + (window.localStorage.getItem('ip') ?? '127.0.0.1') + '/api/v1/cycle/history',
-	// 	);
-	// 	return { props: { histories: (await content.json()) as IHistory[] } };
-	// };
-</script>
-
 <script lang="ts">
-	throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
-
 	import { date, time, _ } from 'svelte-i18n';
 	import '$lib/app.css';
 	import { goto } from '$app/navigation';
@@ -26,8 +10,12 @@
 	import Button from '$lib/components/button.svelte';
 	import Flex from '$lib/components/layout/flex.svelte';
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
+	import type { IHistory } from '$lib/utils/interfaces';
 
-	export let histories: IHistory[];
+	import type { PageData } from './$types';
+	export let data: PageData;
+
+	let histories: IHistory[] = data.histories;
 
 	let showRetakeModal = false;
 	let selectedHistory: IHistory | null;

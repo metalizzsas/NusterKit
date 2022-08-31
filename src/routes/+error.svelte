@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 
 	let count = 0;
@@ -30,6 +31,9 @@
 				<h1 class="text-xl">Failed to render this page</h1>
 				<h2 class="text-base">This is unfortunate...</h2>
 				<p>Something went wrong, you will be redirected soon.</p>
+				{#if $page.error !== null}
+					<p class="text-xs text-red-500">{$page.error.message}</p>
+				{/if}
 				<button
 					class="ring-[2px] ring-gray-800 hover:ring-gray-600 bg-gray-400 bg-opacity-{count *
 						timeout} transition-colors duration-500 font-bold rounded-xl py-2 px-8 mt-5 cursor-pointer"

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Inputkb from '$lib/components/userInputs/inputkb.svelte';
-	import { browser } from '$app/env';
 	import Modalcontent from './modalcontent.svelte';
 
 	interface buttonOption {
@@ -24,7 +23,7 @@
 
 	export let shown: boolean = false;
 
-	$: if (browser) document.body.classList.toggle('overflow-hidden', shown);
+	$: shown, document.body.classList.toggle('overflow-hidden', shown);
 </script>
 
 <Modalcontent bind:shown {title} {displayClose}>

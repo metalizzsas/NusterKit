@@ -1,8 +1,5 @@
 <script lang="ts">
-	throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
-
 	import { goto } from '$app/navigation';
-	import type { Maintenance } from '$lib/utils/interfaces';
 	import { _ } from 'svelte-i18n';
 	import { Linker } from '$lib/utils/linker';
 	import { navActions, navTitle, useNavContainer } from '$lib/utils/navstack';
@@ -10,19 +7,24 @@
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
 	import Navcontainersubtitle from '$lib/components/navigation/navcontainersubtitle.svelte';
 
-	export let maintenance: Maintenance;
+	import type { PageData } from './$types';
+
+	export let data: PageData;
 
 	let procedureIndex: number = 0;
 	let procedureImageIndex: number = 0;
 
 	async function resetMaintenance() {
-		await fetch('//' + $Linker + '/api/v1/maintenance/' + maintenance.name, {
+		await fetch('//' + $Linker + '/api/v1/maintenance/' + data.maintenance.name, {
 			method: 'DELETE',
 		});
 		goto('/app');
 	}
 
-	$navTitle = [$_('maintenance.list'), $_('maintenance.tasks.' + maintenance.name + '.name')];
+	$navTitle = [
+		$_('maintenance.list'),
+		$_('maintenance.tasks.' + data.maintenance.name + '.name'),
+	];
 	$useNavContainer = false;
 	$navActions = [];
 
@@ -32,33 +34,33 @@
 <div class="flex flex-col gap-6">
 	<Navcontainer classes={'mt-0'}>
 		<Navcontainertitle>
-			{$_('maintenance.tasks.' + maintenance.name + '.name')}
+			{$_('maintenance.tasks.' + data.maintenance.name + '.name')}
 		</Navcontainertitle>
 
 		<Navcontainersubtitle>{$_('maintenance.description')}</Navcontainersubtitle>
-		<p>{$_('maintenance.tasks.' + maintenance.name + '.desc')}</p>
+		<p>{$_('maintenance.tasks.' + data.maintenance.name + '.desc')}</p>
 		<p class="mt-2">
 			<span class="font-bold">
 				{$_('maintenance.duration')}:
 			</span>
-			<span class="font-semibold">{maintenance.durationActual}</span>
-			/ {maintenance.durationLimit}
-			{$_('maintenance.unity.' + maintenance.durationType)}
+			<span class="font-semibold">{data.maintenance.durationActual}</span>
+			/ {data.maintenance.durationLimit}
+			{$_('maintenance.unity.' + data.maintenance.durationType)}
 		</p>
 	</Navcontainer>
 
-	{#if maintenance.procedure !== undefined}
+	{#if data.maintenance.procedure !== undefined}
 		<div class="relative grid grid-cols-6 gap-6">
 			<div
 				class="rounded-xl overflow-hidden {imageExpanded ? 'col-span-3' : 'col-span-2'}"
 				style="min-aspect-ratio: 1/1;"
 			>
-				{#each maintenance.procedure.steps as step, index}
+				{#each data.maintenance.procedure.steps as step, index}
 					{#if procedureIndex == index}
 						<div>
 							<img
-								src="//{$Linker}/api/assets/maintenance/{maintenance.name}/{step
-									.media[procedureImageIndex]}"
+								src="//{$Linker}/api/assets/maintenance/ {data.maintenance
+									.name}/{step.media[procedureImageIndex]}"
 								alt="procedure"
 								class="shrink-0 transition-all cursor-pointer w-full"
 								on:click|self={() => {
@@ -94,13 +96,13 @@
 				classes={imageExpanded ? 'col-span-3 mt-0 relative' : 'col-span-4 mt-0 relative'}
 			>
 				<Navcontainertitle>{$_('maintenance.procedure.title')}</Navcontainertitle>
-				{#if procedureIndex < maintenance.procedure.steps.length - 1}
+				{#if procedureIndex < data.maintenance.procedure.steps.length - 1}
 					<!--Next button -->
 					<button
 						class="absolute right-0 bottom-3 bg-white rounded-l-full p-3 flex flex-row gap-3 items-center"
 						on:click={() => {
 							//@ts-ignore
-							if (procedureIndex < maintenance.procedure.steps.length - 1) {
+							if (procedureIndex < data.maintenance.procedure.steps.length - 1) {
 								procedureIndex++;
 								procedureImageIndex = 0;
 							}
@@ -148,12 +150,12 @@
 					</button>
 				{/if}
 
-				{#if procedureIndex == maintenance.procedure.steps.length - 1}
+				{#if procedureIndex == data.maintenance.procedure.steps.length - 1}
 					<button
 						class="bg-emerald-500 text-white font-semibold rounded-l-xl py-2 px-4 absolute bottom-5 right-0"
 						on:click={() => {
 							//@ts-ignore
-							if (procedureIndex == maintenance.procedure.steps.length - 1)
+							if (procedureIndex == data.maintenance.procedure.steps.length - 1)
 								resetMaintenance();
 						}}
 					>
@@ -161,9 +163,9 @@
 					</button>
 				{/if}
 
-				{#if maintenance.procedure.tools.length > 0}
+				{#if data.maintenance.procedure.tools.length > 0}
 					<div class="mb-5 flex flex-row gap-4 justify-items-start">
-						{#each maintenance.procedure.tools ?? [] as tool}
+						{#each data.maintenance.procedure.tools ?? [] as tool}
 							<span class="bg-violet-300 py-1 px-3 text-white rounded-full">
 								{$_('maintenance.tools.' + tool)}
 							</span>
@@ -174,9 +176,9 @@
 				<p class="font-semibold">
 					{$_(
 						'maintenance.tasks.' +
-							maintenance.name +
+							data.maintenance.name +
 							'.procedure.' +
-							maintenance.procedure.steps[procedureIndex].name,
+							data.maintenance.procedure.steps[procedureIndex].name,
 					)}
 				</p>
 			</Navcontainer>

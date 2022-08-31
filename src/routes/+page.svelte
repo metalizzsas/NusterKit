@@ -7,16 +7,13 @@
 	import { goto } from '$app/navigation';
 	import { beforeUpdate } from 'svelte';
 	import { BUNDLED } from '$lib/bundle';
-	import { browser } from '$app/env';
 
 	beforeUpdate(async () => {
-		if (browser) {
-			if (BUNDLED == 'true') {
-				localStorage.setItem('ip', window.location.host);
-				goto('/app');
-			} else {
-				goto('/list');
-			}
+		if (BUNDLED == 'true') {
+			localStorage.setItem('ip', window.location.host);
+			goto('/app');
+		} else {
+			goto('/list');
 		}
 	});
 </script>

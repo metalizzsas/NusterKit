@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { fly, fade } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
-	import { browser } from '$app/env';
 	import Portal from 'svelte-portal';
 
 	export let shown: boolean;
 
-	$: if (browser) document.body.classList.toggle('overflow-hidden', shown);
+	$: shown, document.body.classList.toggle('overflow-hidden', shown);
 </script>
 
 <Portal target="body">

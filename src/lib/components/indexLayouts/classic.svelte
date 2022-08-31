@@ -3,11 +3,9 @@
 	import { _ } from 'svelte-i18n';
 	import { machineData } from '$lib/utils/store';
 
-	import Slotproduct from '$lib/components/slots/slotproduct.svelte';
-	import Navcontainer from '../navigation/navcontainer.svelte';
-	import Navcontainertitle from '../navigation/navcontainertitle.svelte';
 	import Passives from '../passive/passives.svelte';
 	import Maintenances from '../maintenance/maintenances.svelte';
+	import Slotslist from '../slots/slotslist.svelte';
 </script>
 
 <div class="rounded-xl p-3 mt-6 bg-neutral-300 dark:bg-neutral-800">
@@ -112,18 +110,8 @@
 	</div>
 </div>
 
-<Navcontainer>
-	<Navcontainertitle>{$_('slots.name')}</Navcontainertitle>
-	<div
-		class="grid grid-cols-1 md:grid-cols-3 h-[50vh] md:h-full overflow-scroll md:overflow-visible gap-4"
-	>
-		{#each $machineData.slots.sort((a, b) => b.sensors.length - a.sensors.length) as slot}
-			<Slotproduct slotContent={slot} />
-		{/each}
-	</div>
-</Navcontainer>
-
 <Passives inline={true} />
+<Slotslist />
 <Maintenances />
 
 <style>

@@ -4,6 +4,7 @@
 	import type { Slot } from '$lib/utils/interfaces';
 	import Round from '../round.svelte';
 	import Slotmodal from './slotmodal.svelte';
+	import Label from '../label.svelte';
 
 	export let slotContent: Slot;
 
@@ -31,7 +32,7 @@
 			{$_('slots.types.' + slotContent.name)}
 		</span>
 		{#if slotContent.isProductable}
-			<div class="flex flex-row gap-1 bg-white pr-1 pl-2 py-0.5 rounded-full items-center">
+			<Label class="flex flex-row gap-1 items-center">
 				<span>{$_('slots.product')}</span>
 				{#if slotContent.productData?.lifetimeRemaining !== undefined}
 					{#if slotContent.productData?.lifetimeRemaining > 0}
@@ -72,7 +73,7 @@
 						/>
 					</svg>
 				{/if}
-			</div>
+			</Label>
 		{/if}
 	</div>
 

@@ -29,7 +29,7 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-node": "^1.0.0-next.88",
-		"@sveltejs/kit": "^1.0.0-next.405",
+		"@sveltejs/kit": "^1.0.0-next.454",
 		"@types/cookie": "^0.4.1",
 		"@types/howler": "^2.2.4",
 		"@typescript-eslint/eslint-plugin": "^4.33.0",
@@ -46,6 +46,6 @@
 		"svelte-check": "^1.6.0",
 		"svelte-preprocess": "^4.9.8",
 		"typescript": "^4.5.2",
-		"vite": "^3.0.9"
+		"vite": "^3.1.0-beta.1"
 	}
 }

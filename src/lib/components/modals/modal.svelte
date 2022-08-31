@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { browser } from '$app/env';
-
 	import '$lib/app.css';
 	import { _ } from 'svelte-i18n';
 	import Button from '../button.svelte';
@@ -18,7 +16,7 @@
 
 	export let shown: boolean = false;
 
-	$: if (browser) document.body.classList.toggle('overflow-hidden', shown);
+	$: shown, document.body.classList.toggle('overflow-hidden', shown);
 </script>
 
 <Modalcontent bind:shown {title} {displayClose}>

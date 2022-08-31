@@ -59,7 +59,7 @@
 					{#if procedureIndex == index}
 						<div>
 							<img
-								src="//{$Linker}/api/assets/maintenance/ {data.maintenance
+								src="//{$Linker}/api/assets/maintenance/{data.maintenance
 									.name}/{step.media[procedureImageIndex]}"
 								alt="procedure"
 								class="shrink-0 transition-all cursor-pointer w-full"

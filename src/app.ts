@@ -58,20 +58,20 @@ class NusterTurbine
         }
         else
         {
-            this.logger.warn("Machine info file not found");
+            this.logger.warn("Machine: Info file not found");
             this.status.mode = "waiting-config";
             this._expressConfig();
         }
 
         lockFile.lock("/tmp/balena/updates.lock", (err) => {
-            (err) ? this.logger.error("Updates locking failed.", err) : this.logger.info("Updates are now locked.");                
+            (err) ? this.logger.error("Lock: Updates locking failed.", err) : this.logger.info("Lock: Updates are now locked.");                
         });
 
     }
     private _expressConfig()
     {
         this.httpServer = this.app.listen(this.HTTP_PORT, () => {
-            this.logger.info("Express config server running on port " + this.HTTP_PORT);
+            this.logger.info("Express: Configuration HTTP server running on port " + this.HTTP_PORT);
 
             this.app.use(express.json());
 
@@ -102,7 +102,7 @@ class NusterTurbine
     private _express()
     {
         this.httpServer = this.app.listen(this.HTTP_PORT, () => { 
-            this.logger.info("Express server listening on port " + this.HTTP_PORT); 
+            this.logger.info("Express: HTTP server listening on port " + this.HTTP_PORT); 
         });
 
         this.app.use(express.json());
@@ -113,7 +113,7 @@ class NusterTurbine
         if(!process.env.DISABLE_AUTH && this.machine)
             this.app.use(this.machine.authManager.middleware.bind(this.machine.authManager));
         else
-            this.logger.warn("Auth manager disabled");
+            this.logger.warn("Auth: Express middleware disabled");
 
         //logging middleware
         this.app.use(pinoHttp({
@@ -127,7 +127,7 @@ class NusterTurbine
 
         if(this.machine)
         {
-            this.logger.info(`Will use ${this.machine.assetsFolder} as the assets folder.`);
+            this.logger.info(`Express: Will use ${this.machine.assetsFolder} as the assets folder.`);
             this.app.use("/assets", express.static(this.machine.assetsFolder));
         }
 
@@ -169,17 +169,17 @@ class NusterTurbine
         this.wsServer = new WebSocketServer({server: this.httpServer, path: (process.env.NODE_ENV == "production") ? '' : '/ws/'});
 
         this.wsServer.on("listening", () => {
-            this.logger.info("Websocket server listening..");
+            this.logger.info("Websocket: Server listening..");
         });
 
         this.wsServer.on('connection', (ws: WebSocket) => { 
             if(this.wsServer)
             {
                 this.wsServer.clients.add(ws); 
-                this.logger.trace("New websocket client");
+                this.logger.trace("Websocket: New client");
     
                 ws.on("close", () => {
-                    this.logger.trace("Websocket client disconnected");
+                    this.logger.trace("Websocket: Client disconnected");
                 });
             }
         });
@@ -217,14 +217,14 @@ class NusterTurbine
         try
         {
             mongoose.connect('mongodb://127.0.0.1/nuster2');
-            this.logger.info("Connected to mongodb");
+            this.logger.info("Mongo: Connected to database");
         }
         catch(err)
         {
             this.logger.fatal(err);
 
             this.status.mode = "errored";
-            this.status.errors.push("Failed to connect to mongoDB");
+            this.status.errors.push("Mongo: Failed to connect to database");
         }
 
         //move id to _id
@@ -267,7 +267,7 @@ class NusterTurbine
             throw new Error("No machine defined, cannot add routes.");
         }
 
-        this.logger.info("Registered express routes");
+        this.logger.info("Express: Registered routers");
     }
 }
 

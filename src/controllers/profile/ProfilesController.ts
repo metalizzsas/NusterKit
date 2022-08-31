@@ -28,14 +28,12 @@ export class ProfileController extends Controller {
 
     private async _configure()
     {
-        for(const p of this.machine.specs.profiles.skeletons)
+        for(const p of this.machine.specs.profileSkeletons)
         {
             this.profileSkeletons.set(p.identifier, structuredClone(p));
         }
         
-        console.log(this.profileSkeletons.keys());
-
-        for(const p of this.machine.specs.profiles.premades)
+        for(const p of this.machine.specs.profilePremades)
         {
             //mask profile if it is masked on machine settings
             if(this.machine.settings?.maskedProfiles.includes(p.name))
@@ -140,11 +138,7 @@ export class ProfileController extends Controller {
                 profile.removable = true;
                 profile.isPremade = false;
 
-                console.log(profile);
-
                 const created = this.retreiveProfile(profile);
-
-                console.log(created);
 
                 res.status(200).json(await ProfileModel.create(created));
                 return;

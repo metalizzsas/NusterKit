@@ -178,8 +178,6 @@ export class Passive implements IPassive {
                 if (typeof this.manualModes == "string") {
                     const manual = this.machine.manualmodeController.find(this.manualModes);
 
-                    console.log(manual);
-
                     manual?.toggle(1);
                     manual?.lock();
                 }

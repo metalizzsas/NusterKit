@@ -10,21 +10,23 @@ import { IConfigSlot } from "./ISlot";
 //machine json interface
 export declare interface IMachine
 {
+    cycleTypes: IProgram[],
+    cyclePremades: IPBRPremades[],
+
     iohandlers: IIOHandler[],
     iogates: IIOGate[],
-    slots: IConfigSlot[],
-    profiles: {
-        skeletons: IProfileSkeleton[],
-        premades: IConfigProfile[]
-    },
+
     maintenance: IConfigMaintenance[],
-    passives: IPassive[],
     manual: IManualMode[],
-    cycles: {
-        types: IProgram[],
-        premades: IPBRPremades[]
-    }
+
+    passives: IPassive[],
+    profileSkeletons: IProfileSkeleton[],
+    profilePremades: IConfigProfile[],
+
+    slots: IConfigSlot[]
 }
+export type IMachineKeys = keyof IMachine;
+export type IMachineElements = IProgram[] | IPBRPremades[] | IIOHandler[] | IIOGate[] | IConfigMaintenance[] | IManualMode[] | IPassive[] | IProfileSkeleton[] | IConfigProfile[] | IConfigSlot[];
 
 export declare interface IMachineSettings
 {
@@ -38,9 +40,13 @@ export interface IConfiguration
 {
     name: string;
     serial: string;
+
     model: string;
     variant: string;
     revision: number;
+
+    addons?: string[];
+
     options: IMachine;
     settings?: IMachineSettings;
 }

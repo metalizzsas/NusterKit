@@ -29,11 +29,11 @@ export class CycleController extends Controller {
 
    private _configure()
    {
-        for(const cycle of this.machine.specs.cycles.types)
+        for(const cycle of this.machine.specs.cycleTypes)
         {
             this.supportedCycles.push({name: cycle.name, profileRequired: cycle.profileRequired});
         }
-        for(const premade of this.machine.specs.cycles.premades)
+        for(const premade of this.machine.specs.cyclePremades)
         {
             //skip the premade if its masked on machine settings
             if(this.machine.settings?.maskedPremades.includes(premade.name))
@@ -155,7 +155,7 @@ export class CycleController extends Controller {
                 this.machine.logger.info("CR: Request does not give a profile");
             }
             
-            const cycle = this.machine.specs.cycles.types.find((ip) => ip.name == req.params.name);
+            const cycle = this.machine.specs.cycleTypes.find((ip) => ip.name == req.params.name);
 
             if(cycle !== undefined)
             {

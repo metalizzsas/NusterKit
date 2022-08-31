@@ -30,7 +30,6 @@ export class AuthManager
     private logger: pino.Logger;
 
     private safeEndPoints: string[] = [
-        "/qr",
         "/ws",
         "/status",
         "/v1/auth/permissions",
@@ -60,14 +59,14 @@ export class AuthManager
         this._router.post('/edit', this.edit.bind(this));
         this._router.delete('/delete', this.delete.bind(this));
         
-        this.logger.info("Initialized AuthManager");
+        this.logger.info("Auth: Initialized");
 
-        this.logger.trace("Checking for existing admin account...");
+        this.logger.trace("Auth: Checking for existing admin account...");
 
         AuthModel.exists({ username: "admin" }).then(async (exists) => {
             if(!exists)
             {
-                this.logger.info("No admin account found, creating one...");
+                this.logger.info("Auth: No admin account found, creating one...");
 
                 const admin = new AuthModel({
                     username: "admin",
@@ -79,7 +78,7 @@ export class AuthManager
                 admin.save();
             }
             else
-                this.logger.trace("Admin account found");
+                this.logger.trace("Auth: Admin account found");
         });
     }
 

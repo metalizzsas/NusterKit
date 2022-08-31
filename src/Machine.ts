@@ -19,6 +19,8 @@ import { AuthManager } from "./auth/auth";
 
 import type { IConfiguration, IMachine, IMachineSettings } from "./interfaces/IMachine";
 import type { IHypervisorData } from "./interfaces/balena/IHypervisorDevice";
+import { parseAddon } from "./addons/AddonLoader";
+import { IAddon } from "./interfaces/IAddon";
 
 export class Machine {
 
@@ -28,6 +30,8 @@ export class Machine {
     model: string;
     variant: string;
     revision: number;
+
+    addons?: string[]
 
     public specs: IMachine;
     public settings: IMachineSettings = {
@@ -63,8 +67,8 @@ export class Machine {
 
         if(!fs.existsSync(infoPath))
         {
-            this.logger.fatal("Machine: info file not found");
-            throw Error("Machine: info file not found");
+            this.logger.fatal("Machine: Info file not found");
+            throw Error("Machine: Info file not found");
         }
 
         const infos = fs.readFileSync(infoPath, {encoding: "utf-8"});
@@ -77,22 +81,39 @@ export class Machine {
         this.variant = parsed.variant;
         this.revision = parsed.revision;
 
-        const raw = fs.readFileSync(path.resolve("nuster-turbine-machines", "data", this.model, this.variant, `${this.revision}`, "specs.json"), {encoding: "utf-8"});
+        this.addons = parsed.addons;
+
+        const raw = fs.readFileSync(path.resolve(this.baseNTMFolder, "specs.json"), {encoding: "utf-8"});
         const specsParsed = JSON.parse(raw) as IMachine;
 
         //if informations has optionals specs, deep extending it to match all specs
-        if(parsed.options !== undefined)
+        if(parsed.options !== undefined && parsed.options !== null)
         {
-            this.logger.warn("Machine: Configuration has options, merging with specs.");
+            this.logger.info("Machine: Configuration has options, merging with specs.");
             deepExtend(specsParsed, parsed.options);
         }
 
         this.specs = (specsParsed as IMachine);
 
+        //If this machine as addons
+        if(this.addons !== undefined && this.addons.length > 0)
+        {
+            this.logger.warn("Machine: " + this.addons.length + " Addon detected. SHOULD NOT BE USED IN PRODUCTION!");
+            for(const add of this.addons)
+            {
+                this.logger.info("Machine: Adding " + add + " addon.");
+                const rawAddon = fs.readFileSync(path.resolve(this.baseNTMFolder, "addons", add + ".json"), {encoding: 'utf-8'});
+
+                const addonParsed = JSON.parse(rawAddon) as IAddon;
+
+                this.specs = parseAddon(this.specs, addonParsed);
+            }
+        }
+
         //if config file has settings let them is the settings var
         if(parsed.settings !== undefined)
         {
-            this.logger.warn("This machine has custom settings.");
+            this.logger.info("Machine: Custom settings detected.");
             this.settings = parsed.settings;
         }
 
@@ -126,7 +147,7 @@ export class Machine {
     {
         if(this.WebSocketServer !== undefined)
         {
-            this.logger.trace("Broadcasting WS Message: " + message);
+            this.logger.trace("Websocket: Broadcasting WS Message: " + message);
             for(const client of this.WebSocketServer.clients)
             {
                 client.send(JSON.stringify({
@@ -162,7 +183,12 @@ export class Machine {
 
     get assetsFolder()
     {
-        return path.resolve("nuster-turbine-machines", "data", this.model, this.variant, `${this.revision}`, "assets");
+        return path.resolve(this.baseNTMFolder, "assets");
+    }
+
+    get baseNTMFolder()
+    {
+        return path.resolve("nuster-turbine-machines", "data", this.model, this.variant, `${this.revision}`);
     }
 
     toJSON()
@@ -174,6 +200,8 @@ export class Machine {
             model: this.model,
             variant: this.variant,
             revision: this.revision,
+
+            addons: this.addons,
 
             balenaVersion: process.env.BALENA_HOST_OS_VERSION,
             hypervisorData: this.hypervisorData,

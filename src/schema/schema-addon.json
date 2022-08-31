@@ -82,6 +82,90 @@
             ],
             "type": "object"
         },
+        "IAddonContent": {
+            "properties": {
+                "category": {
+                    "$ref": "#/definitions/IMachineKeys"
+                },
+                "content": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "$ref": "#/definitions/IProgram"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "items": {
+                                "$ref": "#/definitions/IPBRPremades"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "items": {
+                                "$ref": "#/definitions/IIOHandler"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "items": {
+                                "$ref": "#/definitions/IIOGate"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "items": {
+                                "$ref": "#/definitions/IConfigMaintenance"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "items": {
+                                "$ref": "#/definitions/IManualMode"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "items": {
+                                "$ref": "#/definitions/IPassive"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "items": {
+                                "$ref": "#/definitions/IProfileSkeleton"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "items": {
+                                "$ref": "#/definitions/IConfigProfile"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "items": {
+                                "$ref": "#/definitions/IConfigSlot"
+                            },
+                            "type": "array"
+                        }
+                    ]
+                },
+                "type": {
+                    "enum": [
+                        "insert",
+                        "replace"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "category",
+                "content",
+                "type"
+            ],
+            "type": "object"
+        },
         "ICallToAction": {
             "properties": {
                 "APIEndpoint": {
@@ -638,6 +722,21 @@
                 "trueBlocks"
             ],
             "type": "object"
+        },
+        "IMachineKeys": {
+            "enum": [
+                "cyclePremades",
+                "cyclesTypes",
+                "iogates",
+                "iohandlers",
+                "maintenance",
+                "manual",
+                "passives",
+                "profilePremades",
+                "profilesSkeletons",
+                "slots"
+            ],
+            "type": "string"
         },
         "IMaintenanceParameterBlock": {
             "properties": {
@@ -1975,78 +2074,19 @@
         }
     },
     "properties": {
-        "cyclePremades": {
-            "items": {
-                "$ref": "#/definitions/IPBRPremades"
-            },
-            "type": "array"
+        "addonName": {
+            "type": "string"
         },
-        "cycleTypes": {
+        "content": {
             "items": {
-                "$ref": "#/definitions/IProgram"
-            },
-            "type": "array"
-        },
-        "iogates": {
-            "items": {
-                "$ref": "#/definitions/IIOGate"
-            },
-            "type": "array"
-        },
-        "iohandlers": {
-            "items": {
-                "$ref": "#/definitions/IIOHandler"
-            },
-            "type": "array"
-        },
-        "maintenance": {
-            "items": {
-                "$ref": "#/definitions/IConfigMaintenance"
-            },
-            "type": "array"
-        },
-        "manual": {
-            "items": {
-                "$ref": "#/definitions/IManualMode"
-            },
-            "type": "array"
-        },
-        "passives": {
-            "items": {
-                "$ref": "#/definitions/IPassive"
-            },
-            "type": "array"
-        },
-        "profilePremades": {
-            "items": {
-                "$ref": "#/definitions/IConfigProfile"
-            },
-            "type": "array"
-        },
-        "profileSkeletons": {
-            "items": {
-                "$ref": "#/definitions/IProfileSkeleton"
-            },
-            "type": "array"
-        },
-        "slots": {
-            "items": {
-                "$ref": "#/definitions/IConfigSlot"
+                "$ref": "#/definitions/IAddonContent"
             },
             "type": "array"
         }
     },
     "required": [
-        "cyclePremades",
-        "cycleTypes",
-        "iogates",
-        "iohandlers",
-        "maintenance",
-        "manual",
-        "passives",
-        "profilePremades",
-        "profileSkeletons",
-        "slots"
+        "addonName",
+        "content"
     ],
     "type": "object"
 }

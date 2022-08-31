@@ -107,56 +107,54 @@
             ]
         }
     ],
-    "profiles": {
-        "skeletons": [
-            {
-                "identifier": "default",
-                "fieldGroups": [
-                    {
-                        "name": "principal",
-                        "fields": [
-                            {
-                                "name": "duration",
-                                "type": "time",
-                                "units": ["minutes", "seconds"],
-                                "value": 300
-                            },
-                            {
-                                "name": "target-temperature",
-                                "unity": "°C",
-                                "type": "int",
-                                "value": 20
-                            },
-                            {
-                                "name": "motor-speed",
-                                "unity": "RPM",
-                                "type": "float",
-                                "value": 50,
-                                "floatMin": 0,
-                                "floatMax": 110,
-                                "floatStep": 5
-                            }
-                        ]
-                    }
-                ]
-            }
-        ],
-        "premades": [
-            {
-                "skeleton": "default",
-                "id": "premade_5min30deg",
-                "name": "5min30deg",
-                "removable": false,
-                "overwriteable": false,
-                "isPremade": true,
-                "values": {
-                    "principal#duration": 600,
-                    "principal#target-temperature": 30,
-                    "principal#motor-speed": 50
+    "profileSkeletons": [
+        {
+            "identifier": "default",
+            "fieldGroups": [
+                {
+                    "name": "principal",
+                    "fields": [
+                        {
+                            "name": "duration",
+                            "type": "time",
+                            "units": ["minutes", "seconds"],
+                            "value": 300
+                        },
+                        {
+                            "name": "target-temperature",
+                            "unity": "°C",
+                            "type": "int",
+                            "value": 20
+                        },
+                        {
+                            "name": "motor-speed",
+                            "unity": "RPM",
+                            "type": "float",
+                            "value": 50,
+                            "floatMin": 0,
+                            "floatMax": 110,
+                            "floatStep": 5
+                        }
+                    ]
                 }
+            ]
+        }
+    ],
+    "profilePremades": [
+        {
+            "skeleton": "default",
+            "id": "premade_5min30deg",
+            "name": "5min30deg",
+            "removable": false,
+            "overwriteable": false,
+            "isPremade": true,
+            "values": {
+                "principal#duration": 600,
+                "principal#target-temperature": 30,
+                "principal#motor-speed": 50
             }
-        ]
-    },
+        }
+    ],
     "maintenance": [
         {
             "name": "usc-filter",
@@ -300,166 +298,164 @@
             ]
         }
     ],
-    "cycles": {
-        "premades": [],
-        "types": [
-            {
-                "name": "default",
-                "profileRequired": true,
-                "startConditions": [
-                    {
-                        "conditionName": "emergency-stop",
-                        "startOnly": false,
-                        "checkChain": {
-                            "name": "io",
-                            "io": {
-                                "gateName": "emergency-stop",
-                                "gateValue": 1
-                            }
+    "cyclePremades": [],
+    "cycleTypes": [
+        {
+            "name": "default",
+            "profileRequired": true,
+            "startConditions": [
+                {
+                    "conditionName": "emergency-stop",
+                    "startOnly": false,
+                    "checkChain": {
+                        "name": "io",
+                        "io": {
+                            "gateName": "emergency-stop",
+                            "gateValue": 1
                         }
                     }
-                ],
-                "steps": [
-                    {
-                        "name": "cleaning",
-                        "isEnabled": {
-                            "name": "const",
-                            "value": 1
+                }
+            ],
+            "steps": [
+                {
+                    "name": "cleaning",
+                    "isEnabled": {
+                        "name": "const",
+                        "value": 1
+                    },
+                    "duration": {
+                        "name": "profile",
+                        "value": "principal#duration"
+                    },
+                    "startBlocks": [
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "pump"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 1
+                                }
+                            ]
                         },
-                        "duration": {
-                            "name": "profile",
-                            "value": "principal#duration"
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "motor#speed"
+                                },
+                                {
+                                    "name": "profile",
+                                    "value": "principal#motor-speed"
+                                }
+                            ]
                         },
-                        "startBlocks": [
-                            {
-                                "name": "io",
-                                "params": [
-                                    {
-                                        "name": "conststr",
-                                        "value": "pump"
-                                    },
-                                    {
-                                        "name": "const",
-                                        "value": 1
-                                    }
-                                ]
-                            },
-                            {
-                                "name": "io",
-                                "params": [
-                                    {
-                                        "name": "conststr",
-                                        "value": "motor#speed"
-                                    },
-                                    {
-                                        "name": "profile",
-                                        "value": "principal#motor-speed"
-                                    }
-                                ]
-                            },
-                            {
-                                "name": "io",
-                                "params": [
-                                    {
-                                        "name": "conststr",
-                                        "value": "us-power"
-                                    },
-                                    {
-                                        "name": "const",
-                                        "value": 1
-                                    }
-                                ]
-                            },
-                            {
-                                "name": "passive",
-                                "params": [
-                                    {
-                                        "name": "conststr",
-                                        "value": "temperature"
-                                    },
-                                    {
-                                        "name": "const",
-                                        "value": 1
-                                    },
-                                    {
-                                        "name": "profile",
-                                        "value": "principal#target-temperature"
-                                    }
-                                ]
-                            }
-                        ],
-                        "endBlocks": [
-                            {
-                                "name": "passive",
-                                "params": [
-                                    {
-                                        "name": "conststr",
-                                        "value": "temperature"
-                                    },
-                                    {
-                                        "name": "const",
-                                        "value": 0
-                                    },
-                                    {
-                                        "name": "profile",
-                                        "value": "principal#target-temperature"
-                                    }
-                                ]
-                            },
-                            {
-                                "name": "io",
-                                "params": [
-                                    {
-                                        "name": "conststr",
-                                        "value": "pump"
-                                    },
-                                    {
-                                        "name": "const",
-                                        "value": 1
-                                    }
-                                ]
-                            },
-                            {
-                                "name": "io",
-                                "params": [
-                                    {
-                                        "name": "conststr",
-                                        "value": "us-power"
-                                    },
-                                    {
-                                        "name": "const",
-                                        "value": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "name": "io",
-                                "params": [
-                                    {
-                                        "name": "conststr",
-                                        "value": "motor#speed"
-                                    },
-                                    {
-                                        "name": "profile",
-                                        "value": "principal#motor-speed"
-                                    }
-                                ]
-                            }
-                        ],
-                        "blocks": [
-                            {
-                                "name": "sleep",
-                                "params": [
-                                    {
-                                        "name": "profile",
-                                        "value": "principal#duration"
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
-    }
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "us-power"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "passive",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "temperature"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 1
+                                },
+                                {
+                                    "name": "profile",
+                                    "value": "principal#target-temperature"
+                                }
+                            ]
+                        }
+                    ],
+                    "endBlocks": [
+                        {
+                            "name": "passive",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "temperature"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 0
+                                },
+                                {
+                                    "name": "profile",
+                                    "value": "principal#target-temperature"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "pump"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "us-power"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "motor#speed"
+                                },
+                                {
+                                    "name": "profile",
+                                    "value": "principal#motor-speed"
+                                }
+                            ]
+                        }
+                    ],
+                    "blocks": [
+                        {
+                            "name": "sleep",
+                            "params": [
+                                {
+                                    "name": "profile",
+                                    "value": "principal#duration"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
 }

@@ -4,8 +4,9 @@
   "description": "metalizz machines descriptions",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test:schema && npm run test:jest",
+    "test": "npm run test:schema && npm run test:schema-addon && npm run test:jest",
     "test:schema": "json2ts src/schema/schema.json > src/schema/config.d.ts",
+    "test:schema-addon": "json2ts src/schema/schema-addon.json > src/schema/config-addon.d.ts",
     "test:jest": "npx jest"
   },
   "repository": {

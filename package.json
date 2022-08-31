@@ -9,16 +9,23 @@
   "main": "app.js",
   "scripts": {
     "update": "rm -rf ./nuster-turbine-machines && git clone -b next git@github.com:metalizzsas/NusterTurbineMachines.git ./nuster-turbine-machines",
+    
     "dev": "export DISABLE_EX260=\"true\" && export DISABLE_AUTH=\"true\" && export FORCE_DEV_CONFIG=\"true\" && ./node_modules/.bin/concurrently --kill-others \"npm run dev:app\" \"npm run dev:modbus\"",
     "dev:preview": "export DISABLE_EX260=\"true\" && export DISABLE_AUTH=\"true\" && export FORCE_DEV_CONFIG=\"true\" && ./node_modules/.bin/concurrently --kill-others \"node build/app.js\" \"npm run dev:modbus\"",
     "dev:app": "nodemon src/app.ts | node_modules/.bin/pino-pretty",
     "dev:modbus": "node dev/modbus.mjs",
+
     "machine": "export NODE_ENV=\"production\" && export DISABLE_AUTH='true' && nodemon src/app.ts | node_modules/.bin/pino-pretty",
     "build": "tsc",
     "start": "node build/app.js | pino-pretty",
     "lc": "find './src' -name '*.ts' | xargs wc -l",
-    "schema": "npx typescript-json-schema@0.53.0 \"src/interfaces/IMachine.ts\" IMachine --ignoreErrors --required -o \"src/interfaces/schema.json\"",
+
+    "schema": "npm run schema:machine && npm run schema:addon",
+    "schema:machine": "npx typescript-json-schema@0.53.0 \"src/interfaces/IMachine.ts\" IMachine --ignoreErrors --required -o \"src/interfaces/schema.json\"",
+    "schema:addon": "npx typescript-json-schema@0.53.0 \"src/interfaces/IAddon.ts\" IAddon --ignoreErrors --required -o \"src/interfaces/schema-addon.json\"",
+
     "docs": "npx typedoc --entryPointStrategy expand ./src --out docs",
+
     "test": "jest",
     "test:coverage": "jest --coverage"
   },

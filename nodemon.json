@@ -1,4 +1,4 @@
 {
-    "watch": ["src/**/*.ts", "src/**/*.js"],
+    "watch": ["src/**/*.ts", "src/**/*.js", "./data/info.json"],
     "ignore": ["src/**/*.spec.ts"]
   }

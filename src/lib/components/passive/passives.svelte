@@ -10,7 +10,7 @@
 </script>
 
 {#if $machineData.passives.length > 0}
-	<Navcontainer>
+	<Navcontainer class="mb-auto">
 		<Navcontainertitle>{$_('passives.list')}</Navcontainertitle>
 		<div class={'grid gap-3 ' + (!inline ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2')}>
 			{#each $machineData.passives as p}

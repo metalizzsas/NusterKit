@@ -1,0 +1,305 @@
+{
+    "$schema": "../../../../../src/schema/schema-addon.json",
+    "addonName": "temperature-control",
+    "content": [
+        {
+            "type": "insert",
+            "category": "iogates",
+            "content": [
+                {
+                    "name": "temperature#heater",
+                    "type": "default",
+                    "bus": "out",
+                    "size": "bit",
+                    "automaton": 0,
+                    "address": 2,
+                    "default": 0
+                },
+                {
+                    "name": "temperature#ventilation",
+                    "type": "default",
+                    "bus": "out",
+                    "size": "bit",
+                    "automaton": 0,
+                    "address": 3,
+                    "default": 0
+                }
+            ]
+        },
+        {
+            "type": "replace",
+            "category": "profileSkeletons",
+            "content": [
+                {
+                    "identifier": "default",
+                    "fieldGroups": [
+                        {
+                            "name": "principal",
+                            "fields": [
+                                {
+                                    "name": "duration",
+                                    "type": "time",
+                                    "units": ["minutes", "seconds"],
+                                    "value": 300
+                                },
+                                {
+                                    "name": "target-temperature",
+                                    "unity": "°C",
+                                    "type": "int",
+                                    "value": 20
+                                },
+                                {
+                                    "name": "motor-speed",
+                                    "unity": "RPM",
+                                    "type": "float",
+                                    "value": 50,
+                                    "floatMin": 0,
+                                    "floatMax": 110,
+                                    "floatStep": 5
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "replace",
+            "category": "cyclePremades",
+            "content": [
+                {
+                    "skeleton": "default",
+                    "id": "premade_5min30deg",
+                    "name": "5min30deg",
+                    "removable": false,
+                    "overwriteable": false,
+                    "isPremade": true,
+                    "values": {
+                        "principal#duration": 600,
+                        "principal#target-temperature": 30,
+                        "principal#motor-speed": 50
+                    }
+                }
+            ]
+        },
+        {
+            "type": "insert",
+            "category": "passives",
+            "content": [
+                {
+                    "name": "temperature",
+                    "sensors": [
+                        "temperature#sensor"
+                    ],
+                    "target": 25,
+                    "manualModes": [
+                        "pump"
+                    ],
+                    "actuators": {
+                        "plus": "temperature#heater",
+                        "minus": "temperature#ventilation"
+                    }
+                }
+            ]
+        },
+        {
+            "type": "insert",
+            "category": "manual",
+            "content": [
+                {
+                    "name": "bac#heating",
+                    "incompatibility": [
+                        "bac#cooling"
+                    ],
+                    "requires": [
+                        "pump"
+                    ],
+                    "controls": [
+                        "temperature#heater"
+                    ],
+                    "watchdog": [
+                        {
+                            "gateName": "temperature#sensor",
+                            "gateValue": 60
+                        }
+                    ]
+                },
+                {
+                    "name": "bac#cooling",
+                    "incompatibility": [
+                        "bac#heating"
+                    ],
+                    "requires": [
+                        "pump"
+                    ],
+                    "controls": [
+                        "temperature#ventilation"
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "replace",
+            "category": "cycleTypes",
+            "content": [
+                {
+                    "name": "default",
+                    "profileRequired": true,
+                    "startConditions": [
+                        {
+                            "conditionName": "emergency-stop",
+                            "startOnly": false,
+                            "checkChain": {
+                                "name": "io",
+                                "io": {
+                                    "gateName": "emergency-stop",
+                                    "gateValue": 1
+                                }
+                            }
+                        }
+                    ],
+                    "steps": [
+                        {
+                            "name": "cleaning",
+                            "isEnabled": {
+                                "name": "const",
+                                "value": 1
+                            },
+                            "duration": {
+                                "name": "profile",
+                                "value": "principal#duration"
+                            },
+                            "startBlocks": [
+                                {
+                                    "name": "io",
+                                    "params": [
+                                        {
+                                            "name": "conststr",
+                                            "value": "pump#enable"
+                                        },
+                                        {
+                                            "name": "const",
+                                            "value": 1
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "io",
+                                    "params": [
+                                        {
+                                            "name": "conststr",
+                                            "value": "motor#speed"
+                                        },
+                                        {
+                                            "name": "profile",
+                                            "value": "principal#motor-speed"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "io",
+                                    "params": [
+                                        {
+                                            "name": "conststr",
+                                            "value": "us-power"
+                                        },
+                                        {
+                                            "name": "const",
+                                            "value": 1
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "passive",
+                                    "params": [
+                                        {
+                                            "name": "conststr",
+                                            "value": "temperature"
+                                        },
+                                        {
+                                            "name": "const",
+                                            "value": 1
+                                        },
+                                        {
+                                            "name": "profile",
+                                            "value": "principal#target-temperature"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "endBlocks": [
+                                {
+                                    "name": "passive",
+                                    "params": [
+                                        {
+                                            "name": "conststr",
+                                            "value": "temperature"
+                                        },
+                                        {
+                                            "name": "const",
+                                            "value": 0
+                                        },
+                                        {
+                                            "name": "profile",
+                                            "value": "principal#target-temperature"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "io",
+                                    "params": [
+                                        {
+                                            "name": "conststr",
+                                            "value": "pump#enable"
+                                        },
+                                        {
+                                            "name": "const",
+                                            "value": 1
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "io",
+                                    "params": [
+                                        {
+                                            "name": "conststr",
+                                            "value": "us-power"
+                                        },
+                                        {
+                                            "name": "const",
+                                            "value": 0
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "io",
+                                    "params": [
+                                        {
+                                            "name": "conststr",
+                                            "value": "motor#speed"
+                                        },
+                                        {
+                                            "name": "profile",
+                                            "value": "principal#motor-speed"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "blocks": [
+                                {
+                                    "name": "sleep",
+                                    "params": [
+                                        {
+                                            "name": "profile",
+                                            "value": "principal#duration"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

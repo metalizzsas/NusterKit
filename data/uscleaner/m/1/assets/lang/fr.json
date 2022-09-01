@@ -1,0 +1,103 @@
+{
+    "slots": {
+        "types": {
+            "bac": "Bac"
+        },
+        "colors": {
+            "bac": "from-blue-800 to-blue-900"
+        },
+        "modal": {
+            "actions": {}
+        }
+    },
+    "profile": {
+        "categories": {
+            "principal": "Réglages principaux"
+        },
+        "rows": {
+            "duration": "Durée",
+            "target-temperature": "Température",
+            "motor-speed": "Vitesse du moteur"
+        }
+    },
+    "passives": {
+        "temperature": "Temperature"
+    },
+    "cycle": {
+        "endreasons": {
+            "security-emergency-stop": "Boutton d'arret d'urgence déclenché",
+            "security-cover-closed": "Couvercle ouvert"
+        },
+        "names": {
+            "default": "Cycle de base USCleaner"
+        },
+        "types": {},
+        "steps": {
+            "cleaning": {
+                "name": "Nettoyage",
+                "desc": "Nétoyage des pièces"
+            }
+        },
+        "startconditions": {
+            "emergency-stop": "Bouton d'arret d'urgence",
+            "cover-closed": "Couvercle fermé"
+        }
+    },
+    "gates": {
+        "categories": {
+            "motor": "Moteur de rotation",
+            "temperature": "Gestion température",
+            "levels": "Niveaux",
+            "pump": "Gestion pompe"
+        },
+        "names": {
+            "emergency-stop": "Bouton d'arret d'urgence",
+            "cover-closed": "Capteur de couvercle",
+
+            "motor#direction": "Direction du moteur",
+            "motor#speed": "Vitesse du moteur",
+
+            "temperature#sensor": "Sonde de température",
+            "temperature#heater": "Chauffe du bac",
+            "temperature#ventilation": "Ventilation echangeur bac",
+
+            
+            "us-power": "Transducteurs US",
+
+            "pump#pressure": "Pression en sortie de pompe",
+            "pump#enable": "Activation de la pompe",
+            "pump#drain": "Activation du drain"
+
+        }
+    },
+    "manual": {
+        "categories": {
+            "bac": "Température bac"
+        },
+        "tasks": {
+            "motor-rotation": "Vitesse du moteur",
+            "pump": "Filtration",
+            "us-cleaning": "Nettoyage US",
+            "bac#heating": "Chauffe bac",
+            "bac#cooling": "Reffroidissement bac"
+        }
+    },
+    "maintenance": {
+        "tasks": {
+            "usc-filter": {
+                "name": "Filtre",
+                "desc": "Le filtre de l'uscleaner permet de capturer les particules dans le bac.",
+                "procedure": {
+                    "open-door": "Ouverture de la porte de l'USCleaner.",
+                    "close-valve-pump": "Fermeture des vannes de la pompe.",
+                    "pump-cover-unscrew": "Dévisser le couvercle de la pompe.",
+                    "filter-out-pump": "Sortir le filtre de la pompe.",
+                    "replace-pump-filter": "Remplacerle le filtre de la pompe.",
+                    "pump-cover-screw": "Fermeture du couvercle de la pompe.",
+                    "open-valve-pump": "Ouverture des vannes de la pompe.",
+                    "door-close": "Fermeture de la porte de l'USCleaner"
+                }
+            }
+        }
+    }
+}

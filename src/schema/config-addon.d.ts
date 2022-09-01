@@ -7,15 +7,32 @@
 
 export type IMachineKeys =
   | "cyclePremades"
-  | "cyclesTypes"
+  | "cycleTypes"
   | "iogates"
   | "iohandlers"
   | "maintenance"
   | "manual"
   | "passives"
   | "profilePremades"
-  | "profilesSkeletons"
+  | "profileSkeletons"
   | "slots";
+/**
+ * Parameter Blocks that return a number from data()
+ */
+export type INumericParameterBlock =
+  | IAdditionParameterBlock
+  | IConditionalParameterBlock
+  | IConstantParameterBlock
+  | IIOReadParameterBlock
+  | IMaintenanceParameterBlock
+  | IMultiplyParameterBlock
+  | IProfileParameterBlock
+  | IReverseParameterBlock
+  | ISlotLifetimeParameterBlock
+  | IVariableParameterBlock;
+/**
+ * All the parameters blocks
+ */
 export type IParameterBlocks =
   | IAdditionParameterBlock
   | IConditionalParameterBlock
@@ -29,17 +46,6 @@ export type IParameterBlocks =
   | ISlotLifetimeParameterBlock
   | IVariableParameterBlock
   | ISlotProductStatusParameterBlock;
-export type INumericParameterBlock =
-  | IAdditionParameterBlock
-  | IConditionalParameterBlock
-  | IConstantParameterBlock
-  | IIOReadParameterBlock
-  | IMaintenanceParameterBlock
-  | IMultiplyParameterBlock
-  | IProfileParameterBlock
-  | IReverseParameterBlock
-  | ISlotLifetimeParameterBlock
-  | IVariableParameterBlock;
 export type IProgramBlocks =
   | IForLoopProgramBlock
   | IGroupProgramBlock
@@ -55,7 +61,6 @@ export type IProgramBlocks =
   | IVariableProgramBlock
   | IWhileLoopProgramBlock
   | IPassiveProgramBlock;
-export type EIOHandlerType = "em4" | "ex260s1" | "ex260s3" | "wago";
 export type EIOGateBus = "in" | "out";
 export type EIOGateSize = "bit" | "word";
 export type EIOGateType = "a10v" | "default" | "em4a10v" | "em4temp" | "um18";
@@ -103,18 +108,58 @@ export interface IPBRSCCheckChain {
     [k: string]: unknown;
   };
   name: "io" | "parameter";
-  parameter?: IParameterBlocks;
+  /**
+   * All the parameters blocks
+   */
+  parameter?:
+    | IAdditionParameterBlock
+    | IConditionalParameterBlock
+    | IConstantParameterBlock
+    | IConstantStringParameterBlock
+    | IIOReadParameterBlock
+    | IMaintenanceParameterBlock
+    | IMultiplyParameterBlock
+    | IProfileParameterBlock
+    | IReverseParameterBlock
+    | ISlotLifetimeParameterBlock
+    | IVariableParameterBlock
+    | ISlotProductStatusParameterBlock;
   [k: string]: unknown;
 }
 export interface IAdditionParameterBlock {
+  /**
+   * Parameter block name
+   */
   name: "add";
-  params: INumericParameterBlock[];
+  /**
+   * Parameter block sub parameters blocks
+   */
+  params: (
+    | IAdditionParameterBlock
+    | IConditionalParameterBlock
+    | IConstantParameterBlock
+    | IIOReadParameterBlock
+    | IMaintenanceParameterBlock
+    | IMultiplyParameterBlock
+    | IProfileParameterBlock
+    | IReverseParameterBlock
+    | ISlotLifetimeParameterBlock
+    | IVariableParameterBlock
+  )[];
+  /**
+   * Value from this parameter block
+   */
   value?: string | number;
   [k: string]: unknown;
 }
 export interface IConditionalParameterBlock {
+  /**
+   * Parameter block name
+   */
   name: "conditional";
   /**
+   * Parameter block sub parameters blocks
+   *
    * @minItems 4
    * @maxItems 4
    */
@@ -150,80 +195,223 @@ export interface IConditionalParameterBlock {
       | ISlotProductStatusParameterBlock
     )
   ];
+  /**
+   * Value from this parameter block
+   */
   value: "!=" | "<" | "==" | ">";
   [k: string]: unknown;
 }
 export interface IConstantParameterBlock {
+  /**
+   * Parameter block name
+   */
   name: "const";
+  /**
+   * Parameter block sub parameters blocks
+   */
   params?: IParameterBlocks[];
+  /**
+   * Value from this parameter block
+   */
   value: number;
   [k: string]: unknown;
 }
 export interface IConstantStringParameterBlock {
+  /**
+   * Parameter block name
+   */
   name: "conststr";
+  /**
+   * Parameter block sub parameters blocks
+   */
   params?: IParameterBlocks[];
+  /**
+   * Value from this parameter block
+   */
   value: string;
   [k: string]: unknown;
 }
 export interface IIOReadParameterBlock {
+  /**
+   * Parameter block name
+   */
   name: "io";
+  /**
+   * Parameter block sub parameters blocks
+   */
   params?: IParameterBlocks[];
+  /**
+   * Value from this parameter block
+   */
   value: string;
   [k: string]: unknown;
 }
 export interface IMaintenanceParameterBlock {
+  /**
+   * Parameter block name
+   */
   name: "maintenance";
+  /**
+   * Parameter block sub parameters blocks
+   */
   params?: IParameterBlocks[];
+  /**
+   * Value from this parameter block
+   */
   value: string;
   [k: string]: unknown;
 }
 export interface IMultiplyParameterBlock {
+  /**
+   * Parameter block name
+   */
   name: "multiply";
+  /**
+   * Parameter block sub parameters blocks
+   */
   params: INumericParameterBlock[];
+  /**
+   * Value from this parameter block
+   */
   value?: string | number;
   [k: string]: unknown;
 }
 export interface IProfileParameterBlock {
+  /**
+   * Parameter block name
+   */
   name: "profile";
+  /**
+   * Parameter block sub parameters blocks
+   */
   params?: IParameterBlocks[];
+  /**
+   * Value from this parameter block
+   */
   value: string;
   [k: string]: unknown;
 }
 export interface IReverseParameterBlock {
+  /**
+   * Parameter block name
+   */
   name: "reverse";
   /**
+   * Parameter block sub parameters blocks
+   *
    * @minItems 1
    * @maxItems 1
    */
   params: [INumericParameterBlock];
+  /**
+   * Value from this parameter block
+   */
   value?: string | number;
   [k: string]: unknown;
 }
 export interface ISlotLifetimeParameterBlock {
+  /**
+   * Parameter block name
+   */
   name: "slotlife";
+  /**
+   * Parameter block sub parameters blocks
+   */
   params?: IParameterBlocks[];
+  /**
+   * Value from this parameter block
+   */
   value: string;
   [k: string]: unknown;
 }
 export interface IVariableParameterBlock {
+  /**
+   * Parameter block name
+   */
   name: "variable";
+  /**
+   * Parameter block sub parameters blocks
+   */
   params?: IParameterBlocks[];
+  /**
+   * Value from this parameter block
+   */
   value: string;
   [k: string]: unknown;
 }
 export interface ISlotProductStatusParameterBlock {
+  /**
+   * Parameter block name
+   */
   name: "slotstatus";
+  /**
+   * Parameter block sub parameters blocks
+   */
   params?: IParameterBlocks[];
+  /**
+   * Value from this parameter block
+   */
   value: string;
   [k: string]: unknown;
 }
 export interface IProgramStep {
+  /**
+   * Program blocks Array that is executed by this step
+   */
   blocks: IProgramBlocks[];
-  duration: INumericParameterBlock;
+  /**
+   * Parameter Blocks that return a number from data()
+   */
+  duration:
+    | IAdditionParameterBlock
+    | IConditionalParameterBlock
+    | IConstantParameterBlock
+    | IIOReadParameterBlock
+    | IMaintenanceParameterBlock
+    | IMultiplyParameterBlock
+    | IProfileParameterBlock
+    | IReverseParameterBlock
+    | ISlotLifetimeParameterBlock
+    | IVariableParameterBlock;
+  /**
+   * Program Blocks array that are executed at the end of a step
+   */
   endBlocks: IProgramBlocks[];
-  isEnabled: INumericParameterBlock;
+  /**
+   * Parameter Blocks that return a number from data()
+   */
+  isEnabled:
+    | IAdditionParameterBlock
+    | IConditionalParameterBlock
+    | IConstantParameterBlock
+    | IIOReadParameterBlock
+    | IMaintenanceParameterBlock
+    | IMultiplyParameterBlock
+    | IProfileParameterBlock
+    | IReverseParameterBlock
+    | ISlotLifetimeParameterBlock
+    | IVariableParameterBlock;
+  /**
+   * Program Step name
+   */
   name: string;
-  runAmount?: INumericParameterBlock;
+  /**
+   * Parameter Blocks that return a number from data()
+   */
+  runAmount?:
+    | IAdditionParameterBlock
+    | IConditionalParameterBlock
+    | IConstantParameterBlock
+    | IIOReadParameterBlock
+    | IMaintenanceParameterBlock
+    | IMultiplyParameterBlock
+    | IProfileParameterBlock
+    | IReverseParameterBlock
+    | ISlotLifetimeParameterBlock
+    | IVariableParameterBlock;
+  /**
+   * Program Blocks array that are executed at the start of a step
+   */
   startBlocks: IProgramBlocks[];
   [k: string]: unknown;
 }
@@ -236,14 +424,38 @@ export interface IForLoopProgramBlock {
    * @minItems 1
    * @maxItems 1
    */
-  params: [INumericParameterBlock];
+  params: [
+    | IAdditionParameterBlock
+    | IConditionalParameterBlock
+    | IConstantParameterBlock
+    | IIOReadParameterBlock
+    | IMaintenanceParameterBlock
+    | IMultiplyParameterBlock
+    | IProfileParameterBlock
+    | IReverseParameterBlock
+    | ISlotLifetimeParameterBlock
+    | IVariableParameterBlock
+  ];
   [k: string]: unknown;
 }
 export interface IGroupProgramBlock {
   blocks: IProgramBlocks[];
   executed?: boolean;
   name: "group";
-  params?: IParameterBlocks[];
+  params?: (
+    | IAdditionParameterBlock
+    | IConditionalParameterBlock
+    | IConstantParameterBlock
+    | IConstantStringParameterBlock
+    | IIOReadParameterBlock
+    | IMaintenanceParameterBlock
+    | IMultiplyParameterBlock
+    | IProfileParameterBlock
+    | IReverseParameterBlock
+    | ISlotLifetimeParameterBlock
+    | IVariableParameterBlock
+    | ISlotProductStatusParameterBlock
+  )[];
   [k: string]: unknown;
 }
 export interface IIfProgramBlock {
@@ -256,9 +468,31 @@ export interface IIfProgramBlock {
    * @maxItems 3
    */
   params: [
-    INumericParameterBlock,
+    (
+      | IAdditionParameterBlock
+      | IConditionalParameterBlock
+      | IConstantParameterBlock
+      | IIOReadParameterBlock
+      | IMaintenanceParameterBlock
+      | IMultiplyParameterBlock
+      | IProfileParameterBlock
+      | IReverseParameterBlock
+      | ISlotLifetimeParameterBlock
+      | IVariableParameterBlock
+    ),
     IConstantStringParameterBlock | ISlotProductStatusParameterBlock,
-    INumericParameterBlock
+    (
+      | IAdditionParameterBlock
+      | IConditionalParameterBlock
+      | IConstantParameterBlock
+      | IIOReadParameterBlock
+      | IMaintenanceParameterBlock
+      | IMultiplyParameterBlock
+      | IProfileParameterBlock
+      | IReverseParameterBlock
+      | ISlotLifetimeParameterBlock
+      | IVariableParameterBlock
+    )
   ];
   trueBlocks: IProgramBlocks[];
   [k: string]: unknown;
@@ -271,7 +505,21 @@ export interface IIOProgramBlock {
    * @minItems 2
    * @maxItems 2
    */
-  params: [IConstantStringParameterBlock | ISlotProductStatusParameterBlock, INumericParameterBlock];
+  params: [
+    IConstantStringParameterBlock | ISlotProductStatusParameterBlock,
+    (
+      | IAdditionParameterBlock
+      | IConditionalParameterBlock
+      | IConstantParameterBlock
+      | IIOReadParameterBlock
+      | IMaintenanceParameterBlock
+      | IMultiplyParameterBlock
+      | IProfileParameterBlock
+      | IReverseParameterBlock
+      | ISlotLifetimeParameterBlock
+      | IVariableParameterBlock
+    )
+  ];
   [k: string]: unknown;
 }
 export interface IMaintenanceProgramBlock {
@@ -282,7 +530,21 @@ export interface IMaintenanceProgramBlock {
    * @minItems 2
    * @maxItems 2
    */
-  params: [IConstantStringParameterBlock | ISlotProductStatusParameterBlock, INumericParameterBlock];
+  params: [
+    IConstantStringParameterBlock | ISlotProductStatusParameterBlock,
+    (
+      | IAdditionParameterBlock
+      | IConditionalParameterBlock
+      | IConstantParameterBlock
+      | IIOReadParameterBlock
+      | IMaintenanceParameterBlock
+      | IMultiplyParameterBlock
+      | IProfileParameterBlock
+      | IReverseParameterBlock
+      | ISlotLifetimeParameterBlock
+      | IVariableParameterBlock
+    )
+  ];
   [k: string]: unknown;
 }
 export interface ISleepProgramBlock {
@@ -293,7 +555,18 @@ export interface ISleepProgramBlock {
    * @minItems 1
    * @maxItems 1
    */
-  params: [INumericParameterBlock];
+  params: [
+    | IAdditionParameterBlock
+    | IConditionalParameterBlock
+    | IConstantParameterBlock
+    | IIOReadParameterBlock
+    | IMaintenanceParameterBlock
+    | IMultiplyParameterBlock
+    | IProfileParameterBlock
+    | IReverseParameterBlock
+    | ISlotLifetimeParameterBlock
+    | IVariableParameterBlock
+  ];
   [k: string]: unknown;
 }
 export interface ISlotLoadProgramBlock {
@@ -326,7 +599,21 @@ export interface IStartTimerProgramBlock {
    * @minItems 2
    * @maxItems 2
    */
-  params: [IConstantStringParameterBlock | ISlotProductStatusParameterBlock, INumericParameterBlock];
+  params: [
+    IConstantStringParameterBlock | ISlotProductStatusParameterBlock,
+    (
+      | IAdditionParameterBlock
+      | IConditionalParameterBlock
+      | IConstantParameterBlock
+      | IIOReadParameterBlock
+      | IMaintenanceParameterBlock
+      | IMultiplyParameterBlock
+      | IProfileParameterBlock
+      | IReverseParameterBlock
+      | ISlotLifetimeParameterBlock
+      | IVariableParameterBlock
+    )
+  ];
   [k: string]: unknown;
 }
 export interface IStopProgramBlock {
@@ -359,7 +646,21 @@ export interface IVariableProgramBlock {
    * @minItems 2
    * @maxItems 2
    */
-  params: [IConstantStringParameterBlock | ISlotProductStatusParameterBlock, INumericParameterBlock];
+  params: [
+    IConstantStringParameterBlock | ISlotProductStatusParameterBlock,
+    (
+      | IAdditionParameterBlock
+      | IConditionalParameterBlock
+      | IConstantParameterBlock
+      | IIOReadParameterBlock
+      | IMaintenanceParameterBlock
+      | IMultiplyParameterBlock
+      | IProfileParameterBlock
+      | IReverseParameterBlock
+      | ISlotLifetimeParameterBlock
+      | IVariableParameterBlock
+    )
+  ];
   [k: string]: unknown;
 }
 export interface IWhileLoopProgramBlock {
@@ -371,9 +672,31 @@ export interface IWhileLoopProgramBlock {
    * @maxItems 3
    */
   params: [
-    INumericParameterBlock,
+    (
+      | IAdditionParameterBlock
+      | IConditionalParameterBlock
+      | IConstantParameterBlock
+      | IIOReadParameterBlock
+      | IMaintenanceParameterBlock
+      | IMultiplyParameterBlock
+      | IProfileParameterBlock
+      | IReverseParameterBlock
+      | ISlotLifetimeParameterBlock
+      | IVariableParameterBlock
+    ),
     IConstantStringParameterBlock | ISlotProductStatusParameterBlock,
-    INumericParameterBlock
+    (
+      | IAdditionParameterBlock
+      | IConditionalParameterBlock
+      | IConstantParameterBlock
+      | IIOReadParameterBlock
+      | IMaintenanceParameterBlock
+      | IMultiplyParameterBlock
+      | IProfileParameterBlock
+      | IReverseParameterBlock
+      | ISlotLifetimeParameterBlock
+      | IVariableParameterBlock
+    )
   ];
   [k: string]: unknown;
 }
@@ -387,8 +710,30 @@ export interface IPassiveProgramBlock {
    */
   params: [
     IConstantStringParameterBlock | ISlotProductStatusParameterBlock,
-    INumericParameterBlock,
-    INumericParameterBlock
+    (
+      | IAdditionParameterBlock
+      | IConditionalParameterBlock
+      | IConstantParameterBlock
+      | IIOReadParameterBlock
+      | IMaintenanceParameterBlock
+      | IMultiplyParameterBlock
+      | IProfileParameterBlock
+      | IReverseParameterBlock
+      | ISlotLifetimeParameterBlock
+      | IVariableParameterBlock
+    ),
+    (
+      | IAdditionParameterBlock
+      | IConditionalParameterBlock
+      | IConstantParameterBlock
+      | IIOReadParameterBlock
+      | IMaintenanceParameterBlock
+      | IMultiplyParameterBlock
+      | IProfileParameterBlock
+      | IReverseParameterBlock
+      | ISlotLifetimeParameterBlock
+      | IVariableParameterBlock
+    )
   ];
   [k: string]: unknown;
 }
@@ -399,9 +744,18 @@ export interface IPBRPremades {
   [k: string]: unknown;
 }
 export interface IIOHandler {
+  /**
+   * IP Address on the local network
+   */
   ip: string;
+  /**
+   * Name of the IO Handler
+   */
   name: string;
-  type: EIOHandlerType;
+  /**
+   * Type of the IO Handler
+   */
+  type: "em4" | "ex260s1" | "ex260s3" | "wago";
   [k: string]: unknown;
 }
 export interface IIOGate {
@@ -436,6 +790,9 @@ export interface IMaintenanceProcedureStep {
   [k: string]: unknown;
 }
 export interface IManualMode {
+  /**
+   * Manual mode analog scale
+   */
   analogScale?: {
     max: number;
     min: number;
@@ -449,26 +806,69 @@ export interface IManualMode {
       }
     | string
   )[];
+  /**
+   * Incompatibilities between manual modes
+   */
   incompatibility?: string[];
+  /**
+   * Name of the manual mode can contain 1 `#` for categorizing
+   */
   name: string;
+  /**
+   * Manual modes required to be enabled
+   */
   requires?: string[];
+  /**
+   * Watchdog Security chain
+   */
   watchdog?: IManualWatchdogCondition[];
   [k: string]: unknown;
 }
 export interface IManualWatchdogCondition {
+  /**
+   * Gate name to control
+   */
   gateName: string;
+  /**
+   * Gate value required for the security
+   */
   gateValue: number;
   [k: string]: unknown;
 }
 export interface IPassive {
+  /**
+   * Actuators used to reach target
+   */
   actuators: {
+    /**
+     * Actuators used to reach target when we are over target
+     */
     minus?: string[] | string;
+    /**
+     * Actuators used to reach target when we are under target
+     */
     plus: string[] | string;
     [k: string]: unknown;
   };
+  /**
+   * If a passive mode is internal, it means that it is hidden from user.
+   */
+  internal?: boolean;
+  /**
+   * Manual modes triggered by this passive regulation
+   */
   manualModes?: string[] | string;
+  /**
+   * Passive name
+   */
   name: string;
+  /**
+   * Sensors used to target
+   */
   sensors: string[] | string;
+  /**
+   * Passive target number
+   */
   target: number;
   [k: string]: unknown;
 }

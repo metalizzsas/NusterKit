@@ -46,7 +46,7 @@ services:
       LAUNCH_URL: 'http://127.0.0.1/'
       KIOSK: 1
       ENABLE_GPU: 1
-      PERSISTANT: 1
+      PERSISTENT: 1
       ROTATE: 1
     volumes:
       - nuster-kiosk:/data

@@ -3,6 +3,6 @@
 	export let gap: number = 4;
 </script>
 
-<div class="grid grid-cols{cols} gap-{gap}">
+<div class="grid grid-cols-{cols} gap-{gap} {$$props.class}">
 	<slot />
 </div>

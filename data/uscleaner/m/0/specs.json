@@ -219,22 +219,7 @@
             }
         }
     ],
-    "passives": [
-        {
-            "name": "temperature",
-            "sensors": [
-                "temperature#sensor"
-            ],
-            "target": 25,
-            "manualModes": [
-                "pump"
-            ],
-            "actuators": {
-                "plus": "temperature#heater",
-                "minus": "temperature#ventilation"
-            }
-        }
-    ],
+    "passives": [],
     "manual": [
         {
             "name": "motor-rotation",

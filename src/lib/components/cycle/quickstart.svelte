@@ -1,14 +1,20 @@
 <script lang="ts">
 	import { Linker } from '$lib/utils/linker';
 	import { machineData } from '$lib/utils/store';
+	import type { Profile } from '$lib/utils/interfaces';
+
 	import { _ } from 'svelte-i18n';
+	import { onMount } from 'svelte';
+	import { fly } from 'svelte/transition';
 
 	import { goto } from '$app/navigation';
-	import { fly } from 'svelte/transition';
+
+	import Navcontainer from '$lib/components/navigation/navcontainer.svelte';
 	import Navcontainersubtitle from '$lib/components/navigation/navcontainersubtitle.svelte';
+	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
+
 	import ProfileRow from '$lib/components/profile/profileRow.svelte';
-	import type { Profile } from '$lib/utils/interfaces';
-	import { onMount } from 'svelte';
+
 	import Modal from '../modals/modal.svelte';
 	import Modalprompt from '../modals/modalprompt.svelte';
 
@@ -175,87 +181,91 @@
 	</Modal>
 {/if}
 
-<div class="flex flex-col gap-6">
-	{#if profile !== undefined}
-		<div>
-			<Navcontainersubtitle>{$_('cycle.quickstart.settings')}</Navcontainersubtitle>
+<Navcontainer class="mb-auto">
+	<Navcontainertitle>{$_('cycle.quickstart.head')}</Navcontainertitle>
+	<div class="flex flex-col gap-6">
+		{#if profile !== undefined}
+			<div>
+				<Navcontainersubtitle>
+					{$_('cycle.quickstart.settings-save')}
+				</Navcontainersubtitle>
 
-			<div class="flex flex-col gap-2">
-				{#each profile.fieldGroups.flatMap((fg) => fg.fields) as f}
-					<ProfileRow bind:row={f} {profile} />
-				{/each}
+				<div class="flex flex-row flex-nowrap gap-3">
+					<select
+						id="favorite"
+						class="col-span-4 p-1.5 font-semibold rounded-full px-3 grow text-zinc-900"
+						bind:value={selectedProfile}
+					>
+						{#each profiles.sort((a, b) => (a.name < b.name ? 1 : -1)) as profile}
+							<option value={profile.id}>
+								{profile.isPremade
+									? $_('cycle.types.' + profile.name)
+									: profile.name}
+							</option>
+						{/each}
+					</select>
+					{#if profile.overwriteable}
+						<button
+							class="self-center bg-emerald-500 text-white p-2 rounded-full"
+							on:click|stopPropagation={() => {
+								if (profile && profile.id == 'skeleton') {
+									saveProfileModalShown = true;
+								} else {
+									saveProfile();
+								}
+							}}
+						>
+							<svg
+								id="glyphicons-basic"
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 32 32"
+								class="fill-white w-5 h-5"
+							>
+								<path
+									id="save"
+									d="M28,23v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V23a1,1,0,0,1,1-1H27A1,1,0,0,1,28,23ZM15.18628,19.36078a1,1,0,0,0,1.62744,0l5.55682-7.77954A1,1,0,0,0,21.55682,10H19V4a1,1,0,0,0-1-1H14a1,1,0,0,0-1,1v6H10.44318a1,1,0,0,0-.81372,1.58124Z"
+								/>
+							</svg>
+						</button>
+					{/if}
+					{#if profile.removable}
+						<button
+							class="self-center bg-red-500 text-white p-2 rounded-full"
+							on:click|stopPropagation={() => {
+								deleteProfileModalShown = true;
+							}}
+						>
+							<svg
+								id="glyphicons-basic"
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 32 32"
+								class="fill-white w-5 h-5"
+							>
+								<path
+									id="bin"
+									d="M7,26a2.00006,2.00006,0,0,0,2,2H23a2.00006,2.00006,0,0,0,2-2V10H7ZM20,14a1,1,0,0,1,2,0V24a1,1,0,0,1-2,0Zm-5,0a1,1,0,0,1,2,0V24a1,1,0,0,1-2,0Zm-5,0a1,1,0,0,1,2,0V24a1,1,0,0,1-2,0ZM26,6V8H6V6A1,1,0,0,1,7,5h6V4a1,1,0,0,1,1-1h4a1,1,0,0,1,1,1V5h6A1,1,0,0,1,26,6Z"
+								/>
+							</svg>
+						</button>
+					{/if}
+				</div>
 			</div>
-		</div>
+			<div>
+				<Navcontainersubtitle>{$_('cycle.quickstart.settings')}</Navcontainersubtitle>
 
-		<div>
-			<Navcontainersubtitle>
-				{$_('cycle.quickstart.settings-save')}
-			</Navcontainersubtitle>
-
-			<div class="flex flex-row flex-nowrap gap-3">
-				<select
-					id="favorite"
-					class="col-span-4 p-1.5 font-semibold rounded-full px-3 grow text-zinc-900"
-					bind:value={selectedProfile}
-				>
-					{#each profiles.sort((a, b) => (a.name < b.name ? 1 : -1)) as profile}
-						<option value={profile.id}>
-							{profile.isPremade ? $_('cycle.types.' + profile.name) : profile.name}
-						</option>
+				<div class="flex flex-col gap-2">
+					{#each profile.fieldGroups.flatMap((fg) => fg.fields) as f}
+						<ProfileRow bind:row={f} {profile} />
 					{/each}
-				</select>
-				{#if profile.overwriteable}
-					<button
-						class="self-center bg-emerald-500 text-white p-2 rounded-full"
-						on:click|stopPropagation={() => {
-							if (profile && profile.id == 'skeleton') {
-								saveProfileModalShown = true;
-							} else {
-								saveProfile();
-							}
-						}}
-					>
-						<svg
-							id="glyphicons-basic"
-							xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 0 32 32"
-							class="fill-white w-5 h-5"
-						>
-							<path
-								id="save"
-								d="M28,23v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V23a1,1,0,0,1,1-1H27A1,1,0,0,1,28,23ZM15.18628,19.36078a1,1,0,0,0,1.62744,0l5.55682-7.77954A1,1,0,0,0,21.55682,10H19V4a1,1,0,0,0-1-1H14a1,1,0,0,0-1,1v6H10.44318a1,1,0,0,0-.81372,1.58124Z"
-							/>
-						</svg>
-					</button>
-				{/if}
-				{#if profile.removable}
-					<button
-						class="self-center bg-red-500 text-white p-2 rounded-full"
-						on:click|stopPropagation={() => {
-							deleteProfileModalShown = true;
-						}}
-					>
-						<svg
-							id="glyphicons-basic"
-							xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 0 32 32"
-							class="fill-white w-5 h-5"
-						>
-							<path
-								id="bin"
-								d="M7,26a2.00006,2.00006,0,0,0,2,2H23a2.00006,2.00006,0,0,0,2-2V10H7ZM20,14a1,1,0,0,1,2,0V24a1,1,0,0,1-2,0Zm-5,0a1,1,0,0,1,2,0V24a1,1,0,0,1-2,0Zm-5,0a1,1,0,0,1,2,0V24a1,1,0,0,1-2,0ZM26,6V8H6V6A1,1,0,0,1,7,5h6V4a1,1,0,0,1,1-1h4a1,1,0,0,1,1,1V5h6A1,1,0,0,1,26,6Z"
-							/>
-						</svg>
-					</button>
-				{/if}
+				</div>
 			</div>
-		</div>
-	{/if}
+		{/if}
 
-	<button
-		class="bg-indigo-500 py-2 px-3 rounded-xl text-white font-semibold hover:scale-[1.01]"
-		on:click={quickStart}
-	>
-		{$_('cycle.quickstart.start')}
-	</button>
-</div>
+		<button
+			class="bg-indigo-500 py-2 px-3 rounded-xl text-white font-semibold hover:scale-[1.01]"
+			on:click={quickStart}
+		>
+			{$_('cycle.quickstart.start')}
+		</button>
+	</div>
+</Navcontainer>

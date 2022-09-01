@@ -83,7 +83,7 @@
 		class="p-3 bg-gradient-to-br from-indigo-500 to-indigo-400 rounded-tr-2xl rounded-tl-2xl overflow-hidden transition-all flex flex-row gap-2 items-center align-middle md:gap-0 justify-between"
 	>
 		<span class="bg-white py-1 px-3 rounded-full text-gray-800 font-semibold">
-			{$_('passive.names.' + passive.name) + '.name'}
+			{$_('passives.' + passive.name + '.name')}
 		</span>
 		<Toggle bind:value={passive.state} on:change={(e) => triggerState(e.detail.value)} />
 	</div>

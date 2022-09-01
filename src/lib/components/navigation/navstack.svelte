@@ -6,20 +6,24 @@
 		navTitle,
 		useNavContainer,
 	} from '$lib/utils/navstack';
+
 	import { locales, _ } from 'svelte-i18n';
 	import { page } from '$app/stores';
-	import { scale } from 'svelte/transition';
 	import { goto } from '$app/navigation';
 	import { BUNDLED } from '$lib/bundle';
 	import { machineData } from '$lib/utils/store';
 	import { onMount } from 'svelte';
 	import { Linker } from '$lib/utils/linker';
+	import { lang, dark, layoutSimplified } from '$lib/utils/settings';
+
 	import Modalcontent from '../modals/modalcontent.svelte';
 	import Toggle from '../userInputs/toggle.svelte';
 	import SvelteMarkdown from 'svelte-markdown';
 	import Navcontainer from './navcontainer.svelte';
-	import { lang, dark, layoutSimplified } from '$lib/utils/settings';
 	import Button from '../button.svelte';
+	import Flex from '../layout/flex.svelte';
+	import Informations from './indexStackContent/informations.svelte';
+	import Updates from './indexStackContent/updates.svelte';
 
 	$: index = $page.url.pathname == '/app';
 
@@ -46,15 +50,6 @@
 		markdownReleaseNotes = await releaseNotesRequest.text();
 		markdownReleaseNotesUI = await ndreleaseNotesRequest.text();
 	});
-
-	async function triggerUpdate() {
-		const req = await fetch('//' + $Linker + '/api/forceUpdate');
-
-		if (req.status == 200) {
-			displayUpdateScreen = true;
-			isUpdateShrinked = true;
-		}
-	}
 </script>
 
 <!--- options modal -->
@@ -108,11 +103,7 @@
 <div
 	class="bg-gradient-to-br from-indigo-600 to-indigo-500 rounded-xl ring-[0.5px] ring-indigo-300/50 mb-6 text-white"
 >
-	<div
-		class="flex flex-row gap-6 {index
-			? 'p-4'
-			: 'p-2'} align-middle items-center overflow-hidden"
-	>
+	<Flex gap={6} align="middle" items="center" class="{index ? 'p-4' : 'p-2'} overflow-hidden">
 		{#if !index}
 			<div
 				class="flex flex-row gap-1 items-center align-middle cursor-pointer"
@@ -157,18 +148,17 @@
 				<div class="w-[2px] h-24 -my-8 bg-zinc-100 -skew-x-12" />
 				<span class="font-bold text-white truncate">{title}</span>
 			{/each}
-			<div class="flex flex-row gap-1 ml-auto">
+			<Flex gap={1} class="ml-auto">
 				{#if $navActions != null}
 					{#each $navActions as btn}
 						<Button on:click={btn.action} color={btn.color} size={'small'}>
 							{btn.label}
 						</Button>
-						<!--<button on:click={btn.action} class={btn.class}>{btn.label}</button>-->
 					{/each}
 				{/if}
-			</div>
+			</Flex>
 		{:else}
-			<div class="flex flex-row gap-5 items-center ml-auto">
+			<Flex gap={5} items="center" class="ml-auto">
 				{#if $machineData.machine.hypervisorData !== undefined}
 					{#if ($machineData.machine.hypervisorData.overallDownloadProgress || 0) > 0 || $machineData.machine.hypervisorData.appState != 'applied'}
 						<button
@@ -203,7 +193,7 @@
 				{/if}
 
 				<button
-					class="rounded-full bg-indigo-300 p-1 transition hover:rotate-180 duration-300"
+					class="rounded-full bg-white p-1 transition hover:rotate-180 duration-300"
 					on:click={() => {
 						displayOptions = !displayOptions;
 					}}
@@ -212,7 +202,7 @@
 						id="glyphicons-basic"
 						xmlns="http://www.w3.org/2000/svg"
 						viewBox="0 0 32 32"
-						class="fill-white h-5 w-5"
+						class="fill-zinc-600 h-5 w-5"
 					>
 						<path
 							id="wrench"
@@ -222,7 +212,7 @@
 				</button>
 
 				<button
-					class="rounded-full bg-indigo-300 p-1 transition hover:rotate-180 duration-300"
+					class="rounded-full bg-white p-1 transition hover:rotate-180 duration-300"
 					on:click={() => {
 						isShrinked = !isShrinked;
 						isUpdateShrinked = true;
@@ -232,7 +222,7 @@
 						id="glyphicons-basic"
 						xmlns="http://www.w3.org/2000/svg"
 						viewBox="0 0 32 32"
-						class="fill-white h-5 w-5"
+						class="fill-zinc-600 h-5 w-5"
 					>
 						<path
 							id="circle-info"
@@ -240,85 +230,17 @@
 						/>
 					</svg>
 				</button>
-			</div>
+			</Flex>
 		{/if}
-	</div>
+	</Flex>
 	{#if index}
 		{#if !isShrinked}
-			<div in:scale out:scale>
-				<div class="flex flex-row flex-wrap gap-5 items-center p-4">
-					<span class="block text-white font-medium py-2 px-4 rounded-full bg-indigo-300">
-						{$_('machine.model')}: {$_(
-							'machines.' + $machineData.machine.model.toLocaleLowerCase(),
-						)}
-					</span>
-					<span class="block text-white font-medium py-2 px-4 rounded-full bg-indigo-300">
-						{$_('machine.variant')}: {$machineData.machine.variant.toUpperCase()}
-					</span>
-					<span class="block text-white font-medium py-2 px-4 rounded-full bg-indigo-300">
-						{$_('machine.revision')}: {$machineData.machine.revision}
-					</span>
-					<span class="block text-white font-medium py-2 px-4 rounded-full bg-indigo-300">
-						{$_('machine.cycleCount')}: {$machineData.maintenances.find(
-							(k) => k.name == 'cycleCount',
-						)?.durationActual ?? '0'}
-					</span>
-					<span
-						class="block text-white font-medium py-2 px-4 rounded-full bg-indigo-400 cursor-pointer"
-						on:click={() => (displayUpdateNotes = true)}
-					>
-						{$_('machine.nusterVersion')}: {$machineData.machine.nusterVersion} ↗
-					</span>
-					{#if $machineData.machine.balenaVersion}
-						<span
-							class="block text-white font-medium py-2 px-4 rounded-full bg-indigo-300"
-						>
-							{$_('machine.balenaVersion')}: {$machineData.machine.balenaVersion}
-						</span>
-					{/if}
-					<span class="block text-white font-medium py-2 px-4 rounded-full bg-indigo-300">
-						{$_('machine.serial')}: {$machineData.machine.serial.toLocaleUpperCase()}
-					</span>
-				</div>
-			</div>
+			<Informations bind:displayUpdateNotes />
 		{/if}
 
 		{#if $machineData.machine.hypervisorData !== undefined}
 			{#if !isUpdateShrinked}
-				<div in:scale out:scale>
-					<div class="flex flex-row flex-wrap gap-5 items-center mt-4 p-4">
-						{#if $machineData.machine.hypervisorData.overallDownloadProgress !== null}
-							<span class="font-semibold">{$_('settings.updateProgress')}</span>
-							<div class="rounded-full h-8 p-1 w-1/3 bg-indigo-300">
-								<div
-									class="h-6 bg-white animate-pulse text-xs rounded-full text-zinc-700 flex flex-row justify-center items-center"
-									style="width: {Math.floor(
-										$machineData.machine.hypervisorData
-											.overallDownloadProgress ?? 0,
-									)}%"
-								>
-									{#if $machineData.machine.hypervisorData.overallDownloadProgress ?? 0 > 10}
-										<span class="font-semibold">
-											{Math.floor(
-												$machineData.machine.hypervisorData
-													.overallDownloadProgress ?? 0,
-											)} %
-										</span>
-									{/if}
-								</div>
-							</div>
-						{/if}
-
-						{#if $machineData.machine.hypervisorData.appState != 'applied' && $machineData.machine.hypervisorData.overallDownloadProgress == null}
-							<button
-								class="bg-indigo-400 rounded-xl py-2 px-3 text-white font-semibold pointer-cursor"
-								on:click={triggerUpdate}
-							>
-								{$_('settings.triggerUpdate')}
-							</button>
-						{/if}
-					</div>
-				</div>
+				<Updates bind:isUpdateShrinked bind:displayUpdateScreen />
 			{/if}
 		{/if}
 	{/if}

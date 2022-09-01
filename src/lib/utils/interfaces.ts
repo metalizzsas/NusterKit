@@ -237,6 +237,7 @@ interface Machine {
   serial: string;
   model: string;
   variant: string;
+  options?: string[]
   revision: number;
   nusterVersion: string;
   balenaVersion: string;

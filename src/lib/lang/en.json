@@ -121,6 +121,7 @@
     "current": "Actual value",
     "target": "Target value",
     "chart": {
+      "show": "Display evolution",
       "title": "Passive evolution over time"
     }
   },

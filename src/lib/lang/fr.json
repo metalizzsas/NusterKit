@@ -115,6 +115,7 @@
         "current": "Valeur actuelle",
         "target": "Valeur souhaitée",
         "chart": {
+            "show": "Afficher l'évolution",
             "title": "Evolution de la régulation passive en fonction du temps."
         }
     },

@@ -1,7 +1,10 @@
 export interface IIOHandler
 {
+    /** Name of the IO Handler */
     name: string;
+    /** Type of the IO Handler */
     type: EIOHandlerType;
+    /** IP Address on the local network */
     ip: string;
 }
 

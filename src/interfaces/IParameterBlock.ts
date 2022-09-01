@@ -11,13 +11,19 @@ import { IReverseParameterBlock } from "./programblocks/ParameterBlocks/IReverse
 import { ISlotLifetimeParameterBlock } from "./programblocks/ParameterBlocks/ISlotLifetimeParameterBlock";
 import { IVariableParameterBlock } from "./programblocks/ParameterBlocks/IVariableParameterBlock";
 
+/** Base parameter blocks names */
 export type ParameterBlockNames = "default" | "const" | "conststr" | "profile" | "io" | "add" | "multiply" | "reverse" | "conditional" | "variable" | "slotlife" | "slotstatus" | "maintenance";
 
+/** Base parameter block */
 export interface IParameterBlock
 {
+    /** Parameter block name */
     name: ParameterBlockNames;
     
+    /** Value from this parameter block */
     value?: string | number;
+
+    /** Parameter block sub parameters blocks */
     params?: IParameterBlocks[]
 }
 
@@ -33,8 +39,10 @@ ISlotLifetimeParameterBlock |
 IMaintenanceParameterBlock | ISlotProductStatusParameterBlock |
 IConstantStringParameterBlock;
 
+/** All the parameters blocks */
 export type IParameterBlocks = INumericParameterBlock | IStringParameterBlock;
 
+/** Parameter Blocks that return a number from data() */
 export type INumericParameterBlock = (
     IProfileParameterBlock | 
     IConstantParameterBlock | 
@@ -48,6 +56,7 @@ export type INumericParameterBlock = (
     IMaintenanceParameterBlock
 );
 
+/** Parameters Blocks that return a string value from data() */
 export type IStringParameterBlock = (
     ISlotProductStatusParameterBlock |
     IConstantStringParameterBlock

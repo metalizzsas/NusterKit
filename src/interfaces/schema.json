@@ -58,18 +58,22 @@
         "IAdditionParameterBlock": {
             "properties": {
                 "name": {
+                    "description": "Parameter block name",
                     "enum": [
                         "add"
                     ],
                     "type": "string"
                 },
                 "params": {
+                    "description": "Parameter block sub parameters blocks",
                     "items": {
-                        "$ref": "#/definitions/INumericParameterBlock"
+                        "$ref": "#/definitions/INumericParameterBlock",
+                        "description": "Parameter Blocks that return a number from data()"
                     },
                     "type": "array"
                 },
                 "value": {
+                    "description": "Value from this parameter block",
                     "type": [
                         "string",
                         "number"
@@ -120,12 +124,14 @@
         "IConditionalParameterBlock": {
             "properties": {
                 "name": {
+                    "description": "Parameter block name",
                     "enum": [
                         "conditional"
                     ],
                     "type": "string"
                 },
                 "params": {
+                    "description": "Parameter block sub parameters blocks",
                     "items": [
                         {
                             "$ref": "#/definitions/INumericParameterBlock"
@@ -219,6 +225,7 @@
                     "type": "array"
                 },
                 "value": {
+                    "description": "Value from this parameter block",
                     "enum": [
                         "!=",
                         "<",
@@ -337,18 +344,21 @@
         "IConstantParameterBlock": {
             "properties": {
                 "name": {
+                    "description": "Parameter block name",
                     "enum": [
                         "const"
                     ],
                     "type": "string"
                 },
                 "params": {
+                    "description": "Parameter block sub parameters blocks",
                     "items": {
                         "$ref": "#/definitions/IParameterBlocks"
                     },
                     "type": "array"
                 },
                 "value": {
+                    "description": "Value from this parameter block",
                     "type": "number"
                 }
             },
@@ -361,18 +371,21 @@
         "IConstantStringParameterBlock": {
             "properties": {
                 "name": {
+                    "description": "Parameter block name",
                     "enum": [
                         "conststr"
                     ],
                     "type": "string"
                 },
                 "params": {
+                    "description": "Parameter block sub parameters blocks",
                     "items": {
                         "$ref": "#/definitions/IParameterBlocks"
                     },
                     "type": "array"
                 },
                 "value": {
+                    "description": "Value from this parameter block",
                     "type": "string"
                 }
             },
@@ -405,7 +418,8 @@
                 "params": {
                     "items": [
                         {
-                            "$ref": "#/definitions/INumericParameterBlock"
+                            "$ref": "#/definitions/INumericParameterBlock",
+                            "description": "Parameter Blocks that return a number from data()"
                         }
                     ],
                     "maxItems": 1,
@@ -439,7 +453,8 @@
                 },
                 "params": {
                     "items": {
-                        "$ref": "#/definitions/IParameterBlocks"
+                        "$ref": "#/definitions/IParameterBlocks",
+                        "description": "All the parameters blocks"
                     },
                     "type": "array"
                 }
@@ -494,13 +509,16 @@
         "IIOHandler": {
             "properties": {
                 "ip": {
+                    "description": "IP Address on the local network",
                     "type": "string"
                 },
                 "name": {
+                    "description": "Name of the IO Handler",
                     "type": "string"
                 },
                 "type": {
-                    "$ref": "#/definitions/EIOHandlerType"
+                    "$ref": "#/definitions/EIOHandlerType",
+                    "description": "Type of the IO Handler"
                 }
             },
             "required": [
@@ -537,10 +555,12 @@
                                 {
                                     "$ref": "#/definitions/ISlotProductStatusParameterBlock"
                                 }
-                            ]
+                            ],
+                            "description": "Parameters Blocks that return a string value from data()"
                         },
                         {
-                            "$ref": "#/definitions/INumericParameterBlock"
+                            "$ref": "#/definitions/INumericParameterBlock",
+                            "description": "Parameter Blocks that return a number from data()"
                         }
                     ],
                     "maxItems": 2,
@@ -557,18 +577,21 @@
         "IIOReadParameterBlock": {
             "properties": {
                 "name": {
+                    "description": "Parameter block name",
                     "enum": [
                         "io"
                     ],
                     "type": "string"
                 },
                 "params": {
+                    "description": "Parameter block sub parameters blocks",
                     "items": {
                         "$ref": "#/definitions/IParameterBlocks"
                     },
                     "type": "array"
                 },
                 "value": {
+                    "description": "Value from this parameter block",
                     "type": "string"
                 }
             },
@@ -604,7 +627,8 @@
                 "params": {
                     "items": [
                         {
-                            "$ref": "#/definitions/INumericParameterBlock"
+                            "$ref": "#/definitions/INumericParameterBlock",
+                            "description": "Parameter Blocks that return a number from data()"
                         },
                         {
                             "anyOf": [
@@ -614,10 +638,12 @@
                                 {
                                     "$ref": "#/definitions/ISlotProductStatusParameterBlock"
                                 }
-                            ]
+                            ],
+                            "description": "Parameters Blocks that return a string value from data()"
                         },
                         {
-                            "$ref": "#/definitions/INumericParameterBlock"
+                            "$ref": "#/definitions/INumericParameterBlock",
+                            "description": "Parameter Blocks that return a number from data()"
                         }
                     ],
                     "maxItems": 3,
@@ -642,18 +668,21 @@
         "IMaintenanceParameterBlock": {
             "properties": {
                 "name": {
+                    "description": "Parameter block name",
                     "enum": [
                         "maintenance"
                     ],
                     "type": "string"
                 },
                 "params": {
+                    "description": "Parameter block sub parameters blocks",
                     "items": {
                         "$ref": "#/definitions/IParameterBlocks"
                     },
                     "type": "array"
                 },
                 "value": {
+                    "description": "Value from this parameter block",
                     "type": "string"
                 }
             },
@@ -729,10 +758,12 @@
                                 {
                                     "$ref": "#/definitions/ISlotProductStatusParameterBlock"
                                 }
-                            ]
+                            ],
+                            "description": "Parameters Blocks that return a string value from data()"
                         },
                         {
-                            "$ref": "#/definitions/INumericParameterBlock"
+                            "$ref": "#/definitions/INumericParameterBlock",
+                            "description": "Parameter Blocks that return a number from data()"
                         }
                     ],
                     "maxItems": 2,
@@ -749,6 +780,7 @@
         "IManualMode": {
             "properties": {
                 "analogScale": {
+                    "description": "Manual mode analog scale",
                     "properties": {
                         "max": {
                             "type": "number"
@@ -789,21 +821,25 @@
                     "type": "array"
                 },
                 "incompatibility": {
+                    "description": "Incompatibilities between manual modes",
                     "items": {
                         "type": "string"
                     },
                     "type": "array"
                 },
                 "name": {
+                    "description": "Name of the manual mode can contain 1 `#` for categorizing",
                     "type": "string"
                 },
                 "requires": {
+                    "description": "Manual modes required to be enabled",
                     "items": {
                         "type": "string"
                     },
                     "type": "array"
                 },
                 "watchdog": {
+                    "description": "Watchdog Security chain",
                     "items": {
                         "$ref": "#/definitions/IManualWatchdogCondition"
                     },
@@ -819,9 +855,11 @@
         "IManualWatchdogCondition": {
             "properties": {
                 "gateName": {
+                    "description": "Gate name to control",
                     "type": "string"
                 },
                 "gateValue": {
+                    "description": "Gate value required for the security",
                     "type": "number"
                 }
             },
@@ -834,18 +872,21 @@
         "IMultiplyParameterBlock": {
             "properties": {
                 "name": {
+                    "description": "Parameter block name",
                     "enum": [
                         "multiply"
                     ],
                     "type": "string"
                 },
                 "params": {
+                    "description": "Parameter block sub parameters blocks",
                     "items": {
                         "$ref": "#/definitions/INumericParameterBlock"
                     },
                     "type": "array"
                 },
                 "value": {
+                    "description": "Value from this parameter block",
                     "type": [
                         "string",
                         "number"
@@ -890,7 +931,8 @@
                 {
                     "$ref": "#/definitions/IVariableParameterBlock"
                 }
-            ]
+            ],
+            "description": "Parameter Blocks that return a number from data()"
         },
         "IPBRPremades": {
             "properties": {
@@ -936,7 +978,8 @@
                     "type": "string"
                 },
                 "parameter": {
-                    "$ref": "#/definitions/IParameterBlocks"
+                    "$ref": "#/definitions/IParameterBlocks",
+                    "description": "All the parameters blocks"
                 }
             },
             "required": [
@@ -1001,11 +1044,13 @@
                 {
                     "$ref": "#/definitions/ISlotProductStatusParameterBlock"
                 }
-            ]
+            ],
+            "description": "All the parameters blocks"
         },
         "IPassive": {
             "properties": {
                 "actuators": {
+                    "description": "Actuators used to reach target",
                     "properties": {
                         "minus": {
                             "anyOf": [
@@ -1018,7 +1063,8 @@
                                 {
                                     "type": "string"
                                 }
-                            ]
+                            ],
+                            "description": "Actuators used to reach target when we are over target"
                         },
                         "plus": {
                             "anyOf": [
@@ -1031,13 +1077,18 @@
                                 {
                                     "type": "string"
                                 }
-                            ]
+                            ],
+                            "description": "Actuators used to reach target when we are under target"
                         }
                     },
                     "required": [
                         "plus"
                     ],
                     "type": "object"
+                },
+                "internal": {
+                    "description": "If a passive mode is internal, it means that it is hidden from user.",
+                    "type": "boolean"
                 },
                 "manualModes": {
                     "anyOf": [
@@ -1050,9 +1101,11 @@
                         {
                             "type": "string"
                         }
-                    ]
+                    ],
+                    "description": "Manual modes triggered by this passive regulation"
                 },
                 "name": {
+                    "description": "Passive name",
                     "type": "string"
                 },
                 "sensors": {
@@ -1066,9 +1119,11 @@
                         {
                             "type": "string"
                         }
-                    ]
+                    ],
+                    "description": "Sensors used to target"
                 },
                 "target": {
+                    "description": "Passive target number",
                     "type": "number"
                 }
             },
@@ -1107,13 +1162,16 @@
                                 {
                                     "$ref": "#/definitions/ISlotProductStatusParameterBlock"
                                 }
-                            ]
+                            ],
+                            "description": "Parameters Blocks that return a string value from data()"
                         },
                         {
-                            "$ref": "#/definitions/INumericParameterBlock"
+                            "$ref": "#/definitions/INumericParameterBlock",
+                            "description": "Parameter Blocks that return a number from data()"
                         },
                         {
-                            "$ref": "#/definitions/INumericParameterBlock"
+                            "$ref": "#/definitions/INumericParameterBlock",
+                            "description": "Parameter Blocks that return a number from data()"
                         }
                     ],
                     "maxItems": 3,
@@ -1130,18 +1188,21 @@
         "IProfileParameterBlock": {
             "properties": {
                 "name": {
+                    "description": "Parameter block name",
                     "enum": [
                         "profile"
                     ],
                     "type": "string"
                 },
                 "params": {
+                    "description": "Parameter block sub parameters blocks",
                     "items": {
                         "$ref": "#/definitions/IParameterBlocks"
                     },
                     "type": "array"
                 },
                 "value": {
+                    "description": "Value from this parameter block",
                     "type": "string"
                 }
             },
@@ -1462,30 +1523,37 @@
         "IProgramStep": {
             "properties": {
                 "blocks": {
+                    "description": "Program blocks Array that is executed by this step",
                     "items": {
                         "$ref": "#/definitions/IProgramBlocks"
                     },
                     "type": "array"
                 },
                 "duration": {
-                    "$ref": "#/definitions/INumericParameterBlock"
+                    "$ref": "#/definitions/INumericParameterBlock",
+                    "description": "Parameter block that indicates the estimated Step duration time"
                 },
                 "endBlocks": {
+                    "description": "Program Blocks array that are executed at the end of a step",
                     "items": {
                         "$ref": "#/definitions/IProgramBlocks"
                     },
                     "type": "array"
                 },
                 "isEnabled": {
-                    "$ref": "#/definitions/INumericParameterBlock"
+                    "$ref": "#/definitions/INumericParameterBlock",
+                    "description": "Parameter block that indicates if this step is enabled in the PBR flow"
                 },
                 "name": {
+                    "description": "Program Step name",
                     "type": "string"
                 },
                 "runAmount": {
-                    "$ref": "#/definitions/INumericParameterBlock"
+                    "$ref": "#/definitions/INumericParameterBlock",
+                    "description": "Optional Parameter block that tells the PBR if this steps must be runt multiple times"
                 },
                 "startBlocks": {
+                    "description": "Program Blocks array that are executed at the start of a step",
                     "items": {
                         "$ref": "#/definitions/IProgramBlocks"
                     },
@@ -1505,12 +1573,14 @@
         "IReverseParameterBlock": {
             "properties": {
                 "name": {
+                    "description": "Parameter block name",
                     "enum": [
                         "reverse"
                     ],
                     "type": "string"
                 },
                 "params": {
+                    "description": "Parameter block sub parameters blocks",
                     "items": [
                         {
                             "$ref": "#/definitions/INumericParameterBlock"
@@ -1521,6 +1591,7 @@
                     "type": "array"
                 },
                 "value": {
+                    "description": "Value from this parameter block",
                     "type": [
                         "string",
                         "number"
@@ -1553,7 +1624,8 @@
                 "params": {
                     "items": [
                         {
-                            "$ref": "#/definitions/INumericParameterBlock"
+                            "$ref": "#/definitions/INumericParameterBlock",
+                            "description": "Parameter Blocks that return a number from data()"
                         }
                     ],
                     "maxItems": 1,
@@ -1570,18 +1642,21 @@
         "ISlotLifetimeParameterBlock": {
             "properties": {
                 "name": {
+                    "description": "Parameter block name",
                     "enum": [
                         "slotlife"
                     ],
                     "type": "string"
                 },
                 "params": {
+                    "description": "Parameter block sub parameters blocks",
                     "items": {
                         "$ref": "#/definitions/IParameterBlocks"
                     },
                     "type": "array"
                 },
                 "value": {
+                    "description": "Value from this parameter block",
                     "type": "string"
                 }
             },
@@ -1618,7 +1693,8 @@
                                 {
                                     "$ref": "#/definitions/ISlotProductStatusParameterBlock"
                                 }
-                            ]
+                            ],
+                            "description": "Parameters Blocks that return a string value from data()"
                         }
                     ],
                     "maxItems": 1,
@@ -1650,18 +1726,21 @@
         "ISlotProductStatusParameterBlock": {
             "properties": {
                 "name": {
+                    "description": "Parameter block name",
                     "enum": [
                         "slotstatus"
                     ],
                     "type": "string"
                 },
                 "params": {
+                    "description": "Parameter block sub parameters blocks",
                     "items": {
                         "$ref": "#/definitions/IParameterBlocks"
                     },
                     "type": "array"
                 },
                 "value": {
+                    "description": "Value from this parameter block",
                     "type": "string"
                 }
             },
@@ -1716,7 +1795,8 @@
                                 {
                                     "$ref": "#/definitions/ISlotProductStatusParameterBlock"
                                 }
-                            ]
+                            ],
+                            "description": "Parameters Blocks that return a string value from data()"
                         }
                     ],
                     "maxItems": 1,
@@ -1757,10 +1837,12 @@
                                 {
                                     "$ref": "#/definitions/ISlotProductStatusParameterBlock"
                                 }
-                            ]
+                            ],
+                            "description": "Parameters Blocks that return a string value from data()"
                         },
                         {
-                            "$ref": "#/definitions/INumericParameterBlock"
+                            "$ref": "#/definitions/INumericParameterBlock",
+                            "description": "Parameter Blocks that return a number from data()"
                         }
                     ],
                     "maxItems": 2,
@@ -1802,7 +1884,8 @@
                                 {
                                     "$ref": "#/definitions/ISlotProductStatusParameterBlock"
                                 }
-                            ]
+                            ],
+                            "description": "Parameters Blocks that return a string value from data()"
                         }
                     ],
                     "maxItems": 1,
@@ -1843,7 +1926,8 @@
                                 {
                                     "$ref": "#/definitions/ISlotProductStatusParameterBlock"
                                 }
-                            ]
+                            ],
+                            "description": "Parameters Blocks that return a string value from data()"
                         }
                     ],
                     "maxItems": 1,
@@ -1860,18 +1944,21 @@
         "IVariableParameterBlock": {
             "properties": {
                 "name": {
+                    "description": "Parameter block name",
                     "enum": [
                         "variable"
                     ],
                     "type": "string"
                 },
                 "params": {
+                    "description": "Parameter block sub parameters blocks",
                     "items": {
                         "$ref": "#/definitions/IParameterBlocks"
                     },
                     "type": "array"
                 },
                 "value": {
+                    "description": "Value from this parameter block",
                     "type": "string"
                 }
             },
@@ -1908,10 +1995,12 @@
                                 {
                                     "$ref": "#/definitions/ISlotProductStatusParameterBlock"
                                 }
-                            ]
+                            ],
+                            "description": "Parameters Blocks that return a string value from data()"
                         },
                         {
-                            "$ref": "#/definitions/INumericParameterBlock"
+                            "$ref": "#/definitions/INumericParameterBlock",
+                            "description": "Parameter Blocks that return a number from data()"
                         }
                     ],
                     "maxItems": 2,
@@ -1945,7 +2034,8 @@
                 "params": {
                     "items": [
                         {
-                            "$ref": "#/definitions/INumericParameterBlock"
+                            "$ref": "#/definitions/INumericParameterBlock",
+                            "description": "Parameter Blocks that return a number from data()"
                         },
                         {
                             "anyOf": [
@@ -1955,10 +2045,12 @@
                                 {
                                     "$ref": "#/definitions/ISlotProductStatusParameterBlock"
                                 }
-                            ]
+                            ],
+                            "description": "Parameters Blocks that return a string value from data()"
                         },
                         {
-                            "$ref": "#/definitions/INumericParameterBlock"
+                            "$ref": "#/definitions/INumericParameterBlock",
+                            "description": "Parameter Blocks that return a number from data()"
                         }
                     ],
                     "maxItems": 3,

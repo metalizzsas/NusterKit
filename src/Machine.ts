@@ -106,7 +106,7 @@ export class Machine {
 
                 const addonParsed = JSON.parse(rawAddon) as IAddon;
 
-                this.specs = parseAddon(this.specs, addonParsed);
+                this.specs = parseAddon(this.specs, addonParsed, this.logger);
             }
         }
 

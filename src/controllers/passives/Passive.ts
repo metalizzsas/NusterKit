@@ -6,11 +6,13 @@ const MAXPASSIVELOGPOINTSSTORED = 100;
 const MAXPASSIVELOGPOINTSSHOWN = 25;
 
 export class Passive implements IPassive {
+
+    internal?: boolean;
+
     name: string;
 
     state: boolean;
 
-    //passive setpoint
     target: number;
 
     sensors: string | string[];
@@ -22,7 +24,7 @@ export class Passive implements IPassive {
 
     manualModes?: string | string[];
 
-    //flow controls
+    //Flow control
     machine: Machine;
     controlTimer?: NodeJS.Timer;
 
@@ -30,6 +32,9 @@ export class Passive implements IPassive {
 
     constructor(machine: Machine, obj: IPassive) {
         //basic informations
+
+        this.internal = obj.internal;
+
         this.name = obj.name;
         this.target = obj.target;
 
@@ -45,6 +50,8 @@ export class Passive implements IPassive {
 
         this.createOrModifyPassiveDocument();
 
+        if(this.internal === true)
+            this.toggle(true, true);
     }
 
     async addLogDataPoint() {
@@ -52,7 +59,6 @@ export class Passive implements IPassive {
 
         if(doc !== null)
         {
-
             const newlogPoint = {
                 targetValue: this.target,
                 interpolatedSensorsValue: this.currentValue,

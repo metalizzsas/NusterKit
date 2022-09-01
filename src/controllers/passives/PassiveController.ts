@@ -80,6 +80,6 @@ export class PassiveController extends Controller
 
     public get socketData()
     {
-        return this.passives;
+        return this.passives.filter(p => p.internal !== true);
     }
 }

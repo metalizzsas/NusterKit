@@ -21,7 +21,9 @@
         }
     },
     "passives": {
-        "temperature": "Temperature"
+        "temperature": {
+            "name": "Temperature"
+        }
     },
     "cycle": {
         "endreasons": {

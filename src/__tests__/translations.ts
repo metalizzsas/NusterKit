@@ -57,9 +57,9 @@ for(const file of filesToCheck)
     const ioGatesCategories = new Set(json.iogates.map(g => g.name.split("#").length > 1 ? g.name.split("#")[0] : "null"));
     ioGatesCategories.delete("null");
 
-    const profileRowsGroups = new Set(json.profiles.skeletons.flatMap(s => s.fieldGroups.map(s => s.name)));
+    const profileRowsGroups = new Set(json.profileSkeletons.flatMap(s => s.fieldGroups.map(s => s.name)));
 
-    const profileRows = new Set(json.profiles.skeletons.flatMap(s => s.fieldGroups.flatMap(s => s.fields.map(s => s.name))));
+    const profileRows = new Set(json.profileSkeletons.flatMap(s => s.fieldGroups.flatMap(s => s.fields.map(s => s.name))));
 
     profileRows.delete("enabled");
     profileRows.delete("timeOn");
@@ -72,11 +72,11 @@ for(const file of filesToCheck)
 
     const slotsActions: string[][] = json.slots.filter(s => s.callToAction !== undefined).flatMap(s => s.callToAction!.map(c => [s.name, c.name]))
 
-    const cyclesNames = json.cycles.types.map(c => c.name);
-    const cycleSteps = new Set(json.cycles.types.flatMap(c => c.steps.map(s => s.name)));
+    const cyclesNames = json.cycleTypes.map(c => c.name);
+    const cycleSteps = new Set(json.cycleTypes.flatMap(c => c.steps.map(s => s.name)));
     cycleSteps.delete("start");
 
-    const cyclePremadeNames = new Set(json.cycles.premades.map(c => c.name));
+    const cyclePremadeNames = new Set(json.cyclePremades.map(c => c.name));
 
     const manuals = new Set(json.manual.map(m => m.name));
 
@@ -84,6 +84,8 @@ for(const file of filesToCheck)
     manualsCategories.delete("null");
 
     const maintenances = json.maintenance.map(m => [m.name, m.procedure?.steps.map(s => s.name)]);
+
+    const passives = json.passives.filter(p => p.internal !== true).map(p => p.name);
 
     for(const langFile of Object.keys(file.translations))
     {
@@ -144,7 +146,7 @@ for(const file of filesToCheck)
                 expect(translation).toHaveProperty("cycle.types." + premade);
             }
             //startConditions
-            for(const sc of json.cycles.types.flatMap(c => c.startConditions))
+            for(const sc of json.cycleTypes.flatMap(c => c.startConditions))
             {
                 
                 expect(translation).toHaveProperty("cycle.startconditions." + sc.conditionName);
@@ -178,6 +180,11 @@ for(const file of filesToCheck)
                         expect(translation).toHaveProperty("maintenance.tasks." + maintenanceName + ".procedure." + s);
                     }
                 }
+            }
+
+            for(const passive of passives)
+            {
+                expect(translation).toHaveProperty("passives." + passive + ".name");
             }
         });
     }

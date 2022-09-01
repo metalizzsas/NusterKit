@@ -42,7 +42,7 @@ for(let file of filesToCheck)
 {
     const json = JSON.parse(fs.readFileSync(file.file, {encoding: "utf-8"})) as Schema;
 
-    const cyclePremades = json.cycles.premades.map(c => c.name);
+    const cyclePremades = json.cyclePremades.map(c => c.name);
     const cpFiles = cyclePremades.map(cp => path.resolve("data", file.model, file.variant, file.revision, "assets", "cycle", cp + ".png"))
 
     const maintenancesImages = json.maintenance.flatMap(m => {return {name: m.name, media: m.procedure?.steps.flatMap(s => s.media)}});

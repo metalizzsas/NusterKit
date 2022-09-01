@@ -113,7 +113,7 @@ for(const file of filesToCheck)
     });
 
     it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' IO Blocks', () => {
-        json.cycles.types.forEach(c => {
+        json.cycleTypes.forEach(c => {
             c.steps.forEach(s => {
                 s.blocks.forEach(b => {
                     validateBlock(b);
@@ -187,11 +187,11 @@ for(const file of filesToCheck)
 
         const fields: {[x: string]: string[]} = {};
 
-        json.profiles.skeletons.forEach(p => {
+        json.profileSkeletons.forEach(p => {
             fields[p.identifier] = p.fieldGroups.flatMap(fg => fg.fields.map(f => fg.name + '#' + f.name));
         });
 
-        json.cycles.types.forEach(c => {
+        json.cycleTypes.forEach(c => {
             if(c.profileRequired !== false)
             {
                 c.steps.forEach(s => {
@@ -279,7 +279,7 @@ for(const file of filesToCheck)
 
     it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' Cycle security conditions', () => {
 
-        for(const cycle of json.cycles.types)
+        for(const cycle of json.cycleTypes)
         {
             for(const sc of cycle.startConditions)
             {

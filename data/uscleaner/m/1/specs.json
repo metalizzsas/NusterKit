@@ -2,9 +2,9 @@
     "$schema": "../../../../src/schema/schema.json",
     "iohandlers": [
         {
-            "name": "EM4",
-            "type": "em4",
-            "ip": "192.168.1.3"
+            "name": "WAGO",
+            "type": "wago",
+            "ip": "192.168.1.10"
         }
     ],
     "iogates": [
@@ -14,7 +14,7 @@
             "bus": "in",
             "size": "bit",
             "automaton": 0,
-            "address": 1016,
+            "address": 0,
             "default": 0,
             "isCritical": true
         },
@@ -24,18 +24,29 @@
             "bus": "in",
             "size": "bit",
             "automaton": 0,
-            "address": 1017,
+            "address": 1,
             "default": 0
         },
+
         {
             "name": "temperature#sensor",
-            "type": "em4temp",
+            "type": "default",
             "bus": "in",
             "size": "word",
             "automaton": 0,
-            "address": 26,
+            "address": 1,
             "default": 20
         },
+        {
+            "name": "pump#pressure",
+            "type": "default",
+            "bus": "in",
+            "size": "word",
+            "automaton": 0,
+            "address": 3,
+            "default": 0
+        },
+
         {
             "name": "motor#speed",
             "type": "em4a10v",
@@ -45,13 +56,14 @@
             "address": 1,
             "default": 0
         },
+
         {
             "name": "motor#direction",
             "type": "default",
             "bus": "out",
             "size": "bit",
             "automaton": 0,
-            "address": 1000,
+            "address": 0,
             "default": 0
         },
         {
@@ -60,34 +72,25 @@
             "bus": "out",
             "size": "bit",
             "automaton": 0,
-            "address": 1003,
+            "address": 1,
             "default": 0
         },
         {
-            "name": "temperature#heater",
+            "name": "pump#enable",
             "type": "default",
             "bus": "out",
             "size": "bit",
             "automaton": 0,
-            "address": 1001,
+            "address": 4,
             "default": 0
         },
         {
-            "name": "temperature#ventilation",
+            "name": "pump#drain",
             "type": "default",
             "bus": "out",
             "size": "bit",
             "automaton": 0,
-            "address": 1004,
-            "default": 0
-        },
-        {
-            "name": "pump",
-            "type": "default",
-            "bus": "out",
-            "size": "bit",
-            "automaton": 0,
-            "address": 1002,
+            "address": 5,
             "default": 0
         }
     ],
@@ -121,12 +124,6 @@
                             "value": 300
                         },
                         {
-                            "name": "target-temperature",
-                            "unity": "°C",
-                            "type": "int",
-                            "value": 20
-                        },
-                        {
                             "name": "motor-speed",
                             "unity": "RPM",
                             "type": "float",
@@ -143,14 +140,13 @@
     "profilePremades": [
         {
             "skeleton": "default",
-            "id": "premade_5min30deg",
+            "id": "premade_5min",
             "name": "5min30deg",
             "removable": false,
             "overwriteable": false,
             "isPremade": true,
             "values": {
                 "principal#duration": 600,
-                "principal#target-temperature": 30,
                 "principal#motor-speed": 50
             }
         }
@@ -219,7 +215,17 @@
             }
         }
     ],
-    "passives": [],
+    "passives": [
+        {
+            "internal": true,
+            "name": "pump-cavitation",
+            "sensors": ["pump#pressure"],
+            "actuators": {
+                "plus": ["pump#drain"]
+            },
+            "target": 350
+        }
+    ],
     "manual": [
         {
             "name": "motor-rotation",
@@ -243,43 +249,13 @@
         {
             "name": "pump",
             "controls": [
-                "pump"
+                "pump#enable"
             ]
         },
         {
             "name": "us-cleaning",
             "controls": [
                 "us-power"
-            ]
-        },
-        {
-            "name": "bac#heating",
-            "incompatibility": [
-                "bac#cooling"
-            ],
-            "requires": [
-                "pump"
-            ],
-            "controls": [
-                "temperature#heater"
-            ],
-            "watchdog": [
-                {
-                    "gateName": "temperature#sensor",
-                    "gateValue": 60
-                }
-            ]
-        },
-        {
-            "name": "bac#cooling",
-            "incompatibility": [
-                "bac#heating"
-            ],
-            "requires": [
-                "pump"
-            ],
-            "controls": [
-                "temperature#ventilation"
             ]
         }
     ],
@@ -318,7 +294,7 @@
                             "params": [
                                 {
                                     "name": "conststr",
-                                    "value": "pump"
+                                    "value": "pump#enable"
                                 },
                                 {
                                     "name": "const",
@@ -351,49 +327,15 @@
                                     "value": 1
                                 }
                             ]
-                        },
-                        {
-                            "name": "passive",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "temperature"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 1
-                                },
-                                {
-                                    "name": "profile",
-                                    "value": "principal#target-temperature"
-                                }
-                            ]
                         }
                     ],
                     "endBlocks": [
-                        {
-                            "name": "passive",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "temperature"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 0
-                                },
-                                {
-                                    "name": "profile",
-                                    "value": "principal#target-temperature"
-                                }
-                            ]
-                        },
                         {
                             "name": "io",
                             "params": [
                                 {
                                     "name": "conststr",
-                                    "value": "pump"
+                                    "value": "pump#enable"
                                 },
                                 {
                                     "name": "const",

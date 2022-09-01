@@ -5,6 +5,17 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+export type IMachineKeys =
+  | "cyclePremades"
+  | "cycleTypes"
+  | "iogates"
+  | "iohandlers"
+  | "maintenance"
+  | "manual"
+  | "passives"
+  | "profilePremades"
+  | "profileSkeletons"
+  | "slots";
 /**
  * Parameter Blocks that return a number from data()
  */
@@ -56,23 +67,25 @@ export type EIOGateType = "a10v" | "default" | "em4a10v" | "em4temp" | "um18";
 export type EProductSeries = "bc" | "cr" | "llc" | "tc" | "usl" | "wr";
 export type ESlotSensorType = "level-a" | "level-max-n" | "level-min-n" | "level-np" | "temperature";
 
-export interface Schema {
-  cyclePremades: IPBRPremades[];
-  cycleTypes: IProgram[];
-  iogates: IIOGate[];
-  iohandlers: IIOHandler[];
-  maintenance: IConfigMaintenance[];
-  manual: IManualMode[];
-  passives: IPassive[];
-  profilePremades: IConfigProfile[];
-  profileSkeletons: IProfileSkeleton[];
-  slots: IConfigSlot[];
+export interface SchemaAddon {
+  addonName: string;
+  content: IAddonContent[];
   [k: string]: unknown;
 }
-export interface IPBRPremades {
-  cycle: string;
-  name: string;
-  profile: string;
+export interface IAddonContent {
+  category: IMachineKeys;
+  content:
+    | IProgram[]
+    | IPBRPremades[]
+    | IIOHandler[]
+    | IIOGate[]
+    | IConfigMaintenance[]
+    | IManualMode[]
+    | IPassive[]
+    | IProfileSkeleton[]
+    | IConfigProfile[]
+    | IConfigSlot[];
+  type: "insert" | "replace";
   [k: string]: unknown;
 }
 export interface IProgram {
@@ -724,16 +737,10 @@ export interface IPassiveProgramBlock {
   ];
   [k: string]: unknown;
 }
-export interface IIOGate {
-  address: number;
-  automaton: number;
-  bus: EIOGateBus;
-  default: number;
-  isCritical?: boolean;
-  manualModeWatchdog?: boolean;
+export interface IPBRPremades {
+  cycle: string;
   name: string;
-  size: EIOGateSize;
-  type: EIOGateType;
+  profile: string;
   [k: string]: unknown;
 }
 export interface IIOHandler {
@@ -749,6 +756,18 @@ export interface IIOHandler {
    * Type of the IO Handler
    */
   type: "em4" | "ex260s1" | "ex260s3" | "wago";
+  [k: string]: unknown;
+}
+export interface IIOGate {
+  address: number;
+  automaton: number;
+  bus: EIOGateBus;
+  default: number;
+  isCritical?: boolean;
+  manualModeWatchdog?: boolean;
+  name: string;
+  size: EIOGateSize;
+  type: EIOGateType;
   [k: string]: unknown;
 }
 export interface IConfigMaintenance {
@@ -853,18 +872,6 @@ export interface IPassive {
   target: number;
   [k: string]: unknown;
 }
-export interface IConfigProfile {
-  isPremade: boolean;
-  modificationDate?: number;
-  name: string;
-  overwriteable: boolean;
-  removable: boolean;
-  skeleton: string;
-  values: {
-    [k: string]: number | boolean;
-  };
-  [k: string]: unknown;
-}
 export interface IProfileSkeleton {
   fieldGroups: IProfileSkeletonFieldGroup[];
   identifier: string;
@@ -917,6 +924,18 @@ export interface IProfileSkeletonFieldTime {
   units: ("hours" | "milliseconds" | "minutes" | "seconds")[];
   unity?: string;
   value: number;
+  [k: string]: unknown;
+}
+export interface IConfigProfile {
+  isPremade: boolean;
+  modificationDate?: number;
+  name: string;
+  overwriteable: boolean;
+  removable: boolean;
+  skeleton: string;
+  values: {
+    [k: string]: number | boolean;
+  };
   [k: string]: unknown;
 }
 export interface IConfigSlot {

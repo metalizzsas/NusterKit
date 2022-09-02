@@ -1,5 +1,7 @@
 # **NusterTurbine 💨**
 
+[![Packing Nuster Turbine for balena](https://github.com/metalizzsas/NusterTurbine/actions/workflows/package.yaml/badge.svg)](https://github.com/metalizzsas/NusterTurbine/actions/workflows/package.yaml)
+
 Nuster Turbine is the core of our machines. It runs on NodeJS. Written in TypeScript. Tested using Jest.
 The goal of this project is to manage user inputs from NusterDesktop and handle IO Controllers such as Modbus or EthernetIP IO Controllers.
 

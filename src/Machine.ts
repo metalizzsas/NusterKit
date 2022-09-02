@@ -126,20 +126,25 @@ export class Machine {
 
         this.logger.info("Machine: Finished building controllers");
 
-        //Polling the hypervisor to get container health.
-        setInterval(async () => {
-            try
-            {
-                const hyperv = await fetch("http://127.0.0.1:48484/v2/state/status?apikey=" + process.env.BALENA_SUPERVISOR_API_KEY, {headers: {"Content-Type": "application/json"}});
-    
-                if(hyperv.status == 200)
-                    this.hypervisorData = await hyperv.json();
-            }
-            catch(ex)
-            {
-                this.logger.warn("Hypervisor: Failed to get Hypervisor data.");
-            }
-        }, 10000);
+        if(process.env.NODE_ENV === 'production')
+        {
+            //Polling the hypervisor to get container health.
+            //If the device is not in dev mode
+            setInterval(async () => {
+                try
+                {
+                    const hyperv = await fetch("http://127.0.0.1:48484/v2/state/status?apikey=" + process.env.BALENA_SUPERVISOR_API_KEY, {headers: {"Content-Type": "application/json"}});
+        
+                    if(hyperv.status == 200)
+                        this.hypervisorData = await hyperv.json();
+                }
+                catch(ex)
+                {
+                    this.logger.warn("Hypervisor: Failed to get Hypervisor data.");
+                }
+            }, 10000);
+        }
+
     }
 
     public broadcast(message: string)

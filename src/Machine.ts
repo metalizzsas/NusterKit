@@ -101,7 +101,6 @@ export class Machine {
             this.logger.warn("Machine: " + this.addons.length + " Addon detected. SHOULD NOT BE USED IN PRODUCTION!");
             for(const add of this.addons)
             {
-                this.logger.info("Machine: Adding " + add + " addon.");
                 const rawAddon = fs.readFileSync(path.resolve(this.baseNTMFolder, "addons", add + ".json"), {encoding: 'utf-8'});
 
                 const addonParsed = JSON.parse(rawAddon) as IAddon;

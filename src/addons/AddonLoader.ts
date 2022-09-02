@@ -13,9 +13,11 @@ import { IMachine } from "../interfaces/IMachine";
  */
 export function parseAddon(specs: IMachine, addon: IAddon, logger: pino.Logger): IMachine
 {
+    logger.info("AddonLoader: Adding " + addon.addonName + ".");
+
     for(const addonCategory of addon.content)
     {
-        logger.info("Addon: Adding " + addonCategory.category + " Sub-element with mode " + addonCategory.type + ".")
+        logger.info(" ↳ " + addonCategory.category + " sub-element with mode " + addonCategory.type + ".")
         if(addonCategory.type == "replace")
         {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment

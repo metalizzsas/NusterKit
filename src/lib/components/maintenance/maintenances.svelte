@@ -3,7 +3,7 @@
 	import Navcontainertitle from '../navigation/navcontainertitle.svelte';
 	import Maintenance from './maintenance.svelte';
 
-	import { machineData } from '$lib/utils/store';
+	import { machineData } from '$lib/utils/stores/store';
 	import { _ } from 'svelte-i18n';
 </script>
 

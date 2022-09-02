@@ -4,7 +4,7 @@
 	import { cubicInOut } from 'svelte/easing';
 	import { _ } from 'svelte-i18n';
 
-	import { keyboardShown, keyboardHeight } from '$lib/utils/store';
+	import { keyboardShown, keyboardHeight } from '$lib/utils/stores/keyboard';
 	import Portal from 'svelte-portal';
 	import { onMount } from 'svelte';
 

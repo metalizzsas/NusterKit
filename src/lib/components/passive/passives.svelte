@@ -4,7 +4,7 @@
 	import Passive from './passive.svelte';
 
 	import { _ } from 'svelte-i18n';
-	import { machineData } from '$lib/utils/store';
+	import { machineData } from '$lib/utils/stores/store';
 
 	export let inline = false;
 </script>

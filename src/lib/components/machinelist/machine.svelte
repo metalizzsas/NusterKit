@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import Modalcontent from '../modals/modalcontent.svelte';
-	import { machineList } from '$lib/utils/list';
+	import { machineList } from '$lib/utils/stores/list';
 	import Modal from '../modals/modal.svelte';
 	import type { IWSObject } from '$lib/utils/interfaces';
 	import { _ } from 'svelte-i18n';

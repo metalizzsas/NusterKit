@@ -3,10 +3,15 @@
 
 	import Toggle from '$lib/components/userInputs/toggle.svelte';
 	import { _ } from 'svelte-i18n';
-	import { machineData, lockMachineData } from '$lib/utils/store';
+	import { machineData, lockMachineData } from '$lib/utils/stores/store';
 	import { goto } from '$app/navigation';
-	import { Linker } from '$lib/utils/linker';
-	import { navActions, navBackFunction, navTitle, useNavContainer } from '$lib/utils/navstack';
+	import { Linker } from '$lib/utils/stores/linker';
+	import {
+		navActions,
+		navBackFunction,
+		navTitle,
+		useNavContainer,
+	} from '$lib/utils/stores/navstack';
 	import NavContainer from '$lib/components/navigation/navcontainer.svelte';
 	import { onDestroy } from 'svelte';
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';

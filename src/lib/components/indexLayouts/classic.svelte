@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { _ } from 'svelte-i18n';
-	import { machineData } from '$lib/utils/store';
+	import { machineData } from '$lib/utils/stores/store';
 
 	import Passives from '../passive/passives.svelte';
 	import Maintenances from '../maintenance/maintenances.svelte';

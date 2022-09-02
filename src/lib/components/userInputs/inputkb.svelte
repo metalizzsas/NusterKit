@@ -8,7 +8,7 @@
 	import { fly } from 'svelte/transition';
 
 	import { _ } from 'svelte-i18n';
-	import { keyboardShown, keyboardHeight } from '$lib/utils/store';
+	import { keyboardShown, keyboardHeight } from '$lib/utils/stores/keyboard';
 	import { BUNDLED } from '$lib/bundle';
 
 	export let value: string | number;

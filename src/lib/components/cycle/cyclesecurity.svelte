@@ -1,11 +1,11 @@
 <script lang="ts">
 	import Modal from '../modals/modal.svelte';
-	import { machineData } from '$lib/utils/store';
-	import { layoutSimplified } from '$lib/utils/settings';
+	import { machineData } from '$lib/utils/stores/store';
+	import { layoutSimplified } from '$lib/utils/stores/settings';
 	import { _ } from 'svelte-i18n';
-	import { Linker } from '$lib/utils/linker';
+	import { Linker } from '$lib/utils/stores/linker';
 	import Round from '../round.svelte';
-	import { navTitle } from '$lib/utils/navstack';
+	import { navTitle } from '$lib/utils/stores/navstack';
 	import Navcontainertitle from '../navigation/navcontainertitle.svelte';
 	import { goto } from '$app/navigation';
 	import Button from '../button.svelte';

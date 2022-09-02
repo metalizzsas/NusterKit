@@ -5,16 +5,16 @@
 		navExpandBottom,
 		navTitle,
 		useNavContainer,
-	} from '$lib/utils/navstack';
+	} from '$lib/utils/stores/navstack';
 
 	import { locales, _ } from 'svelte-i18n';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { BUNDLED } from '$lib/bundle';
-	import { machineData } from '$lib/utils/store';
+	import { machineData } from '$lib/utils/stores/store';
 	import { onMount } from 'svelte';
-	import { Linker } from '$lib/utils/linker';
-	import { lang, dark, layoutSimplified } from '$lib/utils/settings';
+	import { Linker } from '$lib/utils/stores/linker';
+	import { lang, dark, layoutSimplified } from '$lib/utils/stores/settings';
 
 	import Modalcontent from '../modals/modalcontent.svelte';
 	import Toggle from '../userInputs/toggle.svelte';
@@ -162,7 +162,7 @@
 				{#if $machineData.machine.hypervisorData !== undefined}
 					{#if ($machineData.machine.hypervisorData.overallDownloadProgress || 0) > 0 || $machineData.machine.hypervisorData.appState != 'applied'}
 						<button
-							class="rounded-full bg-indigo-300 p-1 transition hover:rotate-180 duration-300"
+							class="rounded-full bg-white p-1 transition hover:rotate-180 duration-300"
 							on:click={() => {
 								isUpdateShrinked = !isUpdateShrinked;
 								isShrinked = true;
@@ -175,7 +175,7 @@
 									id="glyphicons-basic"
 									xmlns="http://www.w3.org/2000/svg"
 									viewBox="0 0 32 32"
-									class="relative inline-flex fill-white h-5 w-5"
+									class="relative inline-flex fill-zinc-600 h-5 w-5"
 									style="grid-area: 1/1/1/1;"
 								>
 									<path
@@ -184,7 +184,7 @@
 									/>
 								</svg>
 								<span
-									class="animate-ping relative inline-flex h-3 w-3 rounded-full bg-orange-500 opacity-75"
+									class="animate-ping relative inline-flex h-3 w-3 rounded-full bg-red-500 opacity-75"
 									style="grid-area: 1/1/1/1;"
 								/>
 							</span>
@@ -236,12 +236,8 @@
 	{#if index}
 		{#if !isShrinked}
 			<Informations bind:displayUpdateNotes />
-		{/if}
-
-		{#if $machineData.machine.hypervisorData !== undefined}
-			{#if !isUpdateShrinked}
-				<Updates bind:isUpdateShrinked bind:displayUpdateScreen />
-			{/if}
+		{:else if !isUpdateShrinked}
+			<Updates bind:isUpdateShrinked bind:displayUpdateScreen />
 		{/if}
 	{/if}
 </div>

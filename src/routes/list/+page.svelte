@@ -5,7 +5,7 @@
 	import Machine from '$lib/components/machinelist/machine.svelte';
 	import { BUNDLED } from '$lib/bundle';
 	import { goto } from '$app/navigation';
-	import { machineList } from '$lib/utils/list';
+	import { machineList } from '$lib/utils/stores/list';
 	import { _ } from 'svelte-i18n';
 
 	let displayAddMachine = false;

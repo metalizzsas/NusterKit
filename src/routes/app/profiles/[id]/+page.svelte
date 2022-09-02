@@ -8,8 +8,8 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { _ } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
-	import { Linker } from '$lib/utils/linker';
-	import { navActions, navBackFunction, navTitle } from '$lib/utils/navstack';
+	import { Linker } from '$lib/utils/stores/linker';
+	import { navActions, navBackFunction, navTitle } from '$lib/utils/stores/navstack';
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
 	import Navcontainersubtitle from '$lib/components/navigation/navcontainersubtitle.svelte';
 	import Navcontainertitlesided from '$lib/components/navigation/navcontainertitlesided.svelte';

@@ -9,8 +9,8 @@
 
 	import { locale } from 'svelte-i18n';
 	import { onMount } from 'svelte';
-	import { lang, dark, layoutSimplified } from '$lib/utils/settings';
-	import { initi18nLocal } from '$lib/utils/i18nlocal';
+	import { lang, dark, layoutSimplified } from '$lib/utils/stores/settings';
+	import { initi18nLocal } from '$lib/utils/i18n/i18nlocal';
 	import Loadindicator from '$lib/components/loadindicator.svelte';
 
 	onMount(async () => {

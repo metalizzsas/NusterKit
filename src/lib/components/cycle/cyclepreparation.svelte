@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { machineData } from '$lib/utils/store';
-	import { Linker } from '$lib/utils/linker';
+	import { machineData } from '$lib/utils/stores/store';
+	import { Linker } from '$lib/utils/stores/linker';
 	import { _ } from 'svelte-i18n';
 	import Cyclelabel from './cyclelabel.svelte';
-	import { navActions, navTitle, useNavContainer } from '$lib/utils/navstack';
+	import { navActions, navTitle, useNavContainer } from '$lib/utils/stores/navstack';
 	import { onDestroy } from 'svelte';
 	import Navcontainer from '../navigation/navcontainer.svelte';
 	import Navcontainertitle from '../navigation/navcontainertitle.svelte';
-	import { layoutSimplified } from '$lib/utils/settings';
+	import { layoutSimplified } from '$lib/utils/stores/settings';
 
 	function prepareCycle(cycleType: string, profileID: string) {
 		fetch('//' + $Linker + '/api/v1/cycle/' + cycleType + '/' + profileID, {

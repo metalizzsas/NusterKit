@@ -3,16 +3,16 @@
 
 	import { beforeUpdate, onDestroy, onMount } from 'svelte';
 
-	import { lockMachineData, machineData } from '$lib/utils/store';
+	import { lockMachineData, machineData } from '$lib/utils/stores/store';
 	import type { IWSObject } from '$lib/utils/interfaces';
 	import { fade, scale } from 'svelte/transition';
 
-	import { Linker } from '$lib/utils/linker';
+	import { Linker } from '$lib/utils/stores/linker';
 	import { goto } from '$app/navigation';
 	import Modal from '$lib/components/modals/modal.svelte';
 	import Navstack from '$lib/components/navigation/navstack.svelte';
 	import { BUNDLED } from '$lib/bundle';
-	import { initI18nMachine } from '$lib/utils/i18nmachine';
+	import { initI18nMachine } from '$lib/utils/i18n/i18nmachine';
 
 	let ready: boolean = false;
 

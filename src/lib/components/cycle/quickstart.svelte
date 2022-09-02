@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Linker } from '$lib/utils/linker';
-	import { machineData } from '$lib/utils/store';
+	import { Linker } from '$lib/utils/stores/linker';
+	import { machineData } from '$lib/utils/stores/store';
 	import type { Profile } from '$lib/utils/interfaces';
 
 	import { _ } from 'svelte-i18n';

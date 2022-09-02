@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { Linker } from '$lib/utils/linker';
-	import { machineData } from '$lib/utils/store';
-	import { navTitle, useNavContainer } from '$lib/utils/navstack';
+	import { Linker } from '$lib/utils/stores/linker';
+	import { machineData } from '$lib/utils/stores/store';
+	import { navTitle, useNavContainer } from '$lib/utils/stores/navstack';
 	import { parseTime } from '$lib/utils/dateparser';
 
 	import { _ } from 'svelte-i18n';

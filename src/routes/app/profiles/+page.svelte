@@ -5,8 +5,13 @@
 	import NavContainer from '$lib/components/navigation/navcontainer.svelte';
 	import Profile from '$lib/components/profile/profile.svelte';
 	import type { Profile as ProfileModel } from '$lib/utils/interfaces';
-	import { Linker } from '$lib/utils/linker';
-	import { navActions, navBackFunction, navTitle, useNavContainer } from '$lib/utils/navstack';
+	import { Linker } from '$lib/utils/stores/linker';
+	import {
+		navActions,
+		navBackFunction,
+		navTitle,
+		useNavContainer,
+	} from '$lib/utils/stores/navstack';
 	import { onDestroy } from 'svelte';
 	import { _ } from 'svelte-i18n';
 	import Flex from '$lib/components/layout/flex.svelte';

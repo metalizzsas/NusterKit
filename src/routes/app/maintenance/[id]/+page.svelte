@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { _ } from 'svelte-i18n';
-	import { Linker } from '$lib/utils/linker';
-	import { navActions, navTitle, useNavContainer } from '$lib/utils/navstack';
+	import { Linker } from '$lib/utils/stores/linker';
+	import { navActions, navTitle, useNavContainer } from '$lib/utils/stores/navstack';
 	import Navcontainer from '$lib/components/navigation/navcontainer.svelte';
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
 	import Navcontainersubtitle from '$lib/components/navigation/navcontainersubtitle.svelte';

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Linker } from '$lib/utils/linker';
+	import { Linker } from '$lib/utils/stores/linker';
 	import { _ } from 'svelte-i18n';
 	function prepareCycle(cycleType: string, profileID: string) {
 		fetch('//' + $Linker + '/api/v1/cycle/' + cycleType + '/' + profileID, {

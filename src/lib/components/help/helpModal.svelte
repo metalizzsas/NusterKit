@@ -2,7 +2,7 @@
 	import { _ } from 'svelte-i18n';
 	import type { Slot } from '$lib/utils/interfaces';
 	import Label from '../label.svelte';
-	import { Linker } from '$lib/utils/linker';
+	import { Linker } from '$lib/utils/stores/linker';
 	import { goto } from '$app/navigation';
 
 	import Actionmodal from '../modals/actionmodal.svelte';

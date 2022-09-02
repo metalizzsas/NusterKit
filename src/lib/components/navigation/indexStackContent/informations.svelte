@@ -2,7 +2,7 @@
 	import Flex from '$lib/components/layout/flex.svelte';
 
 	import { _ } from 'svelte-i18n';
-	import { machineData } from '$lib/utils/store';
+	import { machineData } from '$lib/utils/stores/store';
 	import Label from '$lib/components/label.svelte';
 
 	export let displayUpdateNotes: boolean;

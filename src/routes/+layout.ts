@@ -1,4 +1,4 @@
-import { initi18nLocal } from '$lib/utils/i18nlocal';
+import { initi18nLocal } from '$lib/utils/i18n/i18nlocal';
 import type { LayoutLoad } from './$types';
 
 export const load: LayoutLoad = () => {

@@ -3,7 +3,7 @@
 	import Navcontainertitle from '../navigation/navcontainertitle.svelte';
 	import Slotproduct from './slotproduct.svelte';
 
-	import { machineData } from '$lib/utils/store';
+	import { machineData } from '$lib/utils/stores/store';
 	import { _ } from 'svelte-i18n';
 
 	export let inline = false;

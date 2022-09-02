@@ -5,7 +5,7 @@
 	import { fly } from 'svelte/transition';
 	import { _, date, time } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
-	import { Linker } from '$lib/utils/linker';
+	import { Linker } from '$lib/utils/stores/linker';
 
 	export let profile: Profile;
 	export let delCb: Function;

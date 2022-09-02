@@ -4,11 +4,11 @@
 	import { onDestroy, onMount } from 'svelte';
 
 	import howler from 'howler';
-	import { machineData } from '$lib/utils/store';
-	import { Linker } from '$lib/utils/linker';
+	import { machineData } from '$lib/utils/stores/store';
+	import { Linker } from '$lib/utils/stores/linker';
 	import { _ } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
-	import { navTitle, useNavContainer } from '$lib/utils/navstack';
+	import { navTitle, useNavContainer } from '$lib/utils/stores/navstack';
 	import Navcontainer from '../navigation/navcontainer.svelte';
 	import Navcontainertitle from '../navigation/navcontainertitle.svelte';
 	import Button from '../button.svelte';

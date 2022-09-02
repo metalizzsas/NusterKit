@@ -2,13 +2,13 @@
 	import { _ } from 'svelte-i18n';
 	import '$lib/app.css';
 
-	import { machineData } from '$lib/utils/store';
+	import { machineData } from '$lib/utils/stores/store';
 
 	import Cyclepreparation from '$lib/components/cycle/cyclepreparation.svelte';
 	import Cyclerunning from '$lib/components/cycle/cyclerunning.svelte';
 	import Cycleend from '$lib/components/cycle/cycleend.svelte';
 	import Cyclesecurity from '$lib/components/cycle/cyclesecurity.svelte';
-	import { navActions } from '$lib/utils/navstack';
+	import { navActions } from '$lib/utils/stores/navstack';
 
 	import type { PageData } from './$types';
 	export let data: PageData;

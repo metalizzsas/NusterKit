@@ -3,8 +3,8 @@
 	import Button from '$lib/components/button.svelte';
 
 	import { _ } from 'svelte-i18n';
-	import { machineData } from '$lib/utils/store';
-	import { Linker } from '$lib/utils/linker';
+	import { machineData } from '$lib/utils/stores/store';
+	import { Linker } from '$lib/utils/stores/linker';
 
 	export let displayUpdateScreen;
 	export let isUpdateShrinked;
@@ -20,12 +20,12 @@
 </script>
 
 {#if $machineData.machine.hypervisorData}
-	<Flex gap={5} items="center" class="p-4" wrap="wrap">
+	<Flex gap={5} items="center" class="p-4 -mt-4" wrap="wrap">
 		{#if $machineData.machine.hypervisorData.overallDownloadProgress !== null}
 			<span class="font-semibold">{$_('settings.updateProgress')}</span>
 			<div class="rounded-full h-8 p-1 w-1/3 bg-indigo-300">
 				<div
-					class="h-6 bg-white animate-pulse text-xs rounded-full text-zinc-700 flex flex-row justify-center items-center"
+					class="h-6 bg-white text-xs rounded-full text-zinc-700 flex flex-row justify-center items-center"
 					style="width: {Math.floor(
 						$machineData.machine.hypervisorData.overallDownloadProgress ?? 0,
 					)}%"

@@ -4,23 +4,24 @@ import { model, Schema } from "mongoose";
 import argon2 from "argon2";
 import pino from "pino";
 
-type Endpoint = string | RegExp;
-
 //add a toJSON method to RegExp
 Object.defineProperty(RegExp.prototype, "toJSON", {
     value: RegExp.prototype.toString
 });
 
-interface IEndPoint
+/** Endpoint for Auth permission */
+export interface IEndPoint
 {
-    endpoint: Endpoint;
-    method: string;
+    /** URL Endpoint */
+    endpoint: string | RegExp;
+    /** HTTP Method */
+    method: "get" | "post" | "put" | "delete" | "patch";
 }
 
-interface IEndpointPermission{
+/** Endpoint Permission definition */
+export interface IEndpointPermission extends IEndPoint {
+    /** Associated permission for this endpoint */
     permission: string;
-    endpoint: Endpoint;
-    method: string;
 }
 
 export class AuthManager
@@ -372,24 +373,30 @@ export class AuthManager
     }
 }
 
+/** Auth account interface in database */
 interface IAuth
 {
+    /** Username */
     username: string;
+    /** Password */
     password: string;
 
-    sessionID?: string;
+    /** Is this user admin */
+    isAdmin: boolean;
 
+    /** Permissions associated with this user */
     permissions: string[];
 
-    isAdmin: boolean;
+    /** SessionID registered with this user */
+    sessionID?: string;
 }
 
 const AuthSchema = new Schema<IAuth>({
     username: {type: String, required: true},
     password: {type: String, required: true},
-    sessionID: {type: String, required: false},
+    isAdmin: {type: Boolean, required: true, default: false},
     permissions: {type: [String], required: true},
-    isAdmin: {type: Boolean, required: true, default: false}
+    sessionID: {type: String, required: false}
 });
 
 const AuthModel = model("Auth", AuthSchema);

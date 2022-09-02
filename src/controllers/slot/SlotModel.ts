@@ -1,10 +1,14 @@
 import { Schema, model } from "mongoose";
 import { EProductSeries } from "../../interfaces/ISlot";
 
+/** Slot database schema */
 interface ISlotSchema
 {
+    /** Slot name */
     name: string;
+    /** Slot load date */
     loadDate: Date;
+    /** Slot product series loaded */
     productSeries: EProductSeries;
 }
 

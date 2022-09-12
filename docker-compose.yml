@@ -3,7 +3,7 @@ version: "2"
 volumes: 
   nuster-data:
   mongodb:
-  nuster-kiosk:
+  settings:
   
 services:
   mongodb:
@@ -49,7 +49,7 @@ services:
       PERSISTENT: 1
       ROTATE: 1
     volumes:
-      - nuster-kiosk:/data
+      - 'settings:/data'
 
   proxy: 
     build: ./proxy/

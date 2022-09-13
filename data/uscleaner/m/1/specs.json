@@ -34,7 +34,7 @@
             "bus": "in",
             "size": "word",
             "automaton": 0,
-            "address": 1,
+            "address": 0,
             "default": 20
         },
         {
@@ -43,20 +43,18 @@
             "bus": "in",
             "size": "word",
             "automaton": 0,
-            "address": 3,
+            "address": 2,
             "default": 0
         },
-
         {
             "name": "motor#speed",
-            "type": "em4a10v",
+            "type": "a10v",
             "bus": "out",
             "size": "word",
             "automaton": 0,
-            "address": 1,
+            "address": 0,
             "default": 0
         },
-
         {
             "name": "motor#direction",
             "type": "default",

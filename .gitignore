@@ -5,6 +5,7 @@ nuster-desktop/
 nuster-kiosk/
 nuster-turbine-machines/
 package-lock.json
+yarn.lock
 .DS_store
 docs/
 build/

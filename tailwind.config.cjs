@@ -1,13 +1,11 @@
 /** @type {import("tailwindcss").Config} */
 module.exports = {
   darkMode: 'class',
-  mode: 'jit',
   content: ["./src/**/*.svelte"],
   safelist: [
     {
-      pattern: /./,
-      variants: ['sm', 'md', 'lg', 'xl', '2xl'],
-    },
+      pattern: /(from|to|bg)-.*/
+    }
   ],
   theme:{
     extend:{

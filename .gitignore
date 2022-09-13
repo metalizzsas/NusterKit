@@ -4,9 +4,10 @@ nuster/
 nuster-desktop/
 nuster-kiosk/
 nuster-turbine-machines/
-package-lock.json
-yarn.lock
-.DS_store
 docs/
 build/
 .vscode/
+.yarn/
+package-lock.json
+.DS_store
+yarn.lock

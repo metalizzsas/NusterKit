@@ -4,6 +4,8 @@ RUN install_packages build-essential python3 git openssh-client
 WORKDIR /usr/src/app
 
 COPY package.json ./
+
+RUN yarn set version berry
 RUN yarn install
 
 COPY . ./
@@ -18,6 +20,7 @@ WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app/package.json ./
 COPY --from=builder /usr/src/app/yarn.lock ./
 
+RUN yarn set version berry
 RUN yarn install --production=true
 
 # Copying NusterTurbine built files and essential data

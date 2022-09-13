@@ -4,6 +4,8 @@ docs/
 data/
 .git/
 .vscode/
+.yarn/
 yarn.lock
 package-lock.json
 .DS_Store
+.yarnrc.yml

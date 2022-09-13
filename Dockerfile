@@ -1,4 +1,4 @@
-FROM balenalib/raspberrypi4-64-node:18-buster as builder
+FROM node:18-buster as builder
 
 RUN install_packages build-essential python3 git openssh-client
 WORKDIR /usr/src/app

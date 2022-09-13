@@ -1,8 +1,9 @@
 node_modules/
-package-lock.json
-yarn.lock
 build/
 docs/
 data/
 .git/
 .vscode/
+yarn.lock
+package-lock.json
+.DS_Store

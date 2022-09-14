@@ -63,3 +63,5 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           platforms: arm64
           push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

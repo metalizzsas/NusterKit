@@ -7,7 +7,7 @@ RUN install_packages build-essential python3 git openssh-client
 COPY . ./
 
 RUN npm install --save-dev
-RUN yarn run build
+RUN npm run build
 
 FROM balenalib/raspberrypi4-64-node:18-buster
 

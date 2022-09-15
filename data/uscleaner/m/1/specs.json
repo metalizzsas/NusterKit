@@ -27,24 +27,23 @@
             "address": 1,
             "default": 0
         },
-
-        {
-            "name": "temperature#sensor",
-            "type": "default",
-            "bus": "in",
-            "size": "word",
-            "automaton": 0,
-            "address": 0,
-            "default": 20
-        },
         {
             "name": "pump#pressure",
             "type": "default",
             "bus": "in",
             "size": "word",
             "automaton": 0,
-            "address": 2,
+            "address": 0,
             "default": 0
+        },
+        {
+            "name": "temperature#sensor",
+            "type": "default",
+            "bus": "in",
+            "size": "word",
+            "automaton": 0,
+            "address": 4,
+            "default": 20
         },
         {
             "name": "motor#speed",

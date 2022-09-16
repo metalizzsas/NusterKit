@@ -2,10 +2,15 @@ node_modules/
 build/
 docs/
 data/
+dev/
 .git/
+nuster-turbine-machines/.git
 .vscode/
 .yarn/
 yarn.lock
 package-lock.json
+jest.config.ts
 .DS_Store
 .yarnrc.yml
+README.md
+nodemon.json

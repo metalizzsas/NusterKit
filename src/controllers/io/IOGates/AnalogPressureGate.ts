@@ -13,8 +13,10 @@ export class AnalogPressureGate extends IOGate
     public async read(ioController: IOController)
     {
         await super.read(ioController);
+        
         ioController.machine.logger.trace("AnalogPressure:" + this.name + ": Reading data from fieldbus.");
-        this.value = Math.round(map(this.value, 0, 32767, 0, 160)) / 1000;
+
+        this.value = map(this.value, 0, 32767, 0, 1.6);
         return true;
     }
 

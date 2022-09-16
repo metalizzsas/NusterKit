@@ -1,4 +1,4 @@
-import { IIOGate, EIOGateSize } from "../../../interfaces/gates/IIOGate";
+import { IIOGate } from "../../../interfaces/gates/IIOGate";
 import { IOController } from "../IOController";
 import { IOGate } from "./IOGate";
 
@@ -11,20 +11,16 @@ export class PT100Gate extends IOGate
 
     public async read(ioController: IOController)
     {
-        await super.read(ioController);
-        ioController.machine.logger.trace("EM4Temp: " + this.name + ": Reading data from fieldbus.");
+        const temp = await ioController.handlers[this.automaton].readData(this.address, true);
+        ioController.machine.logger.trace("PT100Gate: " + this.name + ": Reading data from fieldbus.");
+
+        this.value = temp / 10;
         return true;
     }
 
     public async write(ioController: IOController, data: number)
     {
-        const word = this.size == EIOGateSize.WORD ? true : undefined;
-
-        this.value = data;
-
-        ioController.machine.logger.trace("EM4Temp: " + this.name + ": Writing (" + data + ") to fieldbus.");
-        
-        await ioController.handlers[this.automaton].writeData(this.address, data, word)
+        ioController.machine.logger.warn("PT100Gate: Unable to write data to this gate.");
         return true;
     }
 }

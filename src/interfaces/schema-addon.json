@@ -18,9 +18,11 @@
         "EIOGateType": {
             "enum": [
                 "a10v",
+                "analog_pressure",
                 "default",
                 "em4a10v",
                 "em4temp",
+                "pt100",
                 "um18"
             ],
             "type": "string"
@@ -35,6 +37,7 @@
             "type": "string"
         },
         "EProductSeries": {
+            "description": "Product series TODO: Make this only available for offline devices",
             "enum": [
                 "bc",
                 "cr",
@@ -46,6 +49,7 @@
             "type": "string"
         },
         "ESlotSensorType": {
+            "description": "Slot sensor type",
             "enum": [
                 "level-a",
                 "level-max-n",
@@ -89,7 +93,8 @@
         "IAddonContent": {
             "properties": {
                 "category": {
-                    "$ref": "#/definitions/IMachineKeys"
+                    "$ref": "#/definitions/IMachineKeys",
+                    "description": "Category where the content is added to"
                 },
                 "content": {
                     "anyOf": [
@@ -153,9 +158,11 @@
                             },
                             "type": "array"
                         }
-                    ]
+                    ],
+                    "description": "Content replaced or inserted to this category"
                 },
                 "type": {
+                    "description": "Addon Content mode replace: replaces all the content of the category, insert: Insert content in the category",
                     "enum": [
                         "insert",
                         "replace"
@@ -171,10 +178,13 @@
             "type": "object"
         },
         "ICallToAction": {
+            "description": "Call to action inteface",
             "properties": {
                 "APIEndpoint": {
+                    "description": "API Endpoint to be reached by the CTA (NusterTurbine Endpoints)",
                     "properties": {
                         "method": {
+                            "description": "HTTP Request Method",
                             "enum": [
                                 "delete",
                                 "get",
@@ -184,6 +194,7 @@
                             "type": "string"
                         },
                         "url": {
+                            "description": "URL Reached",
                             "type": "string"
                         }
                     },
@@ -194,9 +205,11 @@
                     "type": "object"
                 },
                 "UIEndpoint": {
+                    "description": "UIEndpoint reached by the CTA (NusterDesktop Endpoints)",
                     "type": "string"
                 },
                 "name": {
+                    "description": "Name of this CTA",
                     "type": "string"
                 }
             },
@@ -327,24 +340,31 @@
             "type": "object"
         },
         "IConfigMaintenance": {
+            "description": "Maintenance configuration base object",
             "properties": {
                 "duration": {
+                    "description": "Maintenance task duration",
                     "type": "number"
                 },
                 "durationLimit": {
+                    "description": "Duration limit of this maintenance task",
                     "type": "number"
                 },
                 "durationType": {
+                    "description": "Duration type of this maintenance task",
                     "type": "string"
                 },
                 "name": {
+                    "description": "Maintenance task name",
                     "type": "string"
                 },
                 "operationDate": {
+                    "description": "Last operation date",
                     "type": "number"
                 },
                 "procedure": {
-                    "$ref": "#/definitions/IMaintenanceProcedure"
+                    "$ref": "#/definitions/IMaintenanceProcedure",
+                    "description": "Maintenance procedure"
                 }
             },
             "required": [
@@ -355,23 +375,30 @@
             "type": "object"
         },
         "IConfigProfile": {
+            "description": "Profiles stored in the configuration `specs.json` file",
             "properties": {
                 "isPremade": {
+                    "description": "Is this profile premade",
                     "type": "boolean"
                 },
                 "modificationDate": {
+                    "description": "Last profile modification data",
                     "type": "number"
                 },
                 "name": {
+                    "description": "Profile name",
                     "type": "string"
                 },
                 "overwriteable": {
+                    "description": "Is this profile overwritable",
                     "type": "boolean"
                 },
                 "removable": {
+                    "description": "Is this profile removable",
                     "type": "boolean"
                 },
                 "skeleton": {
+                    "description": "Profile Skeleton reference",
                     "type": "string"
                 },
                 "values": {
@@ -395,26 +422,32 @@
             "type": "object"
         },
         "IConfigSlot": {
+            "description": "Slot definition used in config",
             "properties": {
                 "callToAction": {
+                    "description": "Call to action, For UI Purposes only",
                     "items": {
                         "$ref": "#/definitions/ICallToAction"
                     },
                     "type": "array"
                 },
                 "name": {
+                    "description": "Slots name",
                     "type": "string"
                 },
                 "productOptions": {
-                    "$ref": "#/definitions/ISlotProductOptions"
+                    "$ref": "#/definitions/ISlotProductOptions",
+                    "description": "Production options, If this is set the slot become productable"
                 },
                 "sensors": {
+                    "description": "Sensors available for this Slots",
                     "items": {
                         "$ref": "#/definitions/ISlotSensor"
                     },
                     "type": "array"
                 },
                 "type": {
+                    "description": "Slot type",
                     "type": "string"
                 }
             },
@@ -577,6 +610,9 @@
                 },
                 "type": {
                     "$ref": "#/definitions/EIOGateType"
+                },
+                "unity": {
+                    "type": "string"
                 }
             },
             "required": [
@@ -750,6 +786,7 @@
             "type": "object"
         },
         "IMachineKeys": {
+            "description": "IMachine Configuration keys",
             "enum": [
                 "cyclePremades",
                 "cycleTypes",
@@ -794,12 +831,14 @@
         "IMaintenanceProcedure": {
             "properties": {
                 "steps": {
+                    "description": "Array of procedure steps",
                     "items": {
                         "$ref": "#/definitions/IMaintenanceProcedureStep"
                     },
                     "type": "array"
                 },
                 "tools": {
+                    "description": "Procedure Tools used",
                     "items": {
                         "type": "string"
                     },
@@ -815,12 +854,14 @@
         "IMaintenanceProcedureStep": {
             "properties": {
                 "media": {
+                    "description": "Procedure step media array",
                     "items": {
                         "type": "string"
                     },
                     "type": "array"
                 },
                 "name": {
+                    "description": "Procedure step name",
                     "type": "string"
                 }
             },
@@ -1314,12 +1355,14 @@
         "IProfileSkeleton": {
             "properties": {
                 "fieldGroups": {
+                    "description": "Fiels groups of this profile skeleton",
                     "items": {
                         "$ref": "#/definitions/IProfileSkeletonFieldGroup"
                     },
                     "type": "array"
                 },
                 "identifier": {
+                    "description": "Profile identifier, used to map between profiles and cycles",
                     "type": "string"
                 }
             },
@@ -1332,9 +1375,11 @@
         "IProfileSkeletonField": {
             "properties": {
                 "name": {
+                    "description": "Name of the profile field",
                     "type": "string"
                 },
                 "type": {
+                    "description": "Type of the profile field",
                     "enum": [
                         "bool",
                         "float",
@@ -1344,9 +1389,11 @@
                     "type": "string"
                 },
                 "unity": {
+                    "description": "Unity of the profile field, it used for UI purposes only",
                     "type": "string"
                 },
                 "value": {
+                    "description": "Value contained byt the profile field",
                     "type": [
                         "number",
                         "boolean"
@@ -1361,20 +1408,25 @@
             "type": "object"
         },
         "IProfileSkeletonFieldBoolean": {
+            "description": "Boolean profile field type",
             "properties": {
                 "name": {
+                    "description": "Name of the profile field",
                     "type": "string"
                 },
                 "type": {
+                    "description": "Type of the profile field",
                     "enum": [
                         "bool"
                     ],
                     "type": "string"
                 },
                 "unity": {
+                    "description": "Unity of the profile field, it used for UI purposes only",
                     "type": "string"
                 },
                 "value": {
+                    "description": "Value contained byt the profile field",
                     "type": "boolean"
                 }
             },
@@ -1386,6 +1438,7 @@
             "type": "object"
         },
         "IProfileSkeletonFieldFloat": {
+            "description": "Float ProfileField type",
             "properties": {
                 "floatMax": {
                     "type": "number"
@@ -1397,18 +1450,22 @@
                     "type": "number"
                 },
                 "name": {
+                    "description": "Name of the profile field",
                     "type": "string"
                 },
                 "type": {
+                    "description": "Type of the profile field",
                     "enum": [
                         "float"
                     ],
                     "type": "string"
                 },
                 "unity": {
+                    "description": "Unity of the profile field, it used for UI purposes only",
                     "type": "string"
                 },
                 "value": {
+                    "description": "Value contained byt the profile field",
                     "type": "number"
                 }
             },
@@ -1425,6 +1482,7 @@
         "IProfileSkeletonFieldGroup": {
             "properties": {
                 "fields": {
+                    "description": "Profile fields",
                     "items": {
                         "anyOf": [
                             {
@@ -1467,11 +1525,13 @@
                                     }
                                 ]
                             }
-                        ]
+                        ],
+                        "description": "Base profile types"
                     },
                     "type": "array"
                 },
                 "name": {
+                    "description": "Name of the profile field group",
                     "type": "string"
                 }
             },
@@ -1482,20 +1542,25 @@
             "type": "object"
         },
         "IProfileSkeletonFieldNumber": {
+            "description": "Number profile field type",
             "properties": {
                 "name": {
+                    "description": "Name of the profile field",
                     "type": "string"
                 },
                 "type": {
+                    "description": "Type of the profile field",
                     "enum": [
                         "int"
                     ],
                     "type": "string"
                 },
                 "unity": {
+                    "description": "Unity of the profile field, it used for UI purposes only",
                     "type": "string"
                 },
                 "value": {
+                    "description": "Value contained byt the profile field",
                     "type": "number"
                 }
             },
@@ -1507,11 +1572,14 @@
             "type": "object"
         },
         "IProfileSkeletonFieldTime": {
+            "description": "Time profile field type",
             "properties": {
                 "name": {
+                    "description": "Name of the profile field",
                     "type": "string"
                 },
                 "type": {
+                    "description": "Type of the profile field",
                     "enum": [
                         "time"
                     ],
@@ -1530,9 +1598,11 @@
                     "type": "array"
                 },
                 "unity": {
+                    "description": "Unity of the profile field, it used for UI purposes only",
                     "type": "string"
                 },
                 "value": {
+                    "description": "Value contained byt the profile field",
                     "type": "number"
                 }
             },
@@ -1808,11 +1878,14 @@
             "type": "object"
         },
         "ISlotProductOptions": {
+            "description": "Slot product options",
             "properties": {
                 "defaultProductSeries": {
-                    "$ref": "#/definitions/EProductSeries"
+                    "$ref": "#/definitions/EProductSeries",
+                    "description": "Default product series"
                 },
                 "lifespan": {
+                    "description": "Lifespan of the product in days if -1, no lifespan, count the life since the product hass been installed",
                     "type": "number"
                 }
             },
@@ -1850,14 +1923,18 @@
             "type": "object"
         },
         "ISlotSensor": {
+            "description": "Slot Sensor interface",
             "properties": {
                 "io": {
+                    "description": "IO gate name of this sensor",
                     "type": "string"
                 },
                 "type": {
-                    "$ref": "#/definitions/ESlotSensorType"
+                    "$ref": "#/definitions/ESlotSensorType",
+                    "description": "Slot type"
                 },
                 "value": {
+                    "description": "Slot value",
                     "type": "number"
                 }
             },
@@ -2167,9 +2244,11 @@
     },
     "properties": {
         "addonName": {
+            "description": "Addon name, shoudl be the same as the Json file holding him",
             "type": "string"
         },
         "content": {
+            "description": "Addon content Array",
             "items": {
                 "$ref": "#/definitions/IAddonContent"
             },

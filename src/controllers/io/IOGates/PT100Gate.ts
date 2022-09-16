@@ -2,7 +2,7 @@ import { IIOGate, EIOGateSize } from "../../../interfaces/gates/IIOGate";
 import { IOController } from "../IOController";
 import { IOGate } from "./IOGate";
 
-export class EM4TempGate extends IOGate
+export class PT100Gate extends IOGate
 {
     constructor(obj: IIOGate)
     {

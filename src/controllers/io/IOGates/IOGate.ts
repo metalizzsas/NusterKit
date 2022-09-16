@@ -19,6 +19,7 @@ export class IOGate implements IIOGate
 
     isCritical?: boolean;
     manualModeWatchdog?: boolean;
+    unity?: string;
 
     constructor(obj: IIOGate)
     {
@@ -39,6 +40,7 @@ export class IOGate implements IIOGate
         this.isCritical = obj.isCritical;
 
         this.manualModeWatchdog = obj.manualModeWatchdog;
+        this.unity = obj.unity;
     }
 
     public async read(ioController: IOController): Promise<boolean>

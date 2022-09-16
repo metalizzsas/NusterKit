@@ -13,7 +13,8 @@ import { EIOGateType, EIOGateBus } from "../../interfaces/gates/IIOGate";
 import { IUM18Gate } from "../../interfaces/gates/IUM18Gate";
 import { EM4 } from "./IOHandlers/EM4";
 import { EM4A10VIOGate } from "./IOGates/EM4A10VGate";
-import { EM4TempGate } from "./IOGates/EM4Temp";
+import { PT100Gate } from "./IOGates/PT100Gate";
+import { AnalogPressureGate } from "./IOGates/AnalogPressureGate";
 import { EIOHandlerType } from "../../interfaces/IIOHandler";
 
 export class IOController extends Controller
@@ -58,10 +59,12 @@ export class IOController extends Controller
             switch(gate.type)
             {
                 case EIOGateType.UM18: this.gates.push(new UM18IOGate(gate, (gate as IUM18Gate).levelMax)); break;
-                case EIOGateType.A10V: this.gates.push(new A10VIOGate(gate)); break;
 
+                case EIOGateType.A10V: this.gates.push(new A10VIOGate(gate)); break;
                 case EIOGateType.EM4A10V: this.gates.push(new EM4A10VIOGate(gate)); break;
-                case EIOGateType.EM4TEMP: this.gates.push(new EM4TempGate(gate)); break;
+
+                case EIOGateType.PT100: this.gates.push(new PT100Gate(gate)); break;
+                case EIOGateType.ANALOG_PRESSURE: this.gates.push(new AnalogPressureGate(gate)); break;
 
                 default: this.gates.push(new IOGate(gate)); break;
             }

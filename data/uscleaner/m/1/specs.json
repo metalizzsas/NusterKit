@@ -29,21 +29,23 @@
         },
         {
             "name": "pump#pressure",
-            "type": "default",
+            "type": "analog_pressure",
             "bus": "in",
             "size": "word",
             "automaton": 0,
             "address": 0,
-            "default": 0
+            "default": 0,
+            "unity": "Mpa"
         },
         {
             "name": "temperature#sensor",
-            "type": "default",
+            "type": "pt100",
             "bus": "in",
             "size": "word",
             "automaton": 0,
             "address": 4,
-            "default": 20
+            "default": 20,
+            "unity": "°C"
         },
         {
             "name": "motor#speed",
@@ -52,7 +54,8 @@
             "size": "word",
             "automaton": 0,
             "address": 0,
-            "default": 0
+            "default": 0,
+            "unity": "RPM"
         },
         {
             "name": "motor#direction",
@@ -336,7 +339,7 @@
                                 },
                                 {
                                     "name": "const",
-                                    "value": 1
+                                    "value": 0
                                 }
                             ]
                         },
@@ -361,8 +364,8 @@
                                     "value": "motor#speed"
                                 },
                                 {
-                                    "name": "profile",
-                                    "value": "principal#motor-speed"
+                                    "name": "const",
+                                    "value": 0
                                 }
                             ]
                         }

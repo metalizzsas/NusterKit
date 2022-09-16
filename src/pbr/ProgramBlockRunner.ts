@@ -229,12 +229,6 @@ export class ProgramBlockRunner implements IProgramRunner
                     clearInterval(timer.timer);
             }
         }
-
-        this.machine.logger.info("PBR: Resetting all io gates to default values.");
-        for(const g of this.machine.ioController.gates.filter(g => g.bus == EIOGateBus.OUT))
-        {
-            g.write(this.machine.ioController, g.default);
-        }
         
         const m = this.machine.maintenanceController.tasks.find((m) => m.name == "cycleCount");
         m?.append(1);
@@ -244,6 +238,17 @@ export class ProgramBlockRunner implements IProgramRunner
         this.status.endDate = Date.now();
         //TODO: Resorbs all timers and everything
         this.machine.logger.info(`PBR: Ended cycle ${this.name} with state: ${this.status.mode} and reason ${this.status.endReason}.`);
+
+        //TODO: Make this in the end flow without a timer
+        setTimeout(() => {
+
+            this.machine.logger.info("PBR: Resetting all io gates to default values.");
+            for(const g of this.machine.ioController.gates.filter(g => g.bus == EIOGateBus.OUT))
+            {
+                g.write(this.machine.ioController, g.default);
+            }
+        }, 300);
+
     }
 
     public get progress()

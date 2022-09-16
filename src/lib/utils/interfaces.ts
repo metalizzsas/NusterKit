@@ -117,6 +117,7 @@ interface Io {
   default: number;
   value: number;
   isCritical?: boolean;
+  unity?: string;
 }
 
 export interface Slot {

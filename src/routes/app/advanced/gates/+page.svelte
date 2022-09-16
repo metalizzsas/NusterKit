@@ -86,17 +86,17 @@
 		{/if}
 
 		<div class="flex flex-col gap-2 mb-6 last:mb-0">
-			{#each gates.filter((g) => g.bus == tab && g.category == cat) as output, index}
+			{#each gates.filter((g) => g.bus == tab && g.category == cat) as gate, index}
 				<div
 					class="text-white flex flex-row justify-between gap-4 bg-zinc-500 py-2 pl-3 pr-2 rounded-xl font-semibold"
 				>
 					<span class="w-1/3 text-ellipsis">
-						{$_('gates.names.' + output.name)}
+						{$_('gates.names.' + gate.name)}
 					</span>
-					{#if output.size == 'bit'}
+					{#if gate.size == 'bit'}
 						<Toggle
-							bind:value={output.value}
-							on:change={(val) => update(output.name, val.detail.value)}
+							bind:value={gate.value}
+							on:change={(val) => update(gate.name, val.detail.value)}
 							locked={tab == 'in'}
 						/>
 					{:else}
@@ -109,16 +109,19 @@
 									on:input={() => {
 										$lockMachineData = true;
 									}}
-									bind:value={output.value}
+									bind:value={gate.value}
 									on:change={() => {
 										$lockMachineData = false;
-										update(output.name, output.value);
+										update(gate.name, gate.value);
 									}}
 								/>
 							{/if}
 
 							<span class="py-1 px-2 rounded-full bg-white text-gray-800 text-sm">
-								{Math.ceil(output.value)} %
+								{Math.ceil(gate.value)}
+								{#if gate.unity != undefined}
+									{gate.unity}
+								{/if}
 							</span>
 						</div>
 					{/if}

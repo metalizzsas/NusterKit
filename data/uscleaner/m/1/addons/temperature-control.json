@@ -11,7 +11,7 @@
                     "type": "default",
                     "bus": "out",
                     "size": "bit",
-                    "automaton": 0,
+                    "controllerId": 0,
                     "address": 2,
                     "default": 0
                 },
@@ -20,7 +20,7 @@
                     "type": "default",
                     "bus": "out",
                     "size": "bit",
-                    "automaton": 0,
+                    "controllerId": 0,
                     "address": 3,
                     "default": 0
                 }

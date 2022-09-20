@@ -50,9 +50,6 @@ export type IProgramBlocks =
   | IVariableProgramBlock
   | IWhileLoopProgramBlock
   | IPassiveProgramBlock;
-export type EIOGateBus = "in" | "out";
-export type EIOGateSize = "bit" | "word";
-export type EIOGateType = "a10v" | "analog_pressure" | "default" | "em4a10v" | "em4temp" | "pt100" | "um18";
 
 /**
  * Machine JSON Specifications
@@ -69,7 +66,7 @@ export interface Schema {
   /**
    * IOGates definition
    */
-  iogates: IIOGate[];
+  iogates: ((IMappedGate & IIOGate) | (IUM18Gate & IIOGate) | (IPT100Gate & IIOGate) | (IDefaultGate & IIOGate))[];
   /**
    * IOHandler definitions
    */
@@ -755,16 +752,223 @@ export interface IPassiveProgramBlock {
   ];
   [k: string]: unknown;
 }
-export interface IIOGate {
+export interface IMappedGate {
+  /**
+   * Address on the automaton IPV4
+   */
   address: number;
-  automaton: number;
-  bus: EIOGateBus;
+  /**
+   * Gate bus
+   */
+  bus: "in" | "out";
+  /**
+   * Automaton where this gate is available
+   */
+  controllerId: number;
+  /**
+   * Default value of this gate
+   */
   default: number;
+  /**
+   * Is this gate Critical
+   */
   isCritical?: boolean;
+  /**
+   * Does this gate triggers manual mode watchdog security
+   */
   manualModeWatchdog?: boolean;
+  mapInMax: number;
+  mapInMin: number;
+  mapOutMax: number;
+  mapOutMin: number;
+  /**
+   * Gate name
+   */
   name: string;
-  size: EIOGateSize;
-  type: EIOGateType;
+  /**
+   * Gate controller data size
+   */
+  size: "word";
+  /**
+   * Gate type
+   */
+  type: "mapped";
+  /**
+   * Unity used by this gate
+   */
+  unity?: string;
+  [k: string]: unknown;
+}
+export interface IIOGate {
+  /**
+   * Address on the automaton IPV4
+   */
+  address: number;
+  /**
+   * Gate bus
+   */
+  bus: "in" | "out";
+  /**
+   * Automaton where this gate is available
+   */
+  controllerId: number;
+  /**
+   * Default value of this gate
+   */
+  default: number;
+  /**
+   * Is this gate Critical
+   */
+  isCritical?: boolean;
+  /**
+   * Does this gate triggers manual mode watchdog security
+   */
+  manualModeWatchdog?: boolean;
+  /**
+   * Gate name
+   */
+  name: string;
+  /**
+   * Gate controller data size
+   */
+  size: "bit" | "word";
+  /**
+   * Gate type
+   */
+  type: "default" | "mapped" | "pt100" | "um18";
+  /**
+   * Unity used by this gate
+   */
+  unity?: string;
+  [k: string]: unknown;
+}
+export interface IUM18Gate {
+  /**
+   * Address on the automaton IPV4
+   */
+  address: number;
+  /**
+   * Gate bus
+   */
+  bus: "in" | "out";
+  /**
+   * Automaton where this gate is available
+   */
+  controllerId: number;
+  /**
+   * Default value of this gate
+   */
+  default: number;
+  /**
+   * Is this gate Critical
+   */
+  isCritical?: boolean;
+  levelMax: number;
+  /**
+   * Does this gate triggers manual mode watchdog security
+   */
+  manualModeWatchdog?: boolean;
+  /**
+   * Gate name
+   */
+  name: string;
+  /**
+   * Gate controller data size
+   */
+  size: "bit" | "word";
+  /**
+   * Gate type
+   */
+  type: "um18";
+  /**
+   * Unity used by this gate
+   */
+  unity?: string;
+  [k: string]: unknown;
+}
+export interface IPT100Gate {
+  /**
+   * Address on the automaton IPV4
+   */
+  address: number;
+  /**
+   * Gate bus
+   */
+  bus: "in" | "out";
+  /**
+   * Automaton where this gate is available
+   */
+  controllerId: number;
+  /**
+   * Default value of this gate
+   */
+  default: number;
+  /**
+   * Is this gate Critical
+   */
+  isCritical?: boolean;
+  /**
+   * Does this gate triggers manual mode watchdog security
+   */
+  manualModeWatchdog?: boolean;
+  /**
+   * Gate name
+   */
+  name: string;
+  /**
+   * Gate controller data size
+   */
+  size: "word";
+  /**
+   * Gate type
+   */
+  type: "pt100";
+  /**
+   * Unity used by this gate
+   */
+  unity: "°C";
+  [k: string]: unknown;
+}
+export interface IDefaultGate {
+  /**
+   * Address on the automaton IPV4
+   */
+  address: number;
+  /**
+   * Gate bus
+   */
+  bus: "in" | "out";
+  /**
+   * Automaton where this gate is available
+   */
+  controllerId: number;
+  /**
+   * Default value of this gate
+   */
+  default: number;
+  /**
+   * Is this gate Critical
+   */
+  isCritical?: boolean;
+  /**
+   * Does this gate triggers manual mode watchdog security
+   */
+  manualModeWatchdog?: boolean;
+  /**
+   * Gate name
+   */
+  name: string;
+  /**
+   * Gate controller data size
+   */
+  size: "bit" | "word";
+  /**
+   * Gate type
+   */
+  type: "default";
+  /**
+   * Unity used by this gate
+   */
   unity?: string;
   [k: string]: unknown;
 }

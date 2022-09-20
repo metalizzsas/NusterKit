@@ -45,6 +45,7 @@ class NusterTurbine
         if(!fs.existsSync(logFileFolder))
             fs.mkdirSync(logFileFolder, { recursive: true });
 
+        
         //Log file name
         const logFileStream = this.productionEnabled ? `${logFileFolder}/logs-${Date.now()}.json` : path.resolve(logFileFolder, `logs-${Date.now()}.json`);
 
@@ -59,6 +60,20 @@ class NusterTurbine
         }, pino.multistream(streams));
 
         this.logger.info("Starting NusterTurbine");
+
+        const actualDate = Date.now();
+        const logFiles = fs.readdirSync(logFileFolder);
+
+        for(const logFile of logFiles)
+        {
+            const dateOfFile = logFile.split("-")[1];
+
+            if(actualDate - (30 * 24 * 60 * 1000) > parseInt(dateOfFile))
+            {
+                fs.rmSync(path.resolve(logFileFolder, logFile))
+                this.logger.warn("Removed " + logFile + " logfile because it is 30 days older than today.");
+            }
+        }
 
         this.status.mode = "running";
 

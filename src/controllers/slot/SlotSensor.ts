@@ -40,7 +40,8 @@ export class SlotSensor implements ISlotSensor
         return {
             io: this.io,
             type: this.type,
-            value: this.value
+            value: this.value,
+            unity: this.ioController.gFinder(this.io)?.unity
         }
     }
 }

@@ -36,13 +36,17 @@
     },
     "machine": {
         "informations": "Informations machine",
+        "network_informations": "Information réseau",
+        "ips": "Liste des addresse IP",
+        "macs": "Liste des addresses mac",
         "model": "Modèle",
         "variant": "Variante",
         "revision": "Révision",
         "serial": "Numéro de série",
         "cycleCount": "Nombre de cycles",
         "nusterVersion": "Version de nuster",
-        "balenaVersion": "Version de balena"
+        "balenaVersion": "Version de balena",
+        "vpn.connected": "Connexion au VPN"
     },
     "procedures": "Procédures",
     "slots": {

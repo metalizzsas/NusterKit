@@ -20,7 +20,7 @@
 	}
 </script>
 
-<Modalcontent bind:shown title={$_('update.data')}>
+<Modalcontent bind:shown title={$_('settings.updateGoing.title')}>
 	{#if displayUpdateScreen}
 		{#if $machineData.machine.hypervisorData}
 			<Flex gap={5} items="center" class="p-4 -mt-4" wrap="wrap">

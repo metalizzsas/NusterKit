@@ -42,13 +42,17 @@
   },
   "machine": {
     "informations": "Machine informations",
+    "network_informations": "Network informations",
     "model": "Model",
     "variant": "Variant",
     "revision": "Revision",
     "serial": "Serial number",
     "cycleCount": "Cycle count",
     "nusterVersion": "Nuster version",
-    "balenaVersion": "Balena version"
+    "balenaVersion": "Balena version",
+    "ips": "Machine IP Addresses",
+    "macs": "Machine MAC Addresses",
+    "vpn.connected": "Connected to VPN"
   },
   "procedures": "Procedures",
   "slots": {
@@ -139,7 +143,7 @@
     },
     "updateGoing": {
       "desc": "Installing the update, please wait...",
-      "title": "Updating"
+      "title": "Update"
     },
     "triggerUpdate": "Install update",
     "updateProgress": "Update downloading progress"

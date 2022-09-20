@@ -32,7 +32,7 @@
 	];
 </script>
 
-<Modalcontent bind:shown title={$_('informations.network')}>
+<Modalcontent bind:shown title={$_('machine.network_informations')}>
 	<table class="table-auto w-full">
 		{#each data.filter((d) => d.data !== undefined) as element}
 			<tr>

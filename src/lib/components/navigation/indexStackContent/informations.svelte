@@ -49,7 +49,7 @@
 	];
 </script>
 
-<Modalcontent bind:shown title={$_('informations')}>
+<Modalcontent bind:shown title={$_('machine.informations')}>
 	<table class="table-auto w-full">
 		{#each data.filter((d) => d.data !== undefined) as element}
 			<tr>

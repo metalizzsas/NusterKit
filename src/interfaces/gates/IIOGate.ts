@@ -20,7 +20,7 @@ export interface IIOGate
 
     /** Automaton where this gate is available */
     controllerId: number;
-    /** Address on the automaton IPV4 */
+    /** Address on the automaton address range */
     address: number;
 
     /** Default value of this gate */

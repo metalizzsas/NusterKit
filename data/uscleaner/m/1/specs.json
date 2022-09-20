@@ -13,7 +13,7 @@
             "type": "default",
             "bus": "in",
             "size": "bit",
-            "automaton": 0,
+            "controllerId": 0,
             "address": 0,
             "default": 0,
             "isCritical": true
@@ -23,46 +23,56 @@
             "type": "default",
             "bus": "in",
             "size": "bit",
-            "automaton": 0,
+            "controllerId": 0,
             "address": 1,
             "default": 0
         },
         {
             "name": "pump#pressure",
-            "type": "analog_pressure",
+            "type": "mapped",
             "bus": "in",
             "size": "word",
-            "automaton": 0,
+            "controllerId": 0,
             "address": 0,
             "default": 0,
-            "unity": "Mpa"
+            "unity": "bar",
+
+            "mapInMin": 0,
+            "mapInMax": 32767,
+            "mapOutMin": 0,
+            "mapOutMax": 1.6
         },
         {
             "name": "temperature#sensor",
             "type": "pt100",
             "bus": "in",
             "size": "word",
-            "automaton": 0,
+            "controllerId": 0,
             "address": 4,
             "default": 20,
             "unity": "°C"
         },
         {
             "name": "motor#speed",
-            "type": "a10v",
+            "type": "mapped",
             "bus": "out",
             "size": "word",
-            "automaton": 0,
+            "controllerId": 0,
             "address": 0,
             "default": 0,
-            "unity": "RPM"
+            "unity": "RPM",
+
+            "mapInMin": 0,
+            "mapInMax": 32767,
+            "mapOutMin": 0,
+            "mapOutMax": 100
         },
         {
             "name": "motor#direction",
             "type": "default",
             "bus": "out",
             "size": "bit",
-            "automaton": 0,
+            "controllerId": 0,
             "address": 0,
             "default": 0
         },
@@ -71,7 +81,7 @@
             "type": "default",
             "bus": "out",
             "size": "bit",
-            "automaton": 0,
+            "controllerId": 0,
             "address": 1,
             "default": 0
         },
@@ -80,7 +90,7 @@
             "type": "default",
             "bus": "out",
             "size": "bit",
-            "automaton": 0,
+            "controllerId": 0,
             "address": 4,
             "default": 0
         },
@@ -89,7 +99,7 @@
             "type": "default",
             "bus": "out",
             "size": "bit",
-            "automaton": 0,
+            "controllerId": 0,
             "address": 5,
             "default": 0
         }

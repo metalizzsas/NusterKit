@@ -18,7 +18,7 @@
          "type": "default",
          "size": "bit",
          "bus": "in",
-         "automaton": 0,
+         "controllerId": 0,
          "address": 0,
          "default": 0,
          "isCritical": true
@@ -28,7 +28,7 @@
          "type": "default",
          "size": "bit",
          "bus": "in",
-         "automaton": 0,
+         "controllerId": 0,
          "address": 1,
          "default": 0,
          "isCritical": true
@@ -38,7 +38,7 @@
          "type": "default",
          "size": "bit",
          "bus": "in",
-         "automaton": 0,
+         "controllerId": 0,
          "address": 2,
          "default": 0,
          "isCritical": true
@@ -48,7 +48,7 @@
          "type": "default",
          "size": "bit",
          "bus": "in",
-         "automaton": 0,
+         "controllerId": 0,
          "address": 3,
          "default": 0,
          "isCritical": true
@@ -58,7 +58,7 @@
          "type": "default",
          "size": "bit",
          "bus": "in",
-         "automaton": 0,
+         "controllerId": 0,
          "address": 4,
          "default": 0,
          "levelMax": 0,
@@ -69,7 +69,7 @@
          "type": "default",
          "size": "bit",
          "bus": "in",
-         "automaton": 0,
+         "controllerId": 0,
          "address": 5,
          "default": 0,
          "levelMax": 0,
@@ -80,7 +80,7 @@
          "type": "default",
          "size": "bit",
          "bus": "in",
-         "automaton": 0,
+         "controllerId": 0,
          "address": 6,
          "default": 0,
          "levelMax": 0,
@@ -91,7 +91,7 @@
          "type": "default",
          "size": "bit",
          "bus": "in",
-         "automaton": 0,
+         "controllerId": 0,
          "address": 7,
          "default": 0,
          "levelMax": 0,
@@ -102,7 +102,7 @@
          "type": "default",
          "size": "bit",
          "bus": "in",
-         "automaton": 0,
+         "controllerId": 0,
          "address": 8,
          "default": 0,
          "levelMax": 0,
@@ -113,7 +113,7 @@
          "type": "default",
          "size": "bit",
          "bus": "in",
-         "automaton": 0,
+         "controllerId": 0,
          "address": 9,
          "default": 0,
          "levelMax": 0,
@@ -124,7 +124,7 @@
          "type": "default",
          "size": "bit",
          "bus": "in",
-         "automaton": 0,
+         "controllerId": 0,
          "address": 10,
          "default": 0,
          "isCritical": true
@@ -134,7 +134,7 @@
          "type": "default",
          "size": "bit",
          "bus": "out",
-         "automaton": 0,
+         "controllerId": 0,
          "address": 0,
          "default": 0,
          "levelMax": 0
@@ -144,7 +144,7 @@
          "type": "default",
          "size": "bit",
          "bus": "out",
-         "automaton": 0,
+         "controllerId": 0,
          "address": 1,
          "default": 0,
          "levelMax": 0
@@ -154,7 +154,7 @@
          "type": "default",
          "size": "bit",
          "bus": "out",
-         "automaton": 0,
+         "controllerId": 0,
          "address": 2,
          "default": 0,
          "levelMax": 0
@@ -164,7 +164,7 @@
          "type": "default",
          "size": "bit",
          "bus": "out",
-         "automaton": 0,
+         "controllerId": 0,
          "address": 3,
          "default": 0,
          "levelMax": 0
@@ -174,7 +174,7 @@
          "type": "default",
          "size": "bit",
          "bus": "out",
-         "automaton": 0,
+         "controllerId": 0,
          "address": 4,
          "default": 0,
          "levelMax": 0
@@ -184,7 +184,7 @@
          "type": "default",
          "size": "bit",
          "bus": "out",
-         "automaton": 0,
+         "controllerId": 0,
          "address": 5,
          "default": 0,
          "levelMax": 0
@@ -194,37 +194,50 @@
          "type": "default",
          "size": "bit",
          "bus": "out",
-         "automaton": 0,
+         "controllerId": 0,
          "address": 6,
          "default": 0,
          "levelMax": 0
       },
       {
          "name": "motor#speed",
-         "type": "a10v",
+         "type": "mapped",
          "size": "word",
          "bus": "out",
-         "automaton": 0,
+         "controllerId": 0,
          "address": 0,
          "default": 0,
-         "levelMax": 0
+
+         "unity": "RPM",
+
+         "mapInMin": 0,
+         "mapInMax": 32767,
+         "mapOutMin": 0,
+         "mapOutMax": 100
       },
       {
          "name": "uv#power",
-         "type": "a10v",
+         "type": "mapped",
          "size": "word",
          "bus": "out",
-         "automaton": 0,
+         "controllerId": 0,
          "address": 1,
          "default": 0,
-         "levelMax": 0
+         "levelMax": 0,
+
+         "unity": "%",
+
+         "mapInMin": 0,
+         "mapInMax": 32767,
+         "mapOutMin": 0,
+         "mapOutMax": 100
       },
       {
          "name": "nozzle#pulverization",
          "type": "default",
          "size": "bit",
          "bus": "out",
-         "automaton": 1,
+         "controllerId": 1,
          "address": 15,
          "default": 0,
          "levelMax": 0
@@ -234,7 +247,7 @@
          "type": "default",
          "size": "bit",
          "bus": "out",
-         "automaton": 1,
+         "controllerId": 1,
          "address": 13,
          "default": 0,
          "levelMax": 0
@@ -244,7 +257,7 @@
          "type": "default",
          "size": "bit",
          "bus": "out",
-         "automaton": 1,
+         "controllerId": 1,
          "address": 11,
          "default": 0,
          "levelMax": 0
@@ -254,7 +267,7 @@
          "type": "default",
          "size": "bit",
          "bus": "out",
-         "automaton": 1,
+         "controllerId": 1,
          "address": 9,
          "default": 0,
          "levelMax": 0
@@ -264,7 +277,7 @@
          "type": "default",
          "size": "bit",
          "bus": "out",
-         "automaton": 1,
+         "controllerId": 1,
          "address": 7,
          "default": 0,
          "levelMax": 0
@@ -274,7 +287,7 @@
          "type": "default",
          "size": "bit",
          "bus": "out",
-         "automaton": 1,
+         "controllerId": 1,
          "address": 5,
          "default": 0,
          "levelMax": 0

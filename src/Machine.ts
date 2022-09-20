@@ -16,11 +16,13 @@ import { ManualModeController } from "./controllers/manual/ManualModeController"
 import { ProfileController } from "./controllers/profile/ProfilesController";
 import { SlotController } from "./controllers/slot/SlotController";
 import { AuthManager } from "./auth/auth";
+import { parseAddon } from "./addons/AddonLoader";
 
 import type { IConfiguration, IMachine, IMachineSettings } from "./interfaces/IMachine";
+import type { IAddon } from "./interfaces/IAddon";
 import type { IHypervisorData } from "./interfaces/balena/IHypervisorDevice";
-import { parseAddon } from "./addons/AddonLoader";
-import { IAddon } from "./interfaces/IAddon";
+import type { IVPNData } from "./interfaces/balena/IVPNData";
+import type { IDeviceData } from "./interfaces/balena/IDeviceData";
 
 export class Machine {
 
@@ -55,7 +57,10 @@ export class Machine {
 
     authManager: AuthManager;
 
+    //Balena given data
     hypervisorData?: IHypervisorData;
+    vpnData?: IVPNData;
+    deviceData?: IDeviceData;
 
     constructor(logger: pino.Logger)
     {
@@ -128,15 +133,22 @@ export class Machine {
 
         if(process.env.NODE_ENV === 'production')
         {
-            //Polling the hypervisor to get container health.
-            //If the device is not in dev mode
+            //Polling the balenaOS Data if device is not in dev mode
             setInterval(async () => {
                 try
                 {
-                    const hyperv = await fetch("http://127.0.0.1:48484/v2/state/status?apikey=" + process.env.BALENA_SUPERVISOR_API_KEY, {headers: {"Content-Type": "application/json"}});
+                    const hyperv = await fetch("http://127.0.0.1:48484/v2/state/status?apikey=" + process.env.BALENA_SUPERVISOR_API_KEY, { headers: { "Content-Type": "application/json" }});
+                    const vpn = await fetch("http://127.0.0.1:48484/v2/device/vpn?apikey=" + process.env.BALENA_SUPERVISOR_API_KEY, { headers: { "Content-Type": "application/json" }});
+                    const device = await fetch("http://127.0.0.1:48484/v1/device?apikey=" + process.env.BALENA_SUPERVISOR_API_KEY, { headers: { "Content-Type": "application/json" }});
         
                     if(hyperv.status == 200)
                         this.hypervisorData = await hyperv.json();
+                    
+                    if(vpn.status == 200)
+                        this.vpnData = await vpn.json();
+
+                    if(device.status == 200)
+                        this.deviceData = await device.json();
                 }
                 catch(ex)
                 {
@@ -144,7 +156,6 @@ export class Machine {
                 }
             }, 10000);
         }
-
     }
 
     public broadcast(message: string)
@@ -207,10 +218,13 @@ export class Machine {
 
             addons: this.addons,
 
+            //BalenaOS given data
             balenaVersion: process.env.BALENA_HOST_OS_VERSION,
             hypervisorData: this.hypervisorData,
-            nusterVersion: pkg.version,
+            vpnData: this.vpnData,
+            deviceData: this.deviceData,
 
+            nusterVersion: pkg.version,
             settings: this.settings
         };
     }

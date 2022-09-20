@@ -1,4 +1,4 @@
-/** Data returned by the BalenaOS Hypervisor */
+/** BalenaOS Hypervisor Container data from /v2/state/status api endpoint */
 export interface IHypervisorData {
     status: string;
     appState: string;

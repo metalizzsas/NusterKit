@@ -3,8 +3,8 @@ import { Controller } from "../Controller";
 
 import { Request, Response } from "express";
 
-import { ProfileModel } from "../profile/Profile";
-import { ProgramHistoryModel } from "./ProgramHistory";
+import { ProfileModel } from "../profile/ProfileModel";
+import { ProgramHistoryModel } from "./ProgramHistoryModel";
 import { ProgramBlockRunner } from "../../pbr/ProgramBlockRunner";
 import { IProfile, IProfileExportable } from "../../interfaces/IProfile";
 import { EPBRMode, IPBRPremades } from "../../interfaces/IProgramBlockRunner";
@@ -14,7 +14,7 @@ export class CycleController extends Controller {
 
     private machine: Machine;
 
-    private supportedCycles: {name: string, profileRequired: boolean}[] = [];
+    private supportedCycles: { name: string, profileRequired: boolean }[] = [];
     private premadeCycles: IPBRPremades[] = [];
     public program?: ProgramBlockRunner
 

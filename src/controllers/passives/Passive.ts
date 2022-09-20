@@ -1,6 +1,6 @@
-import { model, Schema } from "mongoose";
 import { IPassive } from "../../interfaces/IPassive";
 import { Machine } from "../../Machine";
+import { IPassiveStoredLogData, PassiveModel } from "./PassiveModel";
 
 const MAXPASSIVELOGPOINTSSTORED = 100;
 const MAXPASSIVELOGPOINTSSHOWN = 25;
@@ -252,36 +252,3 @@ export class Passive implements IPassive {
         }
     }
 }
-
-interface IPassiveStored {
-    name: string;
-    target: number;
-    state: boolean;
-
-    logData: IPassiveStoredLogData[]
-}
-
-interface IPassiveStoredLogData {
-    time?: Date,
-    state?: boolean
-
-    targetValue: number,
-    interpolatedSensorsValue: number,
-}
-
-const PassiveLogDataSchema = new Schema<IPassiveStoredLogData>({
-    time: { type: Date, default: Date.now },
-    targetValue: { type: Number, required: true },
-    interpolatedSensorsValue: { type: Number, required: true },
-    state: { type: Boolean, default: false}
-});
-
-const PassiveSchema = new Schema<IPassiveStored>({
-    name: { type: String, required: true },
-    target: { type: Number, required: true },
-    state: { type: Boolean, required: true },
-
-    logData: { type: [PassiveLogDataSchema], required: false, default: []}
-});
-
-const PassiveModel = model("passive", PassiveSchema);

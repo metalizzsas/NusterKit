@@ -1,13 +1,5 @@
-import {Schema, model} from "mongoose";
-import { IMaintenance, IConfigMaintenance, IMaintenanceProcedure } from "../../interfaces/IMaintenance";
-
-const MaintenanceSchema = new Schema<IMaintenance>({
-    name: { type: String, required: true }, //maintenance name
-    duration: { type: Number, required: true }, // maitenance current duration
-    operationDate: Number, // last maintenance operation date
-});
-
-const MaintenanceModel = model<IMaintenance>("Maintenance", MaintenanceSchema);
+import { IConfigMaintenance, IMaintenanceProcedure } from "../../interfaces/IMaintenance";
+import { MaintenanceModel } from "./MaintenanceModel";
 
 export class Maintenance implements IConfigMaintenance
 {

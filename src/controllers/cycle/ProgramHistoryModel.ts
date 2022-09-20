@@ -6,7 +6,7 @@ import { IPBRStatus, IProgramRunner } from "../../interfaces/IProgramBlockRunner
 import { IProgramStepRunner } from "../../interfaces/IProgramStep";
 import { IPBRSCCheckChain } from "../../interfaces/programblocks/startchain/IPBRSCCheckChain";
 import { IPBRStartCondition } from "../../interfaces/programblocks/startchain/IPBRStartCondition";
-import { ProfileSchema } from "../profile/Profile";
+import { ProfileSchema } from "../profile/ProfileModel";
 
 export interface IProgramHistory
 {

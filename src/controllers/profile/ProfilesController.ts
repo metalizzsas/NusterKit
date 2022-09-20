@@ -2,7 +2,7 @@ import { Machine } from "../../Machine";
 import { Controller } from "../Controller";
 
 import { Request, Response } from "express";
-import { ProfileModel } from "./Profile";
+import { ProfileModel } from "./ProfileModel";
 import { ObjectId } from "mongoose";
 import { IProfileSkeleton, IProfileExportable, IProfile } from "../../interfaces/IProfile";
 

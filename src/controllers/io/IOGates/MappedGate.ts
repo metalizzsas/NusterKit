@@ -19,12 +19,12 @@ export class MappedGate extends IOGate
 
         this.type = "mapped";
 
-        this.mapInMin = obj.mapInMin;
-        this.mapInMax = obj.mapInMax;
+        this.mapInMin = obj.mapInMin ?? 0;
+        this.mapInMax = obj.mapInMax ?? 32767;
 
         this.mapOutMin = obj.mapOutMin;
         this.mapOutMax = obj.mapOutMax;
-    }
+    } 
 
     public async read(ioController: IOController)
     {

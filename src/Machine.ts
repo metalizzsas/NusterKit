@@ -33,7 +33,7 @@ export class Machine {
     variant: string;
     revision: number;
 
-    addons?: string[]
+    addons?: string[];
 
     public specs: IMachine;
     public settings: IMachineSettings = {

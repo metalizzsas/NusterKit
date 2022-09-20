@@ -7,15 +7,14 @@ import { Request, Response } from "express";
 import { WAGO } from "./IOHandlers/WAGO";
 import { EX260S1 } from "./IOHandlers/EX260S1";
 import { EX260S3 } from "./IOHandlers/EX260S3";
-import { A10VIOGate } from "./IOGates/A10VGate";
 import { UM18IOGate } from "./IOGates/UM18Gate";
-import { EIOGateType, EIOGateBus } from "../../interfaces/gates/IIOGate";
 import { IUM18Gate } from "../../interfaces/gates/IUM18Gate";
 import { EM4 } from "./IOHandlers/EM4";
-import { EM4A10VIOGate } from "./IOGates/EM4A10VGate";
 import { PT100Gate } from "./IOGates/PT100Gate";
-import { AnalogPressureGate } from "./IOGates/AnalogPressureGate";
 import { EIOHandlerType } from "../../interfaces/IIOHandler";
+import { MappedGate } from "./IOGates/MappedGate";
+import { IMappedGate } from "../../interfaces/gates/IMappedGate";
+import { IPT100Gate } from "../../interfaces/gates/IPT100Gate";
 
 export class IOController extends Controller
 {
@@ -38,6 +37,7 @@ export class IOController extends Controller
 
     private _configure()
     {
+        // Register IO Handlers from their types
         for(const handler of this.machine.specs.iohandlers)
         {
             if(process.env.NODE_ENV != "production")
@@ -54,17 +54,14 @@ export class IOController extends Controller
             }
         }
         
+        // Register gates from their correspondig type
         for(const gate of this.machine.specs.iogates)
         {
             switch(gate.type)
             {
-                case EIOGateType.UM18: this.gates.push(new UM18IOGate(gate, (gate as IUM18Gate).levelMax)); break;
-
-                case EIOGateType.A10V: this.gates.push(new A10VIOGate(gate)); break;
-                case EIOGateType.EM4A10V: this.gates.push(new EM4A10VIOGate(gate)); break;
-
-                case EIOGateType.PT100: this.gates.push(new PT100Gate(gate)); break;
-                case EIOGateType.ANALOG_PRESSURE: this.gates.push(new AnalogPressureGate(gate)); break;
+                case "um18": this.gates.push(new UM18IOGate(gate as IUM18Gate)); break;
+                case "mapped": this.gates.push(new MappedGate(gate as IMappedGate)); break;
+                case "pt100": this.gates.push(new PT100Gate(gate as IPT100Gate)); break;
 
                 default: this.gates.push(new IOGate(gate)); break;
             }
@@ -89,7 +86,7 @@ export class IOController extends Controller
 
             if(gate)
             {
-                if(gate.bus != EIOGateBus.IN)
+                if(gate.bus != "in")
                 {
                     await gate.write(this, parseInt(req.params.value));
                     res.status(200).end();
@@ -122,10 +119,10 @@ export class IOController extends Controller
         {
             let skip = 1;
             this.timer = setInterval(() => {
-                for(const g of this.gates.filter((g) => g.bus == EIOGateBus.IN))
+                for(const g of this.gates.filter((g) => g.bus == "in"))
                 {
                     //skip the io read if the automaton is an EM4
-                    if(this.machine.ioController.handlers.at(g.automaton)?.type == EIOHandlerType.EM4)
+                    if(this.machine.ioController.handlers.at(g.controllerId)?.type == EIOHandlerType.EM4)
                         continue;
                     
                     if(g.isCritical || skip > 4)

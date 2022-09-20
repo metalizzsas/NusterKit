@@ -1,4 +1,4 @@
-import { IIOGate } from "./gates/IIOGate";
+import { IIOGate, IOGateTypes } from "./gates/IIOGate";
 import { IIOHandler } from "./IIOHandler";
 import { IConfigMaintenance } from "./IMaintenance";
 import { IManualMode } from "./IManualMode";
@@ -18,7 +18,7 @@ export declare interface IMachine
     /** IOHandler definitions */
     iohandlers: IIOHandler[],
     /** IOGates definition */
-    iogates: IIOGate[],
+    iogates: IOGateTypes[],
 
     /** Maintenance tasks definition */
     maintenance: IConfigMaintenance[],

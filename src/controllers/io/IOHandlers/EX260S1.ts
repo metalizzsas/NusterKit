@@ -15,7 +15,7 @@ export class EX260S1 extends IOHandler
 
     /**
      * Builds an EX260S1 object
-     * @param {String} ip 
+     * @param ip Ip address of the controller
      */
     constructor(ip: string, machine?: Machine)
     {

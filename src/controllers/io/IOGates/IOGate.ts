@@ -1,4 +1,4 @@
-import { IIOGate, EIOGateSize, EIOGateType, EIOGateBus } from "../../../interfaces/gates/IIOGate";
+import { IIOGate, IOGateTypeName } from "../../../interfaces/gates/IIOGate";
 import { IOController } from "../IOController";
 
 export class IOGate implements IIOGate
@@ -6,11 +6,11 @@ export class IOGate implements IIOGate
     name: string;
     category: string;
 
-    size: EIOGateSize;
-    type: EIOGateType;
-    bus: EIOGateBus;
+    size: "word" | "bit";
+    bus: "out" | "in";
+    type: IOGateTypeName;
 
-    automaton: number;
+    controllerId: number;
     address: number;
 
     default: number;
@@ -31,7 +31,7 @@ export class IOGate implements IIOGate
         this.type = obj.type;
         this.bus = obj.bus;
 
-        this.automaton = obj.automaton;
+        this.controllerId = obj.controllerId;
         this.address = obj.address;
 
         this.default = obj.default;
@@ -47,22 +47,22 @@ export class IOGate implements IIOGate
     {
         if(this.bus == 'out') return true;
 
-        const word = this.size == EIOGateSize.WORD ? true : undefined;
+        const word = this.size == "word" ? true : undefined;
 
         //ioController.machine.logger.trace("IOG-" + this.name + ": Reading from fieldbus.");
 
-        this.value = await ioController.handlers[this.automaton].readData(this.address, word);
+        this.value = await ioController.handlers[this.controllerId].readData(this.address, word);
         return true;
     }
 
     public async write(ioController: IOController, data: number): Promise<boolean>
     {
         if(this.bus == 'in') return true;
-        const word = this.size == EIOGateSize.WORD ? true : undefined;
+        const word = this.size == "word" ? true : undefined;
         
         ioController.machine.logger.trace("IOG-" + this.name + ": Writing (" + data + ") to fieldbus.");
 
-        await ioController.handlers[this.automaton].writeData(this.address, data, word)
+        await ioController.handlers[this.controllerId].writeData(this.address, data, word)
         this.value = data;
         return true;
     }

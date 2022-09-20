@@ -1,32 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "definitions": {
-        "EIOGateBus": {
-            "enum": [
-                "in",
-                "out"
-            ],
-            "type": "string"
-        },
-        "EIOGateSize": {
-            "enum": [
-                "bit",
-                "word"
-            ],
-            "type": "string"
-        },
-        "EIOGateType": {
-            "enum": [
-                "a10v",
-                "analog_pressure",
-                "default",
-                "em4a10v",
-                "em4temp",
-                "pt100",
-                "um18"
-            ],
-            "type": "string"
-        },
         "EIOHandlerType": {
             "enum": [
                 "em4",
@@ -425,6 +399,71 @@
             ],
             "type": "object"
         },
+        "IDefaultGate": {
+            "properties": {
+                "address": {
+                    "description": "Address on the automaton IPV4",
+                    "type": "number"
+                },
+                "bus": {
+                    "description": "Gate bus",
+                    "enum": [
+                        "in",
+                        "out"
+                    ],
+                    "type": "string"
+                },
+                "controllerId": {
+                    "description": "Automaton where this gate is available",
+                    "type": "number"
+                },
+                "default": {
+                    "description": "Default value of this gate",
+                    "type": "number"
+                },
+                "isCritical": {
+                    "description": "Is this gate Critical",
+                    "type": "boolean"
+                },
+                "manualModeWatchdog": {
+                    "description": "Does this gate triggers manual mode watchdog security",
+                    "type": "boolean"
+                },
+                "name": {
+                    "description": "Gate name",
+                    "type": "string"
+                },
+                "size": {
+                    "description": "Gate controller data size",
+                    "enum": [
+                        "bit",
+                        "word"
+                    ],
+                    "type": "string"
+                },
+                "type": {
+                    "description": "Gate type",
+                    "enum": [
+                        "default"
+                    ],
+                    "type": "string"
+                },
+                "unity": {
+                    "description": "Unity used by this gate",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "address",
+                "bus",
+                "controllerId",
+                "default",
+                "name",
+                "size",
+                "type"
+            ],
+            "type": "object"
+        },
         "IForLoopProgramBlock": {
             "properties": {
                 "blocks": {
@@ -498,40 +537,58 @@
         "IIOGate": {
             "properties": {
                 "address": {
-                    "type": "number"
-                },
-                "automaton": {
+                    "description": "Address on the automaton IPV4",
                     "type": "number"
                 },
                 "bus": {
-                    "$ref": "#/definitions/EIOGateBus"
+                    "description": "Gate bus",
+                    "enum": [
+                        "in",
+                        "out"
+                    ],
+                    "type": "string"
+                },
+                "controllerId": {
+                    "description": "Automaton where this gate is available",
+                    "type": "number"
                 },
                 "default": {
+                    "description": "Default value of this gate",
                     "type": "number"
                 },
                 "isCritical": {
+                    "description": "Is this gate Critical",
                     "type": "boolean"
                 },
                 "manualModeWatchdog": {
+                    "description": "Does this gate triggers manual mode watchdog security",
                     "type": "boolean"
                 },
                 "name": {
+                    "description": "Gate name",
                     "type": "string"
                 },
                 "size": {
-                    "$ref": "#/definitions/EIOGateSize"
+                    "description": "Gate controller data size",
+                    "enum": [
+                        "bit",
+                        "word"
+                    ],
+                    "type": "string"
                 },
                 "type": {
-                    "$ref": "#/definitions/EIOGateType"
+                    "$ref": "#/definitions/IOGateTypeName",
+                    "description": "Gate type"
                 },
                 "unity": {
+                    "description": "Unity used by this gate",
                     "type": "string"
                 }
             },
             "required": [
                 "address",
-                "automaton",
                 "bus",
+                "controllerId",
                 "default",
                 "name",
                 "size",
@@ -906,6 +963,86 @@
             ],
             "type": "object"
         },
+        "IMappedGate": {
+            "properties": {
+                "address": {
+                    "description": "Address on the automaton IPV4",
+                    "type": "number"
+                },
+                "bus": {
+                    "description": "Gate bus",
+                    "enum": [
+                        "in",
+                        "out"
+                    ],
+                    "type": "string"
+                },
+                "controllerId": {
+                    "description": "Automaton where this gate is available",
+                    "type": "number"
+                },
+                "default": {
+                    "description": "Default value of this gate",
+                    "type": "number"
+                },
+                "isCritical": {
+                    "description": "Is this gate Critical",
+                    "type": "boolean"
+                },
+                "manualModeWatchdog": {
+                    "description": "Does this gate triggers manual mode watchdog security",
+                    "type": "boolean"
+                },
+                "mapInMax": {
+                    "type": "number"
+                },
+                "mapInMin": {
+                    "type": "number"
+                },
+                "mapOutMax": {
+                    "type": "number"
+                },
+                "mapOutMin": {
+                    "type": "number"
+                },
+                "name": {
+                    "description": "Gate name",
+                    "type": "string"
+                },
+                "size": {
+                    "description": "Gate controller data size",
+                    "enum": [
+                        "word"
+                    ],
+                    "type": "string"
+                },
+                "type": {
+                    "description": "Gate type",
+                    "enum": [
+                        "mapped"
+                    ],
+                    "type": "string"
+                },
+                "unity": {
+                    "description": "Unity used by this gate",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "address",
+                "bus",
+                "controllerId",
+                "default",
+                "mapInMax",
+                "mapInMin",
+                "mapOutMax",
+                "mapOutMin",
+                "name",
+                "size",
+                "type"
+            ],
+            "type": "object"
+        },
         "IMultiplyParameterBlock": {
             "properties": {
                 "name": {
@@ -970,6 +1107,15 @@
                 }
             ],
             "description": "Parameter Blocks that return a number from data()"
+        },
+        "IOGateTypeName": {
+            "enum": [
+                "default",
+                "mapped",
+                "pt100",
+                "um18"
+            ],
+            "type": "string"
         },
         "IPBRPremades": {
             "properties": {
@@ -1040,6 +1186,74 @@
                 "checkChain",
                 "conditionName",
                 "startOnly"
+            ],
+            "type": "object"
+        },
+        "IPT100Gate": {
+            "properties": {
+                "address": {
+                    "description": "Address on the automaton IPV4",
+                    "type": "number"
+                },
+                "bus": {
+                    "description": "Gate bus",
+                    "enum": [
+                        "in",
+                        "out"
+                    ],
+                    "type": "string"
+                },
+                "controllerId": {
+                    "description": "Automaton where this gate is available",
+                    "type": "number"
+                },
+                "default": {
+                    "description": "Default value of this gate",
+                    "type": "number"
+                },
+                "isCritical": {
+                    "description": "Is this gate Critical",
+                    "type": "boolean"
+                },
+                "manualModeWatchdog": {
+                    "description": "Does this gate triggers manual mode watchdog security",
+                    "type": "boolean"
+                },
+                "name": {
+                    "description": "Gate name",
+                    "type": "string"
+                },
+                "size": {
+                    "description": "Gate controller data size",
+                    "enum": [
+                        "word"
+                    ],
+                    "type": "string"
+                },
+                "type": {
+                    "description": "Gate type",
+                    "enum": [
+                        "pt100"
+                    ],
+                    "type": "string"
+                },
+                "unity": {
+                    "description": "Unity used by this gate",
+                    "enum": [
+                        "°C"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "address",
+                "bus",
+                "controllerId",
+                "default",
+                "name",
+                "size",
+                "type",
+                "unity"
             ],
             "type": "object"
         },
@@ -2014,6 +2228,75 @@
             ],
             "type": "object"
         },
+        "IUM18Gate": {
+            "properties": {
+                "address": {
+                    "description": "Address on the automaton IPV4",
+                    "type": "number"
+                },
+                "bus": {
+                    "description": "Gate bus",
+                    "enum": [
+                        "in",
+                        "out"
+                    ],
+                    "type": "string"
+                },
+                "controllerId": {
+                    "description": "Automaton where this gate is available",
+                    "type": "number"
+                },
+                "default": {
+                    "description": "Default value of this gate",
+                    "type": "number"
+                },
+                "isCritical": {
+                    "description": "Is this gate Critical",
+                    "type": "boolean"
+                },
+                "levelMax": {
+                    "type": "number"
+                },
+                "manualModeWatchdog": {
+                    "description": "Does this gate triggers manual mode watchdog security",
+                    "type": "boolean"
+                },
+                "name": {
+                    "description": "Gate name",
+                    "type": "string"
+                },
+                "size": {
+                    "description": "Gate controller data size",
+                    "enum": [
+                        "bit",
+                        "word"
+                    ],
+                    "type": "string"
+                },
+                "type": {
+                    "description": "Gate type",
+                    "enum": [
+                        "um18"
+                    ],
+                    "type": "string"
+                },
+                "unity": {
+                    "description": "Unity used by this gate",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "address",
+                "bus",
+                "controllerId",
+                "default",
+                "levelMax",
+                "name",
+                "size",
+                "type"
+            ],
+            "type": "object"
+        },
         "IVariableParameterBlock": {
             "properties": {
                 "name": {
@@ -2158,7 +2441,48 @@
         "iogates": {
             "description": "IOGates definition",
             "items": {
-                "$ref": "#/definitions/IIOGate"
+                "anyOf": [
+                    {
+                        "allOf": [
+                            {
+                                "$ref": "#/definitions/IMappedGate"
+                            },
+                            {
+                                "$ref": "#/definitions/IIOGate"
+                            }
+                        ]
+                    },
+                    {
+                        "allOf": [
+                            {
+                                "$ref": "#/definitions/IUM18Gate"
+                            },
+                            {
+                                "$ref": "#/definitions/IIOGate"
+                            }
+                        ]
+                    },
+                    {
+                        "allOf": [
+                            {
+                                "$ref": "#/definitions/IPT100Gate"
+                            },
+                            {
+                                "$ref": "#/definitions/IIOGate"
+                            }
+                        ]
+                    },
+                    {
+                        "allOf": [
+                            {
+                                "$ref": "#/definitions/IDefaultGate"
+                            },
+                            {
+                                "$ref": "#/definitions/IIOGate"
+                            }
+                        ]
+                    }
+                ]
             },
             "type": "array"
         },

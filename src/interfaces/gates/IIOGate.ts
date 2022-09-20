@@ -1,48 +1,39 @@
-export enum EIOGateBus{
-    IN = "in",
-    OUT = "out"
-}
+import { IMappedGate } from "./IMappedGate";
+import { IUM18Gate } from "./IUM18Gate";
+import { IPT100Gate } from "./IPT100Gate";
 
-export enum EIOGateSize
-{
-    BIT = "bit",
-    WORD = "word"
-}
+export type IOGateTypeName = "pt100" | "um18" | "mapped" | "default";
 
-export enum EIOGateType
-{
-    A10V = "a10v",
-    EM4A10V = "em4a10v",
-
-    PT100 = "pt100",
-    ANALOG_PRESSURE = "analog_pressure",
-
-    UM18 = "um18",
-    
-    DEFAULT = "default",
-}
+export type IOGateTypes = (IDefaultGate | IUM18Gate | IMappedGate | IPT100Gate) & IIOGate;
 
 export interface IIOGate
 {
+    /** Gate name */
     name: string;
 
-    size: EIOGateSize;
-    type: EIOGateType;
-    bus: EIOGateBus;
+    /** Gate controller data size */
+    size: "bit" | "word";
+    /** Gate bus */
+    bus: "in" | "out";
+    /** Gate type */
+    type: IOGateTypeName;
 
-    automaton: number;
+    /** Automaton where this gate is available */
+    controllerId: number;
+    /** Address on the automaton IPV4 */
     address: number;
 
+    /** Default value of this gate */
     default: number;
 
+    /** Is this gate Critical */
     isCritical?: boolean;
+    /** Does this gate triggers manual mode watchdog security */
     manualModeWatchdog?: boolean;
+    /** Unity used by this gate */
     unity?: string;
 }
 
-export interface IMappedIOGate 
-{
-    size: EIOGateSize.WORD;
-    mapMax: number;
-    mapMin: number;
+export interface IDefaultGate extends IIOGate {
+    type: "default";
 }

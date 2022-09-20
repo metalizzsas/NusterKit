@@ -15,8 +15,7 @@ export class EX260S3 extends IOHandler
 
     /**
      * Builds an EX260S1 object
-     * @param ip Ip address to connect to
-     * @param machine Machine used to log 
+     * @param ip Ip address of the controller
      */
     constructor(ip: string, machine?: Machine)
     {

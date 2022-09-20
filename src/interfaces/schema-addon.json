@@ -559,7 +559,7 @@
         "IIOGate": {
             "properties": {
                 "address": {
-                    "description": "Address on the automaton IPV4",
+                    "description": "Address on the automaton address range",
                     "type": "number"
                 },
                 "bus": {
@@ -1229,6 +1229,9 @@
                 },
                 "internal": {
                     "description": "If a passive mode is internal, it means that it is hidden from user.",
+                    "enum": [
+                        true
+                    ],
                     "type": "boolean"
                 },
                 "manualModes": {

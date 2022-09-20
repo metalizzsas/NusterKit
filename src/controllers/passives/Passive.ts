@@ -7,7 +7,7 @@ const MAXPASSIVELOGPOINTSSHOWN = 25;
 
 export class Passive implements IPassive {
 
-    internal?: boolean;
+    internal?: true;
 
     name: string;
 
@@ -48,13 +48,14 @@ export class Passive implements IPassive {
 
         this.state = false;
 
-        this.createOrModifyPassiveDocument();
-
         if(this.internal === true)
             this.toggle(true, true);
+        else
+            this.createOrModifyPassiveDocument();
     }
 
     async addLogDataPoint() {
+
         const doc = await PassiveModel.findOne({ name: this.name });
 
         if(doc !== null)

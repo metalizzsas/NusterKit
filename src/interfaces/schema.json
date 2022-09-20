@@ -402,7 +402,7 @@
         "IDefaultGate": {
             "properties": {
                 "address": {
-                    "description": "Address on the automaton IPV4",
+                    "description": "Address on the automaton address range",
                     "type": "number"
                 },
                 "bus": {
@@ -537,7 +537,7 @@
         "IIOGate": {
             "properties": {
                 "address": {
-                    "description": "Address on the automaton IPV4",
+                    "description": "Address on the automaton address range",
                     "type": "number"
                 },
                 "bus": {
@@ -964,9 +964,10 @@
             "type": "object"
         },
         "IMappedGate": {
+            "description": "Mapped gates, converts automatically data from controller to Human readable data",
             "properties": {
                 "address": {
-                    "description": "Address on the automaton IPV4",
+                    "description": "Address on the automaton address range",
                     "type": "number"
                 },
                 "bus": {
@@ -994,15 +995,19 @@
                     "type": "boolean"
                 },
                 "mapInMax": {
+                    "description": "Mapped input max data, from IOController",
                     "type": "number"
                 },
                 "mapInMin": {
+                    "description": "Mapped input min data, from IO Controller",
                     "type": "number"
                 },
                 "mapOutMax": {
+                    "description": "Mapped output max data, to Human",
                     "type": "number"
                 },
                 "mapOutMin": {
+                    "description": "Mapped output min data, to Human",
                     "type": "number"
                 },
                 "name": {
@@ -1010,7 +1015,7 @@
                     "type": "string"
                 },
                 "size": {
-                    "description": "Gate controller data size",
+                    "description": "Size is always a word for this typoe of Gate",
                     "enum": [
                         "word"
                     ],
@@ -1033,8 +1038,6 @@
                 "bus",
                 "controllerId",
                 "default",
-                "mapInMax",
-                "mapInMin",
                 "mapOutMax",
                 "mapOutMin",
                 "name",
@@ -1192,7 +1195,7 @@
         "IPT100Gate": {
             "properties": {
                 "address": {
-                    "description": "Address on the automaton IPV4",
+                    "description": "Address on the automaton address range",
                     "type": "number"
                 },
                 "bus": {
@@ -1339,6 +1342,9 @@
                 },
                 "internal": {
                     "description": "If a passive mode is internal, it means that it is hidden from user.",
+                    "enum": [
+                        true
+                    ],
                     "type": "boolean"
                 },
                 "manualModes": {
@@ -2231,7 +2237,7 @@
         "IUM18Gate": {
             "properties": {
                 "address": {
-                    "description": "Address on the automaton IPV4",
+                    "description": "Address on the automaton address range",
                     "type": "number"
                 },
                 "bus": {

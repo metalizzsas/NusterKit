@@ -1,7 +1,7 @@
 export interface IPassive
 {
     /** If a passive mode is internal, it means that it is hidden from user. */
-    internal?: boolean;
+    internal?: true;
 
     /** Passive name */
     name: string;

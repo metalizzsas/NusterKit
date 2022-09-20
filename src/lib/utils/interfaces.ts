@@ -245,7 +245,34 @@ interface Machine {
   balenaVersion: string;
   settings: Settings;
   hypervisorData?: IHypervisorData;
+  vpnData?: IVPNData;
+  deviceData?: IDeviceData;
 }
+
+interface IVPNData {
+  status: string;
+  vpn: Vpn;
+}
+
+interface Vpn {
+  enabled: boolean;
+  connected: boolean;
+}
+
+interface IDeviceData {
+  api_port: number;
+  ip_address: string;
+  mac_address: string;
+  commit: string;
+  status: string;
+  download_progress: number;
+  os_version: string;
+  supervisor_version: string;
+  update_pending: boolean;
+  update_downloaded: boolean;
+  update_failed: boolean;
+}
+
 
 interface Settings {
   maskedPremades: any[];

@@ -7,98 +7,52 @@
 		useNavContainer,
 	} from '$lib/utils/stores/navstack';
 
-	import { locales, _ } from 'svelte-i18n';
+	import { _, date, time } from 'svelte-i18n';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { BUNDLED } from '$lib/bundle';
 	import { machineData } from '$lib/utils/stores/store';
-	import { onMount } from 'svelte';
-	import { Linker } from '$lib/utils/stores/linker';
-	import { lang, dark, layoutSimplified } from '$lib/utils/stores/settings';
 
-	import Modalcontent from '../modals/modalcontent.svelte';
-	import Toggle from '../userInputs/toggle.svelte';
-	import SvelteMarkdown from 'svelte-markdown';
 	import Navcontainer from './navcontainer.svelte';
 	import Button from '../button.svelte';
 	import Flex from '../layout/flex.svelte';
 	import Informations from './indexStackContent/informations.svelte';
 	import Updates from './indexStackContent/updates.svelte';
+	import Settings from './indexStackContent/settings.svelte';
+	import Label from '$lib/components/label.svelte';
+	import { onDestroy, onMount } from 'svelte';
+	import Network from './indexStackContent/network.svelte';
+
+	let shownModal: 'settings' | 'info' | 'updates' | 'network' | null = null;
+
+	$: displaySettings = shownModal == 'settings';
+	$: displayInfo = shownModal == 'info';
+	$: displayNetworkInfo = shownModal == 'network';
+	$: displayUpdateScreen = shownModal == 'updates';
+
+	//circular inference
+	//$: shownModal = (displayInfo || displayNetworkInfo || displaySettings || displayUpdateScreen) ? shownModal : '';
 
 	$: index = $page.url.pathname == '/app';
 
-	let isShrinked = true;
-	let isUpdateShrinked = true;
+	let dateNow: number = 0;
+	let dateInterval: NodeJS.Timer;
 
-	let displayOptions = false;
+	onMount(() => {
+		dateInterval = setInterval(() => {
+			dateNow = Date.now();
+		}, 1000);
+	});
 
-	/// Modal options
-	const langs: { [x: string]: string } = {
-		en: 'English',
-		fr: 'Français',
-	};
-
-	let markdownReleaseNotes = '';
-	let markdownReleaseNotesUI = '';
-	let displayUpdateNotes = false;
-	let displayUpdateScreen = false;
-
-	onMount(async () => {
-		const releaseNotesRequest = await fetch('//' + $Linker + '/api/currentReleaseNotes');
-		const ndreleaseNotesRequest = await fetch('/release.md');
-
-		markdownReleaseNotes = await releaseNotesRequest.text();
-		markdownReleaseNotesUI = await ndreleaseNotesRequest.text();
+	onDestroy(() => {
+		if (dateInterval) clearInterval(dateInterval);
 	});
 </script>
 
-<!--- options modal -->
-<Modalcontent bind:shown={displayOptions} title={$_('settings.main')}>
-	<div class="flex flex-col gap-3">
-		{#if $machineData.machine.model == 'uscleaner'}
-			<div class="flex flex-row justify-between dark:text-white text-gray-800 items-center">
-				{$_('settings.layout-format')}
-				<Toggle
-					bind:value={$layoutSimplified}
-					on:change={(e) => ($layoutSimplified = e.detail.value)}
-				/>
-			</div>
-		{/if}
-		<div class="flex flex-row justify-between dark:text-white text-gray-800 items-center">
-			{$_('settings.enable-dark-mode')}
-			<Toggle bind:value={$dark} on:change={(e) => ($dark = e.detail.value)} />
-		</div>
-		<div class="flex flex-row gap-4 justify-between dark:text-white text-gray-800 items-center">
-			{$_('settings.language')}
-			<select bind:value={$lang} class="text-gray-800 py-1 px-2 bg-gray-300">
-				{#each $locales as locale}
-					<option value={locale}>{langs[locale]}</option>
-				{/each}
-			</select>
-		</div>
-	</div>
-</Modalcontent>
-
-<Modalcontent bind:shown={displayUpdateNotes} title={$_('settings.updateNotes.main')}>
-	<div class="markdown grid grid-cols-1 md:grid-cols-2 text-md">
-		<div>
-			<h1>{$_('settings.updateNotes.firmware')}</h1>
-			<SvelteMarkdown source={markdownReleaseNotes} />
-		</div>
-		<div>
-			<h1>{$_('settings.updateNotes.ui')}</h1>
-			<SvelteMarkdown source={markdownReleaseNotesUI} />
-		</div>
-	</div>
-</Modalcontent>
-
-<Modalcontent
-	bind:shown={displayUpdateScreen}
-	title={$_('settings.updateGoing.title')}
-	displayClose={false}
->
-	{$_('settings.updateGoing.desc')}
-</Modalcontent>
+<Settings bind:shown={displaySettings} />
+<Informations bind:shown={displayInfo} />
+<Updates bind:shown={displayUpdateScreen} />
+<Network bind:shown={displayNetworkInfo} />
 
 <div
 	class="bg-gradient-to-br from-indigo-600 to-indigo-500 rounded-xl ring-[0.5px] ring-indigo-300/50 mb-6 text-white"
@@ -159,13 +113,19 @@
 			</Flex>
 		{:else}
 			<Flex gap={5} items="center" class="ml-auto">
+				<Label color={'bg-white text-zinc-600'} class="font-semibold">
+					{$date(dateNow)} - {$time(dateNow, { format: 'medium' })}
+				</Label>
 				{#if $machineData.machine.hypervisorData !== undefined}
 					{#if ($machineData.machine.hypervisorData.overallDownloadProgress || 0) > 0 || $machineData.machine.hypervisorData.appState != 'applied'}
 						<button
 							class="rounded-full bg-white p-1 transition hover:rotate-180 duration-300"
 							on:click={() => {
-								isUpdateShrinked = !isUpdateShrinked;
-								isShrinked = true;
+								displaySettings = false;
+								displayInfo = false;
+								displayNetworkInfo = false;
+								displayUpdateScreen = false;
+								shownModal = 'updates';
 							}}
 						>
 							<span
@@ -195,7 +155,11 @@
 				<button
 					class="rounded-full bg-white p-1 transition hover:rotate-180 duration-300"
 					on:click={() => {
-						displayOptions = !displayOptions;
+						displaySettings = false;
+						displayInfo = false;
+						displayNetworkInfo = false;
+						displayUpdateScreen = false;
+						shownModal = 'settings';
 					}}
 				>
 					<svg
@@ -214,8 +178,11 @@
 				<button
 					class="rounded-full bg-white p-1 transition hover:rotate-180 duration-300"
 					on:click={() => {
-						isShrinked = !isShrinked;
-						isUpdateShrinked = true;
+						displaySettings = false;
+						displayInfo = false;
+						displayNetworkInfo = false;
+						displayUpdateScreen = false;
+						shownModal = 'info';
 					}}
 				>
 					<svg
@@ -230,16 +197,34 @@
 						/>
 					</svg>
 				</button>
+
+				<button
+					class="rounded-full bg-white p-1 transition hover:rotate-180 duration-300"
+					on:click={() => {
+						displaySettings = false;
+						displayInfo = false;
+						displayNetworkInfo = false;
+						displayUpdateScreen = false;
+						shownModal = 'network';
+					}}
+				>
+					<svg
+						id="glyphicons-basic"
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 32 32"
+						class="{$machineData.machine.vpnData?.vpn.connected
+							? 'fill-emerald-500'
+							: 'fill-orange-500'} h-5 w-5"
+					>
+						<path
+							id="access-point"
+							d="M22.90039,13a6.86213,6.86213,0,0,1-2.06207,4.90479,1.004,1.004,0,0,1-1.40955-.01453l-.5672-.56726a.98259.98259,0,0,1-.015-1.395,4.04755,4.04755,0,0,0,0-5.85608.98279.98279,0,0,1,.01507-1.39514l.56714-.56714a1.0041,1.0041,0,0,1,1.40955-.01441A6.86237,6.86237,0,0,1,22.90039,13Zm-11,0a4.05054,4.05054,0,0,1,1.25305-2.9281.98279.98279,0,0,0-.01507-1.39514l-.56714-.56714a1.0041,1.0041,0,0,0-1.40955-.01441,6.86424,6.86424,0,0,0,0,9.80958,1.004,1.004,0,0,0,1.40955-.01453l.5672-.56726a.98259.98259,0,0,0,.015-1.395A4.05027,4.05027,0,0,1,11.90039,13ZM24.39746,4.58252a1.01145,1.01145,0,0,0-1.43121-.0105l-.567.567a.99491.99491,0,0,0,.00708,1.41272,9.06577,9.06577,0,0,1,0,12.89648.99491.99491,0,0,0-.00708,1.41272l.567.567a1.01145,1.01145,0,0,0,1.43121-.0105,11.865,11.865,0,0,0,0-16.835ZM6.90039,13a9.06065,9.06065,0,0,1,2.6933-6.44824A.99491.99491,0,0,0,9.60077,5.139l-.567-.567a1.01145,1.01145,0,0,0-1.43121.0105,11.865,11.865,0,0,0,0,16.835,1.01145,1.01145,0,0,0,1.43121.0105l.567-.567a.99491.99491,0,0,0-.00708-1.41272A9.06065,9.06065,0,0,1,6.90039,13ZM16,11a2,2,0,1,0,2,2A2.00213,2.00213,0,0,0,16,11Zm.5,6h-1a.673.673,0,0,0-.62128.48511L14,21v6a1,1,0,0,0,1,1h2a1,1,0,0,0,1-1V21l-.87872-3.51489A.673.673,0,0,0,16.5,17Z"
+						/>
+					</svg>
+				</button>
 			</Flex>
 		{/if}
 	</Flex>
-	{#if index}
-		{#if !isShrinked}
-			<Informations bind:displayUpdateNotes />
-		{:else if !isUpdateShrinked}
-			<Updates bind:isUpdateShrinked bind:displayUpdateScreen />
-		{/if}
-	{/if}
 </div>
 
 <Navcontainer bind:style={$useNavContainer}>

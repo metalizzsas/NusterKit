@@ -21,6 +21,4 @@ This info file, helps NusterTurbine to find the accurate `specs.json` file in [N
 ## **Environment Vars 🏠**
 
 * `DISABLE_AUTH` when set to anything disable Auth module to access any route without being authentified.
-* `DISABLE_TRACE_LOG` when set to anything disable Trace level logs.
-* `DISABLE_HANDLERS` when set to true, disables io controllers handlers.
 * `NODE_ENV` when set to 'production' it enables Cycle watchdog and EthernetIP controller tests.

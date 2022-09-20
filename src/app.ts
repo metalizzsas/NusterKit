@@ -9,7 +9,6 @@ import lockFile from "lockfile";
 import { Server } from "http";
 import { pinoHttp } from "pino-http";
 import { pino } from "pino";
-
 import { Machine } from "./Machine";
 
 interface IStatus
@@ -30,6 +29,8 @@ class NusterTurbine
 
     private HTTP_PORT = 4080;
 
+    private productionEnabled = process.env.NODE_ENV == "production";
+
     constructor()
     {
         this.status = {
@@ -38,14 +39,14 @@ class NusterTurbine
         };
 
         this.logger = pino({
-            level: process.env.DISABLE_TRACE_LOG != "" ? "trace" : "info"
+            level: this.productionEnabled ? "info" : "trace"
         }, pino.destination(process.stdout));
 
         this.logger.info("Starting NusterTurbine");
 
         this.status.mode = "running";
 
-        const infoPath = (process.env.NODE_ENV != 'production' || process.env.FORCE_DEV_CONFIG == 'true') ? path.resolve("data", "info.json") : "/data/info.json";
+        const infoPath = this.productionEnabled ? "/data/info.json" : path.resolve("data", "info.json");
 
         if(fs.existsSync(infoPath))
         {
@@ -66,7 +67,6 @@ class NusterTurbine
         lockFile.lock("/tmp/balena/updates.lock", (err) => {
             (err) ? this.logger.error("Lock: Updates locking failed.", err) : this.logger.info("Lock: Updates are now locked.");                
         });
-
     }
     private _expressConfig()
     {
@@ -78,7 +78,7 @@ class NusterTurbine
             this.app.post("/config", (req: Request, res: Response) => {
                 if(req.body)
                 {
-                    if(process.env.NODE_ENV != 'production')
+                    if(!this.productionEnabled)
                     {
                         fs.mkdirSync(path.resolve("data"), {recursive: true});
                         fs.writeFileSync(path.resolve("data", "info.json"), JSON.stringify(req.body, null, 4));
@@ -156,7 +156,7 @@ class NusterTurbine
             }
         });
 
-        if(process.env.NODE_ENV != "production")
+        if(!this.productionEnabled)
         {
             this.app.all("/api/*", (req: Request, res: Response) => res.redirect(307, req.url.replace("/api", "")));
         }
@@ -166,7 +166,7 @@ class NusterTurbine
      */
     private _websocket()
     {
-        this.wsServer = new WebSocketServer({server: this.httpServer, path: (process.env.NODE_ENV == "production") ? '' : '/ws/'});
+        this.wsServer = new WebSocketServer({server: this.httpServer, path: this.productionEnabled ? '' : '/ws/'});
 
         this.wsServer.on("listening", () => {
             this.logger.info("Websocket: Server listening..");

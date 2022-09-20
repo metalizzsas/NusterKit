@@ -157,6 +157,7 @@ interface Sensor {
   io: string;
   type: string;
   value: number;
+  unity?: string;
 }
 
 export interface Cycle {

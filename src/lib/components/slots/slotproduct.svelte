@@ -106,7 +106,10 @@
 							/>
 						{:else}
 							<span class="bg-gray-900 p-1 px-5 rounded-full text-white">
-								{Math.ceil(s.value * 100)}
+								{Math.round(s.value * 100) / 100}
+								{#if s.unity != undefined}
+									{s.unity}
+								{/if}
 							</span>
 						{/if}
 					</div>

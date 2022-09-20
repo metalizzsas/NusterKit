@@ -118,7 +118,7 @@
 							{/if}
 
 							<span class="py-1 px-2 rounded-full bg-white text-gray-800 text-sm">
-								{Math.ceil(gate.value)}
+								{Math.round(gate.value * 100) / 100}
 								{#if gate.unity != undefined}
 									{gate.unity}
 								{/if}

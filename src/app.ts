@@ -38,9 +38,25 @@ class NusterTurbine
             errors: []
         };
 
+        //Base folder for logs
+        const logFileFolder = this.productionEnabled ? '/data/logs' : path.resolve("data", "logs");
+
+        //Check if base folder for logs exists if not create it
+        if(!fs.existsSync(logFileFolder))
+            fs.mkdirSync(logFileFolder, { recursive: true });
+
+        //Log file name
+        const logFileStream = this.productionEnabled ? `${logFileFolder}/logs-${Date.now()}.json` : path.resolve(logFileFolder, `logs-${Date.now()}.json`);
+
+        //Streams used by pino
+        const streams = [
+            { stream: process.stdout },
+            { stream: pino.destination(logFileStream) },
+        ];
+
         this.logger = pino({
             level: this.productionEnabled ? "info" : "trace"
-        }, pino.destination(process.stdout));
+        }, pino.multistream(streams));
 
         this.logger.info("Starting NusterTurbine");
 

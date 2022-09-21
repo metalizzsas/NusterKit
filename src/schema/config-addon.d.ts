@@ -83,7 +83,7 @@ export interface IAddonContent {
   content:
     | IProgram[]
     | IPBRPremades[]
-    | IIOHandler[]
+    | (IModbusControllers | IEX260Controller)[]
     | IIOGate[]
     | IConfigMaintenance[]
     | IManualMode[]
@@ -752,24 +752,35 @@ export interface IPBRPremades {
   profile: string;
   [k: string]: unknown;
 }
-export interface IIOHandler {
+export interface IModbusControllers {
   /**
    * IP Address on the local network
    */
   ip: string;
   /**
-   * Name of the IO Handler
+   * Type of the IO Handler
    */
-  name: string;
+  type: "em4" | "wago";
+  [k: string]: unknown;
+}
+export interface IEX260Controller {
+  /**
+   * IP Address on the local network
+   */
+  ip: string;
+  /**
+   * Corresponding size of the EX260 (either 16 outputs or 32 outputs)
+   */
+  size: 16 | 32;
   /**
    * Type of the IO Handler
    */
-  type: "em4" | "ex260s1" | "ex260s3" | "wago";
+  type: "ex260sx";
   [k: string]: unknown;
 }
 export interface IIOGate {
   /**
-   * Address on the automaton IPV4
+   * Address on the automaton address range
    */
   address: number;
   /**
@@ -926,7 +937,7 @@ export interface IPassive {
   /**
    * If a passive mode is internal, it means that it is hidden from user.
    */
-  internal?: boolean;
+  internal?: true;
   /**
    * Manual modes triggered by this passive regulation
    */

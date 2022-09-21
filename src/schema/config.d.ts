@@ -70,7 +70,7 @@ export interface Schema {
   /**
    * IOHandler definitions
    */
-  iohandlers: IIOHandler[];
+  iohandlers: (IModbusControllers | IEX260Controller)[];
   /**
    * Maintenance tasks definition
    */
@@ -752,9 +752,12 @@ export interface IPassiveProgramBlock {
   ];
   [k: string]: unknown;
 }
+/**
+ * Mapped gates, converts automatically data from controller to Human readable data
+ */
 export interface IMappedGate {
   /**
-   * Address on the automaton IPV4
+   * Address on the automaton address range
    */
   address: number;
   /**
@@ -777,16 +780,28 @@ export interface IMappedGate {
    * Does this gate triggers manual mode watchdog security
    */
   manualModeWatchdog?: boolean;
-  mapInMax: number;
-  mapInMin: number;
+  /**
+   * Mapped input max data, from IOController
+   */
+  mapInMax?: number;
+  /**
+   * Mapped input min data, from IO Controller
+   */
+  mapInMin?: number;
+  /**
+   * Mapped output max data, to Human
+   */
   mapOutMax: number;
+  /**
+   * Mapped output min data, to Human
+   */
   mapOutMin: number;
   /**
    * Gate name
    */
   name: string;
   /**
-   * Gate controller data size
+   * Size is always a word for this typoe of Gate
    */
   size: "word";
   /**
@@ -801,7 +816,7 @@ export interface IMappedGate {
 }
 export interface IIOGate {
   /**
-   * Address on the automaton IPV4
+   * Address on the automaton address range
    */
   address: number;
   /**
@@ -844,7 +859,7 @@ export interface IIOGate {
 }
 export interface IUM18Gate {
   /**
-   * Address on the automaton IPV4
+   * Address on the automaton address range
    */
   address: number;
   /**
@@ -888,7 +903,7 @@ export interface IUM18Gate {
 }
 export interface IPT100Gate {
   /**
-   * Address on the automaton IPV4
+   * Address on the automaton address range
    */
   address: number;
   /**
@@ -931,7 +946,7 @@ export interface IPT100Gate {
 }
 export interface IDefaultGate {
   /**
-   * Address on the automaton IPV4
+   * Address on the automaton address range
    */
   address: number;
   /**
@@ -972,19 +987,30 @@ export interface IDefaultGate {
   unity?: string;
   [k: string]: unknown;
 }
-export interface IIOHandler {
+export interface IModbusControllers {
   /**
    * IP Address on the local network
    */
   ip: string;
   /**
-   * Name of the IO Handler
+   * Type of the IO Handler
    */
-  name: string;
+  type: "em4" | "wago";
+  [k: string]: unknown;
+}
+export interface IEX260Controller {
+  /**
+   * IP Address on the local network
+   */
+  ip: string;
+  /**
+   * Corresponding size of the EX260 (either 16 outputs or 32 outputs)
+   */
+  size: 16 | 32;
   /**
    * Type of the IO Handler
    */
-  type: "em4" | "ex260s1" | "ex260s3" | "wago";
+  type: "ex260sx";
   [k: string]: unknown;
 }
 /**
@@ -1103,7 +1129,7 @@ export interface IPassive {
   /**
    * If a passive mode is internal, it means that it is hidden from user.
    */
-  internal?: boolean;
+  internal?: true;
   /**
    * Manual modes triggered by this passive regulation
    */

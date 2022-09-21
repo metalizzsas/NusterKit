@@ -2,7 +2,6 @@
     "$schema": "../../../../src/schema/schema.json",
     "iohandlers": [
         {
-            "name": "WAGO",
             "type": "wago",
             "ip": "192.168.1.10"
         }

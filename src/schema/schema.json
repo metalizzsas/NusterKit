@@ -1,15 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "definitions": {
-        "EIOHandlerType": {
-            "enum": [
-                "em4",
-                "ex260s1",
-                "ex260s3",
-                "wago"
-            ],
-            "type": "string"
-        },
         "EProductSeries": {
             "description": "Product series TODO: Make this only available for offline devices",
             "enum": [
@@ -402,7 +393,7 @@
         "IDefaultGate": {
             "properties": {
                 "address": {
-                    "description": "Address on the automaton IPV4",
+                    "description": "Address on the automaton address range",
                     "type": "number"
                 },
                 "bus": {
@@ -459,6 +450,35 @@
                 "controllerId",
                 "default",
                 "name",
+                "size",
+                "type"
+            ],
+            "type": "object"
+        },
+        "IEX260Controller": {
+            "properties": {
+                "ip": {
+                    "description": "IP Address on the local network",
+                    "type": "string"
+                },
+                "size": {
+                    "description": "Corresponding size of the EX260 (either 16 outputs or 32 outputs)",
+                    "enum": [
+                        16,
+                        32
+                    ],
+                    "type": "number"
+                },
+                "type": {
+                    "description": "Type of the IO Handler",
+                    "enum": [
+                        "ex260sx"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ip",
                 "size",
                 "type"
             ],
@@ -537,7 +557,7 @@
         "IIOGate": {
             "properties": {
                 "address": {
-                    "description": "Address on the automaton IPV4",
+                    "description": "Address on the automaton address range",
                     "type": "number"
                 },
                 "bus": {
@@ -592,28 +612,6 @@
                 "default",
                 "name",
                 "size",
-                "type"
-            ],
-            "type": "object"
-        },
-        "IIOHandler": {
-            "properties": {
-                "ip": {
-                    "description": "IP Address on the local network",
-                    "type": "string"
-                },
-                "name": {
-                    "description": "Name of the IO Handler",
-                    "type": "string"
-                },
-                "type": {
-                    "$ref": "#/definitions/EIOHandlerType",
-                    "description": "Type of the IO Handler"
-                }
-            },
-            "required": [
-                "ip",
-                "name",
                 "type"
             ],
             "type": "object"
@@ -964,9 +962,10 @@
             "type": "object"
         },
         "IMappedGate": {
+            "description": "Mapped gates, converts automatically data from controller to Human readable data",
             "properties": {
                 "address": {
-                    "description": "Address on the automaton IPV4",
+                    "description": "Address on the automaton address range",
                     "type": "number"
                 },
                 "bus": {
@@ -994,15 +993,19 @@
                     "type": "boolean"
                 },
                 "mapInMax": {
+                    "description": "Mapped input max data, from IOController",
                     "type": "number"
                 },
                 "mapInMin": {
+                    "description": "Mapped input min data, from IO Controller",
                     "type": "number"
                 },
                 "mapOutMax": {
+                    "description": "Mapped output max data, to Human",
                     "type": "number"
                 },
                 "mapOutMin": {
+                    "description": "Mapped output min data, to Human",
                     "type": "number"
                 },
                 "name": {
@@ -1010,7 +1013,7 @@
                     "type": "string"
                 },
                 "size": {
-                    "description": "Gate controller data size",
+                    "description": "Size is always a word for this typoe of Gate",
                     "enum": [
                         "word"
                     ],
@@ -1033,12 +1036,31 @@
                 "bus",
                 "controllerId",
                 "default",
-                "mapInMax",
-                "mapInMin",
                 "mapOutMax",
                 "mapOutMin",
                 "name",
                 "size",
+                "type"
+            ],
+            "type": "object"
+        },
+        "IModbusControllers": {
+            "properties": {
+                "ip": {
+                    "description": "IP Address on the local network",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "Type of the IO Handler",
+                    "enum": [
+                        "em4",
+                        "wago"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ip",
                 "type"
             ],
             "type": "object"
@@ -1192,7 +1214,7 @@
         "IPT100Gate": {
             "properties": {
                 "address": {
-                    "description": "Address on the automaton IPV4",
+                    "description": "Address on the automaton address range",
                     "type": "number"
                 },
                 "bus": {
@@ -1339,6 +1361,9 @@
                 },
                 "internal": {
                     "description": "If a passive mode is internal, it means that it is hidden from user.",
+                    "enum": [
+                        true
+                    ],
                     "type": "boolean"
                 },
                 "manualModes": {
@@ -2231,7 +2256,7 @@
         "IUM18Gate": {
             "properties": {
                 "address": {
-                    "description": "Address on the automaton IPV4",
+                    "description": "Address on the automaton address range",
                     "type": "number"
                 },
                 "bus": {
@@ -2489,7 +2514,14 @@
         "iohandlers": {
             "description": "IOHandler definitions",
             "items": {
-                "$ref": "#/definitions/IIOHandler"
+                "anyOf": [
+                    {
+                        "$ref": "#/definitions/IModbusControllers"
+                    },
+                    {
+                        "$ref": "#/definitions/IEX260Controller"
+                    }
+                ]
             },
             "type": "array"
         },

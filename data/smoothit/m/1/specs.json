@@ -2,13 +2,12 @@
    "$schema": "../../../../src/schema/schema.json",
    "iohandlers": [
       {
-         "name": "WAGO",
          "type": "wago",
          "ip": "192.168.1.10"
       },
       {
-         "name": "EX260S3",
-         "type": "ex260s3",
+         "type": "ex260sx",
+         "size": 16,
          "ip": "192.168.1.3"
       }
    ],

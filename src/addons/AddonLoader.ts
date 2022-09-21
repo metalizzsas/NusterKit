@@ -1,10 +1,10 @@
 import pino from "pino";
+import { deepInsert } from "../deepSet";
 import { IAddon } from "../interfaces/IAddon";
 import { IMachine } from "../interfaces/IMachine";
 
 /**
  * Load addons on spec file
- * TODO: Regulate problem with `@ts-ignore`
  * @experimental
  * @param specs Original specs
  * @param addon Addon data
@@ -15,21 +15,10 @@ export function parseAddon(specs: IMachine, addon: IAddon, logger: pino.Logger):
 {
     logger.info("AddonLoader: Adding " + addon.addonName + ".");
 
-    for(const addonCategory of addon.content)
+    for(const content of addon.content)
     {
-        logger.info(" ↳ " + addonCategory.category + " sub-element with mode " + addonCategory.type + ".")
-        if(addonCategory.type == "replace")
-        {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            //@ts-ignore
-            specs[addonCategory.category] = addonCategory.content;
-        }
-        else
-        {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            //@ts-ignore
-            specs[addonCategory.category].push(...addonCategory.content);
-        }
+        logger.info(" ↳ Adding content with " + content.path + ".")
+        deepInsert(specs, content.content, content.path);
     }
 
     return specs;

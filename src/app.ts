@@ -56,7 +56,7 @@ class NusterTurbine
         ];
 
         this.logger = pino({
-            level: this.productionEnabled ? "info" : "trace"
+            level: this.productionEnabled == true ? "info" : "trace"
         }, pino.multistream(streams));
 
         this.logger.info("Starting NusterTurbine");

@@ -1,4 +1,3 @@
-import { IOHandler } from "./IOHandler";
 import process from "process";
 import { Buffer } from "buffer";
 import ping from "ping";
@@ -6,20 +5,27 @@ import { Machine } from "../../../Machine";
 import { ENIP } from "ts-enip";
 import { MessageRouter } from "ts-enip/dist/enip/cip/messageRouter";
 import { Encapsulation } from "ts-enip/dist/enip/encapsulation";
-import { EIOHandlerType } from "../../../interfaces/IIOHandler";
+import { IOPhysicalController } from "./IOPhysicalController";
+import { IEX260Controller } from "../../../interfaces/IIOControllers";
 
-export class EX260S3 extends IOHandler
+export class EX260Sx extends IOPhysicalController implements IEX260Controller
 {
     private controller: ENIP.SocketController;
     private machine?: Machine;
 
+    type: "ex260sx";
+    size: 16 | 32;
+
     /**
-     * Builds an EX260S1 object
+     * Builds an EX260Sx object
      * @param ip Ip address of the controller
      */
-    constructor(ip: string, machine?: Machine)
+    constructor(ip: string, size: 16 | 32, machine?: Machine)
     {
-        super("ex260s3", EIOHandlerType.EX260S3, ip);
+        super("ex260sx", ip);
+
+        this.type = "ex260sx";
+        this.size = size;
         
         this.controller = new ENIP.SocketController();
         this.connected = false;
@@ -47,18 +53,20 @@ export class EX260S3 extends IOHandler
             if(sessionID !== undefined)
             {
                 this.connected = true;
-                this.machine?.logger.info("EX260S3: Connected");
-                //recconnect ex260 on lost connexion
+                this.machine?.logger.info("EX260Sx: Connected");
+
+                //change state if disconnected
                 this.controller.events.once('close', async () => { 
-                    this.machine?.logger.info("EX260S3: Disconnected");
-                    this.connected = false;
+                    this.machine?.logger.info("EX260Sx: Disconnected");
+                    this.connected = false; 
                 });
+
                 return true;
             }
             else
             {
                 this.connected = false;
-                this.machine?.logger.error("EX260S3: Failed to connect");
+                this.machine?.logger.error("EX260Sx: Failed to connect");
                 this.machine?.cycleController.program?.end("controllerError");
                 return false;
             } 
@@ -66,7 +74,7 @@ export class EX260S3 extends IOHandler
         else
         {
             this.unreachable = true;
-            this.machine?.logger.error(`EX260S3: Failed to ping to ${this.name}, cancelling connection.`);
+            this.machine?.logger.error(`EX260Sx: Failed to ping, cancelling connection.`);
             return false;
         }
     }
@@ -105,7 +113,7 @@ export class EX260S3 extends IOHandler
             this.controller.events.once("SendRRData Received", (result: Encapsulation.CPF.dataItem[]) => {
                 for(const packet of result)
                 {
-                    if(packet.TypeID == 178 && packet.data.length == 6 && packet.data.readUIntLE(0, 1) == 0x8E)
+                    if(packet.TypeID == 178 && packet.data.length == (4 + (this.size / 8)) && packet.data.readUIntLE(0, 1) == 0x8E)
                     {
                         resolve(packet.data);
                     }
@@ -118,7 +126,6 @@ export class EX260S3 extends IOHandler
      * Write data to EX260-SEN1 module
      * @param {number} address 
      * @param {number} value 
-     * @param {Boolean?} _word Optional
      * @returns 
      */
     override async writeData(address: number, value: number): Promise<void>
@@ -139,9 +146,11 @@ export class EX260S3 extends IOHandler
 
         const res = await this.readData2(0x96);
 
-        const result = res.readUIntLE(4, 2);
+        //Data to read deprends on size of the EX260
+        const result = res.readUIntLE(4, this.size / 8);
 
-        const strBinaryArray = ("0000000000000000" + result.toString(2)).slice(-16);
+        //Str binary array result depends on size of the EX260
+        const strBinaryArray = (this.size == 32) ? ("00000000000000000000000000000000" + result.toString(2)).slice(-32) : ("0000000000000000" + result.toString(2)).slice(-16);
 
         //spliting string
         const binaryArray = strBinaryArray.split("");
@@ -168,17 +177,20 @@ export class EX260S3 extends IOHandler
         //convert bin array to int
         const newDecimalOutputState = parseInt(newOutputsStates, 2);
 
-        const buf = Buffer.alloc(2);
-        buf.writeUInt16LE(newDecimalOutputState);
+        const buf = Buffer.alloc(this.size / 8);
+
+        if(this.size == 32)
+            buf.writeUInt32LE(newDecimalOutputState);
+        else
+            buf.writeUInt16LE(newDecimalOutputState);
 
         //Message router packet
         const MR = MessageRouter.build(0x10, idPath, buf);
         
         //write data to the controller
-
         const write = await this.controller.write(MR, false, 10);
 
-        if(!write)
+        if(write === false)
         {
             this.machine?.cycleController.program?.end("controllerError");
         }

@@ -1,5 +1,5 @@
 import { IIOGate, IOGateTypes } from "./gates/IIOGate";
-import { IIOHandler } from "./IIOHandler";
+import { IOControllers } from "./IIOControllers";
 import { IConfigMaintenance } from "./IMaintenance";
 import { IManualMode } from "./IManualMode";
 import { IPassive } from "./IPassive";
@@ -16,7 +16,7 @@ export declare interface IMachine
     cyclePremades: IPBRPremades[],
 
     /** IOHandler definitions */
-    iohandlers: IIOHandler[],
+    iohandlers: IOControllers[],
     /** IOGates definition */
     iogates: IOGateTypes[],
 
@@ -39,7 +39,7 @@ export declare interface IMachine
 /** IMachine Configuration keys */
 export type IMachineKeys = keyof IMachine;
 /** IMachine Configuration Children Types */
-export type IMachineElements = IProgram[] | IPBRPremades[] | IIOHandler[] | IIOGate[] | IConfigMaintenance[] | IManualMode[] | IPassive[] | IProfileSkeleton[] | IConfigProfile[] | IConfigSlot[];
+export type IMachineElements = IProgram[] | IPBRPremades[] | IOControllers[] | IIOGate[] | IConfigMaintenance[] | IManualMode[] | IPassive[] | IProfileSkeleton[] | IConfigProfile[] | IConfigSlot[];
 
 /** Machine additional settings */
 export declare interface IMachineSettings

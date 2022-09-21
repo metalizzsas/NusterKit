@@ -1,24 +1,22 @@
 import { IOGate } from "./IOGates/IOGate";
-import { IOHandler } from "./IOHandlers/IOHandler";
 import { Controller } from "../Controller";
 import { Machine } from "../../Machine";
 
 import { Request, Response } from "express";
 import { WAGO } from "./IOHandlers/WAGO";
-import { EX260S1 } from "./IOHandlers/EX260S1";
-import { EX260S3 } from "./IOHandlers/EX260S3";
+import { EX260Sx } from "./IOHandlers/EX260Sx";
 import { UM18IOGate } from "./IOGates/UM18Gate";
 import { IUM18Gate } from "../../interfaces/gates/IUM18Gate";
 import { EM4 } from "./IOHandlers/EM4";
 import { PT100Gate } from "./IOGates/PT100Gate";
-import { EIOHandlerType } from "../../interfaces/IIOHandler";
 import { MappedGate } from "./IOGates/MappedGate";
 import { IMappedGate } from "../../interfaces/gates/IMappedGate";
 import { IPT100Gate } from "../../interfaces/gates/IPT100Gate";
+import { IOPhysicalController } from "./IOHandlers/IOPhysicalController";
 
 export class IOController extends Controller
 {
-    handlers: IOHandler[] = []
+    handlers: IOPhysicalController[] = []
     gates: IOGate[] = []
 
     machine: Machine;
@@ -45,12 +43,9 @@ export class IOController extends Controller
 
             switch(handler.type)
             {
-                case EIOHandlerType.WAGO: this.handlers.push(new WAGO(handler.ip, this.machine)); break;
-                case EIOHandlerType.EM4: this.handlers.push(new EM4(handler.ip, this.machine)); break;
-                case EIOHandlerType.EX260S1: this.handlers.push(new EX260S1(handler.ip, this.machine)); break;
-                case EIOHandlerType.EX260S3: this.handlers.push(new EX260S3(handler.ip, this.machine)); break;
-
-                default: this.handlers.push(new IOHandler(handler.name, handler.type, handler.ip)); break;
+                case "wago": this.handlers.push(new WAGO(handler.ip, this.machine)); break;
+                case "em4": this.handlers.push(new EM4(handler.ip, this.machine)); break;
+                case "ex260sx": this.handlers.push(new EX260Sx(handler.ip, handler.size, this.machine)); break;
             }
         }
         
@@ -62,8 +57,7 @@ export class IOController extends Controller
                 case "um18": this.gates.push(new UM18IOGate(gate as IUM18Gate)); break;
                 case "mapped": this.gates.push(new MappedGate(gate as IMappedGate)); break;
                 case "pt100": this.gates.push(new PT100Gate(gate as IPT100Gate)); break;
-
-                default: this.gates.push(new IOGate(gate)); break;
+                case "default": this.gates.push(new IOGate(gate)); break;
             }
         }
 
@@ -122,7 +116,7 @@ export class IOController extends Controller
                 for(const g of this.gates.filter((g) => g.bus == "in"))
                 {
                     //skip the io read if the automaton is an EM4
-                    if(this.machine.ioController.handlers.at(g.controllerId)?.type == EIOHandlerType.EM4)
+                    if(this.machine.ioController.handlers.at(g.controllerId)?.type == "em4")
                         continue;
                     
                     if(g.isCritical || skip > 4)

@@ -1,10 +1,9 @@
 import ModbusTCP from "modbus-serial";
-import { IOHandler } from "./IOHandler";
 import ping from "ping";
 import { Machine } from "../../../Machine";
-import { EIOHandlerType } from "../../../interfaces/IIOHandler";
+import { IOPhysicalController } from "./IOPhysicalController";
 
-export class WAGO extends IOHandler
+export class WAGO extends IOPhysicalController
 {
     public client: ModbusTCP;
 
@@ -14,7 +13,7 @@ export class WAGO extends IOHandler
 
     constructor(ip: string, machine?: Machine)
     {
-        super("WAGO", EIOHandlerType.WAGO, ip);
+        super("wago", ip);
 
         this.client = new ModbusTCP();
         this.machine = machine;

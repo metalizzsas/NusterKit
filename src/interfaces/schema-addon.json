@@ -1,15 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "definitions": {
-        "EIOHandlerType": {
-            "enum": [
-                "em4",
-                "ex260s1",
-                "ex260s3",
-                "wago"
-            ],
-            "type": "string"
-        },
         "EProductSeries": {
             "description": "Product series TODO: Make this only available for offline devices",
             "enum": [
@@ -86,7 +77,14 @@
                         },
                         {
                             "items": {
-                                "$ref": "#/definitions/IIOHandler"
+                                "anyOf": [
+                                    {
+                                        "$ref": "#/definitions/IModbusControllers"
+                                    },
+                                    {
+                                        "$ref": "#/definitions/IEX260Controller"
+                                    }
+                                ]
                             },
                             "type": "array"
                         },
@@ -486,6 +484,35 @@
             ],
             "type": "object"
         },
+        "IEX260Controller": {
+            "properties": {
+                "ip": {
+                    "description": "IP Address on the local network",
+                    "type": "string"
+                },
+                "size": {
+                    "description": "Corresponding size of the EX260 (either 16 outputs or 32 outputs)",
+                    "enum": [
+                        16,
+                        32
+                    ],
+                    "type": "number"
+                },
+                "type": {
+                    "description": "Type of the IO Handler",
+                    "enum": [
+                        "ex260sx"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ip",
+                "size",
+                "type"
+            ],
+            "type": "object"
+        },
         "IForLoopProgramBlock": {
             "properties": {
                 "blocks": {
@@ -614,28 +641,6 @@
                 "default",
                 "name",
                 "size",
-                "type"
-            ],
-            "type": "object"
-        },
-        "IIOHandler": {
-            "properties": {
-                "ip": {
-                    "description": "IP Address on the local network",
-                    "type": "string"
-                },
-                "name": {
-                    "description": "Name of the IO Handler",
-                    "type": "string"
-                },
-                "type": {
-                    "$ref": "#/definitions/EIOHandlerType",
-                    "description": "Type of the IO Handler"
-                }
-            },
-            "required": [
-                "ip",
-                "name",
                 "type"
             ],
             "type": "object"
@@ -998,6 +1003,27 @@
             "required": [
                 "gateName",
                 "gateValue"
+            ],
+            "type": "object"
+        },
+        "IModbusControllers": {
+            "properties": {
+                "ip": {
+                    "description": "IP Address on the local network",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "Type of the IO Handler",
+                    "enum": [
+                        "em4",
+                        "wago"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ip",
+                "type"
             ],
             "type": "object"
         },

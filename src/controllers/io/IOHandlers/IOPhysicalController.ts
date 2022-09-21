@@ -1,18 +1,16 @@
-import { EIOHandlerType, IIOHandler } from "../../../interfaces/IIOHandler";
+import { IIOPhysicalController, IOControllersTypes } from "../../../interfaces/IIOControllers";
 
-export class IOHandler implements IIOHandler
+export class IOPhysicalController implements IIOPhysicalController
 {
-    public name: string;
-    public type: EIOHandlerType;
+    public type: IOControllersTypes;
     public ip: string;
 
     public connected = false;
 
     public unreachable = false;
 
-    constructor(name: string, type: EIOHandlerType, ip: string)
+    constructor(type: IOControllersTypes, ip: string)
     {
-        this.name = name;
         this.type = type;
         this.ip = ip;
     }
@@ -26,7 +24,6 @@ export class IOHandler implements IIOHandler
     toJSON()
     {
         return {
-            name: this.name,
             type: this.type,
             ip: this.ip,
             connected: this.connected

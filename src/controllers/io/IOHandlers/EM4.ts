@@ -1,10 +1,9 @@
 import ModbusTCP from "modbus-serial";
-import { IOHandler } from "./IOHandler";
 import ping from "ping";
 import { Machine } from "../../../Machine";
-import { EIOHandlerType } from "../../../interfaces/IIOHandler";
+import { IOPhysicalController } from "./IOPhysicalController";
 
-export class EM4 extends IOHandler
+export class EM4 extends IOPhysicalController
 {
     public client: ModbusTCP;
 
@@ -14,7 +13,7 @@ export class EM4 extends IOHandler
 
     constructor(ip: string, machine?: Machine)
     {
-        super("EM4", EIOHandlerType.EM4, ip);
+        super("em4", ip);
 
         this.client = new ModbusTCP();
         this.machine = machine;

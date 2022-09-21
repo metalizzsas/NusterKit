@@ -28,7 +28,7 @@
         },
         {
             "path": "profileSkeletons",
-            "type": "replace",
+            "mode": "replace",
             "content": [
                 {
                     "identifier": "default",
@@ -65,7 +65,7 @@
         },
         {
             "path": "cyclePremades.0",
-            "type": "replace",
+            "mode": "replace",
             "content": [
                 {
                     "skeleton": "default",
@@ -83,7 +83,7 @@
             ]
         },
         {
-            "type": "merge",
+            "mode": "merge",
             "path": "passives",
             "content": [
                 {
@@ -103,7 +103,7 @@
             ]
         },
         {
-            "type": "merge",
+            "mode": "merge",
             "path": "manual",
             "content": [
                 {
@@ -140,7 +140,7 @@
         },
         {
             "path": "cycleTypes.0.steps.0.startBlocks",
-            "type": "merge",
+            "mode": "merge",
             "content": [
                 {
                     "name": "passive",
@@ -163,7 +163,7 @@
         },
         {
             "path": "cycleTypes.0.steps.0.endBlocks",
-            "type": "merge",
+            "mode": "merge",
             "content": [
                 {
                     "name": "passive",

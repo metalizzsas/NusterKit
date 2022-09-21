@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 
 import * as fileSchema from "../schema/schema.json";
+import * as addonSchema from "../schema/schema-addon.json";
 
 import { matchers } from 'jest-json-schema';
 
@@ -12,6 +13,7 @@ interface Specs {
     variant: string;
     revision: string;
     file: string;
+    addons: [string, string][];
 }
 
 let files = fs.readdirSync(path.resolve("data"), { withFileTypes: true });
@@ -30,13 +32,20 @@ for(const f of files.filter(f => f.isDirectory()))
         {
             let files4 = fs.readdirSync(path.resolve("data", f.name, f2.name, f3.name), { withFileTypes: true });
 
-            for(const f4 of files4.filter(f4 => f4.isFile() && f4.name == "specs.json"))
+            if(files4.map(k => k.name).includes("specs.json"))
             {
+                let addonFolder = path.resolve("data", f.name, f2.name, f3.name, "addons");
+                let addonsFiles: [string, string][] = [];
+
+                if(fs.existsSync(addonFolder))
+                    addonsFiles = fs.readdirSync(addonFolder, { withFileTypes: true}).filter(k => k.name.includes(".json")).map(k => [k.name, path.resolve(addonFolder, k.name)])
+
                 filesToCheck.push({
                     model: f.name,
                     variant: f2.name,
                     revision: f3.name,
                     file: path.resolve("data", f.name, f2.name, f3.name, "specs.json"),
+                    addons: addonsFiles
                 });
             }
         }
@@ -50,4 +59,14 @@ for(const file of filesToCheck)
     it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' Schema', () => {
         expect(json).toMatchSchema(fileSchema);
     });
+
+    for(const addon of file.addons)
+    {
+        const jsonAddon = JSON.parse(fs.readFileSync(addon[1], { encoding: 'utf-8'}));
+
+        it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' ' + addon[0].split(".")[0] + ' Addon Schema', () => {
+            expect(jsonAddon).toMatchSchema(addonSchema);
+        });
+ 
+    }
 }

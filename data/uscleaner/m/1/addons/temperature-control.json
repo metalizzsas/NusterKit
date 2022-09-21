@@ -3,8 +3,8 @@
     "addonName": "temperature-control",
     "content": [
         {
-            "type": "insert",
-            "category": "iogates",
+            "path": "iogates",
+            "mode": "merge",
             "content": [
                 {
                     "name": "temperature#heater",
@@ -27,8 +27,8 @@
             ]
         },
         {
+            "path": "profileSkeletons",
             "type": "replace",
-            "category": "profileSkeletons",
             "content": [
                 {
                     "identifier": "default",
@@ -64,8 +64,8 @@
             ]
         },
         {
+            "path": "cyclePremades.0",
             "type": "replace",
-            "category": "cyclePremades",
             "content": [
                 {
                     "skeleton": "default",
@@ -83,8 +83,8 @@
             ]
         },
         {
-            "type": "insert",
-            "category": "passives",
+            "type": "merge",
+            "path": "passives",
             "content": [
                 {
                     "name": "temperature",
@@ -103,8 +103,8 @@
             ]
         },
         {
-            "type": "insert",
-            "category": "manual",
+            "type": "merge",
+            "path": "manual",
             "content": [
                 {
                     "name": "bac#heating",
@@ -139,163 +139,46 @@
             ]
         },
         {
-            "type": "replace",
-            "category": "cycleTypes",
+            "path": "cycleTypes.0.steps.0.startBlocks",
+            "type": "merge",
             "content": [
                 {
-                    "name": "default",
-                    "profileRequired": true,
-                    "startConditions": [
+                    "name": "passive",
+                    "params": [
                         {
-                            "conditionName": "emergency-stop",
-                            "startOnly": false,
-                            "checkChain": {
-                                "name": "io",
-                                "io": {
-                                    "gateName": "emergency-stop",
-                                    "gateValue": 1
-                                }
-                            }
+                            "name": "conststr",
+                            "value": "temperature"
+                        },
+                        {
+                            "name": "const",
+                            "value": 1
+                        },
+                        {
+                            "name": "profile",
+                            "value": "principal#target-temperature"
                         }
-                    ],
-                    "steps": [
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "cycleTypes.0.steps.0.endBlocks",
+            "type": "merge",
+            "content": [
+                {
+                    "name": "passive",
+                    "params": [
                         {
-                            "name": "cleaning",
-                            "isEnabled": {
-                                "name": "const",
-                                "value": 1
-                            },
-                            "duration": {
-                                "name": "profile",
-                                "value": "principal#duration"
-                            },
-                            "startBlocks": [
-                                {
-                                    "name": "io",
-                                    "params": [
-                                        {
-                                            "name": "conststr",
-                                            "value": "pump#enable"
-                                        },
-                                        {
-                                            "name": "const",
-                                            "value": 1
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "io",
-                                    "params": [
-                                        {
-                                            "name": "conststr",
-                                            "value": "motor#speed"
-                                        },
-                                        {
-                                            "name": "profile",
-                                            "value": "principal#motor-speed"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "io",
-                                    "params": [
-                                        {
-                                            "name": "conststr",
-                                            "value": "us-power"
-                                        },
-                                        {
-                                            "name": "const",
-                                            "value": 1
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "passive",
-                                    "params": [
-                                        {
-                                            "name": "conststr",
-                                            "value": "temperature"
-                                        },
-                                        {
-                                            "name": "const",
-                                            "value": 1
-                                        },
-                                        {
-                                            "name": "profile",
-                                            "value": "principal#target-temperature"
-                                        }
-                                    ]
-                                }
-                            ],
-                            "endBlocks": [
-                                {
-                                    "name": "passive",
-                                    "params": [
-                                        {
-                                            "name": "conststr",
-                                            "value": "temperature"
-                                        },
-                                        {
-                                            "name": "const",
-                                            "value": 0
-                                        },
-                                        {
-                                            "name": "profile",
-                                            "value": "principal#target-temperature"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "io",
-                                    "params": [
-                                        {
-                                            "name": "conststr",
-                                            "value": "pump#enable"
-                                        },
-                                        {
-                                            "name": "const",
-                                            "value": 0
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "io",
-                                    "params": [
-                                        {
-                                            "name": "conststr",
-                                            "value": "us-power"
-                                        },
-                                        {
-                                            "name": "const",
-                                            "value": 0
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "io",
-                                    "params": [
-                                        {
-                                            "name": "conststr",
-                                            "value": "motor#speed"
-                                        },
-                                        {
-                                            "name": "const",
-                                            "value": 0
-                                        }
-                                    ]
-                                }
-                            ],
-                            "blocks": [
-                                {
-                                    "name": "sleep",
-                                    "params": [
-                                        {
-                                            "name": "profile",
-                                            "value": "principal#duration"
-                                        }
-                                    ]
-                                }
-                            ]
+                            "name": "conststr",
+                            "value": "temperature"
+                        },
+                        {
+                            "name": "const",
+                            "value": 0
+                        },
+                        {
+                            "name": "profile",
+                            "value": "principal#target-temperature"
                         }
                     ]
                 }

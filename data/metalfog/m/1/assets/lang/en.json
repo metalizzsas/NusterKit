@@ -265,5 +265,14 @@
                 }
             }
         }
+    },
+    "popups": {
+        "nozzle-cleaning": {
+            "title": "Startup recommendations",
+            "message": "As the Metalfog just started-up, We recommend doing a air cleaning of the metalization nozzles. Press Continue to cleanup the nozzles.",
+            "actions": {
+                "main": "Continue"
+            }
+        }
     }
 }

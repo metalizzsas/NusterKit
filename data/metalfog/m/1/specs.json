@@ -3,12 +3,12 @@
 
    "nuster": {
       "connectPopup": {
-         "identifier": "nozzle-clean-required",
-         "title": "popups.nozzle-clean.title",
-         "message": "popups.nozzle-clean.message",
+         "identifier": "nozzle-cleaning-required",
+         "title": "popups.nozzle-cleaning.title",
+         "message": "popups.nozzle-cleaning.message",
          "callToAction": [
             {
-               "name": "nozzle-cleaning",
+               "name": "popups.nozzle-cleaning.action.main",
                "APIEndpoint": {
                   "url": "/api/v1/cycle/nozzle-cleaning",
                   "method": "post"

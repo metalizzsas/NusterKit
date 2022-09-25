@@ -27,7 +27,10 @@
 		},
 		{
 			key: 'machine.vpn.connected',
-			data: $_('binary_' + String($machineData.machine.vpnData?.vpn.connected)),
+			data:
+				$machineData.machine.vpnData?.vpn.connected === undefined
+					? undefined
+					: String($machineData.machine.vpnData?.vpn.connected),
 		},
 	];
 </script>

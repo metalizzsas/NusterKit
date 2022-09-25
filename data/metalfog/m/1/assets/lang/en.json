@@ -93,7 +93,8 @@
             "act-fill": "Activator dilution",
             "container-cleaning": "Container cleaning",
             "emptying-activator": "Emptying activator",
-            "emptying-reactives": "Emptying reactives"
+            "emptying-reactives": "Emptying reactives",
+            "nozzle-cleaning": "Nozzle cleaning"
         },
         "types": {
             "llc": "Look Like Chromium — LLC",
@@ -262,6 +263,15 @@
                     "unscrew-mfm-filter": "Unscrew the filter from the machine",
                     "replace-mfm-new-filter": "Replace the old filter with a new filter"
                 }
+            }
+        }
+    },
+    "popups": {
+        "nozzle-cleaning": {
+            "title": "Startup recommendations",
+            "message": "As the Metalfog just started-up, We recommend doing a air cleaning of the metalization nozzles. Press Continue to cleanup the nozzles.",
+            "actions": {
+                "main": "Continue"
             }
         }
     }

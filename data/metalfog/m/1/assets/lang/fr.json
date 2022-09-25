@@ -94,7 +94,8 @@
             "act-fill": "Dilution activant",
             "emptying-activator": "Vidange activant",
             "emptying-reactives": "Vidange réactifs",
-            "container-cleaning": "Nettoyage conteneurs"
+            "container-cleaning": "Nettoyage conteneurs",
+            "nozzle-cleaning": "Nettoyage des buses"
         },
         "types": {
             "llc": "Look Like Chromium — LLC",
@@ -262,6 +263,15 @@
                     "unscrew-mfm-filter": "Dévisser le filtre de la machine",
                     "replace-mfm-new-filter": "Replacer le filtre avec un nouveau filtre"
                 }
+            }
+        }
+    },
+    "popups": {
+        "nozzle-cleaning": {
+            "title": "Recommendation au démarrage",
+            "message": "Votre Metalfog viens de démarrer, il est recommendé de lancer un nettoyage des buses de metallisation lors du démarrage de la machine. Cliquez sur continuer pour lancer ce nettoyage.",
+            "actions": {
+                "main": "Continuer"
             }
         }
     }

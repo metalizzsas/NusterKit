@@ -80,6 +80,13 @@ export interface Schema {
    */
   manual: IManualMode[];
   /**
+   * Nuster Additional data
+   */
+  nuster?: {
+    connectPopup?: INusterConnectPopup;
+    [k: string]: unknown;
+  };
+  /**
    * Passive modes definition
    */
   passives: IPassive[];
@@ -1111,6 +1118,56 @@ export interface IManualWatchdogCondition {
   gateValue: number;
   [k: string]: unknown;
 }
+/**
+ * Connect popup is triggered when the user logs on for the first time
+ */
+export interface INusterConnectPopup {
+  /**
+   * Call to actions
+   */
+  callToAction?: ICallToAction[];
+  /**
+   * Unique identifier to prevent multiple pop ups
+   */
+  identifier: string;
+  /**
+   * i18n message, body of this popup
+   */
+  message: string;
+  /**
+   * i18n text, title of this pop up
+   */
+  title: string;
+  [k: string]: unknown;
+}
+/**
+ * Call to action inteface
+ */
+export interface ICallToAction {
+  /**
+   * API Endpoint to be reached by the CTA (NusterTurbine Endpoints)
+   */
+  APIEndpoint?: {
+    /**
+     * HTTP Request Method
+     */
+    method: "delete" | "get" | "post" | "put";
+    /**
+     * URL Reached
+     */
+    url: string;
+    [k: string]: unknown;
+  };
+  /**
+   * UIEndpoint reached by the CTA (NusterDesktop Endpoints)
+   */
+  UIEndpoint?: string;
+  /**
+   * Name of this CTA
+   */
+  name: string;
+  [k: string]: unknown;
+}
 export interface IPassive {
   /**
    * Actuators used to reach target
@@ -1340,34 +1397,6 @@ export interface IConfigSlot {
    * Slot type
    */
   type: string;
-  [k: string]: unknown;
-}
-/**
- * Call to action inteface
- */
-export interface ICallToAction {
-  /**
-   * API Endpoint to be reached by the CTA (NusterTurbine Endpoints)
-   */
-  APIEndpoint?: {
-    /**
-     * HTTP Request Method
-     */
-    method: "delete" | "get" | "post" | "put";
-    /**
-     * URL Reached
-     */
-    url: string;
-    [k: string]: unknown;
-  };
-  /**
-   * UIEndpoint reached by the CTA (NusterDesktop Endpoints)
-   */
-  UIEndpoint?: string;
-  /**
-   * Name of this CTA
-   */
-  name: string;
   [k: string]: unknown;
 }
 /**

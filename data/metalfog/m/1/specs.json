@@ -1,5 +1,24 @@
 {
    "$schema": "../../../../src/schema/schema.json",
+
+   "nuster": {
+      "connectPopup": {
+         "identifier": "nozzle-clean-required",
+         "title": "popups.nozzle-clean.title",
+         "message": "popups.nozzle-clean.message",
+         "callToAction": [
+            {
+               "name": "nozzle-cleaning",
+               "APIEndpoint": {
+                  "url": "/api/v1/cycle/nozzle-cleaning",
+                  "method": "post"
+               },
+               "UIEndpoint": "/app/cycle/"
+            }
+         ]
+      }
+   },
+
    "iohandlers": [
       {
          "type": "wago",
@@ -5017,6 +5036,207 @@
                         {
                            "name": "conststr",
                            "value": "act"
+                        }
+                     ]
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "name": "nozzle-cleaning",
+         "profileRequired": false,
+         "startConditions": [
+            {
+               "conditionName": "emergency-stop",
+               "startOnly": false,
+               "checkChain": {
+                  "name": "io",
+                  "io": {
+                     "gateName": "emergency-stop",
+                     "gateValue": 1
+                  }
+               }
+            }
+         ],
+         "steps": [
+            {
+               "name": "nozzle-cleaning",
+               "duration": {
+                  "name": "const",
+                  "value": -1
+               },
+               "isEnabled": {
+                  "name": "const",
+                  "value": 1
+               },
+               "startBlocks": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "met#rd-lq-high"
+                        },
+                        {
+                           "name": "const",
+                           "value": 1
+                        }
+                     ]
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "met#ox-lq-high"
+                        },
+                        {
+                           "name": "const",
+                           "value": 1
+                        }
+                     ]
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "met#rd-lq-mid"
+                        },
+                        {
+                           "name": "const",
+                           "value": 1
+                        }
+                     ]
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "met#ox-lq-mid"
+                        },
+                        {
+                           "name": "const",
+                           "value": 1
+                        }
+                     ]
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "met#rd-lq-low"
+                        },
+                        {
+                           "name": "const",
+                           "value": 1
+                        }
+                     ]
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "met#ox-lq-low"
+                        },
+                        {
+                           "name": "const",
+                           "value": 1
+                        }
+                     ]
+                  }
+               ],
+               "blocks": [
+                  {
+                     "name": "sleep",
+                     "params": [
+                        {
+                           "name": "const",
+                           "value": 120
+                        }
+                     ]
+                  }
+               ],
+               "endBlocks": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "met#rd-lq-high"
+                        },
+                        {
+                           "name": "const",
+                           "value": 0
+                        }
+                     ]
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "met#ox-lq-high"
+                        },
+                        {
+                           "name": "const",
+                           "value": 0
+                        }
+                     ]
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "met#rd-lq-mid"
+                        },
+                        {
+                           "name": "const",
+                           "value": 0
+                        }
+                     ]
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "met#ox-lq-mid"
+                        },
+                        {
+                           "name": "const",
+                           "value": 0
+                        }
+                     ]
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "met#rd-lq-low"
+                        },
+                        {
+                           "name": "const",
+                           "value": 0
+                        }
+                     ]
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "met#ox-lq-low"
+                        },
+                        {
+                           "name": "const",
+                           "value": 0
                         }
                      ]
                   }

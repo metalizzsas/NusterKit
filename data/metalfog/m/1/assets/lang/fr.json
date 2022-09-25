@@ -94,7 +94,8 @@
             "act-fill": "Dilution activant",
             "emptying-activator": "Vidange activant",
             "emptying-reactives": "Vidange réactifs",
-            "container-cleaning": "Nettoyage conteneurs"
+            "container-cleaning": "Nettoyage conteneurs",
+            "nozzle-cleaning": "Nettoyage des buses"
         },
         "types": {
             "llc": "Look Like Chromium — LLC",

@@ -4,14 +4,13 @@
 	import Label from '$lib/components/label.svelte';
 	import Modalcontent from '$lib/components/modals/modalcontent.svelte';
 	import Flex from '$lib/components/layout/flex.svelte';
-	import { element } from 'svelte/internal';
 	import ReleasesNotes from './releasesNotes.svelte';
 
 	export let shown: boolean;
 
 	let displayReleaseNotes = false;
 
-	const data: { key: string; data: string | undefined }[] = [
+	const data: { key: string; data: string | string[] | undefined }[] = [
 		{
 			key: 'machine.model',
 			data: $_('machines.' + $machineData.machine.model.toLocaleLowerCase()),

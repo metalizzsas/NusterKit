@@ -310,3 +310,32 @@ interface Container {
   containerId: string;
   createdAt: string;
 }
+
+export interface INusterPopup 
+{
+    /** Unique identifier to prevent multiple pop ups */
+    identifier: string;
+
+    /** i18n text, title of this pop up */
+    title: string;
+    /** i18n message, body of this popup */
+    message: string;
+
+    /** Call to actions */
+    callToAction?: ICallToAction[]
+}
+
+export interface ICallToAction
+{
+    /** Name of this CTA */
+    name: string;
+    /** API Endpoint to be reached by the CTA (NusterTurbine Endpoints) */
+    APIEndpoint?: {
+        /** URL Reached */
+        url: string;
+        /** HTTP Request Method */
+        method: "get" | "put" | "post" | "delete";
+    },
+    /** UIEndpoint reached by the CTA (NusterDesktop Endpoints)*/
+    UIEndpoint?: string;
+}

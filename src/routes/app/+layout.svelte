@@ -4,7 +4,7 @@
 	import { beforeUpdate, onDestroy, onMount } from 'svelte';
 
 	import { lockMachineData, machineData } from '$lib/utils/stores/store';
-	import type { IWSObject } from '$lib/utils/interfaces';
+	import type { INusterPopup, IWSObject } from '$lib/utils/interfaces';
 	import { fade, scale } from 'svelte/transition';
 
 	import { Linker } from '$lib/utils/stores/linker';
@@ -13,6 +13,7 @@
 	import Navstack from '$lib/components/navigation/navstack.svelte';
 	import { BUNDLED } from '$lib/bundle';
 	import { initI18nMachine } from '$lib/utils/i18n/i18nmachine';
+	import Popup from '$lib/components/modals/popup.svelte';
 
 	let ready: boolean = false;
 
@@ -22,6 +23,9 @@
 
 	let displayModal: boolean = false;
 	let displayModalMessage: string = '';
+
+	let displayPopup: boolean = false;
+	let popupData: INusterPopup | null = null;
 
 	beforeUpdate(async () => {
 		const ip = window.localStorage.getItem('ip') ?? '127.0.0.1';
@@ -79,22 +83,32 @@
 		ws.onmessage = (e: MessageEvent) => {
 			interface WSContent {
 				type: string;
-				message: IWSObject | string;
+				message: IWSObject | INusterPopup | string;
 			}
 
 			let data = JSON.parse(e.data) as WSContent;
 
-			if (data.type == 'status') {
-				if ($lockMachineData === false) {
-					$machineData = data.message as IWSObject;
-					ready = true;
+			switch (data.type) {
+				case 'status': {
+					if ($lockMachineData === false) {
+						$machineData = data.message as IWSObject;
+						ready = true;
+					}
+					break;
 				}
-			} else {
-				if (data.type == 'message') {
+				case 'message': {
 					displayModal = true;
 					displayModalMessage = data.message as string;
-				} else if (data.type == 'update') {
+					break;
+				}
+				case 'update': {
 					goto('/update');
+					break;
+				}
+				case 'popup': {
+					displayPopup = true;
+					popupData = data.message as INusterPopup;
+					break;
 				}
 			}
 		};
@@ -180,6 +194,9 @@
 	<Modal bind:shown={displayModal} title={$_('message.modal.title')}>
 		{$_('message.modal.' + displayModalMessage)}
 	</Modal>
+
+	<Popup bind:shown={displayPopup} modalData={popupData} />
+
 	<Navstack>
 		<slot />
 	</Navstack>

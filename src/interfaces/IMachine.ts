@@ -6,10 +6,17 @@ import { IPassive } from "./IPassive";
 import { IConfigProfile, IProfileSkeleton } from "./IProfile";
 import { IPBRPremades, IProgram } from "./IProgramBlockRunner";
 import { IConfigSlot } from "./ISlot";
+import { INusterPopup } from "./nuster/INusterPopup";
 
 /** Machine JSON Specifications */
 export declare interface IMachine
 {
+    /** Nuster Additional data */
+    nuster?: {
+        /** Connect popup is triggered when the user logs on for the first time */
+        connectPopup?: INusterPopup
+    }
+
     /** Cycle types definition */
     cycleTypes: IProgram[],
     /** Cycle premades definition */

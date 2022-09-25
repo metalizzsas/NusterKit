@@ -1130,6 +1130,35 @@
             ],
             "description": "Parameter Blocks that return a number from data()"
         },
+        "INusterConnectPopup": {
+            "properties": {
+                "callToAction": {
+                    "description": "Call to actions",
+                    "items": {
+                        "$ref": "#/definitions/ICallToAction"
+                    },
+                    "type": "array"
+                },
+                "identifier": {
+                    "description": "Unique identifier to prevent multiple pop ups",
+                    "type": "string"
+                },
+                "message": {
+                    "description": "i18n message, body of this popup",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "i18n text, title of this pop up",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "identifier",
+                "message",
+                "title"
+            ],
+            "type": "object"
+        },
         "IOGateTypeName": {
             "enum": [
                 "default",
@@ -2538,6 +2567,16 @@
                 "$ref": "#/definitions/IManualMode"
             },
             "type": "array"
+        },
+        "nuster": {
+            "description": "Nuster Additional data",
+            "properties": {
+                "connectPopup": {
+                    "$ref": "#/definitions/INusterConnectPopup",
+                    "description": "Connect popup is triggered when the user logs on for the first time"
+                }
+            },
+            "type": "object"
         },
         "passives": {
             "description": "Passive modes definition",

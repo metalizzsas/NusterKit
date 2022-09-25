@@ -1,4 +1,5 @@
-import { EProductSeries, ICallToAction, IConfigSlot, ISlotProductOptions, ISlotSensor } from "../../interfaces/ISlot";
+import { EProductSeries, IConfigSlot, ISlotProductOptions, ISlotSensor } from "../../interfaces/ISlot";
+import { ICallToAction } from "../../interfaces/nuster/ICallToAction";
 import { IOController } from "../io/IOController";
 import { SlotModel } from "./SlotModel";
 import { SlotSensor } from "./SlotSensor";

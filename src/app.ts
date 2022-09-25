@@ -31,6 +31,8 @@ class NusterTurbine
 
     private productionEnabled = process.env.NODE_ENV == "production";
 
+    private displayedPopups: string[] = [];
+
     constructor()
     {
         this.status = {
@@ -208,6 +210,23 @@ class NusterTurbine
             {
                 this.wsServer.clients.add(ws); 
                 this.logger.trace("Websocket: New client");
+
+                if(this.machine?.specs.nuster?.connectPopup !== undefined && !this.displayedPopups.includes(this.machine.specs.nuster.connectPopup.identifier))
+                {
+                    setTimeout(() => {
+                        this.logger.info("Websocket: Displaying connect popup.");
+    
+                        ws.send(JSON.stringify({
+                            type: "popup",
+                            message: this.machine?.specs.nuster?.connectPopup
+                        }));
+    
+                        //Push popup to displayed popup list
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        //@ts-ignore
+                        this.displayedPopups.push(this.machine.specs.nuster.connectPopup.identifier);
+                    }, 2500);
+                }
     
                 ws.on("close", () => {
                     this.logger.trace("Websocket: Client disconnected");

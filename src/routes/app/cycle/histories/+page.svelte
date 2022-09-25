@@ -69,9 +69,6 @@
 				</span>
 			</Flex>
 			<Flex gap={2} class="ml-auto items-center">
-				<Button size={'tiny'} on:click={() => goto('/app/cycle/histories/' + history.id)}>
-					See details
-				</Button>
 				{#if history.cycle.status.endReason != 'finished'}
 					<Button
 						size="small"

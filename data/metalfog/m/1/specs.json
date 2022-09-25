@@ -8,7 +8,7 @@
          "message": "popups.nozzle-cleaning.message",
          "callToAction": [
             {
-               "name": "popups.nozzle-cleaning.action.main",
+               "name": "popups.nozzle-cleaning.actions.main",
                "APIEndpoint": {
                   "url": "/api/v1/cycle/nozzle-cleaning",
                   "method": "post"

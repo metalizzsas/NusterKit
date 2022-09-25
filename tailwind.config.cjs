@@ -5,6 +5,9 @@ module.exports = {
   safelist: [
     {
       pattern: /(from|to|bg)-.*/
+    },
+    {
+      pattern: /(h|w)-.*/
     }
   ],
   theme:{

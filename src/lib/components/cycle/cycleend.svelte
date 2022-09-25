@@ -103,7 +103,7 @@
 				{/if}
 			</div>
 
-			<Flex direction="col" gap={0} class="rounded-xl bg-white p-3">
+			<Flex direction="col" gap={0} class="rounded-xl bg-white text-zinc-800 p-3">
 				<span class="font-semibold">
 					{$_('cycle.endreasons.' + $machineData.cycle?.status.endReason)}
 				</span>
@@ -128,13 +128,13 @@
 	<Navcontainer classes="grow">
 		<Navcontainertitle>{$_('cycle.end.cycle-rating-lead')}</Navcontainertitle>
 
-		<section class="font-semibold text-center p-3 rounded-xl bg-white mx-auto">
+		<section class="font-semibold text-center p-3 rounded-xl bg-white text-zinc-800 mx-auto">
 			<p class="font-normal">
 				{$_('cycle.end.cycle-rating-text')}
 			</p>
 		</section>
 
-		<Flex class="justify-center mt-3">
+		<Flex justify={'center'} class="mt-3">
 			<Rating bind:rating />
 		</Flex>
 	</Navcontainer>

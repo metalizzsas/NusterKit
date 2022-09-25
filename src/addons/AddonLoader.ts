@@ -1,5 +1,5 @@
 import pino from "pino";
-import { deepInsert } from "../deepSet";
+import { deepInsert } from "../deepInsert";
 import { IAddon } from "../interfaces/IAddon";
 import { IMachine, IMachinePaths } from "../interfaces/IMachine";
 

@@ -239,12 +239,12 @@ export class ProgramBlockRunner implements IProgramRunner
         this.machine.logger.info(`PBR: Ended cycle ${this.name} with state: ${this.status.mode} and reason ${this.status.endReason}.`);
 
         //TODO: Make this in the end flow without a timer
-        setTimeout(() => {
+        setTimeout(async () => {
 
             this.machine.logger.info("PBR: Resetting all io gates to default values.");
             for(const g of this.machine.ioController.gates.filter(g => g.bus == "out"))
             {
-                g.write(this.machine.ioController, g.default);
+                await g.write(this.machine.ioController, g.default);
             }
         }, 300);
 

@@ -7,6 +7,11 @@ import { Machine } from "../Machine";
 import { ProgramBlockStep } from "./ProgramBlockStep";
 import { PBRStartCondition } from "./startchain/PBRStartCondition";
 
+/**
+ * Program Block Runner
+ * @desc Manages {@link ./ProgramBlock | ProgramBlock}, {@link ./ParameterBlock | ParameterBlock} & {@link ProgramBlockStep} to handle cycles
+ * @class
+ */
 export class ProgramBlockRunner implements IProgramRunner
 {
     status: IPBRStatus;
@@ -19,23 +24,38 @@ export class ProgramBlockRunner implements IProgramRunner
     variables: IProgramVariable[] = [];
     timers: IProgramTimer[] = [];
     
-    //Inside definers
+    /**
+     * **PBR** Steps
+     */
     steps: ProgramBlockStep[] = [];
 
+    /**
+     * Start conditions of the **PBR**
+     */
     startConditions: PBRStartCondition[] = [];
 
-    //internals
+    /**
+     * Index of the current step being runt
+     */
     currentStepIndex = 0;
 
     //statics
     machine: Machine;
     profile?: IProfileMap;
 
-    //explorers
+    /**
+     * Function to explore profile fields
+     */
     profileExplorer?: (name: string) => number | boolean;
+
+    /**
+     * Function to explore io gates
+     */
     ioExplorer: (name: string) => IOGate | undefined;
 
-    //event
+    /**
+     * Event Emitter that is used to send envents from sub functions of the **PBR**
+     */
     event: EventEmitter;
 
     nextStepButtonEnabled = false;
@@ -85,10 +105,14 @@ export class ProgramBlockRunner implements IProgramRunner
         this.event.on("end", (ev) => this.end(ev[0] || "event"));
 
         this.machine.logger.info("PBR: Finished building PBR.");
-        
     }
 
-    public async run()
+    /**
+     * Runs the cycle
+     * @async
+     * @returns A boolean stating if the cycle is successful or not
+     */
+    public async run(): Promise<boolean>
     {
         this.machine.logger.info("PBRSC: Checking Start conditions.");
 
@@ -97,7 +121,7 @@ export class ProgramBlockRunner implements IProgramRunner
         if(sc.length > 0 && process.env.NODE_ENV == "production")
         {
             this.machine.logger.error("PBRSC: Start conditions are not valid.");
-            return;
+            return false;
         }
 
         this.machine.logger.info("PBRSC: Start conditions are valid.");
@@ -179,18 +203,26 @@ export class ProgramBlockRunner implements IProgramRunner
         return true;
     }
 
-    //TODO: Integrate nextStep
+    /**
+     * Next step could end the current step to go along the rest of the cycle.
+     * @alpha
+     */
     public nextStep()
     {
         //this.steps[this.currentStepIndex].end();
     }
 
+    /**
+     * Ends the cycle
+     * @param reason Optional end reason name
+     */
     public end(reason?: string)
     {
         if(this.status.mode == EPBRMode.ENDED)
             return;
 
-        this.machine.logger.warn("PBR: Triggered cycle end with reason: " + reason);
+        if(reason !== undefined)
+            this.machine.logger.warn("PBR: Triggered cycle end with reason: " + reason);
 
         if(this.currentStepIndex < this.steps.length)
         {
@@ -208,16 +240,15 @@ export class ProgramBlockRunner implements IProgramRunner
             }
         }
 
+        //Removing Start conditions timers
         if(this.startConditions.length > 0)
         {
             this.machine.logger.info("PBR: Removing Start Conditions checks.");
             for(const sc of this.startConditions)
-            {
                 sc.stopTimer();
-            }
         }
 
-        //clearing timers
+        //Clearing timer blocks
         if(this.timers.length > 0)
         {
             this.machine.logger.info("PBR: Cleaning timers.");
@@ -229,14 +260,15 @@ export class ProgramBlockRunner implements IProgramRunner
             }
         }
         
+        //Append 1 to cycle count
         const m = this.machine.maintenanceController.tasks.find((m) => m.name == "cycleCount");
         m?.append(1);
 
         this.status.endReason = reason || "finished";
         this.status.mode = EPBRMode.ENDED;
         this.status.endDate = Date.now();
-        //TODO: Resorbs all timers and everything
-        this.machine.logger.info(`PBR: Ended cycle ${this.name} with state: ${this.status.mode} and reason ${this.status.endReason}.`);
+
+        this.machine.logger.info(`PBR: Ended cycle ${this.name} with state: ${this.status.mode} & reason: ${this.status.endReason}.`);
 
         //TODO: Make this in the end flow without a timer
         setTimeout(async () => {
@@ -247,9 +279,11 @@ export class ProgramBlockRunner implements IProgramRunner
                 await g.write(this.machine.ioController, g.default);
             }
         }, 300);
-
     }
 
+    /**
+     * Compute progress of the cycle
+     */
     public get progress()
     {
         let duration = 0;
@@ -260,6 +294,9 @@ export class ProgramBlockRunner implements IProgramRunner
         return duration / this.steps.length;
     }
 
+    /**
+     * Compute the estimated cycle run time
+     */
     public get estimatedRunTime()
     {
         let estimation = 0;

@@ -6,7 +6,7 @@ import { IPassive } from "./IPassive";
 import { IConfigProfile, IProfileSkeleton } from "./IProfile";
 import { IPBRPremades, IProgram } from "./IProgramBlockRunner";
 import { IConfigSlot } from "./ISlot";
-import { INusterPopup } from "./nuster/INusterPopup";
+import { INusterPopup } from "./nusterData/INusterPopup";
 
 /** Machine JSON Specifications */
 export declare interface IMachine

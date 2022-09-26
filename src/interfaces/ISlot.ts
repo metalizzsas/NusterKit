@@ -1,4 +1,4 @@
-import { ICallToAction } from "./nuster/ICallToAction";
+import { ICallToAction } from "./nusterData/ICallToAction";
 
 /** Slot definition used in config */
 export interface IConfigSlot

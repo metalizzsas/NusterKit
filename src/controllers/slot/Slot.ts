@@ -107,9 +107,22 @@ export class Slot implements IConfigSlot
         return this.productOptions !== undefined;
     }
 
+    toJSON()
+    {
+        return {
+            name: this.name,
+            type: this.type,
+
+            sensors: this.sensors,
+            callToAction: this.callToAction,
+            productOptions: this.productOptions,
+            productData: this.productData
+        };
+    }
+
     async socketData()
     {
         await this.fetchSlotData();
-        return { ...this, isProductable: this.isProductable, productData: this.productData };
+        return { ...this.toJSON(), isProductable: this.isProductable, productData: this.productData };
     }
 }

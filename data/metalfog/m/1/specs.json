@@ -5057,6 +5057,28 @@
                      "gateValue": 1
                   }
                }
+            },
+            {
+               "conditionName": "air-sensor",
+               "startOnly": false,
+               "checkChain": {
+                  "name": "io",
+                  "io": {
+                     "gateName": "air-sensor",
+                     "gateValue": 1
+                  }
+               }
+            },
+            {
+               "conditionName": "cover-closed",
+               "startOnly": false,
+               "checkChain": {
+                  "name": "io",
+                  "io": {
+                     "gateName": "cover-closed",
+                     "gateValue": 1
+                  }
+               }
             }
          ],
          "steps": [
@@ -5076,7 +5098,7 @@
                      "params": [
                         {
                            "name": "conststr",
-                           "value": "met#rd-lq-high"
+                           "value": "ventilation"
                         },
                         {
                            "name": "const",
@@ -5089,7 +5111,7 @@
                      "params": [
                         {
                            "name": "conststr",
-                           "value": "met#ox-lq-high"
+                           "value": "met#rd-air-cleaning-high"
                         },
                         {
                            "name": "const",
@@ -5102,7 +5124,7 @@
                      "params": [
                         {
                            "name": "conststr",
-                           "value": "met#rd-lq-mid"
+                           "value": "met#ox-air-cleaning-high"
                         },
                         {
                            "name": "const",
@@ -5115,7 +5137,7 @@
                      "params": [
                         {
                            "name": "conststr",
-                           "value": "met#ox-lq-mid"
+                           "value": "met#rd-air-cleaning-mid"
                         },
                         {
                            "name": "const",
@@ -5128,7 +5150,7 @@
                      "params": [
                         {
                            "name": "conststr",
-                           "value": "met#rd-lq-low"
+                           "value": "met#ox-air-cleaning-mid"
                         },
                         {
                            "name": "const",
@@ -5141,7 +5163,20 @@
                      "params": [
                         {
                            "name": "conststr",
-                           "value": "met#ox-lq-low"
+                           "value": "met#rd-air-cleaning-low"
+                        },
+                        {
+                           "name": "const",
+                           "value": 1
+                        }
+                     ]
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "met#rd-air-cleaning-low"
                         },
                         {
                            "name": "const",
@@ -5167,7 +5202,7 @@
                      "params": [
                         {
                            "name": "conststr",
-                           "value": "met#rd-lq-high"
+                           "value": "ventilation"
                         },
                         {
                            "name": "const",
@@ -5180,7 +5215,7 @@
                      "params": [
                         {
                            "name": "conststr",
-                           "value": "met#ox-lq-high"
+                           "value": "met#rd-air-cleaning-high"
                         },
                         {
                            "name": "const",
@@ -5193,7 +5228,7 @@
                      "params": [
                         {
                            "name": "conststr",
-                           "value": "met#rd-lq-mid"
+                           "value": "met#ox-air-cleaning-high"
                         },
                         {
                            "name": "const",
@@ -5206,7 +5241,7 @@
                      "params": [
                         {
                            "name": "conststr",
-                           "value": "met#ox-lq-mid"
+                           "value": "met#rd-air-cleaning-mid"
                         },
                         {
                            "name": "const",
@@ -5219,7 +5254,7 @@
                      "params": [
                         {
                            "name": "conststr",
-                           "value": "met#rd-lq-low"
+                           "value": "met#ox-air-cleaning-mid"
                         },
                         {
                            "name": "const",
@@ -5232,7 +5267,20 @@
                      "params": [
                         {
                            "name": "conststr",
-                           "value": "met#ox-lq-low"
+                           "value": "met#rd-air-cleaning-low"
+                        },
+                        {
+                           "name": "const",
+                           "value": 0
+                        }
+                     ]
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "met#ox-air-cleaning-low"
                         },
                         {
                            "name": "const",

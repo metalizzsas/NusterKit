@@ -123,7 +123,11 @@ export class ManualMode implements IManualMode
         {
             const manualsModesWichRequires = this.machine.manualmodeController.manualModes.filter(m => m.requires?.includes(this.name) && m.state > 0);
             if(manualsModesWichRequires.length > 0)
-                this.machine.broadcast(`manual-mode-required-parent-toggle-off`);
+                this.machine.displayPopup({
+                    identifier: "manual-mode-required-parent-toggle-off",
+                    title: "popups.manualMode.requiredParent.title",
+                    message: "popups.manualMode.requiredParent.message"
+                });
 
             //toggle off the manuals modes wich requires this one as a parent
             for(const manual of manualsModesWichRequires)

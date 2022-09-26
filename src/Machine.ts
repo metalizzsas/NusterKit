@@ -23,6 +23,7 @@ import type { IAddon } from "./interfaces/IAddon";
 import type { IHypervisorData } from "./interfaces/balena/IHypervisorDevice";
 import type { IVPNData } from "./interfaces/balena/IVPNData";
 import type { IDeviceData } from "./interfaces/balena/IDeviceData";
+import { INusterPopup } from "./interfaces/nusterData/INusterPopup";
 
 export class Machine {
 
@@ -158,22 +159,27 @@ export class Machine {
         }
     }
 
-    public broadcast(message: string)
+    /**
+     * Display a popup to all connected Websocket clients
+     * @param popupData Popup data to be sent to clients
+     */
+    public displayPopup(popupData: INusterPopup)
     {
         if(this.WebSocketServer !== undefined)
         {
-            this.logger.trace("Websocket: Broadcasting WS Message: " + message);
+            this.logger.info(`Websocket: Displaying popup ${popupData.message}.`);
+
             for(const client of this.WebSocketServer.clients)
             {
                 client.send(JSON.stringify({
-                    type: "message",
-                    message: message
+                    type: "popup",
+                    message: popupData
                 }));
             }
         }
         else
         {
-            this.logger.trace("Websocket: Unable to broadcast, WebSocket server is undefined.");
+            this.logger.warn("Websocket: Unable to send popup, Websocket server is not defined.");
         }
     }
 
@@ -218,7 +224,10 @@ export class Machine {
 
             addons: this.addons,
 
-            //BalenaOS given data
+            /** 
+             * BalenaOS Given data
+             * @deprecated
+             */
             balenaVersion: process.env.BALENA_HOST_OS_VERSION,
             hypervisorData: this.hypervisorData,
             vpnData: this.vpnData,

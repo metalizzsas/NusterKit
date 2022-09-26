@@ -34,7 +34,12 @@ export class ManualWatchdogCondition implements IManualWatchdogCondition
                 if(this.manual.state > 0 && process.env.NODE_ENV == "production")
                 {
                     this.machine.logger.warn("Manual watchdog condition failed, toggling manual mode off.");
-                    this.machine.broadcast(`manual-mode-watchdog-error`);
+
+                    this.machine.displayPopup({
+                        identifier: "manual-mode-watchdog-error",
+                        title: "popups.manualMode.security.title",
+                        message: "popups.manualMode.security.message"
+                    });
 
                     this.manual.toggle(0);
                     this.stopTimer();

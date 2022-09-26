@@ -30,7 +30,7 @@
 			data:
 				$machineData.machine.vpnData?.vpn.connected === undefined
 					? undefined
-					: String($machineData.machine.vpnData?.vpn.connected),
+					: $_(String($machineData.machine.vpnData?.vpn.connected)),
 		},
 	];
 </script>
@@ -52,6 +52,10 @@
 							{#each element.data as data}
 								<Label color="bg-zinc-800 text-white">
 									{data}
+								</Label>
+							{:else}
+								<Label color="bg-zinc-800 text-white">
+									{element.data}
 								</Label>
 							{/each}
 						</Flex>

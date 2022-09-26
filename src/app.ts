@@ -13,12 +13,6 @@ import { pinoHttp } from "pino-http";
 import { pino } from "pino";
 import { Machine } from "./Machine";
 
-interface IStatus
-{
-    mode: string;
-    errors: string[];
-}
-
 class NusterTurbine
 {
     public app = express();
@@ -27,7 +21,6 @@ class NusterTurbine
 
     public logger: pino.Logger;
     public machine?: Machine;
-    public status: IStatus;
 
     private HTTP_PORT = 4080;
 
@@ -37,11 +30,6 @@ class NusterTurbine
 
     constructor()
     {
-        this.status = {
-            mode: "starting",
-            errors: []
-        };
-
         //Base folder for logs
         const logFileFolder = this.productionEnabled ? '/data/logs' : path.resolve("data", "logs");
 
@@ -79,8 +67,6 @@ class NusterTurbine
             }
         }
 
-        this.status.mode = "running";
-
         const infoPath = this.productionEnabled ? "/data/info.json" : path.resolve("data", "info.json");
 
         if(fs.existsSync(infoPath))
@@ -95,7 +81,6 @@ class NusterTurbine
         else
         {
             this.logger.warn("Machine: Info file not found");
-            this.status.mode = "waiting-config";
             this._expressConfig();
         }
 
@@ -171,7 +156,6 @@ class NusterTurbine
         this.logger.info(`Express: Will use ${logsPath} as the logs folder.`);
         this.app.use("/logs", express.static(logsPath), serveIndex(logsPath));
 
-        this.app.get("/status", (_req, res: Response) => res.json(this.status));
         this.app.get("/ws", async (_req, res: Response) => res.json(await this.machine?.socketData()));
 
         //Tell the balena Hypervisor to force the pending update.
@@ -278,10 +262,8 @@ class NusterTurbine
         }
         catch(err)
         {
+            this.logger.fatal("Mongo: Failed to connect to database");
             this.logger.fatal(err);
-
-            this.status.mode = "errored";
-            this.status.errors.push("Mongo: Failed to connect to database");
         }
 
         //move id to _id
@@ -330,21 +312,8 @@ class NusterTurbine
 
 const nt = new NusterTurbine();
 
-process.on("uncaughtException", error => {
-    nt.logger.error("unCaughtException");
-    nt.logger.error(error);
-
-    nt.status.mode = "errored";
-    nt.status.errors.push(error.message);
-});
-
-process.on('unhandledRejection', error => {
-    nt.logger.error("unhandledPromise");
-    nt.logger.error(error);
-
-    nt.status.mode = "errored";
-    nt.status.errors.push(`${error}`);
-});
+process.on("uncaughtException", error => nt.logger.error("unCaughtException: " + error));
+process.on('unhandledRejection', error => nt.logger.error("unhandledPromise: " + error));
 
 /**
  * Handling SIGTERM Events

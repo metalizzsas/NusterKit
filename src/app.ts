@@ -13,38 +13,45 @@ import { pinoHttp } from "pino-http";
 import { pino } from "pino";
 import { Machine } from "./Machine";
 
+/** Base Class for Nuster Turbine */
 class NusterTurbine
 {
+    /** Express app */
     public app = express();
+    /** Base http Server used by WebSocketServer */
     public httpServer?: Server;
+    /** WebSocket Server */
     public wsServer?: WebSocketServer;
 
+    /** Pino logger instance */
     public logger: pino.Logger;
+    /** Machine instance holding all the controllers */
     public machine?: Machine;
 
+    /** Http express & ws port */
     private HTTP_PORT = 4080;
 
+    /** Is NusterTurbine running in production mode */
     private productionEnabled = process.env.NODE_ENV == "production";
 
+    /** Displayed routine popups, Prevent popups aggressive spawning */
     private displayedPopups: string[] = [];
+
+    /** Logs files base path */
+    private logsPath;
 
     constructor()
     {
-        //Base folder for logs
-        const logFileFolder = this.productionEnabled ? '/data/logs' : path.resolve("data", "logs");
+        this.logsPath = this.productionEnabled ? '/data/logs' : path.resolve("data", "logs");
 
         //Check if base folder for logs exists if not create it
-        if(!fs.existsSync(logFileFolder))
-            fs.mkdirSync(logFileFolder, { recursive: true });
+        if(!fs.existsSync(this.logsPath))
+            fs.mkdirSync(this.logsPath, { recursive: true });
 
-        
-        //Log file name
-        const logFileStream = this.productionEnabled ? `${logFileFolder}/logs-${Date.now()}.json` : path.resolve(logFileFolder, `logs-${Date.now()}.json`);
-
-        //Streams used by pino
+        /** Streams used by Pino Logger */
         const streams = [
             { stream: process.stdout },
-            { stream: pino.destination(logFileStream) },
+            { stream: pino.destination(this.productionEnabled ? `${this.logsPath}/logs-${Date.now()}.json` : path.resolve(this.logsPath, `logs-${Date.now()}.json`)) },
         ];
 
         this.logger = pino({
@@ -54,7 +61,7 @@ class NusterTurbine
         this.logger.info("Starting NusterTurbine");
 
         const actualDate = Date.now();
-        const logFiles = fs.readdirSync(logFileFolder);
+        const logFiles = fs.readdirSync(this.logsPath);
 
         for(const logFile of logFiles)
         {
@@ -62,7 +69,7 @@ class NusterTurbine
 
             if(actualDate - (30 * 24 * 60 * 1000) > parseInt(dateOfFile))
             {
-                fs.rmSync(path.resolve(logFileFolder, logFile))
+                fs.rmSync(path.resolve(this.logsPath, logFile))
                 this.logger.warn("Removed " + logFile + " logfile because it is 30 days older than today.");
             }
         }
@@ -84,10 +91,14 @@ class NusterTurbine
             this._expressConfig();
         }
 
+        /** Update locking the Balena Supervisor */
         lockFile.lock("/tmp/balena/updates.lock", (err) => {
             (err) ? this.logger.error("Lock: Updates locking failed.", err) : this.logger.info("Lock: Updates are now locked.");                
         });
     }
+    /**
+     * Setup Express configuration server
+     */
     private _expressConfig()
     {
         this.httpServer = this.app.listen(this.HTTP_PORT, () => {
@@ -117,7 +128,7 @@ class NusterTurbine
         });
     }
     /**
-     * Configure Express over network
+     * Setup Express server
      */
     private _express()
     {
@@ -152,9 +163,8 @@ class NusterTurbine
         }
 
         /** Serve logs in this folder */
-        const logsPath = this.productionEnabled ? "/data/logs/" : path.resolve("data", "logs");
-        this.logger.info(`Express: Will use ${logsPath} as the logs folder.`);
-        this.app.use("/logs", express.static(logsPath), serveIndex(logsPath));
+        this.logger.info(`Express: Will use ${this.logsPath} as the logs folder.`);
+        this.app.use("/logs", express.static(this.logsPath), serveIndex(this.logsPath));
 
         this.app.get("/ws", async (_req, res: Response) => res.json(await this.machine?.socketData()));
 
@@ -186,7 +196,7 @@ class NusterTurbine
         }
     }
     /**
-     * Create websocket handlers
+     * Setup Websocket server
      */
     private _websocket()
     {
@@ -299,14 +309,10 @@ class NusterTurbine
             this.app.use('/v1/cycle', this.machine.cycleController.router);
             this.app.use('/v1/passives', this.machine.passiveController.router);
             this.app.use('/v1/auth', this.machine.authManager.router);
+            this.logger.info("Express: Registered routers");
         }
         else
-        {
-            this.logger.error("No machine defined, cannot add routes.");
-            throw new Error("No machine defined, cannot add routes.");
-        }
-
-        this.logger.info("Express: Registered routers");
+            this.logger.fatal("Express: No machine defined, cannot add routes.");
     }
 }
 

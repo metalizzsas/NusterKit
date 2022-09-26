@@ -9,7 +9,7 @@ import { PBRStartCondition } from "./startchain/PBRStartCondition";
 
 /**
  * Program Block Runner
- * @desc Manages {@link ./ProgramBlock | ProgramBlock}, {@link ./ParameterBlock | ParameterBlock} & {@link ProgramBlockStep} to handle cycles
+ * @desc Manages {@link pbr/ProgramBlocks.index}, {@link pbr/ParameterBlocks.index} & {@link ProgramBlockStep} to handle cycles
  * @class
  */
 export class ProgramBlockRunner implements IProgramRunner

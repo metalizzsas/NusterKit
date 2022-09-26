@@ -270,11 +270,16 @@
             "none": "Aucun outil necessaire"
         }
     },
-    "message": {
-        "modal": {
-            "title": "Message",
-            "manual-mode-watchdog-error": "Il y as eu une erreur de sécurité sur un des modes manuels. Il as donc été désactivé.",
-            "manual-mode-required-parent-toggle-off": "Un mode manuel parent a été désactivé, tout les modes manuels dépendants on été désactivés aussi."
+    "popups": {
+        "manualMode": {
+            "security": {
+                "title": "Erreur sécurité mode manuel",
+                "message": "Il y as eu une erreur de sécurité sur un des modes manuels. Il as donc été désactivé."
+            },
+            "requiredParent": {
+                "title": "Erreur mode manuel parent",
+                "message": "Un mode manuel parent a été désactivé, tout les modes manuels dépendants on été désactivés aussi."
+            }
         }
     }
 }

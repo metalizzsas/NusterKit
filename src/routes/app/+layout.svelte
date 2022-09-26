@@ -9,7 +9,6 @@
 
 	import { Linker } from '$lib/utils/stores/linker';
 	import { goto } from '$app/navigation';
-	import Modal from '$lib/components/modals/modal.svelte';
 	import Navstack from '$lib/components/navigation/navstack.svelte';
 	import { BUNDLED } from '$lib/bundle';
 	import { initI18nMachine } from '$lib/utils/i18n/i18nmachine';
@@ -20,9 +19,6 @@
 	let ws: WebSocket;
 	let wsAtempt: number = 0;
 	let wsError: boolean = false;
-
-	let displayModal: boolean = false;
-	let displayModalMessage: string = '';
 
 	let displayPopup: boolean = false;
 	let popupData: INusterPopup | null = null;
@@ -94,15 +90,6 @@
 						$machineData = data.message as IWSObject;
 						ready = true;
 					}
-					break;
-				}
-				case 'message': {
-					displayModal = true;
-					displayModalMessage = data.message as string;
-					break;
-				}
-				case 'update': {
-					goto('/update');
 					break;
 				}
 				case 'popup': {
@@ -191,10 +178,6 @@
 		</div>
 	</div>
 {:else}
-	<Modal bind:shown={displayModal} title={$_('message.modal.title')}>
-		{$_('message.modal.' + displayModalMessage)}
-	</Modal>
-
 	<Popup bind:shown={displayPopup} modalData={popupData} />
 
 	<Navstack>

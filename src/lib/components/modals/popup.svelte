@@ -44,10 +44,10 @@
 							{$_(cta.name)}
 						</Button>
 					{/each}
-					<Button on:click={async () => (shown = false)} color="bg-orange-400">
-						{$_('close-modal')}
-					</Button>
 				{/if}
+				<Button on:click={async () => (shown = false)} color="bg-orange-400">
+					{$_('close-modal')}
+				</Button>
 			</Flex>
 		</Flex>
 	{/if}

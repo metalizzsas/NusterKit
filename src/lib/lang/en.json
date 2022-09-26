@@ -245,11 +245,18 @@
       "generic": "Generic"
     }
   },
-  "message": {
-    "modal": {
-      "title": "Message",
-      "manual-mode-watchdog-error": "There was a security error one one of the enabled manual modes. It has been automatically disabled.",
-      "manual-mode-required-parent-toggle-off": "A parent manual mode has been switched off. All children manuals modes were toggled off too."
+  "popups": {
+    "manualMode":
+    {
+      "security":
+      {
+        "title": "Manual mode security error",
+        "message": "There was a security error on one of the enabled manual modes. It has been toggled off."
+      },
+      "requiredParent": {
+        "title": "Manual mode Parent error",
+        "message": "A parent manual mode has been switched off. All children manual modes were toggled off."
+      }
     }
   },
   "manual": {

@@ -5098,6 +5098,19 @@
                      "params": [
                         {
                            "name": "conststr",
+                           "value": "ventilation"
+                        },
+                        {
+                           "name": "const",
+                           "value": 1
+                        }
+                     ]
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
                            "value": "met#rd-air-cleaning-high"
                         },
                         {
@@ -5184,6 +5197,19 @@
                   }
                ],
                "endBlocks": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "ventilation"
+                        },
+                        {
+                           "name": "const",
+                           "value": 0
+                        }
+                     ]
+                  },
                   {
                      "name": "io",
                      "params": [

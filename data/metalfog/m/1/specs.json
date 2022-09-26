@@ -5079,6 +5079,17 @@
                      "gateValue": 1
                   }
                }
+            },
+            {
+               "conditionName": "eff-container-sensor",
+               "startOnly": false,
+               "checkChain": {
+                  "name": "io",
+                  "io": {
+                     "gateName": "eff-container-sensor",
+                     "gateValue": 1
+                  }
+               }
             }
          ],
          "steps": [

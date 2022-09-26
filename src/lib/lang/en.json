@@ -18,6 +18,11 @@
   "machinelist-empty": "Nothing found here! Add a machine first ↗",
   "machinelist-add": "Add machine",
 
+  "renderError": "Failed to render this page",
+  "renderErrorSub": "This is unfortunate...",
+  "renderErrorRedirect": "Something went wrong, you will be redirected soon.",
+  "renderErrorRedirectButton": "Redirect now",
+
   "date": {
     "days": "Days",
     "day": "Day",

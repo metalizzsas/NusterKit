@@ -18,6 +18,12 @@
     "machinelist": "Liste des machines",
     "machinelist-empty": "Rien n'as été trouvé ici! Ajoutez une machine ↗",
     "machinelist-add": "Ajouter une machine",
+
+    "renderError": "Erreur de rendu dans la page",
+    "renderErrorSub": "C'est dommage...",
+    "renderErrorRedirect": "Quelquechose c'est mal passé, nous allons vous rediriger d'ici peu.",
+    "renderErrorRedirectButton": "Redirection rapide",
+
     "date": {
         "days": "Jours",
         "day": "jour",

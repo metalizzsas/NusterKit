@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
+
+	import { _ } from 'svelte-i18n';
 
 	let count = 0;
 
@@ -19,7 +20,7 @@
 	};
 </script>
 
-<main class="text-gray-800 -m-4">
+<main class="text-zinc-800 dark:text-white -m-4">
 	<div class="h-screen w-screen flex flex-row justify-center">
 		<div class="flex flex-row gap-8 items-center align-middle">
 			<img
@@ -28,18 +29,15 @@
 				class="h-44 aspect-square rounded-xl ring-indigo-500 ring-[2px]"
 			/>
 			<div>
-				<h1 class="text-xl">Failed to render this page</h1>
-				<h2 class="text-base">This is unfortunate...</h2>
-				<p>Something went wrong, you will be redirected soon.</p>
-				{#if $page.error !== null}
-					<p class="text-xs text-red-500">{$page.error.message}</p>
-				{/if}
+				<h1 class="text-xl">{$_('renderError')}</h1>
+				<h2 class="text-base">{$_('renderErrorSub')}</h2>
+				<p>{$_('renderErrorRedirect')}</p>
 				<button
-					class="ring-[2px] ring-gray-800 hover:ring-gray-600 bg-gray-400 bg-opacity-{count *
+					class="ring-[2px] ring-gray-800 dark:ring-white hover:ring-gray-600 bg-gray-400 bg-opacity-{count *
 						timeout} transition-colors duration-500 font-bold rounded-xl py-2 px-8 mt-5 cursor-pointer"
 					on:click={redirect}
 				>
-					Redirect now ({timeout - count} s)
+					{$_('renderErrorRedirectButton')} ({timeout - count} s)
 				</button>
 			</div>
 		</div>

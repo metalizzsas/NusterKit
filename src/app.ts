@@ -1,11 +1,13 @@
-import express,  { Request, Response } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
-import { WebSocket, WebSocketServer } from "ws";
 import path from "path";
 import fs from "fs";
 import lockFile from "lockfile";
+
+import express,  { Request, Response } from "express";
+import serveIndex from "serve-index";
+import { WebSocket, WebSocketServer } from "ws";
 import { Server } from "http";
 import { pinoHttp } from "pino-http";
 import { pino } from "pino";
@@ -163,6 +165,11 @@ class NusterTurbine
             this.logger.info(`Express: Will use ${this.machine.assetsFolder} as the assets folder.`);
             this.app.use("/assets", express.static(this.machine.assetsFolder));
         }
+
+        /** Serve logs in this folder */
+        const logsPath = this.productionEnabled ? "/data/logs/" : path.resolve("data", "logs");
+        this.logger.info(`Express: Will use ${logsPath} as the logs folder.`);
+        this.app.use("/logs", express.static(logsPath), serveIndex(logsPath));
 
         this.app.get("/status", (_req, res: Response) => res.json(this.status));
         this.app.get("/ws", async (_req, res: Response) => res.json(await this.machine?.socketData()));

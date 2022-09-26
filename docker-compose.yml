@@ -11,7 +11,7 @@ services:
     restart: always
     network_mode: host
     volumes: 
-      - mongodb:/data
+      - mongodb:/data/db
 
   nuster-turbine:
     image: ghcr.io/metalizzsas/nusterturbine:main

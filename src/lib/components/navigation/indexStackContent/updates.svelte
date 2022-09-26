@@ -6,6 +6,7 @@
 	import { machineData } from '$lib/utils/stores/store';
 	import { Linker } from '$lib/utils/stores/linker';
 	import Modalcontent from '$lib/components/modals/modalcontent.svelte';
+	import Machine from '$lib/components/machinelist/machine.svelte';
 
 	export let shown: boolean;
 
@@ -25,21 +26,23 @@
 		{#if $machineData.machine.hypervisorData}
 			<Flex gap={5} items="center" wrap="wrap">
 				{#if $machineData.machine.hypervisorData.overallDownloadProgress !== null}
-					<span class="font-semibold">{$_('settings.updateProgress')}</span>
-					<div class="rounded-full h-8 p-1 w-1/3 bg-indigo-300">
+					<span>{$_('settings.updateProgress')}</span>
+					<div class="rounded-full h-7 p-0.5 w-1/3 bg-zinc-800">
 						<div
 							class="h-6 bg-white text-xs rounded-full text-zinc-700 flex flex-row justify-center items-center"
 							style="width: {Math.floor(
 								$machineData.machine.hypervisorData.overallDownloadProgress ?? 0,
 							)}%"
 						>
-							{#if $machineData.machine.hypervisorData.overallDownloadProgress ?? 0 > 10}
-								<span class="font-semibold">
-									{Math.floor(
-										$machineData.machine.hypervisorData
-											.overallDownloadProgress ?? 0,
-									)} %
-								</span>
+							{#if $machineData.machine.hypervisorData.overallDownloadProgress}
+								{#if $machineData.machine.hypervisorData.overallDownloadProgress > 10}
+									<span class="font-semibold">
+										{Math.floor(
+											$machineData.machine.hypervisorData
+												.overallDownloadProgress,
+										)} %
+									</span>
+								{/if}
 							{/if}
 						</div>
 					</div>

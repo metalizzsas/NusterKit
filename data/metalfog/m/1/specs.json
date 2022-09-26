@@ -5086,7 +5086,7 @@
                "name": "nozzle-cleaning",
                "duration": {
                   "name": "const",
-                  "value": -1
+                  "value": 120
                },
                "isEnabled": {
                   "name": "const",

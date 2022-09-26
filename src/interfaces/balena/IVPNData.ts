@@ -3,10 +3,8 @@
  */
 export interface IVPNData {
   status: string;
-  vpn: Vpn;
-}
-
-interface Vpn {
-  enabled: boolean;
-  connected: boolean;
+  vpn: {
+    enabled: boolean;
+    connected: boolean;
+  }
 }

@@ -21,9 +21,9 @@
 </script>
 
 <Modalcontent bind:shown title={$_('settings.updateGoing.title')}>
-	{#if displayUpdateScreen}
+	{#if !displayUpdateScreen}
 		{#if $machineData.machine.hypervisorData}
-			<Flex gap={5} items="center" class="p-4 -mt-4" wrap="wrap">
+			<Flex gap={5} items="center" wrap="wrap">
 				{#if $machineData.machine.hypervisorData.overallDownloadProgress !== null}
 					<span class="font-semibold">{$_('settings.updateProgress')}</span>
 					<div class="rounded-full h-8 p-1 w-1/3 bg-indigo-300">

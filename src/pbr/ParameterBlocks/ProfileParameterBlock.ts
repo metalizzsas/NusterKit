@@ -4,7 +4,7 @@ import { IProfileParameterBlock } from "../../interfaces/programblocks/Parameter
 
 export class ProfileParameterBlock extends ParameterBlock implements IProfileParameterBlock
 {
-    name: "profile" = "profile";
+    name = "profile" as const;
     value: string;
 
     constructor(instance: ProgramBlockRunner, obj: IProfileParameterBlock)

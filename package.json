@@ -17,6 +17,8 @@
     "build": "tsc",
     "start": "node build/app.js | pino-pretty",
     "lc": "find './src' -name '*.ts' | xargs wc -l",
+    "lint": "eslint ./src/** --ext .ts",
+    "lint-and-fix": "eslint ./src/** --ext .ts --fix",
     "schema": "npm run schema:machine && npm run schema:addon",
     "schema:machine": "npx typescript-json-schema@0.53.0 \"src/interfaces/IMachine.ts\" IMachine --ignoreErrors --required -o \"src/interfaces/schema.json\"",
     "schema:addon": "npx typescript-json-schema@0.53.0 \"src/interfaces/IAddon.ts\" IAddon --ignoreErrors --required -o \"src/interfaces/schema-addon.json\"",

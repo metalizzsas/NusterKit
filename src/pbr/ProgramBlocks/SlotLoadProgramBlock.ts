@@ -7,7 +7,7 @@ import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistr
 
 export class SlotLoadProgramBlock extends ProgramBlock implements ISlotLoadProgramBlock {
     
-    name: "slotLoad" = "slotLoad";
+    name = "slotLoad" as const;
     params: [StringParameterBlocks];
 
     constructor(pbrInstance: ProgramBlockRunner, obj: ISlotLoadProgramBlock) 

@@ -4,7 +4,7 @@ import { ISlotLifetimeParameterBlock } from "../../interfaces/programblocks/Para
 
 export class SlotLifetimeParameterBlock extends ParameterBlock implements ISlotLifetimeParameterBlock
 {
-    name: "slotlife" = "slotlife";
+    name = "slotlife" as const;
     value: string;
 
     constructor(instance: ProgramBlockRunner, obj: ISlotLifetimeParameterBlock)

@@ -7,7 +7,7 @@ import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistr
 
 export class VariableProgramBlock extends ProgramBlock implements IVariableProgramBlock
 {
-    name: "variable" = "variable";
+    name = "variable" as const;
 
     params: [StringParameterBlocks, NumericParameterBlocks]
 

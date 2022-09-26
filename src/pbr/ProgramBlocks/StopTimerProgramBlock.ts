@@ -6,7 +6,7 @@ import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistr
 
 export class StopTimerProgramBlock extends ProgramBlock implements IStopTimerProgramBlock
 {
-    name: "stopTimer" = "stopTimer";
+    name = "stopTimer" as const;
 
     params: [StringParameterBlocks];
 

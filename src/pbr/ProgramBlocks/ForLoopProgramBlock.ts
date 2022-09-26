@@ -7,7 +7,7 @@ import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistr
 
 export class ForLoopProgramBlock extends ProgramBlock implements IForLoopProgramBlock {
 
-    name: "for" = "for";
+    name = "for" as const;
 
     params: [NumericParameterBlocks];
     blocks: ProgramBlocks[] = [];

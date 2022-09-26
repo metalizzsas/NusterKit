@@ -16,12 +16,16 @@ export class Slot implements IConfigSlot
 
     productData?: { productSeries: EProductSeries, loadDate: Date, lifetimeProgress: number, lifetimeRemaining: number };
 
+    ioMgr: IOController;
+
     constructor(slot: IConfigSlot, ioMgr: IOController)
     {
         this.name = slot.name;
         this.type = slot.type;
+
+        this.ioMgr = ioMgr;
         
-        this.sensors = slot.sensors.map(s => new SlotSensor(this, s, ioMgr));
+        this.sensors = slot.sensors.map(s => new SlotSensor(this, s, this.ioMgr));
         this.callToAction = slot.callToAction ?? [];
 
         this.productOptions = slot.productOptions;
@@ -49,7 +53,7 @@ export class Slot implements IConfigSlot
         }
         else
         {
-            console.log("Failed to load slot");
+            this.ioMgr.machine.logger.error(`Slots: Failed to load ${this.name} document.`);
         }
         return true;
     }

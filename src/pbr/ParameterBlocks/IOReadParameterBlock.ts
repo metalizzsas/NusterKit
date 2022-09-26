@@ -4,7 +4,7 @@ import { IIOReadParameterBlock } from "../../interfaces/programblocks/ParameterB
 
 export class IOReadParameterBlock extends ParameterBlock implements IIOReadParameterBlock
 {
-    name: "io" = "io";
+    name = "io" as const;
     value: string;
 
     constructor(instance: ProgramBlockRunner, obj: IIOReadParameterBlock)

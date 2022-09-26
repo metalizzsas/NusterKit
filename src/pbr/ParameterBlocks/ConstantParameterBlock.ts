@@ -4,7 +4,7 @@ import { IConstantParameterBlock } from "../../interfaces/programblocks/Paramete
 
 export class ConstantParameterBlock extends ParameterBlock implements IConstantParameterBlock
 {
-    name: "const" = "const";
+    name = "const" as const;
     value: number;
 
     constructor(instance: ProgramBlockRunner, obj: IConstantParameterBlock)

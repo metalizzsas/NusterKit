@@ -4,7 +4,7 @@ import { IMaintenanceParameterBlock } from "../../interfaces/programblocks/Param
 
 export class MaintenanceProgressParameterBlock extends ParameterBlock implements IMaintenanceParameterBlock
 {
-    name: "maintenance" = "maintenance";
+    name = "maintenance" as const;
     value: string;
 
     constructor(instance: ProgramBlockRunner, obj: IMaintenanceParameterBlock)

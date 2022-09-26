@@ -5,7 +5,7 @@ import { ParameterBlockRegistry } from "./ParameterBlockRegistry";
 
 export class ConditionalParameterBlock extends ParameterBlock implements IConditionalParameterBlock
 {
-    name: "conditional" = "conditional";
+    name = "conditional" as const;
     value: ">" | "<" | "==" | "!=";
 
     params: [

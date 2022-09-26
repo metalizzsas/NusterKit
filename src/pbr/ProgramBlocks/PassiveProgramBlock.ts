@@ -6,7 +6,7 @@ import { ProgramBlockRunner } from "../ProgramBlockRunner";
 
 export class PassiveProgramBlock extends ProgramBlock implements IPassiveProgramBlock
 {
-    name: "passive" = "passive";
+    name = "passive" as const;
 
     params: [StringParameterBlocks, NumericParameterBlocks, NumericParameterBlocks];
 

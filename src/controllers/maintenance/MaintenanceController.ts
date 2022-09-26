@@ -23,7 +23,7 @@ export class MaintenanceController extends Controller
     {
         for(const maintenance of [...this.machine.specs.maintenance, {name: "cycleCount", durationType: 'cycle', durationLimit: Number.MAX_VALUE} as IConfigMaintenance])
         {
-            this.tasks.push(new Maintenance(maintenance.name, maintenance.durationType, maintenance.durationLimit, maintenance.procedure));
+            this.tasks.push(new Maintenance(maintenance, this.machine.logger));
         }
     }
 

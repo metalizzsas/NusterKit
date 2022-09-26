@@ -52,10 +52,12 @@ export class SlotController extends Controller
     }
     async socketData()
     {
-        const data: any[] = [];
+        const data = [];
+        
         for(const s of this.slots){
             data.push(await s.socketData());
         }
+
         return data;
     }
 }

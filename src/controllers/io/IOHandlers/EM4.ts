@@ -30,7 +30,7 @@ export class EM4 extends IOPhysicalController
         
         if(available === true)
         {
-            await this.client.connectTCP(this.ip, {port: 502}).catch(error => console.log(error));
+            await this.client.connectTCP(this.ip, {port: 502}).catch(error => this.machine?.logger.error("EM4: " + error));
 
             this.connected = this.client.isOpen;
 

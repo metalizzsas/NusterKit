@@ -7,7 +7,7 @@ import { ProgramBlock, ProgramBlocks } from "./index";
 
 export class WhileLoopProgramBlock extends ProgramBlock implements IWhileLoopProgramBlock
 {
-    name: "while" = "while";
+    name = "while" as const;
 
     params: [NumericParameterBlocks, StringParameterBlocks, NumericParameterBlocks];
     blocks: ProgramBlocks[] = [];

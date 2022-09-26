@@ -8,7 +8,7 @@ import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistr
 
 export class SleepProgramBlock extends ProgramBlock implements ISleepProgramBlock
 {
-    name: "sleep" = "sleep";
+    name = "sleep" as const;
     params: [NumericParameterBlocks];
 
     constructor(pbrInstance: ProgramBlockRunner, obj: ISleepProgramBlock) {

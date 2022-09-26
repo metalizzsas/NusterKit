@@ -5,7 +5,7 @@ import { ProgramBlockRunner } from "../ProgramBlockRunner";
 //Slot status shall only be used for startConditions
 export class SlotProductStatusParameterBlock extends ParameterBlock implements ISlotProductStatusParameterBlock
 {
-    name: "slotstatus" = "slotstatus";
+    name = "slotstatus" as const;
     value: string;
     
     constructor(instance: ProgramBlockRunner, obj: ISlotProductStatusParameterBlock)

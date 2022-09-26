@@ -8,7 +8,7 @@ import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistr
 
 export class IfProgramBlock extends ProgramBlock implements IIfProgramBlock
 {
-    name: "if" = "if";
+    name = "if" as const;
 
     params: [NumericParameterBlocks, StringParameterBlocks, NumericParameterBlocks];
 

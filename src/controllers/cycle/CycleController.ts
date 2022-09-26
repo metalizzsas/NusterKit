@@ -145,9 +145,7 @@ export class CycleController extends Controller {
             //if the api gets a profile in the body, use it.
             else if(Object.keys(req.body).length !== 0)
             {
-                console.log(req.body);
                 profile = this.machine.profileController.retreiveProfile((req.body as IProfileExportable));
-
                 this.machine.logger.info("CR: Profile given by body");
             }
             else

@@ -4,7 +4,7 @@ import { ProgramBlock, ProgramBlocks } from "./index";
 
 export class GroupProgramBlock extends ProgramBlock implements IGroupProgramBlock
 {
-    name: "group" = "group";
+    name = "group" as const;
     blocks: ProgramBlocks[] = []
 
     constructor(pbrInstance: ProgramBlockRunner, obj: IGroupProgramBlock)

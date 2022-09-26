@@ -5,7 +5,7 @@ import { ParameterBlockRegistry } from "./ParameterBlockRegistry";
 
 export class ReverseParameterBlock extends ParameterBlock implements IReverseParameterBlock
 {
-    name: "reverse" = "reverse";
+    name = "reverse" as const;
     params: [NumericParameterBlocks];
 
     constructor(instance: ProgramBlockRunner, obj: IReverseParameterBlock)

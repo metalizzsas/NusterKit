@@ -4,7 +4,7 @@ import { IConstantStringParameterBlock } from "../../interfaces/programblocks/Pa
 
 export class ConstantStringParameterBlock extends ParameterBlock implements IConstantStringParameterBlock
 {
-    name: "conststr" = "conststr";
+    name = "conststr" as const;
     value: string;
 
     constructor(instance: ProgramBlockRunner, obj: IConstantStringParameterBlock)

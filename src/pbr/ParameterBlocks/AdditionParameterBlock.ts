@@ -4,7 +4,7 @@ import { IAdditionParameterBlock } from "../../interfaces/programblocks/Paramete
 
 export class AdditionParameterBlock extends ParameterBlock implements IAdditionParameterBlock
 {
-    name: "add" = "add";
+    name = "add" as const;
     params: NumericParameterBlocks[];
 
     constructor(instance: ProgramBlockRunner, obj: IAdditionParameterBlock)

@@ -7,7 +7,7 @@ import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistr
 
 export class StopProgramBlock extends ProgramBlock implements IStopProgramBlock
 {
-    name: "stop" = "stop";
+    name = "stop" as const;
     params: [StringParameterBlocks];
 
     constructor(pbrInstance: ProgramBlockRunner, obj: IStopProgramBlock)

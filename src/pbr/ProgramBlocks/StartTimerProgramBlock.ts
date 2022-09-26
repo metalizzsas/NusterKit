@@ -8,7 +8,7 @@ import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistr
 
 export class StartTimerProgramBlock extends ProgramBlock implements IStartTimerProgramBlock
 {
-    name: "startTimer" = "startTimer";
+    name = "startTimer" as const;
 
     params: [
         StringParameterBlocks,

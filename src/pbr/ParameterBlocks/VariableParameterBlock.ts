@@ -4,7 +4,7 @@ import { IVariableParameterBlock } from "../../interfaces/programblocks/Paramete
 
 export class VariableParameterBlock extends ParameterBlock implements IVariableParameterBlock
 {
-    name: "variable" = "variable";
+    name = "variable" as const;
     value: string;
     constructor(instance: ProgramBlockRunner, obj: IVariableParameterBlock)
     {

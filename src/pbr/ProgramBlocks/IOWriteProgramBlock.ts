@@ -8,7 +8,7 @@ import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistr
 
 export class IOWriteProgramBlock extends ProgramBlock implements IIOProgramBlock
 {
-    name: "io" = "io";
+    name = "io" as const;
 
     params: [StringParameterBlocks, NumericParameterBlocks];
 

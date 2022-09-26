@@ -1,3 +1,4 @@
+import pino from "pino";
 import { IConfigMaintenance, IMaintenanceProcedure } from "../../interfaces/IMaintenance";
 import { MaintenanceModel } from "./MaintenanceModel";
 
@@ -14,16 +15,20 @@ export class Maintenance implements IConfigMaintenance
 
     procedure?: IMaintenanceProcedure;
 
-    constructor(name: string, durationType: string, durationLimit: number, procedure?: IMaintenanceProcedure)
-    {
-        this.name = name;
+    logger: pino.Logger;
 
-        this.durationType = durationType;
-        this.durationLimit = durationLimit;
+    constructor(obj: IConfigMaintenance, logger: pino.Logger)
+    {
+        this.name = obj.name
+
+        this.durationType = obj.durationType;
+        this.durationLimit = obj.durationLimit
         this.duration = 0;
         this.durationProgress = 0;
 
-        this.procedure = procedure;
+        this.procedure = obj.procedure;
+
+        this.logger = logger;
 
         this.refresh();
     }
@@ -40,7 +45,7 @@ export class Maintenance implements IConfigMaintenance
         }
         else
         {
-            console.log(`Document tracker for maintenance ${this.name} does not exists`);
+            this.logger.warn(`Maintenance: Document tracker for maintenance ${this.name} does not exists.`);
             await MaintenanceModel.create({ name: this.name, duration: 0 })
         }
     }
@@ -61,7 +66,7 @@ export class Maintenance implements IConfigMaintenance
         MaintenanceModel.findOneAndUpdate({ name: this.name }, { duration: 0, operationDate: Date.now() }, (err: Error) => {
             if(err != undefined)
             {
-                console.log("failed to update MaintenanceTask");
+                this.logger.error(`Maintenance: Failed to update ${this.name} document.`);
             }
             else
             {

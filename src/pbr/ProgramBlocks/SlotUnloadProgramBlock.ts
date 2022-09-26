@@ -6,7 +6,7 @@ import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistr
 
 export class SlotUnloadProgramBlock extends ProgramBlock implements ISlotUnloadProgramBlock 
 {
-    name: "slotUnload" = "slotUnload";
+    name = "slotUnload" as const;
     params: [StringParameterBlocks];
 
     constructor(pbrInstance: ProgramBlockRunner, obj: ISlotUnloadProgramBlock)

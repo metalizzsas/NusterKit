@@ -7,7 +7,7 @@ import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistr
 
 export class MaintenanceProgramBlock extends ProgramBlock implements IMaintenanceProgramBlock
 {
-    name: "maintenance" = "maintenance";
+    name = "maintenance" as const;
 
     params: [StringParameterBlocks, NumericParameterBlocks];
 

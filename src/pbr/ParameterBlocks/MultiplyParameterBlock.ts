@@ -5,7 +5,7 @@ import { IMultiplyParameterBlock } from "../../interfaces/programblocks/Paramete
 
 export class MultiplyParameterBlock extends ParameterBlock implements IMultiplyParameterBlock
 {
-    name: "multiply" = "multiply";
+    name = "multiply" as const;
     params: NumericParameterBlocks[]
 
     constructor(instance: ProgramBlockRunner, obj: IMultiplyParameterBlock)

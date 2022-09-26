@@ -12,6 +12,7 @@ import { Server } from "http";
 import { pinoHttp } from "pino-http";
 import { pino } from "pino";
 import { Machine } from "./Machine";
+import { IConfiguration } from "./interfaces/IConfiguration";
 
 /** Base Class for Nuster Turbine */
 class NusterTurbine
@@ -78,7 +79,10 @@ class NusterTurbine
 
         if(fs.existsSync(infoPath))
         {
-            this.machine = new Machine(this.logger);
+            const infos = fs.readFileSync(infoPath, {encoding: "utf-8"});
+            const parsed = JSON.parse(infos) as IConfiguration;
+
+            this.machine = new Machine(parsed, this.logger);
 
             this._express();
             this._websocket();

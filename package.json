@@ -19,9 +19,10 @@
     "lc": "find './src' -name '*.ts' | xargs wc -l",
     "lint": "eslint ./src/** --ext .ts",
     "lint-and-fix": "eslint ./src/** --ext .ts --fix",
-    "schema": "npm run schema:machine && npm run schema:addon",
+    "schema": "npm run schema:machine & npm run schema:addon & npm run schema:config",
     "schema:machine": "npx typescript-json-schema@0.53.0 \"src/interfaces/IMachine.ts\" IMachine --ignoreErrors --required -o \"src/interfaces/schema.json\"",
     "schema:addon": "npx typescript-json-schema@0.53.0 \"src/interfaces/IAddon.ts\" IAddon --ignoreErrors --required -o \"src/interfaces/schema-addon.json\"",
+    "schema:config": "npx typescript-json-schema@0.53.0 \"src/interfaces/IConfiguration.ts\" IConfiguration --ignoreErrors --requires -o \"src/interfaces/schema-config.json\"",
     "docs": "npx typedoc --entryPointStrategy expand ./src --out docs",
     "test": "jest",
     "test:coverage": "jest --coverage"

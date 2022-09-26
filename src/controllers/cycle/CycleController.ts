@@ -36,8 +36,8 @@ export class CycleController extends Controller {
         for(const premade of this.machine.specs.cyclePremades)
         {
             //skip the premade if its masked on machine settings
-            if(this.machine.settings?.maskedPremades.includes(premade.name))
-                this.machine.logger.info(`Skipping premade cycle ${premade.name} because it is masked on machine settings.`);
+            if(this.machine.settings?.maskedPremades?.includes(premade.name))
+                this.machine.logger.info(`CycleController: Skipping premade cycle ${premade.name} because it is masked on machine settings.`);
             else
                 this.premadeCycles.push({name: premade.name, profile: premade.profile, cycle: premade.cycle});
         }

@@ -1130,7 +1130,7 @@
             ],
             "description": "Parameter Blocks that return a number from data()"
         },
-        "INusterConnectPopup": {
+        "INusterPopup": {
             "properties": {
                 "callToAction": {
                     "description": "Call to actions",
@@ -2572,7 +2572,7 @@
             "description": "Nuster Additional data",
             "properties": {
                 "connectPopup": {
-                    "$ref": "#/definitions/INusterConnectPopup",
+                    "$ref": "#/definitions/INusterPopup",
                     "description": "Connect popup is triggered when the user logs on for the first time"
                 }
             },

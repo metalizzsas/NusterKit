@@ -1,4 +1,4 @@
-import { IIOGate, IOGateTypes } from "./gates/IIOGate";
+import { IOGateTypes } from "./gates/IIOGate";
 import { IOControllers } from "./IIOControllers";
 import { IConfigMaintenance } from "./IMaintenance";
 import { IManualMode } from "./IManualMode";
@@ -58,45 +58,3 @@ type Paths<T, D extends number = 10> = [D] extends [never] ? never : T extends o
     }[keyof T] : ""
 
 export type IMachinePaths = Paths<IMachine>
-
-/** IMachine Configuration keys */
-export type IMachineKeys = keyof IMachine;
-/** IMachine Configuration Children Types */
-export type IMachineElements = IProgram[] | IPBRPremades[] | IOControllers[] | IIOGate[] | IConfigMaintenance[] | IManualMode[] | IPassive[] | IProfileSkeleton[] | IConfigProfile[] | IConfigSlot[];
-
-/** Machine additional settings */
-export declare interface IMachineSettings
-{
-    /** Masked premade cycles */
-    maskedPremades: string[];
-    /** Masked premade profiles */
-    maskedProfiles: string[];
-    /** Masked manual modes */
-    maskedManuals: string[];
-    /** Disable IO controls access */
-    ioControlsMasked: boolean;
-}
-
-/** Configuration info.json driving NusterTurbine */
-export interface IConfiguration
-{
-    /** Machine Name */
-    name: string;
-    /** Machine Serial number */
-    serial: string;
-
-    /** Machine model */
-    model: string;
-    /** Machine variant */
-    variant: string;
-    /** Machine revision */
-    revision: number;
-
-    /** Machine Addons */
-    addons?: string[];
-    
-    /** Machine options */
-    options: IMachine;
-    /** Machine Settings */
-    settings?: IMachineSettings;
-}

@@ -36,7 +36,7 @@ export class ProfileController extends Controller {
         for(const p of this.machine.specs.profilePremades)
         {
             //mask profile if it is masked on machine settings
-            if(this.machine.settings?.maskedProfiles.includes(p.name))
+            if(this.machine.settings?.maskedProfiles?.includes(p.name))
             {
                 this.machine.logger.info(`Skipping premade profile ${p.name} because it is masked on machine settings.`);
             }

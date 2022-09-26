@@ -72,7 +72,7 @@ export class ManualModeController extends Controller
 
     public get socketData()
     {
-        return this.manualModes.filter(k => !this.machine.settings.maskedManuals.includes(k.name));
+        return this.manualModes.filter(k => !this.machine.settings?.maskedManuals?.includes(k.name));
     }
 
     find(name: string): ManualMode | undefined

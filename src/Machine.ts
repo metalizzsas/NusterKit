@@ -1,7 +1,6 @@
 import pino from "pino";
 import fs from "fs";
 import path from "path";
-import deepExtend from "deep-extend";
 import WebSocket from "ws";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -18,15 +17,16 @@ import { SlotController } from "./controllers/slot/SlotController";
 import { AuthManager } from "./auth/auth";
 import { parseAddon } from "./addons/AddonLoader";
 
-import type { IConfiguration, IMachine, IMachineSettings } from "./interfaces/IMachine";
+import type { IMachine } from "./interfaces/IMachine";
 import type { IAddon } from "./interfaces/IAddon";
 import type { IHypervisorData } from "./interfaces/balena/IHypervisorDevice";
 import type { IVPNData } from "./interfaces/balena/IVPNData";
 import type { IDeviceData } from "./interfaces/balena/IDeviceData";
 import { INusterPopup } from "./interfaces/nusterData/INusterPopup";
+import { IConfiguration, IMachineSettings } from "./interfaces/IConfiguration";
 
-export class Machine {
-
+export class Machine
+{
     name: string;
     serial: string;
 
@@ -36,13 +36,10 @@ export class Machine {
 
     addons?: string[];
 
+    public settings?: IMachineSettings;
+    public machineAddons?: IAddon[];
+
     public specs: IMachine;
-    public settings: IMachineSettings = {
-        maskedPremades: [],
-        maskedProfiles: [],
-        maskedManuals: [],
-        ioControlsMasked: false
-    };
 
     maintenanceController: MaintenanceController;
     ioController: IOController;
@@ -63,64 +60,65 @@ export class Machine {
     vpnData?: IVPNData;
     deviceData?: IDeviceData;
 
-    constructor(logger: pino.Logger)
+    constructor(obj: IConfiguration, logger: pino.Logger)
     {
+        // Machine base informations
+        this.name = obj.name;
+        this.serial = obj.serial;
+
+        // Machine model informations
+        this.model = obj.model;
+        this.variant = obj.variant;
+        this.revision = obj.revision;
+
+        // Addons informations
+        this.addons = obj.addons;
+        this.machineAddons = obj.machineAddons;
+
+        // Custom settings
+        this.settings = obj.settings;
+
         this.logger = logger;
         this.authManager = new AuthManager(this.logger);
 
-        //Get info file path
-        const infoPath = (process.env.NODE_ENV != 'production' || process.env.FORCE_DEV_CONFIG == 'true') ? path.resolve("data", "info.json") : "/data/info.json";
-
-        if(!fs.existsSync(infoPath))
-        {
-            this.logger.fatal("Machine: Info file not found");
-            throw Error("Machine: Info file not found");
-        }
-
-        const infos = fs.readFileSync(infoPath, {encoding: "utf-8"});
-        const parsed = JSON.parse(infos) as IConfiguration;
-
-        this.name = parsed.name;
-        this.serial = parsed.serial;
-
-        this.model = parsed.model;
-        this.variant = parsed.variant;
-        this.revision = parsed.revision;
-
-        this.addons = parsed.addons;
-
+        // Retreive machine base specs to build all the controllers around this file
         const raw = fs.readFileSync(path.resolve(this.baseNTMFolder, "specs.json"), {encoding: "utf-8"});
         const specsParsed = JSON.parse(raw) as IMachine;
 
-        //if informations has optionals specs, deep extending it to match all specs
-        if(parsed.options !== undefined && parsed.options !== null)
-        {
-            this.logger.info("Machine: Configuration has options, merging with specs.");
-            deepExtend(specsParsed, parsed.options);
-        }
-
+        // Assign specs to this instance
         this.specs = (specsParsed as IMachine);
 
-        //If this machine as addons
-        if(this.addons !== undefined && this.addons.length > 0)
+        // Addon Parsing
+        if(this.addons !== undefined)
         {
-            this.logger.warn("Machine: " + this.addons.length + " Addon detected. SHOULD NOT BE USED IN PRODUCTION!");
+            this.logger.warn("Machine: " + this.addons.length + " Addon(s) detected. SHOULD NOT BE USED IN PRODUCTION!");
             for(const add of this.addons)
             {
-                const rawAddon = fs.readFileSync(path.resolve(this.baseNTMFolder, "addons", add + ".json"), {encoding: 'utf-8'});
+                const addonPath = path.resolve(this.baseNTMFolder, "addons", add + ".json");
 
-                const addonParsed = JSON.parse(rawAddon) as IAddon;
-
-                this.specs = parseAddon(this.specs, addonParsed, this.logger);
+                if(fs.existsSync(addonPath))
+                {
+                    const rawAddon = fs.readFileSync(addonPath, {encoding: 'utf-8'});
+                    const addonParsed = JSON.parse(rawAddon) as IAddon;
+    
+                    this.specs = parseAddon(this.specs, addonParsed, this.logger);
+                }
+                else
+                    this.logger.error(`Addon: ${addonPath} does not exists.`);
             }
         }
 
-        //if config file has settings let them is the settings var
-        if(parsed.settings !== undefined)
+        // Machine Specific addon parsing
+        if(this.machineAddons !== undefined)
         {
-            this.logger.info("Machine: Custom settings detected.");
-            this.settings = parsed.settings;
+            this.logger.info(`Machine: Configuration has ${this.machineAddons.length} machine specific addon(s). SHOULD BE USED AS LESS AS POSSIBLE!`);
+            for(const add of this.machineAddons)
+                this.specs = parseAddon(this.specs, add, this.logger);
         }
+
+        //if config file has settings let them is the settings var
+        if(this.settings !== undefined)
+            this.logger.info("Machine: Custom settings detected.");
 
         this.maintenanceController = new MaintenanceController(this);
         this.ioController = new IOController(this);

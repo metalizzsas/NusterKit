@@ -14,6 +14,7 @@ import { IPT100Gate } from "../../interfaces/gates/IPT100Gate";
 import { IOPhysicalController } from "./IOHandlers/IOPhysicalController";
 import { IOControllers } from "../../interfaces/IIOControllers";
 import { IOGateTypes } from "../../interfaces/gates/IIOGate";
+import { AuthManager } from "../../auth/auth";
 
 export class IOController extends Controller
 {
@@ -86,13 +87,13 @@ export class IOController extends Controller
 
     private _configureRouter()
     {
-        //AuthManager.getInstance().registerEndpointPermission("io.list", {endpoint: "/v1/io", method: "get"}); //TODO
+        AuthManager.getInstance().registerEndpointPermission("io.list", {endpoint: "/v1/io", method: "get"});
         this._router.get("/", (_req: Request, res: Response) => {
             res.json(this.gates);
         });
 
 
-        //AuthManager.getInstance().registerEndpointPermission("io.toggle", {endpoint: new RegExp("/v1/io/.*/.*", "g"), method: "get"}); //TODO
+        AuthManager.getInstance().registerEndpointPermission("io.toggle", {endpoint: new RegExp("/v1/io/.*/.*", "g"), method: "get"});
         this._router.get("/:name/:value", async (req: Request, res: Response) => {
 
             const name = req.params.name.replace("_", "#");

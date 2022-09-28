@@ -1,5 +1,6 @@
 import { LoggerInstance } from "../../app";
 import { IManualWatchdogCondition } from "../../interfaces/IManualMode";
+import { WebsocketDispatcher } from "../../websocket/WebsocketDispatcher";
 import { IOController } from "../io/IOController";
 import { ManualMode } from "./ManualMode";
 
@@ -34,14 +35,12 @@ export class ManualWatchdogCondition implements IManualWatchdogCondition
                 {
                     LoggerInstance.warn("Manual watchdog condition failed, toggling manual mode off.");
 
-                    /*
-                    TODO: Fix display popup (maybe using a controller for this stuff)
-                    this.machine.displayPopup({
+                    WebsocketDispatcher.getInstance().togglePopup({
                         identifier: "manual-mode-watchdog-error",
                         title: "popups.manualMode.security.title",
                         message: "popups.manualMode.security.message"
-                    }); 
-                    */
+                    });
+                    
                     this.manual.toggle(0);
                     this.stopTimer();
                 }

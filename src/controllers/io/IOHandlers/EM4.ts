@@ -1,6 +1,7 @@
 import ModbusTCP from "modbus-serial";
 import ping from "ping";
 import { LoggerInstance } from "../../../app";
+import { CycleController } from "../../cycle/CycleController";
 import { IOPhysicalController } from "./IOPhysicalController";
 
 export class EM4 extends IOPhysicalController
@@ -67,7 +68,8 @@ export class EM4 extends IOPhysicalController
     {
         if(this.unreachable)
         {
-            //this.machine?.cycleController.program?.end("controllerUnreachable"); //TODO
+            CycleController.getInstance().program?.end("controllerUnreachable");
+
             return;
         }
         
@@ -92,7 +94,7 @@ export class EM4 extends IOPhysicalController
     {
         if(this.unreachable)
         {
-            //this.machine?.cycleController.program?.end("controllerUnreachable"); //TODO
+            CycleController.getInstance().program?.end("controllerUnreachable");
             return 0;
         }
 

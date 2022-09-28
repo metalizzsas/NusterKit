@@ -1,4 +1,5 @@
 import { IManualMode } from "../../interfaces/IManualMode";
+import { WebsocketDispatcher } from "../../websocket/WebsocketDispatcher";
 import { IOController } from "../io/IOController";
 import { ManualModeController } from "./ManualModeController";
 import { ManualWatchdogCondition } from "./ManualModeWatchdog";
@@ -120,14 +121,13 @@ export class ManualMode implements IManualMode
         {
             const manualsModesWichRequires = ManualModeController.getInstance().manualModes.filter(m => m.requires?.includes(this.name) && m.state > 0);
             if(manualsModesWichRequires.length > 0)
-            /**
-             * TODO: Fix using popup controller
-             this.machine.displayPopup({
-                 identifier: "manual-mode-required-parent-toggle-off",
-                 title: "popups.manualMode.requiredParent.title",
-                 message: "popups.manualMode.requiredParent.message"
-             });
-             */
+
+            // Toggle warning popup to screens
+            WebsocketDispatcher.getInstance().togglePopup({
+                identifier: "manual-mode-required-parent-toggle-off",
+                title: "popups.manualMode.requiredParent.title",
+                message: "popups.manualMode.requiredParent.message"
+            });
 
             //toggle off the manuals modes wich requires this one as a parent
             for(const manual of manualsModesWichRequires)

@@ -3,6 +3,7 @@ import ping from "ping";
 import { IOPhysicalController } from "./IOPhysicalController";
 
 import { LoggerInstance } from "../../../app";
+import { CycleController } from "../../cycle/CycleController";
 
 export class WAGO extends IOPhysicalController
 {
@@ -69,8 +70,7 @@ export class WAGO extends IOPhysicalController
     {
         if(this.unreachable)
         {
-            //TODO: Fix using singleton import
-            //this.machine?.cycleController.program?.end("controllerUnreachable");
+            CycleController.getInstance().program?.end("controllerUnreachable");
             return;
         }
         
@@ -95,8 +95,7 @@ export class WAGO extends IOPhysicalController
     {
         if(this.unreachable)
         {
-            //TODO: Fix using Singleton
-            //this.machine?.cycleController.program?.end("controllerUnreachable");
+            CycleController.getInstance().program?.end("controllerUnreachable");
             return 0;
         }
 

@@ -7,6 +7,7 @@ import { Encapsulation } from "ts-enip/dist/enip/encapsulation";
 import { IOPhysicalController } from "./IOPhysicalController";
 import { IEX260Controller } from "../../../interfaces/IIOControllers";
 import { LoggerInstance } from "../../../app";
+import { CycleController } from "../../cycle/CycleController";
 
 export class EX260Sx extends IOPhysicalController implements IEX260Controller
 {
@@ -64,7 +65,7 @@ export class EX260Sx extends IOPhysicalController implements IEX260Controller
             {
                 this.connected = false;
                 LoggerInstance.error("EX260Sx: Failed to connect");
-                //this.machine?.cycleController.program?.end("controllerError"); //TODO
+                CycleController.getInstance().program?.end("controllerError");
                 return false;
             } 
         }
@@ -102,7 +103,7 @@ export class EX260Sx extends IOPhysicalController implements IEX260Controller
 
         if(!write)
         {
-            //this.machine?.cycleController.program?.end("controllerError"); //TODO
+            CycleController.getInstance().program?.end("controllerError");
             return Buffer.alloc(0);
         }
 
@@ -189,7 +190,7 @@ export class EX260Sx extends IOPhysicalController implements IEX260Controller
 
         if(write === false)
         {
-            //this.machine?.cycleController.program?.end("controllerError"); //TODO
+            CycleController.getInstance().program?.end("controllerError");
         }
     }
 }

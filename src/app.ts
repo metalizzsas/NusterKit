@@ -17,6 +17,10 @@ import { AuthManager } from "./auth/auth";
 import { IOController } from "./controllers/io/IOController";
 import { ProfileController } from "./controllers/profile/ProfilesController";
 import { MaintenanceController } from "./controllers/maintenance/MaintenanceController";
+import { SlotController } from "./controllers/slot/SlotController";
+import { ManualModeController } from "./controllers/manual/ManualModeController";
+import { CycleController } from "./controllers/cycle/CycleController";
+import { PassiveController } from "./controllers/passives/PassiveController";
 
 /** Express app */
 const ExpressApp = express();
@@ -290,13 +294,13 @@ function SetupMachine()
 {
     if(machine)
     {
-        ExpressApp.use('/v1/maintenance', MaintenanceController.getInstance().router);
         ExpressApp.use('/v1/io', IOController.getInstance().router);
         ExpressApp.use('/v1/profiles', ProfileController.getInstance().router);
-        //ExpressApp.use('/v1/slots', machine.slotController.router);
-        //ExpressApp.use('/v1/manual', machine.manualmodeController.router);
-        //ExpressApp.use('/v1/cycle', machine.cycleController.router);
-        //ExpressApp.use('/v1/passives', machine.passiveController.router);
+        ExpressApp.use('/v1/maintenance', MaintenanceController.getInstance().router);
+        ExpressApp.use('/v1/slots', SlotController.getInstance().router);
+        ExpressApp.use('/v1/manual', ManualModeController.getInstance().router);
+        ExpressApp.use('/v1/cycle', CycleController.getInstance().router);
+        ExpressApp.use('/v1/passives', PassiveController.getInstance().router);
         ExpressApp.use('/v1/auth', AuthManager.getInstance().router);
         LoggerInstance.info("Express: Registered routers");
 

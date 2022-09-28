@@ -34,7 +34,7 @@ export class CycleController extends Controller {
         this._configureRouter();
     }
 
-    static getInstance(cycleTypes: IProgram[], cyclePremades: IPBRPremades[], maskedPremades?: string[])
+    static getInstance(cycleTypes?: IProgram[], cyclePremades?: IPBRPremades[], maskedPremades?: string[])
     {
         if(!this._instance)
             if(cycleTypes !== undefined && cyclePremades !== undefined)

@@ -91,13 +91,13 @@ export class Machine
 
         LoggerInstance.info("Machine: Instantiating controllers");
 
-        this.maintenanceController = MaintenanceController.getInstance(this.specs.maintenance);
         this.ioController = IOController.getInstance(this.specs.iohandlers, this.specs.iogates);
         this.profileController = ProfileController.getInstance(this.specs.profileSkeletons, this.specs.profilePremades, this.data.settings?.maskedProfiles);
+        this.maintenanceController = MaintenanceController.getInstance(this.specs.maintenance);
         this.slotController = SlotController.getInstance(this.specs.slots);
-        this.manualmodeController = new ManualModeController(this);
+        this.manualmodeController = ManualModeController.getInstance(this.specs.manual, this.data.settings?.maskedManuals);
         this.cycleController = CycleController.getInstance(this.specs.cycleTypes, this.specs.cyclePremades, this.data.settings?.maskedPremades);
-        this.passiveController = new PassiveController(this);
+        this.passiveController = PassiveController.getInstance(this.specs.passives);
 
         LoggerInstance.info("Machine: Finished Instantiating controllers");
 

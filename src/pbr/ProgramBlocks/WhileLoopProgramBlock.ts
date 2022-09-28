@@ -1,5 +1,6 @@
 import { CycleController } from "../../controllers/cycle/CycleController";
 import { EPBRMode } from "../../interfaces/IProgramBlockRunner";
+import { EProgramStepState } from "../../interfaces/IProgramStep";
 import { IWhileLoopProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IWhileLoopProgramBlock";
 import { NumericParameterBlocks, StringParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
@@ -39,14 +40,15 @@ export class WhileLoopProgramBlock extends ProgramBlock implements IWhileLoopPro
 
         if(pbrInstance !== undefined) 
         {
-            while (this.operators[this.params[1].data() as string](this.params[0].data() as number, this.params[2].data() as number)) {
-                //TODO Use Step as reference
-                if (pbrInstance.status.mode == EPBRMode.ENDED) { 
+            while (this.operators[this.params[1].data() as string](this.params[0].data() as number, this.params[2].data() as number))
+            {
+                if ([EProgramStepState.ENDING, EProgramStepState.ENDED].includes(pbrInstance.currentRunningStep?.state) || [EPBRMode.ENDED, EPBRMode.ENDING].includes(pbrInstance.status.mode))
+                { 
                     this.executed = true;
                     return;
                 }
-    
-                for (const b of this.blocks) {
+                for (const b of this.blocks)
+                {
                     await b.execute();
                 }
             }

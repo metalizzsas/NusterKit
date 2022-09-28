@@ -6,6 +6,7 @@ import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistr
 import { LoggerInstance } from "../../app";
 import { CycleController } from "../../controllers/cycle/CycleController";
 import { PBRMissingError } from "../PBRMissingError";
+import { EProgramStepState } from "../../interfaces/IProgramStep";
 
 export class ForLoopProgramBlock extends ProgramBlock implements IForLoopProgramBlock {
 
@@ -41,8 +42,7 @@ export class ForLoopProgramBlock extends ProgramBlock implements IForLoopProgram
         if(pbrInstance !== undefined)
         {
             for (; this.currentIteration < (loopCount); this.currentIteration++) {
-                //TODO: Make this check on step rather than cycle to ehance NextStep
-                if (pbrInstance.status.mode == EPBRMode.ENDED)
+                if ([EProgramStepState.ENDING, EProgramStepState.ENDED].includes(pbrInstance.currentRunningStep?.state) || [EPBRMode.ENDED, EPBRMode.ENDING].includes(pbrInstance.status.mode))
                 { 
                     this.executed = (this.currentIteration + 1 == (loopCount));
                     return;

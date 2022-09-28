@@ -6,6 +6,7 @@ import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistr
 import { LoggerInstance } from "../../app";
 import { CycleController } from "../../controllers/cycle/CycleController";
 import { PBRMissingError } from "../PBRMissingError";
+import { EProgramStepState } from "../../interfaces/IProgramStep";
 
 
 export class SleepProgramBlock extends ProgramBlock implements ISleepProgramBlock
@@ -32,14 +33,10 @@ export class SleepProgramBlock extends ProgramBlock implements ISleepProgramBloc
     
             for (let i = 0; i < ((sleepTime * 1000) / 10); i++)
             {
-                //TODO: Use Current step status to handle Next step correctly
-                if (pbrInstance.status.mode != EPBRMode.ENDED)
-                    await new Promise(resolve => {
-                        setTimeout(resolve, 10);
-                    });
-    
-                else
+                if ([EProgramStepState.ENDING, EProgramStepState.ENDED].includes(pbrInstance.currentRunningStep?.state) || [EPBRMode.ENDED, EPBRMode.ENDING].includes(pbrInstance.status.mode))
                     return;
+                else
+                    await new Promise(resolve => { setTimeout(resolve, 10); });
             }
             this.executed = true;
         }

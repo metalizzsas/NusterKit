@@ -1,7 +1,6 @@
-import { Maintenance } from "./Maintenance";
-import { Machine } from "../../Machine";
-
 import { Request, Response } from "express";
+
+import { Maintenance } from "./Maintenance";
 import { Controller } from "../Controller";
 import { IConfigMaintenance } from "../../interfaces/IMaintenance";
 import { AuthManager } from "../../auth/auth";
@@ -9,22 +8,30 @@ import { AuthManager } from "../../auth/auth";
 export class MaintenanceController extends Controller
 {
     public tasks: Maintenance[] = []
-    private machine: Machine
 
-    constructor(machine: Machine)
+    private static _instance: MaintenanceController;
+
+    constructor(maintenanceTasks: IConfigMaintenance[])
     {
         super()
-        this.machine = machine;
 
         this._configureRouter();
-        this._configure();
+        this._configure(maintenanceTasks);
     }
 
-    private async _configure()
+    static getInstance(maintenanceTasks: IConfigMaintenance[])
     {
-        for(const maintenance of [...this.machine.specs.maintenance, {name: "cycleCount", durationType: 'cycle', durationLimit: Number.MAX_VALUE} as IConfigMaintenance])
+        if(!this._instance)
+            this._instance = new MaintenanceController(maintenanceTasks);
+
+        return this._instance;
+    }
+
+    private async _configure(maintenanceTasks: IConfigMaintenance[])
+    {
+        for(const task of [...maintenanceTasks, {name: "cycleCount", durationType: 'cycle', durationLimit: Number.MAX_VALUE} as IConfigMaintenance])
         {
-            this.tasks.push(new Maintenance(maintenance, this.machine.logger));
+            this.tasks.push(new Maintenance(task));
         }
     }
 

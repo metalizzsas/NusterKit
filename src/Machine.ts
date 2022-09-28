@@ -91,7 +91,7 @@ export class Machine
 
         LoggerInstance.info("Machine: Instantiating controllers")
 
-        this.maintenanceController = new MaintenanceController(this);
+        this.maintenanceController = MaintenanceController.getInstance(this.specs.maintenance);
         this.ioController = IOController.getInstance(this.specs.iohandlers, this.specs.iogates);
         this.profileController = new ProfileController(this);
         this.slotController = new SlotController(this);

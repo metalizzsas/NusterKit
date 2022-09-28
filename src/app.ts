@@ -74,7 +74,7 @@ if(fs.existsSync(infoPath))
     const infos = fs.readFileSync(infoPath, {encoding: "utf-8"});
     const parsed = JSON.parse(infos) as IConfiguration;
 
-    machine = new Machine(parsed, LoggerInstance);
+    machine = new Machine(parsed);
 
     SetupExpress();
     SetupWebsocketServer();
@@ -323,7 +323,7 @@ process.on("SIGTERM", async () => {
             await g.write(g.default);
         }
     }
-    catch(ex: any)
+    catch(ex: unknown)
     {
         LoggerInstance.warn("Shutdown: Failed to reset gates to default values, IOController is not defined");
     }

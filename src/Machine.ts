@@ -94,7 +94,7 @@ export class Machine
         this.maintenanceController = MaintenanceController.getInstance(this.specs.maintenance);
         this.ioController = IOController.getInstance(this.specs.iohandlers, this.specs.iogates);
         this.profileController = ProfileController.getInstance(this.specs.profileSkeletons, this.specs.profilePremades, this.data.settings?.maskedProfiles);
-        this.slotController = new SlotController(this);
+        this.slotController = SlotController.getInstance(this.specs.slots);
         this.manualmodeController = new ManualModeController(this);
         this.cycleController = CycleController.getInstance(this.specs.cycleTypes, this.specs.cyclePremades, this.data.settings?.maskedPremades);
         this.passiveController = new PassiveController(this);

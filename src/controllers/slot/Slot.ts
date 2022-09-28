@@ -1,7 +1,6 @@
 import { LoggerInstance } from "../../app";
 import { EProductSeries, IConfigSlot, ISlotProductOptions, ISlotSensor } from "../../interfaces/ISlot";
 import { ICallToAction } from "../../interfaces/nusterData/ICallToAction";
-import { IOController } from "../io/IOController";
 import { SlotModel } from "./SlotModel";
 import { SlotSensor } from "./SlotSensor";
 
@@ -17,16 +16,12 @@ export class Slot implements IConfigSlot
 
     productData?: { productSeries: EProductSeries, loadDate: Date, lifetimeProgress: number, lifetimeRemaining: number };
 
-    ioMgr: IOController;
-
-    constructor(slot: IConfigSlot, ioMgr: IOController)
+    constructor(slot: IConfigSlot)
     {
         this.name = slot.name;
         this.type = slot.type;
-
-        this.ioMgr = ioMgr;
         
-        this.sensors = slot.sensors.map(s => new SlotSensor(this, s, this.ioMgr));
+        this.sensors = slot.sensors.map(s => new SlotSensor(this, s));
         this.callToAction = slot.callToAction ?? [];
 
         this.productOptions = slot.productOptions;

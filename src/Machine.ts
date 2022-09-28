@@ -20,7 +20,6 @@ import type { IAddon } from "./interfaces/IAddon";
 import type { IHypervisorData } from "./interfaces/balena/IHypervisorDevice";
 import type { IVPNData } from "./interfaces/balena/IVPNData";
 import type { IDeviceData } from "./interfaces/balena/IDeviceData";
-import { INusterPopup } from "./interfaces/nusterData/INusterPopup";
 import { IConfiguration } from "./interfaces/IConfiguration";
 import { LoggerInstance } from "./app";
 
@@ -125,30 +124,6 @@ export class Machine
                     LoggerInstance.warn("Hypervisor: Failed to get Hypervisor data.");
                 }
             }, 10000);
-        }
-    }
-
-    /**
-     * Display a popup to all connected Websocket clients
-     * @param popupData Popup data to be sent to clients
-     */
-    public displayPopup(popupData: INusterPopup)
-    {
-        if(this.WebSocketServer !== undefined)
-        {
-            LoggerInstance.info(`Websocket: Displaying popup ${popupData.message}.`);
-
-            for(const client of this.WebSocketServer.clients)
-            {
-                client.send(JSON.stringify({
-                    type: "popup",
-                    message: popupData
-                }));
-            }
-        }
-        else
-        {
-            LoggerInstance.warn("Websocket: Unable to send popup, Websocket server is not defined.");
         }
     }
 

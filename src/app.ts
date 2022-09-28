@@ -6,8 +6,6 @@ import fs from "fs";
 import lockFile from "lockfile";
 
 import express,  { Request, Response } from "express";
-import serveIndex from "serve-index";
-import { WebSocket, WebSocketServer } from "ws";
 import { Server } from "http";
 import { pinoHttp } from "pino-http";
 import { pino } from "pino";
@@ -21,13 +19,12 @@ import { SlotController } from "./controllers/slot/SlotController";
 import { ManualModeController } from "./controllers/manual/ManualModeController";
 import { CycleController } from "./controllers/cycle/CycleController";
 import { PassiveController } from "./controllers/passives/PassiveController";
+import { WebsocketDispatcher } from "./websocket/WebsocketDispatcher";
 
 /** Express app */
 const ExpressApp = express();
 /** Base http Server used by WebSocketServer */
 let httpServer: Server;
-/** WebSocket Server */
-let WebSocketServerInstance: WebSocketServer;
 
 /** Machine instance holding all the controllers */
 let machine: Machine;
@@ -38,54 +35,29 @@ const HTTP_PORT = 4080;
 /** Is NusterTurbine running in production mode */
 const productionEnabled = (process.env.NODE_ENV === "production");
 
-/** Displayed routine popups, Prevent popups aggressive spawning */
-const displayedPopups: string[] = [];
-
-/** Logs files base path */
-const logsPath = productionEnabled ? '/data/logs' : path.resolve("data", "logs");
-
 /** Info.json file path */
 const infoPath = productionEnabled ? "/data/info.json" : path.resolve("data", "info.json");
 
-//Check if base folder for logs exists if not create it
-if(!fs.existsSync(logsPath))
-    fs.mkdirSync(logsPath, { recursive: true });
-
 /** Pino logger instance */
 export const LoggerInstance = pino({
-    level: productionEnabled == true ? "info" : "trace"
-}, pino.multistream([
-    { stream: process.stdout },
-    { stream: pino.destination(productionEnabled ? `${logsPath}/logs-${Date.now()}.json` : path.resolve(logsPath, `logs-${Date.now()}.json`)) },
-]));
+    level: productionEnabled == true ? "info" : "trace",
+    stream: process.stdout
+});
 
 LoggerInstance.info("Starting NusterTurbine");
 
-const actualDate = Date.now();
-const logFiles = fs.readdirSync(logsPath);
-
-for(const logFile of logFiles)
-{
-    const dateOfFile = logFile.split("-")[1];
-
-    if(actualDate - (30 * 24 * 60 * 1000) > parseInt(dateOfFile))
-    {
-        fs.rmSync(path.resolve(logsPath, logFile))
-        LoggerInstance.warn("Removed " + logFile + " logfile because it is 30 days older than today.");
-    }
-}
-
 if(fs.existsSync(infoPath))
 {
-    const infos = fs.readFileSync(infoPath, {encoding: "utf-8"});
-    const parsed = JSON.parse(infos) as IConfiguration;
-
-    machine = new Machine(parsed);
+    const rawConfiguration = fs.readFileSync(infoPath, {encoding: "utf-8"});
+    const parsedConfiguration = JSON.parse(rawConfiguration) as IConfiguration;
 
     SetupExpress();
     SetupWebsocketServer();
     SetupMongoDB();
-    SetupMachine();
+
+    machine = new Machine(parsedConfiguration);
+
+    SetupMachine(); //Expose machine routers to Express
 }
 else
 {
@@ -129,6 +101,7 @@ function SetupExpressConfiguration()
         });
     });
 }
+
 /**
  * Setup Express running server
  */
@@ -157,10 +130,6 @@ function SetupExpress()
             res: pino.stdSerializers.res
             }
     }));
-
-    /** Serve logs in this folder */
-    LoggerInstance.info(`Express: Will use ${logsPath} as the logs folder.`);
-    ExpressApp.use("/logs", express.static(logsPath), serveIndex(logsPath));
 
     ExpressApp.get("/ws", async (_req, res: Response) => res.json(await machine?.socketData()));
 
@@ -191,68 +160,19 @@ function SetupExpress()
         ExpressApp.all("/api/*", (req: Request, res: Response) => res.redirect(307, req.url.replace("/api", "")));
     }
 }
+
 /**
  * Setup Websocket server
  */
 function SetupWebsocketServer()
 {
-    WebSocketServerInstance = new WebSocketServer({server: httpServer, path: productionEnabled ? '' : '/ws/'});
-
-    WebSocketServerInstance.on("listening", () => {
-        LoggerInstance.info("Websocket: Server listening..");
-    });
-
-    WebSocketServerInstance.on('connection', (ws: WebSocket) => { 
-        if(WebSocketServerInstance)
-        {
-            WebSocketServerInstance.clients.add(ws); 
-            LoggerInstance.trace("Websocket: New client");
-
-            if(machine?.specs.nuster?.connectPopup !== undefined && !displayedPopups.includes(machine.specs.nuster.connectPopup.identifier))
-            {
-                setTimeout(() => {
-                    LoggerInstance.info("Websocket: Displaying connect popup.");
-
-                    ws.send(JSON.stringify({
-                        type: "popup",
-                        message: machine?.specs.nuster?.connectPopup
-                    }));
-
-                    //displayedPopups.push(machine.specs.nuster.connectPopup.identifier); //TODO
-                }, 2500);
-            }
-
-            ws.on("close", () => {
-                LoggerInstance.trace("Websocket: Client disconnected");
-            });
-        }
-    });
+    WebsocketDispatcher.getInstance(httpServer);
 
     setInterval(async () => {
-        if(WebSocketServerInstance !== undefined)
-        {
-            if(machine)
-            {
-                if(machine.WebSocketServer === undefined)
-                    machine.WebSocketServer = WebSocketServerInstance;
-
-                const data = await machine.socketData();
-
-                for(const ws of WebSocketServerInstance.clients)
-                {
-                    //check if the websocket is still open
-                    if(ws.readyState === WebSocket.OPEN)
-                    {
-                        ws.send(JSON.stringify({
-                            type: "status",
-                            message: data
-                        }));
-                    }
-                }
-            }
-        }
+        WebsocketDispatcher.getInstance().broadcastData(await machine.socketData(), "status");
     }, 500);
 }
+
 /**
  * Connect and configure mongoose
  */
@@ -287,6 +207,7 @@ function SetupMongoDB()
         }
     });
 }
+
 /**
  * Add all machines routes to express
  */
@@ -294,6 +215,9 @@ function SetupMachine()
 {
     if(machine)
     {
+        WebsocketDispatcher.getInstance().connectPopup = machine.specs.nuster?.connectPopup;
+        LoggerInstance.info("Machine: Setting up connect popup.");
+
         ExpressApp.use('/v1/io', IOController.getInstance().router);
         ExpressApp.use('/v1/profiles', ProfileController.getInstance().router);
         ExpressApp.use('/v1/maintenance', MaintenanceController.getInstance().router);
@@ -313,36 +237,21 @@ function SetupMachine()
 }
 
 process.on("uncaughtException", (error: Error) => LoggerInstance.error("unCaughtException: " + error.stack));
-process.on('unhandledRejection', (error: Error) => LoggerInstance.error("unhandledPromise: " + error.stack));
+process.on('unhandledRejection', (error: Error) => LoggerInstance.error("unhandledPromiseRejection: " + error.stack));
 
 /**
  * Handling SIGTERM Events
  */
 process.on("SIGTERM", async () => {
-    LoggerInstance.info("Shutdown detected");
-
+    LoggerInstance.info("Shutdown: SIGTERM detected.");
     try
     {
         //Reseting io on shutdown
         for(const g of IOController.getInstance().gates)
-        {
             await g.write(g.default);
-        }
     }
     catch(ex: unknown)
     {
         LoggerInstance.warn("Shutdown: Failed to reset gates to default values, IOController is not defined");
-    }
-
-    if(WebSocketServerInstance)
-    {
-        for(const ws of WebSocketServerInstance.clients)
-        {
-            ws.send(JSON.stringify({
-                type: "close",
-                message: "dispatch-close-event"
-            }));
-            ws.close();
-        }
     }
 });

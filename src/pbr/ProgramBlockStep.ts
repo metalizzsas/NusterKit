@@ -1,3 +1,4 @@
+import { LoggerInstance } from "../app";
 import { EPBRMode } from "../interfaces/IProgramBlockRunner";
 import { EProgramStepState, EProgramStepType, EProgramStepResult, IProgramStepRunner } from "../interfaces/IProgramStep";
 import { NumericParameterBlocks } from "./ParameterBlocks";
@@ -67,47 +68,47 @@ export class ProgramBlockStep implements IProgramStepRunner
     {
         if(this.isEnabled.data() == 0)
         {
-            this.pbrInstance.machine.logger.warn(`${this.name}: Step is disabled.`);
+            LoggerInstance.warn(`${this.name}: Step is disabled.`);
             return EProgramStepResult.END;
         }
 
         if(this.pbrInstance.status.mode == EPBRMode.ENDED)
         {
-            this.pbrInstance.machine.logger.warn(`${this.name}: Tried to execute step while cycle ended.`);
+            LoggerInstance.warn(`${this.name}: Tried to execute step while cycle ended.`);
             return EProgramStepResult.FAILED;
         }
 
-        this.pbrInstance.machine.logger.info(`${this.name}: Started step.`);
+        LoggerInstance.info(`${this.name}: Started step.`);
         this.state = EProgramStepState.STARTED;
 
         //disable step overtime timeout if the step duration is equal to -1
         if(this.duration.data() != -1)
             this.stepOvertimeTimer = setTimeout(() => { 
                 this.pbrInstance.end("stepOvertime"); 
-                this.pbrInstance.machine.logger.error(`${this.name}: Step has been too long. Triggering stepOvertime.`); 
+                LoggerInstance.error(`${this.name}: Step has been too long. Triggering stepOvertime.`); 
             }, this.duration.data() * 2000);
 
         this.startTime = Date.now();
 
-        this.pbrInstance.machine.logger.info(`${this.name}: Executing io starter blocks.`);
+        LoggerInstance.info(`${this.name}: Executing io starter blocks.`);
         for(const io of this.startBlocks)
         {
             await io.execute();
         }
 
-        this.pbrInstance.machine.logger.info(`${this.name}: Executing step main blocks.`);
+        LoggerInstance.info(`${this.name}: Executing step main blocks.`);
         for(const b of this.blocks)
         {
             if(this.state !== EProgramStepState.STARTED)
             {
-                this.pbrInstance.machine.logger.info(`${this.name}: Ended with state ${EProgramStepResult.FAILED}`);
+                LoggerInstance.info(`${this.name}: Ended with state ${EProgramStepResult.FAILED}`);
                 return EProgramStepResult.FAILED;
             }
             
             await b.execute();
         }
 
-        this.pbrInstance.machine.logger.info(`${this.name}: Executing io ending blocks.`);
+        LoggerInstance.info(`${this.name}: Executing io ending blocks.`);
         for(const io of this.endBlocks)
         {
             await io.execute();
@@ -124,14 +125,14 @@ export class ProgramBlockStep implements IProgramStepRunner
             if(this.runCount && this.runAmount && (this.runCount == this.runAmount.data()))
             {
                 this.state = EProgramStepState.COMPLETED;
-                this.pbrInstance.machine.logger.info(`PBS: Ended step: ${this.name}, with state ${EProgramStepResult.END}`);
+                LoggerInstance.info(`PBS: Ended step: ${this.name}, with state ${EProgramStepResult.END}`);
                 this.endTime = Date.now();
                 return EProgramStepResult.END;
             }
             else
             {
                 this.state = EProgramStepState.PARTIAL;
-                this.pbrInstance.machine.logger.info(`PBS: Ended step: ${this.name}, with state ${EProgramStepResult.PARTIAL}`);
+                LoggerInstance.info(`PBS: Ended step: ${this.name}, with state ${EProgramStepResult.PARTIAL}`);
                 this.endTime = Date.now();
                 return EProgramStepResult.PARTIAL;
             }   
@@ -139,7 +140,7 @@ export class ProgramBlockStep implements IProgramStepRunner
         else
         {
             this.state = EProgramStepState.COMPLETED;
-            this.pbrInstance.machine.logger.info(`PBS: Ended step: ${this.name}, with state ${EProgramStepResult.END}`);
+            LoggerInstance.info(`PBS: Ended step: ${this.name}, with state ${EProgramStepResult.END}`);
             this.endTime = Date.now();
             return EProgramStepResult.END;
         } 
@@ -147,7 +148,7 @@ export class ProgramBlockStep implements IProgramStepRunner
 
     public async executeLastIO()
     {
-        this.pbrInstance.machine.logger.info(`PBS: Executing io ending blocks.`);
+        LoggerInstance.info(`PBS: Executing io ending blocks.`);
         for(const io of this.endBlocks)
         {
             await io.execute();

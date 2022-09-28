@@ -96,7 +96,7 @@ export class Machine
         this.profileController = ProfileController.getInstance(this.specs.profileSkeletons, this.specs.profilePremades, this.data.settings?.maskedProfiles);
         this.slotController = new SlotController(this);
         this.manualmodeController = new ManualModeController(this);
-        this.cycleController = new CycleController(this);
+        this.cycleController = CycleController.getInstance(this.specs.cycleTypes, this.specs.cyclePremades, this.data.settings?.maskedPremades);
         this.passiveController = new PassiveController(this);
 
         LoggerInstance.info("Machine: Finished Instantiating controllers");

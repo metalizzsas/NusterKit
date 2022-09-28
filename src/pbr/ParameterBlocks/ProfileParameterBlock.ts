@@ -1,6 +1,7 @@
 import { ParameterBlock } from ".";
 import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { IProfileParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IProfileParameterBlock";
+import { LoggerInstance } from "../../app";
 
 export class ProfileParameterBlock extends ParameterBlock implements IProfileParameterBlock
 {
@@ -21,7 +22,7 @@ export class ProfileParameterBlock extends ParameterBlock implements IProfilePar
             const val = this.pbrInstance.profileExplorer(this.value);
             if(val === undefined) 
             {
-                this.pbrInstance.machine.logger.warn(`Profile row ${this.value} not found, returning 0`);
+                LoggerInstance.warn(`Profile row ${this.value} not found, returning 0`);
                 return 0;
             }
 
@@ -34,7 +35,7 @@ export class ProfileParameterBlock extends ParameterBlock implements IProfilePar
         }
         else
         {
-            this.pbrInstance.machine.logger.warn("Profile not defined, returning 0");
+            LoggerInstance.warn("Profile not defined, returning 0");
             return 0;
         }
     }   

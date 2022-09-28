@@ -53,8 +53,6 @@ export class Machine
 
     logger: pino.Logger;
 
-    authManager: AuthManager;
-
     //Balena given data
     hypervisorData?: IHypervisorData;
     vpnData?: IVPNData;
@@ -79,7 +77,6 @@ export class Machine
         this.settings = obj.settings;
 
         this.logger = logger;
-        this.authManager = new AuthManager(this.logger);
 
         // Retreive machine base specs to build all the controllers around this file
         const raw = fs.readFileSync(path.resolve(this.baseNTMFolder, "specs.json"), {encoding: "utf-8"});

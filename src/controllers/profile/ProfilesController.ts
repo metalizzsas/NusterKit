@@ -5,6 +5,7 @@ import { Request, Response } from "express";
 import { ProfileModel } from "./ProfileModel";
 import { ObjectId } from "mongoose";
 import { IProfileSkeleton, IProfileExportable, IProfile } from "../../interfaces/IProfile";
+import { AuthManager } from "../../auth/auth";
 
 export type IProfileMap = Omit<IProfile, 'values'> & { values: Map<string, number | boolean>};
 
@@ -60,12 +61,12 @@ export class ProfileController extends Controller {
         /**
          * List available profile maps
          */
-        this.machine.authManager.registerEndpointPermission("profiles.list", {endpoint: "/v1/profiles/skeletons", method: "get"});
+        AuthManager.getInstance().registerEndpointPermission("profiles.list", {endpoint: "/v1/profiles/skeletons", method: "get"});
         this._router.get('/skeletons', (_req: Request, res: Response) => {
             res.json([...this.profileSkeletons.keys()]);
         });
 
-        this.machine.authManager.registerEndpointPermission("profiles.list", {endpoint: new RegExp("/v1/profiles/skeletons/.*", "g"), method: "get"});
+        AuthManager.getInstance().registerEndpointPermission("profiles.list", {endpoint: new RegExp("/v1/profiles/skeletons/.*", "g"), method: "get"});
         this.router.get('/skeletons/:name', (req: Request, res: Response) => {
             res.json(this.profileSkeletons.get(req.params.name));
         });
@@ -73,7 +74,7 @@ export class ProfileController extends Controller {
         /**
          * Route to List profiles
          */
-        this.machine.authManager.registerEndpointPermission("profiles.list", {endpoint: "/v1/profiles/", method: "get"});
+        AuthManager.getInstance().registerEndpointPermission("profiles.list", {endpoint: "/v1/profiles/", method: "get"});
         this._router.get('/', async (_req: Request, res: Response) => {
 
             const profiles = await ProfileModel.find();
@@ -84,14 +85,14 @@ export class ProfileController extends Controller {
         /**
          * Route to List profile by identifier
          */
-        this.machine.authManager.registerEndpointPermission("profiles.list", {endpoint: new RegExp("/v1/profiles/types/.*", "g"), method: "get"});
+        AuthManager.getInstance().registerEndpointPermission("profiles.list", {endpoint: new RegExp("/v1/profiles/types/.*", "g"), method: "get"});
         this._router.get('/type/:type', async (req: Request, res: Response) => {
             const profiles = await ProfileModel.find({ identifier: req.params.type });
 
             res.json(profiles);
         });
 
-        this.machine.authManager.registerEndpointPermission("profiles.list", {endpoint: new RegExp("/v1/profiles/.*", "g"), method: "get"});
+        AuthManager.getInstance().registerEndpointPermission("profiles.list", {endpoint: new RegExp("/v1/profiles/.*", "g"), method: "get"});
         this._router.get('/:id', async (req: Request, res: Response) => {
             if(req.params.id.startsWith("premade_"))
             {
@@ -110,7 +111,7 @@ export class ProfileController extends Controller {
         /**
          * Route to create a default profile with the given JSON Structure
          */
-         this.machine.authManager.registerEndpointPermission("profile.create", {endpoint: new RegExp("/v1/profiles/create/.*", "g"), method: "post"});
+         AuthManager.getInstance().registerEndpointPermission("profile.create", {endpoint: new RegExp("/v1/profiles/create/.*", "g"), method: "post"});
          this._router.post('/create/:type', async (req: Request, res: Response) => {
              const newp = await ProfileModel.create({
                  name: "profile-default-name",
@@ -126,7 +127,7 @@ export class ProfileController extends Controller {
         /**
          * Route to create a profile from given body
          */
-         this.machine.authManager.registerEndpointPermission("profile.create", {endpoint: new RegExp("/v1/profiles/create/", "g"), method: "post"});
+         AuthManager.getInstance().registerEndpointPermission("profile.create", {endpoint: new RegExp("/v1/profiles/create/", "g"), method: "post"});
          this._router.put('/create/', async (req: Request, res: Response) => {
 
             if(req.body.id == "created")
@@ -150,7 +151,7 @@ export class ProfileController extends Controller {
             }
         });
 
-        this.machine.authManager.registerEndpointPermission("profile.edit", {endpoint: "/v1/profiles/", method: "post"});
+        AuthManager.getInstance().registerEndpointPermission("profile.edit", {endpoint: "/v1/profiles/", method: "post"});
         this._router.post('/', async (req: Request, res: Response) => {
 
             if(req.body.id.startsWith("premade_"))
@@ -174,7 +175,7 @@ export class ProfileController extends Controller {
             });
         });
 
-        this.machine.authManager.registerEndpointPermission("profiles.delete", {endpoint: new RegExp("/v1/profiles/.*", "g"), method: "delete"});
+        AuthManager.getInstance().registerEndpointPermission("profiles.delete", {endpoint: new RegExp("/v1/profiles/.*", "g"), method: "delete"});
         this._router.delete('/:id', async (req: Request, res: Response) => {
             if(req.params.id != null)
             {
@@ -198,7 +199,7 @@ export class ProfileController extends Controller {
             }
         });
 
-        this.machine.authManager.registerEndpointPermission("profiles.create", {endpoint: "/v1/profiles/", method: "put"});
+        AuthManager.getInstance().registerEndpointPermission("profiles.create", {endpoint: "/v1/profiles/", method: "put"});
         this._router.put('/', async (req: Request, res: Response) => {
 
             if(req.body.id == "copied")

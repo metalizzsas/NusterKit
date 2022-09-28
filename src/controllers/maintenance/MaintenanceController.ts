@@ -4,6 +4,7 @@ import { Machine } from "../../Machine";
 import { Request, Response } from "express";
 import { Controller } from "../Controller";
 import { IConfigMaintenance } from "../../interfaces/IMaintenance";
+import { AuthManager } from "../../auth/auth";
 
 export class MaintenanceController extends Controller
 {
@@ -38,7 +39,7 @@ export class MaintenanceController extends Controller
             res.status(200).json(this.tasks);
         });
 
-        this.machine.authManager.registerEndpointPermission("maintenance.list", {endpoint: "/v1/maintenance/", method: "get"});
+        AuthManager.getInstance().registerEndpointPermission("maintenance.list", {endpoint: "/v1/maintenance/", method: "get"});
 
 
         this._router.get("/:name", async (req: Request, res: Response) => {
@@ -54,7 +55,7 @@ export class MaintenanceController extends Controller
             }
         });
 
-        this.machine.authManager.registerEndpointPermission("maintenance.list", {endpoint: new RegExp("/v1/maintenance/.*", "g"), method: "get"});
+        AuthManager.getInstance().registerEndpointPermission("maintenance.list", {endpoint: new RegExp("/v1/maintenance/.*", "g"), method: "get"});
 
         this._router.delete("/:name", async (req: Request, res: Response) => {
             for(const [index, maintenance] of this.tasks.entries())
@@ -70,7 +71,7 @@ export class MaintenanceController extends Controller
             res.status(404).end();
         });
 
-        this.machine.authManager.registerEndpointPermission("maintenance.reset", {endpoint: new RegExp("/v1/maintenance/.*", "g"), method: "delete"});
+        AuthManager.getInstance().registerEndpointPermission("maintenance.reset", {endpoint: new RegExp("/v1/maintenance/.*", "g"), method: "delete"});
     }
 
     public async socketData(): Promise<Maintenance[]>

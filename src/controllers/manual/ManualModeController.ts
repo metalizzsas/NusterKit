@@ -3,6 +3,7 @@ import { Controller } from "../Controller";
 import { ManualMode } from "./ManualMode";
 
 import { Request, Response } from "express";
+import { AuthManager } from "../../auth/auth";
 
 export class ManualModeController extends Controller
 {
@@ -30,7 +31,7 @@ export class ManualModeController extends Controller
             res.json(this.socketData);
         });
 
-        this.machine.authManager.registerEndpointPermission("manual.list", {endpoint: "/v1/manual/", method: "get"});
+        AuthManager.getInstance().registerEndpointPermission("manual.list", {endpoint: "/v1/manual/", method: "get"});
 
         this.router.post('/:name/:value', async (req: Request, res: Response) => {
 
@@ -67,7 +68,7 @@ export class ManualModeController extends Controller
             }
         });
 
-        this.machine.authManager.registerEndpointPermission("manual.toggle", {endpoint: new RegExp("/v1/manual/.*/.*", "g"), method: "post"});
+        AuthManager.getInstance().registerEndpointPermission("manual.toggle", {endpoint: new RegExp("/v1/manual/.*/.*", "g"), method: "post"});
     }
 
     public get socketData()

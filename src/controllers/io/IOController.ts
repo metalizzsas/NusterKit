@@ -39,6 +39,7 @@ export class IOController extends Controller
      * Get instance of the IOController
      * @param handlers Physical Handlers data
      * @param gates Physical Gates data
+     * @throws
      * @returns IO Controller instance
      */
     static getInstance(handlers?: IOControllers[], gates?: IOGateTypes[]): IOController
@@ -85,13 +86,13 @@ export class IOController extends Controller
 
     private _configureRouter()
     {
-        //this.machine.authManager.registerEndpointPermission("io.list", {endpoint: "/v1/io", method: "get"}); //TODO
+        //AuthManager.getInstance().registerEndpointPermission("io.list", {endpoint: "/v1/io", method: "get"}); //TODO
         this._router.get("/", (_req: Request, res: Response) => {
             res.json(this.gates);
         });
 
 
-        //this.machine.authManager.registerEndpointPermission("io.toggle", {endpoint: new RegExp("/v1/io/.*/.*", "g"), method: "get"}); //TODO
+        //AuthManager.getInstance().registerEndpointPermission("io.toggle", {endpoint: new RegExp("/v1/io/.*/.*", "g"), method: "get"}); //TODO
         this._router.get("/:name/:value", async (req: Request, res: Response) => {
 
             const name = req.params.name.replace("_", "#");

@@ -3,6 +3,7 @@ import { Request, Response, NextFunction, Router } from "express";
 import { model, Schema } from "mongoose";
 import argon2 from "argon2";
 import pino from "pino";
+import { LoggerInstance } from "../app";
 
 //add a toJSON method to RegExp
 Object.defineProperty(RegExp.prototype, "toJSON", {
@@ -28,8 +29,6 @@ export class AuthManager
 {
     private _router: Router;
 
-    private logger: pino.Logger;
-
     private safeEndPoints: string[] = [
         "/ws",
         "/status",
@@ -41,11 +40,11 @@ export class AuthManager
 
     private permissionRegistry: IEndpointPermission[] = [];
 
-    constructor(logger: pino.Logger)
+    private static _instance: AuthManager;
+
+    private constructor()
     {
         this._router = Router();
-
-        this.logger = logger;
 
         //tools to manage users
         this._router.get('/', this.list.bind(this));
@@ -60,14 +59,14 @@ export class AuthManager
         this._router.post('/edit', this.edit.bind(this));
         this._router.delete('/delete', this.delete.bind(this));
         
-        this.logger.info("Auth: Initialized");
+        LoggerInstance.info("Auth: Initialized");
 
-        this.logger.trace("Auth: Checking for existing admin account...");
+        LoggerInstance.trace("Auth: Checking for existing admin account...");
 
         AuthModel.exists({ username: "admin" }).then(async (exists) => {
             if(!exists)
             {
-                this.logger.info("Auth: No admin account found, creating one...");
+                LoggerInstance.info("Auth: No admin account found, creating one...");
 
                 const admin = new AuthModel({
                     username: "admin",
@@ -79,8 +78,17 @@ export class AuthManager
                 admin.save();
             }
             else
-                this.logger.trace("Auth: Admin account found");
+                LoggerInstance.trace("Auth: Admin account found");
         });
+    }
+
+    /** Gets the instance of the Auth manager */
+    static getInstance()
+    {
+        if(!this._instance)
+            this._instance = new AuthManager();
+        
+        return this._instance;
     }
 
     private async list(req: Request, res: Response)
@@ -264,21 +272,21 @@ export class AuthManager
         //if the user is an admin any route should be allowed for him
         if(await this.checkAdmin(sessionID))
         {
-            this.logger.trace(`sID: ${sessionID} is admin, allowing access to ${endpoint}`);
+            LoggerInstance.trace(`sID: ${sessionID} is admin, allowing access to ${endpoint}`);
             return true;
         }
 
         //test if the path is a static path
         if(new RegExp(/assets/g).test(endpoint))
         {
-            this.logger.trace(`sID: ${sessionID} is accessing assets folder, allowing access to ${endpoint}`);
+            LoggerInstance.trace(`sID: ${sessionID} is accessing assets folder, allowing access to ${endpoint}`);
             return true;
         }
 
         //ignore safe endpoints
         if(this.safeEndPoints.includes(endpoint))
         {
-            this.logger.trace(`sID: ${sessionID} is accessing a safe endpoint, allowing access to ${endpoint}`);
+            LoggerInstance.trace(`sID: ${sessionID} is accessing a safe endpoint, allowing access to ${endpoint}`);
             return true;
         }
 
@@ -298,23 +306,23 @@ export class AuthManager
             {
                 if(doc.permissions.includes(z.permission))
                 {
-                    this.logger.trace(`sID: ${sessionID} has permission ${z.permission} for ${endpoint}`);
+                    LoggerInstance.trace(`sID: ${sessionID} has permission ${z.permission} for ${endpoint}`);
                     return true;
                 }
                 else
                 {
-                    this.logger.trace(`sID: ${sessionID} has no permission ${z.permission} for ${endpoint}`);
+                    LoggerInstance.trace(`sID: ${sessionID} has no permission ${z.permission} for ${endpoint}`);
                     return false;
                 }
             }
             else
             {
-                this.logger.trace(`sID: ${sessionID} is not logged in, denying access to ${endpoint}`);
+                LoggerInstance.trace(`sID: ${sessionID} is not logged in, denying access to ${endpoint}`);
                 return false;
             }
         }
         
-        this.logger.trace(`sID: ${sessionID} has not permission for ${endpoint}`);
+        LoggerInstance.trace(`sID: ${sessionID} has not permission for ${endpoint}`);
         return false;
     }
 

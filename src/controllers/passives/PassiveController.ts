@@ -2,6 +2,7 @@ import { Machine } from "../../Machine";
 import { Controller } from "../Controller";
 import { Passive } from "./Passive";
 import { Request, Response } from "express";
+import { AuthManager } from "../../auth/auth";
 
 export class PassiveController extends Controller
 {
@@ -27,7 +28,7 @@ export class PassiveController extends Controller
             res.json(this.passives);
         });
 
-        this.machine.authManager.registerEndpointPermission("passives.list", {endpoint: "/v1/passives/", method: "get"});
+        AuthManager.getInstance().registerEndpointPermission("passives.list", {endpoint: "/v1/passives/", method: "get"});
 
         /*
             This route change Passive mode state
@@ -70,7 +71,7 @@ export class PassiveController extends Controller
             }
         });
 
-        this.machine.authManager.registerEndpointPermission("passives.toggle", {endpoint: new RegExp("/v1/passives/.*/.*/.*", "g"), method: "post"});
+        AuthManager.getInstance().registerEndpointPermission("passives.toggle", {endpoint: new RegExp("/v1/passives/.*/.*/.*", "g"), method: "post"});
     }
 
     find(name: string): Passive | undefined

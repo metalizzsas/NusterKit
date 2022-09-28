@@ -9,6 +9,7 @@ import { ProgramBlockRunner } from "../../pbr/ProgramBlockRunner";
 import { IProfile, IProfileExportable } from "../../interfaces/IProfile";
 import { EPBRMode, IPBRPremades } from "../../interfaces/IProgramBlockRunner";
 import { IProfileMap } from "../profile/ProfilesController";
+import { AuthManager } from "../../auth/auth";
 
 export class CycleController extends Controller {
 
@@ -49,13 +50,13 @@ export class CycleController extends Controller {
         this._router.get("/premades", (_req: Request, res: Response) => {
            res.json(this.premadeCycles);
         });
-        this.machine.authManager.registerEndpointPermission("cycle.list", {endpoint: "/v1/cycle/premades", method: "get"});
+        AuthManager.getInstance().registerEndpointPermission("cycle.list", {endpoint: "/v1/cycle/premades", method: "get"});
         
         //list all supported cycles types by this machine
         this._router.get("/custom", (_req: Request, res: Response) => {
             res.json(this.supportedCycles);
         });
-        this.machine.authManager.registerEndpointPermission("cycle.list", {endpoint: "/v1/cycle/custom", method: "get"});
+        AuthManager.getInstance().registerEndpointPermission("cycle.list", {endpoint: "/v1/cycle/custom", method: "get"});
 
         //restart cycle, put it there because it conflicts with the POST /:name/:id? route
         this._router.post("/restart/:history_id", async (req: Request, res: Response) => {
@@ -91,7 +92,7 @@ export class CycleController extends Controller {
             }
         });
 
-        this.machine.authManager.registerEndpointPermission("cycle.list", {endpoint: "/v1/cycle/history", method: "get"});
+        AuthManager.getInstance().registerEndpointPermission("cycle.list", {endpoint: "/v1/cycle/history", method: "get"});
 
         this._router.get("/history", async (_req: Request, res: Response) => {
 
@@ -99,7 +100,7 @@ export class CycleController extends Controller {
             res.json(histories);
         });
 
-        this.machine.authManager.registerEndpointPermission("cycle.list", {endpoint: new RegExp("/v1/cycle/history/.*", "g"), method: "get"});
+        AuthManager.getInstance().registerEndpointPermission("cycle.list", {endpoint: new RegExp("/v1/cycle/history/.*", "g"), method: "get"});
 
         this._router.get("/history/:id", async (req: Request, res: Response) => {
 
@@ -111,7 +112,7 @@ export class CycleController extends Controller {
                 res.status(404).end("history not found");
         });
 
-        this.machine.authManager.registerEndpointPermission("cycle.run", {endpoint: new RegExp("/v1/cycle/restart/.*", "g"), method: "post"});
+        AuthManager.getInstance().registerEndpointPermission("cycle.run", {endpoint: new RegExp("/v1/cycle/restart/.*", "g"), method: "post"});
 
         //prepare the cycle
         this._router.post("/:name/:id?", async (req: Request, res: Response) => {
@@ -184,7 +185,7 @@ export class CycleController extends Controller {
             }
         });
 
-        this.machine.authManager.registerEndpointPermission("cycle.run", {endpoint: new RegExp("/v1/cycle/.*", "g"), method: "post"});
+        AuthManager.getInstance().registerEndpointPermission("cycle.run", {endpoint: new RegExp("/v1/cycle/.*", "g"), method: "post"});
 
         //start the cycle
         this._router.put("/", async (req: Request, res: Response) => {
@@ -201,7 +202,7 @@ export class CycleController extends Controller {
             }
         });
 
-        this.machine.authManager.registerEndpointPermission("cycle.run", {endpoint: "/v1/cycle/", method: "put"});
+        AuthManager.getInstance().registerEndpointPermission("cycle.run", {endpoint: "/v1/cycle/", method: "put"});
 
         //rate the cycle and remove it
         this._router.patch("/:rating", async (req: Request, res: Response) => {
@@ -241,7 +242,7 @@ export class CycleController extends Controller {
             }
         });
 
-        this.machine.authManager.registerEndpointPermission("cycle.run", {endpoint: "/v1/cycle/.*", method: "patch"});
+        AuthManager.getInstance().registerEndpointPermission("cycle.run", {endpoint: "/v1/cycle/.*", method: "patch"});
 
         //stops the cycle
         this._router.delete("/", async (req: Request, res: Response) => {
@@ -258,7 +259,7 @@ export class CycleController extends Controller {
             }
         });
 
-        this.machine.authManager.registerEndpointPermission("cycle.run", {endpoint: "/v1/cycle/", method: "delete"});
+        AuthManager.getInstance().registerEndpointPermission("cycle.run", {endpoint: "/v1/cycle/", method: "delete"});
    }
 
    public get socketData()

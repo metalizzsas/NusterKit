@@ -35,7 +35,7 @@ export class EX260Sx extends IOPhysicalController implements IEX260Controller
 
     async connect(): Promise<boolean>
     {
-        if(this.unreachable || process.env.DISABLE_EX260 == 'true')
+        if(this.unreachable || process.env.NODE_ENV !== 'production')
             return false;
         
         const available = await new Promise((resolve) => {
@@ -86,7 +86,7 @@ export class EX260Sx extends IOPhysicalController implements IEX260Controller
     //Shall only be used for local applications
     async readData2(address: number): Promise<Buffer>
     {
-        if(this.unreachable || process.env.DISABLE_EX260 == 'true')
+        if(this.unreachable || process.env.NODE_ENV !== 'production')
             return Buffer.alloc(0);
 
         if(!this.connected || this.controller === undefined)
@@ -128,7 +128,7 @@ export class EX260Sx extends IOPhysicalController implements IEX260Controller
      */
     override async writeData(address: number, value: number): Promise<void>
     {
-        if(this.unreachable || process.env.DISABLE_EX260 == 'true')
+        if(this.unreachable || process.env.NODE_ENV !== 'production')
             return;
 
         if(!this.connected)

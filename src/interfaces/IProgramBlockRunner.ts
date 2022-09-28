@@ -46,10 +46,7 @@ export enum EPBRMode
 {
     CREATED = "created",
     STARTED = "started",
-    PAUSED = "paused",
-    WAITING_PAUSE = "waiting-for-pause",
-    STOPPED = "stopped",
-    WAITING_STOP = "waiting-for-stop",
+    ENDING = "ending",
     ENDED = "ended"
 }
 

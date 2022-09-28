@@ -115,12 +115,13 @@ function SetupExpress()
     ExpressApp.use(cors());
     ExpressApp.use(cookieParser());
 
+    /* 
     //authing middleware
     if(!process.env.DISABLE_AUTH)
         ExpressApp.use(AuthManager.getInstance().middleware.bind(AuthManager.getInstance()));
     else
         LoggerInstance.warn("Auth: Express middleware disabled");
-
+ */
     //logging middleware
     ExpressApp.use(pinoHttp({
         logger: LoggerInstance,

@@ -201,12 +201,26 @@ export class CycleController extends Controller {
             }
         });
 
+        AuthManager.getInstance().registerEndpointPermission("cycle.nextStep", { endpoint: "/v1/cycle/nextStep", method: "put"});
+
+        this._router.put("/nextStep", async(req: Request, res: Response) => {
+            if (this.program !== undefined) {
+                this.program.nextStep();
+                res.status(200);
+                res.end();
+            }
+            else {
+                res.status(404);
+                res.end();
+            }
+        });
+
         AuthManager.getInstance().registerEndpointPermission("cycle.run", { endpoint: "/v1/cycle/", method: "put" });
 
         //rate the cycle and remove it
         this._router.patch("/:rating", async (req: Request, res: Response) => {
             if (this.program) {
-                if (this.program.status.mode == EPBRMode.ENDED || EPBRMode.STOPPED || EPBRMode.CREATED) {
+                if (this.program.status.mode == EPBRMode.ENDED || EPBRMode.ENDING || EPBRMode.CREATED) {
                     //do not save the history if the program was just created and never started
                     if (this.program.status.mode != EPBRMode.CREATED) {
                         await ProgramHistoryModel.create({

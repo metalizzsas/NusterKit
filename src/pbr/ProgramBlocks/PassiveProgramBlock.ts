@@ -1,5 +1,6 @@
 import { ProgramBlock } from ".";
 import { LoggerInstance } from "../../app";
+import { PassiveController } from "../../controllers/passives/PassiveController";
 import { IPassiveProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IPassiveProgramBlock";
 import { NumericParameterBlocks, StringParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
@@ -23,7 +24,7 @@ export class PassiveProgramBlock extends ProgramBlock implements IPassiveProgram
     }
 
     public async execute(): Promise<void> {
-        const passive = this.pbrInstance.machine.passiveController.find(this.params[0].data());
+        const passive = PassiveController.getInstance().find(this.params[0].data());
 
         if(passive)
         {

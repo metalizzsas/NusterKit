@@ -1,25 +1,36 @@
-import { Machine } from "../../Machine";
 import { Controller } from "../Controller";
 import { Passive } from "./Passive";
 import { Request, Response } from "express";
 import { AuthManager } from "../../auth/auth";
+import { IPassive } from "../../interfaces/IPassive";
 
 export class PassiveController extends Controller
 {
-    machine: Machine;
     passives: Passive[] = [];
 
-    constructor(machine: Machine)
+    private static _instance: PassiveController;
+
+    private constructor(passives: IPassive[])
     {
         super();
-        this.machine = machine;
 
-        for(const p of this.machine.specs.passives)
+        for(const passive of passives)
         {
-            this.passives.push(new Passive(this.machine, p));
+            this.passives.push(new Passive(passive));
         }
 
         this._configureRouter();
+    }
+
+    static getInstance(passives?: IPassive[])
+    {
+        if(!this._instance)
+            if(passives !== undefined)
+                this._instance = new PassiveController(passives);
+            else
+                throw new Error("SlotsController: Failed to instantiate, missing data");
+
+        return this._instance;
     }
 
     private async _configureRouter()

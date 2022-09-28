@@ -1,5 +1,6 @@
+import { Document, Types } from "mongoose";
 import { LoggerInstance } from "../../app";
-import { IConfigMaintenance, IMaintenanceProcedure } from "../../interfaces/IMaintenance";
+import { IConfigMaintenance, IMaintenance, IMaintenanceProcedure } from "../../interfaces/IMaintenance";
 import { MaintenanceModel } from "./MaintenanceModel";
 
 export class Maintenance implements IConfigMaintenance
@@ -20,7 +21,7 @@ export class Maintenance implements IConfigMaintenance
         this.name = obj.name
 
         this.durationType = obj.durationType;
-        this.durationLimit = obj.durationLimit
+        this.durationLimit = obj.durationLimit;
         this.duration = 0;
         this.durationProgress = 0;
 
@@ -29,9 +30,9 @@ export class Maintenance implements IConfigMaintenance
         this.refresh();
     }
 
-    async refresh()
+    async refresh(document?: Document<unknown, unknown, IMaintenance> & IMaintenance & { _id: Types.ObjectId })
     {
-        const doc = await MaintenanceModel.findOne({ name: this.name });
+        const doc = (document !== undefined) ? document: await MaintenanceModel.findOne({ name: this.name });
 
         if(doc != undefined)
         {
@@ -48,13 +49,12 @@ export class Maintenance implements IConfigMaintenance
 
     async append(value: number)
     {
-        const doc = await MaintenanceModel.findOne({name: this.name});
+        const document = await MaintenanceModel.findOneAndUpdate({name: this.name}, {$inc: {duration: value}});
 
-        if(doc)
-        {
-            await MaintenanceModel.findOneAndUpdate({name: this.name}, {$inc: {"duration": value}});
-            await this.refresh();
-        }
+        if(document)
+            await this.refresh(document);
+        else
+            LoggerInstance.warn("Maintenance: Failed to append data to " + this.name + " tracker.");
     }
 
     async reset()

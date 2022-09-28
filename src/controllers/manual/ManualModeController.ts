@@ -1,28 +1,37 @@
-import { Machine } from "../../Machine";
 import { Controller } from "../Controller";
 import { ManualMode } from "./ManualMode";
 
 import { Request, Response } from "express";
 import { AuthManager } from "../../auth/auth";
+import { IManualMode } from "../../interfaces/IManualMode";
 
 export class ManualModeController extends Controller
 {
-    private machine: Machine
+    manualModes: ManualMode[] = [];
 
-    manualModes: ManualMode[] = []
+    maskedManuals: string[];
 
-    constructor(machine: Machine)
+    private static _instance: ManualModeController;
+
+    private constructor(manuals: IManualMode[], maskedManuals: string[] = [])
     {
         super();
-        this.machine = machine;
 
-        this._configure();
+        this.manualModes = manuals.map(m => new ManualMode(m));
+        this.maskedManuals = maskedManuals;
+
         this._configureRouter();
     }
 
-    private async _configure()
+    static getInstance(manuals?: IManualMode[], maskedManuals?: string[])
     {
-        this.manualModes = this.machine.specs.manual.map(m => new ManualMode(m, this.machine));
+        if(!this._instance)
+            if(manuals !== undefined)
+                this._instance = new ManualModeController(manuals, maskedManuals);
+            else
+                throw new Error("ManualController: Failed to instantiate, missing data");
+
+        return this._instance;
     }
 
     private _configureRouter()
@@ -73,7 +82,7 @@ export class ManualModeController extends Controller
 
     public get socketData()
     {
-        return this.manualModes.filter(k => !this.machine.settings?.maskedManuals?.includes(k.name));
+        return this.manualModes.filter(k => !this.maskedManuals.includes(k.name));
     }
 
     find(name: string): ManualMode | undefined

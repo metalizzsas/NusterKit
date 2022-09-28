@@ -1,6 +1,6 @@
 import { IManualMode } from "../../interfaces/IManualMode";
-import { Machine } from "../../Machine";
 import { IOController } from "../io/IOController";
+import { ManualModeController } from "./ManualModeController";
 import { ManualWatchdogCondition } from "./ManualModeWatchdog";
 
 export class ManualMode implements IManualMode
@@ -17,13 +17,11 @@ export class ManualMode implements IManualMode
 
     analogScale?: {min: number, max: number};
 
-    machine: Machine;
-
     public state = 0;
 
     locked: boolean;
 
-    constructor(obj: IManualMode, machine: Machine)
+    constructor(obj: IManualMode)
     {
         this.name = obj.name;
 
@@ -35,8 +33,6 @@ export class ManualMode implements IManualMode
         this.controls = obj.controls;
         this.analogScale = obj.analogScale;
 
-        this.machine = machine;
-
         this.watchdog = [];
 
         this.locked = false; // lock this manual mode if it is controlled by something else
@@ -45,14 +41,14 @@ export class ManualMode implements IManualMode
         {
             for(const w of obj.watchdog)
             {
-                this.watchdog.push(new ManualWatchdogCondition(this, w, this.machine));
+                this.watchdog.push(new ManualWatchdogCondition(this, w));
             }
         }
 
         //Add io gates manual mode watchdog
         for(const io of IOController.getInstance().gates.filter(g => g.manualModeWatchdog == true))
         {
-            this.watchdog.push(new ManualWatchdogCondition(this, {gateName: io.name, gateValue: 1}, this.machine));
+            this.watchdog.push(new ManualWatchdogCondition(this, {gateName: io.name, gateValue: 1}));
         }
     }
 
@@ -84,7 +80,7 @@ export class ManualMode implements IManualMode
             if(this.incompatibility !== undefined)
             {
                 //find if incompatibilities are enabled
-                if(this.incompatibility.map(k => this.machine.manualmodeController.manualModes.find(j => j.name == k)).filter(k => (k?.state ?? 1) > 1).length > 0)
+                if(this.incompatibility.map(k => ManualModeController.getInstance().manualModes.find(j => j.name == k)).filter(k => (k?.state ?? 1) > 1).length > 0)
                 {
                     return false;
                 }
@@ -94,7 +90,7 @@ export class ManualMode implements IManualMode
             if(this.requires !== undefined)
             {
                 //find if required manual modes are enabled
-                if(this.requires.filter(r => this.machine.manualmodeController.manualModes.find(s => s.name == r)?.state == 0).length > 0)
+                if(this.requires.filter(r => ManualModeController.getInstance().manualModes.find(s => s.name == r)?.state == 0).length > 0)
                 {
                     return false;
                 }
@@ -103,15 +99,15 @@ export class ManualMode implements IManualMode
             //key is ready to be toggled
             //toggle gates but not if they are already active
             //unless this gate is analogdependant
-            const activeGates = this.machine.manualmodeController.manualModes.filter(k => (k.state && k.analogScale === undefined)).flatMap(k => k.controls);
+            const activeGates = ManualModeController.getInstance().manualModes.filter(k => (k.state && k.analogScale === undefined)).flatMap(k => k.controls);
             const gatesToToggle = this.controls.filter(g => !activeGates.includes(g));
 
             for(const gate of gatesToToggle)
             {
                 if(typeof gate == "string")
-                    await this.machine.ioController.gFinder(gate)?.write(state);
+                    await IOController.getInstance().gFinder(gate)?.write(state);
                 else
-                    await this.machine.ioController.gFinder(gate.name)?.write((gate.analogScaleDependant === true) ? state : ((state > 0) ? 1 : 0));
+                    await IOController.getInstance().gFinder(gate.name)?.write((gate.analogScaleDependant === true) ? state : ((state > 0) ? 1 : 0));
             }
 
             this.watchdog.forEach(w => w.startTimer());
@@ -122,13 +118,16 @@ export class ManualMode implements IManualMode
         }
         else
         {
-            const manualsModesWichRequires = this.machine.manualmodeController.manualModes.filter(m => m.requires?.includes(this.name) && m.state > 0);
+            const manualsModesWichRequires = ManualModeController.getInstance().manualModes.filter(m => m.requires?.includes(this.name) && m.state > 0);
             if(manualsModesWichRequires.length > 0)
-                this.machine.displayPopup({
-                    identifier: "manual-mode-required-parent-toggle-off",
-                    title: "popups.manualMode.requiredParent.title",
-                    message: "popups.manualMode.requiredParent.message"
-                });
+            /**
+             * TODO: Fix using popup controller
+             this.machine.displayPopup({
+                 identifier: "manual-mode-required-parent-toggle-off",
+                 title: "popups.manualMode.requiredParent.title",
+                 message: "popups.manualMode.requiredParent.message"
+             });
+             */
 
             //toggle off the manuals modes wich requires this one as a parent
             for(const manual of manualsModesWichRequires)
@@ -137,16 +136,16 @@ export class ManualMode implements IManualMode
             }
 
             //manual mode is going to be disabled, set concerned gates to false
-            const activeGatesThatStay = this.machine.manualmodeController.manualModes.filter(k => (k.state > 0) && k.name !== this.name).flatMap(k => k.controls);
+            const activeGatesThatStay = ManualModeController.getInstance().manualModes.filter(k => (k.state > 0) && k.name !== this.name).flatMap(k => k.controls);
     
             const gatesToToggleOff = this.controls.filter(g => !activeGatesThatStay.includes(g));
     
             for(const gate of gatesToToggleOff)
             {
                 if(typeof gate == "string")
-                    await this.machine.ioController.gFinder(gate)?.write(0);
+                    await IOController.getInstance().gFinder(gate)?.write(0);
                 else
-                    await this.machine.ioController.gFinder(gate.name)?.write(0);
+                    await IOController.getInstance().gFinder(gate.name)?.write(0);
             }
     
             this.state = 0;

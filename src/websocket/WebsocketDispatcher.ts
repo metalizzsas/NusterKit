@@ -61,7 +61,7 @@ export class WebsocketDispatcher
             {
                 client.send(JSON.stringify({
                     type: channel,
-                    data: data
+                    message: data
                 }));
             }
         }

@@ -89,11 +89,11 @@ export class Machine
         if(this.data.settings !== undefined)
             LoggerInstance.info("Machine: Custom settings detected.");
 
-        LoggerInstance.info("Machine: Instantiating controllers")
+        LoggerInstance.info("Machine: Instantiating controllers");
 
         this.maintenanceController = MaintenanceController.getInstance(this.specs.maintenance);
         this.ioController = IOController.getInstance(this.specs.iohandlers, this.specs.iogates);
-        this.profileController = new ProfileController(this);
+        this.profileController = ProfileController.getInstance(this.specs.profileSkeletons, this.specs.profilePremades, this.data.settings?.maskedProfiles);
         this.slotController = new SlotController(this);
         this.manualmodeController = new ManualModeController(this);
         this.cycleController = new CycleController(this);

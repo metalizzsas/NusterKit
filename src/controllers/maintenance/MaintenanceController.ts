@@ -11,7 +11,7 @@ export class MaintenanceController extends Controller
 
     private static _instance: MaintenanceController;
 
-    constructor(maintenanceTasks: IConfigMaintenance[])
+    private constructor(maintenanceTasks: IConfigMaintenance[])
     {
         super()
 

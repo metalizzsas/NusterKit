@@ -1,45 +1,57 @@
-import { Machine } from "../../Machine";
 import { Controller } from "../Controller";
 
 import { Request, Response } from "express";
 import { ProfileModel } from "./ProfileModel";
 import { ObjectId } from "mongoose";
-import { IProfileSkeleton, IProfileExportable, IProfile } from "../../interfaces/IProfile";
+import { IProfileSkeleton, IProfileExportable, IProfile, IConfigProfile } from "../../interfaces/IProfile";
 import { AuthManager } from "../../auth/auth";
+import { LoggerInstance } from "../../app";
 
 export type IProfileMap = Omit<IProfile, 'values'> & { values: Map<string, number | boolean>};
 
 export class ProfileController extends Controller {
 
-    private machine: Machine;
-
     private profileSkeletons: Map<string, IProfileSkeleton> = new Map<string, IProfileSkeleton>();
-
     private profilePremades: IProfileExportable[] = [];
 
-    constructor(machine: Machine)
+    private maskedProfiles: string[];
+    
+    static _instance: ProfileController;
+
+    private constructor(profileSkeletons: IProfileSkeleton[], profilePremades: IConfigProfile[], maskedProfiles: string[] = [])
     {
         super();
 
-        this.machine = machine;
+        this.maskedProfiles = maskedProfiles;
 
-        this._configure();
+        this._configure(profileSkeletons, profilePremades);
         this._configureRouter();
     }
 
-    private async _configure()
+    static getInstance(profileSkeletons?: IProfileSkeleton[], profilePremades?: IConfigProfile[], maskedProfiles?: string[])
     {
-        for(const p of this.machine.specs.profileSkeletons)
+        if(!this._instance)
+            if(profileSkeletons !== undefined && profilePremades !== undefined)
+                this._instance = new ProfileController(profileSkeletons, profilePremades, maskedProfiles);
+            else
+                throw new Error("ProfileController: Failed to instantiate, no data given");
+
+        return this._instance;
+    }
+
+    private async _configure(profileSkeletons: IProfileSkeleton[], profilePremades: IConfigProfile[])
+    {
+        for(const p of profileSkeletons)
         {
             this.profileSkeletons.set(p.identifier, structuredClone(p));
         }
         
-        for(const p of this.machine.specs.profilePremades)
+        for(const p of profilePremades)
         {
             //mask profile if it is masked on machine settings
-            if(this.machine.settings?.maskedProfiles?.includes(p.name))
+            if(this.maskedProfiles.includes(p.name))
             {
-                this.machine.logger.info(`Skipping premade profile ${p.name} because it is masked on machine settings.`);
+                LoggerInstance.info(`Skipping premade profile ${p.name} because it is masked on machine settings.`);
             }
             else
             {

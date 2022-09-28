@@ -322,8 +322,10 @@ class NusterTurbine
 
 const nt = new NusterTurbine();
 
-process.on("uncaughtException", error => nt.logger.error("unCaughtException: " + error));
-process.on('unhandledRejection', error => nt.logger.error("unhandledPromise: " + error));
+export const LoggerInstance = nt.logger;
+
+process.on("uncaughtException", (error: Error) => nt.logger.error("unCaughtException: " + error.stack));
+process.on('unhandledRejection', (error: Error) => nt.logger.error("unhandledPromise: " + error.stack));
 
 /**
  * Handling SIGTERM Events
@@ -336,7 +338,7 @@ process.on("SIGTERM", async () => {
     {
         for(const g of nt.machine.ioController.gates ?? [])
         {
-            await g.write(nt.machine.ioController, g.default);
+            await g.write(g.default);
         }
     }
 

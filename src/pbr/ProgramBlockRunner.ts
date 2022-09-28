@@ -276,7 +276,7 @@ export class ProgramBlockRunner implements IProgramRunner
             this.machine.logger.info("PBR: Resetting all io gates to default values.");
             for(const g of this.machine.ioController.gates.filter(g => g.bus == "out"))
             {
-                await g.write(this.machine.ioController, g.default);
+                await g.write(g.default);
             }
         }, 300);
     }

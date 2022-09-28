@@ -1,3 +1,4 @@
+import { LoggerInstance } from "../../app";
 import { EProductSeries, IConfigSlot, ISlotProductOptions, ISlotSensor } from "../../interfaces/ISlot";
 import { ICallToAction } from "../../interfaces/nusterData/ICallToAction";
 import { IOController } from "../io/IOController";
@@ -53,7 +54,7 @@ export class Slot implements IConfigSlot
         }
         else
         {
-            this.ioMgr.machine.logger.error(`Slots: Failed to load ${this.name} document.`);
+            LoggerInstance.error(`Slots: Failed to load ${this.name} document.`);
         }
         return true;
     }

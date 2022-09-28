@@ -1,6 +1,6 @@
+import { LoggerInstance } from "../../../app";
 import { IUM18Gate } from "../../../interfaces/gates/IUM18Gate";
 import { map } from "../../../map";
-import { IOController } from "../IOController";
 import { IOGate } from "./IOGate";
 
 export class UM18IOGate extends IOGate implements IUM18Gate
@@ -17,9 +17,9 @@ export class UM18IOGate extends IOGate implements IUM18Gate
         this.levelMax = obj.levelMax;
     }
 
-    public async read(ioController: IOController)
+    public async read()
     {
-        await super.read(ioController);
+        await super.read();
 
         //convert raw value to millimeters
         const tempv = 0.0263 * this.value + 120;
@@ -34,9 +34,9 @@ export class UM18IOGate extends IOGate implements IUM18Gate
         return true;
     }
 
-    public async write(ioController: IOController)
+    public async write()
     {
-        ioController.machine.logger.warn("UM18-" + this.name + ": This gate is not able to write data.");
+        LoggerInstance.warn("UM18-" + this.name + ": This gate is not able to write data.");
         return true;
     }
 }

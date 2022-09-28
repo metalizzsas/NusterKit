@@ -121,7 +121,7 @@ export class Machine
             this.logger.info("Machine: Custom settings detected.");
 
         this.maintenanceController = new MaintenanceController(this);
-        this.ioController = new IOController(this);
+        this.ioController = IOController.getInstance(this.specs.iohandlers, this.specs.iogates);
         this.profileController = new ProfileController(this);
         this.slotController = new SlotController(this);
         this.manualmodeController = new ManualModeController(this);

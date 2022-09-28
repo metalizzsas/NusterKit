@@ -23,15 +23,15 @@ export class IOWriteProgramBlock extends ProgramBlock implements IIOProgramBlock
     }
 
     public async execute(): Promise<void> {
-        const gN = this.params[0].data();
-        const gV = this.params[1].data();
+        const gateName = this.params[0].data();
+        const gateValue = this.params[1].data();
 
-        this.pbrInstance.machine.logger.info(`IOAccessBlock: Will access ${gN} to write ${gV}`);
+        this.pbrInstance.machine.logger.info(`IOAccessBlock: Will access ${gateName} to write ${gateValue}`);
 
-        const gate = this.pbrInstance.ioExplorer(gN);
+        const gate = this.pbrInstance.ioExplorer(gateName);
 
         if(gate)
-            await gate.write(this.pbrInstance.machine.ioController, gV);
+            await gate.write(gateValue);
 
         this.executed = true;
 

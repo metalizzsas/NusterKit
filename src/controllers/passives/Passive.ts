@@ -119,22 +119,22 @@ export class Passive implements IPassive {
         if (this.currentValue > this.target) {
             //disables positive actuators
             if (typeof this.actuators.plus === "string") {
-                this.machine.ioController.gFinder(this.actuators.plus)?.write(this.machine.ioController, 0);
+                this.machine.ioController.gFinder(this.actuators.plus)?.write(0);
             }
             else {
                 for (const actuator of this.actuators.plus) {
-                    this.machine.ioController.gFinder(actuator)?.write(this.machine.ioController, 0);
+                    this.machine.ioController.gFinder(actuator)?.write(0);
                 }
             }
 
             //if this passive has minus Actuators enable them
             if (this.actuators.minus !== undefined) {
                 if (typeof this.actuators.minus === "string") {
-                    this.machine.ioController.gFinder(this.actuators.minus)?.write(this.machine.ioController, 1);
+                    this.machine.ioController.gFinder(this.actuators.minus)?.write(1);
                 }
                 else {
                     for (const actuator of this.actuators.minus) {
-                        this.machine.ioController.gFinder(actuator)?.write(this.machine.ioController, 1);
+                        this.machine.ioController.gFinder(actuator)?.write(1);
                     }
                 }
             }
@@ -143,22 +143,22 @@ export class Passive implements IPassive {
             //if this passive has minus Actuators disable them
             if (this.actuators.minus !== undefined) {
                 if (typeof this.actuators.minus === "string") {
-                    this.machine.ioController.gFinder(this.actuators.minus)?.write(this.machine.ioController, 0);
+                    this.machine.ioController.gFinder(this.actuators.minus)?.write(0);
                 }
                 else {
                     for (const actuator of this.actuators.minus) {
-                        this.machine.ioController.gFinder(actuator)?.write(this.machine.ioController, 0);
+                        this.machine.ioController.gFinder(actuator)?.write(0);
                     }
                 }
             }
 
             //enable positive actuators
             if (typeof this.actuators.plus === "string") {
-                this.machine.ioController.gFinder(this.actuators.plus)?.write(this.machine.ioController, 1);
+                this.machine.ioController.gFinder(this.actuators.plus)?.write(1);
             }
             else {
                 for (const actuator of this.actuators.plus) {
-                    this.machine.ioController.gFinder(actuator)?.write(this.machine.ioController, 1);
+                    this.machine.ioController.gFinder(actuator)?.write(1);
                 }
             }
         }
@@ -210,14 +210,14 @@ export class Passive implements IPassive {
             //if manual modes are defined, toggle them to 0 & unlock them.
             if (this.manualModes && manual) {
                 if (typeof this.manualModes == "string") {
-                    const manual = this.machine.ioController.machine.manualmodeController.find(this.manualModes);
+                    const manual = this.machine.manualmodeController.find(this.manualModes);
 
                     manual?.toggle(0);
                     manual?.unlock();
                 }
                 else {
                     for (const mn of this.manualModes) {
-                        const manual = this.machine.ioController.machine.manualmodeController.find(mn);
+                        const manual = this.machine.manualmodeController.find(mn);
 
                         manual?.toggle(0);
                         manual?.unlock();

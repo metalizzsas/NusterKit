@@ -1,17 +1,16 @@
 import process from "process";
 import { Buffer } from "buffer";
 import ping from "ping";
-import { Machine } from "../../../Machine";
 import { ENIP } from "ts-enip";
 import { MessageRouter } from "ts-enip/dist/enip/cip/messageRouter";
 import { Encapsulation } from "ts-enip/dist/enip/encapsulation";
 import { IOPhysicalController } from "./IOPhysicalController";
 import { IEX260Controller } from "../../../interfaces/IIOControllers";
+import { LoggerInstance } from "../../../app";
 
 export class EX260Sx extends IOPhysicalController implements IEX260Controller
 {
     private controller: ENIP.SocketController;
-    private machine?: Machine;
 
     type: "ex260sx";
     size: 16 | 32;
@@ -20,7 +19,7 @@ export class EX260Sx extends IOPhysicalController implements IEX260Controller
      * Builds an EX260Sx object
      * @param ip Ip address of the controller
      */
-    constructor(ip: string, size: 16 | 32, machine?: Machine)
+    constructor(ip: string, size: 16 | 32)
     {
         super("ex260sx", ip);
 
@@ -30,8 +29,6 @@ export class EX260Sx extends IOPhysicalController implements IEX260Controller
         this.controller = new ENIP.SocketController();
         this.connected = false;
 
-        this.machine = machine;
-        
         this.connect();
     }
 
@@ -53,11 +50,11 @@ export class EX260Sx extends IOPhysicalController implements IEX260Controller
             if(sessionID !== undefined)
             {
                 this.connected = true;
-                this.machine?.logger.info("EX260Sx: Connected");
+                LoggerInstance.info("EX260Sx: Connected");
 
                 //change state if disconnected
                 this.controller.events.once('close', async () => { 
-                    this.machine?.logger.info("EX260Sx: Disconnected");
+                    LoggerInstance.info("EX260Sx: Disconnected");
                     this.connected = false; 
                 });
 
@@ -66,15 +63,15 @@ export class EX260Sx extends IOPhysicalController implements IEX260Controller
             else
             {
                 this.connected = false;
-                this.machine?.logger.error("EX260Sx: Failed to connect");
-                this.machine?.cycleController.program?.end("controllerError");
+                LoggerInstance.error("EX260Sx: Failed to connect");
+                //this.machine?.cycleController.program?.end("controllerError"); //TODO
                 return false;
             } 
         }
         else
         {
             this.unreachable = true;
-            this.machine?.logger.error(`EX260Sx: Failed to ping, cancelling connection.`);
+            LoggerInstance.error(`EX260Sx: Failed to ping, cancelling connection.`);
             return false;
         }
     }
@@ -105,7 +102,7 @@ export class EX260Sx extends IOPhysicalController implements IEX260Controller
 
         if(!write)
         {
-            this.machine?.cycleController.program?.end("controllerError");
+            //this.machine?.cycleController.program?.end("controllerError"); //TODO
             return Buffer.alloc(0);
         }
 
@@ -192,7 +189,7 @@ export class EX260Sx extends IOPhysicalController implements IEX260Controller
 
         if(write === false)
         {
-            this.machine?.cycleController.program?.end("controllerError");
+            //this.machine?.cycleController.program?.end("controllerError"); //TODO
         }
     }
 }

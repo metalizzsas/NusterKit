@@ -1,6 +1,5 @@
 import { IOGate } from "./IOGates/IOGate";
 import { Controller } from "../Controller";
-import { Machine } from "../../Machine";
 
 import { Request, Response } from "express";
 import { WAGO } from "./IOHandlers/WAGO";
@@ -13,44 +12,64 @@ import { MappedGate } from "./IOGates/MappedGate";
 import { IMappedGate } from "../../interfaces/gates/IMappedGate";
 import { IPT100Gate } from "../../interfaces/gates/IPT100Gate";
 import { IOPhysicalController } from "./IOHandlers/IOPhysicalController";
+import { IOControllers } from "../../interfaces/IIOControllers";
+import { IOGateTypes } from "../../interfaces/gates/IIOGate";
 
 export class IOController extends Controller
 {
-    handlers: IOPhysicalController[] = []
-    gates: IOGate[] = []
+    /** IO Physical handlers */
+    handlers: IOPhysicalController[] = [];
+    /** IO Physical gates */
+    gates: IOGate[] = [];
 
-    machine: Machine;
-
+    /** IO Scanner interval timer */
     private timer?: NodeJS.Timer;
 
-    constructor(machine: Machine)
+    /** IOController Instance */
+    private static _instance: IOController;
+
+    private constructor(handlers: IOControllers[], gates: IOGateTypes[])
     {
-        super()
-
-        this.machine = machine;
-
-        this._configureRouter()
-        this._configure()
+        super();
+        this._configureRouter();
+        this._configure(handlers, gates);
     }
 
-    private _configure()
+    /**
+     * Get instance of the IOController
+     * @param handlers Physical Handlers data
+     * @param gates Physical Gates data
+     * @returns IO Controller instance
+     */
+    static getInstance(handlers?: IOControllers[], gates?: IOGateTypes[]): IOController
+    {
+        if(!IOController._instance)
+            if( handlers !== undefined && gates !== undefined)
+                IOController._instance = new IOController(handlers, gates);
+            else
+                throw new Error("IOController: Failed to instanciate, no data given");
+
+        return IOController._instance;
+    }
+
+    private _configure(handlers: IOControllers[], gates: IOGateTypes[])
     {
         // Register IO Handlers from their types
-        for(const handler of this.machine.specs.iohandlers)
+        for(const handler of handlers)
         {
             if(process.env.NODE_ENV != "production")
                 handler.ip = "127.0.0.1";
 
             switch(handler.type)
             {
-                case "wago": this.handlers.push(new WAGO(handler.ip, this.machine)); break;
-                case "em4": this.handlers.push(new EM4(handler.ip, this.machine)); break;
-                case "ex260sx": this.handlers.push(new EX260Sx(handler.ip, handler.size, this.machine)); break;
+                case "wago": this.handlers.push(new WAGO(handler.ip)); break;
+                case "em4": this.handlers.push(new EM4(handler.ip)); break;
+                case "ex260sx": this.handlers.push(new EX260Sx(handler.ip, handler.size)); break;
             }
         }
         
         // Register gates from their correspondig type
-        for(const gate of this.machine.specs.iogates)
+        for(const gate of gates)
         {
             switch(gate.type)
             {
@@ -66,23 +85,23 @@ export class IOController extends Controller
 
     private _configureRouter()
     {
+        //this.machine.authManager.registerEndpointPermission("io.list", {endpoint: "/v1/io", method: "get"}); //TODO
         this._router.get("/", (_req: Request, res: Response) => {
             res.json(this.gates);
         });
 
-        this.machine.authManager.registerEndpointPermission("io.list", {endpoint: "/v1/io", method: "get"});
 
+        //this.machine.authManager.registerEndpointPermission("io.toggle", {endpoint: new RegExp("/v1/io/.*/.*", "g"), method: "get"}); //TODO
         this._router.get("/:name/:value", async (req: Request, res: Response) => {
 
             const name = req.params.name.replace("_", "#");
-
             const gate = this.gates.find((g) => g.name == name);
 
             if(gate)
             {
                 if(gate.bus != "in")
                 {
-                    await gate.write(this, parseInt(req.params.value));
+                    await gate.write(parseInt(req.params.value));
                     res.status(200).end();
                 }
                 else
@@ -95,7 +114,6 @@ export class IOController extends Controller
             }
         });
 
-        this.machine.authManager.registerEndpointPermission("io.toggle", {endpoint: new RegExp("/v1/io/.*/.*", "g"), method: "get"});
     }
     /**
      * Find any gate by its name
@@ -107,6 +125,10 @@ export class IOController extends Controller
         return this.gates.find((g) => g.name == name);
     }
 
+    /**
+     * Starts The IO Scanner,
+     * Scans the inputs to find their data from the Physical controllers
+     */
     public startIOScanner()
     {
         if(!this.timer)
@@ -116,11 +138,11 @@ export class IOController extends Controller
                 for(const g of this.gates.filter((g) => g.bus == "in"))
                 {
                     //skip the io read if the automaton is an EM4
-                    if(this.machine.ioController.handlers.at(g.controllerId)?.type == "em4")
+                    if(this.handlers.at(g.controllerId)?.type == "em4")
                         continue;
                     
                     if(g.isCritical || skip > 4)
-                            g.read(this);
+                            g.read();
                     
                     skip > 4 ? skip = 1 : skip++;
                 }
@@ -135,6 +157,9 @@ export class IOController extends Controller
             clearInterval(this.timer);
     }
 
+    /**
+     * Return the data towards the socket
+     */
     public get socketData()
     {
         return [this.gates, this.handlers];

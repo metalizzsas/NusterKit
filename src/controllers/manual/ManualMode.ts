@@ -1,5 +1,6 @@
 import { IManualMode } from "../../interfaces/IManualMode";
 import { Machine } from "../../Machine";
+import { IOController } from "../io/IOController";
 import { ManualWatchdogCondition } from "./ManualModeWatchdog";
 
 export class ManualMode implements IManualMode
@@ -49,7 +50,7 @@ export class ManualMode implements IManualMode
         }
 
         //Add io gates manual mode watchdog
-        for(const io of this.machine.ioController.gates.filter(g => g.manualModeWatchdog == true))
+        for(const io of IOController.getInstance().gates.filter(g => g.manualModeWatchdog == true))
         {
             this.watchdog.push(new ManualWatchdogCondition(this, {gateName: io.name, gateValue: 1}, this.machine));
         }
@@ -108,9 +109,9 @@ export class ManualMode implements IManualMode
             for(const gate of gatesToToggle)
             {
                 if(typeof gate == "string")
-                    await this.machine.ioController.gFinder(gate)?.write(this.machine.ioController, state);
+                    await this.machine.ioController.gFinder(gate)?.write(state);
                 else
-                    await this.machine.ioController.gFinder(gate.name)?.write(this.machine.ioController, (gate.analogScaleDependant === true) ? state : ((state > 0) ? 1 : 0));
+                    await this.machine.ioController.gFinder(gate.name)?.write((gate.analogScaleDependant === true) ? state : ((state > 0) ? 1 : 0));
             }
 
             this.watchdog.forEach(w => w.startTimer());
@@ -143,9 +144,9 @@ export class ManualMode implements IManualMode
             for(const gate of gatesToToggleOff)
             {
                 if(typeof gate == "string")
-                    await this.machine.ioController.gFinder(gate)?.write(this.machine.ioController, 0);
+                    await this.machine.ioController.gFinder(gate)?.write(0);
                 else
-                    await this.machine.ioController.gFinder(gate.name)?.write(this.machine.ioController, 0);
+                    await this.machine.ioController.gFinder(gate.name)?.write(0);
             }
     
             this.state = 0;

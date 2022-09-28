@@ -1,10 +1,11 @@
 import { EPBRMode } from "../../interfaces/IProgramBlockRunner";
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { IForLoopProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IForLoopProgramBlock";
 import { ProgramBlock, ProgramBlocks } from "./index";
 import { NumericParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 import { LoggerInstance } from "../../app";
+import { CycleController } from "../../controllers/cycle/CycleController";
+import { PBRMissingError } from "../PBRMissingError";
 
 export class ForLoopProgramBlock extends ProgramBlock implements IForLoopProgramBlock {
 
@@ -15,34 +16,48 @@ export class ForLoopProgramBlock extends ProgramBlock implements IForLoopProgram
 
     public currentIteration: number;
 
-    constructor(pbrInstance: ProgramBlockRunner, obj: IForLoopProgramBlock)
+    constructor(obj: IForLoopProgramBlock)
     {
-        super(pbrInstance, obj);
+        super(obj);
 
-        this.params = [ParameterBlockRegistry(pbrInstance, obj.params[0]) as NumericParameterBlocks];
+        this.params = [ParameterBlockRegistry(obj.params[0]) as NumericParameterBlocks];
 
         super.fillProgramBlocks(obj);
 
         this.currentIteration = obj.currentIteration ?? 0;
     }
 
-    public async execute() {
+    /**
+     * Execute for loop
+     * @throws
+     */
+    public async execute()
+    {
         const loopCount = this.params[0].data() as number;
         LoggerInstance.info(`ForBlock: Will loop ${loopCount} times. Starting from: ${this.currentIteration}`);
 
-        for (; this.currentIteration < (loopCount); this.currentIteration++) {
-            if (this.pbrInstance.status.mode == EPBRMode.ENDED) {
-                this.executed = (this.currentIteration + 1 == (loopCount));
-                return;
-            }
+        const pbrInstance = CycleController.getInstance().program;
 
-            for (const instuction of this.blocks) {
-                await instuction.execute();
+        if(pbrInstance !== undefined)
+        {
+            for (; this.currentIteration < (loopCount); this.currentIteration++) {
+                //TODO: Make this check on step rather than cycle to ehance NextStep
+                if (pbrInstance.status.mode == EPBRMode.ENDED)
+                { 
+                    this.executed = (this.currentIteration + 1 == (loopCount));
+                    return;
+                }
+    
+                for (const instuction of this.blocks) {
+                    await instuction.execute();
+                }
             }
+    
+            this.currentIteration = 0; // reset current iteration if we dont, multiple steps execute for loops only at the begining
+            this.executed = true;
         }
-
-        this.currentIteration = 0; // reset current iteration if we dont, multiple steps execute for loops only at the begining
-        this.executed = true;
+        else
+            throw new PBRMissingError("ForLoop");
     }
 }
 

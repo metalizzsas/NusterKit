@@ -1,4 +1,3 @@
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { ProgramBlock } from "./index";
 import { ISlotUnloadProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/ISlotUnloadProgramBlock";
 import { StringParameterBlocks } from "../ParameterBlocks";
@@ -11,10 +10,10 @@ export class SlotUnloadProgramBlock extends ProgramBlock implements ISlotUnloadP
     name = "slotUnload" as const;
     params: [StringParameterBlocks];
 
-    constructor(pbrInstance: ProgramBlockRunner, obj: ISlotUnloadProgramBlock)
+    constructor(obj: ISlotUnloadProgramBlock)
     {
-        super(pbrInstance, obj);
-        this.params = [ParameterBlockRegistry(pbrInstance, obj.params[0]) as StringParameterBlocks];
+        super(obj);
+        this.params = [ParameterBlockRegistry(obj.params[0]) as StringParameterBlocks];
     }
 
     public async execute(): Promise<void>

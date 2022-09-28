@@ -1,7 +1,5 @@
 import { IProgramBlock, IProgramBlocks, ProgramBlockNames } from "../../interfaces/IProgramBlock";
-import { Block } from "../Block";
 import { ParameterBlocks } from "../ParameterBlocks";
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { ProgramBlockRegistry } from "./ProgramBlockRegistry";
 import { ForLoopProgramBlock } from "./ForLoopProgramBlock";
 import { GroupProgramBlock } from "./GroupProgramBlock";
@@ -20,7 +18,7 @@ import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistr
 import { PassiveProgramBlock } from "./PassiveProgramBlock";
 import { LoggerInstance } from "../../app";
 
-export class ProgramBlock extends Block implements IProgramBlock
+export class ProgramBlock implements IProgramBlock
 {
     name: ProgramBlockNames = "default";
 
@@ -29,10 +27,8 @@ export class ProgramBlock extends Block implements IProgramBlock
 
     executed = false;
 
-    constructor(pbrInstance: ProgramBlockRunner, obj: IProgramBlock)
+    constructor(obj: IProgramBlock)
     {
-        super(pbrInstance);
-
         this.executed = obj.executed || false;
     }
 
@@ -43,7 +39,7 @@ export class ProgramBlock extends Block implements IProgramBlock
         
         for(const b of obj.blocks ?? [])
         {
-            this.blocks.push(ProgramBlockRegistry(this.pbrInstance, b));              
+            this.blocks.push(ProgramBlockRegistry(b));              
         }
     }
 
@@ -54,7 +50,7 @@ export class ProgramBlock extends Block implements IProgramBlock
 
         for(const p of obj.params ?? [])
         {
-            this.params.push(ParameterBlockRegistry(this.pbrInstance, p));
+            this.params.push(ParameterBlockRegistry(p));
         }
     }
 

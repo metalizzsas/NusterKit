@@ -1,7 +1,7 @@
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { IGroupProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IGroupProgramBlock";
 import { ProgramBlock, ProgramBlocks } from "./index";
 import { LoggerInstance } from "../../app";
+import { ProgramBlockRegistry } from "./ProgramBlockRegistry";
 
 /** @deprecated */
 export class GroupProgramBlock extends ProgramBlock implements IGroupProgramBlock
@@ -9,11 +9,10 @@ export class GroupProgramBlock extends ProgramBlock implements IGroupProgramBloc
     name = "group" as const;
     blocks: ProgramBlocks[] = []
 
-    constructor(pbrInstance: ProgramBlockRunner, obj: IGroupProgramBlock)
+    constructor(obj: IGroupProgramBlock)
     {
-        super(pbrInstance, obj);
-
-        super.fillProgramBlocks(obj);
+        super(obj);
+        this.blocks = obj.blocks.map(b => ProgramBlockRegistry(b));
     }
 
     public async execute(): Promise<void> {

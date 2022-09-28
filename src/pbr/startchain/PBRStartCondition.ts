@@ -22,7 +22,7 @@ export class PBRStartCondition implements IPBRStartCondition
 
         this.conditionName = pbrsc.conditionName;
         this.startOnly = pbrsc.startOnly;
-        this.checkChain = new PBRSCCheckChain(pbrsc.checkChain, pbrInstance);
+        this.checkChain = new PBRSCCheckChain(pbrsc.checkChain);
 
         this.result = EPBRStartConditionResult.ERROR;
 

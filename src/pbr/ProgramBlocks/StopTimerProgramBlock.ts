@@ -1,9 +1,10 @@
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { ProgramBlock } from "./index";
 import { IStopTimerProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IStopTimerProgramBlock";
 import { StringParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 import { LoggerInstance } from "../../app";
+import { CycleController } from "../../controllers/cycle/CycleController";
+import { PBRMissingError } from "../PBRMissingError";
 
 export class StopTimerProgramBlock extends ProgramBlock implements IStopTimerProgramBlock
 {
@@ -11,33 +12,41 @@ export class StopTimerProgramBlock extends ProgramBlock implements IStopTimerPro
 
     params: [StringParameterBlocks];
 
-    constructor(pbrInstance: ProgramBlockRunner, obj: IStopTimerProgramBlock)
+    constructor(obj: IStopTimerProgramBlock)
     {
-        super(pbrInstance, obj);
+        super( obj);
 
         this.params = [
-            ParameterBlockRegistry(pbrInstance, obj.params[0]) as StringParameterBlocks
+            ParameterBlockRegistry(obj.params[0]) as StringParameterBlocks
         ];
     }
 
     public async execute(): Promise<void> {
-        const tN = this.params[0].data() as string;
 
-        const timerIndex = this.pbrInstance.timers.findIndex((t) => t.name == tN);
-        const timer = this.pbrInstance.timers.at(timerIndex);
+        const pbrInstance = CycleController.getInstance().program;
 
-        if (timer && timer.timer && timer.enabled) {
-            clearInterval(timer.timer);
-            timer.enabled = false;
-            this.pbrInstance.timers.splice(timerIndex, 1); // remove timer from pbr instance
-            LoggerInstance.info("StopTimerBlock: Will stop timer with name: " + tN);
+        if(pbrInstance !== undefined)
+        {
+            const timerName = this.params[0].data() as string;
+    
+            const timerIndex = pbrInstance.timers.findIndex((t) => t.name == timerName);
+            const timer = pbrInstance.timers.at(timerIndex);
+    
+            if (timer && timer.timer && timer.enabled) {
+                clearInterval(timer.timer);
+                timer.enabled = false;
+                pbrInstance.timers.splice(timerIndex, 1); // remove timer from pbr instance
+                LoggerInstance.info("StopTimerBlock: Will stop timer with name: " + timerName);
+            }
+    
+            else {
+                LoggerInstance.warn("StopTimerBlock: Timer " + timerName + " has not been found, ignoring.");
+            }
+    
+            this.executed = true;
         }
-
-        else {
-            LoggerInstance.warn("StopTimerBlock: Timer " + tN + " has not been found, ignoring.");
-        }
-
-        this.executed = true;
+        else
+            throw new PBRMissingError("StopTimer");
     }
 }
 

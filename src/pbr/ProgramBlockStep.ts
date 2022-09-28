@@ -35,32 +35,32 @@ export class ProgramBlockStep implements IProgramStepRunner
     {
         this.pbrInstance = pbrInstance;
         this.name = obj.name;
-        this.isEnabled = ParameterBlockRegistry(this.pbrInstance, obj.isEnabled) as NumericParameterBlocks;
-        this.duration = ParameterBlockRegistry(this.pbrInstance, obj.duration) as NumericParameterBlocks;
+        this.isEnabled = ParameterBlockRegistry(obj.isEnabled) as NumericParameterBlocks;
+        this.duration = ParameterBlockRegistry(obj.duration) as NumericParameterBlocks;
 
         if(obj.runAmount)
         {
-            this.runAmount = ParameterBlockRegistry(this.pbrInstance, obj.runAmount) as NumericParameterBlocks;
+            this.runAmount = ParameterBlockRegistry(obj.runAmount) as NumericParameterBlocks;
             this.runCount = obj.runCount ?? 0;
             this.type = (this.runAmount?.data() ?? 0) > 1 ? EProgramStepType.MULTIPLE : EProgramStepType.SINGLE;
         }
 
         //Adding io starting blocks
-        for(const io of obj.startBlocks)
+        for(const startBlock of obj.startBlocks)
         {
-            this.startBlocks.push(ProgramBlockRegistry(this.pbrInstance, io));
+            this.startBlocks.push(ProgramBlockRegistry(startBlock));
         }
 
         //Adding io ending blocks
-        for(const io of obj.endBlocks)
+        for(const endBlock of obj.endBlocks)
         {
-            this.endBlocks.push(ProgramBlockRegistry(this.pbrInstance, io));
+            this.endBlocks.push(ProgramBlockRegistry(endBlock));
         }
 
         //adding program blocks
         for(const block of obj.blocks)
         {
-            this.blocks.push(ProgramBlockRegistry(this.pbrInstance, block));
+            this.blocks.push(ProgramBlockRegistry(block));
         }
     }
 

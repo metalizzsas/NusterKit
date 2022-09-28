@@ -1,4 +1,3 @@
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { IIfProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IIfProgramBlock";
 import { ProgramBlock, ProgramBlocks } from "./index";
 import { ProgramBlockRegistry } from "./ProgramBlockRegistry";
@@ -23,35 +22,35 @@ export class IfProgramBlock extends ProgramBlock implements IIfProgramBlock
         "!=": (x: number, y: number) => x != y
     };
 
-    constructor(pbrInstance: ProgramBlockRunner, obj: IIfProgramBlock)
+    constructor(obj: IIfProgramBlock)
     {
-        super(pbrInstance, obj);
+        super(obj);
 
         this.params = [
-            ParameterBlockRegistry(pbrInstance, obj.params[0]) as NumericParameterBlocks,
-            ParameterBlockRegistry(pbrInstance, obj.params[1]) as StringParameterBlocks,
-            ParameterBlockRegistry(pbrInstance, obj.params[2]) as NumericParameterBlocks
+            ParameterBlockRegistry(obj.params[0]) as NumericParameterBlocks,
+            ParameterBlockRegistry(obj.params[1]) as StringParameterBlocks,
+            ParameterBlockRegistry(obj.params[2]) as NumericParameterBlocks
         ];
 
-        for(const tB of obj.trueBlocks)
+        for(const trueBlock of obj.trueBlocks)
         {
-            this.trueBlocks.push(ProgramBlockRegistry(pbrInstance, tB));
+            this.trueBlocks.push(ProgramBlockRegistry(trueBlock));
         }
 
-        for(const fB of obj.falseBlocks)
+        for(const falseBlock of obj.falseBlocks)
         {
-            this.falseBlocks.push(ProgramBlockRegistry(pbrInstance, fB));
+            this.falseBlocks.push(ProgramBlockRegistry(falseBlock));
         }
     }
 
     public async execute() {
-        const lV = (this.params[0].data());
-        const rV = (this.params[2].data());
-        const c = (this.params[1].data());
+        const left = (this.params[0].data());
+        const right = (this.params[2].data());
+        const comparator = (this.params[1].data());
 
-        LoggerInstance.info(`IfBlock: Will compare ${lV} and ${rV} by ${c}`);
+        LoggerInstance.info(`IfBlock: Will compare ${left} and ${right} by ${comparator}`);
 
-        if (this.operators[c](lV, rV)) {
+        if (this.operators[comparator](left, right)) {
             for(const tB of this.trueBlocks)
             {
                 await tB.execute();

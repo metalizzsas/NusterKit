@@ -1,38 +1,44 @@
 import { ParameterBlock } from ".";
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { IVariableParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IVariableParameterBlock";
 import { LoggerInstance } from "../../app";
+import { CycleController } from "../../controllers/cycle/CycleController";
 
 export class VariableParameterBlock extends ParameterBlock implements IVariableParameterBlock
 {
     name = "variable" as const;
     value: string;
-    constructor(instance: ProgramBlockRunner, obj: IVariableParameterBlock)
+    constructor(obj: IVariableParameterBlock)
     {
-        super(instance);
+        super(obj);
 
         this.value = obj.value;
     }
 
     public data(): number
     {
-        if(this.value == "currentStepIndex")
-            return this.pbrInstance.currentStepIndex;
-        else if(this.value == "currentStepRunCount")
+        const pbrInstance = CycleController.getInstance().program;
+        if(pbrInstance !== undefined)
         {
-            const step = this.pbrInstance.steps[this.pbrInstance.currentStepIndex];
-            if(step)
+            if(this.value == "currentStepIndex")
+                return pbrInstance.currentStepIndex;
+            else if(this.value == "currentStepRunCount")
             {
-                const rc = step.runCount;
-                return (rc !== undefined) ? rc : 0;
+                const step = pbrInstance.steps[pbrInstance.currentStepIndex];
+                if(step)
+                {
+                    const rc = step.runCount;
+                    return (rc !== undefined) ? rc : 0;
+                }
+                return 0;
+            } 
+            else
+            {
+                LoggerInstance.warn(`The variable ${this.value} is not defined.`);
+                return pbrInstance.variables.find(v => v.name == this.value)?.value ?? 0; // this variable might have never been defined
             }
-            return 0;
-        } 
-        else
-        {
-            LoggerInstance.warn(`The variable ${this.value} is not defined.`);
-            return this.pbrInstance.variables.find(v => v.name == this.value)?.value ?? 0; // this variable might have never been defined
         }
+
+        throw new Error("Variable: Failed to get data, pbr instance is not defined")
     }
 }
 

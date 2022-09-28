@@ -1,11 +1,9 @@
-
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { IIOProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IIOProgramBlock";
 import { ProgramBlock } from "./index";
 import { StringParameterBlocks, NumericParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 import { LoggerInstance } from "../../app";
-
+import { IOController } from "../../controllers/io/IOController";
 
 export class IOWriteProgramBlock extends ProgramBlock implements IIOProgramBlock
 {
@@ -14,12 +12,12 @@ export class IOWriteProgramBlock extends ProgramBlock implements IIOProgramBlock
     params: [StringParameterBlocks, NumericParameterBlocks];
 
 
-    constructor(pbrInstance: ProgramBlockRunner, obj: IIOProgramBlock) {
-        super(pbrInstance, obj);
+    constructor(obj: IIOProgramBlock) {
+        super(obj);
 
         this.params = [
-            ParameterBlockRegistry(pbrInstance, obj.params[0]) as StringParameterBlocks, 
-            ParameterBlockRegistry(pbrInstance, obj.params[1]) as NumericParameterBlocks 
+            ParameterBlockRegistry(obj.params[0]) as StringParameterBlocks, 
+            ParameterBlockRegistry(obj.params[1]) as NumericParameterBlocks 
         ];
     }
 
@@ -29,13 +27,11 @@ export class IOWriteProgramBlock extends ProgramBlock implements IIOProgramBlock
 
         LoggerInstance.info(`IOAccessBlock: Will access ${gateName} to write ${gateValue}`);
 
-        const gate = this.pbrInstance.ioExplorer(gateName);
+        const gate = IOController.getInstance().gFinder(gateName);
 
         if(gate)
             await gate.write(gateValue);
 
         this.executed = true;
-
     }
 }
-

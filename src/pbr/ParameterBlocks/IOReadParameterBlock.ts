@@ -1,22 +1,21 @@
 import { ParameterBlock } from ".";
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { IIOReadParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IIOReadParameterBlock";
+import { IOController } from "../../controllers/io/IOController";
 
 export class IOReadParameterBlock extends ParameterBlock implements IIOReadParameterBlock
 {
     name = "io" as const;
     value: string;
 
-    constructor(instance: ProgramBlockRunner, obj: IIOReadParameterBlock)
+    constructor(obj: IIOReadParameterBlock)
     {
-        super(instance);
-
+        super(obj);
         this.value = obj.value;
     }
 
     public data(): number
     {
-        return this.pbrInstance.ioExplorer(this.value)?.value || 0;
+        return IOController.getInstance().gFinder(this.value)?.value || 0;
     }
 }
 

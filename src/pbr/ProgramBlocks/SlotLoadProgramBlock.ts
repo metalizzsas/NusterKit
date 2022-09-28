@@ -1,5 +1,3 @@
-
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { ProgramBlock } from "./index";
 import { ISlotLoadProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/ISlotLoadProgramBlock";
 import { StringParameterBlocks } from "../ParameterBlocks";
@@ -12,11 +10,11 @@ export class SlotLoadProgramBlock extends ProgramBlock implements ISlotLoadProgr
     name = "slotLoad" as const;
     params: [StringParameterBlocks];
 
-    constructor(pbrInstance: ProgramBlockRunner, obj: ISlotLoadProgramBlock) 
+    constructor(obj: ISlotLoadProgramBlock) 
     {
-        super(pbrInstance, obj);
+        super(obj);
 
-        this.params = [ParameterBlockRegistry(pbrInstance, obj.params[0]) as StringParameterBlocks];
+        this.params = [ParameterBlockRegistry(obj.params[0]) as StringParameterBlocks];
     }
 
     public async execute(): Promise<void> {

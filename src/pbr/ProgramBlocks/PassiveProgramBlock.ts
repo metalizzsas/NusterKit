@@ -4,7 +4,6 @@ import { PassiveController } from "../../controllers/passives/PassiveController"
 import { IPassiveProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IPassiveProgramBlock";
 import { NumericParameterBlocks, StringParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 
 export class PassiveProgramBlock extends ProgramBlock implements IPassiveProgramBlock
 {
@@ -12,14 +11,14 @@ export class PassiveProgramBlock extends ProgramBlock implements IPassiveProgram
 
     params: [StringParameterBlocks, NumericParameterBlocks, NumericParameterBlocks];
 
-    constructor(pbrInstance: ProgramBlockRunner, obj: IPassiveProgramBlock)
+    constructor(obj: IPassiveProgramBlock)
     {
-        super(pbrInstance, obj);
+        super(obj);
 
         this.params = [
-            ParameterBlockRegistry(pbrInstance, obj.params[0]) as StringParameterBlocks, 
-            ParameterBlockRegistry(pbrInstance, obj.params[1]) as NumericParameterBlocks,
-            ParameterBlockRegistry(pbrInstance, obj.params[2]) as NumericParameterBlocks
+            ParameterBlockRegistry(obj.params[0]) as StringParameterBlocks, 
+            ParameterBlockRegistry(obj.params[1]) as NumericParameterBlocks,
+            ParameterBlockRegistry(obj.params[2]) as NumericParameterBlocks
         ];
     }
 

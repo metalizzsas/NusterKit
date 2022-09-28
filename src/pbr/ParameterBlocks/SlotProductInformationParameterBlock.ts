@@ -1,7 +1,6 @@
 import { ParameterBlock } from ".";
 import { SlotController } from "../../controllers/slot/SlotController";
 import { IParameterBlock } from "../../interfaces/IParameterBlock";
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 
 //Slot status shall only be used for startConditions
 export class SlotProductStatusParameterBlock extends ParameterBlock implements ISlotProductStatusParameterBlock
@@ -9,9 +8,9 @@ export class SlotProductStatusParameterBlock extends ParameterBlock implements I
     name = "slotstatus" as const;
     value: string;
     
-    constructor(instance: ProgramBlockRunner, obj: ISlotProductStatusParameterBlock)
+    constructor(obj: ISlotProductStatusParameterBlock)
     {
-        super(instance);
+        super(obj);
 
         this.value = obj.value;
     }

@@ -1,5 +1,4 @@
 import { ParameterBlock } from ".";
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { ISlotLifetimeParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/ISlotLifetimeParameterBlock";
 import { SlotController } from "../../controllers/slot/SlotController";
 
@@ -8,9 +7,9 @@ export class SlotLifetimeParameterBlock extends ParameterBlock implements ISlotL
     name = "slotlife" as const;
     value: string;
 
-    constructor(instance: ProgramBlockRunner, obj: ISlotLifetimeParameterBlock)
+    constructor(obj: ISlotLifetimeParameterBlock)
     {
-        super(instance);
+        super(obj);
 
         this.value = obj.value;
     }

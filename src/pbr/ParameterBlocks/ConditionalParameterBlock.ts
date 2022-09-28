@@ -1,5 +1,4 @@
 import { NumericParameterBlocks, ParameterBlock, StringParameterBlocks } from ".";
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { IConditionalParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IConditionalParameterBlock";
 import { ParameterBlockRegistry } from "./ParameterBlockRegistry";
 
@@ -22,17 +21,17 @@ export class ConditionalParameterBlock extends ParameterBlock implements ICondit
         "!=": (x: number, y: number) => x != y
     };
 
-    constructor(instance: ProgramBlockRunner, obj: IConditionalParameterBlock)
+    constructor(obj: IConditionalParameterBlock)
     {
-        super(instance);
+        super(obj);
 
         this.value = obj.value;
 
         this.params = [
-            ParameterBlockRegistry(instance, obj.params[0]) as NumericParameterBlocks,
-            ParameterBlockRegistry(instance, obj.params[1]) as NumericParameterBlocks,
-            ParameterBlockRegistry(instance, obj.params[2]) as NumericParameterBlocks | StringParameterBlocks,
-            ParameterBlockRegistry(instance, obj.params[3]) as NumericParameterBlocks | StringParameterBlocks
+            ParameterBlockRegistry(obj.params[0]) as NumericParameterBlocks,
+            ParameterBlockRegistry(obj.params[1]) as NumericParameterBlocks,
+            ParameterBlockRegistry(obj.params[2]) as NumericParameterBlocks | StringParameterBlocks,
+            ParameterBlockRegistry(obj.params[3]) as NumericParameterBlocks | StringParameterBlocks
         ];
 
     }

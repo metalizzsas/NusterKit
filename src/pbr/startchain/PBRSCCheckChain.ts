@@ -3,7 +3,6 @@ import { EPBRStartConditionResult } from "../../interfaces/programblocks/startch
 import { ParameterBlock } from "../ParameterBlocks";
 import { ConditionalParameterBlock } from "../ParameterBlocks/ConditionalParameterBlock";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 
 export class PBRSCCheckChain implements IPBRSCCheckChain
 {
@@ -11,19 +10,19 @@ export class PBRSCCheckChain implements IPBRSCCheckChain
 
     #checkChain?: ParameterBlock;
 
-    constructor(obj: IPBRSCCheckChain, pbrinstance: ProgramBlockRunner)
+    constructor(obj: IPBRSCCheckChain)
     {
         this.name = obj.name;
 
         if(this.name == "parameter" && obj.parameter !== undefined)
         {
             //Building a config givent parameter block build a conditional test
-            this.#checkChain = ParameterBlockRegistry(pbrinstance, obj.parameter);
+            this.#checkChain = ParameterBlockRegistry(obj.parameter);
         }
         else if(this.name == "io" && obj.io !== undefined)
         {
             //building a default Conditional parameter block for io related start conditions
-            this.#checkChain = new ConditionalParameterBlock(pbrinstance, {
+            this.#checkChain = new ConditionalParameterBlock({
                 name: "conditional",
                 value: "==",
                 params: [

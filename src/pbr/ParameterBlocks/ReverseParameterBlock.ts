@@ -1,5 +1,4 @@
 import { NumericParameterBlocks, ParameterBlock } from ".";
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { IReverseParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IReverseParameterBlock";
 import { ParameterBlockRegistry } from "./ParameterBlockRegistry";
 
@@ -8,11 +7,11 @@ export class ReverseParameterBlock extends ParameterBlock implements IReversePar
     name = "reverse" as const;
     params: [NumericParameterBlocks];
 
-    constructor(instance: ProgramBlockRunner, obj: IReverseParameterBlock)
+    constructor(obj: IReverseParameterBlock)
     {
-        super(instance);
+        super(obj);
 
-        this.params = [ParameterBlockRegistry(instance, obj.params[0]) as NumericParameterBlocks];
+        this.params = [ParameterBlockRegistry(obj.params[0]) as NumericParameterBlocks];
     }
     
     public data(): number

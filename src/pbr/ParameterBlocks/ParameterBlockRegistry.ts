@@ -32,21 +32,21 @@ import { ParameterBlocks } from "./index";
  * @returns Parameter block defined properly
  */
 
-export function ParameterBlockRegistry(pbrInstance: ProgramBlockRunner, obj: IParameterBlock): ParameterBlocks {
+export function ParameterBlockRegistry(obj: IParameterBlock): ParameterBlocks {
     switch (obj.name) {
-        case "const": return new ConstantParameterBlock(pbrInstance, obj as IConstantParameterBlock);
-        case "conststr": return new ConstantStringParameterBlock(pbrInstance, obj as IConstantStringParameterBlock);
-        case "profile": return new ProfileParameterBlock(pbrInstance, obj as IProfileParameterBlock);
-        case "io": return new IOReadParameterBlock(pbrInstance, obj as IIOReadParameterBlock);
-        case "add": return new AdditionParameterBlock(pbrInstance, obj as IAdditionParameterBlock);
-        case "multiply": return new MultiplyParameterBlock(pbrInstance, obj as IMultiplyParameterBlock);
-        case "reverse": return new ReverseParameterBlock(pbrInstance, obj as IReverseParameterBlock);
-        case "conditional": return new ConditionalParameterBlock(pbrInstance, obj as IConditionalParameterBlock);
-        case "variable": return new VariableParameterBlock(pbrInstance, obj as IVariableParameterBlock);
-        case "slotlife": return new SlotLifetimeParameterBlock(pbrInstance, obj as ISlotLifetimeParameterBlock);
-        case "slotstatus": return new SlotProductStatusParameterBlock(pbrInstance, obj as ISlotProductStatusParameterBlock);
-        case "maintenance": return new MaintenanceProgressParameterBlock(pbrInstance, obj as IMaintenanceParameterBlock);
+        case "const": return new ConstantParameterBlock(obj as IConstantParameterBlock);
+        case "conststr": return new ConstantStringParameterBlock(obj as IConstantStringParameterBlock);
+        case "profile": return new ProfileParameterBlock(obj as IProfileParameterBlock);
+        case "io": return new IOReadParameterBlock(obj as IIOReadParameterBlock);
+        case "add": return new AdditionParameterBlock(obj as IAdditionParameterBlock);
+        case "multiply": return new MultiplyParameterBlock(obj as IMultiplyParameterBlock);
+        case "reverse": return new ReverseParameterBlock(obj as IReverseParameterBlock);
+        case "conditional": return new ConditionalParameterBlock(obj as IConditionalParameterBlock);
+        case "variable": return new VariableParameterBlock(obj as IVariableParameterBlock);
+        case "slotlife": return new SlotLifetimeParameterBlock(obj as ISlotLifetimeParameterBlock);
+        case "slotstatus": return new SlotProductStatusParameterBlock(obj as ISlotProductStatusParameterBlock);
+        case "maintenance": return new MaintenanceProgressParameterBlock(obj as IMaintenanceParameterBlock);
 
-        default: return new ConstantParameterBlock(pbrInstance, {name: "const", value: 1});
+        default: return new ConstantParameterBlock({name: "const", value: 0});
     }
 }

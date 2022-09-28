@@ -1,5 +1,4 @@
 import { ParameterBlock } from ".";
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { IMaintenanceParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IMaintenanceParameterBlock";
 import { MaintenanceController } from "../../controllers/maintenance/MaintenanceController";
 
@@ -8,9 +7,9 @@ export class MaintenanceProgressParameterBlock extends ParameterBlock implements
     name = "maintenance" as const;
     value: string;
 
-    constructor(instance: ProgramBlockRunner, obj: IMaintenanceParameterBlock)
+    constructor(obj: IMaintenanceParameterBlock)
     {
-        super(instance);
+        super(obj);
 
         this.value = obj.value;
     }

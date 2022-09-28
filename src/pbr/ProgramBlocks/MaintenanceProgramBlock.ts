@@ -1,5 +1,3 @@
-
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { IMaintenanceProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IMaintenanceProgramBlock";
 import { ProgramBlock } from "./index";
 import { StringParameterBlocks, NumericParameterBlocks } from "../ParameterBlocks";
@@ -12,12 +10,12 @@ export class MaintenanceProgramBlock extends ProgramBlock implements IMaintenanc
 
     params: [StringParameterBlocks, NumericParameterBlocks];
 
-    constructor(pbrInstance: ProgramBlockRunner, obj: IMaintenanceProgramBlock) {
-        super(pbrInstance, obj);
+    constructor(obj: IMaintenanceProgramBlock) {
+        super(obj);
 
         this.params = [
-            ParameterBlockRegistry(pbrInstance, obj.params[0]) as StringParameterBlocks,
-            ParameterBlockRegistry(pbrInstance, obj.params[0]) as NumericParameterBlocks
+            ParameterBlockRegistry(obj.params[0]) as StringParameterBlocks,
+            ParameterBlockRegistry(obj.params[0]) as NumericParameterBlocks
         ];
     }
 

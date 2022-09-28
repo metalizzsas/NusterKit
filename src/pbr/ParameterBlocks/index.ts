@@ -1,6 +1,4 @@
 import { INumericParameterBlock, IParameterBlock, IParameterBlocks, IStringParameterBlock, ParameterBlockNames } from "../../interfaces/IParameterBlock";
-import { Block } from "../Block";
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { AdditionParameterBlock } from "./AdditionParameterBlock";
 import { ConditionalParameterBlock } from "./ConditionalParameterBlock";
 import { ConstantParameterBlock } from "./ConstantParameterBlock";
@@ -15,20 +13,25 @@ import { SlotLifetimeParameterBlock } from "./SlotLifeParameterBlock";
 import { SlotProductStatusParameterBlock } from "./SlotProductInformationParameterBlock";
 import { VariableParameterBlock } from "./VariableParameterBlock";
 
-export class ParameterBlock extends Block implements IParameterBlock
+export class ParameterBlock implements IParameterBlock
 {
     name: ParameterBlockNames = "default";
 
     params?: ParameterBlocks[];
     value?: string | number;
 
-    constructor(instance: ProgramBlockRunner)
+    constructor(obj: IParameterBlock)
     {
-        super(instance);
+        this.name = obj.name;
+        this.value = obj.value;
+
+        this.fillParameterBlocks(obj);
     }
+
     /**
-     * Fill parameter blocks
-     * @param obj Object
+     * 
+     * @deprecated
+     * @param obj 
      */
     fillParameterBlocks(obj: IParameterBlock)
     {
@@ -39,7 +42,7 @@ export class ParameterBlock extends Block implements IParameterBlock
 
             for(const p of obj.params)
             {
-                this.params.push(ParameterBlockRegistry(this.pbrInstance, p));
+                this.params.push(ParameterBlockRegistry(p));
             }
         }
     }

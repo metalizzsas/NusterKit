@@ -3,6 +3,7 @@ import { ProgramBlock } from "./index";
 import { IStopTimerProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IStopTimerProgramBlock";
 import { StringParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
+import { LoggerInstance } from "../../app";
 
 export class StopTimerProgramBlock extends ProgramBlock implements IStopTimerProgramBlock
 {
@@ -29,11 +30,11 @@ export class StopTimerProgramBlock extends ProgramBlock implements IStopTimerPro
             clearInterval(timer.timer);
             timer.enabled = false;
             this.pbrInstance.timers.splice(timerIndex, 1); // remove timer from pbr instance
-            this.pbrInstance.machine.logger.info("StopTimerBlock: Will stop timer with name: " + tN);
+            LoggerInstance.info("StopTimerBlock: Will stop timer with name: " + tN);
         }
 
         else {
-            this.pbrInstance.machine.logger.warn("StopTimerBlock: Timer " + tN + " has not been found, ignoring.");
+            LoggerInstance.warn("StopTimerBlock: Timer " + tN + " has not been found, ignoring.");
         }
 
         this.executed = true;

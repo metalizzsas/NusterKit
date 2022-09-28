@@ -4,6 +4,7 @@ import { IForLoopProgramBlock } from "../../interfaces/programblocks/ProgramBloc
 import { ProgramBlock, ProgramBlocks } from "./index";
 import { NumericParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
+import { LoggerInstance } from "../../app";
 
 export class ForLoopProgramBlock extends ProgramBlock implements IForLoopProgramBlock {
 
@@ -26,12 +27,12 @@ export class ForLoopProgramBlock extends ProgramBlock implements IForLoopProgram
     }
 
     public async execute() {
-        const lC = this.params[0].data() as number;
-        this.pbrInstance.machine.logger.info(`ForBlock: Will loop ${lC} times. Starting from: ${this.currentIteration}`);
+        const loopCount = this.params[0].data() as number;
+        LoggerInstance.info(`ForBlock: Will loop ${loopCount} times. Starting from: ${this.currentIteration}`);
 
-        for (; this.currentIteration < (lC); this.currentIteration++) {
+        for (; this.currentIteration < (loopCount); this.currentIteration++) {
             if (this.pbrInstance.status.mode == EPBRMode.ENDED) {
-                this.executed = (this.currentIteration + 1 == (lC));
+                this.executed = (this.currentIteration + 1 == (loopCount));
                 return;
             }
 

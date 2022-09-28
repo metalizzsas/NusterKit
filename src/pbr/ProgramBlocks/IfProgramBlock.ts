@@ -4,6 +4,7 @@ import { ProgramBlock, ProgramBlocks } from "./index";
 import { ProgramBlockRegistry } from "./ProgramBlockRegistry";
 import { NumericParameterBlocks, StringParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
+import { LoggerInstance } from "../../app";
 
 
 export class IfProgramBlock extends ProgramBlock implements IIfProgramBlock
@@ -48,7 +49,7 @@ export class IfProgramBlock extends ProgramBlock implements IIfProgramBlock
         const rV = (this.params[2].data());
         const c = (this.params[1].data());
 
-        this.pbrInstance.machine.logger.info(`IfBlock: Will compare ${lV} and ${rV} by ${c}`);
+        LoggerInstance.info(`IfBlock: Will compare ${lV} and ${rV} by ${c}`);
 
         if (this.operators[c](lV, rV)) {
             for(const tB of this.trueBlocks)

@@ -1,4 +1,5 @@
 import { ParameterBlock } from ".";
+import { SlotController } from "../../controllers/slot/SlotController";
 import { IParameterBlock } from "../../interfaces/IParameterBlock";
 import { ProgramBlockRunner } from "../ProgramBlockRunner";
 
@@ -17,7 +18,7 @@ export class SlotProductStatusParameterBlock extends ParameterBlock implements I
 
     public data(): string
     {
-        const slot = this.pbrInstance.machine.slotController.slots.find(s => s.name == this.value);
+        const slot = SlotController.getInstance().slots.find(s => s.name == this.value);
 
         if(slot && slot.productData?.lifetimeRemaining !== undefined)
         {

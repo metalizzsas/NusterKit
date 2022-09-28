@@ -4,6 +4,7 @@ import { ProgramBlock, ProgramBlocks } from "./index";
 import { IStartTimerProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IStartTimerProgramBlock";
 import { StringParameterBlocks, NumericParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
+import { LoggerInstance } from "../../app";
 
 
 export class StartTimerProgramBlock extends ProgramBlock implements IStartTimerProgramBlock
@@ -42,7 +43,7 @@ export class StartTimerProgramBlock extends ProgramBlock implements IStartTimerP
                 await b.execute();
             }
         }, tI * 1000);
-        this.pbrInstance.machine.logger.info("StartTimerBlock: Will start timer with name: " + tN + " and interval: " + tI * 1000 + " ms.");
+        LoggerInstance.info("StartTimerBlock: Will start timer with name: " + tN + " and interval: " + tI * 1000 + " ms.");
         this.pbrInstance.timers.push({ name: tN, timer: timer, blocks: this.blocks, enabled: true });
 
         this.executed = false;

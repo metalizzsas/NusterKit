@@ -3,6 +3,7 @@ import { ProgramBlock } from "./index";
 import { IStopProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IStopProgramBlock";
 import { StringParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
+import { LoggerInstance } from "../../app";
 
 
 export class StopProgramBlock extends ProgramBlock implements IStopProgramBlock
@@ -21,7 +22,7 @@ export class StopProgramBlock extends ProgramBlock implements IStopProgramBlock
 
     public async execute(): Promise<void> {
         if (process.env.NODE_ENV != "production") {
-            this.pbrInstance.machine.logger.info("StopBlock: Debug mode will not stop the machine.");
+            LoggerInstance.info("StopBlock: Debug mode will not stop the machine.");
             return;
         }
 

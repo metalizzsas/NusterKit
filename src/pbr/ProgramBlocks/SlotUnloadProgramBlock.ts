@@ -3,6 +3,8 @@ import { ProgramBlock } from "./index";
 import { ISlotUnloadProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/ISlotUnloadProgramBlock";
 import { StringParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
+import { SlotController } from "../../controllers/slot/SlotController";
+import { LoggerInstance } from "../../app";
 
 export class SlotUnloadProgramBlock extends ProgramBlock implements ISlotUnloadProgramBlock 
 {
@@ -17,10 +19,10 @@ export class SlotUnloadProgramBlock extends ProgramBlock implements ISlotUnloadP
 
     public async execute(): Promise<void>
     {
-        const sN = this.params[0].data();
-        this.pbrInstance.machine.logger.info("SlotUnloadBlock: Will unload slot with name: " + sN);
+        const slotName = this.params[0].data();
+        LoggerInstance.info("SlotUnloadBlock: Will unload slot with name: " + slotName);
 
-        this.pbrInstance.machine.slotController.slots.find(s => s.name == sN)?.unloadSlot();
+        SlotController.getInstance().slots.find(s => s.name == slotName)?.unloadSlot();
 
         this.executed = true;
     }

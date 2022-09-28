@@ -18,6 +18,7 @@ import { VariableProgramBlock } from "./VariableProgramBlock";
 import { WhileLoopProgramBlock } from "./WhileLoopProgramBlock";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 import { PassiveProgramBlock } from "./PassiveProgramBlock";
+import { LoggerInstance } from "../../app";
 
 export class ProgramBlock extends Block implements IProgramBlock
 {
@@ -58,7 +59,7 @@ export class ProgramBlock extends Block implements IProgramBlock
     }
 
     public async execute(): Promise<void> {
-        this.pbrInstance.machine.logger.info(`This Programblock does nothing`);
+        LoggerInstance.info(`This Programblock does nothing`);
 
         this.executed = true;
         return;

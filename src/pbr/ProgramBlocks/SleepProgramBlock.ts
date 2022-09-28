@@ -4,6 +4,7 @@ import { ProgramBlock } from "./index";
 import { ISleepProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/ISleepProgramBlock";
 import { NumericParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
+import { LoggerInstance } from "../../app";
 
 
 export class SleepProgramBlock extends ProgramBlock implements ISleepProgramBlock
@@ -22,7 +23,7 @@ export class SleepProgramBlock extends ProgramBlock implements ISleepProgramBloc
     public async execute(): Promise<void>
     {
         const sT = this.params[0].data();
-        this.pbrInstance.machine.logger.info(`SleepBlock: Will sleep for ${sT * 1000} ms.`);
+        LoggerInstance.info(`SleepBlock: Will sleep for ${sT * 1000} ms.`);
 
         for (let i = 0; i < ((sT * 1000) / 10); i++) {
             if (this.pbrInstance.status.mode != EPBRMode.ENDED)

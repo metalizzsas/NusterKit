@@ -4,6 +4,7 @@ import { IIOProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/II
 import { ProgramBlock } from "./index";
 import { StringParameterBlocks, NumericParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
+import { LoggerInstance } from "../../app";
 
 
 export class IOWriteProgramBlock extends ProgramBlock implements IIOProgramBlock
@@ -26,7 +27,7 @@ export class IOWriteProgramBlock extends ProgramBlock implements IIOProgramBlock
         const gateName = this.params[0].data();
         const gateValue = this.params[1].data();
 
-        this.pbrInstance.machine.logger.info(`IOAccessBlock: Will access ${gateName} to write ${gateValue}`);
+        LoggerInstance.info(`IOAccessBlock: Will access ${gateName} to write ${gateValue}`);
 
         const gate = this.pbrInstance.ioExplorer(gateName);
 

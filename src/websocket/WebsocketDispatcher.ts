@@ -24,7 +24,7 @@ export class WebsocketDispatcher
             LoggerInstance.info("Websocket: Server listening..");
         });
         
-        this.wsServer.on('connection', this.onConnect);
+        this.wsServer.on('connection', this.onConnect.bind(this));
     }
 
     static getInstance(httpServer?: Server)
@@ -77,10 +77,16 @@ export class WebsocketDispatcher
 
         LoggerInstance.trace("Websocket: New client");
 
-        if(this.connectPopup !== undefined && !this.connectPopupDisplayed)
+        if(this.connectPopup !== undefined && this.connectPopupDisplayed == false)
         {
-            LoggerInstance.info("Websocket: Displaying connect popup.");
-            this.togglePopup(this.connectPopup);
+            setTimeout(() => {
+                if(this.connectPopup)
+                {
+                    LoggerInstance.info("Websocket: Displaying connect popup.");
+                    this.togglePopup(this.connectPopup);
+                    this.connectPopupDisplayed = true;
+                }
+            }, 2000);
         }
 
         ws.on("close", () => {

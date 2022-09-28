@@ -34,9 +34,16 @@ export declare interface IMachineSettings
     maskedProfiles?: string[];
     /** Masked manual modes */
     maskedManuals?: string[];
+    
     /** 
      * Disable IO controls access 
      * @defaultValue true
      */
     ioControlsMasked?: false;
+
+    /**
+     * Enable prototype mode
+     * @defaultValue false
+     */
+    isPrototype?: true;
 }

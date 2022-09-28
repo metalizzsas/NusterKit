@@ -1,32 +1,42 @@
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { ProgramBlock } from "./index";
 import { IStopProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IStopProgramBlock";
 import { StringParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
-
+import { LoggerInstance } from "../../app";
+import { CycleController } from "../../controllers/cycle/CycleController";
+import { PBRMissingError } from "../PBRMissingError";
 
 export class StopProgramBlock extends ProgramBlock implements IStopProgramBlock
 {
     name = "stop" as const;
     params: [StringParameterBlocks];
 
-    constructor(pbrInstance: ProgramBlockRunner, obj: IStopProgramBlock)
+    constructor(obj: IStopProgramBlock)
     {
-        super(pbrInstance, obj);
+        super(obj);
 
         this.params = [
-            ParameterBlockRegistry(pbrInstance, obj.params[0]) as StringParameterBlocks
+            ParameterBlockRegistry(obj.params[0]) as StringParameterBlocks
         ];
     }
 
-    public async execute(): Promise<void> {
-        if (process.env.NODE_ENV != "production") {
-            this.pbrInstance.machine.logger.info("StopBlock: Debug mode will not stop the machine.");
-            return;
-        }
+    public async execute(): Promise<void>
+    {
+        const pbrInstance = CycleController.getInstance().program;
 
-        this.pbrInstance.end(this.params[0].data());
-        this.executed = true;
+        if(pbrInstance !== undefined)
+        {
+            if (process.env.NODE_ENV != "production") {
+                LoggerInstance.info("StopBlock: Debug mode will not stop the machine.");
+                return;
+            }
+    
+            pbrInstance.end(this.params[0].data());
+            this.executed = true;
+        }
+        else
+            throw new PBRMissingError("StopPRogram");
+
     }
 }
 

@@ -1,22 +1,19 @@
 import ModbusTCP from "modbus-serial";
 import ping from "ping";
-import { Machine } from "../../../Machine";
+import { LoggerInstance } from "../../../app";
+import { CycleController } from "../../cycle/CycleController";
 import { IOPhysicalController } from "./IOPhysicalController";
 
 export class EM4 extends IOPhysicalController
 {
     public client: ModbusTCP;
-
-    private machine?: Machine;
-
     private connectTimer?: NodeJS.Timer;
 
-    constructor(ip: string, machine?: Machine)
+    constructor(ip: string)
     {
         super("em4", ip);
 
         this.client = new ModbusTCP();
-        this.machine = machine;
         this.connect(); 
     }
     async connect(): Promise<boolean>
@@ -30,13 +27,13 @@ export class EM4 extends IOPhysicalController
         
         if(available === true)
         {
-            await this.client.connectTCP(this.ip, {port: 502}).catch(error => this.machine?.logger.error("EM4: " + error));
+            await this.client.connectTCP(this.ip, {port: 502}).catch(error => LoggerInstance.error("EM4: " + error));
 
             this.connected = this.client.isOpen;
 
             if(this.connected)
             {
-                this.machine?.logger.info("EM4: Connected");
+                LoggerInstance.info("EM4: Connected");
 
                 //check if the TCP tunnel is alive
                 if(this.connectTimer)
@@ -46,7 +43,7 @@ export class EM4 extends IOPhysicalController
                     this.connected = this.client.isOpen;
                     if(this.connected === false)
                     {
-                        this.machine?.logger.info("EM4: Disconnected");
+                        LoggerInstance.info("EM4: Disconnected");
                         this.connect();
                     }
                         
@@ -62,7 +59,7 @@ export class EM4 extends IOPhysicalController
         else
         {
             this.unreachable = true;
-            this.machine?.logger.error(`EM4: Failed to ping, cancelling connection.`);
+            LoggerInstance.error(`EM4: Failed to ping, cancelling connection.`);
             return false;
         }
     }
@@ -71,7 +68,8 @@ export class EM4 extends IOPhysicalController
     {
         if(this.unreachable)
         {
-            this.machine?.cycleController.program?.end("controllerUnreachable");
+            CycleController.getInstance().program?.end("controllerUnreachable");
+
             return;
         }
         
@@ -96,7 +94,7 @@ export class EM4 extends IOPhysicalController
     {
         if(this.unreachable)
         {
-            this.machine?.cycleController.program?.end("controllerUnreachable");
+            CycleController.getInstance().program?.end("controllerUnreachable");
             return 0;
         }
 

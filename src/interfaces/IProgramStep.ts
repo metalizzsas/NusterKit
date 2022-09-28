@@ -52,13 +52,22 @@ export interface IProgramStepInformations
 /** Step state */
 export enum EProgramStepState
 {
-    WAITING = "waiting",
+    /** Created but not executed yet */
+    CREATED = "created",
+    /** Currently being executed */
     STARTED = "started",
+    /** Partialy ended, this steps will be executed again */
     PARTIAL = "partial",
-    STOPPED = "stopped",
-    COMPLETED = "completed",
+
+    /** Step is disabled */
     DISABLED = "disabled",
-    SKIPPED = "skipped"
+    /** Step was skipped */
+    SKIPPED = "skipped",
+
+    /** Step is being ended by force */
+    ENDING = "ending",
+    /** Step has ended */
+    ENDED = "ended",
 }
 
 /** Step Type Programaticaly given by the RunAmount parameter of a step */
@@ -71,7 +80,8 @@ export enum EProgramStepType
 /** Result from a step execution */
 export enum EProgramStepResult
 {
-    FAILED = "failed",
-    PARTIAL = "partial",
-    END = "end"
+    /** Step is partialy ended, it wil be re-executed another time */
+    PARTIAL_END = "partial",
+    /** Step has ended */
+    ENDED = "ended"
 }

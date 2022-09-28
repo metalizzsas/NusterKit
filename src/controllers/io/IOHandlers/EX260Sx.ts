@@ -1,17 +1,17 @@
 import process from "process";
 import { Buffer } from "buffer";
 import ping from "ping";
-import { Machine } from "../../../Machine";
 import { ENIP } from "ts-enip";
 import { MessageRouter } from "ts-enip/dist/enip/cip/messageRouter";
 import { Encapsulation } from "ts-enip/dist/enip/encapsulation";
 import { IOPhysicalController } from "./IOPhysicalController";
 import { IEX260Controller } from "../../../interfaces/IIOControllers";
+import { LoggerInstance } from "../../../app";
+import { CycleController } from "../../cycle/CycleController";
 
 export class EX260Sx extends IOPhysicalController implements IEX260Controller
 {
     private controller: ENIP.SocketController;
-    private machine?: Machine;
 
     type: "ex260sx";
     size: 16 | 32;
@@ -20,7 +20,7 @@ export class EX260Sx extends IOPhysicalController implements IEX260Controller
      * Builds an EX260Sx object
      * @param ip Ip address of the controller
      */
-    constructor(ip: string, size: 16 | 32, machine?: Machine)
+    constructor(ip: string, size: 16 | 32)
     {
         super("ex260sx", ip);
 
@@ -30,14 +30,12 @@ export class EX260Sx extends IOPhysicalController implements IEX260Controller
         this.controller = new ENIP.SocketController();
         this.connected = false;
 
-        this.machine = machine;
-        
         this.connect();
     }
 
     async connect(): Promise<boolean>
     {
-        if(this.unreachable || process.env.DISABLE_EX260 == 'true')
+        if(this.unreachable || process.env.NODE_ENV !== 'production')
             return false;
         
         const available = await new Promise((resolve) => {
@@ -53,11 +51,11 @@ export class EX260Sx extends IOPhysicalController implements IEX260Controller
             if(sessionID !== undefined)
             {
                 this.connected = true;
-                this.machine?.logger.info("EX260Sx: Connected");
+                LoggerInstance.info("EX260Sx: Connected");
 
                 //change state if disconnected
                 this.controller.events.once('close', async () => { 
-                    this.machine?.logger.info("EX260Sx: Disconnected");
+                    LoggerInstance.info("EX260Sx: Disconnected");
                     this.connected = false; 
                 });
 
@@ -66,15 +64,15 @@ export class EX260Sx extends IOPhysicalController implements IEX260Controller
             else
             {
                 this.connected = false;
-                this.machine?.logger.error("EX260Sx: Failed to connect");
-                this.machine?.cycleController.program?.end("controllerError");
+                LoggerInstance.error("EX260Sx: Failed to connect");
+                CycleController.getInstance().program?.end("controllerError");
                 return false;
             } 
         }
         else
         {
             this.unreachable = true;
-            this.machine?.logger.error(`EX260Sx: Failed to ping, cancelling connection.`);
+            LoggerInstance.error(`EX260Sx: Failed to ping, cancelling connection.`);
             return false;
         }
     }
@@ -88,7 +86,7 @@ export class EX260Sx extends IOPhysicalController implements IEX260Controller
     //Shall only be used for local applications
     async readData2(address: number): Promise<Buffer>
     {
-        if(this.unreachable || process.env.DISABLE_EX260 == 'true')
+        if(this.unreachable || process.env.NODE_ENV !== 'production')
             return Buffer.alloc(0);
 
         if(!this.connected || this.controller === undefined)
@@ -105,7 +103,7 @@ export class EX260Sx extends IOPhysicalController implements IEX260Controller
 
         if(!write)
         {
-            this.machine?.cycleController.program?.end("controllerError");
+            CycleController.getInstance().program?.end("controllerError");
             return Buffer.alloc(0);
         }
 
@@ -130,7 +128,7 @@ export class EX260Sx extends IOPhysicalController implements IEX260Controller
      */
     override async writeData(address: number, value: number): Promise<void>
     {
-        if(this.unreachable || process.env.DISABLE_EX260 == 'true')
+        if(this.unreachable || process.env.NODE_ENV !== 'production')
             return;
 
         if(!this.connected)
@@ -192,7 +190,7 @@ export class EX260Sx extends IOPhysicalController implements IEX260Controller
 
         if(write === false)
         {
-            this.machine?.cycleController.program?.end("controllerError");
+            CycleController.getInstance().program?.end("controllerError");
         }
     }
 }

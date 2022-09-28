@@ -1,19 +1,17 @@
 import { NumericParameterBlocks, ParameterBlock } from ".";
 import {  INumericParameterBlock } from "../../interfaces/IParameterBlock";
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { IMultiplyParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IMultiplyParameterBlock";
+import { ParameterBlockRegistry } from "./ParameterBlockRegistry";
 
 export class MultiplyParameterBlock extends ParameterBlock implements IMultiplyParameterBlock
 {
     name = "multiply" as const;
     params: NumericParameterBlocks[]
 
-    constructor(instance: ProgramBlockRunner, obj: IMultiplyParameterBlock)
+    constructor(obj: IMultiplyParameterBlock)
     {
-        super(instance);
-
-        this.params = [];
-        super.fillParameterBlocks(obj);
+        super(obj);
+        this.params = obj.params.map(p => ParameterBlockRegistry(p)) as NumericParameterBlocks[];
     }
 
     public data(): number

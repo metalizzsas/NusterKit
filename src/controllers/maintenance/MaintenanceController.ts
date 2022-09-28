@@ -1,29 +1,40 @@
-import { Maintenance } from "./Maintenance";
-import { Machine } from "../../Machine";
-
 import { Request, Response } from "express";
+
+import { Maintenance } from "./Maintenance";
 import { Controller } from "../Controller";
 import { IConfigMaintenance } from "../../interfaces/IMaintenance";
+import { AuthManager } from "../../auth/auth";
 
 export class MaintenanceController extends Controller
 {
     public tasks: Maintenance[] = []
-    private machine: Machine
 
-    constructor(machine: Machine)
+    private static _instance: MaintenanceController;
+
+    private constructor(maintenanceTasks: IConfigMaintenance[])
     {
         super()
-        this.machine = machine;
 
         this._configureRouter();
-        this._configure();
+        this._configure(maintenanceTasks);
     }
 
-    private async _configure()
+    static getInstance(maintenanceTasks?: IConfigMaintenance[])
     {
-        for(const maintenance of [...this.machine.specs.maintenance, {name: "cycleCount", durationType: 'cycle', durationLimit: Number.MAX_VALUE} as IConfigMaintenance])
+        if(!this._instance)
+            if(maintenanceTasks !== undefined)
+                this._instance = new MaintenanceController(maintenanceTasks);
+            else
+                throw new Error("MaintenanceController: Failed to instantiate, no data given.");
+
+        return this._instance;
+    }
+
+    private async _configure(maintenanceTasks: IConfigMaintenance[])
+    {
+        for(const task of [...maintenanceTasks, {name: "cycleCount", durationType: 'cycle', durationLimit: Number.MAX_VALUE} as IConfigMaintenance])
         {
-            this.tasks.push(new Maintenance(maintenance, this.machine.logger));
+            this.tasks.push(new Maintenance(task));
         }
     }
 
@@ -38,7 +49,7 @@ export class MaintenanceController extends Controller
             res.status(200).json(this.tasks);
         });
 
-        this.machine.authManager.registerEndpointPermission("maintenance.list", {endpoint: "/v1/maintenance/", method: "get"});
+        AuthManager.getInstance().registerEndpointPermission("maintenance.list", {endpoint: "/v1/maintenance/", method: "get"});
 
 
         this._router.get("/:name", async (req: Request, res: Response) => {
@@ -54,7 +65,7 @@ export class MaintenanceController extends Controller
             }
         });
 
-        this.machine.authManager.registerEndpointPermission("maintenance.list", {endpoint: new RegExp("/v1/maintenance/.*", "g"), method: "get"});
+        AuthManager.getInstance().registerEndpointPermission("maintenance.list", {endpoint: new RegExp("/v1/maintenance/.*", "g"), method: "get"});
 
         this._router.delete("/:name", async (req: Request, res: Response) => {
             for(const [index, maintenance] of this.tasks.entries())
@@ -70,7 +81,7 @@ export class MaintenanceController extends Controller
             res.status(404).end();
         });
 
-        this.machine.authManager.registerEndpointPermission("maintenance.reset", {endpoint: new RegExp("/v1/maintenance/.*", "g"), method: "delete"});
+        AuthManager.getInstance().registerEndpointPermission("maintenance.reset", {endpoint: new RegExp("/v1/maintenance/.*", "g"), method: "delete"});
     }
 
     public async socketData(): Promise<Maintenance[]>

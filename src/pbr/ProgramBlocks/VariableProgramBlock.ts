@@ -1,9 +1,9 @@
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { ProgramBlock } from "./index";
 import { IVariableProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IVariableProgramBlock";
 import { StringParameterBlocks, NumericParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
-
+import { PBRMissingError } from "../PBRMissingError";
+import { CycleController } from "../../controllers/cycle/CycleController";
 
 export class VariableProgramBlock extends ProgramBlock implements IVariableProgramBlock
 {
@@ -11,31 +11,36 @@ export class VariableProgramBlock extends ProgramBlock implements IVariableProgr
 
     params: [StringParameterBlocks, NumericParameterBlocks]
 
-    constructor(pbrInstance: ProgramBlockRunner, obj: IVariableProgramBlock) 
+    constructor(obj: IVariableProgramBlock) 
     {
-        super(pbrInstance, obj);
+        super(obj);
 
         this.params = [
-            ParameterBlockRegistry(pbrInstance, obj.params[0]) as StringParameterBlocks,
-            ParameterBlockRegistry(pbrInstance, obj.params[1]) as NumericParameterBlocks
+            ParameterBlockRegistry(obj.params[0]) as StringParameterBlocks,
+            ParameterBlockRegistry(obj.params[1]) as NumericParameterBlocks
         ];
     }
 
     public async execute(): Promise<void> {
-        const vN = this.params[0].data();
-        const vV = this.params[1].data();
 
-        const referenceIndex = this.pbrInstance.variables.findIndex((v) => v.name == vN);
+        const pbrInstance = CycleController.getInstance().program;
 
-        if (referenceIndex != -1) {
-            this.pbrInstance.variables[referenceIndex].value = vV;
+        if(pbrInstance !== undefined)
+        {
+            const variableName = this.params[0].data();
+            const variableValue = this.params[1].data();
+    
+            const referenceIndex = pbrInstance.variables.findIndex((v) => v.name == variableName);
+    
+            if (referenceIndex != -1)
+                pbrInstance.variables[referenceIndex].value = variableValue;
+            else
+                pbrInstance.variables.push({ name: variableName, value: variableValue });
+    
+            this.executed = true;
         }
-
-        else {
-            this.pbrInstance.variables.push({ name: vN, value: vV });
-        }
-
-        this.executed = true;
+        else
+            throw new PBRMissingError("VariableBlock");
     }
 }
 

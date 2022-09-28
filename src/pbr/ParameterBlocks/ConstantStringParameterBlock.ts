@@ -1,5 +1,4 @@
 import { ParameterBlock } from ".";
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { IConstantStringParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IConstantStringParameterBlock";
 
 export class ConstantStringParameterBlock extends ParameterBlock implements IConstantStringParameterBlock
@@ -7,9 +6,9 @@ export class ConstantStringParameterBlock extends ParameterBlock implements ICon
     name = "conststr" as const;
     value: string;
 
-    constructor(instance: ProgramBlockRunner, obj: IConstantStringParameterBlock)
+    constructor(obj: IConstantStringParameterBlock)
     {
-        super(instance);
+        super(obj);
         this.value = obj.value;
     }
 

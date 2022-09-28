@@ -1,9 +1,11 @@
 import { EPBRMode } from "../../interfaces/IProgramBlockRunner";
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { ProgramBlock, ProgramBlocks } from "./index";
 import { IStartTimerProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IStartTimerProgramBlock";
 import { StringParameterBlocks, NumericParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
+import { LoggerInstance } from "../../app";
+import { CycleController } from "../../controllers/cycle/CycleController";
+import { PBRMissingError } from "../PBRMissingError";
 
 
 export class StartTimerProgramBlock extends ProgramBlock implements IStartTimerProgramBlock
@@ -17,13 +19,13 @@ export class StartTimerProgramBlock extends ProgramBlock implements IStartTimerP
 
     blocks: ProgramBlocks[] = []
 
-    constructor(pbrInstance: ProgramBlockRunner, obj: IStartTimerProgramBlock)
+    constructor(obj: IStartTimerProgramBlock)
     {
-        super(pbrInstance, obj);
+        super(obj);
 
         this.params = [
-            ParameterBlockRegistry(pbrInstance, obj.params[0]) as StringParameterBlocks,
-            ParameterBlockRegistry(pbrInstance, obj.params[1]) as NumericParameterBlocks
+            ParameterBlockRegistry(obj.params[0]) as StringParameterBlocks,
+            ParameterBlockRegistry(obj.params[1]) as NumericParameterBlocks
         ];
 
         super.fillProgramBlocks(obj);
@@ -31,21 +33,28 @@ export class StartTimerProgramBlock extends ProgramBlock implements IStartTimerP
 
     public async execute(): Promise<void> {
 
-        if (this.pbrInstance.status.mode == EPBRMode.ENDED)
-            return;
+        const pbrInstance = CycleController.getInstance().program;
 
-        const tN = this.params[0].data();
-        const tI = this.params[1].data();
-
-        const timer = setInterval(async () => {
-            for (const b of this.blocks) {
-                await b.execute();
-            }
-        }, tI * 1000);
-        this.pbrInstance.machine.logger.info("StartTimerBlock: Will start timer with name: " + tN + " and interval: " + tI * 1000 + " ms.");
-        this.pbrInstance.timers.push({ name: tN, timer: timer, blocks: this.blocks, enabled: true });
-
-        this.executed = false;
+        if(pbrInstance !== undefined)
+        {
+            if (pbrInstance.status.mode == EPBRMode.ENDED)
+                return;
+    
+            const tN = this.params[0].data();
+            const tI = this.params[1].data();
+    
+            const timer = setInterval(async () => {
+                for (const b of this.blocks) {
+                    await b.execute();
+                }
+            }, tI * 1000);
+            LoggerInstance.info("StartTimerBlock: Will start timer with name: " + tN + " and interval: " + tI * 1000 + " ms.");
+            pbrInstance.timers.push({ name: tN, timer: timer, blocks: this.blocks, enabled: true });
+    
+            this.executed = true;
+        }
+        else
+            throw new PBRMissingError("StartTimeBlock");
     }
 }
 

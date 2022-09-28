@@ -1,4 +1,3 @@
-import pino from "pino";
 import fs from "fs";
 import path from "path";
 import WebSocket from "ws";
@@ -14,7 +13,6 @@ import { MaintenanceController } from "./controllers/maintenance/MaintenanceCont
 import { ManualModeController } from "./controllers/manual/ManualModeController";
 import { ProfileController } from "./controllers/profile/ProfilesController";
 import { SlotController } from "./controllers/slot/SlotController";
-import { AuthManager } from "./auth/auth";
 import { parseAddon } from "./addons/AddonLoader";
 
 import type { IMachine } from "./interfaces/IMachine";
@@ -22,64 +20,34 @@ import type { IAddon } from "./interfaces/IAddon";
 import type { IHypervisorData } from "./interfaces/balena/IHypervisorDevice";
 import type { IVPNData } from "./interfaces/balena/IVPNData";
 import type { IDeviceData } from "./interfaces/balena/IDeviceData";
-import { INusterPopup } from "./interfaces/nusterData/INusterPopup";
-import { IConfiguration, IMachineSettings } from "./interfaces/IConfiguration";
+import { IConfiguration } from "./interfaces/IConfiguration";
+import { LoggerInstance } from "./app";
 
 export class Machine
 {
-    name: string;
-    serial: string;
+    data: IConfiguration;
 
-    model: string;
-    variant: string;
-    revision: number;
+    specs: IMachine;
 
-    addons?: string[];
-
-    public settings?: IMachineSettings;
-    public machineAddons?: IAddon[];
-
-    public specs: IMachine;
-
-    maintenanceController: MaintenanceController;
-    ioController: IOController;
-    profileController: ProfileController;
-    slotController: SlotController;
-    manualmodeController: ManualModeController;
-    cycleController: CycleController;
-    passiveController: PassiveController;
-
+    private maintenanceController: MaintenanceController;
+    private ioController: IOController;
+    private profileController: ProfileController;
+    private slotController: SlotController;
+    private manualmodeController: ManualModeController;
+    private cycleController: CycleController;
+    private passiveController: PassiveController;
+    
     WebSocketServer?: WebSocket.Server = undefined;
 
-    logger: pino.Logger;
-
-    authManager: AuthManager;
-
     //Balena given data
-    hypervisorData?: IHypervisorData;
-    vpnData?: IVPNData;
-    deviceData?: IDeviceData;
+    private hypervisorData?: IHypervisorData;
+    private vpnData?: IVPNData;
+    private deviceData?: IDeviceData;
 
-    constructor(obj: IConfiguration, logger: pino.Logger)
+    constructor(obj: IConfiguration)
     {
-        // Machine base informations
-        this.name = obj.name;
-        this.serial = obj.serial;
-
-        // Machine model informations
-        this.model = obj.model;
-        this.variant = obj.variant;
-        this.revision = obj.revision;
-
-        // Addons informations
-        this.addons = obj.addons;
-        this.machineAddons = obj.machineAddons;
-
-        // Custom settings
-        this.settings = obj.settings;
-
-        this.logger = logger;
-        this.authManager = new AuthManager(this.logger);
+        //Store machine data informations
+        this.data = obj;
 
         // Retreive machine base specs to build all the controllers around this file
         const raw = fs.readFileSync(path.resolve(this.baseNTMFolder, "specs.json"), {encoding: "utf-8"});
@@ -89,10 +57,10 @@ export class Machine
         this.specs = (specsParsed as IMachine);
 
         // Addon Parsing
-        if(this.addons !== undefined)
+        if(this.data.addons !== undefined)
         {
-            this.logger.warn("Machine: " + this.addons.length + " Addon(s) detected. SHOULD NOT BE USED IN PRODUCTION!");
-            for(const add of this.addons)
+            LoggerInstance.warn("Machine: " + this.data.addons.length + " Addon(s) detected. SHOULD NOT BE USED IN PRODUCTION!");
+            for(const add of this.data.addons)
             {
                 const addonPath = path.resolve(this.baseNTMFolder, "addons", add + ".json");
 
@@ -101,34 +69,36 @@ export class Machine
                     const rawAddon = fs.readFileSync(addonPath, {encoding: 'utf-8'});
                     const addonParsed = JSON.parse(rawAddon) as IAddon;
     
-                    this.specs = parseAddon(this.specs, addonParsed, this.logger);
+                    this.specs = parseAddon(this.specs, addonParsed, LoggerInstance);
                 }
                 else
-                    this.logger.error(`Addon: ${addonPath} does not exists.`);
+                    LoggerInstance.error(`Addon: ${addonPath} does not exists.`);
             }
         }
 
         // Machine Specific addon parsing
-        if(this.machineAddons !== undefined)
+        if(this.data.machineAddons !== undefined)
         {
-            this.logger.info(`Machine: Configuration has ${this.machineAddons.length} machine specific addon(s). SHOULD BE USED AS LESS AS POSSIBLE!`);
-            for(const add of this.machineAddons)
-                this.specs = parseAddon(this.specs, add, this.logger);
+            LoggerInstance.info(`Machine: Configuration has ${this.data.machineAddons.length} machine specific addon(s). SHOULD BE USED AS LESS AS POSSIBLE!`);
+            for(const add of this.data.machineAddons)
+                this.specs = parseAddon(this.specs, add, LoggerInstance);
         }
 
         //if config file has settings let them is the settings var
-        if(this.settings !== undefined)
-            this.logger.info("Machine: Custom settings detected.");
+        if(this.data.settings !== undefined)
+            LoggerInstance.info("Machine: Custom settings detected.");
 
-        this.maintenanceController = new MaintenanceController(this);
-        this.ioController = new IOController(this);
-        this.profileController = new ProfileController(this);
-        this.slotController = new SlotController(this);
-        this.manualmodeController = new ManualModeController(this);
-        this.cycleController = new CycleController(this);
-        this.passiveController = new PassiveController(this);
+        LoggerInstance.info("Machine: Instantiating controllers");
 
-        this.logger.info("Machine: Finished building controllers");
+        this.ioController = IOController.getInstance(this.specs.iohandlers, this.specs.iogates);
+        this.profileController = ProfileController.getInstance(this.specs.profileSkeletons, this.specs.profilePremades, this.data.settings?.maskedProfiles);
+        this.maintenanceController = MaintenanceController.getInstance(this.specs.maintenance);
+        this.slotController = SlotController.getInstance(this.specs.slots);
+        this.manualmodeController = ManualModeController.getInstance(this.specs.manual, this.data.settings?.maskedManuals);
+        this.cycleController = CycleController.getInstance(this.specs.cycleTypes, this.specs.cyclePremades, this.data.settings?.maskedPremades);
+        this.passiveController = PassiveController.getInstance(this.specs.passives);
+
+        LoggerInstance.info("Machine: Finished Instantiating controllers");
 
         if(process.env.NODE_ENV === 'production')
         {
@@ -151,33 +121,9 @@ export class Machine
                 }
                 catch(ex)
                 {
-                    this.logger.warn("Hypervisor: Failed to get Hypervisor data.");
+                    LoggerInstance.warn("Hypervisor: Failed to get Hypervisor data.");
                 }
             }, 10000);
-        }
-    }
-
-    /**
-     * Display a popup to all connected Websocket clients
-     * @param popupData Popup data to be sent to clients
-     */
-    public displayPopup(popupData: INusterPopup)
-    {
-        if(this.WebSocketServer !== undefined)
-        {
-            this.logger.info(`Websocket: Displaying popup ${popupData.message}.`);
-
-            for(const client of this.WebSocketServer.clients)
-            {
-                client.send(JSON.stringify({
-                    type: "popup",
-                    message: popupData
-                }));
-            }
-        }
-        else
-        {
-            this.logger.warn("Websocket: Unable to send popup, Websocket server is not defined.");
         }
     }
 
@@ -207,20 +153,13 @@ export class Machine
 
     get baseNTMFolder()
     {
-        return path.resolve("nuster-turbine-machines", "data", this.model, this.variant, `${this.revision}`);
+        return path.resolve("nuster-turbine-machines", "data", this.data.model, this.data.variant, `${this.data.revision}`);
     }
 
     toJSON()
     {
         return {
-            name: this.name,
-            serial: this.serial,
-
-            model: this.model,
-            variant: this.variant,
-            revision: this.revision,
-
-            addons: this.addons,
+            ...this.data,
 
             /** 
              * BalenaOS Given data
@@ -230,9 +169,7 @@ export class Machine
             hypervisorData: this.hypervisorData,
             vpnData: this.vpnData,
             deviceData: this.deviceData,
-
             nusterVersion: pkg.version,
-            settings: this.settings
         };
     }
 }

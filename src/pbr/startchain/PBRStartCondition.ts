@@ -1,3 +1,4 @@
+import { LoggerInstance } from "../../app";
 import { EPBRMode } from "../../interfaces/IProgramBlockRunner";
 import { EPBRStartConditionResult, IPBRStartCondition } from "../../interfaces/programblocks/startchain/IPBRStartCondition";
 import { ProgramBlockRunner } from "../ProgramBlockRunner";
@@ -21,7 +22,7 @@ export class PBRStartCondition implements IPBRStartCondition
 
         this.conditionName = pbrsc.conditionName;
         this.startOnly = pbrsc.startOnly;
-        this.checkChain = new PBRSCCheckChain(pbrsc.checkChain, pbrInstance);
+        this.checkChain = new PBRSCCheckChain(pbrsc.checkChain);
 
         this.result = EPBRStartConditionResult.ERROR;
 
@@ -30,14 +31,14 @@ export class PBRStartCondition implements IPBRStartCondition
 
     public startTimer()
     {
-        this.#pbrInstance.machine.logger.trace("PBRSC: Started timer for " + this.conditionName);
+        LoggerInstance.trace("PBRSC: Started timer for " + this.conditionName);
         this.resultTimer = setInterval(() => { 
 
             //Checking CheckChain data
             const tempResult = this.checkChain.data();
 
             if(tempResult !== this.result && process.env.NODE_ENV == 'production')                
-                this.#pbrInstance.machine.logger.info("PBRSC: Start condition " + this.conditionName + " changed to " + tempResult);
+                LoggerInstance.info("PBRSC: Start condition " + this.conditionName + " changed to " + tempResult);
 
             if(process.env.NODE_ENV != 'production' && tempResult == EPBRStartConditionResult.ERROR)
             {
@@ -50,7 +51,7 @@ export class PBRStartCondition implements IPBRStartCondition
                 //if the condition is not good stop the cycle
                 if(this.result == EPBRStartConditionResult.ERROR && this.#pbrInstance.status.mode == EPBRMode.STARTED)
                 {
-                    this.#pbrInstance.machine.logger.warn("PBRSC: Security condition " + this.conditionName + " has forced the cycle to End.");
+                    LoggerInstance.warn("PBRSC: Security condition " + this.conditionName + " has forced the cycle to End.");
                     this.#pbrInstance.end("security-" + this.conditionName);
                 }
             }
@@ -63,7 +64,7 @@ export class PBRStartCondition implements IPBRStartCondition
         if(this.resultTimer)
         {
             clearInterval(this.resultTimer);
-            this.#pbrInstance.machine.logger.info("PBRSC: Stopped timer for " + this.conditionName);
+            LoggerInstance.info("PBRSC: Stopped timer for " + this.conditionName);
         }
     }
 

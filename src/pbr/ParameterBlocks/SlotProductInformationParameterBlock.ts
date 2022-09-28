@@ -1,6 +1,6 @@
 import { ParameterBlock } from ".";
+import { SlotController } from "../../controllers/slot/SlotController";
 import { IParameterBlock } from "../../interfaces/IParameterBlock";
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 
 //Slot status shall only be used for startConditions
 export class SlotProductStatusParameterBlock extends ParameterBlock implements ISlotProductStatusParameterBlock
@@ -8,16 +8,16 @@ export class SlotProductStatusParameterBlock extends ParameterBlock implements I
     name = "slotstatus" as const;
     value: string;
     
-    constructor(instance: ProgramBlockRunner, obj: ISlotProductStatusParameterBlock)
+    constructor(obj: ISlotProductStatusParameterBlock)
     {
-        super(instance);
+        super(obj);
 
         this.value = obj.value;
     }
 
     public data(): string
     {
-        const slot = this.pbrInstance.machine.slotController.slots.find(s => s.name == this.value);
+        const slot = SlotController.getInstance().slots.find(s => s.name == this.value);
 
         if(slot && slot.productData?.lifetimeRemaining !== undefined)
         {

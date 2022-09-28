@@ -1,3 +1,4 @@
+import { LoggerInstance } from "../../../app";
 import { IIOGate, IOGateTypeName } from "../../../interfaces/gates/IIOGate";
 import { IOController } from "../IOController";
 
@@ -43,7 +44,7 @@ export class IOGate implements IIOGate
         this.unity = obj.unity;
     }
 
-    public async read(ioController: IOController): Promise<boolean>
+    public async read(): Promise<boolean>
     {
         if(this.bus == 'out') return true;
 
@@ -51,18 +52,18 @@ export class IOGate implements IIOGate
 
         //ioController.machine.logger.trace("IOG-" + this.name + ": Reading from fieldbus.");
 
-        this.value = await ioController.handlers[this.controllerId].readData(this.address, word);
+        this.value = await IOController.getInstance().handlers[this.controllerId].readData(this.address, word);
         return true;
     }
 
-    public async write(ioController: IOController, data: number): Promise<boolean>
+    public async write(data: number): Promise<boolean>
     {
         if(this.bus == 'in') return true;
         const word = this.size == "word" ? true : undefined;
-        
-        ioController.machine.logger.trace("IOG-" + this.name + ": Writing (" + data + ") to fieldbus.");
 
-        await ioController.handlers[this.controllerId].writeData(this.address, data, word)
+        LoggerInstance.trace("IOG-" + this.name + ": Writing (" + data + ") to fieldbus.");
+
+        await IOController.getInstance().handlers[this.controllerId].writeData(this.address, data, word)
         this.value = data;
         return true;
     }

@@ -1,3 +1,4 @@
+import { LoggerInstance } from "../../../app";
 import { IMappedGate } from "../../../interfaces/gates/IMappedGate";
 import { map } from "../../../map";
 import { IOController } from "../IOController";
@@ -26,17 +27,17 @@ export class MappedGate extends IOGate
         this.mapOutMax = obj.mapOutMax;
     } 
 
-    public async read(ioController: IOController)
+    public async read()
     {
-        await super.read(ioController);
+        await super.read();
         
-        ioController.machine.logger.trace("MappedGate-" + this.name + ": Reading data from fieldbus.");
+        LoggerInstance.trace("MappedGate-" + this.name + ": Reading data from fieldbus.");
 
         this.value = map(this.value, this.mapInMin, this.mapInMax, this.mapOutMin, this.mapOutMax);
         return true;
     }
 
-    public async write(ioController: IOController, data: number)
+    public async write(data: number)
     {
         const word = this.size == "word" ? true : undefined;
 
@@ -45,9 +46,9 @@ export class MappedGate extends IOGate
         //resolve value to be written of the fieldbus
         const v = Math.floor(map(data, this.mapOutMin, this.mapOutMax, this.mapInMin, this.mapInMax));
 
-        ioController.machine.logger.trace("MappedGate-" + this.name + ": Writing (" + v + ") to fieldbus.");
+        LoggerInstance.trace("MappedGate-" + this.name + ": Writing (" + v + ") to fieldbus.");
         
-        await ioController.handlers[this.controllerId].writeData(this.address, v, word)
+        await IOController.getInstance().handlers[this.controllerId].writeData(this.address, v, word)
         return true;
     }
 }

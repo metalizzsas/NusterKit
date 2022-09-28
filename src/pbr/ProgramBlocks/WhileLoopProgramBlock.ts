@@ -1,8 +1,10 @@
+import { CycleController } from "../../controllers/cycle/CycleController";
 import { EPBRMode } from "../../interfaces/IProgramBlockRunner";
+import { EProgramStepState } from "../../interfaces/IProgramStep";
 import { IWhileLoopProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IWhileLoopProgramBlock";
 import { NumericParameterBlocks, StringParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
+import { PBRMissingError } from "../PBRMissingError";
 import { ProgramBlock, ProgramBlocks } from "./index";
 
 export class WhileLoopProgramBlock extends ProgramBlock implements IWhileLoopProgramBlock
@@ -19,30 +21,40 @@ export class WhileLoopProgramBlock extends ProgramBlock implements IWhileLoopPro
         "!=": (x: number, y: number) => x != y
     };
 
-    constructor(pbrInstance: ProgramBlockRunner, obj: IWhileLoopProgramBlock)
+    constructor(obj: IWhileLoopProgramBlock)
     {
-        super(pbrInstance, obj);
+        super(obj);
 
        this.params = [
-            ParameterBlockRegistry(pbrInstance, obj.params[0]) as NumericParameterBlocks,
-            ParameterBlockRegistry(pbrInstance, obj.params[1]) as StringParameterBlocks,
-            ParameterBlockRegistry(pbrInstance, obj.params[2]) as NumericParameterBlocks,
+            ParameterBlockRegistry(obj.params[0]) as NumericParameterBlocks,
+            ParameterBlockRegistry(obj.params[1]) as StringParameterBlocks,
+            ParameterBlockRegistry(obj.params[2]) as NumericParameterBlocks,
         ];
 
         super.fillProgramBlocks(obj);
     }
 
     public async execute(): Promise<void> {
-        while (this.operators[this.params[1].data() as string](this.params[0].data() as number, this.params[2].data() as number)) {
-            if (this.pbrInstance.status.mode == EPBRMode.ENDED) {
-                this.executed = true;
-                return;
-            }
 
-            for (const b of this.blocks) {
-                await b.execute();
+        const pbrInstance = CycleController.getInstance().program;
+
+        if(pbrInstance !== undefined) 
+        {
+            while (this.operators[this.params[1].data() as string](this.params[0].data() as number, this.params[2].data() as number))
+            {
+                if ([EProgramStepState.ENDING, EProgramStepState.ENDED].includes(pbrInstance.currentRunningStep?.state) || [EPBRMode.ENDED, EPBRMode.ENDING].includes(pbrInstance.status.mode))
+                { 
+                    this.executed = true;
+                    return;
+                }
+                for (const b of this.blocks)
+                {
+                    await b.execute();
+                }
             }
         }
+        else
+            throw new PBRMissingError("WhileLoop");
     }
 }
 

@@ -1,9 +1,12 @@
 import { EPBRMode } from "../../interfaces/IProgramBlockRunner";
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { ProgramBlock } from "./index";
 import { ISleepProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/ISleepProgramBlock";
 import { NumericParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
+import { LoggerInstance } from "../../app";
+import { CycleController } from "../../controllers/cycle/CycleController";
+import { PBRMissingError } from "../PBRMissingError";
+import { EProgramStepState } from "../../interfaces/IProgramStep";
 
 
 export class SleepProgramBlock extends ProgramBlock implements ISleepProgramBlock
@@ -11,29 +14,34 @@ export class SleepProgramBlock extends ProgramBlock implements ISleepProgramBloc
     name = "sleep" as const;
     params: [NumericParameterBlocks];
 
-    constructor(pbrInstance: ProgramBlockRunner, obj: ISleepProgramBlock) {
-        super(pbrInstance, obj);
+    constructor(obj: ISleepProgramBlock) {
+        super(obj);
 
         this.params = [
-            ParameterBlockRegistry(pbrInstance, obj.params[0]) as NumericParameterBlocks
+            ParameterBlockRegistry(obj.params[0]) as NumericParameterBlocks
         ];
     }
 
     public async execute(): Promise<void>
     {
-        const sT = this.params[0].data();
-        this.pbrInstance.machine.logger.info(`SleepBlock: Will sleep for ${sT * 1000} ms.`);
+        const pbrInstance = CycleController.getInstance().program;
 
-        for (let i = 0; i < ((sT * 1000) / 10); i++) {
-            if (this.pbrInstance.status.mode != EPBRMode.ENDED)
-                await new Promise(resolve => {
-                    setTimeout(resolve, 10);
-                });
-
-            else
-                return;
+        if(pbrInstance !== undefined)
+        {
+            const sleepTime = this.params[0].data();
+            LoggerInstance.info(`SleepBlock: Will sleep for ${sleepTime * 1000} ms.`);
+    
+            for (let i = 0; i < ((sleepTime * 1000) / 10); i++)
+            {
+                if ([EProgramStepState.ENDING, EProgramStepState.ENDED].includes(pbrInstance.currentRunningStep?.state) || [EPBRMode.ENDED, EPBRMode.ENDING].includes(pbrInstance.status.mode))
+                    return;
+                else
+                    await new Promise(resolve => { setTimeout(resolve, 10); });
+            }
+            this.executed = true;
         }
-        this.executed = true;
+        else
+            throw new PBRMissingError("SleepBlock");
     }
 }
 

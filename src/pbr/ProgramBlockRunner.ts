@@ -1,9 +1,10 @@
-import { EventEmitter } from "stream";
+import { LoggerInstance } from "../app";
+import { IOController } from "../controllers/io/IOController";
 import { IOGate } from "../controllers/io/IOGates/IOGate";
+import { MaintenanceController } from "../controllers/maintenance/MaintenanceController";
 import { IProfileMap } from "../controllers/profile/ProfilesController";
 import { IPBRStatus, IProgramVariable, IProgramTimer, EPBRMode, IProgramRunner } from "../interfaces/IProgramBlockRunner";
-import { EProgramStepResult, EProgramStepType } from "../interfaces/IProgramStep";
-import { Machine } from "../Machine";
+import { EProgramStepResult, EProgramStepState, EProgramStepType } from "../interfaces/IProgramStep";
 import { ProgramBlockStep } from "./ProgramBlockStep";
 import { PBRStartCondition } from "./startchain/PBRStartCondition";
 
@@ -16,7 +17,6 @@ export class ProgramBlockRunner implements IProgramRunner
 {
     status: IPBRStatus;
 
-    //identifiers vars
     name: string;
 
     profileRequired: boolean;
@@ -24,23 +24,16 @@ export class ProgramBlockRunner implements IProgramRunner
     variables: IProgramVariable[] = [];
     timers: IProgramTimer[] = [];
     
-    /**
-     * **PBR** Steps
-     */
+    /** **PBR** Steps */
     steps: ProgramBlockStep[] = [];
 
-    /**
-     * Start conditions of the **PBR**
-     */
+    /** Start conditions of the **PBR** */
     startConditions: PBRStartCondition[] = [];
 
-    /**
-     * Index of the current step being runt
-     */
+    /** Index of the current step being runt */
     currentStepIndex = 0;
 
-    //statics
-    machine: Machine;
+    /** Profile assignated to this **PBR** */
     profile?: IProfileMap;
 
     /**
@@ -53,20 +46,11 @@ export class ProgramBlockRunner implements IProgramRunner
      */
     ioExplorer: (name: string) => IOGate | undefined;
 
-    /**
-     * Event Emitter that is used to send envents from sub functions of the **PBR**
-     */
-    event: EventEmitter;
-
-    nextStepButtonEnabled = false;
-
-    constructor(machine: Machine, object: IProgramRunner, profile?: IProfileMap)
+    constructor(object: IProgramRunner, profile?: IProfileMap)
     {
         this.status = { mode: EPBRMode.CREATED };
 
-        this.machine = machine;
-
-        this.machine.logger.info("PBR: Building PBR...");
+        LoggerInstance.info("PBR: Building PBR...");
 
         this.profileRequired = object.profileRequired;
 
@@ -83,7 +67,7 @@ export class ProgramBlockRunner implements IProgramRunner
         this.profile = profile;
 
         if(this.profile === undefined)
-            this.machine.logger.warn("PBR: This PBR is build without any profile.");
+            LoggerInstance.warn("PBR: This PBR is build without any profile.");
         else
             this.profileExplorer = (name: string) => this.profile?.values.get(name.replace(".", "#")) ?? 0;
 
@@ -91,7 +75,7 @@ export class ProgramBlockRunner implements IProgramRunner
         this.name = object.name;
 
         //Explorers setup
-        this.ioExplorer = (name: string) => this.machine.ioController.gates.find((g) => g.name == name);
+        this.ioExplorer = (name: string) => IOController.getInstance().gates.find((g) => g.name == name);
 
         //steps and watchdog
         for(const sc of object.startConditions)
@@ -100,11 +84,7 @@ export class ProgramBlockRunner implements IProgramRunner
         for(const step of object.steps)
             this.steps.push(new ProgramBlockStep(this, step));
 
-        this.event = new EventEmitter();
-
-        this.event.on("end", (ev) => this.end(ev[0] || "event"));
-
-        this.machine.logger.info("PBR: Finished building PBR.");
+        LoggerInstance.info("PBR: Finished building PBR.");
     }
 
     /**
@@ -114,30 +94,30 @@ export class ProgramBlockRunner implements IProgramRunner
      */
     public async run(): Promise<boolean>
     {
-        this.machine.logger.info("PBRSC: Checking Start conditions.");
+        LoggerInstance.info("PBRSC: Checking Start conditions.");
 
-        const sc = this.startConditions.filter((sc) => sc.canStart == false);
+        const invalidStartConditionsCount = this.startConditions.filter((sc) => sc.canStart == false).length;
 
-        if(sc.length > 0 && process.env.NODE_ENV == "production")
+        if(invalidStartConditionsCount > 0 && process.env.NODE_ENV == "production")
         {
-            this.machine.logger.error("PBRSC: Start conditions are not valid.");
+            LoggerInstance.error("PBRSC: Start conditions are not valid.");
             return false;
         }
 
-        this.machine.logger.info("PBRSC: Start conditions are valid.");
-        this.machine.logger.info("PBRSC: Removing Start conditions that are only used at start.");
+        LoggerInstance.info("PBRSC: Start conditions are valid.");
+        LoggerInstance.info("PBRSC: Removing start conditions only used at start.");
 
-        for(const sc of this.startConditions)
+        for(const startCondition of this.startConditions)
         {
-            const index = this.startConditions.indexOf(sc);
-            if(sc.startOnly && index != -1)
+            const index = this.startConditions.indexOf(startCondition);
+            if(startCondition.startOnly && index != -1)
             {
                 this.startConditions.splice(index, 1);
-                this.machine.logger.trace("PBRSC: Removed " + sc.conditionName);
+                LoggerInstance.trace(` ↳ Removed ${startCondition.conditionName}`);
             }
         }
 
-        this.machine.logger.info(`PBR: Started cycle ${this.name}.`);
+        LoggerInstance.info(`PBR: Started cycle ${this.name}.`);
 
         this.status.mode = EPBRMode.STARTED;
         this.status.startDate = Date.now();
@@ -149,23 +129,19 @@ export class ProgramBlockRunner implements IProgramRunner
             // TypeScriptCompiler is not able to understand that status.mode can be changed externally
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore: disabled overlap checking
-            if(this.status.mode != EPBRMode.ENDED)
+            if(this.status.mode != EPBRMode.ENDED || EPBRMode.ENDING)
                 result = await this.steps[this.currentStepIndex].execute();
             else
                 break;
 
             switch(result)
             {
-                case EProgramStepResult.FAILED:
-                {
-                    return false;
-                }
-                case EProgramStepResult.PARTIAL:
+                case EProgramStepResult.PARTIAL_END:
                 {
                     //reset times at the end of a partial step
                     this.steps[this.currentStepIndex].resetTimes();
 
-                    this.machine.logger.info("PBR: Partial step ended, fetching first multiple step.");
+                    LoggerInstance.info("PBR: Partial step ended, fetching first multiple step.");
 
                     //if next step does not exists or next step is not a multiple step,
                     //return to first multiple step
@@ -175,19 +151,19 @@ export class ProgramBlockRunner implements IProgramRunner
 
                         if(j != -1)
                         {
-                            this.machine.logger.info("PBR: Next partial step: " + this.steps[j].name);
+                            LoggerInstance.info("PBR: Next partial step: " + this.steps[j].name);
                             this.currentStepIndex = j;
                         }
                         else
                         {
-                            this.machine.logger.error("PBR: No first multiple step found.");
+                            LoggerInstance.error("PBR: No first multiple step found.");
                             this.end("partial-definition-error");
                         }
                         continue;
                     }
                     else
                     {
-                        this.machine.logger.info("PBR: Next partial step not found, going next step.");
+                        LoggerInstance.info("PBR: Next partial step not found, going next step.");
                     }
                 }
             }
@@ -199,34 +175,50 @@ export class ProgramBlockRunner implements IProgramRunner
                 this.currentStepIndex++;
         }
 
-        this.end();
+        //this.end();
+        this.dispose();
         return true;
     }
 
     /**
      * Next step could end the current step to go along the rest of the cycle.
      * @alpha
+     * @testing
      */
     public nextStep()
     {
-        //this.steps[this.currentStepIndex].end();
+        LoggerInstance.warn("PBR: Next step triggered");
+        if(this.currentRunningStep)
+            this.currentRunningStep.state = EProgramStepState.ENDING;
     }
 
     /**
      * Ends the cycle
      * @param reason Optional end reason name
      */
-    public end(reason?: string)
+    public end(reason: string)
     {
-        if(this.status.mode == EPBRMode.ENDED)
+        if([EPBRMode.ENDED, EPBRMode.ENDING].includes(this.status.mode))
             return;
 
-        if(reason !== undefined)
-            this.machine.logger.warn("PBR: Triggered cycle end with reason: " + reason);
+        this.status.mode = EPBRMode.ENDING;
+        this.status.endReason = reason;
 
+        this.steps.forEach(s => s.state = EProgramStepState.ENDING);
+
+        if(reason !== undefined)
+            LoggerInstance.warn("PBR: Triggered cycle end with reason: " + reason);
+    }
+
+    public async dispose()
+    {
+        if(this.status.endReason === undefined)
+            this.status.endReason = "finished";
+        
+        LoggerInstance.info("PBR: Disposing cycle.");
         if(this.currentStepIndex < this.steps.length)
         {
-            this.machine.logger.error(`PBR: Program ended before all steps were executed.`);
+            LoggerInstance.error(`PBR: Program ended before all steps were executed.`);
 
             //Removing 1 to runCount because the step was stopped before its end
             const s = this.steps.at(this.currentStepIndex)
@@ -234,7 +226,7 @@ export class ProgramBlockRunner implements IProgramRunner
             {
                 if(s.type == EProgramStepType.MULTIPLE && s.runCount !== undefined)
                 {
-                    this.machine.logger.error(`PBR: Last executed step was a multiple step. Removing 1 multiple step iteration.`);
+                    LoggerInstance.error(`PBR: Last executed step was a multiple step. Removing 1 multiple step iteration.`);
                     s.runCount--;
                 }
             }
@@ -243,7 +235,7 @@ export class ProgramBlockRunner implements IProgramRunner
         //Removing Start conditions timers
         if(this.startConditions.length > 0)
         {
-            this.machine.logger.info("PBR: Removing Start Conditions checks.");
+            LoggerInstance.info("PBR: Removing Start Conditions checks.");
             for(const sc of this.startConditions)
                 sc.stopTimer();
         }
@@ -251,34 +243,29 @@ export class ProgramBlockRunner implements IProgramRunner
         //Clearing timer blocks
         if(this.timers.length > 0)
         {
-            this.machine.logger.info("PBR: Cleaning timers.");
+            LoggerInstance.info("PBR: Cleaning timers.");
             for(const timer of this.timers)
             {
-                this.machine.logger.info("PBR: Clearing timer: " + timer.name);
+                LoggerInstance.info("PBR: Clearing timer: " + timer.name);
                 if(timer.timer !== undefined)
                     clearInterval(timer.timer);
             }
         }
         
         //Append 1 to cycle count
-        const m = this.machine.maintenanceController.tasks.find((m) => m.name == "cycleCount");
+        const m = MaintenanceController.getInstance().tasks.find((m) => m.name == "cycleCount");
         m?.append(1);
 
-        this.status.endReason = reason || "finished";
         this.status.mode = EPBRMode.ENDED;
         this.status.endDate = Date.now();
 
-        this.machine.logger.info(`PBR: Ended cycle ${this.name} with state: ${this.status.mode} & reason: ${this.status.endReason}.`);
+        LoggerInstance.info("PBR: Resetting all io gates to default values.");
+        for(const g of IOController.getInstance().gates.filter(g => g.bus == "out"))
+        {
+            await g.write(g.default);
+        }
 
-        //TODO: Make this in the end flow without a timer
-        setTimeout(async () => {
-
-            this.machine.logger.info("PBR: Resetting all io gates to default values.");
-            for(const g of this.machine.ioController.gates.filter(g => g.bus == "out"))
-            {
-                await g.write(this.machine.ioController, g.default);
-            }
-        }, 300);
+        LoggerInstance.info(`PBR: Ended cycle ${this.name} with state: ${this.status.mode} & reason: ${this.status.endReason}.`);
     }
 
     /**
@@ -306,6 +293,16 @@ export class ProgramBlockRunner implements IProgramRunner
             estimation += step.duration.data()
         }
         return estimation;
+    }
+
+    /**
+     * Return current running step reference
+     */
+    public get currentRunningStep(): ProgramBlockStep
+    {
+        
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        return this.steps.at(this.currentStepIndex)!;
     }
 
     toJSON()

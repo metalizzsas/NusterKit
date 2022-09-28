@@ -1,27 +1,27 @@
-
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { ProgramBlock } from "./index";
 import { ISlotLoadProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/ISlotLoadProgramBlock";
 import { StringParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
+import { SlotController } from "../../controllers/slot/SlotController";
+import { LoggerInstance } from "../../app";
 
 export class SlotLoadProgramBlock extends ProgramBlock implements ISlotLoadProgramBlock {
     
     name = "slotLoad" as const;
     params: [StringParameterBlocks];
 
-    constructor(pbrInstance: ProgramBlockRunner, obj: ISlotLoadProgramBlock) 
+    constructor(obj: ISlotLoadProgramBlock) 
     {
-        super(pbrInstance, obj);
+        super(obj);
 
-        this.params = [ParameterBlockRegistry(pbrInstance, obj.params[0]) as StringParameterBlocks];
+        this.params = [ParameterBlockRegistry(obj.params[0]) as StringParameterBlocks];
     }
 
     public async execute(): Promise<void> {
-        const sN = this.params[0].data() as string;
-        this.pbrInstance.machine.logger.info("SlotLoadBlock: Will load slot with name: " + sN);
+        const slotName = this.params[0].data() as string;
+        LoggerInstance.info("SlotLoadBlock: Will load slot with name: " + slotName);
 
-        this.pbrInstance.machine.slotController.slots.find(s => s.name == sN)?.loadSlot();
+        SlotController.getInstance().slots.find(s => s.name == slotName)?.loadSlot();
 
         this.executed = true;
     }

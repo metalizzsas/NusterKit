@@ -1,30 +1,36 @@
-import { Machine } from "../../Machine";
+import { Request, Response } from "express";
+
 import { Slot } from "./Slot";
 import { Controller } from "../Controller";
-
-import { Request, Response } from "express";
+import { IConfigSlot } from "../../interfaces/ISlot";
 
 export class SlotController extends Controller
 {
-    private machine: Machine;
     slots: Slot[] = [];
 
-    constructor(machine: Machine)
+    private static _instance: SlotController;
+
+    constructor(slots: IConfigSlot[])
     {
         super();
 
-        this.machine = machine;
-
         this._configureRouter();
-        this._configure();
+
+        for(const slot of slots)
+        {
+            this.slots.push(new Slot(slot));
+        }
     }
 
-    private _configure()
+    static getInstance(slots?: IConfigSlot[])
     {
-        for(const slot of this.machine.specs.slots)
-        {
-            this.slots.push(new Slot(slot, this.machine.ioController));
-        }
+        if(!this._instance)
+            if(slots !== undefined)
+                this._instance = new SlotController(slots);
+            else
+                throw new Error("SlotsController: Failed to instantiate, missing data");
+        
+        return this._instance;
     }
 
     private _configureRouter()
@@ -37,7 +43,7 @@ export class SlotController extends Controller
         });
 
         this.router.post("/:slot/load", async (req: Request, res: Response) => {
-            const slot = this.machine.slotController.slots.find(s => s.name == req.params.slot);
+            const slot = this.slots.find(s => s.name == req.params.slot);
 
             if(slot)
             {

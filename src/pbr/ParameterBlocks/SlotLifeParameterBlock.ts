@@ -1,22 +1,22 @@
 import { ParameterBlock } from ".";
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { ISlotLifetimeParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/ISlotLifetimeParameterBlock";
+import { SlotController } from "../../controllers/slot/SlotController";
 
 export class SlotLifetimeParameterBlock extends ParameterBlock implements ISlotLifetimeParameterBlock
 {
     name = "slotlife" as const;
     value: string;
 
-    constructor(instance: ProgramBlockRunner, obj: ISlotLifetimeParameterBlock)
+    constructor(obj: ISlotLifetimeParameterBlock)
     {
-        super(instance);
+        super(obj);
 
         this.value = obj.value;
     }
 
     public data(): number
     {
-        return this.pbrInstance.machine.slotController.slots.find(s => s.name == this.value)?.productData?.lifetimeProgress ?? 0;
+        return SlotController.getInstance().slots.find(s => s.name == this.value)?.productData?.lifetimeProgress ?? 0;
     }
 }
 

@@ -1,18 +1,16 @@
 import { NumericParameterBlocks, ParameterBlock } from ".";
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { IAdditionParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IAdditionParameterBlock";
+import { ParameterBlockRegistry } from "./ParameterBlockRegistry";
 
 export class AdditionParameterBlock extends ParameterBlock implements IAdditionParameterBlock
 {
     name = "add" as const;
     params: NumericParameterBlocks[];
 
-    constructor(instance: ProgramBlockRunner, obj: IAdditionParameterBlock)
+    constructor(obj: IAdditionParameterBlock)
     {
-        super(instance);
-
-        this.params = [];
-        super.fillParameterBlocks(obj);
+        super(obj);
+        this.params = obj.params.map(p => ParameterBlockRegistry(p)) as NumericParameterBlocks[];
     }
 
     public data(): number

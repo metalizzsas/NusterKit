@@ -1,5 +1,7 @@
+import { LoggerInstance } from "../../app";
 import { IManualWatchdogCondition } from "../../interfaces/IManualMode";
-import { Machine } from "../../Machine";
+import { WebsocketDispatcher } from "../../websocket/WebsocketDispatcher";
+import { IOController } from "../io/IOController";
 import { ManualMode } from "./ManualMode";
 
 export class ManualWatchdogCondition implements IManualWatchdogCondition
@@ -10,15 +12,13 @@ export class ManualWatchdogCondition implements IManualWatchdogCondition
 
     timer?: NodeJS.Timer;
 
-    private machine: Machine;
     private manual: ManualMode;
     
-    constructor(manual: ManualMode, obj: IManualWatchdogCondition, machine: Machine)
+    constructor(manual: ManualMode, obj: IManualWatchdogCondition)
     {
         this.gateName = obj.gateName;
         this.gateValue = obj.gateValue;
 
-        this.machine = machine;
         this.manual = manual;
         
         this.result = false;
@@ -28,19 +28,19 @@ export class ManualWatchdogCondition implements IManualWatchdogCondition
     {
         this.timer = setInterval(() => {
 
-            this.result = ((this.machine.ioController.gFinder(this.gateName)?.value || 0) === this.gateValue);
+            this.result = ((IOController.getInstance().gFinder(this.gateName)?.value || 0) === this.gateValue);
             if(this.result == false)
             {
                 if(this.manual.state > 0 && process.env.NODE_ENV == "production")
                 {
-                    this.machine.logger.warn("Manual watchdog condition failed, toggling manual mode off.");
+                    LoggerInstance.warn("Manual watchdog condition failed, toggling manual mode off.");
 
-                    this.machine.displayPopup({
+                    WebsocketDispatcher.getInstance().togglePopup({
                         identifier: "manual-mode-watchdog-error",
                         title: "popups.manualMode.security.title",
                         message: "popups.manualMode.security.message"
                     });
-
+                    
                     this.manual.toggle(0);
                     this.stopTimer();
                 }

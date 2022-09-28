@@ -1,5 +1,6 @@
-import pino from "pino";
-import { IConfigMaintenance, IMaintenanceProcedure } from "../../interfaces/IMaintenance";
+import { Document, Types } from "mongoose";
+import { LoggerInstance } from "../../app";
+import { IConfigMaintenance, IMaintenance, IMaintenanceProcedure } from "../../interfaces/IMaintenance";
 import { MaintenanceModel } from "./MaintenanceModel";
 
 export class Maintenance implements IConfigMaintenance
@@ -15,27 +16,23 @@ export class Maintenance implements IConfigMaintenance
 
     procedure?: IMaintenanceProcedure;
 
-    logger: pino.Logger;
-
-    constructor(obj: IConfigMaintenance, logger: pino.Logger)
+    constructor(obj: IConfigMaintenance)
     {
         this.name = obj.name
 
         this.durationType = obj.durationType;
-        this.durationLimit = obj.durationLimit
+        this.durationLimit = obj.durationLimit;
         this.duration = 0;
         this.durationProgress = 0;
 
         this.procedure = obj.procedure;
 
-        this.logger = logger;
-
         this.refresh();
     }
 
-    async refresh()
+    async refresh(document?: Document<unknown, unknown, IMaintenance> & IMaintenance & { _id: Types.ObjectId })
     {
-        const doc = await MaintenanceModel.findOne({ name: this.name });
+        const doc = (document !== undefined) ? document: await MaintenanceModel.findOne({ name: this.name });
 
         if(doc != undefined)
         {
@@ -45,20 +42,19 @@ export class Maintenance implements IConfigMaintenance
         }
         else
         {
-            this.logger.warn(`Maintenance: Document tracker for maintenance ${this.name} does not exists.`);
+            LoggerInstance.warn(`Maintenance: Document tracker for maintenance ${this.name} does not exists.`);
             await MaintenanceModel.create({ name: this.name, duration: 0 })
         }
     }
 
     async append(value: number)
     {
-        const doc = await MaintenanceModel.findOne({name: this.name});
+        const document = await MaintenanceModel.findOneAndUpdate({name: this.name}, {$inc: {duration: value}});
 
-        if(doc)
-        {
-            await MaintenanceModel.findOneAndUpdate({name: this.name}, {$inc: {"duration": value}});
-            await this.refresh();
-        }
+        if(document)
+            await this.refresh(document);
+        else
+            LoggerInstance.warn("Maintenance: Failed to append data to " + this.name + " tracker.");
     }
 
     async reset()
@@ -66,7 +62,7 @@ export class Maintenance implements IConfigMaintenance
         MaintenanceModel.findOneAndUpdate({ name: this.name }, { duration: 0, operationDate: Date.now() }, (err: Error) => {
             if(err != undefined)
             {
-                this.logger.error(`Maintenance: Failed to update ${this.name} document.`);
+                LoggerInstance.error(`Maintenance: Failed to update ${this.name} document.`);
             }
             else
             {

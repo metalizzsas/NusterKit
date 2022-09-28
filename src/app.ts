@@ -6,349 +6,246 @@ import fs from "fs";
 import lockFile from "lockfile";
 
 import express,  { Request, Response } from "express";
-import serveIndex from "serve-index";
-import { WebSocket, WebSocketServer } from "ws";
 import { Server } from "http";
 import { pinoHttp } from "pino-http";
 import { pino } from "pino";
 import { Machine } from "./Machine";
 import { IConfiguration } from "./interfaces/IConfiguration";
+import { AuthManager } from "./auth/auth";
+import { IOController } from "./controllers/io/IOController";
+import { ProfileController } from "./controllers/profile/ProfilesController";
+import { MaintenanceController } from "./controllers/maintenance/MaintenanceController";
+import { SlotController } from "./controllers/slot/SlotController";
+import { ManualModeController } from "./controllers/manual/ManualModeController";
+import { CycleController } from "./controllers/cycle/CycleController";
+import { PassiveController } from "./controllers/passives/PassiveController";
+import { WebsocketDispatcher } from "./websocket/WebsocketDispatcher";
 
-/** Base Class for Nuster Turbine */
-class NusterTurbine
+/** Express app */
+const ExpressApp = express();
+/** Base http Server used by WebSocketServer */
+let httpServer: Server;
+
+/** Machine instance holding all the controllers */
+let machine: Machine;
+
+/** Http express & ws port */
+const HTTP_PORT = 4080;
+
+/** Is NusterTurbine running in production mode */
+const productionEnabled = (process.env.NODE_ENV === "production");
+
+/** Info.json file path */
+const infoPath = productionEnabled ? "/data/info.json" : path.resolve("data", "info.json");
+
+/** Pino logger instance */
+export const LoggerInstance = pino({
+    level: productionEnabled == true ? "info" : "trace",
+    stream: process.stdout
+});
+
+LoggerInstance.info("Starting NusterTurbine");
+
+if(fs.existsSync(infoPath))
 {
-    /** Express app */
-    public app = express();
-    /** Base http Server used by WebSocketServer */
-    public httpServer?: Server;
-    /** WebSocket Server */
-    public wsServer?: WebSocketServer;
+    const rawConfiguration = fs.readFileSync(infoPath, {encoding: "utf-8"});
+    const parsedConfiguration = JSON.parse(rawConfiguration) as IConfiguration;
 
-    /** Pino logger instance */
-    public logger: pino.Logger;
-    /** Machine instance holding all the controllers */
-    public machine?: Machine;
+    SetupExpress();
+    SetupWebsocketServer();
+    SetupMongoDB();
 
-    /** Http express & ws port */
-    private HTTP_PORT = 4080;
+    machine = new Machine(parsedConfiguration);
 
-    /** Is NusterTurbine running in production mode */
-    private productionEnabled = process.env.NODE_ENV == "production";
+    SetupMachine(); //Expose machine routers to Express
+}
+else
+{
+    LoggerInstance.warn("Machine: Info file not found");
+    SetupExpressConfiguration();
+}
 
-    /** Displayed routine popups, Prevent popups aggressive spawning */
-    private displayedPopups: string[] = [];
+/** Update locking the Balena Supervisor */
+lockFile.lock("/tmp/balena/updates.lock", (err) => {
+    (err) ? LoggerInstance.error("Lock: Updates locking failed.", err) : LoggerInstance.info("Lock: Updates are now locked.");                
+});
 
-    /** Logs files base path */
-    private logsPath;
+/**
+ * Setup Express configuration server
+ */
+function SetupExpressConfiguration()
+{
+    httpServer = ExpressApp.listen(HTTP_PORT, () => {
+        LoggerInstance.info("Express: Configuration HTTP server running on port " + HTTP_PORT);
 
-    constructor()
-    {
-        this.logsPath = this.productionEnabled ? '/data/logs' : path.resolve("data", "logs");
+        ExpressApp.use(express.json());
 
-        //Check if base folder for logs exists if not create it
-        if(!fs.existsSync(this.logsPath))
-            fs.mkdirSync(this.logsPath, { recursive: true });
-
-        /** Streams used by Pino Logger */
-        const streams = [
-            { stream: process.stdout },
-            { stream: pino.destination(this.productionEnabled ? `${this.logsPath}/logs-${Date.now()}.json` : path.resolve(this.logsPath, `logs-${Date.now()}.json`)) },
-        ];
-
-        this.logger = pino({
-            level: this.productionEnabled == true ? "info" : "trace"
-        }, pino.multistream(streams));
-
-        this.logger.info("Starting NusterTurbine");
-
-        const actualDate = Date.now();
-        const logFiles = fs.readdirSync(this.logsPath);
-
-        for(const logFile of logFiles)
-        {
-            const dateOfFile = logFile.split("-")[1];
-
-            if(actualDate - (30 * 24 * 60 * 1000) > parseInt(dateOfFile))
+        ExpressApp.post("/config", (req: Request, res: Response) => {
+            if(req.body)
             {
-                fs.rmSync(path.resolve(this.logsPath, logFile))
-                this.logger.warn("Removed " + logFile + " logfile because it is 30 days older than today.");
+                if(!productionEnabled)
+                {
+                    fs.mkdirSync(path.resolve("data"), {recursive: true});
+                    fs.writeFileSync(path.resolve("data", "info.json"), JSON.stringify(req.body, null, 4));
+                }
+                else
+                {
+                    //do not create /data folder, it should already be there because of context
+                    fs.writeFileSync("/data/info.json", JSON.stringify(req.body, null, 4));
+                }
+
+                LoggerInstance.info("Config written, restarting NusterTurbine.");
+                res.end();
+                process.exit(1);
             }
-        }
+        });
+    });
+}
 
-        const infoPath = this.productionEnabled ? "/data/info.json" : path.resolve("data", "info.json");
+/**
+ * Setup Express running server
+ */
+function SetupExpress()
+{
+    httpServer = ExpressApp.listen(HTTP_PORT, () => { 
+        LoggerInstance.info("Express: HTTP server listening on port " + HTTP_PORT); 
+    });
 
-        if(fs.existsSync(infoPath))
-        {
-            const infos = fs.readFileSync(infoPath, {encoding: "utf-8"});
-            const parsed = JSON.parse(infos) as IConfiguration;
+    ExpressApp.use(express.json());
+    ExpressApp.use(cors());
+    ExpressApp.use(cookieParser());
 
-            this.machine = new Machine(parsed, this.logger);
+    //logging middleware
+    ExpressApp.use(pinoHttp({
+        logger: LoggerInstance,
+        serializers: {
+            err: pino.stdSerializers.err,
+            req: pino.stdSerializers.req,
+            res: pino.stdSerializers.res
+            }
+    }));
 
-            this._express();
-            this._websocket();
-            this._mongoose();
-            this._machine();
-        }
+    ExpressApp.get("/ws", async (_req, res: Response) => res.json(await machine?.socketData()));
+
+    //Tell the balena Hypervisor to force the pending update.
+    ExpressApp.get("/forceUpdate", async (_req, res: Response) => {
+        const req = await fetch("http://127.0.0.1:48484/v1/update?apikey=" + process.env.BALENA_SUPERVISOR_API_KEY, {headers: {"Content-Type": "application/json"}, body: JSON.stringify({force: true}), method: 'POST'});
+
+        if(req.status == 204)
+            res.status(200).end();
         else
-        {
-            this.logger.warn("Machine: Info file not found");
-            this._expressConfig();
-        }
-
-        /** Update locking the Balena Supervisor */
-        lockFile.lock("/tmp/balena/updates.lock", (err) => {
-            (err) ? this.logger.error("Lock: Updates locking failed.", err) : this.logger.info("Lock: Updates are now locked.");                
-        });
-    }
-    /**
-     * Setup Express configuration server
-     */
-    private _expressConfig()
-    {
-        this.httpServer = this.app.listen(this.HTTP_PORT, () => {
-            this.logger.info("Express: Configuration HTTP server running on port " + this.HTTP_PORT);
-
-            this.app.use(express.json());
-
-            this.app.post("/config", (req: Request, res: Response) => {
-                if(req.body)
-                {
-                    if(!this.productionEnabled)
-                    {
-                        fs.mkdirSync(path.resolve("data"), {recursive: true});
-                        fs.writeFileSync(path.resolve("data", "info.json"), JSON.stringify(req.body, null, 4));
-                    }
-                    else
-                    {
-                        //do not create /data folder, it should already be there because of context
-                        fs.writeFileSync("/data/info.json", JSON.stringify(req.body, null, 4));
-                    }
-
-                    this.logger.info("Config written, restarting NusterTurbine.");
-                    res.end();
-                    process.exit(1);
-                }
-            });
-        });
-    }
-    /**
-     * Setup Express server
-     */
-    private _express()
-    {
-        this.httpServer = this.app.listen(this.HTTP_PORT, () => { 
-            this.logger.info("Express: HTTP server listening on port " + this.HTTP_PORT); 
-        });
-
-        this.app.use(express.json());
-        this.app.use(cors());
-        this.app.use(cookieParser());
-
-        //authing middleware
-        if(!process.env.DISABLE_AUTH && this.machine)
-            this.app.use(this.machine.authManager.middleware.bind(this.machine.authManager));
-        else
-            this.logger.warn("Auth: Express middleware disabled");
-
-        //logging middleware
-        this.app.use(pinoHttp({
-            logger: this.logger,
-            serializers: {
-                err: pino.stdSerializers.err,
-                req: pino.stdSerializers.req,
-                res: pino.stdSerializers.res
-              }
-        }));
-
-        if(this.machine)
-        {
-            this.logger.info(`Express: Will use ${this.machine.assetsFolder} as the assets folder.`);
-            this.app.use("/assets", express.static(this.machine.assetsFolder));
-        }
-
-        /** Serve logs in this folder */
-        this.logger.info(`Express: Will use ${this.logsPath} as the logs folder.`);
-        this.app.use("/logs", express.static(this.logsPath), serveIndex(this.logsPath));
-
-        this.app.get("/ws", async (_req, res: Response) => res.json(await this.machine?.socketData()));
-
-        //Tell the balena Hypervisor to force the pending update.
-        this.app.get("/forceUpdate", async (_req, res: Response) => {
-            const req = await fetch("http://127.0.0.1:48484/v1/update?apikey=" + process.env.BALENA_SUPERVISOR_API_KEY, {headers: {"Content-Type": "application/json"}, body: JSON.stringify({force: true}), method: 'POST'});
-
-            if(req.status == 204)
-                res.status(200).end();
-            else
-                res.status(req.status).end();
-        }); 
-        
-        this.app.get("/currentReleaseNotes", (_req, res: Response) => {
-            try
-            {
-                const releaseNotes = fs.readFileSync(path.resolve("release.md"), "utf8");
-                res.send(releaseNotes);
-            }
-            catch(err)
-            {
-                res.send("Releases notes not available");
-            }
-        });
-
-        if(!this.productionEnabled)
-        {
-            this.app.all("/api/*", (req: Request, res: Response) => res.redirect(307, req.url.replace("/api", "")));
-        }
-    }
-    /**
-     * Setup Websocket server
-     */
-    private _websocket()
-    {
-        this.wsServer = new WebSocketServer({server: this.httpServer, path: this.productionEnabled ? '' : '/ws/'});
-
-        this.wsServer.on("listening", () => {
-            this.logger.info("Websocket: Server listening..");
-        });
-
-        this.wsServer.on('connection', (ws: WebSocket) => { 
-            if(this.wsServer)
-            {
-                this.wsServer.clients.add(ws); 
-                this.logger.trace("Websocket: New client");
-
-                if(this.machine?.specs.nuster?.connectPopup !== undefined && !this.displayedPopups.includes(this.machine.specs.nuster.connectPopup.identifier))
-                {
-                    setTimeout(() => {
-                        this.logger.info("Websocket: Displaying connect popup.");
+            res.status(req.status).end();
+    }); 
     
-                        ws.send(JSON.stringify({
-                            type: "popup",
-                            message: this.machine?.specs.nuster?.connectPopup
-                        }));
-    
-                        //Push popup to displayed popup list
-                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                        //@ts-ignore
-                        this.displayedPopups.push(this.machine.specs.nuster.connectPopup.identifier);
-                    }, 2500);
-                }
-    
-                ws.on("close", () => {
-                    this.logger.trace("Websocket: Client disconnected");
-                });
-            }
-        });
-
-        setInterval(async () => {
-            if(this.wsServer !== undefined)
-            {
-                if(this.machine)
-                {
-                    if(this.machine.WebSocketServer === undefined)
-                        this.machine.WebSocketServer = this.wsServer;
-
-                    const data = await this.machine.socketData();
-    
-                    for(const ws of this.wsServer.clients)
-                    {
-                        //check if the websocket is still open
-                        if(ws.readyState === WebSocket.OPEN)
-                        {
-                            ws.send(JSON.stringify({
-                                type: "status",
-                                message: data
-                            }));
-                        }
-                    }
-                }
-            }
-        }, 500);
-    }
-    /**
-     * Connect and configure mongoose
-     */
-    private _mongoose()
-    {
+    ExpressApp.get("/currentReleaseNotes", (_req, res: Response) => {
         try
         {
-            mongoose.connect('mongodb://127.0.0.1/nuster2');
-            this.logger.info("Mongo: Connected to database");
+            const releaseNotes = fs.readFileSync(path.resolve("release.md"), "utf8");
+            res.send(releaseNotes);
         }
         catch(err)
         {
-            this.logger.fatal("Mongo: Failed to connect to database");
-            this.logger.fatal(err);
+            res.send("Releases notes not available");
         }
+    });
 
-        //move id to _id
-        //remove __v
-        mongoose.set('toJSON', {
-            virtuals: true,
-            transform: (doc: Record<string, unknown>, converted: Record<string, unknown>) => {
-                delete converted._id;
-                delete converted.__v;
-            }
-        });
-
-        mongoose.set('toObject', {
-            virtuals: true,
-            transform: (doc: Record<string, unknown>, converted: Record<string, unknown>) => {
-                delete converted._id;
-                delete converted.__v;
-            }
-        });
-    }
-    /**
-     * Add all machines routes to express
-     */
-    private _machine()
+    if(!productionEnabled)
     {
-        if(this.machine)
-        {
-            this.app.use('/v1/maintenance', this.machine.maintenanceController.router);
-            this.app.use('/v1/io', this.machine.ioController.router);
-            this.app.use('/v1/profiles', this.machine.profileController.router);
-            this.app.use('/v1/slots', this.machine.slotController.router);
-            this.app.use('/v1/manual', this.machine.manualmodeController.router);
-            this.app.use('/v1/cycle', this.machine.cycleController.router);
-            this.app.use('/v1/passives', this.machine.passiveController.router);
-            this.app.use('/v1/auth', this.machine.authManager.router);
-            this.logger.info("Express: Registered routers");
-        }
-        else
-            this.logger.fatal("Express: No machine defined, cannot add routes.");
+        ExpressApp.all("/api/*", (req: Request, res: Response) => res.redirect(307, req.url.replace("/api", "")));
     }
 }
 
-const nt = new NusterTurbine();
+/**
+ * Setup Websocket server
+ */
+function SetupWebsocketServer()
+{
+    WebsocketDispatcher.getInstance(httpServer);
 
-process.on("uncaughtException", error => nt.logger.error("unCaughtException: " + error));
-process.on('unhandledRejection', error => nt.logger.error("unhandledPromise: " + error));
+    setInterval(async () => {
+        WebsocketDispatcher.getInstance().broadcastData(await machine.socketData(), "status");
+    }, 500);
+}
+
+/**
+ * Connect and configure mongoose
+ */
+function SetupMongoDB()
+{
+    try
+    {
+        mongoose.connect('mongodb://127.0.0.1/nuster2');
+        LoggerInstance.info("Mongo: Connected to database");
+    }
+    catch(err)
+    {
+        LoggerInstance.fatal("Mongo: Failed to connect to database");
+        LoggerInstance.fatal(err);
+    }
+
+    //move id to _id
+    //remove __v
+    mongoose.set('toJSON', {
+        virtuals: true,
+        transform: (doc: Record<string, unknown>, converted: Record<string, unknown>) => {
+            delete converted._id;
+            delete converted.__v;
+        }
+    });
+
+    mongoose.set('toObject', {
+        virtuals: true,
+        transform: (doc: Record<string, unknown>, converted: Record<string, unknown>) => {
+            delete converted._id;
+            delete converted.__v;
+        }
+    });
+}
+
+/**
+ * Add all machines routes to express
+ */
+function SetupMachine()
+{
+    if(machine)
+    {
+        WebsocketDispatcher.getInstance().connectPopup = machine.specs.nuster?.connectPopup;
+        LoggerInstance.info("Machine: Setting up connect popup.");
+
+        ExpressApp.use('/v1/io', IOController.getInstance().router);
+        ExpressApp.use('/v1/profiles', ProfileController.getInstance().router);
+        ExpressApp.use('/v1/maintenance', MaintenanceController.getInstance().router);
+        ExpressApp.use('/v1/slots', SlotController.getInstance().router);
+        ExpressApp.use('/v1/manual', ManualModeController.getInstance().router);
+        ExpressApp.use('/v1/cycle', CycleController.getInstance().router);
+        ExpressApp.use('/v1/passives', PassiveController.getInstance().router);
+        ExpressApp.use('/v1/auth', AuthManager.getInstance().router);
+        LoggerInstance.info("Express: Registered routers");
+
+        ExpressApp.use("/assets", express.static(machine.assetsFolder));
+        LoggerInstance.info(`Express: Will use ${machine.assetsFolder} as the assets folder.`);
+
+    }
+    else
+        LoggerInstance.fatal("Express: No machine defined, cannot add routes.");
+}
+
+process.on("uncaughtException", (error: Error) => LoggerInstance.error("unCaughtException: " + error.stack));
+process.on('unhandledRejection', (error: Error) => LoggerInstance.error("unhandledPromiseRejection: " + error.stack));
 
 /**
  * Handling SIGTERM Events
  */
 process.on("SIGTERM", async () => {
-    nt.logger.info("Shutdown detected");
-
-    //Reseting io on shutdown
-    if(nt.machine?.ioController)
+    LoggerInstance.info("Shutdown: SIGTERM detected.");
+    try
     {
-        for(const g of nt.machine.ioController.gates ?? [])
-        {
-            await g.write(nt.machine.ioController, g.default);
-        }
+        //Reseting io on shutdown
+        for(const g of IOController.getInstance().gates)
+            await g.write(g.default);
     }
-
-    if(nt.wsServer)
+    catch(ex: unknown)
     {
-        for(const ws of nt.wsServer.clients)
-        {
-            ws.send(JSON.stringify({
-                type: "close",
-                message: "dispatch-close-event"
-            }));
-            ws.close();
-        }
+        LoggerInstance.warn("Shutdown: Failed to reset gates to default values, IOController is not defined");
     }
 });

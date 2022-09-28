@@ -8,13 +8,10 @@ export class SlotSensor implements ISlotSensor
     type: ESlotSensorType;
     val: number;
 
-    private ioController: IOController;
     private parentSlot: Slot;
 
-    constructor(slot: Slot, slotsensor: ISlotSensor, iomgr: IOController)
+    constructor(slot: Slot, slotsensor: ISlotSensor)
     {
-        this.ioController = iomgr;
-
         this.io = slotsensor.io;
         this.type = slotsensor.type;
         this.val = 0;
@@ -24,13 +21,11 @@ export class SlotSensor implements ISlotSensor
 
     get value(): number
     {
-        const sensorValue = this.ioController.gFinder(this.io)?.value ?? 0;
+        const sensorValue = IOController.getInstance().gFinder(this.io)?.value ?? 0;
 
         //unload slot on minimal sensor limit reached
         if(this.type === ESlotSensorType.LEVEL_NUMERIC_MIN && sensorValue == 0)
-        {   
             this.parentSlot.unloadSlot();
-        }
         
         return sensorValue;
     }
@@ -41,7 +36,7 @@ export class SlotSensor implements ISlotSensor
             io: this.io,
             type: this.type,
             value: this.value,
-            unity: this.ioController.gFinder(this.io)?.unity
+            unity: IOController.getInstance().gFinder(this.io)?.unity
         }
     }
 }

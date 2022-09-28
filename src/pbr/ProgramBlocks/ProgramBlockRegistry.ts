@@ -1,5 +1,4 @@
 import { IProgramBlock, ProgramBlockNames } from "../../interfaces/IProgramBlock";
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { ForLoopProgramBlock } from "./ForLoopProgramBlock";
 import { IForLoopProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IForLoopProgramBlock";
 import { GroupProgramBlock } from "./GroupProgramBlock";
@@ -30,24 +29,24 @@ import { ProgramBlocks } from "./index";
 import { PassiveProgramBlock } from "./PassiveProgramBlock";
 import { IPassiveProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IPassiveProgramBlock";
 
-export function ProgramBlockRegistry(pbrInstance: ProgramBlockRunner, obj: IProgramBlock): ProgramBlocks {
+export function ProgramBlockRegistry(obj: IProgramBlock): ProgramBlocks {
     switch (obj.name as ProgramBlockNames)
     {
-        case "for": return new ForLoopProgramBlock(pbrInstance, obj as IForLoopProgramBlock);
-        case "group": return new GroupProgramBlock(pbrInstance, obj as IGroupProgramBlock);
-        case "if": return new IfProgramBlock(pbrInstance, obj as IIfProgramBlock);
-        case "io": return new IOWriteProgramBlock(pbrInstance, obj as IIOProgramBlock);
-        case "maintenance": return new MaintenanceProgramBlock(pbrInstance, obj as IMaintenanceProgramBlock);
-        case "sleep": return new SleepProgramBlock(pbrInstance, obj as ISleepProgramBlock);
-        case "slotLoad": return new SlotLoadProgramBlock(pbrInstance, obj as ISlotLoadProgramBlock);
-        case "slotUnload": return new SlotUnloadProgramBlock(pbrInstance, obj as ISlotUnloadProgramBlock);
-        case "startTimer": return new StartTimerProgramBlock(pbrInstance, obj as IStartTimerProgramBlock);
-        case "stop": return new StopProgramBlock(pbrInstance, obj as IStopProgramBlock);
-        case "stopTimer": return new StopTimerProgramBlock(pbrInstance, obj as IStopTimerProgramBlock);
-        case "variable": return new VariableProgramBlock(pbrInstance, obj as IVariableProgramBlock);
-        case "while": return new WhileLoopProgramBlock(pbrInstance, obj as IWhileLoopProgramBlock);
-        case "passive": return new PassiveProgramBlock(pbrInstance, obj as IPassiveProgramBlock);
+        case "for": return new ForLoopProgramBlock(obj as IForLoopProgramBlock);
+        case "group": return new GroupProgramBlock(obj as IGroupProgramBlock);
+        case "if": return new IfProgramBlock(obj as IIfProgramBlock);
+        case "io": return new IOWriteProgramBlock(obj as IIOProgramBlock);
+        case "maintenance": return new MaintenanceProgramBlock(obj as IMaintenanceProgramBlock);
+        case "sleep": return new SleepProgramBlock(obj as ISleepProgramBlock);
+        case "slotLoad": return new SlotLoadProgramBlock(obj as ISlotLoadProgramBlock);
+        case "slotUnload": return new SlotUnloadProgramBlock(obj as ISlotUnloadProgramBlock);
+        case "startTimer": return new StartTimerProgramBlock(obj as IStartTimerProgramBlock);
+        case "stop": return new StopProgramBlock(obj as IStopProgramBlock);
+        case "stopTimer": return new StopTimerProgramBlock(obj as IStopTimerProgramBlock);
+        case "variable": return new VariableProgramBlock(obj as IVariableProgramBlock);
+        case "while": return new WhileLoopProgramBlock(obj as IWhileLoopProgramBlock);
+        case "passive": return new PassiveProgramBlock(obj as IPassiveProgramBlock);
 
-        default: return new SleepProgramBlock(pbrInstance, {name: "sleep", params: [{name: "const", value: 1}]});
+        default: return new SleepProgramBlock({name: "sleep", params: [{name: "const", value: 1}]});
     }
 }

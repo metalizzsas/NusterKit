@@ -1,24 +1,36 @@
-import { Machine } from "../../Machine";
 import { Controller } from "../Controller";
 import { Passive } from "./Passive";
 import { Request, Response } from "express";
+import { AuthManager } from "../../auth/auth";
+import { IPassive } from "../../interfaces/IPassive";
 
 export class PassiveController extends Controller
 {
-    machine: Machine;
     passives: Passive[] = [];
 
-    constructor(machine: Machine)
+    private static _instance: PassiveController;
+
+    private constructor(passives: IPassive[])
     {
         super();
-        this.machine = machine;
 
-        for(const p of this.machine.specs.passives)
+        for(const passive of passives)
         {
-            this.passives.push(new Passive(this.machine, p));
+            this.passives.push(new Passive(passive));
         }
 
         this._configureRouter();
+    }
+
+    static getInstance(passives?: IPassive[])
+    {
+        if(!this._instance)
+            if(passives !== undefined)
+                this._instance = new PassiveController(passives);
+            else
+                throw new Error("SlotsController: Failed to instantiate, missing data");
+
+        return this._instance;
     }
 
     private async _configureRouter()
@@ -27,7 +39,7 @@ export class PassiveController extends Controller
             res.json(this.passives);
         });
 
-        this.machine.authManager.registerEndpointPermission("passives.list", {endpoint: "/v1/passives/", method: "get"});
+        AuthManager.getInstance().registerEndpointPermission("passives.list", {endpoint: "/v1/passives/", method: "get"});
 
         /*
             This route change Passive mode state
@@ -70,7 +82,7 @@ export class PassiveController extends Controller
             }
         });
 
-        this.machine.authManager.registerEndpointPermission("passives.toggle", {endpoint: new RegExp("/v1/passives/.*/.*/.*", "g"), method: "post"});
+        AuthManager.getInstance().registerEndpointPermission("passives.toggle", {endpoint: new RegExp("/v1/passives/.*/.*/.*", "g"), method: "post"});
     }
 
     find(name: string): Passive | undefined

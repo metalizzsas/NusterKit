@@ -1,22 +1,21 @@
 import ModbusTCP from "modbus-serial";
 import ping from "ping";
-import { Machine } from "../../../Machine";
 import { IOPhysicalController } from "./IOPhysicalController";
+
+import { LoggerInstance } from "../../../app";
+import { CycleController } from "../../cycle/CycleController";
 
 export class WAGO extends IOPhysicalController
 {
     public client: ModbusTCP;
 
-    private machine?: Machine;
-
     private connectTimer?: NodeJS.Timer;
 
-    constructor(ip: string, machine?: Machine)
+    constructor(ip: string)
     {
         super("wago", ip);
 
         this.client = new ModbusTCP();
-        this.machine = machine;
         this.connect(); 
     }
     async connect(): Promise<boolean>
@@ -30,13 +29,13 @@ export class WAGO extends IOPhysicalController
         
         if(available === true)
         {
-            await this.client.connectTCP(this.ip, {port: 502}).catch(error => this.machine?.logger.error(`WAGO: ${error}`));
+            await this.client.connectTCP(this.ip, {port: 502}).catch(error => LoggerInstance.error(`WAGO: ${error}`));
 
             this.connected = this.client.isOpen;
 
             if(this.connected)
             {
-                this.machine?.logger.info("WAGO: Connected");
+                LoggerInstance.info("WAGO: Connected");
 
                 //check if the TCP tunnel is alive
                 if(this.connectTimer)
@@ -46,7 +45,7 @@ export class WAGO extends IOPhysicalController
                     this.connected = this.client.isOpen;
                     if(this.connected === false)
                     {
-                        this.machine?.logger.info("WAGO: Disconnected");
+                        LoggerInstance.info("WAGO: Disconnected");
                         this.connect();
                     }
                         
@@ -62,7 +61,7 @@ export class WAGO extends IOPhysicalController
         else
         {
             this.unreachable = true;
-            this.machine?.logger.error(`WAGO: Failed to ping, cancelling connection.`);
+            LoggerInstance.error(`WAGO: Failed to ping, cancelling connection.`);
             return false;
         }
     }
@@ -71,7 +70,7 @@ export class WAGO extends IOPhysicalController
     {
         if(this.unreachable)
         {
-            this.machine?.cycleController.program?.end("controllerUnreachable");
+            CycleController.getInstance().program?.end("controllerUnreachable");
             return;
         }
         
@@ -96,7 +95,7 @@ export class WAGO extends IOPhysicalController
     {
         if(this.unreachable)
         {
-            this.machine?.cycleController.program?.end("controllerUnreachable");
+            CycleController.getInstance().program?.end("controllerUnreachable");
             return 0;
         }
 

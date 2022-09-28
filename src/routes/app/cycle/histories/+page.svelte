@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { date, time, _ } from 'svelte-i18n';
+	import { machineData } from '$lib/utils/stores/store';
 	import '$lib/app.css';
 	import { goto } from '$app/navigation';
 	import { Linker } from '$lib/utils/stores/linker';
@@ -69,6 +70,15 @@
 				</span>
 			</Flex>
 			<Flex gap={2} class="ml-auto items-center">
+				{#if $machineData.machine.settings?.isPrototype == true}
+					<Button
+						size={'tiny'}
+						on:click={() => goto('/app/cycle/histories/' + history.id)}
+					>
+						See details
+					</Button>
+				{/if}
+
 				{#if history.cycle.status.endReason != 'finished'}
 					<Button
 						size="small"

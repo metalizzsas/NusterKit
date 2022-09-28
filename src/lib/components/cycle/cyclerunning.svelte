@@ -26,6 +26,17 @@
 		}
 	};
 
+	const nextStep = () => {
+		if ($machineData.machine.settings?.isPrototype == true) {
+			fetch('//' + $Linker + '/api/v1/cycle/nextStep', {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+		}
+	};
+
 	$useNavContainer = false;
 
 	onMount(() => {
@@ -97,7 +108,11 @@
 					</span>
 				</Label>
 			{/if}
-
+			{#if $machineData.machine.settings?.isPrototype == true && $machineData.cycle.currentStepIndex < $machineData.cycle.steps.length - 1}
+				<Button color={'bg-orange-500'} on:click={nextStep}>
+					{$_('cycle.buttons.next')}
+				</Button>
+			{/if}
 			<Button color={'bg-red-500'} on:click={stopCycle}>{$_('cycle.buttons.end')}</Button>
 		</Flex>
 

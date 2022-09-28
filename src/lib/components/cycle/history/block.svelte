@@ -17,7 +17,7 @@
 </script>
 
 <Flex direction={'col'} gap={3} class={'ml-4'}>
-	<div class="bg-white p-2 rounded-xl">
+	<div class="bg-white text-zinc-800 p-2 rounded-xl">
 		<!-- Main block container -->
 		<Flex gap={4} class="align-middle items-center {shrinked ? '' : 'mb-3'}">
 			<Round size={3} color={block.executed ? 'emerald-600' : 'red-600'} />

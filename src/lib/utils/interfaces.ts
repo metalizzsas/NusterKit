@@ -239,11 +239,14 @@ interface Machine {
   serial: string;
   model: string;
   variant: string;
-  options?: string[]
   revision: number;
+  
+  machineAddons?: string[]
+  settings?: Settings;
+  
   nusterVersion: string;
   balenaVersion: string;
-  settings: Settings;
+
   hypervisorData?: IHypervisorData;
   vpnData?: IVPNData;
   deviceData?: IDeviceData;
@@ -275,11 +278,13 @@ interface IDeviceData {
 
 
 interface Settings {
-  maskedPremades: any[];
-  maskedProfiles: any[];
-  maskedManuals: any[];
-  ioControlsMasked: boolean;
-  profilesMasked: boolean;
+  maskedPremades?: string[];
+  maskedProfiles?: string[];
+  maskedManuals?: string[];
+
+  profilesMasked?: boolean;
+  ioControlsMasked?: boolean;
+  isPrototype?: true;
 }
 
 export interface IHypervisorData {

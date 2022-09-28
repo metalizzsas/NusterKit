@@ -19,10 +19,13 @@ export class MaintenanceController extends Controller
         this._configure(maintenanceTasks);
     }
 
-    static getInstance(maintenanceTasks: IConfigMaintenance[])
+    static getInstance(maintenanceTasks?: IConfigMaintenance[])
     {
         if(!this._instance)
-            this._instance = new MaintenanceController(maintenanceTasks);
+            if(maintenanceTasks !== undefined)
+                this._instance = new MaintenanceController(maintenanceTasks);
+            else
+                throw new Error("MaintenanceController: Failed to instantiate, no data given.");
 
         return this._instance;
     }

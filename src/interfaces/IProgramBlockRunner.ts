@@ -61,5 +61,4 @@ export interface IProgramTimer
     name: string;
     enabled: boolean;
     blocks: IProgramBlock[];
-    timer?: NodeJS.Timer;
 }

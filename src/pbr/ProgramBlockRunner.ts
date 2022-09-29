@@ -21,7 +21,7 @@ export class ProgramBlockRunner implements IProgramRunner
     profileRequired: boolean;
 
     variables: IProgramVariable[] = [];
-    timers: IProgramTimer[] = [];
+    timers: (IProgramTimer & {timer?: NodeJS.Timer})[] = [];
     
     /** **PBR** Steps */
     steps: ProgramBlockStep[] = [];

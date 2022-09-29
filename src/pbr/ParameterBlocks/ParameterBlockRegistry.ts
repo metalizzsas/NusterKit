@@ -1,28 +1,29 @@
 import { IParameterBlock } from "../../interfaces/IParameterBlock";
-import { AdditionParameterBlock } from "./AdditionParameterBlock";
 import { IAdditionParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IAdditionParameterBlock";
-import { ConditionalParameterBlock } from "./ConditionalParameterBlock";
 import { IConditionalParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IConditionalParameterBlock";
-import { ConstantParameterBlock } from "./ConstantParameterBlock";
 import { IConstantParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IConstantParameterBlock";
-import { ConstantStringParameterBlock } from "./ConstantStringParameterBlock";
 import { IConstantStringParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IConstantStringParameterBlock";
-import { IOReadParameterBlock } from "./IOReadParameterBlock";
 import { IIOReadParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IIOReadParameterBlock";
-import { MaintenanceProgressParameterBlock } from "./MaintenanceParameterBlock";
 import { IMaintenanceParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IMaintenanceParameterBlock";
-import { MultiplyParameterBlock } from "./MultiplyParameterBlock";
 import { IMultiplyParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IMultiplyParameterBlock";
-import { ProfileParameterBlock } from "./ProfileParameterBlock";
 import { IProfileParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IProfileParameterBlock";
-import { ReverseParameterBlock } from "./ReverseParameterBlock";
 import { IReverseParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IReverseParameterBlock";
-import { SlotLifetimeParameterBlock } from "./SlotLifeParameterBlock";
 import { ISlotLifetimeParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/ISlotLifetimeParameterBlock";
-import { ISlotProductStatusParameterBlock, SlotProductStatusParameterBlock } from "./SlotProductInformationParameterBlock";
-import { VariableParameterBlock } from "./VariableParameterBlock";
+import { ISlotProductStatusParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/ISlotProductStatusParameterBlock";
 import { IVariableParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IVariableParameterBlock";
+import { AdditionParameterBlock } from "./AdditionParameterBlock";
+import { ConditionalParameterBlock } from "./ConditionalParameterBlock";
+import { ConstantParameterBlock } from "./ConstantParameterBlock";
+import { ConstantStringParameterBlock } from "./ConstantStringParameterBlock";
 import { ParameterBlocks } from "./index";
+import { IOReadParameterBlock } from "./IOReadParameterBlock";
+import { MaintenanceProgressParameterBlock } from "./MaintenanceParameterBlock";
+import { MultiplyParameterBlock } from "./MultiplyParameterBlock";
+import { ProfileParameterBlock } from "./ProfileParameterBlock";
+import { ReverseParameterBlock } from "./ReverseParameterBlock";
+import { SlotLifetimeParameterBlock } from "./SlotLifeParameterBlock";
+import { SlotProductStatusParameterBlock } from "./SlotProductInformationParameterBlock";
+import { VariableParameterBlock } from "./VariableParameterBlock";
 
 /**
  * Defines Parameter block properly from configuration object

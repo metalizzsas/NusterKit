@@ -1,4 +1,3 @@
-import { ISlotProductStatusParameterBlock } from "../pbr/ParameterBlocks/SlotProductInformationParameterBlock";
 import { IAdditionParameterBlock } from "./programblocks/ParameterBlocks/IAdditionParameterBlock";
 import { IConditionalParameterBlock } from "./programblocks/ParameterBlocks/IConditionalParameterBlock";
 import { IConstantParameterBlock } from "./programblocks/ParameterBlocks/IConstantParameterBlock";
@@ -9,6 +8,7 @@ import { IMultiplyParameterBlock } from "./programblocks/ParameterBlocks/IMultip
 import { IProfileParameterBlock } from "./programblocks/ParameterBlocks/IProfileParameterBlock";
 import { IReverseParameterBlock } from "./programblocks/ParameterBlocks/IReverseParameterBlock";
 import { ISlotLifetimeParameterBlock } from "./programblocks/ParameterBlocks/ISlotLifetimeParameterBlock";
+import { ISlotProductStatusParameterBlock } from "./programblocks/ParameterBlocks/ISlotProductStatusParameterBlock";
 import { IVariableParameterBlock } from "./programblocks/ParameterBlocks/IVariableParameterBlock";
 
 /** Base parameter blocks names */

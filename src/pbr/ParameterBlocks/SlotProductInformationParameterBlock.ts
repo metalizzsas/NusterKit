@@ -1,6 +1,6 @@
 import { ParameterBlock } from ".";
 import { SlotController } from "../../controllers/slot/SlotController";
-import { IParameterBlock } from "../../interfaces/IParameterBlock";
+import { ISlotProductStatusParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/ISlotProductStatusParameterBlock";
 
 //Slot status shall only be used for startConditions
 export class SlotProductStatusParameterBlock extends ParameterBlock implements ISlotProductStatusParameterBlock
@@ -31,10 +31,4 @@ export class SlotProductStatusParameterBlock extends ParameterBlock implements I
             return "error";
         }
     }
-}
-
-export interface ISlotProductStatusParameterBlock extends IParameterBlock
-{
-    name: "slotstatus"
-    value: string;
 }

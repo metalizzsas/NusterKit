@@ -8,7 +8,7 @@ import { ISocketMaintenance } from "../IMaintenance";
 import { ISocketManual } from "../IManualMode";
 import { ISocketPassive } from "../IPassive";
 import { IProfileExportable } from "../IProfile";
-import { IProgram } from "../IProgramBlockRunner";
+import { IProgramRunner } from "../IProgramBlockRunner";
 import { ISocketSlot } from "../ISlot";
 
 export interface IWebSocketData
@@ -26,7 +26,7 @@ export interface IStatusMessage
 
         nusterVersion: string
    },
-   cycle?: IProgram,
+   cycle?: IProgramRunner,
    slots: ISocketSlot[],
    profiles: IProfileExportable[],
    io: IOGates[],

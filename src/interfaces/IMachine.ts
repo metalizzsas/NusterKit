@@ -1,5 +1,5 @@
 import { IOGatesConfig } from "./gates/IIOGate";
-import { IOControllers } from "./IIOControllers";
+import { IOControllersConfig } from "./IIOControllers";
 import { IConfigMaintenance } from "./IMaintenance";
 import { IManualMode } from "./IManualMode";
 import { IPassive } from "./IPassive";
@@ -23,7 +23,7 @@ export declare interface IMachine
     cyclePremades: IPBRPremades[],
 
     /** IOHandler definitions */
-    iohandlers: IOControllers[],
+    iohandlers: IOControllersConfig[],
     /** IOGates definition */
     iogates: IOGatesConfig[],
 

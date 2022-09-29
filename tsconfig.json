@@ -108,6 +108,7 @@
       "./nuster-desktop/**/*",
       "./nuster-kiosk/**/*",
       "./nuster-turbine-machines/**/*",
-      "./jest.config.ts"
+      "./jest.config.ts",
+      "./types/**"
   ]
 }

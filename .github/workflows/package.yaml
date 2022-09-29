@@ -7,7 +7,7 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
-name: "Packing Nuster Turbine for balena"
+name: "💨 Packing Nuster Turbine for balena"
 
 jobs:
   turbine_build:
@@ -16,10 +16,10 @@ jobs:
       contents: read
       packages: write
     steps:
-      - name: Checkout repo
+      - name: 🗂️ Checkout repo
         uses: actions/checkout@v2
 
-      - name: Checkout NTM repo
+      - name: 🗂️ Checkout NTM repo
         uses: actions/checkout@v2
         with: 
           repository: metalizzsas/NusterTurbineMachines
@@ -27,35 +27,35 @@ jobs:
           path: 'nuster-turbine-machines'
           token: ${{ secrets.GH_TOKEN_2 }}
 
-      - name: Set up QEMU
+      - name: 🐳 Set up QEMU
         id: qemu
         uses: docker/setup-qemu-action@v1
         with:
           image: tonistiigi/binfmt:latest
           platforms: all
 
-      - name: Set up Docker Buildx
+      - name: 🐳 Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v1
         with:
           version: latest
           install: true
 
-      - name: Login to container registry
+      - name: 👷‍♂️ Login to container registry
         uses: docker/login-action@v2
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata (tags, labels) for Docker
+      - name: ⛏️ Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build and push Docker image
+      - name: 🧱 Build and push Docker image
         uses: docker/build-push-action@v3
         with:
           context: .

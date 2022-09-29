@@ -23,7 +23,6 @@ jobs:
           scope: '@metalizzsas'
       - run: npm i --save-dev
       - run: npm run types
-      - run: ls -d -1 "$PWD/"**/
       - run: npm publish
         working-directory: types
         env:

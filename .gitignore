@@ -5,7 +5,8 @@ nuster-desktop/
 nuster-kiosk/
 nuster-turbine-machines/
 docs/
-types/
+types/*
+!types/package.json
 build/
 .vscode/
 .yarn/

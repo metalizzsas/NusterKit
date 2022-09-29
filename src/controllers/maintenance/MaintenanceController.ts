@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import { Maintenance } from "./Maintenance";
 import { Controller } from "../Controller";
-import { IConfigMaintenance } from "../../interfaces/IMaintenance";
+import { IConfigMaintenance, ISocketMaintenance } from "../../interfaces/IMaintenance";
 import { AuthManager } from "../../auth/auth";
 
 export class MaintenanceController extends Controller
@@ -84,11 +84,11 @@ export class MaintenanceController extends Controller
         AuthManager.getInstance().registerEndpointPermission("maintenance.reset", {endpoint: new RegExp("/v1/maintenance/.*", "g"), method: "delete"});
     }
 
-    public async socketData(): Promise<Maintenance[]>
+    public async socketData(): Promise<ISocketMaintenance[]>
     {
         for(const t of this.tasks)
             await t.refresh();
 
-        return this.tasks;
+        return this.tasks.map(t => t.toJSON());
     }
 }

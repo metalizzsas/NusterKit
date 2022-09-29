@@ -1,7 +1,7 @@
-import { IIOGate } from "./IIOGate";
+import { IIOGateConfig } from "./IIOGate";
 
 /** Mapped gates, converts automatically data from controller to Human readable data */
-export interface IMappedGate extends IIOGate
+export interface IMappedGate extends IIOGateConfig
 {
     type: "mapped";
     /** Size is always a word for this typoe of Gate */

@@ -80,7 +80,7 @@ export class ManualModeController extends Controller
         AuthManager.getInstance().registerEndpointPermission("manual.toggle", {endpoint: new RegExp("/v1/manual/.*/.*", "g"), method: "post"});
     }
 
-    public get socketData()
+    public get socketData(): ManualMode[]
     {
         return this.manualModes.filter(k => !this.maskedManuals.includes(k.name));
     }

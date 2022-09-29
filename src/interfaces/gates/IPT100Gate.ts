@@ -1,8 +1,9 @@
-import { IIOGate } from "./IIOGate";
+import { IIOGateConfig } from "./IIOGate";
 
-export interface IPT100Gate extends IIOGate
+export interface IPT100Gate extends IIOGateConfig
 {
     type: "pt100",
     size: "word",
-    unity: "°C"
+    unity: "°C",
+    bus: "in"
 }

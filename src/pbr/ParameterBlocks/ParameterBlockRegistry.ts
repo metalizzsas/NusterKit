@@ -1,5 +1,4 @@
 import { IParameterBlock } from "../../interfaces/IParameterBlock";
-import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { AdditionParameterBlock } from "./AdditionParameterBlock";
 import { IAdditionParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IAdditionParameterBlock";
 import { ConditionalParameterBlock } from "./ConditionalParameterBlock";

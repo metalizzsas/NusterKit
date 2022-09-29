@@ -1,6 +1,6 @@
 import { Document, Types } from "mongoose";
 import { LoggerInstance } from "../../app";
-import { IConfigMaintenance, IMaintenance, IMaintenanceProcedure } from "../../interfaces/IMaintenance";
+import { IConfigMaintenance, IMaintenance, IMaintenanceProcedure, ISocketMaintenance } from "../../interfaces/IMaintenance";
 import { MaintenanceModel } from "./MaintenanceModel";
 
 export class Maintenance implements IConfigMaintenance
@@ -71,7 +71,7 @@ export class Maintenance implements IConfigMaintenance
         });
     }
 
-    toJSON()
+    toJSON(): ISocketMaintenance
     {
         return {
             name: this.name,

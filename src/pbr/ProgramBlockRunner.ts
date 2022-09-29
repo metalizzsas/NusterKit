@@ -1,6 +1,5 @@
 import { LoggerInstance } from "../app";
 import { IOController } from "../controllers/io/IOController";
-import { IOGate } from "../controllers/io/IOGates/IOGate";
 import { MaintenanceController } from "../controllers/maintenance/MaintenanceController";
 import { IProfileMap } from "../controllers/profile/ProfilesController";
 import { IPBRStatus, IProgramVariable, IProgramTimer, EPBRMode, IProgramRunner } from "../interfaces/IProgramBlockRunner";
@@ -41,11 +40,6 @@ export class ProgramBlockRunner implements IProgramRunner
      */
     profileExplorer?: (name: string) => number | boolean;
 
-    /**
-     * Function to explore io gates
-     */
-    ioExplorer: (name: string) => IOGate | undefined;
-
     constructor(object: IProgramRunner, profile?: IProfileMap)
     {
         this.status = { mode: EPBRMode.CREATED };
@@ -73,9 +67,6 @@ export class ProgramBlockRunner implements IProgramRunner
 
         //properties assignment
         this.name = object.name;
-
-        //Explorers setup
-        this.ioExplorer = (name: string) => IOController.getInstance().gates.find((g) => g.name == name);
 
         //steps and watchdog
         for(const sc of object.startConditions)

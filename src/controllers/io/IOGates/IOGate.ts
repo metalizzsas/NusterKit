@@ -1,5 +1,5 @@
 import { LoggerInstance } from "../../../app";
-import { IIOGate, IOGateTypeName } from "../../../interfaces/gates/IIOGate";
+import { IIOGate, IOGatesConfig, IOGateTypeName } from "../../../interfaces/gates/IIOGate";
 import { IOController } from "../IOController";
 
 export class IOGate implements IIOGate
@@ -13,20 +13,17 @@ export class IOGate implements IIOGate
 
     controllerId: number;
     address: number;
-
     default: number;
+    unity?: string | undefined;
 
+    /** Gate value read or written to controller */
     value: number;
 
-    isCritical?: boolean;
-    manualModeWatchdog?: boolean;
-    unity?: string;
-
-    constructor(obj: IIOGate)
+    constructor(obj: IOGatesConfig)
     {
         this.name = obj.name;
-
         this.category = (obj.name.split("#").length > 1) ? obj.name.split("#")[0] : "generic";
+        this.unity = obj.unity;
 
         this.size = obj.size;
         this.type = obj.type;
@@ -36,27 +33,24 @@ export class IOGate implements IIOGate
         this.address = obj.address;
 
         this.default = obj.default;
-        this.value = this.default;
 
-        this.isCritical = obj.isCritical;
-
-        this.manualModeWatchdog = obj.manualModeWatchdog;
-        this.unity = obj.unity;
+        // Initialize the gate with its default value
+        this.value = obj.default;
     }
-
-    public async read(): Promise<boolean>
+    
+    async read(): Promise<boolean>
     {
         if(this.bus == 'out') return true;
 
         const word = this.size == "word" ? true : undefined;
 
-        //ioController.machine.logger.trace("IOG-" + this.name + ": Reading from fieldbus.");
+        //LoggerInstance.trace("IOG-" + this.name + ": Reading from fieldbus.");
 
         this.value = await IOController.getInstance().handlers[this.controllerId].readData(this.address, word);
         return true;
     }
 
-    public async write(data: number): Promise<boolean>
+    async write(data: number): Promise<boolean>
     {
         if(this.bus == 'in') return true;
         const word = this.size == "word" ? true : undefined;

@@ -23,3 +23,18 @@ export interface IPassive
     /** Manual modes triggered by this passive regulation */
     manualModes?: string | string[];
 }
+
+export interface IPassiveStoredLogData {
+    time?: Date,
+    state?: boolean
+
+    targetValue: number,
+    interpolatedSensorsValue: number,
+}
+
+export type ISocketPassive = Omit<IPassive, "actuators" | "manualModes" | "sensors"> & 
+{
+    current: number,
+    state: boolean;
+    logData: IPassiveStoredLogData[]
+}

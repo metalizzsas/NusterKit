@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import { Slot } from "./Slot";
 import { Controller } from "../Controller";
-import { IConfigSlot } from "../../interfaces/ISlot";
+import { IConfigSlot, ISocketSlot } from "../../interfaces/ISlot";
 
 export class SlotController extends Controller
 {
@@ -56,13 +56,12 @@ export class SlotController extends Controller
             }
         });
     }
-    async socketData()
+    async socketData(): Promise<ISocketSlot[]>
     {
-        const data = [];
+        const data: ISocketSlot[] = [];
         
-        for(const s of this.slots){
+        for(const s of this.slots)
             data.push(await s.socketData());
-        }
 
         return data;
     }

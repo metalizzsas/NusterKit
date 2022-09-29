@@ -1,5 +1,5 @@
-import { IPassive } from "../../interfaces/IPassive";
-import { IPassiveStoredLogData, PassiveModel } from "./PassiveModel";
+import { IPassive, ISocketPassive, IPassiveStoredLogData } from "../../interfaces/IPassive";
+import { PassiveModel } from "./PassiveModel";
 import { IOController } from "../io/IOController";
 import { ManualModeController } from "../manual/ManualModeController";
 import { LoggerInstance } from "../../app";
@@ -242,7 +242,8 @@ export class Passive implements IPassive {
         }
     }
 
-    toJSON() {
+    toJSON(): ISocketPassive
+    {
         return {
             name: this.name,
             target: this.target,

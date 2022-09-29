@@ -1,23 +1,28 @@
 import ModbusTCP from "modbus-serial";
 import ping from "ping";
-import { IOPhysicalController } from "./IOPhysicalController";
 
 import { LoggerInstance } from "../../../app";
 import { CycleController } from "../../cycle/CycleController";
+import { IIOPhysicalController, IWagoController } from "../../../interfaces/IIOControllers";
 
-export class WAGO extends IOPhysicalController
+export class WAGO implements IIOPhysicalController, IWagoController
 {
-    public client: ModbusTCP;
+    type = "wago" as const;
 
+    connected = false;
+    unreachable = false;
+    ip: string;
+
+    public client: ModbusTCP;
     private connectTimer?: NodeJS.Timer;
 
     constructor(ip: string)
     {
-        super("wago", ip);
-
+        this.ip = ip;
         this.client = new ModbusTCP();
         this.connect(); 
     }
+    
     async connect(): Promise<boolean>
     {
         if(this.unreachable)
@@ -91,6 +96,7 @@ export class WAGO extends IOPhysicalController
             await this.client.writeCoil(address, data == 1);
         }
     }
+
     async readData(address: number, word?: boolean): Promise<number>
     {
         if(this.unreachable)
@@ -118,6 +124,14 @@ export class WAGO extends IOPhysicalController
         {
             result = await this.client.readCoils(address, 1);
             return result.data[0] ? 1 : 0;
+        }
+    }
+
+    toJSON()
+    {
+        return {
+            type: this.type,
+            ip: this.ip
         }
     }
 }

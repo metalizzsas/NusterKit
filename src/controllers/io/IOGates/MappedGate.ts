@@ -1,12 +1,14 @@
 import { LoggerInstance } from "../../../app";
+import { IIOGate } from "../../../interfaces/gates/IIOGate";
 import { IMappedGate } from "../../../interfaces/gates/IMappedGate";
 import { map } from "../../../map";
 import { IOController } from "../IOController";
 import { IOGate } from "./IOGate";
 
-export class MappedGate extends IOGate
+export class MappedGate extends IOGate implements IIOGate, IMappedGate
 {
-    type: "mapped";
+    type = "mapped" as const;
+    size = "word" as const;
 
     mapInMin: number;
     mapInMax: number;
@@ -17,9 +19,7 @@ export class MappedGate extends IOGate
     constructor(obj: IMappedGate)
     {
         super(obj);
-
-        this.type = "mapped";
-
+        
         this.mapInMin = obj.mapInMin ?? 0;
         this.mapInMax = obj.mapInMax ?? 32767;
 

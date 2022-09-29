@@ -5,15 +5,13 @@ import { IOGate } from "./IOGate";
 
 export class UM18IOGate extends IOGate implements IUM18Gate
 {
-    type: "um18";
+    type = "um18" as const;
 
-    public levelMax: number;
+    levelMax: number;
 
     constructor(obj: IUM18Gate)
     {
         super(obj);
-        
-        this.type = "um18";
         this.levelMax = obj.levelMax;
     }
 

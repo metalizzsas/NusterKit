@@ -2,7 +2,7 @@ import { Controller } from "../Controller";
 import { Passive } from "./Passive";
 import { Request, Response } from "express";
 import { AuthManager } from "../../auth/auth";
-import { IPassive } from "../../interfaces/IPassive";
+import { IPassive, ISocketPassive } from "../../interfaces/IPassive";
 
 export class PassiveController extends Controller
 {
@@ -90,8 +90,8 @@ export class PassiveController extends Controller
         return this.passives.find(c => c.name == name);
     }
 
-    public get socketData()
+    public get socketData(): ISocketPassive[]
     {
-        return this.passives.filter(p => p.internal !== true);
+        return this.passives.filter(p => p.internal !== true).map(p => p.toJSON());
     }
 }

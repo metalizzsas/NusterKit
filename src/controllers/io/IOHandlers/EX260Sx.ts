@@ -4,27 +4,28 @@ import ping from "ping";
 import { ENIP } from "ts-enip";
 import { MessageRouter } from "ts-enip/dist/enip/cip/messageRouter";
 import { Encapsulation } from "ts-enip/dist/enip/encapsulation";
-import { IOPhysicalController } from "./IOPhysicalController";
-import { IEX260Controller } from "../../../interfaces/IIOControllers";
+import { IEX260Controller, IIOPhysicalController } from "../../../interfaces/IIOControllers";
 import { LoggerInstance } from "../../../app";
 import { CycleController } from "../../cycle/CycleController";
 
-export class EX260Sx extends IOPhysicalController implements IEX260Controller
+export class EX260Sx implements IIOPhysicalController, IEX260Controller
 {
-    private controller: ENIP.SocketController;
-
-    type: "ex260sx";
+    type = "ex260sx" as const;
+    
+    connected = false;
+    unreachable = false;
+    ip: string;
+    
     size: 16 | 32;
-
+    
+    private controller: ENIP.SocketController;
     /**
      * Builds an EX260Sx object
      * @param ip Ip address of the controller
      */
     constructor(ip: string, size: 16 | 32)
     {
-        super("ex260sx", ip);
-
-        this.type = "ex260sx";
+        this.ip = ip;
         this.size = size;
         
         this.controller = new ENIP.SocketController();
@@ -32,7 +33,7 @@ export class EX260Sx extends IOPhysicalController implements IEX260Controller
 
         this.connect();
     }
-
+    
     async connect(): Promise<boolean>
     {
         if(this.unreachable || process.env.NODE_ENV !== 'production')
@@ -77,10 +78,15 @@ export class EX260Sx extends IOPhysicalController implements IEX260Controller
         }
     }
 
-    override async readData()
-    {
-        throw new Error("Method not implemented");
-        return 0;
+    /**
+     * Unused read data function
+     * @unused
+     * @param _address 
+     * @param _word 
+     */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    readData(_address: number, _word?: boolean | undefined): Promise<number> {
+        throw new Error("Method not implemented.");
     }
 
     //Shall only be used for local applications
@@ -120,13 +126,7 @@ export class EX260Sx extends IOPhysicalController implements IEX260Controller
         })
     }
 
-    /**
-     * Write data to EX260-SEN1 module
-     * @param {number} address 
-     * @param {number} value 
-     * @returns 
-     */
-    override async writeData(address: number, value: number): Promise<void>
+    async writeData(address: number, value: number): Promise<void>
     {
         if(this.unreachable || process.env.NODE_ENV !== 'production')
             return;
@@ -191,6 +191,14 @@ export class EX260Sx extends IOPhysicalController implements IEX260Controller
         if(write === false)
         {
             CycleController.getInstance().program?.end("controllerError");
+        }
+    }
+    
+    toJSON()
+    {
+        return {
+            type: this.type,
+            ip: this.ip
         }
     }
 }

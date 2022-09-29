@@ -10,6 +10,8 @@ export interface IConfigMaintenance extends IMaintenance
     procedure?: IMaintenanceProcedure;
 }
 
+export type ISocketMaintenance = IConfigMaintenance & IMaintenance & { durationActual: number, durationProgress: number };
+
 /** Maintenance task object stored in database */
 export interface IMaintenance
 {

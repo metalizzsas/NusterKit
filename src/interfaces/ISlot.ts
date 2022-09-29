@@ -1,8 +1,7 @@
 import { ICallToAction } from "./nusterData/ICallToAction";
 
 /** Slot definition used in config */
-export interface IConfigSlot
-{
+export interface IConfigSlot {
     /** Slots name */
     name: string;
     /** Slot type */
@@ -17,6 +16,21 @@ export interface IConfigSlot
     callToAction?: ICallToAction[];
 }
 
+/** Slot data for productable slots */
+export interface ISlotProductData {
+    /** Product series */
+    productSeries: EProductSeries;
+    /** Porduct load date */
+    loadDate: Date;
+    /** Product lifetime progress (between 0 and 1) */
+    lifetimeProgress: number;
+    /** Product lifetime remaining in Milliseconds */
+    lifetimeRemaining: number;
+}
+
+/** Data returned from slot manager */
+export type ISocketSlot = IConfigSlot & { slotData?: ISlotProductData };
+
 /** Product series TODO: Make this only available for offline devices */
 export enum EProductSeries {
     LLC = "llc",
@@ -28,8 +42,7 @@ export enum EProductSeries {
 }
 
 /** Slot Sensor interface */
-export interface ISlotSensor
-{
+export interface ISlotSensor {
     /** IO gate name of this sensor */
     io: string;
     /** Slot type */
@@ -48,9 +61,8 @@ export enum ESlotSensorType {
 }
 
 /** Slot product options */
-export interface ISlotProductOptions 
-{
-    /** Lifespan of the product in days if -1, no lifespan, count the life since the product hass been installed */ 
+export interface ISlotProductOptions {
+    /** Lifespan of the product in days if -1, no lifespan, count the life since the product hass been installed */
     lifespan: number;
     /** Default product series */
     defaultProductSeries: EProductSeries;

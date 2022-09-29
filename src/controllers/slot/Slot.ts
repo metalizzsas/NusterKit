@@ -1,5 +1,5 @@
 import { LoggerInstance } from "../../app";
-import { EProductSeries, IConfigSlot, ISlotProductOptions, ISlotSensor } from "../../interfaces/ISlot";
+import { EProductSeries, IConfigSlot, ISlotProductData, ISlotProductOptions, ISlotSensor, ISocketSlot } from "../../interfaces/ISlot";
 import { ICallToAction } from "../../interfaces/nusterData/ICallToAction";
 import { SlotModel } from "./SlotModel";
 import { SlotSensor } from "./SlotSensor";
@@ -14,7 +14,7 @@ export class Slot implements IConfigSlot
 
     productOptions?: ISlotProductOptions;
 
-    productData?: { productSeries: EProductSeries, loadDate: Date, lifetimeProgress: number, lifetimeRemaining: number };
+    productData?: ISlotProductData;
 
     constructor(slot: IConfigSlot)
     {
@@ -103,22 +103,9 @@ export class Slot implements IConfigSlot
         return this.productOptions !== undefined;
     }
 
-    toJSON()
-    {
-        return {
-            name: this.name,
-            type: this.type,
-
-            sensors: this.sensors,
-            callToAction: this.callToAction,
-            productOptions: this.productOptions,
-            productData: this.productData
-        };
-    }
-
-    async socketData()
+    async socketData(): Promise<ISocketSlot>
     {
         await this.fetchSlotData();
-        return { ...this.toJSON(), isProductable: this.isProductable, productData: this.productData };
+        return this;
     }
 }

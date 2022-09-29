@@ -22,6 +22,8 @@ export interface IManualMode
     }
 }
 
+export type ISocketManual = Omit<IManualMode, "controls" | "watchdog"> & {category: string, locked: boolean, state: number};
+
 export interface IManualWatchdogCondition
 {
     /** Gate name to control */

@@ -1,16 +1,20 @@
 import { LoggerInstance } from "../../../app";
+import { IIOGate } from "../../../interfaces/gates/IIOGate";
 import { IPT100Gate } from "../../../interfaces/gates/IPT100Gate";
 import { IOController } from "../IOController";
 import { IOGate } from "./IOGate";
 
-export class PT100Gate extends IOGate implements PT100Gate
+export class PT100Gate extends IOGate implements IIOGate, IPT100Gate
 {
-    type: "pt100";
+    // ** Automatic infered types for PT100 Gate **
+    type = "pt100" as const;
+    unity = "°C" as const;
+    size = "word" as const;
+    bus = "in" as const;
 
     constructor(obj: IPT100Gate)
     {
         super(obj);
-        this.type = "pt100";
     }
 
     public async read()

@@ -35,6 +35,12 @@ export declare interface IMachineSettings
     /** Masked manual modes */
     maskedManuals?: string[];
     
+    /**
+     * Do profile button is masked
+     * @defaultValue false //TODO check this
+     */
+    profilesMasked?: boolean;
+
     /** 
      * Disable IO controls access 
      * @defaultValue true

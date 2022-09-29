@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import { IPassiveStoredLogData } from "../../interfaces/IPassive";
 
 export interface IPassiveStored {
     name: string;
@@ -6,14 +7,6 @@ export interface IPassiveStored {
     state: boolean;
 
     logData: IPassiveStoredLogData[]
-}
-
-export interface IPassiveStoredLogData {
-    time?: Date,
-    state?: boolean
-
-    targetValue: number,
-    interpolatedSensorsValue: number,
 }
 
 const PassiveLogDataSchema = new Schema<IPassiveStoredLogData>({

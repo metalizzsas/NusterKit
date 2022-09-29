@@ -1,4 +1,4 @@
-import { IOGate } from "./IOGates/IOGate";
+import { DefaultGate } from "./IOGates/DefaultGate";
 import { Controller } from "../Controller";
 
 import { Request, Response } from "express";
@@ -6,22 +6,20 @@ import { WAGO } from "./IOHandlers/WAGO";
 import { EX260Sx } from "./IOHandlers/EX260Sx";
 import { UM18IOGate } from "./IOGates/UM18Gate";
 import { IUM18Gate } from "../../interfaces/gates/IUM18Gate";
-import { EM4 } from "./IOHandlers/EM4";
 import { PT100Gate } from "./IOGates/PT100Gate";
 import { MappedGate } from "./IOGates/MappedGate";
 import { IMappedGate } from "../../interfaces/gates/IMappedGate";
 import { IPT100Gate } from "../../interfaces/gates/IPT100Gate";
-import { IOPhysicalController } from "./IOHandlers/IOPhysicalController";
-import { IOControllers } from "../../interfaces/IIOControllers";
-import { IOGateTypes } from "../../interfaces/gates/IIOGate";
+import { IIOPhysicalController, IOControllersConfig } from "../../interfaces/IIOControllers";
+import { IOGates, IOGatesConfig } from "../../interfaces/gates/IIOGate";
 import { AuthManager } from "../../auth/auth";
 
 export class IOController extends Controller
 {
     /** IO Physical handlers */
-    handlers: IOPhysicalController[] = [];
+    handlers: IIOPhysicalController[] = [];
     /** IO Physical gates */
-    gates: IOGate[] = [];
+    gates: IOGates[] = [];
 
     /** IO Scanner interval timer */
     private timer?: NodeJS.Timer;
@@ -29,7 +27,7 @@ export class IOController extends Controller
     /** IOController Instance */
     private static _instance: IOController;
 
-    private constructor(handlers: IOControllers[], gates: IOGateTypes[])
+    private constructor(handlers: IOControllersConfig[], gates: IOGatesConfig[])
     {
         super();
         this._configureRouter();
@@ -43,7 +41,7 @@ export class IOController extends Controller
      * @throws
      * @returns IO Controller instance
      */
-    static getInstance(handlers?: IOControllers[], gates?: IOGateTypes[]): IOController
+    static getInstance(handlers?: IOControllersConfig[], gates?: IOGatesConfig[]): IOController
     {
         if(!IOController._instance)
             if( handlers !== undefined && gates !== undefined)
@@ -54,7 +52,7 @@ export class IOController extends Controller
         return IOController._instance;
     }
 
-    private _configure(handlers: IOControllers[], gates: IOGateTypes[])
+    private _configure(handlers: IOControllersConfig[], gates: IOGatesConfig[])
     {
         // Register IO Handlers from their types
         for(const handler of handlers)
@@ -65,7 +63,6 @@ export class IOController extends Controller
             switch(handler.type)
             {
                 case "wago": this.handlers.push(new WAGO(handler.ip)); break;
-                case "em4": this.handlers.push(new EM4(handler.ip)); break;
                 case "ex260sx": this.handlers.push(new EX260Sx(handler.ip, handler.size)); break;
             }
         }
@@ -78,7 +75,7 @@ export class IOController extends Controller
                 case "um18": this.gates.push(new UM18IOGate(gate as IUM18Gate)); break;
                 case "mapped": this.gates.push(new MappedGate(gate as IMappedGate)); break;
                 case "pt100": this.gates.push(new PT100Gate(gate as IPT100Gate)); break;
-                case "default": this.gates.push(new IOGate(gate)); break;
+                case "default": this.gates.push(new DefaultGate(gate)); break;
             }
         }
 
@@ -122,7 +119,7 @@ export class IOController extends Controller
      * @param name Gate name to find
      * @returns iogates
      */
-    public gFinder(name: string): IOGate | undefined
+    public gFinder(name: string): IOGates | undefined
     {
         return this.gates.find((g) => g.name == name);
     }
@@ -135,18 +132,10 @@ export class IOController extends Controller
     {
         if(!this.timer)
         {
-            let skip = 1;
             this.timer = setInterval(() => {
                 for(const g of this.gates.filter((g) => g.bus == "in"))
                 {
-                    //skip the io read if the automaton is an EM4
-                    if(this.handlers.at(g.controllerId)?.type == "em4")
-                        continue;
-                    
-                    if(g.isCritical || skip > 4)
-                            g.read();
-                    
-                    skip > 4 ? skip = 1 : skip++;
+                    g.read();
                 }
 
             }, 500);
@@ -162,7 +151,7 @@ export class IOController extends Controller
     /**
      * Return the data towards the socket
      */
-    public get socketData()
+    public get socketData(): [IOGates[], IIOPhysicalController[]]
     {
         return [this.gates, this.handlers];
     }

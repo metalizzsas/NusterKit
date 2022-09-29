@@ -22,6 +22,7 @@ import type { IVPNData } from "./interfaces/balena/IVPNData";
 import type { IDeviceData } from "./interfaces/balena/IDeviceData";
 import { IConfiguration } from "./interfaces/IConfiguration";
 import { LoggerInstance } from "./app";
+import { IStatusMessage } from "./interfaces/webSocketData";
 
 export class Machine
 {
@@ -127,12 +128,14 @@ export class Machine
         }
     }
 
-    public async socketData()
+    public async socketData(): Promise<IStatusMessage>
     {
         const profiles = await this.profileController.socketData();
         const maintenances = await this.maintenanceController.socketData();
         const slot = await this.slotController.socketData();
 
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
         return {
             "machine": this.toJSON(),
             "cycle": this.cycleController.socketData,
@@ -156,16 +159,11 @@ export class Machine
         return path.resolve("nuster-turbine-machines", "data", this.data.model, this.data.variant, `${this.data.revision}`);
     }
 
-    toJSON()
+    toJSON(): IStatusMessage["machine"]
     {
         return {
             ...this.data,
 
-            /** 
-             * BalenaOS Given data
-             * @deprecated
-             */
-            balenaVersion: process.env.BALENA_HOST_OS_VERSION,
             hypervisorData: this.hypervisorData,
             vpnData: this.vpnData,
             deviceData: this.deviceData,

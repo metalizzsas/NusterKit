@@ -1,4 +1,4 @@
-import { IManualMode } from "../../interfaces/IManualMode";
+import { IManualMode, ISocketManual } from "../../interfaces/IManualMode";
 import { WebsocketDispatcher } from "../../websocket/WebsocketDispatcher";
 import { IOController } from "../io/IOController";
 import { ManualModeController } from "./ManualModeController";
@@ -44,12 +44,6 @@ export class ManualMode implements IManualMode
             {
                 this.watchdog.push(new ManualWatchdogCondition(this, w));
             }
-        }
-
-        //Add io gates manual mode watchdog
-        for(const io of IOController.getInstance().gates.filter(g => g.manualModeWatchdog == true))
-        {
-            this.watchdog.push(new ManualWatchdogCondition(this, {gateName: io.name, gateValue: 1}));
         }
     }
 
@@ -164,15 +158,13 @@ export class ManualMode implements IManualMode
         this.locked = false;
     }
     
-    toJSON()
+    toJSON(): ISocketManual
     {
         return {
             name: this.name,
             category: this.category,
             state: this.state,
             locked: this.locked,
-
-            controls: this.controls,
             
             incompatibility: this.incompatibility,
             requires: this.requires,

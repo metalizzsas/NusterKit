@@ -14,7 +14,7 @@
 >
 	<Flex direction="col" gap={0}>
 		<span>{$_('cycle.steps.' + step.name + '.name')}</span>
-		{#if step.state != 'completed'}
+		{#if step.state != 'ended'}
 			<span class="italic text-xs text-gray-300">
 				{$_('cycle.steps.' + step.name + '.desc')}
 			</span>
@@ -28,14 +28,14 @@
 					'?'}
 			</span>
 		{/if}
-		{#if step.duration.data !== -1 && step.state != 'completed'}
+		{#if step.duration.data !== -1 && step.state != 'ended'}
 			<span class="bg-white rounded-full px-2 py-1 text-gray-800 text-xs">
 				{Math.ceil(step.progress * 100) > 99 ? '100' : Math.ceil(step.progress * 100)}
 				%
 			</span>
 		{/if}
 		<div class="rounded-full p-1 bg-white self-center">
-			{#if step.state == 'waiting'}
+			{#if step.state == 'created'}
 				<svg
 					id="glyphicons-basic"
 					xmlns="http://www.w3.org/2000/svg"
@@ -71,12 +71,14 @@
 						d="M27.37592,9.70459l-14.151,15.97693a.99985.99985,0,0,1-1.47558.02356L4.59711,18.1322a.99992.99992,0,0,1-.05384-1.31128L5.495,15.63123a.99994.99994,0,0,1,1.22808-.26966L12,18,24.79724,7.09863a.99991.99991,0,0,1,1.35553.0542l1.1817,1.18164A1,1,0,0,1,27.37592,9.70459Z"
 					/>
 				</svg>
-			{:else if step.state == 'completed'}
+			{:else if ['ending', 'ended'].includes(step.state)}
 				<svg
 					id="glyphicons-basic"
 					xmlns="http://www.w3.org/2000/svg"
 					viewBox="0 0 32 32"
-					class="fill-emerald-500 h-5 w-5"
+					class="{step.state == 'ending'
+						? 'fill-orange-500'
+						: 'fill-emerald-500'} h-5 w-5"
 				>
 					<path
 						id="check"

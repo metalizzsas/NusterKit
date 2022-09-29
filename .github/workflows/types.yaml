@@ -22,8 +22,10 @@ jobs:
           # Defaults to the user or organization that owns the workflow file
           scope: '@metalizzsas'
       - run: npm i --save-dev
+        working-directory: ./app
       - run: npm run types
-      - run: cd ./types
+        working-directory: ./app
       - run: npm publish
+        working-directory: ./app/types
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

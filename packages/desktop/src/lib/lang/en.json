@@ -1,0 +1,302 @@
+{
+  "ok": "Ok",
+  "nok": "Ko",
+  "yes": "Yes ✓",
+  "no": "No ✗",
+  "back": "Back",
+  "cancel": "Cancel",
+  "binary_true": "True ✓",
+  "true": "Yes",
+  "false": "No",
+  "binary_false": "False ✗",
+  "present": "Ok ✓",
+  "missing": "Missing ✗",
+  "close-keyboard": "Close the keyboard",
+  "close-modal": "Close",
+  "connect": "Connect",
+  "machinelist": "Machine list",
+  "machinelist-empty": "Nothing found here! Add a machine first ↗",
+  "machinelist-add": "Add machine",
+
+  "renderError": "Failed to render this page",
+  "renderErrorSub": "This is unfortunate...",
+  "renderErrorRedirect": "Something went wrong, you will be redirected soon.",
+  "renderErrorRedirectButton": "Redirect now",
+
+  "date": {
+    "days": "Days",
+    "day": "Day",
+    "hours": "Hours",
+    "hour": "Hour",
+    "minutes": "Minutes",
+    "minute": "Minute",
+    "seconds": "Seconds",
+    "second": "Second",
+    "milliseconds": "Milliseconds",
+    "millisecond": "Millisecond"
+  },
+
+  "machines": {
+    "metalfog": "Metalfog",
+    "smoothit": "Smoothit",
+    "uscleaner": "USCleaner"
+  },
+  "loadingScreen": {
+    "connectionAttemptCount": "Connection atempt :",
+    "connectionError": "Connection error, #ip is unreachable.",
+    "retry": "Retry",
+    "return": "Back"
+  },
+  "machine": {
+    "informations": "Machine informations",
+    "network_informations": "Network informations",
+    "model": "Model",
+    "variant": "Variant",
+    "revision": "Revision",
+    "serial": "Serial number",
+    "cycleCount": "Cycle count",
+    "nusterVersion": "Nuster version",
+    "balenaVersion": "Balena version",
+    "ips": "Machine IP Addresses",
+    "macs": "Machine MAC Addresses",
+    "vpn.connected": "Connected to VPN"
+  },
+  "procedures": "Procedures",
+  "slots": {
+    "name": "Containers",
+    "product": "Product",
+    "product.done": "Out of date",
+    "sensors": {
+      "name": "Sensors",
+      "types": {
+        "level-n": "Limit switch",
+        "level-min-n": "Minimal limit",
+        "level-max-n": "Maximal limit",
+        "level-np": "Presence switch",
+        "level-a": "Level",
+        "temperature": "Temperature"
+      }
+    },
+    "modal": {
+      "informations": "Informations",
+      "productSeries": "Product series",
+      "productLifetime": "Product lifetime",
+      "action": "Slot actions"
+    }
+  },
+  "profile": {
+    "button": "Profiles",
+    "list": "Profile list",
+    "modification-date": "Last modification date",
+    "name": "Profile name",
+    "globals": "Global informations",
+    "settings": "Profile settings",
+    "premades": {
+      "true": "Constructor profiles",
+      "false": "User profiles"
+    },
+    "buttons": {
+      "add": "Add a new profile"
+    },
+    "modals": {
+      "create": {
+        "title": "New profile",
+        "message": "Choose a profile blueprint"
+      },
+      "copy": {
+        "title": "Copy profile {profile.name}",
+        "message": "Choose a new name for the copied profile."
+      },
+      "delete": {
+        "title": "Delete profile {profile.name}",
+        "message": "Do you want to delete {profile.name} ?"
+      },
+      "save": {
+        "title": "Saving {profile.name}",
+        "message": "Would you like to save {profile.name} ?",
+        "name-short": "The name selected for this profile is invalid, please set the name to at least 1 caracter"
+      }
+    },
+    "rows": {
+      "enabled": "Enabled",
+      "speed": "Speed",
+      "duration": "Duration",
+      "count": "Iteration count",
+      "timeOn": "Time enabled",
+      "timeOff": "Time disabled"
+    }
+  },
+  "passives": {
+    "list": "Regulation",
+    "settings": "Settings",
+    "current": "Actual value",
+    "target": "Target value",
+    "chart": {
+      "show": "Display evolution",
+      "title": "Passive evolution over time"
+    }
+  },
+  "settings": {
+    "main": "Settings",
+    "enable-dark-mode": "Dark mode",
+    "layout-format": "Simplified layout",
+    "language": "Language",
+    "restart": "Restart machine",
+    "reload-nuster": "Reload interface",
+    "updateNotes": {
+      "main": "Release notes",
+      "firmware": "Firmware",
+      "ui": "User interface"
+    },
+    "updateGoing": {
+      "desc": "Installing the update, please wait...",
+      "title": "Update"
+    },
+    "triggerUpdate": "Install update",
+    "updateProgress": "Update downloading progress"
+  },
+  "cycle": {
+    "eta": {
+      "null": "Unknown",
+      "remaining": "Remaining time",
+      "estimated": "Estimated"
+    },
+    "button": "Cycle",
+    "presets": "Constructor defined cycles",
+    "presets-anex": "Secondary constructor cycles",
+    "user": "User defined cycles",
+    "name": "Cycles",
+    "choice.message": "Choose a cycle to begin",
+    "quickstart": {
+      "head": "QuickStart Cycle",
+      "settings": "Cycle settings",
+      "settings-save": "Saved settings",
+      "settings-save-action": "Save",
+      "settings-edit-action": "Edit",
+      "settings-delete-action": "Delete",
+      "start": "Prepare cycle"
+  },
+    "types": {
+      "custom": "Customized cycle"
+    },
+    "custom": {
+      "select": {
+        "cycle": "Custom cycle",
+        "profile": "Profile"
+      }
+    },
+    "end": {
+      "cycle-ended": "Cycle has ended.",
+      "cycle-ended-reason": "End reason",
+      "cycle-rating-lead": "Rate the cycle",
+      "cycle-rating-text": "Rating the cycle is not required but it helps us improving our cycles and machines.",
+      "cycle-rating-text2": "Rating the cycle can also help you in filtering cycle histories.",
+      "cycle-duration": "Cycle duration"
+    },
+    "endreasons": {
+      "user": "User aborted cycle",
+      "finished": "Finished successfully",
+      "controllerTimeout": "IO Controller timed out",
+      "controllerError": "IO Controller error",
+      "controllerUnreachable": "IO Controller is unreachable",
+      "stepOvertime": "Cycle step has take too much time to end. Strange behavior might have happened"
+    },
+    "modals": {
+      "watchdog": {
+        "title": "Security chain error",
+        "message": "Cycle can't start. A security chain error has occured."
+      }
+    },
+    "buttons": {
+      "resume": "Resume cycle",
+      "prepare": "Prepare cycle",
+      "end": "Stop cycle",
+      "finish": "Finish cycle",
+      "start": "Start cycle",
+      "complete": "Complete cycle",
+      "cancel": "Cancel cycle",
+      "nextStep": "Next Step"
+    },
+    "steps": {
+      "title": "Cycle steps",
+      "status": "Cycle status",
+      "additional-info": "Additional informations"
+    },
+    "preparation": "Preparation",
+    "running": "Running",
+    "security": "Security",
+    "choice": "Cycle choice",
+    "profile.choice": "Profile choice",
+    "progression": "Cycle progression",
+    "watchdog": {
+      "conditions": "Starting security conditions"
+    },
+    "history": "Histories",
+    "histories":
+    {
+      "retake": {
+        "title": "Warning with retaken cycles",
+        "main": "This feature is not completely implemented. Retaking cycles can have weird behavior, this should be used on critcal parts. Would you like to proceed anyways ?"
+      }
+    }
+  },
+  "gates": {
+    "name": "IO Controls",
+    "bus": {
+      "in": "Inputs",
+      "out": "Outputs"
+    },
+    "categories": {
+      "generic": "Generic"
+    }
+  },
+  "popups": {
+    "manualMode":
+    {
+      "security":
+      {
+        "title": "Manual mode security error",
+        "message": "There was a security error on one of the enabled manual modes. It has been toggled off."
+      },
+      "requiredParent": {
+        "title": "Manual mode Parent error",
+        "message": "A parent manual mode has been switched off. All children manual modes were toggled off."
+      }
+    }
+  },
+  "manual": {
+    "button": "Manual mode",
+    "list": "Manual modes",
+    "warning": "Manual modes helps you to articulate the machine manually. Be careful Security restrictions are partialy disabled here.",
+    "incompatibilities": "Incompatibilities",
+    "requires": "Requires",
+    "categories": {
+      "generic": "Generic"
+    }
+  },
+  "maintenance": {
+    "list": "Maintenance tasks",
+    "description": "Maintenance task informations",
+    "duration": "Duration",
+    "percentage": "Percentage",
+    "procedure": {
+      "title": "Maintenance procedure",
+      "tools": "Tools used",
+      "next": "Next",
+      "previous": "Previous",
+      "reset": "Maintenance task validation"
+    },
+    "unity": {
+      "cycle": "Cycles",
+      "hours": "Hours",
+      "time": "Duration"
+    },
+    "tools-used": "Tools required",
+    "tools": {
+      "allen-wrench-2.5": "2.5mm Allen wrench",
+      "allen-wrench-3": "3mm Allen wrench",
+      "none": "No tools needed"
+    }
+  },
+  "proceed": "Proceed"
+}

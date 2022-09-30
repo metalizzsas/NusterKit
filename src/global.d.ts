@@ -2,3 +2,4 @@
 /// <reference types="svelte" />
 /// <reference types="vite/client" />
 /// <reference types="howler" />
+/// <reference types="webSocketData/index" />

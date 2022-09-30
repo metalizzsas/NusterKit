@@ -11,7 +11,8 @@
 		"clean": "rm -rf ./node_modules/ && rm package-lock.json && npm i",
 		"dev": "vite dev --port 3001 --host",
 		"build": "vite build",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"lint": "eslint"
 	},
 	"dependencies": {
 		"@fontsource/montserrat": "^4.5.11",

@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 
+	import type { IPopupMessage, IStatusMessage, IWebSocketData } from 'webSocketData/index';
+
 	import { beforeUpdate, onDestroy, onMount } from 'svelte';
 
 	import { lockMachineData, machineData } from '$lib/utils/stores/store';
@@ -77,24 +79,19 @@
 			}
 		}
 		ws.onmessage = (e: MessageEvent) => {
-			interface WSContent {
-				type: string;
-				message: IWSObject | INusterPopup | string;
-			}
-
-			let data = JSON.parse(e.data) as WSContent;
+			let data = JSON.parse(e.data) as IWebSocketData;
 
 			switch (data.type) {
 				case 'status': {
 					if ($lockMachineData === false) {
-						$machineData = data.message as IWSObject;
+						$machineData = data.message as IStatusMessage;
 						ready = true;
 					}
 					break;
 				}
 				case 'popup': {
 					displayPopup = true;
-					popupData = data.message as INusterPopup;
+					popupData = data.message as IPopupMessage;
 					break;
 				}
 			}

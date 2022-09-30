@@ -23,7 +23,7 @@
 		<Cyclesecurity />
 	{:else if $machineData.cycle.status.mode === 'started'}
 		<Cyclerunning />
-	{:else if $machineData.cycle.status.mode === 'ended'}
+	{:else if $machineData.cycle.status.mode === 'ended' || $machineData.cycle.status.mode === 'ending'}
 		<Cycleend />
 	{/if}
 </div>

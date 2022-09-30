@@ -1,5 +1,5 @@
 {
-  "name": "nuster-turbine",
+  "name": "@metalizzsas/nuster-turbine",
   "engines": {
     "node": "18.x"
   },
@@ -85,6 +85,5 @@
     "nodemon": "^2.0.20",
     "ts-jest": "^29.0.2",
     "ts-node": "^10.9.1"
-  },
-  "packageManager": "yarn@3.2.3"
+  }
 }

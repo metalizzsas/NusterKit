@@ -1,0 +1,11 @@
+{
+    "version": "1.0.0",
+    "name": "@metalizzsas/nusterturbine-types",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/metalizzsas/nusterturbine.git"
+    },
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com"
+    }
+}

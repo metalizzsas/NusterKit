@@ -1,0 +1,16 @@
+node_modules/
+data/
+nuster/
+nuster-desktop/
+nuster-kiosk/
+nuster-turbine-machines/
+docs/
+types/*
+!types/package.json
+!types/readme.md
+build/
+.vscode/
+.yarn/
+package-lock.json
+.DS_store
+yarn.lock

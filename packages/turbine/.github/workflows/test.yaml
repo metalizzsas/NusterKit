@@ -1,0 +1,22 @@
+on:
+ pull_request:
+    types: [opened, synchronize, closed]
+    branches:
+      - main
+
+name: "Testing buildability"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - uses: actions/setup-node@v2
+        name: Install nodejs
+        with:
+          node-version: '18'
+      
+      - run: npm i
+        name: Install packages
+      - run: npm run build
+        name: Run build test

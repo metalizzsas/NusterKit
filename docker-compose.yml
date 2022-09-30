@@ -1,24 +1,30 @@
 version: "2"
+
 volumes: 
   nuster-data:
+  mongodb:
+  settings:
+  
 services:
   mongodb:
     image: mongo:4.2
     restart: always
-    network_mode: 'host'
+    network_mode: host
     volumes: 
-      - 'nuster-data:/data'
+      - mongodb:/data/db
+
   nuster-turbine:
     image: ghcr.io/metalizzsas/nusterturbine:main
-    network_mode: "host"
+    network_mode: host
     depends_on: 
       - "mongodb"
     volumes:
-      - 'nuster-data:/data'
+      - nuster-data:/data
     environment:
       DISABLE_AUTH: 'true'
     labels:
       io.balena.features.supervisor-api: '1'
+
   nuster-desktop:
     image: ghcr.io/metalizzsas/nusterdesktop:main
     restart: always
@@ -26,6 +32,7 @@ services:
     depends_on: 
       - "nuster-turbine"
       - "mongodb"
+
   nuster-kiosk:
     image: bh.cr/balenablocks/browser-aarch64
     privileged: true
@@ -36,14 +43,23 @@ services:
       - 'nuster-desktop'
     environment:
       DISPLAY_NUM: 0
-      LAUNCH_URL: 'http://127.0.0.1:3000/machine'
+      LAUNCH_URL: 'http://127.0.0.1/'
       KIOSK: 1
       ENABLE_GPU: 1
-      PERSISTANT: 1
-      WINDOW_SIZE: 1024, 600
-      #FLAGS: "--overscroll-history-navigation=0 --user-data-dir=/data/chromium-user-data"
+      PERSISTENT: 1
+      ROTATE: 1
     volumes:
-      - 'nuster-data:/data'
+      - 'settings:/data'
+
+  proxy: 
+    build: ./proxy/
+    restart: always
+    network_mode: host
+    depends_on: 
+      - "nuster-desktop"
+      - "nuster-turbine"
+      - "mongodb"
+
   wifi-connect:
     image: bh.cr/balenablocks/wifi-connect
     restart: always
@@ -57,3 +73,4 @@ services:
     environment:
       PORTAL_LISTENING_PORT: 8080
       PORTAL_SSID: 'Nuster Wifi Configurator'
+      DBUS_SYSTEM_BUS_ADDRESS: "unix:path=/host/run/dbus/system_bus_socket"

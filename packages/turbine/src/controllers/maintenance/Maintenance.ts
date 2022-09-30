@@ -1,6 +1,6 @@
-import { Document, Types } from "mongoose";
+import { ISocketMaintenance } from "@metalizzsas/nuster-typings/build/exchanged/maintenance";
+import { IConfigMaintenance, IMaintenanceProcedure } from "@metalizzsas/nuster-typings/build/spec/maintenance";
 import { LoggerInstance } from "../../app";
-import { IConfigMaintenance, IMaintenance, IMaintenanceProcedure, ISocketMaintenance } from "../../interfaces/IMaintenance";
 import { MaintenanceModel } from "./MaintenanceModel";
 
 export class Maintenance implements IConfigMaintenance
@@ -30,15 +30,17 @@ export class Maintenance implements IConfigMaintenance
         this.refresh();
     }
 
-    async refresh(document?: Document<unknown, unknown, IMaintenance> & IMaintenance & { _id: Types.ObjectId })
+    async refresh()
     {
-        const doc = (document !== undefined) ? document: await MaintenanceModel.findOne({ name: this.name });
+        const doc = await MaintenanceModel.findOne({ name: this.name });
 
-        if(doc != undefined)
+        if(doc != null)
         {
+            //TODO fixme
             this.duration = doc.duration ?? 0;
+            this.operationDate = doc.operationDate;
+
             this.durationProgress = Math.floor((this.duration / this.durationLimit));
-            this.operationDate = doc.operationDate
         }
         else
         {
@@ -52,7 +54,7 @@ export class Maintenance implements IConfigMaintenance
         const document = await MaintenanceModel.findOneAndUpdate({name: this.name}, {$inc: {duration: value}});
 
         if(document)
-            await this.refresh(document);
+            await this.refresh();
         else
             LoggerInstance.warn("Maintenance: Failed to append data to " + this.name + " tracker.");
     }
@@ -76,6 +78,7 @@ export class Maintenance implements IConfigMaintenance
         return {
             name: this.name,
 
+            duration: this.duration,
             durationType: this.durationType,
             durationLimit: this.durationLimit,
             durationActual: Math.floor(this.duration),

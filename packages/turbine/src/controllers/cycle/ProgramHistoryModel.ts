@@ -1,19 +1,5 @@
 import { model, Schema } from "mongoose";
-import { IParameterBlock } from "../../interfaces/IParameterBlock";
-import { IProfile } from "../../interfaces/IProfile";
-import { IProgramBlock } from "../../interfaces/IProgramBlock";
-import { IPBRStatus, IProgramRunner } from "../../interfaces/IProgramBlockRunner";
-import { IProgramStepRunner } from "../../interfaces/IProgramStep";
-import { IPBRSCCheckChain } from "../../interfaces/programblocks/startchain/IPBRSCCheckChain";
-import { IPBRStartCondition } from "../../interfaces/programblocks/startchain/IPBRStartCondition";
 import { ProfileSchema } from "../profile/ProfileModel";
-
-export interface IProgramHistory
-{
-    rating?: number,
-    cycle: IProgramRunner,
-    profile: IProfile
-}
 
 const PBRStatusSchema = new Schema<IPBRStatus>({
     mode: {type: String, required: true},

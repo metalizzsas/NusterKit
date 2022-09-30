@@ -1,8 +1,9 @@
+import { ISocketSlot } from "@metalizzsas/nuster-typings/build/exchanged/slot";
+import { IConfigSlot } from "@metalizzsas/nuster-typings/build/spec/slot";
 import { Request, Response } from "express";
 
-import { Slot } from "./Slot";
 import { Controller } from "../Controller";
-import { IConfigSlot, ISocketSlot } from "../../interfaces/ISlot";
+import { Slot } from "./Slot";
 
 export class SlotController extends Controller
 {

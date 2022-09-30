@@ -1,9 +1,9 @@
-import { IIOProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IIOProgramBlock";
-import { ProgramBlock } from "./index";
-import { StringParameterBlocks, NumericParameterBlocks } from "../ParameterBlocks";
-import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
+import { IIOProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IIOProgramBlock";
 import { LoggerInstance } from "../../app";
 import { IOController } from "../../controllers/io/IOController";
+import { NumericParameterBlocks, StringParameterBlocks } from "../ParameterBlocks";
+import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
+import { ProgramBlock } from "./index";
 
 export class IOWriteProgramBlock extends ProgramBlock implements IIOProgramBlock
 {

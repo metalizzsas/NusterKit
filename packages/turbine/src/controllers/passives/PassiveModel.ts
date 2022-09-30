@@ -1,5 +1,5 @@
-import { Schema, model } from "mongoose";
-import { IPassiveStoredLogData } from "../../interfaces/IPassive";
+import { IPassiveStoredLogData } from "@metalizzsas/nuster-typings/build/exchanged/passive";
+import { model, Schema } from "mongoose";
 
 export interface IPassiveStored {
     name: string;

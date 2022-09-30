@@ -1,9 +1,10 @@
+import { IIOPhysicalController } from "@metalizzsas/nuster-typings/build/spec/iophysicalcontrollers";
+import { IWagoController } from "@metalizzsas/nuster-typings/build/spec/iophysicalcontrollers/WagoController";
 import ModbusTCP from "modbus-serial";
 import ping from "ping";
 
 import { LoggerInstance } from "../../../app";
 import { CycleController } from "../../cycle/CycleController";
-import { IIOPhysicalController, IWagoController } from "../../../interfaces/IIOControllers";
 
 export class WAGO implements IIOPhysicalController, IWagoController
 {

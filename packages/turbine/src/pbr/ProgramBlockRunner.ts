@@ -1,9 +1,9 @@
+import { EPBRMode, IPBRStatus, IProgramRunner, IProgramTimer, IProgramVariable } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlockRunner";
+import { EProgramStepResult, EProgramStepType, EProgramStepState } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramStep";
 import { LoggerInstance } from "../app";
 import { IOController } from "../controllers/io/IOController";
 import { MaintenanceController } from "../controllers/maintenance/MaintenanceController";
 import { IProfileMap } from "../controllers/profile/ProfilesController";
-import { IPBRStatus, IProgramVariable, IProgramTimer, EPBRMode, IProgramRunner } from "../interfaces/IProgramBlockRunner";
-import { EProgramStepResult, EProgramStepState, EProgramStepType } from "../interfaces/IProgramStep";
 import { ProgramBlockStep } from "./ProgramBlockStep";
 import { PBRStartCondition } from "./startchain/PBRStartCondition";
 

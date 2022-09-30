@@ -1,9 +1,10 @@
+import { ISocketMaintenance } from "@metalizzsas/nuster-typings/build/exchanged/maintenance";
+import { IConfigMaintenance } from "@metalizzsas/nuster-typings/build/spec/maintenance";
 import { Request, Response } from "express";
 
-import { Maintenance } from "./Maintenance";
-import { Controller } from "../Controller";
-import { IConfigMaintenance, ISocketMaintenance } from "../../interfaces/IMaintenance";
 import { AuthManager } from "../../auth/auth";
+import { Controller } from "../Controller";
+import { Maintenance } from "./Maintenance";
 
 export class MaintenanceController extends Controller
 {

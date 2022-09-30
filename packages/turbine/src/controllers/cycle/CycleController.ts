@@ -2,14 +2,15 @@ import { Controller } from "../Controller";
 
 import { Request, Response } from "express";
 
-import { ProfileModel } from "../profile/ProfileModel";
-import { ProgramHistoryModel } from "./ProgramHistoryModel";
-import { ProgramBlockRunner } from "../../pbr/ProgramBlockRunner";
-import { IProfile, IProfileExportable } from "../../interfaces/IProfile";
-import { EPBRMode, IPBRPremades, IProgram } from "../../interfaces/IProgramBlockRunner";
-import { IProfileMap, ProfileController } from "../profile/ProfilesController";
-import { AuthManager } from "../../auth/auth";
 import { LoggerInstance } from "../../app";
+import { AuthManager } from "../../auth/auth";
+import { ProgramBlockRunner } from "../../pbr/ProgramBlockRunner";
+import { ProfileModel } from "../profile/ProfileModel";
+import { IProfileMap, ProfileController } from "../profile/ProfilesController";
+import { ProgramHistoryModel } from "./ProgramHistoryModel";
+import { IProfileExportable } from "@metalizzsas/nuster-typings/build/exchanged/profile";
+import { IPBRPremades, IProgram, EPBRMode } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlockRunner";
+import { IProfile } from "@metalizzsas/nuster-typings/build/spec/profile";
 
 export class CycleController extends Controller {
 

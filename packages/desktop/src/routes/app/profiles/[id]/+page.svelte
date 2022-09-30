@@ -4,8 +4,8 @@
 	import ProfileRow from '$lib/components/profile/profileRow.svelte';
 	import Toggle from '$lib/components/userInputs/toggle.svelte';
 	import Inputkb from '$lib/components/userInputs/inputkb.svelte';
-	import type { Profile } from '$lib/utils/interfaces';
 	import { onDestroy, onMount } from 'svelte';
+	import type { IConfigProfile } from '@metalizzsas/nuster-typings/build/spec/profile';
 	import { _ } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
 	import { Linker } from '$lib/utils/stores/linker';
@@ -17,7 +17,7 @@
 	import type { PageData } from './$types';
 	export let data: PageData;
 
-	let profile: Profile = data.profile;
+	let profile: IConfigProfile = data.profile;
 
 	let saveModalShown = false;
 	let saveModalCancel = false;

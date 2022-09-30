@@ -1,6 +1,6 @@
+import { INumericParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/IParameterBlock";
+import { IMultiplyParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ParameterBlocks/IMultiplyParameterBlock";
 import { NumericParameterBlocks, ParameterBlock } from ".";
-import {  INumericParameterBlock } from "../../interfaces/IParameterBlock";
-import { IMultiplyParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IMultiplyParameterBlock";
 import { ParameterBlockRegistry } from "./ParameterBlockRegistry";
 
 export class MultiplyParameterBlock extends ParameterBlock implements IMultiplyParameterBlock

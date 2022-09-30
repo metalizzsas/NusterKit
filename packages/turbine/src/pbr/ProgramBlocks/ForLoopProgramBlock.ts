@@ -1,12 +1,12 @@
-import { EPBRMode } from "../../interfaces/IProgramBlockRunner";
-import { IForLoopProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IForLoopProgramBlock";
-import { ProgramBlock, ProgramBlocks } from "./index";
-import { NumericParameterBlocks } from "../ParameterBlocks";
-import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
+import { EPBRMode } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlockRunner";
+import { EProgramStepState } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramStep";
+import { IForLoopProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IForLoopProgramBlock";
 import { LoggerInstance } from "../../app";
 import { CycleController } from "../../controllers/cycle/CycleController";
+import { NumericParameterBlocks } from "../ParameterBlocks";
+import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 import { PBRMissingError } from "../PBRMissingError";
-import { EProgramStepState } from "../../interfaces/IProgramStep";
+import { ProgramBlock, ProgramBlocks } from "./index";
 
 export class ForLoopProgramBlock extends ProgramBlock implements IForLoopProgramBlock {
 

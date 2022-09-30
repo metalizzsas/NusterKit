@@ -1,5 +1,5 @@
+import { IMaintenanceParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ParameterBlocks/IMaintenanceParameterBlock";
 import { ParameterBlock } from ".";
-import { IMaintenanceParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IMaintenanceParameterBlock";
 import { MaintenanceController } from "../../controllers/maintenance/MaintenanceController";
 
 export class MaintenanceProgressParameterBlock extends ParameterBlock implements IMaintenanceParameterBlock

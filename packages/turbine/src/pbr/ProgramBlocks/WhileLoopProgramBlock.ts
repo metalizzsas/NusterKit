@@ -1,7 +1,7 @@
+import { EPBRMode } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlockRunner";
+import { EProgramStepState } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramStep";
+import { IWhileLoopProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IWhileLoopProgramBlock";
 import { CycleController } from "../../controllers/cycle/CycleController";
-import { EPBRMode } from "../../interfaces/IProgramBlockRunner";
-import { EProgramStepState } from "../../interfaces/IProgramStep";
-import { IWhileLoopProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IWhileLoopProgramBlock";
 import { NumericParameterBlocks, StringParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 import { PBRMissingError } from "../PBRMissingError";

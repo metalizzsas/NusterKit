@@ -1,7 +1,7 @@
+import { IPassiveProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IPassiveProgramBlock";
 import { ProgramBlock } from ".";
 import { LoggerInstance } from "../../app";
 import { PassiveController } from "../../controllers/passives/PassiveController";
-import { IPassiveProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IPassiveProgramBlock";
 import { NumericParameterBlocks, StringParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 

@@ -1,9 +1,9 @@
-import { IIfProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IIfProgramBlock";
 import { ProgramBlock, ProgramBlocks } from "./index";
 import { ProgramBlockRegistry } from "./ProgramBlockRegistry";
 import { NumericParameterBlocks, StringParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 import { LoggerInstance } from "../../app";
+import { IIfProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IIfProgramBlock";
 
 
 export class IfProgramBlock extends ProgramBlock implements IIfProgramBlock

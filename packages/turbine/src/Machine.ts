@@ -14,21 +14,19 @@ import { ManualModeController } from "./controllers/manual/ManualModeController"
 import { ProfileController } from "./controllers/profile/ProfilesController";
 import { SlotController } from "./controllers/slot/SlotController";
 import { parseAddon } from "./addons/AddonLoader";
-
-import type { IMachine } from "./interfaces/IMachine";
-import type { IAddon } from "./interfaces/IAddon";
-import type { IHypervisorData } from "./interfaces/balena/IHypervisorDevice";
-import type { IVPNData } from "./interfaces/balena/IVPNData";
-import type { IDeviceData } from "./interfaces/balena/IDeviceData";
-import { IConfiguration } from "./interfaces/IConfiguration";
 import { LoggerInstance } from "./app";
-import { IStatusMessage } from "./interfaces/webSocketData";
+
+import type { IConfiguration, IAddon, IMachineSpecs } from "@metalizzsas/nuster-typings";
+import type { IStatusMessage } from "@metalizzsas/nuster-typings/build/exchanged";
+import type { IDeviceData } from "@metalizzsas/nuster-typings/build/exchanged/balena/IDeviceData";
+import type { IHypervisorData } from "@metalizzsas/nuster-typings/build/exchanged/balena/IHypervisorDevice";
+import type { IVPNData } from "@metalizzsas/nuster-typings/build/exchanged/balena/IVPNData";
 
 export class Machine
 {
     data: IConfiguration;
 
-    specs: IMachine;
+    specs: IMachineSpecs;
 
     private maintenanceController: MaintenanceController;
     private ioController: IOController;
@@ -52,10 +50,10 @@ export class Machine
 
         // Retreive machine base specs to build all the controllers around this file
         const raw = fs.readFileSync(path.resolve(this.baseNTMFolder, "specs.json"), {encoding: "utf-8"});
-        const specsParsed = JSON.parse(raw) as IMachine;
+        const specsParsed = JSON.parse(raw) as IMachineSpecs;
 
         // Assign specs to this instance
-        this.specs = (specsParsed as IMachine);
+        this.specs = (specsParsed as IMachineSpecs);
 
         // Addon Parsing
         if(this.data.addons !== undefined)

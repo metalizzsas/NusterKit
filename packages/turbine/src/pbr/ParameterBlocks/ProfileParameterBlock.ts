@@ -1,5 +1,5 @@
+import { IProfileParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ParameterBlocks/IProfileParameterBlock";
 import { ParameterBlock } from ".";
-import { IProfileParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IProfileParameterBlock";
 import { LoggerInstance } from "../../app";
 import { CycleController } from "../../controllers/cycle/CycleController";
 

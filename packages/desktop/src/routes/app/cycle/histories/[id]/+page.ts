@@ -1,5 +1,5 @@
-import type { IHistory } from '$lib/utils/interfaces';
 import type { PageLoad } from './$types';
+import type { IHistory } from "@metalizzsas/nuster-typings/build/exchanged/cycle";
 
 export const load: PageLoad = async (ctx) => {
 	let dt = await ctx.fetch(

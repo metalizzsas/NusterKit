@@ -1,8 +1,9 @@
-import { Controller } from "../Controller";
-import { Passive } from "./Passive";
+import { ISocketPassive } from "@metalizzsas/nuster-typings/build/exchanged/passive";
+import { IConfigPassive } from "@metalizzsas/nuster-typings/build/spec/passive";
 import { Request, Response } from "express";
 import { AuthManager } from "../../auth/auth";
-import { IPassive, ISocketPassive } from "../../interfaces/IPassive";
+import { Controller } from "../Controller";
+import { Passive } from "./Passive";
 
 export class PassiveController extends Controller
 {
@@ -10,7 +11,7 @@ export class PassiveController extends Controller
 
     private static _instance: PassiveController;
 
-    private constructor(passives: IPassive[])
+    private constructor(passives: IConfigPassive[])
     {
         super();
 
@@ -22,7 +23,7 @@ export class PassiveController extends Controller
         this._configureRouter();
     }
 
-    static getInstance(passives?: IPassive[])
+    static getInstance(passives?: IConfigPassive[])
     {
         if(!this._instance)
             if(passives !== undefined)

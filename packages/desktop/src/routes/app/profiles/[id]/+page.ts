@@ -1,7 +1,5 @@
-import type { Profile } from '$lib/utils/interfaces';
 import type { PageLoad } from './$types';
-
-//throw new Error("@migration task: Check if you need to migrate the load function input (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292693)");
+import type { IProfile } from '@metalizzsas/nuster-typings/build/spec/profile';
 
 export const load: PageLoad = async (ctx) => {
 	const content = await ctx.fetch(
@@ -10,7 +8,7 @@ export const load: PageLoad = async (ctx) => {
 			}`,
 	);
 
-	let profile: Profile = await content.json();
+	let profile: IProfile = await content.json();
 
 	return { profile };
 };

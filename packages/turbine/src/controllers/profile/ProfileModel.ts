@@ -1,5 +1,5 @@
-import { Schema, model} from "mongoose";
-import { IProfile } from "../../interfaces/IProfile";
+import { IProfile } from "@metalizzsas/nuster-typings/build/spec/profile";
+import { model, Schema } from "mongoose";
 
 export const ProfileSchema = new Schema<IProfile>({
     skeleton: {type: String, required: true},

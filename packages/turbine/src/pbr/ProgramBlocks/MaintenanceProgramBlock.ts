@@ -1,8 +1,8 @@
-import { IMaintenanceProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IMaintenanceProgramBlock";
-import { ProgramBlock } from "./index";
-import { StringParameterBlocks, NumericParameterBlocks } from "../ParameterBlocks";
-import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
+import { IMaintenanceProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IMaintenanceProgramBlock";
 import { MaintenanceController } from "../../controllers/maintenance/MaintenanceController";
+import { NumericParameterBlocks, StringParameterBlocks } from "../ParameterBlocks";
+import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
+import { ProgramBlock } from "./index";
 
 export class MaintenanceProgramBlock extends ProgramBlock implements IMaintenanceProgramBlock
 {

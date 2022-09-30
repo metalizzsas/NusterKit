@@ -3,7 +3,7 @@ import { ManualMode } from "./ManualMode";
 
 import { Request, Response } from "express";
 import { AuthManager } from "../../auth/auth";
-import { IManualMode } from "../../interfaces/IManualMode";
+import { IConfigManualMode } from "@metalizzsas/nuster-typings/build/spec/manual";
 
 export class ManualModeController extends Controller
 {
@@ -13,7 +13,7 @@ export class ManualModeController extends Controller
 
     private static _instance: ManualModeController;
 
-    private constructor(manuals: IManualMode[], maskedManuals: string[] = [])
+    private constructor(manuals: IConfigManualMode[], maskedManuals: string[] = [])
     {
         super();
 
@@ -23,7 +23,7 @@ export class ManualModeController extends Controller
         this._configureRouter();
     }
 
-    static getInstance(manuals?: IManualMode[], maskedManuals?: string[])
+    static getInstance(manuals?: IConfigManualMode[], maskedManuals?: string[])
     {
         if(!this._instance)
             if(manuals !== undefined)

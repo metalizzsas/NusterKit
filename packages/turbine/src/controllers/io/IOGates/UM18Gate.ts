@@ -1,5 +1,5 @@
+import { IUM18Gate } from "@metalizzsas/nuster-typings/build/spec/iogates/IUM18Gate";
 import { LoggerInstance } from "../../../app";
-import { IUM18Gate } from "../../../interfaces/gates/IUM18Gate";
 import { map } from "../../../map";
 import { IOGate } from "./IOGate";
 

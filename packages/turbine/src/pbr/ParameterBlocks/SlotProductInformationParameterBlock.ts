@@ -1,6 +1,6 @@
+import { ISlotProductStatusParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ParameterBlocks/ISlotProductStatusParameterBlock";
 import { ParameterBlock } from ".";
 import { SlotController } from "../../controllers/slot/SlotController";
-import { ISlotProductStatusParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/ISlotProductStatusParameterBlock";
 
 //Slot status shall only be used for startConditions
 export class SlotProductStatusParameterBlock extends ParameterBlock implements ISlotProductStatusParameterBlock

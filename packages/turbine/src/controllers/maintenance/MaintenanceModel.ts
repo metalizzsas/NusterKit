@@ -1,10 +1,10 @@
-import { Schema, model } from "mongoose";
-import { IMaintenance } from "../../interfaces/IMaintenance";
+import { IMaintenanceStored } from "@metalizzsas/nuster-typings/build/exchanged/maintenance";
+import { model, Schema } from "mongoose";
 
-const MaintenanceSchema = new Schema<IMaintenance>({
+const MaintenanceSchema = new Schema<IMaintenanceStored>({
     name: { type: String, required: true }, //maintenance name
     duration: { type: Number, required: true }, // maitenance current duration
     operationDate: Number, // last maintenance operation date
 });
 
-export const MaintenanceModel = model<IMaintenance>("Maintenance", MaintenanceSchema);
+export const MaintenanceModel = model<IMaintenanceStored>("Maintenance", MaintenanceSchema);

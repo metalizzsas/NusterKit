@@ -1,5 +1,5 @@
+import { IAdditionParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ParameterBlocks/IAdditionParameterBlock";
 import { NumericParameterBlocks, ParameterBlock } from ".";
-import { IAdditionParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IAdditionParameterBlock";
 import { ParameterBlockRegistry } from "./ParameterBlockRegistry";
 
 export class AdditionParameterBlock extends ParameterBlock implements IAdditionParameterBlock

@@ -1,5 +1,5 @@
-import { IPBRSCCheckChain } from "../../interfaces/programblocks/startchain/IPBRSCCheckChain";
-import { EPBRStartConditionResult } from "../../interfaces/programblocks/startchain/IPBRStartCondition";
+import { IPBRSCCheckChain } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/startchain/IPBRSCCheckChain";
+import { EPBRStartConditionResult } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/startchain/IPBRStartCondition";
 import { ParameterBlock } from "../ParameterBlocks";
 import { ConditionalParameterBlock } from "../ParameterBlocks/ConditionalParameterBlock";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";

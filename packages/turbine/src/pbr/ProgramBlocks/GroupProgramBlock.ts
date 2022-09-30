@@ -1,7 +1,7 @@
-import { IGroupProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IGroupProgramBlock";
 import { ProgramBlock, ProgramBlocks } from "./index";
 import { LoggerInstance } from "../../app";
 import { ProgramBlockRegistry } from "./ProgramBlockRegistry";
+import { IGroupProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IGroupProgramBlock";
 
 /** @deprecated */
 export class GroupProgramBlock extends ProgramBlock implements IGroupProgramBlock

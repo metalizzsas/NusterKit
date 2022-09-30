@@ -1,5 +1,5 @@
+import { IIOReadParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ParameterBlocks/IIOReadParameterBlock";
 import { ParameterBlock } from ".";
-import { IIOReadParameterBlock } from "../../interfaces/programblocks/ParameterBlocks/IIOReadParameterBlock";
 import { IOController } from "../../controllers/io/IOController";
 
 export class IOReadParameterBlock extends ParameterBlock implements IIOReadParameterBlock

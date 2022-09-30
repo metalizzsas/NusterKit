@@ -1,6 +1,6 @@
+import { IIOGate } from "@metalizzsas/nuster-typings/build/spec/iogates";
+import { IPT100Gate } from "@metalizzsas/nuster-typings/build/spec/iogates/IPT100Gate";
 import { LoggerInstance } from "../../../app";
-import { IIOGate } from "../../../interfaces/gates/IIOGate";
-import { IPT100Gate } from "../../../interfaces/gates/IPT100Gate";
 import { IOController } from "../IOController";
 import { IOGate } from "./IOGate";
 

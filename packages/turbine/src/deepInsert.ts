@@ -1,16 +1,17 @@
-import { IMachine, IMachinePaths } from "./interfaces/IMachine";
+import { IMachineSpecs } from "@metalizzsas/nuster-typings";
+
 /**
- * Insert deeply on nested sub objects for the IMachine interface
- * @param obj IMachine specs
- * @param value Value added to IMachine spec
+ * Insert deeply on nested sub objects for the IMachineSpecs interface
+ * @param obj IMachineSpecs specs
+ * @param value Value added to IMachineSpecs spec
  * @param objPath Path where the object should be added
- * @returns IMachine specs
+ * @returns IMachineSpecs specs
  */
-export function deepInsert(obj: IMachine, value: unknown, objPath: IMachinePaths, method: "replace" | "merge"): IMachine {
+export function deepInsert(obj: IMachineSpecs, value: unknown, objPath: string, method: "replace" | "merge"): IMachineSpecs {
 
     let index;
 
-    let tempObj: IMachine | any = obj;
+    let tempObj: IMachineSpecs | any = obj;
 
     const path = objPath.split(".");
 

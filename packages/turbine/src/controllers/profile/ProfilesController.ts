@@ -1,11 +1,12 @@
 import { Controller } from "../Controller";
 
 import { Request, Response } from "express";
-import { ProfileModel } from "./ProfileModel";
 import { ObjectId } from "mongoose";
-import { IProfileSkeleton, IProfileExportable, IProfile, IConfigProfile } from "../../interfaces/IProfile";
-import { AuthManager } from "../../auth/auth";
 import { LoggerInstance } from "../../app";
+import { AuthManager } from "../../auth/auth";
+import { ProfileModel } from "./ProfileModel";
+import { IProfileExportable } from "@metalizzsas/nuster-typings/build/exchanged/profile";
+import { IProfile, IProfileSkeleton, IConfigProfile } from "@metalizzsas/nuster-typings/build/spec/profile";
 
 export type IProfileMap = Omit<IProfile, 'values'> & { values: Map<string, number | boolean>};
 

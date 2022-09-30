@@ -1,10 +1,10 @@
-import { ProgramBlock } from "./index";
-import { IStopTimerProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IStopTimerProgramBlock";
-import { StringParameterBlocks } from "../ParameterBlocks";
-import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
+import { IStopTimerProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IStopTimerProgramBlock";
 import { LoggerInstance } from "../../app";
 import { CycleController } from "../../controllers/cycle/CycleController";
+import { StringParameterBlocks } from "../ParameterBlocks";
+import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 import { PBRMissingError } from "../PBRMissingError";
+import { ProgramBlock } from "./index";
 
 export class StopTimerProgramBlock extends ProgramBlock implements IStopTimerProgramBlock
 {

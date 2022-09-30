@@ -1,12 +1,12 @@
-import { EPBRMode } from "../../interfaces/IProgramBlockRunner";
-import { ProgramBlock } from "./index";
-import { ISleepProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/ISleepProgramBlock";
-import { NumericParameterBlocks } from "../ParameterBlocks";
-import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
+import { EPBRMode } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlockRunner";
+import { EProgramStepState } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramStep";
+import { ISleepProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/ISleepProgramBlock";
 import { LoggerInstance } from "../../app";
 import { CycleController } from "../../controllers/cycle/CycleController";
+import { NumericParameterBlocks } from "../ParameterBlocks";
+import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 import { PBRMissingError } from "../PBRMissingError";
-import { EProgramStepState } from "../../interfaces/IProgramStep";
+import { ProgramBlock } from "./index";
 
 
 export class SleepProgramBlock extends ProgramBlock implements ISleepProgramBlock

@@ -1,11 +1,11 @@
-import { EPBRMode } from "../../interfaces/IProgramBlockRunner";
 import { ProgramBlock, ProgramBlocks } from "./index";
-import { IStartTimerProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IStartTimerProgramBlock";
 import { StringParameterBlocks, NumericParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 import { LoggerInstance } from "../../app";
 import { CycleController } from "../../controllers/cycle/CycleController";
 import { PBRMissingError } from "../PBRMissingError";
+import { IStartTimerProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IStartTimerProgramBlock";
+import { EPBRMode } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlockRunner";
 
 
 export class StartTimerProgramBlock extends ProgramBlock implements IStartTimerProgramBlock

@@ -1,10 +1,11 @@
-import { IManualMode, ISocketManual } from "../../interfaces/IManualMode";
+import { ISocketManual } from "@metalizzsas/nuster-typings/build/exchanged/manual";
+import { IConfigManualMode } from "@metalizzsas/nuster-typings/build/spec/manual";
 import { WebsocketDispatcher } from "../../websocket/WebsocketDispatcher";
 import { IOController } from "../io/IOController";
 import { ManualModeController } from "./ManualModeController";
 import { ManualWatchdogCondition } from "./ManualModeWatchdog";
 
-export class ManualMode implements IManualMode
+export class ManualMode implements IConfigManualMode
 {
     name: string;
 
@@ -22,7 +23,7 @@ export class ManualMode implements IManualMode
 
     locked: boolean;
 
-    constructor(obj: IManualMode)
+    constructor(obj: IConfigManualMode)
     {
         this.name = obj.name;
 

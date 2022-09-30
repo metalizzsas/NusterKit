@@ -1,7 +1,6 @@
+import { IAddon, IMachineSpecs } from "@metalizzsas/nuster-typings";
 import pino from "pino";
 import { deepInsert } from "../deepInsert";
-import { IAddon } from "../interfaces/IAddon";
-import { IMachine, IMachinePaths } from "../interfaces/IMachine";
 
 /**
  * Load addons on spec file
@@ -11,14 +10,14 @@ import { IMachine, IMachinePaths } from "../interfaces/IMachine";
  * @param logger Logger
  * @returns IMachine specs
  */
-export function parseAddon(specs: IMachine, addon: IAddon, logger: pino.Logger): IMachine
+export function parseAddon(specs: IMachineSpecs, addon: IAddon, logger: pino.Logger): IMachineSpecs
 {
     logger.info("AddonLoader: Adding " + addon.addonName + ".");
 
     for(const content of addon.content)
     {
         logger.info(" ↳ Adding content on " + content.path + " with " + content.mode + " mode.")
-        specs = deepInsert(specs, content.content, content.path as IMachinePaths, content.mode);
+        specs = deepInsert(specs, content.content, content.path, content.mode);
     }
 
     return specs;

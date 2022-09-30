@@ -1,9 +1,9 @@
-import { ProgramBlock } from "./index";
-import { IVariableProgramBlock } from "../../interfaces/programblocks/ProgramBlocks/IVariableProgramBlock";
-import { StringParameterBlocks, NumericParameterBlocks } from "../ParameterBlocks";
+import { IVariableProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IVariableProgramBlock";
+import { CycleController } from "../../controllers/cycle/CycleController";
+import { NumericParameterBlocks, StringParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 import { PBRMissingError } from "../PBRMissingError";
-import { CycleController } from "../../controllers/cycle/CycleController";
+import { ProgramBlock } from "./index";
 
 export class VariableProgramBlock extends ProgramBlock implements IVariableProgramBlock
 {

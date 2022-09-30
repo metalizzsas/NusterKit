@@ -15,8 +15,9 @@
 	import NavContainer from '$lib/components/navigation/navcontainer.svelte';
 	import { onDestroy } from 'svelte';
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
-	import type { Manual } from '$lib/utils/interfaces';
 	import Navcontainertitlesided from '$lib/components/navigation/navcontainertitlesided.svelte';
+
+	import type { ISocketManual } from "@metalizzsas/nuster-typings/build/exchanged/manual/";
 
 	async function toggleState(name: string, state: number) {
 		await fetch(`//${$Linker}/api/v1/manual/${name.replace('#', '_')}/${state}`, {
@@ -28,7 +29,7 @@
 	}
 	$navTitle = [$_('manual.list')];
 	$navBackFunction = () => goto('/app');
-	$navActions = $machineData.machine.settings.ioControlsMasked
+	$navActions = $machineData.machine.settings?.ioControlsMasked
 		? []
 		: [
 				{
@@ -42,29 +43,29 @@
 		$useNavContainer = true;
 	});
 
-	const computeIncompatibiltyList = (manual: Manual): Array<Manual> => {
+	const computeIncompatibiltyList = (manual: ISocketManual): Array<ISocketManual> => {
 		if (manual.incompatibility) {
 			const incompList = manual.incompatibility.map((m) =>
 				$machineData.manuals.find((x) => x.name == m),
 			);
 
-			return incompList.filter((x) => x !== undefined && x.state > 0) as Array<Manual>;
+			return incompList.filter((x) => x !== undefined && x.state > 0) as Array<ISocketManual>;
 		}
 		return [];
 	};
 
-	const computeRequiresList = (manual: Manual): Array<Manual> => {
+	const computeRequiresList = (manual: ISocketManual): Array<ISocketManual> => {
 		if (manual.requires) {
 			const requiresList = manual.requires.map((r) =>
 				$machineData.manuals.find((x) => x.name == r),
 			);
 
-			return requiresList.filter((x) => x !== undefined && x.state == 0) as Array<Manual>;
+			return requiresList.filter((x) => x !== undefined && x.state == 0) as Array<ISocketManual>;
 		}
 		return [];
 	};
 
-	const manualModeLocked = (manual: Manual): boolean => {
+	const manualModeLocked = (manual: ISocketManual): boolean => {
 		let incompatibility = true; // if incomp length > 0
 		let requires = true;
 

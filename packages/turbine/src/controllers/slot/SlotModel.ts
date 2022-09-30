@@ -1,5 +1,5 @@
-import { Schema, model } from "mongoose";
-import { EProductSeries } from "../../interfaces/ISlot";
+import { EProductSeries } from "@metalizzsas/nuster-typings/build/spec/slot";
+import { model, Schema } from "mongoose";
 
 /** Slot database schema */
 interface ISlotSchema

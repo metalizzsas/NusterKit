@@ -1,13 +1,14 @@
-import { IPassive, ISocketPassive, IPassiveStoredLogData } from "../../interfaces/IPassive";
-import { PassiveModel } from "./PassiveModel";
+import { IPassiveStoredLogData, ISocketPassive } from "@metalizzsas/nuster-typings/build/exchanged/passive";
+import { IConfigPassive } from "@metalizzsas/nuster-typings/build/spec/passive";
+import { LoggerInstance } from "../../app";
 import { IOController } from "../io/IOController";
 import { ManualModeController } from "../manual/ManualModeController";
-import { LoggerInstance } from "../../app";
+import { PassiveModel } from "./PassiveModel";
 
 const MAXPASSIVELOGPOINTSSTORED = 100;
 const MAXPASSIVELOGPOINTSSHOWN = 25;
 
-export class Passive implements IPassive {
+export class Passive implements IConfigPassive {
 
     internal?: true;
 
@@ -31,7 +32,7 @@ export class Passive implements IPassive {
 
     logPassivePoints: IPassiveStoredLogData[] = new Array<IPassiveStoredLogData>(MAXPASSIVELOGPOINTSSTORED);
 
-    constructor(obj: IPassive) {
+    constructor(obj: IConfigPassive) {
         //basic informations
 
         this.internal = obj.internal;

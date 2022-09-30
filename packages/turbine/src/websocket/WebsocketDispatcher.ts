@@ -1,7 +1,7 @@
+import { INusterPopup } from "@metalizzsas/nuster-typings/build/configuration/nuster/INusterPopup";
 import { Server } from "http";
-import { OPEN, WebSocketServer, WebSocket } from "ws";
+import { OPEN, WebSocket, WebSocketServer } from "ws";
 import { LoggerInstance } from "../app";
-import { INusterPopup } from "../interfaces/nusterData/INusterPopup";
 
 const productionEnabled = process.env.NODE_ENV === 'production';
 

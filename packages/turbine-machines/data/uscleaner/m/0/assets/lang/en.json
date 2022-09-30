@@ -1,0 +1,98 @@
+{
+    "slots": {
+        "types": {
+            "bac": "Bac"
+        },
+        "colors": {
+            "bac": "from-blue-800 to-blue-900"
+        },
+        "modal": {
+            "actions": {}
+        }
+    },
+    "profile": {
+        "categories": {
+            "principal": "Main settings"
+        },
+        "rows": {
+            "duration": "Duration",
+            "target-temperature": "Temperature",
+            "motor-speed": "Motor speed"
+        }
+    },
+    "passives": {
+        "temperature": "Temperature"
+    },
+    "cycle": {
+        "endreasons": {
+            "security-emergency-stop": "Boutton d'arret d'urgence déclenché",
+            "security-cover-closed": "Couvercle ouvert"
+        },
+        "names": {
+            "default": "Main USCleaner cycle"
+        },
+        "types": {},
+        "steps": {
+            "cleaning": {
+                "name": "Cleaning",
+                "desc": "Cleaning of your parts."
+            }
+        },
+        "startconditions": {
+            "emergency-stop": "Emergency stop button status",
+            "cover-closed": "Cover closed"
+        }
+    },
+    "gates": {
+        "categories": {
+            "motor": "Rotation motor",
+            "temperature": "Temperature management",
+            "levels": "Levels"
+        },
+        "names": {
+            "emergency-stop": "Emergency stop button",
+            "cover-closed": "Capteur de couvercle",
+
+            "motor#direction": "Motor direction",
+            "motor#speed": "Motor speed",
+
+            "temperature#sensor": "Temperature sensor",
+            "temperature#heater": "Container heating",
+            "temperature#ventilation": "Ventilation on exchanger",
+
+            "pump": "Filtration pump",
+            "us-power": "US Transducers"
+
+        }
+    },
+    "manual": {
+        "categories": {
+            "bac": "Container temperature"
+        },
+        "tasks": {
+            "motor-rotation": "Motor speed",
+            "pump": "Filtration",
+            "us-cleaning": "US Cleaning",
+            "bac#heating": "Container heating",
+            "bac#cooling": "Container cooling"
+        }
+    },
+    "maintenance": {
+        "tasks": {
+            "usc-filter": {
+                "name": "Filter",
+                "desc": "The USCleaner filter is used to catch small particules and ehance solvant lifetime.",
+                "procedure": {
+                    "open-door": "Open the USCleaner door.",
+                    "close-valve-pump": "Closes the valves linked to the pump.",
+                    "pump-cover-unscrew": "Unscrew the pump filter cover.",
+                    "filter-out-pump": "Take the filter out of the pump.",
+                    "replace-pump-filter": "Replace the used filter wiht a new one.",
+                    "pump-cover-screw": "Close the pump cover.",
+                    "open-valve-pump": "Open pump valves.",
+                    "door-close": "Close the USCleaner door."
+                }
+            }
+        }
+    }
+}

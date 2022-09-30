@@ -1,0 +1,188 @@
+{
+    "$schema": "../../../../../src/schema/schema-addon.json",
+    "addonName": "temperature-control",
+    "content": [
+        {
+            "path": "iogates",
+            "mode": "merge",
+            "content": [
+                {
+                    "name": "temperature#heater",
+                    "type": "default",
+                    "bus": "out",
+                    "size": "bit",
+                    "controllerId": 0,
+                    "address": 2,
+                    "default": 0
+                },
+                {
+                    "name": "temperature#ventilation",
+                    "type": "default",
+                    "bus": "out",
+                    "size": "bit",
+                    "controllerId": 0,
+                    "address": 3,
+                    "default": 0
+                }
+            ]
+        },
+        {
+            "path": "profileSkeletons",
+            "mode": "replace",
+            "content": [
+                {
+                    "identifier": "default",
+                    "fieldGroups": [
+                        {
+                            "name": "principal",
+                            "fields": [
+                                {
+                                    "name": "duration",
+                                    "type": "time",
+                                    "units": ["minutes", "seconds"],
+                                    "value": 300
+                                },
+                                {
+                                    "name": "target-temperature",
+                                    "unity": "°C",
+                                    "type": "int",
+                                    "value": 20
+                                },
+                                {
+                                    "name": "motor-speed",
+                                    "unity": "RPM",
+                                    "type": "float",
+                                    "value": 50,
+                                    "floatMin": 0,
+                                    "floatMax": 110,
+                                    "floatStep": 5
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "cyclePremades.0",
+            "mode": "replace",
+            "content": [
+                {
+                    "skeleton": "default",
+                    "id": "premade_5min30deg",
+                    "name": "5min30deg",
+                    "removable": false,
+                    "overwriteable": false,
+                    "isPremade": true,
+                    "values": {
+                        "principal#duration": 600,
+                        "principal#target-temperature": 30,
+                        "principal#motor-speed": 50
+                    }
+                }
+            ]
+        },
+        {
+            "mode": "merge",
+            "path": "passives",
+            "content": [
+                {
+                    "name": "temperature",
+                    "sensors": [
+                        "temperature#sensor"
+                    ],
+                    "target": 25,
+                    "manualModes": [
+                        "pump"
+                    ],
+                    "actuators": {
+                        "plus": "temperature#heater",
+                        "minus": "temperature#ventilation"
+                    }
+                }
+            ]
+        },
+        {
+            "mode": "merge",
+            "path": "manual",
+            "content": [
+                {
+                    "name": "bac#heating",
+                    "incompatibility": [
+                        "bac#cooling"
+                    ],
+                    "requires": [
+                        "pump"
+                    ],
+                    "controls": [
+                        "temperature#heater"
+                    ],
+                    "watchdog": [
+                        {
+                            "gateName": "temperature#sensor",
+                            "gateValue": 60
+                        }
+                    ]
+                },
+                {
+                    "name": "bac#cooling",
+                    "incompatibility": [
+                        "bac#heating"
+                    ],
+                    "requires": [
+                        "pump"
+                    ],
+                    "controls": [
+                        "temperature#ventilation"
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "cycleTypes.0.steps.0.startBlocks",
+            "mode": "merge",
+            "content": [
+                {
+                    "name": "passive",
+                    "params": [
+                        {
+                            "name": "conststr",
+                            "value": "temperature"
+                        },
+                        {
+                            "name": "const",
+                            "value": 1
+                        },
+                        {
+                            "name": "profile",
+                            "value": "principal#target-temperature"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "cycleTypes.0.steps.0.endBlocks",
+            "mode": "merge",
+            "content": [
+                {
+                    "name": "passive",
+                    "params": [
+                        {
+                            "name": "conststr",
+                            "value": "temperature"
+                        },
+                        {
+                            "name": "const",
+                            "value": 0
+                        },
+                        {
+                            "name": "profile",
+                            "value": "principal#target-temperature"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,171 @@
+{
+    "slots": {
+        "types": {
+            "eff": "Effluents",
+            "resin": "Coat"
+        }
+    },
+    "profile": {
+        "categories": {
+            "vapors-extraction": "Vapors extraction",
+            "pulverization": "Pulverization",
+            "ir-curing": "IR curing",
+            "uv-curing": "UV curing",
+            "inerting": "Inerting",
+            "multilayer": "Multilayer",
+            "motor": "Rotation Motor"
+        },
+        "rows": {
+            "interlayer-uvduration": "UV Curing time between layers",
+            "uv-power": "UV Power",
+            "reverseEnabled": "Motor direction reverse",
+            "reverseTime": "Motor reverser timer"
+        }
+    },
+    "cycle": {
+        "names": {
+            "default": "Base smoothit cycle"
+        },
+        "types": {
+            "fdm": "FDM 3D Print",
+            "sla": "SLA / DLP 3D Print",
+            "sls": "SLS / MJF 3D Print"
+        },
+        "endreasons": {
+            "uv-cache-wrong": "UV Cache error",
+            "ir-cache-wrong": "IR Cache error",
+            "nozzle-cache-wrong": "Nozzle Cache error",
+            "security-emergency-stop": "Emergency stop button pressed",
+            "security-nitrogen-sensor": "Nitrogen pressure too low",
+            "security-cover-closed": "Cover open",
+            "security-resin#slot-sensor": "Vanish slot missing",
+            "security-uv#overheat": "UV lamp overheat"
+        },
+        "startconditions": {
+            "emergency-stop": "Emergency stop button status",
+            "nitrogen-sensor": "Nitrogen pressure",
+            "cover-closed": "Cover closed",
+            "resin#slot-sensor": "Vanish slot containter",
+            "uv#overheat": "UV lamp temperature"
+        },
+        "steps": {
+            "pulverization": {
+                "name": "Pulverization",
+                "desc": "Applying varnish on your parts."
+            },
+            "ir-curing": {
+                "name": "IR curing",
+                "desc": "Heating the varnish to smooth them."
+            },
+            "inerting": {
+                "name": "Inerting",
+                "desc": "Filling the machine with nitrogen to ehance UV Curing."
+            },
+            "uv-curing": {
+                "name": "UV Curing",
+                "desc": "Hardening the varnish on your parts."
+            },
+            "vapors-extraction": {
+                "name": "Vapors filtering",
+                "desc": "Filtering gases and thin particules produced by the machine"
+            }
+        }
+    },
+    "gates": {
+        "name": "IO Controls",
+        "categories": {
+            "motor": "Rotation Motor",
+            "rd": "Reducer",
+            "ir": "Infrared",
+            "uv": "Ultraviolet",
+            "nozzle": "Nozzle",
+            "resin": "Varnish"
+        },
+        "names": {
+            "emergency-stop": "Emergency stop button",
+            "air-sensor": "Air pressure sensor",
+            "nitrogen-sensor": "Nitrogen pressure sensor",
+            "cover-closed": "Cover closed",
+            "eff-container-sensor": "Effluents container sensor",
+            "ventilation": "Vapors extraction",
+            "air-heater": "Air heater",
+            "inerting": "Inerting",
+
+            "resin#pressure": "Varnish container pressure",
+            "resin#slot-sensor": "Varnish container sensor",
+
+            "ir#enable": "IR lamp",
+            "ir#ventil": "IR lamp ventilation",
+            "ir#cache": "IR lamp cache",
+            "ir#sensor-open": "IR cache open",
+            "ir#sensor-closed": "IR cache closed",
+            
+            "uv#enable": "UV lamp",
+            "uv#ventil": "UV lamp ventilation",
+            "uv#power": "UV lamp power",
+            "uv#cache": "UV lamp cache",
+            "uv#sensor-open": "UV cache open",
+            "uv#sensor-closed": "UV cache closed",
+            "uv#overheat": "UV overheat security",
+            
+            "motor#direction": "Motor direction",
+            "motor#speed": "Motor speed",
+            
+            "nozzle#pulverization": "Nozzle pulverization",
+            "nozzle#cache": "Nozzle cache",
+            "nozzle#sensor-open": "Nozzle cache open",
+            "nozzle#sensor-closed": "Nozzle cache closed"
+        }
+    },
+    "manual": {
+        "categories": {
+            "uv": "Ultraviolet",
+            "ir": "Infrared",
+            "nozzle": "Pulverization"
+        },
+        "tasks": {
+            "motor-rotation": "Motor rotation",
+            "ventilation": "Vapors extraction",
+            "air-heater": "Air heater",
+            "inerting": "Inerting",
+
+            "uv#cache": "UV lamp cache",
+            "uv#curing": "UV curing",
+
+            "ir#cache": "IR lamp cache",
+            "ir#curing": "IR curing",
+
+            "nozzle#cache": "Nozzle cache",
+            "nozzle#pulverization": "Nozzle pulverization"
+        }
+    },
+    "maintenance": {
+        "tasks": {
+            "smt-filter": {
+                "name": "Filter",
+                "desc": "Smoothit filter filters all coating solvants produced by the coating done inside the machine.",
+                "procedure": {
+                    "unscrew-smt-filter": "Unscrew the filter from the machine",
+                    "replace-smt-new-filter": "Replace the old filter with a new filter"
+                }
+            },
+            "inner-cleaning": {
+                "name": "Inner",
+                "desc": "The inner layer masks the machine to avoid vanish accumulation on the cuve."
+            },
+            "ir-lamp": {
+                "name": "IR Lamp",
+                "desc": "IR Lamp is used to ehance varnish coating smoothing effect.",
+                "procedure": {
+                    "unscrew-top": "Unscrew the 4 M4 screw that holds the IR lamp cache in place.",
+                    "replace-ir-lamp": "While holding the lamp, shift the lamp toward the ground to unlock the lamp from its socket. Replace the lamp using the same technique.",
+                    "screw-top": "Place the cache on its initial place and re-screw the 4 M4 screws"
+                }
+            },
+            "uv-lamp": {
+                "name": "UV Lamp",
+                "desc": "UV Lamp is used to harden varnish on top of your part."
+            }
+        }
+    }
+}

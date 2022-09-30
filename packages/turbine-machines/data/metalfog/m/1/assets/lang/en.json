@@ -1,0 +1,278 @@
+{
+    "slots": {
+        "types": {
+            "ox": "Oxydiser",
+            "rd": "Reducer",
+            "act": "Activator",
+            "edi": "DI Water",
+            "eff": "Effluents"
+        },
+        "colors": {
+            "act": "from-red-500 to-red-600",
+            "edi": "from-blue-800 to-blue-900",
+            "eff": "from-zinc-700 to-zinc-800",
+            "ox": "from-emerald-800 to-emerald-900",
+            "rd": "from-zinc-400 to-zinc-500"
+        },
+        "modal": {
+            "actions": {
+                "act": {
+                    "dilution": "Automatic dilution loading",
+                    "load": "Manual loading",
+                    "emptying": "Emptying"
+                },
+                "ox": {
+                    "load": "Manual loading",
+                    "emptying": "Reactives emptying"
+                },
+                "rd": {
+                    "load": "Manual loading",
+                    "emptying": "Reactives emptying"
+                }
+            }
+        }
+    },
+    "profile": {
+        "categories": {
+            "act-edi-nozzles": "Activator & DI Water nozzles",
+            "met-nozzles": "Metallization nozzles",
+            "motor": "Rotation Motor",
+            "activation": "Activation",
+            "metalization": "Metallization",
+            "wash1": "Wash 1",
+            "wash2": "Wash 2",
+            "drying": "Drying",
+            "vapors-extraction": "Vapors extraction"
+        },
+        "rows": {
+            "enabled": "Enabled",
+            "act-edi-high": "High row nozzles",
+            "act-edi-low": "Low row nozzles",
+            "met-high": "High row nozzles",
+            "met-medium": "Medium row nozzles",
+            "met-low": "Low row nozzles",
+            "speed": "Speed",
+            "duration": "Duration",
+            "count": "Iteration count",
+            "timeOn": "Time enabled",
+            "timeOff": "Time disabled",
+            "reverseEnabled": "Motor direction reverse",
+            "reverseTime": "Motor reverser timer"
+        }
+    },
+    "cycle": {
+        "endreasons": {
+            "security-emergency-stop": "Emergency stop button pressed",
+            "security-air-sensor": "Air pressure too low",
+            "security-cover-closed": "Cover open",
+            "security-levels#eff-max-n": "Effluents too high",
+            "security-eff-container-sensor": "Effluents container missing",
+            "security-levels#edi-min-n": "Minimal DI water level",
+            "security-levels#act-min-n": "Minimal Activator level",
+            "security-levels#ox-min-n": "Minimal Oxydiser level",
+            "security-levels#rd-min-n": "Minimal Reducer level",
+            "activator-timed-out": "Activator dilution was too long"
+        },
+        "startconditions": {
+            "emergency-stop": "Emergency stop button",
+            "cover-closed": "Cover closed",
+            "air-sensor": "Air pressure",
+            "eff-container-sensor": "Waste container present",
+            "levels#eff-max-n": "Waste level",
+            "levels#edi-min-n": "DI Water level",
+            "levels#act-min-n": "Activator level",
+            "levels#rd-min-n": "Reducer level",
+            "levels#ox-min-n": "Oxydiser level",
+            "maintenance-filter": "Machine filter",
+            "oxydiser-life": "Oxydiser state",
+            "activator-life": "Activator state",
+            "reducer-life": "Reducer state"
+        },
+        "names": {
+            "default": "Base metalfog cycle",
+            "act-fill": "Activator dilution",
+            "container-cleaning": "Container cleaning",
+            "emptying-activator": "Emptying activator",
+            "emptying-reactives": "Emptying reactives",
+            "nozzle-cleaning": "Nozzle cleaning"
+        },
+        "types": {
+            "llc": "Look Like Chromium — LLC",
+            "usl": "Utility Silver Layer — USL",
+            "usl-retake": "USL retake",
+            "usl-activation-porous": "USL Porous parts activation",
+            "cem": "CEM shielding",
+            "cem-retake": "CEM shielding retake",
+            "act-fill": "Activator dilution",
+            "container-cleaning": "Container cleaning",
+            "emptying-activator": "Emptying activator",
+            "emptying-reactives": "Emptying reactives"
+        },
+        "steps": {
+            "start": {
+                "name": "Start",
+                "desc": "Starting the cycle, preheating air."
+            },
+            "activation": {
+                "name": "Activation",
+                "desc": "Activating parts surface."
+            },
+            "wash1": {
+                "name": "Washing 1",
+                "desc": "Washing the parts."
+            },
+            "metalization": {
+                "name": "Metallization",
+                "desc": "Applying chemicals to generate metallic layer on your part."
+            },
+            "nozzle-cleaning": {
+                "name": "Nozzle cleaning",
+                "desc": "Cleaning the metalization nozzles to ehance their lifespan and fiability."
+            },
+            "wash2": {
+                "name": "Washing 2",
+                "desc": "Final washing before part drying."
+            },
+            "drying": {
+                "name": "Drying",
+                "desc": "Parts drying."
+            },
+            "vapors-extraction": {
+                "name": "Vapors filtering",
+                "desc": "Filtering gases and thin particules produced by the program."
+            },
+            "act-fill": {
+                "name": "Activator dilution",
+                "desc": "DI Water is transfered to Activator containter to dilute concentrated activator."
+            },
+            "container-cleaning": {
+                "name": "Cleaning",
+                "desc": "Cleaning reactive containers"
+            },
+            "emptying-activator": {
+                "name": "Emptying activator",
+                "desc": "Emptying activator container"
+            },
+            "emptying-reactives": {
+                "name": "Emptying reactives",
+                "desc": "Emptying reactives containers"
+            }
+        }
+    },
+    "gates": {
+        "categories": {
+            "motor": "Rotation Motor",
+            "levels": "Levels",
+            "hybrid": "Activator & DI Water",
+            "met": "Chemicals"
+        },
+        "names": {
+            "emergency-stop": "Emergency stop button",
+            "cover-closed": "Cover closed",
+            "air-sensor": "Air pressure sensor",
+            "eff-container-sensor": "Effluents container sensor",
+            
+            "air-heater": "Air heater",
+            "ventilation": "Vapors extraction",
+            
+            "motor#direction": "Motor direction",
+            "motor#speed": "Motor speed",
+            
+            "levels#eff-max-n": "Effluents limit",
+            
+            "levels#ox-min-n": "Oxydiser minimal level",
+            "levels#rd-min-n": "Reducer minimal level",
+            
+            "levels#act-max-n": "Activator maximal level",
+            "levels#act-min-n": "Activator minimal level",
+            
+            "levels#edi-max-n": "DI water maximal level",
+            "levels#edi-min-n": "DI water minimal level",
+            
+            "hybrid#act-res": "Activator container pressure",
+            "hybrid#edi-res": "DI Water container pressure",
+
+            "hybrid#plv-high": "Activator & DI water pulverization high",
+            "hybrid#plv-low": "Activator & DI water pulverization low",
+
+            "hybrid#act-lq-high": "Activator liquid control high",
+            "hybrid#act-lq-low": "Activator liquid control low",
+            "hybrid#edi-lq-high": "DI water liquid control high",
+            "hybrid#edi-lq-low": "DI water liquid control low",
+            "hybrid#lq-fill-act": "DI water liquid control to Activator container",
+
+            "met#ox-res": "Oxydiser container pressure",
+            "met#rd-res": "Reducer container pressure",
+
+            "met#plv-high": "Metallization pulverization high",
+            "met#plv-mid": "Metallization pulverization medium",
+            "met#plv-low": "Metallization pulverization low",
+
+            "met#rd-lq-high": "Reducer liquid control high",
+            "met#rd-lq-mid": "Reducer liquid control medium",
+            "met#rd-lq-low": "Reducer liquid control low",
+            "met#ox-lq-high": "Oxydiser liquid control high",
+            "met#ox-lq-mid": "Oxydiser liquid control medium",
+            "met#ox-lq-low": "Oxydiser liquid control low",
+
+            "met#rd-air-cleaning-high": "Reducer air cleaning high",
+            "met#rd-air-cleaning-mid": "Reducer air cleaning medium",
+            "met#rd-air-cleaning-low": "Reducer air cleaning low",
+            "met#ox-air-cleaning-high": "Oxydiser air cleaning high",
+            "met#ox-air-cleaning-mid": "Oxydiser air cleaning medium",
+            "met#ox-air-cleaning-low": "Oxydiser air cleaning low"
+        }
+    },
+    "manual": {
+        "categories": {
+            "generic": "Generic",
+            "empty": "Emptying",
+            "hybrid": "Activator & DI Water",
+            "met": "Reactives"
+        },
+        "tasks": {
+            "motor-rotation": "Motor speed",
+            "ventilation": "Vapors extraction",
+            "air-heater": "Air heater",
+            "fill-act": "Fill activator container",
+
+            "empty#act": "Emptying activator container",
+            "empty#edi": "Emptying di water container",
+            "empty#ox": "Emptying oxydiser container",
+            "empty#rd": "Emptying reducer container",
+
+            "hybrid#act-high": "Activator pulverisation high",
+            "hybrid#act-low": "Activator pulverisation low",
+            "hybrid#edi-high": "DI Water pulverisation high",
+            "hybrid#edi-low": "DI Water pulverisation low",
+
+            "met#ox-high": "Oxydiser pulverisation high",
+            "met#ox-mid": "Oxydiser pulverisation high",
+            "met#ox-low": "Oxydiser pulverisation low",
+            "met#rd-high": "Reducer pulverisation high",
+            "met#rd-mid": "Reducer pulverisation high",
+            "met#rd-low": "Reducer pulverisation low"
+        }
+    },
+    "maintenance": {
+        "tasks": {
+            "mfm-filter": {
+                "name": "Filter",
+                "desc": "Metalfog filter filters all gases produced by the chemicals reactions done inside the machine.",
+                "procedure": {
+                    "unscrew-mfm-filter": "Unscrew the filter from the machine",
+                    "replace-mfm-new-filter": "Replace the old filter with a new filter"
+                }
+            }
+        }
+    },
+    "popups": {
+        "nozzle-cleaning": {
+            "title": "Startup recommendations",
+            "message": "As the Metalfog just started-up, We recommend doing a air cleaning of the metalization nozzles. Press Continue to cleanup the nozzles.",
+            "actions": {
+                "main": "Continue"
+            }
+        }
+    }
+}

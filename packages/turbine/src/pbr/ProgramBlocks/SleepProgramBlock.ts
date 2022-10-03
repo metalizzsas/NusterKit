@@ -1,6 +1,6 @@
-import { EPBRMode } from "@metalizz/nuster-typings/src/spec/cycle/IProgramBlockRunner";
-import { EProgramStepState } from "@metalizz/nuster-typings/src/spec/cycle/IProgramStep";
-import { ISleepProgramBlock } from "@metalizz/nuster-typings/src/spec/cycle/programblocks/ProgramBlocks/ISleepProgramBlock";
+import { EPBRMode } from "@metalizzsas/nuster-typings/src/spec/cycle/IProgramBlockRunner";
+import { EProgramStepState } from "@metalizzsas/nuster-typings/src/spec/cycle/IProgramStep";
+import { ISleepProgramBlock } from "@metalizzsas/nuster-typings/src/spec/cycle/programblocks/ProgramBlocks/ISleepProgramBlock";
 import { LoggerInstance } from "../../app";
 import { CycleController } from "../../controllers/cycle/CycleController";
 import { NumericParameterBlocks } from "../ParameterBlocks";

@@ -4,7 +4,7 @@
 	import Round from '../round.svelte';
 	import Slotmodal from './slotmodal.svelte';
 	import Label from '../label.svelte';
-	import type { ISlotHydrated } from '@metalizz/nuster-typings/src/hydrated/slot';
+	import type { ISlotHydrated } from '@metalizzsas/nuster-typings/src/hydrated/slot';
 
 	export let slotContent: ISlotHydrated;
 

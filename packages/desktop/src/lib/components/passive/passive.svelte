@@ -7,7 +7,7 @@
 	import Inputkb from '../userInputs/inputkb.svelte';
 	import Navcontainersubtitle from '../navigation/navcontainersubtitle.svelte';
 	import Actionmodal from '../modals/actionmodal.svelte';
-	import type { IPassiveHydrated } from '@metalizz/nuster-typings/src/hydrated/passive';
+	import type { IPassiveHydrated } from '@metalizzsas/nuster-typings/src/hydrated/passive';
 
 	export let passive: IPassiveHydrated;
 

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { IProgramStepHydrated } from '@metalizz/nuster-typings/src/hydrated/cycle/IProgramStepHydrated';
-	import { EProgramStepState } from '@metalizz/nuster-typings/src/spec/cycle/IProgramStep';
+	import type { IProgramStepHydrated } from '@metalizzsas/nuster-typings/src/hydrated/cycle/IProgramStepHydrated';
+	import { EProgramStepState } from '@metalizzsas/nuster-typings/src/spec/cycle/IProgramStep';
 	import { _ } from 'svelte-i18n';
 	import Flex from '../layout/flex.svelte';
 

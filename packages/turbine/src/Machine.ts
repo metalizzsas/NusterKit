@@ -15,19 +15,19 @@ import { SlotController } from "./controllers/slot/SlotController";
 import { parseAddon } from "./addons/AddonLoader";
 import { LoggerInstance } from "./app";
 
-import type { IConfiguration, IMachineSpecs, IStatusMessage } from "@metalizz/nuster-typings";
-import { IHypervisorData } from "@metalizz/nuster-typings/src/hydrated/balena/IHypervisorDevice";
-import { IDeviceData } from "@metalizz/nuster-typings/src/hydrated/balena/IDeviceData";
-import { IVPNData } from "@metalizz/nuster-typings/src/hydrated/balena/IVPNData";
+import type { IConfiguration, IMachineSpecs, IStatusMessage } from "@metalizzsas/nuster-typings";
+import { IHypervisorData } from "@metalizzsas/nuster-typings/src/hydrated/balena/IHypervisorDevice";
+import { IDeviceData } from "@metalizzsas/nuster-typings/src/hydrated/balena/IDeviceData";
+import { IVPNData } from "@metalizzsas/nuster-typings/src/hydrated/balena/IVPNData";
 
-import type { ConfigModel, ConfigVariant } from "@metalizz/nuster-typings/src/configuration";
+import type { ConfigModel, ConfigVariant } from "@metalizzsas/nuster-typings/src/configuration";
 
-import * as MetalfogMR1 from "@metalizz/nuster-turbine-machines/data/metalfog/m/1/specs.json";
+import * as MetalfogMR1 from "@metalizzsas/nuster-turbine-machines/data/metalfog/m/1/specs.json";
 
-import * as SmoothitMR1 from "@metalizz/nuster-turbine-machines/data/smoothit/m/1/specs.json";
-import * as SmoothitMR2 from "@metalizz/nuster-turbine-machines/data/smoothit/m/2/specs.json";
+import * as SmoothitMR1 from "@metalizzsas/nuster-turbine-machines/data/smoothit/m/1/specs.json";
+import * as SmoothitMR2 from "@metalizzsas/nuster-turbine-machines/data/smoothit/m/2/specs.json";
 
-import * as USCleanerMR1 from "@metalizz/nuster-turbine-machines/data/uscleaner/m/0/specs.json";
+import * as USCleanerMR1 from "@metalizzsas/nuster-turbine-machines/data/uscleaner/m/0/specs.json";
 
 type models = `${ConfigModel}/${ConfigVariant}/${number}`;
 
@@ -159,7 +159,7 @@ export class Machine
     }
 
     get baseNTMFolder() {
-        return path.resolve("node_modules", "@metalizz", "nuster-turbine-machines", "data", this.data.model, this.data.variant, `${this.data.revision}`);
+        return path.resolve("node_modules", "@metalizzsas", "nuster-turbine-machines", "data", this.data.model, this.data.variant, `${this.data.revision}`);
     }
 
     toJSON(): IStatusMessage["machine"] {

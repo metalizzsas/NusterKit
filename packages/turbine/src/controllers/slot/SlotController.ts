@@ -1,5 +1,5 @@
-import { ISlotHydrated } from "@metalizz/nuster-typings/src/hydrated/slot";
-import { IConfigSlot } from "@metalizz/nuster-typings/src/spec/slot";
+import { ISlotHydrated } from "@metalizzsas/nuster-typings/src/hydrated/slot";
+import { IConfigSlot } from "@metalizzsas/nuster-typings/src/spec/slot";
 import { Request, Response } from "express";
 
 import { Controller } from "../Controller";

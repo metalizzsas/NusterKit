@@ -1,5 +1,5 @@
 import type { PageLoad } from './$types';
-import type { IProfileHydrated } from '@metalizz/nuster-typings/src/hydrated/profile';
+import type { IProfileHydrated } from '@metalizzsas/nuster-typings/src/hydrated/profile';
 
 export const load: PageLoad = async (ctx) => {
 	const content = await ctx.fetch(

@@ -3,11 +3,11 @@ import path from "path";
 
 import { matchers } from 'jest-json-schema';
 
-import { IMachineSpecs } from "@metalizz/nuster-typings/src/spec";
-import { IProgramBlocks } from "@metalizz/nuster-typings/src/spec/cycle/IProgramBlock";
-import { IParameterBlocks } from "@metalizz/nuster-typings/src/spec/cycle/IParameterBlock";
-import { IConstantStringParameterBlock } from "@metalizz/nuster-typings/src/spec/cycle/programblocks/ParameterBlocks/IConstantStringParameterBlock";
-import { IIfProgramBlock } from "@metalizz/nuster-typings/src/spec/cycle/programblocks/ProgramBlocks/IIfProgramBlock";
+import { IMachineSpecs } from "@metalizzsas/nuster-typings/src/spec";
+import { IProgramBlocks } from "@metalizzsas/nuster-typings/src/spec/cycle/IProgramBlock";
+import { IParameterBlocks } from "@metalizzsas/nuster-typings/src/spec/cycle/IParameterBlock";
+import { IConstantStringParameterBlock } from "@metalizzsas/nuster-typings/src/spec/cycle/programblocks/ParameterBlocks/IConstantStringParameterBlock";
+import { IIfProgramBlock } from "@metalizzsas/nuster-typings/src/spec/cycle/programblocks/ProgramBlocks/IIfProgramBlock";
 
 expect.extend(matchers);
 

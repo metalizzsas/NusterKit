@@ -16,7 +16,7 @@
 
 	import Modal from '../modals/modal.svelte';
 	import Modalprompt from '../modals/modalprompt.svelte';
-	import type { IProfileHydrated } from '@metalizz/nuster-typings/src/hydrated/profile';
+	import type { IProfileHydrated } from '@metalizzsas/nuster-typings/src/hydrated/profile';
 
 	let profiles: Array<IProfileHydrated> = [];
 	let selectedProfile: string = 'default';

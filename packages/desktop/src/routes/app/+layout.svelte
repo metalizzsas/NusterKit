@@ -12,8 +12,8 @@
 	import { BUNDLED } from '$lib/bundle';
 	import { initI18nMachine } from '$lib/utils/i18n/i18nmachine';
 	import Popup from '$lib/components/modals/popup.svelte';
-	import type { INusterPopup } from '@metalizz/nuster-typings/src/configuration/nuster/INusterPopup';
-	import type { IPopupMessage, IStatusMessage, IWebSocketData } from '@metalizz/nuster-typings';
+	import type { INusterPopup } from '@metalizzsas/nuster-typings/src/configuration/nuster/INusterPopup';
+	import type { IPopupMessage, IStatusMessage, IWebSocketData } from '@metalizzsas/nuster-typings';
 
 	let ready: boolean = false;
 

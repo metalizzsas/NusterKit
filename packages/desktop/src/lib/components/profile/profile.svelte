@@ -4,7 +4,7 @@
 	import { _, date, time } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
 	import { Linker } from '$lib/utils/stores/linker';
-	import type { IProfileHydrated } from '@metalizz/nuster-typings/src/hydrated/profile';
+	import type { IProfileHydrated } from '@metalizzsas/nuster-typings/src/hydrated/profile';
 
 	export let profile: IProfileHydrated;
 	export let delCb: Function;

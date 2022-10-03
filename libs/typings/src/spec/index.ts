@@ -14,7 +14,7 @@ export declare interface IMachineSpecs
 {
     /** 
      * Schema used by the configuration file
-     * @defaultValue ../../../../node_modules/@metalizz/nuster-typings/src/schemas/schema-specs.json
+     * @defaultValue ../../../../node_modules/@metalizzsas/nuster-typings/src/schemas/schema-specs.json
      */
     $schema: string;
 

@@ -1,5 +1,5 @@
 {
-  "name": "@metalizz/nuster-turbine-machines",
+  "name": "@metalizzsas/nuster-turbine-machines",
   "version": "1.0.0",
   "description": "metalizz machines descriptions",
   "main": "",
@@ -8,16 +8,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Kworz/NusterTurbineMachines.git"
+    "url": "git+https://github.com/Kworz/NusterKit.git"
   },
   "author": "Metalizz",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/Kworz/NusterTurbineMachines/issues"
+    "url": "https://github.com/Kworz/NusterKit/issues"
   },
-  "homepage": "https://github.com/Kworz/NusterTurbineMachines#readme",
+  "homepage": "https://github.com/Kworz/NusterKit/libs/turbine-machines#readme",
   "devDependencies": {
-    "@metalizz/nuster-typings": "1.0.0",
+    "@metalizzsas/nuster-typings": "1.0.0",
     "@types/jest-json-schema": "^6.1.0",
     "@types/node": "^18.7.22",
     "jest": "^27.5.1",

@@ -1,4 +1,4 @@
-import { IMachineSpecs } from "@metalizz/nuster-typings/src/spec";
+import { IMachineSpecs } from "@metalizzsas/nuster-typings/src/spec";
 import fs from "fs";
 import path from "path";
 

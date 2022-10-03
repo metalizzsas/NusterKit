@@ -1,5 +1,5 @@
 {
-   "$schema": "../../../../node_modules/@metalizz/nuster-typings/src/schemas/schema-specs.json",
+   "$schema": "../../../../node_modules/@metalizzsas/nuster-typings/src/schemas/schema-specs.json",
    "iohandlers": [
       {
          "type": "wago",

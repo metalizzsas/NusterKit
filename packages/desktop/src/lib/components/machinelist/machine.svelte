@@ -5,7 +5,7 @@
 	import { machineList } from '$lib/utils/stores/list';
 	import Modal from '../modals/modal.svelte';
 	import { _ } from 'svelte-i18n';
-	import type { IStatusMessage } from '@metalizz/nuster-typings';
+	import type { IStatusMessage } from '@metalizzsas/nuster-typings';
 
 	enum machineStatus {
 		ONLINE = 'online',

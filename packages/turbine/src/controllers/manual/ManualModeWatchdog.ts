@@ -1,4 +1,4 @@
-import { IManualWatchdogCondition } from "@metalizz/nuster-typings/src/spec/manual";
+import { IManualWatchdogCondition } from "@metalizzsas/nuster-typings/src/spec/manual";
 import { LoggerInstance } from "../../app";
 import { WebsocketDispatcher } from "../../websocket/WebsocketDispatcher";
 import { IOController } from "../io/IOController";

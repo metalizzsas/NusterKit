@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/components/button.svelte';
 	import Flex from '$lib/components/layout/flex.svelte';
-	import type { IParameterBlocksHydrated } from '@metalizz/nuster-typings/src/hydrated/cycle/blocks/IParameterBlockHydrated';
+	import type { IParameterBlocksHydrated } from '@metalizzsas/nuster-typings/src/hydrated/cycle/blocks/IParameterBlockHydrated';
 
 	export let param: IParameterBlocksHydrated;
 

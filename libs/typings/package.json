@@ -1,5 +1,5 @@
 {
-  "name": "@metalizz/nuster-typings",
+  "name": "@metalizzsas/nuster-typings",
   "version": "1.0.0",
   "description": "Typings for NusterKit",
   "main": "src/index.js",

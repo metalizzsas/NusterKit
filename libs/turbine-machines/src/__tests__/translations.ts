@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-import { IMachineSpecs } from "@metalizz/nuster-typings/src/spec/";
+import { IMachineSpecs } from "@metalizzsas/nuster-typings/src/spec/";
 
 interface Specs {
     model: string;

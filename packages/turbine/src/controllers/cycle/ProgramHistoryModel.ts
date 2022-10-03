@@ -1,14 +1,14 @@
 import { model, Schema } from "mongoose";
 import { ProfileSchema } from "../profile/ProfileModel";
 
-import type { IProgramBlockRunnerHydrated } from "@metalizz/nuster-typings/src/hydrated/cycle/IProgramRunnerHydrated";
-import { IPBRStatus } from "@metalizz/nuster-typings/src/spec/cycle/IProgramBlockRunner";
-import { IParameterBlocksHydrated } from "@metalizz/nuster-typings/src/hydrated/cycle/blocks/IParameterBlockHydrated";
-import { IProgramBlockHydrated } from "@metalizz/nuster-typings/src/hydrated/cycle/blocks/IProgramBlockHydrated";
-import { IProgramStepHydrated } from "@metalizz/nuster-typings/src/hydrated/cycle/IProgramStepHydrated";
-import { IPBRSCCheckChain } from "@metalizz/nuster-typings/src/spec/cycle/programblocks/startchain/IPBRSCCheckChain";
-import { IPBRStartConditionHydrated } from "@metalizz/nuster-typings/src/hydrated/cycle/IPBRStartConditionHydrated";
-import { IHistory } from "@metalizz/nuster-typings/src/hydrated/cycle";
+import type { IProgramBlockRunnerHydrated } from "@metalizzsas/nuster-typings/src/hydrated/cycle/IProgramRunnerHydrated";
+import { IPBRStatus } from "@metalizzsas/nuster-typings/src/spec/cycle/IProgramBlockRunner";
+import { IParameterBlocksHydrated } from "@metalizzsas/nuster-typings/src/hydrated/cycle/blocks/IParameterBlockHydrated";
+import { IProgramBlockHydrated } from "@metalizzsas/nuster-typings/src/hydrated/cycle/blocks/IProgramBlockHydrated";
+import { IProgramStepHydrated } from "@metalizzsas/nuster-typings/src/hydrated/cycle/IProgramStepHydrated";
+import { IPBRSCCheckChain } from "@metalizzsas/nuster-typings/src/spec/cycle/programblocks/startchain/IPBRSCCheckChain";
+import { IPBRStartConditionHydrated } from "@metalizzsas/nuster-typings/src/hydrated/cycle/IPBRStartConditionHydrated";
+import { IHistory } from "@metalizzsas/nuster-typings/src/hydrated/cycle";
 
 const PBRStatusSchema = new Schema<IPBRStatus>({
     mode: {type: String, required: true},

@@ -1,4 +1,4 @@
-import { IVariableProgramBlock } from "@metalizz/nuster-typings/src/spec/cycle/programblocks/ProgramBlocks/IVariableProgramBlock";
+import { IVariableProgramBlock } from "@metalizzsas/nuster-typings/src/spec/cycle/programblocks/ProgramBlocks/IVariableProgramBlock";
 import { CycleController } from "../../controllers/cycle/CycleController";
 import { NumericParameterBlocks, StringParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";

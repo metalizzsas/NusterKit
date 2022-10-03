@@ -7,7 +7,7 @@
 	import Actionmodal from '../modals/actionmodal.svelte';
 	import Button from '../button.svelte';
 	import Flex from '../layout/flex.svelte';
-	import type { ISlotHydrated } from '@metalizz/nuster-typings/src/hydrated/slot';
+	import type { ISlotHydrated } from '@metalizzsas/nuster-typings/src/hydrated/slot';
 
 	export let slotContent: ISlotHydrated;
 	export let shown: boolean;

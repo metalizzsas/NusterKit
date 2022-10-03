@@ -16,7 +16,7 @@ import { WhileLoopProgramBlock } from "./WhileLoopProgramBlock";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 import { PassiveProgramBlock } from "./PassiveProgramBlock";
 import { LoggerInstance } from "../../app";
-import { IProgramBlock, ProgramBlockNames, IProgramBlocks } from "@metalizz/nuster-typings/src/spec/cycle/IProgramBlock";
+import { IProgramBlock, ProgramBlockNames, IProgramBlocks } from "@metalizzsas/nuster-typings/src/spec/cycle/IProgramBlock";
 
 export class ProgramBlock implements IProgramBlock
 {

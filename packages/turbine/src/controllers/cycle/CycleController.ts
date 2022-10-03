@@ -8,9 +8,9 @@ import { ProgramBlockRunner } from "../../pbr/ProgramBlockRunner";
 import { ProfileModel } from "../profile/ProfileModel";
 import { ProfileController } from "../profile/ProfilesController";
 import { ProgramHistoryModel } from "./ProgramHistoryModel";
-import { IProgramBlockRunnerHydrated } from "@metalizz/nuster-typings/src/hydrated/cycle/IProgramRunnerHydrated";
-import { IPBRPremades, IProgram, EPBRMode } from "@metalizz/nuster-typings/src/spec/cycle/IProgramBlockRunner";
-import { IProfileHydrated } from "@metalizz/nuster-typings/src/hydrated/profile";
+import { IProgramBlockRunnerHydrated } from "@metalizzsas/nuster-typings/src/hydrated/cycle/IProgramRunnerHydrated";
+import { IPBRPremades, IProgram, EPBRMode } from "@metalizzsas/nuster-typings/src/spec/cycle/IProgramBlockRunner";
+import { IProfileHydrated } from "@metalizzsas/nuster-typings/src/hydrated/profile";
 
 export class CycleController extends Controller {
 

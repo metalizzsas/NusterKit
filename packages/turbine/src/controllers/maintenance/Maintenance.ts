@@ -1,5 +1,5 @@
-import { ISocketMaintenance } from "@metalizzsas/nuster-typings/build/exchanged/maintenance";
-import { IConfigMaintenance, IMaintenanceProcedure } from "@metalizzsas/nuster-typings/build/spec/maintenance";
+import { IMaintenanceHydrated } from "@metalizz/nuster-typings/src/hydrated/maintenance";
+import { IConfigMaintenance, IMaintenanceProcedure } from "@metalizz/nuster-typings/src/spec/maintenance";
 import { LoggerInstance } from "../../app";
 import { MaintenanceModel } from "./MaintenanceModel";
 
@@ -37,6 +37,7 @@ export class Maintenance implements IConfigMaintenance
         if(doc != null)
         {
             //TODO fixme
+            
             this.duration = doc.duration ?? 0;
             this.operationDate = doc.operationDate;
 
@@ -73,7 +74,7 @@ export class Maintenance implements IConfigMaintenance
         });
     }
 
-    toJSON(): ISocketMaintenance
+    toJSON(): IMaintenanceHydrated
     {
         return {
             name: this.name,

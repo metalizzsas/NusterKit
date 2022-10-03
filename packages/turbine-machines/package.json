@@ -1,5 +1,5 @@
 {
-  "name": "@metalizzsas/nuster-turbine-machines",
+  "name": "@metalizz/nuster-turbine-machines",
   "version": "1.0.0",
   "description": "metalizz machines descriptions",
   "main": "index.js",
@@ -21,7 +21,7 @@
   "homepage": "https://github.com/Kworz/NusterTurbineMachines#readme",
   "dependencies": {
     "@types/jest-json-schema": "^6.1.0",
-    "@metalizzsas/nuster-typings": "1.0.0",
+    "@metalizz/nuster-typings": "1.0.0",
     "jest": "^27.5.1",
     "jest-json-schema": "^6.1.0",
     "json-schema-to-typescript": "^11.0.1",

@@ -1,4 +1,4 @@
-import { IUM18Gate } from "@metalizzsas/nuster-typings/build/spec/iogates/IUM18Gate";
+import { IUM18Gate } from "@metalizz/nuster-typings/src/spec/iogates/IUM18Gate";
 import { LoggerInstance } from "../../../app";
 import { map } from "../../../map";
 import { IOGate } from "./IOGate";

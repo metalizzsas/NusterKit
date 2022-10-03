@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import type { Slot } from '$lib/utils/interfaces';
 	import Label from '../label.svelte';
 	import { Linker } from '$lib/utils/stores/linker';
 	import { goto } from '$app/navigation';
@@ -8,8 +7,9 @@
 	import Actionmodal from '../modals/actionmodal.svelte';
 	import Button from '../button.svelte';
 	import Flex from '../layout/flex.svelte';
+	import type { ISlotHydrated } from '@metalizz/nuster-typings/src/hydrated/slot';
 
-	export let slotContent: Slot;
+	export let slotContent: ISlotHydrated;
 	export let shown: boolean;
 
 	async function execCTA(cta: any) {
@@ -57,35 +57,37 @@
 			</Label>
 		</Flex>
 
-		{#if slotContent.productData?.lifetimeRemaining !== undefined && slotContent.productData?.productSeries}
+		{#if slotContent.slotData?.lifetimeRemaining !== undefined && slotContent.slotData?.productSeries}
 			<Flex gap={1} direction={'col'}>
-				{#if slotContent.productData?.productSeries}
+				{#if slotContent.slotData?.productSeries}
 					<span>
 						{$_('slots.modal.productSeries')}:
 						<span class="text-indigo-600 dark:text-indigo-400 font-semibold">
-							{slotContent.productData.productSeries.toUpperCase()}
+							{slotContent.slotData.productSeries.toUpperCase()}
 						</span>
 					</span>
 				{/if}
-				{#if slotContent.productData?.lifetimeRemaining !== undefined}
+				{#if slotContent.slotData?.lifetimeRemaining !== undefined}
 					<span>
 						{$_('slots.modal.productLifetime')}:
 						<span class="text-indigo-600 dark:text-indigo-400 font-semibold">
-							{transformDate(slotContent.productData?.lifetimeRemaining)}
+							{transformDate(slotContent.slotData?.lifetimeRemaining)}
 						</span>
 					</span>
 				{/if}
 			</Flex>
 		{/if}
 
-		<h2 class="leading-6">{$_('slots.modal.action')}</h2>
-
-		<Flex gap={3} direction={'col'}>
-			{#each slotContent.callToAction as cta}
-				<Button on:click={async () => await execCTA(cta)}>
-					{$_('slots.modal.actions.' + slotContent.name + '.' + cta.name)}
-				</Button>
-			{/each}
-		</Flex>
+		{#if slotContent.callToAction !== undefined}
+			<h2 class="leading-6">{$_('slots.modal.action')}</h2>
+	
+			<Flex gap={3} direction={'col'}>
+				{#each slotContent.callToAction as cta}
+					<Button on:click={async () => await execCTA(cta)}>
+						{$_('slots.modal.actions.' + slotContent.name + '.' + cta.name)}
+					</Button>
+				{/each}
+			</Flex>
+		{/if}
 	</Flex>
 </Actionmodal>

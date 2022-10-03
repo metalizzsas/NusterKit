@@ -43,7 +43,7 @@
 					<span class="font-semibold">{$_(element.key)}</span>
 				</td>
 				<td>
-					{#if typeof element.data == 'string'}
+					{#if typeof element.data === 'string'}
 						<Label color="bg-zinc-800 text-white">
 							{element.data}
 						</Label>

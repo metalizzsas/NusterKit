@@ -14,6 +14,9 @@
 	import Loadindicator from '$lib/components/loadindicator.svelte';
 
 	onMount(async () => {
+
+		initi18nLocal();
+
 		/**
 		 * Theme store (Boolean)
 		 */

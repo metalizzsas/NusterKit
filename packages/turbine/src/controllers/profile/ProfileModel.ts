@@ -1,13 +1,16 @@
-import { IProfile } from "@metalizzsas/nuster-typings/build/spec/profile";
+import { IProfileStored } from "@metalizz/nuster-typings/src/hydrated/profile";
 import { model, Schema } from "mongoose";
 
-export const ProfileSchema = new Schema<IProfile>({
-    skeleton: {type: String, required: true},
+export const ProfileSchema = new Schema<IProfileStored>({
     name: {type: String, required: true},
+    skeleton: {type: String, required: true},
+
     modificationDate: {type: Number, default: Date.now, required: true},
-    removable: {type: Boolean, default: false, required: true},
-    overwriteable: {type: Boolean, default: false, required: true},
-    isPremade: {type: Boolean, default: false, required: true},
+
+    isPremade: {type: Boolean, default: false},
+    isRemovable: {type: Boolean, default: false},
+    isOverwritable: {type: Boolean, default: true},
+
     values: {type: Map, of: Number, required: true}
 });
 

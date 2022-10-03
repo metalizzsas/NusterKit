@@ -10,7 +10,7 @@
 
 <div class="rounded-xl p-3 mt-6 bg-neutral-300 dark:bg-neutral-800">
 	<div
-		class="grid grid-cols-1 {$machineData.machine.settings.profilesMasked !== true
+		class="grid grid-cols-1 {$machineData.machine.settings?.profilesMasked !== true
 			? 'md:grid-cols-3'
 			: 'md:grid-cols-2'} gap-4"
 	>
@@ -66,7 +66,7 @@
 				{/if}
 			</div>
 		</div>
-		{#if $machineData.machine.settings.profilesMasked !== true}
+		{#if $machineData.machine.settings?.profilesMasked !== true}
 			<div
 				on:click={() => goto('/app/profiles')}
 				class=" bg-gradient-to-br from-indigo-500 to-indigo-600 py-3 px-5 text-white font-semibold rounded-xl text-center transition-all hover:-skew-y-[0.25deg] duration-200 ease-in-out cursor-pointer"

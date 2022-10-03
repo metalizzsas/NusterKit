@@ -1,5 +1,5 @@
-import { ISocketPassive } from "@metalizzsas/nuster-typings/build/exchanged/passive";
-import { IConfigPassive } from "@metalizzsas/nuster-typings/build/spec/passive";
+import { IPassiveHydrated } from "@metalizz/nuster-typings/src/hydrated/passive";
+import { IConfigPassive } from "@metalizz/nuster-typings/src/spec/passive";
 import { Request, Response } from "express";
 import { AuthManager } from "../../auth/auth";
 import { Controller } from "../Controller";
@@ -91,7 +91,7 @@ export class PassiveController extends Controller
         return this.passives.find(c => c.name == name);
     }
 
-    public get socketData(): ISocketPassive[]
+    public get socketData(): IPassiveHydrated[]
     {
         return this.passives.filter(p => p.internal !== true).map(p => p.toJSON());
     }

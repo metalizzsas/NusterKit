@@ -1,14 +1,15 @@
 <script lang="ts">
+	import type { IProgramStepHydrated } from '@metalizz/nuster-typings/src/hydrated/cycle/IProgramStepHydrated';
+	import { EProgramStepState } from '@metalizz/nuster-typings/src/spec/cycle/IProgramStep';
 	import { _ } from 'svelte-i18n';
-	import type { Step } from '$lib/utils/interfaces';
 	import Flex from '../layout/flex.svelte';
 
-	export let step: Step;
+	export let step: IProgramStepHydrated;
 </script>
 
 <Flex
 	class="justify-between items-center bg-zinc-700 text-white font-semibold {step.state ==
-	'completed'
+	EProgramStepState.ENDED
 		? 'pl-3 rounded-3xl p-1.5'
 		: 'rounded-xl p-3'}"
 >
@@ -35,7 +36,7 @@
 			</span>
 		{/if}
 		<div class="rounded-full p-1 bg-white self-center">
-			{#if step.state == 'created'}
+			{#if step.state == EProgramStepState.CREATED}
 				<svg
 					id="glyphicons-basic"
 					xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +48,7 @@
 						d="M27,14v4a1,1,0,0,1-1,1H19v7a1,1,0,0,1-1,1H14a1,1,0,0,1-1-1V19H6a1,1,0,0,1-1-1V14a1,1,0,0,1,1-1h7V6a1,1,0,0,1,1-1h4a1,1,0,0,1,1,1v7h7A1,1,0,0,1,27,14Z"
 					/>
 				</svg>
-			{:else if step.state == 'started'}
+			{:else if step.state == EProgramStepState.STARTED}
 				<svg
 					id="glyphicons-basic"
 					xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +60,7 @@
 						d="M20.74066,8.35083a9.46114,9.46114,0,0,0-1.8974-.889A8.86849,8.86849,0,0,0,10.8175,8.65308l1.3147,1.48169a.49991.49991,0,0,1-.314.82812L5.634,11.71021a.50014.50014,0,0,1-.54577-.615L6.56573,5.0437a.49994.49994,0,0,1,.85962-.21326l1.38959,1.566A12.10267,12.10267,0,0,1,10.62982,5.2688a11.96833,11.96833,0,0,1,9.16083-.6543,13.338,13.338,0,0,1,2.41321,1.11682.9863.9863,0,0,1,.37353,1.23133l-.39935.93579A.99067.99067,0,0,1,20.74066,8.35083ZM7.00529,15.71905a9.46141,9.46141,0,0,0,.17877,2.08772,8.86852,8.86852,0,0,0,5.04456,6.35486l.62584-1.8794a.49992.49992,0,0,1,.87419-.14211l3.73926,4.982a.50013.50013,0,0,1-.25971.78015l-5.9795,1.74622a.49993.49993,0,0,1-.6145-.63782l.66144-1.98644a12.10109,12.10109,0,0,1-1.884-1.00789,11.96834,11.96834,0,0,1-5.14706-7.60636,13.33711,13.33711,0,0,1-.2394-2.64831.98629.98629,0,0,1,.87959-.93915l1.01009-.122A.99066.99066,0,0,1,7.00529,15.71905ZM20.254,23.93012a9.46082,9.46082,0,0,0,1.71863-1.19868,8.86842,8.86842,0,0,0,2.9812-7.54615l-1.94053.39772a.49992.49992,0,0,1-.56016-.686l2.44487-5.72928a.50013.50013,0,0,1,.80549-.16516l4.502,4.30529a.49993.49993,0,0,1-.24513.85108l-2.051.42039a12.10248,12.10248,0,0,1,.06916,2.13558,11.96833,11.96833,0,0,1-4.01377,8.26066A13.3379,13.3379,0,0,1,21.791,26.507a.9863.9863,0,0,1-1.25313-.29217l-.61074-.81375A.99067.99067,0,0,1,20.254,23.93012Z"
 					/>
 				</svg>
-			{:else if step.state == 'partial'}
+			{:else if step.state == EProgramStepState.PARTIAL}
 				<svg
 					id="glyphicons-basic"
 					xmlns="http://www.w3.org/2000/svg"
@@ -71,12 +72,12 @@
 						d="M27.37592,9.70459l-14.151,15.97693a.99985.99985,0,0,1-1.47558.02356L4.59711,18.1322a.99992.99992,0,0,1-.05384-1.31128L5.495,15.63123a.99994.99994,0,0,1,1.22808-.26966L12,18,24.79724,7.09863a.99991.99991,0,0,1,1.35553.0542l1.1817,1.18164A1,1,0,0,1,27.37592,9.70459Z"
 					/>
 				</svg>
-			{:else if ['ending', 'ended'].includes(step.state)}
+			{:else if [EProgramStepState.ENDING, EProgramStepState.ENDED, EProgramStepState.SKIPPED].includes(step.state)}
 				<svg
 					id="glyphicons-basic"
 					xmlns="http://www.w3.org/2000/svg"
 					viewBox="0 0 32 32"
-					class="{step.state == 'ending'
+					class="{step.state != EProgramStepState.ENDED
 						? 'fill-orange-500'
 						: 'fill-emerald-500'} h-5 w-5"
 				>

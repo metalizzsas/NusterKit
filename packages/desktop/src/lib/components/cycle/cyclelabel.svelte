@@ -22,7 +22,7 @@
 		<img
 			src="//{$Linker}/api/assets/cycle/{ct.name}.png"
 			class="aspect-square bg-white rounded-l-xl w-16"
-			alt="illutration cycle"
+			alt="illutration cycle {$_('cycle.types.' + ct.name)}"
 		/>
 		<div class="text-md">{$_('cycle.types.' + ct.name)}</div>
 	</div>

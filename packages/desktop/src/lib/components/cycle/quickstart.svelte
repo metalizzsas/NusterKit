@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { Linker } from '$lib/utils/stores/linker';
 	import { machineData } from '$lib/utils/stores/store';
-	import type { Profile } from '$lib/utils/interfaces';
 
 	import { _ } from 'svelte-i18n';
 	import { onMount } from 'svelte';
@@ -17,8 +16,9 @@
 
 	import Modal from '../modals/modal.svelte';
 	import Modalprompt from '../modals/modalprompt.svelte';
+	import type { IProfileHydrated } from '@metalizz/nuster-typings/src/hydrated/profile';
 
-	let profiles: Array<Profile> = [];
+	let profiles: Array<IProfileHydrated> = [];
 	let selectedProfile: string = 'default';
 
 	let saveProfileModalShown = false;
@@ -35,7 +35,7 @@
 		const reqProfiles = await fetch('//' + $Linker + '/api/v1/profiles/');
 
 		if (reqProfiles.status == 200) {
-			profiles = (await reqProfiles.json()) as Profile[];
+			profiles = (await reqProfiles.json()) as IProfileHydrated[];
 		}
 
 		const reqSkeleton = await fetch('//' + $Linker + '/api/v1/profiles/skeletons/default');
@@ -43,7 +43,7 @@
 		if (reqSkeleton.status == 200) {
 			const json = await reqSkeleton.json();
 
-			const result = json as Profile;
+			const result = json as IProfileHydrated;
 
 			result.id = 'skeleton';
 			result.name = '—';

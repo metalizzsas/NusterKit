@@ -35,8 +35,6 @@ export interface ISlotSensor {
     io: string;
     /** Slot type */
     type: ESlotSensorType;
-    /** Slot value */
-    value?: number;
 }
 
 /** Slot sensor type */

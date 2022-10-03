@@ -1,6 +1,15 @@
 import { model, Schema } from "mongoose";
 import { ProfileSchema } from "../profile/ProfileModel";
 
+import type { IProgramBlockRunnerHydrated } from "@metalizz/nuster-typings/src/hydrated/cycle/IProgramRunnerHydrated";
+import { IPBRStatus } from "@metalizz/nuster-typings/src/spec/cycle/IProgramBlockRunner";
+import { IParameterBlocksHydrated } from "@metalizz/nuster-typings/src/hydrated/cycle/blocks/IParameterBlockHydrated";
+import { IProgramBlockHydrated } from "@metalizz/nuster-typings/src/hydrated/cycle/blocks/IProgramBlockHydrated";
+import { IProgramStepHydrated } from "@metalizz/nuster-typings/src/hydrated/cycle/IProgramStepHydrated";
+import { IPBRSCCheckChain } from "@metalizz/nuster-typings/src/spec/cycle/programblocks/startchain/IPBRSCCheckChain";
+import { IPBRStartConditionHydrated } from "@metalizz/nuster-typings/src/hydrated/cycle/IPBRStartConditionHydrated";
+import { IHistory } from "@metalizz/nuster-typings/src/hydrated/cycle";
+
 const PBRStatusSchema = new Schema<IPBRStatus>({
     mode: {type: String, required: true},
     startDate: Number,
@@ -9,14 +18,15 @@ const PBRStatusSchema = new Schema<IPBRStatus>({
     progress: Number
 });
 
-const ParameterBlockSchema = new Schema<IParameterBlock>({
+const ParameterBlockSchema = new Schema<IParameterBlocksHydrated>({
     name: {type: String, required: true},
-    value: String
+    value: String,
+    data: Schema.Types.Mixed
 });
 
 ParameterBlockSchema.add({params: [ParameterBlockSchema]});
 
-const ProgramBlockSchema = new Schema<IProgramBlock & {currentIteration?: number, trueBlocks?: IProgramBlock, falseBlocks?: IProgramBlock}>({
+const ProgramBlockSchema = new Schema<IProgramBlockHydrated>({
     name: {type: String, required: true},
     executed: {type: Boolean, required: true, default: false},
     params: [ParameterBlockSchema],
@@ -29,7 +39,7 @@ ProgramBlockSchema.add({blocks: [ProgramBlockSchema]});
 ProgramBlockSchema.add({trueBlocks: [ProgramBlockSchema]}); 
 ProgramBlockSchema.add({falseBlocks: [ProgramBlockSchema]});
 
-const ProgramStepSchema = new Schema<IProgramStepRunner>({
+const ProgramStepSchema = new Schema<IProgramStepHydrated>({
     name: {type: String, required: true},
 
     state: {type: String, required: true},
@@ -60,13 +70,14 @@ const PBRSCCheckChainSchema = new Schema<IPBRSCCheckChain>({
     }
 });
 
-const PBRStartConditionSchema = new Schema<IPBRStartCondition>({
+const PBRStartConditionSchema = new Schema<IPBRStartConditionHydrated>({
     conditionName: {type: String, required: true},
     startOnly: {type: Boolean, required: true},
-    checkChain: {type: PBRSCCheckChainSchema, required: true}
+    checkChain: {type: PBRSCCheckChainSchema, required: true},
+    result: Boolean
 });
 
-const ProgramSchema = new Schema<IProgramRunner>({
+const ProgramSchema = new Schema<IProgramBlockRunnerHydrated>({
 
     name: {type: String, required: true},
 
@@ -79,7 +90,7 @@ const ProgramSchema = new Schema<IProgramRunner>({
     startConditions: {type: [PBRStartConditionSchema], required: true}
 });
 
-const ProgramHistorySchema = new Schema<IProgramHistory>({
+const ProgramHistorySchema = new Schema<IHistory>({
     rating: Number,
     cycle: {type: ProgramSchema, required: true},
     profile: ProfileSchema

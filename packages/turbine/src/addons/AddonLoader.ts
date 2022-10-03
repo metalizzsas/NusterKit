@@ -1,4 +1,4 @@
-import { IAddon, IMachineSpecs } from "@metalizzsas/nuster-typings";
+import { IAddon, IMachineSpecs } from "@metalizz/nuster-typings";
 import pino from "pino";
 import { deepInsert } from "../deepInsert";
 

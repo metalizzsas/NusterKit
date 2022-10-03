@@ -8,11 +8,11 @@ import { PT100Gate } from "./IOGates/PT100Gate";
 import { UM18IOGate } from "./IOGates/UM18Gate";
 import { EX260Sx } from "./IOHandlers/EX260Sx";
 import { WAGO } from "./IOHandlers/WAGO";
-import { IIOPhysicalController, IOControllersConfig } from "@metalizzsas/nuster-typings/build/spec/iophysicalcontrollers";
-import { IOGates, IOGatesConfig } from "@metalizzsas/nuster-typings/build/spec/iogates";
-import { IMappedGate } from "@metalizzsas/nuster-typings/build/spec/iogates/IMappedGate";
-import { IPT100Gate } from "@metalizzsas/nuster-typings/build/spec/iogates/IPT100Gate";
-import { IUM18Gate } from "@metalizzsas/nuster-typings/build/spec/iogates/IUM18Gate";
+import { IOGates, IOGatesConfig } from "@metalizz/nuster-typings/src/spec/iogates";
+import { IMappedGate } from "@metalizz/nuster-typings/src/spec/iogates/IMappedGate";
+import { IPT100Gate } from "@metalizz/nuster-typings/src/spec/iogates/IPT100Gate";
+import { IUM18Gate } from "@metalizz/nuster-typings/src/spec/iogates/IUM18Gate";
+import { IIOPhysicalController, IOControllersConfig } from "@metalizz/nuster-typings/src/spec/iophysicalcontrollers";
 
 export class IOController extends Controller
 {

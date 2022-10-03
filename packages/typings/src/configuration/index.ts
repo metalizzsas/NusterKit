@@ -1,4 +1,7 @@
-import { IAddon } from "../addon/";
+import { IAddon } from "../spec/addons";
+
+export type ConfigModel = "metalfog" | "smoothit" | "uscleaner";
+export type ConfigVariant = "m";
 
 /** Configuration info.json driving NusterTurbine */
 export interface IConfiguration
@@ -9,9 +12,9 @@ export interface IConfiguration
     serial: string;
 
     /** Machine model */
-    model: string;
+    model: ConfigModel;
     /** Machine variant */
-    variant: string;
+    variant: ConfigVariant;
     /** Machine revision */
     revision: number;
 

@@ -1,25 +1,23 @@
 import { Controller } from "../Controller";
 
 import { Request, Response } from "express";
-import { ObjectId } from "mongoose";
 import { LoggerInstance } from "../../app";
 import { AuthManager } from "../../auth/auth";
 import { ProfileModel } from "./ProfileModel";
-import { IProfileExportable } from "@metalizzsas/nuster-typings/build/exchanged/profile";
-import { IProfile, IProfileSkeleton, IConfigProfile } from "@metalizzsas/nuster-typings/build/spec/profile";
 
-export type IProfileMap = Omit<IProfile, 'values'> & { values: Map<string, number | boolean>};
+import type { IProfileSkeleton, ProfileSkeletonFields, IProfileConfig } from "@metalizz/nuster-typings/src/spec/profile";
+import type { IProfileHydrated, IProfileStored } from "@metalizz/nuster-typings/src/hydrated/profile";
 
 export class ProfileController extends Controller {
 
     private profileSkeletons: Map<string, IProfileSkeleton> = new Map<string, IProfileSkeleton>();
-    private profilePremades: IProfileExportable[] = [];
+    private profilePremades: IProfileHydrated[] = [];
 
     private maskedProfiles: string[];
     
     static _instance: ProfileController;
 
-    private constructor(profileSkeletons: IProfileSkeleton[], profilePremades: IConfigProfile[], maskedProfiles: string[] = [])
+    private constructor(profileSkeletons: IProfileSkeleton[], profilePremades: IProfileConfig[], maskedProfiles: string[] = [])
     {
         super();
 
@@ -29,7 +27,7 @@ export class ProfileController extends Controller {
         this._configureRouter();
     }
 
-    static getInstance(profileSkeletons?: IProfileSkeleton[], profilePremades?: IConfigProfile[], maskedProfiles?: string[])
+    static getInstance(profileSkeletons?: IProfileSkeleton[], profilePremades?: IProfileConfig[], maskedProfiles?: string[])
     {
         if(!this._instance)
             if(profileSkeletons !== undefined && profilePremades !== undefined)
@@ -40,31 +38,24 @@ export class ProfileController extends Controller {
         return this._instance;
     }
 
-    private async _configure(profileSkeletons: IProfileSkeleton[], profilePremades: IConfigProfile[])
+    private async _configure(profileSkeletons: IProfileSkeleton[], profilePremades: IProfileConfig[])
     {
-        for(const p of profileSkeletons)
+        for(const skeleton of profileSkeletons)
         {
-            this.profileSkeletons.set(p.identifier, structuredClone(p));
+            this.profileSkeletons.set(skeleton.name, structuredClone(skeleton));
         }
         
         for(const p of profilePremades)
         {
             //mask profile if it is masked on machine settings
             if(this.maskedProfiles.includes(p.name))
-            {
                 LoggerInstance.info(`Skipping premade profile ${p.name} because it is masked on machine settings.`);
-            }
             else
             {
+                const converted = this.hydrateProfile(p)
 
-                //Converting profile.values from Object to Map
-                const values = (p.values as unknown as ({[x: string]:number}));
-
-                const k: IProfileMap = {...p, values: new Map<string, number>(Object.entries(values))};
-    
-                const converted = structuredClone(this.convertProfile(k));
-    
-                this.profilePremades.push(converted);
+                if(converted !== undefined)
+                    this.profilePremades.push(converted);
             }
         }
         return true;
@@ -89,10 +80,7 @@ export class ProfileController extends Controller {
          */
         AuthManager.getInstance().registerEndpointPermission("profiles.list", {endpoint: "/v1/profiles/", method: "get"});
         this._router.get('/', async (_req: Request, res: Response) => {
-
-            const profiles = await ProfileModel.find();
-
-            res.json([...profiles.map(p => this.convertProfile(p)), ...this.profilePremades]);
+            res.json(this.socketData());
         });
 
         /**
@@ -109,7 +97,7 @@ export class ProfileController extends Controller {
         this._router.get('/:id', async (req: Request, res: Response) => {
             if(req.params.id.startsWith("premade_"))
             {
-                const profile = this.profilePremades.find(p => p.name === req.params.id.split("_")[1]);
+                const profile = this.getPremade(req.params.id.split("_")[1]);
                 (profile) ? res.json(profile) : res.status(404).json({error: "Profile not found"});
             }
             else
@@ -117,7 +105,7 @@ export class ProfileController extends Controller {
                 const profile = await ProfileModel.findById(req.params.id);
                 res.status(profile ? 200 : 404);
     
-                (profile) ? res.json(this.convertProfile(profile)) : res.end();
+                (profile) ? res.json(this.hydrateProfile(profile)) : res.end();
             }
         });
 
@@ -134,7 +122,7 @@ export class ProfileController extends Controller {
                  removable: true,
                  values: {}
              });
-             res.json(this.convertProfile(newp));
+             res.json(this.hydrateProfile(newp));
         });
 
         /**
@@ -146,13 +134,9 @@ export class ProfileController extends Controller {
             if(req.body.id == "created")
             {
                 delete req.body.id;
-                const profile = req.body as IProfileExportable;
-                profile.modificationDate = Date.now();
-                profile.overwriteable = true;
-                profile.removable = true;
-                profile.isPremade = false;
 
-                const created = this.retreiveProfile(profile);
+                const profile = req.body as IProfileHydrated;
+                const created = this.prepareToStore(profile);
 
                 res.status(200).json(await ProfileModel.create(created));
                 return;
@@ -173,11 +157,11 @@ export class ProfileController extends Controller {
                 return;
             }
 
-            const p: IProfileExportable & {id: ObjectId} = req.body;
+            const p: IProfileHydrated = req.body;
 
             p.modificationDate = Date.now();
 
-            const profile = this.retreiveProfile(p);
+            const profile = this.prepareToStore(p);
             
             ProfileModel.findByIdAndUpdate(profile.id, profile, {}, (err) => {
 
@@ -218,13 +202,8 @@ export class ProfileController extends Controller {
             if(req.body.id == "copied")
             {
                 delete req.body.id;
-                const profile = req.body as IProfileExportable;
-                profile.modificationDate = Date.now();
-                profile.overwriteable = true;
-                profile.removable = true;
-                profile.isPremade = false;
-
-                const copied = this.retreiveProfile(profile);
+                const profile = req.body as IProfileHydrated;
+                const copied = this.prepareToStore(profile);
 
                 res.status(200).json(await ProfileModel.create(copied));
                 return;
@@ -236,66 +215,55 @@ export class ProfileController extends Controller {
             }
         });
     }
+    /**
+     * Hydrate the profile with its skeleton
+     * @param profileStored Profile to hydrate from
+     * @returns The profile hydrated
+     */
+    public hydrateProfile(profileStored: IProfileStored | IProfileConfig): IProfileHydrated | undefined {
 
-    public convertProfile(profile: IProfileMap & {id?: ObjectId}): IProfileExportable
-    {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const skeleton = structuredClone(this.profileSkeletons.get(profile.skeleton)!); // avoid skeleton modifications
+        // Find the skeleton assignated to this profile
+        const profileSkeleton = this.profileSkeletons.get(profileStored.skeleton);
 
-        const exportable: IProfileExportable = {
-            ...skeleton, ...{
-                id: profile.id,
-                name: profile.name,
-                modificationDate: profile.modificationDate || Date.now(),
-                removable: profile.removable,
-                overwriteable: profile.overwriteable,
-                isPremade: profile.isPremade
-            }
-        };
-
-        for(const fg of exportable.fieldGroups)
+        // Make sure that we have the skeleton for this profile
+        if(profileSkeleton !== undefined)
         {
-            for(const f of fg.fields)
-            {
-                f.value = profile.values.get(fg.name + "#" + f.name) ?? f.value;
-            }
+            // Force the creation of a `modificationDate`,
+            // because premade profiles dont have a modification date
+            if(!("modificationDate" in profileStored))
+                (profileStored as IProfileStored).modificationDate = Date.now();
+
+            const clonedProfileValues = Object.entries(structuredClone(profileStored.values)).map(v => profileSkeleton.fields.find(n => {if(n.name == v[0]) { n.value = v[1]; return true; }}));
+
+            const returnProfile: IProfileHydrated = {...profileStored as IProfileStored, values: clonedProfileValues.filter(f => f !== undefined) as ProfileSkeletonFields[]};
+            return returnProfile;
         }
-        
-        return exportable;
+        return;
     }
 
-    public retreiveProfile(profileexp: IProfileExportable & {id?: ObjectId}): IProfileMap & {id?: ObjectId}
+    /**
+     * Prepare the profile to be ready to store on mongodb
+     * @param profileHydrated Profile to be transformed
+     * @returns Profile transformed ready to be stored
+     */
+    public prepareToStore(profileHydrated: IProfileHydrated): IProfileStored
     {
-        const profile: IProfileMap & {id?: ObjectId} = {
-            id: (!profileexp.isPremade ?? false) ? profileexp.id : undefined,
-            skeleton: profileexp.identifier,
-            name: profileexp.name,
-            modificationDate: profileexp.modificationDate,
-            removable: (!profileexp.isPremade) ? profileexp.removable : true,
-            overwriteable: (!profileexp.isPremade) ? profileexp.overwriteable : true,
-            isPremade: profileexp.isPremade,
-            values: new Map<string, number>()
-        };
+        const values: Record<string, number> = {};
+        profileHydrated.values.forEach(v => values[v.name] = v.value);
 
-        for(const fg of profileexp.fieldGroups)
-        {
-            for(const f of fg.fields)
-            {
-                profile.values.set(fg.name + "#" + f.name, f.value);
-            }
-        }
+        const returnProfile: IProfileStored = {...profileHydrated, values: values};
 
-        return profile;
+        return returnProfile;
     }
 
-    public getPremade(id: string): IProfileExportable | undefined
+    public getPremade(id: string): IProfileHydrated | undefined
     {
         return this.profilePremades.find(p => p.name === id);
     }
 
-    public async socketData()
+    public async socketData(): Promise<IProfileHydrated[]>
     {
         const list = await ProfileModel.find({}); 
-        return [...list.map(p => this.convertProfile(p)), ...this.profilePremades]
+        return [...list.map(p => this.hydrateProfile(p)), ...this.profilePremades] as IProfileHydrated[]
     }
 }

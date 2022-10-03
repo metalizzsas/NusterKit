@@ -1,6 +1,6 @@
-import { ICallToAction } from "@metalizzsas/nuster-typings/build/configuration/nuster/ICallToAction";
-import { ISlotProductData, ISocketSlot } from "@metalizzsas/nuster-typings/build/exchanged/slot";
-import { EProductSeries, IConfigSlot, ISlotProductOptions, ISlotSensor } from "@metalizzsas/nuster-typings/build/spec/slot";
+import { ICallToAction } from "@metalizz/nuster-typings/src/configuration/nuster/ICallToAction";
+import { ISlotHydrated, ISlotProductData } from "@metalizz/nuster-typings/src/hydrated/slot";
+import { EProductSeries, IConfigSlot, ISlotProductOptions, ISlotSensor } from "@metalizz/nuster-typings/src/spec/slot";
 
 import { LoggerInstance } from "../../app";
 import { SlotModel } from "./SlotModel";
@@ -105,9 +105,10 @@ export class Slot implements IConfigSlot
         return this.productOptions !== undefined;
     }
 
-    async socketData(): Promise<ISocketSlot>
+    async socketData(): Promise<ISlotHydrated>
     {
         await this.fetchSlotData();
-        return this;
+        // TODO Check this type assertion
+        return this as unknown as ISlotHydrated;
     }
 }

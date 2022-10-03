@@ -1,5 +1,5 @@
 {
-  "name": "@metalizzsas/nuster-turbine",
+  "name": "@metalizz/nuster-turbine",
   "engines": {
     "node": "18.x"
   },
@@ -80,7 +80,8 @@
     "@types/ws": "^8.5.3",
     "@typescript-eslint/eslint-plugin": "^5.38.0",
     "@typescript-eslint/parser": "^5.38.0",
-    "@metalizzsas/nuster-typings": "1.0.0",
+    "@metalizz/nuster-typings": "1.0.0",
+    "@metalizz/nuster-turbine-machines": "1.0.0",
     "concurrently": "^7.4.0",
     "eslint": "^8.24.0",
     "nodemon": "^2.0.20",

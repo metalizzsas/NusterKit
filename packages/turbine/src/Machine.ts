@@ -1,5 +1,3 @@
-import fs from "fs";
-import path from "path";
 import WebSocket from "ws";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -16,16 +14,31 @@ import { SlotController } from "./controllers/slot/SlotController";
 import { parseAddon } from "./addons/AddonLoader";
 import { LoggerInstance } from "./app";
 
-import type { IConfiguration, IAddon, IMachineSpecs } from "@metalizzsas/nuster-typings";
-import type { IStatusMessage } from "@metalizzsas/nuster-typings/build/exchanged";
-import type { IDeviceData } from "@metalizzsas/nuster-typings/build/exchanged/balena/IDeviceData";
-import type { IHypervisorData } from "@metalizzsas/nuster-typings/build/exchanged/balena/IHypervisorDevice";
-import type { IVPNData } from "@metalizzsas/nuster-typings/build/exchanged/balena/IVPNData";
+import type { IConfiguration, IMachineSpecs, IStatusMessage } from "@metalizz/nuster-typings";
+import { IHypervisorData } from "@metalizz/nuster-typings/src/hydrated/balena/IHypervisorDevice";
+import { IDeviceData } from "@metalizz/nuster-typings/src/hydrated/balena/IDeviceData";
+import { IVPNData } from "@metalizz/nuster-typings/src/hydrated/balena/IVPNData";
 
-export class Machine
-{
+import type { ConfigModel, ConfigVariant } from "@metalizz/nuster-typings/src/configuration";
+
+import * as MetalfogMR1 from "@metalizz/nuster-turbine-machines/data/metalfog/m/1/specs.json";
+
+import * as SmoothitMR1 from "@metalizz/nuster-turbine-machines/data/smoothit/m/1/specs.json";
+import * as SmoothitMR2 from "@metalizz/nuster-turbine-machines/data/smoothit/m/2/specs.json";
+
+import * as USCleanerMR1 from "@metalizz/nuster-turbine-machines/data/uscleaner/m/0/specs.json";
+
+type models = `${ConfigModel}/${ConfigVariant}/${number}`;
+
+const MODELS: {[x: models]: unknown} = {
+    "metalfog/m/1": MetalfogMR1,
+    "smoothit/m/1": SmoothitMR1,
+    "smoothit/m/2": SmoothitMR2,
+    "uscleaner/m/1": USCleanerMR1
+};
+
+export class Machine {
     data: IConfiguration;
-
     specs: IMachineSpecs;
 
     private maintenanceController: MaintenanceController;
@@ -35,7 +48,7 @@ export class Machine
     private manualmodeController: ManualModeController;
     private cycleController: CycleController;
     private passiveController: PassiveController;
-    
+
     WebSocketServer?: WebSocket.Server = undefined;
 
     //Balena given data
@@ -43,48 +56,42 @@ export class Machine
     private vpnData?: IVPNData;
     private deviceData?: IDeviceData;
 
-    constructor(obj: IConfiguration)
-    {
+    constructor(obj: IConfiguration) {
         //Store machine data informations
         this.data = obj;
 
-        // Retreive machine base specs to build all the controllers around this file
-        const raw = fs.readFileSync(path.resolve(this.baseNTMFolder, "specs.json"), {encoding: "utf-8"});
-        const specsParsed = JSON.parse(raw) as IMachineSpecs;
+        // Retreive machine base specs to build all the controllers
+        const specs = MODELS[`${this.data.model}/${this.data.variant}/${this.data.revision}`];
+
+        if(specs === undefined)
+            throw new Error("Machine failed to load specs.json");
 
         // Assign specs to this instance
-        this.specs = (specsParsed as IMachineSpecs);
+        this.specs = specs as IMachineSpecs;
 
         // Addon Parsing
-        if(this.data.addons !== undefined)
-        {
+        if (this.data.addons !== undefined) {
             LoggerInstance.warn("Machine: " + this.data.addons.length + " Addon(s) detected. SHOULD NOT BE USED IN PRODUCTION!");
-            for(const add of this.data.addons)
+            for (const add of this.data.addons)
             {
-                const addonPath = path.resolve(this.baseNTMFolder, "addons", add + ".json");
+                const addon = this.specs.addons?.find(a => a.addonName = add);
 
-                if(fs.existsSync(addonPath))
-                {
-                    const rawAddon = fs.readFileSync(addonPath, {encoding: 'utf-8'});
-                    const addonParsed = JSON.parse(rawAddon) as IAddon;
-    
-                    this.specs = parseAddon(this.specs, addonParsed, LoggerInstance);
-                }
+                if(addon)
+                    this.specs = parseAddon(this.specs, addon, LoggerInstance);
                 else
-                    LoggerInstance.error(`Addon: ${addonPath} does not exists.`);
+                    LoggerInstance.error(`Addon: ${addon} does not exists.`);
             }
         }
 
         // Machine Specific addon parsing
-        if(this.data.machineAddons !== undefined)
-        {
+        if (this.data.machineAddons !== undefined) {
             LoggerInstance.info(`Machine: Configuration has ${this.data.machineAddons.length} machine specific addon(s). SHOULD BE USED AS LESS AS POSSIBLE!`);
-            for(const add of this.data.machineAddons)
+            for (const add of this.data.machineAddons)
                 this.specs = parseAddon(this.specs, add, LoggerInstance);
         }
 
         //if config file has settings let them is the settings var
-        if(this.data.settings !== undefined)
+        if (this.data.settings !== undefined)
             LoggerInstance.info("Machine: Custom settings detected.");
 
         LoggerInstance.info("Machine: Instantiating controllers");
@@ -99,35 +106,31 @@ export class Machine
 
         LoggerInstance.info("Machine: Finished Instantiating controllers");
 
-        if(process.env.NODE_ENV === 'production')
-        {
+        if (process.env.NODE_ENV === 'production') {
             //Polling the balenaOS Data if device is not in dev mode
             setInterval(async () => {
-                try
-                {
-                    const hyperv = await fetch("http://127.0.0.1:48484/v2/state/status?apikey=" + process.env.BALENA_SUPERVISOR_API_KEY, { headers: { "Content-Type": "application/json" }});
-                    const vpn = await fetch("http://127.0.0.1:48484/v2/device/vpn?apikey=" + process.env.BALENA_SUPERVISOR_API_KEY, { headers: { "Content-Type": "application/json" }});
-                    const device = await fetch("http://127.0.0.1:48484/v1/device?apikey=" + process.env.BALENA_SUPERVISOR_API_KEY, { headers: { "Content-Type": "application/json" }});
-        
-                    if(hyperv.status == 200)
+                try {
+                    const hyperv = await fetch("http://127.0.0.1:48484/v2/state/status?apikey=" + process.env.BALENA_SUPERVISOR_API_KEY, { headers: { "Content-Type": "application/json" } });
+                    const vpn = await fetch("http://127.0.0.1:48484/v2/device/vpn?apikey=" + process.env.BALENA_SUPERVISOR_API_KEY, { headers: { "Content-Type": "application/json" } });
+                    const device = await fetch("http://127.0.0.1:48484/v1/device?apikey=" + process.env.BALENA_SUPERVISOR_API_KEY, { headers: { "Content-Type": "application/json" } });
+
+                    if (hyperv.status == 200)
                         this.hypervisorData = await hyperv.json();
-                    
-                    if(vpn.status == 200)
+
+                    if (vpn.status == 200)
                         this.vpnData = await vpn.json();
 
-                    if(device.status == 200)
+                    if (device.status == 200)
                         this.deviceData = await device.json();
                 }
-                catch(ex)
-                {
+                catch (ex) {
                     LoggerInstance.warn("Hypervisor: Failed to get Hypervisor data.");
                 }
             }, 10000);
         }
     }
 
-    public async socketData(): Promise<IStatusMessage>
-    {
+    public async socketData(): Promise<IStatusMessage> {
         const profiles = await this.profileController.socketData();
         const maintenances = await this.maintenanceController.socketData();
         const slot = await this.slotController.socketData();
@@ -147,18 +150,15 @@ export class Machine
         }
     }
 
-    get assetsFolder()
-    {
-        return path.resolve(this.baseNTMFolder, "assets");
+    get assetsFolder() {
+        return `${this.baseNTMFolder}/assets`;
     }
 
-    get baseNTMFolder()
-    {
-        return path.resolve("nuster-turbine-machines", "data", this.data.model, this.data.variant, `${this.data.revision}`);
+    get baseNTMFolder() {
+        return `@metalizz/nuster-turbine-machines/data/${this.data.model}/${this.data.variant}/${this.data.revision}`;
     }
 
-    toJSON(): IStatusMessage["machine"]
-    {
+    toJSON(): IStatusMessage["machine"] {
         return {
             ...this.data,
 

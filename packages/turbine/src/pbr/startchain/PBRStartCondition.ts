@@ -1,5 +1,5 @@
-import { EPBRMode } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlockRunner";
-import { IPBRStartCondition, EPBRStartConditionResult } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/startchain/IPBRStartCondition";
+import { EPBRMode } from "@metalizz/nuster-typings/src/spec/cycle/IProgramBlockRunner";
+import { IPBRStartCondition, EPBRStartConditionResult } from "@metalizz/nuster-typings/src/spec/cycle/programblocks/startchain/IPBRStartCondition";
 import { LoggerInstance } from "../../app";
 import { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { PBRSCCheckChain } from "./PBRSCCheckChain";

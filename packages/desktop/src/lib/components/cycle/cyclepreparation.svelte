@@ -47,7 +47,7 @@
 		<Navcontainer>
 			<Navcontainertitle>{$_('cycle.presets')}</Navcontainertitle>
 			<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-				{#each cyclePremades.filter((c) => c.cycle == 'default') as ct, index}
+				{#each cyclePremades.filter((c) => c.cycle == 'default') as ct}
 					<Cyclelabel {ct} />
 				{/each}
 			</div>
@@ -58,7 +58,7 @@
 			<Navcontainertitle>{$_('cycle.presets-anex')}</Navcontainertitle>
 
 			<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-				{#each cyclePremades.filter((c) => c.cycle != 'default') as ct, index}
+				{#each cyclePremades.filter((c) => c.cycle != 'default') as ct}
 					<Cyclelabel {ct} />
 				{/each}
 			</div>
@@ -70,7 +70,7 @@
 			<Navcontainertitle>{$_('cycle.user')}</Navcontainertitle>
 			<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 				{#each cycleTypes.filter((k) => k.profileRequired) as ct}
-					{#each $machineData.profiles.filter((p) => p.identifier == ct.name && p.isPremade == false) as p, index}
+					{#each $machineData.profiles.filter((p) => p.identifier == ct.name && p.isPremade == false) as p}
 						<div
 							class="bg-indigo-500 text-white p-2 flex flex-col items-center justify-center rounded-xl transition-all font-semibold"
 							on:click={() => prepareCycle(ct.name, p.id)}

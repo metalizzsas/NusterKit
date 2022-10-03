@@ -4,8 +4,8 @@
 	import Modalcontent from '../modals/modalcontent.svelte';
 	import { machineList } from '$lib/utils/stores/list';
 	import Modal from '../modals/modal.svelte';
-	import type { IWSObject } from '$lib/utils/interfaces';
 	import { _ } from 'svelte-i18n';
+	import type { IStatusMessage } from '@metalizz/nuster-typings';
 
 	enum machineStatus {
 		ONLINE = 'online',
@@ -23,7 +23,7 @@
 	export let machineIndex: number;
 
 	let machineAvailable: machineStatus = machineStatus.PENDING;
-	let machineData: IWSObject | undefined;
+	let machineData: IStatusMessage | undefined;
 
 	let editMenuShown = false;
 	let deletePromptShown = false;
@@ -39,7 +39,7 @@
 			const status = await fetch('//' + machine.ip + '/api/ws');
 
 			machineAvailable = status.status == 200 ? machineStatus.ONLINE : machineStatus.OFFLINE;
-			machineData = (await status.json()) as IWSObject;
+			machineData = (await status.json()) as IStatusMessage;
 		} catch (ex) {
 			machineAvailable = machineStatus.OFFLINE;
 		}

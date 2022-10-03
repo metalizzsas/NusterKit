@@ -1,4 +1,4 @@
-import { ESlotSensorType, ISlotSensor } from "@metalizzsas/nuster-typings/build/spec/slot";
+import { ESlotSensorType, ISlotSensor } from "@metalizz/nuster-typings/src/spec/slot";
 import { IOController } from "../io/IOController";
 import { Slot } from "./Slot";
 

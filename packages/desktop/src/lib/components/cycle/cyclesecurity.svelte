@@ -65,8 +65,8 @@
 
 	$navTitle = [
 		$_('cycle.button'),
-		$_('cycle.names.' + $machineData.cycle.name),
-		...($machineData.cycle.profile !== undefined
+		$_('cycle.names.' + $machineData.cycle?.name),
+		...($machineData.cycle?.profile !== undefined
 			? $machineData.cycle.profile?.isPremade
 				? [$_('cycle.types.' + $machineData.cycle.profile.name)]
 				: [$machineData.cycle.profile.name]

@@ -1,4 +1,4 @@
-import { EProductSeries, IConfigSlot } from "../../spec/slot";
+import { EProductSeries, IConfigSlot, ISlotSensor } from "../../spec/slot";
 
 /** Slot data for productable slots */
 export interface ISlotProductData {
@@ -12,5 +12,7 @@ export interface ISlotProductData {
     lifetimeRemaining: number;
 }
 
+type ISlotSensorHydrated = ISlotSensor & { value: number, unity?: string }; 
+
 /** Data returned from slot manager */
-export type ISocketSlot = IConfigSlot & { slotData?: ISlotProductData };
+export type ISlotHydrated = IConfigSlot & { slotData?: ISlotProductData, isProductable: boolean, sensors: ISlotSensorHydrated[] };

@@ -2,14 +2,14 @@
 	import { _ } from 'svelte-i18n';
 	import { Linker } from '$lib/utils/stores/linker';
 	import { goto } from '$app/navigation';
-	import type { INusterPopup } from '$lib/utils/interfaces';
 
 	import Flex from '../layout/flex.svelte';
 	import Actionmodal from './actionmodal.svelte';
 	import Button from '../button.svelte';
+	import type { IPopupMessage } from "@metalizz/nuster-typings/src/hydrated/index";
 
 	export let shown: boolean;
-	export let modalData: INusterPopup | null;
+	export let modalData: IPopupMessage | null;
 
 	async function execCTA(cta: any) {
 		if (cta.APIEndpoint !== undefined) {

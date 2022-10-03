@@ -1,14 +1,14 @@
 import { IConfigPassive } from "../../spec/passive";
 
 export interface IPassiveStoredLogData {
-    time?: Date,
-    state?: boolean
-
     targetValue: number,
+    state: boolean,
+
     interpolatedSensorsValue: number,
+    time: Date,
 }
 
-export type ISocketPassive = Omit<IConfigPassive, "actuators" | "manualModes" | "sensors"> & 
+export type IPassiveHydrated = Omit<IConfigPassive, "actuators" | "manualModes" | "sensors"> & 
 {
     current: number,
     state: boolean;

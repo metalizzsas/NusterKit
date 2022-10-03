@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import type { Maintenance } from '$lib/utils/interfaces';
 	import { goto } from '$app/navigation';
+	import type { IMaintenanceHydrated } from '@metalizz/nuster-typings/src/hydrated/maintenance';
 
-	export let maintenance: Maintenance;
+	export let maintenance: IMaintenanceHydrated;
 </script>
 
 <div

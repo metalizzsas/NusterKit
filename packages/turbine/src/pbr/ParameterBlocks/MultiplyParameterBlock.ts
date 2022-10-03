@@ -1,5 +1,5 @@
-import { INumericParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/IParameterBlock";
-import { IMultiplyParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ParameterBlocks/IMultiplyParameterBlock";
+import { INumericParameterBlock } from "@metalizz/nuster-typings/src/spec/cycle/IParameterBlock";
+import { IMultiplyParameterBlock } from "@metalizz/nuster-typings/src/spec/cycle/programblocks/ParameterBlocks/IMultiplyParameterBlock";
 import { NumericParameterBlocks, ParameterBlock } from ".";
 import { ParameterBlockRegistry } from "./ParameterBlockRegistry";
 

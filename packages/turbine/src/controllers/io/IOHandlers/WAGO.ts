@@ -1,5 +1,5 @@
-import { IIOPhysicalController } from "@metalizzsas/nuster-typings/build/spec/iophysicalcontrollers";
-import { IWagoController } from "@metalizzsas/nuster-typings/build/spec/iophysicalcontrollers/WagoController";
+import { IIOPhysicalController } from "@metalizz/nuster-typings/src/spec/iophysicalcontrollers";
+import { IWagoController } from "@metalizz/nuster-typings/src/spec/iophysicalcontrollers/WagoController";
 import ModbusTCP from "modbus-serial";
 import ping from "ping";
 

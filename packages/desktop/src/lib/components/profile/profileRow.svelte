@@ -1,11 +1,13 @@
 <script lang="ts">
-	import type { Field, Profile } from '$lib/utils/interfaces';
 	import Toggle from '../userInputs/toggle.svelte';
 	import TimeSelector from '../userInputs/timeselector.svelte';
 	import Inputkb from '../userInputs/inputkb.svelte';
 	import { _ } from 'svelte-i18n';
-	export let profile: Profile;
-	export let row: Field;
+	import type { IProfileHydrated } from '@metalizz/nuster-typings/src/hydrated/profile';
+	import type { ProfileSkeletonFields } from '@metalizz/nuster-typings/src/spec/profile';
+
+	export let profile: IProfileHydrated
+	export let row: ProfileSkeletonFields;
 </script>
 
 <div
@@ -59,8 +61,6 @@
 					<span class="font-semibold px-2">{row.unity}</span>
 				{/if}
 			</div>
-		{:else}
-			<span class="text-red">Type {row.type} unsupported</span>
 		{/if}
 	</div>
 </div>

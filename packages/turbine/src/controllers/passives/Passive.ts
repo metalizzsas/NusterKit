@@ -1,5 +1,5 @@
-import { IPassiveStoredLogData, ISocketPassive } from "@metalizzsas/nuster-typings/build/exchanged/passive";
-import { IConfigPassive } from "@metalizzsas/nuster-typings/build/spec/passive";
+import { IPassiveHydrated, IPassiveStoredLogData } from "@metalizz/nuster-typings/src/hydrated/passive";
+import { IConfigPassive } from "@metalizz/nuster-typings/src/spec/passive";
 import { LoggerInstance } from "../../app";
 import { IOController } from "../io/IOController";
 import { ManualModeController } from "../manual/ManualModeController";
@@ -243,7 +243,7 @@ export class Passive implements IConfigPassive {
         }
     }
 
-    toJSON(): ISocketPassive
+    toJSON(): IPassiveHydrated
     {
         return {
             name: this.name,

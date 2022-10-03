@@ -3,16 +3,19 @@
 	import Label from '$lib/components/label.svelte';
 	import Flex from '$lib/components/layout/flex.svelte';
 	import Round from '$lib/components/round.svelte';
-	import type { Block } from '$lib/utils/interfaces';
+
+	import type { IProgramBlockHydrated } from '@metalizz/nuster-typings/src/hydrated/cycle/blocks/IProgramBlockHydrated';
+
 	import { onMount } from 'svelte';
 	import Param from './param.svelte';
 
-	export let block: Block;
+	export let block: IProgramBlockHydrated;
 
 	let shrinked = true;
 
 	onMount(() => {
-		shrinked = block.executed;
+		//TODO fix
+		shrinked = block.executed ?? true;
 	});
 </script>
 
@@ -35,7 +38,7 @@
 			</Button>
 		</Flex>
 
-		{#if !shrinked}
+		{#if !shrinked && block.params != undefined}
 			<span class="font-semibold">Parameters</span>
 
 			<div class="w-full overflow-x-scroll mt-3">
@@ -49,7 +52,8 @@
 	</div>
 
 	{#if !shrinked}
-		{#each [block.blocks, block.trueBlocks, block.falseBlocks] as cat, i}
+		{@const blocks = (block.name == "if") ? [block.blocks, block.trueBlocks, block.falseBlocks] : [block.blocks]}
+		{#each blocks as cat, i}
 			{@const catego = ['childrens', 'true', 'false']}
 
 			{#if cat !== undefined && cat.length > 0}

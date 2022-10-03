@@ -11,22 +11,22 @@
 	import Button from '$lib/components/button.svelte';
 	import Flex from '$lib/components/layout/flex.svelte';
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
-	import type { IHistory } from '$lib/utils/interfaces';
 
 	import type { PageData } from './$types';
+	import type { IHistoryHydrated } from '@metalizz/nuster-typings/src/hydrated/cycle';
 	export let data: PageData;
 
-	let histories: IHistory[] = data.histories;
+	let histories = data.histories;
 
 	let showRetakeModal = false;
-	let selectedHistory: IHistory | null;
+	let selectedHistory: IHistoryHydrated | null;
 
-	async function restartCycle(his: IHistory) {
+	async function restartCycle(his: IHistoryHydrated) {
 		await fetch('//' + $Linker + '/api/v1/cycle/restart/' + his.id, { method: 'POST' });
 		goto('/app/cycle/');
 	}
 
-	function showRetakeModalHandler(his: IHistory) {
+	function showRetakeModalHandler(his: IHistoryHydrated) {
 		selectedHistory = his;
 		showRetakeModal = true;
 	}

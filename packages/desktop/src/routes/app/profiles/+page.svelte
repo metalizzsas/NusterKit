@@ -4,7 +4,6 @@
 	import ModalPrompt from '$lib/components/modals/modalprompt.svelte';
 	import NavContainer from '$lib/components/navigation/navcontainer.svelte';
 	import Profile from '$lib/components/profile/profile.svelte';
-	import type { Profile as ProfileModel } from '$lib/utils/interfaces';
 	import { Linker } from '$lib/utils/stores/linker';
 	import {
 		navActions,
@@ -18,11 +17,12 @@
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
 
 	import type { PageData } from './$types';
+	import type { IProfileHydrated } from '@metalizz/nuster-typings/src/hydrated/profile';
 
 	export let data: PageData;
 
-	let profiles: ProfileModel[] = data.profiles;
-	let profileSkeletons: string[] = data.profileSkeletons;
+	let profiles = data.profiles;
+	let profileSkeletons = data.profileSkeletons;
 
 	let addProfileModalShown = false;
 
@@ -46,7 +46,7 @@
 			},
 		});
 
-		let p = (await response.json()) as ProfileModel;
+		let p = (await response.json()) as IProfileHydrated;
 
 		goto(`profiles/${p.id}`);
 	}

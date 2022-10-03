@@ -17,7 +17,7 @@
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
 	import Navcontainertitlesided from '$lib/components/navigation/navcontainertitlesided.svelte';
 
-	import type { ISocketManual } from "@metalizzsas/nuster-typings/build/exchanged/manual/";
+	import type { ISocketManual } from "@metalizz/nuster-typings/src/hydrated/manual/";
 
 	async function toggleState(name: string, state: number) {
 		await fetch(`//${$Linker}/api/v1/manual/${name.replace('#', '_')}/${state}`, {
@@ -128,7 +128,7 @@
 											on:input={() => {
 												$lockMachineData = true;
 											}}
-											on:change={async (e) => {
+											on:change={async () => {
 												$lockMachineData = false;
 												await toggleState(manual.name, manual.state);
 											}}

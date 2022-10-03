@@ -1,5 +1,5 @@
 import type { PageLoad } from './$types';
-import type { IProfile } from '@metalizzsas/nuster-typings/build/spec/profile';
+import type { IProfileHydrated } from '@metalizz/nuster-typings/src/hydrated/profile';
 
 export const load: PageLoad = async (ctx) => {
 	const content = await ctx.fetch(
@@ -8,7 +8,7 @@ export const load: PageLoad = async (ctx) => {
 			}`,
 	);
 
-	let profile: IProfile = await content.json();
+	let profile: IProfileHydrated = await content.json();
 
 	return { profile };
 };

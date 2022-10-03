@@ -4,7 +4,6 @@
 
 	import Portal from 'svelte-portal';
 
-	import { createEventDispatcher, onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
 
 	import { _ } from 'svelte-i18n';

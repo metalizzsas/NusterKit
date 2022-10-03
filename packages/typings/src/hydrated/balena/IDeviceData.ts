@@ -4,6 +4,7 @@
 export interface IDeviceData {
   api_port: number;
   ip_address: string;
+  mac_address: string;
   commit: string;
   status: string;
   download_progress: number;

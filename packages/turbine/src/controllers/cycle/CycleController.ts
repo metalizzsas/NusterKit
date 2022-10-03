@@ -6,11 +6,11 @@ import { LoggerInstance } from "../../app";
 import { AuthManager } from "../../auth/auth";
 import { ProgramBlockRunner } from "../../pbr/ProgramBlockRunner";
 import { ProfileModel } from "../profile/ProfileModel";
-import { IProfileMap, ProfileController } from "../profile/ProfilesController";
+import { ProfileController } from "../profile/ProfilesController";
 import { ProgramHistoryModel } from "./ProgramHistoryModel";
-import { IProfileExportable } from "@metalizzsas/nuster-typings/build/exchanged/profile";
-import { IPBRPremades, IProgram, EPBRMode } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlockRunner";
-import { IProfile } from "@metalizzsas/nuster-typings/build/spec/profile";
+import { IProgramBlockRunnerHydrated } from "@metalizz/nuster-typings/src/hydrated/cycle/IProgramRunnerHydrated";
+import { IPBRPremades, IProgram, EPBRMode } from "@metalizz/nuster-typings/src/spec/cycle/IProgramBlockRunner";
+import { IProfileHydrated } from "@metalizz/nuster-typings/src/hydrated/profile";
 
 export class CycleController extends Controller {
 
@@ -82,18 +82,29 @@ export class CycleController extends Controller {
             if (history) {
                 LoggerInstance.info("PBR assigned for restart");
 
-                this.program = new ProgramBlockRunner(history.cycle, history.profile);
+                const profile = ProfileController.getInstance().hydrateProfile(history.profile);
 
-                if (this.program.name != history.profile.skeleton) {
-                    res.status(403);
-                    res.write(`Profile ${this.program.name} is not compatible with cycle profile ${history.profile.skeleton}`);
-                    res.end();
-                    this.program = undefined;
-                    return;
+                if(profile !== undefined)
+                {
+                    this.program = new ProgramBlockRunner(history.cycle, profile);
+
+                    if (this.program.name != history.profile.skeleton) {
+                        res.status(403);
+                        res.write(`Profile ${this.program.name} is not compatible with cycle profile ${history.profile.skeleton}`);
+                        res.end();
+                        this.program = undefined;
+                        return;
+                    }
+                    else {
+                        res.status(200)
+                        res.write("ok");
+                        res.end();
+                        return;
+                    }
                 }
-                else {
-                    res.status(200)
-                    res.write("ok");
+                else
+                {
+                    res.status(403).write("Failed to load history profile");
                     res.end();
                     return;
                 }
@@ -129,21 +140,21 @@ export class CycleController extends Controller {
         //prepare the cycle
         this._router.post("/:name/:id?", async (req: Request, res: Response) => {
 
-            let profile: IProfileMap | undefined = undefined;
+            let profile: IProfileHydrated | undefined = undefined;
 
             if (req.params.id) {
                 if (req.params.id.startsWith("premade_")) {
                     const premadeProfile = ProfileController.getInstance().getPremade(req.params.id.split("_")[1]);
 
                     if (premadeProfile)
-                        profile = ProfileController.getInstance().retreiveProfile(premadeProfile);
+                        profile = premadeProfile;
                     else {
                         res.status(404).write("Premade Profile not found");
                         return;
                     }
                 }
                 else
-                    profile = await ProfileModel.findById(req.params.id) as IProfile
+                    profile = await ProfileModel.findById(req.params.id).lean();
 
                 if (!profile) {
                     res.status(404);
@@ -153,7 +164,7 @@ export class CycleController extends Controller {
             }
             //if the api gets a profile in the body, use it.
             else if (Object.keys(req.body).length !== 0) {
-                profile = ProfileController.getInstance().retreiveProfile((req.body as IProfileExportable));
+                profile = req.body as IProfileHydrated;
                 LoggerInstance.info("CR: Profile given by body");
             }
             else {
@@ -166,10 +177,12 @@ export class CycleController extends Controller {
                 LoggerInstance.info("CR: PBR assigned");
                 this.program = new ProgramBlockRunner({ ...cycle, status: { mode: EPBRMode.CREATED } }, profile);
 
-                if (this.program.profileRequired && profile !== undefined) {
-                    if (this.program.name != (profile as IProfile).skeleton) {
+                if (this.program.profileRequired && profile !== undefined)
+                {
+                    if (this.program.name != profile.skeleton)
+                    {
                         res.status(403);
-                        res.write(`Profile ${this.program.name} is not compatible with cycle profile ${(profile as IProfile).skeleton}`);
+                        res.write(`Profile ${this.program.name} is not compatible with cycle profile ${profile.skeleton}`);
                         res.end();
                         this.program = undefined;
                         return;
@@ -269,7 +282,8 @@ export class CycleController extends Controller {
         AuthManager.getInstance().registerEndpointPermission("cycle.run", { endpoint: "/v1/cycle/", method: "delete" });
     }
 
-    public get socketData() {
-        return this.program;
+    public get socketData(): IProgramBlockRunnerHydrated | undefined {
+        // TODO check for type assertion here it might be off
+        return this.program as unknown as IProgramBlockRunnerHydrated | undefined;
     }
 }

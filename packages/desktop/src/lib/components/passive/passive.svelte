@@ -4,12 +4,12 @@
 	import Chart from 'chart.js/auto/auto.mjs';
 
 	import Toggle from '../userInputs/toggle.svelte';
-	import type { Passive } from '$lib/utils/interfaces';
 	import Inputkb from '../userInputs/inputkb.svelte';
 	import Navcontainersubtitle from '../navigation/navcontainersubtitle.svelte';
 	import Actionmodal from '../modals/actionmodal.svelte';
+	import type { IPassiveHydrated } from '@metalizz/nuster-typings/src/hydrated/passive';
 
-	export let passive: Passive;
+	export let passive: IPassiveHydrated;
 
 	let target = passive.target;
 
@@ -31,7 +31,7 @@
 		new Chart(chartCanvas, {
 			type: 'line',
 			data: {
-				labels: passive.logData.map((ld) => $time(Date.parse(ld.time))),
+				labels: passive.logData.map((ld) => $time(ld.time)),
 				datasets: [
 					{
 						label: $_('passives.target'),

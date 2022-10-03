@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import '$lib/app.css';
-	import type { Slot } from '$lib/utils/interfaces';
 	import Round from '../round.svelte';
 	import Slotmodal from './slotmodal.svelte';
 	import Label from '../label.svelte';
+	import type { ISlotHydrated } from '@metalizz/nuster-typings/src/hydrated/slot';
 
-	export let slotContent: Slot;
+	export let slotContent: ISlotHydrated;
 
 	let showModal = false;
 </script>
@@ -34,8 +34,8 @@
 		{#if slotContent.isProductable}
 			<Label class="flex flex-row gap-1 items-center">
 				<span>{$_('slots.product')}</span>
-				{#if slotContent.productData?.lifetimeRemaining !== undefined}
-					{#if slotContent.productData?.lifetimeRemaining > 0}
+				{#if slotContent.slotData?.lifetimeRemaining !== undefined}
+					{#if slotContent.slotData?.lifetimeRemaining > 0}
 						<svg
 							id="glyphicons-basic"
 							xmlns="http://www.w3.org/2000/svg"

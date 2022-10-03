@@ -1,5 +1,5 @@
-import { ISocketMaintenance } from "@metalizzsas/nuster-typings/build/exchanged/maintenance";
-import { IConfigMaintenance } from "@metalizzsas/nuster-typings/build/spec/maintenance";
+import { IMaintenanceHydrated } from "@metalizz/nuster-typings/src/hydrated/maintenance";
+import { IConfigMaintenance } from "@metalizz/nuster-typings/src/spec/maintenance";
 import { Request, Response } from "express";
 
 import { AuthManager } from "../../auth/auth";
@@ -85,7 +85,7 @@ export class MaintenanceController extends Controller
         AuthManager.getInstance().registerEndpointPermission("maintenance.reset", {endpoint: new RegExp("/v1/maintenance/.*", "g"), method: "delete"});
     }
 
-    public async socketData(): Promise<ISocketMaintenance[]>
+    public async socketData(): Promise<IMaintenanceHydrated[]>
     {
         for(const t of this.tasks)
             await t.refresh();

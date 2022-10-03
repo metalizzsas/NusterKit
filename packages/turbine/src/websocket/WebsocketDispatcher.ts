@@ -1,4 +1,4 @@
-import { INusterPopup } from "@metalizzsas/nuster-typings/build/configuration/nuster/INusterPopup";
+import { INusterPopup } from "@metalizz/nuster-typings/src/configuration/nuster/INusterPopup";
 import { Server } from "http";
 import { OPEN, WebSocket, WebSocketServer } from "ws";
 import { LoggerInstance } from "../app";

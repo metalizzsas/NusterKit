@@ -1,11 +1,12 @@
 import { INusterPopup } from "../configuration/nuster/INusterPopup"
+import { IAddon } from "./addons"
 import { IProgram, IPBRPremades } from "./cycle/IProgramBlockRunner"
 import { IOGatesConfig } from "./iogates"
 import { IOControllersConfig } from "./iophysicalcontrollers"
 import { IConfigMaintenance } from "./maintenance"
 import { IConfigManualMode } from "./manual"
 import { IConfigPassive } from "./passive"
-import { IProfileSkeleton, IConfigProfile } from "./profile"
+import { IProfileConfig, IProfileSkeleton } from "./profile"
 import { IConfigSlot } from "./slot"
 
 /** Machine JSON Specifications */
@@ -37,8 +38,14 @@ export declare interface IMachineSpecs
     /** Profile skeletons definition */
     profileSkeletons: IProfileSkeleton[],
     /** Premade profile definition */
-    profilePremades: IConfigProfile[],
+    profilePremades: IProfileConfig[],
 
     /** Product slots definition */
-    slots: IConfigSlot[]
+    slots: IConfigSlot[],
+
+    /** 
+     * Addons available on this machine
+     * @beta
+     */
+    addons?: IAddon[]
 }

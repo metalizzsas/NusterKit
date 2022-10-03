@@ -6,7 +6,6 @@
 
 	import { keyboardShown, keyboardHeight } from '$lib/utils/stores/keyboard';
 	import Portal from 'svelte-portal';
-	import { onMount } from 'svelte';
 
 	export let title: string;
 	export let displayClose: boolean = true;

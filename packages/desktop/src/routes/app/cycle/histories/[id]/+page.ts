@@ -1,5 +1,5 @@
 import type { PageLoad } from './$types';
-import type { IHistory } from "@metalizzsas/nuster-typings/build/exchanged/cycle";
+import type { IHistoryHydrated } from "@metalizz/nuster-typings/src/hydrated/cycle";
 
 export const load: PageLoad = async (ctx) => {
 	let dt = await ctx.fetch(
@@ -9,5 +9,5 @@ export const load: PageLoad = async (ctx) => {
 			ctx.params.id,
 	);
 
-	return { history: await dt.json() as IHistory };
+	return { history: await dt.json() as IHistoryHydrated };
 };

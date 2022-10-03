@@ -1,5 +1,5 @@
-import { ISocketSlot } from "@metalizzsas/nuster-typings/build/exchanged/slot";
-import { IConfigSlot } from "@metalizzsas/nuster-typings/build/spec/slot";
+import { ISlotHydrated } from "@metalizz/nuster-typings/src/hydrated/slot";
+import { IConfigSlot } from "@metalizz/nuster-typings/src/spec/slot";
 import { Request, Response } from "express";
 
 import { Controller } from "../Controller";
@@ -57,9 +57,9 @@ export class SlotController extends Controller
             }
         });
     }
-    async socketData(): Promise<ISocketSlot[]>
+    async socketData(): Promise<ISlotHydrated[]>
     {
-        const data: ISocketSlot[] = [];
+        const data: ISlotHydrated[] = [];
         
         for(const s of this.slots)
             data.push(await s.socketData());

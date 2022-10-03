@@ -1,6 +1,6 @@
 import { IConfigMaintenance } from "../../spec/maintenance";
 
-export type ISocketMaintenance = IConfigMaintenance & IMaintenanceStored & { durationActual: number, durationProgress: number };
+export type IMaintenanceHydrated = IConfigMaintenance & IMaintenanceStored & { durationActual: number, durationProgress: number };
 
 /** Maintenance task object stored in database */
 export interface IMaintenanceStored extends Omit<IConfigMaintenance, "durationType" | "durationLimit" | "procedure">

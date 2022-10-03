@@ -1,12 +1,9 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 
-	import type { IPopupMessage, IStatusMessage, IWebSocketData } from 'webSocketData/index';
-
 	import { beforeUpdate, onDestroy, onMount } from 'svelte';
 
 	import { lockMachineData, machineData } from '$lib/utils/stores/store';
-	import type { INusterPopup, IWSObject } from '$lib/utils/interfaces';
 	import { fade, scale } from 'svelte/transition';
 
 	import { Linker } from '$lib/utils/stores/linker';
@@ -15,6 +12,8 @@
 	import { BUNDLED } from '$lib/bundle';
 	import { initI18nMachine } from '$lib/utils/i18n/i18nmachine';
 	import Popup from '$lib/components/modals/popup.svelte';
+	import type { INusterPopup } from '@metalizz/nuster-typings/src/configuration/nuster/INusterPopup';
+	import type { IPopupMessage, IStatusMessage, IWebSocketData } from '@metalizz/nuster-typings';
 
 	let ready: boolean = false;
 
@@ -97,11 +96,11 @@
 			}
 		};
 
-		ws.onerror = (e: Event) => {
+		ws.onerror = () => {
 			console.log('WS Error');
 		};
 
-		ws.onclose = (e: Event) => {
+		ws.onclose = () => {
 			ready = false;
 			wsAtempt = 0;
 			registerWebsocket();

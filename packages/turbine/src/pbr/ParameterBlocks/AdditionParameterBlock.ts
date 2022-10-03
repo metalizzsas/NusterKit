@@ -1,4 +1,4 @@
-import { IAdditionParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ParameterBlocks/IAdditionParameterBlock";
+import { IAdditionParameterBlock } from "@metalizz/nuster-typings/src/spec/cycle/programblocks/ParameterBlocks/IAdditionParameterBlock";
 import { NumericParameterBlocks, ParameterBlock } from ".";
 import { ParameterBlockRegistry } from "./ParameterBlockRegistry";
 

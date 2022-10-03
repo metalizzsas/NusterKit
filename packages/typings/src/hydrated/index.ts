@@ -1,15 +1,15 @@
 import { IConfiguration } from "../configuration";
-import { IProgramRunner } from "../spec/cycle/IProgramBlockRunner";
 import { IOGates } from "../spec/iogates";
 import { IIOPhysicalController } from "../spec/iophysicalcontrollers";
 import { IDeviceData } from "./balena/IDeviceData";
 import { IHypervisorData } from "./balena/IHypervisorDevice";
 import { IVPNData } from "./balena/IVPNData";
-import { ISocketMaintenance } from "./maintenance";
-import { ISocketManual } from "./manual";
-import { ISocketPassive } from "./passive";
-import { IProfileExportable } from "./profile";
-import { ISocketSlot } from "./slot";
+import { IProgramBlockRunnerHydrated } from "./cycle/IProgramRunnerHydrated";
+import { IMaintenanceHydrated } from "./maintenance";
+import { IManualHydrated } from "./manual";
+import { IPassiveHydrated } from "./passive";
+import { IProfileHydrated } from "./profile";
+import { ISlotHydrated } from "./slot";
 
 export interface IWebSocketData
 {
@@ -26,14 +26,14 @@ export interface IStatusMessage
 
         nusterVersion: string
    },
-   cycle?: IProgramRunner,
-   slots: ISocketSlot[],
-   profiles: IProfileExportable[],
+   cycle?: IProgramBlockRunnerHydrated,
+   slots: ISlotHydrated[],
+   profiles: IProfileHydrated[],
    io: IOGates[],
    handlers: IIOPhysicalController[],
-   passives: ISocketPassive[],
-   manuals: ISocketManual[],
-   maintenances: ISocketMaintenance[]
+   passives: IPassiveHydrated[],
+   manuals: IManualHydrated[],
+   maintenances: IMaintenanceHydrated[]
 }
 
 export interface IPopupMessage

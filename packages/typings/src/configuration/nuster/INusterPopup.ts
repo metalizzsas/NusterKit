@@ -1,3 +1,3 @@
-import { IPopupMessage } from "../../exchanged";
+import { IPopupMessage } from "../../hydrated";
 
 export type INusterPopup = IPopupMessage;

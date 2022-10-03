@@ -6,7 +6,6 @@
 	import { machineData } from '$lib/utils/stores/store';
 	import { Linker } from '$lib/utils/stores/linker';
 	import Modalcontent from '$lib/components/modals/modalcontent.svelte';
-	import Machine from '$lib/components/machinelist/machine.svelte';
 
 	export let shown: boolean;
 

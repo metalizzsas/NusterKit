@@ -1,14 +1,12 @@
 <script lang="ts">
 	import Actionmodal from '$lib/components/modals/actionmodal.svelte';
-	import Navcontainersubtitle from '$lib/components/navigation/navcontainersubtitle.svelte';
-	import ProfileRow from '$lib/components/profile/profileRow.svelte';
-	import type { IProfileMapped } from '$lib/utils/interfaces';
-	import Toggle from '$lib/components/userInputs/toggle.svelte';
 	import { _ } from 'svelte-i18n';
 	import Label from '$lib/components/label.svelte';
 
+	import type { IProfileMappedHydrated } from "@metalizz/nuster-typings/src/hydrated/profile/index";
+
 	export let shown: boolean;
-	export let profile: IProfileMapped;
+	export let profile: IProfileMappedHydrated;
 </script>
 
 <Actionmodal bind:shown>

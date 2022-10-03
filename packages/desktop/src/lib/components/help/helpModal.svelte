@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import type { Slot } from '$lib/utils/interfaces';
 	import Label from '../label.svelte';
 	import { Linker } from '$lib/utils/stores/linker';
 	import { goto } from '$app/navigation';
 
 	import Actionmodal from '../modals/actionmodal.svelte';
+	import type { ISlotHydrated } from "@metalizz/nuster-typings/src/hydrated/slot";
 
-	export let slotContent: Slot;
+	export let slotContent: ISlotHydrated;
 	export let shown: boolean;
 
 	async function execCTA(cta: any) {
@@ -54,37 +54,39 @@
 				{$_('slots.types.' + slotContent.name)}
 			</Label>
 		</div>
-		{#if slotContent.productData?.lifetimeRemaining !== undefined && slotContent.productData?.productSeries}
+		{#if slotContent.slotData?.lifetimeRemaining !== undefined && slotContent.slotData?.productSeries}
 			<div class="flex flex-col gap-1">
-				{#if slotContent.productData?.productSeries}
+				{#if slotContent.slotData?.productSeries}
 					<span>
 						{$_('slots.modal.productSeries')}:
 						<span class="text-indigo-600 dark:text-indigo-400 font-semibold">
-							{slotContent.productData.productSeries.toUpperCase()}
+							{slotContent.slotData.productSeries.toUpperCase()}
 						</span>
 					</span>
 				{/if}
-				{#if slotContent.productData?.lifetimeRemaining !== undefined}
+				{#if slotContent.slotData?.lifetimeRemaining !== undefined}
 					<span>
 						{$_('slots.modal.productLifetime')}:
 						<span class="text-indigo-600 dark:text-indigo-400 font-semibold">
-							{transformDate(slotContent.productData?.lifetimeRemaining)}
+							{transformDate(slotContent.slotData?.lifetimeRemaining)}
 						</span>
 					</span>
 				{/if}
 			</div>
 		{/if}
 
-		<h2 class="leading-6">{$_('slots.modal.action')}</h2>
-		<div class="flex flex-col gap-3">
-			{#each slotContent.callToAction as cta}
-				<button
-					class="rounded-xl py-2 px-5 bg-indigo-600 text-white font-semibold"
-					on:click={async () => await execCTA(cta)}
-				>
-					{$_('slots.modal.actions.' + slotContent.name + '.' + cta.name)}
-				</button>
-			{/each}
-		</div>
+		{#if slotContent.callToAction}
+			<h2 class="leading-6">{$_('slots.modal.action')}</h2>
+			<div class="flex flex-col gap-3">
+				{#each slotContent.callToAction as cta}
+					<button
+						class="rounded-xl py-2 px-5 bg-indigo-600 text-white font-semibold"
+						on:click={async () => await execCTA(cta)}
+					>
+						{$_('slots.modal.actions.' + slotContent.name + '.' + cta.name)}
+					</button>
+				{/each}
+			</div>
+		{/if}
 	</div>
 </Actionmodal>

@@ -1,56 +1,44 @@
-/** Profiles stored in the configuration `specs.json` file */
-export interface IConfigProfile extends Omit<IProfile, "values">
-{
-    values: {[x: string]: number | boolean};
-}
+/** Profile schema from configuration */
+export interface IProfileConfig {
 
-/** Object used internaly by ProfileController */
-export interface IProfile
-{
-    /** Profile name */
+    /** Name of the profile */
     name: string;
-    /** Profile Skeleton reference */
+    /** Name of the referencing skeleton profile */
     skeleton: string;
-    /** Last profile modification data */
-    modificationDate?: number;
-    /** Is this profile premade */
-    isPremade: boolean;
-    /** Is this profile removable */
-    removable: boolean;
-    /** Is this profile overwritable */
-    overwriteable: boolean;
 
-    /** Map of the profile values */
-    values: Map<string, number>;
+    /** Is the profile premade ? */
+    isPremade?: true;
+    /** Is the profile Removable ? */
+    isRemovable?: true;
+    /** 
+     * Is the profile Overwritable ?
+     * @deprecated whats the use case ?
+     */
+    isOverwritable?: false;
+
+    /** Values of the profile */
+    values: Record<string, number>
 }
 
-export interface IProfileSkeleton
-{
-    /** Profile identifier, used to map between profiles and cycles */
-    identifier: string;
-    /** Fiels groups of this profile skeleton */
-    fieldGroups: IProfileSkeletonFieldGroup[]
-}
-
-interface IProfileSkeletonFieldGroup
-{
-    /** Name of the profile field group */
+export interface IProfileSkeleton {
+    /** Identifier name of the skeleton */
     name: string;
-    /** Profile fields */
-    fields: ProfileSkeletonFields[];
+    /** Fields definitions contained by this skeleton */
+    fields: ProfileSkeletonFields[]
 }
+
 
 /** Base profile types */
 export type ProfileSkeletonFields = (IProfileSkeletonFieldFloat | IProfileSkeletonFieldBoolean | IProfileSkeletonFieldNumber | IProfileSkeletonFieldTime) & IProfileSkeletonField;
 
 interface IProfileSkeletonField
 {
-    /** Name of the profile field */
+    /** Name of the profile field can be splitted by category using a #. `ex: temperature#target` */
     name: string;
     /** Type of the profile field */
     type: "bool" | "float" | "int" | "time";
     /** Value contained byt the profile field */
-    value: number | boolean;
+    value: number;
 
     /** Unity of the profile field, it used for UI purposes only */
     unity?: string;
@@ -69,7 +57,7 @@ interface IProfileSkeletonFieldFloat extends IProfileSkeletonField
 interface IProfileSkeletonFieldBoolean extends IProfileSkeletonField
 {
     type: "bool";
-    value: boolean;
+    value: 1 | 0;
 }
 
 /** Number profile field type */

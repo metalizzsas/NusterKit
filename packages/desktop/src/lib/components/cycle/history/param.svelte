@@ -1,9 +1,9 @@
 <script lang="ts">
 	import Button from '$lib/components/button.svelte';
 	import Flex from '$lib/components/layout/flex.svelte';
-	import type { Param } from '$lib/utils/interfaces';
+	import type { IParameterBlocksHydrated } from '@metalizz/nuster-typings/src/hydrated/cycle/blocks/IParameterBlockHydrated';
 
-	export let param: Param;
+	export let param: IParameterBlocksHydrated;
 
 	let showChildParam = false;
 </script>
@@ -36,8 +36,8 @@
 	{#if showChildParam == true && param.params !== undefined && param.params.length > 0}
 		<div class="ml-4">
 			<Flex direction="col" gap={2}>
-				{#each param.params as param}
-					<svelte:self {param} firstLevel={false} />
+				{#each param.params as p}
+					<svelte:self {p} firstLevel={false} />
 				{/each}
 			</Flex>
 		</div>

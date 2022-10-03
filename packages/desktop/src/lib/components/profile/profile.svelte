@@ -1,41 +1,37 @@
 <script lang="ts">
-	import type { Profile } from '$lib/utils/interfaces';
 	import Modal from '$lib/components/modals/modal.svelte';
 	import ModalPrompt from '$lib/components/modals/modalprompt.svelte';
-	import { fly } from 'svelte/transition';
 	import { _, date, time } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
 	import { Linker } from '$lib/utils/stores/linker';
+	import type { IProfileHydrated } from '@metalizz/nuster-typings/src/hydrated/profile';
 
-	export let profile: Profile;
+	export let profile: IProfileHydrated;
 	export let delCb: Function;
 
 	let copyProfileModalShown = false;
 	let deleteProfileModalShown = false;
 
-	async function copyProfile(newName: string) {
+	function copyProfile(newName: string) {
 		let newProfile = profile;
 
 		newProfile.id = 'copied';
 		newProfile.name = newName;
 
-		const returndata = await fetch('//' + $Linker + '/api/v1/profiles/', {
+		fetch('//' + $Linker + '/api/v1/profiles/', {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify(newProfile),
+		}).then((returnData) => {
+			returnData.json().then((result: IProfileHydrated) => {
+				goto('/app/profiles/' + result.id);
+			});
 		});
-
-		try {
-			const profileData = (await returndata.json()) as Profile;
-			goto('/app/profiles/' + profileData.id);
-		} catch (ex) {
-			console.log(ex);
-		}
 	}
 
-	async function deleteProfile(profile: Profile) {
+	async function deleteProfile(profile: IProfileHydrated) {
 		await fetch('//' + $Linker + '/api/v1/profiles/' + profile.id, {
 			method: 'DELETE',
 		});

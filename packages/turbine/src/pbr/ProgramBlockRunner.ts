@@ -1,9 +1,9 @@
-import { EPBRMode, IPBRStatus, IProgramRunner, IProgramTimer, IProgramVariable } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlockRunner";
-import { EProgramStepResult, EProgramStepType, EProgramStepState } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramStep";
+import { IProfileHydrated } from "@metalizz/nuster-typings/src/hydrated/profile";
+import { IProgramRunner, IPBRStatus, IProgramVariable, IProgramTimer, EPBRMode } from "@metalizz/nuster-typings/src/spec/cycle/IProgramBlockRunner";
+import { EProgramStepResult, EProgramStepType, EProgramStepState } from "@metalizz/nuster-typings/src/spec/cycle/IProgramStep";
 import { LoggerInstance } from "../app";
 import { IOController } from "../controllers/io/IOController";
 import { MaintenanceController } from "../controllers/maintenance/MaintenanceController";
-import { IProfileMap } from "../controllers/profile/ProfilesController";
 import { ProgramBlockStep } from "./ProgramBlockStep";
 import { PBRStartCondition } from "./startchain/PBRStartCondition";
 
@@ -33,14 +33,14 @@ export class ProgramBlockRunner implements IProgramRunner
     currentStepIndex = 0;
 
     /** Profile assignated to this **PBR** */
-    profile?: IProfileMap;
+    profile?: IProfileHydrated;
 
     /**
      * Function to explore profile fields
      */
     profileExplorer?: (name: string) => number | boolean;
 
-    constructor(object: IProgramRunner, profile?: IProfileMap)
+    constructor(object: IProgramRunner, profile?: IProfileHydrated)
     {
         this.status = { mode: EPBRMode.CREATED };
 
@@ -63,7 +63,7 @@ export class ProgramBlockRunner implements IProgramRunner
         if(this.profile === undefined)
             LoggerInstance.warn("PBR: This PBR is build without any profile.");
         else
-            this.profileExplorer = (name: string) => this.profile?.values.get(name.replace(".", "#")) ?? 0;
+            this.profileExplorer = (name: string) => this.profile?.values.find(v => v.name == name)?.value ?? 0;
 
         //properties assignment
         this.name = object.name;

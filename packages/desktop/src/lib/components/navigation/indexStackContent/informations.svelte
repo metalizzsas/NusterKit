@@ -28,8 +28,12 @@
 			data: $machineData.machine.serial.toLocaleUpperCase(),
 		},
 		{
-			key: 'machine.options',
-			data: $machineData.machine.options,
+			key: 'machine.addons',
+			data: $machineData.machine.addons
+		},
+		{
+			key: 'machine.machineAddons',
+			data: $machineData.machine.machineAddons?.map(a => a.addonName)
 		},
 		{
 			key: 'machine.cycleCount',

@@ -2,7 +2,7 @@
   "name": "@metalizz/nuster-turbine-machines",
   "version": "1.0.0",
   "description": "metalizz machines descriptions",
-  "main": "index.js",
+  "main": "",
   "scripts": {
     "test": "npx jest"
   },

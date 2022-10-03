@@ -6,8 +6,7 @@
   "scripts": {
     "build": "npm run schema:config && npm run schema:spec",
     "schema:config": "typescript-json-schema src/configuration/index.ts IConfiguration --noExtraProps --required -o src/schemas/schema-config.json",
-    "schema:spec": "typescript-json-schema src/spec/index.ts IMachineSpecs --noExtraProps --required -o src/schemas/schema-specs.json",
-    "publish": ""
+    "schema:spec": "typescript-json-schema src/spec/index.ts IMachineSpecs --noExtraProps --required -o src/schemas/schema-specs.json"
   },
   "keywords": [],
   "author": "",

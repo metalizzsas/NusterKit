@@ -12,7 +12,7 @@ services:
       - 'nuster-data:/data'
 
   nuster-turbine:
-    image: nusterturbine:latest
+    build: ./packages/turbine/
     network_mode: host
     depends_on: 
       - "mongodb"
@@ -24,7 +24,7 @@ services:
       io.balena.features.supervisor-api: '1'
 
   nuster-desktop:
-    image: nusterdesktop:latest
+    build: ./packages/desktop/
     restart: always
     network_mode: host
     depends_on: 

@@ -52,10 +52,12 @@ export class ProfileController extends Controller {
                 LoggerInstance.info(`Skipping premade profile ${p.name} because it is masked on machine settings.`);
             else
             {
-                const converted = this.hydrateProfile(p)
+                const converted = this.hydrateProfile(p);
 
                 if(converted !== undefined)
+                {
                     this.profilePremades.push(converted);
+                }
             }
         }
         return true;
@@ -80,7 +82,7 @@ export class ProfileController extends Controller {
          */
         AuthManager.getInstance().registerEndpointPermission("profiles.list", {endpoint: "/v1/profiles/", method: "get"});
         this._router.get('/', async (_req: Request, res: Response) => {
-            res.json(this.socketData());
+            res.json(await this.socketData());
         });
 
         /**
@@ -263,7 +265,7 @@ export class ProfileController extends Controller {
 
     public async socketData(): Promise<IProfileHydrated[]>
     {
-        const list = await ProfileModel.find({}); 
+        const list = await ProfileModel.find({}).lean();
         return [...list.map(p => this.hydrateProfile(p)), ...this.profilePremades] as IProfileHydrated[]
     }
 }

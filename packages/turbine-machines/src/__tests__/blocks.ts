@@ -1,10 +1,13 @@
 import fs from "fs";
 import path from "path";
 
-import * as fileSchema from "../schema/schema.json";
-
 import { matchers } from 'jest-json-schema';
-import { IConstantStringParameterBlock, IIfProgramBlock, IParameterBlocks, IProgramBlocks, Schema } from "../schema/config";
+
+import { IMachineSpecs } from "@metalizz/nuster-typings/src/spec";
+import { IProgramBlocks } from "@metalizz/nuster-typings/src/spec/cycle/IProgramBlock";
+import { IParameterBlocks } from "@metalizz/nuster-typings/src/spec/cycle/IParameterBlock";
+import { IConstantStringParameterBlock } from "@metalizz/nuster-typings/src/spec/cycle/programblocks/ParameterBlocks/IConstantStringParameterBlock";
+import { IIfProgramBlock } from "@metalizz/nuster-typings/src/spec/cycle/programblocks/ProgramBlocks/IIfProgramBlock";
 
 expect.extend(matchers);
 
@@ -46,7 +49,7 @@ for(const f of files.filter(f => f.isDirectory()))
 
 for(const file of filesToCheck)
 {
-    const json = JSON.parse(fs.readFileSync(file.file, {encoding: "utf-8"})) as Schema;
+    const json = JSON.parse(fs.readFileSync(file.file, {encoding: "utf-8"})) as IMachineSpecs;
 
     const gateNames = json.iogates.map(m => m.name);
 
@@ -188,7 +191,7 @@ for(const file of filesToCheck)
         const fields: {[x: string]: string[]} = {};
 
         json.profileSkeletons.forEach(p => {
-            fields[p.identifier] = p.fieldGroups.flatMap(fg => fg.fields.map(f => fg.name + '#' + f.name));
+            fields[p.name] = p.fields.flatMap(f => f.name);
         });
 
         json.cycleTypes.forEach(c => {

@@ -3,17 +3,18 @@ export interface IProfileConfig {
 
     /** Name of the profile */
     name: string;
+
+    /** Premade profile have id */
+    id?: string;
+
     /** Name of the referencing skeleton profile */
     skeleton: string;
 
     /** Is the profile premade ? */
     isPremade?: true;
     /** Is the profile Removable ? */
-    isRemovable?: true;
-    /** 
-     * Is the profile Overwritable ?
-     * @deprecated whats the use case ?
-     */
+    isRemovable?: false;
+    /** Is the profile Overwritable ? */
     isOverwritable?: false;
 
     /** Values of the profile */

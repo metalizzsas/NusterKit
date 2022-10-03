@@ -1,7 +1,6 @@
+import { IMachineSpecs } from "@metalizz/nuster-typings/src/spec";
 import fs from "fs";
 import path from "path";
-
-import { Schema } from "../schema/config";
 
 interface Specs {
     model: string;
@@ -40,7 +39,7 @@ for(const f of files.filter(f => f.isDirectory()))
 
 for(let file of filesToCheck)
 {
-    const json = JSON.parse(fs.readFileSync(file.file, {encoding: "utf-8"})) as Schema;
+    const json = JSON.parse(fs.readFileSync(file.file, {encoding: "utf-8"})) as IMachineSpecs;
 
     const cyclePremades = json.cyclePremades.map(c => c.name);
     const cpFiles = cyclePremades.map(cp => path.resolve("data", file.model, file.variant, file.revision, "assets", "cycle", cp + ".png"))

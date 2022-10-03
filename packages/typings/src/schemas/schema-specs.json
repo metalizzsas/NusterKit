@@ -1,8 +1,9 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
     "definitions": {
         "EProductSeries": {
-            "description": "Product series TODO: Make this only available for offline devices",
+            "description": "Product series \nTODO Make this only available for offline devices",
             "enum": [
                 "bc",
                 "cr",
@@ -25,6 +26,7 @@
             "type": "string"
         },
         "IAdditionParameterBlock": {
+            "additionalProperties": false,
             "properties": {
                 "name": {
                     "description": "Parameter block name",
@@ -55,10 +57,56 @@
             ],
             "type": "object"
         },
+        "IAddon": {
+            "additionalProperties": false,
+            "properties": {
+                "addonName": {
+                    "description": "Addon name, should be the same as the Json file holding him",
+                    "type": "string"
+                },
+                "content": {
+                    "description": "Addon content Array",
+                    "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "content": {
+                                "description": "Content replaced or inserted to this category"
+                            },
+                            "mode": {
+                                "description": "Insertion mode",
+                                "enum": [
+                                    "merge",
+                                    "replace"
+                                ],
+                                "type": "string"
+                            },
+                            "path": {
+                                "description": "Path were the content is added",
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "content",
+                            "mode",
+                            "path"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "addonName",
+                "content"
+            ],
+            "type": "object"
+        },
         "ICallToAction": {
+            "additionalProperties": false,
             "description": "Call to action inteface",
             "properties": {
                 "APIEndpoint": {
+                    "additionalProperties": false,
                     "description": "API Endpoint to be reached by the CTA (NusterTurbine Endpoints)",
                     "properties": {
                         "method": {
@@ -97,6 +145,7 @@
             "type": "object"
         },
         "IConditionalParameterBlock": {
+            "additionalProperties": false,
             "properties": {
                 "name": {
                     "description": "Parameter block name",
@@ -147,10 +196,10 @@
                                     "$ref": "#/definitions/ISlotLifetimeParameterBlock"
                                 },
                                 {
-                                    "$ref": "#/definitions/IVariableParameterBlock"
+                                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
                                 },
                                 {
-                                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
+                                    "$ref": "#/definitions/IVariableParameterBlock"
                                 }
                             ]
                         },
@@ -187,10 +236,10 @@
                                     "$ref": "#/definitions/ISlotLifetimeParameterBlock"
                                 },
                                 {
-                                    "$ref": "#/definitions/IVariableParameterBlock"
+                                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
                                 },
                                 {
-                                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
+                                    "$ref": "#/definitions/IVariableParameterBlock"
                                 }
                             ]
                         }
@@ -218,12 +267,9 @@
             "type": "object"
         },
         "IConfigMaintenance": {
+            "additionalProperties": false,
             "description": "Maintenance configuration base object",
             "properties": {
-                "duration": {
-                    "description": "Maintenance task duration",
-                    "type": "number"
-                },
                 "durationLimit": {
                     "description": "Duration limit of this maintenance task",
                     "type": "number"
@@ -235,10 +281,6 @@
                 "name": {
                     "description": "Maintenance task name",
                     "type": "string"
-                },
-                "operationDate": {
-                    "description": "Last operation date",
-                    "type": "number"
                 },
                 "procedure": {
                     "$ref": "#/definitions/IMaintenanceProcedure",
@@ -252,626 +294,11 @@
             ],
             "type": "object"
         },
-        "IConfigProfile": {
-            "description": "Profiles stored in the configuration `specs.json` file",
-            "properties": {
-                "isPremade": {
-                    "description": "Is this profile premade",
-                    "type": "boolean"
-                },
-                "modificationDate": {
-                    "description": "Last profile modification data",
-                    "type": "number"
-                },
-                "name": {
-                    "description": "Profile name",
-                    "type": "string"
-                },
-                "overwriteable": {
-                    "description": "Is this profile overwritable",
-                    "type": "boolean"
-                },
-                "removable": {
-                    "description": "Is this profile removable",
-                    "type": "boolean"
-                },
-                "skeleton": {
-                    "description": "Profile Skeleton reference",
-                    "type": "string"
-                },
-                "values": {
-                    "additionalProperties": {
-                        "type": [
-                            "number",
-                            "boolean"
-                        ]
-                    },
-                    "type": "object"
-                }
-            },
-            "required": [
-                "isPremade",
-                "name",
-                "overwriteable",
-                "removable",
-                "skeleton",
-                "values"
-            ],
-            "type": "object"
-        },
-        "IConfigSlot": {
-            "description": "Slot definition used in config",
-            "properties": {
-                "callToAction": {
-                    "description": "Call to action, For UI Purposes only",
-                    "items": {
-                        "$ref": "#/definitions/ICallToAction"
-                    },
-                    "type": "array"
-                },
-                "name": {
-                    "description": "Slots name",
-                    "type": "string"
-                },
-                "productOptions": {
-                    "$ref": "#/definitions/ISlotProductOptions",
-                    "description": "Production options, If this is set the slot become productable"
-                },
-                "sensors": {
-                    "description": "Sensors available for this Slots",
-                    "items": {
-                        "$ref": "#/definitions/ISlotSensor"
-                    },
-                    "type": "array"
-                },
-                "type": {
-                    "description": "Slot type",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "name",
-                "sensors",
-                "type"
-            ],
-            "type": "object"
-        },
-        "IConstantParameterBlock": {
-            "properties": {
-                "name": {
-                    "description": "Parameter block name",
-                    "enum": [
-                        "const"
-                    ],
-                    "type": "string"
-                },
-                "params": {
-                    "description": "Parameter block sub parameters blocks",
-                    "items": {
-                        "$ref": "#/definitions/IParameterBlocks"
-                    },
-                    "type": "array"
-                },
-                "value": {
-                    "description": "Value from this parameter block",
-                    "type": "number"
-                }
-            },
-            "required": [
-                "name",
-                "value"
-            ],
-            "type": "object"
-        },
-        "IConstantStringParameterBlock": {
-            "properties": {
-                "name": {
-                    "description": "Parameter block name",
-                    "enum": [
-                        "conststr"
-                    ],
-                    "type": "string"
-                },
-                "params": {
-                    "description": "Parameter block sub parameters blocks",
-                    "items": {
-                        "$ref": "#/definitions/IParameterBlocks"
-                    },
-                    "type": "array"
-                },
-                "value": {
-                    "description": "Value from this parameter block",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "name",
-                "value"
-            ],
-            "type": "object"
-        },
-        "IDefaultGate": {
-            "properties": {
-                "address": {
-                    "description": "Address on the automaton address range",
-                    "type": "number"
-                },
-                "bus": {
-                    "description": "Gate bus",
-                    "enum": [
-                        "in",
-                        "out"
-                    ],
-                    "type": "string"
-                },
-                "controllerId": {
-                    "description": "Automaton where this gate is available",
-                    "type": "number"
-                },
-                "default": {
-                    "description": "Default value of this gate",
-                    "type": "number"
-                },
-                "isCritical": {
-                    "description": "Is this gate Critical",
-                    "type": "boolean"
-                },
-                "manualModeWatchdog": {
-                    "description": "Does this gate triggers manual mode watchdog security",
-                    "type": "boolean"
-                },
-                "name": {
-                    "description": "Gate name",
-                    "type": "string"
-                },
-                "size": {
-                    "description": "Gate controller data size",
-                    "enum": [
-                        "bit",
-                        "word"
-                    ],
-                    "type": "string"
-                },
-                "type": {
-                    "description": "Gate type",
-                    "enum": [
-                        "default"
-                    ],
-                    "type": "string"
-                },
-                "unity": {
-                    "description": "Unity used by this gate",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "address",
-                "bus",
-                "controllerId",
-                "default",
-                "name",
-                "size",
-                "type"
-            ],
-            "type": "object"
-        },
-        "IEX260Controller": {
-            "properties": {
-                "ip": {
-                    "description": "IP Address on the local network",
-                    "type": "string"
-                },
-                "size": {
-                    "description": "Corresponding size of the EX260 (either 16 outputs or 32 outputs)",
-                    "enum": [
-                        16,
-                        32
-                    ],
-                    "type": "number"
-                },
-                "type": {
-                    "description": "Type of the IO Handler",
-                    "enum": [
-                        "ex260sx"
-                    ],
-                    "type": "string"
-                }
-            },
-            "required": [
-                "ip",
-                "size",
-                "type"
-            ],
-            "type": "object"
-        },
-        "IForLoopProgramBlock": {
-            "properties": {
-                "blocks": {
-                    "items": {
-                        "$ref": "#/definitions/IProgramBlocks"
-                    },
-                    "type": "array"
-                },
-                "currentIteration": {
-                    "type": "number"
-                },
-                "executed": {
-                    "type": "boolean"
-                },
-                "name": {
-                    "enum": [
-                        "for"
-                    ],
-                    "type": "string"
-                },
-                "params": {
-                    "items": [
-                        {
-                            "$ref": "#/definitions/INumericParameterBlock",
-                            "description": "Parameter Blocks that return a number from data()"
-                        }
-                    ],
-                    "maxItems": 1,
-                    "minItems": 1,
-                    "type": "array"
-                }
-            },
-            "required": [
-                "blocks",
-                "name",
-                "params"
-            ],
-            "type": "object"
-        },
-        "IGroupProgramBlock": {
-            "properties": {
-                "blocks": {
-                    "items": {
-                        "$ref": "#/definitions/IProgramBlocks"
-                    },
-                    "type": "array"
-                },
-                "executed": {
-                    "type": "boolean"
-                },
-                "name": {
-                    "enum": [
-                        "group"
-                    ],
-                    "type": "string"
-                },
-                "params": {
-                    "items": {
-                        "$ref": "#/definitions/IParameterBlocks",
-                        "description": "All the parameters blocks"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "blocks",
-                "name"
-            ],
-            "type": "object"
-        },
-        "IIOGate": {
-            "properties": {
-                "address": {
-                    "description": "Address on the automaton address range",
-                    "type": "number"
-                },
-                "bus": {
-                    "description": "Gate bus",
-                    "enum": [
-                        "in",
-                        "out"
-                    ],
-                    "type": "string"
-                },
-                "controllerId": {
-                    "description": "Automaton where this gate is available",
-                    "type": "number"
-                },
-                "default": {
-                    "description": "Default value of this gate",
-                    "type": "number"
-                },
-                "isCritical": {
-                    "description": "Is this gate Critical",
-                    "type": "boolean"
-                },
-                "manualModeWatchdog": {
-                    "description": "Does this gate triggers manual mode watchdog security",
-                    "type": "boolean"
-                },
-                "name": {
-                    "description": "Gate name",
-                    "type": "string"
-                },
-                "size": {
-                    "description": "Gate controller data size",
-                    "enum": [
-                        "bit",
-                        "word"
-                    ],
-                    "type": "string"
-                },
-                "type": {
-                    "$ref": "#/definitions/IOGateTypeName",
-                    "description": "Gate type"
-                },
-                "unity": {
-                    "description": "Unity used by this gate",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "address",
-                "bus",
-                "controllerId",
-                "default",
-                "name",
-                "size",
-                "type"
-            ],
-            "type": "object"
-        },
-        "IIOProgramBlock": {
-            "properties": {
-                "blocks": {
-                    "items": {
-                        "$ref": "#/definitions/IProgramBlocks"
-                    },
-                    "type": "array"
-                },
-                "executed": {
-                    "type": "boolean"
-                },
-                "name": {
-                    "enum": [
-                        "io"
-                    ],
-                    "type": "string"
-                },
-                "params": {
-                    "items": [
-                        {
-                            "anyOf": [
-                                {
-                                    "$ref": "#/definitions/IConstantStringParameterBlock"
-                                },
-                                {
-                                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
-                                }
-                            ],
-                            "description": "Parameters Blocks that return a string value from data()"
-                        },
-                        {
-                            "$ref": "#/definitions/INumericParameterBlock",
-                            "description": "Parameter Blocks that return a number from data()"
-                        }
-                    ],
-                    "maxItems": 2,
-                    "minItems": 2,
-                    "type": "array"
-                }
-            },
-            "required": [
-                "name",
-                "params"
-            ],
-            "type": "object"
-        },
-        "IIOReadParameterBlock": {
-            "properties": {
-                "name": {
-                    "description": "Parameter block name",
-                    "enum": [
-                        "io"
-                    ],
-                    "type": "string"
-                },
-                "params": {
-                    "description": "Parameter block sub parameters blocks",
-                    "items": {
-                        "$ref": "#/definitions/IParameterBlocks"
-                    },
-                    "type": "array"
-                },
-                "value": {
-                    "description": "Value from this parameter block",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "name",
-                "value"
-            ],
-            "type": "object"
-        },
-        "IIfProgramBlock": {
-            "properties": {
-                "blocks": {
-                    "items": {
-                        "$ref": "#/definitions/IProgramBlocks"
-                    },
-                    "type": "array"
-                },
-                "executed": {
-                    "type": "boolean"
-                },
-                "falseBlocks": {
-                    "items": {
-                        "$ref": "#/definitions/IProgramBlocks"
-                    },
-                    "type": "array"
-                },
-                "name": {
-                    "enum": [
-                        "if"
-                    ],
-                    "type": "string"
-                },
-                "params": {
-                    "items": [
-                        {
-                            "$ref": "#/definitions/INumericParameterBlock",
-                            "description": "Parameter Blocks that return a number from data()"
-                        },
-                        {
-                            "anyOf": [
-                                {
-                                    "$ref": "#/definitions/IConstantStringParameterBlock"
-                                },
-                                {
-                                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
-                                }
-                            ],
-                            "description": "Parameters Blocks that return a string value from data()"
-                        },
-                        {
-                            "$ref": "#/definitions/INumericParameterBlock",
-                            "description": "Parameter Blocks that return a number from data()"
-                        }
-                    ],
-                    "maxItems": 3,
-                    "minItems": 3,
-                    "type": "array"
-                },
-                "trueBlocks": {
-                    "items": {
-                        "$ref": "#/definitions/IProgramBlocks"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "falseBlocks",
-                "name",
-                "params",
-                "trueBlocks"
-            ],
-            "type": "object"
-        },
-        "IMaintenanceParameterBlock": {
-            "properties": {
-                "name": {
-                    "description": "Parameter block name",
-                    "enum": [
-                        "maintenance"
-                    ],
-                    "type": "string"
-                },
-                "params": {
-                    "description": "Parameter block sub parameters blocks",
-                    "items": {
-                        "$ref": "#/definitions/IParameterBlocks"
-                    },
-                    "type": "array"
-                },
-                "value": {
-                    "description": "Value from this parameter block",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "name",
-                "value"
-            ],
-            "type": "object"
-        },
-        "IMaintenanceProcedure": {
-            "properties": {
-                "steps": {
-                    "description": "Array of procedure steps",
-                    "items": {
-                        "$ref": "#/definitions/IMaintenanceProcedureStep"
-                    },
-                    "type": "array"
-                },
-                "tools": {
-                    "description": "Procedure Tools used",
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "steps",
-                "tools"
-            ],
-            "type": "object"
-        },
-        "IMaintenanceProcedureStep": {
-            "properties": {
-                "media": {
-                    "description": "Procedure step media array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "name": {
-                    "description": "Procedure step name",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "media",
-                "name"
-            ],
-            "type": "object"
-        },
-        "IMaintenanceProgramBlock": {
-            "properties": {
-                "blocks": {
-                    "items": {
-                        "$ref": "#/definitions/IProgramBlocks"
-                    },
-                    "type": "array"
-                },
-                "executed": {
-                    "type": "boolean"
-                },
-                "name": {
-                    "enum": [
-                        "maintenance"
-                    ],
-                    "type": "string"
-                },
-                "params": {
-                    "items": [
-                        {
-                            "anyOf": [
-                                {
-                                    "$ref": "#/definitions/IConstantStringParameterBlock"
-                                },
-                                {
-                                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
-                                }
-                            ],
-                            "description": "Parameters Blocks that return a string value from data()"
-                        },
-                        {
-                            "$ref": "#/definitions/INumericParameterBlock",
-                            "description": "Parameter Blocks that return a number from data()"
-                        }
-                    ],
-                    "maxItems": 2,
-                    "minItems": 2,
-                    "type": "array"
-                }
-            },
-            "required": [
-                "name",
-                "params"
-            ],
-            "type": "object"
-        },
-        "IManualMode": {
+        "IConfigManualMode": {
+            "additionalProperties": false,
             "properties": {
                 "analogScale": {
+                    "additionalProperties": false,
                     "description": "Manual mode analog scale",
                     "properties": {
                         "max": {
@@ -891,6 +318,7 @@
                     "items": {
                         "anyOf": [
                             {
+                                "additionalProperties": false,
                                 "properties": {
                                     "analogScaleDependant": {
                                         "type": "boolean"
@@ -944,414 +372,11 @@
             ],
             "type": "object"
         },
-        "IManualWatchdogCondition": {
-            "properties": {
-                "gateName": {
-                    "description": "Gate name to control",
-                    "type": "string"
-                },
-                "gateValue": {
-                    "description": "Gate value required for the security",
-                    "type": "number"
-                }
-            },
-            "required": [
-                "gateName",
-                "gateValue"
-            ],
-            "type": "object"
-        },
-        "IMappedGate": {
-            "description": "Mapped gates, converts automatically data from controller to Human readable data",
-            "properties": {
-                "address": {
-                    "description": "Address on the automaton address range",
-                    "type": "number"
-                },
-                "bus": {
-                    "description": "Gate bus",
-                    "enum": [
-                        "in",
-                        "out"
-                    ],
-                    "type": "string"
-                },
-                "controllerId": {
-                    "description": "Automaton where this gate is available",
-                    "type": "number"
-                },
-                "default": {
-                    "description": "Default value of this gate",
-                    "type": "number"
-                },
-                "isCritical": {
-                    "description": "Is this gate Critical",
-                    "type": "boolean"
-                },
-                "manualModeWatchdog": {
-                    "description": "Does this gate triggers manual mode watchdog security",
-                    "type": "boolean"
-                },
-                "mapInMax": {
-                    "description": "Mapped input max data, from IOController",
-                    "type": "number"
-                },
-                "mapInMin": {
-                    "description": "Mapped input min data, from IO Controller",
-                    "type": "number"
-                },
-                "mapOutMax": {
-                    "description": "Mapped output max data, to Human",
-                    "type": "number"
-                },
-                "mapOutMin": {
-                    "description": "Mapped output min data, to Human",
-                    "type": "number"
-                },
-                "name": {
-                    "description": "Gate name",
-                    "type": "string"
-                },
-                "size": {
-                    "description": "Size is always a word for this typoe of Gate",
-                    "enum": [
-                        "word"
-                    ],
-                    "type": "string"
-                },
-                "type": {
-                    "description": "Gate type",
-                    "enum": [
-                        "mapped"
-                    ],
-                    "type": "string"
-                },
-                "unity": {
-                    "description": "Unity used by this gate",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "address",
-                "bus",
-                "controllerId",
-                "default",
-                "mapOutMax",
-                "mapOutMin",
-                "name",
-                "size",
-                "type"
-            ],
-            "type": "object"
-        },
-        "IModbusControllers": {
-            "properties": {
-                "ip": {
-                    "description": "IP Address on the local network",
-                    "type": "string"
-                },
-                "type": {
-                    "description": "Type of the IO Handler",
-                    "enum": [
-                        "em4",
-                        "wago"
-                    ],
-                    "type": "string"
-                }
-            },
-            "required": [
-                "ip",
-                "type"
-            ],
-            "type": "object"
-        },
-        "IMultiplyParameterBlock": {
-            "properties": {
-                "name": {
-                    "description": "Parameter block name",
-                    "enum": [
-                        "multiply"
-                    ],
-                    "type": "string"
-                },
-                "params": {
-                    "description": "Parameter block sub parameters blocks",
-                    "items": {
-                        "$ref": "#/definitions/INumericParameterBlock"
-                    },
-                    "type": "array"
-                },
-                "value": {
-                    "description": "Value from this parameter block",
-                    "type": [
-                        "string",
-                        "number"
-                    ]
-                }
-            },
-            "required": [
-                "name",
-                "params"
-            ],
-            "type": "object"
-        },
-        "INumericParameterBlock": {
-            "anyOf": [
-                {
-                    "$ref": "#/definitions/IAdditionParameterBlock"
-                },
-                {
-                    "$ref": "#/definitions/IConditionalParameterBlock"
-                },
-                {
-                    "$ref": "#/definitions/IConstantParameterBlock"
-                },
-                {
-                    "$ref": "#/definitions/IIOReadParameterBlock"
-                },
-                {
-                    "$ref": "#/definitions/IMaintenanceParameterBlock"
-                },
-                {
-                    "$ref": "#/definitions/IMultiplyParameterBlock"
-                },
-                {
-                    "$ref": "#/definitions/IProfileParameterBlock"
-                },
-                {
-                    "$ref": "#/definitions/IReverseParameterBlock"
-                },
-                {
-                    "$ref": "#/definitions/ISlotLifetimeParameterBlock"
-                },
-                {
-                    "$ref": "#/definitions/IVariableParameterBlock"
-                }
-            ],
-            "description": "Parameter Blocks that return a number from data()"
-        },
-        "INusterConnectPopup": {
-            "properties": {
-                "callToAction": {
-                    "description": "Call to actions",
-                    "items": {
-                        "$ref": "#/definitions/ICallToAction"
-                    },
-                    "type": "array"
-                },
-                "identifier": {
-                    "description": "Unique identifier to prevent multiple pop ups",
-                    "type": "string"
-                },
-                "message": {
-                    "description": "i18n message, body of this popup",
-                    "type": "string"
-                },
-                "title": {
-                    "description": "i18n text, title of this pop up",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "identifier",
-                "message",
-                "title"
-            ],
-            "type": "object"
-        },
-        "IOGateTypeName": {
-            "enum": [
-                "default",
-                "mapped",
-                "pt100",
-                "um18"
-            ],
-            "type": "string"
-        },
-        "IPBRPremades": {
-            "properties": {
-                "cycle": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "profile": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "cycle",
-                "name",
-                "profile"
-            ],
-            "type": "object"
-        },
-        "IPBRSCCheckChain": {
-            "properties": {
-                "io": {
-                    "properties": {
-                        "gateName": {
-                            "type": "string"
-                        },
-                        "gateValue": {
-                            "type": "number"
-                        }
-                    },
-                    "required": [
-                        "gateName",
-                        "gateValue"
-                    ],
-                    "type": "object"
-                },
-                "name": {
-                    "enum": [
-                        "io",
-                        "parameter"
-                    ],
-                    "type": "string"
-                },
-                "parameter": {
-                    "$ref": "#/definitions/IParameterBlocks",
-                    "description": "All the parameters blocks"
-                }
-            },
-            "required": [
-                "name"
-            ],
-            "type": "object"
-        },
-        "IPBRStartCondition": {
-            "properties": {
-                "checkChain": {
-                    "$ref": "#/definitions/IPBRSCCheckChain"
-                },
-                "conditionName": {
-                    "type": "string"
-                },
-                "startOnly": {
-                    "type": "boolean"
-                }
-            },
-            "required": [
-                "checkChain",
-                "conditionName",
-                "startOnly"
-            ],
-            "type": "object"
-        },
-        "IPT100Gate": {
-            "properties": {
-                "address": {
-                    "description": "Address on the automaton address range",
-                    "type": "number"
-                },
-                "bus": {
-                    "description": "Gate bus",
-                    "enum": [
-                        "in",
-                        "out"
-                    ],
-                    "type": "string"
-                },
-                "controllerId": {
-                    "description": "Automaton where this gate is available",
-                    "type": "number"
-                },
-                "default": {
-                    "description": "Default value of this gate",
-                    "type": "number"
-                },
-                "isCritical": {
-                    "description": "Is this gate Critical",
-                    "type": "boolean"
-                },
-                "manualModeWatchdog": {
-                    "description": "Does this gate triggers manual mode watchdog security",
-                    "type": "boolean"
-                },
-                "name": {
-                    "description": "Gate name",
-                    "type": "string"
-                },
-                "size": {
-                    "description": "Gate controller data size",
-                    "enum": [
-                        "word"
-                    ],
-                    "type": "string"
-                },
-                "type": {
-                    "description": "Gate type",
-                    "enum": [
-                        "pt100"
-                    ],
-                    "type": "string"
-                },
-                "unity": {
-                    "description": "Unity used by this gate",
-                    "enum": [
-                        "°C"
-                    ],
-                    "type": "string"
-                }
-            },
-            "required": [
-                "address",
-                "bus",
-                "controllerId",
-                "default",
-                "name",
-                "size",
-                "type",
-                "unity"
-            ],
-            "type": "object"
-        },
-        "IParameterBlocks": {
-            "anyOf": [
-                {
-                    "$ref": "#/definitions/IAdditionParameterBlock"
-                },
-                {
-                    "$ref": "#/definitions/IConditionalParameterBlock"
-                },
-                {
-                    "$ref": "#/definitions/IConstantParameterBlock"
-                },
-                {
-                    "$ref": "#/definitions/IConstantStringParameterBlock"
-                },
-                {
-                    "$ref": "#/definitions/IIOReadParameterBlock"
-                },
-                {
-                    "$ref": "#/definitions/IMaintenanceParameterBlock"
-                },
-                {
-                    "$ref": "#/definitions/IMultiplyParameterBlock"
-                },
-                {
-                    "$ref": "#/definitions/IProfileParameterBlock"
-                },
-                {
-                    "$ref": "#/definitions/IReverseParameterBlock"
-                },
-                {
-                    "$ref": "#/definitions/ISlotLifetimeParameterBlock"
-                },
-                {
-                    "$ref": "#/definitions/IVariableParameterBlock"
-                },
-                {
-                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
-                }
-            ],
-            "description": "All the parameters blocks"
-        },
-        "IPassive": {
+        "IConfigPassive": {
+            "additionalProperties": false,
             "properties": {
                 "actuators": {
+                    "additionalProperties": false,
                     "description": "Actuators used to reach target",
                     "properties": {
                         "minus": {
@@ -1440,7 +465,651 @@
             ],
             "type": "object"
         },
+        "IConfigSlot": {
+            "additionalProperties": false,
+            "description": "Slot definition used in config",
+            "properties": {
+                "callToAction": {
+                    "description": "Call to action, For UI Purposes only",
+                    "items": {
+                        "$ref": "#/definitions/ICallToAction"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "description": "Slots name",
+                    "type": "string"
+                },
+                "productOptions": {
+                    "$ref": "#/definitions/ISlotProductOptions",
+                    "description": "Production options, If this is set the slot become productable"
+                },
+                "sensors": {
+                    "description": "Sensors available for this Slots",
+                    "items": {
+                        "$ref": "#/definitions/ISlotSensor"
+                    },
+                    "type": "array"
+                },
+                "type": {
+                    "description": "Slot type",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "sensors",
+                "type"
+            ],
+            "type": "object"
+        },
+        "IConstantParameterBlock": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "description": "Parameter block name",
+                    "enum": [
+                        "const"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "description": "Parameter block sub parameters blocks",
+                    "items": {
+                        "$ref": "#/definitions/IParameterBlocks"
+                    },
+                    "type": "array"
+                },
+                "value": {
+                    "description": "Value from this parameter block",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "name",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IConstantStringParameterBlock": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "description": "Parameter block name",
+                    "enum": [
+                        "conststr"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "description": "Parameter block sub parameters blocks",
+                    "items": {
+                        "$ref": "#/definitions/IParameterBlocks"
+                    },
+                    "type": "array"
+                },
+                "value": {
+                    "description": "Value from this parameter block",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IForLoopProgramBlock": {
+            "additionalProperties": false,
+            "properties": {
+                "blocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlocks"
+                    },
+                    "type": "array"
+                },
+                "currentIteration": {
+                    "type": "number"
+                },
+                "executed": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "enum": [
+                        "for"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": [
+                        {
+                            "$ref": "#/definitions/INumericParameterBlock",
+                            "description": "Parameter Blocks that return a number from data()"
+                        }
+                    ],
+                    "maxItems": 1,
+                    "minItems": 1,
+                    "type": "array"
+                }
+            },
+            "required": [
+                "blocks",
+                "name",
+                "params"
+            ],
+            "type": "object"
+        },
+        "IGroupProgramBlock": {
+            "additionalProperties": false,
+            "properties": {
+                "blocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlocks"
+                    },
+                    "type": "array"
+                },
+                "executed": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "enum": [
+                        "group"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": {
+                        "$ref": "#/definitions/IParameterBlocks",
+                        "description": "All the parameters blocks"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "blocks",
+                "name"
+            ],
+            "type": "object"
+        },
+        "IIOProgramBlock": {
+            "additionalProperties": false,
+            "properties": {
+                "blocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlocks"
+                    },
+                    "type": "array"
+                },
+                "executed": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "enum": [
+                        "io"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": [
+                        {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IConstantStringParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
+                                }
+                            ],
+                            "description": "Parameters Blocks that return a string value from data()"
+                        },
+                        {
+                            "$ref": "#/definitions/INumericParameterBlock",
+                            "description": "Parameter Blocks that return a number from data()"
+                        }
+                    ],
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "type": "array"
+                }
+            },
+            "required": [
+                "name",
+                "params"
+            ],
+            "type": "object"
+        },
+        "IIOReadParameterBlock": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "description": "Parameter block name",
+                    "enum": [
+                        "io"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "description": "Parameter block sub parameters blocks",
+                    "items": {
+                        "$ref": "#/definitions/IParameterBlocks"
+                    },
+                    "type": "array"
+                },
+                "value": {
+                    "description": "Value from this parameter block",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IIfProgramBlock": {
+            "additionalProperties": false,
+            "properties": {
+                "blocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlocks"
+                    },
+                    "type": "array"
+                },
+                "executed": {
+                    "type": "boolean"
+                },
+                "falseBlocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlocks"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "enum": [
+                        "if"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": [
+                        {
+                            "$ref": "#/definitions/INumericParameterBlock",
+                            "description": "Parameter Blocks that return a number from data()"
+                        },
+                        {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IConstantStringParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
+                                }
+                            ],
+                            "description": "Parameters Blocks that return a string value from data()"
+                        },
+                        {
+                            "$ref": "#/definitions/INumericParameterBlock",
+                            "description": "Parameter Blocks that return a number from data()"
+                        }
+                    ],
+                    "maxItems": 3,
+                    "minItems": 3,
+                    "type": "array"
+                },
+                "trueBlocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlocks"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "falseBlocks",
+                "name",
+                "params",
+                "trueBlocks"
+            ],
+            "type": "object"
+        },
+        "IMaintenanceParameterBlock": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "description": "Parameter block name",
+                    "enum": [
+                        "maintenance"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "description": "Parameter block sub parameters blocks",
+                    "items": {
+                        "$ref": "#/definitions/IParameterBlocks"
+                    },
+                    "type": "array"
+                },
+                "value": {
+                    "description": "Value from this parameter block",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "value"
+            ],
+            "type": "object"
+        },
+        "IMaintenanceProcedure": {
+            "additionalProperties": false,
+            "properties": {
+                "steps": {
+                    "description": "Array of procedure steps",
+                    "items": {
+                        "$ref": "#/definitions/IMaintenanceProcedureStep"
+                    },
+                    "type": "array"
+                },
+                "tools": {
+                    "description": "Procedure Tools used",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "steps",
+                "tools"
+            ],
+            "type": "object"
+        },
+        "IMaintenanceProcedureStep": {
+            "additionalProperties": false,
+            "properties": {
+                "media": {
+                    "description": "Procedure step media array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "description": "Procedure step name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "media",
+                "name"
+            ],
+            "type": "object"
+        },
+        "IMaintenanceProgramBlock": {
+            "additionalProperties": false,
+            "properties": {
+                "blocks": {
+                    "items": {
+                        "$ref": "#/definitions/IProgramBlocks"
+                    },
+                    "type": "array"
+                },
+                "executed": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "enum": [
+                        "maintenance"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "items": [
+                        {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IConstantStringParameterBlock"
+                                },
+                                {
+                                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
+                                }
+                            ],
+                            "description": "Parameters Blocks that return a string value from data()"
+                        },
+                        {
+                            "$ref": "#/definitions/INumericParameterBlock",
+                            "description": "Parameter Blocks that return a number from data()"
+                        }
+                    ],
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "type": "array"
+                }
+            },
+            "required": [
+                "name",
+                "params"
+            ],
+            "type": "object"
+        },
+        "IManualWatchdogCondition": {
+            "additionalProperties": false,
+            "properties": {
+                "gateName": {
+                    "description": "Gate name to control",
+                    "type": "string"
+                },
+                "gateValue": {
+                    "description": "Gate value required for the security",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "gateName",
+                "gateValue"
+            ],
+            "type": "object"
+        },
+        "IMultiplyParameterBlock": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "description": "Parameter block name",
+                    "enum": [
+                        "multiply"
+                    ],
+                    "type": "string"
+                },
+                "params": {
+                    "description": "Parameter block sub parameters blocks",
+                    "items": {
+                        "$ref": "#/definitions/INumericParameterBlock"
+                    },
+                    "type": "array"
+                },
+                "value": {
+                    "description": "Value from this parameter block",
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                }
+            },
+            "required": [
+                "name",
+                "params"
+            ],
+            "type": "object"
+        },
+        "INumericParameterBlock": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/IAdditionParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IConditionalParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IConstantParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IIOReadParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IMaintenanceParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IMultiplyParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IProfileParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IReverseParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/ISlotLifetimeParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IVariableParameterBlock"
+                }
+            ],
+            "description": "Parameter Blocks that return a number from data()"
+        },
+        "IOControllersTypes": {
+            "enum": [
+                "ex260sx",
+                "wago"
+            ],
+            "type": "string"
+        },
+        "IOGateTypeName": {
+            "enum": [
+                "default",
+                "mapped",
+                "pt100",
+                "um18"
+            ],
+            "type": "string"
+        },
+        "IPBRPremades": {
+            "additionalProperties": false,
+            "properties": {
+                "cycle": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "profile": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "cycle",
+                "name",
+                "profile"
+            ],
+            "type": "object"
+        },
+        "IPBRSCCheckChain": {
+            "additionalProperties": false,
+            "properties": {
+                "io": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "gateName": {
+                            "type": "string"
+                        },
+                        "gateValue": {
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "gateName",
+                        "gateValue"
+                    ],
+                    "type": "object"
+                },
+                "name": {
+                    "enum": [
+                        "io",
+                        "parameter"
+                    ],
+                    "type": "string"
+                },
+                "parameter": {
+                    "$ref": "#/definitions/IParameterBlocks",
+                    "description": "All the parameters blocks"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "type": "object"
+        },
+        "IPBRStartCondition": {
+            "additionalProperties": false,
+            "properties": {
+                "checkChain": {
+                    "$ref": "#/definitions/IPBRSCCheckChain"
+                },
+                "conditionName": {
+                    "type": "string"
+                },
+                "startOnly": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "checkChain",
+                "conditionName",
+                "startOnly"
+            ],
+            "type": "object"
+        },
+        "IParameterBlocks": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/IAdditionParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IConditionalParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IConstantParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IConstantStringParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IIOReadParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IMaintenanceParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IMultiplyParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IProfileParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IReverseParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/ISlotLifetimeParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/ISlotProductStatusParameterBlock"
+                },
+                {
+                    "$ref": "#/definitions/IVariableParameterBlock"
+                }
+            ],
+            "description": "All the parameters blocks"
+        },
         "IPassiveProgramBlock": {
+            "additionalProperties": false,
             "properties": {
                 "blocks": {
                     "items": {
@@ -1490,7 +1159,82 @@
             ],
             "type": "object"
         },
+        "IPopup": {
+            "additionalProperties": false,
+            "properties": {
+                "callToAction": {
+                    "description": "Call to actions",
+                    "items": {
+                        "$ref": "#/definitions/ICallToAction"
+                    },
+                    "type": "array"
+                },
+                "message": {
+                    "description": "i18n message, body of this popup",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "i18n text, title of this pop up",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "message",
+                "title"
+            ],
+            "type": "object"
+        },
+        "IProfileConfig": {
+            "additionalProperties": false,
+            "description": "Profile schema from configuration",
+            "properties": {
+                "id": {
+                    "description": "Premade profile have id",
+                    "type": "string"
+                },
+                "isOverwritable": {
+                    "description": "Is the profile Overwritable ?",
+                    "enum": [
+                        false
+                    ],
+                    "type": "boolean"
+                },
+                "isPremade": {
+                    "description": "Is the profile premade ?",
+                    "enum": [
+                        true
+                    ],
+                    "type": "boolean"
+                },
+                "isRemovable": {
+                    "description": "Is the profile Removable ?",
+                    "enum": [
+                        false
+                    ],
+                    "type": "boolean"
+                },
+                "name": {
+                    "description": "Name of the profile",
+                    "type": "string"
+                },
+                "skeleton": {
+                    "description": "Name of the referencing skeleton profile",
+                    "type": "string"
+                },
+                "values": {
+                    "$ref": "#/definitions/Record<string,number>",
+                    "description": "Values of the profile"
+                }
+            },
+            "required": [
+                "name",
+                "skeleton",
+                "values"
+            ],
+            "type": "object"
+        },
         "IProfileParameterBlock": {
+            "additionalProperties": false,
             "properties": {
                 "name": {
                     "description": "Parameter block name",
@@ -1518,177 +1262,168 @@
             "type": "object"
         },
         "IProfileSkeleton": {
-            "properties": {
-                "fieldGroups": {
-                    "description": "Fiels groups of this profile skeleton",
-                    "items": {
-                        "$ref": "#/definitions/IProfileSkeletonFieldGroup"
-                    },
-                    "type": "array"
-                },
-                "identifier": {
-                    "description": "Profile identifier, used to map between profiles and cycles",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "fieldGroups",
-                "identifier"
-            ],
-            "type": "object"
-        },
-        "IProfileSkeletonField": {
-            "properties": {
-                "name": {
-                    "description": "Name of the profile field",
-                    "type": "string"
-                },
-                "type": {
-                    "description": "Type of the profile field",
-                    "enum": [
-                        "bool",
-                        "float",
-                        "int",
-                        "time"
-                    ],
-                    "type": "string"
-                },
-                "unity": {
-                    "description": "Unity of the profile field, it used for UI purposes only",
-                    "type": "string"
-                },
-                "value": {
-                    "description": "Value contained byt the profile field",
-                    "type": [
-                        "number",
-                        "boolean"
-                    ]
-                }
-            },
-            "required": [
-                "name",
-                "type",
-                "value"
-            ],
-            "type": "object"
-        },
-        "IProfileSkeletonFieldBoolean": {
-            "description": "Boolean profile field type",
-            "properties": {
-                "name": {
-                    "description": "Name of the profile field",
-                    "type": "string"
-                },
-                "type": {
-                    "description": "Type of the profile field",
-                    "enum": [
-                        "bool"
-                    ],
-                    "type": "string"
-                },
-                "unity": {
-                    "description": "Unity of the profile field, it used for UI purposes only",
-                    "type": "string"
-                },
-                "value": {
-                    "description": "Value contained byt the profile field",
-                    "type": "boolean"
-                }
-            },
-            "required": [
-                "name",
-                "type",
-                "value"
-            ],
-            "type": "object"
-        },
-        "IProfileSkeletonFieldFloat": {
-            "description": "Float ProfileField type",
-            "properties": {
-                "floatMax": {
-                    "type": "number"
-                },
-                "floatMin": {
-                    "type": "number"
-                },
-                "floatStep": {
-                    "type": "number"
-                },
-                "name": {
-                    "description": "Name of the profile field",
-                    "type": "string"
-                },
-                "type": {
-                    "description": "Type of the profile field",
-                    "enum": [
-                        "float"
-                    ],
-                    "type": "string"
-                },
-                "unity": {
-                    "description": "Unity of the profile field, it used for UI purposes only",
-                    "type": "string"
-                },
-                "value": {
-                    "description": "Value contained byt the profile field",
-                    "type": "number"
-                }
-            },
-            "required": [
-                "floatMax",
-                "floatMin",
-                "floatStep",
-                "name",
-                "type",
-                "value"
-            ],
-            "type": "object"
-        },
-        "IProfileSkeletonFieldGroup": {
+            "additionalProperties": false,
             "properties": {
                 "fields": {
-                    "description": "Profile fields",
+                    "description": "Fields definitions contained by this skeleton",
                     "items": {
                         "anyOf": [
                             {
-                                "allOf": [
-                                    {
-                                        "$ref": "#/definitions/IProfileSkeletonFieldFloat"
+                                "additionalProperties": false,
+                                "properties": {
+                                    "floatMax": {
+                                        "type": "number"
                                     },
-                                    {
-                                        "$ref": "#/definitions/IProfileSkeletonField"
+                                    "floatMin": {
+                                        "type": "number"
+                                    },
+                                    "floatStep": {
+                                        "type": "number"
+                                    },
+                                    "name": {
+                                        "description": "Name of the profile field can be splitted by category using a #. `ex: temperature#target`",
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "description": "Type of the profile field",
+                                        "enum": [
+                                            "bool",
+                                            "float",
+                                            "int",
+                                            "time"
+                                        ],
+                                        "type": "string"
+                                    },
+                                    "unity": {
+                                        "description": "Unity of the profile field, it used for UI purposes only",
+                                        "type": "string"
+                                    },
+                                    "value": {
+                                        "description": "Value contained byt the profile field",
+                                        "type": "number"
                                     }
-                                ]
+                                },
+                                "required": [
+                                    "floatMax",
+                                    "floatMin",
+                                    "floatStep",
+                                    "name",
+                                    "type",
+                                    "value"
+                                ],
+                                "type": "object"
                             },
                             {
-                                "allOf": [
-                                    {
-                                        "$ref": "#/definitions/IProfileSkeletonFieldBoolean"
+                                "additionalProperties": false,
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of the profile field can be splitted by category using a #. `ex: temperature#target`",
+                                        "type": "string"
                                     },
-                                    {
-                                        "$ref": "#/definitions/IProfileSkeletonField"
+                                    "type": {
+                                        "description": "Type of the profile field",
+                                        "enum": [
+                                            "bool",
+                                            "float",
+                                            "int",
+                                            "time"
+                                        ],
+                                        "type": "string"
+                                    },
+                                    "unity": {
+                                        "description": "Unity of the profile field, it used for UI purposes only",
+                                        "type": "string"
+                                    },
+                                    "value": {
+                                        "description": "Value contained byt the profile field",
+                                        "type": "number"
                                     }
-                                ]
+                                },
+                                "required": [
+                                    "name",
+                                    "type",
+                                    "value"
+                                ],
+                                "type": "object"
                             },
                             {
-                                "allOf": [
-                                    {
-                                        "$ref": "#/definitions/IProfileSkeletonFieldNumber"
+                                "additionalProperties": false,
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of the profile field can be splitted by category using a #. `ex: temperature#target`",
+                                        "type": "string"
                                     },
-                                    {
-                                        "$ref": "#/definitions/IProfileSkeletonField"
+                                    "type": {
+                                        "description": "Type of the profile field",
+                                        "enum": [
+                                            "bool",
+                                            "float",
+                                            "int",
+                                            "time"
+                                        ],
+                                        "type": "string"
+                                    },
+                                    "unity": {
+                                        "description": "Unity of the profile field, it used for UI purposes only",
+                                        "type": "string"
+                                    },
+                                    "value": {
+                                        "description": "Value contained byt the profile field",
+                                        "type": "number"
                                     }
-                                ]
+                                },
+                                "required": [
+                                    "name",
+                                    "type",
+                                    "value"
+                                ],
+                                "type": "object"
                             },
                             {
-                                "allOf": [
-                                    {
-                                        "$ref": "#/definitions/IProfileSkeletonFieldTime"
+                                "additionalProperties": false,
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of the profile field can be splitted by category using a #. `ex: temperature#target`",
+                                        "type": "string"
                                     },
-                                    {
-                                        "$ref": "#/definitions/IProfileSkeletonField"
+                                    "type": {
+                                        "description": "Type of the profile field",
+                                        "enum": [
+                                            "bool",
+                                            "float",
+                                            "int",
+                                            "time"
+                                        ],
+                                        "type": "string"
+                                    },
+                                    "units": {
+                                        "items": {
+                                            "enum": [
+                                                "hours",
+                                                "milliseconds",
+                                                "minutes",
+                                                "seconds"
+                                            ],
+                                            "type": "string"
+                                        },
+                                        "type": "array"
+                                    },
+                                    "unity": {
+                                        "description": "Unity of the profile field, it used for UI purposes only",
+                                        "type": "string"
+                                    },
+                                    "value": {
+                                        "description": "Value contained byt the profile field",
+                                        "type": "number"
                                     }
-                                ]
+                                },
+                                "required": [
+                                    "name",
+                                    "type",
+                                    "units",
+                                    "value"
+                                ],
+                                "type": "object"
                             }
                         ],
                         "description": "Base profile types"
@@ -1696,7 +1431,7 @@
                     "type": "array"
                 },
                 "name": {
-                    "description": "Name of the profile field group",
+                    "description": "Identifier name of the skeleton",
                     "type": "string"
                 }
             },
@@ -1706,80 +1441,8 @@
             ],
             "type": "object"
         },
-        "IProfileSkeletonFieldNumber": {
-            "description": "Number profile field type",
-            "properties": {
-                "name": {
-                    "description": "Name of the profile field",
-                    "type": "string"
-                },
-                "type": {
-                    "description": "Type of the profile field",
-                    "enum": [
-                        "int"
-                    ],
-                    "type": "string"
-                },
-                "unity": {
-                    "description": "Unity of the profile field, it used for UI purposes only",
-                    "type": "string"
-                },
-                "value": {
-                    "description": "Value contained byt the profile field",
-                    "type": "number"
-                }
-            },
-            "required": [
-                "name",
-                "type",
-                "value"
-            ],
-            "type": "object"
-        },
-        "IProfileSkeletonFieldTime": {
-            "description": "Time profile field type",
-            "properties": {
-                "name": {
-                    "description": "Name of the profile field",
-                    "type": "string"
-                },
-                "type": {
-                    "description": "Type of the profile field",
-                    "enum": [
-                        "time"
-                    ],
-                    "type": "string"
-                },
-                "units": {
-                    "items": {
-                        "enum": [
-                            "hours",
-                            "milliseconds",
-                            "minutes",
-                            "seconds"
-                        ],
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "unity": {
-                    "description": "Unity of the profile field, it used for UI purposes only",
-                    "type": "string"
-                },
-                "value": {
-                    "description": "Value contained byt the profile field",
-                    "type": "number"
-                }
-            },
-            "required": [
-                "name",
-                "type",
-                "units",
-                "value"
-            ],
-            "type": "object"
-        },
         "IProgram": {
+            "additionalProperties": false,
             "properties": {
                 "name": {
                     "type": "string"
@@ -1826,6 +1489,9 @@
                     "$ref": "#/definitions/IMaintenanceProgramBlock"
                 },
                 {
+                    "$ref": "#/definitions/IPassiveProgramBlock"
+                },
+                {
                     "$ref": "#/definitions/ISleepProgramBlock"
                 },
                 {
@@ -1848,13 +1514,11 @@
                 },
                 {
                     "$ref": "#/definitions/IWhileLoopProgramBlock"
-                },
-                {
-                    "$ref": "#/definitions/IPassiveProgramBlock"
                 }
             ]
         },
         "IProgramStep": {
+            "additionalProperties": false,
             "properties": {
                 "blocks": {
                     "description": "Program blocks Array that is executed by this step",
@@ -1905,6 +1569,7 @@
             "type": "object"
         },
         "IReverseParameterBlock": {
+            "additionalProperties": false,
             "properties": {
                 "name": {
                     "description": "Parameter block name",
@@ -1939,6 +1604,7 @@
             "type": "object"
         },
         "ISleepProgramBlock": {
+            "additionalProperties": false,
             "properties": {
                 "blocks": {
                     "items": {
@@ -1974,6 +1640,7 @@
             "type": "object"
         },
         "ISlotLifetimeParameterBlock": {
+            "additionalProperties": false,
             "properties": {
                 "name": {
                     "description": "Parameter block name",
@@ -2001,6 +1668,7 @@
             "type": "object"
         },
         "ISlotLoadProgramBlock": {
+            "additionalProperties": false,
             "properties": {
                 "blocks": {
                     "items": {
@@ -2043,6 +1711,7 @@
             "type": "object"
         },
         "ISlotProductOptions": {
+            "additionalProperties": false,
             "description": "Slot product options",
             "properties": {
                 "defaultProductSeries": {
@@ -2061,6 +1730,7 @@
             "type": "object"
         },
         "ISlotProductStatusParameterBlock": {
+            "additionalProperties": false,
             "properties": {
                 "name": {
                     "description": "Parameter block name",
@@ -2088,6 +1758,7 @@
             "type": "object"
         },
         "ISlotSensor": {
+            "additionalProperties": false,
             "description": "Slot Sensor interface",
             "properties": {
                 "io": {
@@ -2097,10 +1768,6 @@
                 "type": {
                     "$ref": "#/definitions/ESlotSensorType",
                     "description": "Slot type"
-                },
-                "value": {
-                    "description": "Slot value",
-                    "type": "number"
                 }
             },
             "required": [
@@ -2110,6 +1777,7 @@
             "type": "object"
         },
         "ISlotUnloadProgramBlock": {
+            "additionalProperties": false,
             "properties": {
                 "blocks": {
                     "items": {
@@ -2152,6 +1820,7 @@
             "type": "object"
         },
         "IStartTimerProgramBlock": {
+            "additionalProperties": false,
             "properties": {
                 "blocks": {
                     "items": {
@@ -2199,6 +1868,7 @@
             "type": "object"
         },
         "IStopProgramBlock": {
+            "additionalProperties": false,
             "properties": {
                 "blocks": {
                     "items": {
@@ -2241,6 +1911,7 @@
             "type": "object"
         },
         "IStopTimerProgramBlock": {
+            "additionalProperties": false,
             "properties": {
                 "blocks": {
                     "items": {
@@ -2282,76 +1953,8 @@
             ],
             "type": "object"
         },
-        "IUM18Gate": {
-            "properties": {
-                "address": {
-                    "description": "Address on the automaton address range",
-                    "type": "number"
-                },
-                "bus": {
-                    "description": "Gate bus",
-                    "enum": [
-                        "in",
-                        "out"
-                    ],
-                    "type": "string"
-                },
-                "controllerId": {
-                    "description": "Automaton where this gate is available",
-                    "type": "number"
-                },
-                "default": {
-                    "description": "Default value of this gate",
-                    "type": "number"
-                },
-                "isCritical": {
-                    "description": "Is this gate Critical",
-                    "type": "boolean"
-                },
-                "levelMax": {
-                    "type": "number"
-                },
-                "manualModeWatchdog": {
-                    "description": "Does this gate triggers manual mode watchdog security",
-                    "type": "boolean"
-                },
-                "name": {
-                    "description": "Gate name",
-                    "type": "string"
-                },
-                "size": {
-                    "description": "Gate controller data size",
-                    "enum": [
-                        "bit",
-                        "word"
-                    ],
-                    "type": "string"
-                },
-                "type": {
-                    "description": "Gate type",
-                    "enum": [
-                        "um18"
-                    ],
-                    "type": "string"
-                },
-                "unity": {
-                    "description": "Unity used by this gate",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "address",
-                "bus",
-                "controllerId",
-                "default",
-                "levelMax",
-                "name",
-                "size",
-                "type"
-            ],
-            "type": "object"
-        },
         "IVariableParameterBlock": {
+            "additionalProperties": false,
             "properties": {
                 "name": {
                     "description": "Parameter block name",
@@ -2379,6 +1982,7 @@
             "type": "object"
         },
         "IVariableProgramBlock": {
+            "additionalProperties": false,
             "properties": {
                 "blocks": {
                     "items": {
@@ -2425,6 +2029,7 @@
             "type": "object"
         },
         "IWhileLoopProgramBlock": {
+            "additionalProperties": false,
             "properties": {
                 "blocks": {
                     "items": {
@@ -2474,10 +2079,25 @@
                 "params"
             ],
             "type": "object"
+        },
+        "Record<string,number>": {
+            "additionalProperties": false,
+            "type": "object"
         }
     },
     "description": "Machine JSON Specifications",
     "properties": {
+        "$schema": {
+            "description": "Schema used by the configuration file",
+            "type": "string"
+        },
+        "addons": {
+            "description": "Addons available on this machine",
+            "items": {
+                "$ref": "#/definitions/IAddon"
+            },
+            "type": "array"
+        },
         "cyclePremades": {
             "description": "Cycle premades definition",
             "items": {
@@ -2497,44 +2117,247 @@
             "items": {
                 "anyOf": [
                     {
-                        "allOf": [
-                            {
-                                "$ref": "#/definitions/IMappedGate"
+                        "additionalProperties": false,
+                        "properties": {
+                            "address": {
+                                "description": "Address on the automaton address range",
+                                "type": "number"
                             },
-                            {
-                                "$ref": "#/definitions/IIOGate"
+                            "bus": {
+                                "description": "Gate bus",
+                                "enum": [
+                                    "in",
+                                    "out"
+                                ],
+                                "type": "string"
+                            },
+                            "controllerId": {
+                                "description": "Automaton where this gate is available",
+                                "type": "number"
+                            },
+                            "default": {
+                                "description": "Default value of this gate",
+                                "type": "number"
+                            },
+                            "mapInMax": {
+                                "description": "Mapped input max data, from IOController",
+                                "type": "number"
+                            },
+                            "mapInMin": {
+                                "description": "Mapped input min data, from IO Controller",
+                                "type": "number"
+                            },
+                            "mapOutMax": {
+                                "description": "Mapped output max data, to Human",
+                                "type": "number"
+                            },
+                            "mapOutMin": {
+                                "description": "Mapped output min data, to Human",
+                                "type": "number"
+                            },
+                            "name": {
+                                "description": "Gate name",
+                                "type": "string"
+                            },
+                            "size": {
+                                "description": "Gate controller data size",
+                                "enum": [
+                                    "bit",
+                                    "word"
+                                ],
+                                "type": "string"
+                            },
+                            "type": {
+                                "$ref": "#/definitions/IOGateTypeName",
+                                "description": "Gate type"
+                            },
+                            "unity": {
+                                "description": "Unity used by this gate",
+                                "type": "string"
                             }
-                        ]
+                        },
+                        "required": [
+                            "address",
+                            "bus",
+                            "controllerId",
+                            "default",
+                            "mapOutMax",
+                            "mapOutMin",
+                            "name",
+                            "size",
+                            "type"
+                        ],
+                        "type": "object"
                     },
                     {
-                        "allOf": [
-                            {
-                                "$ref": "#/definitions/IUM18Gate"
+                        "additionalProperties": false,
+                        "properties": {
+                            "address": {
+                                "description": "Address on the automaton address range",
+                                "type": "number"
                             },
-                            {
-                                "$ref": "#/definitions/IIOGate"
+                            "bus": {
+                                "description": "Gate bus",
+                                "enum": [
+                                    "in",
+                                    "out"
+                                ],
+                                "type": "string"
+                            },
+                            "controllerId": {
+                                "description": "Automaton where this gate is available",
+                                "type": "number"
+                            },
+                            "default": {
+                                "description": "Default value of this gate",
+                                "type": "number"
+                            },
+                            "levelMax": {
+                                "type": "number"
+                            },
+                            "name": {
+                                "description": "Gate name",
+                                "type": "string"
+                            },
+                            "size": {
+                                "description": "Gate controller data size",
+                                "enum": [
+                                    "bit",
+                                    "word"
+                                ],
+                                "type": "string"
+                            },
+                            "type": {
+                                "$ref": "#/definitions/IOGateTypeName",
+                                "description": "Gate type"
+                            },
+                            "unity": {
+                                "description": "Unity used by this gate",
+                                "type": "string"
                             }
-                        ]
+                        },
+                        "required": [
+                            "address",
+                            "bus",
+                            "controllerId",
+                            "default",
+                            "levelMax",
+                            "name",
+                            "size",
+                            "type"
+                        ],
+                        "type": "object"
                     },
                     {
-                        "allOf": [
-                            {
-                                "$ref": "#/definitions/IPT100Gate"
+                        "additionalProperties": false,
+                        "properties": {
+                            "address": {
+                                "description": "Address on the automaton address range",
+                                "type": "number"
                             },
-                            {
-                                "$ref": "#/definitions/IIOGate"
+                            "bus": {
+                                "description": "Gate bus",
+                                "enum": [
+                                    "in",
+                                    "out"
+                                ],
+                                "type": "string"
+                            },
+                            "controllerId": {
+                                "description": "Automaton where this gate is available",
+                                "type": "number"
+                            },
+                            "default": {
+                                "description": "Default value of this gate",
+                                "type": "number"
+                            },
+                            "name": {
+                                "description": "Gate name",
+                                "type": "string"
+                            },
+                            "size": {
+                                "description": "Gate controller data size",
+                                "enum": [
+                                    "bit",
+                                    "word"
+                                ],
+                                "type": "string"
+                            },
+                            "type": {
+                                "$ref": "#/definitions/IOGateTypeName",
+                                "description": "Gate type"
+                            },
+                            "unity": {
+                                "description": "Unity used by this gate",
+                                "type": "string"
                             }
-                        ]
+                        },
+                        "required": [
+                            "address",
+                            "bus",
+                            "controllerId",
+                            "default",
+                            "name",
+                            "size",
+                            "type",
+                            "unity"
+                        ],
+                        "type": "object"
                     },
                     {
-                        "allOf": [
-                            {
-                                "$ref": "#/definitions/IDefaultGate"
+                        "additionalProperties": false,
+                        "properties": {
+                            "address": {
+                                "description": "Address on the automaton address range",
+                                "type": "number"
                             },
-                            {
-                                "$ref": "#/definitions/IIOGate"
+                            "bus": {
+                                "description": "Gate bus",
+                                "enum": [
+                                    "in",
+                                    "out"
+                                ],
+                                "type": "string"
+                            },
+                            "controllerId": {
+                                "description": "Automaton where this gate is available",
+                                "type": "number"
+                            },
+                            "default": {
+                                "description": "Default value of this gate",
+                                "type": "number"
+                            },
+                            "name": {
+                                "description": "Gate name",
+                                "type": "string"
+                            },
+                            "size": {
+                                "description": "Gate controller data size",
+                                "enum": [
+                                    "bit",
+                                    "word"
+                                ],
+                                "type": "string"
+                            },
+                            "type": {
+                                "$ref": "#/definitions/IOGateTypeName",
+                                "description": "Gate type"
+                            },
+                            "unity": {
+                                "description": "Unity used by this gate",
+                                "type": "string"
                             }
-                        ]
+                        },
+                        "required": [
+                            "address",
+                            "bus",
+                            "controllerId",
+                            "default",
+                            "name",
+                            "size",
+                            "type"
+                        ],
+                        "type": "object"
                     }
                 ]
             },
@@ -2545,10 +2368,49 @@
             "items": {
                 "anyOf": [
                     {
-                        "$ref": "#/definitions/IModbusControllers"
+                        "additionalProperties": false,
+                        "properties": {
+                            "ip": {
+                                "description": "IP Address on the local network",
+                                "type": "string"
+                            },
+                            "size": {
+                                "description": "Corresponding size of the EX260 (either 16 outputs or 32 outputs)",
+                                "enum": [
+                                    16,
+                                    32
+                                ],
+                                "type": "number"
+                            },
+                            "type": {
+                                "$ref": "#/definitions/IOControllersTypes",
+                                "description": "Type of the IO Handler"
+                            }
+                        },
+                        "required": [
+                            "ip",
+                            "size",
+                            "type"
+                        ],
+                        "type": "object"
                     },
                     {
-                        "$ref": "#/definitions/IEX260Controller"
+                        "additionalProperties": false,
+                        "properties": {
+                            "ip": {
+                                "description": "IP Address on the local network",
+                                "type": "string"
+                            },
+                            "type": {
+                                "$ref": "#/definitions/IOControllersTypes",
+                                "description": "Type of the IO Handler"
+                            }
+                        },
+                        "required": [
+                            "ip",
+                            "type"
+                        ],
+                        "type": "object"
                     }
                 ]
             },
@@ -2564,15 +2426,16 @@
         "manual": {
             "description": "Manuals modes definition",
             "items": {
-                "$ref": "#/definitions/IManualMode"
+                "$ref": "#/definitions/IConfigManualMode"
             },
             "type": "array"
         },
         "nuster": {
+            "additionalProperties": false,
             "description": "Nuster Additional data",
             "properties": {
                 "connectPopup": {
-                    "$ref": "#/definitions/INusterConnectPopup",
+                    "$ref": "#/definitions/IPopup",
                     "description": "Connect popup is triggered when the user logs on for the first time"
                 }
             },
@@ -2581,14 +2444,14 @@
         "passives": {
             "description": "Passive modes definition",
             "items": {
-                "$ref": "#/definitions/IPassive"
+                "$ref": "#/definitions/IConfigPassive"
             },
             "type": "array"
         },
         "profilePremades": {
             "description": "Premade profile definition",
             "items": {
-                "$ref": "#/definitions/IConfigProfile"
+                "$ref": "#/definitions/IProfileConfig"
             },
             "type": "array"
         },
@@ -2608,6 +2471,7 @@
         }
     },
     "required": [
+        "$schema",
         "cyclePremades",
         "cycleTypes",
         "iogates",

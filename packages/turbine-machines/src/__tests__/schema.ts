@@ -1,8 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-import * as fileSchema from "../schema/schema.json";
-import * as addonSchema from "../schema/schema-addon.json";
+import * as fileSchema from "../../node_modules/@metalizz/nuster-typings/src/schemas/schema-specs.json";
 
 import { matchers } from 'jest-json-schema';
 
@@ -13,7 +12,6 @@ interface Specs {
     variant: string;
     revision: string;
     file: string;
-    addons: [string, string][];
 }
 
 let files = fs.readdirSync(path.resolve("data"), { withFileTypes: true });
@@ -44,8 +42,7 @@ for(const f of files.filter(f => f.isDirectory()))
                     model: f.name,
                     variant: f2.name,
                     revision: f3.name,
-                    file: path.resolve("data", f.name, f2.name, f3.name, "specs.json"),
-                    addons: addonsFiles
+                    file: path.resolve("data", f.name, f2.name, f3.name, "specs.json")
                 });
             }
         }
@@ -59,14 +56,4 @@ for(const file of filesToCheck)
     it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' Schema', () => {
         expect(json).toMatchSchema(fileSchema);
     });
-
-    for(const addon of file.addons)
-    {
-        const jsonAddon = JSON.parse(fs.readFileSync(addon[1], { encoding: 'utf-8'}));
-
-        it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' ' + addon[0].split(".")[0] + ' Addon Schema', () => {
-            expect(jsonAddon).toMatchSchema(addonSchema);
-        });
- 
-    }
 }

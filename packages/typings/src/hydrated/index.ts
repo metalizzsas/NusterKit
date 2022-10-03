@@ -1,6 +1,7 @@
 import { IConfiguration } from "../configuration";
 import { IOGates } from "../spec/iogates";
 import { IIOPhysicalController } from "../spec/iophysicalcontrollers";
+import { ICallToAction } from "../spec/nuster/ICallToAction";
 import { IDeviceData } from "./balena/IDeviceData";
 import { IHypervisorData } from "./balena/IHypervisorDevice";
 import { IVPNData } from "./balena/IVPNData";
@@ -14,7 +15,7 @@ import { ISlotHydrated } from "./slot";
 export interface IWebSocketData
 {
     type: "message" | "status" | "popup";
-    message: IStatusMessage | IPopupMessage | unknown;
+    message: IStatusMessage | IPopup | unknown;
 }
 
 export interface IStatusMessage
@@ -36,28 +37,13 @@ export interface IStatusMessage
    maintenances: IMaintenanceHydrated[]
 }
 
-export interface IPopupMessage
+export interface IPopup
 {
-    /** Unique identifier to prevent multiple pop ups */
-    identifier: string;
-
     /** i18n text, title of this pop up */
     title: string;
     /** i18n message, body of this popup */
     message: string;
 
     /** Call to actions */
-    callToAction?: {
-        /** Name of this CTA */
-        name: string;
-        /** API Endpoint to be reached by the CTA (NusterTurbine Endpoints) */
-        APIEndpoint?: {
-            /** URL Reached */
-            url: string;
-            /** HTTP Request Method */
-            method: "get" | "put" | "post" | "delete";
-        },
-        /** UIEndpoint reached by the CTA (NusterDesktop Endpoints)*/
-        UIEndpoint?: string;
-    }[]
+    callToAction?: ICallToAction[]
 }

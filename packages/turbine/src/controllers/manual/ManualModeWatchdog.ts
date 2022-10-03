@@ -36,7 +36,6 @@ export class ManualWatchdogCondition implements IManualWatchdogCondition
                     LoggerInstance.warn("Manual watchdog condition failed, toggling manual mode off.");
 
                     WebsocketDispatcher.getInstance().togglePopup({
-                        identifier: "manual-mode-watchdog-error",
                         title: "popups.manualMode.security.title",
                         message: "popups.manualMode.security.message"
                     });

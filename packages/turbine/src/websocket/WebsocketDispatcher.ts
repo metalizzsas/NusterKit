@@ -1,4 +1,4 @@
-import { INusterPopup } from "@metalizz/nuster-typings/src/configuration/nuster/INusterPopup";
+import { IPopup } from "@metalizz/nuster-typings/src/hydrated";
 import { Server } from "http";
 import { OPEN, WebSocket, WebSocketServer } from "ws";
 import { LoggerInstance } from "../app";
@@ -12,7 +12,7 @@ export class WebsocketDispatcher
     wsServer: WebSocketServer;
     
     /** Connect popup data */
-    connectPopup?: INusterPopup;
+    connectPopup?: IPopup;
     /** Wheter the connect popup has been displayed or not */
     connectPopupDisplayed = false;
 
@@ -42,7 +42,7 @@ export class WebsocketDispatcher
      * toggle a popup on all NusterDesktop clients
      * @param popup Popup data send to all clients
      */
-    togglePopup(popup: INusterPopup)
+    togglePopup(popup: IPopup)
     {
         this.broadcastData(popup, "popup");
     }

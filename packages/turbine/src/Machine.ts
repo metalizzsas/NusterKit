@@ -1,4 +1,5 @@
 import WebSocket from "ws";
+import path from "path";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -37,7 +38,8 @@ const MODELS: {[x: models]: unknown} = {
     "uscleaner/m/1": USCleanerMR1
 };
 
-export class Machine {
+export class Machine
+{
     data: IConfiguration;
     specs: IMachineSpecs;
 
@@ -130,13 +132,15 @@ export class Machine {
         }
     }
 
+    /**
+     * Data send to the socket as a Status message in socket connection
+     * @returns Data hydrated for socket connection
+     */
     public async socketData(): Promise<IStatusMessage> {
         const profiles = await this.profileController.socketData();
         const maintenances = await this.maintenanceController.socketData();
         const slot = await this.slotController.socketData();
 
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        //@ts-ignore
         return {
             "machine": this.toJSON(),
             "cycle": this.cycleController.socketData,
@@ -151,11 +155,11 @@ export class Machine {
     }
 
     get assetsFolder() {
-        return `${this.baseNTMFolder}/assets`;
+        return path.resolve(this.baseNTMFolder, 'assets');
     }
 
     get baseNTMFolder() {
-        return `@metalizz/nuster-turbine-machines/data/${this.data.model}/${this.data.variant}/${this.data.revision}`;
+        return path.resolve("node_modules", "@metalizz", "nuster-turbine-machines", "data", this.data.model, this.data.variant, `${this.data.revision}`);
     }
 
     toJSON(): IStatusMessage["machine"] {

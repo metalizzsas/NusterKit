@@ -1,4 +1,3 @@
-import { INusterPopup } from "../configuration/nuster/INusterPopup"
 import { IAddon } from "./addons"
 import { IProgram, IPBRPremades } from "./cycle/IProgramBlockRunner"
 import { IOGatesConfig } from "./iogates"
@@ -8,14 +7,21 @@ import { IConfigManualMode } from "./manual"
 import { IConfigPassive } from "./passive"
 import { IProfileConfig, IProfileSkeleton } from "./profile"
 import { IConfigSlot } from "./slot"
+import { IPopup } from "../hydrated"
 
 /** Machine JSON Specifications */
 export declare interface IMachineSpecs
 {
+    /** 
+     * Schema used by the configuration file
+     * @defaultValue ../../../../node_modules/@metalizz/nuster-typings/src/schemas/schema-specs.json
+     */
+    $schema: string;
+
     /** Nuster Additional data */
     nuster?: {
         /** Connect popup is triggered when the user logs on for the first time */
-        connectPopup?: INusterPopup
+        connectPopup?: IPopup
     }
 
     /** Cycle types definition */

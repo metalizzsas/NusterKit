@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-import { Schema } from "../schema/config";
+import { IMachineSpecs } from "@metalizz/nuster-typings/src/spec/";
 
 interface Specs {
     model: string;
@@ -50,23 +50,24 @@ for(const f of files.filter(f => f.isDirectory()))
 
 for(const file of filesToCheck)
 {
-    const json = JSON.parse(fs.readFileSync(file.file, {encoding: "utf-8"})) as Schema;
+    const json = JSON.parse(fs.readFileSync(file.file, {encoding: "utf-8"})) as IMachineSpecs;
 
     const ioGates = json.iogates.map(g => g.name);
 
     const ioGatesCategories = new Set(json.iogates.map(g => g.name.split("#").length > 1 ? g.name.split("#")[0] : "null"));
     ioGatesCategories.delete("null");
 
-    const profileRowsGroups = new Set(json.profileSkeletons.flatMap(s => s.fieldGroups.map(s => s.name)));
+    const profileFields = new Set(json.profileSkeletons.flatMap(s => s.fields));
 
-    const profileRows = new Set(json.profileSkeletons.flatMap(s => s.fieldGroups.flatMap(s => s.fields.map(s => s.name))));
+    const profileCategories = new Set([...profileFields].map(f => f.name.split("#").length > 1 ? f.name.split("#")[0] : undefined).filter(s => s != undefined)) as Set<string>;
+    const profileFieldNames = new Set([...profileFields].map(f => f.name.split("#").length > 1 ? f.name.split("#")[1] : undefined).filter(s => s != undefined)) as Set<string>;
 
-    profileRows.delete("enabled");
-    profileRows.delete("timeOn");
-    profileRows.delete("timeOff");
-    profileRows.delete("count");
-    profileRows.delete("duration");
-    profileRows.delete("speed");
+    profileFieldNames.delete("enabled");
+    profileFieldNames.delete("timeOn");
+    profileFieldNames.delete("timeOff");
+    profileFieldNames.delete("count");
+    profileFieldNames.delete("duration");
+    profileFieldNames.delete("speed");
 
     const slotsNames = json.slots.flatMap(s => s.name);
 
@@ -106,12 +107,12 @@ for(const file of filesToCheck)
 
             //profiles
             //rows
-            for(const row of profileRows)
+            for(const row of profileFieldNames)
             {
                 expect(translation).toHaveProperty("profile.rows." + row);
             }
             //categories
-            for(const category of profileRowsGroups)
+            for(const category of profileCategories)
             {
                 expect(translation).toHaveProperty("profile.categories." + category);
             }

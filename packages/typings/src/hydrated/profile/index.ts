@@ -1,5 +1,5 @@
 import { IProfileConfig, ProfileSkeletonFields } from "../../spec/profile";
 
-export type IProfileHydrated = Omit<IProfileConfig, "values"> & { id?: string, modificationDate: number, values: ProfileSkeletonFields[] };
+export type IProfileHydrated = Omit<IProfileConfig, "values" | "id"> & { id?: string, modificationDate: number, values: ProfileSkeletonFields[] };
 
-export type IProfileStored = IProfileConfig & { id?: string, modificationDate: number };
+export type IProfileStored = Omit<IProfileConfig, "id"> & { id?: string, modificationDate: number };

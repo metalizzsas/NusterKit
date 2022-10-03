@@ -119,7 +119,6 @@ export class ManualMode implements IConfigManualMode
 
             // Toggle warning popup to screens
             WebsocketDispatcher.getInstance().togglePopup({
-                identifier: "manual-mode-required-parent-toggle-off",
                 title: "popups.manualMode.requiredParent.title",
                 message: "popups.manualMode.requiredParent.message"
             });

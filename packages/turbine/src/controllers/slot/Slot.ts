@@ -1,4 +1,4 @@
-import { ICallToAction } from "@metalizz/nuster-typings/src/configuration/nuster/ICallToAction";
+import { ICallToAction } from "@metalizz/nuster-typings/src/spec/nuster/ICallToAction";
 import { ISlotHydrated, ISlotProductData } from "@metalizz/nuster-typings/src/hydrated/slot";
 import { EProductSeries, IConfigSlot, ISlotProductOptions, ISlotSensor } from "@metalizz/nuster-typings/src/spec/slot";
 

@@ -4,7 +4,7 @@ export type ConfigModel = "metalfog" | "smoothit" | "uscleaner";
 export type ConfigVariant = "m";
 
 /** Configuration info.json driving NusterTurbine */
-export interface IConfiguration
+export declare interface IConfiguration
 {
     /** Machine Name */
     name: string;

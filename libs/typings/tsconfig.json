@@ -1,11 +1,9 @@
 {
   "compilerOptions": {
-    "lib": [
-      "es2021"
-    ],
+    "lib": ["es2016"],
     "typeRoots": [],
     "module": "commonjs",
-    "target": "es2021",
+    "target": "es2016",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,

@@ -2,7 +2,6 @@ import { randomUUID } from "crypto";
 import { Request, Response, NextFunction, Router } from "express";
 import { model, Schema } from "mongoose";
 import argon2 from "argon2";
-import pino from "pino";
 import { LoggerInstance } from "../app";
 
 //add a toJSON method to RegExp

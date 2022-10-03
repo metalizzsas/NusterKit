@@ -9,13 +9,15 @@
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "ecmaVersion": 2021,
+        "ecmaVersion": 2016,
         "sourceType": "module"
     },
     "plugins": [
         "@typescript-eslint"
     ],
     "rules": {
-        "no-console": 2
+        "@typescript-eslint/no-unused-vars": "error",
+        "no-console": "error",
+        "camelcase": "error"
     }
 }

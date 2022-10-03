@@ -27,7 +27,7 @@ import * as MetalfogMR1 from "@metalizzsas/nuster-turbine-machines/data/metalfog
 import * as SmoothitMR1 from "@metalizzsas/nuster-turbine-machines/data/smoothit/m/1/specs.json";
 import * as SmoothitMR2 from "@metalizzsas/nuster-turbine-machines/data/smoothit/m/2/specs.json";
 
-import * as USCleanerMR1 from "@metalizzsas/nuster-turbine-machines/data/uscleaner/m/0/specs.json";
+import * as USCleanerMR1 from "@metalizzsas/nuster-turbine-machines/data/uscleaner/m/1/specs.json";
 
 type models = `${ConfigModel}/${ConfigVariant}/${number}`;
 

@@ -1,5 +1,5 @@
 {
-   "$schema": "../../../../src/schema/schema.json",
+   "$schema": "../../../../node_modules/@metalizz/nuster-typings/src/schemas/schema-specs.json",
    "iohandlers": [
       {
          "type": "wago",
@@ -19,9 +19,7 @@
          "bus": "in",
          "controllerId": 0,
          "address": 0,
-         "default": 0,
-         "isCritical": true,
-         "manualModeWatchdog": true
+         "default": 0
       },
       {
          "name": "nitrogen-sensor",
@@ -30,8 +28,7 @@
          "bus": "in",
          "controllerId": 0,
          "address": 1,
-         "default": 0,
-         "isCritical": true
+         "default": 0
       },
       {
          "name": "cover-closed",
@@ -40,8 +37,7 @@
          "bus": "in",
          "controllerId": 0,
          "address": 2,
-         "default": 0,
-         "isCritical": true
+         "default": 0
       },
       {
          "name": "resin#slot-sensor",
@@ -50,8 +46,7 @@
          "bus": "in",
          "controllerId": 0,
          "address": 3,
-         "default": 0,
-         "isCritical": true
+         "default": 0
       },
       {
          "name": "nozzle#sensor-open",
@@ -61,8 +56,7 @@
          "controllerId": 0,
          "address": 4,
          "default": 0,
-         "levelMax": 0,
-         "isCritical": true
+         "levelMax": 0
       },
       {
          "name": "nozzle#sensor-closed",
@@ -72,8 +66,7 @@
          "controllerId": 0,
          "address": 5,
          "default": 0,
-         "levelMax": 0,
-         "isCritical": true
+         "levelMax": 0
       },
       {
          "name": "ir#sensor-open",
@@ -83,8 +76,7 @@
          "controllerId": 0,
          "address": 6,
          "default": 0,
-         "levelMax": 0,
-         "isCritical": true
+         "levelMax": 0
       },
       {
          "name": "ir#sensor-closed",
@@ -94,8 +86,7 @@
          "controllerId": 0,
          "address": 7,
          "default": 0,
-         "levelMax": 0,
-         "isCritical": true
+         "levelMax": 0
       },
       {
          "name": "uv#sensor-open",
@@ -105,8 +96,7 @@
          "controllerId": 0,
          "address": 8,
          "default": 0,
-         "levelMax": 0,
-         "isCritical": true
+         "levelMax": 0
       },
       {
          "name": "uv#sensor-closed",
@@ -116,8 +106,7 @@
          "controllerId": 0,
          "address": 9,
          "default": 0,
-         "levelMax": 0,
-         "isCritical": true
+         "levelMax": 0
       },
       {
          "name": "uv#overheat",
@@ -126,8 +115,7 @@
          "bus": "in",
          "controllerId": 0,
          "address": 10,
-         "default": 0,
-         "isCritical": true
+         "default": 0
       },
       {
          "name": "motor#direction",
@@ -207,12 +195,9 @@
          "controllerId": 0,
          "address": 0,
          "default": 0,
-         "levelMax": 0,
 
          "unity": "RPM",
 
-         "mapInMin": 0,
-         "mapInMax": 32767,
          "mapOutMin": 0,
          "mapOutMax": 100
       },
@@ -226,8 +211,6 @@
          "default": 0,
          "unity": "%",
 
-         "mapInMin": 0,
-         "mapInMax": 32767,
          "mapOutMin": 0,
          "mapOutMax": 100
       },
@@ -296,7 +279,6 @@
       {
          "name": "resin",
          "type": "cnt",
-         "isProductable": true,
          "sensors": [
             {
                "io": "resin#slot-sensor",
@@ -307,164 +289,128 @@
       {
          "name": "eff",
          "type": "cnt",
-         "isProductable": false,
          "sensors": []
       }
    ],
    "profileSkeletons": [
       {
-         "identifier": "default",
-         "fieldGroups": [
+         "name": "default",
+         "fields": [
             {
-               "name": "pulverization",
-               "fields": [
-                  {
-                     "name": "timeOn",
-                     "type": "time",
-                     "units": ["seconds", "milliseconds"],
-                     "value": 2
-                  },
-                  {
-                     "name": "timeOff",
-                     "type": "time",
-                     "units": ["seconds", "milliseconds"],
-                     "value": 8
-                  },
-                  {
-                     "name": "count",
-                     "type": "int",
-                     "value": 4
-                  },
-                  {
-                     "name": "enabled",
-                     "type": "bool",
-                     "value": true
-                  }
-               ]
+               "name": "pulverization#enabled",
+               "type": "bool",
+               "value": 1
             },
             {
-               "name": "ir-curing",
-               "fields": [
-                  {
-                     "name": "enabled",
-                     "type": "bool",
-                     "value": true
-                  },
-                  {
-                     "name": "duration",
-                     "type": "time",
-                     "units": ["minutes", "seconds"],
-                     "value": 180
-                  }
-               ]
+               "name": "pulverization#timeOn",
+               "type": "time",
+               "units": ["seconds", "milliseconds"],
+               "value": 2
             },
             {
-               "name": "inerting",
-               "fields": [
-                  {
-                     "name": "enabled",
-                     "type": "bool",
-                     "value": true
-                  },
-                  {
-                     "name": "duration",
-                     "type": "time",
-                     "units": ["minutes", "seconds"],
-                     "value": 10
-                  }
-               ]
+               "name": "pulverization#timeOff",
+               "type": "time",
+               "units": ["seconds", "milliseconds"],
+               "value": 8
             },
             {
-               "name": "uv-curing",
-               "fields": [
-                  {
-                     "name": "enabled",
-                     "type": "bool",
-                     "value": true
-                  },
-                  {
-                     "name": "duration",
-                     "type": "time",
-                     "units": ["minutes", "seconds"],
-                     "value": 40
-                  },
-                  {
-                     "name": "uv-power",
-                     "type": "float",
-                     "unity": "%",
-                     "value": 50,
-                     "floatMin": 20,
-                     "floatMax": 100,
-                     "floatStep": 5
-                  }
-               ]
+               "name": "pulverization#count",
+               "type": "int",
+               "value": 4
             },
             {
-               "name": "vapors-extraction",
-               "fields": [
-                  {
-                     "name": "enabled",
-                     "type": "bool",
-                     "value": true
-                  },
-                  {
-                     "name": "duration",
-                     "type": "time",
-                     "units": ["minutes", "seconds"],
-                     "value": 45
-                  }
-               ]
+               "name": "ir-curing#enabled",
+               "type": "bool",
+               "value": 1
             },
             {
-               "name": "multilayer",
-               "fields": [
-                  {
-                     "name": "enabled",
-                     "type": "bool",
-                     "value": false
-                  },
-                  {
-                     "name": "count",
-                     "type": "int",
-                     "value": 5
-                  },
-                  {
-                     "name": "interlayer-uvduration",
-                     "type": "time",
-                     "units": ["minutes", "seconds"],
-                     "value": 15
-                  }
-               ]
+               "name": "ir-curing#duration",
+               "type": "time",
+               "units": ["minutes", "seconds"],
+               "value": 180
             },
             {
-               "name": "motor",
-               "fields": [
-                  {
-                     "name": "enabled",
-                     "type": "bool",
-                     "value": true
-                  },
-                  {
-                     "name": "speed",
-                     "type": "float",
-                     "unity": "RPM",
-                     "value": 50,
-                     "floatMax": 100,
-                     "floatMin": 0,
-                     "floatStep": 5
-                  },
-                  {
-                     "name": "reverseEnabled",
-                     "type": "bool",
-                     "value": true
-                  },
-                  {
-                     "name": "reverseTime",
-                     "type": "time",
-                     "units": ["seconds"],
-                     "value": 1
-                  }
-               ]
+               "name": "inerting#enabled",
+               "type": "bool",
+               "value": 1
+            },
+            {
+               "name": "inerting#duration",
+               "type": "time",
+               "units": ["minutes", "seconds"],
+               "value": 10
+            },
+            {
+               "name": "uv-curing#enabled",
+               "type": "bool",
+               "value": 1
+            },
+            {
+               "name": "uv-curing#duration",
+               "type": "time",
+               "units": ["minutes", "seconds"],
+               "value": 40
+            },
+            {
+               "name": "uv-curing#uv-power",
+               "type": "float",
+               "unity": "%",
+               "value": 50,
+               "floatMin": 20,
+               "floatMax": 100,
+               "floatStep": 5
+            },
+            {
+               "name": "vapors-extraction#enabled",
+               "type": "bool",
+               "value": 1
+            },
+            {
+               "name": "vapors-extraction#duration",
+               "type": "time",
+               "units": ["minutes", "seconds"],
+               "value": 45
+            },
+            {
+               "name": "multilayer#enabled",
+               "type": "bool",
+               "value": 1
+            },
+            {
+               "name": "multilayer#count",
+               "type": "int",
+               "value": 5
+            },
+            {
+               "name": "multilayer#interlayer-uvduration",
+               "type": "time",
+               "units": ["minutes", "seconds"],
+               "value": 15
+            },
+            {
+               "name": "motor#enabled",
+               "type": "bool",
+               "value": 1
+            },
+            {
+               "name": "motor#speed",
+               "type": "float",
+               "unity": "RPM",
+               "value": 50,
+               "floatMax": 100,
+               "floatMin": 0,
+               "floatStep": 5
+            },
+            {
+               "name": "motor#reverseEnabled",
+               "type": "bool",
+               "value": 1
+            },
+            {
+               "name": "motor#reverseTime",
+               "type": "time",
+               "units": ["seconds"],
+               "value": 1
             }
          ]
       }
@@ -474,9 +420,9 @@
          "skeleton": "default",
          "id": "premade_fdm",
          "name": "fdm",
-         "removable": false,
-         "overwriteable": false,
          "isPremade": true,
+         "isOverwritable": false,
+         "isRemovable": false,
          "values": {
             "pulverization#enabled": 1,
             "pulverization#timeOn": 0.5,
@@ -504,9 +450,9 @@
          "skeleton": "default",
          "id": "premade_sls",
          "name": "sls",
-         "removable": false,
-         "overwriteable": false,
          "isPremade": true,
+         "isOverwritable": false,
+         "isRemovable": false,
          "values": {
             "pulverization#enabled": 1,
             "pulverization#timeOn": 0.5,
@@ -534,9 +480,9 @@
          "skeleton": "default",
          "id": "premade_sla",
          "name": "sla",
-         "removable": false,
-         "overwriteable": false,
          "isPremade": true,
+         "isOverwritable": false,
+         "isRemovable": false,
          "values": {
             "pulverization#enabled": 1,
             "pulverization#timeOn": 0.5,
@@ -871,8 +817,7 @@
                            "name": "const",
                            "value": 90
                         }
-                     ],
-                     "_folded": false
+                     ]
                   }
                ],
                "startBlocks": [
@@ -910,8 +855,7 @@
                               }
                            ]
                         }
-                     ],
-                     "_folded": false
+                     ]
                   },
                   {
                      "name": "io",
@@ -924,12 +868,10 @@
                            "name": "const",
                            "value": 1
                         }
-                     ],
-                     "_folded": false
+                     ]
                   }
                ],
-               "endBlocks": [],
-               "_folded": false
+               "endBlocks": []
             },
             {
                "name": "pulverization",
@@ -1025,11 +967,9 @@
                                  "name": "conststr",
                                  "value": "nozzle#cache-wrong"
                               }
-                           ],
-                           "_folded": false
+                           ]
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "if",
@@ -1056,11 +996,9 @@
                                  "name": "conststr",
                                  "value": "uv#cache-wrong"
                               }
-                           ],
-                           "_folded": false
+                           ]
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "if",
@@ -1087,11 +1025,9 @@
                                  "name": "conststr",
                                  "value": "ir#cache-wrong"
                               }
-                           ],
-                           "_folded": false
+                           ]
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "io",
@@ -1104,8 +1040,7 @@
                            "name": "const",
                            "value": 1
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "for",
@@ -1127,8 +1062,7 @@
                                  "name": "const",
                                  "value": 0
                               }
-                           ],
-                           "_folded": true
+                           ]
                         },
                         {
                            "name": "io",
@@ -1141,8 +1075,7 @@
                                  "name": "const",
                                  "value": 1
                               }
-                           ],
-                           "_folded": true
+                           ]
                         },
                         {
                            "name": "sleep",
@@ -1151,8 +1084,7 @@
                                  "name": "profile",
                                  "value": "pulverization#timeOn"
                               }
-                           ],
-                           "_folded": true
+                           ]
                         },
                         {
                            "name": "io",
@@ -1165,8 +1097,7 @@
                                  "name": "const",
                                  "value": 0
                               }
-                           ],
-                           "_folded": true
+                           ]
                         },
                         {
                            "name": "io",
@@ -1179,11 +1110,9 @@
                                  "name": "const",
                                  "value": 1
                               }
-                           ],
-                           "_folded": true
+                           ]
                         },
                         {
-                           "_comment": "Reverse motor direction after pulverisation",
                            "name": "io",
                            "params": [
                               {
@@ -1200,8 +1129,7 @@
                                     }
                                  ]
                               }
-                           ],
-                           "_folded": false
+                           ]
                         },
                         {
                            "name": "sleep",
@@ -1210,11 +1138,9 @@
                                  "name": "profile",
                                  "value": "pulverization#timeOff"
                               }
-                           ],
-                           "_folded": true
+                           ]
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "io",
@@ -1227,8 +1153,7 @@
                            "name": "const",
                            "value": 0
                         }
-                     ],
-                     "_folded": true
+                     ]
                   }
                ],
                "startBlocks": [
@@ -1239,8 +1164,7 @@
                            "name": "conststr",
                            "value": "motorRotation"
                         }
-                     ],
-                     "_folded": false
+                     ]
                   },
                   {
                      "name": "io",
@@ -1253,8 +1177,7 @@
                            "name": "const",
                            "value": 0
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "io",
@@ -1267,8 +1190,7 @@
                            "name": "const",
                            "value": 1
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "io",
@@ -1281,8 +1203,7 @@
                            "name": "const",
                            "value": 1
                         }
-                     ],
-                     "_folded": true
+                     ]
                   }
                ],
                "endBlocks": [
@@ -1297,11 +1218,9 @@
                            "name": "const",
                            "value": 1
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
-                     "_comment": "Motor reverse direction",
                      "name": "if",
                      "params": [
                         {
@@ -1349,17 +1268,13 @@
                                           }
                                        ]
                                     }
-                                 ],
-                                 "_folded": false
+                                 ]
                               }
-                           ],
-                           "_folded": false
+                           ]
                         }
-                     ],
-                     "_folded": false
+                     ]
                   }
-               ],
-               "_folded": true
+               ]
             },
             {
                "name": "ir-curing",
@@ -1437,11 +1352,9 @@
                                  "name": "conststr",
                                  "value": "ir#cache-wrong"
                               }
-                           ],
-                           "_folded": false
+                           ]
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "if",
@@ -1468,11 +1381,9 @@
                                  "name": "conststr",
                                  "value": "nozzle#cache-wrong"
                               }
-                           ],
-                           "_folded": false
+                           ]
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "if",
@@ -1499,11 +1410,9 @@
                                  "name": "conststr",
                                  "value": "uv#cache-wrong"
                               }
-                           ],
-                           "_folded": false
+                           ]
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "io",
@@ -1516,8 +1425,7 @@
                            "name": "const",
                            "value": 1
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "sleep",
@@ -1526,8 +1434,7 @@
                            "name": "profile",
                            "value": "ir-curing#duration"
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "io",
@@ -1540,8 +1447,7 @@
                            "name": "const",
                            "value": 0
                         }
-                     ],
-                     "_folded": true
+                     ]
                   }
                ],
                "startBlocks": [
@@ -1556,8 +1462,7 @@
                            "name": "const",
                            "value": 0
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "io",
@@ -1570,8 +1475,7 @@
                            "name": "const",
                            "value": 1
                         }
-                     ],
-                     "_folded": true
+                     ]
                   }
                ],
                "endBlocks": [
@@ -1586,8 +1490,7 @@
                            "name": "const",
                            "value": 1
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "maintenance",
@@ -1610,11 +1513,9 @@
                               }
                            ]
                         }
-                     ],
-                     "_folded": false
+                     ]
                   }
-               ],
-               "_folded": true
+               ]
             },
             {
                "name": "inerting",
@@ -1674,9 +1575,7 @@
                                  "name": "profile",
                                  "value": "inerting#duration"
                               }
-                           ],
-                           "_folded": true,
-                           "_comment": "Sleep if the multilayer is disabled"
+                           ]
                         },
                         {
                            "name": "if",
@@ -1713,14 +1612,11 @@
                                        "name": "profile",
                                        "value": "inerting#duration"
                                     }
-                                 ],
-                                 "_folded": true,
-                                 "_comment": "Sleep if the multilayer is enabled and if finalStepRunCount has been reached"
+                                 ]
                               }
                            ]
                         }
-                     ],
-                     "_folded": true
+                     ]
                   }
                ],
                "startBlocks": [
@@ -1735,8 +1631,7 @@
                            "name": "const",
                            "value": 1
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "io",
@@ -1749,8 +1644,7 @@
                            "name": "const",
                            "value": 0
                         }
-                     ],
-                     "_folded": true
+                     ]
                   }
                ],
                "endBlocks": [
@@ -1765,11 +1659,9 @@
                            "name": "const",
                            "value": 0
                         }
-                     ],
-                     "_folded": true
+                     ]
                   }
-               ],
-               "_folded": true
+               ]
             },
             {
                "name": "uv-curing",
@@ -1911,11 +1803,9 @@
                                  "name": "conststr",
                                  "value": "uv#cache-wrong"
                               }
-                           ],
-                           "_folded": false
+                           ]
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "if",
@@ -1942,11 +1832,9 @@
                                  "name": "conststr",
                                  "value": "ir#cache-wrong"
                               }
-                           ],
-                           "_folded": false
+                           ]
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "if",
@@ -1973,11 +1861,9 @@
                                  "name": "conststr",
                                  "value": "nozzle#cache-wrong"
                               }
-                           ],
-                           "_folded": false
+                           ]
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "io",
@@ -1990,8 +1876,7 @@
                            "name": "profile",
                            "value": "uv-curing#uv-power"
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "io",
@@ -2004,8 +1889,7 @@
                            "name": "const",
                            "value": 1
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "sleep",
@@ -2060,8 +1944,7 @@
                               }
                            ]
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "io",
@@ -2074,8 +1957,7 @@
                            "name": "const",
                            "value": 0
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "io",
@@ -2088,8 +1970,7 @@
                            "name": "const",
                            "value": 0
                         }
-                     ],
-                     "_folded": true
+                     ]
                   }
                ],
                "startBlocks": [
@@ -2104,8 +1985,7 @@
                            "name": "const",
                            "value": 0
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "io",
@@ -2118,8 +1998,7 @@
                            "name": "const",
                            "value": 1
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "io",
@@ -2132,8 +2011,7 @@
                            "name": "const",
                            "value": 0
                         }
-                     ],
-                     "_folded": true
+                     ]
                   }
                ],
                "endBlocks": [
@@ -2148,8 +2026,7 @@
                            "name": "const",
                            "value": 1
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "maintenance",
@@ -2230,8 +2107,7 @@
                            "name": "const",
                            "value": 1
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "io",
@@ -2244,11 +2120,9 @@
                            "name": "const",
                            "value": 0
                         }
-                     ],
-                     "_folded": true
+                     ]
                   }
-               ],
-               "_folded": true
+               ]
             },
             {
                "name": "vapors-extraction",
@@ -2272,8 +2146,7 @@
                            "name": "profile",
                            "value": "vapors-extraction#duration"
                         }
-                     ],
-                     "_folded": true
+                     ]
                   }
                ],
                "startBlocks": [
@@ -2288,8 +2161,7 @@
                            "name": "const",
                            "value": 0
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "stopTimer",
@@ -2298,8 +2170,7 @@
                            "name": "conststr",
                            "value": "motorRotation"
                         }
-                     ],
-                     "_folded": false
+                     ]
                   }
                ],
                "endBlocks": [
@@ -2327,8 +2198,7 @@
                            "name": "const",
                            "value": 0
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "io",
@@ -2341,8 +2211,7 @@
                            "name": "const",
                            "value": 0
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "io",
@@ -2355,8 +2224,7 @@
                            "name": "const",
                            "value": 0
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "io",
@@ -2369,8 +2237,7 @@
                            "name": "const",
                            "value": 0
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "io",
@@ -2383,8 +2250,7 @@
                            "name": "const",
                            "value": 0
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "io",
@@ -2397,8 +2263,7 @@
                            "name": "const",
                            "value": 0
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "io",
@@ -2411,8 +2276,7 @@
                            "name": "const",
                            "value": 0
                         }
-                     ],
-                     "_folded": true
+                     ]
                   },
                   {
                      "name": "maintenance",
@@ -2440,8 +2304,7 @@
                         }
                      ]
                   }
-               ],
-               "_folded": false
+               ]
             }
          ]
       }

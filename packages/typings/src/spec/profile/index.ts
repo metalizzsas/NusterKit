@@ -18,7 +18,7 @@ export interface IProfileConfig {
     isOverwritable?: false;
 
     /** Values of the profile */
-    values: Record<string, number>
+    values: {[key: string]: number};
 }
 
 export interface IProfileSkeleton {

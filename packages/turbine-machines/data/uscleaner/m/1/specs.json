@@ -1,5 +1,5 @@
 {
-    "$schema": "../../../../src/schema/schema.json",
+    "$schema": "../../../../node_modules/@metalizz/nuster-typings/src/schemas/schema-specs.json",
     "iohandlers": [
         {
             "type": "wago",
@@ -14,8 +14,7 @@
             "size": "bit",
             "controllerId": 0,
             "address": 0,
-            "default": 0,
-            "isCritical": true
+            "default": 0
         },
         {
             "name": "cover-closed",
@@ -121,27 +120,22 @@
     ],
     "profileSkeletons": [
         {
-            "identifier": "default",
-            "fieldGroups": [
+            "name": "default",
+            "fields": [
                 {
-                    "name": "principal",
-                    "fields": [
-                        {
-                            "name": "duration",
-                            "type": "time",
-                            "units": ["minutes", "seconds"],
-                            "value": 300
-                        },
-                        {
-                            "name": "motor-speed",
-                            "unity": "RPM",
-                            "type": "float",
-                            "value": 50,
-                            "floatMin": 0,
-                            "floatMax": 110,
-                            "floatStep": 5
-                        }
-                    ]
+                    "name": "principal#duration",
+                    "type": "time",
+                    "units": ["minutes", "seconds"],
+                    "value": 300
+                },
+                {
+                    "name": "principal#motor-speed",
+                    "unity": "RPM",
+                    "type": "float",
+                    "value": 50,
+                    "floatMin": 0,
+                    "floatMax": 110,
+                    "floatStep": 5
                 }
             ]
         }
@@ -151,9 +145,9 @@
             "skeleton": "default",
             "id": "premade_5min",
             "name": "5min30deg",
-            "removable": false,
-            "overwriteable": false,
             "isPremade": true,
+            "isRemovable": false,
+            "isOverwritable": false,
             "values": {
                 "principal#duration": 600,
                 "principal#motor-speed": 50

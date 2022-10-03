@@ -1222,8 +1222,11 @@
                     "type": "string"
                 },
                 "values": {
-                    "$ref": "#/definitions/Record<string,number>",
-                    "description": "Values of the profile"
+                    "additionalProperties": {
+                        "type": "number"
+                    },
+                    "description": "Values of the profile",
+                    "type": "object"
                 }
             },
             "required": [
@@ -2078,10 +2081,6 @@
                 "name",
                 "params"
             ],
-            "type": "object"
-        },
-        "Record<string,number>": {
-            "additionalProperties": false,
             "type": "object"
         }
     },

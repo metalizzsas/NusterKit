@@ -24,29 +24,21 @@
     "lint": "eslint ./src/** --ext .ts",
     "lint-and-fix": "eslint ./src/** --ext .ts --fix",
     
-    "types": "npm run types:specs-json && npm run types:specs-ts && npm run types:addon-json && npm run types:addon-ts && npm run types:config && npm run types:socket-ts",
-    "types:specs-json": "npx typescript-json-schema@0.53.0 \"src/interfaces/IMachine.ts\" IMachine --ignoreErrors --required -o \"types/schema-specs.json\"",
-    "types:specs-ts": "tsc --emitDeclarationOnly --declaration --out types/specs.d.ts src/interfaces/IMachine.ts",
-    "types:addon-json": "npx typescript-json-schema@0.53.0 \"src/interfaces/IAddon.ts\" IAddon --ignoreErrors --required -o \"types/schema-addon.json\"",
-    "types:addon-ts": "tsc --emitDeclarationOnly --declaration --out types/addon.d.ts src/interfaces/IAddon.ts",
-    "types:config": "npx typescript-json-schema@0.53.0 \"src/interfaces/IConfiguration.ts\" IConfiguration --ignoreErrors --requires -o \"types/schema-config.json\"",
-    "types:socket-ts": "tsc --emitDeclarationOnly --declaration --out types/socket.d.ts src/interfaces/webSocketData/index.ts",
-    
     "docs": "npx typedoc --entryPointStrategy expand ./src --out docs",
     "test": "jest",
     "test:coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/metalizzsas/NusterTurbine.git"
+    "url": "git+https://github.com/metalizzsas/NusterKit.git"
   },
   "keywords": [],
   "author": "Metalizz SAS",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/metalizzsas/NusterTurbine/issues"
+    "url": "https://github.com/metalizzsas/NusterKit/issues"
   },
-  "homepage": "https://github.com/metalizzsas/NusterTurbine#readme",
+  "homepage": "https://github.com/metalizzsas/NusterKit/tree/main/packages/turbine",
   "dependencies": {
     "@metalizzsas/nuster-turbine-machines": "1.0.0",
     "argon2": "^0.29.1",

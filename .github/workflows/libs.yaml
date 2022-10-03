@@ -17,30 +17,36 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: 18.x
           cache: pnpm
+          registry-url: 'https://npm.pkg.github.com'
+          # Defaults to the user or organization that owns the workflow file
+          scope: '@metalizzsas'
 
-      - run: pnpm install
-      - run: pnpm run build --filter="./libs/*"
+      - run: pnpm --filter="./libs/*" install
+      - run: pnpm --filter="./libs/*" run build 
+      - run: pnpm --filter="./libs/*" publish -r --no-git-checks
+        env: 
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create Release Pull Request or Publish to npm
-        id: changesets
-        uses: changesets/action@v1
-        with:
-          # This expects you to have a script called release which does a build for your packages and calls changeset publish
-          publish: pnpm release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Create Release Pull Request or Publish to npm
+      #   id: changesets
+      #   uses: changesets/action@v1
+      #   with:
+      #     # This expects you to have a script called release which does a build for your packages and calls changeset publish
+      #     publish: pnpm release
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Update latest tag on published packages # only needed until we release 1.0.0 and exit pre-release mode
-        if: steps.changesets.outputs.published == 'true'
-        # wait a bit and then run "npm dist-tag add package@version latest" for all published packages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          published_packages: ${{steps.changesets.outputs.publishedPackages}}
-        run: |
-          sleep 20
-          cat << EOF > "$HOME/.npmrc"
-            //npm.pkg.github.com/:_authToken=$GITHUB_TOKEN
-          EOF
-          echo $published_packages | jq -r 'map((.name + "@" + .version)) | .[]' | while read pkgver; do npm dist-tag add $pkgver latest || continue;done
+      # - name: Update latest tag on published packages # only needed until we release 1.0.0 and exit pre-release mode
+      #   if: steps.changesets.outputs.published == 'true'
+      #   # wait a bit and then run "npm dist-tag add package@version latest" for all published packages
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     published_packages: ${{steps.changesets.outputs.publishedPackages}}
+      #   run: |
+      #     sleep 20
+      #     cat << EOF > "$HOME/.npmrc"
+      #       //npm.pkg.github.com/:_authToken=$GITHUB_TOKEN
+      #     EOF
+      #     echo $published_packages | jq -r 'map((.name + "@" + .version)) | .[]' | while read pkgver; do npm dist-tag add $pkgver latest || continue;done

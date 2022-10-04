@@ -1,0 +1,42 @@
+name: 🚀 CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+# cancel in-progress runs on new commits to same PR (gitub.event.number)
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📚 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: ⛏️ Setup pnpm
+        uses: pnpm/action-setup@v2.2.2
+
+      - name: ⛏️ Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+
+      - name: 🗂️ Install packages 
+        run: pnpm install
+          
+      - name: 🗂️ Install dev packages 
+        run: pnpm install -D
+
+      - name: ✔️ Run linting
+        run: pnpm run lint
+
+      - name: ✔️ Run tests
+        run: pnpm test
+
+      - name: 🧱 Build packages
+        run: pnpm run build

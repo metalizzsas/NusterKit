@@ -1,0 +1,56 @@
+name: 🚀 Release
+
+on:
+  push:
+    branches:
+      - master
+
+permissions: {}
+jobs:
+  release:
+    permissions:
+      contents: write # to create release (changesets/action)
+      pull-requests: write # to create pull request (changesets/action)
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        with:
+          # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v2.2.2
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: pnpm
+
+      - run: pnpm install
+      - run: pnpm install -D
+      - run: pnpm run build --filter="./libs/*"
+
+      - name: Creating .npmrc
+        run: |
+          cat << EOF > "$HOME/.npmrc"
+            //npm.pkg.github.com/:_authToken=$GITHUB_TOKEN
+          EOF
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Release Pull Request or Publish to npm
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          # This expects you to have a script called release which does a build for your packages and calls changeset publish
+          publish: pnpm release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update latest tag on published packages # only needed until we release 1.0.0 and exit pre-release mode
+        if: steps.changesets.outputs.published == 'true'
+        # wait a bit and then run "npm dist-tag add package@version latest" for all published packages
+        env:
+          published_packages: ${{steps.changesets.outputs.publishedPackages}}
+        run: |
+          echo $published_packages | jq -r 'map((.name + "@" + .version)) | .[]' | while read pkgver; do npm dist-tag add $pkgver latest || continue;done

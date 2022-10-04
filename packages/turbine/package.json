@@ -7,26 +7,22 @@
   "description": "Typescript project running on BalenaOS and RPi4.",
   "private": true,
   "main": "app.js",
-  "scripts": {
-    "update-ntm": "rm -rf ./nuster-turbine-machines && git clone -b next git@github.com:metalizzsas/NusterTurbineMachines.git ./nuster-turbine-machines",
-    
+  "scripts": {    
     "dev": "concurrently --kill-others \"npm run dev:app\" \"npm run dev:modbus\"",
     "dev:app": "nodemon src/app.ts | pino-pretty",
     "dev:modbus": "node dev/modbus.mjs",
 
     "preview": "concurrently --kill-others \"npm run preview:app\" \"npm run dev:modbus\"",
-    "preview:app": "node --inspect build/app.js | pino-pretty",
+    "preview:app": "node build/app.js | pino-pretty",
 
-    "machine": "export NODE_ENV=\"production\" && nodemon src/app.ts | pino-pretty",
     "build": "tsc",
     "start": "node build/app.js | pino-pretty",
-    "lc": "find './src' -name '*.ts' | xargs wc -l",
+
     "lint": "eslint ./src/** --ext .ts",
-    "lint-and-fix": "eslint ./src/** --ext .ts --fix",
+    "test": "jest --passWithNoTests",
+    "test:coverage": "jest --coverage",
     
-    "docs": "npx typedoc --entryPointStrategy expand ./src --out docs",
-    "test": "jest",
-    "test:coverage": "jest --coverage"
+    "docs": "npx typedoc --entryPointStrategy expand ./src --out docs"
   },
   "repository": {
     "type": "git",

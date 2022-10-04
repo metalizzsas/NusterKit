@@ -5,10 +5,10 @@
 
 	export let disabled = false;
 
-	let milliseconds: number = 0;
-	let seconds: number = 0;
-	let minutes: number = 0;
-	let hours: number = 0;
+	let milliseconds = 0;
+	let seconds = 0;
+	let minutes = 0;
+	let hours = 0;
 
 	export let value: number;
 	export let enabledTimes: ('hours' | 'minutes' | 'seconds' | 'milliseconds')[] = [

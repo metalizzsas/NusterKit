@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Actionmodal from '$lib/components/modals/actionmodal.svelte';
-	import { _ } from 'svelte-i18n';
 	import Label from '$lib/components/label.svelte';
 
 	import type { IProfileHydrated } from "@metalizzsas/nuster-typings/src/hydrated/profile";

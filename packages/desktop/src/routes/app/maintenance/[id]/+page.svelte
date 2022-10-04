@@ -11,8 +11,8 @@
 
 	export let data: PageData;
 
-	let procedureIndex: number = 0;
-	let procedureImageIndex: number = 0;
+	let procedureIndex = 0;
+	let procedureImageIndex = 0;
 
 	async function resetMaintenance() {
 		await fetch('//' + $Linker + '/api/v1/maintenance/' + data.maintenance.name, {
@@ -72,7 +72,7 @@
 									<div
 										class="absolute flex flex-row bottom-5 rounded-xl overflow-clip ring-1 ring-neutral-300"
 									>
-										{#each step.media as _image, indeximge}
+										{#each step.media.length as indeximge}
 											<div on:click={() => (procedureImageIndex = indeximge)}>
 												<div
 													class="h-10 aspect-square bg-white text-zinc-800 text-xl flex flex-row items-center justify-center border-r-[1px] border-neutral-300 {procedureImageIndex !=
@@ -97,11 +97,9 @@
 			>
 				<Navcontainertitle>{$_('maintenance.procedure.title')}</Navcontainertitle>
 				{#if procedureIndex < data.maintenance.procedure.steps.length - 1}
-					<!--Next button -->
 					<button
 						class="absolute right-0 bottom-3 bg-white rounded-l-full p-3 flex flex-row gap-3 items-center"
 						on:click={() => {
-							//@ts-ignore
 							if (procedureIndex < data.maintenance.procedure.steps.length - 1) {
 								procedureIndex++;
 								procedureImageIndex = 0;
@@ -125,7 +123,6 @@
 				{/if}
 
 				{#if procedureIndex > 0}
-					<!-- Prev button -->
 					<button
 						class="absolute left-0 bottom-3 bg-white rounded-r-full p-3 flex flex-row gap-2 items-center"
 						on:click={() => {
@@ -154,7 +151,6 @@
 					<button
 						class="bg-emerald-500 text-white font-semibold rounded-l-xl py-2 px-4 absolute bottom-5 right-0"
 						on:click={() => {
-							//@ts-ignore
 							if (procedureIndex == data.maintenance.procedure.steps.length - 1)
 								resetMaintenance();
 						}}

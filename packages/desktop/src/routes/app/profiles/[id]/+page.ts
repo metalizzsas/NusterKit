@@ -8,7 +8,7 @@ export const load: PageLoad = async (ctx) => {
 			}`,
 	);
 
-	let profile: IProfileHydrated = await content.json();
+	const profile: IProfileHydrated = await content.json();
 
 	return { profile };
 };

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { _ } from 'svelte-i18n';
 	import '$lib/app.css';
 
 	import { machineData } from '$lib/utils/stores/store';

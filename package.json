@@ -5,6 +5,10 @@
   "main": "",
   "scripts": {
     "dev": "pnpm -r --parallel --filter='./packages/*' run dev",
+
+    "lint": "pnpm -r --parallel run lint",
+    "test": "pnpm -r --parallel run test",
+    
     "build": "pnpm -r --parallel --filter='./packages/*' run build"
   },
   "keywords": [],

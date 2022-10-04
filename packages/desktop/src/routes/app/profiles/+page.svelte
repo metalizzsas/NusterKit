@@ -77,8 +77,7 @@
 		},
 		{
 			text: $_('cancel'),
-			color: 'bg-gray-500',
-			callback: () => {},
+			color: 'bg-gray-500'
 		},
 	]}
 >

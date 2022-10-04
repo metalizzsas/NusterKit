@@ -5,12 +5,12 @@
 	interface buttonOption {
 		text: string;
 		color: string;
-		callback: (val: string) => boolean | void;
+		callback?: (val: string) => boolean | void;
 		textColor?: string;
 	}
 
 	export let title: string;
-	export let displayClose: boolean = true;
+	export let displayClose = true;
 	export let buttons: buttonOption[] = [];
 
 	export let selectOptions: string[] | undefined = undefined;
@@ -21,7 +21,7 @@
 
 	let selectval = '';
 
-	export let shown: boolean = false;
+	export let shown = false;
 
 	$: shown, document.body.classList.toggle('overflow-hidden', shown);
 </script>
@@ -53,9 +53,13 @@
 					class="{button.color} rounded-xl px-4 py-2 {button.textColor ||
 						'text-white'} font-semibold"
 					on:click={() => {
-						const result = button.callback(selectOptions ? selectval : val);
-
-						if (result != false) shown = false;
+						if(button.callback !== undefined)
+						{
+							const result = button.callback(selectOptions ? selectval : val);
+							if (result != false) shown = false;
+						}
+						else
+							shown = false;
 					}}
 				>
 					{button.text}

@@ -26,7 +26,7 @@ export async function initI18nMachine(ip: string)
         });
     
         
-        Promise.all([langEN, langFR]).then(r => {
+        Promise.all([langEN, langFR]).then(() => {
             console.log('Langs from machine loaded');
             resolve()
         });

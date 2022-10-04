@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let size: number;
-	export let margin: number = 0;
+	export let margin = 0;
 	export let color: string;
 	export let shadowColor: string | undefined = undefined;
 </script>

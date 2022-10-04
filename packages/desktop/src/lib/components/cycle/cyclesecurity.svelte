@@ -30,12 +30,12 @@
 	};
 
 	const preStartCycle = async () => {
-		if ($machineData.cycle!.startConditions.filter((sc) => sc.result == 'error').length > 0) {
+		if ($machineData.cycle?.startConditions?.filter((sc) => sc.result == 'error').length > 0) {
 			displayWatchdogError = true;
 			return;
 		}
 
-		if ($machineData.cycle!.startConditions.filter((sc) => sc.result == 'warning').length > 0) {
+		if ($machineData.cycle?.startConditions.filter((sc) => sc.result == 'warning').length > 0) {
 			displayWatchdogWarning = true;
 			return;
 		}
@@ -81,8 +81,7 @@
 	buttons={[
 		{
 			text: $_('ok'),
-			color: 'bg-gray-600',
-			callback: () => {},
+			color: 'bg-gray-600'	
 		},
 	]}
 >

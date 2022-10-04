@@ -1,15 +1,17 @@
-import type { Maintenance } from '$lib/utils/interfaces';
+import type { IMaintenanceHydrated } from '@metalizzsas/nuster-typings/src/hydrated/maintenance';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async (ctx) => {
-	let dt = await ctx.fetch(
+	const dt = await ctx.fetch(
 		'//' +
 			(window.localStorage.getItem('ip') ?? '127.0.0.1') +
 			'/api/v1/maintenance/' +
 			ctx.params.id,
 	);
 
+	const data: IMaintenanceHydrated = await dt.json();
+
 	return { 
-		maintenance: await dt.json() as Maintenance
+		maintenance: data
 	};
 };

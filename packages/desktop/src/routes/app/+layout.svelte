@@ -12,17 +12,16 @@
 	import { BUNDLED } from '$lib/bundle';
 	import { initI18nMachine } from '$lib/utils/i18n/i18nmachine';
 	import Popup from '$lib/components/modals/popup.svelte';
-	import type { INusterPopup } from '@metalizzsas/nuster-typings/src/configuration/nuster/INusterPopup';
 	import type { IPopupMessage, IStatusMessage, IWebSocketData } from '@metalizzsas/nuster-typings';
 
-	let ready: boolean = false;
+	let ready = false;
 
 	let ws: WebSocket;
-	let wsAtempt: number = 0;
-	let wsError: boolean = false;
+	let wsAtempt = 0;
+	let wsError = false;
 
-	let displayPopup: boolean = false;
-	let popupData: INusterPopup | null = null;
+	let displayPopup = false;
+	let popupData: IPopupMessage | null = null;
 
 	beforeUpdate(async () => {
 		const ip = window.localStorage.getItem('ip') ?? '127.0.0.1';

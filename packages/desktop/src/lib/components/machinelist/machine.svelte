@@ -55,8 +55,7 @@
 	};
 
 	const selfDelete = () => {
-		$machineList.splice(machineIndex, 1);
-		$machineList = $machineList;
+		$machineList = $machineList.filter((_k, i) => i != machineIndex);
 		saveMachineList();
 	};
 </script>

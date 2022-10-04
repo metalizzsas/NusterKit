@@ -2,14 +2,13 @@
 	import '$lib/app.css';
 	import { fade, fly } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
-	import { _ } from 'svelte-i18n';
 
 	import { keyboardShown, keyboardHeight } from '$lib/utils/stores/keyboard';
 	import Portal from 'svelte-portal';
 
 	export let title: string;
-	export let displayClose: boolean = true;
-	export let shown: boolean = false;
+	export let displayClose = true;
+	export let shown = false;
 
 	$: shown, document.body.classList.toggle('overflow-hidden', shown);
 </script>

@@ -35,7 +35,7 @@
 
 	$: index = $page.url.pathname == '/app';
 
-	let dateNow: number = 0;
+	let dateNow = 0;
 	let dateInterval: NodeJS.Timer;
 
 	onMount(() => {

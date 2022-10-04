@@ -19,7 +19,7 @@
 	import type { IProfileHydrated } from '@metalizzsas/nuster-typings/src/hydrated/profile';
 
 	let profiles: Array<IProfileHydrated> = [];
-	let selectedProfile: string = 'default';
+	let selectedProfile = 'default';
 
 	let saveProfileModalShown = false;
 	let saveProfileNameInvalid = false;
@@ -47,12 +47,8 @@
 
 			result.id = 'skeleton';
 			result.name = '—';
-			result.isPremade = false;
-			result.overwriteable = true;
 
-			profiles.push(result);
-
-			profiles = profiles;
+			profiles = [...profiles, result];
 
 			selectedProfile = 'skeleton';
 		}
@@ -140,7 +136,6 @@
 			{
 				text: $_('cancel'),
 				color: 'bg-gray-500',
-				callback: () => {},
 			},
 		]}
 	>
@@ -170,7 +165,6 @@
 			{
 				text: $_('no'),
 				color: 'bg-gray-400',
-				callback: () => {},
 			},
 		]}
 	>
@@ -204,7 +198,7 @@
 							</option>
 						{/each}
 					</select>
-					{#if profile.overwriteable}
+					{#if profile.isOverwritable !== false}
 						<button
 							class="self-center bg-emerald-500 text-white p-2 rounded-full"
 							on:click|stopPropagation={() => {
@@ -228,7 +222,7 @@
 							</svg>
 						</button>
 					{/if}
-					{#if profile.removable}
+					{#if profile.isRemovable !== false}
 						<button
 							class="self-center bg-red-500 text-white p-2 rounded-full"
 							on:click|stopPropagation={() => {
@@ -254,8 +248,8 @@
 				<Navcontainersubtitle>{$_('cycle.quickstart.settings')}</Navcontainersubtitle>
 
 				<div class="flex flex-col gap-2">
-					{#each profile.fieldGroups.flatMap((fg) => fg.fields) as f}
-						<ProfileRow bind:row={f} {profile} />
+					{#each profile.values as field}
+						<ProfileRow bind:row={field} {profile} />
 					{/each}
 				</div>
 			</div>

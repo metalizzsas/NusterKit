@@ -7,7 +7,7 @@
 	import type { IProfileHydrated } from '@metalizzsas/nuster-typings/src/hydrated/profile';
 
 	export let profile: IProfileHydrated;
-	export let delCb: Function;
+	export let delCb: () => void;
 
 	let copyProfileModalShown = false;
 	let deleteProfileModalShown = false;
@@ -54,8 +54,7 @@
 		},
 		{
 			text: $_('cancel'),
-			color: 'bg-gray-500',
-			callback: () => {},
+			color: 'bg-gray-500'
 		},
 	]}
 >
@@ -79,8 +78,7 @@
 		},
 		{
 			text: $_('no'),
-			color: 'bg-gray-400',
-			callback: () => {},
+			color: 'bg-gray-400'
 		},
 	]}
 >
@@ -108,7 +106,7 @@
 		</span>
 	</div>
 	<div class="flex flex-row gap-4 self-center">
-		{#if profile.removable == true}
+		{#if profile.isRemovable !== undefined}
 			<button
 				class="self-center bg-red-500 text-white p-2 rounded-full"
 				on:click|stopPropagation={() => {

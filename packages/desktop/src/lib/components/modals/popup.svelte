@@ -6,12 +6,14 @@
 	import Flex from '../layout/flex.svelte';
 	import Actionmodal from './actionmodal.svelte';
 	import Button from '../button.svelte';
-	import type { IPopupMessage } from "@metalizzsas/nuster-typings/src/hydrated/index";
+	
+	import type { ICallToAction } from '@metalizzsas/nuster-typings/src/spec/nuster/ICallToAction';
+	import type { IPopupMessage } from '@metalizzsas/nuster-typings';
 
 	export let shown: boolean;
 	export let modalData: IPopupMessage | null;
 
-	async function execCTA(cta: any) {
+	async function execCTA(cta: ICallToAction) {
 		if (cta.APIEndpoint !== undefined) {
 			const request = await fetch('//' + $Linker + cta.APIEndpoint.url, {
 				method: cta.APIEndpoint.method,

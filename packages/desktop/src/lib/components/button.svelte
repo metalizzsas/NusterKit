@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '$lib/app.css';
-	export let color: string = 'bg-indigo-500';
+	export let color = 'bg-indigo-500';
 
 	type buttonSize = 'tiny' | 'small' | 'base' | 'large' | 'big';
 	const sizes: Map<buttonSize, string> = new Map([

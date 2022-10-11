@@ -14,8 +14,12 @@
     "release": "changeset publish"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "@metalizzsas",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:metalizzsas/NusterKit.git"
+  },
   "devDependencies": {
     "@svitejs/changesets-changelog-github-compact": "^0.1.1",
     "@changesets/cli": "^2.25.0"

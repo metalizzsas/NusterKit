@@ -5,7 +5,9 @@ on:
     branches:
       - master
 
-permissions: {}
+env:
+  NODE_ENV: development
+
 jobs:
   release:
     permissions:
@@ -14,7 +16,7 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repo
+      - name: 📚 Checkout Repo
         uses: actions/checkout@v3
         with:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
@@ -27,8 +29,7 @@ jobs:
           cache: pnpm
 
       - run: pnpm install
-      - run: pnpm install -D
-      - run: pnpm run build --filter="./libs/*"
+      - run: pnpm --filter="./libs/*" run build 
 
       - name: Creating .npmrc
         run: |
@@ -38,7 +39,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create Release Pull Request or Publish to npm
+      - name: 📝 Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
         with:
@@ -47,10 +48,21 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Update latest tag on published packages # only needed until we release 1.0.0 and exit pre-release mode
+      - name: 🗂️ Update latest tag on published packages # only needed until we release 1.0.0 and exit pre-release mode
         if: steps.changesets.outputs.published == 'true'
         # wait a bit and then run "npm dist-tag add package@version latest" for all published packages
         env:
           published_packages: ${{steps.changesets.outputs.publishedPackages}}
         run: |
           echo $published_packages | jq -r 'map((.name + "@" + .version)) | .[]' | while read pkgver; do npm dist-tag add $pkgver latest || continue;done
+
+      - name: 🐳 Create BalenaCloud Release 
+        uses: balena-io/deploy-to-balena-action@master
+        id: build
+        with:
+          balena_token: ${{ secrets.BALENA_TOKEN }}
+          fleet: romain_sapet/nusterturbine
+          finalize: false
+
+      - name: 📝 Log release ID built
+        run: echo "Built release ID ${{ steps.build.outputs.release_id }}"

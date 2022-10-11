@@ -1,6 +1,4 @@
-package-lock.json
-types/env.d.ts
-yarn-error.log
+
 pnpm-lock.yaml
 node_modules/
 .svelte-kit/
@@ -9,5 +7,4 @@ svelte-build/
 .svelte/
 *.local
 dist/
-build/*
-!build/entitlements.mac.plist
+build/

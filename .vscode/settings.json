@@ -16,5 +16,10 @@
         "vue",
         "markdown",
         "svelte"
+    ],
+    "eslint.validate": [
+        "svelte",
+        "js",
+        "ts"
     ]
 }

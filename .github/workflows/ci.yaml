@@ -11,6 +11,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
   cancel-in-progress: true
 
+env:
+  NODE_ENV: development
+
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -28,9 +31,6 @@ jobs:
 
       - name: 🗂️ Install packages 
         run: pnpm install
-          
-      - name: 🗂️ Install dev packages 
-        run: pnpm install -D
 
       - name: ✔️ Run linting
         run: pnpm run lint

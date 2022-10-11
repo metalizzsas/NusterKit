@@ -1,4 +1,4 @@
-import { IParameterBlock, ParameterBlockNames, IParameterBlocks, INumericParameterBlock, IStringParameterBlock } from "@metalizz/nuster-typings/src/spec/cycle/IParameterBlock";
+import { IParameterBlock, ParameterBlockNames, IParameterBlocks, INumericParameterBlock, IStringParameterBlock } from "@metalizzsas/nuster-typings/src/spec/cycle/IParameterBlock";
 import { AdditionParameterBlock } from "./AdditionParameterBlock";
 import { ConditionalParameterBlock } from "./ConditionalParameterBlock";
 import { ConstantParameterBlock } from "./ConstantParameterBlock";

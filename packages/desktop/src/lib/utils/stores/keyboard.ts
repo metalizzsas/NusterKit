@@ -1,4 +1,4 @@
 import { writable } from "svelte/store";
 
-export var keyboardShown = writable<boolean>(false);
-export var keyboardHeight = writable<number>(0);
+export const keyboardShown = writable<boolean>(false);
+export const keyboardHeight = writable<number>(0);

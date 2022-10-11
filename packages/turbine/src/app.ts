@@ -10,7 +10,7 @@ import { Server } from "http";
 import { pinoHttp } from "pino-http";
 import { pino } from "pino";
 import { Machine } from "./Machine";
-import { IConfiguration } from "@metalizz/nuster-typings";
+import { IConfiguration } from "@metalizzsas/nuster-typings";
 import { AuthManager } from "./auth/auth";
 import { IOController } from "./controllers/io/IOController";
 import { ProfileController } from "./controllers/profile/ProfilesController";

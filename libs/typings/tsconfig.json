@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "lib": ["es2016"],
+    "typeRoots": [],
+    "module": "commonjs",
+    "target": "es2016",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": false,
+    "emitDeclarationOnly": false,
+    "noEmit": true,
+    "moduleResolution": "node",
+    "rootDir": "src",
+    "outDir": "build"
+  }
+}

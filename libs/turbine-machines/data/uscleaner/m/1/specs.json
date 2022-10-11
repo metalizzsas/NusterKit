@@ -1,0 +1,391 @@
+{
+    "$schema": "../../../../node_modules/@metalizzsas/nuster-typings/src/schemas/schema-specs.json",
+    "iohandlers": [
+        {
+            "type": "wago",
+            "ip": "192.168.1.10"
+        }
+    ],
+    "iogates": [
+        {
+            "name": "emergency-stop",
+            "type": "default",
+            "bus": "in",
+            "size": "bit",
+            "controllerId": 0,
+            "address": 0,
+            "default": 0
+        },
+        {
+            "name": "cover-closed",
+            "type": "default",
+            "bus": "in",
+            "size": "bit",
+            "controllerId": 0,
+            "address": 1,
+            "default": 0
+        },
+        {
+            "name": "pump#pressure",
+            "type": "mapped",
+            "bus": "in",
+            "size": "word",
+            "controllerId": 0,
+            "address": 0,
+            "default": 0,
+            "unity": "bar",
+
+            "mapInMin": 0,
+            "mapInMax": 32767,
+            "mapOutMin": 0,
+            "mapOutMax": 1.6
+        },
+        {
+            "name": "temperature#sensor",
+            "type": "pt100",
+            "bus": "in",
+            "size": "word",
+            "controllerId": 0,
+            "address": 4,
+            "default": 20,
+            "unity": "°C"
+        },
+        {
+            "name": "motor#speed",
+            "type": "mapped",
+            "bus": "out",
+            "size": "word",
+            "controllerId": 0,
+            "address": 0,
+            "default": 0,
+            "unity": "RPM",
+
+            "mapInMin": 0,
+            "mapInMax": 32767,
+            "mapOutMin": 0,
+            "mapOutMax": 100
+        },
+        {
+            "name": "motor#direction",
+            "type": "default",
+            "bus": "out",
+            "size": "bit",
+            "controllerId": 0,
+            "address": 0,
+            "default": 0
+        },
+        {
+            "name": "us-power",
+            "type": "default",
+            "bus": "out",
+            "size": "bit",
+            "controllerId": 0,
+            "address": 1,
+            "default": 0
+        },
+        {
+            "name": "pump#enable",
+            "type": "default",
+            "bus": "out",
+            "size": "bit",
+            "controllerId": 0,
+            "address": 4,
+            "default": 0
+        },
+        {
+            "name": "pump#drain",
+            "type": "default",
+            "bus": "out",
+            "size": "bit",
+            "controllerId": 0,
+            "address": 5,
+            "default": 0
+        }
+    ],
+    "slots": [
+        {
+            "name": "bac",
+            "type": "media",
+            "productOptions": {
+                "defaultProductSeries": "cr",
+                "lifespan": 90
+            },
+            "sensors": [
+                {
+                    "io": "temperature#sensor",
+                    "type": "temperature"
+                }
+            ]
+        }
+    ],
+    "profileSkeletons": [
+        {
+            "name": "default",
+            "fields": [
+                {
+                    "name": "principal#duration",
+                    "type": "time",
+                    "units": ["minutes", "seconds"],
+                    "value": 300
+                },
+                {
+                    "name": "principal#motor-speed",
+                    "unity": "RPM",
+                    "type": "float",
+                    "value": 50,
+                    "floatMin": 0,
+                    "floatMax": 110,
+                    "floatStep": 5
+                }
+            ]
+        }
+    ],
+    "profilePremades": [
+        {
+            "skeleton": "default",
+            "id": "premade_5min",
+            "name": "5min30deg",
+            "isPremade": true,
+            "isRemovable": false,
+            "isOverwritable": false,
+            "values": {
+                "principal#duration": 600,
+                "principal#motor-speed": 50
+            }
+        }
+    ],
+    "maintenance": [
+        {
+            "name": "usc-filter",
+            "durationType": "time",
+            "durationLimit": 15,
+            "procedure": {
+                "tools": [],
+                "steps": [
+                    {
+                        "name": "open-door",
+                        "media": [
+                            "1.jpg"
+                        ]
+                    },
+                    {
+                        "name": "close-valve-pump",
+                        "media": [
+                            "2.jpg",
+                            "3.jpg"
+                        ]
+                    },
+                    {
+                        "name": "pump-cover-unscrew",
+                        "media": [
+                            "4.jpg"
+                        ]
+                    },
+                    {
+                        "name": "filter-out-pump",
+                        "media": [
+                            "5.jpg",
+                            "6.jpg"
+                        ]
+                    },
+                    {
+                        "name": "replace-pump-filter",
+                        "media": [
+                            "7.jpg",
+                            "8.jpg"
+                        ]
+                    },
+                    {
+                        "name": "pump-cover-screw",
+                        "media": [
+                            "5.jpg",
+                            "4.jpg"
+                        ]
+                    },
+                    {
+                        "name": "open-valve-pump",
+                        "media": [
+                            "9.jpg"
+                        ]
+                    },
+                    {
+                        "name": "door-close",
+                        "media": [
+                            "1.jpg"
+                        ]
+                    }
+                ]
+            }
+        }
+    ],
+    "passives": [
+        {
+            "internal": true,
+            "name": "pump-cavitation",
+            "sensors": ["pump#pressure"],
+            "actuators": {
+                "plus": ["pump#drain"]
+            },
+            "target": 0.11
+        }
+    ],
+    "manual": [
+        {
+            "name": "motor-rotation",
+            "controls": [
+                {
+                    "name": "motor#speed",
+                    "analogScaleDependant": true
+                }
+            ],
+            "analogScale": {
+                "min": 0,
+                "max": 100
+            },
+            "watchdog": [
+                {
+                    "gateName": "cover-closed",
+                    "gateValue": 1
+                }
+            ]
+        },
+        {
+            "name": "pump",
+            "controls": [
+                "pump#enable"
+            ]
+        },
+        {
+            "name": "us-cleaning",
+            "controls": [
+                "us-power"
+            ]
+        }
+    ],
+    "cyclePremades": [],
+    "cycleTypes": [
+        {
+            "name": "default",
+            "profileRequired": true,
+            "startConditions": [
+                {
+                    "conditionName": "emergency-stop",
+                    "startOnly": false,
+                    "checkChain": {
+                        "name": "io",
+                        "io": {
+                            "gateName": "emergency-stop",
+                            "gateValue": 1
+                        }
+                    }
+                }
+            ],
+            "steps": [
+                {
+                    "name": "cleaning",
+                    "isEnabled": {
+                        "name": "const",
+                        "value": 1
+                    },
+                    "duration": {
+                        "name": "profile",
+                        "value": "principal#duration"
+                    },
+                    "startBlocks": [
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "pump#enable"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "motor#speed"
+                                },
+                                {
+                                    "name": "profile",
+                                    "value": "principal#motor-speed"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "us-power"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 1
+                                }
+                            ]
+                        }
+                    ],
+                    "endBlocks": [
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "pump#enable"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "us-power"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "motor#speed"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ],
+                    "blocks": [
+                        {
+                            "name": "sleep",
+                            "params": [
+                                {
+                                    "name": "profile",
+                                    "value": "principal#duration"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

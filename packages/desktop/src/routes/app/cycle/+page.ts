@@ -2,7 +2,7 @@ import type { PageLoad } from './$types';
 
 export const load: PageLoad = async (ctx) => {
 	//fetch cycles types from machine api
-	let cycleTypesData = await ctx.fetch(
+	const cycleTypesData = await ctx.fetch(
 		'//' + (window.localStorage.getItem('ip') ?? '127.0.0.1') + '/api/v1/cycle/custom',
 	);
 
@@ -12,7 +12,7 @@ export const load: PageLoad = async (ctx) => {
 	}[];
 
 	//fetch premade cycles from machine api
-	let cyclePremadesData = await ctx.fetch(
+	const cyclePremadesData = await ctx.fetch(
 		'//' + (window.localStorage.getItem('ip') ?? '127.0.0.1') + '/api/v1/cycle/premades',
 	);
 

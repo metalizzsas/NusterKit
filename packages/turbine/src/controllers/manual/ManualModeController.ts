@@ -3,7 +3,7 @@ import { ManualMode } from "./ManualMode";
 
 import { Request, Response } from "express";
 import { AuthManager } from "../../auth/auth";
-import { IConfigManualMode } from "@metalizz/nuster-typings/src/spec/manual";
+import { IConfigManualMode } from "@metalizzsas/nuster-typings/src/spec/manual";
 
 export class ManualModeController extends Controller
 {

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { _ } from 'svelte-i18n';
 	import { machineData } from '$lib/utils/stores/store';
 
 	import Quickstart from '$lib/components/cycle/quickstart.svelte';

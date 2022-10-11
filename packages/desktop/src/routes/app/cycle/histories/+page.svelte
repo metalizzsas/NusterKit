@@ -13,7 +13,7 @@
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
 
 	import type { PageData } from './$types';
-	import type { IHistoryHydrated } from '@metalizz/nuster-typings/src/hydrated/cycle';
+	import type { IHistoryHydrated } from '@metalizzsas/nuster-typings/src/hydrated/cycle';
 	export let data: PageData;
 
 	let histories = data.histories;

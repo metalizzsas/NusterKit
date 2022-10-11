@@ -1,16 +1,24 @@
 {
-  "name": "@metalizz/nuster-kit",
+  "name": "@metalizzsas/nuster-kit",
   "version": "1.0.0",
   "description": "",
   "main": "",
   "scripts": {
     "dev": "pnpm -r --parallel --filter='./packages/*' run dev",
-    "build": "pnpm -r --parallel --filter='./packages/*' run build"
+
+    "lint": "pnpm -r --parallel run lint",
+    "test": "pnpm -r --parallel run test",
+    
+    "build": "pnpm -r --parallel --filter='./packages/*' run build",
+
+    "release": "changeset publish"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@svitejs/changesets-changelog-github-compact": "^0.1.1",
     "@changesets/cli": "^2.25.0"
-  }
+  },
+  "packageManager": "pnpm@7.13.0"
 }

@@ -1,4 +1,4 @@
-import { IConstantStringParameterBlock } from "@metalizz/nuster-typings/src/spec/cycle/programblocks/ParameterBlocks/IConstantStringParameterBlock";
+import { IConstantStringParameterBlock } from "@metalizzsas/nuster-typings/src/spec/cycle/programblocks/ParameterBlocks/IConstantStringParameterBlock";
 import { ParameterBlock } from ".";
 
 export class ConstantStringParameterBlock extends ParameterBlock implements IConstantStringParameterBlock

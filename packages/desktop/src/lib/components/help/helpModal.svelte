@@ -5,12 +5,13 @@
 	import { goto } from '$app/navigation';
 
 	import Actionmodal from '../modals/actionmodal.svelte';
-	import type { ISlotHydrated } from "@metalizz/nuster-typings/src/hydrated/slot";
+	import type { ISlotHydrated } from "@metalizzsas/nuster-typings/src/hydrated/slot";
+	import type { ICallToAction } from '@metalizzsas/nuster-typings/src/spec/nuster/ICallToAction';
 
 	export let slotContent: ISlotHydrated;
 	export let shown: boolean;
 
-	async function execCTA(cta: any) {
+	async function execCTA(cta: ICallToAction) {
 		if (cta.APIEndpoint !== undefined) {
 			const request = await fetch('//' + $Linker + cta.APIEndpoint.url, {
 				method: cta.APIEndpoint.method,

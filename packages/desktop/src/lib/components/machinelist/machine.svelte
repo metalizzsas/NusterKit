@@ -5,7 +5,7 @@
 	import { machineList } from '$lib/utils/stores/list';
 	import Modal from '../modals/modal.svelte';
 	import { _ } from 'svelte-i18n';
-	import type { IStatusMessage } from '@metalizz/nuster-typings';
+	import type { IStatusMessage } from '@metalizzsas/nuster-typings';
 
 	enum machineStatus {
 		ONLINE = 'online',
@@ -55,8 +55,7 @@
 	};
 
 	const selfDelete = () => {
-		$machineList.splice(machineIndex, 1);
-		$machineList = $machineList;
+		$machineList = $machineList.filter((_k, i) => i != machineIndex);
 		saveMachineList();
 	};
 </script>

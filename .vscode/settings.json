@@ -1,0 +1,25 @@
+{
+    "eslint.packageManager": "npm",
+    "eslint.workingDirectories": [
+        "./packages/turbine",
+        "./packages/desktop",
+        "./libs/typings",
+        "./libs/tubrine-machines"
+    ],
+    "eslint.quiet": false,
+    "eslint.probe": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "html",
+        "vue",
+        "markdown",
+        "svelte"
+    ],
+    "eslint.validate": [
+        "svelte",
+        "js",
+        "ts"
+    ]
+}

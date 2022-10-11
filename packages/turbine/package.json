@@ -1,5 +1,5 @@
 {
-  "name": "@metalizz/nuster-turbine",
+  "name": "@metalizzsas/nuster-turbine",
   "engines": {
     "node": "18.x"
   },
@@ -7,47 +7,36 @@
   "description": "Typescript project running on BalenaOS and RPi4.",
   "private": true,
   "main": "app.js",
-  "scripts": {
-    "update-ntm": "rm -rf ./nuster-turbine-machines && git clone -b next git@github.com:metalizzsas/NusterTurbineMachines.git ./nuster-turbine-machines",
-    
+  "scripts": {    
     "dev": "concurrently --kill-others \"npm run dev:app\" \"npm run dev:modbus\"",
     "dev:app": "nodemon src/app.ts | pino-pretty",
     "dev:modbus": "node dev/modbus.mjs",
 
     "preview": "concurrently --kill-others \"npm run preview:app\" \"npm run dev:modbus\"",
-    "preview:app": "node --inspect build/app.js | pino-pretty",
+    "preview:app": "node build/app.js | pino-pretty",
 
-    "machine": "export NODE_ENV=\"production\" && nodemon src/app.ts | pino-pretty",
     "build": "tsc",
     "start": "node build/app.js | pino-pretty",
-    "lc": "find './src' -name '*.ts' | xargs wc -l",
+
     "lint": "eslint ./src/** --ext .ts",
-    "lint-and-fix": "eslint ./src/** --ext .ts --fix",
+    "test": "jest --passWithNoTests",
+    "test:coverage": "jest --coverage",
     
-    "types": "npm run types:specs-json && npm run types:specs-ts && npm run types:addon-json && npm run types:addon-ts && npm run types:config && npm run types:socket-ts",
-    "types:specs-json": "npx typescript-json-schema@0.53.0 \"src/interfaces/IMachine.ts\" IMachine --ignoreErrors --required -o \"types/schema-specs.json\"",
-    "types:specs-ts": "tsc --emitDeclarationOnly --declaration --out types/specs.d.ts src/interfaces/IMachine.ts",
-    "types:addon-json": "npx typescript-json-schema@0.53.0 \"src/interfaces/IAddon.ts\" IAddon --ignoreErrors --required -o \"types/schema-addon.json\"",
-    "types:addon-ts": "tsc --emitDeclarationOnly --declaration --out types/addon.d.ts src/interfaces/IAddon.ts",
-    "types:config": "npx typescript-json-schema@0.53.0 \"src/interfaces/IConfiguration.ts\" IConfiguration --ignoreErrors --requires -o \"types/schema-config.json\"",
-    "types:socket-ts": "tsc --emitDeclarationOnly --declaration --out types/socket.d.ts src/interfaces/webSocketData/index.ts",
-    
-    "docs": "npx typedoc --entryPointStrategy expand ./src --out docs",
-    "test": "jest",
-    "test:coverage": "jest --coverage"
+    "docs": "npx typedoc --entryPointStrategy expand ./src --out docs"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/metalizzsas/NusterTurbine.git"
+    "url": "git+https://github.com/metalizzsas/NusterKit.git"
   },
   "keywords": [],
   "author": "Metalizz SAS",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/metalizzsas/NusterTurbine/issues"
+    "url": "https://github.com/metalizzsas/NusterKit/issues"
   },
-  "homepage": "https://github.com/metalizzsas/NusterTurbine#readme",
+  "homepage": "https://github.com/metalizzsas/NusterKit/tree/main/packages/turbine",
   "dependencies": {
+    "@metalizzsas/nuster-turbine-machines": "1.0.0",
     "argon2": "^0.29.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -80,8 +69,7 @@
     "@types/ws": "^8.5.3",
     "@typescript-eslint/eslint-plugin": "^5.38.0",
     "@typescript-eslint/parser": "^5.38.0",
-    "@metalizz/nuster-typings": "1.0.0",
-    "@metalizz/nuster-turbine-machines": "1.0.0",
+    "@metalizzsas/nuster-typings": "1.0.0",
     "concurrently": "^7.4.0",
     "eslint": "^8.24.0",
     "nodemon": "^2.0.20",

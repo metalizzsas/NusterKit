@@ -11,7 +11,7 @@ FROM base as builder
 COPY package.json ./
 
 # Install Npm packages
-RUN npm install --save-dev
+RUN --mount=type=secret,id=NPMRC,target=.npmrc npm install --save-dev
 
 COPY . ./
 
@@ -25,12 +25,11 @@ FROM base as runner
 COPY --from=builder /usr/src/app/package*.json ./
 
 # Install Prod npm packages
-RUN npm ci --omit=dev
+RUN --mount=type=secret,id=NPMRC,target=.npmrc npm ci --omit=dev
 
 COPY --from=builder /usr/src/app/build /usr/src/app/build
 
 COPY ./release.md ./release.md
-COPY ./nuster-turbine-machines/ ./nuster-turbine-machines
 COPY ./entrypoint.sh ./entrypoint.sh
 
 # Run args

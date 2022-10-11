@@ -1,4 +1,4 @@
-import { IIOProgramBlock } from "@metalizz/nuster-typings/src/spec/cycle/programblocks/ProgramBlocks/IIOProgramBlock";
+import { IIOProgramBlock } from "@metalizzsas/nuster-typings/src/spec/cycle/programblocks/ProgramBlocks/IIOProgramBlock";
 import { LoggerInstance } from "../../app";
 import { IOController } from "../../controllers/io/IOController";
 import { NumericParameterBlocks, StringParameterBlocks } from "../ParameterBlocks";

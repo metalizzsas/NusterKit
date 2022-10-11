@@ -1,8 +1,6 @@
 <script lang="ts">
 	import '$lib/app.css';
 	import Modal from '$lib/components/modals/modal.svelte';
-	import ProfileRow from '$lib/components/profile/profileRow.svelte';
-	import Toggle from '$lib/components/userInputs/toggle.svelte';
 	import Inputkb from '$lib/components/userInputs/inputkb.svelte';
 	import { onDestroy, onMount } from 'svelte';
 	import { _ } from 'svelte-i18n';
@@ -10,10 +8,10 @@
 	import { Linker } from '$lib/utils/stores/linker';
 	import { navActions, navBackFunction, navTitle } from '$lib/utils/stores/navstack';
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
-	import Navcontainersubtitle from '$lib/components/navigation/navcontainersubtitle.svelte';
 	import Navcontainertitlesided from '$lib/components/navigation/navcontainertitlesided.svelte';
 
 	import type { PageData } from './$types';
+	import ProfileCategory from '$lib/components/profile/profileCategory.svelte';
 	export let data: PageData;
 
 	let profile = data.profile;
@@ -34,7 +32,6 @@
 			},
 			body: JSON.stringify(profile),
 		});
-		//after saving return back to profile list
 		goto('/app/profiles');
 	}
 
@@ -86,7 +83,6 @@
 		{
 			text: $_('no'),
 			color: 'bg-red-500',
-			callback: () => {},
 		},
 		{
 			text: $_('cancel'),
@@ -112,35 +108,14 @@
 		options={{
 			class: 'border-0 bg-neutral-100 dark:bg-zinc-600 font-semibold px-3 py-1 -mr-3 rounded-full w-1/3',
 		}}
-		disabled={!profile.overwriteable}
+		disabled={profile.isOverwritable !== undefined}
 	/>
 </div>
 
 <Navcontainertitlesided>{$_('profile.settings')}</Navcontainertitlesided>
 
 <div class="flex flex-col gap-2">
-	{#each profile.fieldGroups as fg}
-		<div class="flex flex-row gap-3 items-center align-middle mb-1 mt-4 first:mt-1">
-			<Navcontainersubtitle>
-				{$_('profile.categories.' + fg.name)}
-			</Navcontainersubtitle>
-			{#each fg.fields.filter((f) => f.name === 'enabled') as f}
-				<Toggle
-					bind:value={f.value}
-					locked={!profile.overwriteable}
-					enableGrayScale={!profile.overwriteable}
-					on:change={(e) => {
-						let d = fg.fields.find((f) => f.name === 'enabled');
-						if (d) {
-							d.value = e.detail.value;
-						}
-					}}
-				/>
-			{/each}
-		</div>
-
-		{#each fg.fields.filter((z) => z.name !== 'enabled') as f}
-			<ProfileRow bind:row={f} bind:profile />
-		{/each}
+	{#each Array.from(new Set(profile.values.map(f => f.name.split("#")[0]))) as category}
+		<ProfileCategory bind:profile bind:category />
 	{/each}
 </div>

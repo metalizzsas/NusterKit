@@ -29,16 +29,15 @@
 	}
 
 	function addMachine(name: string, ip: string) {
-		$machineList.push({ name, ip });
-		$machineList = $machineList;
+		$machineList = [...$machineList, { name, ip }];
 
 		newMachineIP = '';
 		newMachineName = '';
 		saveMachineList();
 	}
 
-	let newMachineName: string = '';
-	let newMachineIP: string = '';
+	let newMachineName = '';
+	let newMachineIP = '';
 </script>
 
 <Modalcontent bind:shown={displayAddMachine} title="Ajouter une machine">

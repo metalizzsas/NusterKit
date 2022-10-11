@@ -1,5 +1,5 @@
-import { IPassiveHydrated } from "@metalizz/nuster-typings/src/hydrated/passive";
-import { IConfigPassive } from "@metalizz/nuster-typings/src/spec/passive";
+import { IPassiveHydrated } from "@metalizzsas/nuster-typings/src/hydrated/passive";
+import { IConfigPassive } from "@metalizzsas/nuster-typings/src/spec/passive";
 import { Request, Response } from "express";
 import { AuthManager } from "../../auth/auth";
 import { Controller } from "../Controller";

@@ -1,4 +1,4 @@
-import { IMaintenanceStored } from "@metalizz/nuster-typings/src/hydrated/maintenance";
+import { IMaintenanceStored } from "@metalizzsas/nuster-typings/src/hydrated/maintenance";
 import { model, Schema } from "mongoose";
 
 const MaintenanceSchema = new Schema<IMaintenanceStored>({

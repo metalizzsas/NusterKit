@@ -1,5 +1,5 @@
-import { IManualHydrated } from "@metalizz/nuster-typings/src/hydrated/manual";
-import { IConfigManualMode } from "@metalizz/nuster-typings/src/spec/manual";
+import { IManualHydrated } from "@metalizzsas/nuster-typings/src/hydrated/manual";
+import { IConfigManualMode } from "@metalizzsas/nuster-typings/src/spec/manual";
 import { WebsocketDispatcher } from "../../websocket/WebsocketDispatcher";
 import { IOController } from "../io/IOController";
 import { ManualModeController } from "./ManualModeController";

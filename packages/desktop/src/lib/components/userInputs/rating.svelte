@@ -2,11 +2,11 @@
 	import Flex from '../layout/flex.svelte';
 	import type { GapSizes } from '../layout/flexTypes';
 
-	export let rating: number = 0;
-	export let locked: boolean = false;
+	export let rating = 0;
+	export let locked = false;
 
-	export let padding: number = 2;
-	export let starsSize: number = 7;
+	export let padding = 2;
+	export let starsSize = 7;
 	export let starsGapSize: GapSizes = 3;
 
 	const updateRating = (i: number) => {

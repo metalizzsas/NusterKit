@@ -6,15 +6,15 @@
 	interface buttonOption {
 		text: string;
 		color: string;
-		callback?: Function;
+		callback?: () => void;
 		textColor?: string;
 	}
 
 	export let title: string;
-	export let displayClose: boolean = true;
+	export let displayClose = true;
 	export let buttons: buttonOption[] = [];
 
-	export let shown: boolean = false;
+	export let shown = false;
 
 	$: shown, document.body.classList.toggle('overflow-hidden', shown);
 </script>

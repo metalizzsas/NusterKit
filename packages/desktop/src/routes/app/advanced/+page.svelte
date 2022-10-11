@@ -17,7 +17,7 @@
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
 	import Navcontainertitlesided from '$lib/components/navigation/navcontainertitlesided.svelte';
 
-	import type { ISocketManual } from "@metalizz/nuster-typings/src/hydrated/manual/";
+	import type { IManualHydrated } from "@metalizzsas/nuster-typings/src/hydrated/manual/";
 
 	async function toggleState(name: string, state: number) {
 		await fetch(`//${$Linker}/api/v1/manual/${name.replace('#', '_')}/${state}`, {
@@ -37,35 +37,35 @@
 					color: 'bg-orange-500',
 					action: () => goto('/app/advanced/gates'),
 				},
-		  ];
+		];
 	$useNavContainer = false;
 	onDestroy(() => {
 		$useNavContainer = true;
 	});
 
-	const computeIncompatibiltyList = (manual: ISocketManual): Array<ISocketManual> => {
+	const computeIncompatibiltyList = (manual: IManualHydrated): Array<IManualHydrated> => {
 		if (manual.incompatibility) {
 			const incompList = manual.incompatibility.map((m) =>
 				$machineData.manuals.find((x) => x.name == m),
 			);
 
-			return incompList.filter((x) => x !== undefined && x.state > 0) as Array<ISocketManual>;
+			return incompList.filter((x) => x !== undefined && x.state > 0) as Array<IManualHydrated>;
 		}
 		return [];
 	};
 
-	const computeRequiresList = (manual: ISocketManual): Array<ISocketManual> => {
+	const computeRequiresList = (manual: IManualHydrated): Array<IManualHydrated> => {
 		if (manual.requires) {
 			const requiresList = manual.requires.map((r) =>
 				$machineData.manuals.find((x) => x.name == r),
 			);
 
-			return requiresList.filter((x) => x !== undefined && x.state == 0) as Array<ISocketManual>;
+			return requiresList.filter((x) => x !== undefined && x.state == 0) as Array<IManualHydrated>;
 		}
 		return [];
 	};
 
-	const manualModeLocked = (manual: ISocketManual): boolean => {
+	const manualModeLocked = (manual: IManualHydrated): boolean => {
 		let incompatibility = true; // if incomp length > 0
 		let requires = true;
 

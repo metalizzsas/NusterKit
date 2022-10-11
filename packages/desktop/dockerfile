@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN JOBS=MAX npm install --unsafe-perm && npm cache verify
+RUN --mount=type=secret,id=NPMRC,target=.npmrc npm install --save-dev
 
 COPY ./ ./
 
@@ -18,7 +18,7 @@ WORKDIR /usr/src/app
 
 COPY --from=builder usr/src/app/package*.json /usr/src/app/
 
-RUN npm i --omit=dev
+RUN --mount=type=secret,id=NPMRC,target=.npmrc npm ci --omit=dev
 
 COPY --from=builder usr/src/app/build /usr/src/app/build
 

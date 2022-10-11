@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
-	import type { IMaintenanceHydrated } from '@metalizz/nuster-typings/src/hydrated/maintenance';
+	import type { IMaintenanceHydrated } from '@metalizzsas/nuster-typings/src/hydrated/maintenance';
 
 	export let maintenance: IMaintenanceHydrated;
 </script>

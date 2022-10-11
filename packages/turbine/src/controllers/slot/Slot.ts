@@ -1,6 +1,6 @@
-import { ICallToAction } from "@metalizz/nuster-typings/src/spec/nuster/ICallToAction";
-import { ISlotHydrated, ISlotProductData } from "@metalizz/nuster-typings/src/hydrated/slot";
-import { EProductSeries, IConfigSlot, ISlotProductOptions, ISlotSensor } from "@metalizz/nuster-typings/src/spec/slot";
+import { ICallToAction } from "@metalizzsas/nuster-typings/src/spec/nuster/ICallToAction";
+import { ISlotHydrated, ISlotProductData } from "@metalizzsas/nuster-typings/src/hydrated/slot";
+import { EProductSeries, IConfigSlot, ISlotProductOptions, ISlotSensor } from "@metalizzsas/nuster-typings/src/spec/slot";
 
 import { LoggerInstance } from "../../app";
 import { SlotModel } from "./SlotModel";

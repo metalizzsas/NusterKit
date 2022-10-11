@@ -9,8 +9,8 @@ type navActionButton = {
     action: () => void | Promise<void>
 }
 
-export var navTitle = writable<string[]>([]);
-export var navBackFunction = writable<navBackFunction | null>(null);
-export var navActions = writable<navActionButton[] | null>(null);
-export var navExpandBottom = writable<boolean>(false);
-export var useNavContainer = writable<boolean>(true);
+export const navTitle = writable<string[]>([]);
+export const navBackFunction = writable<navBackFunction | null>(null);
+export const navActions = writable<navActionButton[] | null>(null);
+export const navExpandBottom = writable<boolean>(false);
+export const useNavContainer = writable<boolean>(true);

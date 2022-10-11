@@ -11,8 +11,11 @@ env:
 jobs:
   release:
     permissions:
-      contents: write # to create release (changesets/action)
-      pull-requests: write # to create pull request (changesets/action)
+      id-token: write
+      contents: write
+      packages: write
+      pull-requests: write
+      issues: read
     name: Release
     runs-on: ubuntu-latest
     steps:

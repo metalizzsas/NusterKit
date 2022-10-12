@@ -29,6 +29,11 @@ jobs:
         with:
           node-version: '18.x'
 
+      - name: ⛭ Setup Pnpm github registry
+        run: pnpm config set @metalizzsas:registry=https://npm.pkg.github.com //npm.pkg.github.com/:_authToken=$GITHUB_TOKEN
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: 🗂️ Install packages 
         run: pnpm install
 

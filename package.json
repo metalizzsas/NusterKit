@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "dev": "pnpm -r --parallel --filter='./packages/*' run dev",
 

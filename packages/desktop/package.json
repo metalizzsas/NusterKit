@@ -7,6 +7,9 @@
 	"license": "UNLICENSED",
 	"author": "@metalizzsas/kworz",
 	"type": "module",
+	"engines": {
+		"node": "18.x"
+	},
 	"scripts": {
 		"clean": "rm -rf ./node_modules/ && rm package-lock.json && npm i",
 		"check": "svelte-check",

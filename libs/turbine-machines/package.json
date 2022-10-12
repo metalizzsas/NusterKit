@@ -3,6 +3,9 @@
   "version": "1.1.0",
   "description": "metalizz machines descriptions",
   "main": "",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "test": "npx jest"
   },

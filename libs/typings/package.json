@@ -3,6 +3,9 @@
   "version": "1.1.0",
   "description": "Typings for NusterKit",
   "main": "src/index.ts",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "lint": "eslint --ext .js,.ts .",
     "build": "npm run schema:config && npm run schema:spec",

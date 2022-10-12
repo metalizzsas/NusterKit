@@ -14,9 +14,6 @@ concurrency:
 env:
   NODE_ENV: development
 
-permissions:
-  packages: read
-
 jobs:
   ci:
     runs-on: ubuntu-latest

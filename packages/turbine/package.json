@@ -3,25 +3,21 @@
   "engines": {
     "node": "18.x"
   },
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "Typescript project running on BalenaOS and RPi4.",
   "private": true,
   "main": "app.js",
-  "scripts": {    
+  "scripts": {
     "dev": "concurrently --kill-others \"npm run dev:app\" \"npm run dev:modbus\"",
     "dev:app": "nodemon src/app.ts | pino-pretty",
     "dev:modbus": "node dev/modbus.mjs",
-
     "preview": "concurrently --kill-others \"npm run preview:app\" \"npm run dev:modbus\"",
     "preview:app": "node build/app.js | pino-pretty",
-
     "build": "tsc",
     "start": "node build/app.js | pino-pretty",
-
     "lint": "eslint ./src/** --ext .ts",
     "test": "jest --passWithNoTests",
     "test:coverage": "jest --coverage",
-    
     "docs": "npx typedoc --entryPointStrategy expand ./src --out docs"
   },
   "repository": {
@@ -36,7 +32,7 @@
   },
   "homepage": "https://github.com/metalizzsas/NusterKit/tree/main/packages/turbine",
   "dependencies": {
-    "@metalizzsas/nuster-turbine-machines": "1.0.0",
+    "@metalizzsas/nuster-turbine-machines": "1.1.0",
     "argon2": "^0.29.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -69,7 +65,7 @@
     "@types/ws": "^8.5.3",
     "@typescript-eslint/eslint-plugin": "^5.38.0",
     "@typescript-eslint/parser": "^5.38.0",
-    "@metalizzsas/nuster-typings": "1.0.0",
+    "@metalizzsas/nuster-typings": "1.1.0",
     "concurrently": "^7.4.0",
     "eslint": "^8.24.0",
     "nodemon": "^2.0.20",

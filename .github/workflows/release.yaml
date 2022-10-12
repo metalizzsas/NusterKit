@@ -16,6 +16,7 @@ jobs:
       packages: write
       pull-requests: write
       issues: read
+
     name: Release
     runs-on: ubuntu-latest
     steps:
@@ -52,9 +53,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Run BalenaCliud release even if no packages were publied
-      - name: 🐳 Create BalenaCloud Release 
-        uses: balena-io/deploy-to-balena-action@v0.13.0
+      # Run BalenaCloud release even if no packages were publied
+      - name: 🐳 Create BalenaCloud Release
+        uses: balena-io/deploy-to-balena-action@master
         id: build
         with:
           balena_token: ${{ secrets.BALENA_TOKEN }}

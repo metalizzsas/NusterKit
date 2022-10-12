@@ -1,4 +1,6 @@
 .changeset/
 .github/
-utils/configuration-files/
+.pnpm/
 node_modules/
+
+utils/configuration-files/

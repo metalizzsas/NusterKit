@@ -3,9 +3,9 @@ import { IEX260Controller } from "@metalizzsas/nuster-typings/src/spec/iophysica
 import { Buffer } from "buffer";
 import ping from "ping";
 import process from "process";
-import { ENIP } from "ts-enip";
-import { MessageRouter } from "ts-enip/dist/enip/cip/messageRouter";
-import { Encapsulation } from "ts-enip/dist/enip/encapsulation";
+import { ENIP } from "@metalizzsas/ts-enip";
+import { MessageRouter } from "@metalizzsas/ts-enip/dist/enip/cip/messageRouter";
+import { Encapsulation } from "@metalizzsas/ts-enip/dist/enip/encapsulation";
 import { LoggerInstance } from "../../../app";
 import { CycleController } from "../../cycle/CycleController";
 

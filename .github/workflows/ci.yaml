@@ -21,11 +21,11 @@ jobs:
       - name: 📚 Checkout repository
         uses: actions/checkout@v3
 
-      - name: ⛏️ Setup pnpm
-        uses: pnpm/action-setup@v2.2.2
+      - name: ⛏️ Setup PNPM 
+        uses: pnpm/action-setup@v2.2.3
 
       - name: ⛏️ Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v3.4.1
         with:
           node-version: '18.x'
 

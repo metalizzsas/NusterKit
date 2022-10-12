@@ -10,10 +10,12 @@
 	"scripts": {
 		"clean": "rm -rf ./node_modules/ && rm package-lock.json && npm i",
 		"check": "svelte-check",
+		"sync": "svelte-kit sync",
 		"dev": "vite dev --port 3001 --host",
-		"build": "vite build",
+		"build": "svelte-kit sync && vite build",
 		"preview": "vite preview",
-		"lint-tocheck": "eslint ./src/** --ext .ts,svelte"
+		"lint-tocheck": "eslint ./src/** --ext .ts,svelte",
+		"postinstall": "svelte-kit sync"
 	},
 	"dependencies": {
 		"@fontsource/montserrat": "^4.5.11",

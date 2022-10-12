@@ -52,8 +52,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 🐳 Create BalenaCloud Release
-        if: steps.changesets.outputs.published == 'true'
+      # Run BalenaCliud release even if no packages were publied
+      - name: 🐳 Create BalenaCloud Release 
         uses: balena-io/deploy-to-balena-action@master
         id: build
         with:

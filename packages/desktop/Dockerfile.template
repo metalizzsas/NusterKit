@@ -1,5 +1,7 @@
 FROM balenalib/raspberrypi4-64-node:18-buster
 
+ENV NODE_ENV=production
+
 WORKDIR /usr/src/app
 
 COPY package*.json /usr/src/app/
@@ -10,7 +12,7 @@ COPY ./CHANGELOG.md ./CHANGELOG.md
 COPY build/ /build/
 
 # Install Prod npm packages
-RUN pnpm install
+RUN npm install
 
 # Remove npmrc file
 RUN rm .npmrc
@@ -19,4 +21,3 @@ RUN rm .npmrc
 CMD [ "node", "build" ]
 EXPOSE 4079
 ENV PORT=4079
-ENV NODE_ENV=production

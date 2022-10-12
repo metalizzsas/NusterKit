@@ -1,6 +1,8 @@
 ## Runner image from base with npm tools installed properly
 FROM balenalib/raspberrypi4-64-node:18-buster
 
+ENV NODE_ENV=production
+
 WORKDIR /usr/src/app
 
 RUN install_packages build-essential python3 git openssh-client
@@ -15,12 +17,11 @@ COPY ./entrypoint.sh ./entrypoint.sh
 COPY build/ /build/
 
 # Install Prod npm packages
-RUN pnpm install
+RUN npm install
 
 # Remove npmrc file
 RUN rm .npmrc
 
 # Run args
 CMD ["bash", "entrypoint.sh"]
-ENV NODE_ENV=production
 EXPOSE 4080 

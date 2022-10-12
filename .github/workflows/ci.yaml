@@ -21,13 +21,15 @@ jobs:
       - name: 📚 Checkout repository
         uses: actions/checkout@v3
 
-      - name: ⛏️ Setup PNPM 
-        uses: pnpm/action-setup@v2.2.3
-
       - name: ⛏️ Setup node
         uses: actions/setup-node@v3.4.1
         with:
           node-version: '18.x'
+
+      - name: ⛏️ Setup PNPM 
+        run: |
+          corepack enable
+          pnpm --version
 
       - name: ⛭ Setup Pnpm github registry
         run: pnpm config set @metalizzsas:registry=https://npm.pkg.github.com //npm.pkg.github.com/:_authToken=$GITHUB_TOKEN

@@ -17,8 +17,7 @@
 		"dev": "vite dev --port 3001 --host",
 		"build": "svelte-kit sync && vite build",
 		"preview": "vite preview",
-		"lint-tocheck": "eslint ./src/** --ext .ts,svelte",
-		"postinstall": "svelte-kit sync"
+		"lint-tocheck": "eslint ./src/** --ext .ts,svelte"
 	},
 	"dependencies": {
 		"@fontsource/montserrat": "^4.5.11",

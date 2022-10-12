@@ -47,6 +47,7 @@ jobs:
         run: pnpm run build
 
       - name: 📝 Create Release Pull Request or Publish to npm
+        if: ${{ !env.ACT }}
         id: changesets
         uses: changesets/action@v1
         with:
@@ -54,6 +55,9 @@ jobs:
           publish: pnpm release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: unset PNPM_HOME
+      - run: unset NODE_ENV
 
       # Run BalenaCloud release even if no packages were publied
       - name: 🐳 Create BalenaCloud Release
@@ -65,6 +69,7 @@ jobs:
           finalize: false
         env:
           PNPM_HOME: ""
+          NODE_ENV: ""
 
       - name: 📝 Log release ID built
         run: echo "Built release ID ${{ steps.build.outputs.release_id }}"

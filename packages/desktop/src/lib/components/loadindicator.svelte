@@ -4,7 +4,7 @@
 
 	let overtime = false;
 
-	let timeoutTimer: NodeJS.Timeout | null = null;
+	let timeoutTimer: ReturnType<typeof setTimeout> | null = null;
 
 	$: if ($navigating != null) {
 		timeoutTimer = setTimeout(() => {

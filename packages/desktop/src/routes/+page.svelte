@@ -8,12 +8,12 @@
 	import { beforeUpdate } from 'svelte';
 	import { BUNDLED } from '$lib/bundle';
 
-	beforeUpdate(async () => {
+	beforeUpdate(() => {
 		if (BUNDLED == 'true') {
 			localStorage.setItem('ip', window.location.host);
-			goto('/app');
+			void goto('/app');
 		} else {
-			goto('/list');
+			void goto('/list');
 		}
 	});
 </script>

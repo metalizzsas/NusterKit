@@ -9,7 +9,6 @@
 
 	import { _, date, time } from 'svelte-i18n';
 	import { page } from '$app/stores';
-	import { goto } from '$app/navigation';
 	import { BUNDLED } from '$lib/bundle';
 	import { machineData } from '$lib/utils/stores/store';
 
@@ -36,7 +35,7 @@
 	$: index = $page.url.pathname == '/app';
 
 	let dateNow = 0;
-	let dateInterval: NodeJS.Timer;
+	let dateInterval: ReturnType<typeof setTimeout>;
 
 	onMount(() => {
 		dateInterval = setInterval(() => {
@@ -61,8 +60,8 @@
 		{#if !index}
 			<div
 				class="flex flex-row gap-1 items-center align-middle cursor-pointer"
-				on:click={async () => {
-					if ($navBackFunction) $navBackFunction();
+				on:click={() => {
+					if ($navBackFunction) void $navBackFunction();
 					else history.back();
 				}}
 			>
@@ -82,11 +81,9 @@
 				</span>
 			</div>
 		{:else}
-			<div
+			<a
+				href={(BUNDLED == 'true' ? '/app' : '/')}
 				class="flex flex-rox gap-4 items-center hover:bg-white rounded-md hover:text-zinc-700 text-white transition-all duration-500 cursor-pointer"
-				on:click={() => {
-					BUNDLED == 'true' ? goto('/app') : goto('/');
-				}}
 			>
 				<img
 					src="/icons/pwa-192.png"
@@ -94,7 +91,7 @@
 					class="w-8 h-8 shadow-sm rounded-md hover:rotate-[2deg] transition-all duration-500"
 				/>
 				<span class="inline-block font-bold text-lg pr-3">Nuster</span>
-			</div>
+			</a>
 		{/if}
 
 		{#if !index}

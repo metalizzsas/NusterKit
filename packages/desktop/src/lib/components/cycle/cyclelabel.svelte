@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { Linker } from '$lib/utils/stores/linker';
 	import { _ } from 'svelte-i18n';
-	function prepareCycle(cycleType: string, profileID: string) {
-		fetch('//' + $Linker + '/api/v1/cycle/' + cycleType + '/' + profileID, {
+	const prepareCycle = (cycleType: string, profileID: string) => {
+		void fetch(`//${$Linker}/api/v1/cycle/${cycleType}/${profileID}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

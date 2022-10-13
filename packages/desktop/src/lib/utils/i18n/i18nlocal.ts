@@ -8,7 +8,7 @@ export function initi18nLocal()
     addMessages('en', en);
     addMessages('fr', fr);
     
-    init({
+    void init({
         fallbackLocale: 'en',
         initialLocale: 'en',
     });

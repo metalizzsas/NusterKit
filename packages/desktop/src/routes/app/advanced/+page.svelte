@@ -19,7 +19,7 @@
 
 	import type { IManualHydrated } from "@metalizzsas/nuster-typings/src/hydrated/manual/";
 
-	async function toggleState(name: string, state: number) {
+	const toggleState = async (name: string, state: number) => {
 		await fetch(`//${$Linker}/api/v1/manual/${name.replace('#', '_')}/${state}`, {
 			method: 'POST',
 			headers: {

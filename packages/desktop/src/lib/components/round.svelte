@@ -7,6 +7,6 @@
 
 <div
 	class="rounded-full h-{size} w-{size} m-{margin} bg-{color} {shadowColor !== undefined
-		? 'shadow-md shadow-' + shadowColor
+		? `shadow-md shadow-${shadowColor}`
 		: ''} "
 />

@@ -1,13 +1,12 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import { goto } from '$app/navigation';
 	import type { IMaintenanceHydrated } from '@metalizzsas/nuster-typings/src/hydrated/maintenance';
 
 	export let maintenance: IMaintenanceHydrated;
 </script>
 
-<div
-	on:click={() => goto('app/maintenance/' + maintenance.name)}
+<a
+	href={`app/maintenance/${maintenance.name}`}
 	class="hover:scale-[1.005] cursor-pointer"
 >
 	<div
@@ -27,4 +26,4 @@
 			{$_('maintenance.tasks.' + maintenance.name + '.desc')}
 		</p>
 	</div>
-</div>
+</a>

@@ -11,7 +11,7 @@
 
 	let displayUpdateScreen = false;
 
-	async function triggerUpdate() {
+	const triggerUpdate = async () => {
 		const req = await fetch('//' + $Linker + '/api/forceUpdate');
 
 		if (req.status == 200) {

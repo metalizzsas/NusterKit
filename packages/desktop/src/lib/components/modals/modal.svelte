@@ -6,7 +6,7 @@
 	interface buttonOption {
 		text: string;
 		color: string;
-		callback?: () => void;
+		callback?: () => void | Promise<void>;
 		textColor?: string;
 	}
 

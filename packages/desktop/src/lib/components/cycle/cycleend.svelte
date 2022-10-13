@@ -34,16 +34,18 @@
 		}
 	});
 
-	async function patchCycle() {
-		fetch('//' + $Linker + '/api/v1/cycle/' + rating, {
+	const patchCycle = () => {
+		fetch(`//${$Linker}/api/v1/cycle/${rating}`, {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 		}).then(() => {
 			setTimeout(() => {
-				goto('/app');
+				void goto('/app');
 			}, 500);
+		}).catch(() => {
+			console.log("Failed to patch cycle");
 		});
 	}
 
@@ -105,7 +107,7 @@
 
 			<Flex direction="col" gap={0} class="rounded-xl bg-white text-zinc-800 p-3">
 				<span class="font-semibold">
-					{$_('cycle.endreasons.' + $machineData.cycle?.status.endReason)}
+					{$_(`cycle.endreasons.${$machineData.cycle?.status.endReason ?? 'error'}`)}
 				</span>
 				{#if $machineData.cycle?.status.startDate && $machineData.cycle?.status.endDate}
 					<span class="text-italic">

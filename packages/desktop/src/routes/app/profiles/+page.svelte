@@ -21,20 +21,20 @@
 
 	export let data: PageData;
 
-	let profiles = data.profiles;
-	let profileSkeletons = data.profileSkeletons;
-
 	let addProfileModalShown = false;
 
-	async function listProfileBlueprint() {
-		if (profileSkeletons.length == 1) {
-			createProfile(profileSkeletons[0]);
-		} else {
+	const listProfileBlueprint = async () =>  {
+		if (data.profileSkeletons.length == 1)
+		{
+			await createProfile(data.profileSkeletons.at(0)?.name ?? 'default');
+		}
+		else
+		{
 			addProfileModalShown = true;
 		}
 	}
 
-	async function createProfile(type: string) {
+	const createProfile = async (type: string) => {
 		const createUrl = '//' + $Linker + '/api/v1/profiles/create/' + type;
 
 		console.log(createUrl);
@@ -48,8 +48,9 @@
 
 		let p = (await response.json()) as IProfileHydrated;
 
-		goto(`profiles/${p.id}`);
+		void goto(`profiles/${p.id ?? ''}`);
 	}
+	
 	$navTitle = [$_('profile.list')];
 	$navBackFunction = () => goto('/app');
 	$navActions = [
@@ -71,9 +72,7 @@
 		{
 			text: $_('ok'),
 			color: 'bg-emerald-500',
-			callback: (value) => {
-				createProfile(value || 'default');
-			},
+			callback: createProfile,
 		},
 		{
 			text: $_('cancel'),
@@ -84,11 +83,11 @@
 	{$_('profile.modals.create.message')}
 </ModalPrompt>
 
-{#each [...new Set(profiles.map((p) => p.isPremade))] as premade}
+{#each [...new Set(data.profiles.map((p) => p.isPremade))] as premade}
 	<NavContainer>
-		<Navcontainertitle>{$_('profile.premades.' + premade)}</Navcontainertitle>
+		<Navcontainertitle>{$_(`profile.premades.${premade ? 'true' : 'false'}`)}</Navcontainertitle>
 		<Flex direction="col">
-			{#each profiles.filter((p) => p.isPremade == premade) as profile}
+			{#each data.profiles.filter((p) => p.isPremade == premade) as profile}
 				<Profile
 					{profile}
 					delCb={async () => await invalidate('//' + $Linker + '/api/v1/profiles')}

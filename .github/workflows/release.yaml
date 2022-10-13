@@ -55,6 +55,8 @@ jobs:
           publish: pnpm release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - run: ls -l
 
       # Run BalenaCloud release even if no packages were publied
       - name: 🐳 Create BalenaCloud Release

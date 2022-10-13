@@ -12,7 +12,7 @@ COPY ./CHANGELOG.md ./CHANGELOG.md
 COPY build/ /build/
 
 # Install Prod npm packages
-RUN npm install
+RUN npm install --omit dev
 
 # Remove npmrc file
 #RUN rm .npmrc

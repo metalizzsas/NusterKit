@@ -14,7 +14,9 @@ services:
       - mongodb:/data/db
 
   nuster-turbine:
-    build: ./packages/turbine/
+    build: 
+      dockerfile: ./packages/turbine/
+      context: ./
     network_mode: host
     depends_on: 
       - "mongodb"

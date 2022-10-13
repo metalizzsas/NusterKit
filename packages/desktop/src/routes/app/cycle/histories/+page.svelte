@@ -21,12 +21,12 @@
 	let showRetakeModal = false;
 	let selectedHistory: IHistoryHydrated | null;
 
-	async function restartCycle(his: IHistoryHydrated) {
+	const restartCycle = async (his: IHistoryHydrated) => {
 		await fetch('//' + $Linker + '/api/v1/cycle/restart/' + his.id, { method: 'POST' });
-		goto('/app/cycle/');
+		void goto('/app/cycle/');
 	}
 
-	function showRetakeModalHandler(his: IHistoryHydrated) {
+	const showRetakeModalHandler = (his: IHistoryHydrated) => {
 		selectedHistory = his;
 		showRetakeModal = true;
 	}
@@ -93,7 +93,7 @@
 						? 'bg-white text-emerald-500 font-semibold'
 						: 'bg-white text-gray-700 font-medium'}
 				>
-					{$_('cycle.endreasons.' + history.cycle.status.endReason || 'finished')}
+					{$_(`cycle.endreasons.${history.cycle.status.endReason || 'finished'}`)}
 				</Label>
 				<Rating rating={history.rating} padding={1} starsSize={5} starsGapSize={1} />
 			</Flex>

@@ -28,10 +28,10 @@
 	let editMenuShown = false;
 	let deletePromptShown = false;
 
-	$: $machineList, fetchStatus();
+	$: $machineList, void fetchStatus();
 
 	onMount(() => {
-		fetchStatus();
+		void fetchStatus();
 	});
 
 	const fetchStatus = async () => {
@@ -45,9 +45,9 @@
 		}
 	};
 
-	const login = async () => {
+	const login = () => {
 		localStorage.setItem('ip', machine.ip);
-		goto('/app');
+		void goto('/app');
 	};
 
 	const saveMachineList = () => {

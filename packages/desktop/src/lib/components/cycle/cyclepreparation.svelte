@@ -10,8 +10,8 @@
 	import Navcontainertitle from '../navigation/navcontainertitle.svelte';
 	import { layoutSimplified } from '$lib/utils/stores/settings';
 
-	function prepareCycle(cycleType: string, profileID: string) {
-		fetch('//' + $Linker + '/api/v1/cycle/' + cycleType + '/' + profileID, {
+	const prepareCycle = (cycleType: string, profileID: string) => {
+		void fetch(`//${$Linker}/api/v1/cycle/${cycleType}/${profileID}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -39,7 +39,7 @@
 		$useNavContainer = true;
 	});
 
-	$: if ($machineData.cycle === undefined && $layoutSimplified == true) goto('/app');
+	$: if ($machineData.cycle === undefined && $layoutSimplified == true) void goto('/app');
 </script>
 
 <div>
@@ -65,12 +65,12 @@
 		</Navcontainer>
 	{/if}
 
-	{#if $machineData.profiles.filter((p) => p.isPremade == false).length > 0}
+	{#if $machineData.profiles.filter((p) => p.isPremade != true).length > 0}
 		<Navcontainer>
 			<Navcontainertitle>{$_('cycle.user')}</Navcontainertitle>
 			<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 				{#each cycleTypes.filter((k) => k.profileRequired) as ct}
-					{#each $machineData.profiles.filter((p) => p.identifier == ct.name && p.isPremade == false) as p}
+					{#each $machineData.profiles.filter((p) => p.skeleton == ct.name && p.isPremade != true) as p}
 						<div
 							class="bg-indigo-500 text-white p-2 flex flex-col items-center justify-center rounded-xl transition-all font-semibold"
 							on:click={() => prepareCycle(ct.name, p.id)}

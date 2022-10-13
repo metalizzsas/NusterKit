@@ -29,7 +29,7 @@
 		},
 	};
 
-	const preStartCycle = async () => {
+	const preStartCycle = () => {
 		if ($machineData.cycle?.startConditions?.filter((sc) => sc.result == 'error').length > 0) {
 			displayWatchdogError = true;
 			return;
@@ -43,8 +43,8 @@
 		startCycle();
 	};
 
-	const startCycle = async () => {
-		fetch('//' + $Linker + '/api/v1/cycle/', {
+	const startCycle = () => {
+		void fetch(`//${$Linker}/api/v1/cycle/`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
@@ -52,20 +52,20 @@
 		});
 	};
 
-	const cancelCycle = async () => {
-		fetch('//' + $Linker + '/api/v1/cycle/0', {
+	const cancelCycle = () => {
+		void fetch(`//${$Linker}/api/v1/cycle/0`, {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 		});
 
-		if ($layoutSimplified) goto('/app');
+		if ($layoutSimplified) void goto('/app');
 	};
 
 	$navTitle = [
 		$_('cycle.button'),
-		$_('cycle.names.' + $machineData.cycle?.name),
+		$_(`cycle.names.${$machineData.cycle?.name || 'default'}`),
 		...($machineData.cycle?.profile !== undefined
 			? $machineData.cycle.profile?.isPremade
 				? [$_('cycle.types.' + $machineData.cycle.profile.name)]

@@ -15,11 +15,7 @@
 
 	export let options: { class?: string; placeholder?: string; min?: number; max?: number } = {};
 
-	function focusScroll() {
-		document
-			.getElementById(typeof value === 'number' ? '#inputNumeric' : '#inputString')
-			?.scrollTo();
-	}
+	const focusScroll = () => document.getElementById(typeof value === 'number' ? '#inputNumeric' : '#inputString')?.scrollTo();
 
 	let focused = false;
 
@@ -37,7 +33,7 @@
 			inputPattern: typeof value === 'number' ? /^[0-9]*$/ : undefined,
 		});
 
-		keyboard.setInput('' + value);
+		keyboard.setInput(`${value}`);
 	};
 
 	let scrollY: number;

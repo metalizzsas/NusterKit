@@ -11,7 +11,7 @@
 	export let slotContent: ISlotHydrated;
 	export let shown: boolean;
 
-	async function execCTA(cta: ICallToAction) {
+	const execCTA = async (cta: ICallToAction) => {
 		if (cta.APIEndpoint !== undefined) {
 			const request = await fetch('//' + $Linker + cta.APIEndpoint.url, {
 				method: cta.APIEndpoint.method,
@@ -24,7 +24,7 @@
 		}
 
 		if (cta.UIEndpoint !== undefined) {
-			goto(cta.UIEndpoint);
+			void goto(cta.UIEndpoint);
 			shown = false;
 		}
 	}
@@ -36,7 +36,7 @@
 			const hours = new Date(date).getHours();
 			const hoursPlural = hours != 1 ? $_('date.hours') : $_('date.hour');
 
-			return days + ' ' + daysPlural + ', ' + hours + ' ' + hoursPlural;
+			return `${days} ${daysPlural}, ${hours} ${hoursPlural}`;
 		} else {
 			return $_('slots.product.done');
 		}

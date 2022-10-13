@@ -21,7 +21,7 @@
 		},
 		{
 			key: 'machine.revision',
-			data: '' + $machineData.machine.revision,
+			data: `${$machineData.machine.revision}`,
 		},
 		{
 			key: 'machine.serial',
@@ -37,9 +37,7 @@
 		},
 		{
 			key: 'machine.cycleCount',
-			data:
-				($machineData.maintenances.find((k) => k.name == 'cycleCount')?.durationActual ??
-					'0') + '',
+			data:`${($machineData.maintenances.find((k) => k.name == 'cycleCount')?.durationActual ?? '0')}`,
 		},
 		{
 			key: 'machine.nusterVersion',

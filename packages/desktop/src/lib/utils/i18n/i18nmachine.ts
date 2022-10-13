@@ -12,7 +12,9 @@ export async function initI18nMachine(ip: string)
             {
                 response.json().then((content) => {
                     addMessages("en", content);
-                });
+                }).catch(() => {
+                    throw new Error("Failed to add En language file");
+                })
             }
         });
     
@@ -21,14 +23,18 @@ export async function initI18nMachine(ip: string)
             {
                 response.json().then((content) => {
                     addMessages("fr", content);
-                });
+                }).catch(() => {
+                    throw new Error("Failed to add FR language file");
+                })
             }
         });
     
         
         Promise.all([langEN, langFR]).then(() => {
             console.log('Langs from machine loaded');
-            resolve()
+            resolve();
+        }).catch((e: Error) => {
+            console.error(e.message);
         });
     });
 }

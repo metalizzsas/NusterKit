@@ -11,24 +11,24 @@
 	let displayAddMachine = false;
 
 	beforeUpdate(() => {
-		if (BUNDLED == 'true') goto('/app');
+		if (BUNDLED == 'true') void goto('/app');
 	});
 
 	onMount(() => {
 		const localData = localStorage.getItem('machines');
 
 		if (localData !== null) {
-			$machineList = JSON.parse(localData);
+			$machineList = JSON.parse(localData) as typeof $machineList;
 		} else {
 			$machineList = [];
 		}
 	});
 
-	function saveMachineList() {
+	const saveMachineList = () => {
 		localStorage.setItem('machines', JSON.stringify($machineList));
 	}
 
-	function addMachine(name: string, ip: string) {
+	const addMachine = (name: string, ip: string) => {
 		$machineList = [...$machineList, { name, ip }];
 
 		newMachineIP = '';

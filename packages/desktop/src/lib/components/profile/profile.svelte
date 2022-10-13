@@ -12,7 +12,7 @@
 	let copyProfileModalShown = false;
 	let deleteProfileModalShown = false;
 
-	function copyProfile(newName: string) {
+	const copyProfile = (newName: string) => {
 		let newProfile = profile;
 
 		newProfile.id = 'copied';
@@ -26,16 +26,19 @@
 			body: JSON.stringify(newProfile),
 		}).then((returnData) => {
 			returnData.json().then((result: IProfileHydrated) => {
-				goto('/app/profiles/' + result.id);
-			});
-		});
+				void goto(`/app/profiles/${result.id || ''}`);
+			}).catch(() => {
+				console.error("Failed to convert json for copied profile");
+			})
+		}).catch(() => {
+			console.error("Failed to copy profile");
+		})
 	}
 
-	async function deleteProfile(profile: IProfileHydrated) {
-		await fetch('//' + $Linker + '/api/v1/profiles/' + profile.id, {
+	const deleteProfile = (profile: IProfileHydrated) => {
+		fetch(`//${$Linker}/api/v1/profiles/${profile.id ?? ''}`, {
 			method: 'DELETE',
-		});
-		delCb();
+		}).then(() => delCb()).catch(() => {console.error("Failed to delete profile")});
 	}
 </script>
 
@@ -90,7 +93,7 @@
 
 <div
 	class="bg-zinc-700 text-white py-2 px-4 rounded-2xl flex flex-row justify-between cursor-pointer"
-	on:click={() => goto('profiles/' + profile.id)}
+	on:click={() => goto(`profiles/${profile.id || ''}`)}
 >
 	<div class="flex flex-col">
 		<span class="text-md font-semibold">

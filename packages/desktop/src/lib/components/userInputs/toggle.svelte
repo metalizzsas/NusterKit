@@ -5,7 +5,7 @@
 
 	let aria = false;
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<{change: {value: boolean | number}}>();
 
 	export let change = () => dispatch('change', { value: value });
 

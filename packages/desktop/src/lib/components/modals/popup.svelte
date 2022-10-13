@@ -13,7 +13,7 @@
 	export let shown: boolean;
 	export let modalData: IPopupMessage | null;
 
-	async function execCTA(cta: ICallToAction) {
+	const execCTA = async (cta: ICallToAction) => {
 		if (cta.APIEndpoint !== undefined) {
 			const request = await fetch('//' + $Linker + cta.APIEndpoint.url, {
 				method: cta.APIEndpoint.method,
@@ -26,7 +26,7 @@
 		}
 
 		if (cta.UIEndpoint !== undefined) {
-			goto(cta.UIEndpoint);
+			void goto(cta.UIEndpoint);
 			shown = false;
 		}
 	}
@@ -47,7 +47,7 @@
 						</Button>
 					{/each}
 				{/if}
-				<Button on:click={async () => (shown = false)} color="bg-orange-400">
+				<Button on:click={() => (shown = false)} color="bg-orange-400">
 					{$_('close-modal')}
 				</Button>
 			</Flex>

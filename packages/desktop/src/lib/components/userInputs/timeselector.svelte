@@ -16,7 +16,7 @@
 		'seconds',
 	];
 
-	function computeTo() {
+	const computeTo = () => {
 		value = milliseconds / 1000 + seconds + minutes * 60 + hours * 3600;
 	}
 

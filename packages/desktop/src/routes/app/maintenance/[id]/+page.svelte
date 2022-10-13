@@ -14,11 +14,14 @@
 	let procedureIndex = 0;
 	let procedureImageIndex = 0;
 
-	async function resetMaintenance() {
-		await fetch('//' + $Linker + '/api/v1/maintenance/' + data.maintenance.name, {
+	const resetMaintenance = () => {
+		fetch(`//${$Linker}/api/v1/maintenance/${data.maintenance.name}`, {
 			method: 'DELETE',
+		}).then(() => {
+			void goto("/app");
+		}).catch(() => {
+			console.error("Failed to reset maintenance.");
 		});
-		goto('/app');
 	}
 
 	$navTitle = [
@@ -32,7 +35,7 @@
 </script>
 
 <div class="flex flex-col gap-6">
-	<Navcontainer classes={'mt-0'}>
+	<Navcontainer class={'mt-0'}>
 		<Navcontainertitle>
 			{$_('maintenance.tasks.' + data.maintenance.name + '.name')}
 		</Navcontainertitle>
@@ -72,7 +75,7 @@
 									<div
 										class="absolute flex flex-row bottom-5 rounded-xl overflow-clip ring-1 ring-neutral-300"
 									>
-										{#each step.media.length as indeximge}
+										{#each Array<number>(step.media.length) as indeximge}
 											<div on:click={() => (procedureImageIndex = indeximge)}>
 												<div
 													class="h-10 aspect-square bg-white text-zinc-800 text-xl flex flex-row items-center justify-center border-r-[1px] border-neutral-300 {procedureImageIndex !=
@@ -93,7 +96,7 @@
 			</div>
 
 			<Navcontainer
-				classes={imageExpanded ? 'col-span-3 mt-0 relative' : 'col-span-4 mt-0 relative'}
+				class={imageExpanded ? 'col-span-3 mt-0 relative' : 'col-span-4 mt-0 relative'}
 			>
 				<Navcontainertitle>{$_('maintenance.procedure.title')}</Navcontainertitle>
 				{#if procedureIndex < data.maintenance.procedure.steps.length - 1}

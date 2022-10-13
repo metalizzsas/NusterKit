@@ -14,27 +14,24 @@
 	import Popup from '$lib/components/modals/popup.svelte';
 	import type { IPopupMessage, IStatusMessage, IWebSocketData } from '@metalizzsas/nuster-typings';
 
-	let ready = false;
-
+	let websocketState: "idle" | "establishing" | "established" | "errored" = "idle";
 	let ws: WebSocket;
-	let wsAtempt = 0;
-	let wsError = false;
 
 	let displayPopup = false;
 	let popupData: IPopupMessage | null = null;
 
-	beforeUpdate(async () => {
+	beforeUpdate(() => {
 		const ip = window.localStorage.getItem('ip') ?? '127.0.0.1';
 		$Linker = ip;
 	});
 
-	onMount(async () => {
+	onMount(() => {
 		//disabling right click
 		window.addEventListener('contextmenu', function (e) {
 			if (BUNDLED == 'true') e.preventDefault();
 		});
 
-		registerWebsocket();
+		websocketState = 'establishing';
 	});
 
 	onDestroy(() => {
@@ -45,69 +42,64 @@
 		}
 	});
 
-	async function registerWebsocket() {
-		for (let i = 1; i < 12; i++) {
-			wsAtempt = i;
+	/**
+	 * Handle websocket Messages events
+	 * @param message Message given by the websocket server
+	 */
+	const handleWebsocketData = (message: MessageEvent) => {
+		let data = JSON.parse(message.data as string) as IWebSocketData;
 
-			if (wsAtempt === 11) {
-				wsError = true;
+		switch (data.type) {
+			case 'status': {
+				if ($lockMachineData === false) {
+					$machineData = data.message as IStatusMessage;
+				}
+				websocketState = 'established';
 				break;
 			}
-
-			const protocol = window.location.protocol == 'https:' ? 'wss' : 'ws';
-
-			ws = new WebSocket(protocol + '://' + $Linker + '/ws/');
-
-			const result = await new Promise<boolean>((resolve) => {
-				ws.onopen = () => {
-					resolve(true);
-				};
-				ws.onerror = () => {
-					resolve(false);
-				};
-			});
-
-			if (result === true) {
-				await initI18nMachine($Linker);
+			case 'popup': {
+				displayPopup = true;
+				popupData = data.message as IPopupMessage;
 				break;
-			} else {
-				await new Promise((resolve) => setTimeout(resolve, 5000));
-				ws.close();
-				continue;
 			}
 		}
-		ws.onmessage = (e: MessageEvent) => {
-			let data = JSON.parse(e.data) as IWebSocketData;
+	};
 
-			switch (data.type) {
-				case 'status': {
-					if ($lockMachineData === false) {
-						$machineData = data.message as IStatusMessage;
-						ready = true;
-					}
-					break;
-				}
-				case 'popup': {
-					displayPopup = true;
-					popupData = data.message as IPopupMessage;
-					break;
-				}
-			}
-		};
+	/** Connect to the machine websocket server */
+	const connectWebsocket = async ()=> {
 
-		ws.onerror = () => {
-			console.log('WS Error');
-		};
+		const protocol = window.location.protocol == 'https:' ? 'wss' : 'ws';
 
-		ws.onclose = () => {
-			ready = false;
-			wsAtempt = 0;
-			registerWebsocket();
-		};
+		try 
+		{
+			ws = new WebSocket(`${protocol}://${$Linker}/ws/`);
+	
+			return new Promise<void>(resolve => {
+				ws.onerror = () => { websocketState = 'idle'; resolve(); };
+				ws.onopen = () => { 
+					
+					initI18nMachine($Linker).then(() => {
+						ws.onmessage = handleWebsocketData;
+						ws.onclose = () => { websocketState = 'idle'; };
+
+					}).catch(() => {
+						websocketState = 'idle';
+					});
+	
+					resolve();
+				};
+			});
+		} 
+		catch(error)
+		{
+			return false;
+		} 
 	}
+
+	$: websocketState == 'establishing', void connectWebsocket();
 </script>
 
-{#if !ready}
+{#if websocketState != "established"}
 	<div
 		class="fixed flex top-0 bottom-0 left-0 right-0 justify-center items-center"
 		in:fade
@@ -115,7 +107,7 @@
 	>
 		<div class="relative bg-zinc-900 w-[35%] p-5 text-white rounded-3xl" in:scale out:scale>
 			<div class="flex flex-col gap-2">
-				{#if wsError === false}
+				{#if websocketState != 'errored'}
 					<svg
 						id="glyphicons-basic"
 						xmlns="http://www.w3.org/2000/svg"
@@ -127,10 +119,6 @@
 							d="M19.87274,10.13794l1.31787-1.48267A8.92382,8.92382,0,0,0,14.93652,7.063,9.0169,9.0169,0,0,0,7.509,19.0083a8.88913,8.88913,0,0,0,5.76245,5.57849,9.01793,9.01793,0,0,0,10.66144-4.34558.9883.9883,0,0,1,1.252-.43762l.9262.38513a1.00842,1.00842,0,0,1,.50147,1.40161A11.99311,11.99311,0,1,1,23.1991,6.39575L24.584,4.83765a.49992.49992,0,0,1,.8595.214l1.47235,6.05273a.5.5,0,0,1-.5462.6145L20.186,10.96643A.5.5,0,0,1,19.87274,10.13794Z"
 						/>
 					</svg>
-					<p class="text-center">
-						{$_('loadingScreen.connectionAttemptCount')}
-						{wsAtempt} / 10
-					</p>
 					<button
 						class="py-1 px-3 bg-red-400 text-white rounded-xl font-semibold"
 						on:click={() => history.back()}

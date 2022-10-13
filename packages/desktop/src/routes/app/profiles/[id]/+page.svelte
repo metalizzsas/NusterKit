@@ -24,15 +24,18 @@
 		initialProfile = JSON.stringify(profile);
 	});
 
-	async function save() {
-		await fetch('//' + $Linker + '/api/v1/profiles', {
+	const save = () => {
+		fetch('//' + $Linker + '/api/v1/profiles', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify(profile),
-		});
-		goto('/app/profiles');
+		}).then(() => {
+			void goto('/app/profiles');
+		}).catch(() => {
+			console.error("Failed to save profile");
+		})
 	}
 
 	const exit = async () => {
@@ -44,11 +47,11 @@
 						resolve();
 						clearInterval(timer);
 						if (saveModalCancel == true) saveModalCancel = false;
-						else goto('/app/profiles');
+						else void goto('/app/profiles');
 					}
 				}, 100);
 			} else {
-				goto('/app/profiles');
+				void goto('/app/profiles');
 			}
 		});
 	};
@@ -76,9 +79,7 @@
 		{
 			text: $_('yes'),
 			color: 'bg-emerald-500',
-			callback: async () => {
-				await save();
-			},
+			callback: save,
 		},
 		{
 			text: $_('no'),

@@ -56,7 +56,7 @@
 		{#each blocks as cat, i}
 			{@const catego = ['childrens', 'true', 'false']}
 
-			{#if cat !== undefined && cat.length > 0}
+			{#if cat !== undefined}
 				<Label class="ml-4 my-2 self-start font-semibold" color={'bg-zinc-100'}>
 					{catego[i]} blocks
 				</Label>

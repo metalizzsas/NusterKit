@@ -17,17 +17,18 @@
 	let chartCanvas: HTMLCanvasElement;
 
 	const triggerState = async (state: boolean) => {
-		await fetch('//' + $Linker + '/api/v1/passives/' + passive.name + '/state/' + state, {
-			method: 'POST',
-		});
-	};
-	const triggerTarget = async (target: number) => {
-		await fetch('//' + $Linker + '/api/v1/passives/' + passive.name + '/target/' + target, {
+		await fetch(`//${$Linker}/api/v1/passives/${passive.name}/state/${state ? 'true' : 'false'}`, {
 			method: 'POST',
 		});
 	};
 
-	const openChart = async () => {
+	const triggerTarget = async (target: number) => {
+		await fetch(`//${$Linker}/api/v1/passives/${passive.name}/target/${target}`, {
+			method: 'POST',
+		});
+	};
+
+	const openChart = () => {
 		new Chart(chartCanvas, {
 			type: 'line',
 			data: {
@@ -67,7 +68,7 @@
 		});
 	};
 
-	$: target, triggerTarget(target);
+	$: target, void triggerTarget(target);
 	$: if (chartCanvas != null && showlogPoints == true) {
 		openChart();
 	}

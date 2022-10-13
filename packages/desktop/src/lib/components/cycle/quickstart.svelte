@@ -26,7 +26,7 @@
 	let deleteProfileModalShown = false;
 
 	$: profile = profiles.find((k) => k.id == selectedProfile);
-	$: if ($machineData.cycle !== undefined) goto('/app/cycle');
+	$: if ($machineData.cycle !== undefined) void goto('/app/cycle');
 	$: if (saveProfileNameInvalid == true) {
 		setTimeout(() => (saveProfileNameInvalid = false), 5000);
 	}
@@ -41,9 +41,8 @@
 		const reqSkeleton = await fetch('//' + $Linker + '/api/v1/profiles/skeletons/default');
 
 		if (reqSkeleton.status == 200) {
-			const json = await reqSkeleton.json();
 
-			const result = json as IProfileHydrated;
+			const result = (await reqSkeleton.json()) as IProfileHydrated;
 
 			result.id = 'skeleton';
 			result.name = '—';
@@ -75,7 +74,7 @@
 
 	const deleteProfile = async () => {
 		if (profile !== undefined) {
-			await fetch('//' + $Linker + '/api/v1/profiles/' + profile.id, {
+			await fetch(`//${$Linker}/api/v1/profiles/${profile.id || ''}`, {
 				method: 'DELETE',
 			});
 
@@ -89,7 +88,7 @@
 
 			if (QSProfile) profile.name = 'Quickstart';
 
-			const url = '//' + $Linker + '/api/v1/cycle/default/' + (QSProfile ? '' : profile.id);
+			const url = `//${$Linker}/api/v1/cycle/default/${(QSProfile ? '' : (profile.id || ''))}`;
 			const body = QSProfile ? JSON.stringify(profile) : '';
 
 			const startRequest = await fetch(url, {
@@ -101,7 +100,7 @@
 			});
 
 			if (startRequest.ok) {
-				goto('/app/cycle');
+				void goto('/app/cycle');
 			}
 		}
 	};
@@ -126,7 +125,7 @@
 				callback: (val) => {
 					if (val != '') {
 						saveProfileNameInvalid = false;
-						saveProfile(val);
+						void saveProfile(val);
 					} else {
 						saveProfileNameInvalid = true;
 						return false;
@@ -205,7 +204,7 @@
 								if (profile && profile.id == 'skeleton') {
 									saveProfileModalShown = true;
 								} else {
-									saveProfile();
+									void saveProfile();
 								}
 							}}
 						>

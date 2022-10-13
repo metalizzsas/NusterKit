@@ -17,7 +17,7 @@
 </script>
 
 <Flex
-	class="self-center bg-white rounded-full shadow-xs {'p-' + padding} {$$props.class}"
+	class="self-center bg-white rounded-full shadow-xs p-{padding} {$$props.class}"
 	gap={starsGapSize}
 	items={'center'}
 >
@@ -26,7 +26,7 @@
 			id="glyphicons-basic"
 			xmlns="http://www.w3.org/2000/svg"
 			viewBox="0 0 32 32"
-			class="{'h-' + starsSize} {'w-' + starsSize} self-center transition-all {rating >= i
+			class="h-{starsSize} w-{starsSize} self-center transition-all {rating >= i
 				? 'fill-amber-500'
 				: 'fill-gray-500'}"
 			on:click={() => updateRating(i)}

@@ -16,8 +16,9 @@
 
 	$: gates = $machineData.io;
 
-	function update(gate: string, value: number) {
-		fetch(`//${$Linker}/api/v1/io/${gate.replace('#', '_')}/${value}`);
+	const update = async (gate: string, value: number): Promise<boolean> => {
+		const result = await fetch(`//${$Linker}/api/v1/io/${gate.replace('#', '_')}/${value}`);
+		return result.ok;
 	}
 
 	$navTitle = [$_('manual.list'), $_('gates.name')];
@@ -30,7 +31,7 @@
 
 <Navcontainer>
 	<div class="grid grid-cols-2 gap-4">
-		<div
+		<button
 			on:click={() => (tab = 'in')}
 			class=" bg-gradient-to-br {tab == 'in'
 				? 'from-indigo-500 to-indigo-600'
@@ -51,8 +52,8 @@
 
 				{$_('gates.bus.in')}
 			</div>
-		</div>
-		<div
+		</button>
+		<button
 			on:click={() => (tab = 'out')}
 			class=" bg-gradient-to-br {tab == 'out'
 				? 'from-indigo-500 to-indigo-600'
@@ -73,7 +74,7 @@
 
 				{$_('gates.bus.out')}
 			</div>
-		</div>
+		</button>
 	</div>
 </Navcontainer>
 
@@ -112,7 +113,7 @@
 									bind:value={gate.value}
 									on:change={() => {
 										$lockMachineData = false;
-										update(gate.name, gate.value);
+										void update(gate.name, gate.value);
 									}}
 								/>
 							{/if}

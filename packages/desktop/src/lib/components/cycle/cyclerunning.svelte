@@ -16,7 +16,7 @@
 
 	const stopCycle = () => {
 		if ($machineData.cycle?.status.mode !== 'ended') {
-			fetch('//' + $Linker + '/api/v1/cycle', {
+			void fetch(`//${$Linker}/api/v1/cycle`, {
 				method: 'DELETE',
 				headers: {
 					'Content-Type': 'application/json',
@@ -27,7 +27,7 @@
 
 	const nextStep = () => {
 		if ($machineData.machine.settings?.isPrototype == true) {
-			fetch('//' + $Linker + '/api/v1/cycle/nextStep', {
+			void fetch(`//${$Linker}/api/v1/cycle/nextStep`, {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json',
@@ -39,7 +39,7 @@
 	$useNavContainer = false;
 
 	onMount(() => {
-		$navTitle = [$_('cycle.button'), $_('cycle.names.' + $machineData.cycle?.name)];
+		$navTitle = [$_('cycle.button'), $_(`cycle.names.${$machineData.cycle?.name || 'default'}`)];
 		if ($machineData.cycle?.profile) {
 			$navTitle = [
 				...$navTitle,

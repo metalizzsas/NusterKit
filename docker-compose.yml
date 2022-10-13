@@ -28,7 +28,9 @@ services:
       io.balena.features.supervisor-api: '1'
 
   nuster-desktop:
-    build: ./packages/desktop/
+    build: 
+      dockerfile: ./packages/desktop/Dockerfile.template
+      context: ./
     restart: always
     network_mode: host
     depends_on: 

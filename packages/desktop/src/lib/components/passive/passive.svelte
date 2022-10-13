@@ -68,7 +68,7 @@
 		});
 	};
 
-	$: target, triggerTarget(target);
+	$: target, void triggerTarget(target);
 	$: if (chartCanvas != null && showlogPoints == true) {
 		openChart();
 	}

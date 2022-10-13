@@ -5,7 +5,7 @@ ENV NODE_ENV=production
 WORKDIR /usr/src/app
 
 COPY package*.json /usr/src/app/
-COPY .npmrc ./
+#COPY .npmrc ./
 
 COPY ./CHANGELOG.md ./CHANGELOG.md
 
@@ -15,7 +15,7 @@ COPY build/ /build/
 RUN npm install
 
 # Remove npmrc file
-RUN rm .npmrc
+#RUN rm .npmrc
 
 # Run args
 CMD [ "node", "build" ]

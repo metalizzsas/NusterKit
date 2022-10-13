@@ -9,7 +9,7 @@ RUN install_packages build-essential python3 git openssh-client
 
 # Copying Package & Package lock json
 COPY package*.json ./
-COPY .npmrc ./
+#COPY .npmrc ./
 
 COPY ./CHANGELOG.md ./CHANGELOG.md
 COPY ./entrypoint.sh ./entrypoint.sh
@@ -20,7 +20,7 @@ COPY build/ /build/
 RUN npm install
 
 # Remove npmrc file
-RUN rm .npmrc
+#RUN rm .npmrc
 
 # Run args
 CMD ["bash", "entrypoint.sh"]

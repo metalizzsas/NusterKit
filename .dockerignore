@@ -1,6 +1,9 @@
 .changeset/
 .github/
 .pnpm/
-node_modules/
+.vscode/
 
-utils/configuration-files/
+node_modules/
+utils/
+
+docker-compose-dev.yml

@@ -5,11 +5,12 @@ ENV NODE_ENV=production
 
 WORKDIR /usr/src/app
 
+COPY .npmrc ./.npmrc
+
 RUN install_packages build-essential python3 git openssh-client
 
 # Copying Package & Package lock json
 COPY packages/turbine/package*.json ./
-COPY .npmrc ./
 
 COPY packages/turbine/CHANGELOG.md ./CHANGELOG.md
 COPY packages/turbine/entrypoint.sh ./entrypoint.sh

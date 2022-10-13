@@ -15,7 +15,7 @@ services:
 
   nuster-turbine:
     build: 
-      dockerfile: ./packages/turbine/
+      dockerfile: ./packages/turbine/Dockerfile.template
       context: ./
     network_mode: host
     depends_on: 

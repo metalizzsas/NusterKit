@@ -1,5 +1,21 @@
 # @metalizzsas/nuster-desktop
 
+## 1.5.0
+
+### Minor Changes
+
+- changed the way the Websocket connection is established ([#15](https://github.com/metalizzsas/NusterKit/pull/15))
+
+### Patch Changes
+
+- passives logData type change ([#15](https://github.com/metalizzsas/NusterKit/pull/15))
+
+- changlelog is now copied to static files ([#15](https://github.com/metalizzsas/NusterKit/pull/15))
+
+- changelogs are now displayed correctly ([#15](https://github.com/metalizzsas/NusterKit/pull/15))
+
+- profile are now displayed correctly ([#15](https://github.com/metalizzsas/NusterKit/pull/15))
+
 ## 1.4.1
 
 ### Patch Changes

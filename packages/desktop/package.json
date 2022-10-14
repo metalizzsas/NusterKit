@@ -1,6 +1,6 @@
 {
 	"name": "@metalizzsas/nuster-desktop",
-	"version": "1.4.1",
+	"version": "1.5.0",
 	"private": true,
 	"description": "Nuster Desktop",
 	"main": "build/index.js",
@@ -33,7 +33,7 @@
 		"tailwindcss": "^3.1.8",
 		"postcss": "^8.1.0",
 		"svelte-portal": "^2.2.0",
-		"@metalizzsas/nuster-typings": "1.1.0",
+		"@metalizzsas/nuster-typings": "1.1.1",
 		"@sveltejs/adapter-node": "^1.0.0-next.90",
 		"@sveltejs/kit": "1.0.0-next.515",
 		"@types/cookie": "^0.5.1",

@@ -1,5 +1,20 @@
 # @metalizzsas/nuster-turbine
 
+## 1.5.1
+
+### Patch Changes
+
+- passives logData type change ([#15](https://github.com/metalizzsas/NusterKit/pull/15))
+
+- changelogs are now displayed correctly ([#15](https://github.com/metalizzsas/NusterKit/pull/15))
+
+- profile are now displayed correctly ([#15](https://github.com/metalizzsas/NusterKit/pull/15))
+
+- Updated scripts ([#15](https://github.com/metalizzsas/NusterKit/pull/15))
+
+- Updated dependencies [[`ba59ea4`](https://github.com/metalizzsas/NusterKit/commit/ba59ea4f136284456aff7e409de18a6cf2460be1), [`0833f7e`](https://github.com/metalizzsas/NusterKit/commit/0833f7e26cea4ca58ec86b8aa7982bb94fdc670b)]:
+  - @metalizzsas/nuster-turbine-machines@1.1.1
+
 ## 1.5.0
 
 ### Minor Changes

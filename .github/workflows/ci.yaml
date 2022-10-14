@@ -15,9 +15,10 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     permissions:
-      id-token: read
-      contents: read
+      id-token: write
+      contents: write
       packages: read
+
     steps:
       - name: 📚 Checkout repository
         uses: actions/checkout@v3

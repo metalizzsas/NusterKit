@@ -5,7 +5,7 @@ export interface IPassiveStoredLogData {
     state: boolean,
 
     interpolatedSensorsValue: number,
-    time: Date,
+    time: string,
 }
 
 export type IPassiveHydrated = Omit<IConfigPassive, "actuators" | "manualModes" | "sensors"> & 

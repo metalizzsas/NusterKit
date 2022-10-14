@@ -13,6 +13,9 @@
 	export let value: string | number;
 	export let disabled = false;
 
+	/**
+	 * options.class @deprecated
+	 */
 	export let options: { class?: string; placeholder?: string; min?: number; max?: number } = {};
 
 	const focusScroll = () => document.getElementById(typeof value === 'number' ? '#inputNumeric' : '#inputString')?.scrollTo();

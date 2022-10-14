@@ -137,17 +137,7 @@ function SetupExpress()
             res.status(req.status).end();
     }); 
     
-    ExpressApp.get("/currentReleaseNotes", (_req, res: Response) => {
-        try
-        {
-            const releaseNotes = fs.readFileSync(path.resolve("release.md"), "utf8");
-            res.send(releaseNotes);
-        }
-        catch(err)
-        {
-            res.send("Releases notes not available");
-        }
-    });
+    ExpressApp.get("/currentReleaseNotes", (_req, res: Response) => { res.sendFile(path.resolve("CHANGELOG.md")); });
 
     if(!productionEnabled)
     {

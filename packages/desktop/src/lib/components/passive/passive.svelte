@@ -32,7 +32,7 @@
 		new Chart(chartCanvas, {
 			type: 'line',
 			data: {
-				labels: passive.logData.map((ld) => $time(ld.time)),
+				labels: passive.logData.map((ld) => $time(Date.parse(ld.time))),
 				datasets: [
 					{
 						label: $_('passives.target'),

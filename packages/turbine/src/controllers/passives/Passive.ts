@@ -65,7 +65,7 @@ export class Passive implements IConfigPassive {
                 interpolatedSensorsValue: this.currentValue,
 
                 state: this.state,
-                time: new Date()
+                time: new Date().toISOString()
             } as IPassiveStoredLogData;
 
             //add new logpoint

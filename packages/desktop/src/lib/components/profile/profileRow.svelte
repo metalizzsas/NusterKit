@@ -14,15 +14,16 @@
 	class="bg-zinc-400 dark:bg-zinc-500 rounded-3xl py-1 px-3 flex flex-row justify-between items-center"
 >
 	<span class="text-white">
-		{$_('profile.rows.' + row.name)}
+
+		{$_(`profile.rows.${row.name.split("#")[1]}`)}
 	</span>
 
 	<div class="-mr-2 flex flex-row gap-3">
 		{#if row.type === 'bool'}
 			<Toggle
 				bind:value={row.value}
-				locked={!profile.overwriteable}
-				enableGrayScale={!profile.overwriteable}
+				locked={profile.isOverwritable === false}
+				enableGrayScale={profile.isOverwritable === false}
 			/>
 		{:else if row.type === 'float'}
 			<input
@@ -32,7 +33,7 @@
 				min={row.floatMin}
 				max={row.floatMax}
 				step={row.floatStep}
-				disabled={!profile.overwriteable}
+				disabled={profile.isOverwritable === false}
 			/>
 			{#if row.unity !== undefined}
 				<span class="bg-white text-zinc-800 py-0.5 px-2 text-center rounded-full">
@@ -45,7 +46,7 @@
 				<TimeSelector
 					bind:value={row.value}
 					enabledTimes={row.units}
-					disabled={!profile.overwriteable}
+					disabled={profile.isOverwritable === false}
 				/>
 			</div>
 		{:else if row.type === 'int'}
@@ -54,7 +55,7 @@
 			>
 				<Inputkb
 					bind:value={row.value}
-					disabled={!profile.overwriteable}
+					disabled={profile.isOverwritable === false}
 					options={{ class: 'bg-white dark:bg-zinc-600' }}
 				/>
 				{#if row.unity !== undefined}

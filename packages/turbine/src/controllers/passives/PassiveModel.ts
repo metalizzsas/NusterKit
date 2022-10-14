@@ -10,7 +10,7 @@ export interface IPassiveStored {
 }
 
 const PassiveLogDataSchema = new Schema<IPassiveStoredLogData>({
-    time: { type: Date, default: Date.now, required: true },
+    time: { type: String, required: true },
     targetValue: { type: Number, required: true },
     interpolatedSensorsValue: { type: Number, required: true },
     state: { type: Boolean, default: true}

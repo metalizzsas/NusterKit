@@ -16,8 +16,8 @@
 
 	import Modal from '../modals/modal.svelte';
 	import Modalprompt from '../modals/modalprompt.svelte';
-	import type { IProfileHydrated } from '@metalizzsas/nuster-typings/src/hydrated/profile';
-	import type { IProfileSkeleton } from '@metalizzsas/nuster-typings/src/spec/profile';
+	import type { IProfileHydrated } from '@metalizzsas/nuster-typings/build/hydrated/profile';
+	import type { IProfileSkeleton } from '@metalizzsas/nuster-typings/build/spec/profile';
 	import { writable } from 'svelte/store';
 
 	let profiles: Array<IProfileHydrated> = [];

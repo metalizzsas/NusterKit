@@ -4,7 +4,7 @@
 	import Flex from '$lib/components/layout/flex.svelte';
 	import Round from '$lib/components/round.svelte';
 
-	import type { IProgramBlockHydrated } from '@metalizzsas/nuster-typings/src/hydrated/cycle/blocks/IProgramBlockHydrated';
+	import type { IProgramBlockHydrated } from '@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/IProgramBlockHydrated';
 
 	import { onMount } from 'svelte';
 	import Param from './param.svelte';

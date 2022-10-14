@@ -1,5 +1,5 @@
-import { IIOPhysicalController } from "@metalizzsas/nuster-typings/src/spec/iophysicalcontrollers";
-import { IEX260Controller } from "@metalizzsas/nuster-typings/src/spec/iophysicalcontrollers/EX260xController";
+import { IIOPhysicalController } from "@metalizzsas/nuster-typings/build/spec/iophysicalcontrollers";
+import { IEX260Controller } from "@metalizzsas/nuster-typings/build/spec/iophysicalcontrollers/EX260xController";
 import { Buffer } from "buffer";
 import ping from "ping";
 import process from "process";

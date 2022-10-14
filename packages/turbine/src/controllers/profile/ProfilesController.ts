@@ -5,8 +5,8 @@ import { LoggerInstance } from "../../app";
 import { AuthManager } from "../../auth/auth";
 import { ProfileModel } from "./ProfileModel";
 
-import type { IProfileSkeleton, ProfileSkeletonFields, IProfileConfig } from "@metalizzsas/nuster-typings/src/spec/profile";
-import type { IProfileHydrated, IProfileStored } from "@metalizzsas/nuster-typings/src/hydrated/profile";
+import type { IProfileSkeleton, ProfileSkeletonFields, IProfileConfig } from "@metalizzsas/nuster-typings/build/spec/profile";
+import type { IProfileHydrated, IProfileStored } from "@metalizzsas/nuster-typings/build/hydrated/profile";
 
 export class ProfileController extends Controller {
 

@@ -7,7 +7,7 @@
 	import Actionmodal from './actionmodal.svelte';
 	import Button from '../button.svelte';
 	
-	import type { ICallToAction } from '@metalizzsas/nuster-typings/src/spec/nuster/ICallToAction';
+	import type { ICallToAction } from '@metalizzsas/nuster-typings/build/spec/nuster/ICallToAction';
 	import type { IPopupMessage } from '@metalizzsas/nuster-typings';
 
 	export let shown: boolean;

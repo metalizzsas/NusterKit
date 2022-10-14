@@ -1,6 +1,6 @@
-import { IProfileHydrated } from "@metalizzsas/nuster-typings/src/hydrated/profile";
-import { IProgramRunner, IPBRStatus, IProgramVariable, IProgramTimer, EPBRMode } from "@metalizzsas/nuster-typings/src/spec/cycle/IProgramBlockRunner";
-import { EProgramStepResult, EProgramStepType, EProgramStepState } from "@metalizzsas/nuster-typings/src/spec/cycle/IProgramStep";
+import { IProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profile";
+import { IProgramRunner, IPBRStatus, IProgramVariable, IProgramTimer, EPBRMode } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlockRunner";
+import { EProgramStepResult, EProgramStepType, EProgramStepState } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramStep";
 import { LoggerInstance } from "../app";
 import { IOController } from "../controllers/io/IOController";
 import { MaintenanceController } from "../controllers/maintenance/MaintenanceController";

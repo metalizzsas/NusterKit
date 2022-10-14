@@ -3,8 +3,8 @@
 	import TimeSelector from '../userInputs/timeselector.svelte';
 	import Inputkb from '../userInputs/inputkb.svelte';
 	import { _ } from 'svelte-i18n';
-	import type { IProfileHydrated } from '@metalizzsas/nuster-typings/src/hydrated/profile';
-	import type { ProfileSkeletonFields } from '@metalizzsas/nuster-typings/src/spec/profile';
+	import type { IProfileHydrated } from '@metalizzsas/nuster-typings/build/hydrated/profile';
+	import type { ProfileSkeletonFields } from '@metalizzsas/nuster-typings/build/spec/profile';
 
 	export let profile: IProfileHydrated
 	export let row: ProfileSkeletonFields;

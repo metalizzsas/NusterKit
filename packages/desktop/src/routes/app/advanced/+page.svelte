@@ -17,7 +17,7 @@
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
 	import Navcontainertitlesided from '$lib/components/navigation/navcontainertitlesided.svelte';
 
-	import type { IManualHydrated } from "@metalizzsas/nuster-typings/src/hydrated/manual/";
+	import type { IManualHydrated } from "@metalizzsas/nuster-typings/build/hydrated/manual/";
 
 	const toggleState = async (name: string, state: number) => {
 		await fetch(`//${$Linker}/api/v1/manual/${name.replace('#', '_')}/${state}`, {

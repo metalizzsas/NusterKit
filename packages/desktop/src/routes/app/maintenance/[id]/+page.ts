@@ -1,4 +1,4 @@
-import type { IMaintenanceHydrated } from '@metalizzsas/nuster-typings/src/hydrated/maintenance';
+import type { IMaintenanceHydrated } from '@metalizzsas/nuster-typings/build/hydrated/maintenance';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async (ctx) => {

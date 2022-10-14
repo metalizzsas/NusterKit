@@ -3,7 +3,7 @@ import type { RequestEvent, RequestHandler } from '@sveltejs/kit';
 import { jsPDF } from "jspdf";
 import { promises } from "fs";
 import path from "path";
-import type { IHistoryHydrated } from '@metalizzsas/nuster-typings/src/hydrated/cycle';
+import type { IHistoryHydrated } from '@metalizzsas/nuster-typings/build/hydrated/cycle';
 
 export const GET: RequestHandler = async (ctx: RequestEvent): Promise<Response> => {
 

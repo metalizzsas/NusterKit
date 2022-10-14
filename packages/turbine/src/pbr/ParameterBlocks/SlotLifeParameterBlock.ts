@@ -1,4 +1,4 @@
-import { ISlotLifetimeParameterBlock } from "@metalizzsas/nuster-typings/src/spec/cycle/programblocks/ParameterBlocks/ISlotLifetimeParameterBlock";
+import { ISlotLifetimeParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ParameterBlocks/ISlotLifetimeParameterBlock";
 import { ParameterBlock } from ".";
 import { SlotController } from "../../controllers/slot/SlotController";
 

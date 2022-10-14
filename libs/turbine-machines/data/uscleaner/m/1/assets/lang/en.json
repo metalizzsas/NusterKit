@@ -33,7 +33,9 @@
         "names": {
             "default": "Main USCleaner cycle"
         },
-        "types": {},
+        "types": {
+            "10min30deg": "10 minutes at 30 °C"
+        },
         "steps": {
             "cleaning": {
                 "name": "Cleaning",

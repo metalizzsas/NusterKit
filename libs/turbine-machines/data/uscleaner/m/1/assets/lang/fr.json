@@ -33,7 +33,9 @@
         "names": {
             "default": "Cycle de base USCleaner"
         },
-        "types": {},
+        "types": {
+            "10min30deg": "10 minutes à 30 °C"
+        },
         "steps": {
             "cleaning": {
                 "name": "Nettoyage",

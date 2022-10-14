@@ -1,4 +1,4 @@
-import { IPassiveProgramBlock } from "@metalizzsas/nuster-typings/src/spec/cycle/programblocks/ProgramBlocks/IPassiveProgramBlock";
+import { IPassiveProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IPassiveProgramBlock";
 import { ProgramBlock } from ".";
 import { LoggerInstance } from "../../app";
 import { PassiveController } from "../../controllers/passives/PassiveController";

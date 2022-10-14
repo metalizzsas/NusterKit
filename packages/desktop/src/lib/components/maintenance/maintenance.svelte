@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import type { IMaintenanceHydrated } from '@metalizzsas/nuster-typings/src/hydrated/maintenance';
+	import type { IMaintenanceHydrated } from '@metalizzsas/nuster-typings/build/hydrated/maintenance';
 
 	export let maintenance: IMaintenanceHydrated;
 </script>

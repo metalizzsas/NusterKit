@@ -2,7 +2,7 @@
 	import Actionmodal from '$lib/components/modals/actionmodal.svelte';
 	import Label from '$lib/components/label.svelte';
 
-	import type { IProfileHydrated } from "@metalizzsas/nuster-typings/src/hydrated/profile";
+	import type { IProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profile";
 
 	export let shown: boolean;
 	export let profile: IProfileHydrated;

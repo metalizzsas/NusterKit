@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-import * as fileSchema from "../../node_modules/@metalizzsas/nuster-typings/src/schemas/schema-specs.json";
+import * as fileSchema from "../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-specs.json";
 
 import { matchers } from 'jest-json-schema';
 

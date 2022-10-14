@@ -1,5 +1,5 @@
-import { IIOGate } from "@metalizzsas/nuster-typings/src/spec/iogates";
-import { IDefaultGate } from "@metalizzsas/nuster-typings/src/spec/iogates/IDefaultGate";
+import { IIOGate } from "@metalizzsas/nuster-typings/build/spec/iogates";
+import { IDefaultGate } from "@metalizzsas/nuster-typings/build/spec/iogates/IDefaultGate";
 import { IOGate } from "./IOGate";
 
 export class DefaultGate extends IOGate implements IIOGate, IDefaultGate

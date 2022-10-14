@@ -2,15 +2,17 @@
   "name": "@metalizzsas/nuster-typings",
   "version": "1.1.1",
   "description": "Typings for NusterKit",
-  "main": "src/index.ts",
+  "types": "build/index.d.ts",
+  "main": "build/index.js",
   "engines": {
     "node": "18.x"
   },
   "scripts": {
     "lint": "eslint --ext .js,.ts .",
-    "build": "npm run schema:config && npm run schema:spec",
-    "schema:config": "typescript-json-schema src/configuration/index.ts IConfiguration --noExtraProps --required -o src/schemas/schema-config.json",
-    "schema:spec": "typescript-json-schema src/spec/index.ts IMachineSpecs --noExtraProps --required -o src/schemas/schema-specs.json"
+    "dev": "tsc --watch",
+    "build": "tsc && npm run schema:config && npm run schema:spec",
+    "schema:config": "typescript-json-schema src/configuration/index.ts IConfiguration --noExtraProps --required -o build/schemas/schema-config.json",
+    "schema:spec": "typescript-json-schema src/spec/index.ts IMachineSpecs --noExtraProps --required -o build/schemas/schema-specs.json"
   },
   "keywords": [],
   "author": "@metalizzsas/kworz",

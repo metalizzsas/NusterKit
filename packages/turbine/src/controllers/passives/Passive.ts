@@ -1,5 +1,5 @@
-import { IPassiveHydrated, IPassiveStoredLogData } from "@metalizzsas/nuster-typings/src/hydrated/passive";
-import { IConfigPassive } from "@metalizzsas/nuster-typings/src/spec/passive";
+import { IPassiveHydrated, IPassiveStoredLogData } from "@metalizzsas/nuster-typings/build/hydrated/passive";
+import { IConfigPassive } from "@metalizzsas/nuster-typings/build/spec/passive";
 import { LoggerInstance } from "../../app";
 import { IOController } from "../io/IOController";
 import { ManualModeController } from "../manual/ManualModeController";

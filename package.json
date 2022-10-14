@@ -7,12 +7,12 @@
     "node": "18.x"
   },
   "scripts": {
-    "dev": "pnpm -r --parallel --filter='./packages/*' run dev",
+    "dev": "pnpm -r --parallel run dev",
 
     "lint": "pnpm -r --parallel run lint",
     "test": "pnpm -r --parallel run test",
     
-    "build": "pnpm -r --parallel --filter='./packages/*' run build",
+    "build": "pnpm -r --parallel --filter='./libs/*' run build && pnpm -r --parallel --filter='./packages/*' run build",
 
     "release": "changeset publish"
   },

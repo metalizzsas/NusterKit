@@ -1,5 +1,5 @@
-import { EPBRMode } from "@metalizzsas/nuster-typings/src/spec/cycle/IProgramBlockRunner";
-import { EProgramStepResult, EProgramStepState, EProgramStepType, IProgramStepRunner } from "@metalizzsas/nuster-typings/src/spec/cycle/IProgramStep";
+import { EPBRMode } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlockRunner";
+import { EProgramStepResult, EProgramStepState, EProgramStepType, IProgramStepRunner } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramStep";
 import { LoggerInstance } from "../app";
 import { NumericParameterBlocks } from "./ParameterBlocks";
 import { ParameterBlockRegistry } from "./ParameterBlocks/ParameterBlockRegistry";

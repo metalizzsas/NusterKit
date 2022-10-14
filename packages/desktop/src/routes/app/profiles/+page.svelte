@@ -17,7 +17,7 @@
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
 
 	import type { PageData } from './$types';
-	import type { IProfileHydrated } from '@metalizzsas/nuster-typings/src/hydrated/profile';
+	import type { IProfileHydrated } from '@metalizzsas/nuster-typings/build/hydrated/profile';
 
 	export let data: PageData;
 

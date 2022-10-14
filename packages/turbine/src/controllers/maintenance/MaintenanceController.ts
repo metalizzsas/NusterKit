@@ -1,5 +1,5 @@
-import { IMaintenanceHydrated } from "@metalizzsas/nuster-typings/src/hydrated/maintenance";
-import { IConfigMaintenance } from "@metalizzsas/nuster-typings/src/spec/maintenance";
+import { IMaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydrated/maintenance";
+import { IConfigMaintenance } from "@metalizzsas/nuster-typings/build/spec/maintenance";
 import { Request, Response } from "express";
 
 import { AuthManager } from "../../auth/auth";

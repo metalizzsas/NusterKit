@@ -8,7 +8,7 @@ COPY .npmrc ./.npmrc
 
 COPY packages/desktop/package*.json ./
 COPY packages/desktop/CHANGELOG.md ./CHANGELOG.md
-COPY packages/desktop/build/ /build/
+COPY packages/desktop/build/ ./build
 
 # Install Prod npm packages
 RUN npm install --omit dev

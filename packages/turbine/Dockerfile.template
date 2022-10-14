@@ -15,7 +15,7 @@ COPY packages/turbine/package*.json ./
 COPY packages/turbine/CHANGELOG.md ./CHANGELOG.md
 COPY packages/turbine/entrypoint.sh ./entrypoint.sh
 
-COPY packages/turbine/build/ /build/
+COPY packages/turbine/build/ ./build
 
 # Install Prod npm packages
 RUN npm install --omit dev

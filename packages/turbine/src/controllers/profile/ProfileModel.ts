@@ -1,4 +1,4 @@
-import { IProfileStored } from "@metalizzsas/nuster-typings/src/hydrated/profile";
+import { IProfileStored } from "@metalizzsas/nuster-typings/build/hydrated/profile";
 import { model, Schema } from "mongoose";
 
 export const ProfileSchema = new Schema<IProfileStored>({

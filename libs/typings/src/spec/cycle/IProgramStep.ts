@@ -50,7 +50,7 @@ export interface IProgramStepInformations
 }
 
 /** Step state */
-export enum EProgramStepState
+export const enum EProgramStepState
 {
     /** Created but not executed yet */
     CREATED = "created",
@@ -71,14 +71,14 @@ export enum EProgramStepState
 }
 
 /** Step Type Programaticaly given by the RunAmount parameter of a step */
-export enum EProgramStepType
+export const enum EProgramStepType
 {
     SINGLE = "single",
     MULTIPLE = "multiple"
 }
 
 /** Result from a step execution */
-export enum EProgramStepResult
+export const enum EProgramStepResult
 {
     /** Step is partialy ended, it wil be re-executed another time */
     PARTIAL_END = "partial",

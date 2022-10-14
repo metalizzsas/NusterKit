@@ -1,4 +1,4 @@
-import { IStopTimerProgramBlock } from "@metalizzsas/nuster-typings/src/spec/cycle/programblocks/ProgramBlocks/IStopTimerProgramBlock";
+import { IStopTimerProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IStopTimerProgramBlock";
 import { LoggerInstance } from "../../app";
 import { CycleController } from "../../controllers/cycle/CycleController";
 import { StringParameterBlocks } from "../ParameterBlocks";

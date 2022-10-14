@@ -16,11 +16,11 @@ import { parseAddon } from "./addons/AddonLoader";
 import { LoggerInstance } from "./app";
 
 import type { IConfiguration, IMachineSpecs, IStatusMessage } from "@metalizzsas/nuster-typings";
-import { IHypervisorData } from "@metalizzsas/nuster-typings/src/hydrated/balena/IHypervisorDevice";
-import { IDeviceData } from "@metalizzsas/nuster-typings/src/hydrated/balena/IDeviceData";
-import { IVPNData } from "@metalizzsas/nuster-typings/src/hydrated/balena/IVPNData";
+import { IHypervisorData } from "@metalizzsas/nuster-typings/build/hydrated/balena/IHypervisorDevice";
+import { IDeviceData } from "@metalizzsas/nuster-typings/build/hydrated/balena/IDeviceData";
+import { IVPNData } from "@metalizzsas/nuster-typings/build/hydrated/balena/IVPNData";
 
-import type { ConfigModel, ConfigVariant } from "@metalizzsas/nuster-typings/src/configuration";
+import type { ConfigModel, ConfigVariant } from "@metalizzsas/nuster-typings/build/configuration";
 
 import * as MetalfogMR1 from "@metalizzsas/nuster-turbine-machines/data/metalfog/m/1/specs.json";
 

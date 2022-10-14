@@ -1,4 +1,4 @@
-import { IConditionalParameterBlock } from "@metalizzsas/nuster-typings/src/spec/cycle/programblocks/ParameterBlocks/IConditionalParameterBlock";
+import { IConditionalParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ParameterBlocks/IConditionalParameterBlock";
 import { NumericParameterBlocks, ParameterBlock, StringParameterBlocks } from ".";
 import { ParameterBlockRegistry } from "./ParameterBlockRegistry";
 

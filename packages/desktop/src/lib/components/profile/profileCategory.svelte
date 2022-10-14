@@ -1,7 +1,7 @@
 <script lang="ts">
     import { _ } from "svelte-i18n";
 
-	import type { IProfileHydrated } from "@metalizzsas/nuster-typings/src/hydrated/profile";
+	import type { IProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profile";
 
     import Navcontainersubtitle from "../navigation/navcontainersubtitle.svelte";
     import Toggle from "../userInputs/toggle.svelte";

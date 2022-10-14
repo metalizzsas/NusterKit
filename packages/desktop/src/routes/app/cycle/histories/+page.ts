@@ -1,6 +1,6 @@
 import type { PageLoad } from './$types';
 
-import type { IHistoryHydrated } from "@metalizzsas/nuster-typings/src/hydrated/cycle/index";
+import type { IHistoryHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/index";
 
 export const load: PageLoad = async (ctx) => {
 	const content = await ctx.fetch(

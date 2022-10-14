@@ -1,4 +1,4 @@
-import { IPopup } from "@metalizzsas/nuster-typings/src/hydrated";
+import { IPopup } from "@metalizzsas/nuster-typings/build/hydrated";
 import { Server } from "http";
 import { OPEN, WebSocket, WebSocketServer } from "ws";
 import { LoggerInstance } from "../app";

@@ -1,5 +1,5 @@
-import type { IProfileHydrated } from '@metalizzsas/nuster-typings/src/hydrated/profile';
-import type { IProfileSkeleton } from '@metalizzsas/nuster-typings/src/spec/profile';
+import type { IProfileHydrated } from '@metalizzsas/nuster-typings/build/hydrated/profile';
+import type { IProfileSkeleton } from '@metalizzsas/nuster-typings/build/spec/profile';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async (ctx) => {

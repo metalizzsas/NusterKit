@@ -1,4 +1,4 @@
-import { IReverseParameterBlock } from "@metalizzsas/nuster-typings/src/spec/cycle/programblocks/ParameterBlocks/IReverseParameterBlock";
+import { IReverseParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ParameterBlocks/IReverseParameterBlock";
 import { NumericParameterBlocks, ParameterBlock } from ".";
 import { ParameterBlockRegistry } from "./ParameterBlockRegistry";
 

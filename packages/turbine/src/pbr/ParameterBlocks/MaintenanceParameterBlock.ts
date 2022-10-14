@@ -1,4 +1,4 @@
-import { IMaintenanceParameterBlock } from "@metalizzsas/nuster-typings/src/spec/cycle/programblocks/ParameterBlocks/IMaintenanceParameterBlock";
+import { IMaintenanceParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ParameterBlocks/IMaintenanceParameterBlock";
 import { ParameterBlock } from ".";
 import { MaintenanceController } from "../../controllers/maintenance/MaintenanceController";
 

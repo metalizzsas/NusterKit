@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-typings
 
+## 1.1.2
+
+### Patch Changes
+
+- updated typings for all packages ([#17](https://github.com/metalizzsas/NusterKit/pull/17))
+
 ## 1.1.1
 
 ### Patch Changes

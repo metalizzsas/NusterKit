@@ -1,5 +1,16 @@
 # @metalizzsas/nuster-turbine
 
+## 1.5.2
+
+### Patch Changes
+
+- updated typings for all packages ([#17](https://github.com/metalizzsas/NusterKit/pull/17))
+
+- updated dockerfile to match file paths ([#17](https://github.com/metalizzsas/NusterKit/pull/17))
+
+- Updated dependencies [[`f103cff`](https://github.com/metalizzsas/NusterKit/commit/f103cffe1910673d108a7021eee29d7d3fac8833)]:
+  - @metalizzsas/nuster-turbine-machines@1.1.2
+
 ## 1.5.1
 
 ### Patch Changes

@@ -8,7 +8,8 @@
 
 	export let shown: boolean;
 
-	let displayReleaseNotes = false;
+	let displayDesktopReleaseNotes = false;
+	let displayTurbineReleaseNotes = false;
 
 	const data: { key: string; data: string | string[] | undefined }[] = [
 		{
@@ -40,8 +41,12 @@
 			data:`${($machineData.maintenances.find((k) => k.name == 'cycleCount')?.durationActual ?? '0')}`,
 		},
 		{
-			key: 'machine.nusterVersion',
-			data: `${$machineData.machine.nusterVersion} ↗`,
+			key: 'machine.nusterDesktopVersion',
+			data: `${$_('releaseNotes.see')} ↗`,
+		},
+		{
+			key: 'machine.nusterTurbineVersion',
+			data: `${$_('releaseNotes.see')} ↗`,
 		},
 		{
 			key: 'machine.balenaVersion',
@@ -62,8 +67,11 @@
 						<Label
 							color="bg-zinc-800 text-white"
 							on:click={() => {
-								if (element.key == 'machine.nusterVersion') {
-									displayReleaseNotes = true;
+								if (element.key == 'machine.nusterDesktopVersion') {
+									displayDesktopReleaseNotes = true;
+								}
+								else if(element.key == 'machine.nusterTurbineVersion') {
+									displayTurbineReleaseNotes = true;
 								}
 							}}
 						>
@@ -84,7 +92,8 @@
 	</table>
 </Modalcontent>
 
-<ReleasesNotes bind:shown={displayReleaseNotes} />
+<ReleasesNotes bind:shown={displayTurbineReleaseNotes} type={"turbine"}/>
+<ReleasesNotes bind:shown={displayDesktopReleaseNotes} type={"desktop"}/>
 
 <style>
 	td {

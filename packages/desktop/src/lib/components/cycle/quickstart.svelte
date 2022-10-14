@@ -17,15 +17,19 @@
 	import Modal from '../modals/modal.svelte';
 	import Modalprompt from '../modals/modalprompt.svelte';
 	import type { IProfileHydrated } from '@metalizzsas/nuster-typings/src/hydrated/profile';
+	import type { IProfileSkeleton } from '@metalizzsas/nuster-typings/src/spec/profile';
+	import { writable } from 'svelte/store';
 
 	let profiles: Array<IProfileHydrated> = [];
+	let profile = writable<IProfileHydrated | undefined>();
+
 	let selectedProfile = 'default';
 
 	let saveProfileModalShown = false;
 	let saveProfileNameInvalid = false;
 	let deleteProfileModalShown = false;
 
-	$: profile = profiles.find((k) => k.id == selectedProfile);
+	$: $profile = profiles.find((k) => k.id == selectedProfile);
 	$: if ($machineData.cycle !== undefined) void goto('/app/cycle');
 	$: if (saveProfileNameInvalid == true) {
 		setTimeout(() => (saveProfileNameInvalid = false), 5000);
@@ -42,24 +46,36 @@
 
 		if (reqSkeleton.status == 200) {
 
-			const result = (await reqSkeleton.json()) as IProfileHydrated;
+			const result = (await reqSkeleton.json()) as IProfileSkeleton;
 
-			result.id = 'skeleton';
-			result.name = '—';
+			const defaultProfile: IProfileHydrated = {
 
-			profiles = [...profiles, result];
+				skeleton: "default",
+				id: "skeleton",
+				name: "—",
+
+				isRemovable: false,
+
+				modificationDate: Date.now(),
+
+				values: result.fields
+			};
+
+			profiles = [...profiles, defaultProfile];
+
+			console.log(profiles);
 
 			selectedProfile = 'skeleton';
 		}
 	};
 
 	const saveProfile = async (name?: string) => {
-		if (profile !== undefined) {
-			const newp = profile.id == 'skeleton';
+		if ($profile !== undefined) {
+			const newp = $profile.id == 'skeleton';
 
-			if (name) profile.name = name;
+			if (name) $profile.name = name;
 
-			if (newp) profile.id = 'created';
+			if (newp) $profile.id = 'created';
 
 			await fetch('//' + $Linker + '/api/v1/profiles' + (newp ? '/create' : ''), {
 				method: newp ? 'PUT' : 'POST',
@@ -73,8 +89,8 @@
 	};
 
 	const deleteProfile = async () => {
-		if (profile !== undefined) {
-			await fetch(`//${$Linker}/api/v1/profiles/${profile.id || ''}`, {
+		if ($profile !== undefined) {
+			await fetch(`//${$Linker}/api/v1/profiles/${$profile.id || ''}`, {
 				method: 'DELETE',
 			});
 
@@ -83,12 +99,12 @@
 	};
 
 	const quickStart = async () => {
-		if (profile !== undefined) {
-			const QSProfile = profile.id == 'skeleton';
+		if ($profile !== undefined) {
+			const QSProfile = $profile.id == 'skeleton';
 
-			if (QSProfile) profile.name = 'Quickstart';
+			if (QSProfile) $profile.name = 'Quickstart';
 
-			const url = `//${$Linker}/api/v1/cycle/default/${(QSProfile ? '' : (profile.id || ''))}`;
+			const url = `//${$Linker}/api/v1/cycle/default/${(QSProfile ? '' : ($profile.id || ''))}`;
 			const body = QSProfile ? JSON.stringify(profile) : '';
 
 			const startRequest = await fetch(url, {
@@ -110,14 +126,14 @@
 	});
 </script>
 
-{#if profile !== undefined}
+{#if $profile !== undefined}
 	<Modalprompt
 		bind:shown={saveProfileModalShown}
 		title={$_('profile.modals.save.title').replace(
 			'{profile.name}',
-			profile.isPremade ? $_('cycle.types.' + profile.name) : profile.name,
+			$profile.isPremade ? $_('cycle.types.' + $profile.name) : $profile.name,
 		)}
-		placeholder={profile.isPremade ? $_('cycle.types.' + profile.name) : profile.name}
+		placeholder={$profile.isPremade ? $_('cycle.types.' + $profile.name) : $profile.name}
 		buttons={[
 			{
 				text: $_('ok'),
@@ -140,7 +156,7 @@
 	>
 		{$_('profile.modals.copy.message').replace(
 			'{profile.name}',
-			profile.isPremade ? $_('cycle.types.' + profile.name) : profile.name,
+			$profile.isPremade ? $_('cycle.types.' + $profile.name) : $profile.name,
 		)}
 		{#if saveProfileNameInvalid}
 			<p class="text-red-500 font-semibold" in:fly out:fly>
@@ -153,7 +169,7 @@
 		bind:shown={deleteProfileModalShown}
 		title={$_('profile.modals.delete.title').replace(
 			'{profile.name}',
-			profile.isPremade ? $_('cycle.types.' + profile.name) : profile.name,
+			$profile.isPremade ? $_('cycle.types.' + $profile.name) : $profile.name,
 		)}
 		buttons={[
 			{
@@ -169,7 +185,7 @@
 	>
 		{$_('profile.modals.delete.message').replace(
 			'{profile.name}',
-			profile.isPremade ? $_('cycle.types.' + profile.name) : profile.name,
+			$profile.isPremade ? $_('cycle.types.' + $profile.name) : $profile.name,
 		)}
 	</Modal>
 {/if}
@@ -177,7 +193,7 @@
 <Navcontainer class="mb-auto">
 	<Navcontainertitle>{$_('cycle.quickstart.head')}</Navcontainertitle>
 	<div class="flex flex-col gap-6">
-		{#if profile !== undefined}
+		{#if $profile !== undefined}
 			<div>
 				<Navcontainersubtitle>
 					{$_('cycle.quickstart.settings-save')}
@@ -189,19 +205,19 @@
 						class="col-span-4 p-1.5 font-semibold rounded-full px-3 grow text-zinc-900"
 						bind:value={selectedProfile}
 					>
-						{#each profiles.sort((a, b) => (a.name < b.name ? 1 : -1)) as profile}
-							<option value={profile.id}>
-								{profile.isPremade
-									? $_('cycle.types.' + profile.name)
-									: profile.name}
+						{#each profiles.sort((a, b) => (a.name < b.name ? 1 : -1)) as profileListElement}
+							<option value={profileListElement.id}>
+								{profileListElement.isPremade
+									? $_('cycle.types.' + profileListElement.name)
+									: profileListElement.name}
 							</option>
 						{/each}
 					</select>
-					{#if profile.isOverwritable !== false}
+					{#if $profile.isOverwritable !== false}
 						<button
 							class="self-center bg-emerald-500 text-white p-2 rounded-full"
 							on:click|stopPropagation={() => {
-								if (profile && profile.id == 'skeleton') {
+								if ($profile && $profile.id == 'skeleton') {
 									saveProfileModalShown = true;
 								} else {
 									void saveProfile();
@@ -221,7 +237,7 @@
 							</svg>
 						</button>
 					{/if}
-					{#if profile.isRemovable !== false}
+					{#if $profile.isRemovable === undefined}
 						<button
 							class="self-center bg-red-500 text-white p-2 rounded-full"
 							on:click|stopPropagation={() => {
@@ -247,8 +263,8 @@
 				<Navcontainersubtitle>{$_('cycle.quickstart.settings')}</Navcontainersubtitle>
 
 				<div class="flex flex-col gap-2">
-					{#each profile.values as field}
-						<ProfileRow bind:row={field} {profile} />
+					{#each $profile.values as field}
+						<ProfileRow bind:row={field} bind:profile={$profile} />
 					{/each}
 				</div>
 			</div>

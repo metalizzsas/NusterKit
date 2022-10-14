@@ -225,7 +225,7 @@ export class ProfileController extends Controller {
     public hydrateProfile(profileStored: IProfileStored | IProfileConfig): IProfileHydrated | undefined {
 
         // Find the skeleton assignated to this profile
-        const profileSkeleton = this.profileSkeletons.get(profileStored.skeleton);
+        const profileSkeleton = structuredClone(this.profileSkeletons.get(profileStored.skeleton));
 
         // Make sure that we have the skeleton for this profile
         if(profileSkeleton !== undefined)

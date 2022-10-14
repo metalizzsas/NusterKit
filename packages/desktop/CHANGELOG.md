@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-desktop
 
+## 1.5.1
+
+### Patch Changes
+
+- updated typings for all packages ([#17](https://github.com/metalizzsas/NusterKit/pull/17))
+
+- updated dockerfile to match file paths ([#17](https://github.com/metalizzsas/NusterKit/pull/17))
+
 ## 1.5.0
 
 ### Minor Changes

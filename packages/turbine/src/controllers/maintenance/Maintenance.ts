@@ -1,5 +1,5 @@
-import { IMaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydrated/maintenance";
-import { IConfigMaintenance, IMaintenanceProcedure } from "@metalizzsas/nuster-typings/build/spec/maintenance";
+import type { IMaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydrated/maintenance";
+import type { IConfigMaintenance, IMaintenanceProcedure } from "@metalizzsas/nuster-typings/build/spec/maintenance";
 import { LoggerInstance } from "../../app";
 import { MaintenanceModel } from "./MaintenanceModel";
 

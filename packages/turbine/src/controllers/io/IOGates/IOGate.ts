@@ -1,4 +1,4 @@
-import { IIOGate, IOGateTypeName, IOGatesConfig } from "@metalizzsas/nuster-typings/build/spec/iogates";
+import type { IIOGate, IOGateTypeName, IOGatesConfig } from "@metalizzsas/nuster-typings/build/spec/iogates";
 import { LoggerInstance } from "../../../app";
 import { IOController } from "../IOController";
 

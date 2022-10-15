@@ -1,9 +1,9 @@
 import { Controller } from "../Controller";
 import { ManualMode } from "./ManualMode";
 
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { AuthManager } from "../../auth/auth";
-import { IConfigManualMode } from "@metalizzsas/nuster-typings/build/spec/manual";
+import type { IConfigManualMode } from "@metalizzsas/nuster-typings/build/spec/manual";
 
 export class ManualModeController extends Controller
 {

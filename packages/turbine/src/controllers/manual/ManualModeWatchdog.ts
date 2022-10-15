@@ -1,8 +1,8 @@
-import { IManualWatchdogCondition } from "@metalizzsas/nuster-typings/build/spec/manual";
+import type { IManualWatchdogCondition } from "@metalizzsas/nuster-typings/build/spec/manual";
 import { LoggerInstance } from "../../app";
 import { WebsocketDispatcher } from "../../websocket/WebsocketDispatcher";
 import { IOController } from "../io/IOController";
-import { ManualMode } from "./ManualMode";
+import type { ManualMode } from "./ManualMode";
 
 export class ManualWatchdogCondition implements IManualWatchdogCondition
 {

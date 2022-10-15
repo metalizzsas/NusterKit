@@ -1,4 +1,4 @@
-import { EProductSeries } from "@metalizzsas/nuster-typings/build/spec/slot";
+import type { EProductSeries } from "@metalizzsas/nuster-typings/build/spec/slot";
 import { model, Schema } from "mongoose";
 
 /** Slot database schema */

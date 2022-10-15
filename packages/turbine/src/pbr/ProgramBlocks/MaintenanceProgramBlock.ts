@@ -1,6 +1,6 @@
-import { IMaintenanceProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IMaintenanceProgramBlock";
+import type { IMaintenanceProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IMaintenanceProgramBlock";
 import { MaintenanceController } from "../../controllers/maintenance/MaintenanceController";
-import { NumericParameterBlocks, StringParameterBlocks } from "../ParameterBlocks";
+import type { NumericParameterBlocks, StringParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 import { ProgramBlock } from "./index";
 

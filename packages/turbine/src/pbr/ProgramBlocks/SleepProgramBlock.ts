@@ -1,9 +1,7 @@
-import { EPBRMode } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlockRunner";
-import { EProgramStepState } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramStep";
-import { ISleepProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/ISleepProgramBlock";
+import type { ISleepProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/ISleepProgramBlock";
+import type { NumericParameterBlocks } from "../ParameterBlocks";
 import { LoggerInstance } from "../../app";
 import { CycleController } from "../../controllers/cycle/CycleController";
-import { NumericParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 import { PBRMissingError } from "../PBRMissingError";
 import { ProgramBlock } from "./index";
@@ -33,7 +31,7 @@ export class SleepProgramBlock extends ProgramBlock implements ISleepProgramBloc
     
             for (let i = 0; i < ((sleepTime * 1000) / 10); i++)
             {
-                if ([EProgramStepState.ENDING, EProgramStepState.ENDED].includes(pbrInstance.currentRunningStep?.state) || [EPBRMode.ENDED, EPBRMode.ENDING].includes(pbrInstance.status.mode))
+                if (["ending", "ended"].includes(pbrInstance.currentRunningStep?.state) || ["ended", "ending"].includes(pbrInstance.status.mode))
                     return;
                 else
                     await new Promise(resolve => { setTimeout(resolve, 10); });

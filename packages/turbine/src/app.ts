@@ -5,12 +5,13 @@ import path from "path";
 import fs from "fs";
 import lockFile from "lockfile";
 
-import express,  { Request, Response } from "express";
-import { Server } from "http";
+import type { Request, Response } from "express";
+import express from "express";
+import type { Server } from "http";
 import { pinoHttp } from "pino-http";
 import { pino } from "pino";
 import { Machine } from "./Machine";
-import { IConfiguration } from "@metalizzsas/nuster-typings";
+import type { IConfiguration } from "@metalizzsas/nuster-typings";
 import { AuthManager } from "./auth/auth";
 import { IOController } from "./controllers/io/IOController";
 import { ProfileController } from "./controllers/profile/ProfilesController";

@@ -1,12 +1,11 @@
-import { ProgramBlock, ProgramBlocks } from "./index";
-import { StringParameterBlocks, NumericParameterBlocks } from "../ParameterBlocks";
+import type { ProgramBlocks } from "./index";
+import { ProgramBlock } from "./index";
+import type { StringParameterBlocks, NumericParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 import { LoggerInstance } from "../../app";
 import { CycleController } from "../../controllers/cycle/CycleController";
 import { PBRMissingError } from "../PBRMissingError";
-import { IStartTimerProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IStartTimerProgramBlock";
-import { EPBRMode } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlockRunner";
-
+import type { IStartTimerProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IStartTimerProgramBlock";
 
 export class StartTimerProgramBlock extends ProgramBlock implements IStartTimerProgramBlock
 {
@@ -37,7 +36,7 @@ export class StartTimerProgramBlock extends ProgramBlock implements IStartTimerP
 
         if(pbrInstance !== undefined)
         {
-            if (pbrInstance.status.mode == EPBRMode.ENDED)
+            if (pbrInstance.status.mode == "ended")
                 return;
     
             const tN = this.params[0].data();

@@ -1,6 +1,7 @@
-import { IPopup } from "@metalizzsas/nuster-typings/build/hydrated";
-import { Server } from "http";
-import { OPEN, WebSocket, WebSocketServer } from "ws";
+import type { IPopup } from "@metalizzsas/nuster-typings/build/hydrated";
+import type { Server } from "http";
+import type { WebSocket} from "ws";
+import { OPEN, WebSocketServer } from "ws";
 import { LoggerInstance } from "../app";
 
 const productionEnabled = process.env.NODE_ENV === 'production';

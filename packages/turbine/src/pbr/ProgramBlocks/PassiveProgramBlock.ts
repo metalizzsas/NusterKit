@@ -1,8 +1,8 @@
-import { IPassiveProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IPassiveProgramBlock";
+import type { IPassiveProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IPassiveProgramBlock";
 import { ProgramBlock } from ".";
 import { LoggerInstance } from "../../app";
 import { PassiveController } from "../../controllers/passives/PassiveController";
-import { NumericParameterBlocks, StringParameterBlocks } from "../ParameterBlocks";
+import type { NumericParameterBlocks, StringParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 
 export class PassiveProgramBlock extends ProgramBlock implements IPassiveProgramBlock

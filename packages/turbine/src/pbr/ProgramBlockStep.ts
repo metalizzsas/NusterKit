@@ -1,10 +1,9 @@
-import { EPBRMode } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlockRunner";
-import { EProgramStepResult, EProgramStepState, EProgramStepType, IProgramStepRunner } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramStep";
+import type { EProgramStepResult, EProgramStepState, EProgramStepType, IProgramStepRunner } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramStep";
 import { LoggerInstance } from "../app";
-import { NumericParameterBlocks } from "./ParameterBlocks";
+import type { NumericParameterBlocks } from "./ParameterBlocks";
 import { ParameterBlockRegistry } from "./ParameterBlocks/ParameterBlockRegistry";
-import { ProgramBlockRunner } from "./ProgramBlockRunner";
-import { ProgramBlocks } from "./ProgramBlocks";
+import type { ProgramBlockRunner } from "./ProgramBlockRunner";
+import type { ProgramBlocks } from "./ProgramBlocks";
 import { ProgramBlockRegistry } from "./ProgramBlocks/ProgramBlockRegistry";
 
 export class ProgramBlockStep implements IProgramStepRunner
@@ -14,8 +13,8 @@ export class ProgramBlockStep implements IProgramStepRunner
     name: string;
 
     /** Current step state, Setting this flag to `ENDING` should end the step faster */
-    state: EProgramStepState = EProgramStepState.CREATED;
-    type: EProgramStepType = EProgramStepType.SINGLE;
+    state: EProgramStepState = "created";
+    type: EProgramStepType = "single";
     
     isEnabled: NumericParameterBlocks;
     duration: NumericParameterBlocks;
@@ -43,7 +42,7 @@ export class ProgramBlockStep implements IProgramStepRunner
         {
             this.runAmount = ParameterBlockRegistry(obj.runAmount) as NumericParameterBlocks;
             this.runCount = obj.runCount ?? 0;
-            this.type = (this.runAmount?.data() ?? 0) > 1 ? EProgramStepType.MULTIPLE : EProgramStepType.SINGLE;
+            this.type = (this.runAmount?.data() ?? 0) > 1 ? "multiple" : "single";
         }
 
         //Adding io starting blocks
@@ -64,17 +63,17 @@ export class ProgramBlockStep implements IProgramStepRunner
         if(this.isEnabled.data() == 0)
         {
             LoggerInstance.warn(`PBS-${this.name}: Step is disabled.`);
-            return EProgramStepResult.ENDED;
+            return "ended";
         }
 
-        if(this.pbrInstance.status.mode == EPBRMode.ENDED)
+        if(this.pbrInstance.status.mode == "ended")
         {
             LoggerInstance.warn(`PBS-${this.name}: Tried to execute step while cycle ended.`);
-            return EProgramStepResult.ENDED;
+            return "ended";
         }
 
         LoggerInstance.info(`PBS-${this.name}: Started step.`);
-        this.state = EProgramStepState.STARTED;
+        this.state = "started";
 
         //Disable step overtime timeout if the step duration is equal to -1
         if(this.duration.data() != -1)
@@ -113,25 +112,25 @@ export class ProgramBlockStep implements IProgramStepRunner
 
             if(this.runCount && this.runAmount && (this.runCount == this.runAmount.data()))
             {
-                this.state = EProgramStepState.ENDED;
-                LoggerInstance.info(`PBS-${this.name}: Ended step with state ${EProgramStepResult.ENDED}`);
+                this.state = "ended";
+                LoggerInstance.info(`PBS-${this.name}: Ended step with state ${"ended"}`);
                 this.endTime = Date.now();
-                return EProgramStepResult.ENDED;
+                return "ended";
             }
             else
             {
-                this.state = EProgramStepState.PARTIAL;
-                LoggerInstance.info(`PBS-${this.name}: Ended step with state ${EProgramStepResult.ENDED}`);
+                this.state = "partial";
+                LoggerInstance.info(`PBS-${this.name}: Ended step with state ${"ended"}`);
                 this.endTime = Date.now();
-                return EProgramStepResult.PARTIAL_END;
+                return "partial";
             }   
         }
         else
         {
-            this.state = EProgramStepState.ENDED;
-            LoggerInstance.info(`PBS-${this.name}: Ended step with state ${EProgramStepResult.ENDED}`);
+            this.state = "ended";
+            LoggerInstance.info(`PBS-${this.name}: Ended step with state ${"ended"}`);
             this.endTime = Date.now();
-            return EProgramStepResult.ENDED;
+            return "ended";
         }
     }
 
@@ -142,7 +141,7 @@ export class ProgramBlockStep implements IProgramStepRunner
         //precalculate progress
         switch(this.state)
         {
-            case EProgramStepState.STARTED:
+            case "started":
             {
                 if(this.startTime)
                 {
@@ -164,9 +163,9 @@ export class ProgramBlockStep implements IProgramStepRunner
                     break;
                 }
             }
-            case EProgramStepState.ENDED || EProgramStepState.PARTIAL:
+            case "ended" || "partial":
             {
-                progress = (this.type == EProgramStepType.SINGLE) ? 1 : 0;
+                progress = (this.type == "single") ? 1 : 0;
                 break;
             }
             default: {
@@ -175,7 +174,7 @@ export class ProgramBlockStep implements IProgramStepRunner
             }
         }
         
-        if((this.type == EProgramStepType.MULTIPLE) && this.runAmount)
+        if((this.type == "multiple") && this.runAmount)
         {
             return ((1 * progress) / (this.runAmount.data() as number)) + ((this.runCount || 0) / (this.runAmount.data() as number))
         }

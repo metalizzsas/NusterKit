@@ -1,22 +1,22 @@
-import { ParameterBlocks } from "../ParameterBlocks";
+import type { ParameterBlocks } from "../ParameterBlocks";
 import { ProgramBlockRegistry } from "./ProgramBlockRegistry";
-import { ForLoopProgramBlock } from "./ForLoopProgramBlock";
-import { GroupProgramBlock } from "./GroupProgramBlock";
-import { IfProgramBlock } from "./IfProgramBlock";
-import { IOWriteProgramBlock } from "./IOWriteProgramBlock";
-import { MaintenanceProgramBlock } from "./MaintenanceProgramBlock";
-import { SleepProgramBlock } from "./SleepProgramBlock";
-import { SlotLoadProgramBlock } from "./SlotLoadProgramBlock";
-import { SlotUnloadProgramBlock } from "./SlotUnloadProgramBlock";
-import { StartTimerProgramBlock } from "./StartTimerProgramBlock";
-import { StopProgramBlock } from "./StopProgramBlock";
-import { StopTimerProgramBlock } from "./StopTimerProgramBlock";
-import { VariableProgramBlock } from "./VariableProgramBlock";
-import { WhileLoopProgramBlock } from "./WhileLoopProgramBlock";
+import type { ForLoopProgramBlock } from "./ForLoopProgramBlock";
+import type { GroupProgramBlock } from "./GroupProgramBlock";
+import type { IfProgramBlock } from "./IfProgramBlock";
+import type { IOWriteProgramBlock } from "./IOWriteProgramBlock";
+import type { MaintenanceProgramBlock } from "./MaintenanceProgramBlock";
+import type { SleepProgramBlock } from "./SleepProgramBlock";
+import type { SlotLoadProgramBlock } from "./SlotLoadProgramBlock";
+import type { SlotUnloadProgramBlock } from "./SlotUnloadProgramBlock";
+import type { StartTimerProgramBlock } from "./StartTimerProgramBlock";
+import type { StopProgramBlock } from "./StopProgramBlock";
+import type { StopTimerProgramBlock } from "./StopTimerProgramBlock";
+import type { VariableProgramBlock } from "./VariableProgramBlock";
+import type { WhileLoopProgramBlock } from "./WhileLoopProgramBlock";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
-import { PassiveProgramBlock } from "./PassiveProgramBlock";
+import type { PassiveProgramBlock } from "./PassiveProgramBlock";
 import { LoggerInstance } from "../../app";
-import { IProgramBlock, ProgramBlockNames, IProgramBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlock";
+import type { IProgramBlock, ProgramBlockNames, IProgramBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlock";
 
 export class ProgramBlock implements IProgramBlock
 {

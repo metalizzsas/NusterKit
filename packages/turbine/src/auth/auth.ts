@@ -1,5 +1,6 @@
 import { randomUUID } from "crypto";
-import { Request, Response, NextFunction, Router } from "express";
+import type { Request, Response, NextFunction} from "express";
+import { Router } from "express";
 import { model, Schema } from "mongoose";
 import argon2 from "argon2";
 import { LoggerInstance } from "../app";

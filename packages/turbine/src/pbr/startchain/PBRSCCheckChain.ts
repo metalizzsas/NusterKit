@@ -1,6 +1,6 @@
-import { IPBRSCCheckChain } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/startchain/IPBRSCCheckChain";
-import { EPBRStartConditionResult } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/startchain/IPBRStartCondition";
-import { ParameterBlock } from "../ParameterBlocks";
+import type { IPBRSCCheckChain } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/startchain/IPBRSCCheckChain";
+import type { EPBRStartConditionResult } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/startchain/IPBRStartCondition";
+import type { ParameterBlock } from "../ParameterBlocks";
 import { ConditionalParameterBlock } from "../ParameterBlocks/ConditionalParameterBlock";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 
@@ -55,7 +55,7 @@ export class PBRSCCheckChain implements IPBRSCCheckChain
         }
         else
         {
-            return EPBRStartConditionResult.ERROR;
+            return "error";
         }
     }
 }

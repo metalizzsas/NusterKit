@@ -1,4 +1,4 @@
-import { IIOReadParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ParameterBlocks/IIOReadParameterBlock";
+import type { IIOReadParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ParameterBlocks/IIOReadParameterBlock";
 import { ParameterBlock } from ".";
 import { IOController } from "../../controllers/io/IOController";
 

@@ -1,11 +1,11 @@
-import { IIOPhysicalController } from "@metalizzsas/nuster-typings/build/spec/iophysicalcontrollers";
-import { IEX260Controller } from "@metalizzsas/nuster-typings/build/spec/iophysicalcontrollers/EX260xController";
+import type { IIOPhysicalController } from "@metalizzsas/nuster-typings/build/spec/iophysicalcontrollers";
+import type { IEX260Controller } from "@metalizzsas/nuster-typings/build/spec/iophysicalcontrollers/EX260xController";
 import { Buffer } from "buffer";
 import ping from "ping";
 import process from "process";
 import { ENIP } from "@metalizzsas/ts-enip";
 import { MessageRouter } from "@metalizzsas/ts-enip/dist/enip/cip/messageRouter";
-import { Encapsulation } from "@metalizzsas/ts-enip/dist/enip/encapsulation";
+import type { Encapsulation } from "@metalizzsas/ts-enip/dist/enip/encapsulation";
 import { LoggerInstance } from "../../../app";
 import { CycleController } from "../../cycle/CycleController";
 

@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.5.2
+
+### Patch Changes
+
+- now using nuster-typings only as types only for dev ([#19](https://github.com/metalizzsas/NusterKit/pull/19))
+
 ## 1.5.1
 
 ### Patch Changes

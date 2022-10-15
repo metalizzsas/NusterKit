@@ -1,5 +1,15 @@
 # @metalizzsas/nuster-turbine
 
+## 1.5.3
+
+### Patch Changes
+
+- now using nuster-typings only as types only for dev ([#19](https://github.com/metalizzsas/NusterKit/pull/19))
+
+- Updated dependencies [[`4433fe6`](https://github.com/metalizzsas/NusterKit/commit/4433fe642002a5295577e51a05c02f6171d40bd9), [`fca5fd9`](https://github.com/metalizzsas/NusterKit/commit/fca5fd9ad203c9652d90b32b8a3ebbb56ce66f12)]:
+  - @metalizzsas/nuster-typings@1.1.3
+  - @metalizzsas/nuster-turbine-machines@1.1.3
+
 ## 1.5.2
 
 ### Patch Changes

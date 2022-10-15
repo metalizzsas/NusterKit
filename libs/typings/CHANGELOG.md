@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-typings
 
+## 1.1.3
+
+### Patch Changes
+
+- Replaced enums with types instead ([#19](https://github.com/metalizzsas/NusterKit/pull/19))
+
+- now using nuster-typings only as types only for dev ([#19](https://github.com/metalizzsas/NusterKit/pull/19))
+
 ## 1.1.2
 
 ### Patch Changes

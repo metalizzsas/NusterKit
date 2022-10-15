@@ -7,6 +7,9 @@ module.exports = {
 		'plugin:@typescript-eslint/recommended-requiring-type-checking',
 		'plugin:svelte/recommended'
 	],
+	rules: {
+		"@typescript-eslint/consistent-type-imports": "error",
+	},
 	plugins: ['@typescript-eslint'],
 	ignorePatterns: ['*.cjs'],
 	overrides: [{ files: ['*.svelte'], processor: 'svelte3/svelte3' }],

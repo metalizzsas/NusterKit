@@ -20,14 +20,7 @@ export interface IConfigSlot {
  * Product series 
  * TODO Make this only available for offline devices
  */
-export enum EProductSeries {
-    LLC = "llc",
-    USL = "usl",
-    TC = "tc",
-    BC = "bc",
-    WR = "wr",
-    CR = "cr"
-}
+export type EProductSeries = "llc" | "usl" | "tc" | "bc" | "wr" | "cr"; 
 
 /** Slot Sensor interface */
 export interface ISlotSensor {
@@ -38,13 +31,7 @@ export interface ISlotSensor {
 }
 
 /** Slot sensor type */
-export enum ESlotSensorType {
-    LEVEL_NUMERIC_MIN = "level-min-n",
-    LEVEL_NUMERIC_MAX = "level-max-n",
-    LEVEL_ANALOG = "level-a",
-    PRESENCY_NUMERIC = "level-np",
-    TEMPERATURE = "temperature",
-}
+export type ESlotSensorType = "level-min-n" | "level-max-n" | "level-a" | "level-np" | "temperature";
 
 /** Slot product options */
 export interface ISlotProductOptions {

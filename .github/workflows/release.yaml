@@ -19,7 +19,7 @@ jobs:
       issues: read
 
     name: Release
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     if: github.repository == 'metalizzsas/nusterkit'
     steps:
       - name: 📚 Checkout Repo

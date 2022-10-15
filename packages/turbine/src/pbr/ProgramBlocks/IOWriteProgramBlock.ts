@@ -1,7 +1,7 @@
-import { IIOProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IIOProgramBlock";
+import type { IIOProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IIOProgramBlock";
 import { LoggerInstance } from "../../app";
 import { IOController } from "../../controllers/io/IOController";
-import { NumericParameterBlocks, StringParameterBlocks } from "../ParameterBlocks";
+import type { NumericParameterBlocks, StringParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 import { ProgramBlock } from "./index";
 

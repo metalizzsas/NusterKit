@@ -1,4 +1,4 @@
-import { ISlotProductStatusParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ParameterBlocks/ISlotProductStatusParameterBlock";
+import type { ISlotProductStatusParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ParameterBlocks/ISlotProductStatusParameterBlock";
 import { ParameterBlock } from ".";
 import { SlotController } from "../../controllers/slot/SlotController";
 

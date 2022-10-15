@@ -1,6 +1,6 @@
 import { Controller } from "../Controller";
 
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 
 import { LoggerInstance } from "../../app";
 import { AuthManager } from "../../auth/auth";
@@ -8,9 +8,9 @@ import { ProgramBlockRunner } from "../../pbr/ProgramBlockRunner";
 import { ProfileModel } from "../profile/ProfileModel";
 import { ProfileController } from "../profile/ProfilesController";
 import { ProgramHistoryModel } from "./ProgramHistoryModel";
-import { IProgramBlockRunnerHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/IProgramRunnerHydrated";
-import { IPBRPremades, IProgram, EPBRMode } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlockRunner";
-import { IProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profile";
+import type { IProgramBlockRunnerHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/IProgramRunnerHydrated";
+import type { IPBRPremades, IProgram} from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlockRunner";
+import type { IProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profile";
 
 export class CycleController extends Controller {
 
@@ -175,7 +175,7 @@ export class CycleController extends Controller {
 
             if (cycle !== undefined) {
                 LoggerInstance.info("CR: PBR assigned");
-                this.program = new ProgramBlockRunner({ ...cycle, status: { mode: EPBRMode.CREATED } }, profile);
+                this.program = new ProgramBlockRunner({ ...cycle, status: { mode: "created" } }, profile);
 
                 if (this.program.profileRequired && profile !== undefined)
                 {
@@ -234,9 +234,9 @@ export class CycleController extends Controller {
         //rate the cycle and remove it
         this._router.patch("/:rating", async (req: Request, res: Response) => {
             if (this.program) {
-                if (this.program.status.mode == EPBRMode.ENDED || EPBRMode.ENDING || EPBRMode.CREATED) {
+                if (["ended", "ending", "created"].includes(this.program.status.mode)) {
                     //do not save the history if the program was just created and never started
-                    if (this.program.status.mode != EPBRMode.CREATED) {
+                    if (this.program.status.mode != "created") {
                         await ProgramHistoryModel.create({
                             rating: parseInt(req.params.rating) || 0,
                             cycle: this.program,

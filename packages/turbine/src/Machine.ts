@@ -1,4 +1,4 @@
-import WebSocket from "ws";
+import type WebSocket from "ws";
 import path from "path";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -16,9 +16,9 @@ import { parseAddon } from "./addons/AddonLoader";
 import { LoggerInstance } from "./app";
 
 import type { IConfiguration, IMachineSpecs, IStatusMessage } from "@metalizzsas/nuster-typings";
-import { IHypervisorData } from "@metalizzsas/nuster-typings/build/hydrated/balena/IHypervisorDevice";
-import { IDeviceData } from "@metalizzsas/nuster-typings/build/hydrated/balena/IDeviceData";
-import { IVPNData } from "@metalizzsas/nuster-typings/build/hydrated/balena/IVPNData";
+import type { IHypervisorData } from "@metalizzsas/nuster-typings/build/hydrated/balena/IHypervisorDevice";
+import type { IDeviceData } from "@metalizzsas/nuster-typings/build/hydrated/balena/IDeviceData";
+import type { IVPNData } from "@metalizzsas/nuster-typings/build/hydrated/balena/IVPNData";
 
 import type { ConfigModel, ConfigVariant } from "@metalizzsas/nuster-typings/build/configuration";
 

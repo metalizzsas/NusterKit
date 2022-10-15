@@ -1,6 +1,6 @@
 import { Controller } from "../Controller";
 
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { LoggerInstance } from "../../app";
 import { AuthManager } from "../../auth/auth";
 import { ProfileModel } from "./ProfileModel";

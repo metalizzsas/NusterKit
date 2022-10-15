@@ -1,7 +1,7 @@
-import { ISlotUnloadProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/ISlotUnloadProgramBlock";
+import type { ISlotUnloadProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/ISlotUnloadProgramBlock";
 import { LoggerInstance } from "../../app";
 import { SlotController } from "../../controllers/slot/SlotController";
-import { StringParameterBlocks } from "../ParameterBlocks";
+import type { StringParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 import { ProgramBlock } from "./index";
 

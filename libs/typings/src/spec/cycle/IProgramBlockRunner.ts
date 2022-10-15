@@ -42,13 +42,7 @@ export interface IProgramRunner extends IProgram
     currentStepIndex?: number;
 }
 
-export enum EPBRMode
-{
-    CREATED = "created",
-    STARTED = "started",
-    ENDING = "ending",
-    ENDED = "ended"
-}
+export type EPBRMode = "created" | "started" | "ending" | "ended";
 
 export interface IProgramVariable
 {

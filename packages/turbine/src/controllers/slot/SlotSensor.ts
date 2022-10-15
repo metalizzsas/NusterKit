@@ -1,6 +1,7 @@
-import { ESlotSensorType, ISlotSensor } from "@metalizzsas/nuster-typings/build/spec/slot";
+import type { ISlotSensor } from "@metalizzsas/nuster-typings/build/spec/slot";
+import type { ESlotSensorType } from "@metalizzsas/nuster-typings/build/spec/slot";
+import type { Slot } from "./Slot";
 import { IOController } from "../io/IOController";
-import { Slot } from "./Slot";
 
 export class SlotSensor implements ISlotSensor
 {
@@ -24,7 +25,7 @@ export class SlotSensor implements ISlotSensor
         const sensorValue = IOController.getInstance().gFinder(this.io)?.value ?? 0;
 
         //unload slot on minimal sensor limit reached
-        if(this.type === ESlotSensorType.LEVEL_NUMERIC_MIN && sensorValue == 0)
+        if(this.type === "level-min-n" && sensorValue == 0)
             this.parentSlot.unloadSlot();
         
         return sensorValue;

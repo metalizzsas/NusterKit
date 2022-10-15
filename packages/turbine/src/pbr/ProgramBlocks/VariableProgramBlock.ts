@@ -1,6 +1,6 @@
-import { IVariableProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IVariableProgramBlock";
+import type { IVariableProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IVariableProgramBlock";
 import { CycleController } from "../../controllers/cycle/CycleController";
-import { NumericParameterBlocks, StringParameterBlocks } from "../ParameterBlocks";
+import type { NumericParameterBlocks, StringParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 import { PBRMissingError } from "../PBRMissingError";
 import { ProgramBlock } from "./index";

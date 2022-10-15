@@ -1,5 +1,5 @@
-import { IIOGate } from "@metalizzsas/nuster-typings/build/spec/iogates";
-import { IMappedGate } from "@metalizzsas/nuster-typings/build/spec/iogates/IMappedGate";
+import type { IIOGate } from "@metalizzsas/nuster-typings/build/spec/iogates";
+import type { IMappedGate } from "@metalizzsas/nuster-typings/build/spec/iogates/IMappedGate";
 import { LoggerInstance } from "../../../app";
 import { map } from "../../../map";
 import { IOController } from "../IOController";

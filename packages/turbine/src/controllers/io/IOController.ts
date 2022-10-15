@@ -1,18 +1,18 @@
 import { Controller } from "../Controller";
 import { DefaultGate } from "./IOGates/DefaultGate";
 
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { AuthManager } from "../../auth/auth";
 import { MappedGate } from "./IOGates/MappedGate";
 import { PT100Gate } from "./IOGates/PT100Gate";
 import { UM18IOGate } from "./IOGates/UM18Gate";
 import { EX260Sx } from "./IOHandlers/EX260Sx";
 import { WAGO } from "./IOHandlers/WAGO";
-import { IOGates, IOGatesConfig } from "@metalizzsas/nuster-typings/build/spec/iogates";
-import { IMappedGate } from "@metalizzsas/nuster-typings/build/spec/iogates/IMappedGate";
-import { IPT100Gate } from "@metalizzsas/nuster-typings/build/spec/iogates/IPT100Gate";
-import { IUM18Gate } from "@metalizzsas/nuster-typings/build/spec/iogates/IUM18Gate";
-import { IIOPhysicalController, IOControllersConfig } from "@metalizzsas/nuster-typings/build/spec/iophysicalcontrollers";
+import type { IOGates, IOGatesConfig } from "@metalizzsas/nuster-typings/build/spec/iogates";
+import type { IMappedGate } from "@metalizzsas/nuster-typings/build/spec/iogates/IMappedGate";
+import type { IPT100Gate } from "@metalizzsas/nuster-typings/build/spec/iogates/IPT100Gate";
+import type { IUM18Gate } from "@metalizzsas/nuster-typings/build/spec/iogates/IUM18Gate";
+import type { IIOPhysicalController, IOControllersConfig } from "@metalizzsas/nuster-typings/build/spec/iophysicalcontrollers";
 
 export class IOController extends Controller
 {

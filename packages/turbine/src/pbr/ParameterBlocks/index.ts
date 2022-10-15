@@ -1,17 +1,17 @@
-import { IParameterBlock, ParameterBlockNames, IParameterBlocks, INumericParameterBlock, IStringParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/IParameterBlock";
-import { AdditionParameterBlock } from "./AdditionParameterBlock";
-import { ConditionalParameterBlock } from "./ConditionalParameterBlock";
-import { ConstantParameterBlock } from "./ConstantParameterBlock";
-import { ConstantStringParameterBlock } from "./ConstantStringParameterBlock";
-import { IOReadParameterBlock } from "./IOReadParameterBlock";
-import { MaintenanceProgressParameterBlock } from "./MaintenanceParameterBlock";
-import { MultiplyParameterBlock } from "./MultiplyParameterBlock";
+import type { IParameterBlock, ParameterBlockNames, IParameterBlocks, INumericParameterBlock, IStringParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/IParameterBlock";
+import type { AdditionParameterBlock } from "./AdditionParameterBlock";
+import type { ConditionalParameterBlock } from "./ConditionalParameterBlock";
+import type { ConstantParameterBlock } from "./ConstantParameterBlock";
+import type { ConstantStringParameterBlock } from "./ConstantStringParameterBlock";
+import type { IOReadParameterBlock } from "./IOReadParameterBlock";
+import type { MaintenanceProgressParameterBlock } from "./MaintenanceParameterBlock";
+import type { MultiplyParameterBlock } from "./MultiplyParameterBlock";
 import { ParameterBlockRegistry } from "./ParameterBlockRegistry";
-import { ProfileParameterBlock } from "./ProfileParameterBlock";
-import { ReverseParameterBlock } from "./ReverseParameterBlock";
-import { SlotLifetimeParameterBlock } from "./SlotLifeParameterBlock";
-import { SlotProductStatusParameterBlock } from "./SlotProductInformationParameterBlock";
-import { VariableParameterBlock } from "./VariableParameterBlock";
+import type { ProfileParameterBlock } from "./ProfileParameterBlock";
+import type { ReverseParameterBlock } from "./ReverseParameterBlock";
+import type { SlotLifetimeParameterBlock } from "./SlotLifeParameterBlock";
+import type { SlotProductStatusParameterBlock } from "./SlotProductInformationParameterBlock";
+import type { VariableParameterBlock } from "./VariableParameterBlock";
 
 export class ParameterBlock implements IParameterBlock
 {

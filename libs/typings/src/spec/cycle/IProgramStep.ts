@@ -50,38 +50,10 @@ export interface IProgramStepInformations
 }
 
 /** Step state */
-export const enum EProgramStepState
-{
-    /** Created but not executed yet */
-    CREATED = "created",
-    /** Currently being executed */
-    STARTED = "started",
-    /** Partialy ended, this steps will be executed again */
-    PARTIAL = "partial",
-
-    /** Step is disabled */
-    DISABLED = "disabled",
-    /** Step was skipped */
-    SKIPPED = "skipped",
-
-    /** Step is being ended by force */
-    ENDING = "ending",
-    /** Step has ended */
-    ENDED = "ended",
-}
+export type EProgramStepState = "created" | "started" | "partial" | "disabled" | "skipped" | "ending" | "ended";
 
 /** Step Type Programaticaly given by the RunAmount parameter of a step */
-export const enum EProgramStepType
-{
-    SINGLE = "single",
-    MULTIPLE = "multiple"
-}
+export type EProgramStepType = "single" | "multiple";
 
 /** Result from a step execution */
-export const enum EProgramStepResult
-{
-    /** Step is partialy ended, it wil be re-executed another time */
-    PARTIAL_END = "partial",
-    /** Step has ended */
-    ENDED = "ended"
-}
+export type EProgramStepResult = "partial" | "ended";

@@ -1,5 +1,6 @@
-import { IReverseParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ParameterBlocks/IReverseParameterBlock";
-import { NumericParameterBlocks, ParameterBlock } from ".";
+import type { IReverseParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ParameterBlocks/IReverseParameterBlock";
+import type { NumericParameterBlocks} from ".";
+import { ParameterBlock } from ".";
 import { ParameterBlockRegistry } from "./ParameterBlockRegistry";
 
 export class ReverseParameterBlock extends ParameterBlock implements IReverseParameterBlock

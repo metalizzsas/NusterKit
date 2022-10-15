@@ -1,12 +1,11 @@
-import { EPBRMode } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlockRunner";
-import { EProgramStepState } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramStep";
-import { IForLoopProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IForLoopProgramBlock";
+import type { IForLoopProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IForLoopProgramBlock";
 import { LoggerInstance } from "../../app";
 import { CycleController } from "../../controllers/cycle/CycleController";
-import { NumericParameterBlocks } from "../ParameterBlocks";
+import type { NumericParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 import { PBRMissingError } from "../PBRMissingError";
-import { ProgramBlock, ProgramBlocks } from "./index";
+import type { ProgramBlocks } from "./index";
+import { ProgramBlock } from "./index";
 
 export class ForLoopProgramBlock extends ProgramBlock implements IForLoopProgramBlock {
 
@@ -42,7 +41,7 @@ export class ForLoopProgramBlock extends ProgramBlock implements IForLoopProgram
         if(pbrInstance !== undefined)
         {
             for (; this.currentIteration < (loopCount); this.currentIteration++) {
-                if ([EProgramStepState.ENDING, EProgramStepState.ENDED].includes(pbrInstance.currentRunningStep?.state) || [EPBRMode.ENDED, EPBRMode.ENDING].includes(pbrInstance.status.mode))
+                if (["ending", "ended"].includes(pbrInstance.currentRunningStep?.state) || ["ended", "ending"].includes(pbrInstance.status.mode))
                 { 
                     this.executed = (this.currentIteration + 1 == (loopCount));
                     return;

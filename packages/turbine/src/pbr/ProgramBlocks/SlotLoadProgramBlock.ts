@@ -1,9 +1,9 @@
 import { ProgramBlock } from "./index";
-import { StringParameterBlocks } from "../ParameterBlocks";
+import type { StringParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 import { SlotController } from "../../controllers/slot/SlotController";
 import { LoggerInstance } from "../../app";
-import { ISlotLoadProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/ISlotLoadProgramBlock";
+import type { ISlotLoadProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/ISlotLoadProgramBlock";
 
 export class SlotLoadProgramBlock extends ProgramBlock implements ISlotLoadProgramBlock {
     

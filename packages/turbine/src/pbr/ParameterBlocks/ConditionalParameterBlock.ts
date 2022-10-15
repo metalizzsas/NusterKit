@@ -1,5 +1,6 @@
-import { IConditionalParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ParameterBlocks/IConditionalParameterBlock";
-import { NumericParameterBlocks, ParameterBlock, StringParameterBlocks } from ".";
+import type { IConditionalParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ParameterBlocks/IConditionalParameterBlock";
+import type { NumericParameterBlocks, StringParameterBlocks } from ".";
+import { ParameterBlock } from ".";
 import { ParameterBlockRegistry } from "./ParameterBlockRegistry";
 
 export class ConditionalParameterBlock extends ParameterBlock implements IConditionalParameterBlock

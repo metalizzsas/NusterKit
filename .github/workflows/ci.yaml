@@ -44,8 +44,11 @@ jobs:
       - name: ✔️ Run linting
         run: pnpm run lint
 
+      - name: 🧱 Build nuster-typings # Build typings as its needed for testing other packages
+        run: pnpm run build-typings
+
       - name: ✔️ Run tests
         run: pnpm test
 
-      - name: 🧱 Build packages
+      - name: 🧱 Build packages 
         run: pnpm run build

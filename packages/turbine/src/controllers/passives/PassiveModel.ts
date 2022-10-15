@@ -1,4 +1,4 @@
-import { IPassiveStoredLogData } from "@metalizzsas/nuster-typings/build/hydrated/passive";
+import type { IPassiveStoredLogData } from "@metalizzsas/nuster-typings/build/hydrated/passive";
 import { model, Schema } from "mongoose";
 
 export interface IPassiveStored {

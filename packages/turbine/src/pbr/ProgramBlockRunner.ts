@@ -1,6 +1,5 @@
-import { IProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profile";
-import { IProgramRunner, IPBRStatus, IProgramVariable, IProgramTimer, EPBRMode } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlockRunner";
-import { EProgramStepResult, EProgramStepType, EProgramStepState } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramStep";
+import type { IProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profile";
+import type { IProgramRunner, IPBRStatus, IProgramVariable, IProgramTimer} from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlockRunner";
 import { LoggerInstance } from "../app";
 import { IOController } from "../controllers/io/IOController";
 import { MaintenanceController } from "../controllers/maintenance/MaintenanceController";
@@ -42,7 +41,7 @@ export class ProgramBlockRunner implements IProgramRunner
 
     constructor(object: IProgramRunner, profile?: IProfileHydrated)
     {
-        this.status = { mode: EPBRMode.CREATED };
+        this.status = { mode: "created" };
 
         LoggerInstance.info("PBR: Building PBR...");
 
@@ -110,24 +109,21 @@ export class ProgramBlockRunner implements IProgramRunner
 
         LoggerInstance.info(`PBR: Started cycle ${this.name}.`);
 
-        this.status.mode = EPBRMode.STARTED;
+        this.status.mode = "started";
         this.status.startDate = Date.now();
 
         while(this.currentStepIndex < this.steps.length)
         {
             let result = null;
             
-            // TypeScriptCompiler is not able to understand that status.mode can be changed externally
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore: disabled overlap checking
-            if(this.status.mode != EPBRMode.ENDED || EPBRMode.ENDING)
+            if(["ended", "ending"].includes(this.status.mode))
                 result = await this.steps[this.currentStepIndex].execute();
             else
                 break;
 
             switch(result)
             {
-                case EProgramStepResult.PARTIAL_END:
+                case "partial":
                 {
                     //reset times at the end of a partial step
                     this.steps[this.currentStepIndex].resetTimes();
@@ -136,9 +132,9 @@ export class ProgramBlockRunner implements IProgramRunner
 
                     //if next step does not exists or next step is not a multiple step,
                     //return to first multiple step
-                    if(this.steps[this.currentStepIndex + 1].type != EProgramStepType.MULTIPLE)
+                    if(this.steps[this.currentStepIndex + 1].type != "multiple")
                     {
-                        const j = this.steps.findIndex(step => step.type == EProgramStepType.MULTIPLE);
+                        const j = this.steps.findIndex(step => step.type == "multiple");
 
                         if(j != -1)
                         {
@@ -162,7 +158,7 @@ export class ProgramBlockRunner implements IProgramRunner
             // TypeScriptCompiler is not able to understand that status.mode can be changed externally
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore: disabled overlap checking
-            if(this.status.mode != EPBRMode.ENDED)
+            if(this.status.mode != "ended")
                 this.currentStepIndex++;
         }
 
@@ -180,7 +176,7 @@ export class ProgramBlockRunner implements IProgramRunner
     {
         LoggerInstance.warn("PBR: Next step triggered");
         if(this.currentRunningStep)
-            this.currentRunningStep.state = EProgramStepState.ENDING;
+            this.currentRunningStep.state = "ending";
     }
 
     /**
@@ -189,13 +185,13 @@ export class ProgramBlockRunner implements IProgramRunner
      */
     public end(reason: string)
     {
-        if([EPBRMode.ENDED, EPBRMode.ENDING].includes(this.status.mode))
+        if(["ended", "ending"].includes(this.status.mode))
             return;
 
-        this.status.mode = EPBRMode.ENDING;
+        this.status.mode = "ending";
         this.status.endReason = reason;
 
-        this.steps.forEach(s => s.state = EProgramStepState.ENDING);
+        this.steps.forEach(s => s.state = "ending");
 
         if(reason !== undefined)
             LoggerInstance.warn("PBR: Triggered cycle end with reason: " + reason);
@@ -215,7 +211,7 @@ export class ProgramBlockRunner implements IProgramRunner
             const s = this.steps.at(this.currentStepIndex)
             if(s !== undefined)
             {
-                if(s.type == EProgramStepType.MULTIPLE && s.runCount !== undefined)
+                if(s.type == "multiple" && s.runCount !== undefined)
                 {
                     LoggerInstance.error(`PBR: Last executed step was a multiple step. Removing 1 multiple step iteration.`);
                     s.runCount--;
@@ -247,7 +243,7 @@ export class ProgramBlockRunner implements IProgramRunner
         const m = MaintenanceController.getInstance().tasks.find((m) => m.name == "cycleCount");
         m?.append(1);
 
-        this.status.mode = EPBRMode.ENDED;
+        this.status.mode = "ended";
         this.status.endDate = Date.now();
 
         LoggerInstance.info("PBR: Resetting all io gates to default values.");

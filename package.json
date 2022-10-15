@@ -14,6 +14,8 @@
     
     "build": "pnpm -r --parallel --filter='./libs/*' run build && pnpm -r --parallel --filter='./packages/*' run build",
 
+    "build-typings": "pnpm -r --parallel --filter='./libs/typings/' run build",
+
     "release": "changeset publish"
   },
   "keywords": [],

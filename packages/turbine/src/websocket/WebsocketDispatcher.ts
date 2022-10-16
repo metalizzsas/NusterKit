@@ -1,4 +1,4 @@
-import type { IPopup } from "@metalizzsas/nuster-typings/build/hydrated";
+import type { IPopup, IWebSocketData } from "@metalizzsas/nuster-typings/build/hydrated";
 import type { Server } from "http";
 import type { WebSocket} from "ws";
 import { OPEN, WebSocketServer } from "ws";
@@ -53,7 +53,7 @@ export class WebsocketDispatcher
      * @param data data to be sent over Websocket
      * @param channel channel used to send data
      */
-    broadcastData(data: unknown, channel: "message" | "status" | "popup" = "message")
+    broadcastData(data: unknown, channel: IWebSocketData["type"] = "message")
     {
         for(const client of this.wsServer.clients)
         {

@@ -18,7 +18,7 @@
 		IWebSocketData,
 	} from '@metalizzsas/nuster-typings';
 
-	let websocketState: 'idle' | 'establishing' | 'established' | 'errored' = 'idle';
+	let websocketState: 'idle' | 'establishing' | 'established' | 'errored' | 'configuration' = 'idle';
 	let ws: WebSocket | undefined;
 
 	let displayPopup = false;
@@ -68,6 +68,11 @@
 				popupData = data.message as IPopupMessage;
 				break;
 			}
+			case 'configuration': {
+				void goto("/config");
+				websocketState = 'configuration';
+				break;
+			}
 		}
 	};
 
@@ -94,20 +99,14 @@
 						resolve();
 					};
 					ws.onopen = () => {
-						initI18nMachine($Linker)
-							.then(() => {
-								if (ws !== undefined) {
-									ws.onmessage = handleWebsocketData;
-									ws.onclose = () => {
-										websocketState = 'idle';
-									};
-								}
-							})
-							.catch(() => {
+						if(ws !== undefined)
+						{
+							ws.onmessage = handleWebsocketData;
+							ws.onclose = () => {
 								websocketState = 'idle';
-							});
-
-						resolve();
+							};
+							void initI18nMachine($Linker).then(resolve);
+						}
 					};
 				}
 			});
@@ -121,7 +120,7 @@
 	}
 </script>
 
-{#if websocketState != 'established'}
+{#if ["configuration", "establishing", "idle"].includes(websocketState)}
 	<div
 		class="fixed flex top-0 bottom-0 left-0 right-0 justify-center items-center"
 		in:fade
@@ -185,7 +184,9 @@
 			</div>
 		</div>
 	</div>
-{:else}
+{:else if websocketState == "configuration"}
+	<slot />
+{:else if websocketState == 'established'}
 	<Popup bind:shown={displayPopup} modalData={popupData} />
 
 	<Navstack>

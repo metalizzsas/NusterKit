@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-typings
 
+## 1.1.4
+
+### Patch Changes
+
+- Added Configuration screen ([#21](https://github.com/metalizzsas/NusterKit/pull/21))
+
 ## 1.1.3
 
 ### Patch Changes

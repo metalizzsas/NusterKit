@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.6.0
+
+### Minor Changes
+
+- Added Configuration screen ([#21](https://github.com/metalizzsas/NusterKit/pull/21))
+
 ## 1.5.2
 
 ### Patch Changes

@@ -31,7 +31,7 @@ import * as USCleanerMR1 from "@metalizzsas/nuster-turbine-machines/data/usclean
 
 type models = `${ConfigModel}/${ConfigVariant}/${number}`;
 
-const MODELS: {[x: models]: unknown} = {
+export const AvailableMachineModels: {[x: models]: unknown} = {
     "metalfog/m/1": MetalfogMR1,
     "smoothit/m/1": SmoothitMR1,
     "smoothit/m/2": SmoothitMR2,
@@ -63,7 +63,7 @@ export class Machine
         this.data = obj;
 
         // Retreive machine base specs to build all the controllers
-        const specs = MODELS[`${this.data.model}/${this.data.variant}/${this.data.revision}`];
+        const specs = AvailableMachineModels[`${this.data.model}/${this.data.variant}/${this.data.revision}`];
 
         if(specs === undefined)
             throw new Error("Machine failed to load specs.json");

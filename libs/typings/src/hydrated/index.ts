@@ -14,7 +14,7 @@ import { ISlotHydrated } from "./slot";
 
 export interface IWebSocketData
 {
-    type: "message" | "status" | "popup";
+    type: "message" | "status" | "popup" | "configuration";
     message: IStatusMessage | IPopup | unknown;
 }
 

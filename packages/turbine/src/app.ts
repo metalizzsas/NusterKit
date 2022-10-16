@@ -10,7 +10,7 @@ import express from "express";
 import type { Server } from "http";
 import { pinoHttp } from "pino-http";
 import { pino } from "pino";
-import { Machine } from "./Machine";
+import { Machine, AvailableMachineModels } from "./Machine";
 import type { IConfiguration } from "@metalizzsas/nuster-typings";
 import { AuthManager } from "./auth/auth";
 import { IOController } from "./controllers/io/IOController";
@@ -64,6 +64,7 @@ else
 {
     LoggerInstance.warn("Machine: Info file not found");
     SetupExpressConfiguration();
+    SetupWebSocketServerConfig();
 }
 
 /** Update locking the Balena Supervisor */
@@ -80,6 +81,11 @@ function SetupExpressConfiguration()
         LoggerInstance.info("Express: Configuration HTTP server running on port " + HTTP_PORT);
 
         ExpressApp.use(express.json());
+        ExpressApp.use(cors());
+
+        ExpressApp.get("/config", (req: Request, res: Response) => {
+            res.json(AvailableMachineModels);
+        });
 
         ExpressApp.post("/config", (req: Request, res: Response) => {
             if(req.body)
@@ -155,6 +161,15 @@ function SetupWebsocketServer()
 
     setInterval(async () => {
         WebsocketDispatcher.getInstance().broadcastData(await machine.socketData(), "status");
+    }, 500);
+}
+
+function SetupWebSocketServerConfig()
+{
+    WebsocketDispatcher.getInstance(httpServer);
+
+    setInterval(async () => {
+        WebsocketDispatcher.getInstance().broadcastData({configurationNeeded: true}, "configuration");
     }, 500);
 }
 

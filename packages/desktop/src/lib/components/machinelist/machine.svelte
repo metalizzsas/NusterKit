@@ -11,12 +11,14 @@
 		ONLINE = 'online',
 		OFFLINE = 'offline',
 		PENDING = 'pending',
+		CONFIG = 'config',
 	}
 
 	const machineStatusColor: { [x: string]: string } = {
 		online: 'bg-emerald-500 animate-pulse-slim',
 		offline: 'bg-red-500',
 		pending: 'bg-orange-500 animate-pulse',
+		config: 'bg-indigo-500 animate-pulse',
 	};
 
 	export let machine: { name: string; ip: string };
@@ -42,6 +44,9 @@
 			machineData = (await status.json()) as IStatusMessage;
 		} catch (ex) {
 			machineAvailable = machineStatus.OFFLINE;
+			
+			const statusConfig = await fetch('//' + machine.ip + '/config');
+			machineAvailable = statusConfig.status == 200 ? machineStatus.CONFIG : machineAvailable;
 		}
 	};
 

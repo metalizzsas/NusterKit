@@ -85,7 +85,7 @@
 	<input
 		id="inputString"
 		type="text"
-		class={options['class']}
+		class={`${options['class']} ${$$props.class}`}
 		placeholder={options['placeholder']}
 		bind:value
 		on:click={() => {
@@ -99,7 +99,7 @@
 	<input
 		id="inputNumeric"
 		type="number"
-		class={options['class']}
+		class={`${options['class']} ${$$props.class}`}
 		autocomplete="off"
 		min={options['min']}
 		max={options['max']}

@@ -1,5 +1,16 @@
 # @metalizzsas/nuster-turbine
 
+## 1.6.0
+
+### Minor Changes
+
+- Added Configuration screen ([#21](https://github.com/metalizzsas/NusterKit/pull/21))
+
+### Patch Changes
+
+- Updated dependencies [[`ce44c4c`](https://github.com/metalizzsas/NusterKit/commit/ce44c4c4d4587d099118216f519efca21f1a2bb5)]:
+  - @metalizzsas/nuster-typings@1.1.4
+
 ## 1.5.3
 
 ### Patch Changes

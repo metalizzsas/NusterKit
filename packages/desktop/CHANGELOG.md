@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.6.2
+
+### Patch Changes
+
+- Websocket connexion now handles timeouts ([#31](https://github.com/metalizzsas/NusterKit/pull/31))
+
 ## 1.6.1
 
 ### Patch Changes

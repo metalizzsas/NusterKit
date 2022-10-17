@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.6.3
+
+### Patch Changes
+
+- Right top corner buttons works correctly now ([#34](https://github.com/metalizzsas/NusterKit/pull/34))
+
 ## 1.6.2
 
 ### Patch Changes

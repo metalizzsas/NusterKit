@@ -89,15 +89,6 @@
             "controllerId": 0,
             "address": 4,
             "default": 0
-        },
-        {
-            "name": "pump#drain",
-            "type": "default",
-            "bus": "out",
-            "size": "bit",
-            "controllerId": 0,
-            "address": 5,
-            "default": 0
         }
     ],
     "slots": [
@@ -219,21 +210,7 @@
             }
         }
     ],
-    "passives": [
-        {
-            "internal": true,
-            "name": "pump-cavitation",
-            "sensors": [
-                "pump#pressure"
-            ],
-            "actuators": {
-                "plus": [
-                    "pump#drain"
-                ]
-            },
-            "target": 0.11
-        }
-    ],
+    "passives": [],
     "manual": [
         {
             "name": "motor-rotation",

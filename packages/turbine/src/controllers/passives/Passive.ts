@@ -30,10 +30,9 @@ export class Passive implements IConfigPassive {
     //Flow control
     controlTimer?: NodeJS.Timer;
 
-    logPassivePoints: IPassiveStoredLogData[] = new Array<IPassiveStoredLogData>(MAXPASSIVELOGPOINTSSTORED);
+    logPassivePoints: IPassiveStoredLogData[] = new Array<IPassiveStoredLogData>();
 
     constructor(obj: IConfigPassive) {
-        //basic informations
 
         this.internal = obj.internal;
 
@@ -52,36 +51,34 @@ export class Passive implements IConfigPassive {
             this.toggle(true, true);
         else
             this.createOrModifyPassiveDocument();
+
+        //start logpoint loop
+        this.addLogDataPoint();
     }
 
-    async addLogDataPoint() {
+    /** Add a log point to the data */
+    private addLogDataPoint()
+    {
+        const newlogPoint: IPassiveStoredLogData = {
+            targetValue: this.target,
+            interpolatedSensorsValue: this.currentValue,
 
-        const doc = await PassiveModel.findOne({ name: this.name });
+            state: this.state,
+            time: new Date().toISOString()
+        };
 
-        if(doc !== null)
-        {
-            const newlogPoint = {
-                targetValue: this.target,
-                interpolatedSensorsValue: this.currentValue,
+        //add new logpoint
+        this.logPassivePoints.push(newlogPoint);
 
-                state: this.state,
-                time: new Date().toISOString()
-            } as IPassiveStoredLogData;
+        //remove first index
+        if(this.logPassivePoints.length >= MAXPASSIVELOGPOINTSSTORED)
+            this.logPassivePoints.splice(0, 1);
 
-            //add new logpoint
-            this.logPassivePoints.push(newlogPoint);
-            //remove first index
-            if(this.logPassivePoints.length >= MAXPASSIVELOGPOINTSSTORED)
-                this.logPassivePoints.splice(0, 1);
-
-            doc.logData = this.logPassivePoints;
-            await doc.save();
-        }
-
-        setTimeout(this.addLogDataPoint.bind(this), this.state ? 60000 : 15000);
+        //resets the call stack - Add a new point
+        setTimeout(this.addLogDataPoint.bind(this), 15000);
     }
 
-    async createOrModifyPassiveDocument() {
+    private async createOrModifyPassiveDocument() {
         const doc = await PassiveModel.findOne({ name: this.name }).slice("logData", -MAXPASSIVELOGPOINTSSTORED);
 
         if (doc === null) {
@@ -97,14 +94,10 @@ export class Passive implements IConfigPassive {
             this.state = doc.state;
 
             this.toggle(this.state);
-
-            this.logPassivePoints = doc.logData;
         }
-
-        this.addLogDataPoint();
     }
 
-    async saveDocument() {
+    private async saveDocument() {
         const doc = await PassiveModel.findOne({ name: this.name });
 
         if (doc !== null) {
@@ -116,49 +109,41 @@ export class Passive implements IConfigPassive {
     }
 
     private regulationLoop() {
-        if (this.currentValue > this.target) {
-            //disables positive actuators
-            if (typeof this.actuators.plus === "string") {
-                IOController.getInstance().gFinder(this.actuators.plus)?.write(0);
-            }
-            else {
-                for (const actuator of this.actuators.plus) {
-                    IOController.getInstance().gFinder(actuator)?.write(0);
-                }
-            }
 
-            //if this passive has minus Actuators enable them
-            if (this.actuators.minus !== undefined) {
-                if (typeof this.actuators.minus === "string") {
-                    IOController.getInstance().gFinder(this.actuators.minus)?.write(1);
-                }
-                else {
-                    for (const actuator of this.actuators.minus) {
-                        IOController.getInstance().gFinder(actuator)?.write(1);
-                    }
-                }
-            }
-        }
-        else {
-            //if this passive has minus Actuators disable them
-            if (this.actuators.minus !== undefined) {
-                if (typeof this.actuators.minus === "string") {
-                    IOController.getInstance().gFinder(this.actuators.minus)?.write(0);
-                }
-                else {
-                    for (const actuator of this.actuators.minus) {
-                        IOController.getInstance().gFinder(actuator)?.write(0);
-                    }
-                }
-            }
+        //If current value is more than target + 0.25
+        //enable minus actuators
+        if(this.currentValue > this.target + 0.25)
+            this.setActuators("minus", true);
+        else
+            this.setActuators("minus", false);
 
-            //enable positive actuators
-            if (typeof this.actuators.plus === "string") {
-                IOController.getInstance().gFinder(this.actuators.plus)?.write(1);
+        //if current value in less than target
+        // enable plus actuators otherwise disable plus actuators
+        if(this.currentValue < this.target)
+            this.setActuators("plus", true)
+        else
+            this.setActuators("plus", false);
+    }
+
+    /**
+     * Sets the actuators to the designed set
+     * @param actuators actuators to be modified
+     * @param state state to be set
+     */
+    private async setActuators(actuators: "minus" | "plus", state: boolean)
+    {
+        const acturatorsElement = this.actuators[actuators];
+
+        if (acturatorsElement !== undefined)
+        {
+            if (typeof acturatorsElement === "string")
+            {
+                await IOController.getInstance().gFinder(acturatorsElement)?.write(state === true ? 1 : 0);
             }
-            else {
-                for (const actuator of this.actuators.plus) {
-                    IOController.getInstance().gFinder(actuator)?.write(1);
+            else
+            {
+                for (const actuator of acturatorsElement) {
+                    await IOController.getInstance().gFinder(actuator)?.write(state === true ? 1 : 0);
                 }
             }
         }
@@ -224,6 +209,9 @@ export class Passive implements IConfigPassive {
                     }
                 }
             }
+
+            this.setActuators("minus", false);
+            this.setActuators("plus", false);
         }
     }
 

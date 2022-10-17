@@ -15,6 +15,7 @@
 
 	let showlogPoints = false;
 	let chartCanvas: HTMLCanvasElement;
+	let chartUpdateInterval: ReturnType<typeof setInterval> | undefined;
 
 	const triggerState = async (state: boolean) => {
 		await fetch(`//${$Linker}/api/v1/passives/${passive.name}/state/${state ? 'true' : 'false'}`, {
@@ -28,8 +29,10 @@
 		});
 	};
 
+	let chart: Chart | undefined;
+
 	const openChart = () => {
-		new Chart(chartCanvas, {
+		chart = new Chart(chartCanvas, {
 			type: 'line',
 			data: {
 				labels: passive.logData.map((ld) => $time(Date.parse(ld.time))),
@@ -66,11 +69,26 @@
 				},
 			},
 		});
+
+		chartUpdateInterval = setInterval(() => { 
+			if(chart)
+			{
+				chart.data.labels = passive.logData.map((ld) => $time(Date.parse(ld.time)));
+				chart.data.datasets.at(0)!.data = passive.logData.map((ld) => ld.targetValue);
+				chart.data.datasets.at(1)!.data = passive.logData.map((ld) => ld.interpolatedSensorsValue);
+				chart.update();
+			}
+		}, 10000);
 	};
 
 	$: target, void triggerTarget(target);
 	$: if (chartCanvas != null && showlogPoints == true) {
 		openChart();
+	}
+
+	$: if(showlogPoints == false) {
+		if(chartUpdateInterval)
+			clearInterval(chartUpdateInterval)
 	}
 </script>
 

@@ -22,20 +22,25 @@
 	import { onDestroy, onMount } from 'svelte';
 	import Network from './indexStackContent/network.svelte';
 
-	let shownModal: 'settings' | 'info' | 'updates' | 'network' | null = null;
+	type modalsTypes = 'settings' | 'info' | 'updates' | 'network';
 
-	$: displaySettings = shownModal == 'settings';
-	$: displayInfo = shownModal == 'info';
-	$: displayNetworkInfo = shownModal == 'network';
-	$: displayUpdateScreen = shownModal == 'updates';
-
-	//circular inference
-	//$: shownModal = (displayInfo || displayNetworkInfo || displaySettings || displayUpdateScreen) ? shownModal : '';
+	let modals: {[x: modalsTypes]: boolean} = {
+		"settings": false,
+		"info": false,
+		"updates": false,
+		"network": false
+	};
 
 	$: index = $page.url.pathname == '/app';
 
 	let dateNow = 0;
 	let dateInterval: ReturnType<typeof setTimeout>;
+
+	const showModal = (modal: 'settings' | 'info' | 'updates' | 'network') => 
+	{
+		Object.keys(modals).forEach(k => modals[k] = false);
+		modals[modal] = true;
+	}
 
 	onMount(() => {
 		dateInterval = setInterval(() => {
@@ -48,10 +53,10 @@
 	});
 </script>
 
-<Settings bind:shown={displaySettings} />
-<Informations bind:shown={displayInfo} />
-<Updates bind:shown={displayUpdateScreen} />
-<Network bind:shown={displayNetworkInfo} />
+<Settings bind:shown={modals.settings} />
+<Informations bind:shown={modals.info} />
+<Updates bind:shown={modals.updates} />
+<Network bind:shown={modals.network} />
 
 <div
 	class="bg-gradient-to-br from-indigo-600 to-indigo-500 rounded-xl ring-[0.5px] ring-indigo-300/50 mb-6 text-white"
@@ -118,11 +123,7 @@
 						<button
 							class="rounded-full bg-white p-1 transition hover:rotate-180 duration-300"
 							on:click={() => {
-								displaySettings = false;
-								displayInfo = false;
-								displayNetworkInfo = false;
-								displayUpdateScreen = false;
-								shownModal = 'updates';
+								showModal("updates")
 							}}
 						>
 							<span
@@ -152,11 +153,7 @@
 				<button
 					class="rounded-full bg-white p-1 transition hover:rotate-180 duration-300"
 					on:click={() => {
-						displaySettings = false;
-						displayInfo = false;
-						displayNetworkInfo = false;
-						displayUpdateScreen = false;
-						shownModal = 'settings';
+						showModal("settings")
 					}}
 				>
 					<svg
@@ -175,11 +172,7 @@
 				<button
 					class="rounded-full bg-white p-1 transition hover:rotate-180 duration-300"
 					on:click={() => {
-						displaySettings = false;
-						displayInfo = false;
-						displayNetworkInfo = false;
-						displayUpdateScreen = false;
-						shownModal = 'info';
+						showModal("info")
 					}}
 				>
 					<svg
@@ -199,11 +192,7 @@
 					<button
 						class="rounded-full bg-white p-1 transition hover:rotate-180 duration-300"
 						on:click={() => {
-							displaySettings = false;
-							displayInfo = false;
-							displayNetworkInfo = false;
-							displayUpdateScreen = false;
-							shownModal = 'network';
+							showModal("network")
 						}}
 					>
 						<svg

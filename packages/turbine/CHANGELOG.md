@@ -1,5 +1,14 @@
 # @metalizzsas/nuster-turbine
 
+## 1.6.1
+
+### Patch Changes
+
+- - Passive log points are now not stored on passive document ([#24](https://github.com/metalizzsas/NusterKit/pull/24))
+  - Passive actuators are now disabled on state change
+- Updated dependencies [[`b34ac11`](https://github.com/metalizzsas/NusterKit/commit/b34ac11ea88dd97e9f77e66e9884bc70f93ad0cb)]:
+  - @metalizzsas/nuster-turbine-machines@1.1.4
+
 ## 1.6.0
 
 ### Minor Changes

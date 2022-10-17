@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.6.1
+
+### Patch Changes
+
+- Passive chart automatically updates now ([#24](https://github.com/metalizzsas/NusterKit/pull/24))
+
 ## 1.6.0
 
 ### Minor Changes

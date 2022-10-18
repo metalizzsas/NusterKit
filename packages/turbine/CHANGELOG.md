@@ -1,5 +1,16 @@
 # @metalizzsas/nuster-turbine
 
+## 1.6.3
+
+### Patch Changes
+
+- pbr was ended earlier than expected due to while loop being stopped ([#47](https://github.com/metalizzsas/NusterKit/pull/47))
+
+- Cycle history would fail to save profile and start conditions result due to typing ([#47](https://github.com/metalizzsas/NusterKit/pull/47))
+
+- Updated dependencies [[`93e25e6`](https://github.com/metalizzsas/NusterKit/commit/93e25e6f8ddbd013e3c4446c7ecc24018b8dc6cc)]:
+  - @metalizzsas/nuster-turbine-machines@1.1.6
+
 ## 1.6.2
 
 ### Patch Changes

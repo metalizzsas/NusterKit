@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.1.5
+
+### Patch Changes
+
+- nozzle cleaning is enabled oly if metalization step is enabled ([#44](https://github.com/metalizzsas/NusterKit/pull/44))
+
 ## 1.1.4
 
 ### Patch Changes

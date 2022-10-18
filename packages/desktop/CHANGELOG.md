@@ -1,5 +1,15 @@
 # @metalizzsas/nuster-desktop
 
+## 1.6.4
+
+### Patch Changes
+
+- Websocket are handled more properly ([#40](https://github.com/metalizzsas/NusterKit/pull/40))
+
+- Machine list fetchs ar enow handled more properly ([#40](https://github.com/metalizzsas/NusterKit/pull/40))
+
+- Load Indicator should not appear randomly now ([#40](https://github.com/metalizzsas/NusterKit/pull/40))
+
 ## 1.6.3
 
 ### Patch Changes

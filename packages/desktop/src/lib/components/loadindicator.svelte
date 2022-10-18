@@ -2,29 +2,22 @@
 	import { navigating } from '$app/stores';
 	import { fly } from 'svelte/transition';
 
-	let overtime = false;
+	let isNavigating = false;
 
-	let timeoutTimer: ReturnType<typeof setTimeout> | null = null;
+	const delay = (): Promise<void> => { return new Promise<void>(resolve => setTimeout(resolve, 250)) };
 
-	$: if ($navigating != null) {
-		timeoutTimer = setTimeout(() => {
-			overtime = true;
-		}, 250);
-	}
-	$: if ($navigating == null) {
-		if (timeoutTimer !== null) clearTimeout(timeoutTimer);
-		overtime = false;
-	}
-
-	$: $navigating == null, (overtime = false);
+	$: if($navigating != null) { isNavigating = true }
+	$: if($navigating == null) { isNavigating = false }
 </script>
 
-{#if overtime}
-	<div
-		class="fixed top-0 left-0 right-0 h-[6px] bg-gradient-to-r from-indigo-500 to-fuchsia-500 via-orange-500 hue-rotate duration-300"
-		in:fly
-		out:fly
-	/>
+{#if isNavigating}
+	{#await delay() then}
+		<div
+			class="fixed top-0 left-0 right-0 h-[6px] bg-gradient-to-r from-indigo-500 to-fuchsia-500 via-orange-500 hue-rotate duration-300"
+			in:fly
+			out:fly
+		/>		
+	{/await}
 {/if}
 
 <style>

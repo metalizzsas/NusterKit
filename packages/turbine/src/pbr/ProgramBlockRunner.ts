@@ -1,5 +1,6 @@
 import type { IProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profile";
 import type { IProgramRunner, IPBRStatus, IProgramVariable, IProgramTimer} from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlockRunner";
+import type { EProgramStepResult } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramStep";
 import { LoggerInstance } from "../app";
 import { IOController } from "../controllers/io/IOController";
 import { MaintenanceController } from "../controllers/maintenance/MaintenanceController";
@@ -114,9 +115,9 @@ export class ProgramBlockRunner implements IProgramRunner
 
         while(this.currentStepIndex < this.steps.length)
         {
-            let result = null;
+            let result: EProgramStepResult | null = null;
             
-            if(["ended", "ending"].includes(this.status.mode))
+            if(!["ended", "ending"].includes(this.status.mode))
                 result = await this.steps[this.currentStepIndex].execute();
             else
                 break;
@@ -162,7 +163,6 @@ export class ProgramBlockRunner implements IProgramRunner
                 this.currentStepIndex++;
         }
 
-        //this.end();
         this.dispose();
         return true;
     }

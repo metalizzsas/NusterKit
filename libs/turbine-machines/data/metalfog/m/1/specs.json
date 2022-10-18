@@ -2804,7 +2804,7 @@
                },
                "duration": {
                   "name": "const",
-                  "value": 30
+                  "value": 42
                },
                "startBlocks": [
                   {
@@ -2841,173 +2841,192 @@
                            ]
                         }
                      ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-air-cleaning-high"
-                        },
-                        {
-                           "name": "profile",
-                           "value": "met-nozzles#met-high"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-air-cleaning-high"
-                        },
-                        {
-                           "name": "profile",
-                           "value": "met-nozzles#met-high"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-air-cleaning-mid"
-                        },
-                        {
-                           "name": "profile",
-                           "value": "met-nozzles#met-medium"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-air-cleaning-mid"
-                        },
-                        {
-                           "name": "profile",
-                           "value": "met-nozzles#met-medium"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-air-cleaning-low"
-                        },
-                        {
-                           "name": "profile",
-                           "value": "met-nozzles#met-low"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-air-cleaning-low"
-                        },
-                        {
-                           "name": "profile",
-                           "value": "met-nozzles#met-low"
-                        }
-                     ]
                   }
                ],
-               "endBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-air-cleaning-low"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-air-cleaning-low"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-air-cleaning-mid"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-air-cleaning-mid"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-air-cleaning-high"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-air-cleaning-high"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  }
-               ],
+               "endBlocks": [],
                "blocks": [
                   {
-                     "name": "sleep",
+                     "name": "for",
                      "params": [
                         {
                            "name": "const",
-                           "value": 30
+                           "value": 6
+                        }
+                     ],
+                     "blocks": [
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met#rd-air-cleaning-high"
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "met-nozzles#met-high"
+                              }
+                           ]
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met#ox-air-cleaning-high"
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "met-nozzles#met-high"
+                              }
+                           ]
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met#rd-air-cleaning-mid"
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "met-nozzles#met-medium"
+                              }
+                           ]
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met#ox-air-cleaning-mid"
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "met-nozzles#met-medium"
+                              }
+                           ]
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met#ox-air-cleaning-low"
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "met-nozzles#met-low"
+                              }
+                           ]
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met#rd-air-cleaning-low"
+                              },
+                              {
+                                 "name": "profile",
+                                 "value": "met-nozzles#met-low"
+                              }
+                           ]
+                        },
+                        {
+                           "name": "sleep",
+                           "params": [
+                              {
+                                 "name": "const",
+                                 "value": 5
+                              }
+                           ]
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met#rd-air-cleaning-low"
+                              },
+                              {
+                                 "name": "const",
+                                 "value": 0
+                              }
+                           ]
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met#ox-air-cleaning-low"
+                              },
+                              {
+                                 "name": "const",
+                                 "value": 0
+                              }
+                           ]
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met#rd-air-cleaning-mid"
+                              },
+                              {
+                                 "name": "const",
+                                 "value": 0
+                              }
+                           ]
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met#ox-air-cleaning-mid"
+                              },
+                              {
+                                 "name": "const",
+                                 "value": 0
+                              }
+                           ]
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met#rd-air-cleaning-high"
+                              },
+                              {
+                                 "name": "const",
+                                 "value": 0
+                              }
+                           ]
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met#ox-air-cleaning-high"
+                              },
+                              {
+                                 "name": "const",
+                                 "value": 0
+                              }
+                           ]
+                        },
+                        {
+                           "name": "sleep",
+                           "params": [
+                              {
+                                 "name": "const",
+                                 "value": 2
+                              }
+                           ]
                         }
                      ]
                   }
@@ -4890,7 +4909,7 @@
                "name": "nozzle-cleaning",
                "duration": {
                   "name": "const",
-                  "value": 120
+                  "value": 90
                },
                "isEnabled": {
                   "name": "const",
@@ -4909,93 +4928,191 @@
                            "value": 1
                         }
                      ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-air-cleaning-high"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-air-cleaning-high"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-air-cleaning-mid"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-air-cleaning-mid"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-air-cleaning-low"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-air-cleaning-low"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
                   }
                ],
                "blocks": [
                   {
-                     "name": "sleep",
+                     "name": "for",
                      "params": [
                         {
                            "name": "const",
-                           "value": 120
+                           "value": 12
+                        }
+                     ],
+                     "blocks": [
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met#rd-air-cleaning-high"
+                              },
+                              {
+                                 "name": "const",
+                                 "value": 1
+                              }
+                           ]
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met#ox-air-cleaning-high"
+                              },
+                              {
+                                 "name": "const",
+                                 "value": 1
+                              }
+                           ]
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met#rd-air-cleaning-mid"
+                              },
+                              {
+                                 "name": "const",
+                                 "value": 1
+                              }
+                           ]
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met#ox-air-cleaning-mid"
+                              },
+                              {
+                                 "name": "const",
+                                 "value": 1
+                              }
+                           ]
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met#ox-air-cleaning-low"
+                              },
+                              {
+                                 "name": "const",
+                                 "value": 1
+                              }
+                           ]
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met#rd-air-cleaning-low"
+                              },
+                              {
+                                 "name": "const",
+                                 "value": 1
+                              }
+                           ]
+                        },
+                        {
+                           "name": "sleep",
+                           "params": [
+                              {
+                                 "name": "const",
+                                 "value": 5
+                              }
+                           ]
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met#rd-air-cleaning-low"
+                              },
+                              {
+                                 "name": "const",
+                                 "value": 0
+                              }
+                           ]
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met#ox-air-cleaning-low"
+                              },
+                              {
+                                 "name": "const",
+                                 "value": 0
+                              }
+                           ]
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met#rd-air-cleaning-mid"
+                              },
+                              {
+                                 "name": "const",
+                                 "value": 0
+                              }
+                           ]
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met#ox-air-cleaning-mid"
+                              },
+                              {
+                                 "name": "const",
+                                 "value": 0
+                              }
+                           ]
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met#rd-air-cleaning-high"
+                              },
+                              {
+                                 "name": "const",
+                                 "value": 0
+                              }
+                           ]
+                        },
+                        {
+                           "name": "io",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "met#ox-air-cleaning-high"
+                              },
+                              {
+                                 "name": "const",
+                                 "value": 0
+                              }
+                           ]
+                        },
+                        {
+                           "name": "sleep",
+                           "params": [
+                              {
+                                 "name": "const",
+                                 "value": 2
+                              }
+                           ]
                         }
                      ]
                   }
@@ -5007,84 +5124,6 @@
                         {
                            "name": "conststr",
                            "value": "ventilation"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-air-cleaning-high"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-air-cleaning-high"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-air-cleaning-mid"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-air-cleaning-mid"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-air-cleaning-low"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-air-cleaning-low"
                         },
                         {
                            "name": "const",

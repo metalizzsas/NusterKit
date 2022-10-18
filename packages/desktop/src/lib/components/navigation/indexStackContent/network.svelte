@@ -12,18 +12,13 @@
 			key: 'machine.ips',
 			data: $machineData.machine.deviceData?.ip_address
 				.split(' ')
-				.filter((k) => k !== '192.168.1.2'),
+				.filter((k) => k !== '192.168.1.2' && k !== '192.168.42.1'),
 		},
 		{
 			key: 'machine.macs',
 			data: $machineData.machine.deviceData?.mac_address
 				.split(' ')
-				.filter(
-					(k) =>
-						!['E4:5F:01', 'DC:A6:32', '3A:35:41', '28:CD:C1'].includes(
-							k.match(/(.{2}:.{2}:.{2})/)?.at(0) ?? '',
-						),
-				),
+				.filter((mac_adr) => { return !['E4:5F:01', 'DC:A6:32', '3A:35:41', '28:CD:C1'].map(mask => mac_adr.startsWith(mask)).reduce((p, c) => p || c) }),
 		},
 		{
 			key: 'machine.vpn.connected',

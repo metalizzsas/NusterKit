@@ -6,27 +6,24 @@
 	import { lockMachineData, machineData } from '$lib/utils/stores/store';
 	import { fade, scale } from 'svelte/transition';
 
-	import { Linker } from '$lib/utils/stores/linker';
 	import { goto } from '$app/navigation';
-	import Navstack from '$lib/components/navigation/navstack.svelte';
 	import { BUNDLED } from '$lib/bundle';
-	import { initI18nMachine } from '$lib/utils/i18n/i18nmachine';
+	import Flex from '$lib/components/layout/flex.svelte';
 	import Popup from '$lib/components/modals/popup.svelte';
+	import Navstack from '$lib/components/navigation/navstack.svelte';
+	import { initI18nMachine } from '$lib/utils/i18n/i18nmachine';
+	import { Linker } from '$lib/utils/stores/linker';
 	import type {
 		IPopupMessage,
 		IStatusMessage,
-		IWebSocketData,
+		IWebSocketData
 	} from '@metalizzsas/nuster-typings';
-	import Flex from '$lib/components/layout/flex.svelte';
 
-	let websocketState: 'idle' | 'establishing' | 'established' | 'errored' | 'configuration' =
-		'idle';
+	let websocketState: 'closed' | 'connected' | 'connecting' = 'connecting';
 	let ws: WebSocket | undefined;
 
 	let displayPopup = false;
 	let popupData: IPopupMessage | null = null;
-
-	export const ssr = false;
 
 	beforeUpdate(() => {
 		const ip = window.localStorage.getItem('ip') ?? '127.0.0.1';
@@ -34,20 +31,15 @@
 	});
 
 	onMount(() => {
-		//disabling right click
-		window.addEventListener('contextmenu', function (e) {
-			if (BUNDLED == 'true') e.preventDefault();
-		});
+		//disabling right click if Bundled
+		if(BUNDLED == 'true')
+			window.addEventListener('contextmenu', (e) => e.preventDefault());
 
-		websocketState = 'establishing';
+		void connectWebSocket();
 	});
 
 	onDestroy(() => {
-		if (ws) {
-			ws.onclose = null;
-			ws.onmessage = null;
-			ws.close();
-		}
+		ws?.close();
 	});
 
 	/**
@@ -62,7 +54,7 @@
 				if ($lockMachineData === false) {
 					$machineData = data.message as IStatusMessage;
 				}
-				websocketState = 'established';
+				websocketState = 'connected';
 				break;
 			}
 			case 'popup': {
@@ -70,64 +62,34 @@
 				popupData = data.message as IPopupMessage;
 				break;
 			}
-			case 'configuration': {
-				void goto('/config');
-				websocketState = 'configuration';
-				break;
-			}
 		}
 	};
 
-	/** Connect to the machine websocket server */
-	const connectWebsocket = async () => {
-		//Close websocket connection if it is open
-		if (
-			ws !== undefined &&
-			ws.readyState !== WebSocket.CLOSED &&
-			websocketState != 'establishing'
-		) {
-			ws.close();
-		}
+	/** Connect to the websocket server */
+	const connectWebSocket = () => {
 
 		const protocol = window.location.protocol == 'https:' ? 'wss' : 'ws';
 
-		try {
-			ws = new WebSocket(`${protocol}://${$Linker}/ws/`);
+		ws = new WebSocket(`${protocol}://${$Linker}/ws/`);
 
-			return new Promise<void>((resolve) => {
-				if (ws !== undefined) {
+		//Handle events triggered by websocket
+		ws.addEventListener("error", () => { websocketState = "closed" });
+		ws.addEventListener("close", () => { websocketState = "closed" });
+		ws.addEventListener("message", handleWebsocketData);
+		ws.addEventListener("open", () => {
+			void initI18nMachine($Linker);
+		});
 
-					setTimeout(() => {
-						websocketState = 'errored';
-						resolve();
-					}, 10000);
-
-					ws.onerror = () => {
-						websocketState = 'idle';
-						resolve();
-					};
-					ws.onopen = () => {
-						if (ws !== undefined) {
-							ws.onmessage = handleWebsocketData;
-							ws.onclose = () => {
-								websocketState = 'idle';
-							};
-							initI18nMachine($Linker).then(resolve);
-						}
-					};
-				}
-			});
-		} catch (error) {
-			return false;
-		}
+		//Timeout for connection
+		setTimeout(() => {
+			if(ws !== undefined && ws.readyState != WebSocket.OPEN)
+				ws?.close();
+		}, 10000);
 	};
 
-	$: if (websocketState == 'establishing') {
-		void connectWebsocket();
-	}
 </script>
 
-{#if ['configuration', 'establishing', 'idle', 'errored'].includes(websocketState)}
+{#if ["connecting", "closed"].includes(websocketState)}
 	<div
 		class="fixed flex top-0 bottom-0 left-0 right-0 justify-center items-center"
 		in:fade
@@ -136,7 +98,7 @@
 		<div class="relative w-1/4" in:scale out:scale>
 			<Flex direction="col" gap={4}>
 				<div class="bg-zinc-900 rounded-3xl p-5">
-					{#if websocketState != 'errored'}
+					{#if websocketState != 'closed'}
 						<svg
 							id="glyphicons-basic"
 							xmlns="http://www.w3.org/2000/svg"
@@ -162,46 +124,37 @@
 						</svg>
 					{/if}
 				</div>
-				<div class="bg-zinc-900 rounded-3xl p-5">
-					<Flex direction={'col'} gap={4}>
-						{#if websocketState != 'errored'}
-							{#if BUNDLED != 'true'}
-								<button
-									class="py-1 px-3 bg-red-400 text-white rounded-xl font-semibold"
-									on:click={() => history.back()}
-								>
-									{$_('cancel')}
-								</button>
-							{/if}
-						{:else}
-							<p class="text-red-500 font-semibold text-center">
-								{$_('loadingScreen.connectionError').replace('#ip', $Linker)}
-							</p>
-							{#if BUNDLED != 'true'}
-								<button
-									class="bg-gray-500 text-white font-semibold py-1 px-2 rounded-xl"
-									on:click={() => goto('/')}
-								>
-									{$_('loadingScreen.return')}
-								</button>
+				{#if websocketState != 'connected' || BUNDLED != 'true'}
+					<div class="bg-zinc-900 rounded-3xl p-5">
+						<Flex direction={'col'} gap={4}>
+							{#if websocketState != 'closed'}
+								{#if BUNDLED != 'true'}
+									<button
+										class="py-1 px-3 bg-red-400 text-white rounded-xl font-semibold"
+										on:click={() => history.back()}
+									>
+										{$_('cancel')}
+									</button>
+								{/if}
 							{:else}
+								<p class="text-red-500 font-semibold text-center">
+									{$_('loadingScreen.connectionError').replace('#ip', $Linker)}
+								</p>
 								<button
 									class="bg-gray-500 text-white font-semibold py-1 px-2 rounded-xl"
-									on:click={() => goto('/app')}
+									on:click={() => goto((BUNDLED != 'true') ? '/' : '/app')}
 								>
-									{$_('loadingScreen.retry')}
+									{$_(`loadingScreen.${BUNDLED != 'true' ? 'return' : 'retry'}`)}
 								</button>
 							{/if}
-						{/if}
-					</Flex>
-				</div>
+						</Flex>
+					</div>
+				{/if}
 			</Flex>
 			<div class="flex flex-col gap-2" />
 		</div>
 	</div>
-{:else if websocketState == 'configuration'}
-	<slot />
-{:else if websocketState == 'established'}
+{:else}
 	<Popup bind:shown={displayPopup} modalData={popupData} />
 
 	<Navstack>

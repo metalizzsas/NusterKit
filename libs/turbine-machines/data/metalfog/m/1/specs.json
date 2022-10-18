@@ -2799,8 +2799,8 @@
             {
                "name": "nozzle-cleaning",
                "isEnabled": {
-                  "name": "const",
-                  "value": 1
+                  "name": "profile",
+                  "value": "metalization#enabled"
                },
                "duration": {
                   "name": "const",

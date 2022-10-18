@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-desktop
 
+## 1.6.5
+
+### Patch Changes
+
+- Network mac address filter should be more reliable ([#42](https://github.com/metalizzsas/NusterKit/pull/42))
+
+- Disabled kiosk translation with meta and html tags ([#42](https://github.com/metalizzsas/NusterKit/pull/42))
+
 ## 1.6.4
 
 ### Patch Changes

@@ -237,10 +237,12 @@ export class CycleController extends Controller {
                 if (["ended", "ending", "created"].includes(this.program.status.mode)) {
                     //do not save the history if the program was just created and never started
                     if (this.program.status.mode != "created") {
+
+                        
                         await ProgramHistoryModel.create({
                             rating: parseInt(req.params.rating) || 0,
                             cycle: this.program,
-                            profile: this.program.profile
+                            profile: (this.program.profile) ? ProfileController.getInstance().prepareToStore(this.program.profile) : undefined
                         });
                     }
 

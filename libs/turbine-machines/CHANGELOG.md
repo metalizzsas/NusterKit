@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.1.6
+
+### Patch Changes
+
+- Cleaning is now pulsed ([#47](https://github.com/metalizzsas/NusterKit/pull/47))
+
 ## 1.1.5
 
 ### Patch Changes

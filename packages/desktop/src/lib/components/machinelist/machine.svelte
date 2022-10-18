@@ -5,6 +5,7 @@
 	import { machineList } from '$lib/utils/stores/list';
 	import Modal from '../modals/modal.svelte';
 	import { _ } from 'svelte-i18n';
+	import { Linker } from '$lib/utils/stores/linker';
 	import type { IStatusMessage } from '@metalizzsas/nuster-typings';
 
 	enum machineStatus {
@@ -37,22 +38,31 @@
 	});
 
 	const fetchStatus = async () => {
-		try {
-			const status = await fetch('//' + machine.ip + '/api/ws');
-
+		try
+		{
+			const status = await fetch(`//${machine.ip}/api/ws`);
+	
 			machineAvailable = status.status == 200 ? machineStatus.ONLINE : machineStatus.OFFLINE;
 			machineData = (await status.json()) as IStatusMessage;
-		} catch (ex) {
-			machineAvailable = machineStatus.OFFLINE;
-			
-			const statusConfig = await fetch('//' + machine.ip + '/config');
-			machineAvailable = statusConfig.status == 200 ? machineStatus.CONFIG : machineAvailable;
+		}
+		catch(ex)
+		{
+			try
+			{
+				const statusConfig = await fetch(`//${machine.ip}/config`);
+				machineAvailable = statusConfig.status == 200 ? machineStatus.CONFIG : machineStatus.OFFLINE;
+			}
+			catch(ex2)
+			{
+				machineAvailable = machineStatus.OFFLINE;
+			}
 		}
 	};
 
 	const login = () => {
 		localStorage.setItem('ip', machine.ip);
-		void goto('/app');
+		$Linker = machine.ip;
+		void goto((machineAvailable == machineStatus.CONFIG) ? "/config" : "/app");
 	};
 
 	const saveMachineList = () => {

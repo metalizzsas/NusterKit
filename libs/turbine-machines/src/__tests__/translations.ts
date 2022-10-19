@@ -86,8 +86,6 @@ for(const file of filesToCheck)
 
     const maintenances = json.maintenance.map(m => [m.name, m.procedure?.steps.map(s => s.name)]);
 
-    const passives = json.passives.filter(p => p.internal !== true).map(p => p.name);
-
     for(const langFile of Object.keys(file.translations))
     {
         const translation = JSON.parse(fs.readFileSync(file.translations[langFile], {encoding: 'utf-8'}));
@@ -181,11 +179,6 @@ for(const file of filesToCheck)
                         expect(translation).toHaveProperty("maintenance.tasks." + maintenanceName + ".procedure." + s);
                     }
                 }
-            }
-
-            for(const passive of passives)
-            {
-                expect(translation).toHaveProperty("passives." + passive + ".name");
             }
         });
     }

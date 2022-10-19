@@ -23,11 +23,11 @@
                 },
                 "ox": {
                     "load": "Manual loading",
-                    "emptying": "Reactives emptying"
+                    "unload": "Reactives emptying"
                 },
                 "rd": {
                     "load": "Manual loading",
-                    "emptying": "Reactives emptying"
+                    "unload": "Reactives emptying"
                 }
             }
         }

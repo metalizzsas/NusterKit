@@ -8,7 +8,6 @@
     import { Linker } from "$lib/utils/stores/linker";
 	import { execCTA } from "$lib/utils/callToAction";
 	import { goto } from "$app/navigation";
-	import Modal from "../modals/modal.svelte";
 
     export let shown = false;
     export let slot: ISlotHydrated;

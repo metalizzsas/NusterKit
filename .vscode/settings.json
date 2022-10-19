@@ -4,7 +4,7 @@
         "./packages/turbine",
         "./packages/desktop",
         "./libs/typings",
-        "./libs/tubrine-machines"
+        "./libs/turbine-machines"
     ],
     "eslint.quiet": false,
     "eslint.probe": [

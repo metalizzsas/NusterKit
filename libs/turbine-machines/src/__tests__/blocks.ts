@@ -94,27 +94,6 @@ for(const file of filesToCheck)
         });
     });
 
-    it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' Passive controls', () => {
-        json.passives.forEach(p => {
-
-            for(const t of [p.actuators.plus, p.sensors, p.actuators.minus])
-            {
-                if(t === undefined)
-                    continue;
-                
-                if(typeof t == "string")
-                    expect(gateNames).toContain(t);
-                else
-                {
-                    for(const p2 of t)
-                    {
-                        expect(gateNames).toContain(p2);
-                    }
-                }
-            }
-        });
-    });
-
     it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' IO Blocks', () => {
         json.cycleTypes.forEach(c => {
             c.steps.forEach(s => {
@@ -271,11 +250,37 @@ for(const file of filesToCheck)
 
     it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' Slots sensors', () => {
 
-        for(const slot of json.slots)
+        for(const slot of json.slots.filter(s => s.sensors !== undefined))
         {
-            for(const sensor of slot.sensors)
+            for(const sensor of slot.sensors!)
             {
                 expect(inputGateNames).toContain(sensor.io);
+
+                if(sensor.regulation !== undefined)
+                {
+                    for(const t of [sensor.regulation.actuators.plus, sensor.regulation.actuators.minus])
+                    {
+                        if(t === undefined)
+                            continue;
+                        
+                        if(typeof t == "string")
+                            expect(gateNames).toContain(t);
+                        else
+                        {
+                            for(const p2 of t)
+                            {
+                                expect(gateNames).toContain(p2);
+                            }
+                        }
+                    }
+                    if(sensor.regulation.manualModes !== undefined)
+                    {
+                        for(const m of sensor.regulation.manualModes)
+                        {
+                            expect(json.manual.map(m => m.name)).toContain(m);
+                        }
+                    }
+                }
             }
         }
     });

@@ -7,8 +7,6 @@
 	export let shown: boolean;
 
 	export let zIndex = 50;
-
-
 </script>
 
 <Portal target="#modals">

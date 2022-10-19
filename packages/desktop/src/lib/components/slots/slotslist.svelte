@@ -18,7 +18,7 @@
 			? 'grid-cols-1'
 			: 'grid-cols-1 md:grid-cols-3'} h-[50vh] md:h-full overflow-scroll md:overflow-visible gap-4"
 	>
-		{#each $machineData.slots.sort((a, b) => b.sensors.length - a.sensors.length) as slot}
+		{#each $machineData.slots.sort((a, b) => ((b.isProductable ? 1 : 0) - (a.isProductable ? 1 : 0) || a.name.localeCompare(b.name))) as slot}
 			<Slotproduct bind:slotContent={slot} />
 		{/each}
 	</div>

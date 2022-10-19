@@ -52,6 +52,9 @@
     "cr": "CR-1",
     "any": "Unknown"
   },
+
+  "seeReleaseNotes": "See release notes",
+
   "loadingScreen": {
     "connectionAttemptCount": "Connection atempt :",
     "connectionError": "Connection error, #ip is unreachable.",
@@ -65,8 +68,10 @@
     "variant": "Variant",
     "revision": "Revision",
     "serial": "Serial number",
+    "addons": "Addons",
     "cycleCount": "Cycle count",
-    "nusterVersion": "Nuster version",
+    "nusterDesktopVersion": "Nuster UI version",
+    "nusterTurbineVersion": "Nuster Core version",
     "balenaVersion": "Balena version",
     "ips": "Machine IP Addresses",
     "macs": "Machine MAC Addresses",
@@ -77,6 +82,7 @@
     "name": "Containers",
     "product": "Product",
     "product.done": "Out of date",
+    "product.unknownLifespan": "Lifespan undefined.",
     "sensors": {
       "name": "Sensors",
       "types": {

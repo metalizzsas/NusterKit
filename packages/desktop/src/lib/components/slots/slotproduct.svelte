@@ -35,8 +35,9 @@
 		</span>
 		{#if slotContent.isProductable}
 			<Label class="flex flex-row gap-1 items-center" color={"bg-white text-zinc-800"}>
-				<span>{$_('slots.product')}</span>
+				
 				{#if slotContent.productData?.lifetimeRemaining !== undefined && slotContent.productData?.loadedProductType != "any"}
+					<span>{$_(`products.${slotContent.productData.loadedProductType}`)}</span>
 					{#if slotContent.productData?.lifetimeRemaining > 0}
 						<svg
 							id="glyphicons-basic"
@@ -63,6 +64,7 @@
 						</svg>
 					{/if}
 				{:else}
+					<span>{$_('slots.product')}</span>
 					<svg
 						id="glyphicons-basic"
 						xmlns="http://www.w3.org/2000/svg"

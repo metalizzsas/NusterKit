@@ -64,7 +64,7 @@
         {/if}
         {#if slot.callToAction !== undefined && slot.callToAction.filter(c => c.name.startsWith("load")).length > 0}
             <Flex direction={"col"} gap={1}>
-                <p>{$_(`slot.modal.chooseLoadingMethod`)}</p>
+                <p>{$_(`slots.modal.chooseLoadingMethod`)}</p>
         
                 <select bind:value={selectedMethod} class="p-1.5 text-zinc-800 bg-zinc-300 font-medium">
                     <option value={'default'} selected>{$_(`slots.modal.defaultLoadMethod`)}</option>

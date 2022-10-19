@@ -6,7 +6,6 @@ import path from "path";
 import pkg from "../package.json";
 
 import { CycleController } from "./controllers/cycle/CycleController";
-import { PassiveController } from "./controllers/passives/PassiveController";
 import { IOController } from "./controllers/io/IOController";
 import { MaintenanceController } from "./controllers/maintenance/MaintenanceController";
 import { ManualModeController } from "./controllers/manual/ManualModeController";
@@ -49,7 +48,6 @@ export class Machine
     private slotController: SlotController;
     private manualmodeController: ManualModeController;
     private cycleController: CycleController;
-    private passiveController: PassiveController;
 
     WebSocketServer?: WebSocket.Server = undefined;
 
@@ -76,7 +74,7 @@ export class Machine
             LoggerInstance.warn("Machine: " + this.data.addons.length + " Addon(s) detected. SHOULD NOT BE USED IN PRODUCTION!");
             for (const add of this.data.addons)
             {
-                const addon = this.specs.addons?.find(a => a.addonName = add);
+                const addon = this.specs.addons?.find(a => a.addonName == add);
 
                 if(addon)
                     this.specs = parseAddon(this.specs, addon, LoggerInstance);
@@ -104,7 +102,6 @@ export class Machine
         this.slotController = SlotController.getInstance(this.specs.slots);
         this.manualmodeController = ManualModeController.getInstance(this.specs.manual, this.data.settings?.maskedManuals);
         this.cycleController = CycleController.getInstance(this.specs.cycleTypes, this.specs.cyclePremades, this.data.settings?.maskedPremades);
-        this.passiveController = PassiveController.getInstance(this.specs.passives);
 
         LoggerInstance.info("Machine: Finished Instantiating controllers");
 
@@ -148,7 +145,6 @@ export class Machine
             "profiles": profiles,
             "io": this.ioController.socketData[0],
             "handlers": this.ioController.socketData[1],
-            "passives": this.passiveController.socketData,
             "manuals": this.manualmodeController.socketData,
             "maintenances": maintenances
         }

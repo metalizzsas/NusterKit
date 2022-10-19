@@ -10,10 +10,9 @@
 	export let displayClose = true;
 	export let shown = false;
 
-	$: shown, document.body.classList.toggle('overflow-hidden', shown);
-</script>
+	$: shown, document.body.classList.toggle('overflow-hidden', shown);</script>
 
-<Portal target="body">
+<Portal target="#modals">
 	{#if shown}
 		<div
 			class="fixed top-0 right-0 left-0 backdrop-brightness-50 z-50"

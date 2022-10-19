@@ -9,24 +9,18 @@
 	
 	import type { ICallToAction } from '@metalizzsas/nuster-typings/build/spec/nuster/ICallToAction';
 	import type { IPopupMessage } from '@metalizzsas/nuster-typings';
+	import { execCTA } from '$lib/utils/callToAction';
 
 	export let shown: boolean;
 	export let modalData: IPopupMessage | null;
 
-	const execCTA = async (cta: ICallToAction) => {
-		if (cta.APIEndpoint !== undefined) {
-			const request = await fetch('//' + $Linker + cta.APIEndpoint.url, {
-				method: cta.APIEndpoint.method,
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			});
+	const executeCTA = async (cta: ICallToAction) => {
 
-			if (request.status !== 200) return;
-		}
+		const url = await execCTA($Linker, cta);
 
-		if (cta.UIEndpoint !== undefined) {
-			void goto(cta.UIEndpoint);
+		if(url)
+		{
+			void goto(url);
 			shown = false;
 		}
 	}
@@ -42,7 +36,7 @@
 			<Flex gap={3} direction={'col'}>
 				{#if modalData.callToAction != undefined}
 					{#each modalData.callToAction as cta}
-						<Button on:click={async () => await execCTA(cta)}>
+						<Button on:click={async () => await executeCTA(cta)}>
 							{$_(cta.name)}
 						</Button>
 					{/each}

@@ -43,7 +43,7 @@ export function deepInsert(obj: IMachineSpecs, value: unknown, objPath: string, 
             if(Array.isArray(value))
                 tempObj[path[index]].push(...value);
             else
-                tempObj[path[index]].push(value);
+                tempObj[path[index]] = {...tempObj[path[index]], ...value as any};
     }
     return obj;
 }

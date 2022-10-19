@@ -1,5 +1,6 @@
 import type { ISlotHydrated } from "@metalizzsas/nuster-typings/build/hydrated/slot";
 import type { IConfigSlot } from "@metalizzsas/nuster-typings/build/spec/slot";
+import type { EProductSeries } from "@metalizzsas/nuster-typings/build/spec/slot/products";
 import type { Request, Response } from "express";
 
 import { Controller } from "../Controller";
@@ -43,18 +44,48 @@ export class SlotController extends Controller
             res.json(await this.socketData());
         });
 
-        this.router.post("/:slot/load", async (req: Request, res: Response) => {
+        this.router.post("/:slot/load/:series", async (req: Request, res: Response) => {
             const slot = this.slots.find(s => s.name == req.params.slot);
 
             if(slot)
             {
-                await slot.loadSlot();
+                await slot.loadSlot(req.params.series as EProductSeries);
                 res.end("ok");
             }
             else
             {
                 res.status(404).end("slot not found");
             }
+        });
+
+        this.router.post("/:slot/unload/", async (req: Request, res: Response) => {
+            const slot = this.slots.find(s => s.name == req.params.slot);
+
+            if(slot)
+            {
+                await slot.unloadSlot();
+                res.end("ok");
+            }
+            else
+            {
+                res.status(404).end("slot not found");
+            }
+        });
+
+        this.router.post("/:slot/regulation/:sensor/state/:state", (req: Request, res: Response) => {
+            req.params.sensor = req.params.sensor.replace("_", "#");
+            const slot = this.slots.find(s => s.name == req.params.slot);
+            const result = slot?.sensors?.find(ss => ss.io = req.params.sensor)?.regulationSetState(req.params.state == 'true' ? true : false);
+
+            res.status(result === true ? 200 : 404).end();
+        });
+
+        this.router.post("/:slot/regulation/:sensor/target/:target", (req: Request, res: Response) => {
+            req.params.sensor = req.params.sensor.replace("_", "#");
+            const slot = this.slots.find(s => s.name == req.params.slot);
+            const result = slot?.sensors?.find(ss => ss.io = req.params.sensor)?.regulationSetTarget(parseInt(req.params.target));
+
+            res.status(result !== undefined ? 200 : 404).end();
         });
     }
     async socketData(): Promise<ISlotHydrated[]>

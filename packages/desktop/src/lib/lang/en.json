@@ -41,6 +41,17 @@
     "smoothit": "Smoothit",
     "uscleaner": "USCleaner"
   },
+  "products": {
+    "usl_act": "USL Activator",
+    "usl_ox": "USL Oxydiser",
+    "usl_rd": "USL Reducer",
+    "llc_ox": "LLC Oxydiser",
+    "llc_rd": "LLC Reducer",
+    "tc": "Topcoat",
+    "bc": "Basecoat",
+    "cr": "CR-1",
+    "any": "Unknown"
+  },
   "loadingScreen": {
     "connectionAttemptCount": "Connection atempt :",
     "connectionError": "Connection error, #ip is unreachable.",
@@ -79,9 +90,25 @@
     },
     "modal": {
       "informations": "Informations",
+      "productManagement": "Product management",
+      "regulationManagement": "Regulation management",
       "productSeries": "Product series",
       "productLifetime": "Product lifetime",
-      "action": "Slot actions"
+      "action": "Slot actions",
+      "load": "Load product",
+      "unload": "Unload product",
+      "defaultLoadMethod": "Manual loading",
+      "chooseLoadingMethod": "Choose loading method of this product",
+      "chooseProductToLoad": "Choose product series to load on this slot"
+    },
+    "regulation": {
+      "enabled": "Regulation state",
+      "current": "Actual value",
+      "target": "Target value",
+      "chart": {
+        "show": "Show graph",
+        "title": "Evolution over time"
+      }
     }
   },
   "profile": {
@@ -124,16 +151,6 @@
       "count": "Iteration count",
       "timeOn": "Time enabled",
       "timeOff": "Time disabled"
-    }
-  },
-  "passives": {
-    "list": "Regulation",
-    "settings": "Settings",
-    "current": "Actual value",
-    "target": "Target value",
-    "chart": {
-      "show": "Display evolution",
-      "title": "Passive evolution over time"
     }
   },
   "settings": {

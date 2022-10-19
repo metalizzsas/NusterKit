@@ -9,7 +9,6 @@ import type { MultiplyParameterBlock } from "./MultiplyParameterBlock";
 import { ParameterBlockRegistry } from "./ParameterBlockRegistry";
 import type { ProfileParameterBlock } from "./ProfileParameterBlock";
 import type { ReverseParameterBlock } from "./ReverseParameterBlock";
-import type { SlotLifetimeParameterBlock } from "./SlotLifeParameterBlock";
 import type { SlotProductStatusParameterBlock } from "./SlotProductInformationParameterBlock";
 import type { VariableParameterBlock } from "./VariableParameterBlock";
 
@@ -64,5 +63,5 @@ export class ParameterBlock implements IParameterBlock
 
 export type ParameterBlocks = (ParameterBlock | NumericParameterBlocks | StringParameterBlocks) & IParameterBlocks;
 
-export type NumericParameterBlocks = (ProfileParameterBlock | ConstantParameterBlock | IOReadParameterBlock | AdditionParameterBlock | MultiplyParameterBlock | ReverseParameterBlock | ConditionalParameterBlock | VariableParameterBlock | SlotLifetimeParameterBlock | MaintenanceProgressParameterBlock) & INumericParameterBlock;
+export type NumericParameterBlocks = (ProfileParameterBlock | ConstantParameterBlock | IOReadParameterBlock | AdditionParameterBlock | MultiplyParameterBlock | ReverseParameterBlock | ConditionalParameterBlock | VariableParameterBlock | MaintenanceProgressParameterBlock) & INumericParameterBlock;
 export type StringParameterBlocks = (SlotProductStatusParameterBlock | ConstantStringParameterBlock) & IStringParameterBlock;

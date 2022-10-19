@@ -116,15 +116,22 @@ export class ProfileController extends Controller {
          */
          AuthManager.getInstance().registerEndpointPermission("profile.create", {endpoint: new RegExp("/v1/profiles/create/.*", "g"), method: "post"});
          this._router.post('/create/:type', async (req: Request, res: Response) => {
-             const newp = await ProfileModel.create({
-                 name: "profile-default-name",
-                 skeleton: req.params.type,
-                 modificationDate: Date.now(),
-                 overwriteable: true,
-                 removable: true,
-                 values: {}
-             });
-             res.json(this.hydrateProfile(newp));
+            const newp: IProfileConfig = {
+                name: "profile-default-name",
+                skeleton: req.params.type,
+                values: {}
+            };
+            const p = this.hydrateProfile(newp);
+            
+            if(p)
+            {
+                (await ProfileModel.create(this.prepareToStore(p))).save();
+                res.json(p);
+            }
+            else
+            {
+                res.status(500).end();
+            }
         });
 
         /**

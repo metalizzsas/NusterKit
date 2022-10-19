@@ -1,12 +1,14 @@
 <script lang="ts">
+	import type { ISlotHydrated } from '@metalizzsas/nuster-typings/build/hydrated/slot';
+	
 	import { _ } from 'svelte-i18n';
 	import '$lib/app.css';
 	import Round from '../round.svelte';
 	import Slotmodal from './slotmodal.svelte';
 	import Label from '../label.svelte';
-	import type { ISlotHydrated } from '@metalizzsas/nuster-typings/build/hydrated/slot';
+	import Flex from '../layout/flex.svelte';
 
-	export let slotContent: ISlotHydrated;
+	export let slotContent: ISlotHydrated
 
 	let showModal = false;
 </script>
@@ -16,7 +18,7 @@
 <div
 	class="hover:scale-[1.005]"
 	on:click={() => {
-		if (slotContent.isProductable) {
+		if (slotContent.isProductable || slotContent.sensors.map(k => k.regulation !== undefined).reduce((c, p) => c || p)) {
 			showModal = !showModal;
 		}
 	}}
@@ -32,10 +34,10 @@
 			{$_('slots.types.' + slotContent.name)}
 		</span>
 		{#if slotContent.isProductable}
-			<Label class="flex flex-row gap-1 items-center">
+			<Label class="flex flex-row gap-1 items-center" color={"bg-white text-zinc-800"}>
 				<span>{$_('slots.product')}</span>
-				{#if slotContent.slotData?.lifetimeRemaining !== undefined}
-					{#if slotContent.slotData?.lifetimeRemaining > 0}
+				{#if slotContent.productData?.lifetimeRemaining !== undefined && slotContent.productData?.loadedProductType != "any"}
+					{#if slotContent.productData?.lifetimeRemaining > 0}
 						<svg
 							id="glyphicons-basic"
 							xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +81,7 @@
 
 	{#if slotContent.sensors.length > 0}
 		<div class="bg-white p-3 rounded-b-2xl">
-			<div class="flex flex-col gap-3">
+			<Flex direction={"col"} gap={3}>
 				{#each slotContent.sensors as s}
 					<div
 						class="bg-gray-300 pr-1 pl-5 py-1 rounded-full text-neutral-700 font-semibold flex flex-row justify-between items-center"
@@ -88,33 +90,33 @@
 
 						{#if s.type == 'level-a'}
 							<span class="bg-gray-900 p-1 px-5 rounded-full text-white">
-								{Math.ceil(s.value)} %
+								{Math.ceil(s.io.value)} %
 							</span>
 						{:else if ['level-min-n', 'level-np'].includes(s.type)}
 							<Round
 								size={4}
 								margin={1}
-								color={s.value == 1 ? 'emerald-500' : 'red-500'}
-								shadowColor={s.value == 1 ? 'emerald-300' : 'red-300'}
+								color={s.io.value == 1 ? 'emerald-500' : 'red-500'}
+								shadowColor={s.io.value == 1 ? 'emerald-300' : 'red-300'}
 							/>
 						{:else if s.type == 'level-max-n'}
 							<Round
 								size={4}
 								margin={1}
-								color={s.value != 1 ? 'emerald-500' : 'red-500'}
-								shadowColor={s.value != 1 ? 'emerald-300' : 'red-300'}
+								color={s.io.value != 1 ? 'emerald-500' : 'red-500'}
+								shadowColor={s.io.value != 1 ? 'emerald-300' : 'red-300'}
 							/>
 						{:else}
 							<span class="bg-gray-900 p-1 px-5 rounded-full text-white">
-								{Math.round(s.value * 100) / 100}
-								{#if s.unity != undefined}
-									{s.unity}
+								{Math.round(s.io.value * 100) / 100}
+								{#if s.io.unity != undefined}
+									{s.io.unity}
 								{/if}
 							</span>
 						{/if}
 					</div>
 				{/each}
-			</div>
+			</Flex>
 		</div>
 	{/if}
 </div>

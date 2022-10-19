@@ -19,7 +19,7 @@ module.exports = {
 	parserOptions: {
 		sourceType: 'module',
 		ecmaVersion: 2020,
-		project: 'tsconfig.eslint.json',
+		project: 'packages/desktop/tsconfig.eslint.json',
 		extraFileExtensions: ['.svelte']
 	},
 	overrides: [

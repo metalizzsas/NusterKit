@@ -61,4 +61,16 @@ export class IOGate implements IIOGate
         this.value = data;
         return true;
     }
+
+    toJSON() 
+    {
+        return {
+            name: this.name,
+            category: this.category,
+            value: this.value,
+            unity: this.unity,
+            bus: this.bus,
+            size: this.size
+        }
+    }
 }

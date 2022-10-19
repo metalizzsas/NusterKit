@@ -7,12 +7,11 @@ import { IMaintenanceParameterBlock } from "./programblocks/ParameterBlocks/IMai
 import { IMultiplyParameterBlock } from "./programblocks/ParameterBlocks/IMultiplyParameterBlock";
 import { IProfileParameterBlock } from "./programblocks/ParameterBlocks/IProfileParameterBlock";
 import { IReverseParameterBlock } from "./programblocks/ParameterBlocks/IReverseParameterBlock";
-import { ISlotLifetimeParameterBlock } from "./programblocks/ParameterBlocks/ISlotLifetimeParameterBlock";
 import { ISlotProductStatusParameterBlock } from "./programblocks/ParameterBlocks/ISlotProductStatusParameterBlock";
 import { IVariableParameterBlock } from "./programblocks/ParameterBlocks/IVariableParameterBlock";
 
 /** Base parameter blocks names */
-export type ParameterBlockNames = "default" | "const" | "conststr" | "profile" | "io" | "add" | "multiply" | "reverse" | "conditional" | "variable" | "slotlife" | "slotstatus" | "maintenance";
+export type ParameterBlockNames = "default" | "const" | "conststr" | "profile" | "io" | "add" | "multiply" | "reverse" | "conditional" | "variable" | "slotstatus" | "maintenance";
 
 /** Base parameter block */
 export interface IParameterBlock
@@ -35,7 +34,6 @@ IMultiplyParameterBlock |
 IReverseParameterBlock |
 IConditionalParameterBlock |
 IVariableParameterBlock |
-ISlotLifetimeParameterBlock |
 IMaintenanceParameterBlock | ISlotProductStatusParameterBlock |
 IConstantStringParameterBlock;
 
@@ -52,7 +50,6 @@ export type INumericParameterBlock = (
     IReverseParameterBlock |
     IConditionalParameterBlock |
     IVariableParameterBlock |
-    ISlotLifetimeParameterBlock |
     IMaintenanceParameterBlock
 );
 

@@ -124,6 +124,7 @@
     "name": "Profile name",
     "globals": "Global informations",
     "settings": "Profile settings",
+    "defaultName": "Profile default name",
     "premades": {
       "true": "Constructor profiles",
       "false": "User profiles"

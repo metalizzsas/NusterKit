@@ -119,6 +119,7 @@
         "name": "Nom du profil",
         "globals": "Informations globales",
         "settings": "Réglages du profil",
+        "defaultName": "Nom de profil par défaut",
         "premades": {
             "true": "Profils constructeur",
             "false": "Profils utilisateur"

@@ -177,24 +177,6 @@ function SetupMongoDB()
         LoggerInstance.fatal("Mongo: Failed to connect to database");
         LoggerInstance.fatal(err);
     }
-
-    //move id to _id
-    //remove __v
-    mongoose.set('toJSON', {
-        virtuals: true,
-        transform: (doc: Record<string, unknown>, converted: Record<string, unknown>) => {
-            delete converted._id;
-            delete converted.__v;
-        }
-    });
-
-    mongoose.set('toObject', {
-        virtuals: true,
-        transform: (doc: Record<string, unknown>, converted: Record<string, unknown>) => {
-            delete converted._id;
-            delete converted.__v;
-        }
-    });
 }
 
 /**

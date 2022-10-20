@@ -5,6 +5,7 @@
 	import { goto } from '$app/navigation';
 	import { Linker } from '$lib/utils/stores/linker';
 	import type { IProfileHydrated } from '@metalizzsas/nuster-typings/build/hydrated/profile';
+	import { translateProfileName } from './profiletranslation';
 
 	export let profile: IProfileHydrated;
 	export let delCb: () => void;
@@ -13,30 +14,34 @@
 	let deleteProfileModalShown = false;
 
 	const copyProfile = (newName: string) => {
-		let newProfile = profile;
 
-		newProfile.id = 'copied';
-		newProfile.name = newName;
-
-		fetch('//' + $Linker + '/api/v1/profiles/', {
-			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(newProfile),
-		}).then((returnData) => {
-			returnData.json().then((result: IProfileHydrated) => {
-				void goto(`/app/profiles/${result.id || ''}`);
+		if(newName.length > 1)
+		{
+			let newProfile = profile;
+	
+			newProfile._id = 'copied';
+			newProfile.name = newName;
+	
+			fetch('//' + $Linker + '/api/v1/profiles/', {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(newProfile),
+			}).then((returnData) => {
+				returnData.json().then((result: IProfileHydrated) => {
+					void goto(`/app/profiles/${result._id || ''}`);
+				}).catch(() => {
+					console.error("Failed to convert json for copied profile");
+				})
 			}).catch(() => {
-				console.error("Failed to convert json for copied profile");
+				console.error("Failed to copy profile");
 			})
-		}).catch(() => {
-			console.error("Failed to copy profile");
-		})
+		}
 	}
 
 	const deleteProfile = (profile: IProfileHydrated) => {
-		fetch(`//${$Linker}/api/v1/profiles/${profile.id ?? ''}`, {
+		fetch(`//${$Linker}/api/v1/profiles/${profile._id ?? ''}`, {
 			method: 'DELETE',
 		}).then(() => delCb()).catch(() => {console.error("Failed to delete profile")});
 	}
@@ -44,11 +49,8 @@
 
 <ModalPrompt
 	bind:shown={copyProfileModalShown}
-	title={$_('profile.modals.copy.title').replace(
-		'{profile.name}',
-		profile.isPremade ? $_('cycle.types.' + profile.name) : profile.name,
-	)}
-	placeholder={profile.isPremade ? $_('cycle.types.' + profile.name) : profile.name}
+	title={translateProfileName($_, profile)}
+	placeholder={translateProfileName($_, profile)}
 	buttons={[
 		{
 			text: $_('ok'),
@@ -63,16 +65,13 @@
 >
 	{$_('profile.modals.copy.message').replace(
 		'{profile.name}',
-		profile.isPremade ? $_('cycle.types.' + profile.name) : profile.name,
+		translateProfileName($_, profile),
 	)}
 </ModalPrompt>
 
 <Modal
 	bind:shown={deleteProfileModalShown}
-	title={$_('profile.modals.delete.title').replace(
-		'{profile.name}',
-		profile.isPremade ? $_('cycle.types.' + profile.name) : profile.name,
-	)}
+	title={translateProfileName($_, profile)}
 	buttons={[
 		{
 			text: $_('yes'),
@@ -87,17 +86,17 @@
 >
 	{$_('profile.modals.delete.message').replace(
 		'{profile.name}',
-		profile.isPremade ? $_('cycle.types.' + profile.name) : profile.name,
+		translateProfileName($_, profile),
 	)}
 </Modal>
 
 <div
 	class="bg-zinc-700 text-white py-2 px-4 rounded-2xl flex flex-row justify-between cursor-pointer"
-	on:click={() => goto(`profiles/${profile.id || ''}`)}
+	on:click={() => goto(`profiles/${profile._id || ''}`)}
 >
 	<div class="flex flex-col">
 		<span class="text-md font-semibold">
-			{profile.isPremade === true ? $_('cycle.types.' + profile.name) : profile.name}
+			{translateProfileName($_, profile)}
 		</span>
 		<span class="text-xs text-gray-300 italic">
 			{$_('profile.modification-date')}: {$date(new Date(profile.modificationDate), {
@@ -109,7 +108,7 @@
 		</span>
 	</div>
 	<div class="flex flex-row gap-4 self-center">
-		{#if profile.isRemovable !== undefined}
+		{#if profile.isRemovable !== false}
 			<button
 				class="self-center bg-red-500 text-white p-2 rounded-full"
 				on:click|stopPropagation={() => {

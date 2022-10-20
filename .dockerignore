@@ -6,4 +6,4 @@
 node_modules/
 utils/
 
-docker-compose-dev.yml
+docker-compose.draft.yml

@@ -1,0 +1,57 @@
+name: 🚀 Release
+
+on:
+  pull_request:
+    branches:
+      - main
+env:
+  NODE_ENV: development
+  VITE_BUNDLED: true
+
+jobs:
+  release:
+    permissions:
+      id-token: write
+      contents: write
+      packages: write
+      pull-requests: write
+      issues: read
+
+    name: Release
+    runs-on: ubuntu-latest
+    if: github.repository == 'metalizzsas/nusterkit' && github.head_ref != 'changeset-release/main'
+    steps:
+      - name: 📚 Checkout Repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
+
+      - name: ⛏️ Setup node
+        uses: actions/setup-node@v3.4.1
+        with:
+          node-version: '18.x'
+
+      - name: ⛏️ Setup PNPM 
+        run: |
+          corepack enable
+          pnpm --version
+
+      - name: ⛭ Setup Pnpm github registry
+        run: pnpm config set @metalizzsas:registry=https://npm.pkg.github.com //npm.pkg.github.com/:_authToken=$GITHUB_TOKEN node-linker=hoisted --location project
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: 📚 Install Node dependencies
+        run: pnpm install --ignore-scripts
+
+      - name: 🧱 Run build scripts on all packages
+        run: pnpm run build
+
+      # Run BalenaCloud release even if no packages were publied
+      - name: 🐳 Create BalenaCloud Release
+        uses: balena-io/deploy-to-balena-action@master
+        with:
+          balena_token: ${{ secrets.BALENA_TOKEN }}
+          fleet: romain_sapet/nusterturbine
+          finalize: false
+          source: docker-compose.draft.yaml

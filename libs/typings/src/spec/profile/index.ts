@@ -5,7 +5,7 @@ export interface IProfileConfig {
     name: string;
 
     /** Premade profile have id */
-    id?: string;
+    _id?: string;
 
     /** Name of the referencing skeleton profile */
     skeleton: string;

@@ -132,7 +132,7 @@
     "profilePremades": [
         {
             "skeleton": "default",
-            "id": "premade_5min",
+            "_id": "premade_5min",
             "name": "5min30deg",
             "isPremade": true,
             "isRemovable": false,
@@ -435,7 +435,7 @@
                     "content": [
                         {
                             "skeleton": "default",
-                            "id": "premade_10min30deg",
+                            "_id": "premade_10min30deg",
                             "name": "10min30deg",
                             "isRemovable": false,
                             "isOverwritable": false,

@@ -12,6 +12,7 @@
 
 	import type { PageData } from './$types';
 	import ProfileCategory from '$lib/components/profile/profileCategory.svelte';
+	import { translateProfileName } from '$lib/components/profile/profiletranslation';
 	export let data: PageData;
 
 	let profile = data.profile;
@@ -21,6 +22,9 @@
 	let initialProfile: string;
 
 	onMount(() => {
+		if(translateProfileName($_, profile) !== profile.name)
+			profile.name = translateProfileName($_, profile);
+
 		initialProfile = JSON.stringify(profile);
 	});
 
@@ -63,7 +67,7 @@
 
 	$: $navTitle = [
 		$_('profile.list'),
-		profile.isPremade ? $_('cycle.types.' + profile.name) : profile.name,
+		translateProfileName($_, profile),
 	];
 	$navActions = [];
 	$navBackFunction = exit;
@@ -73,7 +77,7 @@
 	bind:shown={saveModalShown}
 	title={$_('profile.modals.save.title').replace(
 		'{profile.name}',
-		profile.isPremade ? $_('cycle.types.' + profile.name) : profile.name,
+		translateProfileName($_, profile),
 	)}
 	buttons={[
 		{
@@ -96,7 +100,7 @@
 >
 	{$_('profile.modals.save.message').replace(
 		'{profile.name}',
-		profile.isPremade ? $_('cycle.types.' + profile.name) : profile.name,
+		translateProfileName($_, profile),
 	)}
 </Modal>
 
@@ -109,7 +113,7 @@
 		options={{
 			class: 'border-0 bg-neutral-100 dark:bg-zinc-600 font-semibold px-3 py-1 -mr-3 rounded-full w-1/3',
 		}}
-		disabled={profile.isOverwritable !== undefined}
+		disabled={profile.isOverwritable === false}
 	/>
 </div>
 

@@ -16,6 +16,7 @@
 
 	export let value: string | number;
 	export let disabled = false;
+	export let automaticLength = false;
 
 	/**
 	 * options.class @deprecated
@@ -52,7 +53,7 @@
 		}, 50);
 	}
 
-	$: $keyboardShown = focused;
+	$: if(focused && BUNDLED == "true") { $keyboardShown = true } else { $keyboardShown = false}
 	$: if(focused == false) { change() }
 </script>
 
@@ -92,7 +93,7 @@
 		type="text"
 		class={`${options['class']} ${$$props.class}`}
 		placeholder={options['placeholder']}
-		style="-webkit-appearance: none; width: {value.length}ch"
+		style={`-webkit-appearance: none; ${automaticLength ? 'width: {String(value).length}ch;' : ''}`}
 		bind:value
 		on:click={() => {
 			focused = true;
@@ -109,7 +110,7 @@
 		autocomplete="off"
 		min={options['min']}
 		max={options['max']}
-		style="-webkit-appearance: none; width: {String(value).length}ch;"
+		style={`-webkit-appearance: none; ${automaticLength ? 'width: {String(value).length}ch;' : ''}`}
 		bind:value
 		on:click={() => {
 			focused = true;

@@ -1,4 +1,4 @@
-name: 🚀 Release
+name: 🚀 Draft release
 
 on:
   pull_request:
@@ -9,7 +9,7 @@ env:
   VITE_BUNDLED: true
 
 jobs:
-  release:
+  draft:
     permissions:
       id-token: write
       contents: write

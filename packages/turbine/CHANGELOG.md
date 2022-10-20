@@ -1,5 +1,24 @@
 # @metalizzsas/nuster-turbine
 
+## 1.7.0
+
+### Minor Changes
+
+- Removed passives ([#49](https://github.com/metalizzsas/NusterKit/pull/49))
+
+- Passives are now Slots Regulation ([#49](https://github.com/metalizzsas/NusterKit/pull/49))
+  Slots loading is now able to choose product series to be loaded
+
+### Patch Changes
+
+- Addons merging now works on objects ([#49](https://github.com/metalizzsas/NusterKit/pull/49))
+
+- Added Regulation programblock ([#49](https://github.com/metalizzsas/NusterKit/pull/49))
+
+- Updated dependencies [[`9ab2380`](https://github.com/metalizzsas/NusterKit/commit/9ab2380ecc5bc1521657976b4eea2dc3e8b3d406), [`a8f628f`](https://github.com/metalizzsas/NusterKit/commit/a8f628f9b77c7a3558ed46bf5e95fd827fba6e85), [`37d65dd`](https://github.com/metalizzsas/NusterKit/commit/37d65ddfcccc3e98f90832d957aa13dcfd9460ec), [`4a7c7fb`](https://github.com/metalizzsas/NusterKit/commit/4a7c7fb39dfdcaf9a4a3d4977f54c74f62e8ffcb)]:
+  - @metalizzsas/nuster-typings@1.2.0
+  - @metalizzsas/nuster-turbine-machines@1.2.0
+
 ## 1.6.3
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.2.0
+
+### Minor Changes
+
+- Passives are now Slots Regulation ([#49](https://github.com/metalizzsas/NusterKit/pull/49))
+  Slots loading is now able to choose product series to be loaded
+
+### Patch Changes
+
+- Adjusted tests & translations ([#49](https://github.com/metalizzsas/NusterKit/pull/49))
+
 ## 1.1.6
 
 ### Patch Changes

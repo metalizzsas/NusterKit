@@ -1,5 +1,17 @@
 # @metalizzsas/nuster-turbine
 
+## 1.7.1
+
+### Patch Changes
+
+- Migrated from id to \_id on mongoose documents ([#54](https://github.com/metalizzsas/NusterKit/pull/54))
+
+- Made profiles work again ([#54](https://github.com/metalizzsas/NusterKit/pull/54))
+
+- Updated dependencies [[`6017991`](https://github.com/metalizzsas/NusterKit/commit/6017991b59927a913307b3badf7ff23608710e90)]:
+  - @metalizzsas/nuster-turbine-machines@1.2.1
+  - @metalizzsas/nuster-typings@1.2.1
+
 ## 1.7.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.2.1
+
+### Patch Changes
+
+- Migrated from id to \_id on mongoose documents ([#54](https://github.com/metalizzsas/NusterKit/pull/54))
+
 ## 1.2.0
 
 ### Minor Changes

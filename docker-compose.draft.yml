@@ -1,0 +1,80 @@
+version: "2"
+
+volumes: 
+  nuster-data:
+  mongodb:
+  settings:
+  
+services:
+  mongodb:
+    image: mongo:4.2
+    restart: always
+    network_mode: host
+    volumes: 
+      - mongodb:/data/db
+
+  nuster-turbine:
+    build: 
+      dockerfile: ./packages/turbine/Dockerfile.draft.template
+      context: ./
+    network_mode: host
+    depends_on: 
+      - "mongodb"
+    volumes:
+      - nuster-data:/data
+    environment:
+      DISABLE_AUTH: 'true'
+    labels:
+      io.balena.features.supervisor-api: '1'
+
+  nuster-desktop:
+    build: 
+      dockerfile: ./packages/desktop/Dockerfile.draft.template
+      context: ./
+    restart: always
+    network_mode: host
+    depends_on: 
+      - "nuster-turbine"
+      - "mongodb"
+
+  nuster-kiosk:
+    image: bh.cr/balenablocks/browser-aarch64
+    privileged: true
+    network_mode: host
+    depends_on:
+      - "nuster-turbine"
+      - "mongodb"
+      - 'nuster-desktop'
+    environment:
+      DISPLAY_NUM: 0
+      LAUNCH_URL: 'http://127.0.0.1/'
+      KIOSK: 1
+      ENABLE_GPU: 1
+      PERSISTENT: 1
+      ROTATE: 1
+    volumes:
+      - 'settings:/data'
+
+  proxy: 
+    build: ./containers/proxy/
+    restart: always
+    network_mode: host
+    depends_on: 
+      - "nuster-desktop"
+      - "nuster-turbine"
+      - "mongodb"
+
+  wifi-connect:
+    image: bh.cr/balenablocks/wifi-connect
+    restart: always
+    network_mode: host
+    privileged: true
+    labels: 
+      io.balena.features.dbus: "1"
+      io.balena.features.firmware: "1"
+    cap_add:
+      - NET_ADMIN
+    environment:
+      PORTAL_LISTENING_PORT: 8080
+      PORTAL_SSID: 'Nuster Wifi Configurator'
+      DBUS_SYSTEM_BUS_ADDRESS: "unix:path=/host/run/dbus/system_bus_socket"

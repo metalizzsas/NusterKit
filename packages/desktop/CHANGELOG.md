@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.7.1
+
+### Patch Changes
+
+- Made profiles work again ([#54](https://github.com/metalizzsas/NusterKit/pull/54))
+
 ## 1.7.0
 
 ### Minor Changes

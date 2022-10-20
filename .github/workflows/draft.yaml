@@ -47,6 +47,9 @@ jobs:
       - name: 🧱 Run build scripts on all packages
         run: pnpm run build
 
+      - name: ↔ Replace prod compose file by draft compose finalize
+        run: mv -f docker-compose.draft.yml docker-compose.yml
+
       # Run BalenaCloud release even if no packages were publied
       - name: 🐳 Create BalenaCloud Release
         uses: balena-io/deploy-to-balena-action@master
@@ -54,4 +57,3 @@ jobs:
           balena_token: ${{ secrets.BALENA_TOKEN }}
           fleet: romain_sapet/nusterturbine
           finalize: false
-          source: utils/draft/

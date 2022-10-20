@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 env:
   NODE_ENV: development
@@ -20,7 +23,7 @@ jobs:
 
     name: Release
     runs-on: ubuntu-latest
-    if: github.repository == 'metalizzsas/nusterkit'
+    if: github.repository == 'metalizzsas/nusterkit' && github.head_ref != 'changeset-release/main'
     steps:
       - name: 📚 Checkout Repo
         uses: actions/checkout@v3

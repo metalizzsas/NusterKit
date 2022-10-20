@@ -1,6 +1,7 @@
 import type { ICallToAction } from "@metalizzsas/nuster-typings/build/spec/nuster/ICallToAction";
 import type { ISlotHydrated, ISlotProductData } from "@metalizzsas/nuster-typings/build/hydrated/slot";
-import type { EProductSeries, IConfigSlot, ISlotProductOptions, ISlotSensor } from "@metalizzsas/nuster-typings/build/spec/slot";
+import type { IConfigSlot } from "@metalizzsas/nuster-typings/build/spec/slot";
+import { type EProductSeries, ESlotProducts } from "@metalizzsas/nuster-typings/build/spec/slot/products";
 
 import { LoggerInstance } from "../../app";
 import { SlotModel } from "./SlotModel";
@@ -11,40 +12,38 @@ export class Slot implements IConfigSlot
     name: string;
     type: string;
 
-    sensors: ISlotSensor[];
+    sensors?: SlotSensor[];
     callToAction: ICallToAction[];
 
-    productOptions?: ISlotProductOptions;
-
     productData?: ISlotProductData;
+
+    supportedProductSeries?: EProductSeries[];
 
     constructor(slot: IConfigSlot)
     {
         this.name = slot.name;
         this.type = slot.type;
         
-        this.sensors = slot.sensors.map(s => new SlotSensor(this, s));
+        //optionals
+        this.supportedProductSeries = slot.supportedProductSeries;
+        this.sensors = slot.sensors?.map(s => new SlotSensor(this, s));
         this.callToAction = slot.callToAction ?? [];
-
-        this.productOptions = slot.productOptions;
     }
 
-    async loadSlot(productSeries?: EProductSeries): Promise<boolean>
+    async loadSlot(productSeries: EProductSeries): Promise<boolean>
     {
         const slot = await SlotModel.findOne({ name: this.name });
 
-        if(slot && this.productOptions)
+        if(slot && this.supportedProductSeries !== undefined)
         {
-            slot.productSeries = productSeries ?? this.productOptions.defaultProductSeries;
-            slot.loadDate = new Date();
-
-            await slot.save();
+            slot.update({ loadedProductType: productSeries }, { setDefaultsOnInsert: true })
+            //await slot.save();
         }
-        else if(this.productOptions)
+        else if(this.supportedProductSeries !== undefined)
         {
             const newTrackedSlot = new SlotModel({
                 name: this.name,
-                productSeries: productSeries ?? this.productOptions.defaultProductSeries,
+                loadedProductType: productSeries,
             });
 
             await newTrackedSlot.save();
@@ -69,22 +68,18 @@ export class Slot implements IConfigSlot
     
     async fetchSlotData()
     {
-        const slot = await SlotModel.findOne({ name: this.name });
+        const slotDocument = await SlotModel.findOne({ name: this.name });
 
-        if(slot && this.productOptions)
+        if(slotDocument && this.isProductable)
         {
-            const limitTime = slot.loadDate.getTime() + 1000 * 60 * 60 * 24 * this.productOptions.lifespan;
-
-            //Avoid negative values
-            let lifetimeProgress = 1 - (Date.now() / limitTime);
-            lifetimeProgress = lifetimeProgress < 0 ? 0 : lifetimeProgress;
+            const limitTime = slotDocument.loadDate.getTime() + 1000 * 60 * 60 * 24 * ESlotProducts[slotDocument.loadedProductType].lifespan;
 
             let lifetimeRemaining = (limitTime) - Date.now();
             lifetimeRemaining = lifetimeRemaining < 0 ? 0 : lifetimeRemaining;
 
-            this.productData = { productSeries: slot.productSeries, 
-                loadDate: slot.loadDate, 
-                lifetimeProgress: lifetimeProgress,
+            this.productData = { 
+                loadedProductType: slotDocument.loadedProductType, 
+                loadDate: slotDocument.loadDate, 
                 lifetimeRemaining: lifetimeRemaining
             };
         }
@@ -102,13 +97,13 @@ export class Slot implements IConfigSlot
 
     get isProductable(): boolean
     {
-        return this.productOptions !== undefined;
+        return this.supportedProductSeries !== undefined;
     }
 
     async socketData(): Promise<ISlotHydrated>
     {
         await this.fetchSlotData();
         // TODO Check this type assertion
-        return this as unknown as ISlotHydrated;
+        return {...this, isProductable: this.isProductable} as unknown as ISlotHydrated;
     }
 }

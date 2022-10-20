@@ -17,17 +17,17 @@
         "modal": {
             "actions": {
                 "act": {
-                    "dilution": "Chargement par dilution automatique",
-                    "load": "Chargement manuel",
-                    "emptying": "Vidange"
+                    "default": "Chargement manuel",
+                    "load_alt": "Chargement par dilution automatique",
+                    "unload": "Emptying"
                 },
                 "ox": {
                     "load": "Chargement manuel",
-                    "emptying": "Vidange réactifs"
+                    "unload": "Vidange réactifs"
                 },
                 "rd": {
                     "load": "Chargement manuel",
-                    "emptying": "Vidange réactifs"
+                    "unload": "Vidange réactifs"
                 }
             }
         }

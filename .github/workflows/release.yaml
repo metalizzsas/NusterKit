@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-
 env:
   NODE_ENV: development
   VITE_BUNDLED: true

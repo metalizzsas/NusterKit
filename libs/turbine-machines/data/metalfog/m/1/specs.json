@@ -411,10 +411,7 @@
       {
          "name": "ox",
          "type": "psp",
-         "productOptions": {
-            "defaultProductSeries": "usl",
-            "lifespan": 7
-         },
+         "supportedProductSeries": ["usl_ox"],
          "sensors": [
             {
                "io": "levels#ox-min-n",
@@ -423,14 +420,7 @@
          ],
          "callToAction": [
             {
-               "name": "load",
-               "APIEndpoint": {
-                  "url": "/api/v1/slots/ox/load",
-                  "method": "post"
-               }
-            },
-            {
-               "name": "emptying",
+               "name": "unload",
                "APIEndpoint": {
                   "url": "/api/v1/cycle/emptying-reactives",
                   "method": "post"
@@ -442,10 +432,7 @@
       {
          "name": "rd",
          "type": "psp",
-         "productOptions": {
-            "defaultProductSeries": "usl",
-            "lifespan": 7
-         },
+         "supportedProductSeries": ["usl_rd"],
          "sensors": [
             {
                "io": "levels#rd-min-n",
@@ -454,14 +441,7 @@
          ],
          "callToAction": [
             {
-               "name": "load",
-               "APIEndpoint": {
-                  "url": "/api/v1/slots/rd/load",
-                  "method": "post"
-               }
-            },
-            {
-               "name": "emptying",
+               "name": "unload",
                "APIEndpoint": {
                   "url": "/api/v1/cycle/emptying-reactives",
                   "method": "post"
@@ -473,10 +453,7 @@
       {
          "name": "act",
          "type": "psp",
-         "productOptions": {
-            "defaultProductSeries": "usl",
-            "lifespan": 1
-         },
+         "supportedProductSeries": ["usl_act"],
          "sensors": [
             {
                "io": "levels#act-min-n",
@@ -489,7 +466,7 @@
          ],
          "callToAction": [
             {
-               "name": "dilution",
+               "name": "load_alt",
                "APIEndpoint": {
                   "url": "/api/v1/cycle/act-fill",
                   "method": "post"
@@ -497,14 +474,7 @@
                "UIEndpoint": "/app/cycle/"
             },
             {
-               "name": "load",
-               "APIEndpoint": {
-                  "url": "/api/v1/slots/act/load",
-                  "method": "post"
-               }
-            },
-            {
-               "name": "emptying",
+               "name": "unload",
                "APIEndpoint": {
                   "url": "/api/v1/cycle/emptying-activator",
                   "method": "post"
@@ -751,111 +721,6 @@
       },
       {
          "skeleton": "default",
-         "id": "premade_cem",
-         "name": "cem",
-         "isPremade": true,
-         "isRemovable": false,
-         "isOverwritable": false,
-         "values": {
-            "act-edi-nozzles#act-edi-high": 1,
-            "act-edi-nozzles#act-edi-low": 1,
-            "met-nozzles#met-high": 1,
-            "met-nozzles#met-medium": 1,
-            "met-nozzles#met-low": 1,
-            "motor#enabled": 1,
-            "motor#speed": 50,
-            "motor#reverseEnabled": 1,
-            "motor#reverseTime": 5,
-            "activation#enabled": 1,
-            "activation#timeOn": 5,
-            "activation#timeOff": 10,
-            "activation#count": 3,
-            "wash1#enabled": 1,
-            "wash1#duration": 35,
-            "metalization#enabled": 1,
-            "metalization#timeOn": 6,
-            "metalization#timeOff": 10,
-            "metalization#count": 20,
-            "wash2#enabled": 1,
-            "wash2#duration": 35,
-            "drying#enabled": 1,
-            "drying#duration": 120,
-            "vapors-extraction#enabled": 1,
-            "vapors-extranction#duration": 45
-         }
-      },
-      {
-         "skeleton": "default",
-         "id": "premade_llc",
-         "name": "llc",
-         "isPremade": true,
-         "isRemovable": false,
-         "isOverwritable": false,
-         "values": {
-            "act-edi-nozzles#act-edi-high": 1,
-            "act-edi-nozzles#act-edi-low": 1,
-            "met-nozzles#met-high": 1,
-            "met-nozzles#met-medium": 1,
-            "met-nozzles#met-low": 1,
-            "motor#enabled": 1,
-            "motor#speed": 50,
-            "motor#reverseEnabled": 1,
-            "motor#reverseTime": 5,
-            "activation#enabled": 1,
-            "activation#timeOn": 5,
-            "activation#timeOff": 10,
-            "activation#count": 3,
-            "wash1#enabled": 1,
-            "wash1#duration": 30,
-            "metalization#enabled": 1,
-            "metalization#timeOn": 5,
-            "metalization#timeOff": 10,
-            "metalization#count": 8,
-            "wash2#enabled": 1,
-            "wash2#duration": 30,
-            "drying#enabled": 1,
-            "drying#duration": 120,
-            "vapors-extraction#enabled": 1,
-            "vapors-extranction#duration": 45
-         }
-      },
-      {
-         "skeleton": "default",
-         "id": "premade_cem-retake",
-         "name": "cem-retake",
-         "isPremade": true,
-         "isRemovable": false,
-         "isOverwritable": false,
-         "values": {
-            "act-edi-nozzles#act-edi-high": 1,
-            "act-edi-nozzles#act-edi-low": 1,
-            "met-nozzles#met-high": 1,
-            "met-nozzles#met-medium": 1,
-            "met-nozzles#met-low": 1,
-            "motor#enabled": 1,
-            "motor#speed": 50,
-            "motor#reverseEnabled": 1,
-            "motor#reverseTime": 5,
-            "activation#enabled": 0,
-            "activation#timeOn": 5,
-            "activation#timeOff": 10,
-            "activation#count": 3,
-            "wash1#enabled": 1,
-            "wash1#duration": 35,
-            "metalization#enabled": 1,
-            "metalization#timeOn": 6,
-            "metalization#timeOff": 10,
-            "metalization#count": 20,
-            "wash2#enabled": 1,
-            "wash2#duration": 35,
-            "drying#enabled": 1,
-            "drying#duration": 120,
-            "vapors-extraction#enabled": 1,
-            "vapors-extranction#duration": 45
-         }
-      },
-      {
-         "skeleton": "default",
          "id": "premade_usl-retake",
          "name": "usl-retake",
          "isPremade": true,
@@ -951,7 +816,6 @@
          }
       }
    ],
-   "passives": [],
    "manual": [
       {
          "name": "motor-rotation",
@@ -1405,21 +1269,6 @@
       {
          "name": "usl-activation-porous",
          "profile": "premade_usl-activation-porous",
-         "cycle": "default"
-      },
-      {
-         "name": "llc",
-         "profile": "premade_llc",
-         "cycle": "default"
-      },
-      {
-         "name": "cem",
-         "profile": "premade_cem",
-         "cycle": "default"
-      },
-      {
-         "name": "cem-retake",
-         "profile": "premade_cem-retake",
          "cycle": "default"
       },
       {
@@ -3754,6 +3603,10 @@
                         {
                            "name": "conststr",
                            "value": "act"
+                        },
+                        {
+                           "name": "conststr",
+                           "value": "usl_act"
                         }
                      ]
                   },
@@ -5132,6 +4985,172 @@
                      ]
                   }
                ]
+            }
+         ]
+      }
+   ],
+   "addons": [
+      {
+         "addonName": "cem",
+         "content": [
+            {
+               "path": "profilePremades",
+               "mode": "merge",
+               "content": [
+                  {
+                     "skeleton": "default",
+                     "id": "premade_cem",
+                     "name": "cem",
+                     "isPremade": true,
+                     "isRemovable": false,
+                     "isOverwritable": false,
+                     "values": {
+                        "act-edi-nozzles#act-edi-high": 1,
+                        "act-edi-nozzles#act-edi-low": 1,
+                        "met-nozzles#met-high": 1,
+                        "met-nozzles#met-medium": 1,
+                        "met-nozzles#met-low": 1,
+                        "motor#enabled": 1,
+                        "motor#speed": 50,
+                        "motor#reverseEnabled": 1,
+                        "motor#reverseTime": 5,
+                        "activation#enabled": 1,
+                        "activation#timeOn": 5,
+                        "activation#timeOff": 10,
+                        "activation#count": 3,
+                        "wash1#enabled": 1,
+                        "wash1#duration": 35,
+                        "metalization#enabled": 1,
+                        "metalization#timeOn": 6,
+                        "metalization#timeOff": 10,
+                        "metalization#count": 20,
+                        "wash2#enabled": 1,
+                        "wash2#duration": 35,
+                        "drying#enabled": 1,
+                        "drying#duration": 120,
+                        "vapors-extraction#enabled": 1,
+                        "vapors-extranction#duration": 45
+                     }
+                  },
+                  {
+                     "skeleton": "default",
+                     "id": "premade_cem-retake",
+                     "name": "cem-retake",
+                     "isPremade": true,
+                     "isRemovable": false,
+                     "isOverwritable": false,
+                     "values": {
+                        "act-edi-nozzles#act-edi-high": 1,
+                        "act-edi-nozzles#act-edi-low": 1,
+                        "met-nozzles#met-high": 1,
+                        "met-nozzles#met-medium": 1,
+                        "met-nozzles#met-low": 1,
+                        "motor#enabled": 1,
+                        "motor#speed": 50,
+                        "motor#reverseEnabled": 1,
+                        "motor#reverseTime": 5,
+                        "activation#enabled": 0,
+                        "activation#timeOn": 5,
+                        "activation#timeOff": 10,
+                        "activation#count": 3,
+                        "wash1#enabled": 1,
+                        "wash1#duration": 35,
+                        "metalization#enabled": 1,
+                        "metalization#timeOn": 6,
+                        "metalization#timeOff": 10,
+                        "metalization#count": 20,
+                        "wash2#enabled": 1,
+                        "wash2#duration": 35,
+                        "drying#enabled": 1,
+                        "drying#duration": 120,
+                        "vapors-extraction#enabled": 1,
+                        "vapors-extranction#duration": 45
+                     }
+                  }
+               ]
+            },
+            {
+               "path": "cyclePremades",
+               "mode": "merge",
+               "content": [
+                  {
+                     "name": "cem",
+                     "profile": "premade_cem",
+                     "cycle": "default"
+                  },
+                  {
+                     "name": "cem-retake",
+                     "profile": "premade_cem-retake",
+                     "cycle": "default"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "addonName": "llc",
+         "content": [
+            {
+               "path": "profilePremades",
+               "mode": "merge",
+               "content": [
+                  {
+                     "skeleton": "default",
+                     "id": "premade_llc",
+                     "name": "llc",
+                     "isPremade": true,
+                     "isRemovable": false,
+                     "isOverwritable": false,
+                     "values": {
+                        "act-edi-nozzles#act-edi-high": 1,
+                        "act-edi-nozzles#act-edi-low": 1,
+                        "met-nozzles#met-high": 1,
+                        "met-nozzles#met-medium": 1,
+                        "met-nozzles#met-low": 1,
+                        "motor#enabled": 1,
+                        "motor#speed": 50,
+                        "motor#reverseEnabled": 1,
+                        "motor#reverseTime": 5,
+                        "activation#enabled": 1,
+                        "activation#timeOn": 5,
+                        "activation#timeOff": 10,
+                        "activation#count": 3,
+                        "wash1#enabled": 1,
+                        "wash1#duration": 30,
+                        "metalization#enabled": 1,
+                        "metalization#timeOn": 5,
+                        "metalization#timeOff": 10,
+                        "metalization#count": 8,
+                        "wash2#enabled": 1,
+                        "wash2#duration": 30,
+                        "drying#enabled": 1,
+                        "drying#duration": 120,
+                        "vapors-extraction#enabled": 1,
+                        "vapors-extranction#duration": 45
+                     }
+                  }
+               ]
+            },
+            {
+               "path": "cyclePremades",
+               "mode": "merge",
+               "content": [
+                  {
+                     "name": "llc",
+                     "profile": "premade_llc",
+                     "cycle": "default"
+                  }
+               ]
+            },
+            {
+               "path": "slots.0.supportedProductSeries",
+               "mode": "merge",
+               "content": ["llc_ox"]
+            },
+            {
+               "path": "slots.1.supportedProductSeries",
+               "mode": "merge",
+               "content": ["llc_rd"]
             }
          ]
       }

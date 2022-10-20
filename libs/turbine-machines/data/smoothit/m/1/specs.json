@@ -283,6 +283,7 @@
    "slots": [
       {
          "name": "resin",
+         "supportedProductSeries": ["tc", "bc"],
          "type": "cnt",
          "sensors": [
             {
@@ -583,7 +584,6 @@
          "durationLimit": 30000
       }
    ],
-   "passives": [],
    "manual": [
       {
          "name": "motor-rotation",

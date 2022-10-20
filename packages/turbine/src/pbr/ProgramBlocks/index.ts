@@ -1,5 +1,4 @@
 import type { ParameterBlocks } from "../ParameterBlocks";
-import { ProgramBlockRegistry } from "./ProgramBlockRegistry";
 import type { ForLoopProgramBlock } from "./ForLoopProgramBlock";
 import type { GroupProgramBlock } from "./GroupProgramBlock";
 import type { IfProgramBlock } from "./IfProgramBlock";
@@ -13,10 +12,11 @@ import type { StopProgramBlock } from "./StopProgramBlock";
 import type { StopTimerProgramBlock } from "./StopTimerProgramBlock";
 import type { VariableProgramBlock } from "./VariableProgramBlock";
 import type { WhileLoopProgramBlock } from "./WhileLoopProgramBlock";
-import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
-import type { PassiveProgramBlock } from "./PassiveProgramBlock";
-import { LoggerInstance } from "../../app";
+import type { RegulationProgramBlock } from "./RegulationProgramBlock";
 import type { IProgramBlock, ProgramBlockNames, IProgramBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlock";
+import { ProgramBlockRegistry } from "./ProgramBlockRegistry";
+import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
+import { LoggerInstance } from "../../app";
 
 export class ProgramBlock implements IProgramBlock
 {
@@ -88,5 +88,5 @@ export type ProgramBlocks = (
     GroupProgramBlock | 
     SlotLoadProgramBlock | 
     SlotUnloadProgramBlock | 
-    PassiveProgramBlock
+    RegulationProgramBlock
 ) & IProgramBlocks;

@@ -8,13 +8,12 @@ import { IVPNData } from "./balena/IVPNData";
 import { IProgramBlockRunnerHydrated } from "./cycle/IProgramRunnerHydrated";
 import { IMaintenanceHydrated } from "./maintenance";
 import { IManualHydrated } from "./manual";
-import { IPassiveHydrated } from "./passive";
 import { IProfileHydrated } from "./profile";
 import { ISlotHydrated } from "./slot";
 
 export interface IWebSocketData
 {
-    type: "message" | "status" | "popup" | "configuration";
+    type: "message" | "status" | "popup";
     message: IStatusMessage | IPopup | unknown;
 }
 
@@ -32,7 +31,6 @@ export interface IStatusMessage
    profiles: IProfileHydrated[],
    io: IOGates[],
    handlers: IIOPhysicalController[],
-   passives: IPassiveHydrated[],
    manuals: IManualHydrated[],
    maintenances: IMaintenanceHydrated[]
 }

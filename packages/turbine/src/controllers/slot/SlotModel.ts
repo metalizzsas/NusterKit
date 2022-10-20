@@ -1,4 +1,4 @@
-import type { EProductSeries } from "@metalizzsas/nuster-typings/build/spec/slot";
+import type { EProductSeries } from "@metalizzsas/nuster-typings/build/spec/slot/products";
 import { model, Schema } from "mongoose";
 
 /** Slot database schema */
@@ -9,13 +9,13 @@ interface ISlotSchema
     /** Slot load date */
     loadDate: Date;
     /** Slot product series loaded */
-    productSeries: EProductSeries;
+    loadedProductType: EProductSeries;
 }
 
 const SlotSchema = new Schema<ISlotSchema>({
     name: { type: String, required: true},
     loadDate: { type: Date, required: true, default: Date.now },
-    productSeries: { type: String, required: true}
+    loadedProductType: { type: String, required: true}
 });
 
 export const SlotModel = model('slot', SlotSchema);

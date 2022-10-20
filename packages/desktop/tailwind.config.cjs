@@ -8,7 +8,8 @@ module.exports = {
     },
     {
       pattern: /(h|w)-.*/
-    }
+    },
+    "overflow-hidden"
   ],
   theme:{
     extend:{

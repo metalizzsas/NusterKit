@@ -1,4 +1,6 @@
 import { ICallToAction } from "../nuster/ICallToAction";
+import { EProductSeries } from "./products";
+import { IRegulation } from "./regulation";
 
 /** Slot definition used in config */
 export interface IConfigSlot {
@@ -7,20 +9,15 @@ export interface IConfigSlot {
     /** Slot type */
     type: string;
 
-    /** Production options, If this is set the slot become productable */
-    productOptions?: ISlotProductOptions
-
     /** Sensors available for this Slots */
-    sensors: ISlotSensor[];
+    sensors?: ISlotSensor[];
+
+    /** Supported product series. If defined slot is `Productable` */
+    supportedProductSeries?: EProductSeries[];
+
     /** Call to action, For UI Purposes only */
     callToAction?: ICallToAction[];
 }
-
-/** 
- * Product series 
- * TODO Make this only available for offline devices
- */
-export type EProductSeries = "llc" | "usl" | "tc" | "bc" | "wr" | "cr"; 
 
 /** Slot Sensor interface */
 export interface ISlotSensor {
@@ -28,6 +25,9 @@ export interface ISlotSensor {
     io: string;
     /** Slot type */
     type: ESlotSensorType;
+
+    /** Passive Regulation, if defined, this slot as a regulation */
+    regulation?: IRegulation
 }
 
 /** Slot sensor type */

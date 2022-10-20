@@ -55,16 +55,11 @@
 				name: "—",
 
 				isRemovable: false,
-
 				modificationDate: Date.now(),
-
 				values: result.fields
 			};
 
 			profiles = [...profiles, defaultProfile];
-
-			console.log(profiles);
-
 			selectedProfile = 'skeleton';
 		}
 	};

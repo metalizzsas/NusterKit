@@ -54,4 +54,4 @@ jobs:
           balena_token: ${{ secrets.BALENA_TOKEN }}
           fleet: romain_sapet/nusterturbine
           finalize: false
-          source: docker-compose.draft.yaml
+          source: docker-compose.draft.yml

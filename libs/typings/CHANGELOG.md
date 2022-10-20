@@ -1,5 +1,18 @@
 # @metalizzsas/nuster-typings
 
+## 1.2.0
+
+### Minor Changes
+
+- Removed passives ([#49](https://github.com/metalizzsas/NusterKit/pull/49))
+
+- Passives are now Slots Regulation ([#49](https://github.com/metalizzsas/NusterKit/pull/49))
+  Slots loading is now able to choose product series to be loaded
+
+### Patch Changes
+
+- Removed duplicated program & parameter blocks ([#49](https://github.com/metalizzsas/NusterKit/pull/49))
+
 ## 1.1.4
 
 ### Patch Changes

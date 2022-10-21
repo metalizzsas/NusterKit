@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.7.2
+
+### Patch Changes
+
+- Fixed regulation loop condition ([#57](https://github.com/metalizzsas/NusterKit/pull/57))
+
 ## 1.7.1
 
 ### Patch Changes

@@ -72,7 +72,7 @@ export class SlotSensor implements ISlotSensor
     
             //if current value in less than target
             // enable plus actuators otherwise disable plus actuators
-            if(this.regulationTarget < this.value)
+            if(this.value < this.regulationTarget)
                 this.setActuators("plus", true)
             else
                 this.setActuators("plus", false);
@@ -104,7 +104,7 @@ export class SlotSensor implements ISlotSensor
      * Set target value of the regulation
      * @param target target value to be reached by regulation
      */
-    regulationSetTarget(target: number) { this.regulationTarget = target; }
+    regulationSetTarget(target: number): boolean { this.regulationTarget = target; return true; }
 
     /**
      * Enable / Disable regulation

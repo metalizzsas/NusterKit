@@ -23,6 +23,12 @@
   "renderErrorRedirect": "Something went wrong, you will be redirected soon.",
   "renderErrorRedirectButton": "Redirect now",
 
+  "timeTrackError": {
+    "label": "Time tracking",
+    "title": "Time tracking issue",
+    "body": "Your machine do not have a time tracking device. This is not problematic but time tracking on products loaded inside will get wrong after a machine restart. As an alternative you can let the machine connected to internet to avoid this issue."
+  },
+
   "date": {
     "days": "Days",
     "day": "Day",

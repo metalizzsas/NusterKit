@@ -24,6 +24,12 @@
     "renderErrorRedirect": "Quelquechose c'est mal passé, nous allons vous rediriger d'ici peu.",
     "renderErrorRedirectButton": "Redirection rapide",
 
+    "timeTrackError": {
+        "label": "Gestion horloge",
+        "title": "Erreur dans la gestion de l'horloge",
+        "body": "Votre machine n'as pas de d'horloge interne. La durée de vie des consommables peux etre invalidée si la machine est redémarrée. Vous pouvez connecter cette machine a internet pour eviter ce soucis."
+    },
+
     "date": {
         "days": "Jours",
         "day": "jour",

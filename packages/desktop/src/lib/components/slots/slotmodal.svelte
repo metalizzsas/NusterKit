@@ -21,6 +21,8 @@
 	import { keyboardShown } from "$lib/utils/stores/keyboard";
 	import { lockMachineData } from "$lib/utils/stores/store";
 	import type { EProductSeries } from '@metalizzsas/nuster-typings/build/spec/slot/products';
+	import { machineData } from "$lib/utils/stores/store";
+	import Producttimetrackerrorlabel from './producttimetrackerrorlabel.svelte';
 
 	export let slotContent: ISlotHydrated;
 	export let shown: boolean;
@@ -83,6 +85,7 @@
 	$: if($keyboardShown) { $lockMachineData = true; } else { $lockMachineData = false; }
 </script>
 
+
 <Actionmodal bind:shown>
 	<Flex direction="col" gap={4}>
 		<Flex class="justify-between align-middle items-center">
@@ -107,12 +110,18 @@
 					</span>
 				{/if}
 				{#if slotContent.productData?.lifetimeRemaining !== undefined}
-					<span>
-						{$_('slots.modal.productLifetime')}:
-						<span class="text-indigo-600 dark:text-indigo-400 font-semibold">
-							{transformDate(slotContent.productData?.lifetimeRemaining, slotContent.productData.loadedProductType)}
+					<Flex items="center">
+						<span>
+							{$_('slots.modal.productLifetime')}:
+							<span class="text-indigo-600 dark:text-indigo-400 font-semibold">
+								{transformDate(slotContent.productData?.lifetimeRemaining, slotContent.productData.loadedProductType)}
+							</span>
+	
 						</span>
-					</span>
+						{#if $machineData.machine.settings?.isNotTimeTracked === true}
+							<Producttimetrackerrorlabel />
+						{/if}
+					</Flex>
 				{/if}
 			</Flex>
 		{/if}
@@ -169,7 +178,7 @@
 							<div class="h-[1px] bg-zinc-500 grow"></div>
 							<Label size="small" class="font-medium">
 								<Inputkb bind:value={slotSensor.regulation.target} on:change={(e) => setRegulationTarget(slotSensor.io.name, e.detail.value)} class="bg-transparent"/>
-								 {slotSensor.io.unity}
+								{slotSensor.io.unity}
 							</Label>
 						</Flex>					
 					{/if}
@@ -181,3 +190,4 @@
 </Actionmodal>
 
 <Slotmodalload bind:shown={loadProductModalShown} bind:slot={slotContent}/>
+

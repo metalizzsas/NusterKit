@@ -55,4 +55,11 @@ export interface IMachineSettings
      * @defaultValue false
      */
     isPrototype?: true;
+
+    /**
+     * Enable when a machine doesnt have an RTC clock
+     * Adds a warning for products lifetimes if machine is not connected to VPN
+     * @defaultValue undefined
+     */
+    isNotTimeTracked: true;
 }

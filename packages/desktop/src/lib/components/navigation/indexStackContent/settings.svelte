@@ -3,7 +3,7 @@
 	import { layoutSimplified, dark, lang } from '$lib/utils/stores/settings';
 	import { machineData } from '$lib/utils/stores/store';
 
-	import Modalcontent from '$lib/components/modals/modalcontent.svelte';
+	import Modalcontent from "$lib/components/modals/modalcontent.svelte";
 	import Toggle from '$lib/components/userInputs/toggle.svelte';
 
 	export let shown: boolean;
@@ -12,6 +12,7 @@
 	const langs: { [x: string]: string } = {
 		en: 'English',
 		fr: 'Français',
+		it: 'Italiano'
 	};
 </script>
 

@@ -6,6 +6,7 @@ export async function initI18nMachine(ip: string)
     
         const enurl = `//${ip}/api/assets/lang/en.json`;
         const frurl = `//${ip}/api/assets/lang/fr.json`;
+        const iturl = `//${ip}/api/assets/lang/it.json`;
 
         const langEN = fetch(enurl).then((response) => {
             if(response.status == 200)
@@ -28,9 +29,20 @@ export async function initI18nMachine(ip: string)
                 })
             }
         });
+
+        const langIT = fetch(iturl).then((response) => {
+            if(response.status == 200)
+            {
+                response.json().then((content) => {
+                    addMessages("fr", content);
+                }).catch(() => {
+                    throw new Error("Failed to add IT language file");
+                })
+            }
+        });
     
         
-        Promise.all([langEN, langFR]).then(() => {
+        Promise.all([langEN, langFR, langIT]).then(() => {
             resolve();
         }).catch((e: Error) => {
             console.error(e.message);

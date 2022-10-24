@@ -17,17 +17,17 @@
         "modal": {
             "actions": {
                 "act": {
-                    "dilution": "Preparazione con diluzione automatica",
                     "load": "Preparazione manuale",
-                    "emptying": "Spurgo"
+                    "load_alt": "Preparazione con diluzione automatica",
+                    "unload": "Spurgo"
                 },
                 "ox": {
                     "load": "Preparazione manuale",
-                    "emptying": "Spurgo reagenti"
+                    "unload": "Spurgo reagenti"
                 },
                 "rd": {
                     "load": "Preparazione manuale",
-                    "emptying": "Spurgo reagenti"
+                    "unload": "Spurgo reagenti"
                 }
             }
         }

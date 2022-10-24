@@ -5,7 +5,6 @@ import type { Request, Response } from "express";
 import { LoggerInstance } from "../../app";
 import { AuthManager } from "../../auth/auth";
 import { ProgramBlockRunner } from "../../pbr/ProgramBlockRunner";
-import { ProfileModel } from "../profile/ProfileModel";
 import { ProfileController } from "../profile/ProfilesController";
 import { ProgramHistoryModel } from "./ProgramHistoryModel";
 import type { IProgramBlockRunnerHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/IProgramRunnerHydrated";
@@ -154,7 +153,7 @@ export class CycleController extends Controller {
                     }
                 }
                 else
-                    profile = await ProfileModel.findById(req.params.id).lean();
+                    profile = await ProfileController.getInstance().findProfile(req.params.id);
 
                 if (!profile) {
                     res.status(404);
@@ -237,10 +236,12 @@ export class CycleController extends Controller {
                 if (["ended", "ending", "created"].includes(this.program.status.mode)) {
                     //do not save the history if the program was just created and never started
                     if (this.program.status.mode != "created") {
+
+                        
                         await ProgramHistoryModel.create({
                             rating: parseInt(req.params.rating) || 0,
                             cycle: this.program,
-                            profile: this.program.profile
+                            profile: (this.program.profile) ? ProfileController.getInstance().prepareToStore(this.program.profile) : undefined
                         });
                     }
 

@@ -5,5 +5,3 @@
 
 node_modules/
 utils/
-
-docker-compose-dev.yml

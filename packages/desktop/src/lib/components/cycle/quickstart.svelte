@@ -29,7 +29,7 @@
 	let saveProfileNameInvalid = false;
 	let deleteProfileModalShown = false;
 
-	$: $profile = profiles.find((k) => k.id == selectedProfile);
+	$: $profile = profiles.find((k) => k._id == selectedProfile);
 	$: if ($machineData.cycle !== undefined) void goto('/app/cycle');
 	$: if (saveProfileNameInvalid == true) {
 		setTimeout(() => (saveProfileNameInvalid = false), 5000);
@@ -51,31 +51,26 @@
 			const defaultProfile: IProfileHydrated = {
 
 				skeleton: "default",
-				id: "skeleton",
+				_id: "skeleton",
 				name: "—",
 
 				isRemovable: false,
-
 				modificationDate: Date.now(),
-
 				values: result.fields
 			};
 
 			profiles = [...profiles, defaultProfile];
-
-			console.log(profiles);
-
 			selectedProfile = 'skeleton';
 		}
 	};
 
 	const saveProfile = async (name?: string) => {
 		if ($profile !== undefined) {
-			const newp = $profile.id == 'skeleton';
+			const newp = $profile._id == 'skeleton';
 
 			if (name) $profile.name = name;
 
-			if (newp) $profile.id = 'created';
+			if (newp) $profile._id = 'created';
 
 			await fetch('//' + $Linker + '/api/v1/profiles' + (newp ? '/create' : ''), {
 				method: newp ? 'PUT' : 'POST',
@@ -90,7 +85,7 @@
 
 	const deleteProfile = async () => {
 		if ($profile !== undefined) {
-			await fetch(`//${$Linker}/api/v1/profiles/${$profile.id || ''}`, {
+			await fetch(`//${$Linker}/api/v1/profiles/${$profile._id || ''}`, {
 				method: 'DELETE',
 			});
 
@@ -100,11 +95,11 @@
 
 	const quickStart = async () => {
 		if ($profile !== undefined) {
-			const QSProfile = $profile.id == 'skeleton';
+			const QSProfile = $profile._id == 'skeleton';
 
 			if (QSProfile) $profile.name = 'Quickstart';
 
-			const url = `//${$Linker}/api/v1/cycle/default/${(QSProfile ? '' : ($profile.id || ''))}`;
+			const url = `//${$Linker}/api/v1/cycle/default/${(QSProfile ? '' : ($profile._id || ''))}`;
 			const body = QSProfile ? JSON.stringify(profile) : '';
 
 			const startRequest = await fetch(url, {
@@ -206,7 +201,7 @@
 						bind:value={selectedProfile}
 					>
 						{#each profiles.sort((a, b) => (a.name < b.name ? 1 : -1)) as profileListElement}
-							<option value={profileListElement.id}>
+							<option value={profileListElement._id}>
 								{profileListElement.isPremade
 									? $_('cycle.types.' + profileListElement.name)
 									: profileListElement.name}
@@ -217,7 +212,7 @@
 						<button
 							class="self-center bg-emerald-500 text-white p-2 rounded-full"
 							on:click|stopPropagation={() => {
-								if ($profile && $profile.id == 'skeleton') {
+								if ($profile && $profile._id == 'skeleton') {
 									saveProfileModalShown = true;
 								} else {
 									void saveProfile();

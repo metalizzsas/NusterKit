@@ -74,7 +74,7 @@ const PBRStartConditionSchema = new Schema<IPBRStartConditionHydrated>({
     conditionName: {type: String, required: true},
     startOnly: {type: Boolean, required: true},
     checkChain: {type: PBRSCCheckChainSchema, required: true},
-    result: Boolean
+    result: {type: String}
 });
 
 const ProgramSchema = new Schema<IProgramBlockRunnerHydrated>({

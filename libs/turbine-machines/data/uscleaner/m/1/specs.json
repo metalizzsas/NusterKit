@@ -95,10 +95,7 @@
         {
             "name": "bac",
             "type": "media",
-            "productOptions": {
-                "defaultProductSeries": "cr",
-                "lifespan": 90
-            },
+            "supportedProductSeries": ["cr", "any"],
             "sensors": [
                 {
                     "io": "temperature#sensor",
@@ -135,7 +132,7 @@
     "profilePremades": [
         {
             "skeleton": "default",
-            "id": "premade_5min",
+            "_id": "premade_5min",
             "name": "5min30deg",
             "isPremade": true,
             "isRemovable": false,
@@ -210,7 +207,6 @@
             }
         }
     ],
-    "passives": [],
     "manual": [
         {
             "name": "motor-rotation",
@@ -439,7 +435,7 @@
                     "content": [
                         {
                             "skeleton": "default",
-                            "id": "premade_10min30deg",
+                            "_id": "premade_10min30deg",
                             "name": "10min30deg",
                             "isRemovable": false,
                             "isOverwritable": false,
@@ -454,23 +450,14 @@
                 },
                 {
                     "mode": "merge",
-                    "path": "passives",
-                    "content": [
-                        {
-                            "name": "temperature",
-                            "sensors": [
-                                "temperature#sensor"
-                            ],
-                            "target": 25,
-                            "manualModes": [
-                                "pump"
-                            ],
-                            "actuators": {
-                                "plus": "temperature#heater",
-                                "minus": "temperature#ventilation"
-                            }
+                    "path": "slots.0.sensors.0.regulation",
+                    "content": {
+                        "manualModes": ["pump"],
+                        "actuators": {
+                            "plus": "temperature#heater",
+                            "minus": "temperature#ventilation"
                         }
-                    ]
+                    }
                 },
                 {
                     "mode": "merge",
@@ -513,8 +500,12 @@
                     "mode": "merge",
                     "content": [
                         {
-                            "name": "passive",
+                            "name": "regulation",
                             "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "bac"
+                                },
                                 {
                                     "name": "conststr",
                                     "value": "temperature"
@@ -536,8 +527,12 @@
                     "mode": "merge",
                     "content": [
                         {
-                            "name": "passive",
+                            "name": "regulation",
                             "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "bac"
+                                },
                                 {
                                     "name": "conststr",
                                     "value": "temperature"

@@ -1,0 +1,27 @@
+FROM balenalib/raspberrypi4-64-node:18-buster
+
+#ENV NODE_ENV=devlopment
+
+WORKDIR /usr/src/app
+
+COPY .npmrc ./.npmrc
+
+RUN corepack enable && pnpm --version
+
+COPY packages/desktop/package*.json ./
+COPY packages/desktop/CHANGELOG.md ./CHANGELOG.md
+COPY packages/desktop/build/ ./build
+
+# Install Prod npm packages
+RUN pnpm install
+
+# Copy workspace libs
+COPY libs/typings/ ./node_modules/@metalizzsas/nuster-typings
+
+# Remove npmrc file
+RUN rm .npmrc
+
+# Run args
+CMD [ "node", "build" ]
+EXPOSE 4079
+ENV PORT=4079

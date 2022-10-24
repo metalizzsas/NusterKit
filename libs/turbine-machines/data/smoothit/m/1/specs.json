@@ -283,6 +283,7 @@
    "slots": [
       {
          "name": "resin",
+         "supportedProductSeries": ["tc", "bc"],
          "type": "cnt",
          "sensors": [
             {
@@ -423,7 +424,7 @@
    "profilePremades": [
       {
          "skeleton": "default",
-         "id": "premade_fdm",
+         "_id": "premade_fdm",
          "name": "fdm",
          "isPremade": true,
          "isRemovable": false,
@@ -453,7 +454,7 @@
       },
       {
          "skeleton": "default",
-         "id": "premade_sls",
+         "_id": "premade_sls",
          "name": "sls",
          "isPremade": true,
          "isRemovable": false,
@@ -483,7 +484,7 @@
       },
       {
          "skeleton": "default",
-         "id": "premade_sla",
+         "_id": "premade_sla",
          "name": "sla",
          "isPremade": true,
          "isRemovable": false,
@@ -583,7 +584,6 @@
          "durationLimit": 30000
       }
    ],
-   "passives": [],
    "manual": [
       {
          "name": "motor-rotation",

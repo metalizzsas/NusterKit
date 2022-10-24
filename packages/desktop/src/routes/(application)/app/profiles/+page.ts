@@ -12,7 +12,7 @@ export const load: PageLoad = async (ctx) => {
 	);
 
 	return {
-		profiles: await profilesList.json() as IProfileHydrated,
-		profileSkeletons: await profileSkeletons.json() as IProfileSkeleton,
+		profiles: await profilesList.json() as IProfileHydrated[],
+		profileSkeletons: await profileSkeletons.json() as IProfileSkeleton[],
 	};
 };

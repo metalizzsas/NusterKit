@@ -23,8 +23,8 @@
     {#if enabledCategoryField !== undefined}
         <Toggle
         bind:value={enabledCategoryField.value}
-        locked={!profile.isOverwritable}
-        enableGrayScale={!profile.isOverwritable}
+        locked={profile.isOverwritable === false}
+        enableGrayScale={profile.isOverwritable === false}
         on:change={(e) => { if(enabledCategoryField) { enabledCategoryField.value = e.detail.value } }}
     />
     {/if}

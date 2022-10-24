@@ -1,7 +1,8 @@
 <script lang="ts">
 	import '$lib/app.css';
 	import { createEventDispatcher, beforeUpdate } from 'svelte';
-	export let value: boolean | number;
+
+	export let value: number | boolean;
 
 	let aria = false;
 

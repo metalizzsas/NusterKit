@@ -4,7 +4,6 @@ import { IOGatesConfig } from "./iogates"
 import { IOControllersConfig } from "./iophysicalcontrollers"
 import { IConfigMaintenance } from "./maintenance"
 import { IConfigManualMode } from "./manual"
-import { IConfigPassive } from "./passive"
 import { IProfileConfig, IProfileSkeleton } from "./profile"
 import { IConfigSlot } from "./slot"
 import { IPopup } from "../hydrated"
@@ -39,8 +38,6 @@ export declare interface IMachineSpecs
     /** Manuals modes definition */
     manual: IConfigManualMode[],
 
-    /** Passive modes definition */
-    passives: IConfigPassive[],
     /** Profile skeletons definition */
     profileSkeletons: IProfileSkeleton[],
     /** Premade profile definition */

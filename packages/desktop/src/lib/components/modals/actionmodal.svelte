@@ -1,17 +1,19 @@
 <script lang="ts">
 	import { fly, fade } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
+	import { keyboardShown, keyboardHeight } from '$lib/utils/stores/keyboard';
 	import Portal from 'svelte-portal';
 
 	export let shown: boolean;
 
-	$: shown, document.body.classList.toggle('overflow-hidden', shown);
+	export let zIndex = 50;
 </script>
 
-<Portal target="body">
+<Portal target="#modals">
 	{#if shown}
 		<div
-			class="fixed top-0 right-0 left-0 bottom-0 backdrop-brightness-50 z-50"
+			class="fixed inset-0 backdrop-brightness-50"
+			style={`${$keyboardShown ? `bottom: ${$keyboardHeight}px;` : 'bottom: 0px;'} z-index: ${zIndex};`}
 			in:fade={{ duration: 250 }}
 			out:fade={{ duration: 250 }}
 			on:click|self={() => (shown = false)}

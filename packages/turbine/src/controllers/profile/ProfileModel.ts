@@ -7,9 +7,9 @@ export const ProfileSchema = new Schema<IProfileStored>({
 
     modificationDate: {type: Number, default: Date.now, required: true},
 
-    isPremade: {type: Boolean, default: false},
-    isRemovable: {type: Boolean, default: false},
-    isOverwritable: {type: Boolean, default: true},
+    isPremade: {type: Boolean},
+    isRemovable: {type: Boolean},
+    isOverwritable: {type: Boolean},
 
     values: {type: Map, of: Number, required: true}
 });

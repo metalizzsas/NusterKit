@@ -48,7 +48,7 @@
 
 		let p = (await response.json()) as IProfileHydrated;
 
-		void goto(`profiles/${p.id ?? ''}`);
+		void goto(`profiles/${p._id ?? ''}`);
 	}
 	
 	$navTitle = [$_('profile.list')];

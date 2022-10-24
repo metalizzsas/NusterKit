@@ -19,7 +19,6 @@ import { MaintenanceController } from "./controllers/maintenance/MaintenanceCont
 import { SlotController } from "./controllers/slot/SlotController";
 import { ManualModeController } from "./controllers/manual/ManualModeController";
 import { CycleController } from "./controllers/cycle/CycleController";
-import { PassiveController } from "./controllers/passives/PassiveController";
 import { WebsocketDispatcher } from "./websocket/WebsocketDispatcher";
 
 /** Express app */
@@ -64,7 +63,6 @@ else
 {
     LoggerInstance.warn("Machine: Info file not found");
     SetupExpressConfiguration();
-    SetupWebSocketServerConfig();
 }
 
 /** Update locking the Balena Supervisor */
@@ -164,15 +162,6 @@ function SetupWebsocketServer()
     }, 500);
 }
 
-function SetupWebSocketServerConfig()
-{
-    WebsocketDispatcher.getInstance(httpServer);
-
-    setInterval(async () => {
-        WebsocketDispatcher.getInstance().broadcastData({configurationNeeded: true}, "configuration");
-    }, 500);
-}
-
 /**
  * Connect and configure mongoose
  */
@@ -188,24 +177,6 @@ function SetupMongoDB()
         LoggerInstance.fatal("Mongo: Failed to connect to database");
         LoggerInstance.fatal(err);
     }
-
-    //move id to _id
-    //remove __v
-    mongoose.set('toJSON', {
-        virtuals: true,
-        transform: (doc: Record<string, unknown>, converted: Record<string, unknown>) => {
-            delete converted._id;
-            delete converted.__v;
-        }
-    });
-
-    mongoose.set('toObject', {
-        virtuals: true,
-        transform: (doc: Record<string, unknown>, converted: Record<string, unknown>) => {
-            delete converted._id;
-            delete converted.__v;
-        }
-    });
 }
 
 /**
@@ -224,7 +195,6 @@ function SetupMachine()
         ExpressApp.use('/v1/slots', SlotController.getInstance().router);
         ExpressApp.use('/v1/manual', ManualModeController.getInstance().router);
         ExpressApp.use('/v1/cycle', CycleController.getInstance().router);
-        ExpressApp.use('/v1/passives', PassiveController.getInstance().router);
         ExpressApp.use('/v1/auth', AuthManager.getInstance().router);
         LoggerInstance.info("Express: Registered routers");
 

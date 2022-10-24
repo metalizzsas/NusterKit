@@ -17,17 +17,17 @@
         "modal": {
             "actions": {
                 "act": {
-                    "dilution": "Automatic dilution loading",
-                    "load": "Manual loading",
-                    "emptying": "Emptying"
+                    "default": "Manual loading",
+                    "load_alt": "Automatic dilution loading",
+                    "unload": "Emptying"
                 },
                 "ox": {
                     "load": "Manual loading",
-                    "emptying": "Reactives emptying"
+                    "unload": "Reactives emptying"
                 },
                 "rd": {
                     "load": "Manual loading",
-                    "emptying": "Reactives emptying"
+                    "unload": "Reactives emptying"
                 }
             }
         }

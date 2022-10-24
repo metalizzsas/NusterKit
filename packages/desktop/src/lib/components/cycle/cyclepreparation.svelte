@@ -10,8 +10,8 @@
 	import Navcontainertitle from '../navigation/navcontainertitle.svelte';
 	import { layoutSimplified } from '$lib/utils/stores/settings';
 
-	const prepareCycle = (cycleType: string, profileID: string) => {
-		void fetch(`//${$Linker}/api/v1/cycle/${cycleType}/${profileID}`, {
+	const prepareCycle = (cycleType: string, profileID: string | undefined) => {
+		void fetch(`//${$Linker}/api/v1/cycle/${cycleType}/${profileID != undefined ? profileID : ''}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -73,7 +73,7 @@
 					{#each $machineData.profiles.filter((p) => p.skeleton == ct.name && p.isPremade != true) as p}
 						<div
 							class="bg-indigo-500 text-white p-2 flex flex-col items-center justify-center rounded-xl transition-all font-semibold"
-							on:click={() => prepareCycle(ct.name, p.id)}
+							on:click={() => prepareCycle(ct.name, p._id)}
 						>
 							<div
 								class="flex flex-row gap-4 items-center justify-items-start w-full"

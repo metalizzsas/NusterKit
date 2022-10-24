@@ -42,11 +42,11 @@
 		},
 		{
 			key: 'machine.nusterDesktopVersion',
-			data: `${$_('releaseNotes.see')} ↗`,
+			data: `${$_('seeReleaseNotes')} ↗`,
 		},
 		{
 			key: 'machine.nusterTurbineVersion',
-			data: `${$_('releaseNotes.see')} ↗`,
+			data: `${$_('seeReleaseNotes')} ↗`,
 		},
 		{
 			key: 'machine.balenaVersion',

@@ -1,5 +1,42 @@
 # @metalizzsas/nuster-desktop
 
+## 1.7.1
+
+### Patch Changes
+
+- Made profiles work again ([#54](https://github.com/metalizzsas/NusterKit/pull/54))
+
+## 1.7.0
+
+### Minor Changes
+
+- Removed passives ([#49](https://github.com/metalizzsas/NusterKit/pull/49))
+
+- Passives are now Slots Regulation ([#49](https://github.com/metalizzsas/NusterKit/pull/49))
+  Slots loading is now able to choose product series to be loaded
+
+### Patch Changes
+
+- Adjusted translation ([#49](https://github.com/metalizzsas/NusterKit/pull/49))
+
+- Inputkb disable input arrows for numeric inputs ([#49](https://github.com/metalizzsas/NusterKit/pull/49))
+
+- Layout adjustment ([#49](https://github.com/metalizzsas/NusterKit/pull/49))
+
+- adjusted slots list order ([#49](https://github.com/metalizzsas/NusterKit/pull/49))
+
+- Externalized call to action execution ([#49](https://github.com/metalizzsas/NusterKit/pull/49))
+
+- Moved modals to separate div instead of stacking them on body tag ([#49](https://github.com/metalizzsas/NusterKit/pull/49))
+
+## 1.6.5
+
+### Patch Changes
+
+- Network mac address filter should be more reliable ([#42](https://github.com/metalizzsas/NusterKit/pull/42))
+
+- Disabled kiosk translation with meta and html tags ([#42](https://github.com/metalizzsas/NusterKit/pull/42))
+
 ## 1.6.4
 
 ### Patch Changes

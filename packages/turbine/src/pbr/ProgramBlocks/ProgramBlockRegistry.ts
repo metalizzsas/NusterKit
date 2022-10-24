@@ -4,7 +4,7 @@ import type { IGroupProgramBlock } from "@metalizzsas/nuster-typings/build/spec/
 import type { IIfProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IIfProgramBlock";
 import type { IIOProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IIOProgramBlock";
 import type { IMaintenanceProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IMaintenanceProgramBlock";
-import type { IPassiveProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IPassiveProgramBlock";
+import type { IRegulationProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IRegulationProgramBlock";
 import type { ISleepProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/ISleepProgramBlock";
 import type { ISlotLoadProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/ISlotLoadProgramBlock";
 import type { ISlotUnloadProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/ISlotUnloadProgramBlock";
@@ -19,7 +19,7 @@ import { IfProgramBlock } from "./IfProgramBlock";
 import type { ProgramBlocks } from "./index";
 import { IOWriteProgramBlock } from "./IOWriteProgramBlock";
 import { MaintenanceProgramBlock } from "./MaintenanceProgramBlock";
-import { PassiveProgramBlock } from "./PassiveProgramBlock";
+import { RegulationProgramBlock } from "./RegulationProgramBlock";
 import { SleepProgramBlock } from "./SleepProgramBlock";
 import { SlotLoadProgramBlock } from "./SlotLoadProgramBlock";
 import { SlotUnloadProgramBlock } from "./SlotUnloadProgramBlock";
@@ -45,7 +45,7 @@ export function ProgramBlockRegistry(obj: IProgramBlock): ProgramBlocks {
         case "stopTimer": return new StopTimerProgramBlock(obj as IStopTimerProgramBlock);
         case "variable": return new VariableProgramBlock(obj as IVariableProgramBlock);
         case "while": return new WhileLoopProgramBlock(obj as IWhileLoopProgramBlock);
-        case "passive": return new PassiveProgramBlock(obj as IPassiveProgramBlock);
+        case "regulation": return new RegulationProgramBlock(obj as IRegulationProgramBlock);
 
         default: return new SleepProgramBlock({name: "sleep", params: [{name: "const", value: 1}]});
     }

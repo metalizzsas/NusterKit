@@ -104,7 +104,7 @@ export class ProfileController extends Controller {
             }
             else
             {
-                const profile = await ProfileModel.findById(req.params.id);
+                const profile = await ProfileModel.findById(req.params.id).lean();
                 res.status(profile ? 200 : 404);
     
                 (profile) ? res.json(this.hydrateProfile(profile)) : res.end();
@@ -116,22 +116,44 @@ export class ProfileController extends Controller {
          */
          AuthManager.getInstance().registerEndpointPermission("profile.create", {endpoint: new RegExp("/v1/profiles/create/.*", "g"), method: "post"});
          this._router.post('/create/:type', async (req: Request, res: Response) => {
-             const newp = await ProfileModel.create({
-                 name: "profile-default-name",
-                 skeleton: req.params.type,
-                 modificationDate: Date.now(),
-                 overwriteable: true,
-                 removable: true,
-                 values: {}
-             });
-             res.json(this.hydrateProfile(newp));
+            
+            const p = this.createProfile(req.params.type);
+
+            if(p !== undefined)
+            {
+                const storedProfileTemp = await ProfileModel.create(p);
+
+                const storedProfile = (await ProfileModel.findById(storedProfileTemp.id))?.toObject();
+
+                if(storedProfile)
+                {
+                    const returnProfile = this.hydrateProfile(storedProfile);
+    
+                    if(returnProfile)
+                    {
+                        res.json(returnProfile);
+                    }
+                    else
+                    {
+                        res.status(500).end();
+                    }
+                }
+                else
+                {
+                    res.status(404).end(`failed to find stored profile with id ${storedProfileTemp.id}`)
+                }
+            }
+            else
+            {
+                res.status(404).end();
+            }
         });
 
         /**
          * Route to create a profile from given body
          */
-         AuthManager.getInstance().registerEndpointPermission("profile.create", {endpoint: new RegExp("/v1/profiles/create/", "g"), method: "post"});
-         this._router.put('/create/', async (req: Request, res: Response) => {
+        AuthManager.getInstance().registerEndpointPermission("profile.create", {endpoint: new RegExp("/v1/profiles/create/", "g"), method: "post"});
+        this._router.put('/create/', async (req: Request, res: Response) => {
 
             if(req.body.id == "created")
             {
@@ -140,7 +162,7 @@ export class ProfileController extends Controller {
                 const profile = req.body as IProfileHydrated;
                 const created = this.prepareToStore(profile);
 
-                res.status(200).json(await ProfileModel.create(created));
+                res.status(200).json(await (await ProfileModel.create(created)).toObject());
                 return;
             }
             else
@@ -151,9 +173,9 @@ export class ProfileController extends Controller {
         });
 
         AuthManager.getInstance().registerEndpointPermission("profile.edit", {endpoint: "/v1/profiles/", method: "post"});
-        this._router.post('/', async (req: Request, res: Response) => {
+        this._router.post('/', async (req: Omit<Request, "body"> & { body: IProfileHydrated }, res: Response) => {
 
-            if(req.body.id.startsWith("premade_"))
+            if(req.body._id !== undefined && req.body._id.startsWith("premade_"))
             {
                 res.status(403).write("cant edit premade profiles");
                 return;
@@ -165,31 +187,24 @@ export class ProfileController extends Controller {
 
             const profile = this.prepareToStore(p);
             
-            ProfileModel.findByIdAndUpdate(profile.id, profile, {}, (err) => {
+            const request = await ProfileModel.findByIdAndUpdate(profile._id, profile);
 
-                if(err)
-                    res.status(402).end("not ok");
-                else
-                    res.status(200).end("ok");
-            });
+            if(request)
+                res.status(402).end("not ok");
+            else
+                res.status(200).end("ok");
         });
 
         AuthManager.getInstance().registerEndpointPermission("profiles.delete", {endpoint: new RegExp("/v1/profiles/.*", "g"), method: "delete"});
         this._router.delete('/:id', async (req: Request, res: Response) => {
             if(req.params.id != null)
             {
-                const profile = await ProfileModel.findById(req.params.id);
-
-                if(profile != undefined)
-                {
-                    await ProfileModel.findByIdAndDelete(req.params.id);
-                    res.status(200).end();
-                }
-                else
-                {
-                    res.status(404).end();
-                    return;
-                }
+                await ProfileModel.findByIdAndDelete(req.params.id, {}, (err, doc) => {
+                    if(doc && !err)
+                        res.status(200).end();
+                    else
+                        res.status(404).end();
+                });
             }
             else
             {
@@ -199,15 +214,18 @@ export class ProfileController extends Controller {
         });
 
         AuthManager.getInstance().registerEndpointPermission("profiles.create", {endpoint: "/v1/profiles/", method: "put"});
-        this._router.put('/', async (req: Request, res: Response) => {
+        this._router.put('/', async (req: Omit<Request, "body"> & { body: IProfileHydrated }, res: Response) => {
 
-            if(req.body.id == "copied")
+            if(req.body._id == "copied")
             {
-                delete req.body.id;
-                const profile = req.body as IProfileHydrated;
-                const copied = this.prepareToStore(profile);
+                delete req.body._id;
+                delete req.body.isOverwritable;
+                delete req.body.isPremade;
+                delete req.body.isRemovable;
+                
+                const copied = this.prepareToStore(req.body);
 
-                res.status(200).json(await ProfileModel.create(copied));
+                res.status(200).json(await (await ProfileModel.create(copied)).toObject());
                 return;
             }
             else
@@ -217,6 +235,32 @@ export class ProfileController extends Controller {
             }
         });
     }
+
+    /**
+     * Create profile from skeleton
+     * @param profileSkeletonName Skeleton name to use
+     * @returns newly created profile to be saved in DB
+     */
+    public createProfile(profileSkeletonName: string): IProfileStored | undefined
+    {
+        const profileSkeleton = structuredClone(this.profileSkeletons.get(profileSkeletonName))
+
+        if(profileSkeleton !== undefined)
+        {
+            const createdProfile: IProfileHydrated = {
+                name: "defaultProfileName",
+                skeleton: profileSkeleton.name,
+                modificationDate: Date.now(),
+                isRemovable: undefined,
+                isOverwritable: undefined,
+                isPremade: undefined,
+                values: profileSkeleton.fields
+            };
+
+            return this.prepareToStore(createdProfile);
+        }
+    }
+
     /**
      * Hydrate the profile with its skeleton
      * @param profileStored Profile to hydrate from
@@ -244,6 +288,21 @@ export class ProfileController extends Controller {
     }
 
     /**
+     * Find the profile and hydrates it from database
+     * @param id ID of the profile to find and hydrate from db
+     * @returns Profile hydrated if it was found
+     */
+    public async findProfile(id: string): Promise<IProfileHydrated | undefined>
+    {
+        const profile = await ProfileModel.findById(id);
+
+        if(profile)
+            return this.hydrateProfile(profile.toObject());
+
+        return;
+    }
+
+    /**
      * Prepare the profile to be ready to store on mongodb
      * @param profileHydrated Profile to be transformed
      * @returns Profile transformed ready to be stored
@@ -265,7 +324,7 @@ export class ProfileController extends Controller {
 
     public async socketData(): Promise<IProfileHydrated[]>
     {
-        const list = await ProfileModel.find({}).lean();
-        return [...list.map(p => this.hydrateProfile(p)), ...this.profilePremades] as IProfileHydrated[]
+        const list = (await ProfileModel.find({})).map(d => this.hydrateProfile(d.toObject()));
+        return [...list, ...this.profilePremades] as IProfileHydrated[]
     }
 }

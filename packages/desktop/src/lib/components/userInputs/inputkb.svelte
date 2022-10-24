@@ -9,9 +9,14 @@
 	import { _ } from 'svelte-i18n';
 	import { keyboardShown, keyboardHeight } from '$lib/utils/stores/keyboard';
 	import { BUNDLED } from '$lib/bundle';
+	import { createEventDispatcher } from 'svelte';
+
+	const dispatch = createEventDispatcher<{change: {value: number | string}}>();
+	export let change = () => dispatch('change', { value: value });
 
 	export let value: string | number;
 	export let disabled = false;
+	export let automaticLength = false;
 
 	/**
 	 * options.class @deprecated
@@ -48,7 +53,8 @@
 		}, 50);
 	}
 
-	$: $keyboardShown = focused;
+	$: if(focused && BUNDLED == "true") { $keyboardShown = true } else { $keyboardShown = false}
+	$: if(focused == false) { change() }
 </script>
 
 <svelte:window bind:scrollY />
@@ -87,6 +93,7 @@
 		type="text"
 		class={`${options['class']} ${$$props.class}`}
 		placeholder={options['placeholder']}
+		style={`-webkit-appearance: none; ${automaticLength ? 'width: {String(value).length}ch;' : ''}`}
 		bind:value
 		on:click={() => {
 			focused = true;
@@ -103,6 +110,7 @@
 		autocomplete="off"
 		min={options['min']}
 		max={options['max']}
+		style={`-webkit-appearance: none; ${automaticLength ? 'width: {String(value).length}ch;' : ''}`}
 		bind:value
 		on:click={() => {
 			focused = true;

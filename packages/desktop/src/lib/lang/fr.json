@@ -24,6 +24,12 @@
     "renderErrorRedirect": "Quelquechose c'est mal passé, nous allons vous rediriger d'ici peu.",
     "renderErrorRedirectButton": "Redirection rapide",
 
+    "timeTrackError": {
+        "label": "Gestion horloge",
+        "title": "Erreur dans la gestion de l'horloge",
+        "body": "Votre machine n'as pas de d'horloge interne. La durée de vie des consommables peux etre invalidée si la machine est redémarrée. Vous pouvez connecter cette machine a internet pour eviter ce soucis."
+    },
+
     "date": {
         "days": "Jours",
         "day": "jour",
@@ -36,6 +42,20 @@
         "milliseconds": "Millisecondes",
         "millisecond": "Milliseconde"
     },
+    "products": {
+        "usl_act": "USL Activant",
+        "usl_ox": "USL Oxydant",
+        "usl_rd": "USL Réducteur",
+        "llc_ox": "LLC Oxydant",
+        "llc_rd": "LLC Réducteur",
+        "tc": "Topcoat",
+        "bc": "Basecoat",
+        "cr": "CR-1",
+        "any": "Inconnu"
+    },
+
+    "seeReleaseNotes": "Voir les notes de version",
+
     "loadingScreen": {
         "connectionAttemptCount": "Essai de connection :",
         "connectionError": "Erreur de connection, #ip n'est pas accessible.",
@@ -51,8 +71,10 @@
         "variant": "Variante",
         "revision": "Révision",
         "serial": "Numéro de série",
+        "addons": "Options",
         "cycleCount": "Nombre de cycles",
-        "nusterVersion": "Version de nuster",
+        "nusterDesktopVersion": "Version UI Nuster",
+        "nusterTurbineVersion": "Version Core Nuster",
         "balenaVersion": "Version de balena",
         "vpn.connected": "Connexion au VPN"
     },
@@ -61,6 +83,7 @@
         "name": "Réservoirs",
         "product": "Produit",
         "product.done": "Périmé",
+        "product.unknownLifespan": "Durée de vie non définie",
         "sensors": {
             "name": "Capteurs",
             "types": {
@@ -74,9 +97,25 @@
         },
         "modal": {
             "informations": "Informations",
+            "productManagement": "Gestion du produit",
+            "regulationManagement": "Gestion de la régulation",
             "productSeries": "Série du produit",
             "productLifetime": "Durée de vie",
-            "action": "Actions de réservoir"
+            "action": "Actions de réservoir",
+            "load": "Charger un produit",
+            "unload": "Décharger un produit",
+            "defaultLoadMethod": "Chargement manuel",
+            "chooseLoadingMethod": "Choissez la methode de chargement de ce produit",
+            "chooseProductToLoad": "Choissez le produit a charger dans ce réservoir"
+        },
+        "regulation": {
+            "enabled": "État de la régulation",
+            "current": "Valeur actuelle",
+            "target": "Valeur recherchée",
+            "chart": {
+                "show": "Voir le graphique",
+                "title": "Évolution a travers le temps"
+            }
         }
     },
     "profile": {
@@ -86,6 +125,7 @@
         "name": "Nom du profil",
         "globals": "Informations globales",
         "settings": "Réglages du profil",
+        "defaultName": "Nom de profil par défaut",
         "premades": {
             "true": "Profils constructeur",
             "false": "Profils utilisateur"
@@ -119,16 +159,6 @@
             "count": "Nombre d'itérations",
             "timeOn": "Temps activé",
             "timeOff": "Temps désactivé"
-        }
-    },
-    "passives": {
-        "list": "Régulation",
-        "settings": "Réglages",
-        "current": "Valeur actuelle",
-        "target": "Valeur souhaitée",
-        "chart": {
-            "show": "Afficher l'évolution",
-            "title": "Evolution de la régulation passive en fonction du temps."
         }
     },
     "settings": {

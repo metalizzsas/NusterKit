@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.7.3
+
+### Patch Changes
+
+- fix: maintenance tasks images were not displayed ([#64](https://github.com/metalizzsas/NusterKit/pull/64))
+
 ## 1.7.2
 
 ### Patch Changes

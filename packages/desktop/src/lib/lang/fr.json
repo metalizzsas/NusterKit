@@ -25,7 +25,7 @@
   "timeTrackError": {
     "label": "Gestion horloge",
     "title": "Erreur dans la gestion de l'horloge",
-    "body": "Votre machine n'as pas de d'horloge interne. La durée de vie des consommables peux etre invalidée si la machine est redémarrée. Vous pouvez connecter cette machine a internet pour eviter ce soucis."
+    "body": "Votre machine n'a pas de d'horloge interne. La durée de vie des consommables peut etre invalidée si la machine est redémarrée. Vous pouvez connecter cette machine a internet pour éviter ce souci."
   },
   "date": {
     "days": "Jours",
@@ -103,8 +103,8 @@
       "load": "Charger un produit",
       "unload": "Décharger un produit",
       "defaultLoadMethod": "Chargement manuel",
-      "chooseLoadingMethod": "Choissez la methode de chargement de ce produit",
-      "chooseProductToLoad": "Choissez le produit a charger dans ce réservoir"
+      "chooseLoadingMethod": "Choissez la méthode de chargement de ce produit",
+      "chooseProductToLoad": "Choissez le produit à charger dans ce réservoir"
     },
     "regulation": {
       "enabled": "État de la régulation",

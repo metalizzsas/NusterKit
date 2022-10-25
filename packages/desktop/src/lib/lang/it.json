@@ -44,14 +44,22 @@
     "cycleCount": "Quantità di cicli",
     "balenaVersion": "Versione di balena",
     "nusterTurbineVersion": "Versione di nuster Core",
-    "nusterDesktopVersion": "Versione di Nuster UI"
+    "nusterDesktopVersion": "Versione di Nuster UI",
+    "ips": "Indirizzo IP macchina",
+    "macs": "Liste degli indirizzi Mac",
+    "addons": "Opzioni",
+    "network_informations": "Informazioni rete",
+    "vpn": {
+      "connected": "Connessione VPN"
+    }
   },
   "procedures": "Procedure",
   "slots": {
     "name": "Contenitori",
     "product": {
       "title": "Prodotto",
-      "done": "Scaduto"
+      "done": "Scaduto",
+      "unknownLifespan": "Scadenza non definita"
     },
     "sensors": {
       "name": "Sensori",
@@ -68,7 +76,14 @@
       "informations": "Informazioni",
       "productSeries": "Serie del prodotto",
       "productLifetime": "Durata di vita",
-      "action": "Operazioni contenitori"
+      "action": "Operazioni contenitori",
+      "chooseLoadingMethod": "Scegliete il metodo di carimento di questo prodotto",
+      "chooseProductToLoad": "Scegliete il prodoto da caricare in questo contenitore",
+      "defaultLoadMethod": "Carimento manuale",
+      "load": "Caricare un prodotto",
+      "productManagement": "Gestione del prodotto",
+      "regulationManagement": "Gestione della regolazione",
+      "unload": "Svuotare il prodotto"
     },
     "regulation": {
       "current": "Valore attuale",
@@ -76,7 +91,8 @@
       "chart": {
         "show": "Mostrare il grafico",
         "title": "Evoluzione nel tempo"
-      }
+      },
+      "enabled": "Stato della regolazione"
     }
   },
   "profile": {
@@ -175,7 +191,8 @@
       "finished": "Realizzato con successo",
       "stepOvertime": "Una tappa del ciclo ha impiegato troppo tempo. Per evitare operazioni errate, si raccomanda di riavviare la macchina.",
       "controllerTimeout": "Tempo scaduto per la connessione controlleur IO",
-      "controllerError": "Errore connessione controlleur IO"
+      "controllerError": "Errore connessione controlleur IO",
+      "controllerUnreachable": "Controllore IO indisponibile"
     },
     "end": {
       "cycle-ended": "Ciclo completato",
@@ -270,12 +287,35 @@
   "popups": {
     "manualMode": {
       "requiredParent": {
-        "message": "Un modo manuale è stato disattivato, tutti i modi manuali connessi sono stati disattivati."
+        "message": "Un modalità manuale è stato disattivato, tutti i modi manuali connessi sono stati disattivati.",
+        "title": "Errore modalità manuale "
       },
       "security": {
-        "message": "Si è registrato un errore di sicurezza: il modo manuale è stato disattivato."
+        "message": "Si è registrato un errore di sicurezza: il modo manuale è stato disattivato.",
+        "title": "Errore sicurezza modalità manuale"
       }
     }
   },
-  "true": "Sì"
+  "true": "Sì",
+  "locked": "Bloccato",
+  "products": {
+    "any": "Sconosciuto",
+    "bc": "Basecoat",
+    "cr": "CR-1",
+    "llc_ox": "LLC Ossidante",
+    "llc_rd": "Riduttore",
+    "tc": "Topcoat",
+    "usl_act": "USL Attivattore",
+    "usl_ox": "USL Ossidante",
+    "usl_rd": "USL Riduttore"
+  },
+  "renderError": "Errore visualizzazione pagina",
+  "renderErrorRedirect": "Un errore si è verificato, sarete reindirizzati tra poco",
+  "renderErrorRedirectButton": "Reindirizzamento rapido",
+  "renderErrorSub": "Peccato...",
+  "timeTrackError": {
+    "body": "La macchina non dispone di orologio interno. La durata di vita dei reaggenti puo' non corrispondere alla realtà. Si puo' connettere la macchina ad Internet per risolvere questo problema.",
+    "label": "Gestione orologio",
+    "title": "Errore nella gestione dell'orologio"
+  }
 }

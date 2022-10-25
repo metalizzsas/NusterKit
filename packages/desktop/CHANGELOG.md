@@ -1,5 +1,19 @@
 # @metalizzsas/nuster-desktop
 
+## 1.7.4
+
+### Patch Changes
+
+- fix: Italian was mixed with French translations ([#66](https://github.com/metalizzsas/NusterKit/pull/66))
+
+- i18n: lang files were not formated correctly ([#66](https://github.com/metalizzsas/NusterKit/pull/66))
+
+- i18n: finalized Italian translations ([#66](https://github.com/metalizzsas/NusterKit/pull/66))
+
+- removed: passive components ([#66](https://github.com/metalizzsas/NusterKit/pull/66))
+
+- fix: expanded Ws connection from 10s to 30s ([#66](https://github.com/metalizzsas/NusterKit/pull/66))
+
 ## 1.7.3
 
 ### Patch Changes

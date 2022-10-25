@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-typings
 
+## 1.2.2
+
+### Patch Changes
+
+- Added isNotTimeTracked settings ofr machines that do not have a RTC clock module ([#59](https://github.com/metalizzsas/NusterKit/pull/59))
+
 ## 1.2.1
 
 ### Patch Changes

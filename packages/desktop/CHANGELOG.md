@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-desktop
 
+## 1.7.2
+
+### Patch Changes
+
+- Added italiano as an available language. Still needs some work. ([#61](https://github.com/metalizzsas/NusterKit/pull/61))
+
+- Added a warning on slot product for non time tracked machines ([#59](https://github.com/metalizzsas/NusterKit/pull/59))
+
 ## 1.7.1
 
 ### Patch Changes

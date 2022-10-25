@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.2.2
+
+### Patch Changes
+
+- Added italiano as an available language. Still needs some work. ([#61](https://github.com/metalizzsas/NusterKit/pull/61))
+
 ## 1.2.1
 
 ### Patch Changes

@@ -30,23 +30,25 @@
 		},
 		{
 			key: 'machine.addons',
-			data: $machineData.machine.addons
+			data: $machineData.machine.addons,
 		},
 		{
 			key: 'machine.machineAddons',
-			data: $machineData.machine.machineAddons?.map(a => a.addonName)
+			data: $machineData.machine.machineAddons?.map((a) => a.addonName),
 		},
 		{
 			key: 'machine.cycleCount',
-			data:`${($machineData.maintenances.find((k) => k.name == 'cycleCount')?.durationActual ?? '0')}`,
+			data: `${
+				$machineData.maintenances.find((k) => k.name == 'cycleCount')?.durationActual ?? '0'
+			}`,
 		},
 		{
 			key: 'machine.nusterDesktopVersion',
-			data: `${$_('seeReleaseNotes')} ↗`,
+			data: `${$_('settings.updateNotes.main')} ↗`,
 		},
 		{
 			key: 'machine.nusterTurbineVersion',
-			data: `${$_('seeReleaseNotes')} ↗`,
+			data: `${$_('settings.updateNotes.main')} ↗`,
 		},
 		{
 			key: 'machine.balenaVersion',
@@ -69,8 +71,7 @@
 							on:click={() => {
 								if (element.key == 'machine.nusterDesktopVersion') {
 									displayDesktopReleaseNotes = true;
-								}
-								else if(element.key == 'machine.nusterTurbineVersion') {
+								} else if (element.key == 'machine.nusterTurbineVersion') {
 									displayTurbineReleaseNotes = true;
 								}
 							}}
@@ -92,8 +93,8 @@
 	</table>
 </Modalcontent>
 
-<ReleasesNotes bind:shown={displayTurbineReleaseNotes} type={"turbine"}/>
-<ReleasesNotes bind:shown={displayDesktopReleaseNotes} type={"desktop"}/>
+<ReleasesNotes bind:shown={displayTurbineReleaseNotes} type={'turbine'} />
+<ReleasesNotes bind:shown={displayDesktopReleaseNotes} type={'desktop'} />
 
 <style>
 	td {

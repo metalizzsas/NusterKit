@@ -14,21 +14,19 @@
   "close-keyboard": "Close the keyboard",
   "close-modal": "Close",
   "connect": "Connect",
+  "proceed": "Proceed",
   "machinelist": "Machine list",
   "machinelist-empty": "Nothing found here! Add a machine first ↗",
   "machinelist-add": "Add machine",
-
   "renderError": "Failed to render this page",
   "renderErrorSub": "This is unfortunate...",
   "renderErrorRedirect": "Something went wrong, you will be redirected soon.",
   "renderErrorRedirectButton": "Redirect now",
-
   "timeTrackError": {
     "label": "Time tracking",
     "title": "Time tracking issue",
     "body": "Your machine do not have a time tracking device. This is not problematic but time tracking on products loaded inside will get wrong after a machine restart. As an alternative you can let the machine connected to internet to avoid this issue."
   },
-
   "date": {
     "days": "Days",
     "day": "Day",
@@ -41,7 +39,6 @@
     "milliseconds": "Milliseconds",
     "millisecond": "Millisecond"
   },
-
   "machines": {
     "metalfog": "Metalfog",
     "smoothit": "Smoothit",
@@ -58,9 +55,6 @@
     "cr": "CR-1",
     "any": "Unknown"
   },
-
-  "seeReleaseNotes": "See release notes",
-
   "loadingScreen": {
     "connectionAttemptCount": "Connection atempt :",
     "connectionError": "Connection error, #ip is unreachable.",
@@ -81,14 +75,18 @@
     "balenaVersion": "Balena version",
     "ips": "Machine IP Addresses",
     "macs": "Machine MAC Addresses",
-    "vpn.connected": "Connected to VPN"
+    "vpn": {
+      "connected": "Connected to VPN"
+    }
   },
   "procedures": "Procedures",
   "slots": {
     "name": "Containers",
-    "product": "Product",
-    "product.done": "Out of date",
-    "product.unknownLifespan": "Lifespan undefined.",
+    "product": {
+      "title": "Product",
+      "done": "Out of date",
+      "unknownLifespan": "Lifespan undefined."
+    },
     "sensors": {
       "name": "Sensors",
       "types": {
@@ -196,7 +194,6 @@
     "presets-anex": "Secondary constructor cycles",
     "user": "User defined cycles",
     "name": "Cycles",
-    "choice.message": "Choose a cycle to begin",
     "quickstart": {
       "head": "QuickStart Cycle",
       "settings": "Cycle settings",
@@ -205,7 +202,7 @@
       "settings-edit-action": "Edit",
       "settings-delete-action": "Delete",
       "start": "Prepare cycle"
-  },
+    },
     "types": {
       "custom": "Customized cycle"
     },
@@ -232,9 +229,13 @@
       "stepOvertime": "Cycle step has take too much time to end. Strange behavior might have happened"
     },
     "modals": {
-      "watchdog": {
+      "security": {
         "title": "Security chain error",
         "message": "Cycle can't start. A security chain error has occured."
+      },
+      "security-warning": {
+        "title": "Security chain warning",
+        "message": "The cycle can start but the result might be outside expectations."
       }
     },
     "buttons": {
@@ -253,17 +254,13 @@
       "additional-info": "Additional informations"
     },
     "preparation": "Preparation",
-    "running": "Running",
-    "security": "Security",
     "choice": "Cycle choice",
-    "profile.choice": "Profile choice",
     "progression": "Cycle progression",
-    "watchdog": {
+    "security": {
       "conditions": "Starting security conditions"
     },
     "history": "Histories",
-    "histories":
-    {
+    "histories": {
       "retake": {
         "title": "Warning with retaken cycles",
         "main": "This feature is not completely implemented. Retaking cycles can have weird behavior, this should be used on critcal parts. Would you like to proceed anyways ?"
@@ -281,10 +278,8 @@
     }
   },
   "popups": {
-    "manualMode":
-    {
-      "security":
-      {
+    "manualMode": {
+      "security": {
         "title": "Manual mode security error",
         "message": "There was a security error on one of the enabled manual modes. It has been toggled off."
       },
@@ -321,12 +316,11 @@
       "hours": "Hours",
       "time": "Duration"
     },
-    "tools-used": "Tools required",
     "tools": {
-      "allen-wrench-2.5": "2.5mm Allen wrench",
+      "allen-wrench-2_5": "2.5mm Allen wrench",
       "allen-wrench-3": "3mm Allen wrench",
       "none": "No tools needed"
     }
   },
-  "proceed": "Proceed"
+  "locked": "Locked"
 }

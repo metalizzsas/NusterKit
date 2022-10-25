@@ -11,8 +11,8 @@
 	import Button from '../button.svelte';
 	import Flex from '../layout/flex.svelte';
 
-	let displayWatchdogError = false;
-	let displayWatchdogWarning = false;
+	let displaySecurityError = false;
+	let displaySecurityWarning = false;
 
 	const scResultColors: { [key: string]: { shadowColor: string; color: string } } = {
 		error: {
@@ -31,12 +31,12 @@
 
 	const preStartCycle = () => {
 		if ($machineData.cycle?.startConditions?.filter((sc) => sc.result == 'error').length > 0) {
-			displayWatchdogError = true;
+			displaySecurityError = true;
 			return;
 		}
 
 		if ($machineData.cycle?.startConditions.filter((sc) => sc.result == 'warning').length > 0) {
-			displayWatchdogWarning = true;
+			displaySecurityWarning = true;
 			return;
 		}
 
@@ -75,18 +75,18 @@
 </script>
 
 <Modal
-	title={$_('cycle.modals.watchdog.title')}
+	title={$_('cycle.modals.security.title')}
 	displayClose={false}
-	bind:shown={displayWatchdogError}
+	bind:shown={displaySecurityError}
 	buttons={[
 		{
 			text: $_('ok'),
-			color: 'bg-gray-600'	
+			color: 'bg-gray-600',
 		},
 	]}
 >
 	<div class="flex flex-col gap-3">
-		{$_('cycle.modals.watchdog.message')}
+		{$_('cycle.modals.security.message')}
 		<div class="flex flex-col gap-3">
 			{#each $machineData.cycle.startConditions.filter((s) => s.result == 'error') as sc}
 				<span
@@ -105,9 +105,9 @@
 </Modal>
 
 <Modal
-	title={$_('cycle.modals.watchdog-warning.title')}
+	title={$_('cycle.modals.security-warning.title')}
 	displayClose={false}
-	bind:shown={displayWatchdogWarning}
+	bind:shown={displaySecurityWarning}
 	buttons={[
 		{
 			text: $_('cancel'),
@@ -123,7 +123,7 @@
 	]}
 >
 	<Flex direction="col" gap={3}>
-		{$_('cycle.modals.watchdog-warning.message')}
+		{$_('cycle.modals.security-warning.message')}
 		<Flex direction="col" gap={3}>
 			{#each $machineData.cycle.startConditions.filter((s) => s.result == 'warning') as sc}
 				<span
@@ -141,7 +141,7 @@
 	</Flex>
 </Modal>
 
-<Navcontainertitle>{$_('cycle.watchdog.conditions')}</Navcontainertitle>
+<Navcontainertitle>{$_('cycle.security.conditions')}</Navcontainertitle>
 
 <Flex direction="col">
 	{#if $machineData.cycle}

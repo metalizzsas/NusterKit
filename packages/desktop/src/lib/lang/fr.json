@@ -211,8 +211,9 @@
       "user": "Fin utilisateur",
       "finished": "Terminé avec succès",
       "stepOvertime": "Une etape du cycle as mis trop de temps a se terminer. Un comportement étrange de la machine peu etre observé. Nous vous recommandons de la redémarrer.",
-      "controllerTimeout": "Delai connection controlleur IO",
-      "controllerError": "Erreur connection controlleur IO"
+      "controllerTimeout": "Delai connection controlleur IO expiré",
+      "controllerError": "Erreur connection controlleur IO",
+      "controllerUnreachable": "Controlleur IO indisponible"
     },
     "end": {
       "cycle-ended": "Le Cycle est terminé",

@@ -85,7 +85,7 @@
     "product": {
       "title": "Product",
       "done": "Out of date",
-      "unknownLifespan": "Lifespan undefined."
+      "unknownLifespan": "Lifespan undefined"
     },
     "sensors": {
       "name": "Sensors",

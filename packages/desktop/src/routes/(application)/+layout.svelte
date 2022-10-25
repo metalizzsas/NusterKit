@@ -16,7 +16,7 @@
 	import type {
 		IPopupMessage,
 		IStatusMessage,
-		IWebSocketData
+		IWebSocketData,
 	} from '@metalizzsas/nuster-typings';
 
 	let websocketState: 'closed' | 'connected' | 'connecting' = 'connecting';
@@ -32,8 +32,7 @@
 
 	onMount(() => {
 		//disabling right click if Bundled
-		if(BUNDLED == 'true')
-			window.addEventListener('contextmenu', (e) => e.preventDefault());
+		if (BUNDLED == 'true') window.addEventListener('contextmenu', (e) => e.preventDefault());
 
 		void connectWebSocket();
 	});
@@ -67,29 +66,30 @@
 
 	/** Connect to the websocket server */
 	const connectWebSocket = () => {
-
 		const protocol = window.location.protocol == 'https:' ? 'wss' : 'ws';
 
 		ws = new WebSocket(`${protocol}://${$Linker}/ws/`);
 
 		//Handle events triggered by websocket
-		ws.addEventListener("error", () => { websocketState = "closed" });
-		ws.addEventListener("close", () => { websocketState = "closed" });
-		ws.addEventListener("message", handleWebsocketData);
-		ws.addEventListener("open", () => {
+		ws.addEventListener('error', () => {
+			websocketState = 'closed';
+		});
+		ws.addEventListener('close', () => {
+			websocketState = 'closed';
+		});
+		ws.addEventListener('message', handleWebsocketData);
+		ws.addEventListener('open', () => {
 			void initI18nMachine($Linker);
 		});
 
 		//Timeout for connection
 		setTimeout(() => {
-			if(ws !== undefined && ws.readyState != WebSocket.OPEN)
-				ws?.close();
-		}, 10000);
+			if (ws !== undefined && ws.readyState != WebSocket.OPEN) ws?.close();
+		}, 30000);
 	};
-
 </script>
 
-{#if ["connecting", "closed"].includes(websocketState)}
+{#if ['connecting', 'closed'].includes(websocketState)}
 	<div
 		class="fixed flex top-0 bottom-0 left-0 right-0 justify-center items-center"
 		in:fade
@@ -142,7 +142,7 @@
 								</p>
 								<button
 									class="bg-gray-500 text-white font-semibold py-1 px-2 rounded-xl"
-									on:click={() => goto((BUNDLED != 'true') ? '/' : '/app')}
+									on:click={() => goto(BUNDLED != 'true' ? '/' : '/app')}
 								>
 									{$_(`loadingScreen.${BUNDLED != 'true' ? 'return' : 'retry'}`)}
 								</button>

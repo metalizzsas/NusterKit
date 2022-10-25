@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ISlotHydrated } from '@metalizzsas/nuster-typings/build/hydrated/slot';
-	
+
 	import { _ } from 'svelte-i18n';
 	import '$lib/app.css';
 	import Round from '../round.svelte';
@@ -8,7 +8,7 @@
 	import Label from '../label.svelte';
 	import Flex from '../layout/flex.svelte';
 
-	export let slotContent: ISlotHydrated
+	export let slotContent: ISlotHydrated;
 
 	let showModal = false;
 </script>
@@ -18,7 +18,10 @@
 <div
 	class="hover:scale-[1.005]"
 	on:click={() => {
-		if (slotContent.isProductable || slotContent.sensors.map(k => k.regulation !== undefined).reduce((c, p) => c || p)) {
+		if (
+			slotContent.isProductable ||
+			slotContent.sensors.map((k) => k.regulation !== undefined).reduce((c, p) => c || p)
+		) {
 			showModal = !showModal;
 		}
 	}}
@@ -34,9 +37,8 @@
 			{$_('slots.types.' + slotContent.name)}
 		</span>
 		{#if slotContent.isProductable}
-			<Label class="flex flex-row gap-1 items-center" color={"bg-white text-zinc-800"}>
-				
-				{#if slotContent.productData?.lifetimeRemaining !== undefined && slotContent.productData?.loadedProductType != "any"}
+			<Label class="flex flex-row gap-1 items-center" color={'bg-white text-zinc-800'}>
+				{#if slotContent.productData?.lifetimeRemaining !== undefined && slotContent.productData?.loadedProductType != 'any'}
 					<span>{$_(`products.${slotContent.productData.loadedProductType}`)}</span>
 					{#if slotContent.productData?.lifetimeRemaining > 0}
 						<svg
@@ -64,7 +66,7 @@
 						</svg>
 					{/if}
 				{:else}
-					<span>{$_('slots.product')}</span>
+					<span>{$_('slots.product.title')}</span>
 					<svg
 						id="glyphicons-basic"
 						xmlns="http://www.w3.org/2000/svg"
@@ -83,7 +85,7 @@
 
 	{#if slotContent.sensors.length > 0}
 		<div class="bg-white p-3 rounded-b-2xl">
-			<Flex direction={"col"} gap={3}>
+			<Flex direction={'col'} gap={3}>
 				{#each slotContent.sensors as s}
 					<div
 						class="bg-gray-300 pr-1 pl-5 py-1 rounded-full text-neutral-700 font-semibold flex flex-row justify-between items-center"

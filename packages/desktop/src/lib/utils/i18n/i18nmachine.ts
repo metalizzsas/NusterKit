@@ -34,7 +34,7 @@ export async function initI18nMachine(ip: string)
             if(response.status == 200)
             {
                 response.json().then((content) => {
-                    addMessages("fr", content);
+                    addMessages("it", content);
                 }).catch(() => {
                     throw new Error("Failed to add IT language file");
                 })

@@ -39,7 +39,10 @@
 	$useNavContainer = false;
 
 	onMount(() => {
-		$navTitle = [$_('cycle.button'), $_(`cycle.names.${$machineData.cycle?.name || 'default'}`)];
+		$navTitle = [
+			$_('cycle.button'),
+			$_(`cycle.names.${$machineData.cycle?.name || 'default'}`),
+		];
 		if ($machineData.cycle?.profile) {
 			$navTitle = [
 				...$navTitle,
@@ -63,10 +66,10 @@
 				{/if}
 			</Flex>
 		</Navcontainer>
-	
+
 		<Navcontainer class="grow self-start">
 			<Navcontainertitle>{$_('cycle.steps.status')}</Navcontainertitle>
-	
+
 			<Flex direction="col" gap={2}>
 				{#if $machineData.cycle.status.progress != -1}
 					<Label>
@@ -89,8 +92,10 @@
 						{$_('cycle.eta.estimated')}:
 						<span class="dark:text-indigo-400 text-indigo-600 font-semibold">
 							{#if $machineData.cycle.status.estimatedRunTime !== undefined}
-								{@const done = parseTime($machineData.cycle.status.estimatedRunTime)}
-	
+								{@const done = parseTime(
+									$machineData.cycle.status.estimatedRunTime,
+								)}
+
 								{#if done.hours > 0}
 									{done.hours}h
 								{/if}
@@ -109,13 +114,10 @@
 					</Label>
 				{/if}
 				{#if $machineData.machine.settings?.isPrototype == true && $machineData.cycle.currentStepIndex < $machineData.cycle.steps.length - 1}
-					<Button color={'bg-orange-500'} on:click={nextStep}>
-						{$_('cycle.buttons.next')}
-					</Button>
+					<Button color={'bg-orange-500'} on:click={nextStep}>Next step</Button>
 				{/if}
 				<Button color={'bg-red-500'} on:click={stopCycle}>{$_('cycle.buttons.end')}</Button>
 			</Flex>
 		</Navcontainer>
 	</Flex>
 {/if}
-

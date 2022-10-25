@@ -1,274 +1,321 @@
 {
-    "ok": "Ok",
-    "nok": "Ko",
-    "yes": "SI ✓",
-    "no": "NO ✗",
-    "proceed": "Proseguire",
-    "back": "Indietro",
-    "cancel": "Annullare",
-    "binary_true": "Vero ✓",
-    "binary_false": "Falso ✗",
-    "present": "Presente ✓",
-    "missing": "Assente ✗",
-    "close-keyboard": "Chiudere la tastiera",
-    "close-modal": "Chiudere",
-    "connect": "Connessione",
-    "machinelist": "Elenco delle macchine",
-    "machinelist-empty": "Non c'è niente qui ! Aggiungere una macchina",
-    "machinelist-add": "Aggiungere una macchina",
-    "date": {
-        "days": "Giorni",
-        "day": "Giorno",
-        "hours": "Ore",
-        "hour": "Ora",
-        "minutes": "Minuti",
-        "minute": "Minuto",
-        "seconds": "Secondi",
-        "second": "Secondo",
-        "milliseconds": "Millisecondi",
-        "millisecond": "Millisecondo"
-    },
-    "loadingScreen": {
-        "connectionAttemptCount": "Prove di connessione :",
-        "connectionError": "Errore di connessione, #ip non accessibile.",
-        "retry": "Provare di nuovo",
-        "return": "Indietro"
-    },
-    "machine": {
-        "informations": "Informazioni macchina",
-        "model": "Modello",
-        "variant": "Variante",
-        "revision": "Revisione",
-        "serial": "Numero di serie",
-        "cycleCount": "Quantità di cicli",
-        "nusterVersion": "Versione di nuster",
-        "balenaVersion": "Versione di balena"
-    },
-    "procedures": "Procedure",
-    "slots": {
-        "name": "Contenitori",
-        "product": "Prodotto",
-        "product.done": "Scaduto",
-        "sensors": {
-            "name": "Sensori",
-            "types": {
-                "level-n": "Limite",
-                "level-min-n": "Limite min.",
-                "level-max-n": "Limite max.",
-                "level-np": "Presenza",
-                "level-a": "Livelli",
-                "temperature": "Temperatura"
-            }
-        },
-        "modal": {
-            "informations": "Informazioni",
-            "productSeries": "Serie del prodotto",
-            "productLifetime": "Durata di vita",
-            "action": "Operazioni contenitori"
-        }
-    },
-    "profile": {
-        "button": "Profili",
-        "list": "Lista dei profili",
-        "modification-date": "Data ultima modifica",
-        "name": "Nome del profilo",
-        "globals": "Informazioni globali",
-        "settings": "Parametri del profilo",
-        "premades": {
-            "true": "Profili costruttore",
-            "false": "Profili utente"
-        },
-        "buttons": {
-            "add": "Aggiungere un nuovo profilo"
-        },
-        "modals": {
-            "create": {
-                "title": "Nuovo profilo",
-                "message": "Scegliere il modello di profilo"
-            },
-            "copy": {
-                "title": "Copia del profilo {profile.name}",
-                "message": "Scegliere un nuovo nome di profilo per {profile.name}"
-            },
-            "delete": {
-                "title": "Eliminare {profile.name}",
-                "message": "Conferma eliminare profilo {profile.name} ?"
-            },
-            "save": {
-                "title": "Salvare {profile.name}",
-                "message": "Conferma salvare {profile.name} ?",
-                "name-short": "Il nome scelto per il profilo non è valido. Inserire almeno 1 carattere"
-            }
-        },
-        "rows": {
-            "enabled": "Attivato",
-            "speed": "Velocità",
-            "duration": "Durata",
-            "count": "Numero di ripetizioni",
-            "timeOn": "Tempo attivato",
-            "timeOff": "Tempo disattivato"
-        }
-    },
-    "passives": {
-        "list": "Regole",
-        "settings": "Parametri",
-        "current": "Valore attuale",
-        "target": "Valore ricercato",
-        "chart": {
-            "show": "Mostrare il grafico",
-            "title": "Evoluzione della temperatura in base al tempo."
-        }
-    },
-    "settings": {
-        "main": "Parametri",
-        "enable-dark-mode": "Modalità scuro",
-        "layout-format": "Visualizzazione semplificata",
-        "language": "Lingua",
-        "restart": "Riavviare la macchina",
-        "updateNotes": {
-            "main": "Note di versione",
-            "firmware": "Firmware",
-            "ui": "Interfaccia utente"
-        },
-        "updateGoing": {
-            "desc": "L'aggiornamento è in corso di installazione, grazie di attendere qualche istante.",
-            "title": "Aggiornamento"
-        },
-        "triggerUpdate": "Installare l'aggiornamento",
-        "updateGoing.title": "Aggiornamento",
-        "updateGoing.desc": "Installazione aggiornamento, grazie di attendere...",
-        "updateProgress": "Scaricamento aggiornamento",
-        "reload-nuster": "Ricaricare l'interfaccia"
-    },
-    "cycle": {
-        "eta": {
-            "null": "Sconosciuto",
-            "remaining": "Tempo rimanente",
-            "estimated": "Tempo stimato"
-        },
-        "button": "Ciclo",
-        "name": "Cicli",
-        "progression": "Progressione",
-        "presets": "Cicli costruttore",
-        "presets-anex": "Cicli secondari costruttore",
-        "user": "Cicli utente",
-        "steps": {
-            "title": "Tappe del ciclo",
-            "status": "Statuto del ciclo",
-            "additional-info": "Informazioni aggiuntive"
-        },
-        "quickstart": {
-            "head": "Ciclo QuickStart",
-            "settings": "Parametri del ciclo",
-            "settings-save": "Cicli favoriti",
-            "settings-save-action": "Salvare",
-            "settings-edit-action": "Modificare",
-            "settings-delete-action": "Eliminare",
-            "start": "Preparare il ciclo"
-        },
-        "types": {
-            "custom": "Ciclo personalizzato"
-        },
-        "endreasons": {
-            "user": "Fine utente",
-            "finished": "Realizzato con successo",
-            "stepOvertime": "Una tappa del ciclo ha impiegato troppo tempo. Per evitare operazioni errate, si raccomanda di riavviare la macchina.",
-            "controllerTimeout": "Tempo scaduto per la connessione controlleur IO",
-            "controllererror": "Errore connessione controlleur IO"
-        },
-        "end": {
-            "cycle-ended": "Ciclo completato",
-            "cycle-ended-reason": "Motivo dell'arresto",
-            "cycle-rating-lead": "Dare un voto al ciclo",
-            "cycle-rating-text": "Il vostro voto permetterà di migliorare l'esperienza utente.",
-            "cycle-rating-text2": "Il vostro voto permetterà altresi di filtrare meglio i dati storici del ciclo.",
-            "cycle-duration": "Durata del ciclo"
-        },
-        "modals": {
-            "watchdog": {
-                "title": "Errore sicurezza",
-                "message": "Il ciclo non puo' iniziare. Un errore nei parametri di configurazione è presente."
-            },
-            "watchdog-warning": {
-                "title": "Errore di sicurezza",
-                "message": "Il ciclo puo' iniziare tuttavia certi elementi possono interferire con il corretto svolgimento del ciclo."
-            }
-        },
-        "custom": {
-            "select": {
-                "cycle": "Scelta del ciclo",
-                "profile": "Profilo utilizzato"
-            }
-        },
-        "buttons": {
-            "prepare": "Preparare il ciclo",
-            "end": "Interrompere il ciclo",
-            "finish": "Finire il ciclo",
-            "start": "Iniziare il ciclo",
-            "resume": "Riprendere il ciclo",
-            "complete": "Terminare il ciclo",
-            "cancel": "Annullare il ciclo",
-            "nextStep": "Passare questa tappa"
-        },
-        "preparation": "Preparazione del ciclo",
-        "choice": "Scelta del ciclo",
-        "profile.choice": "Scelta del profilo",
-        "watchdog": "Catena di sicurezza",
-        "watchdog.conditions": "Condizioni di sicurezza",
-        "history": "Dati storici",
-        "histories": {
-            "retake": {
-                "title": "Informazioni sui cicli rilanciati.",
-                "main": "Questa operazione non è raccomandata per cicli di produzione. Si vuole continuare ?"
-            }
-        }
-    },
-    "gates": {
-        "name": "Controlli I/O",
-        "bus": {
-            "in": "Ingressi",
-            "out": "Uscite"
-        },
-        "categories": {
-            "generic": "Generico"
-        }
-    },
-    "manual": {
-        "button": "Modalità manuale",
-        "list": "Modalità manuali",
-        "warning": "Le modalità manuali permettono di utilizzare la macchina senza parametri. Attenzione: le condizioni di sicurezza sono disattivate.",
-        "incompatibilities": "Incompatibilità",
-        "requires": "Necessita",
-        "categories": {
-            "generic": "Generico"
-        }
-    },
-    "maintenance": {
-        "list": "Lista operazioni di manutenzione",
-        "description": "Descrizione",
-        "duration": "Durata",
-        "percentage": "Avanzamento",
-        "procedure": "Procedura di manutenzione",
-        "procedure.next": "Seguente",
-        "procedure.previous": "Precedente",
-        "procedure.reset": "Validare l'operazione di manutenzione",
-        "unity": {
-            "cycle": "Cicli",
-            "hours": "Ore",
-            "time": "Durata"
-        },
-        "tools-used": "Attrezzi necessari",
-        "tools": {
-            "allen-wrench-2.5": "Chiave allen 2.5mm",
-            "allen-wrench-3": "Chiave allen 3mm",
-            "none": "Nessun attrezzo"
-        }
-    },
-    "message": {
-        "modal": {
-            "title": "Messaggio",
-            "manual-mode-watchdog-error": "Si è registrato un errore di sicurezza: il modo manuale è stato disattivato.",
-            "manual-mode-required-parent-toggle-off": "Un modo manuale è stato disattivato, tutti i modi manuali connessi sono stati disattivati."
-        }
+  "ok": "Ok",
+  "nok": "Ko",
+  "yes": "SI ✓",
+  "no": "NO ✗",
+  "false": "No",
+  "proceed": "Proseguire",
+  "back": "Indietro",
+  "cancel": "Annullare",
+  "binary_true": "Vero ✓",
+  "binary_false": "Falso ✗",
+  "present": "Presente ✓",
+  "missing": "Assente ✗",
+  "close-keyboard": "Chiudere la tastiera",
+  "close-modal": "Chiudere",
+  "connect": "Connessione",
+  "machinelist": "Elenco delle macchine",
+  "machinelist-empty": "Non c'è niente qui ! Aggiungere una macchina",
+  "machinelist-add": "Aggiungere una macchina",
+  "date": {
+    "days": "Giorni",
+    "day": "Giorno",
+    "hours": "Ore",
+    "hour": "Ora",
+    "minutes": "Minuti",
+    "minute": "Minuto",
+    "seconds": "Secondi",
+    "second": "Secondo",
+    "milliseconds": "Millisecondi",
+    "millisecond": "Millisecondo"
+  },
+  "loadingScreen": {
+    "connectionAttemptCount": "Prove di connessione :",
+    "connectionError": "Errore di connessione, #ip non accessibile.",
+    "retry": "Provare di nuovo",
+    "return": "Indietro"
+  },
+  "machine": {
+    "informations": "Informazioni macchina",
+    "model": "Modello",
+    "variant": "Variante",
+    "revision": "Revisione",
+    "serial": "Numero di serie",
+    "cycleCount": "Quantità di cicli",
+    "balenaVersion": "Versione di balena",
+    "nusterTurbineVersion": "Versione di nuster Core",
+    "nusterDesktopVersion": "Versione di Nuster UI",
+    "ips": "Indirizzo IP macchina",
+    "macs": "Liste degli indirizzi Mac",
+    "addons": "Opzioni",
+    "network_informations": "Informazioni rete",
+    "vpn": {
+      "connected": "Connessione VPN"
     }
+  },
+  "procedures": "Procedure",
+  "slots": {
+    "name": "Contenitori",
+    "product": {
+      "title": "Prodotto",
+      "done": "Scaduto",
+      "unknownLifespan": "Scadenza non definita"
+    },
+    "sensors": {
+      "name": "Sensori",
+      "types": {
+        "level-n": "Limite",
+        "level-min-n": "Limite min.",
+        "level-max-n": "Limite max.",
+        "level-np": "Presenza",
+        "level-a": "Livelli",
+        "temperature": "Temperatura"
+      }
+    },
+    "modal": {
+      "informations": "Informazioni",
+      "productSeries": "Serie del prodotto",
+      "productLifetime": "Durata di vita",
+      "action": "Operazioni contenitori",
+      "chooseLoadingMethod": "Scegliete il metodo di carimento di questo prodotto",
+      "chooseProductToLoad": "Scegliete il prodoto da caricare in questo contenitore",
+      "defaultLoadMethod": "Carimento manuale",
+      "load": "Caricare un prodotto",
+      "productManagement": "Gestione del prodotto",
+      "regulationManagement": "Gestione della regolazione",
+      "unload": "Svuotare il prodotto"
+    },
+    "regulation": {
+      "current": "Valore attuale",
+      "target": "Valore ricercato",
+      "chart": {
+        "show": "Mostrare il grafico",
+        "title": "Evoluzione nel tempo"
+      },
+      "enabled": "Stato della regolazione"
+    }
+  },
+  "profile": {
+    "button": "Profili",
+    "list": "Lista dei profili",
+    "modification-date": "Data ultima modifica",
+    "name": "Nome del profilo",
+    "globals": "Informazioni globali",
+    "settings": "Parametri del profilo",
+    "premades": {
+      "true": "Profili costruttore",
+      "false": "Profili utente"
+    },
+    "buttons": {
+      "add": "Aggiungere un nuovo profilo"
+    },
+    "modals": {
+      "create": {
+        "title": "Nuovo profilo",
+        "message": "Scegliere il modello di profilo"
+      },
+      "copy": {
+        "title": "Copia del profilo {profile.name}",
+        "message": "Scegliere un nuovo nome di profilo per {profile.name}"
+      },
+      "delete": {
+        "title": "Eliminare {profile.name}",
+        "message": "Conferma eliminare profilo {profile.name} ?"
+      },
+      "save": {
+        "title": "Salvare {profile.name}",
+        "message": "Conferma salvare {profile.name} ?",
+        "name-short": "Il nome scelto per il profilo non è valido. Inserire almeno 1 carattere"
+      }
+    },
+    "rows": {
+      "enabled": "Attivato",
+      "speed": "Velocità",
+      "duration": "Durata",
+      "count": "Numero di ripetizioni",
+      "timeOn": "Tempo attivato",
+      "timeOff": "Tempo disattivato"
+    },
+    "defaultName": "Nome profilo predefinito"
+  },
+  "settings": {
+    "main": "Parametri",
+    "enable-dark-mode": "Modalità scuro",
+    "layout-format": "Visualizzazione semplificata",
+    "language": "Lingua",
+    "restart": "Riavviare la macchina",
+    "updateNotes": {
+      "main": "Note di versione",
+      "firmware": "Firmware",
+      "ui": "Interfaccia utente"
+    },
+    "triggerUpdate": "Installare l'aggiornamento",
+    "updateGoing": {
+      "title": "Aggiornamento",
+      "desc": "Installazione aggiornamento, grazie di attendere..."
+    },
+    "updateProgress": "Scaricamento aggiornamento",
+    "reload-nuster": "Ricaricare l'interfaccia"
+  },
+  "cycle": {
+    "eta": {
+      "null": "Sconosciuto",
+      "remaining": "Tempo rimanente",
+      "estimated": "Tempo stimato"
+    },
+    "button": "Ciclo",
+    "name": "Cicli",
+    "progression": "Progressione",
+    "presets": "Cicli costruttore",
+    "presets-anex": "Cicli secondari costruttore",
+    "user": "Cicli utente",
+    "steps": {
+      "title": "Tappe del ciclo",
+      "status": "Statuto del ciclo",
+      "additional-info": "Informazioni aggiuntive"
+    },
+    "quickstart": {
+      "head": "Ciclo QuickStart",
+      "settings": "Parametri del ciclo",
+      "settings-save": "Cicli favoriti",
+      "settings-save-action": "Salvare",
+      "settings-edit-action": "Modificare",
+      "settings-delete-action": "Eliminare",
+      "start": "Preparare il ciclo"
+    },
+    "types": {
+      "custom": "Ciclo personalizzato"
+    },
+    "endreasons": {
+      "user": "Fine utente",
+      "finished": "Realizzato con successo",
+      "stepOvertime": "Una tappa del ciclo ha impiegato troppo tempo. Per evitare operazioni errate, si raccomanda di riavviare la macchina.",
+      "controllerTimeout": "Tempo scaduto per la connessione controlleur IO",
+      "controllerError": "Errore connessione controlleur IO",
+      "controllerUnreachable": "Controllore IO indisponibile"
+    },
+    "end": {
+      "cycle-ended": "Ciclo completato",
+      "cycle-ended-reason": "Motivo dell'arresto",
+      "cycle-rating-lead": "Dare un voto al ciclo",
+      "cycle-rating-text": "Il vostro voto permetterà di migliorare l'esperienza utente.",
+      "cycle-rating-text2": "Il vostro voto permetterà altresi di filtrare meglio i dati storici del ciclo.",
+      "cycle-duration": "Durata del ciclo"
+    },
+    "modals": {
+      "security": {
+        "title": "Errore sicurezza",
+        "message": "Il ciclo non puo' iniziare. Un errore nei parametri di configurazione è presente."
+      },
+      "security-warning": {
+        "title": "Errore di sicurezza",
+        "message": "Il ciclo puo' iniziare tuttavia certi elementi possono interferire con il corretto svolgimento del ciclo."
+      }
+    },
+    "custom": {
+      "select": {
+        "cycle": "Scelta del ciclo",
+        "profile": "Profilo utilizzato"
+      }
+    },
+    "buttons": {
+      "prepare": "Preparare il ciclo",
+      "end": "Interrompere il ciclo",
+      "finish": "Finire il ciclo",
+      "start": "Iniziare il ciclo",
+      "resume": "Riprendere il ciclo",
+      "complete": "Terminare il ciclo",
+      "cancel": "Annullare il ciclo",
+      "nextStep": "Passare questa tappa"
+    },
+    "preparation": "Preparazione del ciclo",
+    "choice": "Scelta del ciclo",
+    "security": {
+      "conditions": "Condizioni di sicurezza"
+    },
+    "history": "Dati storici",
+    "histories": {
+      "retake": {
+        "title": "Informazioni sui cicli rilanciati.",
+        "main": "Questa operazione non è raccomandata per cicli di produzione. Si vuole continuare ?"
+      }
+    }
+  },
+  "gates": {
+    "name": "Controlli I/O",
+    "bus": {
+      "in": "Ingressi",
+      "out": "Uscite"
+    },
+    "categories": {
+      "generic": "Generico"
+    }
+  },
+  "manual": {
+    "button": "Modalità manuale",
+    "list": "Modalità manuali",
+    "warning": "Le modalità manuali permettono di utilizzare la macchina senza parametri. Attenzione: le condizioni di sicurezza sono disattivate.",
+    "incompatibilities": "Incompatibilità",
+    "requires": "Necessita",
+    "categories": {
+      "generic": "Generico"
+    }
+  },
+  "maintenance": {
+    "list": "Lista operazioni di manutenzione",
+    "description": "Descrizione",
+    "duration": "Durata",
+    "percentage": "Avanzamento",
+    "procedure": {
+      "title": "Procedura di manutenzione",
+      "tools": "Attrezzi necessari",
+      "next": "Seguente",
+      "previous": "Precedente",
+      "reset": "Validare l'operazione di manutenzione"
+    },
+    "unity": {
+      "cycle": "Cicli",
+      "hours": "Ore",
+      "time": "Durata"
+    },
+    "tools": {
+      "allen-wrench-2_5": "Chiave allen 2.5mm",
+      "allen-wrench-3": "Chiave allen 3mm",
+      "none": "Nessun attrezzo"
+    }
+  },
+  "popups": {
+    "manualMode": {
+      "requiredParent": {
+        "message": "Un modalità manuale è stato disattivato, tutti i modi manuali connessi sono stati disattivati.",
+        "title": "Errore modalità manuale "
+      },
+      "security": {
+        "message": "Si è registrato un errore di sicurezza: il modo manuale è stato disattivato.",
+        "title": "Errore sicurezza modalità manuale"
+      }
+    }
+  },
+  "true": "Sì",
+  "locked": "Bloccato",
+  "products": {
+    "any": "Sconosciuto",
+    "bc": "Basecoat",
+    "cr": "CR-1",
+    "llc_ox": "LLC Ossidante",
+    "llc_rd": "Riduttore",
+    "tc": "Topcoat",
+    "usl_act": "USL Attivattore",
+    "usl_ox": "USL Ossidante",
+    "usl_rd": "USL Riduttore"
+  },
+  "renderError": "Errore visualizzazione pagina",
+  "renderErrorRedirect": "Un errore si è verificato, sarete reindirizzati tra poco",
+  "renderErrorRedirectButton": "Reindirizzamento rapido",
+  "renderErrorSub": "Peccato...",
+  "timeTrackError": {
+    "body": "La macchina non dispone di orologio interno. La durata di vita dei reaggenti puo' non corrispondere alla realtà. Si puo' connettere la macchina ad Internet per risolvere questo problema.",
+    "label": "Gestione orologio",
+    "title": "Errore nella gestione dell'orologio"
+  }
 }

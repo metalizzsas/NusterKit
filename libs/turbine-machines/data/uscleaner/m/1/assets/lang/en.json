@@ -1,7 +1,7 @@
 {
     "slots": {
         "types": {
-            "bac": "Bac"
+            "bac": "Container"
         },
         "colors": {
             "bac": "from-blue-800 to-blue-900"
@@ -27,8 +27,8 @@
     },
     "cycle": {
         "endreasons": {
-            "security-emergency-stop": "Boutton d'arret d'urgence déclenché",
-            "security-cover-closed": "Couvercle ouvert"
+            "security-emergency-stop": "Emergency stop button triggered",
+            "security-cover-closed": "Cover openned"
         },
         "names": {
             "default": "Main USCleaner cycle"

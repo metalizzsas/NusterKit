@@ -75,7 +75,7 @@
 									<div
 										class="absolute flex flex-row bottom-5 rounded-xl overflow-clip ring-1 ring-neutral-300"
 									>
-										{#each Array<number>(step.media.length) as indeximge}
+										{#each [...Array(step.media.length).keys()] as indeximge}
 											<div on:click={() => (procedureImageIndex = indeximge)}>
 												<div
 													class="h-10 aspect-square bg-white text-zinc-800 text-xl flex flex-row items-center justify-center border-r-[1px] border-neutral-300 {procedureImageIndex !=

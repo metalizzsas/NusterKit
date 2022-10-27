@@ -100,7 +100,7 @@
 			if (QSProfile) $profile.name = 'Quickstart';
 
 			const url = `//${$Linker}/api/v1/cycle/default/${(QSProfile ? '' : ($profile._id || ''))}`;
-			const body = QSProfile ? JSON.stringify(profile) : '';
+			const body = QSProfile ? JSON.stringify($profile) : '';
 
 			const startRequest = await fetch(url, {
 				method: 'POST',

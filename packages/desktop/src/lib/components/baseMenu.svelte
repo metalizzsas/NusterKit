@@ -1,19 +1,19 @@
 <script lang="ts">
+	import { machineData } from '$lib/utils/stores/store';
+	import { _ } from 'svelte-i18n';
+	import Grid from './layout/grid.svelte';
 
-    import { machineData } from "$lib/utils/stores/store";
-    import { _ } from "svelte-i18n";
-    import { goto } from "$app/navigation";
-	import Grid from "./layout/grid.svelte";
-
-    export let stacked = false;
-
+	export let stacked = false;
 </script>
 
-<div class="rounded-xl p-3 bg-neutral-300 dark:bg-neutral-800 {(stacked) ? 'mb-auto' : 'mt-6'}">
-    <Grid cols={(stacked ? 1 : ($machineData.machine.settings?.profilesMasked === true) ? 2 : 3)} gap={4}>
+<div class="rounded-xl p-3 bg-neutral-300 dark:bg-neutral-800 {stacked ? 'mb-auto' : 'mt-6'}">
+	<Grid
+		cols={stacked ? 1 : $machineData.machine.settings?.profilesMasked === true ? 2 : 3}
+		gap={4}
+	>
 		{#if stacked == false}
-			<div
-				on:click={() => goto('app/cycle')}
+			<a
+				href="app/cycle"
 				class="flex flex-row items-center justify-center gap-4 bg-gradient-to-br from-indigo-500 to-indigo-600 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:skew-y-[0.25deg] duration-200 ease-in-out cursor-pointer"
 			>
 				<div class="flex flex-row self-center gap-2 justify-center w-full">
@@ -21,10 +21,8 @@
 						id="glyphicons-basic"
 						xmlns="http://www.w3.org/2000/svg"
 						viewBox="0 0 32 32"
-						class="h-5 w-5 fill-white self-center {$machineData.cycle !== undefined &&
-						$machineData.cycle.status.mode == 'started'
-							? 'animate-spin2'
-							: ''}"
+						class="h-5 w-5 fill-white self-center"
+						class:animate-spin2={$machineData.cycle !== undefined && $machineData.cycle.status.mode == 'started'}
 					>
 						<path
 							id="roundabout"
@@ -32,23 +30,22 @@
 						/>
 					</svg>
 					{$_('cycle.button')}
-	
+
 					{#if $machineData.cycle !== undefined}
 						<span
 							class="grid grid-cols-1 h-3 w-3 items-center justify-items-center ml-5 self-center"
 						>
 							<span
-								class="relative inline-flex rounded-full h-3 w-3 {$machineData.cycle
-									.status.mode != 'ended'
-									? 'bg-emerald-500'
-									: 'bg-red-500'}"
+								class="relative inline-flex rounded-full h-3 w-3"
+								class:bg-emerald-500={$machineData.cycle.status.mode != 'ended'}
+								class:bg-red-500={$machineData.cycle.status.mode == 'ended'}
 								style="grid-area: 1/1/1/1;"
 							/>
 							<span
-								class="animate-ping relative inline-flex h-3 w-3 rounded-full {$machineData
-									.cycle.status.mode != 'ended'
-									? 'bg-emerald-400'
-									: 'bg-red-400'} opacity-75"
+								class="animate-ping relative inline-flex h-3 w-3 rounded-full"
+								class:bg-emerald-400={$machineData.cycle.status.mode != 'ended'}
+								class:bg-red-400={$machineData.cycle.status.mode == 'ended'}
+								class:opacity-75={$machineData.cycle.status.mode == 'ended'}
 								style="grid-area: 1/1/1/1;"
 							/>
 						</span>
@@ -63,11 +60,11 @@
 						{/if}
 					{/if}
 				</div>
-			</div>
+			</a>
 		{/if}
 		{#if $machineData.machine.settings?.profilesMasked !== true}
-			<div
-				on:click={() => goto('/app/profiles')}
+			<a
+				href="app/profiles"
 				class=" bg-gradient-to-br from-indigo-500 to-indigo-600 py-3 px-5 text-white font-semibold rounded-xl text-center transition-all hover:-skew-y-[0.25deg] duration-200 ease-in-out cursor-pointer"
 			>
 				<div class="flex flex-row self-center gap-2 justify-center w-full">
@@ -85,10 +82,10 @@
 
 					{$_('profile.button')}
 				</div>
-			</div>
+			</a>
 		{/if}
-		<div
-			on:click={() => goto('/app/advanced')}
+		<a
+			href="app/advanced"
 			class=" bg-gradient-to-br from-indigo-500 to-indigo-600 py-3 px-5 text-white  font-semibold rounded-xl text-center transition-all hover:skew-y-[0.25deg] duration-200 ease-in-out cursor-pointer"
 		>
 			<div class="flex flex-row self-center gap-2 justify-center w-full">
@@ -105,8 +102,8 @@
 				</svg>
 				{$_('manual.button')}
 			</div>
-		</div>
-    </Grid>
+		</a>
+	</Grid>
 </div>
 
 <style>

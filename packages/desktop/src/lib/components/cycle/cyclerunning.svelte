@@ -67,14 +67,14 @@
 			</Flex>
 		</Navcontainer>
 
-		<Navcontainer class="grow self-start">
-			<Navcontainertitle>{$_('cycle.steps.status')}</Navcontainertitle>
-
-			<Flex direction="col" gap={2}>
-				{#if $machineData.cycle.status.progress != -1}
-					<Label>
-						{$_('cycle.eta.remaining')}:
-						<span class="dark:text-indigo-400 text-indigo-600 font-semibold">
+		<Flex direction="col" class="grow self-start">
+			<Navcontainer>
+				<Navcontainertitle>{$_('cycle.steps.status')}</Navcontainertitle>
+	
+				<Flex direction="col" gap={2}>
+					{#if $machineData.cycle.status.progress != -1}
+						<Label>
+							<span class="font-medium">{$_('cycle.eta.remaining')}:</span>
 							{#if $machineData.cycle.status.estimatedRunTime !== undefined}
 								{@const done = parseTime(
 									$machineData.cycle.status.startDate / 1000 +
@@ -86,11 +86,9 @@
 								{/if}
 								{done.minutes}m {done.seconds}s
 							{/if}
-						</span>
-					</Label>
-					<Label>
-						{$_('cycle.eta.estimated')}:
-						<span class="dark:text-indigo-400 text-indigo-600 font-semibold">
+						</Label>
+						<Label>
+							<span class="font-medium">{$_('cycle.eta.estimated')}:</span>
 							{#if $machineData.cycle.status.estimatedRunTime !== undefined}
 								{@const done = parseTime(
 									$machineData.cycle.status.estimatedRunTime,
@@ -103,21 +101,31 @@
 									? done.seconds
 									: 0}s
 							{/if}
-						</span>
-					</Label>
-				{:else}
-					<Label>
-						{$_('cycle.eta.estimated')}:
-						<span class="dark:text-indigo-400 text-indigo-600 font-semibold">
-							{$_('cycle.eta.null')}
-						</span>
-					</Label>
-				{/if}
-				{#if $machineData.machine.settings?.isPrototype == true && $machineData.cycle.currentStepIndex < $machineData.cycle.steps.length - 1}
-					<Button color={'bg-orange-500'} on:click={nextStep}>Next step</Button>
-				{/if}
-				<Button color={'bg-red-500'} on:click={stopCycle}>{$_('cycle.buttons.end')}</Button>
-			</Flex>
-		</Navcontainer>
+						</Label>
+					{:else}
+						<Label>
+							<span class="font-medium">{$_('cycle.eta.estimated')}:</span> {$_('cycle.eta.null')}
+						</Label>
+					{/if}
+					{#if $machineData.machine.settings?.isPrototype == true && $machineData.cycle.currentStepIndex < $machineData.cycle.steps.length - 1}
+						<Button color={'bg-orange-500'} on:click={nextStep}>Next step</Button>
+					{/if}
+					<Button color={'bg-red-500'} on:click={stopCycle}>{$_('cycle.buttons.end')}</Button>
+				</Flex>
+			</Navcontainer>
+
+			{#if $machineData.cycle.additionalInfo}
+				<Navcontainer class="mt-0">
+					<Navcontainertitle>{$_('cycle.steps.additional-info')}</Navcontainertitle>
+
+					<Flex direction="col" gap={3}>
+						{#each $machineData.cycle.additionalInfo as info}
+							<Label><span class="font-medium">{$_(`gates.names.${info.value.name}`)}:</span> {info.value.value} {info.value.unity}</Label>
+						{/each}
+					</Flex>
+					
+				</Navcontainer>	
+			{/if}
+		</Flex>
 	</Flex>
 {/if}

@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.7.5
+
+### Patch Changes
+
+- fix: retry & return buttons were not working on connect layout ([#71](https://github.com/metalizzsas/NusterKit/pull/71))
+
 ## 1.7.4
 
 ### Patch Changes

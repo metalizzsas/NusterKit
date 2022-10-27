@@ -1,5 +1,14 @@
 # @metalizzsas/nuster-turbine
 
+## 1.7.4
+
+### Patch Changes
+
+- config is now editable when machine is running ([#75](https://github.com/metalizzsas/NusterKit/pull/75))
+
+- Updated dependencies [[`726ff02`](https://github.com/metalizzsas/NusterKit/commit/726ff0288cd6317dcfac29b64ff5e6b6e8e2a486)]:
+  - @metalizzsas/nuster-typings@1.2.3
+
 ## 1.7.3
 
 ### Patch Changes

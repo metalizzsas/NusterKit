@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/Kworz/NusterKit/libs/turbine-machines#readme",
   "devDependencies": {
-    "@metalizzsas/nuster-typings": "1.2.2",
+    "@metalizzsas/nuster-typings": "1.2.3",
     "@types/jest-json-schema": "^6.1.0",
     "@types/node": "^18.7.22",
     "jest": "^27.5.1",

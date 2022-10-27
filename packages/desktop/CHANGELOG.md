@@ -1,5 +1,15 @@
 # @metalizzsas/nuster-desktop
 
+## 1.7.6
+
+### Patch Changes
+
+- config is now editable when machine is running ([#75](https://github.com/metalizzsas/NusterKit/pull/75))
+
+- updated code readability & removed useless goto calls ([#73](https://github.com/metalizzsas/NusterKit/pull/73))
+
+- properties class was spreading undefined ([#75](https://github.com/metalizzsas/NusterKit/pull/75))
+
 ## 1.7.5
 
 ### Patch Changes

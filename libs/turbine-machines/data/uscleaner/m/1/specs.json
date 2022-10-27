@@ -59,9 +59,9 @@
             "default": 0,
             "unity": "RPM",
             "mapInMin": 0,
-            "mapInMax": 32767,
+            "mapInMax": 16384,
             "mapOutMin": 0,
-            "mapOutMax": 100
+            "mapOutMax": 55
         },
         {
             "name": "motor#direction",

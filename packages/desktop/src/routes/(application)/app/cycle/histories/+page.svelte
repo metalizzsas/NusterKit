@@ -22,7 +22,7 @@
 	let selectedHistory: IHistoryHydrated | null;
 
 	const restartCycle = async (his: IHistoryHydrated) => {
-		await fetch('//' + $Linker + '/api/v1/cycle/restart/' + his.id, { method: 'POST' });
+		await fetch(`//${$Linker}/api/v1/cycle/restart/${his._id}`, { method: 'POST' });
 		void goto('/app/cycle/');
 	}
 
@@ -73,9 +73,10 @@
 				{#if $machineData.machine.settings?.isPrototype == true}
 					<Button
 						size={'tiny'}
-						on:click={() => goto('/app/cycle/histories/' + history.id)}
 					>
+					<a href="/app/cycle/histories/{history._id}">
 						See details
+					</a>
 					</Button>
 				{/if}
 

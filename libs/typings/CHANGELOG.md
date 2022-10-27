@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-typings
 
+## 1.2.3
+
+### Patch Changes
+
+- fix: histories id is now \_id ([#75](https://github.com/metalizzsas/NusterKit/pull/75))
+
 ## 1.2.2
 
 ### Patch Changes

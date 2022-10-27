@@ -64,7 +64,7 @@
 	class="grid 
 	{cols != null ? colsData[cols] : ''}
 	{gap != null ? gaps[gap] : ''}
-	{$$props.class}"
+	{$$props.class || ''}"
 >
 	<slot />
 </div>

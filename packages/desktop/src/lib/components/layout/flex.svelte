@@ -30,7 +30,7 @@
 	{justify != null ? justifies[justify] : ''}
 	{wrap != null ? wraps[wrap] : ''}
 	{align != null ? aligns[align] : ''}
-	{$$props.class}"
+	{$$props.class || ''}"
 >
 	<slot />
 </div>

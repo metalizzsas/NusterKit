@@ -6,7 +6,6 @@
 	import { lockMachineData, machineData } from '$lib/utils/stores/store';
 	import { fade, scale } from 'svelte/transition';
 
-	import { goto } from '$app/navigation';
 	import { BUNDLED } from '$lib/bundle';
 	import Flex from '$lib/components/layout/flex.svelte';
 	import Popup from '$lib/components/modals/popup.svelte';
@@ -85,16 +84,12 @@
 		//Timeout for connection
 		setTimeout(() => {
 			if (ws !== undefined && ws.readyState != WebSocket.OPEN) ws?.close();
-		}, 30000);
+		}, 10000);
 	};
 </script>
 
 {#if ['connecting', 'closed'].includes(websocketState)}
-	<div
-		class="fixed flex top-0 bottom-0 left-0 right-0 justify-center items-center"
-		in:fade
-		out:fade
-	>
+	<div class="fixed flex inset-0 justify-center items-center" in:fade out:fade>
 		<div class="relative w-1/4" in:scale out:scale>
 			<Flex direction="col" gap={4}>
 				<div class="bg-zinc-900 rounded-3xl p-5">
@@ -124,34 +119,35 @@
 						</svg>
 					{/if}
 				</div>
-				{#if websocketState != 'connected' || BUNDLED != 'true'}
+				{#if (websocketState != 'connected' && BUNDLED != 'true') || websocketState == 'closed'}
 					<div class="bg-zinc-900 rounded-3xl p-5">
 						<Flex direction={'col'} gap={4}>
 							{#if websocketState != 'closed'}
 								{#if BUNDLED != 'true'}
-									<button
-										class="py-1 px-3 bg-red-400 text-white rounded-xl font-semibold"
-										on:click={() => history.back()}
+									<a
+										class="py-1 px-3 bg-red-400 text-white rounded-xl font-semibold text-center"
+										data-sveltekit-reload
+										href="/"
 									>
 										{$_('cancel')}
-									</button>
+									</a>
 								{/if}
 							{:else}
 								<p class="text-red-500 font-semibold text-center">
 									{$_('loadingScreen.connectionError').replace('#ip', $Linker)}
 								</p>
-								<button
-									class="bg-gray-500 text-white font-semibold py-1 px-2 rounded-xl"
-									on:click={() => goto(BUNDLED != 'true' ? '/' : '/app')}
+								<a
+									class="bg-gray-500 text-white font-semibold py-1 px-2 rounded-xl text-center"
+									data-sveltekit-reload
+									href={BUNDLED != 'true' ? '/' : '/app'}
 								>
 									{$_(`loadingScreen.${BUNDLED != 'true' ? 'return' : 'retry'}`)}
-								</button>
+								</a>
 							{/if}
 						</Flex>
 					</div>
 				{/if}
 			</Flex>
-			<div class="flex flex-col gap-2" />
 		</div>
 	</div>
 {:else}

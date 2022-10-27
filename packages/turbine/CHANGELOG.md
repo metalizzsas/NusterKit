@@ -1,5 +1,15 @@
 # @metalizzsas/nuster-turbine
 
+## 1.7.5
+
+### Patch Changes
+
+- added cycle additional informations ([#80](https://github.com/metalizzsas/NusterKit/pull/80))
+
+- Updated dependencies [[`2ed8316`](https://github.com/metalizzsas/NusterKit/commit/2ed83166ad594dfa53b1a8a1ac74d2ba83442e32), [`d568806`](https://github.com/metalizzsas/NusterKit/commit/d568806fa736052516ec478f7ab286934e394791), [`22efdf0`](https://github.com/metalizzsas/NusterKit/commit/22efdf02c42ef954e90e89fa99715b9b84337968)]:
+  - @metalizzsas/nuster-turbine-machines@1.2.3
+  - @metalizzsas/nuster-typings@1.2.4
+
 ## 1.7.4
 
 ### Patch Changes

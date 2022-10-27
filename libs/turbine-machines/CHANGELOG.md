@@ -1,5 +1,15 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.2.3
+
+### Patch Changes
+
+- uscleaner: added clover closed security check ([#78](https://github.com/metalizzsas/NusterKit/pull/78))
+
+- added cycle additional informations ([#80](https://github.com/metalizzsas/NusterKit/pull/80))
+
+- uscleaner: reduced maximum speed to preserve mechanics ([#81](https://github.com/metalizzsas/NusterKit/pull/81))
+
 ## 1.2.2
 
 ### Patch Changes

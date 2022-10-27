@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-desktop
 
+## 1.7.7
+
+### Patch Changes
+
+- added cycle additional informations ([#80](https://github.com/metalizzsas/NusterKit/pull/80))
+
+- fix: Quickstart cycle failed to send profile to CycleController ([#80](https://github.com/metalizzsas/NusterKit/pull/80))
+
 ## 1.7.6
 
 ### Patch Changes

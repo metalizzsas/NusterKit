@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-typings
 
+## 1.2.4
+
+### Patch Changes
+
+- added cycle additional informations ([#80](https://github.com/metalizzsas/NusterKit/pull/80))
+
 ## 1.2.3
 
 ### Patch Changes

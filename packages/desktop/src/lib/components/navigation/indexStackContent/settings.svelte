@@ -2,11 +2,18 @@
 	import { _, locales } from 'svelte-i18n';
 	import { layoutSimplified, dark, lang } from '$lib/utils/stores/settings';
 	import { machineData } from '$lib/utils/stores/store';
+	import { Linker } from '$lib/utils/stores/linker';
+
+	import { goto } from '$app/navigation';
 
 	import Modalcontent from "$lib/components/modals/modalcontent.svelte";
 	import Toggle from '$lib/components/userInputs/toggle.svelte';
+	import Modalprompt from '$lib/components/modals/modalprompt.svelte';
+	import Button from '$lib/components/button.svelte';
 
 	export let shown: boolean;
+
+	let advancedSettingsModalShown = false;
 
 	/// Modal options
 	const langs: { [x: string]: string } = {
@@ -39,5 +46,25 @@
 				{/each}
 			</select>
 		</div>
+		<Button size={"small"} color={"bg-orange-500"} on:click={() => advancedSettingsModalShown = true}>Open advanced settings menu</Button>
 	</div>
 </Modalcontent>
+
+
+<Modalprompt bind:shown={advancedSettingsModalShown} title="Advanced settings access" buttons={[{
+	text: "Access",
+	color: "bg-emerald-600",
+	textColor: "bg-zinc-900",
+	callback: (value) => {
+
+		const result = fetch(`//${$Linker}/api/config/password/${value}`, { method: 'POST'}).then((result) => {
+
+			if(result.ok && result.status == 200)
+				void goto("/config", { replaceState: true });
+			else 
+				return true;
+		});
+	}
+}]}>
+	Enter password to access this sub menu
+</Modalprompt>

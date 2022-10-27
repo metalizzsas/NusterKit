@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { goto } from "$app/navigation";
 	import Button from "$lib/components/button.svelte";
     import Flex from "$lib/components/layout/flex.svelte";
     import Navcontainer from "$lib/components/navigation/navcontainer.svelte";
@@ -12,7 +11,8 @@
 
 	export let data: PageData;
     
-    let tempConfiguration: Partial<IConfiguration> = {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    let tempConfiguration: Partial<IConfiguration> = data.actualMachineConfigJson ?? {
         name: "",
         serial: "",
         model: undefined,
@@ -43,7 +43,7 @@
 
         if(request.status == 200)
         {
-            void goto("/");
+            window.location.href = "/";
         }
     };
 </script>
@@ -122,12 +122,7 @@
                     <h3 class="text-md">Addons</h3>
                     <ul>
                         {#each baseConfig.addons.map(a => a.addonName) as addon}
-                            <li><input type="checkbox" on:click={(e) => {
-                            if(e.target?.checked)
-                                tempConfiguration.addons = [...tempConfiguration.addons, addon]
-                            else
-                                tempConfiguration.addons = tempConfiguration.addons?.filter(k => k != addon)
-                            }} class="mr-3"/>{addon}</li>
+                            <li><input type="checkbox" bind:group={tempConfiguration.addons} value={addon} class="mr-3"/>{addon}</li>
                         {/each}
                     </ul>
                  </Flex>
@@ -139,12 +134,7 @@
                     <h3 class="text-md">Profils masqués</h3>
                     <ul>
                         {#each baseConfig.profilePremades.map(p => p.name) as profile}
-                            <li><input type="checkbox" on:click={(e) => {
-                            if(e.target?.checked)
-                                tempConfiguration.settings.maskedProfiles = [...tempConfiguration.settings.maskedProfiles, profile]
-                            else
-                            tempConfiguration.settings.maskedProfiles = tempConfiguration.settings.maskedProfiles.filter(k => k != profile)
-                            }} class="mr-3"/>{profile}</li>
+                            <li><input type="checkbox" bind:group={tempConfiguration.settings.maskedProfiles} value={profile} class="mr-3"/>{profile}</li>
                         {/each}
                     </ul>
                  </Flex>
@@ -157,12 +147,7 @@
                     <h3 class="text-md">Cycle préparés masqués</h3>
                     <ul>
                         {#each baseConfig.cyclePremades.map(p => p.name) as premade}
-                            <li><input type="checkbox" on:click={(e) => {
-                            if(e.target?.checked)
-                                tempConfiguration.settings.maskedPremades = [...tempConfiguration.settings.maskedPremades, premade]
-                            else
-                            tempConfiguration.settings.maskedPremades = tempConfiguration.settings.maskedPremades.filter(k => k != premade)
-                            }} class="mr-3"/>{premade}</li>
+                            <li><input type="checkbox" bind:group={tempConfiguration.settings.maskedPremades} value={premade} class="mr-3"/>{premade}</li>
                         {/each}
                     </ul>
                  </Flex>
@@ -175,12 +160,7 @@
                     <h3 class="text-md">Mode manuels masqués</h3>
                     <ul>
                         {#each baseConfig.manual.map(p => p.name) as manual}
-                            <li><input type="checkbox" on:click={(e) => {
-                            if(e.target?.checked)
-                                tempConfiguration.settings.maskedManuals = [...tempConfiguration.settings.maskedManuals, manual]
-                            else
-                            tempConfiguration.settings.maskedManuals = tempConfiguration.settings.maskedManuals.filter(k => k != manual)
-                            }} class="mr-3"/>{manual}</li>
+                            <li><input type="checkbox" bind:group={tempConfiguration.settings.maskedManuals} value={manual} class="mr-3"/>{manual}</li>
                         {/each}
                     </ul>
                  </Flex>

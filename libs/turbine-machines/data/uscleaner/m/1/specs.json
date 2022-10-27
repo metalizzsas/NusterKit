@@ -256,6 +256,17 @@
                             "gateValue": 1
                         }
                     }
+                },
+                {
+                    "conditionName": "cover-closed",
+                    "startOnly": false,
+                    "checkChain": {
+                        "name": "io",
+                        "io": {
+                            "gateName": "cover-closed",
+                            "gateValue": 1
+                        }
+                    }
                 }
             ],
             "steps": [

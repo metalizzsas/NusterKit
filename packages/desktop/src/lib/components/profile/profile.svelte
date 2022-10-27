@@ -14,37 +14,44 @@
 	let deleteProfileModalShown = false;
 
 	const copyProfile = (newName: string) => {
-
-		if(newName.length > 1)
-		{
+		if (newName.length > 1) {
 			let newProfile = profile;
-	
+
 			newProfile._id = 'copied';
 			newProfile.name = newName;
-	
+
 			fetch('//' + $Linker + '/api/v1/profiles/', {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify(newProfile),
-			}).then((returnData) => {
-				returnData.json().then((result: IProfileHydrated) => {
-					void goto(`/app/profiles/${result._id || ''}`);
-				}).catch(() => {
-					console.error("Failed to convert json for copied profile");
-				})
-			}).catch(() => {
-				console.error("Failed to copy profile");
 			})
+				.then((returnData) => {
+					returnData
+						.json()
+						.then((result: IProfileHydrated) => {
+							void goto(`/app/profiles/${result._id || ''}`);
+						})
+						.catch(() => {
+							console.error('Failed to convert json for copied profile');
+						});
+				})
+				.catch(() => {
+					console.error('Failed to copy profile');
+				});
 		}
-	}
+	};
 
 	const deleteProfile = (profile: IProfileHydrated) => {
 		fetch(`//${$Linker}/api/v1/profiles/${profile._id ?? ''}`, {
 			method: 'DELETE',
-		}).then(() => delCb()).catch(() => {console.error("Failed to delete profile")});
-	}
+		})
+			.then(() => delCb())
+			.catch(() => {
+				console.error('Failed to delete profile');
+			});
+	};
 </script>
 
 <ModalPrompt
@@ -59,14 +66,11 @@
 		},
 		{
 			text: $_('cancel'),
-			color: 'bg-gray-500'
+			color: 'bg-gray-500',
 		},
 	]}
 >
-	{$_('profile.modals.copy.message').replace(
-		'{profile.name}',
-		translateProfileName($_, profile),
-	)}
+	{$_('profile.modals.copy.message').replace('{profile.name}', translateProfileName($_, profile))}
 </ModalPrompt>
 
 <Modal
@@ -80,7 +84,7 @@
 		},
 		{
 			text: $_('no'),
-			color: 'bg-gray-400'
+			color: 'bg-gray-400',
 		},
 	]}
 >
@@ -90,9 +94,10 @@
 	)}
 </Modal>
 
-<div
+<a
+	href="profiles/{profile._id}"
+	alt={translateProfileName($_, profile)}
 	class="bg-zinc-700 text-white py-2 px-4 rounded-2xl flex flex-row justify-between cursor-pointer"
-	on:click={() => goto(`profiles/${profile._id || ''}`)}
 >
 	<div class="flex flex-col">
 		<span class="text-md font-semibold">
@@ -148,4 +153,4 @@
 			</svg>
 		</button>
 	</div>
-</div>
+</a>

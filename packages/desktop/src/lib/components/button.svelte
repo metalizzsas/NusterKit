@@ -17,7 +17,7 @@
 <button
 	class="{color} hover:{color + '/90'} {sizes.get(
 		size,
-	)} rounded-xl text-white font-semibold hover:scale-y-[1.025] duration-100 {$$props.class}"
+	)} rounded-xl text-white font-semibold hover:scale-y-[1.025] duration-100 {$$props.class || ''}"
 	on:click
 >
 	<slot />

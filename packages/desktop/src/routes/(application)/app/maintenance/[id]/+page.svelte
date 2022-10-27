@@ -55,7 +55,9 @@
 	{#if data.maintenance.procedure !== undefined}
 		<div class="relative grid grid-cols-6 gap-6">
 			<div
-				class="rounded-xl overflow-hidden {imageExpanded ? 'col-span-3' : 'col-span-2'}"
+				class="rounded-xl overflow-hidden"
+				class:col-span-3={imageExpanded}
+				class:col-span-2={!imageExpanded}
 				style="min-aspect-ratio: 1/1;"
 			>
 				{#each data.maintenance.procedure.steps as step, index}

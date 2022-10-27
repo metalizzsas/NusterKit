@@ -33,9 +33,9 @@
 	<div class="grid grid-cols-2 gap-4">
 		<button
 			on:click={() => (tab = 'in')}
-			class=" bg-gradient-to-br {tab == 'in'
-				? 'from-indigo-500 to-indigo-600'
-				: 'from-gray-500 to-gray-600'}  py-3 px-5 text-white font-semibold rounded-xl text-center transition-all hover:opacity-90 duration-200 ease-in-out cursor-pointer"
+			class="bg-gradient-to-br py-3 px-5 text-white font-semibold rounded-xl text-center transition-all hover:opacity-90 duration-200 ease-in-out cursor-pointer"
+			class:tabActive={tab=='in'}
+			class:tabInactive={tab!='in'}
 		>
 			<div class="flex flex-row self-center gap-2 justify-center w-full">
 				<svg
@@ -55,9 +55,9 @@
 		</button>
 		<button
 			on:click={() => (tab = 'out')}
-			class=" bg-gradient-to-br {tab == 'out'
-				? 'from-indigo-500 to-indigo-600'
-				: 'from-gray-500 to-gray-600'} py-3 px-5 text-white font-semibold rounded-xl text-center transition-all hover:opacity-90 duration-200 ease-in-out cursor-pointer"
+			class=" bg-gradient-to-br  py-3 px-5 text-white font-semibold rounded-xl text-center transition-all hover:opacity-90 duration-200 ease-in-out cursor-pointer"
+			class:tabActive={tab=='out'}
+			class:tabInactive={tab!='out'}
 		>
 			<div class="flex flex-row self-center gap-2 justify-center w-full">
 				<svg
@@ -80,11 +80,7 @@
 
 <Navcontainer>
 	{#each [...new Set(gates.filter((g) => g.bus == tab).map((g) => g.category))] as cat, index}
-		{#if index > 0}
-			<Navcontainertitlesided>{$_('gates.categories.' + cat)}</Navcontainertitlesided>
-		{:else}
-			<Navcontainertitle>{$_('gates.categories.' + cat)}</Navcontainertitle>
-		{/if}
+		<svelte:component this={index > 0 ? Navcontainertitlesided : Navcontainertitle}>{$_('gates.categories.' + cat)}</svelte:component>
 
 		<div class="flex flex-col gap-2 mb-6 last:mb-0">
 			{#each gates.filter((g) => g.bus == tab && g.category == cat) as gate}
@@ -131,3 +127,14 @@
 		</div>
 	{/each}
 </Navcontainer>
+
+<style>
+
+	.tabActive{
+		@apply from-indigo-500 to-indigo-600;
+	}
+
+	.tabInactive{
+		@apply from-gray-500 to-gray-600;
+	}
+</style>

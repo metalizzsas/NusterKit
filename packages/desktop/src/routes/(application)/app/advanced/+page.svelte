@@ -87,12 +87,7 @@
 
 <NavContainer>
 	{#each [...new Set($machineData.manuals.map((m) => m.category))] as cat, index}
-		{#if index == 0}
-			<Navcontainertitle>{$_('manual.categories.' + cat)}</Navcontainertitle>
-		{:else}
-			<div class="h-4" />
-			<Navcontainertitlesided>{$_('manual.categories.' + cat)}</Navcontainertitlesided>
-		{/if}
+		<svelte:component this={index > 0 ? Navcontainertitlesided : Navcontainertitle}>{$_('manual.categories.' + cat)}</svelte:component>
 
 		<div class="flex flex-col gap-2">
 			{#each $machineData.manuals.filter((g) => g.category == cat) as manual}

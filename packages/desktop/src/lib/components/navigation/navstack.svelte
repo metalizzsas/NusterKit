@@ -24,7 +24,7 @@
 
 	type modalsTypes = 'settings' | 'info' | 'updates' | 'network';
 
-	let modals: {[x: modalsTypes]: boolean} = {
+	let modals: Record<modalsTypes, boolean> = {
 		"settings": false,
 		"info": false,
 		"updates": false,
@@ -38,7 +38,7 @@
 
 	const showModal = (modal: 'settings' | 'info' | 'updates' | 'network') => 
 	{
-		Object.keys(modals).forEach(k => modals[k] = false);
+		Object.entries(modals).forEach(k => k[1] = false);
 		modals[modal] = true;
 	}
 
@@ -51,6 +51,8 @@
 	onDestroy(() => {
 		if (dateInterval) clearInterval(dateInterval);
 	});
+
+	$: dateNow = Date.now();
 </script>
 
 <Settings bind:shown={modals.settings} />

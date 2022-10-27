@@ -10,4 +10,4 @@
 	}
 </script>
 
-<span class="{sizesArray[size]} rounded-full {$$props.class} {color}" on:click><slot /></span>
+<span class="{sizesArray[size]} rounded-full {$$props.class || ''} {color}" on:click><slot /></span>

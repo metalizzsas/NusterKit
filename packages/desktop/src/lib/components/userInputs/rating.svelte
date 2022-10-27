@@ -17,7 +17,7 @@
 </script>
 
 <Flex
-	class="self-center bg-white rounded-full shadow-xs p-{padding} {$$props.class}"
+	class="self-center bg-white rounded-full shadow-xs p-{padding} {$$props.class || ''}"
 	gap={starsGapSize}
 	items={'center'}
 >

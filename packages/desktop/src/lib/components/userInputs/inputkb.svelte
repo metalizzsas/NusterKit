@@ -91,7 +91,7 @@
 	<input
 		id="inputString"
 		type="text"
-		class={`${options['class']} ${$$props.class}`}
+		class={`${options['class']} ${$$props.class || ''}`}
 		placeholder={options['placeholder']}
 		style={`-webkit-appearance: none; ${automaticLength ? 'width: {String(value).length}ch;' : ''}`}
 		bind:value
@@ -106,7 +106,7 @@
 	<input
 		id="inputNumeric"
 		type="number"
-		class={`${options['class']} ${$$props.class}`}
+		class={`${options['class']} ${$$props.class || ''}`}
 		autocomplete="off"
 		min={options['min']}
 		max={options['max']}

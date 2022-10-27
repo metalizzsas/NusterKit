@@ -5,7 +5,8 @@
 	interface buttonOption {
 		text: string;
 		color: string;
-		callback?: (val: string) => boolean | void | Promise<void>;
+		/** If callback return true, the modal is not closed */
+		callback?: (val: string) => boolean | void | Promise<boolean | void>;
 		textColor?: string;
 	}
 
@@ -18,10 +19,28 @@
 	export let placeholder: string | undefined = undefined;
 
 	let val = '';
-
 	let selectval = '';
 
 	export let shown = false;
+
+	const handleCallback = async (callback: buttonOption["callback"]) => {
+
+		if(callback instanceof Promise)
+		{
+			const result = await callback(selectOptions ? selectval : val);
+
+			if(result != false)
+				shown = false;
+		}
+		else if(callback !== undefined)
+		{
+			const result = callback(selectOptions ? selectval : val);
+
+			if(result != false)
+				shown = false;
+		}
+
+	}
 
 	$: shown, document.body.classList.toggle('overflow-hidden', shown);
 </script>
@@ -52,15 +71,7 @@
 				<button
 					class="{button.color} rounded-xl px-4 py-2 {button.textColor ||
 						'text-white'} font-semibold"
-					on:click={() => {
-						if(button.callback !== undefined)
-						{
-							const result = button.callback(selectOptions ? selectval : val);
-							if (result != false) shown = false;
-						}
-						else
-							shown = false;
-					}}
+					on:click={() => handleCallback(button.callback)}
 				>
 					{button.text}
 				</button>

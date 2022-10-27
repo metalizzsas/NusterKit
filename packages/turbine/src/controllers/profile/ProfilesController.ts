@@ -305,14 +305,18 @@ export class ProfileController extends Controller {
     /**
      * Prepare the profile to be ready to store on mongodb
      * @param profileHydrated Profile to be transformed
+     * @param removeID Removes the profile id to store
      * @returns Profile transformed ready to be stored
      */
-    public prepareToStore(profileHydrated: IProfileHydrated): IProfileStored
+    public prepareToStore(profileHydrated: IProfileHydrated, removeID = false): IProfileStored
     {
         const values: Record<string, number> = {};
         profileHydrated.values.forEach(v => values[v.name] = v.value);
 
         const returnProfile: IProfileStored = {...profileHydrated, values: values};
+        
+        if(removeID)
+            delete returnProfile._id;
 
         return returnProfile;
     }

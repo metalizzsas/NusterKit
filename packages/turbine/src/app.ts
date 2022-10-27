@@ -62,7 +62,7 @@ if(fs.existsSync(infoPath))
 else
 {
     LoggerInstance.warn("Machine: Info file not found");
-    SetupExpressConfiguration();
+    SetupExpress(true);
 }
 
 /** Update locking the Balena Supervisor */
@@ -71,46 +71,10 @@ lockFile.lock("/tmp/balena/updates.lock", (err) => {
 });
 
 /**
- * Setup Express configuration server
- */
-function SetupExpressConfiguration()
-{
-    httpServer = ExpressApp.listen(HTTP_PORT, () => {
-        LoggerInstance.info("Express: Configuration HTTP server running on port " + HTTP_PORT);
-
-        ExpressApp.use(express.json());
-        ExpressApp.use(cors());
-
-        ExpressApp.get("/config", (req: Request, res: Response) => {
-            res.json(AvailableMachineModels);
-        });
-
-        ExpressApp.post("/config", (req: Request, res: Response) => {
-            if(req.body)
-            {
-                if(!productionEnabled)
-                {
-                    fs.mkdirSync(path.resolve("data"), {recursive: true});
-                    fs.writeFileSync(path.resolve("data", "info.json"), JSON.stringify(req.body, null, 4));
-                }
-                else
-                {
-                    //do not create /data folder, it should already be there because of context
-                    fs.writeFileSync("/data/info.json", JSON.stringify(req.body, null, 4));
-                }
-
-                LoggerInstance.info("Config written, restarting NusterTurbine.");
-                res.end();
-                process.exit(1);
-            }
-        });
-    });
-}
-
-/**
  * Setup Express running server
+ * @param configOnly if set to true, only add Configuration routes
  */
-function SetupExpress()
+function SetupExpress(configOnly = false)
 {
     httpServer = ExpressApp.listen(HTTP_PORT, () => { 
         LoggerInstance.info("Express: HTTP server listening on port " + HTTP_PORT); 
@@ -129,6 +93,57 @@ function SetupExpress()
             res: pino.stdSerializers.res
             }
     }));
+
+    ExpressApp.get("/config", (req: Request, res: Response) => {
+        res.json(AvailableMachineModels);
+    });
+
+    ExpressApp.post("/config/password/:password", async (req: Request, res: Response) => {
+        if(req.params.password)
+        {
+            res.status(req.params.password == "NusterMetalizz" ? 200 : 403).end();
+        }
+    });
+
+    ExpressApp.get("/config/actual", (req: Request, res: Response) => {
+        try
+        {
+            let result = "";
+            if(!productionEnabled)
+                result = fs.readFileSync(path.resolve("data", "info.json"), { encoding: "utf8"});
+            else
+                result = fs.readFileSync("/data/info.json", {encoding: "utf8"});
+
+            res.json(JSON.parse(result));
+        }
+        catch(ex)
+        {
+            res.status(404).end()
+        }
+    });
+
+    ExpressApp.post("/config", (req: Request, res: Response) => {
+        if(req.body)
+        {
+            if(!productionEnabled)
+            {
+                fs.mkdirSync(path.resolve("data"), {recursive: true});
+                fs.writeFileSync(path.resolve("data", "info.json"), JSON.stringify(req.body, null, 4));
+            }
+            else
+            {
+                //do not create /data folder, it should already be there because of context
+                fs.writeFileSync("/data/info.json", JSON.stringify(req.body, null, 4));
+            }
+
+            LoggerInstance.info("Config written, restarting NusterTurbine.");
+            res.end();
+            process.exit(1);
+        }
+    });
+
+    if(configOnly)
+        return;
 
     ExpressApp.get("/ws", async (_req, res: Response) => res.json(await machine?.socketData()));
 

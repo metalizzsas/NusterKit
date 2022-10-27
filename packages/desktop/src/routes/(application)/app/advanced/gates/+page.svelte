@@ -82,7 +82,7 @@
 	{#each [...new Set(gates.filter((g) => g.bus == tab).map((g) => g.category))] as cat, index}
 		<svelte:component this={index > 0 ? Navcontainertitlesided : Navcontainertitle}>{$_('gates.categories.' + cat)}</svelte:component>
 
-		<div class="flex flex-col gap-2 mb-6 last:mb-0">
+		<div class="flex flex-col gap-2">
 			{#each gates.filter((g) => g.bus == tab && g.category == cat) as gate}
 				<div
 					class="text-white flex flex-row justify-between gap-4 bg-zinc-500 py-2 pl-3 pr-2 rounded-xl font-semibold"

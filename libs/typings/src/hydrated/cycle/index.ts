@@ -8,4 +8,4 @@ export interface IHistory
     profile: IProfileStored
 }
 
-export type IHistoryHydrated = IHistory & { id: string };
+export type IHistoryHydrated = IHistory & { _id: string };

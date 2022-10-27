@@ -38,7 +38,7 @@
         else
         {
             if(slot.supportedProductSeries?.includes(selectedProduct as EProductSeries))
-			    void fetch(`//${$Linker}/api/v1/slots/${slot.name}/load/${selectedProduct}`, { method: 'post' });
+                void fetch(`//${$Linker}/api/v1/slots/${slot.name}/load/${selectedProduct}`, { method: 'post' });
         }
 
         shown = false;

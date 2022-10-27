@@ -1,3 +1,4 @@
+import { IAdditionalInfo } from "./IAdditionalInfo";
 import { IProgramBlock } from "./IProgramBlock";
 import { IProgramStep } from "./IProgramStep";
 import { IPBRStartCondition } from "./programblocks/startchain/IPBRStartCondition";
@@ -28,8 +29,9 @@ export interface IProgram
     profileRequired: boolean;
 
     startConditions: IPBRStartCondition[];
-
     steps: IProgramStep[];
+
+    additionalInfo?: IAdditionalInfo[];
 }
 
 export interface IProgramRunner extends IProgram

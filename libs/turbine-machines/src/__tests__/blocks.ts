@@ -298,4 +298,21 @@ for(const file of filesToCheck)
             }
         }
     });
+
+    it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' Cycle additional informations', () => {
+
+        for(const cycle of json.cycleTypes)
+        {
+            if(cycle.additionalInfo)
+            {
+                for(const ai of cycle.additionalInfo)
+                {
+                    if(ai.name == "gate")
+                    {
+                        expect(inputGateNames).toContain(ai.value);
+                    }
+                }
+            }
+        }
+    });
 }

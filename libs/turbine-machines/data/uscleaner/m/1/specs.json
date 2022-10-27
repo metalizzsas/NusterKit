@@ -269,6 +269,12 @@
                     }
                 }
             ],
+            "additionalInfo": [
+                {
+                    "name": "gate",
+                    "value": "temperature#sensor"
+                }
+            ],
             "steps": [
                 {
                     "name": "cleaning",

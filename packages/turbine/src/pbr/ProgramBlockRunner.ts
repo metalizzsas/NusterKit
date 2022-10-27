@@ -1,4 +1,5 @@
 import type { IProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profile";
+import type { IAdditionalInfo } from "@metalizzsas/nuster-typings/build/spec/cycle/IAdditionalInfo";
 import type { IProgramRunner, IPBRStatus, IProgramVariable, IProgramTimer} from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlockRunner";
 import type { EProgramStepResult } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramStep";
 import { LoggerInstance } from "../app";
@@ -34,6 +35,8 @@ export class ProgramBlockRunner implements IProgramRunner
 
     /** Profile assignated to this **PBR** */
     profile?: IProfileHydrated;
+
+    additionalInfo?: IAdditionalInfo[];
 
     /**
      * Function to explore profile fields
@@ -74,6 +77,8 @@ export class ProgramBlockRunner implements IProgramRunner
 
         for(const step of object.steps)
             this.steps.push(new ProgramBlockStep(this, step));
+
+        this.additionalInfo = object.additionalInfo;
 
         LoggerInstance.info("PBR: Finished building PBR.");
     }
@@ -308,7 +313,10 @@ export class ProgramBlockRunner implements IProgramRunner
             currentStepIndex: this.currentStepIndex,
 
             //statics
-            profile: this.profile
+            profile: this.profile,
+
+            //additional informations
+            additionalInfo: this.additionalInfo?.map(k => { return { name: k.name, value: IOController.getInstance().gFinder(k.value) }})
         }
     }
 }

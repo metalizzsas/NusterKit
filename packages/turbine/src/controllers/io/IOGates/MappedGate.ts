@@ -51,4 +51,18 @@ export class MappedGate extends IOGate implements IIOGate, IMappedGate
         await IOController.getInstance().handlers[this.controllerId].writeData(this.address, v, word)
         return true;
     }
+
+    toJSON() {
+        return {
+            name: this.name,
+            category: this.category,
+            value: this.value,
+            unity: this.unity,
+            bus: this.bus,
+            size: this.size,
+
+            mapOutMin: this.mapOutMin,
+            mapOutMax: this.mapOutMax
+        }
+    }
 }

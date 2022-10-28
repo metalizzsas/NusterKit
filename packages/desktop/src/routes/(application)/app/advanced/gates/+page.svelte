@@ -13,6 +13,8 @@
 	import Navcontainer from '$lib/components/navigation/navcontainer.svelte';
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
 	import Navcontainertitlesided from '$lib/components/navigation/navcontainertitlesided.svelte';
+	import Flex from '$lib/components/layout/flex.svelte';
+	import Label from '$lib/components/label.svelte';
 
 	$: gates = $machineData.io;
 
@@ -97,30 +99,35 @@
 							locked={tab == 'in'}
 						/>
 					{:else}
-						<div class="flex flex-col md:flex-row gap-4 align-center">
-							{#if tab == 'out'}
+						<Flex gap={4} items="center">
+							<Label size="small">
+								<Flex gap={2} items="center">
+									{gate.value}
+									{#if gate.unity !== undefined}
+										<span class="font-medium">{gate.unity}</span>
+									{/if}
+									<div class="h-3 w-3 rounded-full inline-block" class:bg-red-500={gate.value == 0} class:bg-emerald-500={gate.value != 0}></div>
+								</Flex>
+							</Label>
+
+							{#if tab="out"}
 								<input
 									type="range"
-									min="0"
-									max="100"
-									on:input={() => {
-										$lockMachineData = true;
-									}}
+									class="max-w-[17vw] min-w-[15vw]"
+									min={gate.type == "mapped" ? gate.mapOutMin : 0}
+									max={gate.type == "mapped" ? gate.mapOutMax : 100}
 									bind:value={gate.value}
-									on:change={() => {
+									on:input|self={(ev) => {
+										$lockMachineData = true;
+										gate.value = parseInt(ev.currentTarget.value);
+									}}
+									on:change={async () => {
 										$lockMachineData = false;
 										void update(gate.name, gate.value);
 									}}
 								/>
 							{/if}
-
-							<span class="py-1 px-2 rounded-full bg-white text-gray-800 text-sm">
-								{Math.round(gate.value * 100) / 100}
-								{#if gate.unity != undefined}
-									{gate.unity}
-								{/if}
-							</span>
-						</div>
+						</Flex>
 					{/if}
 				</div>
 			{/each}

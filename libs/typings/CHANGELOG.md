@@ -1,5 +1,12 @@
 # @metalizzsas/nuster-typings
 
+## 1.2.5
+
+### Patch Changes
+
+- - AnalogScale manuals can now be negative ([#87](https://github.com/metalizzsas/NusterKit/pull/87))
+  - Manuals modes now have `emergency-stop` gate always on their security chain
+
 ## 1.2.4
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.7.8
+
+### Patch Changes
+
+- updated package json to stick to latest sveltekit & vite versions ([#84](https://github.com/metalizzsas/NusterKit/pull/84))
+
 ## 1.7.7
 
 ### Patch Changes

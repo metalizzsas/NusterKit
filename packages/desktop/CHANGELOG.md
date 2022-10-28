@@ -1,5 +1,14 @@
 # @metalizzsas/nuster-desktop
 
+## 1.7.9
+
+### Patch Changes
+
+- - AnalogScale manuals can now be negative ([#87](https://github.com/metalizzsas/NusterKit/pull/87))
+  - Manuals modes now have `emergency-stop` gate always on their security chain
+
+- add: mapped gates are now scale aware ([#87](https://github.com/metalizzsas/NusterKit/pull/87))
+
 ## 1.7.8
 
 ### Patch Changes

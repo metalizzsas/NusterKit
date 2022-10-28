@@ -1,5 +1,16 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.2.4
+
+### Patch Changes
+
+- - uscleaner m r1: ([#87](https://github.com/metalizzsas/NusterKit/pull/87))
+    - negative manual modes
+    - mapped io gate adjustments
+    - addons adjusted
+  - metalfog m r1:
+    - negative manual modes
+
 ## 1.2.3
 
 ### Patch Changes

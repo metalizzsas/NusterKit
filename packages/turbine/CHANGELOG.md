@@ -1,5 +1,18 @@
 # @metalizzsas/nuster-turbine
 
+## 1.7.6
+
+### Patch Changes
+
+- - AnalogScale manuals can now be negative ([#87](https://github.com/metalizzsas/NusterKit/pull/87))
+  - Manuals modes now have `emergency-stop` gate always on their security chain
+
+- add: mapped gates are now scale aware ([#87](https://github.com/metalizzsas/NusterKit/pull/87))
+
+- Updated dependencies [[`1707423`](https://github.com/metalizzsas/NusterKit/commit/1707423605e230b716ef92df9ebfaf31d2dc98ae), [`aebe1e1`](https://github.com/metalizzsas/NusterKit/commit/aebe1e10faa7f0875e688754094ae6ab39564b64)]:
+  - @metalizzsas/nuster-typings@1.2.5
+  - @metalizzsas/nuster-turbine-machines@1.2.4
+
 ## 1.7.5
 
 ### Patch Changes

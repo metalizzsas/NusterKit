@@ -1,5 +1,5 @@
 import type { IManualHydrated } from "@metalizzsas/nuster-typings/build/hydrated/manual";
-import type { IConfigManualMode } from "@metalizzsas/nuster-typings/build/spec/manual";
+import type { IConfigManualMode, IManualControl } from "@metalizzsas/nuster-typings/build/spec/manual";
 import { WebsocketDispatcher } from "../../websocket/WebsocketDispatcher";
 import { IOController } from "../io/IOController";
 import { ManualModeController } from "./ManualModeController";
@@ -8,10 +8,11 @@ import { ManualWatchdogCondition } from "./ManualModeWatchdog";
 export class ManualMode implements IConfigManualMode
 {
     name: string;
+    unity?: string;
 
     category: string;
     
-    controls: ({name: string, analogScaleDependant: boolean} | string)[];
+    controls: (IManualControl | string)[];
 
     incompatibility?: string[];
     requires?: string[];
@@ -27,6 +28,8 @@ export class ManualMode implements IConfigManualMode
     {
         this.name = obj.name;
 
+        this.unity = obj.unity ?? IOController.getInstance().gFinder((obj.controls[0] as IManualControl).name ?? obj.controls[0])?.unity ?? '%'
+
         this.category = (obj.name.split("#").length > 1) ? obj.name.split("#")[0] : "generic";
         
         this.incompatibility = obj.incompatibility ?? [];
@@ -41,6 +44,14 @@ export class ManualMode implements IConfigManualMode
 
         if(obj.watchdog !== undefined)
         {
+            if(IOController.getInstance().gFinder("emergency-stop") !== undefined)
+            {
+                this.watchdog.push(new ManualWatchdogCondition(this, {
+                    "gateName": "emergency-stop",
+                    "gateValue": 1
+                }));
+            }
+
             for(const w of obj.watchdog)
             {
                 this.watchdog.push(new ManualWatchdogCondition(this, w));
@@ -48,29 +59,34 @@ export class ManualMode implements IConfigManualMode
         }
     }
 
-    public async toggle(state: number): Promise<boolean>
+    /**
+     * Toggle the manual mode from value
+     * @param value value to be set
+     * @returns boolean if state of manual mode has changed
+     */
+    public async setValue(value: number): Promise<boolean>
     {
-        let trigger = false;
+        let toggleOn = false;
 
+        // if this manual mode has an analogScale
         if(this.analogScale)
         {
-            if(state <= this.analogScale.max  && state >= this.analogScale.min)
-            {
-                if(state > this.analogScale.min)
-                    trigger = true;
-                else if(state == this.analogScale.max)
-                    trigger = false;
-            }
+            if(value <= this.analogScale.max  && value >= this.analogScale.min)
+                toggleOn = (value != 0);
+            else
+                return false;
         }
         else
         {
-            if(state > 1)
-                state = 1;
+            //prevent value overflowing
+            if(value != 0)
+                value = 1;
 
-            trigger = state == 1 ? true : false;
+            toggleOn = (value == 1);
         }
 
-        if(trigger)
+        //this manual mode have to be toggled on
+        if(toggleOn)
         {
             //if this manual mode has incompatibilities
             if(this.incompatibility !== undefined)
@@ -101,14 +117,26 @@ export class ManualMode implements IConfigManualMode
             for(const gate of gatesToToggle)
             {
                 if(typeof gate == "string")
-                    await IOController.getInstance().gFinder(gate)?.write(state);
+                    await IOController.getInstance().gFinder(gate)?.write(value);
                 else
-                    await IOController.getInstance().gFinder(gate.name)?.write((gate.analogScaleDependant === true) ? state : ((state > 0) ? 1 : 0));
+                {
+                    const valueToBeWritten = (gate.analogScaleDependant === true) ? 
+                        ((gate.isValueAbsolute === true) ? 
+                            Math.abs(value) : 
+                            value
+                        ) : 
+                        ((gate.triggerWhenNegative ? value < 0 : value > 0) ? 
+                            1 : 
+                            0
+                        );
+
+                    await IOController.getInstance().gFinder(gate.name)?.write(valueToBeWritten);
+                }
             }
 
             this.watchdog.forEach(w => w.startTimer());
 
-            this.state = state;
+            this.state = value;
 
             return true;
         }
@@ -126,7 +154,7 @@ export class ManualMode implements IConfigManualMode
             //toggle off the manuals modes wich requires this one as a parent
             for(const manual of manualsModesWichRequires)
             {
-                await manual.toggle(0);
+                await manual.setValue(0);
             }
 
             //manual mode is going to be disabled, set concerned gates to false
@@ -162,6 +190,7 @@ export class ManualMode implements IConfigManualMode
     {
         return {
             name: this.name,
+            unity: this.unity,
             category: this.category,
             state: this.state,
             locked: this.locked,

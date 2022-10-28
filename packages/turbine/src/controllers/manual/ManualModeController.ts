@@ -60,7 +60,7 @@ export class ManualModeController extends Controller
                 }
                 else
                 {
-                    const result = await mode.toggle(parseInt(req.params.value));
+                    const result = await mode.setValue(parseInt(req.params.value));
     
                     res.status(result ? 200 : 403);
                     res.write(result ? "ok" : "error");

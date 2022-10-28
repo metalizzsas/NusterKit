@@ -18,6 +18,9 @@
 	import Navcontainertitlesided from '$lib/components/navigation/navcontainertitlesided.svelte';
 
 	import type { IManualHydrated } from "@metalizzsas/nuster-typings/build/hydrated/manual/";
+	import Button from '$lib/components/button.svelte';
+	import Label from '$lib/components/label.svelte';
+	import Flex from '$lib/components/layout/flex.svelte';
 
 	const toggleState = async (name: string, state: number) => {
 		await fetch(`//${$Linker}/api/v1/manual/${name.replace('#', '_')}/${state}`, {
@@ -112,16 +115,26 @@
 										locked={manualModeLocked(manual)}
 									/>
 								{:else}
-									<div
-										class="flex flex-col md:flex-row items-center gap-1 md:gap-4"
-									>
+									<Flex gap={4} items="center">
+										<Label size="small">
+											<Flex gap={2} items="center">
+												{manual.state}
+												<span class="font-medium">{manual.unity}</span>
+												<div class="h-3 w-3 rounded-full inline-block" class:bg-red-500={manual.state == 0} class:bg-emerald-500={manual.state != 0}></div>
+											</Flex>
+										</Label>
+										{#if manual.analogScale.min < 0 && !manualModeLocked(manual)}
+											<Button size={"small"} on:click={() => toggleState(manual.name, 0)} color={"bg-orange-500"}>{$_('reset')}</Button>
+										{/if}
 										<input
 											type="range"
+											class="max-w-[17vw] min-w-[15vw]"
 											min={manual.analogScale.min}
 											max={manual.analogScale.max}
 											bind:value={manual.state}
-											on:input={() => {
+											on:input|self={(ev) => {
 												$lockMachineData = true;
+												manual.state = parseInt(ev.currentTarget.value);
 											}}
 											on:change={async () => {
 												$lockMachineData = false;
@@ -129,12 +142,7 @@
 											}}
 											disabled={manualModeLocked(manual)}
 										/>
-										<span
-											class="bg-white rounded-full py-1 text-gray-800 text-xs font-semibold w-16 text-center"
-										>
-											{manual.state} %
-										</span>
-									</div>
+									</Flex>
 								{/if}
 							</div>
 						</div>

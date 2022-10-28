@@ -70,8 +70,8 @@ export class Machine
         this.specs = specs as IMachineSpecs;
 
         // Addon Parsing
-        if (this.data.addons !== undefined) {
-            LoggerInstance.warn("Machine: " + this.data.addons.length + " Addon(s) detected. SHOULD NOT BE USED IN PRODUCTION!");
+        if (this.data.addons !== undefined && this.data.addons.length > 0) {
+            LoggerInstance.warn("Machine: " + this.data.addons.length + " Addon(s) detected.");
             for (const add of this.data.addons)
             {
                 const addon = this.specs.addons?.find(a => a.addonName == add);
@@ -85,7 +85,7 @@ export class Machine
 
         // Machine Specific addon parsing
         if (this.data.machineAddons !== undefined) {
-            LoggerInstance.info(`Machine: Configuration has ${this.data.machineAddons.length} machine specific addon(s). SHOULD BE USED AS LESS AS POSSIBLE!`);
+            LoggerInstance.warn(`Machine: Configuration has ${this.data.machineAddons.length} machine specific addon(s). SHOULD BE USED AS LESS AS POSSIBLE!`);
             for (const add of this.data.machineAddons)
                 this.specs = parseAddon(this.specs, add, LoggerInstance);
         }

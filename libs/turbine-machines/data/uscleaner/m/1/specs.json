@@ -121,9 +121,9 @@
                     "name": "principal#motor-speed",
                     "unity": "RPM",
                     "type": "float",
-                    "value": 50,
+                    "value": 25,
                     "floatMin": 0,
-                    "floatMax": 110,
+                    "floatMax": 55,
                     "floatStep": 5
                 }
             ]
@@ -133,13 +133,13 @@
         {
             "skeleton": "default",
             "_id": "premade_5min",
-            "name": "5min30deg",
+            "name": "5min",
             "isPremade": true,
             "isRemovable": false,
             "isOverwritable": false,
             "values": {
                 "principal#duration": 600,
-                "principal#motor-speed": 50
+                "principal#motor-speed": 25
             }
         }
     ],
@@ -213,12 +213,18 @@
             "controls": [
                 {
                     "name": "motor#speed",
-                    "analogScaleDependant": true
+                    "analogScaleDependant": true,
+                    "isValueAbsolute": true 
+                },
+                {
+                    "name": "motor#direction",
+                    "analogScaleDependant": false,
+                    "triggerWhenNegative": true
                 }
             ],
             "analogScale": {
-                "min": 0,
-                "max": 100
+                "min": -55,
+                "max": 55
             },
             "watchdog": [
                 {
@@ -412,39 +418,14 @@
                     ]
                 },
                 {
-                    "path": "profileSkeletons.0",
-                    "mode": "replace",
-                    "content": [
-                        {
-                            "name": "default",
-                            "fields": [
-                                {
-                                    "name": "principal#duration",
-                                    "type": "time",
-                                    "units": [
-                                        "minutes",
-                                        "seconds"
-                                    ],
-                                    "value": 300
-                                },
-                                {
-                                    "name": "principal#target-temperature",
-                                    "unity": "°C",
-                                    "type": "int",
-                                    "value": 20
-                                },
-                                {
-                                    "name": "principal#motor-speed",
-                                    "unity": "RPM",
-                                    "type": "float",
-                                    "value": 50,
-                                    "floatMin": 0,
-                                    "floatMax": 110,
-                                    "floatStep": 5
-                                }
-                            ]
-                        }
-                    ]
+                    "path": "profileSkeletons.0.fields",
+                    "mode": "merge",
+                    "content": [{
+                        "name": "principal#target-temperature",
+                        "unity": "°C",
+                        "type": "int",
+                        "value": 20
+                    }]
                 },
                 {
                     "path": "profilePremades.0",
@@ -460,7 +441,7 @@
                             "values": {
                                 "principal#duration": 600,
                                 "principal#target-temperature": 30,
-                                "principal#motor-speed": 50
+                                "principal#motor-speed": 25
                             }
                         }
                     ]

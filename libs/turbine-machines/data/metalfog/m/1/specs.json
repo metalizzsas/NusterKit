@@ -822,11 +822,17 @@
          "controls": [
             {
                "name": "motor#speed",
-               "analogScaleDependant": true
+               "analogScaleDependant": true,
+               "isValueAbsolute": true
+            },
+            {
+               "name": "motor#direction",
+               "analogScaleDependant": false,
+               "triggerWhenNegative": true
             }
          ],
          "analogScale": {
-            "min": 0,
+            "min": -100,
             "max": 100
          },
          "watchdog": [

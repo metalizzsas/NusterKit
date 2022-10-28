@@ -1,10 +1,10 @@
-import type { IManualWatchdogCondition } from "@metalizzsas/nuster-typings/build/spec/manual";
+import type { IManualSecurityCondition } from "@metalizzsas/nuster-typings/build/spec/manual";
 import { LoggerInstance } from "../../app";
 import { WebsocketDispatcher } from "../../websocket/WebsocketDispatcher";
 import { IOController } from "../io/IOController";
 import type { ManualMode } from "./ManualMode";
 
-export class ManualWatchdogCondition implements IManualWatchdogCondition
+export class ManualWatchdogCondition implements IManualSecurityCondition
 {
     gateName: string;
     gateValue: number;
@@ -14,7 +14,7 @@ export class ManualWatchdogCondition implements IManualWatchdogCondition
 
     private manual: ManualMode;
     
-    constructor(manual: ManualMode, obj: IManualWatchdogCondition)
+    constructor(manual: ManualMode, obj: IManualSecurityCondition)
     {
         this.gateName = obj.gateName;
         this.gateValue = obj.gateValue;
@@ -31,7 +31,7 @@ export class ManualWatchdogCondition implements IManualWatchdogCondition
             this.result = ((IOController.getInstance().gFinder(this.gateName)?.value || 0) === this.gateValue);
             if(this.result == false)
             {
-                if(this.manual.state > 0 && process.env.NODE_ENV == "production")
+                if(this.manual.state != 0 && process.env.NODE_ENV == "production")
                 {
                     LoggerInstance.warn("Manual watchdog condition failed, toggling manual mode off.");
 
@@ -40,7 +40,7 @@ export class ManualWatchdogCondition implements IManualWatchdogCondition
                         message: "popups.manualMode.security.message"
                     });
                     
-                    this.manual.toggle(0);
+                    this.manual.setValue(0);
                     this.stopTimer();
                 }
             }

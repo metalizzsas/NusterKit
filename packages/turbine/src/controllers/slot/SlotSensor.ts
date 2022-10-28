@@ -123,14 +123,14 @@ export class SlotSensor implements ISlotSensor
                 if (typeof this.regulation.manualModes == "string") {
                     const manual = ManualModeController.getInstance().find(this.regulation.manualModes);
 
-                    manual?.toggle(1);
+                    manual?.setValue(1);
                     manual?.lock();
                 }
                 else {
                     for (const mn of this.regulation.manualModes) {
                         const manual = ManualModeController.getInstance().find(mn);
 
-                        manual?.toggle(1);
+                        manual?.setValue(1);
                         manual?.lock();
                     }
                 }
@@ -148,7 +148,7 @@ export class SlotSensor implements ISlotSensor
                 {
                     const manual = ManualModeController.getInstance().find(this.regulation.manualModes);
 
-                    manual?.toggle(0);
+                    manual?.setValue(0);
                     manual?.unlock();
                 }
                 else if(this.regulation.manualModes !== undefined)
@@ -157,7 +157,7 @@ export class SlotSensor implements ISlotSensor
                     {
                         const manual = ManualModeController.getInstance().find(mn);
 
-                        manual?.toggle(0);
+                        manual?.setValue(0);
                         manual?.unlock();
                     }
                 }

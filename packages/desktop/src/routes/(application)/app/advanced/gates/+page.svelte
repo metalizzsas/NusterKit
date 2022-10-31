@@ -110,7 +110,7 @@
 								</Flex>
 							</Label>
 
-							{#if tab="out"}
+							{#if tab == "out"}
 								<input
 									type="range"
 									class="max-w-[17vw] min-w-[15vw]"

@@ -18,7 +18,7 @@
 	const urls: Map<("turbine" | "desktop"), string> = new Map();
 
 	urls.set("turbine", `//${$Linker}/api/currentReleaseNotes`);
-	urls.set("desktop", 'CHANGELOG.md');
+	urls.set("desktop", '/CHANGELOG.md');
 
 	onMount(async () => {
 		if(urls.has(type))

@@ -33,7 +33,7 @@ export class MappedGate extends IOGate implements IIOGate, IMappedGate
         
         LoggerInstance.trace("MappedGate-" + this.name + ": Reading data from fieldbus.");
 
-        this.value = map(this.value, this.mapInMin, this.mapInMax, this.mapOutMin, this.mapOutMax);
+        this.value = Math.floor(map(this.value, this.mapInMin, this.mapInMax, this.mapOutMin, this.mapOutMax) * 100) / 100;
         return true;
     }
 

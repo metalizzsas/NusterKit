@@ -7,6 +7,9 @@ export interface IIOPhysicalControllerConfig
     type: IOControllersTypes;
     /** IP Address on the local network */
     ip: string;
+
+    /** IOScannerInterval */
+    ioScannerInterval?: number;
 }
 
 /** IOPhysicalController Boilerplate */

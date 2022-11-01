@@ -13,6 +13,7 @@ import type { IMappedGate } from "@metalizzsas/nuster-typings/build/spec/iogates
 import type { IPT100Gate } from "@metalizzsas/nuster-typings/build/spec/iogates/IPT100Gate";
 import type { IUM18Gate } from "@metalizzsas/nuster-typings/build/spec/iogates/IUM18Gate";
 import type { IIOPhysicalController, IOControllersConfig } from "@metalizzsas/nuster-typings/build/spec/iophysicalcontrollers";
+import { LoggerInstance } from "../../app";
 
 export class IOController extends Controller
 {
@@ -26,6 +27,8 @@ export class IOController extends Controller
 
     /** IOController Instance */
     private static _instance: IOController;
+
+    private ioScannerInterval = 500;
 
     private constructor(handlers: IOControllersConfig[], gates: IOGatesConfig[])
     {
@@ -59,6 +62,9 @@ export class IOController extends Controller
         {
             if(process.env.NODE_ENV != "production")
                 handler.ip = "127.0.0.1";
+
+            if(handler.ioScannerInterval !== undefined)
+                this.ioScannerInterval = handler.ioScannerInterval;
 
             switch(handler.type)
             {
@@ -130,15 +136,18 @@ export class IOController extends Controller
      */
     public startIOScanner()
     {
+
         if(!this.timer)
         {
+            LoggerInstance.info(`IOScanner: Started with interval ${this.ioScannerInterval}ms`);
+
             this.timer = setInterval(() => {
                 for(const g of this.gates.filter((g) => g.bus == "in"))
                 {
                     g.read();
                 }
 
-            }, 500);
+            }, this.ioScannerInterval);
         }
     }
 

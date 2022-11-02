@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.7.8
+
+### Patch Changes
+
+- feat: ioScanner now awaits for gate read ([#95](https://github.com/metalizzsas/NusterKit/pull/95))
+
 ## 1.7.7
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.7.11
+
+### Patch Changes
+
+- fix: config api calls were not using the proxy `/api` prefix ([#95](https://github.com/metalizzsas/NusterKit/pull/95))
+
 ## 1.7.10
 
 ### Patch Changes

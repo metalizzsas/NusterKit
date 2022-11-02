@@ -141,10 +141,10 @@ export class IOController extends Controller
         {
             LoggerInstance.info(`IOScanner: Started with interval ${this.ioScannerInterval}ms`);
 
-            this.timer = setInterval(() => {
+            this.timer = setInterval(async () => {
                 for(const g of this.gates.filter((g) => g.bus == "in"))
                 {
-                    g.read();
+                    await g.read();
                 }
 
             }, this.ioScannerInterval);

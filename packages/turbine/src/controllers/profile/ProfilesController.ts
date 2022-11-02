@@ -153,16 +153,20 @@ export class ProfileController extends Controller {
          * Route to create a profile from given body
          */
         AuthManager.getInstance().registerEndpointPermission("profile.create", {endpoint: new RegExp("/v1/profiles/create/", "g"), method: "post"});
-        this._router.put('/create/', async (req: Request, res: Response) => {
+        this._router.put('/create/', async (req: Request & { body: IProfileHydrated }, res: Response) => {
 
-            if(req.body.id == "created")
+            if(req.body._id == "created")
             {
-                delete req.body.id;
+                delete req.body._id;
 
-                const profile = req.body as IProfileHydrated;
-                const created = this.prepareToStore(profile);
+                req.body.isOverwritable = true;
+                req.body.isRemovable = true;
+                req.body.isPremade = false;
 
-                res.status(200).json(await (await ProfileModel.create(created)).toObject());
+                const created = this.prepareToStore(req.body);
+                const mongooseCreated = await ProfileModel.create(created);
+
+                res.status(200).json(this.hydrateProfile(mongooseCreated.toJSON()));
                 return;
             }
             else
@@ -297,7 +301,7 @@ export class ProfileController extends Controller {
         const profile = await ProfileModel.findById(id);
 
         if(profile)
-            return this.hydrateProfile(profile.toObject());
+            return this.hydrateProfile(profile.toJSON());
 
         return;
     }
@@ -328,7 +332,7 @@ export class ProfileController extends Controller {
 
     public async socketData(): Promise<IProfileHydrated[]>
     {
-        const list = (await ProfileModel.find({})).map(d => this.hydrateProfile(d.toObject()));
+        const list = (await ProfileModel.find({})).map(d => this.hydrateProfile(d.toJSON()));
         return [...list, ...this.profilePremades] as IProfileHydrated[]
     }
 }

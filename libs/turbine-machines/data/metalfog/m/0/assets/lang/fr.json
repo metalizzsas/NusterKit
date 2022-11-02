@@ -48,7 +48,11 @@
             "emergency-stop": "Bouton d'arret d'urgence",
             "cover-closed": "Couvercle fermé",
             "air-sensor": "Pression d'air comprimé",
-            "levels#eff-max-n": "Niveau d'effluent"
+            "levels#eff-max-n": "Niveau d'effluent",
+            "maintenance-filter": "Filtre machine",
+            "oxydiser-life": "Durée de vie oxydant",
+            "activator-life": "Durée de vie activant",
+            "reducer-life": "Durée de vie réducteur"
         },
         "names": {
             "default": "Cycle de base metalfog"

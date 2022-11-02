@@ -1,5 +1,17 @@
 # @metalizzsas/nuster-turbine
 
+## 1.7.9
+
+### Patch Changes
+
+- fix: Action Modal do not have a closing button, but was required for some views ([#98](https://github.com/metalizzsas/NusterKit/pull/98))
+  fix: Renamed modals to be more clear
+  fix: Quickstart modals & rows now have translated profile name
+  fix: Quickstart profiles now display correct buttons for profiles
+  feat: Select new profile when created using Quickstart
+
+  fix: ProfileController now uses `toJSON()` instead of `toObject()`
+
 ## 1.7.8
 
 ### Patch Changes

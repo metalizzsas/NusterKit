@@ -1,5 +1,19 @@
 # @metalizzsas/nuster-turbine
 
+## 1.7.7
+
+### Patch Changes
+
+- fix: mapped gates now only return 10^-2 digits ([#92](https://github.com/metalizzsas/NusterKit/pull/92))
+
+- added ioScannerInterval for modbus controllers to extends interval between io reads over the network ([#94](https://github.com/metalizzsas/NusterKit/pull/94))
+
+- add: re-added support for legacy Metalfog hardware ([#94](https://github.com/metalizzsas/NusterKit/pull/94))
+
+- Updated dependencies [[`12e6dc4`](https://github.com/metalizzsas/NusterKit/commit/12e6dc446c1a1f46803cf05fbfdaed46edbcb7bd), [`102c66d`](https://github.com/metalizzsas/NusterKit/commit/102c66d0d5dd938997c67751549c65314096f049)]:
+  - @metalizzsas/nuster-typings@1.2.6
+  - @metalizzsas/nuster-turbine-machines@1.2.5
+
 ## 1.7.6
 
 ### Patch Changes

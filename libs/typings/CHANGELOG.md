@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-typings
 
+## 1.2.6
+
+### Patch Changes
+
+- added ioScannerInterval for modbus controllers to extends interval between io reads over the network ([#94](https://github.com/metalizzsas/NusterKit/pull/94))
+
 ## 1.2.5
 
 ### Patch Changes

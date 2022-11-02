@@ -426,7 +426,32 @@
             }
         }
     ],
-    "maintenance": [],
+    "maintenance": [
+        {
+            "name": "mfm-filter",
+            "durationType": "cycle",
+            "durationLimit": 50,
+            "procedure": {
+               "tools": [],
+               "steps": [
+                  {
+                     "name": "unscrew-mfm-filter",
+                     "media": [
+                        "0.jpg"
+                     ]
+                  },
+                  {
+                     "name": "replace-mfm-new-filter",
+                     "media": [
+                        "1.jpg",
+                        "2.jpg",
+                        "1.jpg"
+                     ]
+                  }
+               ]
+            }
+         }
+    ],
     "manual": [
         {
             "name": "motor-rotation",

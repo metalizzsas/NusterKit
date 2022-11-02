@@ -182,5 +182,17 @@
 
             "met#chem": "Chemicals pulverization"
         }
+    },
+    "maintenance": {
+        "tasks": {
+            "mfm-filter": {
+                "name": "Filter",
+                "desc": "Metalfog filter filters all gases produced by the chemicals reactions done inside the machine.",
+                "procedure": {
+                    "unscrew-mfm-filter": "Unscrew the filter from the machine",
+                    "replace-mfm-new-filter": "Replace the old filter with a new filter"
+                }
+            }
+        }
     }
 }

@@ -18,7 +18,7 @@
 	{#if shown}
 		<div
 			class="fixed top-0 right-0 left-0 backdrop-brightness-50 z-50"
-			style={$keyboardShown ? `bottom: ${$keyboardHeight} px;` : 'bottom: 0px;'}
+			style={$keyboardShown ? `bottom: ${$keyboardHeight}px;` : 'bottom: 0px;'}
 			in:fade={{ duration: 250 }}
 			out:fade={{ duration: 250 }}
 			on:click|self={() => (shown = false)}

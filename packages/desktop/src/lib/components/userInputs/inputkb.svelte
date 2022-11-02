@@ -8,7 +8,7 @@
 
 	import { _ } from 'svelte-i18n';
 	import { keyboardShown, keyboardHeight } from '$lib/utils/stores/keyboard';
-	import { BUNDLED } from '$lib/bundle';
+	//import { BUNDLED } from '$lib/bundle';
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher<{change: {value: number | string}}>();
@@ -18,10 +18,15 @@
 	export let disabled = false;
 	export let automaticLength = false;
 
-	/**
-	 * options.class @deprecated
-	 */
-	export let options: { class?: string; placeholder?: string; min?: number; max?: number } = {};
+	const BUNDLED = "true";
+
+	export let options: { 
+		/** @deprecated */
+		class?: string;
+		placeholder?: string; 
+		min?: number; 
+		max?: number 
+	} = {};
 
 	const focusScroll = () => document.getElementById(typeof value === 'number' ? '#inputNumeric' : '#inputString')?.scrollTo();
 
@@ -37,12 +42,24 @@
 				if (focused && button == '{enter}') {
 					focused = false;
 				}
+				if (button === "{shift}" || button === "{lock}") {
+					let currentLayout = keyboard.options.layoutName;
+					let shiftToggle = currentLayout === "default" ? "shift" : "default";
+
+					keyboard.setOptions({
+						layoutName: shiftToggle
+					});
+				}
 			},
 			inputPattern: typeof value === 'number' ? /^[0-9]*$/ : undefined,
 		});
 
 		keyboard.setInput(`${value}`);
 	};
+
+	
+
+	
 
 	let scrollY: number;
 
@@ -93,7 +110,8 @@
 		type="text"
 		class={`${options['class']} ${$$props.class || ''}`}
 		placeholder={options['placeholder']}
-		style={`-webkit-appearance: none; ${automaticLength ? 'width: {String(value).length}ch;' : ''}`}
+		style={"-webkit-appearance: none;"}
+		style:width={(automaticLength) ? `${String(value).length}ch` : undefined}
 		bind:value
 		on:click={() => {
 			focused = true;

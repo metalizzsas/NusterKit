@@ -1,13 +1,13 @@
 <script lang="ts">
 	import type { ISlotHydrated } from "@metalizzsas/nuster-typings/build/hydrated/slot";
 	import type { EProductSeries } from "@metalizzsas/nuster-typings/build/spec/slot/products";
-	import Actionmodal from "../modals/actionmodal.svelte";
     import { _ } from "svelte-i18n";
 	import Button from "../button.svelte";
 	import Flex from "../layout/flex.svelte";
     import { Linker } from "$lib/utils/stores/linker";
 	import { execCTA } from "$lib/utils/callToAction";
 	import { goto } from "$app/navigation";
+	import Modal from "../modals/modal.svelte";
 
     export let shown = false;
     export let slot: ISlotHydrated;
@@ -37,7 +37,7 @@
         }
         else
         {
-            if(slot.supportedProductSeries?.includes(selectedProduct as EProductSeries))
+            if(slot.supportedProductSeries?.includes(selectedProduct))
                 void fetch(`//${$Linker}/api/v1/slots/${slot.name}/load/${selectedProduct}`, { method: 'post' });
         }
 
@@ -48,9 +48,8 @@
 
 </script>
 
-<Actionmodal bind:shown zIndex={150}>
+<Modal bind:shown title={$_('slots.modal.load')}>
     <Flex direction={"col"} gap={3}>
-        <h2 class="text-xl leading-6 text-cente self-start">{$_('slots.modal.load')}</h2>
         {#if slot.supportedProductSeries !== undefined && slot.supportedProductSeries.length > 1}
             <Flex direction={"col"} gap={1}>
                 <p>{$_(`slots.modal.chooseProductToLoad`)}</p>
@@ -76,4 +75,4 @@
         {/if}
         <Button on:click={load}>{$_("slots.modal.load")}</Button>
     </Flex>
-</Actionmodal>
+</Modal>

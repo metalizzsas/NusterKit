@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '$lib/app.css';
-	import Modal from '$lib/components/modals/modal.svelte';
+	import Modal from '$lib/components/modals/modalchoice.svelte';
 	import Inputkb from '$lib/components/userInputs/inputkb.svelte';
 	import { onDestroy, onMount } from 'svelte';
 	import { _ } from 'svelte-i18n';

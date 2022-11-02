@@ -5,7 +5,7 @@
 	import { goto } from '$app/navigation';
 	import { Linker } from '$lib/utils/stores/linker';
 	import { navTitle } from '$lib/utils/stores/navstack';
-	import Modal from '$lib/components/modals/modal.svelte';
+	import Modal from '$lib/components/modals/modalchoice.svelte';
 	import Rating from '$lib/components/userInputs/rating.svelte';
 	import Label from '$lib/components/label.svelte';
 	import Button from '$lib/components/button.svelte';

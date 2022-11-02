@@ -7,7 +7,6 @@
 	import { goto } from '$app/navigation';
 	import { execCTA } from '$lib/utils/callToAction';
 
-	import Actionmodal from '../modals/actionmodal.svelte';
 	import Button from '../button.svelte';
 	import Flex from '../layout/flex.svelte';
 	import Grid from "../layout/grid.svelte";
@@ -23,6 +22,7 @@
 	import type { EProductSeries } from '@metalizzsas/nuster-typings/build/spec/slot/products';
 	import { machineData } from "$lib/utils/stores/store";
 	import Producttimetrackerrorlabel from './producttimetrackerrorlabel.svelte';
+	import Modal from '../modals/modal.svelte';
 
 	export let slotContent: ISlotHydrated;
 	export let shown: boolean;
@@ -85,19 +85,22 @@
 	$: if($keyboardShown) { $lockMachineData = true; } else { $lockMachineData = false; }
 </script>
 
+<Modal bind:shown>
 
-<Actionmodal bind:shown>
-	<Flex direction="col" gap={4}>
+	<div slot="title">
 		<Flex class="justify-between align-middle items-center">
 			<h2 class="text-xl leading-6 text-center">{$_('slots.modal.informations')}</h2>
 			<Label
 				color="bg-gradient-to-br {$_('slots.colors.' + slotContent.name, {
 					default: 'from-indigo-400 to to-indigo-500',
 				})} text-white font-semibold"
+				size="small"
 			>
 				{$_('slots.types.' + slotContent.name)}
 			</Label>
 		</Flex>
+	</div>
+	<Flex direction="col" gap={4}>
 
 		{#if slotContent.productData?.lifetimeRemaining !== undefined && slotContent.productData?.loadedProductType}
 			<Flex gap={1} direction={'col'}>
@@ -187,7 +190,6 @@
 		{/if}
 
 	</Flex>
-</Actionmodal>
+</Modal>
 
 <Slotmodalload bind:shown={loadProductModalShown} bind:slot={slotContent}/>
-

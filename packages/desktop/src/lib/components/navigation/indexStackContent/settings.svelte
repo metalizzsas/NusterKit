@@ -6,7 +6,7 @@
 
 	import { goto } from '$app/navigation';
 
-	import Modalcontent from "$lib/components/modals/modalcontent.svelte";
+	import Modalcontent from "$lib/components/modals/modal.svelte";
 	import Toggle from '$lib/components/userInputs/toggle.svelte';
 	import Modalprompt from '$lib/components/modals/modalprompt.svelte';
 	import Button from '$lib/components/button.svelte';

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '$lib/app.css';
 	import { beforeUpdate, onMount } from 'svelte';
-	import Modalcontent from '$lib/components/modals/modalcontent.svelte';
+	import Modalcontent from '$lib/components/modals/modal.svelte';
 	import Machine from '$lib/components/machinelist/machine.svelte';
 	import { BUNDLED } from '$lib/bundle';
 	import { goto } from '$app/navigation';

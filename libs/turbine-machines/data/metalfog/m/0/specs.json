@@ -171,19 +171,26 @@
         {
             "name": "ox",
             "type": "psp",
+            "supportedProductSeries": [
+                "usl_ox"
+            ],
             "sensors": []
         },
         {
             "name": "rd",
             "type": "psp",
+            "supportedProductSeries": [
+                "usl_rd"
+            ],
             "sensors": []
-
         },
         {
             "name": "act",
             "type": "psp",
+            "supportedProductSeries": [
+                "usl_act"
+            ],
             "sensors": []
-
         },
         {
             "name": "edi",
@@ -645,6 +652,68 @@
                         "io": {
                             "gateName": "levels#eff-max-n",
                             "gateValue": 1
+                        }
+                    }
+                },
+                {
+                    "conditionName": "maintenance-filter",
+                    "startOnly": true,
+                    "checkChain": {
+                        "name": "parameter",
+                        "parameter": {
+                            "name": "conditional",
+                            "value": "==",
+                            "params": [
+                                {
+                                    "name": "maintenance",
+                                    "value": "mfm-filter"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 1
+                                },
+                                {
+                                    "name": "conststr",
+                                    "value": "warning"
+                                },
+                                {
+                                    "name": "conststr",
+                                    "value": "good"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "conditionName": "activator-life",
+                    "startOnly": true,
+                    "checkChain": {
+                        "name": "parameter",
+                        "parameter": {
+                            "name": "slotstatus",
+                            "value": "act"
+                        }
+                    }
+                },
+                {
+                    "conditionName": "oxydiser-life",
+                    "startOnly": true,
+                    "checkChain": {
+                        "name": "parameter",
+                        "parameter": {
+                            "name": "slotstatus",
+                            "value": "rd"
+                        }
+                    }
+                },
+                {
+                    "conditionName": "reducer-life",
+                    "startOnly": true,
+                    "checkChain": {
+                        "name": "parameter",
+                        "parameter": {
+                            "name": "slotstatus",
+                            "value": "ox"
                         }
                     }
                 }
@@ -1751,7 +1820,17 @@
                             "cycle": "default"
                         }
                     ]
-                }
+                },
+                {
+                    "path": "slots.0.supportedProductSeries",
+                    "mode": "merge",
+                    "content": ["llc_ox"]
+                 },
+                 {
+                    "path": "slots.1.supportedProductSeries",
+                    "mode": "merge",
+                    "content": ["llc_rd"]
+                 }
             ]
         }
     ]

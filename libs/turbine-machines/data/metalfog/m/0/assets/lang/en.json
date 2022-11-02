@@ -48,7 +48,11 @@
             "emergency-stop": "Emergency stop button",
             "cover-closed": "Cover closed",
             "air-sensor": "Air pressure",
-            "levels#eff-max-n": "Waste level"
+            "levels#eff-max-n": "Waste level",
+            "maintenance-filter": "Machine filter",
+            "oxydiser-life": "Oxydiser state",
+            "activator-life": "Activator state",
+            "reducer-life": "Reducer state"
         },
         "names": {
             "default": "Base metalfog cycle",

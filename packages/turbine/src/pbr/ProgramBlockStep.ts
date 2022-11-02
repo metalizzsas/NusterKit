@@ -78,8 +78,14 @@ export class ProgramBlockStep implements IProgramStepRunner
         //Disable step overtime timeout if the step duration is equal to -1
         if(this.duration.data() != -1)
             this.stepOvertimeTimer = setTimeout(() => {
-                this.pbrInstance.end("stepOvertime"); 
-                LoggerInstance.error(`PBS-${this.name}: Step has been too long. Triggering stepOvertime.`); 
+
+                if(this.state == "started")
+                {
+                    LoggerInstance.error(`PBS-${this.name}: Step has been too long. Triggering stepOvertime.`); 
+                    this.pbrInstance.end("stepOvertime"); 
+                }
+                else
+                    LoggerInstance.warn(`PBS-${this.name}: Step overtime has been canceled because step was not running.`);
             }, this.duration.data() * 2000);
 
         this.startTime = Date.now();

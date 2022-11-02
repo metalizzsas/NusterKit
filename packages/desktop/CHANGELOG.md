@@ -1,5 +1,16 @@
 # @metalizzsas/nuster-desktop
 
+## 1.7.10
+
+### Patch Changes
+
+- added /remote route to access nuster desktop via remote ip ([#94](https://github.com/metalizzsas/NusterKit/pull/94))
+
+- fix: input analog gates were showing the slider ([#92](https://github.com/metalizzsas/NusterKit/pull/92))
+  fix: changelog was sometimes not found due to relative url instead of absolute
+
+- fix: SSR is now disabled, it prevent error messages to be shown at each page refresh ([#94](https://github.com/metalizzsas/NusterKit/pull/94))
+
 ## 1.7.9
 
 ### Patch Changes

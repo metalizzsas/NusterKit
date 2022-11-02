@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.2.5
+
+### Patch Changes
+
+- add: re-added support for legacy Metalfog hardware ([#94](https://github.com/metalizzsas/NusterKit/pull/94))
+
 ## 1.2.4
 
 ### Patch Changes

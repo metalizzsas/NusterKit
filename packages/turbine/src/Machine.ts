@@ -21,6 +21,7 @@ import type { IVPNData } from "@metalizzsas/nuster-typings/build/hydrated/balena
 
 import type { ConfigModel, ConfigVariant } from "@metalizzsas/nuster-typings/build/configuration";
 
+import * as MetalfogMR0 from "@metalizzsas/nuster-turbine-machines/data/metalfog/m/0/specs.json";
 import * as MetalfogMR1 from "@metalizzsas/nuster-turbine-machines/data/metalfog/m/1/specs.json";
 
 import * as SmoothitMR1 from "@metalizzsas/nuster-turbine-machines/data/smoothit/m/1/specs.json";
@@ -31,6 +32,7 @@ import * as USCleanerMR1 from "@metalizzsas/nuster-turbine-machines/data/usclean
 type models = `${ConfigModel}/${ConfigVariant}/${number}`;
 
 export const AvailableMachineModels: {[x: models]: unknown} = {
+    "metalfog/m/0": MetalfogMR0,
     "metalfog/m/1": MetalfogMR1,
     "smoothit/m/1": SmoothitMR1,
     "smoothit/m/2": SmoothitMR2,

@@ -13,8 +13,6 @@
 	import { initi18nLocal } from '$lib/utils/i18n/i18nlocal';
 	import Loadindicator from '$lib/components/loadindicator.svelte';
 
-	export const ssr = false;
-
 	onMount(() => {
 
 		initi18nLocal();

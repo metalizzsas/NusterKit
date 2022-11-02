@@ -1,0 +1,182 @@
+{
+    "slots": {
+        "types": {
+            "ox": "Oxydiser",
+            "rd": "Reducer",
+            "act": "Activator",
+            "edi": "DI Water",
+            "eff": "Effluents"
+        },
+        "colors": {
+            "act": "from-red-500 to-red-600",
+            "edi": "from-blue-800 to-blue-900",
+            "eff": "from-zinc-700 to-zinc-800",
+            "ox": "from-emerald-800 to-emerald-900",
+            "rd": "from-zinc-400 to-zinc-500"
+        }
+    },
+    "profile": {
+        "categories": {
+            "motor": "Rotation Motor",
+            "activation": "Activation",
+            "metalization": "Metallization",
+            "wash1": "Wash 1",
+            "wash2": "Wash 2",
+            "drying": "Drying",
+            "vapors-extraction": "Vapors extraction"
+        },
+        "rows": {
+            "enabled": "Enabled",
+            "speed": "Speed",
+            "duration": "Duration",
+            "count": "Iteration count",
+            "timeOn": "Time enabled",
+            "timeOff": "Time disabled",
+            "reverseEnabled": "Motor direction reverse",
+            "reverseTime": "Motor reverser timer"
+        }
+    },
+    "cycle": {
+        "endreasons": {
+            "security-emergency-stop": "Emergency stop button pressed",
+            "security-air-sensor": "Air pressure too low",
+            "security-cover-closed": "Cover open",
+            "security-levels#eff-max-n": "Effluents too high",
+            "activator-timed-out": "Activator dilution was too long"
+        },
+        "startconditions": {
+            "emergency-stop": "Emergency stop button",
+            "cover-closed": "Cover closed",
+            "air-sensor": "Air pressure",
+            "levels#eff-max-n": "Waste level"
+        },
+        "names": {
+            "default": "Base metalfog cycle",
+            "act-fill": "Activator dilution",
+            "container-cleaning": "Container cleaning",
+            "emptying-activator": "Emptying activator",
+            "emptying-reactives": "Emptying reactives",
+            "nozzle-cleaning": "Nozzle cleaning"
+        },
+        "types": {
+            "llc": "Look Like Chromium — LLC",
+            "usl": "Utility Silver Layer — USL",
+            "usl-retake": "USL retake",
+            "usl-activation-porous": "USL Porous parts activation",
+            "cem": "CEM shielding",
+            "cem-retake": "CEM shielding retake",
+            "act-fill": "Activator dilution",
+            "container-cleaning": "Container cleaning",
+            "emptying-activator": "Emptying activator",
+            "emptying-reactives": "Emptying reactives"
+        },
+        "steps": {
+            "start": {
+                "name": "Start",
+                "desc": "Starting the cycle, preheating air."
+            },
+            "activation": {
+                "name": "Activation",
+                "desc": "Activating parts surface."
+            },
+            "wash1": {
+                "name": "Washing 1",
+                "desc": "Washing the parts."
+            },
+            "metalization": {
+                "name": "Metallization",
+                "desc": "Applying chemicals to generate metallic layer on your part."
+            },
+            "nozzle-cleaning": {
+                "name": "Nozzle cleaning",
+                "desc": "Cleaning the metalization nozzles to ehance their lifespan and fiability."
+            },
+            "wash2": {
+                "name": "Washing 2",
+                "desc": "Final washing before part drying."
+            },
+            "drying": {
+                "name": "Drying",
+                "desc": "Parts drying."
+            },
+            "vapors-extraction": {
+                "name": "Vapors filtering",
+                "desc": "Filtering gases and thin particules produced by the program."
+            },
+            "act-fill": {
+                "name": "Activator dilution",
+                "desc": "DI Water is transfered to Activator containter to dilute concentrated activator."
+            },
+            "container-cleaning": {
+                "name": "Cleaning",
+                "desc": "Cleaning reactive containers"
+            },
+            "emptying-activator": {
+                "name": "Emptying activator",
+                "desc": "Emptying activator container"
+            },
+            "emptying-reactives": {
+                "name": "Emptying reactives",
+                "desc": "Emptying reactives containers"
+            }
+        }
+    },
+    "gates": {
+        "categories": {
+            "motor": "Rotation Motor",
+            "levels": "Levels",
+            "hybrid": "Activator & DI Water",
+            "met": "Chemicals"
+        },
+        "names": {
+            "emergency-stop": "Emergency stop button",
+            "cover-closed": "Cover closed",
+            "air-sensor": "Air pressure sensor",
+            
+            "air-heater": "Air heater",
+            "ventilation": "Vapors extraction",
+            
+            "motor#direction": "Motor direction",
+            "motor#speed": "Motor speed",
+            
+            "levels#eff-max-n": "Effluents limit",
+            
+            "hybrid#act-res": "Activator container pressure",
+            "hybrid#edi-res": "DI Water container pressure",
+
+            "hybrid#plv": "Activator & DI water pulverization",
+
+            "hybrid#lq-act": "Activator liquid control",
+            "hybrid#lq-edi": "DI water liquid control",
+
+            "met#chem-res": "Oxydiser & Reducer container pressure",
+
+            "met#plv": "Metallization pulverization",
+
+            "met#lq-rd": "Reducer liquid control",
+            "met#lq-ox": "Oxydiser liquid control"
+        }
+    },
+    "manual": {
+        "categories": {
+            "generic": "Generic",
+            "empty": "Emptying",
+            "hybrid": "Activator & DI Water",
+            "met": "Reactives"
+        },
+        "tasks": {
+            "motor-rotation": "Motor speed",
+            "ventilation": "Vapors extraction",
+            "air-heater": "Air heater",
+
+            "empty#act": "Emptying activator container",
+            "empty#edi": "Emptying di water container",
+            "empty#chem": "Emptying chemicals containers",
+
+            "hybrid#act": "Activator pulverisation",
+            "hybrid#edi": "DI Water pulverisation",
+
+            "met#chem": "Chemicals pulverization"
+        }
+    }
+}

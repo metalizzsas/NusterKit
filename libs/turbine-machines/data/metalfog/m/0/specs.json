@@ -1,0 +1,1758 @@
+{
+    "$schema": "../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-specs.json",
+    "iohandlers": [
+        {
+            "type": "wago",
+            "ip": "192.168.1.10",
+            "ioScannerInterval": 2500
+        }
+    ],
+    "iogates": [
+        {
+            "name": "emergency-stop",
+            "type": "default",
+            "bus": "in",
+            "controllerId": 0,
+            "address": 1016,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "air-sensor",
+            "type": "default",
+            "bus": "in",
+            "controllerId": 0,
+            "address": 1017,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "cover-closed",
+            "type": "default",
+            "bus": "in",
+            "controllerId": 0,
+            "address": 1018,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "levels#eff-max-n",
+            "type": "default",
+            "bus": "in",
+            "controllerId": 0,
+            "address": 1019,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "motor#speed",
+            "type": "mapped",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 1,
+            "default": 0,
+            "size": "word",
+            "unity": "RPM",
+            "mapInMin": 0,
+            "mapInMax": 32767,
+            "mapOutMin": 0,
+            "mapOutMax": 100
+        },
+        {
+            "name": "motor#direction",
+            "type": "default",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 1000,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "ventilation",
+            "type": "default",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 1001,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "air-heater",
+            "type": "default",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 1002,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "hybrid#act-res",
+            "type": "default",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 1003,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "hybrid#edi-res",
+            "type": "default",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 1004,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "met#chem-res",
+            "type": "default",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 1005,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "hybrid#plv",
+            "type": "default",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 1006,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "met#plv",
+            "type": "default",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 1007,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "hybrid#lq-act",
+            "type": "default",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 1008,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "hybrid#lq-edi",
+            "type": "default",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 1009,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "met#lq-ox",
+            "type": "default",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 1010,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "met#lq-rd",
+            "type": "default",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 1011,
+            "default": 0,
+            "size": "bit"
+        }
+    ],
+    "slots": [
+        {
+            "name": "ox",
+            "type": "psp",
+            "sensors": []
+        },
+        {
+            "name": "rd",
+            "type": "psp",
+            "sensors": []
+
+        },
+        {
+            "name": "act",
+            "type": "psp",
+            "sensors": []
+
+        },
+        {
+            "name": "edi",
+            "type": "psp",
+            "sensors": []
+        },
+        {
+            "name": "eff",
+            "type": "cnt",
+            "sensors": [
+                {
+                    "io": "levels#eff-max-n",
+                    "type": "level-max-n"
+                }
+            ]
+        }
+    ],
+    "profileSkeletons": [
+        {
+            "name": "default",
+            "fields": [
+                {
+                    "name": "activation#enabled",
+                    "type": "bool",
+                    "value": 1
+                },
+                {
+                    "name": "activation#timeOn",
+                    "type": "time",
+                    "units": [
+                        "seconds",
+                        "milliseconds"
+                    ],
+                    "value": 2
+                },
+                {
+                    "name": "activation#timeOff",
+                    "type": "time",
+                    "units": [
+                        "seconds",
+                        "milliseconds"
+                    ],
+                    "value": 10
+                },
+                {
+                    "name": "activation#count",
+                    "type": "int",
+                    "value": 5
+                },
+                {
+                    "name": "wash1#enabled",
+                    "type": "bool",
+                    "value": 1
+                },
+                {
+                    "name": "wash1#duration",
+                    "type": "time",
+                    "units": [
+                        "minutes",
+                        "seconds"
+                    ],
+                    "value": 15
+                },
+                {
+                    "name": "metalization#enabled",
+                    "type": "bool",
+                    "value": 1
+                },
+                {
+                    "name": "metalization#timeOn",
+                    "type": "time",
+                    "units": [
+                        "seconds",
+                        "milliseconds"
+                    ],
+                    "value": 2
+                },
+                {
+                    "name": "metalization#timeOff",
+                    "type": "time",
+                    "units": [
+                        "seconds",
+                        "milliseconds"
+                    ],
+                    "value": 10
+                },
+                {
+                    "name": "metalization#count",
+                    "type": "int",
+                    "value": 5
+                },
+                {
+                    "name": "wash2#enabled",
+                    "type": "bool",
+                    "value": 1
+                },
+                {
+                    "name": "wash2#duration",
+                    "type": "time",
+                    "units": [
+                        "minutes",
+                        "seconds"
+                    ],
+                    "value": 45
+                },
+                {
+                    "name": "vapors-extraction#enabled",
+                    "type": "bool",
+                    "value": 1
+                },
+                {
+                    "name": "vapors-extraction#duration",
+                    "type": "time",
+                    "units": [
+                        "minutes",
+                        "seconds"
+                    ],
+                    "value": 45
+                },
+                {
+                    "name": "motor#enabled",
+                    "type": "bool",
+                    "value": 1
+                },
+                {
+                    "name": "motor#speed",
+                    "type": "float",
+                    "unity": "RPM",
+                    "value": 50,
+                    "floatMin": 0,
+                    "floatMax": 100,
+                    "floatStep": 5
+                },
+                {
+                    "name": "motor#reverseEnabled",
+                    "type": "bool",
+                    "value": 1
+                },
+                {
+                    "name": "motor#reverseTime",
+                    "type": "time",
+                    "units": [
+                        "seconds"
+                    ],
+                    "value": 1
+                }
+            ]
+        }
+    ],
+    "profilePremades": [
+        {
+            "skeleton": "default",
+            "_id": "premade_usl",
+            "name": "usl",
+            "isPremade": true,
+            "isRemovable": false,
+            "isOverwritable": false,
+            "values": {
+                "motor#enabled": 1,
+                "motor#speed": 50,
+                "motor#reverseEnabled": 1,
+                "motor#reverseTime": 5,
+                "activation#enabled": 1,
+                "activation#timeOn": 5,
+                "activation#timeOff": 10,
+                "activation#count": 3,
+                "wash1#enabled": 1,
+                "wash1#duration": 35,
+                "metalization#enabled": 1,
+                "metalization#timeOn": 6,
+                "metalization#timeOff": 10,
+                "metalization#count": 10,
+                "wash2#enabled": 1,
+                "wash2#duration": 35,
+                "vapors-extraction#enabled": 1,
+                "vapors-extranction#duration": 45
+            }
+        },
+        {
+            "skeleton": "default",
+            "_id": "premade_usl-retake",
+            "name": "usl-retake",
+            "isPremade": true,
+            "isRemovable": false,
+            "isOverwritable": false,
+            "values": {
+                "motor#enabled": 1,
+                "motor#speed": 50,
+                "motor#reverseEnabled": 1,
+                "motor#reverseTime": 5,
+                "activation#enabled": 0,
+                "activation#timeOn": 5,
+                "activation#timeOff": 10,
+                "activation#count": 3,
+                "wash1#enabled": 1,
+                "wash1#duration": 35,
+                "metalization#enabled": 1,
+                "metalization#timeOn": 6,
+                "metalization#timeOff": 10,
+                "metalization#count": 10,
+                "wash2#enabled": 1,
+                "wash2#duration": 35,
+                "vapors-extraction#enabled": 1,
+                "vapors-extranction#duration": 45
+            }
+        },
+        {
+            "skeleton": "default",
+            "_id": "premade_usl-activation-porous",
+            "name": "usl-activation-porous",
+            "isPremade": true,
+            "isRemovable": false,
+            "isOverwritable": false,
+            "values": {
+                "motor#enabled": 1,
+                "motor#speed": 50,
+                "motor#reverseEnabled": 1,
+                "motor#reverseTime": 5,
+                "activation#enabled": 1,
+                "activation#timeOn": 5,
+                "activation#timeOff": 10,
+                "activation#count": 3,
+                "wash1#enabled": 1,
+                "wash1#duration": 35,
+                "metalization#enabled": 0,
+                "metalization#timeOn": 6,
+                "metalization#timeOff": 10,
+                "metalization#count": 10,
+                "wash2#enabled": 0,
+                "wash2#duration": 35,
+                "vapors-extraction#enabled": 1,
+                "vapors-extranction#duration": 45
+            }
+        }
+    ],
+    "maintenance": [],
+    "manual": [
+        {
+            "name": "motor-rotation",
+            "controls": [
+                {
+                    "name": "motor#speed",
+                    "analogScaleDependant": true,
+                    "isValueAbsolute": true
+                },
+                {
+                    "name": "motor#direction",
+                    "analogScaleDependant": false,
+                    "triggerWhenNegative": true
+                }
+            ],
+            "analogScale": {
+                "min": -100,
+                "max": 100
+            },
+            "watchdog": [
+                {
+                    "gateName": "cover-closed",
+                    "gateValue": 1
+                }
+            ]
+        },
+        {
+            "name": "hybrid#act",
+            "controls": [
+                "hybrid#plv",
+                "hybrid#lq-act"
+            ],
+            "requires": [
+                "ventilation"
+            ],
+            "incompatibility": [
+                "hybrid#edi",
+                "empty#act",
+                "empty#edi"
+            ],
+            "watchdog": [
+                {
+                    "gateName": "levels#eff-max-n",
+                    "gateValue": 1
+                }
+            ]
+        },
+        {
+            "name": "hybrid#edi",
+            "controls": [
+                "hybrid#plv",
+                "hybrid#edi-res",
+                "hybrid#lq-edi"
+            ],
+            "requires": [
+                "ventilation"
+            ],
+            "incompatibility": [
+                "hybrid#act",
+                "empty#act",
+                "empty#edi"
+            ],
+            "watchdog": [
+                {
+                    "gateName": "levels#eff-max-n",
+                    "gateValue": 1
+                }
+            ]
+        },
+        {
+            "name": "met#chem",
+            "incompatibility": [
+                "empty#chem"
+            ],
+            "requires": [
+                "ventilation"
+            ],
+            "controls": [
+                "met#plv",
+                "met#chem-res",
+                "met#lq-ox",
+                "met#lq-rd"
+            ],
+            "watchdog": [
+                {
+                    "gateName": "levels#eff-max-n",
+                    "gateValue": 1
+                }
+            ]
+        },
+        {
+            "name": "ventilation",
+            "incompatibility": [],
+            "controls": [
+                "ventilation"
+            ]
+        },
+        {
+            "name": "air-heater",
+            "incompatibility": [],
+            "requires": [],
+            "controls": [
+                "air-heater"
+            ]
+        },
+        {
+            "name": "empty#act",
+            "incompatibility": [
+                "hybrid#act",
+                "hybrid#edi",
+                "met#chem",
+                "empty#edi"
+            ],
+            "controls": [
+                "hybrid#act-res",
+                "hybrid#lq-act"
+            ],
+            "watchdog": [
+                {
+                    "gateName": "levels#eff-max-n",
+                    "gateValue": 1
+                }
+            ]
+        },
+        {
+            "name": "empty#edi",
+            "incompatibility": [
+                "hybrid#act",
+                "hybrid#edi",
+                "met#chem",
+                "empty#act"
+            ],
+            "controls": [
+                "hybrid#edi-res",
+                "hybrid#lq-edi"
+            ],
+            "watchdog": [
+                {
+                    "gateName": "levels#eff-max-n",
+                    "gateValue": 1
+                }
+            ]
+        },
+        {
+            "name": "empty#chem",
+            "incompatibility": [
+                "hybrid#act",
+                "hybrid#edi",
+                "met#chem"
+            ],
+            "controls": [
+                "met#chem-res",
+                "met#lq-ox",
+                "met#lq-rd"
+            ],
+            "watchdog": [
+                {
+                    "gateName": "levels#eff-max-n",
+                    "gateValue": 1
+                }
+            ]
+        }
+    ],
+    "cyclePremades": [
+        {
+            "name": "usl",
+            "profile": "premade_usl",
+            "cycle": "default"
+        },
+        {
+            "name": "usl-retake",
+            "profile": "premade_usl-retake",
+            "cycle": "default"
+        },
+        {
+            "name": "usl-activation-porous",
+            "profile": "premade_usl-activation-porous",
+            "cycle": "default"
+        }
+    ],
+    "cycleTypes": [
+        {
+            "name": "default",
+            "startConditions": [
+                {
+                    "conditionName": "emergency-stop",
+                    "startOnly": false,
+                    "checkChain": {
+                        "name": "io",
+                        "io": {
+                            "gateName": "emergency-stop",
+                            "gateValue": 1
+                        }
+                    }
+                },
+                {
+                    "conditionName": "air-sensor",
+                    "startOnly": false,
+                    "checkChain": {
+                        "name": "io",
+                        "io": {
+                            "gateName": "air-sensor",
+                            "gateValue": 1
+                        }
+                    }
+                },
+                {
+                    "conditionName": "cover-closed",
+                    "startOnly": false,
+                    "checkChain": {
+                        "name": "io",
+                        "io": {
+                            "gateName": "cover-closed",
+                            "gateValue": 1
+                        }
+                    }
+                },
+                {
+                    "conditionName": "levels#eff-max-n",
+                    "startOnly": false,
+                    "checkChain": {
+                        "name": "io",
+                        "io": {
+                            "gateName": "levels#eff-max-n",
+                            "gateValue": 1
+                        }
+                    }
+                }
+            ],
+            "steps": [
+                {
+                    "name": "start",
+                    "isEnabled": {
+                        "name": "const",
+                        "value": 1
+                    },
+                    "duration": {
+                        "name": "const",
+                        "value": 90
+                    },
+                    "startBlocks": [
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "ventilation"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "motor#speed"
+                                },
+                                {
+                                    "name": "multiply",
+                                    "params": [
+                                        {
+                                            "name": "profile",
+                                            "value": "motor#speed"
+                                        },
+                                        {
+                                            "name": "profile",
+                                            "value": "motor#enabled"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "if",
+                            "params": [
+                                {
+                                    "name": "profile",
+                                    "value": "motor#reverseEnabled"
+                                },
+                                {
+                                    "name": "conststr",
+                                    "value": "=="
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 1
+                                }
+                            ],
+                            "trueBlocks": [
+                                {
+                                    "name": "startTimer",
+                                    "params": [
+                                        {
+                                            "name": "conststr",
+                                            "value": "motorRotation"
+                                        },
+                                        {
+                                            "name": "profile",
+                                            "value": "motor#reverseTime"
+                                        }
+                                    ],
+                                    "blocks": [
+                                        {
+                                            "name": "io",
+                                            "params": [
+                                                {
+                                                    "name": "conststr",
+                                                    "value": "motor#direction"
+                                                },
+                                                {
+                                                    "name": "reverse",
+                                                    "value": "",
+                                                    "params": [
+                                                        {
+                                                            "name": "io",
+                                                            "value": "motor#direction"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ],
+                            "falseBlocks": []
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "air-heater"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 1
+                                }
+                            ]
+                        }
+                    ],
+                    "endBlocks": [],
+                    "blocks": [
+                        {
+                            "name": "sleep",
+                            "params": [
+                                {
+                                    "name": "const",
+                                    "value": 90
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "activation",
+                    "isEnabled": {
+                        "name": "profile",
+                        "value": "activation#enabled"
+                    },
+                    "duration": {
+                        "name": "multiply",
+                        "params": [
+                            {
+                                "name": "profile",
+                                "value": "activation#count"
+                            },
+                            {
+                                "name": "add",
+                                "params": [
+                                    {
+                                        "name": "profile",
+                                        "value": "activation#timeOn"
+                                    },
+                                    {
+                                        "name": "profile",
+                                        "value": "activation#timeOff"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "startBlocks": [
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "ventilation"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "motor#speed"
+                                },
+                                {
+                                    "name": "multiply",
+                                    "params": [
+                                        {
+                                            "name": "profile",
+                                            "value": "motor#speed"
+                                        },
+                                        {
+                                            "name": "profile",
+                                            "value": "motor#enabled"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "hybrid#act-res"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 1
+                                }
+                            ]
+                        }
+                    ],
+                    "endBlocks": [
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "hybrid#act-res"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ],
+                    "blocks": [
+                        {
+                            "name": "for",
+                            "params": [
+                                {
+                                    "name": "profile",
+                                    "value": "activation#count"
+                                }
+                            ],
+                            "blocks": [
+                                {
+                                    "name": "io",
+                                    "params": [
+                                        {
+                                            "name": "conststr",
+                                            "value": "hybrid#plv"
+                                        },
+                                        {
+                                            "name": "const",
+                                            "value": 1
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "sleep",
+                                    "params": [
+                                        {
+                                            "name": "const",
+                                            "value": 0.25
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "io",
+                                    "params": [
+                                        {
+                                            "name": "conststr",
+                                            "value": "hybrid#lq-act"
+                                        },
+                                        {
+                                            "name": "const",
+                                            "value": 1
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "sleep",
+                                    "params": [
+                                        {
+                                            "name": "profile",
+                                            "value": "activation#timeOn"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "io",
+                                    "params": [
+                                        {
+                                            "name": "conststr",
+                                            "value": "hybrid#lq-act"
+                                        },
+                                        {
+                                            "name": "const",
+                                            "value": 0
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "sleep",
+                                    "params": [
+                                        {
+                                            "name": "const",
+                                            "value": 0.25
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "io",
+                                    "params": [
+                                        {
+                                            "name": "conststr",
+                                            "value": "hybrid#plv"
+                                        },
+                                        {
+                                            "name": "const",
+                                            "value": 0
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "sleep",
+                                    "params": [
+                                        {
+                                            "name": "profile",
+                                            "value": "activation#timeOff"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "wash1",
+                    "isEnabled": {
+                        "name": "profile",
+                        "value": "wash1#enabled"
+                    },
+                    "duration": {
+                        "name": "profile",
+                        "value": "wash1#duration"
+                    },
+                    "startBlocks": [
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "ventilation"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "motor#speed"
+                                },
+                                {
+                                    "name": "multiply",
+                                    "params": [
+                                        {
+                                            "name": "profile",
+                                            "value": "motor#speed"
+                                        },
+                                        {
+                                            "name": "profile",
+                                            "value": "motor#enabled"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "hybrid#edi-res"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 1
+                                }
+                            ]
+                        }
+                    ],
+                    "endBlocks": [
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "hybrid#edi-res"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ],
+                    "blocks": [
+                        {
+                            "name": "sleep",
+                            "params": [
+                                {
+                                    "name": "const",
+                                    "value": 0.5
+                                }
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "hybrid#plv"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "sleep",
+                            "params": [
+                                {
+                                    "name": "const",
+                                    "value": 0.25
+                                }
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "hybrid#lq-edi"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "sleep",
+                            "params": [
+                                {
+                                    "name": "profile",
+                                    "value": "wash1#duration"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "hybrid#lq-edi"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "sleep",
+                            "params": [
+                                {
+                                    "name": "const",
+                                    "value": 0.25
+                                }
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "hybrid#plv"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "sleep",
+                            "params": [
+                                {
+                                    "name": "const",
+                                    "value": 0.5
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "metalization",
+                    "isEnabled": {
+                        "name": "profile",
+                        "value": "metalization#enabled"
+                    },
+                    "duration": {
+                        "name": "multiply",
+                        "params": [
+                            {
+                                "name": "profile",
+                                "value": "metalization#count"
+                            },
+                            {
+                                "name": "add",
+                                "params": [
+                                    {
+                                        "name": "profile",
+                                        "value": "metalization#timeOn"
+                                    },
+                                    {
+                                        "name": "profile",
+                                        "value": "metalization#timeOff"
+                                    },
+                                    {
+                                        "name": "const",
+                                        "value": 0.5
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "startBlocks": [
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "ventilation"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "motor#speed"
+                                },
+                                {
+                                    "name": "multiply",
+                                    "params": [
+                                        {
+                                            "name": "profile",
+                                            "value": "motor#speed"
+                                        },
+                                        {
+                                            "name": "profile",
+                                            "value": "motor#enabled"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "met#chem-res"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 1
+                                }
+                            ]
+                        }
+                    ],
+                    "endBlocks": [
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "met#chem-res"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ],
+                    "blocks": [
+                        {
+                            "name": "sleep",
+                            "params": [
+                                {
+                                    "name": "const",
+                                    "value": 0.25
+                                }
+                            ]
+                        },
+                        {
+                            "name": "for",
+                            "params": [
+                                {
+                                    "name": "profile",
+                                    "value": "metalization#count"
+                                }
+                            ],
+                            "blocks": [
+                                {
+                                    "name": "io",
+                                    "params": [
+                                        {
+                                            "name": "conststr",
+                                            "value": "met#plv"
+                                        },
+                                        {
+                                            "name": "const",
+                                            "value": 1
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "sleep",
+                                    "params": [
+                                        {
+                                            "name": "const",
+                                            "value": 0.25
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "io",
+                                    "params": [
+                                        {
+                                            "name": "conststr",
+                                            "value": "met#lq-rd"
+                                        },
+                                        {
+                                            "name": "const",
+                                            "value": 1
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "io",
+                                    "params": [
+                                        {
+                                            "name": "conststr",
+                                            "value": "met#lq-ox"
+                                        },
+                                        {
+                                            "name": "const",
+                                            "value": 1
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "sleep",
+                                    "params": [
+                                        {
+                                            "name": "profile",
+                                            "value": "metalization#timeOn"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "io",
+                                    "params": [
+                                        {
+                                            "name": "conststr",
+                                            "value": "met#lq-rd"
+                                        },
+                                        {
+                                            "name": "const",
+                                            "value": 0
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "io",
+                                    "params": [
+                                        {
+                                            "name": "conststr",
+                                            "value": "met#lq-ox"
+                                        },
+                                        {
+                                            "name": "const",
+                                            "value": 0
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "sleep",
+                                    "params": [
+                                        {
+                                            "name": "const",
+                                            "value": 0.25
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "io",
+                                    "params": [
+                                        {
+                                            "name": "conststr",
+                                            "value": "met#plv"
+                                        },
+                                        {
+                                            "name": "const",
+                                            "value": 0
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "sleep",
+                                    "params": [
+                                        {
+                                            "name": "profile",
+                                            "value": "metalization#timeOff"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "sleep",
+                            "params": [
+                                {
+                                    "name": "const",
+                                    "value": 0.25
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "wash2",
+                    "isEnabled": {
+                        "name": "profile",
+                        "value": "wash2#enabled"
+                    },
+                    "duration": {
+                        "name": "profile",
+                        "value": "wash2#duration"
+                    },
+                    "startBlocks": [
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "ventilation"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "motor#speed"
+                                },
+                                {
+                                    "name": "multiply",
+                                    "params": [
+                                        {
+                                            "name": "profile",
+                                            "value": "motor#speed"
+                                        },
+                                        {
+                                            "name": "profile",
+                                            "value": "motor#enabled"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "hybrid#edi-res"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 1
+                                }
+                            ]
+                        }
+                    ],
+                    "endBlocks": [
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "hybrid#edi-res"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ],
+                    "blocks": [
+                        {
+                            "name": "sleep",
+                            "params": [
+                                {
+                                    "name": "const",
+                                    "value": 0.5
+                                }
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "hybrid#plv"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "sleep",
+                            "params": [
+                                {
+                                    "name": "const",
+                                    "value": 0.25
+                                }
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "hybrid#lq-edi"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "sleep",
+                            "params": [
+                                {
+                                    "name": "profile",
+                                    "value": "wash2#duration"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "hybrid#lq-edi"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "sleep",
+                            "params": [
+                                {
+                                    "name": "const",
+                                    "value": 0.25
+                                }
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "hybrid#plv"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "sleep",
+                            "params": [
+                                {
+                                    "name": "const",
+                                    "value": 0.5
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "vapors-extraction",
+                    "isEnabled": {
+                        "name": "profile",
+                        "value": "vapors-extraction#enabled"
+                    },
+                    "duration": {
+                        "name": "profile",
+                        "value": "vapors-extraction#duration"
+                    },
+                    "startBlocks": [],
+                    "endBlocks": [
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "ventilation"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 0
+                                }
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "motor#speed"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 0
+                                }
+                            ]
+                        }
+                    ],
+                    "blocks": [
+                        {
+                            "name": "sleep",
+                            "params": [
+                                {
+                                    "name": "profile",
+                                    "value": "vapors-extraction#duration"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "profileRequired": true
+        }
+    ],
+    "addons": [
+        {
+            "addonName": "cem",
+            "content": [
+                {
+                    "path": "profilePremades",
+                    "mode": "merge",
+                    "content": [
+                        {
+                            "skeleton": "default",
+                            "_id": "premade_cem",
+                            "name": "cem",
+                            "isPremade": true,
+                            "isRemovable": false,
+                            "isOverwritable": false,
+                            "values": {
+                                "motor#enabled": 1,
+                                "motor#speed": 50,
+                                "motor#reverseEnabled": 1,
+                                "motor#reverseTime": 5,
+                                "activation#enabled": 1,
+                                "activation#timeOn": 5,
+                                "activation#timeOff": 10,
+                                "activation#count": 3,
+                                "wash1#enabled": 1,
+                                "wash1#duration": 35,
+                                "metalization#enabled": 1,
+                                "metalization#timeOn": 6,
+                                "metalization#timeOff": 10,
+                                "metalization#count": 20,
+                                "wash2#enabled": 1,
+                                "wash2#duration": 35,
+                                "vapors-extraction#enabled": 1,
+                                "vapors-extranction#duration": 45
+                            }
+                        },
+                        {
+                            "skeleton": "default",
+                            "_id": "premade_cem-retake",
+                            "name": "cem-retake",
+                            "isPremade": true,
+                            "isRemovable": false,
+                            "isOverwritable": false,
+                            "values": {
+                                "motor#enabled": 1,
+                                "motor#speed": 50,
+                                "motor#reverseEnabled": 1,
+                                "motor#reverseTime": 5,
+                                "activation#enabled": 0,
+                                "activation#timeOn": 5,
+                                "activation#timeOff": 10,
+                                "activation#count": 3,
+                                "wash1#enabled": 1,
+                                "wash1#duration": 35,
+                                "metalization#enabled": 1,
+                                "metalization#timeOn": 6,
+                                "metalization#timeOff": 10,
+                                "metalization#count": 20,
+                                "wash2#enabled": 1,
+                                "wash2#duration": 35,
+                                "vapors-extraction#enabled": 1,
+                                "vapors-extranction#duration": 45
+                            }
+                        }
+                    ]
+                },
+                {
+                    "path": "cyclePremades",
+                    "mode": "merge",
+                    "content": [
+                        {
+                            "name": "cem",
+                            "profile": "premade_cem",
+                            "cycle": "default"
+                        },
+                        {
+                            "name": "cem-retake",
+                            "profile": "premade_cem-retake",
+                            "cycle": "default"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "addonName": "llc",
+            "content": [
+                {
+                    "path": "profilePremades",
+                    "mode": "merge",
+                    "content": [
+                        {
+                            "skeleton": "default",
+                            "_id": "premade_llc",
+                            "name": "llc",
+                            "isPremade": true,
+                            "isRemovable": false,
+                            "isOverwritable": false,
+                            "values": {
+                                "motor#enabled": 1,
+                                "motor#speed": 50,
+                                "motor#reverseEnabled": 1,
+                                "motor#reverseTime": 5,
+                                "activation#enabled": 1,
+                                "activation#timeOn": 5,
+                                "activation#timeOff": 10,
+                                "activation#count": 3,
+                                "wash1#enabled": 1,
+                                "wash1#duration": 30,
+                                "metalization#enabled": 1,
+                                "metalization#timeOn": 5,
+                                "metalization#timeOff": 10,
+                                "metalization#count": 8,
+                                "wash2#enabled": 1,
+                                "wash2#duration": 30,
+                                "vapors-extraction#enabled": 1,
+                                "vapors-extranction#duration": 45
+                            }
+                        }
+                    ]
+                },
+                {
+                    "path": "cyclePremades",
+                    "mode": "merge",
+                    "content": [
+                        {
+                            "name": "llc",
+                            "profile": "premade_llc",
+                            "cycle": "default"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -4,12 +4,12 @@
 	import { goto } from '$app/navigation';
 
 	import Flex from '../layout/flex.svelte';
-	import Actionmodal from './actionmodal.svelte';
 	import Button from '../button.svelte';
 	
 	import type { ICallToAction } from '@metalizzsas/nuster-typings/build/spec/nuster/ICallToAction';
 	import type { IPopupMessage } from '@metalizzsas/nuster-typings';
 	import { execCTA } from '$lib/utils/callToAction';
+	import Modal from './modal.svelte';
 
 	export let shown: boolean;
 	export let modalData: IPopupMessage | null;
@@ -26,13 +26,10 @@
 	}
 </script>
 
-<Actionmodal bind:shown>
-	{#if modalData != null}
-		<Flex direction="col" gap={3}>
-			<h2 class="text-xl leading-6 text-center">{$_(modalData.title)}</h2>
-
+{#if modalData != null}
+	<Modal bind:shown title={$_(modalData.title)}>
+		<Flex direction="col" gap={(modalData.callToAction && modalData.callToAction.length > 0) ? 3 : 0}>
 			<p>{$_(modalData.message)}</p>
-
 			<Flex gap={3} direction={'col'}>
 				{#if modalData.callToAction != undefined}
 					{#each modalData.callToAction as cta}
@@ -41,10 +38,7 @@
 						</Button>
 					{/each}
 				{/if}
-				<Button on:click={() => (shown = false)} color="bg-orange-400">
-					{$_('close-modal')}
-				</Button>
 			</Flex>
 		</Flex>
-	{/if}
-</Actionmodal>
+	</Modal>
+{/if}

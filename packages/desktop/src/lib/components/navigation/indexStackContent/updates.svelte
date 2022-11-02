@@ -5,7 +5,7 @@
 	import { _ } from 'svelte-i18n';
 	import { machineData } from '$lib/utils/stores/store';
 	import { Linker } from '$lib/utils/stores/linker';
-	import Modalcontent from '$lib/components/modals/modalcontent.svelte';
+	import Modalcontent from '$lib/components/modals/modal.svelte';
 
 	export let shown: boolean;
 

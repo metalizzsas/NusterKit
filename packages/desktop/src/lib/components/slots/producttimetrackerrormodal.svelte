@@ -1,6 +1,6 @@
 <script lang="ts">
 
-    import Modal from "../modals/modal.svelte";
+    import Modal from "../modals/modalchoice.svelte";
 
     import { _ } from "svelte-i18n";
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Modal from '$lib/components/modals/modal.svelte';
+	import Modal from '$lib/components/modals/modalchoice.svelte';
 	import ModalPrompt from '$lib/components/modals/modalprompt.svelte';
 	import { _, date, time } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
@@ -62,12 +62,8 @@
 		{
 			text: $_('ok'),
 			color: 'bg-emerald-500',
-			callback: copyProfile,
-		},
-		{
-			text: $_('cancel'),
-			color: 'bg-gray-500',
-		},
+			callback: (val) => copyProfile(val),
+		}
 	]}
 >
 	{$_('profile.modals.copy.message').replace('{profile.name}', translateProfileName($_, profile))}
@@ -116,7 +112,7 @@
 		{#if profile.isRemovable !== false}
 			<button
 				class="self-center bg-red-500 text-white p-2 rounded-full"
-				on:click|stopPropagation={() => {
+				on:click|preventDefault={() => {
 					deleteProfileModalShown = true;
 				}}
 			>
@@ -136,7 +132,7 @@
 
 		<button
 			class="self-center bg-orange-500 text-white p-2 rounded-full"
-			on:click|stopPropagation={() => {
+			on:click|preventDefault={() => {
 				copyProfileModalShown = true;
 			}}
 		>

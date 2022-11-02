@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import Modalcontent from '../modals/modalcontent.svelte';
+	import Modalcontent from '../modals/modal.svelte';
 	import { machineList } from '$lib/utils/stores/list';
-	import Modal from '../modals/modal.svelte';
+	import Modal from '../modals/modalchoice.svelte';
 	import { _ } from 'svelte-i18n';
 	import { Linker } from '$lib/utils/stores/linker';
 	import type { IStatusMessage } from '@metalizzsas/nuster-typings';

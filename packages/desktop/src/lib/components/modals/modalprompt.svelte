@@ -1,18 +1,11 @@
 <script lang="ts">
 	import Inputkb from '$lib/components/userInputs/inputkb.svelte';
-	import Modalcontent from './modalcontent.svelte';
+	import Modalcontent from './modal.svelte';
+	import type { buttonOption } from './modalButtons';
 
-	interface buttonOption {
-		text: string;
-		color: string;
-		/** If callback return true, the modal is not closed */
-		callback?: (val: string) => boolean | void | Promise<boolean | void>;
-		textColor?: string;
-	}
-
-	export let title: string;
+	export let title = '';
 	export let displayClose = true;
-	export let buttons: buttonOption[] = [];
+	export let buttons: buttonOption[] | [] = [];
 
 	export let selectOptions: string[] | undefined = undefined;
 

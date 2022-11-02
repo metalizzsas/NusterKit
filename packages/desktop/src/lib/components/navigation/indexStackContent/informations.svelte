@@ -2,7 +2,7 @@
 	import { _ } from 'svelte-i18n';
 	import { machineData } from '$lib/utils/stores/store';
 	import Label from '$lib/components/label.svelte';
-	import Modalcontent from '$lib/components/modals/modalcontent.svelte';
+	import Modalcontent from '$lib/components/modals/modal.svelte';
 	import Flex from '$lib/components/layout/flex.svelte';
 	import ReleasesNotes from './releasesNotes.svelte';
 

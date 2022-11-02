@@ -14,11 +14,12 @@
 
 	import ProfileRow from '$lib/components/profile/profileRow.svelte';
 
-	import Modal from '../modals/modal.svelte';
+	import Modal from '../modals/modalchoice.svelte';
 	import Modalprompt from '../modals/modalprompt.svelte';
 	import type { IProfileHydrated } from '@metalizzsas/nuster-typings/build/hydrated/profile';
 	import type { IProfileSkeleton } from '@metalizzsas/nuster-typings/build/spec/profile';
 	import { writable } from 'svelte/store';
+	import { translateProfileName } from '../profile/profiletranslation';
 
 	let profiles: Array<IProfileHydrated> = [];
 	let profile = writable<IProfileHydrated | undefined>();
@@ -35,7 +36,7 @@
 		setTimeout(() => (saveProfileNameInvalid = false), 5000);
 	}
 
-	const loadProfiles = async () => {
+	const loadProfiles = async (selectedID = 'skeleton') => {
 		const reqProfiles = await fetch('//' + $Linker + '/api/v1/profiles/');
 
 		if (reqProfiles.status == 200) {
@@ -52,7 +53,7 @@
 
 				skeleton: "default",
 				_id: "skeleton",
-				name: "—",
+				name: "defaultProfileName",
 
 				isRemovable: false,
 				modificationDate: Date.now(),
@@ -60,7 +61,7 @@
 			};
 
 			profiles = [...profiles, defaultProfile];
-			selectedProfile = 'skeleton';
+			selectedProfile = selectedID;
 		}
 	};
 
@@ -72,14 +73,17 @@
 
 			if (newp) $profile._id = 'created';
 
-			await fetch('//' + $Linker + '/api/v1/profiles' + (newp ? '/create' : ''), {
+			const result = await fetch('//' + $Linker + '/api/v1/profiles' + (newp ? '/create' : ''), {
 				method: newp ? 'PUT' : 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify(profile),
+				body: JSON.stringify($profile),
 			});
-			await loadProfiles();
+
+			const profileResult = await result.json() as IProfileHydrated;
+
+			await loadProfiles(profileResult._id);
 		}
 	};
 
@@ -126,9 +130,9 @@
 		bind:shown={saveProfileModalShown}
 		title={$_('profile.modals.save.title').replace(
 			'{profile.name}',
-			$profile.isPremade ? $_('cycle.types.' + $profile.name) : $profile.name,
+			translateProfileName($_, $profile),
 		)}
-		placeholder={$profile.isPremade ? $_('cycle.types.' + $profile.name) : $profile.name}
+		placeholder={translateProfileName($_, $profile)}
 		buttons={[
 			{
 				text: $_('ok'),
@@ -151,7 +155,7 @@
 	>
 		{$_('profile.modals.copy.message').replace(
 			'{profile.name}',
-			$profile.isPremade ? $_('cycle.types.' + $profile.name) : $profile.name,
+			translateProfileName($_, $profile),
 		)}
 		{#if saveProfileNameInvalid}
 			<p class="text-red-500 font-semibold" in:fly out:fly>
@@ -164,7 +168,7 @@
 		bind:shown={deleteProfileModalShown}
 		title={$_('profile.modals.delete.title').replace(
 			'{profile.name}',
-			$profile.isPremade ? $_('cycle.types.' + $profile.name) : $profile.name,
+			translateProfileName($_, $profile),
 		)}
 		buttons={[
 			{
@@ -202,9 +206,7 @@
 					>
 						{#each profiles.sort((a, b) => (a.name < b.name ? 1 : -1)) as profileListElement}
 							<option value={profileListElement._id}>
-								{profileListElement.isPremade
-									? $_('cycle.types.' + profileListElement.name)
-									: profileListElement.name}
+								{translateProfileName($_, profileListElement)}
 							</option>
 						{/each}
 					</select>
@@ -232,7 +234,7 @@
 							</svg>
 						</button>
 					{/if}
-					{#if $profile.isRemovable === undefined}
+					{#if $profile.isRemovable !== false}
 						<button
 							class="self-center bg-red-500 text-white p-2 rounded-full"
 							on:click|stopPropagation={() => {

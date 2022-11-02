@@ -2,8 +2,8 @@
 	import type { IRegulationStoredData } from "@metalizzsas/nuster-typings/build/hydrated/slot/regulation";
     
     import { _, time } from 'svelte-i18n';
-    import Actionmodal from "../modals/actionmodal.svelte";
     import Chart from 'chart.js/auto/auto.mjs';
+	import Modal from "../modals/modal.svelte";
 
     export let logData: IRegulationStoredData[];
 
@@ -75,7 +75,6 @@
 
 </script>
 
-<Actionmodal bind:shown={shown} zIndex={100}>
-	<h2 class="text-xl leading-6">{$_('slots.regulation.chart.title')}</h2>
+<Modal bind:shown title={$_('slots.regulation.chart.title')}>
 	<canvas id="datalog" class="" bind:this={chartCanvas} />
-</Actionmodal>
+</Modal>

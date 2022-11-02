@@ -4,7 +4,7 @@
 
 	import { Linker } from '$lib/utils/stores/linker';
 
-	import Modalcontent from '$lib/components/modals/modalcontent.svelte';
+	import Modalcontent from '$lib/components/modals/modal.svelte';
 	import SvelteMarkdown from 'svelte-markdown';
 
 	import LinkParser from '$lib/components/markdown/linkParser.svelte';

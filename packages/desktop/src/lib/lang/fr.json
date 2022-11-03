@@ -287,6 +287,10 @@
     "description": "Description de la tache",
     "duration": "Durée",
     "percentage": "Pourcentage",
+    "sensor": {
+      "label": "Avertissement tache",
+      "warning": "Cette tache de maintenance necessite un mode manuel lié pour calculer son statut."
+    },
     "procedure": {
       "title": "Procédure de maintenance",
       "tools": "Outils nécéssaires",

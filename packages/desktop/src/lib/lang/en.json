@@ -304,6 +304,10 @@
     "description": "Maintenance task informations",
     "duration": "Duration",
     "percentage": "Percentage",
+    "sensor": {
+      "label": "Task warning",
+      "warning": "This maintenance task requires linked manual mode to be enabled in order to check its status."
+    },
     "procedure": {
       "title": "Maintenance procedure",
       "tools": "Tools used",

@@ -8,6 +8,7 @@
 	import Navcontainersubtitle from '$lib/components/navigation/navcontainersubtitle.svelte';
 
 	import type { PageData } from './$types';
+	import Maintenancelabel from '$lib/components/maintenance/maintenancelabel.svelte';
 
 	export let data: PageData;
 
@@ -41,18 +42,11 @@
 		</Navcontainertitle>
 
 		<Navcontainersubtitle>{$_('maintenance.description')}</Navcontainersubtitle>
-		<p>{$_('maintenance.tasks.' + data.maintenance.name + '.desc')}</p>
-		<p class="mt-2">
-			<span class="font-bold">
-				{$_('maintenance.duration')}:
-			</span>
-			<span class="font-semibold">{data.maintenance.durationActual}</span>
-			/ {data.maintenance.durationLimit}
-			{$_('maintenance.unity.' + data.maintenance.durationType)}
-		</p>
+		<p class="mb-2">{$_('maintenance.tasks.' + data.maintenance.name + '.desc')}</p>
+		<Maintenancelabel size="base" bind:maintenance={data.maintenance} />
 	</Navcontainer>
 
-	{#if data.maintenance.procedure !== undefined}
+	{#if data.procedure !== undefined}
 		<div class="relative grid grid-cols-6 gap-6">
 			<div
 				class="rounded-xl overflow-hidden"
@@ -60,7 +54,7 @@
 				class:col-span-2={!imageExpanded}
 				style="min-aspect-ratio: 1/1;"
 			>
-				{#each data.maintenance.procedure.steps as step, index}
+				{#each data.procedure.steps as step, index}
 					{#if procedureIndex == index}
 						<div>
 							<img
@@ -101,11 +95,11 @@
 				class={imageExpanded ? 'col-span-3 mt-0 relative' : 'col-span-4 mt-0 relative'}
 			>
 				<Navcontainertitle>{$_('maintenance.procedure.title')}</Navcontainertitle>
-				{#if procedureIndex < data.maintenance.procedure.steps.length - 1}
+				{#if procedureIndex < data.procedure.steps.length - 1}
 					<button
 						class="absolute right-0 bottom-3 bg-white rounded-l-full p-3 flex flex-row gap-3 items-center"
 						on:click={() => {
-							if (procedureIndex < data.maintenance.procedure.steps.length - 1) {
+							if (procedureIndex < data.procedure.steps.length - 1) {
 								procedureIndex++;
 								procedureImageIndex = 0;
 							}
@@ -152,11 +146,11 @@
 					</button>
 				{/if}
 
-				{#if procedureIndex == data.maintenance.procedure.steps.length - 1}
+				{#if procedureIndex == data.procedure.steps.length - 1}
 					<button
 						class="bg-emerald-500 text-white font-semibold rounded-l-xl py-2 px-4 absolute bottom-5 right-0"
 						on:click={() => {
-							if (procedureIndex == data.maintenance.procedure.steps.length - 1)
+							if (procedureIndex == data.procedure.steps.length - 1)
 								resetMaintenance();
 						}}
 					>
@@ -164,23 +158,18 @@
 					</button>
 				{/if}
 
-				{#if data.maintenance.procedure.tools.length > 0}
+				{#if data.procedure.tools.length > 0}
 					<div class="mb-5 flex flex-row gap-4 justify-items-start">
-						{#each data.maintenance.procedure.tools ?? [] as tool}
+						{#each data.procedure.tools ?? [] as tool}
 							<span class="bg-violet-300 py-1 px-3 text-white rounded-full">
-								{$_('maintenance.tools.' + tool)}
+								{$_(`maintenance.tools.${tool}`)}
 							</span>
 						{/each}
 					</div>
 				{/if}
 
 				<p class="font-semibold">
-					{$_(
-						'maintenance.tasks.' +
-							data.maintenance.name +
-							'.procedure.' +
-							data.maintenance.procedure.steps[procedureIndex].name,
-					)}
+					{$_(`maintenance.tasks.${data.maintenance.name}.procedure.${data.procedure.steps[procedureIndex].name}`)}
 				</p>
 			</Navcontainer>
 		</div>

@@ -545,7 +545,7 @@
       },
       {
          "name": "ir-lamp",
-         "durationType": "hours",
+         "durationType": "duration",
          "durationLimit": 5000,
          "procedure": {
             "tools": [
@@ -580,7 +580,7 @@
       },
       {
          "name": "uv-lamp",
-         "durationType": "hours",
+         "durationType": "duration",
          "durationLimit": 30000
       }
    ],

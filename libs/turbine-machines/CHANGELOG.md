@@ -1,5 +1,14 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.2.7
+
+### Patch Changes
+
+- fix: metalfog SE crash at vapors extraction due to misspell value ([#109](https://github.com/metalizzsas/NusterKit/pull/109))
+
+- fix: 5 min profile was 10 minute long ([#109](https://github.com/metalizzsas/NusterKit/pull/109))
+  feat: uscleaner m 1 motor change direction at half the cycle
+
 ## 1.2.6
 
 ### Patch Changes

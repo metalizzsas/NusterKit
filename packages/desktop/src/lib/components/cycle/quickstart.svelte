@@ -39,8 +39,23 @@
 	const loadProfiles = async (selectedID = 'skeleton') => {
 		const reqProfiles = await fetch('//' + $Linker + '/api/v1/profiles/');
 
+		const reqLastProfile = await fetch(`//${$Linker}/api/v1/profiles/last`);
+
 		if (reqProfiles.status == 200) {
 			profiles = (await reqProfiles.json()) as IProfileHydrated[];
+		}
+
+		if(reqLastProfile.status == 200)
+		{
+			const lastProfile = await reqLastProfile.json() as IProfileHydrated;
+
+			lastProfile._id = "last";
+			delete lastProfile.isOverwritable;
+			delete lastProfile.isPremade;
+			lastProfile.isRemovable = false;
+			lastProfile.name = "lastRuntProfile";
+
+			profiles = [...profiles, lastProfile]
 		}
 
 		const reqSkeleton = await fetch('//' + $Linker + '/api/v1/profiles/skeletons/default');
@@ -67,7 +82,7 @@
 
 	const saveProfile = async (name?: string) => {
 		if ($profile !== undefined) {
-			const newp = $profile._id == 'skeleton';
+			const newp = ['skeleton', 'last'].includes($profile._id ?? '');
 
 			if (name) $profile.name = name;
 
@@ -99,7 +114,7 @@
 
 	const quickStart = async () => {
 		if ($profile !== undefined) {
-			const QSProfile = $profile._id == 'skeleton';
+			const QSProfile = ['skeleton', 'last'].includes($profile._id ?? '');
 
 			if (QSProfile) $profile.name = 'Quickstart';
 
@@ -214,7 +229,7 @@
 						<button
 							class="self-center bg-emerald-500 text-white p-2 rounded-full"
 							on:click|stopPropagation={() => {
-								if ($profile && $profile._id == 'skeleton') {
+								if ($profile && ['skeleton', 'last'].includes($profile._id ?? '')) {
 									saveProfileModalShown = true;
 								} else {
 									void saveProfile();

@@ -129,6 +129,7 @@
     "globals": "Global informations",
     "settings": "Profile settings",
     "defaultName": "Profile default name",
+    "lastRuntName": "Last Quickstart profile used",
     "premades": {
       "true": "Constructor profiles",
       "false": "User profiles"

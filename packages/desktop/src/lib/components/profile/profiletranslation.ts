@@ -8,6 +8,8 @@ export const translateProfileName = (translatorKey: (arg0: string) => string, pr
             return translatorKey('cycle.types.' + profile.name);
     else if(profile.name == "defaultProfileName")
         return translatorKey('profile.defaultName')
+    else if(profile.name == "lastRuntProfile")
+        return translatorKey('profile.lastRuntName')
     else
         return profile.name
 };

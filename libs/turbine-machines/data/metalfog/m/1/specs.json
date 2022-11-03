@@ -716,7 +716,7 @@
             "drying#enabled": 1,
             "drying#duration": 120,
             "vapors-extraction#enabled": 1,
-            "vapors-extranction#duration": 45
+            "vapors-extraction#duration": 45
          }
       },
       {
@@ -751,7 +751,7 @@
             "drying#enabled": 1,
             "drying#duration": 120,
             "vapors-extraction#enabled": 1,
-            "vapors-extranction#duration": 45
+            "vapors-extraction#duration": 45
          }
       },
       {
@@ -786,7 +786,7 @@
             "drying#enabled": 0,
             "drying#duration": 120,
             "vapors-extraction#enabled": 1,
-            "vapors-extranction#duration": 45
+            "vapors-extraction#duration": 45
          }
       }
    ],
@@ -5035,7 +5035,7 @@
                         "drying#enabled": 1,
                         "drying#duration": 120,
                         "vapors-extraction#enabled": 1,
-                        "vapors-extranction#duration": 45
+                        "vapors-extraction#duration": 45
                      }
                   },
                   {
@@ -5070,7 +5070,7 @@
                         "drying#enabled": 1,
                         "drying#duration": 120,
                         "vapors-extraction#enabled": 1,
-                        "vapors-extranction#duration": 45
+                        "vapors-extraction#duration": 45
                      }
                   }
                ]
@@ -5132,7 +5132,7 @@
                         "drying#enabled": 1,
                         "drying#duration": 120,
                         "vapors-extraction#enabled": 1,
-                        "vapors-extranction#duration": 45
+                        "vapors-extraction#duration": 45
                      }
                   }
                ]

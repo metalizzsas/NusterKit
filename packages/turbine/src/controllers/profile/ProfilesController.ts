@@ -7,6 +7,7 @@ import { ProfileModel } from "./ProfileModel";
 
 import type { IProfileSkeleton, ProfileSkeletonFields, IProfileConfig } from "@metalizzsas/nuster-typings/build/spec/profile";
 import type { IProfileHydrated, IProfileStored } from "@metalizzsas/nuster-typings/build/hydrated/profile";
+import { ProgramHistoryModel } from "../cycle/ProgramHistoryModel";
 
 export class ProfileController extends Controller {
 
@@ -83,6 +84,24 @@ export class ProfileController extends Controller {
         AuthManager.getInstance().registerEndpointPermission("profiles.list", {endpoint: "/v1/profiles/", method: "get"});
         this._router.get('/', async (_req: Request, res: Response) => {
             res.json(await this.socketData());
+        });
+
+        this._router.get('/last', async (_req: Request, res: Response) => {
+
+            const history = await ProgramHistoryModel.findOne({ 'cycle.name': "default", 'profile.name': "Quickstart" }, {}, {sort: {
+                'cycle.status.endDate': -1
+            }});
+
+            if(!history || history.profile === undefined)
+            {
+                res.status(404).end();
+                return;
+            }
+            else
+            {
+                const profile = history.toJSON().profile;
+                res.json(this.hydrateProfile(profile));
+            }
         });
 
         /**

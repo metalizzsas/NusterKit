@@ -124,6 +124,7 @@
     "globals": "Informations globales",
     "settings": "Réglages du profil",
     "defaultName": "Nom de profil par défaut",
+    "lastRuntName": "Dernier profil Quickstart utilisé",
     "premades": {
       "true": "Profils constructeur",
       "false": "Profils utilisateur"

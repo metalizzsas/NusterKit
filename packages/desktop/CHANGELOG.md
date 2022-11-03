@@ -1,5 +1,15 @@
 # @metalizzsas/nuster-desktop
 
+## 1.8.0
+
+### Minor Changes
+
+- feat: added sensor maintenance tasks ([#106](https://github.com/metalizzsas/NusterKit/pull/106))
+
+### Patch Changes
+
+- feat: will fetch last Quickstart profile used and add it to the list ([#107](https://github.com/metalizzsas/NusterKit/pull/107))
+
 ## 1.7.12
 
 ### Patch Changes

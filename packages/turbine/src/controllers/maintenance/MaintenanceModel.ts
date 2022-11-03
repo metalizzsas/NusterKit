@@ -3,7 +3,7 @@ import { model, Schema } from "mongoose";
 
 const MaintenanceSchema = new Schema<IMaintenanceStored>({
     name: { type: String, required: true }, //maintenance name
-    duration: { type: Number, required: true }, // maitenance current duration
+    duration: Number, // maitenance current duration
     operationDate: Number, // last maintenance operation date
 });
 

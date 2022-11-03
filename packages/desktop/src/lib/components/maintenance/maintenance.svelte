@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import type { IMaintenanceHydrated } from '@metalizzsas/nuster-typings/build/hydrated/maintenance';
+	import Maintenancelabel from './maintenancelabel.svelte';
+	import Flex from '../layout/flex.svelte';
 
 	export let maintenance: IMaintenanceHydrated;
 </script>
@@ -10,15 +12,14 @@
 	class="hover:scale-[1.005] cursor-pointer"
 >
 	<div
-		class="p-3 bg-gradient-to-br from-indigo-500 to-indigo-400 rounded-tr-2xl rounded-tl-2xl overflow-hidden transition-all flex flex-col md:flex-row gap-2 md:gap-0 justify-between"
+		class="p-3 bg-gradient-to-br from-indigo-500 to-indigo-400 rounded-tr-2xl rounded-tl-2xl overflow-hidden transition-all"
 	>
-		<span class="bg-white py-1 px-3 rounded-full text-gray-800 font-semibold">
-			{$_('maintenance.tasks.' + maintenance.name + '.name')}
-		</span>
-		<span class="bg-white py-1 px-3 rounded-full text-gray-600 font-medium">
-			{maintenance.durationActual} / {maintenance.durationLimit}
-			{$_('maintenance.unity.' + maintenance.durationType)}
-		</span>
+		<Flex justify="between" items="center">
+			<span class="bg-white py-1 px-3 rounded-full text-gray-800 font-semibold">
+				{$_('maintenance.tasks.' + maintenance.name + '.name')}
+			</span>
+			<Maintenancelabel bind:maintenance/>
+		</Flex>
 	</div>
 
 	<div class="bg-white p-3 rounded-br-2xl rounded-bl-2xl">

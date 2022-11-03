@@ -1,16 +1,28 @@
 import type { IMaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydrated/maintenance";
 import type { IConfigMaintenance } from "@metalizzsas/nuster-typings/build/spec/maintenance";
-import type { Request, Response } from "express";
+import type { ICountableMaintenance } from "@metalizzsas/nuster-typings/build/spec/maintenance/CountableMaintenance";
+import type { ISensorMaintenance } from "@metalizzsas/nuster-typings/build/spec/maintenance/SensorMaintenance";
+import type { NextFunction, Request, Response } from "express";
 
 import { AuthManager } from "../../auth/auth";
 import { Controller } from "../Controller";
-import { Maintenance } from "./Maintenance";
+import { CountableMaintenance } from "./CountableMaintenance";
+import { SensorMaintenance } from "./SensorMaintenance";
 
 export class MaintenanceController extends Controller
 {
-    public tasks: Maintenance[] = []
+    public tasks: (CountableMaintenance | SensorMaintenance)[] = []
 
     private static _instance: MaintenanceController;
+
+    /** Express Handler to check if passed maintenance task exists */
+    maintenanceTaskExists = (req: Request, res: Response, next: NextFunction) =>
+    {
+        if(!this.tasks.map(k => k.name).includes(req.params.name))
+            res.send(404).end("Maintenance task not found");
+        else
+            next();
+    }
 
     private constructor(maintenanceTasks: IConfigMaintenance[])
     {
@@ -33,63 +45,52 @@ export class MaintenanceController extends Controller
 
     private async _configure(maintenanceTasks: IConfigMaintenance[])
     {
-        for(const task of [...maintenanceTasks, {name: "cycleCount", durationType: 'cycle', durationLimit: Number.MAX_VALUE} as IConfigMaintenance])
+        for(const task of [...maintenanceTasks, {name: "cycleCount", durationType: 'cycle', durationLimit: Number.MAX_VALUE} as ICountableMaintenance])
         {
-            this.tasks.push(new Maintenance(task));
+            switch(task.durationType)
+            {
+                case "sensor": this.tasks.push(new SensorMaintenance(task as ISensorMaintenance)); break;
+                default: this.tasks.push(new CountableMaintenance(task));
+            }
         }
     }
 
     private _configureRouter()
     {
-        this._router.get("/", async (req: Request, res: Response) => {
-            for(const [index] of this.tasks.entries())
-            {
-                await this.tasks[index].refresh();
-            }
-
-            res.status(200).json(this.tasks);
+        this._router.get("/", async (_req: Request, res: Response) => {
+            res.json(this.tasks);
         });
 
         AuthManager.getInstance().registerEndpointPermission("maintenance.list", {endpoint: "/v1/maintenance/", method: "get"});
 
 
-        this._router.get("/:name", async (req: Request, res: Response) => {
+        this._router.get("/:name", this.maintenanceTaskExists, (req: Request, res: Response) => {
             const maintenance = this.tasks.find(task => task.name == req.params.name);
+            res.json(maintenance);
+        });
 
-            if(maintenance)
-            {
-                res.json(maintenance);
-            }
-            else
-            {
-                res.status(404).end("not found");
-            }
+        AuthManager.getInstance().registerEndpointPermission("maintenance.list", {endpoint: new RegExp("/v1/maintenance/.*/procedure", "g"), method: "get"});
+
+        this._router.get("/:name/procedure", this.maintenanceTaskExists, async (req: Request, res: Response) => {
+            const maintenance = this.tasks.find(t => t.name == req.params.name);
+            res.json(maintenance?.procedure);
         });
 
         AuthManager.getInstance().registerEndpointPermission("maintenance.list", {endpoint: new RegExp("/v1/maintenance/.*", "g"), method: "get"});
 
-        this._router.delete("/:name", async (req: Request, res: Response) => {
-            for(const [index, maintenance] of this.tasks.entries())
-            {
-                if(maintenance.name == req.params.name)
-                {
-                    await this.tasks[index].reset();
+        this._router.delete("/:name", this.maintenanceTaskExists, async (req: Request, res: Response) => {
 
-                    res.status(200).end();
-                    return;
-                }
-            }
-            res.status(404).end();
+            const maintenance = this.tasks.find(t => t.name == req.params.name);
+            maintenance?.reset();
+
+            res.status(200).end()
         });
 
         AuthManager.getInstance().registerEndpointPermission("maintenance.reset", {endpoint: new RegExp("/v1/maintenance/.*", "g"), method: "delete"});
     }
 
-    public async socketData(): Promise<IMaintenanceHydrated[]>
+    public socketData(): IMaintenanceHydrated[]
     {
-        for(const t of this.tasks)
-            await t.refresh();
-
-        return this.tasks.map(t => t.toJSON());
+        return this.tasks.map(k => k.toJSON());
     }
 }

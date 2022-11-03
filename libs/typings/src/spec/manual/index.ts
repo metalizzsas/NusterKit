@@ -1,3 +1,5 @@
+import { IMachineSpecs } from "..";
+
 export interface IConfigManualMode
 {
     /** Name of the manual mode can contain 1 `#` for categorizing */
@@ -25,7 +27,7 @@ export interface IConfigManualMode
 /** Extended manual control definiton */
 export interface IManualControl {
     /** IO Gate name */
-    name: string;
+    name: IMachineSpecs["iogates"][number]["name"];
     /** Does this gate depends on the analog scale */
     analogScaleDependant: boolean;
     /** IS value of the gate is absolute from manual value  */
@@ -37,7 +39,7 @@ export interface IManualControl {
 export interface IManualSecurityCondition
 {
     /** Gate name to control */
-    gateName: string;
+    gateName: IMachineSpecs["iogates"][number]["name"];
     /** Gate value required for the security */
     gateValue: number;
 }

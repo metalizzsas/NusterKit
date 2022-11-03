@@ -1,5 +1,5 @@
 <script lang="ts">
-	type sizes = 'small' | 'base' | "tiny";
+	export type sizes = 'small' | 'base' | "tiny";
 
 	export let size: sizes = 'base';
 	export let color = 'dark:bg-white dark:text-zinc-800 bg-zinc-800 text-white';

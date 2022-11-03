@@ -4,6 +4,7 @@ import type { IProgramRunner, IPBRStatus, IProgramVariable, IProgramTimer} from 
 import type { EProgramStepResult } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramStep";
 import { LoggerInstance } from "../app";
 import { IOController } from "../controllers/io/IOController";
+import type { CountableMaintenance } from "../controllers/maintenance/CountableMaintenance";
 import { MaintenanceController } from "../controllers/maintenance/MaintenanceController";
 import { ProgramBlockStep } from "./ProgramBlockStep";
 import { PBRStartCondition } from "./startchain/PBRStartCondition";
@@ -245,7 +246,7 @@ export class ProgramBlockRunner implements IProgramRunner
         }
         
         //Append 1 to cycle count
-        const m = MaintenanceController.getInstance().tasks.find((m) => m.name == "cycleCount");
+        const m = MaintenanceController.getInstance().tasks.find((m) => m.name == "cycleCount") as CountableMaintenance | undefined;
         m?.append(1);
 
         this.status.mode = "ended";

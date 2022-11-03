@@ -1,16 +1,22 @@
+import { ICountableMaintenance } from "./CountableMaintenance";
+import { ISensorMaintenance } from "./SensorMaintenance";
+
 /** Maintenance configuration base object */
-export interface IConfigMaintenance
+export interface IBaseMaintenance
 {
     /** Maintenance task name */
     name: string;
     /** Duration type of this maintenance task */
-    durationType: string;
-    /** Duration limit of this maintenance task */
-    durationLimit: number;
+    durationType: "cycle" | "duration" | "sensor";
 
+    /** Last operation date */
+    operationDate?: number;
     /** Maintenance procedure */
     procedure?: IMaintenanceProcedure;
 }
+
+/** All maintenance types export */
+export type IConfigMaintenance = IBaseMaintenance & (ISensorMaintenance | ICountableMaintenance);
 
 export interface IMaintenanceProcedure
 {

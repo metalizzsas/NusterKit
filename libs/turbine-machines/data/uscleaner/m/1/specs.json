@@ -146,8 +146,11 @@
     "maintenance": [
         {
             "name": "usc-filter",
-            "durationType": "time",
-            "durationLimit": 15,
+            "durationType": "sensor",
+            "sensorBaseValue": 0.14,
+            "sensorLimitValue": 0.10,
+            "sensorGate": "pump#pressure",
+            "requireEnableGate": "pump#enable",
             "procedure": {
                 "tools": [],
                 "steps": [
@@ -546,6 +549,14 @@
                             ]
                         }
                     ]
+                },
+                {
+                    "path": "maintenance.0",
+                    "mode": "merge",
+                    "content": {
+                        "sensorBaseValue": 0.20,
+                        "sensorLimitValue": 0.12
+                    }
                 }
             ]
         }

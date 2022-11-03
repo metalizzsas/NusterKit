@@ -15,7 +15,7 @@ export class MaintenanceProgressParameterBlock extends ParameterBlock implements
     }
 
     public data(): number {
-        return MaintenanceController.getInstance().tasks.find(t => t.name == this.value)?.durationProgress ?? 0;
+        return MaintenanceController.getInstance().tasks.find(t => t.name == this.value)?.computeDurationProgress ?? 0;
     }
 }
 

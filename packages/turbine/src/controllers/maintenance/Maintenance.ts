@@ -1,93 +1,42 @@
-import type { IMaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydrated/maintenance";
-import type { IConfigMaintenance, IMaintenanceProcedure } from "@metalizzsas/nuster-typings/build/spec/maintenance";
+import type { IBaseMaintenance, IConfigMaintenance, IMaintenanceProcedure } from "@metalizzsas/nuster-typings/build/spec/maintenance";
 import { LoggerInstance } from "../../app";
 import { MaintenanceModel } from "./MaintenanceModel";
 
-export class Maintenance implements IConfigMaintenance
+export class Maintenance implements IBaseMaintenance
 {
     name: string;
 
-    durationType: string;
-    durationLimit: number;
-    duration: number; //Actual duration got by reading data from mongoose
-    durationProgress: number; //Actual progress as a percentage, got by calculating form mongoose
+    durationType: "cycle" | "duration" | "sensor";
 
     operationDate?: number;
-
     procedure?: IMaintenanceProcedure;
 
     constructor(obj: IConfigMaintenance)
     {
         this.name = obj.name
-
         this.durationType = obj.durationType;
-        this.durationLimit = obj.durationLimit;
-        this.duration = 0;
-        this.durationProgress = 0;
-
         this.procedure = obj.procedure;
 
-        this.refresh();
+        void this.checkTracker();
     }
 
-    async refresh()
+    async checkTracker()
     {
         const doc = await MaintenanceModel.findOne({ name: this.name });
 
-        if(doc != null)
+        if(doc)
         {
-            //TODO fixme
-            
-            this.duration = doc.duration ?? 0;
             this.operationDate = doc.operationDate;
-
-            this.durationProgress = Math.floor((this.duration / this.durationLimit));
+            return;
         }
-        else
-        {
-            LoggerInstance.warn(`Maintenance: Document tracker for maintenance ${this.name} does not exists.`);
-            await MaintenanceModel.create({ name: this.name, duration: 0 })
-        }
-    }
 
-    async append(value: number)
-    {
-        const document = await MaintenanceModel.findOneAndUpdate({name: this.name}, {$inc: {duration: value}});
-
-        if(document)
-            await this.refresh();
-        else
-            LoggerInstance.warn("Maintenance: Failed to append data to " + this.name + " tracker.");
-    }
-
-    async reset()
-    {
-        MaintenanceModel.findOneAndUpdate({ name: this.name }, { duration: 0, operationDate: Date.now() }, (err: Error) => {
-            if(err != undefined)
-            {
-                LoggerInstance.error(`Maintenance: Failed to update ${this.name} document.`);
-            }
-            else
-            {
-                this.refresh();
-            }
+        LoggerInstance.warn(`Maintenance-${this.name}: Maintenance tracker not found, creating it...`);
+        await MaintenanceModel.create({
+            name: this.name
         });
     }
 
-    toJSON(): IMaintenanceHydrated
-    {
-        return {
-            name: this.name,
-
-            duration: this.duration,
-            durationType: this.durationType,
-            durationLimit: this.durationLimit,
-            durationActual: Math.floor(this.duration),
-            durationProgress: this.durationProgress,
-
-            operationDate: this.operationDate || undefined,
-
-            procedure: this.procedure
-        }
+    reset(): void {
+        throw Error("Not implemented");
     }
 }

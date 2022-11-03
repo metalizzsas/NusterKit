@@ -1,4 +1,5 @@
 import type { IMaintenanceProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IMaintenanceProgramBlock";
+import type { CountableMaintenance } from "../../controllers/maintenance/CountableMaintenance";
 import { MaintenanceController } from "../../controllers/maintenance/MaintenanceController";
 import type { NumericParameterBlocks, StringParameterBlocks } from "../ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
@@ -23,7 +24,7 @@ export class MaintenanceProgramBlock extends ProgramBlock implements IMaintenanc
         const maintenanceName = this.params[0].data();
         const maintenanceValue = this.params[1].data();
 
-        const maintenanceTask = MaintenanceController.getInstance().tasks.find((m) => m.name == maintenanceName);
+        const maintenanceTask = MaintenanceController.getInstance().tasks.find((m) => m.name == maintenanceName) as CountableMaintenance | undefined;
 
         if (maintenanceTask) {
             maintenanceTask.append(maintenanceValue);

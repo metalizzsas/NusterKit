@@ -5,6 +5,7 @@ import type { EProgramStepResult } from "@metalizzsas/nuster-typings/build/spec/
 import { LoggerInstance } from "../app";
 import { IOController } from "../controllers/io/IOController";
 import { MaintenanceController } from "../controllers/maintenance/MaintenanceController";
+import { ManualModeController } from "../controllers/manual/ManualModeController";
 import { ProgramBlockStep } from "./ProgramBlockStep";
 import { PBRStartCondition } from "./startchain/PBRStartCondition";
 
@@ -37,6 +38,8 @@ export class ProgramBlockRunner implements IProgramRunner
     profile?: IProfileHydrated;
 
     additionalInfo?: IAdditionalInfo[];
+
+    manualModeStatesBeforeStart: Record<string, number> = {};
 
     /**
      * Function to explore profile fields
@@ -114,6 +117,17 @@ export class ProgramBlockRunner implements IProgramRunner
         }
 
         LoggerInstance.info(`PBR: Started cycle ${this.name}.`);
+
+        LoggerInstance.info(`PBR: Will disable manual modes that are enabled.`);
+        ManualModeController.getInstance().manualModes.forEach(m => { 
+            this.manualModeStatesBeforeStart[m.name] = structuredClone(m.state);
+
+            if(m.state != 0)
+            {
+                LoggerInstance.info(` ↳ Settings ${m.name} to 0.`);
+                m.setValue(0); 
+            }
+        });
 
         this.status.mode = "started";
         this.status.startDate = Date.now();
@@ -258,6 +272,19 @@ export class ProgramBlockRunner implements IProgramRunner
         }
 
         LoggerInstance.info(`PBR: Ended cycle ${this.name} with state: ${this.status.mode} & reason: ${this.status.endReason}.`);
+
+        LoggerInstance.info(`PBR: Will re-enable manual modes that were disabled before.`);
+        Object.keys(this.manualModeStatesBeforeStart).forEach(m => {
+
+            const previousValue = this.manualModeStatesBeforeStart[m];
+            const mode = ManualModeController.getInstance().find(m);
+
+            if(previousValue != 0 && mode !== undefined)
+            {
+                LoggerInstance.info(` ↳ Settings ${mode.name} to ${previousValue}.`);
+                mode.setValue(structuredClone(previousValue));
+            }
+        });
     }
 
     /**

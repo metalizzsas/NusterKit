@@ -1,5 +1,15 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.2.6
+
+### Patch Changes
+
+- add: Metalfog SE maintenance tasks ([#102](https://github.com/metalizzsas/NusterKit/pull/102))
+
+- feat: added product series for Metalfog SE ([#102](https://github.com/metalizzsas/NusterKit/pull/102))
+
+- feat: added sensor maintenance tasks ([#106](https://github.com/metalizzsas/NusterKit/pull/106))
+
 ## 1.2.5
 
 ### Patch Changes

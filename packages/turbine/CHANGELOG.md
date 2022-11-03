@@ -1,5 +1,23 @@
 # @metalizzsas/nuster-turbine
 
+## 1.8.0
+
+### Minor Changes
+
+- feat: added sensor maintenance tasks ([#106](https://github.com/metalizzsas/NusterKit/pull/106))
+
+### Patch Changes
+
+- fix: PBS overtime of ended steps should not trigger now ([#102](https://github.com/metalizzsas/NusterKit/pull/102))
+
+- feat: will fetch last Quickstart profile used and add it to the list ([#107](https://github.com/metalizzsas/NusterKit/pull/107))
+
+- feat: manual modes are disabled at cycle start then re-enabled at cycle end ([#108](https://github.com/metalizzsas/NusterKit/pull/108))
+
+- Updated dependencies [[`15fb9d6`](https://github.com/metalizzsas/NusterKit/commit/15fb9d659c3561ebd283c55e64e18f1bcd68e93b), [`1f68195`](https://github.com/metalizzsas/NusterKit/commit/1f6819533ab7cdba036d316113aba56b38024584), [`9b461e1`](https://github.com/metalizzsas/NusterKit/commit/9b461e10140b00b56baa92d8d0fadff83a613994)]:
+  - @metalizzsas/nuster-turbine-machines@1.2.6
+  - @metalizzsas/nuster-typings@1.3.0
+
 ## 1.7.9
 
 ### Patch Changes

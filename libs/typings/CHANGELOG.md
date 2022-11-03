@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-typings
 
+## 1.3.0
+
+### Minor Changes
+
+- feat: added sensor maintenance tasks ([#106](https://github.com/metalizzsas/NusterKit/pull/106))
+
 ## 1.2.6
 
 ### Patch Changes

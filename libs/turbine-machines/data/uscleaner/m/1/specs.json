@@ -138,7 +138,7 @@
             "isRemovable": false,
             "isOverwritable": false,
             "values": {
-                "principal#duration": 600,
+                "principal#duration": 300,
                 "principal#motor-speed": 25
             }
         }
@@ -382,9 +382,51 @@
                             "name": "sleep",
                             "params": [
                                 {
-                                    "name": "profile",
-                                    "value": "principal#duration"
+                                    "name": "multiply",
+                                    "params": [
+                                        {
+                                            "name": "profile",
+                                            "value": "principal#duration"
+                                        },
+                                        {
+                                            "name": "const",
+                                            "value": 0.5
+                                        }
+                                    ]
                                 }
+                                
+                            ]
+                        },
+                        {
+                            "name": "io",
+                            "params": [
+                                {
+                                    "name": "conststr",
+                                    "value": "motor#direction"
+                                },
+                                {
+                                    "name": "const",
+                                    "value": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "sleep",
+                            "params": [
+                                {
+                                    "name": "multiply",
+                                    "params": [
+                                        {
+                                            "name": "profile",
+                                            "value": "principal#duration"
+                                        },
+                                        {
+                                            "name": "const",
+                                            "value": 0.5
+                                        }
+                                    ]
+                                }
+                                
                             ]
                         }
                     ]

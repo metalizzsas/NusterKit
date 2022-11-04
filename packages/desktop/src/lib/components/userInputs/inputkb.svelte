@@ -1,14 +1,20 @@
 <script lang="ts">
 	import Keyboard from 'simple-keyboard';
+
+	import frenchLayout from 'simple-keyboard-layouts/build/layouts/french';
+	import englishLayout from 'simple-keyboard-layouts/build/layouts/english';
+	import italianLayout from 'simple-keyboard-layouts/build/layouts/italian';
+
 	import 'simple-keyboard/build/css/index.css';
 
 	import Portal from 'svelte-portal';
 
 	import { fly } from 'svelte/transition';
 
-	import { _ } from 'svelte-i18n';
+	import { _, locale } from 'svelte-i18n';
 	import { keyboardShown, keyboardHeight } from '$lib/utils/stores/keyboard';
-	//import { BUNDLED } from '$lib/bundle';
+	import { BUNDLED } from '$lib/bundle';
+	//const BUNDLED = "true";
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher<{change: {value: number | string}}>();
@@ -18,7 +24,6 @@
 	export let disabled = false;
 	export let automaticLength = false;
 
-	const BUNDLED = "true";
 
 	export let options: { 
 		/** @deprecated */
@@ -27,6 +32,12 @@
 		min?: number; 
 		max?: number 
 	} = {};
+
+	const layouts: Record<("en" | "fr" | "it"), typeof frenchLayout> = {
+		"fr": frenchLayout,
+		"en": englishLayout,
+		"it": italianLayout
+	};
 
 	const focusScroll = () => document.getElementById(typeof value === 'number' ? '#inputNumeric' : '#inputString')?.scrollTo();
 
@@ -51,15 +62,12 @@
 					});
 				}
 			},
+			...layouts[$locale as ("en" | "fr" | "it") ?? 'en'],
 			inputPattern: typeof value === 'number' ? /^[0-9]*$/ : undefined,
 		});
 
 		keyboard.setInput(`${value}`);
 	};
-
-	
-
-	
 
 	let scrollY: number;
 

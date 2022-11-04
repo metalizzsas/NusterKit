@@ -37,7 +37,7 @@ export class SensorMaintenance extends Maintenance implements Omit<ISensorMainte
         if(this.requireEnabledGate?.value == 0)
             return -1;
         
-        return Math.floor(map(this.sensorGate.value, this.sensorLimitValue, this.sensorBaseValue, 0, 1));
+        return Math.floor(map(this.sensorGate.value, this.sensorBaseValue, this.sensorLimitValue, 0, 1));
     }
 
     /** Reset maintenance task */

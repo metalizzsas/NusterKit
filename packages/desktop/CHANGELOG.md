@@ -1,5 +1,18 @@
 # @metalizzsas/nuster-desktop
 
+## 1.8.2
+
+### Patch Changes
+
+- fix: keyboard was always shown even on non bundled instances ([#118](https://github.com/metalizzsas/NusterKit/pull/118))
+  feat: keyboard now have layouts for each langs
+
+- feat: added help pages ([#115](https://github.com/metalizzsas/NusterKit/pull/115))
+
+- feat: changed font to `Inter` ([#115](https://github.com/metalizzsas/NusterKit/pull/115))
+
+- feat: redacted french help pages ([#115](https://github.com/metalizzsas/NusterKit/pull/115))
+
 ## 1.8.1
 
 ### Patch Changes

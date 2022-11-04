@@ -1,5 +1,12 @@
 # @metalizzsas/nuster-desktop
 
+## 1.8.1
+
+### Patch Changes
+
+- fix: modals had wrong title color on dark mode ([#116](https://github.com/metalizzsas/NusterKit/pull/116))
+  feat: added regulation informations on slot component
+
 ## 1.8.0
 
 ### Minor Changes

@@ -1,0 +1,155 @@
+{
+  "main": {
+    "id": "fc9be7a9ee959676",
+    "type": "split",
+    "children": [
+      {
+        "id": "299960f57bf6b4f5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a9bc3183a47ce7a3",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "index.md",
+                "mode": "preview",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "28f5b21fca62970d",
+    "type": "split",
+    "children": [
+      {
+        "id": "06ff630e71b8503f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "18c97755314d5827",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "0cbb290e61d546a2",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "70f70fd3a0eb68b2",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200.5
+  },
+  "right": {
+    "id": "bd5f270bde93fffb",
+    "type": "split",
+    "children": [
+      {
+        "id": "ab94cad886597fad",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "784397f4d96c4c5d",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "index.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "4d172b0f871ff44f",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "index.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "6d729f8990786894",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "aae7d1604d175333",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "index.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "ribbon": {
+    "mostRecentAction": ""
+  },
+  "active": "a9bc3183a47ce7a3",
+  "lastOpenFiles": [
+    "nav-modals/settings.md",
+    "index.md",
+    "assets/quickstart-profile-saved.png",
+    "assets/profile-button.png",
+    "components/containers.md",
+    "components/cycle.md",
+    "components/manual-modes.md",
+    "assets/container-modal-load-method.png",
+    "assets/container-modal-load.png",
+    "components/profiles.md"
+  ]
+}

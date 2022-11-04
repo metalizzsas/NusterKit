@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.8.2
+
+### Patch Changes
+
+- fix: Maintenance sensor values were inverted ([#111](https://github.com/metalizzsas/NusterKit/pull/111))
+
 ## 1.8.1
 
 ### Patch Changes

@@ -25,6 +25,7 @@
 		"jspdf": "^2.5.1",
 		"simple-keyboard": "^3.4.44",
 		"simple-keyboard-input-mask": "^3.0.373",
+		"simple-keyboard-layouts": "^3.1.214",
 		"svelte-i18n": "^3.3.13",
 		"svelte-markdown": "^0.2.2"
 	},

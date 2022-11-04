@@ -31,10 +31,10 @@
 				<div
 					class="flex flex-row justify-between items-center border-b-[1px] border-neutral-300/25 pb-2 mb-3"
 				>
+				<div class="text-zinc-800 dark:text-zinc-50 font-semibold text-xl">
 					<slot name="title" />
-					<span class="text-zinc-800 dark:text-zinc-50 font-semibold text-xl">
-						{title}
-					</span>
+					{title}
+				</div>
 					{#if displayClose}
 						<a
 							href="#close"

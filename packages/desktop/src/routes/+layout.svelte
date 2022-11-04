@@ -1,9 +1,6 @@
 <script lang="ts">
-	import '@fontsource/montserrat';
-	import '@fontsource/montserrat/400-italic.css';
-	import '@fontsource/montserrat/500.css';
-	import '@fontsource/montserrat/600.css';
-	import '@fontsource/montserrat/700.css';
+
+	import '@fontsource/inter/variable.css';
 
 	import '$lib/app.css';
 

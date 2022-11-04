@@ -7,6 +7,7 @@
 	import Slotmodal from './slotmodal.svelte';
 	import Label from '../label.svelte';
 	import Flex from '../layout/flex.svelte';
+	import Toggle from '../userInputs/toggle.svelte';
 
 	export let slotContent: ISlotHydrated;
 
@@ -119,6 +120,24 @@
 							</span>
 						{/if}
 					</div>
+
+					{#if s.regulation}
+					<Flex gap={2} items="center">
+						<Label size="small" color={"bg-gray-300 text-zinc-800"} class="font-semibold">{$_('slots.modal.regulationManagement')} → {$_('slots.regulation.enabled')}</Label>
+						<div class="h-[1px] bg-zinc-400 grow" />
+						<Round
+							size={4}
+							margin={1}
+							color={s.regulation.state ? 'emerald-500' : 'red-500'}
+							shadowColor={s.regulation.state ? 'emerald-300' : 'red-300'}
+						/>
+					</Flex>
+					<Flex gap={2} items="center">
+						<Label size="small" color={"bg-gray-300 text-zinc-800"} class="font-semibold">{$_('slots.modal.regulationManagement')} → {$_('slots.regulation.target')}</Label>
+						<div class="h-[1px] bg-zinc-400 grow" />
+						<Label size="small" class="font-semibold">{s.regulation.target} {s.io.unity}</Label>
+					</Flex>
+					{/if}
 				{/each}
 			</Flex>
 		</div>

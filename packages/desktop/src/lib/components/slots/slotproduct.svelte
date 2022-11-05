@@ -7,7 +7,6 @@
 	import Slotmodal from './slotmodal.svelte';
 	import Label from '../label.svelte';
 	import Flex from '../layout/flex.svelte';
-	import Toggle from '../userInputs/toggle.svelte';
 
 	export let slotContent: ISlotHydrated;
 
@@ -85,59 +84,63 @@
 	</div>
 
 	{#if slotContent.sensors.length > 0}
-		<div class="bg-white p-3 rounded-b-2xl">
+		<div class="bg-white dark:bg-neutral-700 p-3 rounded-b-2xl">
 			<Flex direction={'col'} gap={3}>
 				{#each slotContent.sensors as s}
-					<div
-						class="bg-gray-300 pr-1 pl-5 py-1 rounded-full text-neutral-700 font-semibold flex flex-row justify-between items-center"
-					>
-						{$_('slots.sensors.types.' + s.type)}
-
-						{#if s.type == 'level-a'}
-							<span class="bg-gray-900 p-1 px-5 rounded-full text-white">
-								{Math.ceil(s.io.value)} %
-							</span>
-						{:else if ['level-min-n', 'level-np'].includes(s.type)}
-							<Round
-								size={4}
-								margin={1}
-								color={s.io.value == 1 ? 'emerald-500' : 'red-500'}
-								shadowColor={s.io.value == 1 ? 'emerald-300' : 'red-300'}
-							/>
-						{:else if s.type == 'level-max-n'}
-							<Round
-								size={4}
-								margin={1}
-								color={s.io.value != 1 ? 'emerald-500' : 'red-500'}
-								shadowColor={s.io.value != 1 ? 'emerald-300' : 'red-300'}
-							/>
-						{:else}
-							<span class="bg-gray-900 p-1 px-5 rounded-full text-white">
-								{Math.round(s.io.value * 100) / 100}
-								{#if s.io.unity != undefined}
-									{s.io.unity}
+					<Flex direction="col" gap={2}>
+						<Label color={"text-white bg-zinc-400 dark:bg-zinc-500"}>
+							<Flex justify="between">
+								{$_('slots.sensors.types.' + s.type)}
+								{#if s.type == 'level-a'}
+									<span class="bg-gray-900 p-1 px-5 rounded-full text-white">
+										{Math.ceil(s.io.value)} %
+									</span>
+								{:else if ['level-min-n', 'level-np'].includes(s.type)}
+									<Round
+										size={4}
+										margin={1}
+										color={s.io.value == 1 ? 'emerald-500' : 'red-500'}
+										shadowColor={s.io.value == 1 ? 'emerald-300' : 'red-300'}
+									/>
+								{:else if s.type == 'level-max-n'}
+									<Round
+										size={4}
+										margin={1}
+										color={s.io.value != 1 ? 'emerald-500' : 'red-500'}
+										shadowColor={s.io.value != 1 ? 'emerald-300' : 'red-300'}
+									/>
+								{:else}
+									<span>
+										{Math.round(s.io.value * 100) / 100}
+										{#if s.io.unity != undefined}
+											{s.io.unity}
+										{/if}
+									</span>
 								{/if}
-							</span>
+							</Flex>
+						</Label>
+	
+						{#if s.regulation}
+							<Label size="small" color={"text-white bg-zinc-400 dark:bg-zinc-500"} class="self-center">{$_('slots.modal.regulationManagement')}</Label>
+							<Flex gap={0.5} direction="col" class="text-md">
+								<Flex gap={2} items="center">
+									{$_('slots.regulation.enabled')}
+									<div class="h-[1px] bg-zinc-400 grow" />
+									<Round
+										size={4}
+										margin={1}
+										color={s.regulation.state ? 'emerald-500' : 'red-500'}
+										shadowColor={s.regulation.state ? 'emerald-300' : 'red-300'}
+									/>
+								</Flex>
+								<Flex gap={2} items="center">
+									{$_('slots.regulation.target')}
+									<div class="h-[1px] bg-zinc-400 grow" />
+									<Label size="small" class="font-semibold">{s.regulation.target} {s.io.unity}</Label>
+								</Flex>
+							</Flex>
 						{/if}
-					</div>
-
-					{#if s.regulation}
-					<Flex gap={2} items="center">
-						<Label size="small" color={"bg-gray-300 text-zinc-800"} class="font-semibold">{$_('slots.modal.regulationManagement')} → {$_('slots.regulation.enabled')}</Label>
-						<div class="h-[1px] bg-zinc-400 grow" />
-						<Round
-							size={4}
-							margin={1}
-							color={s.regulation.state ? 'emerald-500' : 'red-500'}
-							shadowColor={s.regulation.state ? 'emerald-300' : 'red-300'}
-						/>
 					</Flex>
-					<Flex gap={2} items="center">
-						<Label size="small" color={"bg-gray-300 text-zinc-800"} class="font-semibold">{$_('slots.modal.regulationManagement')} → {$_('slots.regulation.target')}</Label>
-						<div class="h-[1px] bg-zinc-400 grow" />
-						<Label size="small" class="font-semibold">{s.regulation.target} {s.io.unity}</Label>
-					</Flex>
-					{/if}
 				{/each}
 			</Flex>
 		</div>

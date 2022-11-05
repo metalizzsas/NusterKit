@@ -593,12 +593,14 @@
                     ]
                 },
                 {
-                    "path": "maintenance.0",
-                    "mode": "merge",
-                    "content": {
-                        "sensorBaseValue": 0.20,
-                        "sensorLimitValue": 0.12
-                    }
+                    "path": "maintenance.0.sensorBaseValue",
+                    "mode": "set",
+                    "content": 0.20
+                },
+                {
+                    "path": "maintenance.0.sensorLimitValue",
+                    "mode": "set",
+                    "content": 0.12
                 }
             ]
         }

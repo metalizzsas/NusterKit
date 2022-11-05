@@ -14,7 +14,7 @@ export interface IAddon
          * Insertion mode
          * @defaultValue `merge`
          */
-        mode: "replace" | "merge";
+        mode: "replace" | "merge" | "set";
         /** 
          * Content replaced or inserted to this category
          * @warning Content is not type aware about what you are adding here, **⚠ be careful**

@@ -1,5 +1,17 @@
 # @metalizzsas/nuster-turbine
 
+## 1.8.3
+
+### Patch Changes
+
+- fix: USCleaner with temperature control had an undefined maintenance task ([#120](https://github.com/metalizzsas/NusterKit/pull/120))
+
+- feat: addons can now change only 1 value from an object ([#120](https://github.com/metalizzsas/NusterKit/pull/120))
+
+- Updated dependencies [[`bcad643`](https://github.com/metalizzsas/NusterKit/commit/bcad6430a7d75792e3d048626b4ec46d24c5ee69), [`bcad643`](https://github.com/metalizzsas/NusterKit/commit/bcad6430a7d75792e3d048626b4ec46d24c5ee69)]:
+  - @metalizzsas/nuster-turbine-machines@1.2.8
+  - @metalizzsas/nuster-typings@1.3.1
+
 ## 1.8.2
 
 ### Patch Changes

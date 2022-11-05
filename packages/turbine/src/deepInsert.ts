@@ -7,7 +7,7 @@ import type { IMachineSpecs } from "@metalizzsas/nuster-typings";
  * @param objPath Path where the object should be added
  * @returns IMachineSpecs specs
  */
-export function deepInsert(obj: IMachineSpecs, value: unknown, objPath: string, method: "replace" | "merge"): IMachineSpecs {
+export function deepInsert(obj: IMachineSpecs, value: unknown, objPath: string, method: "replace" | "merge" | "set"): IMachineSpecs {
 
     let index;
 
@@ -31,6 +31,10 @@ export function deepInsert(obj: IMachineSpecs, value: unknown, objPath: string, 
         else
             tempObj[path[index]] = value;
     }
+    else if (method == "set")
+    {
+        tempObj[path[index]] = value;
+    }
     else if (method == "merge")
     {
         //If the last path has an index, it will add himself after this index
@@ -38,7 +42,7 @@ export function deepInsert(obj: IMachineSpecs, value: unknown, objPath: string, 
             if(Array.isArray(value))
                 tempObj.splice(path[index], 0, ...value);
             else
-            tempObj.splice(path[index], 0, value);
+                tempObj.splice(path[index], 0, value);
         else
             if(Array.isArray(value))
                 tempObj[path[index]].push(...value);

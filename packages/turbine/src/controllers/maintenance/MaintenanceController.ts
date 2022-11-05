@@ -45,12 +45,14 @@ export class MaintenanceController extends Controller
 
     private async _configure(maintenanceTasks: IConfigMaintenance[])
     {
-        for(const task of [...maintenanceTasks, {name: "cycleCount", durationType: 'cycle', durationLimit: Number.MAX_VALUE} as ICountableMaintenance])
+        const tasks = [...maintenanceTasks, {name: "cycleCount", durationType: 'cycle', durationLimit: Number.MAX_VALUE} as ICountableMaintenance];
+
+        for(const task of tasks)
         {
             switch(task.durationType)
             {
                 case "sensor": this.tasks.push(new SensorMaintenance(task as ISensorMaintenance)); break;
-                default: this.tasks.push(new CountableMaintenance(task));
+                default: this.tasks.push(new CountableMaintenance(task)); break;
             }
         }
     }

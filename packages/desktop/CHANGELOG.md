@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.8.3
+
+### Patch Changes
+
+- feat: edited regulation display on slot component ([#120](https://github.com/metalizzsas/NusterKit/pull/120))
+
 ## 1.8.2
 
 ### Patch Changes

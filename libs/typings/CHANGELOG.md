@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-typings
 
+## 1.3.1
+
+### Patch Changes
+
+- feat: addons can now change only 1 value from an object ([#120](https://github.com/metalizzsas/NusterKit/pull/120))
+
 ## 1.3.0
 
 ### Minor Changes

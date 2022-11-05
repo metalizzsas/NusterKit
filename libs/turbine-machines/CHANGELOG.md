@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.2.8
+
+### Patch Changes
+
+- fix: USCleaner with temperature control had an undefined maintenance task ([#120](https://github.com/metalizzsas/NusterKit/pull/120))
+
 ## 1.2.7
 
 ### Patch Changes

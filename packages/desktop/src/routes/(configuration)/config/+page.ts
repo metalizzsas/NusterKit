@@ -3,6 +3,8 @@ import type { PageLoad } from './$types';
 
 type models = `${ConfigModel}/${ConfigVariant}/${number}`;
 
+export const ssr = false;
+
 export const load: PageLoad = async (ctx) => {
 	
     const machineModelsRequest = await ctx.fetch(`//${window.localStorage.getItem('ip') ?? '127.0.0.1'}/api/config`);

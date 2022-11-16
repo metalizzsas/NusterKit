@@ -11,7 +11,7 @@
 		? 'pl-3 rounded-3xl p-1.5'
 		: 'rounded-xl p-3'}"
 >
-	<Flex direction="col" gap={0}>
+	<Flex direction="col" gap={0} class=" max-w-[75%]">
 		<span>{$_('cycle.steps.' + step.name + '.name')}</span>
 		{#if step.state != 'ended'}
 			<span class="italic text-xs text-gray-300">

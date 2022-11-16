@@ -56,7 +56,7 @@
 
 {#if $machineData.cycle}
 	<Flex class="-mt-4">
-		<Navcontainer class="min-w-[65%] max-w-[75%] transition-all self-start">
+		<Navcontainer class="w-[70%] transition-all self-start">
 			<Navcontainertitle>{$_('cycle.steps.title')}</Navcontainertitle>
 			<Flex direction="col">
 				{#if $machineData.cycle}
@@ -67,7 +67,7 @@
 			</Flex>
 		</Navcontainer>
 
-		<Flex direction="col" class="grow self-start">
+		<Flex direction="col" class="self-start grow">
 			<Navcontainer>
 				<Navcontainertitle>{$_('cycle.steps.status')}</Navcontainertitle>
 	

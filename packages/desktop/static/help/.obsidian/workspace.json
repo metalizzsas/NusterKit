@@ -18,6 +18,16 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "f7179d1cbda72fb0",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.0.3"
+              }
+            }
           }
         ]
       }
@@ -135,9 +145,6 @@
     "direction": "horizontal",
     "width": 300,
     "collapsed": true
-  },
-  "ribbon": {
-    "mostRecentAction": ""
   },
   "active": "a9bc3183a47ce7a3",
   "lastOpenFiles": [

@@ -35,7 +35,7 @@
     $: baseConfig = data.machineModelsJson[`${tempConfiguration.model}/${tempConfiguration.variant}/${tempConfiguration.revision}`];
 
     const saveConfiguration = async () => {
-        const request = await fetch(`//${$Linker}/config`, { method: 'POST', headers: {
+        const request = await fetch(`//${window.localStorage.getItem('ip') ?? '127.0.0.1'}/api/config`, { method: 'POST', headers: {
             'Content-Type': "application/json"
         },
         body: JSON.stringify(tempConfiguration) 
@@ -117,55 +117,73 @@
         </ul>
 
         <Flex direction={"col"} gap={2} class="mb-2">
-            {#if baseConfig.addons !== undefined}
-                 <Flex direction="col" gap={2}>
+            {#if baseConfig.addons !== undefined && tempConfiguration.addons !== undefined}
+                <Flex direction="col" gap={2}>
                     <h3 class="text-md">Addons</h3>
                     <ul>
                         {#each baseConfig.addons.map(a => a.addonName) as addon}
                             <li><input type="checkbox" bind:group={tempConfiguration.addons} value={addon} class="mr-3"/>{addon}</li>
                         {/each}
                     </ul>
-                 </Flex>
-            {/if}
-        </Flex>
-        <Flex direction={"col"} gap={2} class="mb-2">
-            {#if baseConfig.profilePremades.length > 0}
-                 <Flex direction="col" gap={2}>
-                    <h3 class="text-md">Profils masqués</h3>
-                    <ul>
-                        {#each baseConfig.profilePremades.map(p => p.name) as profile}
-                            <li><input type="checkbox" bind:group={tempConfiguration.settings.maskedProfiles} value={profile} class="mr-3"/>{profile}</li>
-                        {/each}
-                    </ul>
-                 </Flex>
-            {/if}
-        
-        </Flex>
-        <Flex direction={"col"} gap={2} class="mb-2">
-            {#if baseConfig.cyclePremades.length > 0}
-                 <Flex direction="col" gap={2}>
-                    <h3 class="text-md">Cycle préparés masqués</h3>
-                    <ul>
-                        {#each baseConfig.cyclePremades.map(p => p.name) as premade}
-                            <li><input type="checkbox" bind:group={tempConfiguration.settings.maskedPremades} value={premade} class="mr-3"/>{premade}</li>
-                        {/each}
-                    </ul>
-                 </Flex>
+                </Flex>
+            {:else if tempConfiguration.addons === undefined}
+                <Button on:click={() => tempConfiguration.addons = []}>Créer liste des addons</Button>
             {/if}
         </Flex>
 
-        <Flex direction={"col"} gap={2} class="mb-2">
-            {#if baseConfig.manual.length > 0}
-                 <Flex direction="col" gap={2}>
-                    <h3 class="text-md">Mode manuels masqués</h3>
-                    <ul>
-                        {#each baseConfig.manual.map(p => p.name) as manual}
-                            <li><input type="checkbox" bind:group={tempConfiguration.settings.maskedManuals} value={manual} class="mr-3"/>{manual}</li>
-                        {/each}
-                    </ul>
-                 </Flex>
-            {/if}
-        </Flex>
+        {#if tempConfiguration.settings?.maskedProfiles}
+            <Flex direction={"col"} gap={2} class="mb-2">
+                {#if baseConfig.profilePremades.length > 0}
+                    <Flex direction="col" gap={2}>
+                        <h3 class="text-md">Profils masqués</h3>
+                        <ul>
+                            {#each baseConfig.profilePremades.map(p => p.name) as profile}
+                                <li><input type="checkbox" bind:group={tempConfiguration.settings.maskedProfiles} value={profile} class="mr-3"/>{profile}</li>
+                            {/each}
+                        </ul>
+                    </Flex>
+                {/if}
+            </Flex>
+        {:else}
+            <Button on:click={() => { if(tempConfiguration.settings) {tempConfiguration.settings.maskedProfiles = []}}}>Créer liste des profils masqués</Button>
+        {/if}
+
+
+        {#if tempConfiguration.settings?.maskedPremades}
+            <Flex direction={"col"} gap={2} class="mb-2">
+                {#if baseConfig.cyclePremades.length > 0}
+                    <Flex direction="col" gap={2}>
+                        <h3 class="text-md">Cycle préparés masqués</h3>
+                        <ul>
+                            {#each baseConfig.cyclePremades.map(p => p.name) as premade}
+                                <li><input type="checkbox" bind:group={tempConfiguration.settings.maskedPremades} value={premade} class="mr-3"/>{premade}</li>
+                            {/each}
+                        </ul>
+                    </Flex>
+                {/if}
+            </Flex>
+        {:else}
+            <Button on:click={() => { if(tempConfiguration.settings) {tempConfiguration.settings.maskedPremades = []}}}>Créer liste des profils constructeurs masqués</Button>
+        {/if}
+
+
+        {#if tempConfiguration.settings?.maskedManuals}
+            <Flex direction={"col"} gap={2} class="mb-2">
+                {#if baseConfig.manual.length > 0}
+                    <Flex direction="col" gap={2}>
+                        <h3 class="text-md">Mode manuels masqués</h3>
+                        <ul>
+                            {#each baseConfig.manual.map(p => p.name) as manual}
+                                <li><input type="checkbox" bind:group={tempConfiguration.settings.maskedManuals} value={manual} class="mr-3"/>{manual}</li>
+                            {/each}
+                        </ul>
+                    </Flex>
+                {/if}
+            </Flex>
+        {:else}
+            <Button on:click={() => { if(tempConfiguration.settings) {tempConfiguration.settings.maskedManuals = []}}}>Créer liste des modes manuels masqués</Button>
+        {/if}
+
 
         <Flex direction={"col"} items={"center"}>
             <Button color="bg-emerald-500" size="large" on:click={saveConfiguration}>Sauvegarder</Button>

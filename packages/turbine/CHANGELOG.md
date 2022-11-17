@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.8.5
+
+### Patch Changes
+
+- fix: wifi-connect had new splited arch docker image ([#130](https://github.com/metalizzsas/NusterKit/pull/130))
+
 ## 1.8.4
 
 ### Patch Changes

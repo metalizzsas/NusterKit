@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.8.4
+
+### Patch Changes
+
+- fix: balena-blocks has changed owner name ([#127](https://github.com/metalizzsas/NusterKit/pull/127))
+
 ## 1.8.3
 
 ### Patch Changes

@@ -39,6 +39,7 @@
             "motor": "Moteur de rotation",
             "activation": "Activation",
             "metalization": "Métallisation",
+            "metalization-wash": "Rinçage pendant la metalization",
             "wash1": "Rinçage 1",
             "wash2": "Rinçage 2",
             "drying": "Séchage",

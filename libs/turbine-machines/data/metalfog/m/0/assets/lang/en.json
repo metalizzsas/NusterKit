@@ -20,6 +20,7 @@
             "motor": "Rotation Motor",
             "activation": "Activation",
             "metalization": "Metallization",
+            "metalization-wash": "Wash during metallization",
             "wash1": "Wash 1",
             "wash2": "Wash 2",
             "drying": "Drying",

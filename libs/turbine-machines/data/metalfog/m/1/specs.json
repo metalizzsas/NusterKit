@@ -612,6 +612,17 @@
                "value": 5
             },
             {
+               "name": "metalization-wash#enabled",
+               "type": "bool",
+               "value": 0
+            },
+            {
+               "name": "metalization-wash#duration",
+               "type": "time",
+               "units": ["seconds"],
+               "value": 5
+            },
+            {
                "name": "wash2#enabled",
                "type": "bool",
                "value": 1
@@ -711,6 +722,8 @@
             "metalization#timeOn": 6,
             "metalization#timeOff": 10,
             "metalization#count": 10,
+            "metalization-wash#enabled": 0,
+            "metalization-wash#duration": 5,
             "wash2#enabled": 1,
             "wash2#duration": 35,
             "drying#enabled": 1,
@@ -746,6 +759,8 @@
             "metalization#timeOn": 6,
             "metalization#timeOff": 10,
             "metalization#count": 10,
+            "metalization-wash#enabled": 0,
+            "metalization-wash#duration": 5,
             "wash2#enabled": 1,
             "wash2#duration": 35,
             "drying#enabled": 1,
@@ -781,6 +796,8 @@
             "metalization#timeOn": 6,
             "metalization#timeOff": 10,
             "metalization#count": 10,
+            "metalization-wash#enabled": 0,
+            "metalization-wash#duration": 5,
             "wash2#enabled": 0,
             "wash2#duration": 35,
             "drying#enabled": 0,
@@ -2126,6 +2143,28 @@
                            {
                               "name": "const",
                               "value": 0.5
+                           },
+                           {
+                              "name": "conditional",
+                              "value": "==",
+                              "params": [
+                                 {
+                                    "name": "profile",
+                                    "value": "metalization-wash#enabled"
+                                 },
+                                 {
+                                    "name": "const",
+                                    "value": 1
+                                 },
+                                 {
+                                    "name": "profile",
+                                    "value": "metalization-wash#duration"
+                                 },
+                                 {
+                                    "name": "const",
+                                    "value": 0
+                                 }
+                              ]
                            }
                         ]
                      }
@@ -2624,6 +2663,165 @@
                                  "value": "metalization#timeOff"
                               }
                            ]
+                        },
+                        {
+                           "name": "if",
+                           "params": [
+                              {
+                                 "name": "profile",
+                                 "value": "metalization-wash#enabled"
+                              },
+                              {
+                                 "name": "conststr",
+                                 "value": "=="
+                              },
+                              {
+                                 "name": "const",
+                                 "value": 1
+                              }
+                           ],
+                           "trueBlocks": [
+                              {
+                                 "name": "io",
+                                 "params": [
+                                    {
+                                       "name": "conststr",
+                                       "value": "hybrid#edi-res"
+                                    },
+                                    {
+                                       "name": "const",
+                                       "value": 1
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "io",
+                                 "params": [
+                                    {
+                                       "name": "conststr",
+                                       "value": "hybrid#edi-lq-high"
+                                    },
+                                    {
+                                       "name": "const",
+                                       "value": 1
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "io",
+                                 "params": [
+                                    {
+                                       "name": "conststr",
+                                       "value": "hybrid#edi-lq-low"
+                                    },
+                                    {
+                                       "name": "const",
+                                       "value": 1
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "io",
+                                 "params": [
+                                    {
+                                       "name": "conststr",
+                                       "value": "hybrid#plv-low"
+                                    },
+                                    {
+                                       "name": "const",
+                                       "value": 1
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "io",
+                                 "params": [
+                                    {
+                                       "name": "conststr",
+                                       "value": "hybrid#plv-high"
+                                    },
+                                    {
+                                       "name": "const",
+                                       "value": 1
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "sleep",
+                                 "params": [
+                                    {
+                                       "name": "profile",
+                                       "value": "metalization-wash#duration"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "io",
+                                 "params": [
+                                    {
+                                       "name": "conststr",
+                                       "value": "hybrid#edi-res"
+                                    },
+                                    {
+                                       "name": "const",
+                                       "value": 0
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "io",
+                                 "params": [
+                                    {
+                                       "name": "conststr",
+                                       "value": "hybrid#edi-lq-high"
+                                    },
+                                    {
+                                       "name": "const",
+                                       "value": 0
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "io",
+                                 "params": [
+                                    {
+                                       "name": "conststr",
+                                       "value": "hybrid#edi-lq-low"
+                                    },
+                                    {
+                                       "name": "const",
+                                       "value": 0
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "io",
+                                 "params": [
+                                    {
+                                       "name": "conststr",
+                                       "value": "hybrid#plv-low"
+                                    },
+                                    {
+                                       "name": "const",
+                                       "value": 0
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "io",
+                                 "params": [
+                                    {
+                                       "name": "conststr",
+                                       "value": "hybrid#plv-high"
+                                    },
+                                    {
+                                       "name": "const",
+                                       "value": 0
+                                    }
+                                 ]
+                              }
+                           ],
+                           "falseBlocks": []
                         }
                      ]
                   },
@@ -5030,6 +5228,8 @@
                         "metalization#timeOn": 6,
                         "metalization#timeOff": 10,
                         "metalization#count": 20,
+                        "metalizationWash#enabled": 0,
+                        "metalizationWash#duration": 5,
                         "wash2#enabled": 1,
                         "wash2#duration": 35,
                         "drying#enabled": 1,
@@ -5065,6 +5265,8 @@
                         "metalization#timeOn": 6,
                         "metalization#timeOff": 10,
                         "metalization#count": 20,
+                        "metalization-wash#enabled": 0,
+                        "metalization-wash#duration": 5,
                         "wash2#enabled": 1,
                         "wash2#duration": 35,
                         "drying#enabled": 1,
@@ -5127,6 +5329,8 @@
                         "metalization#timeOn": 5,
                         "metalization#timeOff": 10,
                         "metalization#count": 8,
+                        "metalization-wash#enabled": 1,
+                        "metalization-wash#duration": 5,
                         "wash2#enabled": 1,
                         "wash2#duration": 30,
                         "drying#enabled": 1,

@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.8.6
+
+### Patch Changes
+
+- fix: forgot to add on main release docker compose file ([#132](https://github.com/metalizzsas/NusterKit/pull/132))
+
 ## 1.8.5
 
 ### Patch Changes

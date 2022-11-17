@@ -38,7 +38,7 @@ services:
       - "mongodb"
 
   nuster-kiosk:
-    image: bh.cr/balenablocks/browser-aarch64
+    image: bh.cr/balenalabs/browser-aarch64
     privileged: true
     network_mode: host
     depends_on:
@@ -65,7 +65,7 @@ services:
       - "mongodb"
 
   wifi-connect:
-    image: bh.cr/balenablocks/wifi-connect
+    image: bh.cr/balenalabs/wifi-connect
     restart: always
     network_mode: host
     privileged: true

@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.2.10
+
+### Patch Changes
+
+- fix: metalfog-se had worng gate names for llc met-wash ([#142](https://github.com/metalizzsas/NusterKit/pull/142))
+
 ## 1.2.9
 
 ### Patch Changes

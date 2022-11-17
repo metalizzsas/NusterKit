@@ -51,9 +51,9 @@ jobs:
         run: mv -f docker-compose.draft.yml docker-compose.yml
 
       # Run BalenaCloud release even if no packages were publied
-      - name: 🐳 Create BalenaCloud Release
+      - name: 🐳 Create BalenaCloud Release on Beta channel
         uses: balena-io/deploy-to-balena-action@master
         with:
           balena_token: ${{ secrets.BALENA_TOKEN }}
-          fleet: romain_sapet/nusterturbine
-          finalize: false
+          fleet: romain_sapet/nusterturbinebeta
+          finalize: true

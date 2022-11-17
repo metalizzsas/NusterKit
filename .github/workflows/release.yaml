@@ -63,4 +63,4 @@ jobs:
         with:
           balena_token: ${{ secrets.BALENA_TOKEN }}
           fleet: romain_sapet/nusterturbine
-          finalize: false
+          finalize: true

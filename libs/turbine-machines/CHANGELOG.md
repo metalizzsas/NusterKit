@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.2.9
+
+### Patch Changes
+
+- feat: Metalfog SE now uses WAGO controllers instead of EM4 ([#136](https://github.com/metalizzsas/NusterKit/pull/136))
+
+- feat: metallization can now be washed after each layer. ([#140](https://github.com/metalizzsas/NusterKit/pull/140))
+
 ## 1.2.8
 
 ### Patch Changes

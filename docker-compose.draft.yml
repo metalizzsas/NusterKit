@@ -65,7 +65,7 @@ services:
       - "mongodb"
 
   wifi-connect:
-    image: bh.cr/balenalabs/wifi-connect
+    image: bh.cr/balenalabs/wifi-connect-aarch64
     restart: always
     network_mode: host
     privileged: true

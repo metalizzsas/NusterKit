@@ -1545,7 +1545,7 @@
                                             "params": [
                                                 {
                                                 "name": "conststr",
-                                                "value": "hybrid#edi-lq-high"
+                                                "value": "hybrid#lq-edi"
                                                 },
                                                 {
                                                 "name": "const",
@@ -1558,33 +1558,7 @@
                                             "params": [
                                                 {
                                                 "name": "conststr",
-                                                "value": "hybrid#edi-lq-low"
-                                                },
-                                                {
-                                                "name": "const",
-                                                "value": 1
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "name": "io",
-                                            "params": [
-                                                {
-                                                "name": "conststr",
-                                                "value": "hybrid#plv-low"
-                                                },
-                                                {
-                                                "name": "const",
-                                                "value": 1
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "name": "io",
-                                            "params": [
-                                                {
-                                                "name": "conststr",
-                                                "value": "hybrid#plv-high"
+                                                "value": "hybrid#plv"
                                                 },
                                                 {
                                                 "name": "const",
@@ -1619,7 +1593,7 @@
                                             "params": [
                                                 {
                                                 "name": "conststr",
-                                                "value": "hybrid#edi-lq-high"
+                                                "value": "hybrid#lq-edi"
                                                 },
                                                 {
                                                 "name": "const",
@@ -1632,33 +1606,7 @@
                                             "params": [
                                                 {
                                                 "name": "conststr",
-                                                "value": "hybrid#edi-lq-low"
-                                                },
-                                                {
-                                                "name": "const",
-                                                "value": 0
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "name": "io",
-                                            "params": [
-                                                {
-                                                "name": "conststr",
-                                                "value": "hybrid#plv-low"
-                                                },
-                                                {
-                                                "name": "const",
-                                                "value": 0
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "name": "io",
-                                            "params": [
-                                                {
-                                                "name": "conststr",
-                                                "value": "hybrid#plv-high"
+                                                "value": "hybrid#plv"
                                                 },
                                                 {
                                                 "name": "const",

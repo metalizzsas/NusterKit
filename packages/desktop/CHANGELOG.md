@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-desktop
 
+## 1.8.4
+
+### Patch Changes
+
+- fix: config route was not handling undefined objects, and was hiding save button ([#124](https://github.com/metalizzsas/NusterKit/pull/124))
+
+- fix: step % could sometimes be on 2 lines. ([#125](https://github.com/metalizzsas/NusterKit/pull/125))
+
 ## 1.8.3
 
 ### Patch Changes

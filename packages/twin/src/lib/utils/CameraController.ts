@@ -1,4 +1,4 @@
-import { Group, Quaternion, Raycaster, Vector3, type Camera } from "three";
+import { Group, Mesh, Quaternion, Raycaster, Vector3, type Camera } from "three";
 import { clamp } from "three/src/math/MathUtils";
 import { InputController } from "./InputController";
 
@@ -52,12 +52,13 @@ export class CameraController
 
     }
     
-    updateRaycast(blockGroup: Group): Vector3 | undefined
+    updateRaycast(objectGroup: Group): Mesh | undefined
     {
-        this.raycaster.setFromCamera({ x: 0, y: 0}, this.camera);    
-        const obj = this.raycaster.intersectObjects(blockGroup.children);
+        this.raycaster.setFromCamera({ x: 0, y: 0 }, this.camera);    
+        const obj = this.raycaster.intersectObjects(objectGroup.children);
 
-        return obj.at(0)?.object.parent?.position;
+        if(obj.at(0)?.object instanceof Mesh)
+            return obj.at(0)?.object as Mesh;
     }
 
     private updateCamera(delta: number)

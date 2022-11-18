@@ -1,0 +1,18 @@
+{
+    "meshesHidden": [""],
+    "meshesWithMaterial": [
+        {
+            "material": {
+
+            },
+            "meshes": []
+        }
+    ],
+    "meshesReactive": [
+        {
+            "meshName": "",
+            "type": "io",
+            "value": "x"
+        }
+    ]
+}

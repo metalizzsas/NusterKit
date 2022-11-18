@@ -1,0 +1,40 @@
+{
+    "meshesHidden": ["USC-SIDE-3", "USC-FRONT-1_1", "USC-SIDE-2"],
+    "meshesWithMaterial": [
+        {
+            "material": {
+                "color": "0x8C7F73",
+                "transparent": true,
+                "roughness": 0,
+                "opacity": 0.6
+            },
+            "meshes": ["USC-COVER-1_1"]
+        },
+        {
+            "material": {
+                "color": "0xade1ff",
+                "transparent": true,
+                "roughness": 0,
+                "opacity": 0.3
+            },
+            "meshes": ["Body_1_98"]
+        }
+    ],
+    "meshesReactive": [
+        {
+            "meshName": "USC-BIG-GEAR-1",
+            "type": "io",
+            "value": "motor#speed"
+        },
+        {
+            "meshName": "USC-SMALL-GEAR-1",
+            "type": "io",
+            "value": "motor#speed"
+        },
+        {
+            "meshName": "70371",
+            "type": "io",
+            "value": "temperature#ventilation"
+        }
+    ]
+}

@@ -1,18 +1,188 @@
 {
-    "meshesHidden": [""],
+    "meshesHidden": ["UNI-PANEL-FRONT-1", "UNI-SIDE-1", "UNI-SIDE-1_1", "UNI-DOOR-1", "UNI-DOOR-1_1", "MFM-BUSECACHE-2", "MFM-BUSECACHE-1"],
     "meshesWithMaterial": [
         {
             "material": {
-
+                "transparent": true,
+                "opacity": 0.6
             },
-            "meshes": []
+            "meshes": ["MFM-COVER-1", "MFM-PSP-TUBE-1", "MFM-PSP-TUBE-1_1", "MFM-PSP-TUBE-1_2", "MFM-PSP-TUBE-1_3", "MFM-PSP-TUBE-1_4"]
         }
     ],
     "meshesReactive": [
         {
-            "meshName": "",
+            "meshName": ["2518125-1"],
             "type": "io",
-            "value": "x"
+            "value": "emergency-stop"
+        },
+        {
+            "meshName": ["3d_a_10_angularconnectorforma_en_co-1"],
+            "type": "io",
+            "value": "air-sensor"
+        },
+        {
+            "meshName": ["RG130-1"],
+            "type": "io",
+            "value": "ventilation"
+        },
+        {
+            "meshName": ["HPC___DOG111_12_17_5-1", "HPC___DOG111_12_17_3-1"],
+            "type": "io",
+            "value": "motor#speed"
+        },
+        {
+            "meshName": ["HPAI-ASSEMBLY-1"],
+            "type": "io",
+            "value": "motor#speed",
+            "animation": {
+                "type": "rotationY",
+                "speed": 10.41
+            }
+        },
+        {
+            "meshName": ["xs608b3cal2-1"],
+            "type": "io",
+            "value": "cover-closed"
+        },
+        {
+            "meshName": ["83589801-1"],
+            "type": "io",
+            "value": "eff-container-sensor"
+        },
+        {
+            "meshName": ["59475-1"],
+            "type": "io",
+            "value": "levels#eff-max-n"
+        },
+        {
+            "meshName": ["GRF18S-N234LV-1"],
+            "type": "io",
+            "value": "levels#act-max-n"
+        },
+        {
+            "meshName": ["GRF18S-N234LV-2"],
+            "type": "io",
+            "value": "levels#act-min-n"
+        },
+        {
+            "meshName": ["GRF18S-N234LV-1_1"],
+            "type": "io",
+            "value": "levels#edi-max-n"
+        },
+        {
+            "meshName": ["GRF18S-N234LV-2_1"],
+            "type": "io",
+            "value": "levels#edi-min-n"
+        },
+        {
+            "meshName": ["GRF18S-N234LV-2_2"],
+            "type": "io",
+            "value": "levels#ox-min-n"
+        },
+        {
+            "meshName": ["GRF18S-N234LV-2_3"],
+            "type": "io",
+            "value": "levels#rd-min-n"
+        },
+        {
+            "meshName": ["VNB104BS_F8A_0__3-1"],
+            "type": "io",
+            "value": "met#rd-lq-high"
+        },
+        {
+            "meshName": ["VNB104BS_F8A_0__3-7"],
+            "type": "io",
+            "value": "met#ox-lq-high"
+        },
+        {
+            "meshName": ["VNB104BS_F8A_0__3-8"],
+            "type": "io",
+            "value": "met#rd-lq-mid"
+        },
+        {
+            "meshName": ["VNB104BS_F8A_0__3-9"],
+            "type": "io",
+            "value": "met#ox-lq-mid"
+        },
+        {
+            "meshName": ["VNB104BS_F8A_0__3-10"],
+            "type": "io",
+            "value": "met#rd-lq-low"
+        },
+        {
+            "meshName": ["VNB104BS_F8A_0__3-11"],
+            "type": "io",
+            "value": "met#ox-lq-low"
+        },
+        {
+            "meshName": ["VNB104BS_F8A_0__3-6"],
+            "type": "io",
+            "value": "hybrid#lq-fill-act"
+        },
+        {
+            "meshName": ["VNB104BS_F8A_0__3-5"],
+            "type": "io",
+            "value": "hybrid#edi-lq-low"
+        },
+        {
+            "meshName": ["VNB104BS_F8A_0__3-4"],
+            "type": "io",
+            "value": "hybrid#edi-lq-high"
+        },
+        {
+            "meshName": ["VNB104BS_F8A_0__3-3"],
+            "type": "io",
+            "value": "hybrid#act-lq-low"
+        },
+        {
+            "meshName": ["VNB104BS_F8A_0__3-2"],
+            "type": "io",
+            "value": "hybrid#act-lq-high"
+        },
+        {
+            "meshName": ["MFM-PSP-BCN-1_3"],
+            "type": "io",
+            "value": "met#rd-res"
+        },
+        {
+            "meshName": ["MFM-PSP-BCN-1_2"],
+            "type": "io",
+            "value": "met#ox-res"
+        },
+        {
+            "meshName": ["MFM-PSP-BCN-1_1"],
+            "type": "io",
+            "value": "hybrid#edi-res"
+        },
+        {
+            "meshName": ["MFM-PSP-BCN-1"],
+            "type": "io",
+            "value": "hybrid#act-res"
+        },
+        {
+            "meshName": ["3169_06_10-2"],
+            "type": "io",
+            "value": "hybrid#plv-high"
+        },
+        {
+            "meshName": ["3169_06_10-2_1"],
+            "type": "io",
+            "value": "hybrid#plv-low"
+        },
+        {
+            "meshName": ["3169_06_10-1"],
+            "type": "io",
+            "value": "met#plv-high"
+        },
+        {
+            "meshName": ["3169_06_10-1_1"],
+            "type": "io",
+            "value": "met#plv-mid"
+        },
+        {
+            "meshName": ["3169_06_10-1_2"],
+            "type": "io",
+            "value": "met#plv-low"
         }
     ]
 }

@@ -9,8 +9,12 @@ export type ConfigType = {
     }[],
 
     meshesReactive: {
-        meshName: string,
+        meshName: string[],
         type: string,
-        value: string
+        value: string,
+        animation?: {
+            type: string,
+            speed: number
+        }
     }[]
 } 

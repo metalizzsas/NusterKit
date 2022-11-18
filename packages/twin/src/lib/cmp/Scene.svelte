@@ -5,13 +5,10 @@
 	import { onMount, setContext } from 'svelte';
 	import { writable } from 'svelte/store';
 	import type { Group } from 'three';
-	import { AmbientLight, AxesHelper, Box3, Clock, Color, DirectionalLight, Mesh, MeshBasicMaterial, MeshStandardMaterial, PerspectiveCamera, PlaneGeometry, Scene, Vector3, WebGLRenderer } from 'three';
-	import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
-	import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+	import { AmbientLight, AxesHelper, Clock, Color, DirectionalLight, Mesh, MeshStandardMaterial, PerspectiveCamera, PlaneGeometry, Scene, Vector3, WebGLRenderer } from 'three';
 	import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 	import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
-
-	const translucentMeshesNames = ["USC-SIDE-3", "USC-FRONT-1_1", "USC-SIDE-2"];
+	import Sidebar from './Sidebar.svelte';
 
 	let renderer = new WebGLRenderer({
 		antialias: true,
@@ -30,7 +27,8 @@
 
 	let modelController: Model | undefined;
 
-	let gltfLoaded: Group | undefined;
+	let gltfLoaded = false;
+	let selectedObject: Mesh | undefined = undefined;
 
 	const shadowMapSize = 2048;
 
@@ -56,6 +54,8 @@
 					modelController = new Model($data.machine.model as "metalfog" | "uscleaner");
 					modelController.loadModel().then(g => {
 						scene.add(g);
+						gltfLoaded = true;
+						console.log(g);
 						data.subscribe(modelController!.updateModel.bind(modelController));
 					})
 				}
@@ -139,8 +139,8 @@
 		const delta = clock.getDelta();
 		controls.update(delta);
 
-		if(gltfLoaded)
-			controls.updateRaycast(gltfLoaded.children[0] as Group);
+		if(modelController?.gltfGroup !== undefined)
+			selectedObject = controls.updateRaycast(modelController.gltfGroup);
 		
 		composer.render(delta);
 		renderer.render(scene, camera);
@@ -155,3 +155,53 @@
 </script>
 
 <svelte:window on:resize={resize} />
+
+<div style="position: absolute; top: 1em; right: 1em; display: flex; flex-direction: column; gap: 1em;">
+	<Sidebar style="align-self: end;">
+		<div style="display:flex; flex-direction: column; gap: 3px;">
+			<span style="align-self: center; font-weight: 600;">Légende</span>
+			
+			<div style="display: flex; flex-direction: row; gap: 0.5em; justify-items: center; align-items: center;;">
+				<div style="height: 1em; aspect-ratio: 1 / 1; background-color: green; border-radius: 3px;" />
+				<span>Sortie activée</span>
+			</div>
+			<div style="display: flex; flex-direction: row; gap: 0.5em; justify-items: center; align-items: center;;">
+				<div style="height: 1em; aspect-ratio: 1 / 1; background-color: red; border-radius: 3px;" />
+				<span>Sortie désactivée</span>
+			</div>
+
+			<div style="display: flex; flex-direction: row; gap: 0.5em; justify-items: center; align-items: center;;">
+				<div style="height: 1em; aspect-ratio: 1 / 1; background-color: purple; border-radius: 3px;" />
+				<span>Entrée activée</span>
+			</div>
+			<div style="display: flex; flex-direction: row; gap: 0.5em; justify-items: center; align-items: center;;">
+				<div style="height: 1em; aspect-ratio: 1 / 1; background-color: blue; border-radius: 3px;" />
+				<span>Entrée désactivée</span>
+			</div>
+		</div>
+	</Sidebar>
+	{#if selectedObject !== undefined}
+		<Sidebar>
+			<div style="display:flex; flex-direction: column; gap: 3px;">
+				<span style="align-self: center; font-weight: 600;">Objet visé: {selectedObject.name}</span>
+				{#if selectedObject.parent !== null}
+					<span>Parent 1: {selectedObject.parent.name}</span>
+					{#if selectedObject.parent.parent !== null}
+						<span>Parent 2: {selectedObject.parent.parent.name}</span>
+						{#if selectedObject.parent.parent.parent !== null}
+							<span>Parent 3: {selectedObject.parent.parent.parent.name}</span>
+							{#if selectedObject.parent.parent.parent.parent !== null}
+								<span>Parent 4: {selectedObject.parent.parent.parent.parent.name}</span>
+							{/if}
+						{/if}
+					{/if}
+				{/if}
+			</div>
+		</Sidebar>
+	{/if}
+</div>
+
+
+<!-- Crosshair -->
+<div style="position: absolute; top: 50%; right: 50%; height: 3px; width: 16px; transform: translate3d(-1.5px, 8px, 0); background-color: black;"/>
+<div style="position: absolute; top: 50%; right: 50%; height: 16px; width: 3px; transform: translate3d(-8px, 1.5px, 0); background-color: black;"/>

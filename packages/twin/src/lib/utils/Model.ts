@@ -23,7 +23,7 @@ export class Model
     modelConfig: ConfigType;
     modelGltf: string;
 
-    private gltfGroup: Group | undefined;
+    gltfGroup: Group | undefined;
 
     constructor(model: "uscleaner" | "metalfog")
     {
@@ -68,16 +68,20 @@ export class Model
 
                 // Hiding meshes that should be hidden
                 this.gltfGroup.traverse(o => {
-                    if(this.modelConfig.meshesHidden.includes(o.name))
+                    if(this.modelConfig.meshesHidden.find(mh => mh == o.name) !== undefined)
                     {
                         const newMat = new MeshBasicMaterial({ visible: false });
 
                         if(o instanceof Mesh)
+                        {
                             o.material = newMat;
+                        }
                         
                         o.traverse(o2 => {
                             if(o2 instanceof Mesh)
+                            {
                                 o2.material = newMat;
+                            }
                         });
                     }
                 });
@@ -117,7 +121,7 @@ export class Model
                 continue;
             
             this.gltfGroup?.traverse(o => {
-                if(o.name.includes(reactiveStatement.meshName))
+                if(reactiveStatement.meshName.includes(o.name))
                 {
                     o.traverse(o2 => {
                         if(o2 instanceof Mesh && o2.material instanceof MeshStandardMaterial)

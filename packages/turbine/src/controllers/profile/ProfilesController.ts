@@ -262,6 +262,7 @@ export class ProfileController extends Controller {
     /**
      * Create profile from skeleton
      * @param profileSkeletonName Skeleton name to use
+     * @deprecated
      * @returns newly created profile to be saved in DB
      */
     public createProfile(profileSkeletonName: string): IProfileStored | undefined
@@ -302,9 +303,28 @@ export class ProfileController extends Controller {
             if(!("modificationDate" in profileStored))
                 (profileStored as IProfileStored).modificationDate = Date.now();
 
-            const clonedProfileValues = Object.entries(structuredClone(profileStored.values)).map(v => profileSkeleton.fields.find(n => {if(n.name == v[0]) { n.value = v[1]; return true; }}));
+            const clonedProfileValues = Object.entries(structuredClone(profileStored.values)).map(v => profileSkeleton.fields.find(n => {if(n.name == v[0]) { n.value = v[1]; return true; }})).filter(f => f !== undefined) as ProfileSkeletonFields[];
 
-            const returnProfile: IProfileHydrated = {...profileStored as IProfileStored, values: clonedProfileValues.filter(f => f !== undefined) as ProfileSkeletonFields[]};
+            // Check if all skeleton fields are applied to the profile.
+            // If not check all fields and add the missing ones.
+            // This is usefull when profile are updated to newer skeleton with addtional fields
+            
+            const skeletonFieldNames = profileSkeleton.fields.flatMap(f => f.name);
+
+            for(const sfn of skeletonFieldNames)
+            {
+                if(clonedProfileValues.find(v => v.name == sfn) === undefined)
+                {
+                    const fieldToAdd = profileSkeleton.fields.find(f => f.name == sfn);
+                    
+                    if(fieldToAdd === undefined)
+                        return;
+                    
+                    clonedProfileValues.push(fieldToAdd);
+                }
+            }
+
+            const returnProfile: IProfileHydrated = {...profileStored as IProfileStored, values: clonedProfileValues};
             return returnProfile;
         }
         return;

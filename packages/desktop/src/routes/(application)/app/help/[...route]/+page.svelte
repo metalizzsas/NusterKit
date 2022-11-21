@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
-	import { navTitle, useNavContainer } from "$lib/utils/stores/navstack";
+	import { navTitle, useNavContainer, navActions } from "$lib/utils/stores/navstack";
 	import SvelteMarkdown from "svelte-markdown";
 	import LinkParserHelp from "$lib/components/markdown/linkParserHelp.svelte";
 	import ImageParser from "$lib/components/markdown/imageParser.svelte";
@@ -9,9 +9,9 @@
 
     export let data: PageData;
 
-	$navTitle = ["Help Center"]
+	$navTitle = ["Help Center"];
+	$navActions = [];
 	$useNavContainer = false;
-
 	
 	onMount(() => {
 		document.body.classList.add("bg-zinc-600");

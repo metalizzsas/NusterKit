@@ -23,6 +23,10 @@
 
 	let addProfileModalShown = false;
 
+	/**
+	 * List profile blueprints
+	 * @deprecated
+	 */
 	const listProfileBlueprint = async () =>  {
 		if (data.profileSkeletons.length == 1)
 		{
@@ -53,13 +57,7 @@
 	
 	$navTitle = [$_('profile.list')];
 	$navBackFunction = () => goto('/app');
-	$navActions = [
-		{
-			action: listProfileBlueprint,
-			color: 'bg-emerald-500',
-			label: $_('profile.buttons.add'),
-		},
-	];
+	$navActions = [];
 	$useNavContainer = false;
 
 	onDestroy(() => ($useNavContainer = true));

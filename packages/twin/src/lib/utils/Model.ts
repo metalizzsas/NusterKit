@@ -7,14 +7,21 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import * as USCleanerConfig from "$lib/utils/configs/uscleaner.json";
 import * as MetalfogConfig from "$lib/utils/configs/metalfog.json";
 
-const models: Record<"uscleaner" | "metalfog", {config: ConfigType, gltf: string}> = {
+import * as MetalfogSpecs from "@metalizzsas/nuster-turbine-machines/data/metalfog/m/1/specs.json";
+import * as USCleanerSpecs from "@metalizzsas/nuster-turbine-machines/data/uscleaner/m/1/specs.json";
+import type { IMachineSpecs } from "@metalizzsas/nuster-typings/build/spec";
+import type { IOGates } from "@metalizzsas/nuster-typings/build/spec/iogates";
+
+const models: Record<"uscleaner" | "metalfog", {config: ConfigType, gltf: string, specs: IMachineSpecs}> = {
     "metalfog": {
         config: MetalfogConfig,
-        gltf: "/3D/metalfog/metalfog.gltf"
+        gltf: "/3D/metalfog/metalfog.gltf",
+        specs: MetalfogSpecs
     },
     "uscleaner": {
         config: USCleanerConfig,
-        gltf: "/3D/uscleaner/uscleaner.gltf"
+        gltf: "/3D/uscleaner/uscleaner.gltf",
+        specs: USCleanerSpecs
     }
 };
 
@@ -22,6 +29,7 @@ export class Model
 {
     modelConfig: ConfigType;
     modelGltf: string;
+    modelSpecs: IMachineSpecs;
 
     gltfGroup: Group | undefined;
 
@@ -29,6 +37,7 @@ export class Model
     {
         this.modelConfig = models[model].config;
         this.modelGltf = models[model].gltf;
+        this.modelSpecs = models[model].specs;
     }
 
     public loadModel(): Promise<Group>
@@ -55,7 +64,6 @@ export class Model
                 this.gltfGroup.translateY(-boundingBox.min.y);
                 this.gltfGroup.translateZ(-boundingBox.min.z - (size.z / 2));
                 
-
                 this.gltfGroup.traverse((o) => {
 
                     if(o instanceof Mesh)
@@ -63,6 +71,7 @@ export class Model
                         o.receiveShadow = true;
                         o.castShadow = true;
                         o.material = new MeshStandardMaterial({ color: 0x777777, roughness: 1 });
+                        o.layers.enable(1);
                     }
                 });
 
@@ -70,6 +79,7 @@ export class Model
                 this.gltfGroup.traverse(o => {
                     if(this.modelConfig.meshesHidden.find(mh => mh == o.name) !== undefined)
                     {
+                        o.layers.disable(1);
                         const newMat = new MeshBasicMaterial({ visible: false });
 
                         if(o instanceof Mesh)
@@ -78,6 +88,7 @@ export class Model
                         }
                         
                         o.traverse(o2 => {
+                            o2.layers.disable(1);
                             if(o2 instanceof Mesh)
                             {
                                 o2.material = newMat;
@@ -117,6 +128,13 @@ export class Model
         {
             const reactiveParam = data.io.find(p => p.name == reactiveStatement.value);
 
+            const reactiveParamSpecs = this.modelSpecs.iogates.find(g => g.name == reactiveStatement.value);
+
+            const outputColor = [0x008000, 0xFF0000];
+            const inputColor = [0x800080, 0x0000FF];
+
+            const availableColor = (reactiveParamSpecs?.bus === "in") ? inputColor : outputColor;
+
             if(reactiveParam === undefined)
                 continue;
             
@@ -126,11 +144,36 @@ export class Model
                     o.traverse(o2 => {
                         if(o2 instanceof Mesh && o2.material instanceof MeshStandardMaterial)
                         {
-                            o2.material.color = new Color(reactiveParam.value > 0 ? 0x028A0F : 0xFF0000);
+                            o2.material.color = new Color(availableColor[reactiveParam.value > 0 ? 0 : 1]);
                         }
                     })
                 }
             });
         }
     }
+
+    public getReactive(mesh: Mesh | undefined, data: IStatusMessage): Promise<IOGates | undefined>
+    {
+        return new Promise<IOGates | undefined>(resolve => {
+            if(mesh === undefined)
+            {
+                resolve(undefined);
+                return;
+            }
+            
+            const allReactiveMeshes = this.modelConfig.meshesReactive.flatMap(k => k.meshName);
+
+            mesh.traverseAncestors(o => {
+                if(allReactiveMeshes.includes(o.name))
+                {
+                    const reactiveStatement = this.modelConfig.meshesReactive.find(k => k.meshName.includes(o.name));
+
+                    if(reactiveStatement === undefined)
+                        return;
+
+                    resolve(data.io.find(k => k.name == reactiveStatement.value));
+                }
+            });
+        })
+    } 
 }

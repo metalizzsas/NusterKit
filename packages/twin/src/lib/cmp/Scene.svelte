@@ -29,6 +29,7 @@
 
 	let gltfLoaded = false;
 	let selectedObject: Mesh | undefined = undefined;
+	let meshData: any | undefined = undefined;
 
 	const shadowMapSize = 2048;
 
@@ -152,6 +153,8 @@
 		camera.updateProjectionMatrix();
 	}
 
+	$: if(modelController !== undefined && $data !== undefined) { modelController.getReactive(selectedObject, $data).then(v => meshData = v)}
+
 </script>
 
 <svelte:window on:resize={resize} />
@@ -171,11 +174,11 @@
 			</div>
 
 			<div style="display: flex; flex-direction: row; gap: 0.5em; justify-items: center; align-items: center;;">
-				<div style="height: 1em; aspect-ratio: 1 / 1; background-color: purple; border-radius: 3px;" />
+				<div style="height: 1em; aspect-ratio: 1 / 1; background-color: blue; border-radius: 3px;" />
 				<span>Entrée activée</span>
 			</div>
 			<div style="display: flex; flex-direction: row; gap: 0.5em; justify-items: center; align-items: center;;">
-				<div style="height: 1em; aspect-ratio: 1 / 1; background-color: blue; border-radius: 3px;" />
+				<div style="height: 1em; aspect-ratio: 1 / 1; background-color: purple; border-radius: 3px;" />
 				<span>Entrée désactivée</span>
 			</div>
 		</div>
@@ -196,6 +199,13 @@
 						{/if}
 					{/if}
 				{/if}
+				{#if meshData !== undefined}
+					<span style="align-self: center; font-weight: 600;">Data</span>
+					<span>IO: {meshData.name}</span>
+					<span>Value: {meshData.value}</span>
+					<span>Bus: {meshData.bus}</span>
+				{/if}
+
 			</div>
 		</Sidebar>
 	{/if}

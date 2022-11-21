@@ -37,6 +37,8 @@ export class CameraController
             verticalMaxAngle: Math.PI / 3,
             verticalMinAngle: -Math.PI / 3
         }, ...{options}};
+
+        this.raycaster.layers.set(1);
     }
 
     updateMouseLock(state: boolean)

@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-desktop
 
+## 1.8.5
+
+### Patch Changes
+
+- fix: set navigation actions of help center to empty array ([#145](https://github.com/metalizzsas/NusterKit/pull/145))
+
+- fix: removed useless `add new profile` button in profile list ([#145](https://github.com/metalizzsas/NusterKit/pull/145))
+
 ## 1.8.4
 
 ### Patch Changes

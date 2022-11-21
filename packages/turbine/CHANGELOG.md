@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.8.9
+
+### Patch Changes
+
+- fix: profile could miss some fields due to skeleton updates. ([#145](https://github.com/metalizzsas/NusterKit/pull/145))
+
 ## 1.8.8
 
 ### Patch Changes

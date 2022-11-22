@@ -236,14 +236,15 @@ export class CycleController extends Controller {
                 if (["ended", "ending", "created"].includes(this.program.status.mode)) {
                     //do not save the history if the program was just created and never started
                     if (this.program.status.mode != "created") {
-
-
-                        
                         await ProgramHistoryModel.create({
                             rating: parseInt(req.params.rating) || 0,
                             cycle: this.program,
                             profile: (this.program.profile) ? ProfileController.getInstance().prepareToStore(this.program.profile, true) : undefined
                         });
+                    }
+                    else
+                    {
+                        await this.program.dispose();
                     }
 
                     this.program = undefined;
@@ -252,7 +253,8 @@ export class CycleController extends Controller {
                     res.write("ok");
                     res.end();
                 }
-                else {
+                else
+                {
                     res.status(403);
                     res.write("Can't rate a cycle that has not ended");
                     res.end();

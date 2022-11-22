@@ -107,15 +107,16 @@ export class ProgramBlockRunner implements IProgramRunner
         LoggerInstance.info("PBRSC: Start conditions are valid.");
         LoggerInstance.info("PBRSC: Removing start conditions only used at start.");
 
-        for(const startCondition of this.startConditions)
-        {
-            const index = this.startConditions.indexOf(startCondition);
-            if(startCondition.startOnly && index != -1)
+        this.startConditions = this.startConditions.filter(sc => {
+            if(sc.startOnly == true)
             {
-                this.startConditions.splice(index, 1);
-                LoggerInstance.trace(` ↳ Removed ${startCondition.conditionName}`);
+                sc.stopTimer();
+                LoggerInstance.trace(` ↳ Removed ${sc.conditionName}`);
+                return false;
             }
-        }
+            return true;
+            
+        });
 
         LoggerInstance.info(`PBR: Started cycle ${this.name}.`);
 
@@ -253,7 +254,7 @@ export class ProgramBlockRunner implements IProgramRunner
             LoggerInstance.info("PBR: Cleaning timers.");
             for(const timer of this.timers)
             {
-                LoggerInstance.info("PBR: Clearing timer: " + timer.name);
+                LoggerInstance.info(" ↳ Clearing timer: " + timer.name);
                 if(timer.timer !== undefined)
                     clearInterval(timer.timer);
             }
@@ -272,20 +273,23 @@ export class ProgramBlockRunner implements IProgramRunner
             await g.write(g.default);
         }
 
-        LoggerInstance.info(`PBR: Ended cycle ${this.name} with state: ${this.status.mode} & reason: ${this.status.endReason}.`);
-
-        LoggerInstance.info(`PBR: Will re-enable manual modes that were disabled before.`);
-        Object.keys(this.manualModeStatesBeforeStart).forEach(m => {
-
-            const previousValue = this.manualModeStatesBeforeStart[m];
-            const mode = ManualModeController.getInstance().find(m);
-
-            if(previousValue != 0 && mode !== undefined)
+        if(Object.keys(this.manualModeStatesBeforeStart).length > 0)
+        {
+            LoggerInstance.info(`PBR: Re-enabling manual modes that were disabled before.`);
+            for(const m in this.manualModeStatesBeforeStart)
             {
-                LoggerInstance.info(` ↳ Settings ${mode.name} to ${previousValue}.`);
-                mode.setValue(structuredClone(previousValue));
+                const previousValue = this.manualModeStatesBeforeStart[m];
+                const mode = ManualModeController.getInstance().find(m);
+    
+                if(previousValue != 0 && mode !== undefined)
+                {
+                    LoggerInstance.info(` ↳ Settings ${mode.name} to ${previousValue}.`);
+                    mode.setValue(structuredClone(previousValue));
+                }
             }
-        });
+        }
+
+        LoggerInstance.info(`PBR: Ended cycle ${this.name} with state: ${this.status.mode} & reason: ${this.status.endReason}.`);
     }
 
     /**

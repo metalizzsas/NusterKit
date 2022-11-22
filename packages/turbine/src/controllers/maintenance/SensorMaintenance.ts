@@ -30,6 +30,8 @@ export class SensorMaintenance extends Maintenance implements Omit<ISensorMainte
 
         if(obj.requireEnableGate)
             this.requireEnabledGate = IOController.getInstance().gFinder(obj.requireEnableGate);
+
+        super.checkTracker();
     }
 
     get computeDurationProgress(): number {

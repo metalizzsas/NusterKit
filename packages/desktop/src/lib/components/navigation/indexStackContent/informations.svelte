@@ -11,7 +11,9 @@
 	let displayDesktopReleaseNotes = false;
 	let displayTurbineReleaseNotes = false;
 
-	const data: { key: string; data: string | string[] | undefined }[] = [
+	let data: { key: string; data: string | string[] | undefined }[] = []; 
+	
+	$: shown, data = [
 		{
 			key: 'machine.model',
 			data: $_('machines.' + $machineData.machine.model.toLocaleLowerCase()),
@@ -38,9 +40,7 @@
 		},
 		{
 			key: 'machine.cycleCount',
-			data: `${
-				$machineData.maintenances.find((k) => k.name == 'cycleCount')?.durationActual ?? '0'
-			}`,
+			data: `${$machineData.maintenances.find((k) => k.name == 'cycleCount')?.duration ?? 0}`,
 		},
 		{
 			key: 'machine.nusterDesktopVersion',

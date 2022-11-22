@@ -17,7 +17,7 @@ export class Maintenance implements IBaseMaintenance
         this.durationType = obj.durationType;
         this.procedure = obj.procedure;
 
-        void this.checkTracker();
+        //void this.checkTracker();
     }
 
     async checkTracker()

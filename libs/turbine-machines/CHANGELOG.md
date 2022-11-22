@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.2.11
+
+### Patch Changes
+
+- feat: start conditions can now be disabled programatically ([#151](https://github.com/metalizzsas/NusterKit/pull/151))
+
 ## 1.2.10
 
 ### Patch Changes

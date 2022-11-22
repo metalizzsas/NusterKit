@@ -1,5 +1,14 @@
 # @metalizzsas/nuster-desktop
 
+## 1.8.6
+
+### Patch Changes
+
+- feat: start conditions can now be disabled programatically ([#151](https://github.com/metalizzsas/NusterKit/pull/151))
+
+- fix: maintenances tasks were not correctly tracked. ([#151](https://github.com/metalizzsas/NusterKit/pull/151))
+  fix: PBR which used maintenance tasks was not able to end successfully.
+
 ## 1.8.5
 
 ### Patch Changes

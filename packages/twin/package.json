@@ -33,6 +33,7 @@
 	"type": "module",
 	"dependencies": {
 		"@metalizzsas/nuster-turbine-machines": "1.2.9",
+		"chart.js": "^3.9.1",
 		"three": "^0.146.0",
 		"troika-three-text": "^0.46.4"
 	}

@@ -131,7 +131,7 @@ export class Model
             const reactiveParamSpecs = this.modelSpecs.iogates.find(g => g.name == reactiveStatement.value);
 
             const outputColor = [0x008000, 0xFF0000];
-            const inputColor = [0x800080, 0x0000FF];
+            const inputColor = [0x0000FF, 0x800080];
 
             const availableColor = (reactiveParamSpecs?.bus === "in") ? inputColor : outputColor;
 

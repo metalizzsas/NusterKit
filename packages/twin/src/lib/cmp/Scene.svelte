@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { CameraController } from '$lib/utils/CameraController';
+	import type { ChartData } from '$lib/utils/ChartTypes';
 	import { Model } from '$lib/utils/Model';
 	import type { IStatusMessage, IWebSocketData } from "@metalizzsas/nuster-typings/build/hydrated/";
 	import { onMount, setContext } from 'svelte';
 	import { writable } from 'svelte/store';
-	import type { Group } from 'three';
 	import { AmbientLight, AxesHelper, Clock, Color, DirectionalLight, Mesh, MeshStandardMaterial, PerspectiveCamera, PlaneGeometry, Scene, Vector3, WebGLRenderer } from 'three';
 	import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 	import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
+	import Graph from './Graph.svelte';
 	import Sidebar from './Sidebar.svelte';
 
 	let renderer = new WebGLRenderer({
@@ -20,7 +21,7 @@
 	let data = writable<IStatusMessage | undefined>(undefined);
 
 	let scene = new Scene();
-	let camera =  new PerspectiveCamera(60, window.innerHeight / window.innerWidth, 0.1, 2000);
+	let camera =  new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
 	let composer = new EffectComposer(renderer);
 	let controls: CameraController;
 	let clock = new Clock();
@@ -30,6 +31,8 @@
 	let gltfLoaded = false;
 	let selectedObject: Mesh | undefined = undefined;
 	let meshData: any | undefined = undefined;
+	let graphData: ChartData = {times: [], data: []};
+	let tracked: string[] = [];
 
 	const shadowMapSize = 2048;
 
@@ -41,7 +44,7 @@
 
 	onMount(() => {
 
-		websocket = new WebSocket("ws://localhost:4080/ws/");
+		websocket = new WebSocket("ws://192.168.49.143/ws/");
 
 		websocket.onmessage = (ev: MessageEvent) => {
 			const parsed = JSON.parse(ev.data) as IWebSocketData;
@@ -58,6 +61,7 @@
 						gltfLoaded = true;
 						console.log(g);
 						data.subscribe(modelController!.updateModel.bind(modelController));
+						data.subscribe(appendGraphData)
 					})
 				}
 			}
@@ -132,6 +136,30 @@
 				controls.updateMouseLock(false);
 		});
 
+		const appendGraphData = (data: IStatusMessage | undefined) => {
+			if(data === undefined)
+				return;
+			
+			graphData.times = [...graphData.times, `${new Date().getMinutes()}:${new Date().getSeconds()}`];
+			
+			for(const track of tracked)
+			{
+				const dataset = graphData.data.find(k => k.label == track);
+				const dataToAdd = data.io.find(k => k.name == track)?.value ?? 0;
+
+				if(dataset === undefined){
+					graphData.data = [...graphData.data, {
+						label: track,
+						data: [dataToAdd]
+
+					}];
+					continue;
+				}
+
+				dataset.data = [...dataset.data, dataToAdd];
+			}
+		};
+
 	});
 
 	const animate = () => 
@@ -202,13 +230,24 @@
 				{#if meshData !== undefined}
 					<span style="align-self: center; font-weight: 600;">Data</span>
 					<span>IO: {meshData.name}</span>
-					<span>Value: {meshData.value}</span>
+					<span>Value: {meshData.value}</span>d
 					<span>Bus: {meshData.bus}</span>
+					<button on:click={() => { 
+						if(!tracked.includes(meshData.name))
+							tracked.push(meshData.name)
+						else
+							tracked = tracked.filter(k => k != meshData.name);
+						console.log(tracked);
+					}}>Track</button>
 				{/if}
 
 			</div>
 		</Sidebar>
 	{/if}
+</div>
+
+<div style="position: absolute; bottom: 1em; left: 1em;">
+	<Graph bind:chartData={graphData}/>
 </div>
 
 

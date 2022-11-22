@@ -36,8 +36,9 @@ export class Slot implements IConfigSlot
 
         if(slot && this.supportedProductSeries !== undefined)
         {
-            slot.update({ loadedProductType: productSeries }, { setDefaultsOnInsert: true })
-            //await slot.save();
+            slot.loadedProductType = productSeries;
+            slot.loadDate = new Date();      
+            await slot.save();
         }
         else if(this.supportedProductSeries !== undefined)
         {

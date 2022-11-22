@@ -1,5 +1,19 @@
 # @metalizzsas/nuster-turbine
 
+## 1.8.10
+
+### Patch Changes
+
+- feat: start conditions can now be disabled programatically ([#151](https://github.com/metalizzsas/NusterKit/pull/151))
+
+- fix: slots could not force load on slots with product data already ([#149](https://github.com/metalizzsas/NusterKit/pull/149))
+
+- fix: maintenances tasks were not correctly tracked. ([#151](https://github.com/metalizzsas/NusterKit/pull/151))
+  fix: PBR which used maintenance tasks was not able to end successfully.
+- Updated dependencies [[`48f4b81`](https://github.com/metalizzsas/NusterKit/commit/48f4b81fb2babb7e3cca12d9e87165ef05e719f7)]:
+  - @metalizzsas/nuster-turbine-machines@1.2.11
+  - @metalizzsas/nuster-typings@1.3.2
+
 ## 1.8.9
 
 ### Patch Changes

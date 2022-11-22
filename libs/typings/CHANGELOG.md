@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-typings
 
+## 1.3.2
+
+### Patch Changes
+
+- feat: start conditions can now be disabled programatically ([#151](https://github.com/metalizzsas/NusterKit/pull/151))
+
 ## 1.3.1
 
 ### Patch Changes

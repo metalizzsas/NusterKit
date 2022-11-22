@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.8.11
+
+### Patch Changes
+
+- fix: PBR was not disposed if canceled before start. ([#152](https://github.com/metalizzsas/NusterKit/pull/152))
+
 ## 1.8.10
 
 ### Patch Changes

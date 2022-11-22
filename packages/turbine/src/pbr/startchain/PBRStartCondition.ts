@@ -1,6 +1,8 @@
 import type { IPBRStartCondition} from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/startchain/IPBRStartCondition";
 import type { EPBRStartConditionResult } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/startchain/IPBRStartCondition";
 import { LoggerInstance } from "../../app";
+import type { NumericParameterBlocks } from "../ParameterBlocks";
+import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 import type { ProgramBlockRunner } from "../ProgramBlockRunner";
 import { PBRSCCheckChain } from "./PBRSCCheckChain";
 
@@ -10,6 +12,8 @@ export class PBRStartCondition implements IPBRStartCondition
 
     conditionName: string;
     startOnly: boolean;
+
+    disabled?: NumericParameterBlocks;
 
     checkChain: PBRSCCheckChain;
 
@@ -26,6 +30,9 @@ export class PBRStartCondition implements IPBRStartCondition
 
         this.result = "error";
 
+        if(pbrsc.disabled !== undefined)
+            this.disabled = ParameterBlockRegistry(pbrsc.disabled) as NumericParameterBlocks;
+
         this.startTimer();
     }
 
@@ -33,6 +40,12 @@ export class PBRStartCondition implements IPBRStartCondition
     {
         LoggerInstance.trace("PBRSC: Started timer for " + this.conditionName);
         this.resultTimer = setInterval(() => { 
+
+            if(this.disabled && this.disabled.data() == 1)
+            {
+                this.result = "disabled";
+                return;
+            }
 
             //Checking CheckChain data
             const tempResult = this.checkChain.data();

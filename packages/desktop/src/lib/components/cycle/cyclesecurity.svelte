@@ -27,6 +27,10 @@
 			color: 'emerald-500',
 			shadowColor: 'emerald-300',
 		},
+		disabled: {
+			color: 'gray-500',
+			shadowColor: 'gray-300'
+		}
 	};
 
 	const preStartCycle = () => {
@@ -146,7 +150,7 @@
 <Flex direction="col">
 	{#if $machineData.cycle}
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-			{#each $machineData.cycle.startConditions as sc}
+			{#each $machineData.cycle.startConditions.filter(sc => sc.result !== "disabled") as sc}
 				<span
 					class="flex flex-row justify-between items-center rounded-full bg-zinc-700 py-1 pr-2 pl-3 text-white font-semibold"
 				>

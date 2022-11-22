@@ -19,7 +19,7 @@ export class CountableMaintenance extends Maintenance implements ICountableMaint
         this.durationLimit = obj.durationLimit;
         this.duration = 0;
 
-        this.loadTrackerData();
+        super.checkTracker().then(() => this.loadTrackerData());
     }
 
     async loadTrackerData()
@@ -31,17 +31,22 @@ export class CountableMaintenance extends Maintenance implements ICountableMaint
             LoggerInstance.error(`Maintenance-${this.name}: Tracker does not exists.`);
             return;
         }
+        else if(doc.duration === undefined)
+        {
+            doc.duration = 0;
+            doc.save();
+        }
 
-        this.duration = doc.duration ?? 0;
+        this.duration = doc.duration;
     }
 
     /** Append duration to this task */
-    async append(value: number)
+    async append(appendValue: number)
     {
-        const document = await MaintenanceModel.findOneAndUpdate({name: this.name}, {$inc: {duration: value}});
+        const document = await MaintenanceModel.findOneAndUpdate({ name: this.name }, {$inc: {"duration": appendValue }});
 
         if(document)
-            this.duration += value;
+            this.duration += appendValue;
         else
             LoggerInstance.warn("Maintenance: Failed to append data to " + this.name + " tracker.");
     }

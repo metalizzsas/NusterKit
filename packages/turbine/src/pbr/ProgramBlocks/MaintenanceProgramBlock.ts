@@ -16,7 +16,7 @@ export class MaintenanceProgramBlock extends ProgramBlock implements IMaintenanc
 
         this.params = [
             ParameterBlockRegistry(obj.params[0]) as StringParameterBlocks,
-            ParameterBlockRegistry(obj.params[0]) as NumericParameterBlocks
+            ParameterBlockRegistry(obj.params[1]) as NumericParameterBlocks
         ];
     }
 

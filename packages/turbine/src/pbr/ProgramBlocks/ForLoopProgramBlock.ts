@@ -36,7 +36,7 @@ export class ForLoopProgramBlock extends ProgramBlock implements IForLoopProgram
         const loopCount = this.params[0].data() as number;
         LoggerInstance.info(`ForBlock: Will loop ${loopCount} times. Starting from: ${this.currentIteration}`);
 
-        const pbrInstance = CycleController.getInstance().program;
+        const pbrInstance = CycleController.getInstance().pbrInstance;
 
         if(pbrInstance !== undefined)
         {

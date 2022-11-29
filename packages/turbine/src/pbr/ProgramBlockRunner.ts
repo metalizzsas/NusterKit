@@ -332,22 +332,15 @@ export class ProgramBlockRunner implements IProgramRunner
     toJSON()
     {
         return {
-            status: {...this.status, progress: this.progress, estimatedRunTime: this.estimatedRunTime},
-
-            //identifiers vars
             name: this.name,
-            
-            //Inside definers
-            steps: this.steps,
-            startConditions: this.startConditions,
 
-            //internals
+            status: {...this.status, progress: this.progress, estimatedRunTime: this.estimatedRunTime},
             currentStepIndex: this.currentStepIndex,
+            
+            startConditions: this.startConditions,
+            steps: this.steps,
 
-            //statics
             profile: this.profile,
-
-            //additional informations
             additionalInfo: this.additionalInfo?.map(k => { return { name: k.name, value: IOController.getInstance().gFinder(k.value) }})
         }
     }

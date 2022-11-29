@@ -67,7 +67,7 @@ export class EX260Sx implements IIOPhysicalController, IEX260Controller
             {
                 this.connected = false;
                 LoggerInstance.error("EX260Sx: Failed to connect");
-                CycleController.getInstance().program?.end("controllerError");
+                CycleController.getInstance().pbrInstance?.end("controllerError");
                 return false;
             } 
         }
@@ -110,7 +110,7 @@ export class EX260Sx implements IIOPhysicalController, IEX260Controller
 
         if(!write)
         {
-            CycleController.getInstance().program?.end("controllerError");
+            CycleController.getInstance().pbrInstance?.end("controllerError");
             return Buffer.alloc(0);
         }
 
@@ -191,7 +191,7 @@ export class EX260Sx implements IIOPhysicalController, IEX260Controller
 
         if(write === false)
         {
-            CycleController.getInstance().program?.end("controllerError");
+            CycleController.getInstance().pbrInstance?.end("controllerError");
         }
     }
     

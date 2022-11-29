@@ -23,7 +23,7 @@ export class VariableProgramBlock extends ProgramBlock implements IVariableProgr
 
     public async execute(): Promise<void> {
 
-        const pbrInstance = CycleController.getInstance().program;
+        const pbrInstance = CycleController.getInstance().pbrInstance;
 
         if(pbrInstance !== undefined)
         {

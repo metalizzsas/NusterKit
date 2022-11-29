@@ -16,7 +16,7 @@ export class ProfileParameterBlock extends ParameterBlock implements IProfilePar
 
     public data(): number
     {
-        const pbrInstance = CycleController.getInstance().program;
+        const pbrInstance = CycleController.getInstance().pbrInstance;
 
         if(pbrInstance?.profileExplorer !== undefined)
         {

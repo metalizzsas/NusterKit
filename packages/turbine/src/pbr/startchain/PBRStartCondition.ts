@@ -8,7 +8,7 @@ import { PBRSCCheckChain } from "./PBRSCCheckChain";
 
 export class PBRStartCondition implements IPBRStartCondition
 {
-    #pbrInstance: ProgramBlockRunner;
+    private pbrInstance: ProgramBlockRunner;
 
     conditionName: string;
     startOnly: boolean;
@@ -22,7 +22,7 @@ export class PBRStartCondition implements IPBRStartCondition
 
     constructor(pbrsc: IPBRStartCondition, pbrInstance: ProgramBlockRunner)
     {
-        this.#pbrInstance = pbrInstance;
+        this.pbrInstance = pbrInstance;
 
         this.conditionName = pbrsc.conditionName;
         this.startOnly = pbrsc.startOnly;
@@ -62,10 +62,10 @@ export class PBRStartCondition implements IPBRStartCondition
                 this.result = tempResult;
 
                 //if the condition is not good stop the cycle
-                if(this.result == "error" && this.#pbrInstance.status.mode == "started")
+                if(this.result == "error" && this.pbrInstance.status.mode == "started")
                 {
                     LoggerInstance.warn("PBRSC: Security condition " + this.conditionName + " has forced the cycle to End.");
-                    this.#pbrInstance.end("security-" + this.conditionName);
+                    this.pbrInstance.end("security-" + this.conditionName);
                 }
             }
 

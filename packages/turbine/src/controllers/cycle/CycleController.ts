@@ -17,7 +17,7 @@ export class CycleController extends Controller {
     private premadeCycles: IPBRPremades[] = [];
     private cycleTypes: IProgram[];
 
-    public program?: ProgramBlockRunner;
+    public pbrInstance?: ProgramBlockRunner;
 
     private maskedPremades: string[];
 
@@ -85,13 +85,13 @@ export class CycleController extends Controller {
 
                 if(profile !== undefined)
                 {
-                    this.program = new ProgramBlockRunner(history.cycle, profile);
+                    this.pbrInstance = new ProgramBlockRunner(history.cycle, profile);
 
-                    if (this.program.name != history.profile.skeleton) {
+                    if (this.pbrInstance.name != history.profile.skeleton) {
                         res.status(403);
-                        res.write(`Profile ${this.program.name} is not compatible with cycle profile ${history.profile.skeleton}`);
+                        res.write(`Profile ${this.pbrInstance.name} is not compatible with cycle profile ${history.profile.skeleton}`);
                         res.end();
-                        this.program = undefined;
+                        this.pbrInstance = undefined;
                         return;
                     }
                     else {
@@ -174,16 +174,16 @@ export class CycleController extends Controller {
 
             if (cycle !== undefined) {
                 LoggerInstance.info("CR: PBR assigned");
-                this.program = new ProgramBlockRunner({ ...cycle, status: { mode: "created" } }, profile);
+                this.pbrInstance = new ProgramBlockRunner({ ...cycle, status: { mode: "created" } }, profile);
 
-                if (this.program.profileRequired && profile !== undefined)
+                if (this.pbrInstance.profileRequired && profile !== undefined)
                 {
-                    if (this.program.name != profile.skeleton)
+                    if (this.pbrInstance.name != profile.skeleton)
                     {
                         res.status(403);
-                        res.write(`Profile ${this.program.name} is not compatible with cycle profile ${profile.skeleton}`);
+                        res.write(`Profile ${this.pbrInstance.name} is not compatible with cycle profile ${profile.skeleton}`);
                         res.end();
-                        this.program = undefined;
+                        this.pbrInstance = undefined;
                         return;
                     }
                 }
@@ -203,8 +203,8 @@ export class CycleController extends Controller {
 
         //start the cycle
         this._router.put("/", async (req: Request, res: Response) => {
-            if (this.program !== undefined) {
-                this.program.run();
+            if (this.pbrInstance !== undefined) {
+                this.pbrInstance.run();
                 res.status(200);
                 res.end();
             }
@@ -217,8 +217,8 @@ export class CycleController extends Controller {
         AuthManager.getInstance().registerEndpointPermission("cycle.nextStep", { endpoint: "/v1/cycle/nextStep", method: "put"});
 
         this._router.put("/nextStep", async(req: Request, res: Response) => {
-            if (this.program !== undefined) {
-                this.program.nextStep();
+            if (this.pbrInstance !== undefined) {
+                this.pbrInstance.nextStep();
                 res.status(200);
                 res.end();
             }
@@ -232,22 +232,22 @@ export class CycleController extends Controller {
 
         //rate the cycle and remove it
         this._router.patch("/:rating", async (req: Request, res: Response) => {
-            if (this.program) {
-                if (["ended", "ending", "created"].includes(this.program.status.mode)) {
+            if (this.pbrInstance) {
+                if (["ended", "ending", "created"].includes(this.pbrInstance.status.mode)) {
                     //do not save the history if the program was just created and never started
-                    if (this.program.status.mode != "created") {
+                    if (this.pbrInstance.status.mode != "created") {
                         await ProgramHistoryModel.create({
                             rating: parseInt(req.params.rating) || 0,
-                            cycle: this.program,
-                            profile: (this.program.profile) ? ProfileController.getInstance().prepareToStore(this.program.profile, true) : undefined
+                            cycle: this.pbrInstance,
+                            profile: (this.pbrInstance.profile) ? ProfileController.getInstance().prepareToStore(this.pbrInstance.profile, true) : undefined
                         });
                     }
                     else
                     {
-                        await this.program.dispose();
+                        await this.pbrInstance.dispose();
                     }
 
-                    this.program = undefined;
+                    this.pbrInstance = undefined;
 
                     res.status(200);
                     res.write("ok");
@@ -272,8 +272,8 @@ export class CycleController extends Controller {
 
         //stops the cycle
         this._router.delete("/", async (req: Request, res: Response) => {
-            if (this.program !== undefined) {
-                this.program.end("user");
+            if (this.pbrInstance !== undefined) {
+                this.pbrInstance.end("user");
                 res.status(200);
                 res.end();
             }
@@ -288,6 +288,6 @@ export class CycleController extends Controller {
 
     public get socketData(): IProgramBlockRunnerHydrated | undefined {
         // TODO check for type assertion here it might be off
-        return this.program as unknown as IProgramBlockRunnerHydrated | undefined;
+        return this.pbrInstance as unknown as IProgramBlockRunnerHydrated | undefined;
     }
 }

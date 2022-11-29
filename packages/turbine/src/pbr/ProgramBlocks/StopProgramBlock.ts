@@ -22,12 +22,12 @@ export class StopProgramBlock extends ProgramBlock implements IStopProgramBlock
 
     public async execute(): Promise<void>
     {
-        const pbrInstance = CycleController.getInstance().program;
+        const pbrInstance = CycleController.getInstance().pbrInstance;
 
         if(pbrInstance !== undefined)
         {
             if (process.env.NODE_ENV != "production") {
-                LoggerInstance.info("StopBlock: Debug mode will not stop the machine.");
+                LoggerInstance.warn("StopBlock: Debug mode will not stop the machine.");
                 return;
             }
     

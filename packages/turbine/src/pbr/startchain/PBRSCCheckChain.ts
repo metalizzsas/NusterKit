@@ -8,7 +8,7 @@ export class PBRSCCheckChain implements IPBRSCCheckChain
 {
     name: "parameter" | "io";
 
-    #checkChain?: ParameterBlock;
+    private checkChain?: ParameterBlock;
 
     constructor(obj: IPBRSCCheckChain)
     {
@@ -17,12 +17,12 @@ export class PBRSCCheckChain implements IPBRSCCheckChain
         if(this.name == "parameter" && obj.parameter !== undefined)
         {
             //Building a config givent parameter block build a conditional test
-            this.#checkChain = ParameterBlockRegistry(obj.parameter);
+            this.checkChain = ParameterBlockRegistry(obj.parameter);
         }
         else if(this.name == "io" && obj.io !== undefined)
         {
             //building a default Conditional parameter block for io related start conditions
-            this.#checkChain = new ConditionalParameterBlock({
+            this.checkChain = new ConditionalParameterBlock({
                 name: "conditional",
                 value: "==",
                 params: [
@@ -49,9 +49,9 @@ export class PBRSCCheckChain implements IPBRSCCheckChain
 
     public data(): EPBRStartConditionResult
     {
-        if(this.#checkChain !== undefined)
+        if(this.checkChain !== undefined)
         {
-            return (this.#checkChain.data() as string) as EPBRStartConditionResult;
+            return (this.checkChain.data() as string) as EPBRStartConditionResult;
         }
         else
         {

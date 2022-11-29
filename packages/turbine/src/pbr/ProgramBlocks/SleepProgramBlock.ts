@@ -22,7 +22,7 @@ export class SleepProgramBlock extends ProgramBlock implements ISleepProgramBloc
 
     public async execute(): Promise<void>
     {
-        const pbrInstance = CycleController.getInstance().program;
+        const pbrInstance = CycleController.getInstance().pbrInstance;
 
         if(pbrInstance !== undefined)
         {
@@ -32,7 +32,10 @@ export class SleepProgramBlock extends ProgramBlock implements ISleepProgramBloc
             for (let i = 0; i < ((sleepTime * 1000) / 10); i++)
             {
                 if (["ending", "ended"].includes(pbrInstance.currentRunningStep?.state) || ["ended", "ending"].includes(pbrInstance.status.mode))
+                {
+                    this.executed = true;
                     return;
+                }
                 else
                     await new Promise(resolve => { setTimeout(resolve, 10); });
             }

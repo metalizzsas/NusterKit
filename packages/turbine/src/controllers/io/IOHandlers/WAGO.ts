@@ -76,7 +76,7 @@ export class WAGO implements IIOPhysicalController, IWagoController
     {
         if(this.unreachable)
         {
-            CycleController.getInstance().program?.end("controllerUnreachable");
+            CycleController.getInstance().pbrInstance?.end("controllerUnreachable");
             return;
         }
         
@@ -102,7 +102,7 @@ export class WAGO implements IIOPhysicalController, IWagoController
     {
         if(this.unreachable)
         {
-            CycleController.getInstance().program?.end("controllerUnreachable");
+            CycleController.getInstance().pbrInstance?.end("controllerUnreachable");
             return 0;
         }
 

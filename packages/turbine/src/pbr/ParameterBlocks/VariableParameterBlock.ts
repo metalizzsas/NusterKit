@@ -16,7 +16,7 @@ export class VariableParameterBlock extends ParameterBlock implements IVariableP
 
     public data(): number
     {
-        const pbrInstance = CycleController.getInstance().program;
+        const pbrInstance = CycleController.getInstance().pbrInstance;
         if(pbrInstance !== undefined)
         {
             if(this.value == "currentStepIndex")

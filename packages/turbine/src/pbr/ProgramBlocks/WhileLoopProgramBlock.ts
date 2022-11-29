@@ -35,7 +35,7 @@ export class WhileLoopProgramBlock extends ProgramBlock implements IWhileLoopPro
 
     public async execute(): Promise<void> {
 
-        const pbrInstance = CycleController.getInstance().program;
+        const pbrInstance = CycleController.getInstance().pbrInstance;
 
         if(pbrInstance !== undefined) 
         {

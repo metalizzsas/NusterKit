@@ -8,7 +8,7 @@
     "node": "18.x"
   },
   "scripts": {
-    "lint": "eslint --ext .js,.ts .",
+    "lint": "eslint --ext .ts .",
     "dev": "tsc --watch",
     "build": "tsc && npm run schema:config && npm run schema:spec",
     "schema:config": "typescript-json-schema src/configuration/index.ts IConfiguration --noExtraProps --required -o build/schemas/schema-config.json",

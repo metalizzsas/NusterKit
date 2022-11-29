@@ -1,7 +1,9 @@
 {
 	"name": "@metalizzsas/simulation-ui",
-	"version": "0.0.1",
+	"description": "Simulation tool interface",
+	"version": "1.0.0",
 	"private": true,
+	"license": "UNLICENSED",
 	"scripts": {
 		"dev": "vite dev --port 5174",
 		"build": "vite build",

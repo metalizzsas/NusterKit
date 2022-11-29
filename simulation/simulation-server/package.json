@@ -1,13 +1,13 @@
 {
   "name": "@metalizzsas/simulation-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Simulation tool server.",
   "main": "src/server.ts",
   "scripts": {
     "dev": "nodemon"
   },
   "author": "",
-  "license": "ISC",
+  "license": "UNLICENSED",
   "dependencies": {
     "@metalizzsas/nuster-turbine-machines": "workspace",
     "@metalizzsas/nuster-typings": "workspace",

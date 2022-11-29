@@ -1,18 +1,18 @@
 <script lang="ts">
-	import '$lib/app.css';
-	import Modal from '$lib/components/modals/modalchoice.svelte';
-	import Inputkb from '$lib/components/userInputs/inputkb.svelte';
-	import { onDestroy, onMount } from 'svelte';
-	import { _ } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
-	import { Linker } from '$lib/utils/stores/linker';
-	import { navActions, navBackFunction, navTitle } from '$lib/utils/stores/navstack';
+	import Modal from '$lib/components/modals/modalchoice.svelte';
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
-	import Navcontainertitlesided from '$lib/components/navigation/navcontainertitlesided.svelte';
+	import Inputkb from '$lib/components/userInputs/inputkb.svelte';
+	import { Linker } from '$lib/utils/stores/linker';
+	import { onMount } from 'svelte';
+	import { _ } from 'svelte-i18n';
 
-	import type { PageData } from './$types';
+	import Navbackfunction from '$lib/components/navigation/navstack/navbackfunction.svelte';
+	import Navtitle from '$lib/components/navigation/navstack/navtitle.svelte';
 	import ProfileCategory from '$lib/components/profile/profileCategory.svelte';
 	import { translateProfileName } from '$lib/components/profile/profiletranslation';
+	import type { PageData } from './$types';
+	
 	export let data: PageData;
 
 	let profile = data.profile;
@@ -28,7 +28,7 @@
 		initialProfile = JSON.stringify(profile);
 	});
 
-	const save = () => {
+	const saveProfile = () => {
 		fetch('//' + $Linker + '/api/v1/profiles', {
 			method: 'POST',
 			headers: {
@@ -42,7 +42,7 @@
 		})
 	}
 
-	const exit = async () => {
+	const exitProfileEditing = async () => {
 		return new Promise<void>((resolve) => {
 			if (initialProfile !== JSON.stringify(profile)) {
 				saveModalShown = true;
@@ -59,19 +59,10 @@
 			}
 		});
 	};
-
-	onDestroy(() => {
-		$navBackFunction = null;
-		$navActions = null;
-	});
-
-	$: $navTitle = [
-		$_('profile.list'),
-		translateProfileName($_, profile),
-	];
-	$navActions = [];
-	$navBackFunction = exit;
 </script>
+
+<Navtitle title={[$_('profile.list'), translateProfileName($_, profile)]}/>
+<Navbackfunction backFunction={exitProfileEditing}/>
 
 <Modal
 	bind:shown={saveModalShown}
@@ -83,7 +74,7 @@
 		{
 			text: $_('yes'),
 			color: 'bg-emerald-500',
-			callback: save,
+			callback: saveProfile,
 		},
 		{
 			text: $_('no'),
@@ -117,7 +108,7 @@
 	/>
 </div>
 
-<Navcontainertitlesided>{$_('profile.settings')}</Navcontainertitlesided>
+<Navcontainertitle sided={true}>{$_('profile.settings')}</Navcontainertitle>
 
 <div class="flex flex-col gap-2">
 	{#each Array.from(new Set(profile.values.map(f => f.name.split("#")[0]))) as category}

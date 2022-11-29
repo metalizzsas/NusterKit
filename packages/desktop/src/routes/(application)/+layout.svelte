@@ -9,7 +9,7 @@
 	import { BUNDLED } from '$lib/bundle';
 	import Flex from '$lib/components/layout/flex.svelte';
 	import Popup from '$lib/components/modals/popup.svelte';
-	import Navstack from '$lib/components/navigation/navstack.svelte';
+	import Navstack from '$lib/components/navigation/navstack/navstack.svelte';
 	import { initI18nMachine } from '$lib/utils/i18n/i18nmachine';
 	import { Linker } from '$lib/utils/stores/linker';
 	import type {

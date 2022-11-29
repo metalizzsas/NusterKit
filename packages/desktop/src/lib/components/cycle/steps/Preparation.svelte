@@ -3,12 +3,12 @@
 	import { machineData } from '$lib/utils/stores/store';
 	import { Linker } from '$lib/utils/stores/linker';
 	import { _ } from 'svelte-i18n';
-	import Cyclelabel from './cyclelabel.svelte';
-	import { navActions, navTitle, useNavContainer } from '$lib/utils/stores/navstack';
-	import { onDestroy } from 'svelte';
-	import Navcontainer from '../navigation/navcontainer.svelte';
-	import Navcontainertitle from '../navigation/navcontainertitle.svelte';
+	import Cyclelabel from '../cyclelabel.svelte';
+	import Navcontainer from '../../navigation/navcontainer.svelte';
+	import Navcontainertitle from '../../navigation/navcontainertitle.svelte';
 	import { layoutSimplified } from '$lib/utils/stores/settings';
+	import Navtitle from '$lib/components/navigation/navstack/navtitle.svelte';
+	import Navaction from '$lib/components/navigation/navstack/navaction.svelte';
 
 	const prepareCycle = (cycleType: string, profileID: string | undefined) => {
 		void fetch(`//${$Linker}/api/v1/cycle/${cycleType}/${profileID != undefined ? profileID : ''}`, {
@@ -23,24 +23,15 @@
 	export let cycleTypes: { name: string; profileRequired: boolean }[];
 	export let cyclePremades: { name: string; profile: string; cycle: string }[];
 
-	$navTitle = [$_('cycle.button'), $_('cycle.preparation')];
-	$navActions = [
-		{
-			action: () => goto('/app/cycle/histories'),
-			label: $_('cycle.history'),
-			color: 'bg-orange-500',
-		},
-	];
-
-	$useNavContainer = false;
-
-	onDestroy(() => {
-		$navActions = null;
-		$useNavContainer = true;
-	});
-
 	$: if ($machineData.cycle === undefined && $layoutSimplified == true) void goto('/app');
 </script>
+
+<Navtitle title={[$_('cycle.button'), $_('cycle.preparation')]} />
+<Navaction action={{
+	action: () => goto('/app/cycle/histories'),
+	label: $_('cycle.history'),
+	color: 'bg-orange-500',
+}} />
 
 <div>
 	{#if cyclePremades.filter((c) => c.cycle == 'default').length > 0}

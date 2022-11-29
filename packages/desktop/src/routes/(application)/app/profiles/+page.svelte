@@ -5,43 +5,21 @@
 	import NavContainer from '$lib/components/navigation/navcontainer.svelte';
 	import Profile from '$lib/components/profile/profile.svelte';
 	import { Linker } from '$lib/utils/stores/linker';
-	import {
-		navActions,
-		navBackFunction,
-		navTitle,
-		useNavContainer,
-	} from '$lib/utils/stores/navstack';
-	import { onDestroy } from 'svelte';
 	import { _ } from 'svelte-i18n';
 	import Flex from '$lib/components/layout/flex.svelte';
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
 
 	import type { PageData } from './$types';
 	import type { IProfileHydrated } from '@metalizzsas/nuster-typings/build/hydrated/profile';
+	import Navtitle from '$lib/components/navigation/navstack/navtitle.svelte';
+	import Navbackfunction from '$lib/components/navigation/navstack/navbackfunction.svelte';
 
 	export let data: PageData;
 
 	let addProfileModalShown = false;
 
-	/**
-	 * List profile blueprints
-	 * @deprecated
-	 */
-	const listProfileBlueprint = async () =>  {
-		if (data.profileSkeletons.length == 1)
-		{
-			await createProfile(data.profileSkeletons.at(0)?.name ?? 'default');
-		}
-		else
-		{
-			addProfileModalShown = true;
-		}
-	}
-
 	const createProfile = async (type: string) => {
-		const createUrl = '//' + $Linker + '/api/v1/profiles/create/' + type;
-
-		console.log(createUrl);
+		const createUrl = `//${$Linker}/api/v1/profiles/create/${type}`;
 
 		let response = await fetch(createUrl, {
 			method: 'POST',
@@ -54,14 +32,11 @@
 
 		void goto(`profiles/${p._id ?? ''}`);
 	}
-	
-	$navTitle = [$_('profile.list')];
-	$navBackFunction = () => goto('/app');
-	$navActions = [];
-	$useNavContainer = false;
 
-	onDestroy(() => ($useNavContainer = true));
 </script>
+
+<Navtitle title={[$_('profile.list')]} />
+<Navbackfunction backFunction={goto("/app")} />
 
 <ModalPrompt
 	bind:shown={addProfileModalShown}

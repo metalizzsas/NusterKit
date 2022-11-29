@@ -4,17 +4,12 @@
 	import { goto } from '$app/navigation';
 	import { Linker } from '$lib/utils/stores/linker';
 	import { machineData, lockMachineData } from '$lib/utils/stores/store';
-	import {
-		navActions,
-		navBackFunction,
-		navTitle,
-		useNavContainer,
-	} from '$lib/utils/stores/navstack';
 	import Navcontainer from '$lib/components/navigation/navcontainer.svelte';
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
-	import Navcontainertitlesided from '$lib/components/navigation/navcontainertitlesided.svelte';
 	import Flex from '$lib/components/layout/flex.svelte';
 	import Label from '$lib/components/label.svelte';
+	import Navtitle from '$lib/components/navigation/navstack/navtitle.svelte';
+	import Navbackfunction from '$lib/components/navigation/navstack/navbackfunction.svelte';
 
 	$: gates = $machineData.io;
 
@@ -23,13 +18,11 @@
 		return result.ok;
 	}
 
-	$navTitle = [$_('manual.list'), $_('gates.name')];
-	$navBackFunction = () => goto('/app/advanced');
-	$navActions = [];
-	$useNavContainer = false;
-
 	let tab = 'in';
 </script>
+
+<Navtitle title={[$_('manual.list'), $_('gates.name')]} />
+<Navbackfunction backFuction={goto('/app/advanced')} />
 
 <Navcontainer>
 	<div class="grid grid-cols-2 gap-4">
@@ -82,7 +75,7 @@
 
 <Navcontainer>
 	{#each [...new Set(gates.filter((g) => g.bus == tab).map((g) => g.category))] as cat, index}
-		<svelte:component this={index > 0 ? Navcontainertitlesided : Navcontainertitle}>{$_('gates.categories.' + cat)}</svelte:component>
+		<Navcontainertitle sided={index > 0}>{$_('gates.categories.' + cat)}</Navcontainertitle>
 
 		<div class="flex flex-col gap-2">
 			{#each gates.filter((g) => g.bus == tab && g.category == cat) as gate}

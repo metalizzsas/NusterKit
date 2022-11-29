@@ -3,16 +3,14 @@
 
 	import { machineData } from '$lib/utils/stores/store';
 
-	import Cyclepreparation from '$lib/components/cycle/cyclepreparation.svelte';
-	import Cyclerunning from '$lib/components/cycle/cyclerunning.svelte';
-	import Cycleend from '$lib/components/cycle/cycleend.svelte';
-	import Cyclesecurity from '$lib/components/cycle/cyclesecurity.svelte';
-	import { navActions } from '$lib/utils/stores/navstack';
+	import Cyclepreparation from '$lib/components/cycle/steps/Preparation.svelte';
+	import Cyclerunning from '$lib/components/cycle/steps/Running.svelte';
+	import Cycleend from '$lib/components/cycle/steps/End.svelte';
+	import Cyclesecurity from '$lib/components/cycle/steps/Security.svelte';
 
 	import type { PageData } from './$types';
 	export let data: PageData;
 
-	$navActions = [];
 </script>
 
 <div>

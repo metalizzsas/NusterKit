@@ -4,7 +4,6 @@
 	import '$lib/app.css';
 	import { goto } from '$app/navigation';
 	import { Linker } from '$lib/utils/stores/linker';
-	import { navTitle } from '$lib/utils/stores/navstack';
 	import Modal from '$lib/components/modals/modalchoice.svelte';
 	import Rating from '$lib/components/userInputs/rating.svelte';
 	import Label from '$lib/components/label.svelte';
@@ -14,6 +13,8 @@
 
 	import type { PageData } from './$types';
 	import type { IHistoryHydrated } from '@metalizzsas/nuster-typings/build/hydrated/cycle';
+	import Navtitle from '$lib/components/navigation/navstack/navtitle.svelte';
+	import Navcontainer from '$lib/components/navigation/navcontainer.svelte';
 	export let data: PageData;
 
 	let histories = data.histories;
@@ -30,9 +31,9 @@
 		selectedHistory = his;
 		showRetakeModal = true;
 	}
-
-	$navTitle = [$_('cycle.button'), $_('cycle.history')];
 </script>
+
+<Navtitle title={[$_('cycle.button'), $_('cycle.history')]} />
 
 <Modal
 	title={$_('cycle.histories.retake.title')}
@@ -54,50 +55,51 @@
 	{$_('cycle.histories.retake.main')}
 </Modal>
 
-<Navcontainertitle>{$_('cycle.history')}</Navcontainertitle>
-
-<Flex direction="col">
-	{#each histories as history}
-		<Flex class="justify-between bg-zinc-700 p-3 text-white rounded-xl items-center">
-			<Flex direction={'col'} gap={0}>
-				<span class="font-semibold">{$_('cycle.names.' + history.cycle.name)}</span>
-				<span class="italic text-gray-300 font-xs">
-					{$date(new Date(history.cycle.status.endDate || 0), {
-						format: 'medium',
-					})} : {$time(new Date(history.cycle.status.endDate || 0), {
-						format: 'medium',
-					})}
-				</span>
-			</Flex>
-			<Flex gap={2} class="ml-auto items-center">
-				{#if $machineData.machine.settings?.isPrototype == true}
-					<Button
-						size={'tiny'}
+<Navcontainer>
+	<Navcontainertitle>{$_('cycle.history')}</Navcontainertitle>
+	<Flex direction="col">
+		{#each histories as history}
+			<Flex class="justify-between bg-zinc-700 p-3 text-white rounded-xl items-center">
+				<Flex direction={'col'} gap={0}>
+					<span class="font-semibold">{$_('cycle.names.' + history.cycle.name)}</span>
+					<span class="italic text-gray-300 font-xs">
+						{$date(new Date(history.cycle.status.endDate || 0), {
+							format: 'medium',
+						})} : {$time(new Date(history.cycle.status.endDate || 0), {
+							format: 'medium',
+						})}
+					</span>
+				</Flex>
+				<Flex gap={2} class="ml-auto items-center">
+					{#if $machineData.machine.settings?.isPrototype == true}
+						<Button
+							size={'tiny'}
+						>
+						<a href="/app/cycle/histories/{history._id}">
+							See details
+						</a>
+						</Button>
+					{/if}
+	
+					{#if history.cycle.status.endReason != 'finished'}
+						<Button
+							size="small"
+							color="bg-orange-500"
+							on:click={() => showRetakeModalHandler(history)}
+						>
+							{$_('cycle.buttons.resume')}
+						</Button>
+					{/if}
+					<Label
+						color={(history.cycle.status.endReason || 'user') == 'finished'
+							? 'bg-white text-emerald-500 font-semibold'
+							: 'bg-white text-gray-700 font-medium'}
 					>
-					<a href="/app/cycle/histories/{history._id}">
-						See details
-					</a>
-					</Button>
-				{/if}
-
-				{#if history.cycle.status.endReason != 'finished'}
-					<Button
-						size="small"
-						color="bg-orange-500"
-						on:click={() => showRetakeModalHandler(history)}
-					>
-						{$_('cycle.buttons.resume')}
-					</Button>
-				{/if}
-				<Label
-					color={(history.cycle.status.endReason || 'user') == 'finished'
-						? 'bg-white text-emerald-500 font-semibold'
-						: 'bg-white text-gray-700 font-medium'}
-				>
-					{$_(`cycle.endreasons.${history.cycle.status.endReason || 'finished'}`)}
-				</Label>
-				<Rating rating={history.rating} padding={1} starsSize={5} starsGapSize={1} />
+						{$_(`cycle.endreasons.${history.cycle.status.endReason || 'finished'}`)}
+					</Label>
+					<Rating rating={history.rating} padding={1} starsSize={5} starsGapSize={1} />
+				</Flex>
 			</Flex>
-		</Flex>
-	{/each}
-</Flex>
+		{/each}
+	</Flex>
+</Navcontainer>

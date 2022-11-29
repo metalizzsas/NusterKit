@@ -1,26 +1,33 @@
 <script lang="ts">
-	import {
-		navActions,
-		navBackFunction,
-		navExpandBottom,
-		navTitle,
-		useNavContainer,
-	} from '$lib/utils/stores/navstack';
 
 	import { _, date, time, locale } from 'svelte-i18n';
 	import { page } from '$app/stores';
 	import { BUNDLED } from '$lib/bundle';
 	import { machineData } from '$lib/utils/stores/store';
 
-	import Navcontainer from './navcontainer.svelte';
-	import Button from '../button.svelte';
-	import Flex from '../layout/flex.svelte';
-	import Informations from './indexStackContent/informations.svelte';
-	import Updates from './indexStackContent/updates.svelte';
-	import Settings from './indexStackContent/settings.svelte';
+	import Button from '../../button.svelte';
+	import Flex from '../../layout/flex.svelte';
+	import Informations from '../modals/informations.svelte';
+	import Updates from '../modals/updates.svelte';
+	import Settings from '../modals/settings.svelte';
 	import Label from '$lib/components/label.svelte';
 	import { onDestroy, onMount } from 'svelte';
-	import Network from './indexStackContent/network.svelte';
+	import Network from '../modals/network.svelte';
+
+	import { writable } from "svelte/store";
+	import { setContext } from 'svelte';
+	import type { NavActionButton, NavBackFunction, NavStackContext } from './navstack';
+	import RoundButton from '$lib/components/RoundButton.svelte';
+
+	const navTitle = writable<string[]>([]);
+	const navBackFunction = writable<NavBackFunction | null>(null);
+	const navActions = writable<NavActionButton[]>([]);
+
+	setContext<NavStackContext>("navstack", {
+		navTitle: navTitle,
+		navBackFunction: navBackFunction,
+		navActions: navActions
+	});
 
 	type modalsTypes = 'settings' | 'info' | 'updates' | 'network';
 
@@ -107,7 +114,7 @@
 				<span class="font-bold text-white truncate">{title}</span>
 			{/each}
 			<Flex gap={1} class="ml-auto">
-				{#if $navActions != null}
+				{#if $navActions.length > 0}
 					{#each $navActions as btn}
 						<Button on:click={btn.action} color={btn.color} size={'small'}>
 							{btn.label}
@@ -122,12 +129,8 @@
 				</Label>
 				{#if $machineData.machine.hypervisorData !== undefined}
 					{#if ($machineData.machine.hypervisorData.overallDownloadProgress || 0) > 0 || $machineData.machine.hypervisorData.appState != 'applied'}
-						<button
-							class="rounded-full bg-white p-1 transition hover:rotate-180 duration-300"
-							on:click={() => {
-								showModal("updates")
-							}}
-						>
+
+						<RoundButton on:click={() => showModal("updates")}>
 							<span
 								class="grid grid-cols-1 h-5 w-5 items-center justify-items-center self-center"
 							>
@@ -148,16 +151,11 @@
 									style="grid-area: 1/1/1/1;"
 								/>
 							</span>
-						</button>
+						</RoundButton>
 					{/if}
 				{/if}
 
-				<button
-					class="rounded-full bg-white p-1 transition hover:rotate-180 duration-300"
-					on:click={() => {
-						showModal("settings")
-					}}
-				>
+				<RoundButton on:click={() => showModal("settings")}>
 					<svg
 						id="glyphicons-basic"
 						xmlns="http://www.w3.org/2000/svg"
@@ -169,14 +167,9 @@
 							d="M27.405,12.91907a6.38551,6.38551,0,0,1-7.78314,3.70154L8.82825,27.41418A1,1,0,0,1,7.414,27.41412L4.58594,24.58575A.99993.99993,0,0,1,4.586,23.17157L15.33209,12.42548a6.4047,6.4047,0,0,1,3.69947-7.92487,6.22745,6.22745,0,0,1,2.77825-.49127.4987.4987,0,0,1,.34015.84857L19.73254,7.27533a.4961.4961,0,0,0-.131.469l.82916,3.38044a.496.496,0,0,0,.36365.36364l3.38068.82935a.49614.49614,0,0,0,.469-.131l2.419-2.41889a.49433.49433,0,0,1,.8446.30078A6.22117,6.22117,0,0,1,27.405,12.91907Z"
 						/>
 					</svg>
-				</button>
+				</RoundButton>
 
-				<button
-					class="rounded-full bg-white p-1 transition hover:rotate-180 duration-300"
-					on:click={() => {
-						showModal("info")
-					}}
-				>
+				<RoundButton on:click={() => showModal("info")}>
 					<svg
 						id="glyphicons-basic"
 						xmlns="http://www.w3.org/2000/svg"
@@ -188,7 +181,25 @@
 							d="M16,4A12,12,0,1,0,28,16,12.01312,12.01312,0,0,0,16,4Zm2.42529,10.91565L16.6,21h1.25958a.5.5,0,0,1,.48505.62134l-.25,1A.50007.50007,0,0,1,17.60962,23H14a1.40763,1.40763,0,0,1-1.42529-1.91565L14.4,15h-.75958a.5.5,0,0,1-.48505-.62134l.25-1A.49994.49994,0,0,1,13.89038,13H17A1.40763,1.40763,0,0,1,18.42529,14.91565Zm.14435-3.33337A.5.5,0,0,1,18.07642,12H15.59021a.5.5,0,0,1-.49316-.58228l.33331-2A.5.5,0,0,1,15.92358,9h2.48621a.5.5,0,0,1,.49316.58228Z"
 						/>
 					</svg>
-				</button>
+				</RoundButton>
+
+				{#if $machineData.machine.vpnData !== undefined}
+					<RoundButton on:click={() => showModal("network")}>
+						<svg
+							id="glyphicons-basic"
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 32 32"
+							class="h-5 w-5"
+							class:fill-emerald-500={$machineData.machine.vpnData?.vpn.connected}
+							class:fill-orange-500={!$machineData.machine.vpnData.vpn.connected}
+						>
+							<path
+								id="access-point"
+								d="M22.90039,13a6.86213,6.86213,0,0,1-2.06207,4.90479,1.004,1.004,0,0,1-1.40955-.01453l-.5672-.56726a.98259.98259,0,0,1-.015-1.395,4.04755,4.04755,0,0,0,0-5.85608.98279.98279,0,0,1,.01507-1.39514l.56714-.56714a1.0041,1.0041,0,0,1,1.40955-.01441A6.86237,6.86237,0,0,1,22.90039,13Zm-11,0a4.05054,4.05054,0,0,1,1.25305-2.9281.98279.98279,0,0,0-.01507-1.39514l-.56714-.56714a1.0041,1.0041,0,0,0-1.40955-.01441,6.86424,6.86424,0,0,0,0,9.80958,1.004,1.004,0,0,0,1.40955-.01453l.5672-.56726a.98259.98259,0,0,0,.015-1.395A4.05027,4.05027,0,0,1,11.90039,13ZM24.39746,4.58252a1.01145,1.01145,0,0,0-1.43121-.0105l-.567.567a.99491.99491,0,0,0,.00708,1.41272,9.06577,9.06577,0,0,1,0,12.89648.99491.99491,0,0,0-.00708,1.41272l.567.567a1.01145,1.01145,0,0,0,1.43121-.0105,11.865,11.865,0,0,0,0-16.835ZM6.90039,13a9.06065,9.06065,0,0,1,2.6933-6.44824A.99491.99491,0,0,0,9.60077,5.139l-.567-.567a1.01145,1.01145,0,0,0-1.43121.0105,11.865,11.865,0,0,0,0,16.835,1.01145,1.01145,0,0,0,1.43121.0105l.567-.567a.99491.99491,0,0,0-.00708-1.41272A9.06065,9.06065,0,0,1,6.90039,13ZM16,11a2,2,0,1,0,2,2A2.00213,2.00213,0,0,0,16,11Zm.5,6h-1a.673.673,0,0,0-.62128.48511L14,21v6a1,1,0,0,0,1,1h2a1,1,0,0,0,1-1V21l-.87872-3.51489A.673.673,0,0,0,16.5,17Z"
+							/>
+						</svg>
+					</RoundButton>
+				{/if}
 
 				{#if $locale == "fr"}
 					<a
@@ -200,39 +211,9 @@
 						</svg>
 					</a>
 				{/if}
-
-
-				{#if $machineData.machine.vpnData !== undefined}
-					<button
-						class="rounded-full bg-white p-1 transition hover:rotate-180 duration-300"
-						on:click={() => {
-							showModal("network")
-						}}
-					>
-						<svg
-							id="glyphicons-basic"
-							xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 0 32 32"
-							class="{$machineData.machine.vpnData?.vpn.connected
-								? 'fill-emerald-500'
-								: 'fill-orange-500'} h-5 w-5"
-						>
-							<path
-								id="access-point"
-								d="M22.90039,13a6.86213,6.86213,0,0,1-2.06207,4.90479,1.004,1.004,0,0,1-1.40955-.01453l-.5672-.56726a.98259.98259,0,0,1-.015-1.395,4.04755,4.04755,0,0,0,0-5.85608.98279.98279,0,0,1,.01507-1.39514l.56714-.56714a1.0041,1.0041,0,0,1,1.40955-.01441A6.86237,6.86237,0,0,1,22.90039,13Zm-11,0a4.05054,4.05054,0,0,1,1.25305-2.9281.98279.98279,0,0,0-.01507-1.39514l-.56714-.56714a1.0041,1.0041,0,0,0-1.40955-.01441,6.86424,6.86424,0,0,0,0,9.80958,1.004,1.004,0,0,0,1.40955-.01453l.5672-.56726a.98259.98259,0,0,0,.015-1.395A4.05027,4.05027,0,0,1,11.90039,13ZM24.39746,4.58252a1.01145,1.01145,0,0,0-1.43121-.0105l-.567.567a.99491.99491,0,0,0,.00708,1.41272,9.06577,9.06577,0,0,1,0,12.89648.99491.99491,0,0,0-.00708,1.41272l.567.567a1.01145,1.01145,0,0,0,1.43121-.0105,11.865,11.865,0,0,0,0-16.835ZM6.90039,13a9.06065,9.06065,0,0,1,2.6933-6.44824A.99491.99491,0,0,0,9.60077,5.139l-.567-.567a1.01145,1.01145,0,0,0-1.43121.0105,11.865,11.865,0,0,0,0,16.835,1.01145,1.01145,0,0,0,1.43121.0105l.567-.567a.99491.99491,0,0,0-.00708-1.41272A9.06065,9.06065,0,0,1,6.90039,13ZM16,11a2,2,0,1,0,2,2A2.00213,2.00213,0,0,0,16,11Zm.5,6h-1a.673.673,0,0,0-.62128.48511L14,21v6a1,1,0,0,0,1,1h2a1,1,0,0,0,1-1V21l-.87872-3.51489A.673.673,0,0,0,16.5,17Z"
-							/>
-						</svg>
-					</button>
-				{/if}
 			</Flex>
 		{/if}
 	</Flex>
 </div>
 
-<Navcontainer bind:style={$useNavContainer}>
-	<slot />
-</Navcontainer>
-
-{#if $navExpandBottom}
-	<div class="h-16 w-1" />
-{/if}
+<slot />

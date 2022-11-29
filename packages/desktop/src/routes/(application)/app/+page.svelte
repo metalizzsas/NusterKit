@@ -1,5 +1,4 @@
 <script lang="ts">
-	import '$lib/app.css';
 	import { machineData } from '$lib/utils/stores/store';
 	import { onMount } from 'svelte';
 	import Classic from '$lib/components/indexLayouts/classic.svelte';

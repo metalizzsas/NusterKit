@@ -1,6 +1,4 @@
 <script lang="ts">
-	import '$lib/app.css';
-
 	import { machineData } from '$lib/utils/stores/store';
 
 	import Cyclepreparation from '$lib/components/cycle/steps/Preparation.svelte';

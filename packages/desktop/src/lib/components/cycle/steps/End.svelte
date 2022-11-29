@@ -1,5 +1,4 @@
 <script lang="ts">
-	import '$lib/app.css';
 	import endSound from '$lib/sounds/cycle-end.wav';
 	import { onDestroy, onMount } from 'svelte';
 

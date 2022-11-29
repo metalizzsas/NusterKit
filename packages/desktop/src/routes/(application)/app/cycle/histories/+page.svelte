@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { date, time, _ } from 'svelte-i18n';
 	import { machineData } from '$lib/utils/stores/store';
-	import '$lib/app.css';
 	import { goto } from '$app/navigation';
 	import { Linker } from '$lib/utils/stores/linker';
 	import Modal from '$lib/components/modals/modalchoice.svelte';

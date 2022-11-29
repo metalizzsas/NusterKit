@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { goto, invalidate } from '$app/navigation';
-	import '$lib/app.css';
 	import ModalPrompt from '$lib/components/modals/modalprompt.svelte';
 	import NavContainer from '$lib/components/navigation/navcontainer.svelte';
 	import Profile from '$lib/components/profile/profile.svelte';

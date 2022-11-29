@@ -1,7 +1,6 @@
 <script lang="ts">
 
 	import '@fontsource/inter/variable.css';
-
 	import '$lib/app.css';
 
 	import { locale } from 'svelte-i18n';

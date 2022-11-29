@@ -36,7 +36,7 @@
 </script>
 
 <Navtitle title={[$_('profile.list')]} />
-<Navbackfunction backFunction={goto("/app")} />
+<Navbackfunction backFunction={() => goto("/app")} />
 
 <ModalPrompt
 	bind:shown={addProfileModalShown}

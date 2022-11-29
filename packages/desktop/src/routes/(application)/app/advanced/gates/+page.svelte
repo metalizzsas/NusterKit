@@ -22,7 +22,7 @@
 </script>
 
 <Navtitle title={[$_('manual.list'), $_('gates.name')]} />
-<Navbackfunction backFuction={goto('/app/advanced')} />
+<Navbackfunction backFuction={() => goto('/app/advanced')} />
 
 <Navcontainer>
 	<div class="grid grid-cols-2 gap-4">

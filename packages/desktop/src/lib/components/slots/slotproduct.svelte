@@ -2,7 +2,6 @@
 	import type { ISlotHydrated } from '@metalizzsas/nuster-typings/build/hydrated/slot';
 
 	import { _ } from 'svelte-i18n';
-	import '$lib/app.css';
 	import Round from '../round.svelte';
 	import Slotmodal from './slotmodal.svelte';
 	import Label from '../label.svelte';

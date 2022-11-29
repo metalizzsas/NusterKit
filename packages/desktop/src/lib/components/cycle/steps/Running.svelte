@@ -1,18 +1,18 @@
 <script lang="ts">
 	import { Linker } from '$lib/utils/stores/linker';
 	import { machineData } from '$lib/utils/stores/store';
-	import { navTitle, useNavContainer } from '$lib/utils/stores/navstack';
 	import { parseTime } from '$lib/utils/dateparser';
 
 	import { _ } from 'svelte-i18n';
-	import { onMount } from 'svelte';
 
-	import Navcontainertitle from '../navigation/navcontainertitle.svelte';
-	import Navcontainer from '../navigation/navcontainer.svelte';
-	import Button from '../button.svelte';
-	import Flex from '../layout/flex.svelte';
-	import Cyclestep from './cyclestep.svelte';
-	import Label from '../label.svelte';
+	import Navcontainertitle from '../../navigation/navcontainertitle.svelte';
+	import Navcontainer from '../../navigation/navcontainer.svelte';
+	import Button from '../../button.svelte';
+	import Flex from '../../layout/flex.svelte';
+	import Cyclestep from '../cyclestep.svelte';
+	import Label from '../../label.svelte';
+	import Navtitle from '$lib/components/navigation/navstack/navtitle.svelte';
+	import { translateProfileName } from '$lib/components/profile/profiletranslation';
 
 	const stopCycle = () => {
 		if ($machineData.cycle?.status.mode !== 'ended') {
@@ -35,24 +35,13 @@
 			});
 		}
 	};
-
-	$useNavContainer = false;
-
-	onMount(() => {
-		$navTitle = [
-			$_('cycle.button'),
-			$_(`cycle.names.${$machineData.cycle?.name || 'default'}`),
-		];
-		if ($machineData.cycle?.profile) {
-			$navTitle = [
-				...$navTitle,
-				$machineData.cycle.profile.isPremade
-					? $_('cycle.types.' + $machineData.cycle.profile.name)
-					: $machineData.cycle.profile.name,
-			];
-		}
-	});
 </script>
+
+<Navtitle title={[
+	$_('cycle.button'),
+	$_(`cycle.names.${$machineData.cycle?.name || 'default'}`),
+	...($machineData.cycle?.profile) ? [translateProfileName($_, $machineData.cycle.profile)] : []
+]} />
 
 {#if $machineData.cycle}
 	<Flex class="-mt-4">

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import '$lib/app.css';
 	import { fade, fly } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
 

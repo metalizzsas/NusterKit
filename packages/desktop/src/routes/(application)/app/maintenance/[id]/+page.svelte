@@ -2,18 +2,21 @@
 	import { goto } from '$app/navigation';
 	import { _ } from 'svelte-i18n';
 	import { Linker } from '$lib/utils/stores/linker';
-	import { navActions, navTitle, useNavContainer } from '$lib/utils/stores/navstack';
 	import Navcontainer from '$lib/components/navigation/navcontainer.svelte';
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
 	import Navcontainersubtitle from '$lib/components/navigation/navcontainersubtitle.svelte';
 
 	import type { PageData } from './$types';
 	import Maintenancelabel from '$lib/components/maintenance/maintenancelabel.svelte';
+	import Flex from '$lib/components/layout/flex.svelte';
+	import Navtitle from '$lib/components/navigation/navstack/navtitle.svelte';
 
 	export let data: PageData;
 
 	let procedureIndex = 0;
 	let procedureImageIndex = 0;
+	
+	let imageExpanded = false;
 
 	const resetMaintenance = () => {
 		fetch(`//${$Linker}/api/v1/maintenance/${data.maintenance.name}`, {
@@ -24,18 +27,11 @@
 			console.error("Failed to reset maintenance.");
 		});
 	}
-
-	$navTitle = [
-		$_('maintenance.list'),
-		$_('maintenance.tasks.' + data.maintenance.name + '.name'),
-	];
-	$useNavContainer = false;
-	$navActions = [];
-
-	let imageExpanded = false;
 </script>
 
-<div class="flex flex-col gap-6">
+<Navtitle title={[$_('maintenance.list'), $_('maintenance.tasks.' + data.maintenance.name + '.name')]} />
+
+<Flex direction="col" gap={6}>
 	<Navcontainer class={'mt-0'}>
 		<Navcontainertitle>
 			{$_('maintenance.tasks.' + data.maintenance.name + '.name')}
@@ -174,4 +170,4 @@
 			</Navcontainer>
 		</div>
 	{/if}
-</div>
+</Flex>

@@ -1,15 +1,16 @@
 <script lang="ts">
-	import Modal from '../modals/modalchoice.svelte';
+	import Modal from '../../modals/modalchoice.svelte';
 	import { machineData } from '$lib/utils/stores/store';
 	import { layoutSimplified } from '$lib/utils/stores/settings';
 	import { _ } from 'svelte-i18n';
 	import { Linker } from '$lib/utils/stores/linker';
-	import Round from '../round.svelte';
-	import { navTitle } from '$lib/utils/stores/navstack';
-	import Navcontainertitle from '../navigation/navcontainertitle.svelte';
+	import Round from '../../round.svelte';
+	import Navcontainertitle from '../../navigation/navcontainertitle.svelte';
 	import { goto } from '$app/navigation';
-	import Button from '../button.svelte';
-	import Flex from '../layout/flex.svelte';
+	import Button from '../../button.svelte';
+	import Flex from '../../layout/flex.svelte';
+	import Navcontainer from '$lib/components/navigation/navcontainer.svelte';
+	import Navtitle from '$lib/components/navigation/navstack/navtitle.svelte';
 
 	let displaySecurityError = false;
 	let displaySecurityWarning = false;
@@ -66,17 +67,15 @@
 
 		if ($layoutSimplified) void goto('/app');
 	};
-
-	$navTitle = [
-		$_('cycle.button'),
-		$_(`cycle.names.${$machineData.cycle?.name || 'default'}`),
-		...($machineData.cycle?.profile !== undefined
-			? $machineData.cycle.profile?.isPremade
-				? [$_('cycle.types.' + $machineData.cycle.profile.name)]
-				: [$machineData.cycle.profile.name]
-			: []),
-	];
 </script>
+
+<Navtitle title={[$_('cycle.button'), $_(`cycle.names.${$machineData.cycle?.name || 'default'}`),
+	...($machineData.cycle?.profile !== undefined
+		? $machineData.cycle.profile?.isPremade
+			? [$_('cycle.types.' + $machineData.cycle.profile.name)]
+			: [$machineData.cycle.profile.name]
+		: []),
+]} />
 
 <Modal
 	title={$_('cycle.modals.security.title')}
@@ -145,57 +144,58 @@
 	</Flex>
 </Modal>
 
-<Navcontainertitle>{$_('cycle.security.conditions')}</Navcontainertitle>
-
-<Flex direction="col">
-	{#if $machineData.cycle}
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-			{#each $machineData.cycle.startConditions.filter(sc => sc.result !== "disabled") as sc}
-				<span
-					class="flex flex-row justify-between items-center rounded-full bg-zinc-700 py-1 pr-2 pl-3 text-white font-semibold"
-				>
-					{$_('cycle.startconditions.' + sc.conditionName)}
-					<Round
-						size={5}
-						color={scResultColors[sc.result].color}
-						shadowColor={scResultColors[sc.result].shadowColor}
-					/>
-				</span>
-			{/each}
-		</div>
-
-		<Flex class="justify-items-center self-center">
-			<Button size={'small'} color={'bg-red-500'} class="self-center" on:click={cancelCycle}>
-				{$_('cycle.buttons.cancel')}
-			</Button>
-			<Button
-				size="large"
-				color={$machineData.cycle.startConditions.filter((sc) => sc.result == 'error')
-					.length > 0
-					? 'bg-gray-400 hover:bg-gray-400/80'
-					: 'bg-emerald-500 hover:bg-emerald-500/80 hover:scale-[1.01]'}
-				class={'flex flex-row gap-1 align-middle items-center fill-white'}
-				on:click={preStartCycle}
-			>
-				{#if $machineData.cycle.startConditions.filter((sc) => sc.result == 'error').length == 0}
-					<svg
-						id="glyphicons-basic"
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 32 32"
-						class="h-6 w-6 animate-bounceX"
+<Navcontainer>
+	<Navcontainertitle>{$_('cycle.security.conditions')}</Navcontainertitle>
+	<Flex direction="col">
+		{#if $machineData.cycle}
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+				{#each $machineData.cycle.startConditions.filter(sc => sc.result !== "disabled") as sc}
+					<span
+						class="flex flex-row justify-between items-center rounded-full bg-zinc-700 py-1 pr-2 pl-3 text-white font-semibold"
 					>
-						<path
-							id="arrow-right"
-							d="M26.82965,16.81921l-9.25622,6.47937A1,1,0,0,1,16,22.47937V19H6a1,1,0,0,1-1-1V14a1,1,0,0,1,1-1H16V9.52063a1,1,0,0,1,1.57343-.81921l9.25622,6.47937A.99994.99994,0,0,1,26.82965,16.81921Z"
+						{$_('cycle.startconditions.' + sc.conditionName)}
+						<Round
+							size={5}
+							color={scResultColors[sc.result].color}
+							shadowColor={scResultColors[sc.result].shadowColor}
 						/>
-					</svg>
-				{/if}
-
-				{$_('cycle.buttons.start')}
-			</Button>
-		</Flex>
-	{/if}
-</Flex>
+					</span>
+				{/each}
+			</div>
+	
+			<Flex class="justify-items-center self-center">
+				<Button size={'small'} color={'bg-red-500'} class="self-center" on:click={cancelCycle}>
+					{$_('cycle.buttons.cancel')}
+				</Button>
+				<Button
+					size="large"
+					color={$machineData.cycle.startConditions.filter((sc) => sc.result == 'error')
+						.length > 0
+						? 'bg-gray-400 hover:bg-gray-400/80'
+						: 'bg-emerald-500 hover:bg-emerald-500/80 hover:scale-[1.01]'}
+					class={'flex flex-row gap-1 align-middle items-center fill-white'}
+					on:click={preStartCycle}
+				>
+					{#if $machineData.cycle.startConditions.filter((sc) => sc.result == 'error').length == 0}
+						<svg
+							id="glyphicons-basic"
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 32 32"
+							class="h-6 w-6 animate-bounceX"
+						>
+							<path
+								id="arrow-right"
+								d="M26.82965,16.81921l-9.25622,6.47937A1,1,0,0,1,16,22.47937V19H6a1,1,0,0,1-1-1V14a1,1,0,0,1,1-1H16V9.52063a1,1,0,0,1,1.57343-.81921l9.25622,6.47937A.99994.99994,0,0,1,26.82965,16.81921Z"
+							/>
+						</svg>
+					{/if}
+	
+					{$_('cycle.buttons.start')}
+				</Button>
+			</Flex>
+		{/if}
+	</Flex>
+</Navcontainer>
 
 <style>
 	@keyframes bounceX {

@@ -1,26 +1,18 @@
 <script lang="ts">
-	import '$lib/app.css';
-
 	import Toggle from '$lib/components/userInputs/toggle.svelte';
 	import { _ } from 'svelte-i18n';
 	import { machineData, lockMachineData } from '$lib/utils/stores/store';
 	import { goto } from '$app/navigation';
 	import { Linker } from '$lib/utils/stores/linker';
-	import {
-		navActions,
-		navBackFunction,
-		navTitle,
-		useNavContainer,
-	} from '$lib/utils/stores/navstack';
 	import NavContainer from '$lib/components/navigation/navcontainer.svelte';
-	import { onDestroy } from 'svelte';
 	import Navcontainertitle from '$lib/components/navigation/navcontainertitle.svelte';
-	import Navcontainertitlesided from '$lib/components/navigation/navcontainertitlesided.svelte';
 
 	import type { IManualHydrated } from "@metalizzsas/nuster-typings/build/hydrated/manual/";
 	import Button from '$lib/components/button.svelte';
 	import Label from '$lib/components/label.svelte';
 	import Flex from '$lib/components/layout/flex.svelte';
+	import Navtitle from '$lib/components/navigation/navstack/navtitle.svelte';
+	import Navaction from '$lib/components/navigation/navstack/navaction.svelte';
 
 	const toggleState = async (name: string, state: number) => {
 		await fetch(`//${$Linker}/api/v1/manual/${name.replace('#', '_')}/${state}`, {
@@ -30,21 +22,6 @@
 			},
 		});
 	}
-	$navTitle = [$_('manual.list')];
-	$navBackFunction = () => goto('/app');
-	$navActions = $machineData.machine.settings?.ioControlsMasked
-		? []
-		: [
-				{
-					label: $_('gates.name'),
-					color: 'bg-orange-500',
-					action: () => goto('/app/advanced/gates'),
-				},
-		];
-	$useNavContainer = false;
-	onDestroy(() => {
-		$useNavContainer = true;
-	});
 
 	const computeIncompatibiltyList = (manual: IManualHydrated): Array<IManualHydrated> => {
 		if (manual.incompatibility) {
@@ -88,10 +65,18 @@
 	};
 </script>
 
+<Navtitle title={[$_('manual.list')]} />
+{#if $machineData.machine.settings?.ioControlsMasked === false}
+	<Navaction action={{
+		label: $_('gates.name'),
+		color: 'bg-orange-500',
+		action: () => goto('/app/advanced/gates'),
+	}} />
+{/if}
+
 <NavContainer>
 	{#each [...new Set($machineData.manuals.map((m) => m.category))] as cat, index}
-		<svelte:component this={index > 0 ? Navcontainertitlesided : Navcontainertitle}>{$_('manual.categories.' + cat)}</svelte:component>
-
+		<Navcontainertitle sided={index > 0}>{$_('manual.categories.' + cat)}</Navcontainertitle>
 		<div class="flex flex-col gap-2">
 			{#each $machineData.manuals.filter((g) => g.category == cat) as manual}
 				<div

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import '$lib/app.css';
 	import { _ } from 'svelte-i18n';
 	import Button from '../button.svelte';
 	import Modalcontent from './modal.svelte';

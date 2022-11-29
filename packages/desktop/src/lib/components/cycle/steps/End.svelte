@@ -1,5 +1,4 @@
 <script lang="ts">
-	import '$lib/app.css';
 	import endSound from '$lib/sounds/cycle-end.wav';
 	import { onDestroy, onMount } from 'svelte';
 
@@ -8,12 +7,13 @@
 	import { Linker } from '$lib/utils/stores/linker';
 	import { _ } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
-	import { navTitle, useNavContainer } from '$lib/utils/stores/navstack';
-	import Navcontainer from '../navigation/navcontainer.svelte';
-	import Navcontainertitle from '../navigation/navcontainertitle.svelte';
-	import Button from '../button.svelte';
-	import Flex from '../layout/flex.svelte';
-	import Rating from '../userInputs/rating.svelte';
+	import Navcontainer from '../../navigation/navcontainer.svelte';
+	import Navcontainertitle from '../../navigation/navcontainertitle.svelte';
+	import Button from '../../button.svelte';
+	import Flex from '../../layout/flex.svelte';
+	import Rating from '../../userInputs/rating.svelte';
+	import Navtitle from '$lib/components/navigation/navstack/navtitle.svelte';
+	import { parseDuration } from '$lib/utils/dateparser';
 
 	let rating = 0;
 
@@ -48,30 +48,9 @@
 			console.log("Failed to patch cycle");
 		});
 	}
-
-	const parseDuration = (start: number, end: number) => {
-		const diff = end - start;
-
-		const hours = new Date(diff).getHours() - 1;
-		const minutes = new Date(diff).getMinutes();
-		const seconds = new Date(diff).getSeconds();
-
-		const hoursShown = hours > 0;
-		const hoursPlural = hours != 1;
-		const minutesPlural = minutes != 1;
-		const secondsPlural = seconds != 1;
-
-		return (
-			(hoursShown ? `${hours} ${$_(hoursPlural ? 'date.hours' : 'date.hour')}` : ``) +
-			` ${minutes} ${$_(minutesPlural ? 'date.minutes' : 'date.minute')} ${seconds} ${$_(
-				secondsPlural ? 'date.seconds' : 'date.second',
-			)}`
-		);
-	};
-
-	$navTitle = [$_('cycle.button'), $_('cycle.end.cycle-ended')];
-	$useNavContainer = false;
 </script>
+
+<Navtitle title={[$_('cycle.button'), $_('cycle.end.cycle-ended')]} />
 
 <Flex class="-mt-6">
 	<Navcontainer classes="min-w-[60%]">
@@ -113,7 +92,7 @@
 					<span class="text-italic">
 						{$_('cycle.end.cycle-duration')} : {parseDuration(
 							$machineData.cycle?.status.startDate,
-							$machineData.cycle?.status.endDate,
+							$machineData.cycle?.status.endDate, $_
 						)}
 					</span>
 				{/if}

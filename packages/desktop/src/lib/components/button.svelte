@@ -1,5 +1,4 @@
 <script lang="ts">
-	import '$lib/app.css';
 	export let color = 'bg-indigo-500';
 
 	type buttonSize = 'tiny' | 'small' | 'base' | 'large' | 'big';

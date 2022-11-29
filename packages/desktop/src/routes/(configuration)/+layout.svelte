@@ -1,6 +1,6 @@
 <script lang="ts">
 
-    import { BUNDLED } from '$lib/bundle';
+    import { BUNDLED } from '$lib/utils/bundle';
     import Flex from '$lib/components/layout/flex.svelte';
 
 </script>

@@ -6,6 +6,7 @@
 	import { goto } from '$app/navigation';
 	import { machineList } from '$lib/utils/stores/list';
 	import { _ } from 'svelte-i18n';
+	import Flex from '$lib/components/layout/flex.svelte';
 
 	let displayAddMachine = false;
 
@@ -76,9 +77,12 @@
 		class="flex flex-row gap-3 items-center bg-gradient-to-br from-indigo-500 to-indigo-600 p-4 rounded-xl"
 	>
 		<img src="/icons/pwa-192.png" class="h-8 w-8 rounded-md" alt="logo nuster" />
-		<h1 class="text-xl text-white align-middle">
-			Nuster <span class="text-sm">/ {$_('machinelist')}</span>
-		</h1>
+
+		<Flex gap={2} items={"center"} class="text-white">
+			<h1 class="text-xl">Nuster</h1>
+			<span class="font-black">/</span>
+			<span class="text-md font-semibold">{$_('machinelist')}</span>
+		</Flex>
 
 		<button
 			on:click={() => (displayAddMachine = true)}

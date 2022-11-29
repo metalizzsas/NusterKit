@@ -5,7 +5,6 @@
 	import { _ } from 'svelte-i18n';
 	import { Linker } from '$lib/utils/stores/linker';
 	import Round from '../../round.svelte';
-	import { navTitle } from '$lib/utils/stores/navstack';
 	import Navcontainertitle from '../../navigation/navcontainertitle.svelte';
 	import { goto } from '$app/navigation';
 	import Button from '../../button.svelte';

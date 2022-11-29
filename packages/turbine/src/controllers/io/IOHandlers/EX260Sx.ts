@@ -137,7 +137,7 @@ export class EX260Sx implements IIOPhysicalController, IEX260Controller
 
         //patch to prevent writing too early
         await new Promise((resolve) => {
-            setTimeout(resolve, 25);
+            setTimeout(resolve, 50);
         });
 
         //Path for ethernet ip protocol

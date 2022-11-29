@@ -38,10 +38,21 @@ const productionEnabled = (process.env.NODE_ENV === "production");
 /** Info.json file path */
 const infoPath = productionEnabled ? "/data/info.json" : path.resolve("data", "info.json");
 
+const logsFolderPath = productionEnabled ? "/data/logs/" : path.resolve("data", "logs");
+
+if(!fs.existsSync(logsFolderPath))
+    fs.mkdirSync(logsFolderPath);
+
+const logFilePath = productionEnabled ? `/data/logs/log-${new Date().toISOString()}.log`: path.resolve("data", "logs", `log-${new Date().toISOString()}.log`);
+
 /** Pino logger instance */
 export const LoggerInstance = pino({
-    level: productionEnabled == true ? "info" : "trace",
-    stream: process.stdout
+    transport: {
+        targets: [
+            { target: 'pino-pretty', level: "info", options: { destination: 1}},
+            { target: 'pino/file', level: "trace", options: { destination: logFilePath }}
+        ]
+    }
 });
 
 LoggerInstance.info("Starting NusterTurbine");

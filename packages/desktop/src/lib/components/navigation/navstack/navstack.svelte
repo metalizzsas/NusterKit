@@ -2,7 +2,7 @@
 
 	import { _, date, time, locale } from 'svelte-i18n';
 	import { page } from '$app/stores';
-	import { BUNDLED } from '$lib/bundle';
+	import { BUNDLED } from '$lib/utils/bundle';
 	import { machineData } from '$lib/utils/stores/store';
 
 	import Button from '../../button.svelte';

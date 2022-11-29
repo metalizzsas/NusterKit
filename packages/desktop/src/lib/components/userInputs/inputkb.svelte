@@ -13,7 +13,7 @@
 
 	import { _, locale } from 'svelte-i18n';
 	import { keyboardShown, keyboardHeight } from '$lib/utils/stores/keyboard';
-	import { BUNDLED } from '$lib/bundle';
+	import { BUNDLED } from '$lib/utils/bundle';
 	//const BUNDLED = "true";
 	import { createEventDispatcher } from 'svelte';
 

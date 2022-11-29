@@ -2,7 +2,7 @@
 	import { beforeUpdate, onMount } from 'svelte';
 	import Modalcontent from '$lib/components/modals/modal.svelte';
 	import Machine from '$lib/components/machinelist/machine.svelte';
-	import { BUNDLED } from '$lib/bundle';
+	import { BUNDLED } from '$lib/utils/bundle';
 	import { goto } from '$app/navigation';
 	import { machineList } from '$lib/utils/stores/list';
 	import { _ } from 'svelte-i18n';

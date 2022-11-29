@@ -6,7 +6,7 @@
 	import { lockMachineData, machineData } from '$lib/utils/stores/store';
 	import { fade, scale } from 'svelte/transition';
 
-	import { BUNDLED } from '$lib/bundle';
+	import { BUNDLED } from '$lib/utils/bundle';
 	import Flex from '$lib/components/layout/flex.svelte';
 	import Popup from '$lib/components/modals/popup.svelte';
 	import Navstack from '$lib/components/navigation/navstack/navstack.svelte';

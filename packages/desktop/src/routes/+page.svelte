@@ -6,7 +6,7 @@
 	 */
 	import { goto } from '$app/navigation';
 	import { beforeUpdate } from 'svelte';
-	import { BUNDLED } from '$lib/bundle';
+	import { BUNDLED } from '$lib/utils/bundle';
 
 	beforeUpdate(() => {
 		if (BUNDLED == 'true') {

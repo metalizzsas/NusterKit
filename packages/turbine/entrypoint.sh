@@ -1,3 +1,3 @@
 route del -net 192.168.1.0 netmask 255.255.255.0 eth0 || true
-ls node_modules/@metalizzsas/
+find /data/logs -name "*.log" -type f -mtime +30 -delete || true
 npm run start

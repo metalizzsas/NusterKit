@@ -53,20 +53,13 @@ export class PBRStartCondition implements IPBRStartCondition
             if(tempResult !== this.result && process.env.NODE_ENV == 'production')                
                 LoggerInstance.info("PBRSC: Start condition " + this.conditionName + " changed to " + tempResult);
 
-            if(process.env.NODE_ENV != 'production' && tempResult == "error")
-            {
-                this.result = "good";
-            }
-            else
-            {
-                this.result = tempResult;
+            this.result = tempResult;
 
-                //if the condition is not good stop the cycle
-                if(this.result == "error" && this.#pbrInstance.status.mode == "started")
-                {
-                    LoggerInstance.warn("PBRSC: Security condition " + this.conditionName + " has forced the cycle to End.");
-                    this.#pbrInstance.end("security-" + this.conditionName);
-                }
+            //if the condition is not good stop the cycle
+            if(this.result == "error" && this.#pbrInstance.status.mode == "started")
+            {
+                LoggerInstance.warn("PBRSC: Security condition " + this.conditionName + " has forced the cycle to End.");
+                this.#pbrInstance.end("security-" + this.conditionName);
             }
 
         }, 250);

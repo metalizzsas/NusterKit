@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.8.7
+
+### Patch Changes
+
+- chore: now using context instead of stores for navStack data, removed useContainer store ([#160](https://github.com/metalizzsas/NusterKit/pull/160))
+
 ## 1.8.6
 
 ### Patch Changes

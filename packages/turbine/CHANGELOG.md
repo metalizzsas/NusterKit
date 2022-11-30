@@ -1,5 +1,17 @@
 # @metalizzsas/nuster-turbine
 
+## 1.8.12
+
+### Patch Changes
+
+- fix: Increased EX260x write interval timer ([#164](https://github.com/metalizzsas/NusterKit/pull/164))
+
+- feat: logs are now stored in a log file ([#162](https://github.com/metalizzsas/NusterKit/pull/162))
+
+- chore: updated dependecies ([#162](https://github.com/metalizzsas/NusterKit/pull/162))
+
+- dev: now using new simulation tools ([#164](https://github.com/metalizzsas/NusterKit/pull/164))
+
 ## 1.8.11
 
 ### Patch Changes

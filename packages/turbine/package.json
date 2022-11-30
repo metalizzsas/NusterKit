@@ -29,8 +29,8 @@
   },
   "homepage": "https://github.com/metalizzsas/NusterKit/tree/main/packages/turbine",
   "dependencies": {
-    "@metalizzsas/nuster-turbine-machines": "workspace:1.2.11",
-    "@metalizzsas/nuster-typings": "workspace:1.3.2",
+    "@metalizzsas/nuster-turbine-machines": "1.2.11",
+    "@metalizzsas/nuster-typings": "1.3.2",
     "argon2": "^0.29.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

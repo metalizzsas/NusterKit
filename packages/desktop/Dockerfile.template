@@ -1,5 +1,7 @@
 FROM balenalib/raspberrypi4-64-node:18-buster
 
+RUN corepack enable
+
 ENV NODE_ENV=production
 
 WORKDIR /usr/src/app
@@ -11,7 +13,7 @@ COPY packages/desktop/CHANGELOG.md ./CHANGELOG.md
 COPY packages/desktop/build/ ./build
 
 # Install Prod npm packages
-RUN npm install --omit dev
+RUN pnpm install
 
 # Remove npmrc file
 RUN rm .npmrc

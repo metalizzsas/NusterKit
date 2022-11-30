@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.8.8
+
+### Patch Changes
+
+- fix: Docker images were using workspace label on packages version ([#165](https://github.com/metalizzsas/NusterKit/pull/165))
+
 ## 1.8.7
 
 ### Patch Changes

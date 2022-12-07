@@ -1,4 +1,5 @@
 import { IEX260Controller } from "./EX260xController";
+import { ISerialController } from "./SerialController";
 import { IWagoController } from "./WagoController";
 
 export interface IIOPhysicalControllerConfig
@@ -42,4 +43,4 @@ export interface IIOPhysicalController extends IIOPhysicalControllerConfig
 
 export type IOControllersConfig = (IWagoController | IEX260Controller) & IIOPhysicalControllerConfig;
 
-export type IOControllersTypes = IWagoController["type"] | IEX260Controller["type"];
+export type IOControllersTypes = IWagoController["type"] | IEX260Controller["type"] | ISerialController["type"];

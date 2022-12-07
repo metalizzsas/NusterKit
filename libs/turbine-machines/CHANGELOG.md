@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.2.12
+
+### Patch Changes
+
+- fix: Disabled motor rotation on cycle startup ([#171](https://github.com/metalizzsas/NusterKit/pull/171))
+
+- feat: added new smoothit R3 ([#168](https://github.com/metalizzsas/NusterKit/pull/168))
+
 ## 1.2.11
 
 ### Patch Changes

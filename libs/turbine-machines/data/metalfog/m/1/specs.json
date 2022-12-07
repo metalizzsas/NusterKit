@@ -1538,6 +1538,21 @@
                      "params": [
                         {
                            "name": "conststr",
+                           "value": "air-heater"
+                        },
+                        {
+                           "name": "const",
+                           "value": 1
+                        }
+                     ]
+                  }
+               ],
+               "endBlocks": [
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
                            "value": "motor#speed"
                         },
                         {
@@ -1608,22 +1623,8 @@
                         }
                      ],
                      "falseBlocks": []
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "air-heater"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
                   }
                ],
-               "endBlocks": [],
                "blocks": [
                   {
                      "name": "sleep",

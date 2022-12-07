@@ -238,7 +238,7 @@
          "size": "bit",
          "bus": "out",
          "controllerId": 1,
-         "address": 10,
+         "address": 6,
          "default": 0,
          "levelMax": 0
       },
@@ -689,7 +689,7 @@
                   "name": "io",
                   "io": {
                      "gateName": "uv#overheat",
-                     "gateValue": 1
+                     "gateValue": 0
                   }
                }
             }

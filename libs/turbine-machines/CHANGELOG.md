@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.2.14
+
+### Patch Changes
+
+- fix: uv overheat start condition had wrong value ([#174](https://github.com/metalizzsas/NusterKit/pull/174))
+
+- fix: nozzle-low had overlapping address with uv-cache ([#174](https://github.com/metalizzsas/NusterKit/pull/174))
+
 ## 1.2.13
 
 ### Patch Changes

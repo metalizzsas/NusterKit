@@ -1,5 +1,14 @@
 # @metalizzsas/nuster-turbine
 
+## 1.8.15
+
+### Patch Changes
+
+- fix: Core was not able to reach Serial ([#172](https://github.com/metalizzsas/NusterKit/pull/172))
+
+- Updated dependencies [[`b51f0f6`](https://github.com/metalizzsas/NusterKit/commit/b51f0f66e1756916a803767bb56cc88fc6422c95)]:
+  - @metalizzsas/nuster-turbine-machines@1.2.13
+
 ## 1.8.14
 
 ### Patch Changes

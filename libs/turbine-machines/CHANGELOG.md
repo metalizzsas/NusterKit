@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.2.13
+
+### Patch Changes
+
+- fix: Smoothit m r3 had wrong gates ([#172](https://github.com/metalizzsas/NusterKit/pull/172))
+
 ## 1.2.12
 
 ### Patch Changes

@@ -12,6 +12,8 @@
 	import ProfileCategory from '$lib/components/profile/profileCategory.svelte';
 	import { translateProfileName } from '$lib/components/profile/profiletranslation';
 	import type { PageData } from './$types';
+	import Navcontainer from '$lib/components/navigation/navcontainer.svelte';
+	import Flex from '$lib/components/layout/flex.svelte';
 	
 	export let data: PageData;
 
@@ -95,23 +97,27 @@
 	)}
 </Modal>
 
-<Navcontainertitle>{$_('profile.globals')}</Navcontainertitle>
+<Navcontainer>
+	<Navcontainertitle>{$_('profile.globals')}</Navcontainertitle>
+	
+	<div class="bg-zinc-700 rounded-full py-1 px-4 flex flex-row justify-between items-center mb-5">
+		<span class="text-white font-semibold">{$_('profile.name')}</span>
+		<Inputkb
+			bind:value={profile.name}
+			options={{
+				class: 'border-0 bg-neutral-100 dark:bg-zinc-600 font-semibold px-3 py-1 -mr-3 rounded-full w-1/3',
+			}}
+			disabled={profile.isOverwritable === false}
+		/>
+	</div>
+	
+	<Navcontainertitle sided={true}>{$_('profile.settings')}</Navcontainertitle>
+	
+	<Flex direction="col" gap={2}>
+		{#each Array.from(new Set(profile.values.map(f => f.name.split("#")[0]))) as category}
+			<ProfileCategory bind:profile bind:category />
+		{/each}
+	</Flex>
+</Navcontainer>
 
-<div class="bg-zinc-700 rounded-full py-1 px-4 flex flex-row justify-between items-center mb-5">
-	<span class="text-white font-semibold">{$_('profile.name')}</span>
-	<Inputkb
-		bind:value={profile.name}
-		options={{
-			class: 'border-0 bg-neutral-100 dark:bg-zinc-600 font-semibold px-3 py-1 -mr-3 rounded-full w-1/3',
-		}}
-		disabled={profile.isOverwritable === false}
-	/>
-</div>
 
-<Navcontainertitle sided={true}>{$_('profile.settings')}</Navcontainertitle>
-
-<div class="flex flex-col gap-2">
-	{#each Array.from(new Set(profile.values.map(f => f.name.split("#")[0]))) as category}
-		<ProfileCategory bind:profile bind:category />
-	{/each}
-</div>

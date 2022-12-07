@@ -8,6 +8,7 @@ import { PT100Gate } from "./IOGates/PT100Gate";
 import { UM18IOGate } from "./IOGates/UM18Gate";
 import { EX260Sx } from "./IOHandlers/EX260Sx";
 import { WAGO } from "./IOHandlers/WAGO";
+import { Serial } from "./IOHandlers/Serial";
 import type { IOGates, IOGatesConfig } from "@metalizzsas/nuster-typings/build/spec/iogates";
 import type { IMappedGate } from "@metalizzsas/nuster-typings/build/spec/iogates/IMappedGate";
 import type { IPT100Gate } from "@metalizzsas/nuster-typings/build/spec/iogates/IPT100Gate";
@@ -70,6 +71,7 @@ export class IOController extends Controller
             {
                 case "wago": this.handlers.push(new WAGO(handler.ip)); break;
                 case "ex260sx": this.handlers.push(new EX260Sx(handler.ip, handler.size)); break;
+                case "serial": this.handlers.push(new Serial(handler.port, handler.baudRate)); break;
             }
         }
         

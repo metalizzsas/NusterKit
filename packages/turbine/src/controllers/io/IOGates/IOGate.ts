@@ -66,6 +66,7 @@ export class IOGate implements IIOGate
     {
         return {
             name: this.name,
+            type: this.type,
             category: this.category,
             value: this.value,
             unity: this.unity,

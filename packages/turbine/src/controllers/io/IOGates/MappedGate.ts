@@ -55,6 +55,7 @@ export class MappedGate extends IOGate implements IIOGate, IMappedGate
     toJSON() {
         return {
             name: this.name,
+            type: this.type,
             category: this.category,
             value: this.value,
             unity: this.unity,

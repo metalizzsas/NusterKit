@@ -3,9 +3,6 @@ import { IOControllersConfig } from "@metalizzsas/nuster-typings/build/spec/ioph
 import { type IServiceVector } from "modbus-serial/ServerTCP";
 import { ServerTCP } from "modbus-serial";
 
-import { app } from "../server";
-import { Request, Response } from "express";
-
 export class ModbusController
 {
     private gates: (IOGatesConfig & { value: number })[];
@@ -17,6 +14,7 @@ export class ModbusController
     constructor(controller: IOControllersConfig, gates: IOGatesConfig[], index: number)
     {
         this.index = index;
+        
         //@ts-ignore
         this.gates = gates.map(k => { k.value = k.default; return k;});
 
@@ -31,36 +29,9 @@ export class ModbusController
             setRegister: this.setRegister.bind(this)
         };
 
-        this.modbus = new ServerTCP(vector, { host: '0.0.0.0', port: 502, debug: true, unitID: 1 });
+        this.modbus = new ServerTCP(vector, { host: '0.0.0.0', port: 502 + index, debug: true, unitID: 1 });
 
         console.log("Created modbus server");
-
-        app.get(`/controller/${this.index}/:name`, (req: Request, res: Response) => {
-            req.params.name = req.params.name.replace("_", "#");
-
-            const gate = this.gates.find(k => k.name == req.params.name);
-
-            res.status(gate !== undefined ? 200 : 404).json(gate);
-
-        });
-
-        app.post(`/controller/${this.index}/:name/:value`, (req: Request, res: Response) => {
-
-            req.params.name = req.params.name.replace("_", "#");
-            const gate = this.gates.find(k => k.name == req.params.name);
-
-            if(gate === undefined)
-            {
-                res.status(404).end();
-                return;
-            }
-            
-            gate.value = parseInt(req.params.value);
-
-            res.status(200);
-            res.write("ok");
-            res.end();
-        });
     }
 
     private getCoil(address: number): boolean {

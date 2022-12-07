@@ -75,31 +75,27 @@
             "resin": "Vernis"
         },
         "names": {
-            "emergency-stop": "Emergency stop button",
-            "air-sensor": "Air pressure sensor",
-            "nitrogen-sensor": "Nitrogen pressure sensor",
-            "cover-closed": "Cover closed",
-            "eff-container-sensor": "Effluents container sensor",
+            "emergency-stop": "Bouton d'arret d'urgence",
+            "nitrogen-sensor": "Pression d'azote",
+            "cover-closed": "Couvercle fermé",
             
-            "ventilation": "Vapors extraction",
+            "ventilation": "Extraction des vapeurs",
             "ventilation-valve": "Vanne 3 voies ventilation",
-            "air-heater": "Air heater",
-            "inerting": "Inerting",
+            "air-heater": "Rechauffeur d'air",
+            "inerting": "Inertage",
 
-            "levels#eff-n": "Effluents limit",
-            "resin#slot-sensor": "Resin container sensor",
-            "resin#pressure": "Resin container pressure",
+            "resin#slot-sensor": "Présence du pot de vernis",
+            "resin#pressure": "Pression pot de vernis",
             
-            "uv#sensor-open": "UV cache open",
-            "uv#sensor-closed": "UV cache closed",
-            "uv#overheat": "UV overheat security",
-            "uv#enable": "UV lamp",
-            "uv#ventil": "UV lamp ventilation",
-            "uv#power": "UV lamp power",
-            "uv#cache": "UV lamp cache",
+            "uv#sensor-open": "Cache UV over",
+            "uv#sensor-closed": "Cache UV fermé",
+            "uv#overheat": "Défaut température lampe UV",
+            "uv#enable": "Lampe UV",
+            "uv#power": "Puissance lampe UV",
+            "uv#cache": "Cache lampe UV",
             
-            "motor#direction": "Motor direction",
-            "motor#speed": "Motor speed",
+            "motor#direction": "Sens moteur",
+            "motor#speed": "Vitesse moteur",
             
             "nozzle-high#sensor-open": "Cache ouvert buse haut",
             "nozzle-high#sensor-closed": "Cache fermé buse haut",
@@ -114,7 +110,7 @@
     },
     "manual": {
         "categories": {
-            "nozzle-high": "Pulvérisatio haut",
+            "nozzle-high": "Pulvérisation haut",
             "nozzle-low": "Pulvérisation bas",
             "uv": "Ultraviolet"
         },

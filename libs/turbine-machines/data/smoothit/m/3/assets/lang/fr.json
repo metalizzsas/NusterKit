@@ -1,0 +1,156 @@
+{
+    "slots": {
+        "types": {
+            "eff": "Effluents",
+            "resin": "Vernis"
+        }
+    },
+    "profile": {
+        "categories": {
+            "vapors-extraction": "Extraction des vapeurs",
+            "pulverization": "Pulvérisation",
+            "uv-curing": "Cuisson UV",
+            "inerting": "Inertage",
+            "multilayer": "Multicouche",
+            "motor": "Moteur de rotation"
+        },
+        "rows": {
+            "interlayer-uvduration": "UV Curing time between layers",
+            "uv-power": "Puissance UV",
+            "reverseEnabled": "Invertion moteur",
+            "reverseTime": "Motor reverser timer",
+            "high-enabled": "Buse haut activée",
+            "low-enabled": "Buse bas activée"
+        }
+    },
+    "cycle": {
+        "names": {
+            "default": "Cycle de base smoothit"
+        },
+        "types": {
+            "sla": "Pièce 3D SLA / DLP"
+        },
+        "endreasons": {
+            "uv-cache-wrong": "Erreur position cache UV",
+            "nozzle-low-cache-wrong": "Erreur position cache buse bas",
+            "nozzle-high-cache-wrong": "Erreur position cache buse haut",
+            "security-emergency-stop": "Boutton d'arret d'urgence déclenché",
+            "security-nitrogen-sensor": "Pression d'azote trop basse",
+            "security-cover-closed": "Couvercle ouvert",
+            "security-resin#slot-sensor": "Pot de vernis manquant",
+            "security-uv#overheat": "Surchauffe lampe UV"
+        },
+        "startconditions": {
+            "emergency-stop": "Statut bouton d'arret d'urgence",
+            "nitrogen-sensor": "Pression d'azote",
+            "cover-closed": "Couvercle fermé",
+            "resin#slot-sensor": "Présence du pot de vernis",
+            "uv#overheat": "Température de la lampe UV"
+        },
+        "steps": {
+            "pulverization": {
+                "name": "Pulvérisation",
+                "desc": "Application du vernis sur vos pièces."
+            },
+            "inerting": {
+                "name": "Inertage",
+                "desc": "Remplissage de la cuve d'azote pour améliorer la cuisson UV."
+            },
+            "uv-curing": {
+                "name": "Cuisson UV",
+                "desc": "Durcissement du vernis UV."
+            },
+            "vapors-extraction": {
+                "name": "Filtrations des vapeurs",
+                "desc": "Filtrations des gazs et fines particules produites par le programme."
+            }
+        }
+    },
+    "gates": {
+        "categories": {
+            "motor": "Moteur de rotation",
+            "uv": "Ultraviolet",
+            "nozzle-high": "Buse haut",
+            "nozzle-low": "Buse bas",
+            "resin": "Vernis"
+        },
+        "names": {
+            "emergency-stop": "Emergency stop button",
+            "air-sensor": "Air pressure sensor",
+            "nitrogen-sensor": "Nitrogen pressure sensor",
+            "cover-closed": "Cover closed",
+            "eff-container-sensor": "Effluents container sensor",
+            
+            "ventilation": "Vapors extraction",
+            "ventilation-valve": "Vanne 3 voies ventilation",
+            "air-heater": "Air heater",
+            "inerting": "Inerting",
+
+            "levels#eff-n": "Effluents limit",
+            "resin#slot-sensor": "Resin container sensor",
+            "resin#pressure": "Resin container pressure",
+            
+            "uv#sensor-open": "UV cache open",
+            "uv#sensor-closed": "UV cache closed",
+            "uv#overheat": "UV overheat security",
+            "uv#enable": "UV lamp",
+            "uv#ventil": "UV lamp ventilation",
+            "uv#power": "UV lamp power",
+            "uv#cache": "UV lamp cache",
+            
+            "motor#direction": "Motor direction",
+            "motor#speed": "Motor speed",
+            
+            "nozzle-high#sensor-open": "Cache ouvert buse haut",
+            "nozzle-high#sensor-closed": "Cache fermé buse haut",
+            "nozzle-high#pulverization": "Pulvérisation buse haut",
+            "nozzle-high#cache": "Cache buse haut",
+
+            "nozzle-low#sensor-open": "Cache ouvert buse bas",
+            "nozzle-low#sensor-closed": "Cache fermé buse bas",
+            "nozzle-low#pulverization": "Pulvérisation buse bas",
+            "nozzle-low#cache": "Cache buse bas"
+        }
+    },
+    "manual": {
+        "categories": {
+            "nozzle-high": "Pulvérisatio haut",
+            "nozzle-low": "Pulvérisation bas",
+            "uv": "Ultraviolet"
+        },
+        "tasks": {
+            "motor-rotation": "Rotation des pièces",
+            "ventilation": "Extraction des vapeurs",
+            "air-heater": "Réchauffeur d'air",
+            "inerting": "Inertage",
+            
+            "uv#cache": "Cache lampe UV",
+            "uv#curing": "Cuisson UV",
+
+            "nozzle-high#cache": "Cache buse haut",
+            "nozzle-low#cache": "Cache buse bas",
+            "nozzle-high#pulverization": "Pulvérization haut",
+            "nozzle-low#pulverization": "Pulvérization bas"
+        }
+    },
+    "maintenance": {
+        "tasks": {
+            "smt-filter": {
+                "name": "Filtre solvants",
+                "desc": "Filtre de Smoothit permet de filtrer les solvants, particules et gazs produits par le programme."
+            },
+            "inner-cleaning": {
+                "name": "Masque interne",
+                "desc": "Le masque interne evite l'accumulation de vernis dans la cuve."
+            },
+            "ir-lamp": {
+                "name": "Lampe IR",
+                "desc": "La lampe IR permet de lisser le vernis présent sur vos pièces."
+            },
+            "uv-lamp": {
+                "name": "Lampe UV",
+                "desc": "La lampe UV permet de durcir le vernis de lissage présent sur vos pièces."
+            }
+        }
+    }
+}

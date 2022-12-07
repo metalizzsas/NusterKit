@@ -3,6 +3,7 @@
   "version": "1.0.2",
   "description": "Simulation tool server.",
   "main": "src/server.ts",
+  "private": true,
   "scripts": {
     "dev": "nodemon"
   },

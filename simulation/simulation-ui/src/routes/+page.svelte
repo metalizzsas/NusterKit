@@ -19,9 +19,11 @@
 
 <div style="background: #eee; margin: 1.5em; padding: 1em; border-radius: 1em;">
 	<h1 style="margin: 0.125em;">IOGates</h1>
-	<div style="margin: 0.5em 0;">Only show editable gates <input type="checkbox" bind:checked={showGatesEditable} /></div>
+	<div style="margin: 0.5em 0;">
+		Only show editable gates <input type="checkbox" bind:checked={showGatesEditable} />
+	</div>
 	<div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; grid-gap: 1em 1em;">
-		{#each data.gates.filter(k => showGatesEditable ? k.bus == "in" : true) as gate}
+		{#each data.gates.filter((k) => (showGatesEditable ? k.bus == 'in' : true)) as gate}
 			<Gate bind:gate />
 		{/each}
 	</div>

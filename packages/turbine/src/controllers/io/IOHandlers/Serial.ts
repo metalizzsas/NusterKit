@@ -31,7 +31,7 @@ export class Serial implements IIOPhysicalController, ISerialController
             this.serialPort = new SerialPort({ path: this.port, baudRate: this.baudRate }, (err) => {
                 if(err)
                 {
-                    LoggerInstance.error("Serial: ", err);
+                    LoggerInstance.error("Serial " + err.message);
                 }
                 else
                 {

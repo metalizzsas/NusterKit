@@ -26,6 +26,10 @@ services:
       DISABLE_AUTH: 'true'
     labels:
       io.balena.features.supervisor-api: '1'
+    devices:
+    - "/dev/ttyACM0:/dev/ttyACM0"
+    cap_add:
+      - SYS_RAWIO
 
   nuster-desktop:
     build: 

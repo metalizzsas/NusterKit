@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.8.18
+
+### Patch Changes
+
+- fix: changed udev assignment mode ([#178](https://github.com/metalizzsas/NusterKit/pull/178))
+
 ## 1.8.17
 
 ### Patch Changes

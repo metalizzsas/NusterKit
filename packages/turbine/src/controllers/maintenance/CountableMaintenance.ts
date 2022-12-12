@@ -76,7 +76,7 @@ export class CountableMaintenance extends Maintenance implements ICountableMaint
         return { 
             name: this.name,
             durationType: this.durationType,
-            duration: this.duration,
+            duration: Math.floor(this.duration * 100) / 100,
             durationMax: this.durationLimit,
             durationProgress: this.computeDurationProgress
         }

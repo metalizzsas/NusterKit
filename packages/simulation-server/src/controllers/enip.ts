@@ -1,5 +1,5 @@
 import { IOGatesConfig } from "@metalizzsas/nuster-typings/build/spec/iogates";
-import { IOControllersConfig } from "@metalizzsas/nuster-typings/build/spec/iophysicalcontrollers";
+import { IEX260Controller } from "@metalizzsas/nuster-typings/build/spec/iophysicalcontrollers/EX260xController";
 import { ENIPServer } from "enip-ts/dist/enipServer";
 import { ENIPDataVector } from "enip-ts/dist/enipServer/enipClient";
 
@@ -9,7 +9,7 @@ export class ENIPController
 
     enip: ENIPServer;
 
-    private instanceData = Buffer.alloc(4);
+    private instanceData: Buffer;
 
     private index: number;
 
@@ -33,12 +33,14 @@ export class ENIPController
         }
     };
 
-    constructor(controller: IOControllersConfig, gates: IOGatesConfig[], index)
+    constructor(controller: IEX260Controller, gates: IOGatesConfig[], index)
     {
         this.enip = new ENIPServer(this.vector);
         this.enip.listen();
 
         this.index = index;
+
+        this.instanceData = Buffer.alloc(controller.size / 8);
 
         //@ts-ignore
         this.gates = gates.map(k => { k.value = k.default; return k;});
@@ -54,16 +56,18 @@ export class ENIPController
 
     private getCoil(address: number): number
     {
-        let n = this.instanceData.readUInt32LE();
+        let n = this.instanceData.length == 4 ? this.instanceData.readUInt32LE() : this.instanceData.readUInt16LE();
 
-        let mask = 1 << 31 - address;
+        let size = this.instanceData.length == 4 ? 31 : 15;
+
+        let mask = 1 << size - address;
 
         return ((n & mask) > 0) ? 1 : 0;
     }
 
     private setCoil(address: number, value: number)
     { 
-        let data = this.instanceData.readUint32LE();
+        let data = this.instanceData.length == 4 ? this.instanceData.readUInt32LE() : this.instanceData.readUInt16LE();
 
         let mask = (value << (31 - address)) >>> 0;
 

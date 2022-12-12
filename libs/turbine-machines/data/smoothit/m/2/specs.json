@@ -69,26 +69,6 @@
          "levelMax": 0
       },
       {
-         "name": "ir#sensor-open",
-         "type": "default",
-         "size": "bit",
-         "bus": "in",
-         "controllerId": 0,
-         "address": 6,
-         "default": 0,
-         "levelMax": 0
-      },
-      {
-         "name": "ir#sensor-closed",
-         "type": "default",
-         "size": "bit",
-         "bus": "in",
-         "controllerId": 0,
-         "address": 7,
-         "default": 0,
-         "levelMax": 0
-      },
-      {
          "name": "uv#sensor-open",
          "type": "default",
          "size": "bit",
@@ -144,26 +124,6 @@
          "bus": "out",
          "controllerId": 0,
          "address": 2,
-         "default": 0,
-         "levelMax": 0
-      },
-      {
-         "name": "ir#enable",
-         "type": "default",
-         "size": "bit",
-         "bus": "out",
-         "controllerId": 0,
-         "address": 3,
-         "default": 0,
-         "levelMax": 0
-      },
-      {
-         "name": "ir#ventil",
-         "type": "default",
-         "size": "bit",
-         "bus": "out",
-         "controllerId": 0,
-         "address": 4,
          "default": 0,
          "levelMax": 0
       },
@@ -263,16 +223,6 @@
          "address": 9,
          "default": 0,
          "levelMax": 0
-      },
-      {
-         "name": "ir#cache",
-         "type": "default",
-         "size": "bit",
-         "bus": "out",
-         "controllerId": 1,
-         "address": 7,
-         "default": 0,
-         "levelMax": 0
       }
    ],
    "slots": [
@@ -318,17 +268,6 @@
                "name": "pulverization#count",
                "type": "int",
                "value": 4
-            },
-            {
-               "name": "ir-curing#enabled",
-               "type": "bool",
-               "value": 1
-            },
-            {
-               "name": "ir-curing#duration",
-               "type": "time",
-               "units": ["minutes", "seconds"],
-               "value": 180
             },
             {
                "name": "inerting#enabled",
@@ -419,66 +358,6 @@
    "profilePremades": [
       {
          "skeleton": "default",
-         "_id": "premade_fdm",
-         "name": "fdm",
-         "isPremade": true,
-         "isOverwritable": false,
-         "isRemovable": false,
-         "values": {
-            "pulverization#enabled": 1,
-            "pulverization#timeOn": 0.5,
-            "pulverization#timeOff": 8,
-            "pulverization#count": 4,
-            "ir-curing#enabled": 1,
-            "ir-curing#duration": 240,
-            "inerting#enabled": 1,
-            "inerting#duration": 15,
-            "uv-curing#enabled": 1,
-            "uv-curing#duration": 180,
-            "uv-curing.uv-power": 100,
-            "vapors-extraction#enabled": 1,
-            "vapors-extraction#duration": 45,
-            "multilayer#enabled": 1,
-            "multilayer#count": 6,
-            "multilayer#interlayer-uvduration": 15,
-            "motor#enabled": 1,
-            "motor#speed": 80,
-            "motor#reverseEnabled": 1,
-            "motor#reverseTime": 1
-         }
-      },
-      {
-         "skeleton": "default",
-         "_id": "premade_sls",
-         "name": "sls",
-         "isPremade": true,
-         "isOverwritable": false,
-         "isRemovable": false,
-         "values": {
-            "pulverization#enabled": 1,
-            "pulverization#timeOn": 0.5,
-            "pulverization#timeOff": 8,
-            "pulverization#count": 4,
-            "ir-curing#enabled": 1,
-            "ir-curing#duration": 240,
-            "inerting#enabled": 1,
-            "inerting#duration": 15,
-            "uv-curing#enabled": 1,
-            "uv-curing#duration": 180,
-            "uv-curing.uv-power": 100,
-            "vapors-extraction#enabled": 1,
-            "vapors-extraction#duration": 45,
-            "multilayer#enabled": 1,
-            "multilayer#count": 6,
-            "multilayer#interlayer-uvduration": 15,
-            "motor#enabled": 1,
-            "motor#speed": 80,
-            "motor#reverseEnabled": 1,
-            "motor#reverseTime": 1
-         }
-      },
-      {
-         "skeleton": "default",
          "_id": "premade_sla",
          "name": "sla",
          "isPremade": true,
@@ -486,11 +365,9 @@
          "isRemovable": false,
          "values": {
             "pulverization#enabled": 1,
-            "pulverization#timeOn": 0.5,
+            "pulverization#timeOn": 2.3,
             "pulverization#timeOff": 10,
             "pulverization#count": 3,
-            "ir-curing#enabled": 1,
-            "ir-curing#duration": 120,
             "inerting#enabled": 1,
             "inerting#duration": 15,
             "uv-curing#enabled": 1,
@@ -504,7 +381,7 @@
             "motor#enabled": 1,
             "motor#speed": 80,
             "motor#reverseEnabled": 1,
-            "motor#reverseTime": 1
+            "motor#reverseTime": 10
          }
       }
    ],
@@ -539,41 +416,6 @@
          "durationLimit": 50
       },
       {
-         "name": "ir-lamp",
-         "durationType": "duration",
-         "durationLimit": 5000,
-         "procedure": {
-            "tools": [
-               "allen-wrench-2.5"
-            ],
-            "steps": [
-               {
-                  "name": "unscrew-top",
-                  "media": [
-                     "0.jpg",
-                     "1.jpg"
-                  ]
-               },
-               {
-                  "name": "replace-ir-lamp",
-                  "media": [
-                     "2.jpg",
-                     "3.jpg",
-                     "4.jpg",
-                     "5.jpg"
-                  ]
-               },
-               {
-                  "name": "screw-top",
-                  "media": [
-                     "1.jpg",
-                     "0.jpg"
-                  ]
-               }
-            ]
-         }
-      },
-      {
          "name": "uv-lamp",
          "durationType": "duration",
          "durationLimit": 30000
@@ -585,11 +427,17 @@
          "controls": [
             {
                "name": "motor#speed",
-               "analogScaleDependant": true
+               "analogScaleDependant": true,
+               "isValueAbsolute": true
+            },
+            {
+               "name": "motor#direction",
+               "analogScaleDependant": false,
+               "triggerWhenNegative": true
             }
          ],
          "analogScale": {
-            "min": 0,
+            "min": -100,
             "max": 100
          },
          "watchdog": [
@@ -603,18 +451,6 @@
          "name": "uv#cache",
          "controls": [
             "uv#cache"
-         ],
-         "watchdog": [
-            {
-               "gateName": "cover-closed",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "ir#cache",
-         "controls": [
-            "ir#cache"
          ],
          "watchdog": [
             {
@@ -641,8 +477,7 @@
             "nozzle#cache"
          ],
          "requires": [
-            "uv#cache",
-            "ir#cache"
+            "uv#cache"
          ],
          "controls": [
             "resin#pressure",
@@ -666,32 +501,11 @@
          ]
       },
       {
-         "name": "ir#curing",
-         "incompatibility": [
-            "ir#cache"
-         ],
-         "requires": [
-            "uv#cache",
-            "nozzle#cache"
-         ],
-         "controls": [
-            "ir#enable",
-            "ir#ventil"
-         ],
-         "watchdog": [
-            {
-               "gateName": "cover-closed",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
          "name": "uv#curing",
          "incompatibility": [
             "uv#cache"
          ],
          "requires": [
-            "ir#cache",
             "nozzle#cache"
          ],
          "controls": [
@@ -721,16 +535,6 @@
       }
    ],
    "cyclePremades": [
-      {
-         "name": "fdm",
-         "profile": "premade_fdm",
-         "cycle": "default"
-      },
-      {
-         "name": "sls",
-         "profile": "premade_sls",
-         "cycle": "default"
-      },
       {
          "name": "sla",
          "profile": "premade_sla",
@@ -793,7 +597,7 @@
                   "name": "io",
                   "io": {
                      "gateName": "uv#overheat",
-                     "gateValue": 1
+                     "gateValue": 0
                   }
                }
             }
@@ -807,7 +611,7 @@
                },
                "duration": {
                   "name": "const",
-                  "value": 90
+                  "value": 30
                },
                "blocks": [
                   {
@@ -815,7 +619,7 @@
                      "params": [
                         {
                            "name": "const",
-                           "value": 90
+                           "value": 30
                         }
                      ]
                   }
@@ -1001,48 +805,6 @@
                      ]
                   },
                   {
-                     "name": "if",
-                     "params": [
-                        {
-                           "name": "io",
-                           "value": "ir#sensor-closed"
-                        },
-                        {
-                           "name": "conststr",
-                           "value": "!="
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ],
-                     "falseBlocks": [],
-                     "trueBlocks": [
-                        {
-                           "name": "stop",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "ir#cache-wrong"
-                              }
-                           ]
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "resin#pressure"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
                      "name": "for",
                      "params": [
                         {
@@ -1051,19 +813,6 @@
                         }
                      ],
                      "blocks": [
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "ventilation"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 0
-                              }
-                           ]
-                        },
                         {
                            "name": "io",
                            "params": [
@@ -1104,19 +853,6 @@
                            "params": [
                               {
                                  "name": "conststr",
-                                 "value": "ventilation"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 1
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
                                  "value": "motor#direction"
                               },
                               {
@@ -1139,19 +875,6 @@
                                  "value": "pulverization#timeOff"
                               }
                            ]
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "resin#pressure"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
                         }
                      ]
                   }
@@ -1197,7 +920,7 @@
                      "params": [
                         {
                            "name": "conststr",
-                           "value": "ir#cache"
+                           "value": "resin#pressure"
                         },
                         {
                            "name": "const",
@@ -1217,6 +940,19 @@
                         {
                            "name": "const",
                            "value": 1
+                        }
+                     ]
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "resin#pressure"
+                        },
+                        {
+                           "name": "const",
+                           "value": 0
                         }
                      ]
                   },
@@ -1269,247 +1005,6 @@
                                        ]
                                     }
                                  ]
-                              }
-                           ]
-                        }
-                     ]
-                  }
-               ]
-            },
-            {
-               "name": "ir-curing",
-               "isEnabled": {
-                  "name": "profile",
-                  "value": "ir-curing#enabled"
-               },
-               "duration": {
-                  "name": "add",
-                  "params": [
-                     {
-                        "name": "profile",
-                        "value": "ir-curing#duration"
-                     },
-                     {
-                        "name": "const",
-                        "value": 3
-                     }
-                  ]
-               },
-               "runAmount": {
-                  "name": "conditional",
-                  "value": "==",
-                  "params": [
-                     {
-                        "name": "profile",
-                        "value": "multilayer#enabled"
-                     },
-                     {
-                        "name": "const",
-                        "value": 1
-                     },
-                     {
-                        "name": "profile",
-                        "value": "multilayer#count"
-                     },
-                     {
-                        "name": "const",
-                        "value": 1
-                     }
-                  ]
-               },
-               "blocks": [
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "const",
-                           "value": 3
-                        }
-                     ]
-                  },
-                  {
-                     "name": "if",
-                     "params": [
-                        {
-                           "name": "io",
-                           "value": "ir#sensor-open"
-                        },
-                        {
-                           "name": "conststr",
-                           "value": "!="
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ],
-                     "falseBlocks": [],
-                     "trueBlocks": [
-                        {
-                           "name": "stop",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "ir#cache-wrong"
-                              }
-                           ]
-                        }
-                     ]
-                  },
-                  {
-                     "name": "if",
-                     "params": [
-                        {
-                           "name": "io",
-                           "value": "nozzle#sensor-closed"
-                        },
-                        {
-                           "name": "conststr",
-                           "value": "!="
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ],
-                     "falseBlocks": [],
-                     "trueBlocks": [
-                        {
-                           "name": "stop",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "nozzle#cache-wrong"
-                              }
-                           ]
-                        }
-                     ]
-                  },
-                  {
-                     "name": "if",
-                     "params": [
-                        {
-                           "name": "io",
-                           "value": "uv#sensor-closed"
-                        },
-                        {
-                           "name": "conststr",
-                           "value": "!="
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ],
-                     "falseBlocks": [],
-                     "trueBlocks": [
-                        {
-                           "name": "stop",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "uv#cache-wrong"
-                              }
-                           ]
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ir#enable"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "profile",
-                           "value": "ir-curing#duration"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ir#enable"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  }
-               ],
-               "startBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ir#cache"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ir#ventil"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  }
-               ],
-               "endBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ir#cache"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "maintenance",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ir-lamp"
-                        },
-                        {
-                           "name": "multiply",
-                           "value": "",
-                           "params": [
-                              {
-                                 "name": "const",
-                                 "value": 0.0002777778
-                              },
-                              {
-                                 "name": "profile",
-                                 "value": "ir-curing#duration"
                               }
                            ]
                         }
@@ -1802,35 +1297,6 @@
                               {
                                  "name": "conststr",
                                  "value": "uv#cache-wrong"
-                              }
-                           ]
-                        }
-                     ]
-                  },
-                  {
-                     "name": "if",
-                     "params": [
-                        {
-                           "name": "io",
-                           "value": "ir#sensor-closed"
-                        },
-                        {
-                           "name": "conststr",
-                           "value": "!="
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ],
-                     "falseBlocks": [],
-                     "trueBlocks": [
-                        {
-                           "name": "stop",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "ir#cache-wrong"
                               }
                            ]
                         }
@@ -2244,33 +1710,7 @@
                      "params": [
                         {
                            "name": "conststr",
-                           "value": "ir#cache"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
                            "value": "uv#ventil"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ir#ventil"
                         },
                         {
                            "name": "const",

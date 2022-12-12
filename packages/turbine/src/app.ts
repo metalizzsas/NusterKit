@@ -66,6 +66,16 @@ if(fs.existsSync(infoPath))
     SetupWebsocketServer();
     SetupMongoDB();
 
+    if(productionEnabled == false)
+    {
+        LoggerInstance.warn("DEV: Sending configuration to simulation server.");
+        fetch("http://localhost:4081/config", { method: "post", headers: {"Content-Type": "application/json"}, body: JSON.stringify({
+            model: parsedConfiguration.model,
+            variant: parsedConfiguration.variant,
+            revision: parsedConfiguration.revision
+        })});
+    }
+
     machine = new Machine(parsedConfiguration);
 
     SetupMachine(); //Expose machine routers to Express

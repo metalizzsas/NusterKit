@@ -3,13 +3,24 @@ import { IOControllersConfig } from "@metalizzsas/nuster-typings/build/spec/ioph
 import { ModbusController } from "./controllers/modbus";
 
 import * as MetalfogMR1 from "@metalizzsas/nuster-turbine-machines/data/metalfog/m/1/specs.json";
+
+import * as USCleanerMR1 from "@metalizzsas/nuster-turbine-machines/data/uscleaner/m/1/specs.json";
+
+import * as SmoothitMR1 from "@metalizzsas/nuster-turbine-machines/data/smoothit/m/1/specs.json";
+import * as SmoothitMR2 from "@metalizzsas/nuster-turbine-machines/data/smoothit/m/2/specs.json";
+import * as SmoothitMR3 from "@metalizzsas/nuster-turbine-machines/data/smoothit/m/3/specs.json";
+
 import { IMachineSpecs } from "@metalizzsas/nuster-typings";
 import { app } from "./server";
 import type { Request, Response } from "express";
 import { ENIPController } from "./controllers/enip";
 
 const MachineConfigs = {
-    "metalfog/m/1": MetalfogMR1
+    "metalfog/m/1": MetalfogMR1,
+    "uscleaner/m/1": USCleanerMR1,
+    "smoothit/m/1": SmoothitMR1,
+    "smoothit/m/2": SmoothitMR2,
+    "smoothit/m/3": SmoothitMR3
 }
 
 export class SimulationMachine

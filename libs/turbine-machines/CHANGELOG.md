@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.2.15
+
+### Patch Changes
+
+- feat: smoothit mr 2, removed ir-curing ([#176](https://github.com/metalizzsas/NusterKit/pull/176))
+
 ## 1.2.14
 
 ### Patch Changes

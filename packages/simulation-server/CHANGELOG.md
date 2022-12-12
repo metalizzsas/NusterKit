@@ -1,5 +1,19 @@
 # @metalizzsas/simulation-server
 
+## 1.0.3
+
+### Patch Changes
+
+- chore: updated dependencies ([#176](https://github.com/metalizzsas/NusterKit/pull/176))
+
+- feat: when turbine is in dev mode, tells the simulation server what configuration is used ([#176](https://github.com/metalizzsas/NusterKit/pull/176))
+
+- fix: Enip server could not handle 2 bytes buffers ([#176](https://github.com/metalizzsas/NusterKit/pull/176))
+
+- Updated dependencies [[`8f66222`](https://github.com/metalizzsas/NusterKit/commit/8f662220c450d5bf9327ef070ae40610c83d88f6), [`90ca7e9`](https://github.com/metalizzsas/NusterKit/commit/90ca7e922f8599ab1452060a29d1d44b747f750a)]:
+  - @metalizzsas/nuster-typings@1.3.4
+  - @metalizzsas/nuster-turbine-machines@1.2.15
+
 ## 1.0.2
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # @metalizzsas/nuster-turbine
 
+## 1.8.17
+
+### Patch Changes
+
+- feat: when turbine is in dev mode, tells the simulation server what configuration is used ([#176](https://github.com/metalizzsas/NusterKit/pull/176))
+
+- fix: multiple steps could sometime be missconfigurated by PBR ([#176](https://github.com/metalizzsas/NusterKit/pull/176))
+
+- fix: Count maintenance had no rounding mechanism ([#176](https://github.com/metalizzsas/NusterKit/pull/176))
+
+- Updated dependencies [[`8f66222`](https://github.com/metalizzsas/NusterKit/commit/8f662220c450d5bf9327ef070ae40610c83d88f6), [`90ca7e9`](https://github.com/metalizzsas/NusterKit/commit/90ca7e922f8599ab1452060a29d1d44b747f750a)]:
+  - @metalizzsas/nuster-typings@1.3.4
+  - @metalizzsas/nuster-turbine-machines@1.2.15
+
 ## 1.8.16
 
 ### Patch Changes

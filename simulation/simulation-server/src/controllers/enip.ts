@@ -40,7 +40,7 @@ export class ENIPController
 
         this.index = index;
 
-        this.instanceData = Buffer.alloc(4);
+        this.instanceData = Buffer.alloc(controller.size / 8);
 
         //@ts-ignore
         this.gates = gates.map(k => { k.value = k.default; return k;});
@@ -56,16 +56,18 @@ export class ENIPController
 
     private getCoil(address: number): number
     {
-        let n = this.instanceData.readUInt32LE();
+        let n = this.instanceData.length == 4 ? this.instanceData.readUInt32LE() : this.instanceData.readUInt16LE();
 
-        let mask = 1 << 31 - address;
+        let size = this.instanceData.length == 4 ? 31 : 15;
+
+        let mask = 1 << size - address;
 
         return ((n & mask) > 0) ? 1 : 0;
     }
 
     private setCoil(address: number, value: number)
     { 
-        let data = this.instanceData.readUint32LE();
+        let data = this.instanceData.length == 4 ? this.instanceData.readUInt32LE() : this.instanceData.readUInt16LE();
 
         let mask = (value << (31 - address)) >>> 0;
 

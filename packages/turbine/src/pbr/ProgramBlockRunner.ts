@@ -55,6 +55,13 @@ export class ProgramBlockRunner implements IProgramRunner
 
         this.profileRequired = object.profileRequired;
 
+        this.profile = profile;
+
+        if(this.profile === undefined)
+            LoggerInstance.warn("PBR: This PBR is build without any profile.");
+        else
+            this.profileExplorer = (name: string) => this.profile?.values.find(v => v.name == name)?.value ?? 0;
+
         //if this is defined it should be a cycle restart
         if(object.currentStepIndex)
             this.currentStepIndex = object.currentStepIndex;
@@ -65,15 +72,20 @@ export class ProgramBlockRunner implements IProgramRunner
         if(object.timers)
             this.timers = object.timers;
 
-        this.profile = profile;
-
-        if(this.profile === undefined)
-            LoggerInstance.warn("PBR: This PBR is build without any profile.");
-        else
-            this.profileExplorer = (name: string) => this.profile?.values.find(v => v.name == name)?.value ?? 0;
-
         //properties assignment
         this.name = object.name;
+
+        this.additionalInfo = object.additionalInfo;
+
+        LoggerInstance.info("PBR: Finished building PBR.");
+
+        // TODO: ProgramBlocks that needs PBRInstance are delayed because otherwise, they may find an undefined PBR Instance.
+        setTimeout(() => this.fill(object), 500);
+    }
+
+    private fill(object: IProgramRunner)
+    {
+        LoggerInstance.info("PBR: Filling data.");
 
         //steps and watchdog
         for(const sc of object.startConditions)
@@ -81,10 +93,8 @@ export class ProgramBlockRunner implements IProgramRunner
 
         for(const step of object.steps)
             this.steps.push(new ProgramBlockStep(this, step));
-
-        this.additionalInfo = object.additionalInfo;
-
-        LoggerInstance.info("PBR: Finished building PBR.");
+        
+        LoggerInstance.info("PBR: Finished filling data");
     }
 
     /**

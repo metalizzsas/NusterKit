@@ -3,6 +3,10 @@
         "types": {
             "eff": "Effluents",
             "resin": "Coat"
+        },
+        "colors": {
+            "resin": "from-amber-700 to-amber-800",
+            "eff": "from-zinc-700 to-zinc-800"
         }
     },
     "profile": {

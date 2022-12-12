@@ -33,11 +33,6 @@ jobs:
           corepack enable
           pnpm --version
 
-      - name: ⛭ Setup Pnpm github registry
-        run: pnpm config set @metalizzsas:registry=https://npm.pkg.github.com //npm.pkg.github.com/:_authToken=$GITHUB_TOKEN --location project
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: 🗂️ Install packages 
         run: pnpm install
 

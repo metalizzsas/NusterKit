@@ -25,5 +25,5 @@
     "@changesets/cli": "^2.25.2",
     "@svitejs/changesets-changelog-github-compact": "^0.1.1"
   },
-  "packageManager": "pnpm@7.13.0"
+  "packageManager": "pnpm@7.13.5"
 }

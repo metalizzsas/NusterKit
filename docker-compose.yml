@@ -18,6 +18,7 @@ services:
       dockerfile: ./packages/turbine/Dockerfile.template
       context: ./
     network_mode: host
+    privileged: true
     depends_on: 
       - "mongodb"
     volumes:

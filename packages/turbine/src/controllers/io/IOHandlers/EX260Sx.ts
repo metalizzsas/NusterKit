@@ -2,7 +2,6 @@ import type { IIOPhysicalController } from "@metalizzsas/nuster-typings/build/sp
 import type { IEX260Controller } from "@metalizzsas/nuster-typings/build/spec/iophysicalcontrollers/EX260xController";
 import { Buffer } from "buffer";
 import ping from "ping";
-import process from "process";
 import { ENIP } from "enip-ts";
 import { MessageRouter } from "enip-ts/dist/enip/cip/messageRouter";
 import type { Encapsulation } from "enip-ts/dist/enip/encapsulation";
@@ -37,7 +36,7 @@ export class EX260Sx implements IIOPhysicalController, IEX260Controller
     
     async connect(): Promise<boolean>
     {
-        if(this.unreachable || process.env.NODE_ENV !== 'production')
+        if(this.unreachable)
             return false;
         
         const available = await new Promise((resolve) => {
@@ -93,7 +92,7 @@ export class EX260Sx implements IIOPhysicalController, IEX260Controller
     //Shall only be used for local applications
     async readData2(address: number): Promise<Buffer>
     {
-        if(this.unreachable || process.env.NODE_ENV !== 'production')
+        if(this.unreachable)
             return Buffer.alloc(0);
 
         if(!this.connected || this.controller === undefined)
@@ -129,7 +128,7 @@ export class EX260Sx implements IIOPhysicalController, IEX260Controller
 
     async writeData(address: number, value: number): Promise<void>
     {
-        if(this.unreachable || process.env.NODE_ENV !== 'production')
+        if(this.unreachable)
             return;
 
         if(!this.connected)

@@ -1,5 +1,57 @@
 # @metalizzsas/nuster-turbine
 
+## 1.8.18
+
+### Patch Changes
+
+- fix: changed udev assignment mode ([#178](https://github.com/metalizzsas/NusterKit/pull/178))
+
+## 1.8.17
+
+### Patch Changes
+
+- feat: when turbine is in dev mode, tells the simulation server what configuration is used ([#176](https://github.com/metalizzsas/NusterKit/pull/176))
+
+- fix: multiple steps could sometime be missconfigurated by PBR ([#176](https://github.com/metalizzsas/NusterKit/pull/176))
+
+- fix: Count maintenance had no rounding mechanism ([#176](https://github.com/metalizzsas/NusterKit/pull/176))
+
+- Updated dependencies [[`8f66222`](https://github.com/metalizzsas/NusterKit/commit/8f662220c450d5bf9327ef070ae40610c83d88f6), [`90ca7e9`](https://github.com/metalizzsas/NusterKit/commit/90ca7e922f8599ab1452060a29d1d44b747f750a)]:
+  - @metalizzsas/nuster-typings@1.3.4
+  - @metalizzsas/nuster-turbine-machines@1.2.15
+
+## 1.8.16
+
+### Patch Changes
+
+- Updated dependencies [[`fbd5534`](https://github.com/metalizzsas/NusterKit/commit/fbd553450d07fbc473ed7c40ee527dd8c63adbd9), [`fbd5534`](https://github.com/metalizzsas/NusterKit/commit/fbd553450d07fbc473ed7c40ee527dd8c63adbd9)]:
+  - @metalizzsas/nuster-turbine-machines@1.2.14
+
+## 1.8.15
+
+### Patch Changes
+
+- fix: Core was not able to reach Serial ([#172](https://github.com/metalizzsas/NusterKit/pull/172))
+
+- Updated dependencies [[`b51f0f6`](https://github.com/metalizzsas/NusterKit/commit/b51f0f66e1756916a803767bb56cc88fc6422c95)]:
+  - @metalizzsas/nuster-turbine-machines@1.2.13
+
+## 1.8.14
+
+### Patch Changes
+
+- feat: added new smoothit R3 ([#168](https://github.com/metalizzsas/NusterKit/pull/168))
+
+- dev: removed environment check for EthernetIP Controllers ([#169](https://github.com/metalizzsas/NusterKit/pull/169))
+
+- feat: created UART IOController ([#168](https://github.com/metalizzsas/NusterKit/pull/168))
+
+- fix: io gates woudl not export their types ([#168](https://github.com/metalizzsas/NusterKit/pull/168))
+
+- Updated dependencies [[`4a8a07e`](https://github.com/metalizzsas/NusterKit/commit/4a8a07e9a9e79d4e28ea2441c477c6d24faa6d94), [`079e010`](https://github.com/metalizzsas/NusterKit/commit/079e01037269ae53b7a57b46c6bce35e07194cdf), [`03e0757`](https://github.com/metalizzsas/NusterKit/commit/03e075770e79f553b9a66f00ea37ba34effaa003)]:
+  - @metalizzsas/nuster-turbine-machines@1.2.12
+  - @metalizzsas/nuster-typings@1.3.3
+
 ## 1.8.13
 
 ### Patch Changes

@@ -302,7 +302,8 @@
     "unity": {
       "cycle": "Cycles",
       "hours": "Heures",
-      "time": "Durée"
+      "time": "Durée",
+      "duration": "Heures"
     },
     "tools": {
       "allen-wrench-2_5": "Clé allen 2.5mm",

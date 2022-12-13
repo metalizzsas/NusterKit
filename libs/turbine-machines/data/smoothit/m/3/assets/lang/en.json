@@ -3,17 +3,12 @@
         "types": {
             "eff": "Effluents",
             "resin": "Coat"
-        },
-        "colors": {
-            "resin": "from-amber-700 to-amber-800",
-            "eff": "from-zinc-700 to-zinc-800"
         }
     },
     "profile": {
         "categories": {
             "vapors-extraction": "Vapors extraction",
             "pulverization": "Pulverization",
-            "ir-curing": "IR curing",
             "uv-curing": "UV curing",
             "inerting": "Inerting",
             "multilayer": "Multilayer",
@@ -23,7 +18,9 @@
             "interlayer-uvduration": "UV Curing time between layers",
             "uv-power": "UV Power",
             "reverseEnabled": "Motor direction reverse",
-            "reverseTime": "Motor reverser timer"
+            "reverseTime": "Motor reverser timer",
+            "high-enabled": "High nozzle enabled",
+            "low-enabled": "Low nozzle enabled"
         }
     },
     "cycle": {
@@ -31,14 +28,12 @@
             "default": "Base smoothit cycle"
         },
         "types": {
-            "fdm": "FDM 3D Print",
-            "sla": "SLA / DLP 3D Print",
-            "sls": "SLS / MJF 3D Print"
+            "sla": "SLA / DLP 3D Print"
         },
         "endreasons": {
             "uv-cache-wrong": "UV Cache error",
-            "ir-cache-wrong": "IR Cache error",
-            "nozzle-cache-wrong": "Nozzle Cache error",
+            "nozzle-low-cache-wrong": "Nozzle Low Cache error",
+            "nozzle-high-cache-wrong": "Nozzle High Cache error",
             "security-emergency-stop": "Emergency stop button pressed",
             "security-nitrogen-sensor": "Nitrogen pressure too low",
             "security-cover-closed": "Cover open",
@@ -57,10 +52,6 @@
                 "name": "Pulverization",
                 "desc": "Applying varnish on your parts."
             },
-            "ir-curing": {
-                "name": "IR curing",
-                "desc": "Heating the varnish to smooth them."
-            },
             "inerting": {
                 "name": "Inerting",
                 "desc": "Filling the machine with nitrogen to ehance UV Curing."
@@ -76,12 +67,11 @@
         }
     },
     "gates": {
-        "name": "IO Controls",
         "categories": {
             "motor": "Rotation Motor",
-            "ir": "Infrared",
             "uv": "Ultraviolet",
-            "nozzle": "Nozzle",
+            "nozzle-high": "Nozzle high",
+            "nozzle-low": "Nozzle low",
             "resin": "Varnish"
         },
         "names": {
@@ -92,18 +82,13 @@
             "eff-container-sensor": "Effluents container sensor",
             
             "ventilation": "Vapors extraction",
+            "ventilation-valve": "3 Way ventilation valve",
             "air-heater": "Air heater",
             "inerting": "Inerting",
 
             "levels#eff-n": "Effluents limit",
             "resin#slot-sensor": "Varnish container sensor",
             "resin#pressure": "Varnish container pressure",
-            
-            "ir#sensor-open": "IR cache open",
-            "ir#sensor-closed": "IR cache closed",
-            "ir#enable": "IR lamp",
-            "ir#ventil": "IR lamp ventilation",
-            "ir#cache": "IR lamp cache",
             
             "uv#sensor-open": "UV cache open",
             "uv#sensor-closed": "UV cache closed",
@@ -116,16 +101,21 @@
             "motor#direction": "Motor direction",
             "motor#speed": "Motor speed",
             
-            "nozzle#sensor-open": "Nozzle cache open",
-            "nozzle#sensor-closed": "Nozzle cache closed",
-            "nozzle#pulverization": "Nozzle pulverization",
-            "nozzle#cache": "Nozzle cache"
+            "nozzle-high#sensor-open": "Nozzle high cache open",
+            "nozzle-high#sensor-closed": "Nozzle high cache closed",
+            "nozzle-high#pulverization": "Nozzle high pulverization",
+            "nozzle-high#cache": "Nozzle high cache",
+
+            "nozzle-low#sensor-open": "Nozzle low cache open",
+            "nozzle-low#sensor-closed": "Nozzle low cache closed",
+            "nozzle-low#pulverization": "Nozzle low pulverization",
+            "nozzle-low#cache": "Nozzle low cache"
         }
     },
     "manual": {
         "categories": {            
-            "nozzle": "Pulverization",
-            "ir": "Infrared",
+            "nozzle-high": "Pulverization high",
+            "nozzle-low": "Pulverization low",
             "uv": "Ultraviolet"
         },
         "tasks": {
@@ -137,35 +127,21 @@
             "uv#cache": "UV lamp cache",
             "uv#curing": "UV curing",
             
-            "ir#cache": "IR lamp cache",
-            "ir#curing": "IR curing",
-            
-            "nozzle#cache": "Nozzle cache",
-            "nozzle#pulverization": "Nozzle pulverization"
+            "nozzle-high#cache": "Nozzle high cache",
+            "nozzle-low#cache": "Nozzle low cache",
+            "nozzle-high#pulverization": "Nozzle high pulverization",
+            "nozzle-low#pulverization": "Nozzle low pulverization"
         }
     },
     "maintenance": {
         "tasks": {
             "smt-filter": {
                 "name": "Filter",
-                "desc": "Smoothit filter filters all coating solvants produced by the coating done inside the machine.",
-                "procedure": {
-                    "unscrew-smt-filter": "Unscrew the filter from the machine",
-                    "replace-smt-new-filter": "Replace the old filter with a new filter"
-                }
+                "desc": "Smoothit filter filters all coating solvants produced by the coating done inside the machine."
             },
             "inner-cleaning": {
                 "name": "Inner",
                 "desc": "The inner layer masks the machine to avoid vanish accumulation on the cuve."
-            },
-            "ir-lamp": {
-                "name": "IR Lamp",
-                "desc": "IR Lamp is used to ehance varnish coating smoothing effect.",
-                "procedure": {
-                    "unscrew-top": "Unscrew the 4 M4 screw that holds the IR lamp cache in place.",
-                    "replace-ir-lamp": "While holding the lamp, shift the lamp toward the ground to unlock the lamp from its socket. Replace the lamp using the same technique.",
-                    "screw-top": "Place the cache on its initial place and re-screw the 4 M4 screws"
-                }
             },
             "uv-lamp": {
                 "name": "UV Lamp",

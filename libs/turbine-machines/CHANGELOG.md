@@ -1,5 +1,33 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.2.15
+
+### Patch Changes
+
+- feat: smoothit mr 2, removed ir-curing ([#176](https://github.com/metalizzsas/NusterKit/pull/176))
+
+## 1.2.14
+
+### Patch Changes
+
+- fix: uv overheat start condition had wrong value ([#174](https://github.com/metalizzsas/NusterKit/pull/174))
+
+- fix: nozzle-low had overlapping address with uv-cache ([#174](https://github.com/metalizzsas/NusterKit/pull/174))
+
+## 1.2.13
+
+### Patch Changes
+
+- fix: Smoothit m r3 had wrong gates ([#172](https://github.com/metalizzsas/NusterKit/pull/172))
+
+## 1.2.12
+
+### Patch Changes
+
+- fix: Disabled motor rotation on cycle startup ([#171](https://github.com/metalizzsas/NusterKit/pull/171))
+
+- feat: added new smoothit R3 ([#168](https://github.com/metalizzsas/NusterKit/pull/168))
+
 ## 1.2.11
 
 ### Patch Changes

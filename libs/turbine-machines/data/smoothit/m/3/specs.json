@@ -9,6 +9,12 @@
          "type": "ex260sx",
          "size": 16,
          "ip": "192.168.1.3"
+      },
+      {
+         "type": "serial",
+         "port": "/dev/ttyACM0",
+         "baudRate": 9600,
+         "ip": ""
       }
    ],
    "iogates": [
@@ -49,7 +55,7 @@
          "default": 0
       },
       {
-         "name": "nozzle#sensor-open",
+         "name": "nozzle-high#sensor-open",
          "type": "default",
          "size": "bit",
          "bus": "in",
@@ -59,12 +65,32 @@
          "levelMax": 0
       },
       {
-         "name": "nozzle#sensor-closed",
+         "name": "nozzle-high#sensor-closed",
          "type": "default",
          "size": "bit",
          "bus": "in",
          "controllerId": 0,
          "address": 5,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "nozzle-low#sensor-open",
+         "type": "default",
+         "size": "bit",
+         "bus": "in",
+         "controllerId": 0,
+         "address": 6,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "nozzle-low#sensor-closed",
+         "type": "default",
+         "size": "bit",
+         "bus": "in",
+         "controllerId": 0,
+         "address": 7,
          "default": 0,
          "levelMax": 0
       },
@@ -118,7 +144,7 @@
          "levelMax": 0
       },
       {
-         "name": "uv#ventil",
+         "name": "ventilation",
          "type": "default",
          "size": "bit",
          "bus": "out",
@@ -128,22 +154,12 @@
          "levelMax": 0
       },
       {
-         "name": "ventilation",
-         "type": "default",
-         "size": "bit",
-         "bus": "out",
-         "controllerId": 0,
-         "address": 5,
-         "default": 0,
-         "levelMax": 0
-      },
-      {
          "name": "air-heater",
          "type": "default",
          "size": "bit",
          "bus": "out",
          "controllerId": 0,
-         "address": 6,
+         "address": 3,
          "default": 0,
          "levelMax": 0
       },
@@ -174,8 +190,9 @@
          "mapOutMin": 0,
          "mapOutMax": 100
       },
+
       {
-         "name": "nozzle#pulverization",
+         "name": "nozzle-high#cache",
          "type": "default",
          "size": "bit",
          "bus": "out",
@@ -185,17 +202,7 @@
          "levelMax": 0
       },
       {
-         "name": "resin#pressure",
-         "type": "default",
-         "size": "bit",
-         "bus": "out",
-         "controllerId": 1,
-         "address": 14,
-         "default": 0,
-         "levelMax": 0
-      },
-      {
-         "name": "inerting",
+         "name": "nozzle-low#cache",
          "type": "default",
          "size": "bit",
          "bus": "out",
@@ -205,7 +212,7 @@
          "levelMax": 0
       },
       {
-         "name": "nozzle#cache",
+         "name": "uv#cache",
          "type": "default",
          "size": "bit",
          "bus": "out",
@@ -214,8 +221,39 @@
          "default": 0,
          "levelMax": 0
       },
+
       {
-         "name": "uv#cache",
+         "name": "nozzle-high#pulverization",
+         "type": "default",
+         "size": "bit",
+         "bus": "out",
+         "controllerId": 1,
+         "address": 7,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "nozzle-low#pulverization",
+         "type": "default",
+         "size": "bit",
+         "bus": "out",
+         "controllerId": 1,
+         "address": 6,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "resin#pressure",
+         "type": "default",
+         "size": "bit",
+         "bus": "out",
+         "controllerId": 1,
+         "address": 8,
+         "default": 0,
+         "levelMax": 0
+      },
+      {
+         "name": "inerting",
          "type": "default",
          "size": "bit",
          "bus": "out",
@@ -223,6 +261,20 @@
          "address": 9,
          "default": 0,
          "levelMax": 0
+      },
+
+      {
+         "name": "ventilation-valve",
+         "type": "mapped",
+         "size": "word",
+         "bus": "out",
+         "controllerId": 2,
+         "address": 0,
+         "default": 90,
+         "mapInMax": 180,
+         "mapInMin": 0,
+         "mapOutMax": 180,
+         "mapOutMin": 0
       }
    ],
    "slots": [
@@ -270,6 +322,17 @@
                "value": 4
             },
             {
+               "name": "pulverization#high-enabled",
+               "type": "bool",
+               "value": 1
+            },
+            {
+               "name": "pulverization#low-enabled",
+               "type": "bool",
+               "value": 1
+            },
+
+            {
                "name": "inerting#enabled",
                "type": "bool",
                "value": 1
@@ -280,6 +343,7 @@
                "units": ["minutes", "seconds"],
                "value": 10
             },
+
             {
                "name": "uv-curing#enabled",
                "type": "bool",
@@ -300,6 +364,7 @@
                "floatMax": 100,
                "floatStep": 5
             },
+
             {
                "name": "vapors-extraction#enabled",
                "type": "bool",
@@ -311,6 +376,7 @@
                "units": ["minutes", "seconds"],
                "value": 45
             },
+
             {
                "name": "multilayer#enabled",
                "type": "bool",
@@ -327,6 +393,7 @@
                "units": ["minutes", "seconds"],
                "value": 15
             },
+
             {
                "name": "motor#enabled",
                "type": "bool",
@@ -365,23 +432,30 @@
          "isRemovable": false,
          "values": {
             "pulverization#enabled": 1,
-            "pulverization#timeOn": 2.3,
+            "pulverization#timeOn": 0.5,
             "pulverization#timeOff": 10,
             "pulverization#count": 3,
+            "pulverization#high-enabled": 1,
+            "pulverization#low-enabled": 1,
+
             "inerting#enabled": 1,
             "inerting#duration": 15,
+
             "uv-curing#enabled": 1,
             "uv-curing#duration": 180,
-            "uv-curing.uv-power": 100,
+            "uv-curing#uv-power": 100,
+
             "vapors-extraction#enabled": 1,
             "vapors-extraction#duration": 45,
+
             "multilayer#enabled": 1,
             "multilayer#count": 2,
             "multilayer#interlayer-uvduration": 15,
+
             "motor#enabled": 1,
             "motor#speed": 80,
             "motor#reverseEnabled": 1,
-            "motor#reverseTime": 10
+            "motor#reverseTime": 1
          }
       }
    ],
@@ -389,26 +463,7 @@
       {
          "name": "smt-filter",
          "durationType": "cycle",
-         "durationLimit": 75,
-         "procedure": {
-            "tools": [],
-            "steps": [
-               {
-                  "name": "unscrew-smt-filter",
-                  "media": [
-                     "0.jpg"
-                  ]
-               },
-               {
-                  "name": "replace-smt-new-filter",
-                  "media": [
-                     "1.jpg",
-                     "2.jpg",
-                     "1.jpg"
-                  ]
-               }
-            ]
-         }
+         "durationLimit": 75
       },
       {
          "name": "inner-cleaning",
@@ -460,9 +515,9 @@
          ]
       },
       {
-         "name": "nozzle#cache",
+         "name": "nozzle-high#cache",
          "controls": [
-            "nozzle#cache"
+            "nozzle-high#cache"
          ],
          "watchdog": [
             {
@@ -472,16 +527,53 @@
          ]
       },
       {
-         "name": "nozzle#pulverization",
+         "name": "nozzle-low#cache",
+         "controls": [
+            "nozzle-low#cache"
+         ],
+         "watchdog": [
+            {
+               "gateName": "cover-closed",
+               "gateValue": 1
+            }
+         ]
+      },
+      {
+         "name": "nozzle-high#pulverization",
          "incompatibility": [
-            "nozzle#cache"
+            "nozzle-high#cache"
          ],
          "requires": [
-            "uv#cache"
+            "uv#cache",
+            "nozzle-low#cache"
          ],
          "controls": [
             "resin#pressure",
-            "nozzle#pulverization"
+            "nozzle-high#pulverization"
+         ],
+         "watchdog": [
+            {
+               "gateName": "resin#slot-sensor",
+               "gateValue": 1
+            },
+            {
+               "gateName": "cover-closed",
+               "gateValue": 1
+            }
+         ]
+      },
+      {
+         "name": "nozzle-low#pulverization",
+         "incompatibility": [
+            "nozzle-low#cache"
+         ],
+         "requires": [
+            "uv#cache",
+            "nozzle-high#cache"
+         ],
+         "controls": [
+            "resin#pressure",
+            "nozzle-low#pulverization"
          ],
          "watchdog": [
             {
@@ -506,11 +598,11 @@
             "uv#cache"
          ],
          "requires": [
-            "nozzle#cache"
+            "nozzle-low#cache",
+            "nozzle-high#cache"
          ],
          "controls": [
             "uv#enable",
-            "uv#ventil",
             {
                "name": "uv#power",
                "analogScaleDependant": true
@@ -611,7 +703,7 @@
                },
                "duration": {
                   "name": "const",
-                  "value": 30
+                  "value": 90
                },
                "blocks": [
                   {
@@ -619,7 +711,7 @@
                      "params": [
                         {
                            "name": "const",
-                           "value": 30
+                           "value": 90
                         }
                      ]
                   }
@@ -751,7 +843,7 @@
                      "params": [
                         {
                            "name": "io",
-                           "value": "nozzle#sensor-open"
+                           "value": "nozzle-high#sensor-open"
                         },
                         {
                            "name": "conststr",
@@ -769,7 +861,36 @@
                            "params": [
                               {
                                  "name": "conststr",
-                                 "value": "nozzle#cache-wrong"
+                                 "value": "nozzle-high#cache-wrong"
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "name": "if",
+                     "params": [
+                        {
+                           "name": "io",
+                           "value": "nozzle-low#sensor-open"
+                        },
+                        {
+                           "name": "conststr",
+                           "value": "!="
+                        },
+                        {
+                           "name": "const",
+                           "value": 1
+                        }
+                     ],
+                     "falseBlocks": [],
+                     "trueBlocks": [
+                        {
+                           "name": "stop",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "nozzle-low#cache-wrong"
                               }
                            ]
                         }
@@ -805,6 +926,19 @@
                      ]
                   },
                   {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "resin#pressure"
+                        },
+                        {
+                           "name": "const",
+                           "value": 1
+                        }
+                     ]
+                  },
+                  {
                      "name": "for",
                      "params": [
                         {
@@ -814,67 +948,251 @@
                      ],
                      "blocks": [
                         {
-                           "name": "io",
+                           "name": "if",
                            "params": [
                               {
+                                 "name": "profile",
+                                 "value": "pulverization#high-enabled"
+                              },
+                              {
                                  "name": "conststr",
-                                 "value": "nozzle#pulverization"
+                                 "value": "=="
                               },
                               {
                                  "name": "const",
                                  "value": 1
                               }
-                           ]
-                        },
-                        {
-                           "name": "sleep",
-                           "params": [
+                           ],
+                           "falseBlocks": [],
+                           "trueBlocks": [
                               {
-                                 "name": "profile",
-                                 "value": "pulverization#timeOn"
+                                 "name": "io",
+                                 "params": [
+                                    {
+                                       "name": "conststr",
+                                       "value": "ventilation-valve"
+                                    },
+                                    {
+                                       "name": "const",
+                                       "value": 45
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "sleep",
+                                 "params": [{"name": "const", "value": 1}]
+                              },
+                              {
+                                 "name": "io",
+                                 "params": [
+                                    {
+                                       "name": "conststr",
+                                       "value": "nozzle-high#pulverization"
+                                    },
+                                    {
+                                       "name": "const",
+                                       "value": 1
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "sleep",
+                                 "params": [
+                                    {
+                                       "name": "profile",
+                                       "value": "pulverization#timeOn"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "io",
+                                 "params": [
+                                    {
+                                       "name": "conststr",
+                                       "value": "nozzle-low#pulverization"
+                                    },
+                                    {
+                                       "name": "const",
+                                       "value": 0
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "io",
+                                 "params": [
+                                    {
+                                       "name": "conststr",
+                                       "value": "motor#direction"
+                                    },
+                                    {
+                                       "name": "reverse",
+                                       "value": "",
+                                       "params": [
+                                          {
+                                             "name": "io",
+                                             "value": "motor#direction"
+                                          }
+                                       ]
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "sleep",
+                                 "params": [
+                                    {
+                                       "name": "profile",
+                                       "value": "pulverization#timeOff"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "io",
+                                 "params": [
+                                    {
+                                       "name": "conststr",
+                                       "value": "ventilation-valve"
+                                    },
+                                    {
+                                       "name": "const",
+                                       "value": 90
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "sleep",
+                                 "params": [{"name": "const", "value": 1}]
                               }
                            ]
                         },
                         {
-                           "name": "io",
+                           "name": "if",
                            "params": [
                               {
+                                 "name": "profile",
+                                 "value": "pulverization#low-enabled"
+                              },
+                              {
                                  "name": "conststr",
-                                 "value": "nozzle#pulverization"
+                                 "value": "=="
                               },
                               {
                                  "name": "const",
-                                 "value": 0
+                                 "value": 1
                               }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
+                           ],
+                           "falseBlocks": [],
+                           "trueBlocks": [
                               {
-                                 "name": "conststr",
-                                 "value": "motor#direction"
-                              },
-                              {
-                                 "name": "reverse",
-                                 "value": "",
+                                 "name": "io",
                                  "params": [
                                     {
-                                       "name": "io",
-                                       "value": "motor#direction"
+                                       "name": "conststr",
+                                       "value": "ventilation-valve"
+                                    },
+                                    {
+                                       "name": "const",
+                                       "value": 135
                                     }
                                  ]
+                              },
+                              {
+                                 "name": "sleep",
+                                 "params": [{"name": "const", "value": 1}]
+                              },
+                              {
+                                 "name": "io",
+                                 "params": [
+                                    {
+                                       "name": "conststr",
+                                       "value": "nozzle-low#pulverization"
+                                    },
+                                    {
+                                       "name": "const",
+                                       "value": 1
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "sleep",
+                                 "params": [
+                                    {
+                                       "name": "profile",
+                                       "value": "pulverization#timeOn"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "io",
+                                 "params": [
+                                    {
+                                       "name": "conststr",
+                                       "value": "nozzle-low#pulverization"
+                                    },
+                                    {
+                                       "name": "const",
+                                       "value": 0
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "io",
+                                 "params": [
+                                    {
+                                       "name": "conststr",
+                                       "value": "motor#direction"
+                                    },
+                                    {
+                                       "name": "reverse",
+                                       "value": "",
+                                       "params": [
+                                          {
+                                             "name": "io",
+                                             "value": "motor#direction"
+                                          }
+                                       ]
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "sleep",
+                                 "params": [
+                                    {
+                                       "name": "profile",
+                                       "value": "pulverization#timeOff"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "io",
+                                 "params": [
+                                    {
+                                       "name": "conststr",
+                                       "value": "ventilation-valve"
+                                    },
+                                    {
+                                       "name": "const",
+                                       "value": 90
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "sleep",
+                                 "params": [{"name": "const", "value": 1}]
                               }
                            ]
+                        }
+                     ]
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "resin#pressure"
                         },
                         {
-                           "name": "sleep",
-                           "params": [
-                              {
-                                 "name": "profile",
-                                 "value": "pulverization#timeOff"
-                              }
-                           ]
+                           "name": "const",
+                           "value": 0
                         }
                      ]
                   }
@@ -894,7 +1212,20 @@
                      "params": [
                         {
                            "name": "conststr",
-                           "value": "nozzle#cache"
+                           "value": "nozzle-high#cache"
+                        },
+                        {
+                           "name": "const",
+                           "value": 0
+                        }
+                     ]
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "nozzle-low#cache"
                         },
                         {
                            "name": "const",
@@ -914,19 +1245,6 @@
                            "value": 1
                         }
                      ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "resin#pressure"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
                   }
                ],
                "endBlocks": [
@@ -935,7 +1253,7 @@
                      "params": [
                         {
                            "name": "conststr",
-                           "value": "nozzle#cache"
+                           "value": "nozzle-high#cache"
                         },
                         {
                            "name": "const",
@@ -948,11 +1266,11 @@
                      "params": [
                         {
                            "name": "conststr",
-                           "value": "resin#pressure"
+                           "value": "nozzle-low#cache"
                         },
                         {
                            "name": "const",
-                           "value": 0
+                           "value": 1
                         }
                      ]
                   },
@@ -1307,7 +1625,7 @@
                      "params": [
                         {
                            "name": "io",
-                           "value": "nozzle#sensor-closed"
+                           "value": "nozzle-high#sensor-closed"
                         },
                         {
                            "name": "conststr",
@@ -1325,7 +1643,36 @@
                            "params": [
                               {
                                  "name": "conststr",
-                                 "value": "nozzle#cache-wrong"
+                                 "value": "nozzle-high#cache-wrong"
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "name": "if",
+                     "params": [
+                        {
+                           "name": "io",
+                           "value": "nozzle-low#sensor-closed"
+                        },
+                        {
+                           "name": "conststr",
+                           "value": "!="
+                        },
+                        {
+                           "name": "const",
+                           "value": 1
+                        }
+                     ],
+                     "falseBlocks": [],
+                     "trueBlocks": [
+                        {
+                           "name": "stop",
+                           "params": [
+                              {
+                                 "name": "conststr",
+                                 "value": "nozzle-low#cache-wrong"
                               }
                            ]
                         }
@@ -1458,19 +1805,6 @@
                      "params": [
                         {
                            "name": "conststr",
-                           "value": "uv#ventil"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
                            "value": "ventilation"
                         },
                         {
@@ -1574,19 +1908,6 @@
                            "value": 1
                         }
                      ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "uv#ventil"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
                   }
                ]
             },
@@ -1684,7 +2005,20 @@
                      "params": [
                         {
                            "name": "conststr",
-                           "value": "nozzle#cache"
+                           "value": "nozzle-high#cache"
+                        },
+                        {
+                           "name": "const",
+                           "value": 0
+                        }
+                     ]
+                  },
+                  {
+                     "name": "io",
+                     "params": [
+                        {
+                           "name": "conststr",
+                           "value": "nozzle-low#cache"
                         },
                         {
                            "name": "const",
@@ -1698,19 +2032,6 @@
                         {
                            "name": "conststr",
                            "value": "uv#cache"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "uv#ventil"
                         },
                         {
                            "name": "const",

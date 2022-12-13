@@ -1,5 +1,18 @@
 # @metalizzsas/nuster-desktop
 
+## 1.8.10
+
+### Patch Changes
+
+- chore: updated dependencies ([#176](https://github.com/metalizzsas/NusterKit/pull/176))
+
+## 1.8.9
+
+### Patch Changes
+
+- fix: profiles would not have a background ([#168](https://github.com/metalizzsas/NusterKit/pull/168))
+  fix: profiles would not display rows with "enabled" in their name
+
 ## 1.8.8
 
 ### Patch Changes

@@ -319,7 +319,8 @@
     "unity": {
       "cycle": "Cycles",
       "hours": "Hours",
-      "time": "Duration"
+      "time": "Duration",
+      "duration": "Hours"
     },
     "tools": {
       "allen-wrench-2_5": "2.5mm Allen wrench",

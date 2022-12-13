@@ -15,10 +15,12 @@
             "motor": "Moteur de rotation"
         },
         "rows": {
-            "interlayer-uvduration": "Durée cuisson UV entre les couche",
+            "interlayer-uvduration": "UV Curing time between layers",
             "uv-power": "Puissance UV",
             "reverseEnabled": "Invertion moteur",
-            "reverseTime": "Delai inversion sens moteur"
+            "reverseTime": "Motor reverser timer",
+            "high-enabled": "Buse haut activée",
+            "low-enabled": "Buse bas activée"
         }
     },
     "cycle": {
@@ -30,7 +32,8 @@
         },
         "endreasons": {
             "uv-cache-wrong": "Erreur position cache UV",
-            "nozzle-cache-wrong": "Erreur position cache buse",
+            "nozzle-low-cache-wrong": "Erreur position cache buse bas",
+            "nozzle-high-cache-wrong": "Erreur position cache buse haut",
             "security-emergency-stop": "Boutton d'arret d'urgence déclenché",
             "security-nitrogen-sensor": "Pression d'azote trop basse",
             "security-cover-closed": "Couvercle ouvert",
@@ -67,7 +70,8 @@
         "categories": {
             "motor": "Moteur de rotation",
             "uv": "Ultraviolet",
-            "nozzle": "Buse",
+            "nozzle-high": "Buse haut",
+            "nozzle-low": "Buse bas",
             "resin": "Vernis"
         },
         "names": {
@@ -76,64 +80,68 @@
             "cover-closed": "Couvercle fermé",
             
             "ventilation": "Extraction des vapeurs",
+            "ventilation-valve": "Vanne 3 voies ventilation",
             "air-heater": "Rechauffeur d'air",
             "inerting": "Inertage",
+
+            "resin#slot-sensor": "Présence du pot de vernis",
+            "resin#pressure": "Pression pot de vernis",
             
-            "resin#slot-sensor": "Resin container sensor",
-            "resin#pressure": "Resin container pressure",
-            
-            "uv#sensor-open": "Cache UV Ouvert",
-            "uv#sensor-closed": "Cache UV Fermé",
-            "uv#overheat": "Surchauffe lampe UV",
+            "uv#sensor-open": "Cache UV over",
+            "uv#sensor-closed": "Cache UV fermé",
+            "uv#overheat": "Défaut température lampe UV",
             "uv#enable": "Lampe UV",
-            "uv#ventil": "Ventilation lampe UV",
             "uv#power": "Puissance lampe UV",
             "uv#cache": "Cache lampe UV",
             
             "motor#direction": "Sens moteur",
             "motor#speed": "Vitesse moteur",
             
-            "nozzle#sensor-open": "Cache buse ouver",
-            "nozzle#sensor-closed": "Cache buse fermé",
-            "nozzle#pulverization": "Pulvérization",
-            "nozzle#cache": "Cache buse"
+            "nozzle-high#sensor-open": "Cache ouvert buse haut",
+            "nozzle-high#sensor-closed": "Cache fermé buse haut",
+            "nozzle-high#pulverization": "Pulvérisation buse haut",
+            "nozzle-high#cache": "Cache buse haut",
+
+            "nozzle-low#sensor-open": "Cache ouvert buse bas",
+            "nozzle-low#sensor-closed": "Cache fermé buse bas",
+            "nozzle-low#pulverization": "Pulvérisation buse bas",
+            "nozzle-low#cache": "Cache buse bas"
         }
     },
     "manual": {
         "categories": {
-            "nozzle": "Pulvérisation",
-            "ir": "Infrarouge",
+            "nozzle-high": "Pulvérisation haut",
+            "nozzle-low": "Pulvérisation bas",
             "uv": "Ultraviolet"
         },
         "tasks": {
             "motor-rotation": "Rotation des pièces",
             "ventilation": "Extraction des vapeurs",
-            "air_heater": "Réchauffeur d'air",
+            "air-heater": "Réchauffeur d'air",
             "inerting": "Inertage",
             
             "uv#cache": "Cache lampe UV",
-            "ir#cache": "Cache lampe IR",
-
             "uv#curing": "Cuisson UV",
 
-            "nozzle#cache": "Cache buse",
-            "nozzle#pulverization": "Pulvérization"
+            "nozzle-high#cache": "Cache buse haut",
+            "nozzle-low#cache": "Cache buse bas",
+            "nozzle-high#pulverization": "Pulvérization haut",
+            "nozzle-low#pulverization": "Pulvérization bas"
         }
     },
     "maintenance": {
         "tasks": {
             "smt-filter": {
                 "name": "Filtre solvants",
-                "desc": "Filtre de Smoothit permet de filtrer les solvants, particules et gazs produits par le programme.",
-                "procedure": {
-                    "unscrew-smt-filter": "Dévisser le filtre.",
-                    "replace-smt-filter": "Remplacer le filtre.",
-                    "replace-smt-new-filter": "Visser le nouveau filtre."
-                }
+                "desc": "Filtre de Smoothit permet de filtrer les solvants, particules et gazs produits par le programme."
             },
             "inner-cleaning": {
-                "name": "Masques interne",
-                "desc": "Les masque interne evite l'accumulation de vernis dans la cuve."
+                "name": "Masque interne",
+                "desc": "Le masque interne evite l'accumulation de vernis dans la cuve."
+            },
+            "ir-lamp": {
+                "name": "Lampe IR",
+                "desc": "La lampe IR permet de lisser le vernis présent sur vos pièces."
             },
             "uv-lamp": {
                 "name": "Lampe UV",

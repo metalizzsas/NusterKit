@@ -10,7 +10,7 @@
     export let profile: IProfileHydrated;
     export let category: string;
 
-    $: fields = profile.values.filter(v => v.name.includes(category + "#") && !v.name.includes("enabled"));
+    $: fields = profile.values.filter(v => v.name.includes(category + "#") && !v.name.includes("#enabled"));
     $: enabledCategoryField = profile.values.find(v => v.name == category + "#enabled");
 
 </script>

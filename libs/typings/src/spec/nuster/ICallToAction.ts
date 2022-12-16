@@ -1,5 +1,5 @@
 /** Call to action inteface */
-export interface ICallToAction
+export declare interface ICallToAction
 {
     /** Name of this CTA */
     name: string;
@@ -9,6 +9,8 @@ export interface ICallToAction
         url: string;
         /** HTTP Request Method */
         method: "get" | "put" | "post" | "delete";
+        /**  */
+        body?: unknown;
     },
     /** UIEndpoint reached by the CTA (NusterDesktop Endpoints)*/
     UIEndpoint?: string;

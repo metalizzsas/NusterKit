@@ -1,20 +1,26 @@
-import { EProgramStepState, EProgramStepType, IProgramStepRunner } from "../../spec/cycle/IProgramStep";
-import { INumericParameterBlockHydrated } from "./blocks/IParameterBlockHydrated";
-import { IProgramBlockHydrated } from "./blocks/IProgramBlockHydrated";
+import { EProgramStepState, EProgramStepType, IProgramStep } from "../../spec/cycle/IProgramStep";
+import { Modify } from "../../utils/Modify";
+import { NumericParameterBlockHydrated } from "./blocks/ParameterBlockHydrated";
+import { ProgramBlockHydrated } from "./blocks/ProgramBlockHydrated";
 
-export type IProgramStepHydrated = Omit<IProgramStepRunner, "duration" | "isEnabled" | "runAmout" | "startBlocks" | "blocks" | "endBlocks" | "state" | "type" | "progress"> & {
-    duration: INumericParameterBlockHydrated,
-    isEnabled: INumericParameterBlockHydrated,
+export type IProgramStepHydrated = Modify<IProgramStep, {
+    
+    startTime?: number;
+    endTime?: number;
 
-    runAmount: INumericParameterBlockHydrated,
+    runCount?: number;
+    
+    isEnabled: NumericParameterBlockHydrated,
 
-    startBlocks: IProgramBlockHydrated[],
-    blocks: IProgramBlockHydrated[],
-    endBlocks: IProgramBlockHydrated[],
+    runAmount?: NumericParameterBlockHydrated,
+
+    startBlocks: ProgramBlockHydrated[],
+    blocks: ProgramBlockHydrated[],
+    endBlocks: ProgramBlockHydrated[],
 
     state: EProgramStepState;
     type: EProgramStepType;
 
     progress: number
 
-}
+}>;

@@ -1,52 +1,44 @@
-import type { IProgramBlock, ProgramBlockNames } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlock";
-import type { IForLoopProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IForLoopProgramBlock";
-import type { IGroupProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IGroupProgramBlock";
-import type { IIfProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IIfProgramBlock";
-import type { IIOProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IIOProgramBlock";
-import type { IMaintenanceProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IMaintenanceProgramBlock";
-import type { IRegulationProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IRegulationProgramBlock";
-import type { ISleepProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/ISleepProgramBlock";
-import type { ISlotLoadProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/ISlotLoadProgramBlock";
-import type { ISlotUnloadProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/ISlotUnloadProgramBlock";
-import type { IStartTimerProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IStartTimerProgramBlock";
-import type { IStopProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IStopProgramBlock";
-import type { IStopTimerProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IStopTimerProgramBlock";
-import type { IVariableProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IVariableProgramBlock";
-import type { IWhileLoopProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IWhileLoopProgramBlock";
-import { ForLoopProgramBlock } from "./ForLoopProgramBlock";
-import { GroupProgramBlock } from "./GroupProgramBlock";
-import { IfProgramBlock } from "./IfProgramBlock";
-import type { ProgramBlocks } from "./index";
-import { IOWriteProgramBlock } from "./IOWriteProgramBlock";
-import { MaintenanceProgramBlock } from "./MaintenanceProgramBlock";
-import { RegulationProgramBlock } from "./RegulationProgramBlock";
-import { SleepProgramBlock } from "./SleepProgramBlock";
-import { SlotLoadProgramBlock } from "./SlotLoadProgramBlock";
-import { SlotUnloadProgramBlock } from "./SlotUnloadProgramBlock";
-import { StartTimerProgramBlock } from "./StartTimerProgramBlock";
-import { StopProgramBlock } from "./StopProgramBlock";
-import { StopTimerProgramBlock } from "./StopTimerProgramBlock";
-import { VariableProgramBlock } from "./VariableProgramBlock";
-import { WhileLoopProgramBlock } from "./WhileLoopProgramBlock";
+import type { ProgramBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ProgramBlockHydrated";
+import type { AllProgramBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlocks";
 
-export function ProgramBlockRegistry(obj: IProgramBlock): ProgramBlocks {
-    switch (obj.name as ProgramBlockNames)
-    {
-        case "for": return new ForLoopProgramBlock(obj as IForLoopProgramBlock);
-        case "group": return new GroupProgramBlock(obj as IGroupProgramBlock);
-        case "if": return new IfProgramBlock(obj as IIfProgramBlock);
-        case "io": return new IOWriteProgramBlock(obj as IIOProgramBlock);
-        case "maintenance": return new MaintenanceProgramBlock(obj as IMaintenanceProgramBlock);
-        case "sleep": return new SleepProgramBlock(obj as ISleepProgramBlock);
-        case "slotLoad": return new SlotLoadProgramBlock(obj as ISlotLoadProgramBlock);
-        case "slotUnload": return new SlotUnloadProgramBlock(obj as ISlotUnloadProgramBlock);
-        case "startTimer": return new StartTimerProgramBlock(obj as IStartTimerProgramBlock);
-        case "stop": return new StopProgramBlock(obj as IStopProgramBlock);
-        case "stopTimer": return new StopTimerProgramBlock(obj as IStopTimerProgramBlock);
-        case "variable": return new VariableProgramBlock(obj as IVariableProgramBlock);
-        case "while": return new WhileLoopProgramBlock(obj as IWhileLoopProgramBlock);
-        case "regulation": return new RegulationProgramBlock(obj as IRegulationProgramBlock);
+import { CycleController } from "../../controllers/cycle/CycleController";
 
-        default: return new SleepProgramBlock({name: "sleep", params: [{name: "const", value: 1}]});
-    }
+import { ForProgramBlock } from "./flow/ForProgramBlock";
+import { IfProgramBlock } from "./flow/IfProgramBlock";
+import { SleepProgramBlock } from "./flow/SleepProgramBlock";
+import { StartTimerProgramBlock } from "./flow/StartTimerProgramBlock";
+import { StopProgramBlock } from "./flow/StopProgramBlock";
+import { StopTimerProgramBlock } from "./flow/StopTimerProgramBlock";
+import { WhileProgramBlock } from "./flow/WhileProgramBlock";
+import { SetVariableProgramBlock } from "./flow/WriteVariableProgramBlock";
+import { AppendMaintenanceProgramBlock } from "./machine/AppendMaintenanceProgramBlock";
+import { ContainerProductLoadProgramBlock } from "./machine/ContainerProductLoadProgramBlock";
+import { ContainerProductUnloadProgramBlock } from "./machine/ContainerUnloadProgramBlock";
+import { IOWriteProgramBlock } from "./machine/IOWriteProgramBlock";
+
+export function ProgramBlockRegistry(obj: AllProgramBlocks): ProgramBlockHydrated {
+
+    const pbrInstance = CycleController.getInstance().program;
+
+    // Flow control blocks
+
+    if(ForProgramBlock.isForPgB(obj)) return new ForProgramBlock(obj, pbrInstance);
+    if(IfProgramBlock.isIfPgB(obj)) return new IfProgramBlock(obj);
+    if(WhileProgramBlock.isWhilePgB(obj)) return new WhileProgramBlock(obj, pbrInstance);
+    if(SleepProgramBlock.isSleepPgB(obj)) return new SleepProgramBlock(obj, pbrInstance);
+
+    if(StartTimerProgramBlock.isStartTimerPgB(obj)) return new StartTimerProgramBlock(obj, pbrInstance);
+    if(StopTimerProgramBlock.isStopTimerPgB(obj)) return new StopTimerProgramBlock(obj, pbrInstance);
+
+    if(StopProgramBlock.isStopPgB(obj)) return new StopProgramBlock(obj, pbrInstance);
+    if(SetVariableProgramBlock.isSetVariablePgB(obj)) return new SetVariableProgramBlock(obj, pbrInstance);
+
+    // Machine blocks
+
+    if(IOWriteProgramBlock.isIOWritePgB(obj)) return new IOWriteProgramBlock(obj);
+    if(AppendMaintenanceProgramBlock.isAppendMaintenancePgB(obj)) return new AppendMaintenanceProgramBlock(obj);
+    if(ContainerProductUnloadProgramBlock.isContainerProductUnloadPgB(obj)) return new ContainerProductUnloadProgramBlock(obj);
+    if(ContainerProductLoadProgramBlock.isContainterProductLoadPgB(obj)) return new ContainerProductLoadProgramBlock(obj);
+
+    throw new Error("Program Block is not assignable");
 }

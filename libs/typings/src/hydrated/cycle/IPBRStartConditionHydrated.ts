@@ -1,5 +1,9 @@
-import { IPBRStartCondition } from "../../spec/cycle/programblocks/startchain/IPBRStartCondition";
+import { EPBRStartConditionResult, IPBRStartCondition } from "../../spec/cycle/security/IPBRStartCondition";
+import { Modify } from "../../utils/Modify";
+import { NumericParameterBlockHydrated, StatusParameterBlockHydrated } from "./blocks/ParameterBlockHydrated";
 
-export type IPBRStartConditionHydrated = IPBRStartCondition & {
-    result: "error" | "warning" | "good" | "disabled";
-}
+export type IPBRStartConditionHydrated = Modify<IPBRStartCondition, {
+    disabled?: NumericParameterBlockHydrated;
+    checkchain: () => StatusParameterBlockHydrated["data"]
+    result: EPBRStartConditionResult;
+}>;

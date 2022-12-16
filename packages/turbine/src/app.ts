@@ -105,15 +105,19 @@ function SetupExpress(configOnly = false)
     ExpressApp.use(cors());
     ExpressApp.use(cookieParser());
 
-    //logging middleware
-    ExpressApp.use(pinoHttp({
-        logger: LoggerInstance,
-        serializers: {
-            err: pino.stdSerializers.err,
-            req: pino.stdSerializers.req,
-            res: pino.stdSerializers.res
-            }
-    }));
+    if(productionEnabled)
+    {
+        //logging middleware
+        ExpressApp.use(pinoHttp({
+            logger: LoggerInstance,
+            serializers: {
+                err: pino.stdSerializers.err,
+                req: pino.stdSerializers.req,
+                res: pino.stdSerializers.res
+                }
+        }));
+    }
+
 
     ExpressApp.get("/config", (req: Request, res: Response) => {
         res.json(AvailableMachineModels);

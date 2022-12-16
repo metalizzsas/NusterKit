@@ -1,5 +1,5 @@
 import { IProfileStored } from "../profile";
-import { IProgramBlockRunnerHydrated } from "./IProgramRunnerHydrated";
+import { IProgramBlockRunnerHydrated } from "./IProgramBlockRunnerHydrated";
 
 export interface IHistory
 {

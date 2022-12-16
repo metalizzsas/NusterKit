@@ -1,5 +1,5 @@
 import { IAddon } from "./addons"
-import { IProgram, IPBRPremades } from "./cycle/IProgramBlockRunner"
+import { IProgramBlockRunner, IPBRPremades } from "./cycle/IProgramBlockRunner"
 import { IOGatesConfig } from "./iogates"
 import { IOControllersConfig } from "./iophysicalcontrollers"
 import { IConfigMaintenance } from "./maintenance"
@@ -24,7 +24,7 @@ export declare interface IMachineSpecs
     }
 
     /** Cycle types definition */
-    cycleTypes: IProgram[],
+    cycleTypes: IProgramBlockRunner[],
     /** Cycle premades definition */
     cyclePremades: IPBRPremades[],
 

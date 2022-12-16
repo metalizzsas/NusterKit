@@ -1,12 +1,13 @@
-import type { EProgramStepResult, EProgramStepState, EProgramStepType, IProgramStepRunner } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramStep";
+import type { NumericParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
+import type { ProgramBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ProgramBlockHydrated";
+import type { IProgramStepHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/IProgramStepHydrated";
+import type { EProgramStepResult, EProgramStepState, EProgramStepType, IProgramStep } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramStep";
 import { LoggerInstance } from "../app";
-import type { NumericParameterBlocks } from "./ParameterBlocks";
 import { ParameterBlockRegistry } from "./ParameterBlocks/ParameterBlockRegistry";
 import type { ProgramBlockRunner } from "./ProgramBlockRunner";
-import type { ProgramBlocks } from "./ProgramBlocks";
 import { ProgramBlockRegistry } from "./ProgramBlocks/ProgramBlockRegistry";
 
-export class ProgramBlockStep implements IProgramStepRunner
+export class ProgramBlockStep implements IProgramStepHydrated
 {
     private pbrInstance: ProgramBlockRunner;
 
@@ -16,33 +17,33 @@ export class ProgramBlockStep implements IProgramStepRunner
     state: EProgramStepState = "created";
     type: EProgramStepType = "single";
     
-    isEnabled: NumericParameterBlocks;
-    duration: NumericParameterBlocks;
+    isEnabled: NumericParameterBlockHydrated;
     
     startTime?: number;
     endTime?: number;
     
-    runAmount?: NumericParameterBlocks;
+    runAmount?: NumericParameterBlockHydrated;
     runCount?: number;
     
-    blocks: ProgramBlocks[] = [];
-    startBlocks: ProgramBlocks[] = [];
-    endBlocks: ProgramBlocks[] = [];
+    blocks: Array<ProgramBlockHydrated> = [];
+    startBlocks: Array<ProgramBlockHydrated> = [];
+    endBlocks: Array<ProgramBlockHydrated> = [];
 
     stepOvertimeTimer?: NodeJS.Timeout;
+
+    duration: number;
     
-    constructor(pbrInstance: ProgramBlockRunner, obj: IProgramStepRunner)
+    constructor(pbrInstance: ProgramBlockRunner, obj: IProgramStep)
     {
         this.pbrInstance = pbrInstance;
         this.name = obj.name;
-        this.isEnabled = ParameterBlockRegistry(obj.isEnabled) as NumericParameterBlocks;
-        this.duration = ParameterBlockRegistry(obj.duration) as NumericParameterBlocks;
+        this.isEnabled = ParameterBlockRegistry.Numeric(obj.isEnabled);
 
         if(obj.runAmount)
         {
-            this.runAmount = ParameterBlockRegistry(obj.runAmount) as NumericParameterBlocks;
-            this.runCount = obj.runCount ?? 0;
-            this.type = (this.runAmount?.data() ?? 0) > 1 ? "multiple" : "single";
+            this.runAmount = ParameterBlockRegistry.Numeric(obj.runAmount);
+            this.runCount = 0;
+            this.type = (this.runAmount?.data ?? 0) > 1 ? "multiple" : "single";
         }
 
         //Adding io starting blocks
@@ -56,11 +57,13 @@ export class ProgramBlockStep implements IProgramStepRunner
         //adding program blocks
         for(const block of obj.blocks)
             this.blocks.push(ProgramBlockRegistry(block));
+
+        this.duration = this.estimateRunTime();
     }
 
     public async execute(): Promise<EProgramStepResult>
     {
-        if(this.isEnabled.data() == 0)
+        if(this.isEnabled.data == 0)
         {
             LoggerInstance.warn(`PBS-${this.name}: Step is disabled.`);
             return "ended";
@@ -76,7 +79,7 @@ export class ProgramBlockStep implements IProgramStepRunner
         this.state = "started";
 
         //Disable step overtime timeout if the step duration is equal to -1
-        if(this.duration.data() != -1)
+        if(this.duration != Infinity)
             this.stepOvertimeTimer = setTimeout(() => {
 
                 if(this.state == "started")
@@ -86,7 +89,7 @@ export class ProgramBlockStep implements IProgramStepRunner
                 }
                 else
                     LoggerInstance.warn(`PBS-${this.name}: Step overtime has been canceled because step was not running.`);
-            }, this.duration.data() * 2000);
+            }, this.duration * 2000);
 
         this.startTime = Date.now();
 
@@ -112,11 +115,11 @@ export class ProgramBlockStep implements IProgramStepRunner
             clearTimeout(this.stepOvertimeTimer);
 
         //handling of multiple runned steps
-        if(this.runAmount !== undefined && this.runCount !== undefined && this.runAmount.data() as number > 1)
+        if(this.runAmount !== undefined && this.runCount !== undefined && this.runAmount.data > 1)
         {
             this.runCount++;
 
-            if(this.runCount && this.runAmount && (this.runCount == this.runAmount.data()))
+            if(this.runCount && this.runAmount && (this.runCount == this.runAmount.data))
             {
                 this.state = "ended";
                 LoggerInstance.info(`PBS-${this.name}: Ended step with state ${"ended"}`);
@@ -140,6 +143,12 @@ export class ProgramBlockStep implements IProgramStepRunner
         }
     }
 
+    /** Estimate the run time of this step */
+    private estimateRunTime(): number
+    {
+        return [this.endBlocks, this.startBlocks, this.blocks].flatMap(k => k).reduce((p, c) => p + c.estimatedRunTime, 0);
+    }
+
     get progress()
     {
         let progress = 0;
@@ -151,9 +160,9 @@ export class ProgramBlockStep implements IProgramStepRunner
             {
                 if(this.startTime)
                 {
-                    if(this.duration.data() != -1)
+                    if(this.duration != Infinity)
                     {
-                        progress = parseFloat(((Date.now() - this.startTime) / ((this.duration.data() as number) * 1000)).toFixed(2));
+                        progress = parseFloat(((Date.now() - this.startTime) / ((this.duration) * 1000)).toFixed(2));
                         progress = (progress >= 1 ? 1 : progress);
                         break;
                     }
@@ -182,13 +191,14 @@ export class ProgramBlockStep implements IProgramStepRunner
         
         if((this.type == "multiple") && this.runAmount)
         {
-            return ((1 * progress) / (this.runAmount.data() as number)) + ((this.runCount || 0) / (this.runAmount.data() as number))
+            return ((1 * progress) / (this.runAmount.data)) + ((this.runCount || 0) / (this.runAmount.data))
         }
         else
         {
             return progress;
         }
     }
+
     public resetTimes()
     {
         this.startTime = undefined;
@@ -197,6 +207,7 @@ export class ProgramBlockStep implements IProgramStepRunner
 
     toJSON()
     {
+
         return {
             name: this.name,
             state: this.state,
@@ -206,10 +217,7 @@ export class ProgramBlockStep implements IProgramStepRunner
             duration: this.duration,
 
             progress: this.progress,
-    
-            startTime: this.startTime,
-            endTime: this.endTime,
-    
+        
             runAmount: this.runAmount,
             runCount: this.runCount,
 

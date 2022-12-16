@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "lib": ["es2016"],
+    "types": ["node"],
     "typeRoots": [],
     "module": "CommonJS",
     "target": "es2016",

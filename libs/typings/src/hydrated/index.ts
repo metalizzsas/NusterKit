@@ -5,7 +5,7 @@ import { ICallToAction } from "../spec/nuster/ICallToAction";
 import { IDeviceData } from "./balena/IDeviceData";
 import { IHypervisorData } from "./balena/IHypervisorDevice";
 import { IVPNData } from "./balena/IVPNData";
-import { IProgramBlockRunnerHydrated } from "./cycle/IProgramRunnerHydrated";
+import { IProgramBlockRunnerHydrated } from "./cycle/IProgramBlockRunnerHydrated";
 import { IMaintenanceHydrated } from "./maintenance";
 import { IManualHydrated } from "./manual";
 import { IProfileHydrated } from "./profile";

@@ -1,5 +1,5 @@
-import { INumericParameterBlock } from "./IParameterBlock";
-import { IProgramBlocks } from "./IProgramBlock";
+import { NumericParameterBlocks } from "./IParameterBlocks";
+import { AllProgramBlocks } from "./IProgramBlocks";
 
 export interface IProgramStep
 {
@@ -7,31 +7,17 @@ export interface IProgramStep
     name: string;
     
     /** Parameter block that indicates if this step is enabled in the PBR flow */
-    isEnabled: INumericParameterBlock;
-
-    /** Parameter block that indicates the estimated Step duration time*/
-    duration: INumericParameterBlock;
+    isEnabled: NumericParameterBlocks;
 
     /** Optional Parameter block that tells the PBR if this steps must be runt multiple times */
-    runAmount?: INumericParameterBlock;
+    runAmount?: NumericParameterBlocks;
     
     /** Program Blocks array that are executed at the start of a step */
-    startBlocks: IProgramBlocks[];
+    startBlocks: Array<AllProgramBlocks>;
     /** Program Blocks array that are executed at the end of a step */
-    endBlocks: IProgramBlocks[];
+    endBlocks: Array<AllProgramBlocks>;
     /** Program blocks Array that is executed by this step */
-    blocks: IProgramBlocks[]
-}
-
-export interface IProgramStepRunner extends IProgramStep
-{
-    startTime?: number;
-    endTime?: number;
-
-    runCount?: number;
-
-    state?: EProgramStepState;
-    type?: EProgramStepType;
+    blocks: Array<AllProgramBlocks>;
 }
 
 export interface IProgramStepInformations

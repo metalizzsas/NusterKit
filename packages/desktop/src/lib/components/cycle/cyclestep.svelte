@@ -27,7 +27,7 @@
 					'?'}
 			</span>
 		{/if}
-		{#if step.duration.data !== -1 && step.state != 'ended'}
+		{#if step.duration != null && step.state != 'ended'}
 			<span class="bg-white rounded-full px-2 py-1 text-gray-800 text-xs">
 				{Math.ceil(step.progress * 100) > 99 ? '100' : Math.ceil(step.progress * 100)}
 				%

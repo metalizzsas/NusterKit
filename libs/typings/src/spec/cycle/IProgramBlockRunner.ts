@@ -1,7 +1,6 @@
 import { IAdditionalInfo } from "./IAdditionalInfo";
-import { IProgramBlock } from "./IProgramBlock";
 import { IProgramStep } from "./IProgramStep";
-import { IPBRStartCondition } from "./programblocks/startchain/IPBRStartCondition";
+import { IPBRStartCondition } from "./security/IPBRStartCondition";
 
 export interface IPBRPremades
 {
@@ -10,51 +9,13 @@ export interface IPBRPremades
     cycle: string;
 }
 
-export interface IPBRStatus
-{
-    mode: EPBRMode,
-
-    estimatedRunTime?: number,
-    
-    startDate?: number,
-    endDate?: number,
-    endReason?: string,
-
-    progress?: number
-}
-
-export interface IProgram
+export interface IProgramBlockRunner
 {
     name: string;
     profileRequired: boolean;
 
-    startConditions: IPBRStartCondition[];
-    steps: IProgramStep[];
+    startConditions: Array<IPBRStartCondition>;
+    steps: Array<IProgramStep>;
 
-    additionalInfo?: IAdditionalInfo[];
-}
-
-export interface IProgramRunner extends IProgram
-{
-    status: IPBRStatus;
-
-    timers?: IProgramTimer[];
-    variables?: IProgramVariable[];
-
-    currentStepIndex?: number;
-}
-
-export type EPBRMode = "created" | "started" | "ending" | "ended";
-
-export interface IProgramVariable
-{
-    name: string;
-    value: number;
-}
-
-export interface IProgramTimer
-{
-    name: string;
-    enabled: boolean;
-    blocks: IProgramBlock[];
+    additionalInfo?: Array<IAdditionalInfo>;
 }

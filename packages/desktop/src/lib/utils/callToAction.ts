@@ -8,6 +8,7 @@ export const execCTA = async (ip: string, cta: ICallToAction): Promise<string | 
             headers: {
                 'Content-Type': 'application/json',
             },
+            body: (cta.APIEndpoint.body) ? JSON.stringify(cta.APIEndpoint.body) : undefined
         });
 
         if (request.status !== 200) return;

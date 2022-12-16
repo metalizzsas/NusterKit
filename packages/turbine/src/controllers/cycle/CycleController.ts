@@ -6,16 +6,15 @@ import { LoggerInstance } from "../../app";
 import { AuthManager } from "../../auth/auth";
 import { ProgramBlockRunner } from "../../pbr/ProgramBlockRunner";
 import { ProfileController } from "../profile/ProfilesController";
-import { ProgramHistoryModel } from "./ProgramHistoryModel";
-import type { IProgramBlockRunnerHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/IProgramRunnerHydrated";
-import type { IPBRPremades, IProgram} from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlockRunner";
+import type { IPBRPremades, IProgramBlockRunner} from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlockRunner";
 import type { IProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profile";
+import type { IProgramBlockRunnerHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/IProgramBlockRunnerHydrated";
 
 export class CycleController extends Controller {
 
     private supportedCycles: { name: string, profileRequired: boolean }[] = [];
     private premadeCycles: IPBRPremades[] = [];
-    private cycleTypes: IProgram[];
+    private cycleTypes: IProgramBlockRunner[];
 
     public program?: ProgramBlockRunner;
 
@@ -23,7 +22,7 @@ export class CycleController extends Controller {
 
     private static _instance: CycleController;
 
-    constructor(cycleTypes: IProgram[], cyclePremades: IPBRPremades[], maskedPremades: string[] = []) {
+    constructor(cycleTypes: IProgramBlockRunner[], cyclePremades: IPBRPremades[], maskedPremades: string[] = []) {
         super();
 
         this.cycleTypes = cycleTypes;
@@ -34,7 +33,7 @@ export class CycleController extends Controller {
         this._configureRouter();
     }
 
-    static getInstance(cycleTypes?: IProgram[], cyclePremades?: IPBRPremades[], maskedPremades?: string[])
+    static getInstance(cycleTypes?: IProgramBlockRunner[], cyclePremades?: IPBRPremades[], maskedPremades?: string[])
     {
         if(!this._instance)
             if(cycleTypes !== undefined && cyclePremades !== undefined)
@@ -45,7 +44,7 @@ export class CycleController extends Controller {
         return this._instance;
     }
 
-    private _configure(cycleTypes: IProgram[], cyclePremades: IPBRPremades[])
+    private _configure(cycleTypes: IProgramBlockRunner[], cyclePremades: IPBRPremades[])
     {
         for (const cycle of cycleTypes)
             this.supportedCycles.push({ name: cycle.name, profileRequired: cycle.profileRequired });
@@ -72,69 +71,6 @@ export class CycleController extends Controller {
             res.json(this.supportedCycles);
         });
         AuthManager.getInstance().registerEndpointPermission("cycle.list", { endpoint: "/v1/cycle/custom", method: "get" });
-
-        //restart cycle, put it there because it conflicts with the POST /:name/:id? route
-        this._router.post("/restart/:history_id", async (req: Request, res: Response) => {
-
-            const history = await ProgramHistoryModel.findById(req.params.history_id);
-
-            if (history) {
-                LoggerInstance.info("PBR assigned for restart");
-
-                const profile = ProfileController.getInstance().hydrateProfile(history.profile);
-
-                if(profile !== undefined)
-                {
-                    this.program = new ProgramBlockRunner(history.cycle, profile);
-
-                    if (this.program.name != history.profile.skeleton) {
-                        res.status(403);
-                        res.write(`Profile ${this.program.name} is not compatible with cycle profile ${history.profile.skeleton}`);
-                        res.end();
-                        this.program = undefined;
-                        return;
-                    }
-                    else {
-                        res.status(200)
-                        res.write("ok");
-                        res.end();
-                        return;
-                    }
-                }
-                else
-                {
-                    res.status(403).write("Failed to load history profile");
-                    res.end();
-                    return;
-                }
-            }
-            else {
-                res.status(404).write("HistoryPoint not found");
-                return;
-            }
-        });
-
-        AuthManager.getInstance().registerEndpointPermission("cycle.list", { endpoint: "/v1/cycle/history", method: "get" });
-
-        this._router.get("/history", async (_req: Request, res: Response) => {
-
-            const histories = await ProgramHistoryModel.find({}).limit(25).sort({ "cycle.status.endDate": "desc" });
-            res.json(histories);
-        });
-
-        AuthManager.getInstance().registerEndpointPermission("cycle.list", { endpoint: new RegExp("/v1/cycle/history/.*", "g"), method: "get" });
-
-        this._router.get("/history/:id", async (req: Request, res: Response) => {
-
-            const history = await ProgramHistoryModel.findById(req.params.id);
-
-            if (history != null)
-                res.json(history);
-            else
-                res.status(404).end("history not found");
-        });
-
-        AuthManager.getInstance().registerEndpointPermission("cycle.run", { endpoint: new RegExp("/v1/cycle/restart/.*", "g"), method: "post" });
 
         //prepare the cycle
         this._router.post("/:name/:id?", async (req: Request, res: Response) => {
@@ -174,7 +110,7 @@ export class CycleController extends Controller {
 
             if (cycle !== undefined) {
                 LoggerInstance.info("CR: PBR assigned");
-                this.program = new ProgramBlockRunner({ ...cycle, status: { mode: "created" } }, profile);
+                this.program = new ProgramBlockRunner(cycle, profile);
 
                 if (this.program.profileRequired && profile !== undefined)
                 {
@@ -235,18 +171,9 @@ export class CycleController extends Controller {
             if (this.program) {
                 if (["ended", "ending", "created"].includes(this.program.status.mode)) {
                     //do not save the history if the program was just created and never started
-                    if (this.program.status.mode != "created") {
-                        await ProgramHistoryModel.create({
-                            rating: parseInt(req.params.rating) || 0,
-                            cycle: this.program,
-                            profile: (this.program.profile) ? ProfileController.getInstance().prepareToStore(this.program.profile, true) : undefined
-                        });
-                    }
-                    else
-                    {
+                    if (this.program.status.mode == "created")
                         await this.program.dispose();
-                    }
-
+                    
                     this.program = undefined;
 
                     res.status(200);

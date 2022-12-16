@@ -549,8 +549,7 @@
             {
                "conditionName": "emergency-stop",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "emergency-stop",
                      "gateValue": 1
@@ -560,8 +559,7 @@
             {
                "conditionName": "nitrogen-sensor",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "nitrogen-sensor",
                      "gateValue": 1
@@ -571,8 +569,7 @@
             {
                "conditionName": "cover-closed",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "cover-closed",
                      "gateValue": 1
@@ -582,8 +579,7 @@
             {
                "conditionName": "resin#slot-sensor",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "resin#slot-sensor",
                      "gateValue": 1
@@ -593,8 +589,7 @@
             {
                "conditionName": "uv#overheat",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "uv#overheat",
                      "gateValue": 0
@@ -605,1145 +600,211 @@
          "steps": [
             {
                "name": "start",
-               "isEnabled": {
-                  "name": "const",
-                  "value": 1
-               },
-               "duration": {
-                  "name": "const",
-                  "value": 30
-               },
-               "blocks": [
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "const",
-                           "value": 30
-                        }
-                     ]
-                  }
-               ],
+               "isEnabled": 1,
+               "blocks": [{"sleep": 30}],
                "startBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "air-heater"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "motor#speed"
-                        },
-                        {
-                           "name": "multiply",
-                           "value": "",
-                           "params": [
-                              {
-                                 "name": "profile",
-                                 "value": "motor#speed"
-                              },
-                              {
-                                 "name": "profile",
-                                 "value": "motor#enabled"
-                              }
-                           ]
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ventilation"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  }
+                  {"io_write": ["air-heater", 1]},
+                  {"io_write": ["ventilation", 1]},
+                  {"io_write": ["motor#speed", {"multiply": [{"profile": "motor#speed"}, {"profile": "motor#enabled"}]}]}
                ],
                "endBlocks": []
             },
             {
                "name": "pulverization",
-               "isEnabled": {
-                  "name": "profile",
-                  "value": "pulverization#enabled"
-               },
-               "duration": {
-                  "name": "add",
-                  "params": [
-                     {
-                        "name": "multiply",
-                        "params": [
-                           {
-                              "name": "profile",
-                              "value": "pulverization#count"
-                           },
-                           {
-                              "name": "add",
-                              "params": [
-                                 {
-                                    "name": "profile",
-                                    "value": "pulverization#timeOn"
-                                 },
-                                 {
-                                    "name": "profile",
-                                    "value": "pulverization#timeOff"
-                                 }
-                              ]
-                           }
-                        ]
-                     },
-                     {
-                        "name": "const",
-                        "value": 3
-                     }
-                  ]
-               },
-               "runAmount": {
-                  "name": "conditional",
-                  "value": "==",
-                  "params": [
-                     {
-                        "name": "profile",
-                        "value": "multilayer#enabled"
-                     },
-                     {
-                        "name": "const",
-                        "value": 1
-                     },
-                     {
-                        "name": "profile",
-                        "value": "multilayer#count"
-                     },
-                     {
-                        "name": "const",
-                        "value": 1
-                     }
-                  ]
-               },
+               "isEnabled": {"profile": "pulverization#enabled"},
+               "runAmount": {"conditional": {
+                  "comparator": "==",
+                  "left_side": [{"profile": "multiplayer#enabled"}, {"profile": "multilayer#count"}],
+                  "right_side": [1, 1]
+               }},
                "blocks": [
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "const",
-                           "value": 3
-                        }
-                     ]
-                  },
-                  {
-                     "name": "if",
-                     "params": [
-                        {
-                           "name": "io",
-                           "value": "nozzle#sensor-open"
-                        },
-                        {
-                           "name": "conststr",
-                           "value": "!="
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ],
-                     "falseBlocks": [],
-                     "trueBlocks": [
-                        {
-                           "name": "stop",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "nozzle#cache-wrong"
-                              }
-                           ]
-                        }
-                     ]
-                  },
-                  {
-                     "name": "if",
-                     "params": [
-                        {
-                           "name": "io",
-                           "value": "uv#sensor-closed"
-                        },
-                        {
-                           "name": "conststr",
-                           "value": "!="
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ],
-                     "falseBlocks": [],
-                     "trueBlocks": [
-                        {
-                           "name": "stop",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "uv#cache-wrong"
-                              }
-                           ]
-                        }
-                     ]
-                  },
-                  {
-                     "name": "for",
-                     "params": [
-                        {
-                           "name": "profile",
-                           "value": "pulverization#count"
-                        }
-                     ],
+                  {"sleep": 3},
+                  {"if": {
+                     "statement": {
+                        "comparator": "!=",
+                        "left_side": {"io_read": "nozzle#sensor-open"},
+                        "right_side": 1
+                     },
+                     "true_blocks": [{"stop": "nozzle#cache-wrong"}]
+                  }},
+                  {"if": {
+                     "statement": {
+                        "comparator": "!=",
+                        "left_side": {"io_read": "uv#sensor-closed"},
+                        "right_side": 1
+                     },
+                     "true_blocks": [{"stop": "uv#cache-wrong"}]
+                  }},
+                  {"for": {
+                     "limit": {"profile": "pulverization#count"},
                      "blocks": [
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "nozzle#pulverization"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 1
-                              }
-                           ]
-                        },
-                        {
-                           "name": "sleep",
-                           "params": [
-                              {
-                                 "name": "profile",
-                                 "value": "pulverization#timeOn"
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "nozzle#pulverization"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 0
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "motor#direction"
-                              },
-                              {
-                                 "name": "reverse",
-                                 "value": "",
-                                 "params": [
-                                    {
-                                       "name": "io",
-                                       "value": "motor#direction"
-                                    }
-                                 ]
-                              }
-                           ]
-                        },
-                        {
-                           "name": "sleep",
-                           "params": [
-                              {
-                                 "name": "profile",
-                                 "value": "pulverization#timeOff"
-                              }
-                           ]
-                        }
+                        {"sleep": 1},
+                        {"io_write": ["nozzle#pulverization", 1]},
+                        {"sleep": {"profile": "pulverization#timeOn"}},
+                        {"io_write": ["nozzle#pulverization", 0]},
+                        {"io_write": ["motor#direction", {"reverse": {"io_read": "motor#direction"}}]},
+                        {"sleep": {"profile": "pulverization#timeOff"}}                        
                      ]
-                  }
+                  }}
                ],
                "startBlocks": [
-                  {
-                     "name": "stopTimer",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "motorRotation"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "nozzle#cache"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "uv#cache"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "resin#pressure"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  }
+                  {"stop_timer": "motorRotation"},
+                  {"io_write": ["ventilation-valve", 90]},
+                  {"io_write": ["nozzle-high#cache", 0]},
+                  {"io_write": ["nozzle-low#cache", 0]},
+                  {"io_write": ["uv#cache", 1]},
+                  {"io_write": ["resin#pressure", 1]}
                ],
                "endBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "nozzle#cache"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
+                  {"io_write": ["ventilation-valve", 90]},
+                  {"io_write": ["resin#pressure", 0]},
+                  {"io_write": ["nozzle-high#cache", 1]},
+                  {"io_write": ["nozzle-low#cache", 1]},
+                  {"if": {
+                     "statement": {
+                        "comparator": "==",
+                        "left_side": {"profile": "motor#reverseEnabled"},
+                        "right_side": 1
+                     },
+                     "true_blocks": [
+                        {"start_timer": {
+                           "timer_name": "motorRotation",
+                           "timer_interval": {"profile": "motor#reverseTime"},
+                           "blocks": [{"io_write": ["motor#direction", {"reverse": {"io_read": "motor#direction"}}]}]
+                        }}
                      ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "resin#pressure"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "if",
-                     "params": [
-                        {
-                           "name": "profile",
-                           "value": "motor#reverseEnabled"
-                        },
-                        {
-                           "name": "conststr",
-                           "value": "=="
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ],
-                     "falseBlocks": [],
-                     "trueBlocks": [
-                        {
-                           "name": "startTimer",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "motorRotation"
-                              },
-                              {
-                                 "name": "profile",
-                                 "value": "motor#reverseTime"
-                              }
-                           ],
-                           "blocks": [
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "motor#direction"
-                                    },
-                                    {
-                                       "name": "reverse",
-                                       "value": "",
-                                       "params": [
-                                          {
-                                             "name": "io",
-                                             "value": "motor#direction"
-                                          }
-                                       ]
-                                    }
-                                 ]
-                              }
-                           ]
-                        }
-                     ]
-                  }
+                  }}
                ]
             },
             {
                "name": "inerting",
-               "isEnabled": {
-                  "name": "profile",
-                  "value": "inerting#enabled"
-               },
-               "duration": {
-                  "name": "profile",
-                  "value": "inerting#duration"
-               },
-               "runAmount": {
-                  "name": "conditional",
-                  "value": "==",
-                  "params": [
-                     {
-                        "name": "profile",
-                        "value": "multilayer#enabled"
-                     },
-                     {
-                        "name": "const",
-                        "value": 1
-                     },
-                     {
-                        "name": "profile",
-                        "value": "multilayer#count"
-                     },
-                     {
-                        "name": "const",
-                        "value": 1
-                     }
-                  ]
-               },
+               "isEnabled": {"profile": "inerting#enabled"},
+               "runAmount": {"conditional": {
+                  "comparator": "==",
+                  "left_side": [{"profile": "multilayer#enabled"}, {"profile": "multilayer#count"}],
+                  "right_side": [1, 1]
+               }},
                "blocks": [
-                  {
-                     "name": "if",
-                     "params": [
-                        {
-                           "name": "profile",
-                           "value": "multilayer#enabled"
-                        },
-                        {
-                           "name": "conststr",
-                           "value": "=="
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ],
-                     "falseBlocks": [],
-                     "trueBlocks": [
-                        {
-                           "name": "sleep",
-                           "params": [
-                              {
-                                 "name": "profile",
-                                 "value": "inerting#duration"
-                              }
-                           ]
-                        },
-                        {
-                           "name": "if",
-                           "params": [
-                              {
-                                 "name": "variable",
-                                 "value": "currentStepRunCount"
-                              },
-                              {
-                                 "name": "conststr",
-                                 "value": "=="
-                              },
-                              {
-                                 "name": "add",
-                                 "value": "",
-                                 "params": [
-                                    {
-                                       "name": "profile",
-                                       "value": "multilayer#count"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": -1
-                                    }
-                                 ]
-                              }
-                           ],
-                           "falseBlocks": [],
-                           "trueBlocks": [
-                              {
-                                 "name": "sleep",
-                                 "params": [
-                                    {
-                                       "name": "profile",
-                                       "value": "inerting#duration"
-                                    }
-                                 ]
-                              }
-                           ]
-                        }
-                     ]
-                  }
+                  {"sleep": {"profile": "inerting#duration"}}
                ],
                "startBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "inerting"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ventilation"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  }
+                  {"io_write": ["inerting", 1]},
+                  {"io_write": ["ventilation", 0]}
                ],
                "endBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "inerting"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
+                  {"io_write": ["inerting", 0]}
+               ]
+            },
+            {
+               "name": "uv-curing-interlayer",
+               "isEnabled": {"profile": "multilayer#enabled"},
+               "runAmount": {"profile": "multilayer#count"},
+               "blocks": [
+                  {"sleep": 3},
+
+                  {"if": {
+                     "statement": {
+                        "comparator": "!=",
+                        "left_side": {"profile": "multilayer#count"},
+                        "right_side": {"read_var": "currentStepRunCount"}
+                     },
+                     "true_blocks": [
+                        {"if": {
+                           "statement": {
+                              "comparator": "!=",
+                              "left_side": {"io_read": "uv#sensor-open"},
+                              "right_side": 1
+                           },
+                           "true_blocks": [{"stop": "uv#cache-wrong"}]
+                        }},
+                        {"if": {
+                           "statement": {
+                              "comparator": "!=",
+                              "left_side": {"io_read": "nozzle#sensor-closed"},
+                              "right_side": 1
+                           },
+                           "true_blocks": [{"stop": "nozzle#cache-wrong"}]
+                        }},
+      
+                        {"io_write": ["uv#power", {"profile": "uv-curing#uv-power"}]},
+                        {"io_write": ["uv#enable", 1]},
+      
+                        {"sleep": {"profile": "multilayer#interlayer-uvduration"}},
+                        {"append_maintenance": ["uv-lamp", {"multiply": [0.0002777778, {"profile": "multilayer#interlayer-uvduration"}]}]},
+      
+                        {"io_write": ["uv#power", 0]},
+                        {"io_write": ["uv#enable", 0]}
                      ]
-                  }
+                  }}
+               ],
+               "startBlocks": [
+                  {"io_write": ["uv#cache", 0]},
+                  {"io_write": ["ventilation", 0]}
+               ],
+               "endBlocks": [
+                  {"io_write": ["uv#cache", 1]},
+                  {"io_write": ["ventilation", 1]}
                ]
             },
             {
                "name": "uv-curing",
-               "isEnabled": {
-                  "name": "profile",
-                  "value": "uv-curing#enabled"
-               },
-               "duration": {
-                  "name": "conditional",
-                  "value": "==",
-                  "params": [
-                     {
-                        "name": "profile",
-                        "value": "multilayer#enabled"
-                     },
-                     {
-                        "name": "const",
-                        "value": 1
-                     },
-                     {
-                        "name": "conditional",
-                        "value": "==",
-                        "params": [
-                           {
-                              "name": "profile",
-                              "value": "multilayer#count"
-                           },
-                           {
-                              "name": "add",
-                              "value": "",
-                              "params": [
-                                 {
-                                    "name": "const",
-                                    "value": 1
-                                 },
-                                 {
-                                    "name": "variable",
-                                    "value": "currentStepRunCount"
-                                 }
-                              ]
-                           },
-                           {
-                              "name": "add",
-                              "params": [
-                                 {
-                                    "name": "profile",
-                                    "value": "uv-curing#duration"
-                                 },
-                                 {
-                                    "name": "const",
-                                    "value": 1
-                                 }
-                              ]
-                           },
-                           {
-                              "name": "add",
-                              "params": [
-                                 {
-                                    "name": "profile",
-                                    "value": "multilayer#interlayer-uvduration"
-                                 },
-                                 {
-                                    "name": "const",
-                                    "value": 3
-                                 }
-                              ]
-                           }
-                        ]
-                     },
-                     {
-                        "name": "add",
-                        "params": [
-                           {
-                              "name": "profile",
-                              "value": "uv-curing#duration"
-                           },
-                           {
-                              "name": "const",
-                              "value": 3
-                           }
-                        ]
-                     }
-                  ]
-               },
-               "runAmount": {
-                  "name": "conditional",
-                  "value": "==",
-                  "params": [
-                     {
-                        "name": "profile",
-                        "value": "multilayer#enabled"
-                     },
-                     {
-                        "name": "const",
-                        "value": 1
-                     },
-                     {
-                        "name": "profile",
-                        "value": "multilayer#count"
-                     },
-                     {
-                        "name": "const",
-                        "value": 1
-                     }
-                  ]
-               },
+               "isEnabled": {"profile": "uv-curing#enabled"},
                "blocks": [
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "const",
-                           "value": 3
-                        }
-                     ]
-                  },
-                  {
-                     "name": "if",
-                     "params": [
-                        {
-                           "name": "io",
-                           "value": "uv#sensor-open"
-                        },
-                        {
-                           "name": "conststr",
-                           "value": "!="
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ],
-                     "falseBlocks": [],
-                     "trueBlocks": [
-                        {
-                           "name": "stop",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "uv#cache-wrong"
-                              }
-                           ]
-                        }
-                     ]
-                  },
-                  {
-                     "name": "if",
-                     "params": [
-                        {
-                           "name": "io",
-                           "value": "nozzle#sensor-closed"
-                        },
-                        {
-                           "name": "conststr",
-                           "value": "!="
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ],
-                     "falseBlocks": [],
-                     "trueBlocks": [
-                        {
-                           "name": "stop",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "nozzle#cache-wrong"
-                              }
-                           ]
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "uv#power"
-                        },
-                        {
-                           "name": "profile",
-                           "value": "uv-curing#uv-power"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "uv#enable"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "conditional",
-                           "value": "==",
-                           "params": [
-                              {
-                                 "name": "profile",
-                                 "value": "multilayer#enabled"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 1
-                              },
-                              {
-                                 "name": "conditional",
-                                 "value": "==",
-                                 "params": [
-                                    {
-                                       "name": "profile",
-                                       "value": "multilayer#count"
-                                    },
-                                    {
-                                       "name": "add",
-                                       "value": "",
-                                       "params": [
-                                          {
-                                             "name": "const",
-                                             "value": 1
-                                          },
-                                          {
-                                             "name": "variable",
-                                             "value": "currentStepRunCount"
-                                          }
-                                       ]
-                                    },
-                                    {
-                                       "name": "profile",
-                                       "value": "uv-curing#duration"
-                                    },
-                                    {
-                                       "name": "profile",
-                                       "value": "multilayer#interlayer-uvduration"
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "profile",
-                                 "value": "uv-curing#duration"
-                              }
-                           ]
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "uv#power"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "uv#enable"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  }
+                  {"sleep": 3},
+
+                  {"if": {
+                     "statement": {
+                        "comparator": "!=",
+                        "left_side": {"io_read": "uv#sensor-open"},
+                        "right_side": 1
+                     },
+                     "true_blocks": [{"stop": "uv#cache-wrong"}]
+                  }},
+                  {"if": {
+                     "statement": {
+                        "comparator": "!=",
+                        "left_side": {"io_read": "nozzle#sensor-closed"},
+                        "right_side": 1
+                     },
+                     "true_blocks": [{"stop": "nozzle#cache-wrong"}]
+                  }},
+
+                  {"io_write": ["uv#power", {"profile": "uv-curing#uv-power"}]},
+                  {"io_write": ["uv#enable", 1]},
+
+                  {"sleep": {"profile": "uv-curing#duration"}},
+                  {"append_maintenance": ["uv-lamp", {"multiply": [0.0002777778, {"profile": "uv-curing#duration"}]}]},
+
+                  {"io_write": ["uv#power", 0]},
+                  {"io_write": ["uv#enable", 0]}
                ],
                "startBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "uv#cache"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "uv#ventil"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ventilation"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  }
+                  {"io_write": ["uv#cache", 0]},
+                  {"io_write": ["ventilation", 0]}
                ],
                "endBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "uv#cache"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "maintenance",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "uv-lamp"
-                        },
-                        {
-                           "name": "multiply",
-                           "params": [
-                              {
-                                 "name": "const",
-                                 "value": 0.0002777778
-                              },
-                              {
-                                 "name": "conditional",
-                                 "value": "==",
-                                 "params": [
-                                    {
-                                       "name": "profile",
-                                       "value": "multilayer#enabled"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 1
-                                    },
-                                    {
-                                       "name": "conditional",
-                                       "value": "==",
-                                       "params": [
-                                          {
-                                             "name": "profile",
-                                             "value": "multilayer#count"
-                                          },
-                                          {
-                                             "name": "add",
-                                             "value": "",
-                                             "params": [
-                                                {
-                                                   "name": "const",
-                                                   "value": 1
-                                                },
-                                                {
-                                                   "name": "variable",
-                                                   "value": "currentStepRunCount"
-                                                }
-                                             ]
-                                          },
-                                          {
-                                             "name": "profile",
-                                             "value": "uv-curing#duration"
-                                          },
-                                          {
-                                             "name": "profile",
-                                             "value": "multilayer#interlayer-uvduration"
-                                          }
-                                       ]
-                                    },
-                                    {
-                                       "name": "profile",
-                                       "value": "uv-curing#duration"
-                                    }
-                                 ]
-                              }
-                           ]
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ventilation"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "uv#ventil"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  }
+                  {"io_write": ["uv#cache", 1]},
+                  {"io_write": ["ventilation", 1]}
                ]
             },
             {
                "name": "vapors-extraction",
-               "isEnabled": {
-                  "name": "const",
-                  "value": 1
-               },
-               "duration": {
-                  "name": "profile",
-                  "value": "vapors-extraction#duration"
-               },
-               "runAmount": {
-                  "name": "const",
-                  "value": 1
-               },
+               "isEnabled": 1,
                "blocks": [
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "profile",
-                           "value": "vapors-extraction#duration"
-                        }
-                     ]
-                  }
+                  {"sleep": {"profile": "vapors-extraction#duration"}}
                ],
                "startBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "air-heater"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "stopTimer",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "motorRotation"
-                        }
-                     ]
-                  }
+                  {"io_write": ["air-heater", 0]},
+                  {"stop_timer": "motorRotation"}
                ],
                "endBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "air-heater"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ventilation"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "motor#speed"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "nozzle#cache"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "uv#cache"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "uv#ventil"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "maintenance",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "smt-filter"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "maintenance",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "inner-cleaning"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  }
+                  {"io_write": ["ventilation", 0]},
+                  {"io_write": ["motor#speed", 0]},
+                  {"io_write": ["nozzle-high#cache", 0]},
+                  {"io_write": ["nozzle-low#cache", 0]},
+                  {"io_write": ["uv#cache", 0]},
+                  {"append_maintenance": ["smt-filter", 1]},
+                  {"append_maintenance": ["inner-cleaning", 1]}
                ]
             }
          ]

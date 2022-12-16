@@ -258,8 +258,7 @@
                 {
                     "conditionName": "emergency-stop",
                     "startOnly": false,
-                    "checkChain": {
-                        "name": "io",
+                    "checkchain": {
                         "io": {
                             "gateName": "emergency-stop",
                             "gateValue": 1
@@ -269,8 +268,7 @@
                 {
                     "conditionName": "cover-closed",
                     "startOnly": false,
-                    "checkChain": {
-                        "name": "io",
+                    "checkchain": {
                         "io": {
                             "gateName": "cover-closed",
                             "gateValue": 1
@@ -287,148 +285,22 @@
             "steps": [
                 {
                     "name": "cleaning",
-                    "isEnabled": {
-                        "name": "const",
-                        "value": 1
-                    },
-                    "duration": {
-                        "name": "profile",
-                        "value": "principal#duration"
-                    },
+                    "isEnabled": 1,
+                    "duration": {"profile": "principal#duration"},
                     "startBlocks": [
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "pump#enable"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 1
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "motor#speed"
-                                },
-                                {
-                                    "name": "profile",
-                                    "value": "principal#motor-speed"
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "us-power"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 1
-                                }
-                            ]
-                        }
+                        {"io_write": ["pump#enable", 1]},
+                        {"io_write": ["motor#speed", {"profile": "principal#motor-speed"}]},
+                        {"io_write": ["us-power", 1]}
                     ],
                     "endBlocks": [
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "pump#enable"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 0
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "us-power"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 0
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "motor#speed"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 0
-                                }
-                            ]
-                        }
+                        {"io_write": ["pump#enable", 0]},
+                        {"io_write": ["motor#speed", 0]},
+                        {"io_write": ["us-power", 0]}
                     ],
                     "blocks": [
-                        {
-                            "name": "sleep",
-                            "params": [
-                                {
-                                    "name": "multiply",
-                                    "params": [
-                                        {
-                                            "name": "profile",
-                                            "value": "principal#duration"
-                                        },
-                                        {
-                                            "name": "const",
-                                            "value": 0.5
-                                        }
-                                    ]
-                                }
-                                
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "motor#direction"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 1
-                                }
-                            ]
-                        },
-                        {
-                            "name": "sleep",
-                            "params": [
-                                {
-                                    "name": "multiply",
-                                    "params": [
-                                        {
-                                            "name": "profile",
-                                            "value": "principal#duration"
-                                        },
-                                        {
-                                            "name": "const",
-                                            "value": 0.5
-                                        }
-                                    ]
-                                }
-                                
-                            ]
-                        }
+                        {"sleep": {"divide": [{"profile": "principal#duration"}, 2]}},
+                        {"io_write": ["motor#direction", 1]},
+                        {"sleep": {"divide": [{"profile": "principal#duration"}, 2]}}
                     ]
                 }
             ]
@@ -534,60 +406,6 @@
                             ],
                             "controls": [
                                 "temperature#ventilation"
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "path": "cycleTypes.0.steps.0.startBlocks",
-                    "mode": "merge",
-                    "content": [
-                        {
-                            "name": "regulation",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "bac"
-                                },
-                                {
-                                    "name": "conststr",
-                                    "value": "temperature"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 1
-                                },
-                                {
-                                    "name": "profile",
-                                    "value": "principal#target-temperature"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "path": "cycleTypes.0.steps.0.endBlocks",
-                    "mode": "merge",
-                    "content": [
-                        {
-                            "name": "regulation",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "bac"
-                                },
-                                {
-                                    "name": "conststr",
-                                    "value": "temperature"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 0
-                                },
-                                {
-                                    "name": "profile",
-                                    "value": "principal#target-temperature"
-                                }
                             ]
                         }
                     ]

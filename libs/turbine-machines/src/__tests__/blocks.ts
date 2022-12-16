@@ -4,10 +4,10 @@ import path from "path";
 import { matchers } from 'jest-json-schema';
 
 import type { IMachineSpecs } from "@metalizzsas/nuster-typings/build/spec";
-import type { IProgramBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlock";
-import type { IParameterBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/IParameterBlock";
-import type { IConstantStringParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ParameterBlocks/IConstantStringParameterBlock";
-import type { IIfProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IIfProgramBlock";
+import { AllProgramBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlocks";
+import { ParameterBlockRegistry } from "@metalizzsas/nuster-turbine/src/pbr/ParameterBlocks/ParameterBlockRegistry";
+import { ProgramBlockRegistry } from "@metalizzsas/nuster-turbine/src/pbr/ProgramBlocks/ProgramBlockRegistry";
+import { AllParameterBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/IParameterBlocks";
 
 expect.extend(matchers);
 
@@ -45,6 +45,16 @@ for(const f of files.filter(f => f.isDirectory()))
             }
         }
     }
+}
+
+function validateBlock(obj: AllProgramBlocks)
+{
+    expect(ProgramBlockRegistry(obj)).not.toThrow();
+}
+
+function validateParameterBlock(obj: AllParameterBlocks)
+{
+    expect(ParameterBlockRegistry.All(obj)).not.toThrow();
 }
 
 for(const file of filesToCheck)
@@ -108,61 +118,6 @@ for(const file of filesToCheck)
                 });
             });
         });
-
-        function validateBlock(obj: IProgramBlocks)
-        {
-            if(obj.name == "io")
-            {
-                const gateName = obj.params[0] as IConstantStringParameterBlock;
-                expect(gateNames).toContain(gateName.value);
-            }
-            
-            if(obj.blocks !== undefined)
-            {
-                for(const b of obj.blocks)
-                {
-                    validateBlock(b);
-                }
-
-                if(obj.name == "if")
-                {
-                    for(const b of (obj as IIfProgramBlock).trueBlocks)
-                    {
-                        validateBlock(b);
-                    }
-                    for(const b of (obj as IIfProgramBlock).falseBlocks)
-                    {
-                        validateBlock(b);
-                    }
-                }
-            }
-
-            if(obj.params !== undefined)
-            {
-                for(const p of obj.params)
-                {
-                    validateParameterBlock(p);
-                }
-            }
-        }
-
-        function validateParameterBlock(obj: IParameterBlocks)
-        {
-            if(obj.name == "io")
-            {
-                expect(gateNames).toContain(obj.value);
-            }
-            else
-            {
-                if(obj.params !== undefined)
-                {
-                    for(const o of obj.params)
-                    {
-                        validateParameterBlock(o);
-                    }
-                }
-            }
-        }
     });
 
     it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' Profile fields', () => {
@@ -177,75 +132,28 @@ for(const file of filesToCheck)
             if(c.profileRequired !== false)
             {
                 c.steps.forEach(s => {
-                    validateParameterBlock(s.duration, c.name);
-                    validateParameterBlock(s.isEnabled, c.name);
+                    validateParameterBlock(s.duration);
+                    validateParameterBlock(s.isEnabled);
 
                     if(s.runAmount !== undefined)
-                        validateParameterBlock(s.runAmount, c.name);
+                        validateParameterBlock(s.runAmount);
 
                     for(const b of s.blocks)
                     {
-                        validateBlock(b, c.name);
+                        validateBlock(b);
                     }
                     
                     for(const b of s.startBlocks)
                     {
-                        validateBlock(b, c.name);
+                        validateBlock(b);
                     }
                     for(const b of s.endBlocks)
                     {
-                        validateBlock(b, c.name);
+                        validateBlock(b);
                     }
                 });
             }
         });
-
-        function validateBlock(obj: IProgramBlocks, profileName: string)
-        {
-            if(obj.params !== undefined)
-            {
-                for(const p of obj.params)
-                {
-                    validateParameterBlock(p, profileName);
-                }
-            }
-
-            if(obj.blocks !== undefined)
-            {
-                for(const b of obj.blocks)
-                {
-                    validateBlock(b, profileName);
-                }
-            }
-
-            if(obj.name == "if")
-            {
-                for(const b of obj.trueBlocks)
-                {
-                    validateBlock(b, profileName);
-                }
-                for(const b of obj.falseBlocks)
-                {
-                    validateBlock(b, profileName);
-                }
-            }
-        }
-
-        function validateParameterBlock(obj: IParameterBlocks, profileName: string)
-        {
-            if(obj.name == "profile")
-            {
-                expect(fields[profileName]).toContain(obj.value);
-            }
-            
-            if(obj.params !== undefined)
-            {
-                for(const p of obj.params)
-                {
-                    validateParameterBlock(p, profileName);
-                }
-            }
-        }
     });
 
     it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' Slots sensors', () => {
@@ -291,9 +199,9 @@ for(const file of filesToCheck)
         {
             for(const sc of cycle.startConditions)
             {
-                if(sc.checkChain.name == "io")
+                if(sc.checkchain.io !== undefined)
                 {
-                    expect(inputGateNames).toContain(sc.checkChain.io?.gateName);
+                    expect(inputGateNames).toContain(sc.checkchain.io.gateName);
                 }
             }
         }

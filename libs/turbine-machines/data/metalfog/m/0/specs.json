@@ -656,8 +656,7 @@
                 {
                     "conditionName": "emergency-stop",
                     "startOnly": false,
-                    "checkChain": {
-                        "name": "io",
+                    "checkchain": {
                         "io": {
                             "gateName": "emergency-stop",
                             "gateValue": 1
@@ -667,8 +666,7 @@
                 {
                     "conditionName": "air-sensor",
                     "startOnly": false,
-                    "checkChain": {
-                        "name": "io",
+                    "checkchain": {
                         "io": {
                             "gateName": "air-sensor",
                             "gateValue": 1
@@ -678,8 +676,7 @@
                 {
                     "conditionName": "cover-closed",
                     "startOnly": false,
-                    "checkChain": {
-                        "name": "io",
+                    "checkchain": {
                         "io": {
                             "gateName": "cover-closed",
                             "gateValue": 1
@@ -689,8 +686,7 @@
                 {
                     "conditionName": "levels#eff-max-n",
                     "startOnly": false,
-                    "checkChain": {
-                        "name": "io",
+                    "checkchain": {
                         "io": {
                             "gateName": "levels#eff-max-n",
                             "gateValue": 1
@@ -700,1161 +696,185 @@
                 {
                     "conditionName": "maintenance-filter",
                     "startOnly": true,
-                    "checkChain": {
-                        "name": "parameter",
-                        "parameter": {
-                            "name": "conditional",
-                            "value": "==",
-                            "params": [
-                                {
-                                    "name": "maintenance",
-                                    "value": "mfm-filter"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 1
-                                },
-                                {
-                                    "name": "conststr",
-                                    "value": "warning"
-                                },
-                                {
-                                    "name": "conststr",
-                                    "value": "good"
-                                }
-                            ]
-                        }
+                    "checkchain": {
+                        "parameter": {"maintenance_status": "mfm-filter"}
                     }
                 },
                 {
                     "conditionName": "activator-life",
                     "startOnly": true,
-                    "checkChain": {
-                        "name": "parameter",
-                        "parameter": {
-                            "name": "slotstatus",
-                            "value": "act"
-                        }
+                    "checkchain": {
+                        "parameter": {"product_status": "act"}
                     }
                 },
                 {
                     "conditionName": "oxydiser-life",
                     "startOnly": true,
-                    "checkChain": {
-                        "name": "parameter",
-                        "parameter": {
-                            "name": "slotstatus",
-                            "value": "rd"
-                        }
+                    "checkchain": {
+                        "parameter": {"product_status": "ox"}
                     }
                 },
                 {
                     "conditionName": "reducer-life",
                     "startOnly": true,
-                    "checkChain": {
-                        "name": "parameter",
-                        "parameter": {
-                            "name": "slotstatus",
-                            "value": "ox"
-                        }
+                    "checkchain": {
+                        "parameter": {"product_status": "rd"}
                     }
                 }
             ],
             "steps": [
                 {
                     "name": "start",
-                    "isEnabled": {
-                        "name": "const",
-                        "value": 1
-                    },
-                    "duration": {
-                        "name": "const",
-                        "value": 90
-                    },
+                    "isEnabled": 1,
                     "startBlocks": [
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "ventilation"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 1
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "air-heater"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 1
-                                }
-                            ]
-                        }
+                        {"io_write": ["ventilation", 1]},
+                        {"io_write": ["air-heater", 1]}
                     ],
                     "endBlocks": [
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "motor#speed"
-                                },
-                                {
-                                    "name": "multiply",
-                                    "params": [
-                                        {
-                                            "name": "profile",
-                                            "value": "motor#speed"
-                                        },
-                                        {
-                                            "name": "profile",
-                                            "value": "motor#enabled"
-                                        }
-                                    ]
-                                }
+                        {"io_write": ["motor#speed", {"multiply": [{"profile": "motor#speed"}, {"profile": "motor#enabled"}]}]},
+                        {"if":{
+                            "statement": {
+                                "comparator": "==",
+                                "left_side": {"profile": "motor#reverseEnabled"},
+                                "right_side": 1
+                            },
+                            "true_blocks": [
+                                {"start_timer": {
+                                    "timer_name": "motorRotation",
+                                    "timer_interval": {"profile": "motor#reverseTime"},
+                                    "blocks": [{"io_write": ["motor#direction", {"reverse": {"io_read": "motor#direction"}}]}]
+                                }}
                             ]
-                        },
-                        {
-                            "name": "if",
-                            "params": [
-                                {
-                                    "name": "profile",
-                                    "value": "motor#reverseEnabled"
-                                },
-                                {
-                                    "name": "conststr",
-                                    "value": "=="
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 1
-                                }
-                            ],
-                            "trueBlocks": [
-                                {
-                                    "name": "startTimer",
-                                    "params": [
-                                        {
-                                            "name": "conststr",
-                                            "value": "motorRotation"
-                                        },
-                                        {
-                                            "name": "profile",
-                                            "value": "motor#reverseTime"
-                                        }
-                                    ],
-                                    "blocks": [
-                                        {
-                                            "name": "io",
-                                            "params": [
-                                                {
-                                                    "name": "conststr",
-                                                    "value": "motor#direction"
-                                                },
-                                                {
-                                                    "name": "reverse",
-                                                    "value": "",
-                                                    "params": [
-                                                        {
-                                                            "name": "io",
-                                                            "value": "motor#direction"
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ],
-                            "falseBlocks": []
-                        }
+                        }}
                     ],
                     "blocks": [
-                        {
-                            "name": "sleep",
-                            "params": [
-                                {
-                                    "name": "const",
-                                    "value": 90
-                                }
-                            ]
-                        }
+                        {"sleep": 90}
                     ]
                 },
                 {
                     "name": "activation",
-                    "isEnabled": {
-                        "name": "profile",
-                        "value": "activation#enabled"
-                    },
-                    "duration": {
-                        "name": "multiply",
-                        "params": [
-                            {
-                                "name": "profile",
-                                "value": "activation#count"
-                            },
-                            {
-                                "name": "add",
-                                "params": [
-                                    {
-                                        "name": "profile",
-                                        "value": "activation#timeOn"
-                                    },
-                                    {
-                                        "name": "profile",
-                                        "value": "activation#timeOff"
-                                    }
-                                ]
-                            }
-                        ]
-                    },
+                    "isEnabled": {"profile": "activation#enabled"},
                     "startBlocks": [
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "ventilation"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 1
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "motor#speed"
-                                },
-                                {
-                                    "name": "multiply",
-                                    "params": [
-                                        {
-                                            "name": "profile",
-                                            "value": "motor#speed"
-                                        },
-                                        {
-                                            "name": "profile",
-                                            "value": "motor#enabled"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "hybrid#act-res"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 1
-                                }
-                            ]
-                        }
+                        {"io_write": ["hybrid#act-res", 1]}
                     ],
                     "endBlocks": [
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "hybrid#act-res"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 0
-                                }
-                            ]
-                        }
+                        {"io_write": ["hybrid#act-res", 0]}
+
                     ],
                     "blocks": [
-                        {
-                            "name": "for",
-                            "params": [
-                                {
-                                    "name": "profile",
-                                    "value": "activation#count"
-                                }
-                            ],
+                        {"for": {
+                            "limit": {"profile": "activation#count"},
                             "blocks": [
-                                {
-                                    "name": "io",
-                                    "params": [
-                                        {
-                                            "name": "conststr",
-                                            "value": "hybrid#plv"
-                                        },
-                                        {
-                                            "name": "const",
-                                            "value": 1
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "sleep",
-                                    "params": [
-                                        {
-                                            "name": "const",
-                                            "value": 0.25
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "io",
-                                    "params": [
-                                        {
-                                            "name": "conststr",
-                                            "value": "hybrid#lq-act"
-                                        },
-                                        {
-                                            "name": "const",
-                                            "value": 1
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "sleep",
-                                    "params": [
-                                        {
-                                            "name": "profile",
-                                            "value": "activation#timeOn"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "io",
-                                    "params": [
-                                        {
-                                            "name": "conststr",
-                                            "value": "hybrid#lq-act"
-                                        },
-                                        {
-                                            "name": "const",
-                                            "value": 0
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "sleep",
-                                    "params": [
-                                        {
-                                            "name": "const",
-                                            "value": 0.25
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "io",
-                                    "params": [
-                                        {
-                                            "name": "conststr",
-                                            "value": "hybrid#plv"
-                                        },
-                                        {
-                                            "name": "const",
-                                            "value": 0
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "sleep",
-                                    "params": [
-                                        {
-                                            "name": "profile",
-                                            "value": "activation#timeOff"
-                                        }
-                                    ]
-                                }
+                                {"io_write": ["hybrid#plv", 1]},
+                                {"sleep": 0.25},
+                                {"io_write": ["hybrid#lq-act", 1]},
+                                {"sleep": {"profile": "activation#timeOn"}},
+                                {"io_write": ["hybrid#lq-act", 0]},
+                                {"sleep": 0.25},
+                                {"io_write": ["hybrid#plv", 0]},
+                                {"sleep": {"profile": "activation#timeOff"}}
                             ]
-                        }
+                        }}
                     ]
                 },
                 {
                     "name": "wash1",
-                    "isEnabled": {
-                        "name": "profile",
-                        "value": "wash1#enabled"
-                    },
-                    "duration": {
-                        "name": "profile",
-                        "value": "wash1#duration"
-                    },
+                    "isEnabled": {"profile": "wash1#enabled"},
                     "startBlocks": [
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "ventilation"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 1
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "motor#speed"
-                                },
-                                {
-                                    "name": "multiply",
-                                    "params": [
-                                        {
-                                            "name": "profile",
-                                            "value": "motor#speed"
-                                        },
-                                        {
-                                            "name": "profile",
-                                            "value": "motor#enabled"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "hybrid#edi-res"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 1
-                                }
-                            ]
-                        }
+                        {"io_write": ["hybrid#edi-res", 1]},
+                        {"io_write": ["hybrid#plv", 1]}
                     ],
                     "endBlocks": [
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "hybrid#edi-res"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 0
-                                }
-                            ]
-                        }
+                        {"io_write": ["hybrid#edi-res", 0]},
+                        {"io_write": ["hybrid#plv", 0]}
                     ],
                     "blocks": [
-                        {
-                            "name": "sleep",
-                            "params": [
-                                {
-                                    "name": "const",
-                                    "value": 0.5
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "hybrid#plv"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 1
-                                }
-                            ]
-                        },
-                        {
-                            "name": "sleep",
-                            "params": [
-                                {
-                                    "name": "const",
-                                    "value": 0.25
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "hybrid#lq-edi"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 1
-                                }
-                            ]
-                        },
-                        {
-                            "name": "sleep",
-                            "params": [
-                                {
-                                    "name": "profile",
-                                    "value": "wash1#duration"
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "hybrid#lq-edi"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 0
-                                }
-                            ]
-                        },
-                        {
-                            "name": "sleep",
-                            "params": [
-                                {
-                                    "name": "const",
-                                    "value": 0.25
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "hybrid#plv"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 0
-                                }
-                            ]
-                        },
-                        {
-                            "name": "sleep",
-                            "params": [
-                                {
-                                    "name": "const",
-                                    "value": 0.5
-                                }
-                            ]
-                        }
+                        {"sleep": 0.25},
+                        {"io_write": ["hybrid#lq-edi", 1]},
+                        {"sleep": {"profile": "wash1#duration"}},
+                        {"io_write": ["hybrid#lq-edi", 0]},
+                        {"sleep": 0.25}
                     ]
                 },
                 {
                     "name": "metalization",
-                    "isEnabled": {
-                        "name": "profile",
-                        "value": "metalization#enabled"
-                    },
-                    "duration": {
-                        "name": "multiply",
-                        "params": [
-                            {
-                                "name": "profile",
-                                "value": "metalization#count"
-                            },
-                            {
-                                "name": "add",
-                                "params": [
-                                    {
-                                        "name": "profile",
-                                        "value": "metalization#timeOn"
-                                    },
-                                    {
-                                        "name": "profile",
-                                        "value": "metalization#timeOff"
-                                    },
-                                    {
-                                        "name": "const",
-                                        "value": 0.5
-                                    },
-                                    {
-                                        "name": "conditional",
-                                        "value": "==",
-                                        "params": [
-                                           {
-                                              "name": "profile",
-                                              "value": "metalization-wash#enabled"
-                                           },
-                                           {
-                                              "name": "const",
-                                              "value": 1
-                                           },
-                                           {
-                                              "name": "profile",
-                                              "value": "metalization-wash#duration"
-                                           },
-                                           {
-                                              "name": "const",
-                                              "value": 0
-                                           }
-                                        ]
-                                     }
-                                ]
-                            }
-                        ]
-                    },
+                    "isEnabled": {"profile": "metalization#enabled"},
                     "startBlocks": [
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "ventilation"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 1
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "motor#speed"
-                                },
-                                {
-                                    "name": "multiply",
-                                    "params": [
-                                        {
-                                            "name": "profile",
-                                            "value": "motor#speed"
-                                        },
-                                        {
-                                            "name": "profile",
-                                            "value": "motor#enabled"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "met#chem-res"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 1
-                                }
-                            ]
-                        }
+                        {"io_write": ["met#chem-res", 1]}
                     ],
                     "endBlocks": [
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "met#chem-res"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 0
-                                }
-                            ]
-                        }
+                        {"io_write": ["met#chem-res", 0]}
+
                     ],
                     "blocks": [
-                        {
-                            "name": "sleep",
-                            "params": [
-                                {
-                                    "name": "const",
-                                    "value": 0.25
-                                }
-                            ]
-                        },
-                        {
-                            "name": "for",
-                            "params": [
-                                {
-                                    "name": "profile",
-                                    "value": "metalization#count"
-                                }
-                            ],
+                        {"sleep": 0.25},
+                        {"for": {
+                            "limit": {"profile": "metalization#count"},
                             "blocks": [
-                                {
-                                    "name": "io",
-                                    "params": [
-                                        {
-                                            "name": "conststr",
-                                            "value": "met#plv"
-                                        },
-                                        {
-                                            "name": "const",
-                                            "value": 1
-                                        }
+                                {"io_write": ["met#plv", 1]},
+                                {"sleep": 0.25},
+                                {"io_write": ["met#lq-rd", 1]},
+                                {"io_write": ["met##lq-ox", 1]},
+                                {"sleep": {"profile": "metalization#timeOn"}},
+                                {"io_write": ["met#lq-rd", 0]},
+                                {"io_write": ["met##lq-ox", 0]},
+                                {"sleep": 0.25},
+                                {"io_write": ["met#plv", 0]},
+
+                                {"if": {
+                                    "statement": {
+                                        "comparator": "==",
+                                        "left_side": {"profile": "metalization-wash#enabled"},
+                                        "right_side": 1
+                                    },
+                                    "true_blocks": [
+                                        {"io_write": ["hybrid#edi-res", 1]},
+                                        {"sleep": 0.5},
+                                        {"io_write": ["hybrid#plv", 1]},
+                                        {"sleep": 0.25},
+                                        {"io_write": ["hybrid#lq-edi", 1]},
+                                        {"sleep": {"profile": "metalization-wash#duration"}},
+                                        {"io_write": ["hybrid#lq-edi", 0]},
+                                        {"sleep": 0.25},
+                                        {"io_write": ["hybrid#plv", 0]},
+                                        {"sleep": 0.5},
+                                        {"io_write": ["hybrid#edi-res", 0]}
                                     ]
-                                },
-                                {
-                                    "name": "sleep",
-                                    "params": [
-                                        {
-                                            "name": "const",
-                                            "value": 0.25
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "io",
-                                    "params": [
-                                        {
-                                            "name": "conststr",
-                                            "value": "met#lq-rd"
-                                        },
-                                        {
-                                            "name": "const",
-                                            "value": 1
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "io",
-                                    "params": [
-                                        {
-                                            "name": "conststr",
-                                            "value": "met#lq-ox"
-                                        },
-                                        {
-                                            "name": "const",
-                                            "value": 1
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "sleep",
-                                    "params": [
-                                        {
-                                            "name": "profile",
-                                            "value": "metalization#timeOn"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "io",
-                                    "params": [
-                                        {
-                                            "name": "conststr",
-                                            "value": "met#lq-rd"
-                                        },
-                                        {
-                                            "name": "const",
-                                            "value": 0
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "io",
-                                    "params": [
-                                        {
-                                            "name": "conststr",
-                                            "value": "met#lq-ox"
-                                        },
-                                        {
-                                            "name": "const",
-                                            "value": 0
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "sleep",
-                                    "params": [
-                                        {
-                                            "name": "const",
-                                            "value": 0.25
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "io",
-                                    "params": [
-                                        {
-                                            "name": "conststr",
-                                            "value": "met#plv"
-                                        },
-                                        {
-                                            "name": "const",
-                                            "value": 0
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "sleep",
-                                    "params": [
-                                        {
-                                            "name": "profile",
-                                            "value": "metalization#timeOff"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "if",
-                                    "params": [
-                                        {
-                                            "name": "profile",
-                                            "value": "metalization-wash#enabled"
-                                        },
-                                        {
-                                            "name": "conststr",
-                                            "value": "=="
-                                        },
-                                        {
-                                            "name": "const",
-                                            "value": 1
-                                        }
-                                    ],
-                                    "trueBlocks": [
-                                        {
-                                            "name": "io",
-                                            "params": [
-                                                {
-                                                "name": "conststr",
-                                                "value": "hybrid#edi-res"
-                                                },
-                                                {
-                                                "name": "const",
-                                                "value": 1
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "name": "io",
-                                            "params": [
-                                                {
-                                                "name": "conststr",
-                                                "value": "hybrid#lq-edi"
-                                                },
-                                                {
-                                                "name": "const",
-                                                "value": 1
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "name": "io",
-                                            "params": [
-                                                {
-                                                "name": "conststr",
-                                                "value": "hybrid#plv"
-                                                },
-                                                {
-                                                "name": "const",
-                                                "value": 1
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "name": "sleep",
-                                            "params": [
-                                                {
-                                                "name": "profile",
-                                                "value": "metalization-wash#duration"
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "name": "io",
-                                            "params": [
-                                                {
-                                                "name": "conststr",
-                                                "value": "hybrid#edi-res"
-                                                },
-                                                {
-                                                "name": "const",
-                                                "value": 0
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "name": "io",
-                                            "params": [
-                                                {
-                                                "name": "conststr",
-                                                "value": "hybrid#lq-edi"
-                                                },
-                                                {
-                                                "name": "const",
-                                                "value": 0
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "name": "io",
-                                            "params": [
-                                                {
-                                                "name": "conststr",
-                                                "value": "hybrid#plv"
-                                                },
-                                                {
-                                                "name": "const",
-                                                "value": 0
-                                                }
-                                            ]
-                                        }
-                                    ],
-                                    "falseBlocks": []
-                                }
+                                }}
                             ]
-                        },
-                        {
-                            "name": "sleep",
-                            "params": [
-                                {
-                                    "name": "const",
-                                    "value": 0.25
-                                }
-                            ]
-                        }
+                        }},
+                        {"sleep": 0.25}
                     ]
                 },
                 {
                     "name": "wash2",
-                    "isEnabled": {
-                        "name": "profile",
-                        "value": "wash2#enabled"
-                    },
-                    "duration": {
-                        "name": "profile",
-                        "value": "wash2#duration"
-                    },
+                    "isEnabled": {"profile": "wash2#enabled"},
                     "startBlocks": [
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "ventilation"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 1
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "motor#speed"
-                                },
-                                {
-                                    "name": "multiply",
-                                    "params": [
-                                        {
-                                            "name": "profile",
-                                            "value": "motor#speed"
-                                        },
-                                        {
-                                            "name": "profile",
-                                            "value": "motor#enabled"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "hybrid#edi-res"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 1
-                                }
-                            ]
-                        }
+                        {"io_write": ["hybrid#edi-res", 1]},
+                        {"io_write": ["hybrid#plv", 1]}
                     ],
                     "endBlocks": [
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "hybrid#edi-res"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 0
-                                }
-                            ]
-                        }
+                        {"io_write": ["hybrid#edi-res", 0]},
+                        {"io_write": ["hybrid#plv", 0]}
                     ],
                     "blocks": [
-                        {
-                            "name": "sleep",
-                            "params": [
-                                {
-                                    "name": "const",
-                                    "value": 0.5
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "hybrid#plv"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 1
-                                }
-                            ]
-                        },
-                        {
-                            "name": "sleep",
-                            "params": [
-                                {
-                                    "name": "const",
-                                    "value": 0.25
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "hybrid#lq-edi"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 1
-                                }
-                            ]
-                        },
-                        {
-                            "name": "sleep",
-                            "params": [
-                                {
-                                    "name": "profile",
-                                    "value": "wash2#duration"
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "hybrid#lq-edi"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 0
-                                }
-                            ]
-                        },
-                        {
-                            "name": "sleep",
-                            "params": [
-                                {
-                                    "name": "const",
-                                    "value": 0.25
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "hybrid#plv"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 0
-                                }
-                            ]
-                        },
-                        {
-                            "name": "sleep",
-                            "params": [
-                                {
-                                    "name": "const",
-                                    "value": 0.5
-                                }
-                            ]
-                        }
+                        {"sleep": 0.25},
+                        {"io_write": ["hybrid#lq-edi", 1]},
+                        {"sleep": {"profile": "wash2#duration"}},
+                        {"io_write": ["hybrid#lq-edi", 0]},
+                        {"sleep": 0.25}
                     ]
                 },
                 {
                     "name": "vapors-extraction",
-                    "isEnabled": {
-                        "name": "profile",
-                        "value": "vapors-extraction#enabled"
-                    },
-                    "duration": {
-                        "name": "profile",
-                        "value": "vapors-extraction#duration"
-                    },
+                    "isEnabled": {"profile": "vapors-extraction#enabled"},
                     "startBlocks": [],
                     "endBlocks": [
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "ventilation"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 0
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "motor#speed"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 0
-                                }
-                            ]
-                        }
+                        {"io_write": ["ventilation", 0]},
+                        {"io_write": ["motor#speed", 0]}
                     ],
                     "blocks": [
-                        {
-                            "name": "sleep",
-                            "params": [
-                                {
-                                    "name": "profile",
-                                    "value": "vapors-extraction#duration"
-                                }
-                            ]
-                        }
+                        {"sleep": {"profile": "vapors-extraction#duration"}}
                     ]
                 }
             ],

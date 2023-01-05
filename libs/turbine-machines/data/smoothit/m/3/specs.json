@@ -61,8 +61,7 @@
          "bus": "in",
          "controllerId": 0,
          "address": 4,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "nozzle-high#sensor-closed",
@@ -71,8 +70,7 @@
          "bus": "in",
          "controllerId": 0,
          "address": 5,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "nozzle-low#sensor-open",
@@ -81,8 +79,7 @@
          "bus": "in",
          "controllerId": 0,
          "address": 6,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "nozzle-low#sensor-closed",
@@ -91,8 +88,7 @@
          "bus": "in",
          "controllerId": 0,
          "address": 7,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "uv#sensor-open",
@@ -101,8 +97,7 @@
          "bus": "in",
          "controllerId": 0,
          "address": 8,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "uv#sensor-closed",
@@ -111,8 +106,7 @@
          "bus": "in",
          "controllerId": 0,
          "address": 9,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "uv#overheat",
@@ -130,8 +124,7 @@
          "bus": "out",
          "controllerId": 0,
          "address": 0,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "uv#enable",
@@ -140,8 +133,7 @@
          "bus": "out",
          "controllerId": 0,
          "address": 1,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "ventilation",
@@ -150,8 +142,7 @@
          "bus": "out",
          "controllerId": 0,
          "address": 2,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "air-heater",
@@ -160,8 +151,7 @@
          "bus": "out",
          "controllerId": 0,
          "address": 3,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "motor#speed",
@@ -198,8 +188,7 @@
          "bus": "out",
          "controllerId": 1,
          "address": 15,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "nozzle-low#cache",
@@ -208,8 +197,7 @@
          "bus": "out",
          "controllerId": 1,
          "address": 13,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "uv#cache",
@@ -218,8 +206,7 @@
          "bus": "out",
          "controllerId": 1,
          "address": 11,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
 
       {
@@ -229,8 +216,7 @@
          "bus": "out",
          "controllerId": 1,
          "address": 7,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "nozzle-low#pulverization",
@@ -239,8 +225,7 @@
          "bus": "out",
          "controllerId": 1,
          "address": 6,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "resin#pressure",
@@ -249,8 +234,7 @@
          "bus": "out",
          "controllerId": 1,
          "address": 8,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "inerting",
@@ -259,8 +243,7 @@
          "bus": "out",
          "controllerId": 1,
          "address": 9,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
 
       {
@@ -277,7 +260,7 @@
          "mapOutMin": 0
       }
    ],
-   "slots": [
+   "containers": [
       {
          "name": "resin",
          "type": "cnt",
@@ -285,7 +268,7 @@
          "sensors": [
             {
                "io": "resin#slot-sensor",
-               "type": "level-np"
+               "logic": "presence"
             }
          ]
       },
@@ -428,8 +411,6 @@
          "_id": "premade_sla",
          "name": "sla",
          "isPremade": true,
-         "isOverwritable": false,
-         "isRemovable": false,
          "values": {
             "pulverization#enabled": 1,
             "pulverization#timeOn": 0.5,
@@ -474,156 +455,6 @@
          "name": "uv-lamp",
          "durationType": "duration",
          "durationLimit": 30000
-      }
-   ],
-   "manual": [
-      {
-         "name": "motor-rotation",
-         "controls": [
-            {
-               "name": "motor#speed",
-               "analogScaleDependant": true,
-               "isValueAbsolute": true
-            },
-            {
-               "name": "motor#direction",
-               "analogScaleDependant": false,
-               "triggerWhenNegative": true
-            }
-         ],
-         "analogScale": {
-            "min": -100,
-            "max": 100
-         },
-         "watchdog": [
-            {
-               "gateName": "cover-closed",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "uv#cache",
-         "controls": [
-            "uv#cache"
-         ],
-         "watchdog": [
-            {
-               "gateName": "cover-closed",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "nozzle-high#cache",
-         "controls": [
-            "nozzle-high#cache"
-         ],
-         "watchdog": [
-            {
-               "gateName": "cover-closed",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "nozzle-low#cache",
-         "controls": [
-            "nozzle-low#cache"
-         ],
-         "watchdog": [
-            {
-               "gateName": "cover-closed",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "nozzle-high#pulverization",
-         "incompatibility": [
-            "nozzle-high#cache"
-         ],
-         "requires": [
-            "uv#cache",
-            "nozzle-low#cache"
-         ],
-         "controls": [
-            "resin#pressure",
-            "nozzle-high#pulverization"
-         ],
-         "watchdog": [
-            {
-               "gateName": "resin#slot-sensor",
-               "gateValue": 1
-            },
-            {
-               "gateName": "cover-closed",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "nozzle-low#pulverization",
-         "incompatibility": [
-            "nozzle-low#cache"
-         ],
-         "requires": [
-            "uv#cache",
-            "nozzle-high#cache"
-         ],
-         "controls": [
-            "resin#pressure",
-            "nozzle-low#pulverization"
-         ],
-         "watchdog": [
-            {
-               "gateName": "resin#slot-sensor",
-               "gateValue": 1
-            },
-            {
-               "gateName": "cover-closed",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "ventilation",
-         "controls": [
-            "ventilation"
-         ]
-      },
-      {
-         "name": "uv#curing",
-         "incompatibility": [
-            "uv#cache"
-         ],
-         "requires": [
-            "nozzle-low#cache",
-            "nozzle-high#cache"
-         ],
-         "controls": [
-            "uv#enable",
-            {
-               "name": "uv#power",
-               "analogScaleDependant": true
-            }
-         ],
-         "analogScale": {
-            "min": 0,
-            "max": 100
-         },
-         "watchdog": [
-            {
-               "gateName": "cover-closed",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "inerting",
-         "controls": [
-            "inerting"
-         ]
       }
    ],
    "cyclePremades": [
@@ -950,5 +781,6 @@
             }
          ]
       }
-   ]
+   ],
+   "variables": []
 }

@@ -55,8 +55,7 @@
          "bus": "in",
          "controllerId": 0,
          "address": 4,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "nozzle#sensor-closed",
@@ -65,8 +64,7 @@
          "bus": "in",
          "controllerId": 0,
          "address": 5,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "ir#sensor-open",
@@ -75,8 +73,7 @@
          "bus": "in",
          "controllerId": 0,
          "address": 6,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "ir#sensor-closed",
@@ -85,8 +82,7 @@
          "bus": "in",
          "controllerId": 0,
          "address": 7,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "uv#sensor-open",
@@ -95,8 +91,7 @@
          "bus": "in",
          "controllerId": 0,
          "address": 8,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "uv#sensor-closed",
@@ -105,8 +100,7 @@
          "bus": "in",
          "controllerId": 0,
          "address": 9,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "uv#overheat",
@@ -124,8 +118,7 @@
          "bus": "out",
          "controllerId": 0,
          "address": 0,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "uv#enable",
@@ -134,8 +127,7 @@
          "bus": "out",
          "controllerId": 0,
          "address": 1,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "uv#ventil",
@@ -144,8 +136,7 @@
          "bus": "out",
          "controllerId": 0,
          "address": 2,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "ir#enable",
@@ -154,8 +145,7 @@
          "bus": "out",
          "controllerId": 0,
          "address": 3,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "ir#ventil",
@@ -164,8 +154,7 @@
          "bus": "out",
          "controllerId": 0,
          "address": 4,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "ventilation",
@@ -174,8 +163,7 @@
          "bus": "out",
          "controllerId": 0,
          "address": 5,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "air-heater",
@@ -184,8 +172,7 @@
          "bus": "out",
          "controllerId": 0,
          "address": 6,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "motor#speed",
@@ -226,8 +213,7 @@
          "bus": "out",
          "controllerId": 1,
          "address": 15,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "resin#pressure",
@@ -236,8 +222,7 @@
          "bus": "out",
          "controllerId": 1,
          "address": 13,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "inerting",
@@ -246,8 +231,7 @@
          "bus": "out",
          "controllerId": 1,
          "address": 11,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "nozzle#cache",
@@ -256,8 +240,7 @@
          "bus": "out",
          "controllerId": 1,
          "address": 9,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "uv#cache",
@@ -266,8 +249,7 @@
          "bus": "out",
          "controllerId": 1,
          "address": 7,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "ir#cache",
@@ -276,11 +258,10 @@
          "bus": "out",
          "controllerId": 1,
          "address": 5,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       }
    ],
-   "slots": [
+   "containers": [
       {
          "name": "resin",
          "supportedProductSeries": ["tc", "bc"],
@@ -288,7 +269,7 @@
          "sensors": [
             {
                "io": "resin#slot-sensor",
-               "type": "level-np"
+               "logic": "presence"
             }
          ]
       },
@@ -427,8 +408,6 @@
          "_id": "premade_fdm",
          "name": "fdm",
          "isPremade": true,
-         "isRemovable": false,
-         "isOverwritable": false,
          "values": {
             "pulverization#enabled": 1,
             "pulverization#timeOn": 0.5,
@@ -457,8 +436,6 @@
          "_id": "premade_sls",
          "name": "sls",
          "isPremade": true,
-         "isRemovable": false,
-         "isOverwritable": false,
          "values": {
             "pulverization#enabled": 1,
             "pulverization#timeOn": 0.5,
@@ -487,8 +464,6 @@
          "_id": "premade_sla",
          "name": "sla",
          "isPremade": true,
-         "isRemovable": false,
-         "isOverwritable": false,
          "values": {
             "pulverization#enabled": 1,
             "pulverization#timeOn": 0.5,
@@ -517,26 +492,7 @@
       {
          "name": "smt-filter",
          "durationType": "cycle",
-         "durationLimit": 75,
-         "procedure": {
-            "tools": [],
-            "steps": [
-               {
-                  "name": "unscrew-smt-filter",
-                  "media": [
-                     "0.jpg"
-                  ]
-               },
-               {
-                  "name": "replace-smt-new-filter",
-                  "media": [
-                     "1.jpg",
-                     "2.jpg",
-                     "1.jpg"
-                  ]
-               }
-            ]
-         }
+         "durationLimit": 75
       },
       {
          "name": "inner-cleaning",
@@ -546,176 +502,12 @@
       {
          "name": "ir-lamp",
          "durationType": "duration",
-         "durationLimit": 5000,
-         "procedure": {
-            "tools": [
-               "allen-wrench-2.5"
-            ],
-            "steps": [
-               {
-                  "name": "unscrew-top",
-                  "media": [
-                     "0.jpg",
-                     "1.jpg"
-                  ]
-               },
-               {
-                  "name": "replace-ir-lamp",
-                  "media": [
-                     "2.jpg",
-                     "3.jpg",
-                     "4.jpg",
-                     "5.jpg"
-                  ]
-               },
-               {
-                  "name": "screw-top",
-                  "media": [
-                     "1.jpg",
-                     "0.jpg"
-                  ]
-               }
-            ]
-         }
+         "durationLimit": 5000
       },
       {
          "name": "uv-lamp",
          "durationType": "duration",
          "durationLimit": 30000
-      }
-   ],
-   "manual": [
-      {
-         "name": "motor-rotation",
-         "controls": [
-            {"name": "motor#speed", "analogScaleDependant": true}
-         ],
-         "analogScale": {
-            "min": 0,
-            "max": 100
-         },
-         "watchdog": [
-            {
-               "gateName": "cover-closed",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "uv#cache",
-         "controls": [
-            "uv#cache"
-         ],
-         "watchdog": [
-            {
-               "gateName": "cover-closed",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "ir#cache",
-         "controls": [
-            "ir#cache"
-         ],
-         "watchdog": [
-            {
-               "gateName": "cover-closed",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "nozzle#cache",
-         "controls": [
-            "nozzle#cache"
-         ],
-         "watchdog": [
-            {
-               "gateName": "cover-closed",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "nozzle#pulverization",
-         "incompatibility": [
-            "nozzle#cache"
-         ],
-         "requires": [
-            "uv#cache",
-            "ir#cache"
-         ],
-         "controls": [
-            "resin#pressure",
-            "nozzle#pulverization"
-         ],
-         "watchdog": [
-            {
-               "gateName": "resin#slot-sensor",
-               "gateValue": 1
-            },
-            {
-               "gateName": "cover-closed",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "ventilation",
-         "controls": [
-            "ventilation"
-         ]
-      },
-      {
-         "name": "ir#curing",
-         "incompatibility": [
-            "ir#cache"
-         ],
-         "requires": [
-            "uv#cache",
-            "nozzle#cache"
-         ],
-         "controls": [
-            "ir#enable",
-            "ir#ventil"
-         ],
-         "watchdog": [
-            {
-               "gateName": "cover-closed",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "uv#curing",
-         "incompatibility": [
-            "uv#cache"
-         ],
-         "requires": [
-            "ir#cache",
-            "nozzle#cache"
-         ],
-         "controls": [
-            {"name": "uv#enable", "analogScaleDependant": true},
-            "uv#ventil"
-         ],
-         "analogScale": {
-            "min": 0,
-            "max": 100
-         },
-         "watchdog": [
-            {
-               "gateName": "cover-closed",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "inerting",
-         "controls": [
-            "inerting"
-         ]
       }
    ],
    "cyclePremades": [
@@ -1032,5 +824,6 @@
             }
          ]
       }
-   ]
+   ],
+   "variables": []
 }

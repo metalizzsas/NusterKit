@@ -225,7 +225,7 @@
          "levelMax": 0
       }
    ],
-   "slots": [
+   "containers": [
       {
          "name": "resin",
          "type": "cnt",
@@ -233,7 +233,7 @@
          "sensors": [
             {
                "io": "resin#slot-sensor",
-               "type": "level-np"
+               "logic": "presence"
             }
          ]
       },
@@ -361,8 +361,6 @@
          "_id": "premade_sla",
          "name": "sla",
          "isPremade": true,
-         "isOverwritable": false,
-         "isRemovable": false,
          "values": {
             "pulverization#enabled": 1,
             "pulverization#timeOn": 2.3,
@@ -389,26 +387,7 @@
       {
          "name": "smt-filter",
          "durationType": "cycle",
-         "durationLimit": 75,
-         "procedure": {
-            "tools": [],
-            "steps": [
-               {
-                  "name": "unscrew-smt-filter",
-                  "media": [
-                     "0.jpg"
-                  ]
-               },
-               {
-                  "name": "replace-smt-new-filter",
-                  "media": [
-                     "1.jpg",
-                     "2.jpg",
-                     "1.jpg"
-                  ]
-               }
-            ]
-         }
+         "durationLimit": 75
       },
       {
          "name": "inner-cleaning",
@@ -419,119 +398,6 @@
          "name": "uv-lamp",
          "durationType": "duration",
          "durationLimit": 30000
-      }
-   ],
-   "manual": [
-      {
-         "name": "motor-rotation",
-         "controls": [
-            {
-               "name": "motor#speed",
-               "analogScaleDependant": true,
-               "isValueAbsolute": true
-            },
-            {
-               "name": "motor#direction",
-               "analogScaleDependant": false,
-               "triggerWhenNegative": true
-            }
-         ],
-         "analogScale": {
-            "min": -100,
-            "max": 100
-         },
-         "watchdog": [
-            {
-               "gateName": "cover-closed",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "uv#cache",
-         "controls": [
-            "uv#cache"
-         ],
-         "watchdog": [
-            {
-               "gateName": "cover-closed",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "nozzle#cache",
-         "controls": [
-            "nozzle#cache"
-         ],
-         "watchdog": [
-            {
-               "gateName": "cover-closed",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "nozzle#pulverization",
-         "incompatibility": [
-            "nozzle#cache"
-         ],
-         "requires": [
-            "uv#cache"
-         ],
-         "controls": [
-            "resin#pressure",
-            "nozzle#pulverization"
-         ],
-         "watchdog": [
-            {
-               "gateName": "resin#slot-sensor",
-               "gateValue": 1
-            },
-            {
-               "gateName": "cover-closed",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "ventilation",
-         "controls": [
-            "ventilation"
-         ]
-      },
-      {
-         "name": "uv#curing",
-         "incompatibility": [
-            "uv#cache"
-         ],
-         "requires": [
-            "nozzle#cache"
-         ],
-         "controls": [
-            "uv#enable",
-            "uv#ventil",
-            {
-               "name": "uv#power",
-               "analogScaleDependant": true
-            }
-         ],
-         "analogScale": {
-            "min": 0,
-            "max": 100
-         },
-         "watchdog": [
-            {
-               "gateName": "cover-closed",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "inerting",
-         "controls": [
-            "inerting"
-         ]
       }
    ],
    "cyclePremades": [
@@ -809,5 +675,6 @@
             }
          ]
       }
-   ]
+   ],
+   "variables": []
 }

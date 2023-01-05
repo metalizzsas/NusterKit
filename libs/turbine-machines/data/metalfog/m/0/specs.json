@@ -167,7 +167,7 @@
             "size": "bit"
         }
     ],
-    "slots": [
+    "containers": [
         {
             "name": "ox",
             "type": "psp",
@@ -203,7 +203,7 @@
             "sensors": [
                 {
                     "io": "levels#eff-max-n",
-                    "type": "level-max-n"
+                    "logic": "level-max"
                 }
             ]
         }
@@ -357,8 +357,6 @@
             "_id": "premade_usl",
             "name": "usl",
             "isPremade": true,
-            "isRemovable": false,
-            "isOverwritable": false,
             "values": {
                 "motor#enabled": 1,
                 "motor#speed": 50,
@@ -387,8 +385,6 @@
             "_id": "premade_usl-retake",
             "name": "usl-retake",
             "isPremade": true,
-            "isRemovable": false,
-            "isOverwritable": false,
             "values": {
                 "motor#enabled": 1,
                 "motor#speed": 50,
@@ -417,8 +413,6 @@
             "_id": "premade_usl-activation-porous",
             "name": "usl-activation-porous",
             "isPremade": true,
-            "isRemovable": false,
-            "isOverwritable": false,
             "values": {
                 "motor#enabled": 1,
                 "motor#speed": 50,
@@ -447,189 +441,7 @@
         {
             "name": "mfm-filter",
             "durationType": "cycle",
-            "durationLimit": 50,
-            "procedure": {
-               "tools": [],
-               "steps": [
-                  {
-                     "name": "unscrew-mfm-filter",
-                     "media": [
-                        "0.jpg"
-                     ]
-                  },
-                  {
-                     "name": "replace-mfm-new-filter",
-                     "media": [
-                        "1.jpg",
-                        "2.jpg",
-                        "1.jpg"
-                     ]
-                  }
-               ]
-            }
-         }
-    ],
-    "manual": [
-        {
-            "name": "motor-rotation",
-            "controls": [
-                {
-                    "name": "motor#speed",
-                    "analogScaleDependant": true,
-                    "isValueAbsolute": true
-                },
-                {
-                    "name": "motor#direction",
-                    "analogScaleDependant": false,
-                    "triggerWhenNegative": true
-                }
-            ],
-            "analogScale": {
-                "min": -100,
-                "max": 100
-            },
-            "watchdog": [
-                {
-                    "gateName": "cover-closed",
-                    "gateValue": 1
-                }
-            ]
-        },
-        {
-            "name": "hybrid#act",
-            "controls": [
-                "hybrid#plv",
-                "hybrid#lq-act"
-            ],
-            "requires": [
-                "ventilation"
-            ],
-            "incompatibility": [
-                "hybrid#edi",
-                "empty#act",
-                "empty#edi"
-            ],
-            "watchdog": [
-                {
-                    "gateName": "levels#eff-max-n",
-                    "gateValue": 1
-                }
-            ]
-        },
-        {
-            "name": "hybrid#edi",
-            "controls": [
-                "hybrid#plv",
-                "hybrid#edi-res",
-                "hybrid#lq-edi"
-            ],
-            "requires": [
-                "ventilation"
-            ],
-            "incompatibility": [
-                "hybrid#act",
-                "empty#act",
-                "empty#edi"
-            ],
-            "watchdog": [
-                {
-                    "gateName": "levels#eff-max-n",
-                    "gateValue": 1
-                }
-            ]
-        },
-        {
-            "name": "met#chem",
-            "incompatibility": [
-                "empty#chem"
-            ],
-            "requires": [
-                "ventilation"
-            ],
-            "controls": [
-                "met#plv",
-                "met#chem-res",
-                "met#lq-ox",
-                "met#lq-rd"
-            ],
-            "watchdog": [
-                {
-                    "gateName": "levels#eff-max-n",
-                    "gateValue": 1
-                }
-            ]
-        },
-        {
-            "name": "ventilation",
-            "incompatibility": [],
-            "controls": [
-                "ventilation"
-            ]
-        },
-        {
-            "name": "air-heater",
-            "incompatibility": [],
-            "requires": [],
-            "controls": [
-                "air-heater"
-            ]
-        },
-        {
-            "name": "empty#act",
-            "incompatibility": [
-                "hybrid#act",
-                "hybrid#edi",
-                "met#chem",
-                "empty#edi"
-            ],
-            "controls": [
-                "hybrid#act-res",
-                "hybrid#lq-act"
-            ],
-            "watchdog": [
-                {
-                    "gateName": "levels#eff-max-n",
-                    "gateValue": 1
-                }
-            ]
-        },
-        {
-            "name": "empty#edi",
-            "incompatibility": [
-                "hybrid#act",
-                "hybrid#edi",
-                "met#chem",
-                "empty#act"
-            ],
-            "controls": [
-                "hybrid#edi-res",
-                "hybrid#lq-edi"
-            ],
-            "watchdog": [
-                {
-                    "gateName": "levels#eff-max-n",
-                    "gateValue": 1
-                }
-            ]
-        },
-        {
-            "name": "empty#chem",
-            "incompatibility": [
-                "hybrid#act",
-                "hybrid#edi",
-                "met#chem"
-            ],
-            "controls": [
-                "met#chem-res",
-                "met#lq-ox",
-                "met#lq-rd"
-            ],
-            "watchdog": [
-                {
-                    "gateName": "levels#eff-max-n",
-                    "gateValue": 1
-                }
-            ]
+            "durationLimit": 50
         }
     ],
     "cyclePremades": [
@@ -1031,5 +843,6 @@
                  }
             ]
         }
-    ]
+    ],
+    "variables": []
 }

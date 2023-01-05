@@ -17,7 +17,7 @@
         "modal": {
             "actions": {
                 "act": {
-                    "default": "Manual loading",
+                    "load": "Manual loading",
                     "load_alt": "Automatic dilution loading",
                     "unload": "Emptying"
                 },

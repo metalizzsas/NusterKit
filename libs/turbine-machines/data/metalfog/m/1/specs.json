@@ -5,6 +5,7 @@
       "connectPopup": {
          "title": "popups.nozzle-cleaning.title",
          "message": "popups.nozzle-cleaning.message",
+         "level": "info",
          "callToAction": [
             {
                "name": "popups.nozzle-cleaning.actions.main",
@@ -12,7 +13,7 @@
                   "url": "/api/v1/cycle/nozzle-cleaning",
                   "method": "post"
                },
-               "UIEndpoint": "/app/cycle/"
+               "UIEndpoint": "/"
             }
          ]
       }
@@ -407,7 +408,7 @@
          "size": "bit"
       }
    ],
-   "slots": [
+   "containers": [
       {
          "name": "ox",
          "type": "psp",
@@ -415,7 +416,7 @@
          "sensors": [
             {
                "io": "levels#ox-min-n",
-               "type": "level-min-n"
+               "logic": "level-min"
             }
          ],
          "callToAction": [
@@ -457,7 +458,7 @@
          "sensors": [
             {
                "io": "levels#rd-min-n",
-               "type": "level-min-n"
+               "logic": "level-min"
             }
          ],
          "callToAction": [
@@ -499,11 +500,11 @@
          "sensors": [
             {
                "io": "levels#act-min-n",
-               "type": "level-min-n"
+               "logic": "level-min"
             },
             {
                "io": "levels#act-max-n",
-               "type": "level-max-n"
+               "logic": "level-max"
             }
          ],
          "callToAction": [
@@ -552,11 +553,11 @@
          "sensors": [
             {
                "io": "levels#edi-min-n",
-               "type": "level-min-n"
+               "logic": "level-min"
             },
             {
                "io": "levels#edi-max-n",
-               "type": "level-max-n"
+               "logic": "level-max"
             }
          ]
       },
@@ -566,11 +567,11 @@
          "sensors": [
             {
                "io": "levels#eff-max-n",
-               "type": "level-max-n"
+               "logic": "level-limit-max"
             },
             {
                "io": "eff-container-sensor",
-               "type": "level-np"
+               "logic": "presence"
             }
          ]
       }
@@ -783,8 +784,6 @@
          "_id": "premade_usl",
          "name": "usl",
          "isPremade": true,
-         "isRemovable": false,
-         "isOverwritable": false,
          "values": {
             "act-edi-nozzles#act-edi-high": 1,
             "act-edi-nozzles#act-edi-low": 1,
@@ -820,8 +819,6 @@
          "_id": "premade_usl-retake",
          "name": "usl-retake",
          "isPremade": true,
-         "isRemovable": false,
-         "isOverwritable": false,
          "values": {
             "act-edi-nozzles#act-edi-high": 1,
             "act-edi-nozzles#act-edi-low": 1,
@@ -857,8 +854,6 @@
          "_id": "premade_usl-activation-porous",
          "name": "usl-activation-porous",
          "isPremade": true,
-         "isRemovable": false,
-         "isOverwritable": false,
          "values": {
             "act-edi-nozzles#act-edi-high": 1,
             "act-edi-nozzles#act-edi-low": 1,
@@ -892,9 +887,7 @@
       {
          "skeleton": "container-emptying",
          "_id": "premade_container-emptying-all",
-         "isOverwritable": false,
          "isPremade": true,
-         "isRemovable": false,
          "name": "container-emptying-all",
          "values": {
             "emptying#ox": 1,
@@ -907,471 +900,7 @@
       {
          "name": "mfm-filter",
          "durationType": "cycle",
-         "durationLimit": 50,
-         "procedure": {
-            "tools": [],
-            "steps": [
-               {
-                  "name": "unscrew-mfm-filter",
-                  "media": [
-                     "0.jpg"
-                  ]
-               },
-               {
-                  "name": "replace-mfm-new-filter",
-                  "media": [
-                     "1.jpg",
-                     "2.jpg",
-                     "1.jpg"
-                  ]
-               }
-            ]
-         }
-      }
-   ],
-   "manual": [
-      {
-         "name": "motor-rotation",
-         "controls": [
-            {
-               "name": "motor#speed",
-               "analogScaleDependant": true,
-               "isValueAbsolute": true
-            },
-            {
-               "name": "motor#direction",
-               "analogScaleDependant": false,
-               "triggerWhenNegative": true
-            }
-         ],
-         "analogScale": {
-            "min": -100,
-            "max": 100
-         },
-         "watchdog": [
-            {
-               "gateName": "cover-closed",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "hybrid#act-high",
-         "controls": [
-            "hybrid#act-res",
-            "hybrid#plv-high",
-            "hybrid#act-lq-high"
-         ],
-         "requires": [
-            "ventilation"
-         ],
-         "incompatibility": [
-            "hybrid#edi-high",
-            "empty#act",
-            "empty#edi"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "hybrid#act-low",
-         "controls": [
-            "hybrid#act-res",
-            "hybrid#plv-low",
-            "hybrid#act-lq-low"
-         ],
-         "requires": [
-            "ventilation"
-         ],
-         "incompatibility": [
-            "hybrid#edi-low",
-            "empty#act",
-            "empty#edi"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "hybrid#edi-high",
-         "controls": [
-            "hybrid#edi-res",
-            "hybrid#plv-high",
-            "hybrid#edi-lq-high"
-         ],
-         "requires": [
-            "ventilation"
-         ],
-         "incompatibility": [
-            "hybrid#act-high",
-            "empty#act",
-            "empty#edi"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "hybrid#edi-low",
-         "controls": [
-            "hybrid#edi-res",
-            "hybrid#plv-low",
-            "hybrid#edi-lq-low"
-         ],
-         "incompatibility": [
-            "hybrid#act-low",
-            "empty#act",
-            "empty#edi"
-         ],
-         "requires": [
-            "ventilation"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "met#ox-high",
-         "incompatibility": [
-            "empty#ox"
-         ],
-         "requires": [
-            "ventilation"
-         ],
-         "controls": [
-            "met#ox-res",
-            "met#ox-lq-high",
-            "met#plv-high"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "met#rd-high",
-         "incompatibility": [
-            "empty#rd"
-         ],
-         "requires": [
-            "ventilation"
-         ],
-         "controls": [
-            "met#rd-res",
-            "met#rd-lq-high",
-            "met#plv-high"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "met#ox-mid",
-         "incompatibility": [
-            "empty#ox"
-         ],
-         "requires": [
-            "ventilation"
-         ],
-         "controls": [
-            "met#ox-res",
-            "met#ox-lq-mid",
-            "met#plv-mid"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "met#rd-mid",
-         "incompatibility": [
-            "empty#rd"
-         ],
-         "requires": [
-            "ventilation"
-         ],
-         "controls": [
-            "met#rd-res",
-            "met#rd-lq-mid",
-            "met#plv-mid"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "met#ox-low",
-         "incompatibility": [
-            "empty#ox"
-         ],
-         "requires": [
-            "ventilation"
-         ],
-         "controls": [
-            "met#ox-res",
-            "met#ox-lq-low",
-            "met#plv-low"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "met#rd-low",
-         "incompatibility": [
-            "empty#rd"
-         ],
-         "requires": [
-            "ventilation"
-         ],
-         "controls": [
-            "met#rd-res",
-            "met#rd-lq-low",
-            "met#plv-low"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "ventilation",
-         "incompatibility": [],
-         "controls": [
-            "ventilation"
-         ]
-      },
-      {
-         "name": "air-heater",
-         "incompatibility": [],
-         "requires": [],
-         "controls": [
-            "air-heater"
-         ]
-      },
-      {
-         "name": "empty#act",
-         "incompatibility": [
-            "hybrid#act-high",
-            "hybrid#act-low",
-            "hybrid#edi-high",
-            "hybrid#edi-low",
-            "met#ox-high",
-            "met#rd-high",
-            "met#ox-mid",
-            "met#rd-mid",
-            "met#ox-low",
-            "met#rd-low",
-            "empty#edi",
-            "fill-act"
-         ],
-         "controls": [
-            "hybrid#act-res",
-            "hybrid#act-lq-high",
-            "hybrid#act-lq-low"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "empty#edi",
-         "incompatibility": [
-            "hybrid#act-high",
-            "hybrid#act-low",
-            "hybrid#edi-high",
-            "hybrid#edi-low",
-            "met#ox-high",
-            "met#rd-high",
-            "met#ox-mid",
-            "met#rd-mid",
-            "met#ox-low",
-            "met#rd-low",
-            "empty#act",
-            "fill-act"
-         ],
-         "controls": [
-            "hybrid#edi-res",
-            "hybrid#edi-lq-high",
-            "hybrid#edi-lq-low"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "empty#ox",
-         "incompatibility": [
-            "hybrid#act-high",
-            "hybrid#act-low",
-            "hybrid#edi-high",
-            "hybrid#edi-low",
-            "met#ox-high",
-            "met#rd-high",
-            "met#ox-mid",
-            "met#rd-mid",
-            "met#ox-low",
-            "met#rd-low"
-         ],
-         "controls": [
-            "met#ox-res",
-            "met#ox-lq-high",
-            "met#ox-lq-mid",
-            "met#ox-lq-low"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "empty#rd",
-         "incompatibility": [
-            "hybrid#act-high",
-            "hybrid#act-low",
-            "hybrid#edi-high",
-            "hybrid#edi-low",
-            "met#ox-high",
-            "met#rd-high",
-            "met#ox-mid",
-            "met#rd-mid",
-            "met#ox-low",
-            "met#rd-low"
-         ],
-         "controls": [
-            "met#rd-res",
-            "met#rd-lq-high",
-            "met#rd-lq-mid",
-            "met#rd-lq-low"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "fill-act",
-         "incompatibility": [
-            "hybrid#act-high",
-            "hybrid#act-low",
-            "hybrid#edi-high",
-            "hybrid#edi-low",
-            "empty#act",
-            "empty#edi"
-         ],
-         "controls": [
-            "hybrid#edi-res",
-            "hybrid#lq-fill-act"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            },
-            {
-               "gateName": "levels#act-max-n",
-               "gateValue": 0
-            }
-         ]
+         "durationLimit": 50
       }
    ],
    "cyclePremades": [
@@ -2289,5 +1818,6 @@
             }
          ]
       }
-   ]
+   ],
+   "variables": ["ox_pressure", "rd_pressure"]
 }

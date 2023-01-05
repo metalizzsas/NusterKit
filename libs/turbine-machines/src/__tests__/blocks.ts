@@ -4,10 +4,10 @@ import path from "path";
 import { matchers } from 'jest-json-schema';
 
 import type { IMachineSpecs } from "@metalizzsas/nuster-typings/build/spec";
-import { AllProgramBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlocks";
+import { AllProgramBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
 import { ParameterBlockRegistry } from "@metalizzsas/nuster-turbine/src/pbr/ParameterBlocks/ParameterBlockRegistry";
 import { ProgramBlockRegistry } from "@metalizzsas/nuster-turbine/src/pbr/ProgramBlocks/ProgramBlockRegistry";
-import { AllParameterBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/IParameterBlocks";
+import { AllParameterBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
 
 expect.extend(matchers);
 

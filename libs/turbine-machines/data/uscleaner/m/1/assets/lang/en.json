@@ -1,7 +1,7 @@
 {
     "slots": {
         "types": {
-            "bac": "Container"
+            "bac": "Liquid tank"
         },
         "colors": {
             "bac": "from-blue-800 to-blue-900"
@@ -34,7 +34,7 @@
             "default": "Main USCleaner cycle"
         },
         "types": {
-            "10min30deg": "10 minutes at 30 °C"
+            "10min": "10 minutes"
         },
         "steps": {
             "cleaning": {

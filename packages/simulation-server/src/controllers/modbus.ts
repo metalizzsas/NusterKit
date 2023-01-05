@@ -1,17 +1,17 @@
-import { IOGatesConfig } from "@metalizzsas/nuster-typings/build/spec/iogates";
-import { IOControllersConfig } from "@metalizzsas/nuster-typings/build/spec/iophysicalcontrollers";
+import { IOGates } from "@metalizzsas/nuster-typings/build/spec/iogates";
+import { IOHandlers } from "@metalizzsas/nuster-typings/build/spec/iohandlers";
 import { type IServiceVector } from "modbus-serial/ServerTCP";
 import { ServerTCP } from "modbus-serial";
 
 export class ModbusController
 {
-    private gates: (IOGatesConfig & { value: number })[];
+    private gates: (IOGates & { value: number })[];
 
     modbus: ServerTCP;
 
     index: number;
 
-    constructor(controller: IOControllersConfig, gates: IOGatesConfig[], index: number)
+    constructor(controller: IOHandlers, gates: IOGates[], index: number)
     {
         this.index = index;
         
@@ -54,5 +54,10 @@ export class ModbusController
     {
         const gate = this.gates.find(k => k.address == address && k.size == "word" && k.bus == "out");
         gate.value = value;
+    }
+
+    close()
+    {
+        this.modbus.close(() => {});
     }
 }

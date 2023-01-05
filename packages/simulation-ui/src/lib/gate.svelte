@@ -1,12 +1,12 @@
 <script lang="ts">
-	import type { IOGates } from '@metalizzsas/nuster-typings/build/spec/iogates';
+	import type { IOGatesHydrated } from "@metalizzsas/nuster-typings/build/hydrated/io";
 
-	export let gate: IOGates;
+	export let gate: IOGatesHydrated;
 
-	const updateGate = (name: string, value: boolean) => {
+	const updateGate = (name: string, value: number) => {
 		name = name.replace('#', '_');
 
-		void fetch(`http://localhost:4081/io/${name}/${value === true ? 1 : 0}`, { method: 'post' });
+		void fetch(`http://localhost:4081/io/${name}/${value}`, { method: 'post' });
 	};
 </script>
 
@@ -25,7 +25,7 @@
 					type="checkbox"
 					checked={gate.value}
 					on:change={(e) => {
-						updateGate(gate.name, e.target.checked);
+						updateGate(gate.name, e.target.checked ? 1 : 0);
 					}}
 				/>
 				Change value
@@ -35,6 +35,16 @@
 				type="range"
 				min={gate.mapInMin}
 				max={gate.mapOutMax}
+				value={gate.value}
+				on:change={(e) => {
+					updateGate(gate.name, e.target.value);
+				}}
+			/>
+		{:else if gate.type == "pt100"}
+			<input
+				type="range"
+				min={0}
+				max={10000}
 				value={gate.value}
 				on:change={(e) => {
 					updateGate(gate.name, e.target.value);

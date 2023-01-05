@@ -1,5 +1,5 @@
-import { IOGatesConfig } from "@metalizzsas/nuster-typings/build/spec/iogates";
-import { IOControllersConfig } from "@metalizzsas/nuster-typings/build/spec/iophysicalcontrollers";
+import { IOGates } from "@metalizzsas/nuster-typings/build/spec/iogates";
+import { IOHandlers } from "@metalizzsas/nuster-typings/build/spec/iohandlers";
 import { ModbusController } from "./controllers/modbus";
 
 import * as MetalfogMR1 from "@metalizzsas/nuster-turbine-machines/data/metalfog/m/1/specs.json";
@@ -10,10 +10,11 @@ import * as SmoothitMR1 from "@metalizzsas/nuster-turbine-machines/data/smoothit
 import * as SmoothitMR2 from "@metalizzsas/nuster-turbine-machines/data/smoothit/m/2/specs.json";
 import * as SmoothitMR3 from "@metalizzsas/nuster-turbine-machines/data/smoothit/m/3/specs.json";
 
-import { IMachineSpecs } from "@metalizzsas/nuster-typings";
+import { Addon, MachineSpecs } from "@metalizzsas/nuster-typings";
 import { app } from "./server";
 import type { Request, Response } from "express";
 import { ENIPController } from "./controllers/enip";
+import { deepInsert } from "./deepInsert";
 
 const MachineConfigs = {
     "metalfog/m/1": MetalfogMR1,
@@ -25,13 +26,18 @@ const MachineConfigs = {
 
 export class SimulationMachine
 {
-    config: IMachineSpecs;
+    config: MachineSpecs;
     controllers: (ModbusController | ENIPController)[] = [];
 
-    constructor(model: string, variant: string, revision: number)
+    constructor(model: string, variant: string, revision: number, addons: string[] = [])
     {
         this.config = structuredClone(MachineConfigs[`${model}/${variant}/${revision}`]);
 
+        for(const addon of addons)
+        {
+            this.config = parseAddon(this.config, this.config.addons.find(k => k.addonName == addon))
+        }
+        
         this.setupAutomatons(this.config.iohandlers, this.config.iogates);
 
         app.get("/", (_, res: Response) => {
@@ -83,7 +89,7 @@ export class SimulationMachine
      * @param controllers 
      * @param gates 
      */
-    setupAutomatons(controllers: IOControllersConfig[], gates: IOGatesConfig[])
+    setupAutomatons(controllers: IOHandlers[], gates: IOGates[])
     {
         for(const [index, controller] of controllers.entries())
         {
@@ -95,4 +101,25 @@ export class SimulationMachine
             }
         }
     }
+
+    dispose()
+    {
+        for(const handler of this.controllers)
+        {
+            handler.close();
+        }
+    }
+}
+
+export function parseAddon(specs: MachineSpecs, addon: Addon): MachineSpecs
+{
+    console.log("AddonLoader: Adding " + addon.addonName + ".");
+
+    for(const content of addon.content)
+    {
+        console.log(" ↳ Adding content on " + content.path + " with " + content.mode + " mode.")
+        specs = deepInsert(specs, content.content, content.path, content.mode);
+    }
+
+    return specs;
 }

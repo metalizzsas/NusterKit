@@ -1,19 +1,16 @@
-import { AllProgramBlocks } from "../../../spec/cycle/IProgramBlocks";
-import type { IProgramBlockRunnerHydrated } from "../IProgramBlockRunnerHydrated";
+import type { AllProgramBlocks } from "../../../spec/cycle/blocks/ProgramBlocks";
 
 export class ProgramBlockHydrated {
-
-    protected pbrInstance?: IProgramBlockRunnerHydrated;
     
     readonly name: string;
 
     estimatedRunTime = 0;
     executed = false;
+    earlyExit = false;
     
-    constructor(obj: AllProgramBlocks, pbrInstance?: IProgramBlockRunnerHydrated)
+    constructor(obj: AllProgramBlocks)
     {
         this.name = Object.keys(obj)[0]; // Crappy way to get the function name
-        this.pbrInstance = pbrInstance;
     }
     
     /** Execute function */

@@ -1,5 +1,5 @@
-export interface IAddon
-{
+/** Addon */
+type Addon = {
     /** Addon name, should be the same as the Json file holding him */
     addonName: string,
     /** Addon content Array  */
@@ -22,3 +22,5 @@ export interface IAddon
         content: unknown;
     }[]
 }
+
+export { Addon };

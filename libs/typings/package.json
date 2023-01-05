@@ -4,6 +4,9 @@
   "description": "Typings for NusterKit",
   "types": "build/index.d.ts",
   "main": "build/index.js",
+  "files": [
+    "build"
+  ],
   "engines": {
     "node": "18.x"
   },
@@ -11,8 +14,8 @@
     "lint": "eslint --ext .ts .",
     "dev": "tsc --watch",
     "build": "tsc && npm run schema:config && npm run schema:spec",
-    "schema:config": "typescript-json-schema src/configuration/index.ts IConfiguration --noExtraProps --required -o build/schemas/schema-config.json",
-    "schema:spec": "typescript-json-schema src/spec/index.ts IMachineSpecs --noExtraProps --required -o build/schemas/schema-specs.json"
+    "schema:config": "typescript-json-schema src/configuration/index.ts Configuration --noExtraProps --required -o build/schemas/schema-config.json",
+    "schema:spec": "typescript-json-schema src/spec/index.ts MachineSpecs --noExtraProps --required -o build/schemas/schema-specs.json"
   },
   "keywords": [],
   "author": "@metalizzsas/kworz",

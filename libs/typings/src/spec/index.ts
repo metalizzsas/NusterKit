@@ -1,54 +1,48 @@
-import { IAddon } from "./addons"
-import { IProgramBlockRunner, IPBRPremades } from "./cycle/IProgramBlockRunner"
-import { IOGatesConfig } from "./iogates"
-import { IOControllersConfig } from "./iophysicalcontrollers"
-import { IConfigMaintenance } from "./maintenance"
-import { IConfigManualMode } from "./manual"
-import { IProfileConfig, IProfileSkeleton } from "./profile"
-import { IConfigSlot } from "./slot"
-import { IPopup } from "../hydrated"
+import type { Addon } from "./addons";
+import type { Container } from "./containers";
+import type { CyclePremade, ProgramBlockRunner } from "./cycle";
+import type { IOGates } from "./iogates";
+import type { IOHandlers } from "./iohandlers";
+import type { Maintenances } from "./maintenances";
+import type { Nuster } from "./nuster"
+import type { Profile, ProfileSkeleton } from "./profiles";
 
 /** Machine JSON Specifications */
-export declare interface IMachineSpecs
+export declare interface MachineSpecs
 {
     /** 
      * Schema used by the configuration file
      * @defaultValue ../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-specs.json
      */
-    $schema: string;
+    $schema: "../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-specs.json";
 
     /** Nuster Additional data */
-    nuster?: {
-        /** Connect popup is triggered when the user logs on for the first time */
-        connectPopup?: IPopup
-    }
+    nuster?: Nuster
 
     /** Cycle types definition */
-    cycleTypes: IProgramBlockRunner[],
+    cycleTypes: ProgramBlockRunner[],
     /** Cycle premades definition */
-    cyclePremades: IPBRPremades[],
+    cyclePremades: CyclePremade[],
 
     /** IOHandler definitions */
-    iohandlers: IOControllersConfig[],
+    iohandlers: IOHandlers[];
     /** IOGates definition */
-    iogates: IOGatesConfig[],
+    iogates: IOGates[];
 
     /** Maintenance tasks definition */
-    maintenance: IConfigMaintenance[],
-    /** Manuals modes definition */
-    manual: IConfigManualMode[],
+    maintenance: Maintenances[],
 
     /** Profile skeletons definition */
-    profileSkeletons: IProfileSkeleton[],
+    profileSkeletons: ProfileSkeleton[],
     /** Premade profile definition */
-    profilePremades: IProfileConfig[],
+    profilePremades: Profile[],
 
     /** Product slots definition */
-    slots: IConfigSlot[],
+    containers: Container[],
 
-    /** 
-     * Addons available on this machine
-     * @beta
-     */
-    addons?: IAddon[]
+    /** Supported machine variables */
+    variables: string[]
+
+    /** Addons available on this machine */
+    addons?: Addon[]
 }

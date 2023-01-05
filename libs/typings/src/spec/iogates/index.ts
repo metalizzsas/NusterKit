@@ -1,11 +1,5 @@
-import { IMappedGate } from "./IMappedGate";
-import { IUM18Gate } from "./IUM18Gate";
-import { IPT100Gate } from "./IPT100Gate";
-import { IDefaultGate } from "./IDefaultGate";
-
-export type IOGateTypeName = "pt100" | "um18" | "mapped" | "default";
-
-export interface IIOGateConfig
+/** Base `IOGate` */
+interface IOGate
 {
     /** Gate name */
     name: string;
@@ -15,7 +9,7 @@ export interface IIOGateConfig
     /** Gate bus */
     bus: "in" | "out";
     /** Gate type */
-    type: IOGateTypeName;
+    type: "default" | "mapped" | "pt100";
     
     /** Automaton where this gate is available */
     controllerId: number;
@@ -27,22 +21,67 @@ export interface IIOGateConfig
     
     /** Unity used by this gate */
     unity?: string;
-    
 }
-export type IOGatesConfig = (IDefaultGate | IUM18Gate | IMappedGate | IPT100Gate) & IIOGateConfig;
 
-export interface IIOGate extends IIOGateConfig
+/** `DefaultGate`: base gate with no special computation needed. */
+interface DefaultGate extends IOGate
+{
+    type: "default";
+}
+
+/** `MappedGate`: will map value in range In to out range. */
+interface MappedGate extends IOGate
+{
+    type: "mapped";
+    /** Size is always a word for this typoe of Gate */
+    size: "word";
+
+    /** Mapped output min data, to Human */
+    mapOutMin: number;
+    
+    /** Mapped output max data, to Human */
+    mapOutMax: number;
+
+    /** 
+     * Mapped input min data, from IO Controller
+     * @defaultValue 0
+     */
+    mapInMin?: number;
+    /** 
+     * Mapped input max data, from IOController
+     * @defaultValue 32767
+     */
+    mapInMax?: number;
+}
+
+/** `PT100`: Temperature gate. */
+interface PT100Gate extends IOGate
+{
+    type: "pt100",
+    size: "word",
+    unity: "°C",
+    bus: "in"
+}
+
+/** Available Spec gates */
+type IOGates = (DefaultGate | MappedGate | PT100Gate) & IOGate;
+
+/** Base IOGate Class implementation */
+interface IOGateBase extends IOGate
 {
     category: string;
     value: number;
 
+    locked: boolean;
+
     /** Reads the value of the gate */
-    read(): Promise<boolean>
+    read(ignoreValueAssignement?: boolean): Promise<boolean | number>
     
     /** 
      * Writes data to the gate
      * @param data Data to write to the gate
      */
-    write(data: number): Promise<boolean>
+    write(data: number, ignoreValueAssignement?: boolean): Promise<boolean>
 }
-export type IOGates = (IDefaultGate | IUM18Gate | IMappedGate | IPT100Gate) & IIOGate;
+
+export { IOGateBase, IOGates, DefaultGate, MappedGate, PT100Gate };

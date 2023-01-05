@@ -1,15 +1,12 @@
-import { AllParameterBlocks } from "../../../spec/cycle/IParameterBlocks";
-import { IProgramBlockRunnerHydrated } from "../IProgramBlockRunnerHydrated";
+import type { AllParameterBlocks } from "../../../spec/cycle/blocks/ParameterBlocks";
 
 export class ParameterBlockHydrated<T>
 {
     readonly name: string;
-    protected pbrInstance?: IProgramBlockRunnerHydrated;
 
-    constructor(obj: AllParameterBlocks, pbrInstance?: IProgramBlockRunnerHydrated)
+    constructor(obj: AllParameterBlocks)
     {
         this.name = Object.keys(obj)[0];
-        this.pbrInstance = pbrInstance;
     }
 
     get data(): T
@@ -25,24 +22,24 @@ export class ParameterBlockHydrated<T>
 
 export class StringParameterBlockHydrated extends ParameterBlockHydrated<string>
 {
-    constructor(obj: AllParameterBlocks, pbrInstance?: IProgramBlockRunnerHydrated)
+    constructor(obj: AllParameterBlocks)
     {
-        super(obj, pbrInstance);
+        super(obj);
     }
 }
 
 export class NumericParameterBlockHydrated extends ParameterBlockHydrated<number>
 {
-    constructor(obj: AllParameterBlocks, pbrInstance?: IProgramBlockRunnerHydrated)
+    constructor(obj: AllParameterBlocks)
     {
-        super(obj, pbrInstance);
+        super(obj);
     }
 }
 
 export class StatusParameterBlockHydrated extends ParameterBlockHydrated<"error" | "warning" | "good">
 {
-    constructor(obj: AllParameterBlocks, pbrInstance?: IProgramBlockRunnerHydrated)
+    constructor(obj: AllParameterBlocks)
     {
-        super(obj, pbrInstance);
+        super(obj);
     }
 }

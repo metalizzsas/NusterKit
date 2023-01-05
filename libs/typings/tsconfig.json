@@ -6,6 +6,7 @@
     "module": "CommonJS",
     "target": "es2016",
     "strict": true,
+    "importsNotUsedAsValues": "error",
     "esModuleInterop": true,
     "sourceMap": true,
     "sourceRoot": "src",

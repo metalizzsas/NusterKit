@@ -1,9 +1,8 @@
 import type { StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
 import { ProgramBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ProgramBlockHydrated";
-import type { AllProgramBlocks, ContainerProductUnloadProgramBlock as ContainerProductUnloadProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlocks";
-import { LoggerInstance } from "../../../app";
-import { SlotController } from "../../../controllers/slot/SlotController";
+import type { AllProgramBlocks, ContainerProductUnloadProgramBlock as ContainerProductUnloadProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
+import { TurbineEventLoop } from "../../../events";
 
 export class ContainerProductUnloadProgramBlock extends ProgramBlockHydrated 
 {
@@ -18,9 +17,9 @@ export class ContainerProductUnloadProgramBlock extends ProgramBlockHydrated
     public async execute(): Promise<void>
     {
         const containerName = this.containterName.data;
-        LoggerInstance.info("SlotUnloadBlock: Will unload slot with name: " + containerName);
 
-        SlotController.getInstance().slots.find(s => s.name == containerName)?.unloadSlot();
+        TurbineEventLoop.emit("log", "info", `SlotUnloadBlock: Will unload slot with name: ${containerName}.`);
+        TurbineEventLoop.emit(`container.unload.${containerName}`);
 
         super.execute();
     }

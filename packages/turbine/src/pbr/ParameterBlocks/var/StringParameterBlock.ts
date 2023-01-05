@@ -1,5 +1,5 @@
 import { StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
-import type { AllParameterBlocks, StringParameterBlock as StringParameterBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/IParameterBlocks";
+import type { AllParameterBlocks, StringParameterBlock as StringParameterBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
 
 export class StringParameterBlock extends StringParameterBlockHydrated
 {

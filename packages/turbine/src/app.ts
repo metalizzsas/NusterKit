@@ -1,24 +1,18 @@
-import cors from "cors";
 import cookieParser from "cookie-parser";
-import mongoose from "mongoose";
-import path from "path";
+import cors from "cors";
 import fs from "fs";
 import lockFile from "lockfile";
+import mongoose from "mongoose";
+import path from "path";
 
+import type { Configuration } from "@metalizzsas/nuster-typings";
 import type { Request, Response } from "express";
 import express from "express";
 import type { Server } from "http";
-import { pinoHttp } from "pino-http";
 import { pino } from "pino";
-import { Machine, AvailableMachineModels } from "./Machine";
-import type { IConfiguration } from "@metalizzsas/nuster-typings";
-import { AuthManager } from "./auth/auth";
-import { IOController } from "./controllers/io/IOController";
-import { ProfileController } from "./controllers/profile/ProfilesController";
-import { MaintenanceController } from "./controllers/maintenance/MaintenanceController";
-import { SlotController } from "./controllers/slot/SlotController";
-import { ManualModeController } from "./controllers/manual/ManualModeController";
-import { CycleController } from "./controllers/cycle/CycleController";
+import { pinoHttp } from "pino-http";
+import { AvailableMachineModels, Machine } from "./Machine";
+import { TurbineEventLoop } from "./events";
 import { WebsocketDispatcher } from "./websocket/WebsocketDispatcher";
 
 /** Express app */
@@ -47,11 +41,24 @@ const logFilePath = productionEnabled ? `/data/logs/log-${new Date().toISOString
 
 /** Pino logger instance */
 export const LoggerInstance = pino({
+    level: "trace",
     transport: {
         targets: [
-            { target: 'pino-pretty', level: "info", options: { destination: 1}},
+            { target: 'pino-pretty', level: productionEnabled ? "info" : "trace", options: { destination: 1}},
             { target: 'pino/file', level: "trace", options: { destination: logFilePath }}
         ]
+    }
+});
+
+TurbineEventLoop.on("log", (level, message) => {
+    switch(level)
+    {
+        case "error": LoggerInstance.error(message); break;
+        case "fatal": LoggerInstance.fatal(message); break;
+        case "warning": LoggerInstance.warn(message); break;
+        case "info": LoggerInstance.info(message); break;
+        case "trace":
+        default: LoggerInstance.trace(message); break;
     }
 });
 
@@ -60,7 +67,7 @@ LoggerInstance.info("Starting NusterTurbine");
 if(fs.existsSync(infoPath))
 {
     const rawConfiguration = fs.readFileSync(infoPath, {encoding: "utf-8"});
-    const parsedConfiguration = JSON.parse(rawConfiguration) as IConfiguration;
+    const parsedConfiguration = JSON.parse(rawConfiguration) as Configuration;
 
     SetupExpress();
     SetupWebsocketServer();
@@ -69,11 +76,7 @@ if(fs.existsSync(infoPath))
     if(productionEnabled == false)
     {
         LoggerInstance.warn("DEV: Sending configuration to simulation server.");
-        fetch("http://localhost:4081/config", { method: "post", headers: {"Content-Type": "application/json"}, body: JSON.stringify({
-            model: parsedConfiguration.model,
-            variant: parsedConfiguration.variant,
-            revision: parsedConfiguration.revision
-        })});
+        fetch("http://localhost:4081/config", { method: "post", headers: {"Content-Type": "application/json"}, body: JSON.stringify(parsedConfiguration)});
     }
 
     machine = new Machine(parsedConfiguration);
@@ -167,6 +170,10 @@ function SetupExpress(configOnly = false)
         }
     });
 
+    ExpressApp.get("/spec", (req: Request, res: Response) => {
+        res.json(machine.specs);
+    })
+
     if(configOnly)
         return;
 
@@ -229,17 +236,21 @@ function SetupMachine()
         WebsocketDispatcher.getInstance().connectPopup = machine.specs.nuster?.connectPopup;
         LoggerInstance.info("Machine: Setting up connect popup.");
 
-        ExpressApp.use('/v1/io', IOController.getInstance().router);
-        ExpressApp.use('/v1/profiles', ProfileController.getInstance().router);
-        ExpressApp.use('/v1/maintenance', MaintenanceController.getInstance().router);
-        ExpressApp.use('/v1/slots', SlotController.getInstance().router);
-        ExpressApp.use('/v1/manual', ManualModeController.getInstance().router);
-        ExpressApp.use('/v1/cycle', CycleController.getInstance().router);
-        ExpressApp.use('/v1/auth', AuthManager.getInstance().router);
+        ExpressApp.use('/v1/io', machine.ioRouter.router);
+        ExpressApp.use('/v1/profiles', machine.profileRouter.router);
+        ExpressApp.use('/v1/maintenances', machine.maintenanceRouter.router);
+        ExpressApp.use('/v1/containers', machine.containerRouter.router);
+        ExpressApp.use('/v1/slots', machine.containerRouter.router); //TODO: Remove, compat with old desktop ui
+        ExpressApp.use('/v1/cycle', machine.cycleRouter.router);
+        //ExpressApp.use('/v1/auth', auth.router); //TODO: Fixme
         LoggerInstance.info("Express: Registered routers");
 
         ExpressApp.use("/assets", express.static(machine.assetsFolder));
         LoggerInstance.info(`Express: Will use ${machine.assetsFolder} as the assets folder.`);
+
+        ExpressApp.get("/machine", (_, res: Response) => {
+            res.json(machine.toJSON());
+        });
 
     }
     else
@@ -254,14 +265,5 @@ process.on('unhandledRejection', (error: Error) => LoggerInstance.error("unhandl
  */
 process.on("SIGTERM", async () => {
     LoggerInstance.info("Shutdown: SIGTERM detected.");
-    try
-    {
-        //Reseting io on shutdown
-        for(const g of IOController.getInstance().gates)
-            await g.write(g.default);
-    }
-    catch(ex: unknown)
-    {
-        LoggerInstance.warn("Shutdown: Failed to reset gates to default values, IOController is not defined");
-    }
+    TurbineEventLoop.emit("io.resetAll");
 });

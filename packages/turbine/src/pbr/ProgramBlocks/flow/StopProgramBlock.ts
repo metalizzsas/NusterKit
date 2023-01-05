@@ -1,34 +1,28 @@
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
-import { LoggerInstance } from "../../../app";
-import { PBRMissingError } from "../../PBRMissingError";
 import { ProgramBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ProgramBlockHydrated";
-import type { AllProgramBlocks, StopProgramBlock as StopProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlocks";
+import type { AllProgramBlocks, StopProgramBlock as StopProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
 import type { StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
-import type { ProgramBlockRunner } from "../../ProgramBlockRunner";
+import { TurbineEventLoop } from "../../../events";
 
 export class StopProgramBlock extends ProgramBlockHydrated
 {
     stopReason: StringParameterBlockHydrated;
 
-    constructor(obj: StopProgramBlockSpec, pbrInstance?: ProgramBlockRunner)
+    constructor(obj: StopProgramBlockSpec)
     {
-        super(obj, pbrInstance);
-        this.pbrInstance = pbrInstance;
+        super(obj);
         this.stopReason = ParameterBlockRegistry.String(obj.stop)
     }
 
     public async execute(): Promise<void>
     {
-
-        if(this.pbrInstance === undefined)
-            throw new PBRMissingError("StopPRogram");
-        
         if (process.env.NODE_ENV != "production") {
-            LoggerInstance.info("StopBlock: Debug mode will not stop the machine.");
+            TurbineEventLoop.emit("log", "warning", "StopBlock: Debug mode will not stop the machine.")
             return;
         }
 
-        this.pbrInstance.end(this.stopReason.data);
+        TurbineEventLoop.emit(`pbr.stop`, this.stopReason.data);
+
         super.execute();
     }
 

@@ -1,4 +1,4 @@
-import type { AllParameterBlocks, NumericParameterBlocks, StatusParameterBlocks, StringParameterBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/IParameterBlocks";
+import type { AllParameterBlocks, NumericParameterBlocks, StatusParameterBlocks, StringParameterBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
 import type { NumericParameterBlockHydrated, StatusParameterBlockHydrated, StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
 
 import { SubParameterBlock } from "./math/SubParameterBlock";
@@ -14,7 +14,7 @@ import { IOReadParameterBlock } from "./machine/IOReadParameterBlock";
 import { MaintenanceStatusParameterBlock } from "./machine/MaintenanceStatusParameterBlock";
 import { ProfileParameterBlock } from "./machine/ProfileParameterBlock";
 import { ProductStatusParameterBlock } from "./machine/ProductStatusParameterBlock";
-import { CycleController } from "../../controllers/cycle/CycleController";
+import { ReadMachineVariableParameterBlock } from "./var/ReadMachineVariableBlock";
 
 /**
  * Parameter Block Registry
@@ -32,7 +32,7 @@ export class ParameterBlockRegistry
         if(typeof obj === "number") return new NumberParameterBlock({"number": obj});
         if(NumberParameterBlock.isNumberPB(obj)) return new NumberParameterBlock(obj);
 
-        if(ReadVariableParameterBlock.isReadVariablePB(obj)) return new ReadVariableParameterBlock(obj, CycleController.getInstance().program);
+        if(ReadVariableParameterBlock.isReadVariablePB(obj)) return new ReadVariableParameterBlock(obj);
 
         if(AddParameterBlock.isAddPB(obj)) return new AddParameterBlock(obj);
         if(MultiplyParameterBlock.isMultiplyPB(obj)) return new MultiplyParameterBlock(obj);
@@ -41,11 +41,13 @@ export class ParameterBlockRegistry
         if(DivideParameterBlock.isDividePB(obj)) return new DivideParameterBlock(obj);
         if(ReverseParameterBlock.isReversePB(obj)) return new ReverseParameterBlock(obj);
 
-        if(ProfileParameterBlock.isProfilePB(obj)) return new ProfileParameterBlock(obj, CycleController.getInstance().program);
+        if(ProfileParameterBlock.isProfilePB(obj)) return new ProfileParameterBlock(obj);
 
         if(IOReadParameterBlock.isIOReadPB(obj)) return new IOReadParameterBlock(obj);
 
         if(ConditionalParameterBlock.isConditionalPB(obj)) return new ConditionalParameterBlock(obj);
+
+        if(ReadMachineVariableParameterBlock.isReadMachineVariablePB(obj)) return new ReadMachineVariableParameterBlock(obj);
 
         throw Error("ParameterBlock data is not compatible with Numeric ParameterBlock");
     }

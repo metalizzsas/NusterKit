@@ -1,42 +1,39 @@
 import type { StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
 import { ProgramBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ProgramBlockHydrated";
-import type { AllProgramBlocks, StopTimerProgramBlock as StopTimerProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlocks";
-import { LoggerInstance } from "../../../app";
+import type { AllProgramBlocks, StopTimerProgramBlock as StopTimerProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
-import { PBRMissingError } from "../../PBRMissingError";
-import type { ProgramBlockRunner } from "../../ProgramBlockRunner";
+import { TurbineEventLoop } from "../../../events";
 
 export class StopTimerProgramBlock extends ProgramBlockHydrated
 {
     timerName: StringParameterBlockHydrated;
 
-    constructor(obj: StopTimerProgramBlockSpec, pbrInstance?: ProgramBlockRunner)
+    constructor(obj: StopTimerProgramBlockSpec)
     {
-        super(obj, pbrInstance);
+        super(obj);
 
         this.timerName = ParameterBlockRegistry.String(obj.stop_timer);
     }
 
     public async execute(): Promise<void> {
 
-        if(this.pbrInstance === undefined)
-            throw new PBRMissingError("StopTimer");
-
         const timerName = this.timerName.data;
 
-        const timerIndex = this.pbrInstance.timers.findIndex((t) => t.name == timerName);
-        const timer = this.pbrInstance.timers.at(timerIndex);
+        TurbineEventLoop.emit("log", "info", `StopTimerBlock: Will stop timer with name: ${timerName}`);
 
-        if (timer && timer.timer && timer.enabled) {
-            clearInterval(timer.timer);
-            timer.enabled = false;
-            this.pbrInstance.timers.splice(timerIndex, 1); // remove timer from pbr instance
-            LoggerInstance.info("StopTimerBlock: Will stop timer with name: " + timerName);
-        }
+        await new Promise<void>(resolve => {
+            TurbineEventLoop.once(`pbr.timer.stopped.${timerName}`, () => {
+                TurbineEventLoop.emit("log", "info", `StopTimerBlock: Timer ${timerName} has been stopped.`)
+                resolve()
+            });
+            
+            setTimeout(() => {
+                TurbineEventLoop.emit("log", "warning", `StopTimerBlock: Timer ${timerName} has not been found, ignoring.`)
+                resolve();
+            }, 1000);
 
-        else {
-            LoggerInstance.warn("StopTimerBlock: Timer " + timerName + " has not been found, ignoring.");
-        }
+            TurbineEventLoop.emit(`pbr.timer.stop.${timerName}`);
+        });
 
         super.execute();
     }

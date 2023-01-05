@@ -1,23 +1,24 @@
 import type { StatusParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
-import type { IPBRStartCondition } from "@metalizzsas/nuster-typings/build/spec/cycle/security/IPBRStartCondition";
-import type { IOGates } from "@metalizzsas/nuster-typings/build/spec/iogates";
-import { IOController } from "../../controllers/io/IOController";
+import type { PBRStartCondition } from "@metalizzsas/nuster-typings/build/spec/cycle/PBRStartCondition";
+
+import { TurbineEventLoop } from "../../events";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
+import type { IOGateJSON } from "@metalizzsas/nuster-typings/build/hydrated/io";
 
 export class PBRStartConditionCheck
 {
-    private startcondition: IPBRStartCondition["checkchain"];
+    private startcondition: PBRStartCondition["checkchain"];
 
-    private gate?: IOGates;
+    private gate?: IOGateJSON;
     private statusBlock?: StatusParameterBlockHydrated;
 
-    constructor(sc: IPBRStartCondition["checkchain"])
+    constructor(sc: PBRStartCondition["checkchain"])
     {
         this.startcondition = sc;
 
         if(sc.io !== undefined)
         {
-            this.gate = IOController.getInstance().gFinder(sc.io?.gateName);
+            TurbineEventLoop.on(`io.updated.${sc.io?.gateName}`, (gate) => this.gate = gate);
         }
 
         if(sc.parameter)

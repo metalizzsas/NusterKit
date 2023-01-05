@@ -1,7 +1,5 @@
 import type { ProgramBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ProgramBlockHydrated";
-import type { AllProgramBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlocks";
-
-import { CycleController } from "../../controllers/cycle/CycleController";
+import type { AllProgramBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
 
 import { ForProgramBlock } from "./flow/ForProgramBlock";
 import { IfProgramBlock } from "./flow/IfProgramBlock";
@@ -18,20 +16,18 @@ import { IOWriteProgramBlock } from "./machine/IOWriteProgramBlock";
 
 export function ProgramBlockRegistry(obj: AllProgramBlocks): ProgramBlockHydrated {
 
-    const pbrInstance = CycleController.getInstance().program;
-
     // Flow control blocks
 
-    if(ForProgramBlock.isForPgB(obj)) return new ForProgramBlock(obj, pbrInstance);
+    if(ForProgramBlock.isForPgB(obj)) return new ForProgramBlock(obj);
     if(IfProgramBlock.isIfPgB(obj)) return new IfProgramBlock(obj);
-    if(WhileProgramBlock.isWhilePgB(obj)) return new WhileProgramBlock(obj, pbrInstance);
-    if(SleepProgramBlock.isSleepPgB(obj)) return new SleepProgramBlock(obj, pbrInstance);
+    if(WhileProgramBlock.isWhilePgB(obj)) return new WhileProgramBlock(obj);
+    if(SleepProgramBlock.isSleepPgB(obj)) return new SleepProgramBlock(obj);
 
-    if(StartTimerProgramBlock.isStartTimerPgB(obj)) return new StartTimerProgramBlock(obj, pbrInstance);
-    if(StopTimerProgramBlock.isStopTimerPgB(obj)) return new StopTimerProgramBlock(obj, pbrInstance);
+    if(StartTimerProgramBlock.isStartTimerPgB(obj)) return new StartTimerProgramBlock(obj);
+    if(StopTimerProgramBlock.isStopTimerPgB(obj)) return new StopTimerProgramBlock(obj);
 
-    if(StopProgramBlock.isStopPgB(obj)) return new StopProgramBlock(obj, pbrInstance);
-    if(SetVariableProgramBlock.isSetVariablePgB(obj)) return new SetVariableProgramBlock(obj, pbrInstance);
+    if(StopProgramBlock.isStopPgB(obj)) return new StopProgramBlock(obj);
+    if(SetVariableProgramBlock.isSetVariablePgB(obj)) return new SetVariableProgramBlock(obj);
 
     // Machine blocks
 

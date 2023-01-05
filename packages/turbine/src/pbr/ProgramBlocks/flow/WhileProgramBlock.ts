@@ -1,12 +1,11 @@
 import type { NumericParameterBlockHydrated, StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
 import { ProgramBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ProgramBlockHydrated";
-import type { Comparators } from "@metalizzsas/nuster-typings/build/spec/cycle/IParameterBlocks";
-import type { AllProgramBlocks, WhileProgramBlock as WhileProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlocks";
+import type { Comparators } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
+import type { AllProgramBlocks, WhileProgramBlock as WhileProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
 import ComparativeFunctions from "../../ComparativeFunctions";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
-import { PBRMissingError } from "../../PBRMissingError";
-import type { ProgramBlockRunner } from "../../ProgramBlockRunner";
 import { ProgramBlockRegistry } from "../ProgramBlockRegistry";
+import { TurbineEventLoop } from "../../../events";
 
 export class WhileProgramBlock extends ProgramBlockHydrated
 {
@@ -16,9 +15,9 @@ export class WhileProgramBlock extends ProgramBlockHydrated
 
     blocks: Array<ProgramBlockHydrated>;
 
-    constructor(obj: WhileProgramBlockSpec, pbrInstance?: ProgramBlockRunner)
+    constructor(obj: WhileProgramBlockSpec)
     {
-        super(obj, pbrInstance);
+        super(obj);
         this.comparator = ParameterBlockRegistry.String(obj.while.statement.comparator);
 
         this.leftSide = ParameterBlockRegistry.Numeric(obj.while.statement.left_side);
@@ -28,16 +27,15 @@ export class WhileProgramBlock extends ProgramBlockHydrated
 
         // While loop has an infinity runTime because it cannot be determined
         this.estimatedRunTime = Infinity;
+
+        TurbineEventLoop.on(`pbr.stop`, () => this.earlyExit = true);
     }
 
     public async execute(): Promise<void>
-    {
-        if(this.pbrInstance === undefined)
-            throw new PBRMissingError("WhileLoop");
-        
+    {        
         while (ComparativeFunctions[this.comparator.data as Comparators](this.leftSide.data, this.rightSide.data))
         {
-            if (["ending", "ended"].includes(this.pbrInstance.currentRunningStep?.state) || ["ended", "ending"].includes(this.pbrInstance.status.mode))
+            if (this.earlyExit === true)
             { 
                 this.executed = true;
                 return;

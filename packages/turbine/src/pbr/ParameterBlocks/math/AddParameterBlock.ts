@@ -1,5 +1,5 @@
 import { NumericParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
-import type { AddParameterBlock as AddParameterBlockSpec, AllParameterBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/IParameterBlocks";
+import type { AddParameterBlock as AddParameterBlockSpec, AllParameterBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlockRegistry";
 
 export class AddParameterBlock extends NumericParameterBlockHydrated

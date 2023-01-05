@@ -1,6 +1,6 @@
 import type { NumericParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
-import type { IPBRStartConditionHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/IPBRStartConditionHydrated";
-import type { EPBRStartConditionResult, IPBRStartCondition } from "@metalizzsas/nuster-typings/build/spec/cycle/security/IPBRStartCondition";
+import type { PBRStartConditionHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/PBRStartConditionHydrated";
+import type { PBRStartConditionResult, PBRStartCondition as PBRStartConditionConfig } from "@metalizzsas/nuster-typings/build/spec/cycle/PBRStartCondition";
 
 import type { ProgramBlockRunner } from "../ProgramBlockRunner";
 
@@ -8,7 +8,7 @@ import { LoggerInstance } from "../../app";
 import { ParameterBlockRegistry } from "../ParameterBlocks/ParameterBlockRegistry";
 import { PBRStartConditionCheck } from "./PBRStartConditionCheck";
 
-export class PBRStartCondition implements IPBRStartConditionHydrated
+export class PBRStartCondition implements PBRStartConditionHydrated
 {
     #pbrInstance: ProgramBlockRunner;
 
@@ -18,12 +18,12 @@ export class PBRStartCondition implements IPBRStartConditionHydrated
     disabled?: NumericParameterBlockHydrated
 
     check: PBRStartConditionCheck;
-    checkchain: IPBRStartConditionHydrated["checkchain"]
+    checkchain: PBRStartConditionHydrated["checkchain"]
 
-    result: EPBRStartConditionResult;
+    result: PBRStartConditionResult;
     resultTimer?: NodeJS.Timer;
 
-    constructor(pbrsc: IPBRStartCondition, pbrInstance: ProgramBlockRunner)
+    constructor(pbrsc: PBRStartConditionConfig, pbrInstance: ProgramBlockRunner)
     {
         this.#pbrInstance = pbrInstance;
 
@@ -91,26 +91,5 @@ export class PBRStartCondition implements IPBRStartConditionHydrated
             startOnly: this.startOnly,
             result: this.result
         }
-    }
-}
-
-interface IPBRWatchdogStartCondition
-{
-    watchdogConditionGateName: string;
-    watchdogConditionName: string;
-}
-
-export class PBRWatchdogStartCondition extends PBRStartCondition implements IPBRWatchdogStartCondition
-{
-
-    watchdogConditionGateName: string;
-    watchdogConditionName: string;
-
-    constructor(pbrsc: IPBRStartCondition, pbrInstance: ProgramBlockRunner)
-    {
-        super(pbrsc, pbrInstance);
-
-        this.watchdogConditionGateName = pbrsc.conditionName;
-        this.watchdogConditionName = pbrsc.conditionName;
     }
 }

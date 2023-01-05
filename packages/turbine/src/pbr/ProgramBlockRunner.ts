@@ -1,32 +1,27 @@
-import type { IAdditionalInfoHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/IAddtionalInfoHydrated";
-import type { IPBRStatus, IProgramBlockRunnerHydrated, IProgramTimer, IProgramVariable } from "@metalizzsas/nuster-typings/build/hydrated/cycle/IProgramBlockRunnerHydrated";
-import type { IProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profile";
-import type { IProgramBlockRunner } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlockRunner";
-import type { EProgramStepResult } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramStep";
-
-import type { CountableMaintenance } from "../controllers/maintenance/CountableMaintenance";
+import type { PBRMode, PBRStatus, PBRTimer, PBRVariable, ProgramBlockRunnerHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/ProgramBlockRunnerHydrated";
+import type { ProgramBlockRunner as ProgramBlockRunnerConfig } from "@metalizzsas/nuster-typings/build/spec/cycle/ProgramBlockRunner";
+import type { ProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profiles";
+import type { PBRStepResult } from "@metalizzsas/nuster-typings/build/spec/cycle/PBRStep";
 
 import { LoggerInstance } from "../app";
-import { IOController } from "../controllers/io/IOController";
-import { MaintenanceController } from "../controllers/maintenance/MaintenanceController";
-import { ManualModeController } from "../controllers/manual/ManualModeController";
 import { ProgramBlockStep } from "./ProgramBlockStep";
 import { PBRStartCondition } from "./startchain/PBRStartCondition";
+import { TurbineEventLoop } from "../events";
 
 /**
  * Program Block Runner
- * @desc Manages {@link pbr/ProgramBlocks.index}, {@link pbr/ParameterBlocks.index} & {@link ProgramBlockStep} to handle cycles
+ * @desc Manages {@link ProgramBlocks}, {@link ParameterBlocks} & {@link ProgramBlockStep} to handle cycles
  */
-export class ProgramBlockRunner implements IProgramBlockRunnerHydrated
+export class ProgramBlockRunner implements ProgramBlockRunnerHydrated
 {
-    status: IPBRStatus;
+    status: PBRStatus;
 
     name: string;
 
     profileRequired: boolean;
 
-    variables: Array<IProgramVariable> = [];
-    timers: (IProgramTimer & {timer?: NodeJS.Timer})[] = [];
+    variables: Array<PBRVariable> = [];
+    timers: (PBRTimer & {timer?: NodeJS.Timer})[] = [];
     
     /** **PBR** Steps */
     steps: Array<ProgramBlockStep> = [];
@@ -38,20 +33,13 @@ export class ProgramBlockRunner implements IProgramBlockRunnerHydrated
     currentStepIndex = 0;
 
     /** Profile assignated to this **PBR** */
-    profile?: IProfileHydrated;
+    profile?: ProfileHydrated;
 
-    additionalInfo?: Array<IAdditionalInfoHydrated>;
+    additionalInfo?: Array<string>;
 
-    manualModeStatesBeforeStart: Record<string, number> = {};
-
-    /**
-     * Function to explore profile fields
-     */
-    profileExplorer?: (name: string) => number | boolean;
-
-    constructor(object: IProgramBlockRunner, profile?: IProfileHydrated)
+    constructor(object: ProgramBlockRunnerConfig, profile?: ProfileHydrated)
     {
-        this.status = { mode: "created" };
+        this.status = { mode: "creating" };
 
         LoggerInstance.info("PBR: Building PBR...");
 
@@ -62,21 +50,27 @@ export class ProgramBlockRunner implements IProgramBlockRunnerHydrated
         if(this.profile === undefined)
             LoggerInstance.warn("PBR: This PBR is build without any profile.");
         else
-            this.profileExplorer = (name: string) => this.profile?.values.find(v => v.name == name)?.value ?? 0;
-
+        {
+            // Emit profile when asped by parameter blocks
+            TurbineEventLoop.on("pbr.profile.read", ({callback}) => {
+                callback?.(this.profile);
+            });
+        }
+            
         //properties assignment
         this.name = object.name;
 
-        if(object.additionalInfo)
-            this.additionalInfo = object.additionalInfo.map(k => { return {...k, value: IOController.getInstance().gFinder(k.value)!}})
+        this.additionalInfo = object.additionalInfo;
 
         LoggerInstance.info("PBR: Finished building PBR.");
+
+        TurbineEventLoop.on(`pbr.timer.start`, (timer) => { this.timers.push(timer) });
 
         // TODO: ProgramBlocks that needs PBRInstance are delayed because otherwise, they may find an undefined PBR Instance.
         setTimeout(() => this.fill(object), 500);
     }
 
-    private fill(object: IProgramBlockRunner)
+    private fill(object: ProgramBlockRunnerConfig)
     {
         LoggerInstance.info("PBR: Filling data.");
 
@@ -88,6 +82,8 @@ export class ProgramBlockRunner implements IProgramBlockRunnerHydrated
             this.steps.push(new ProgramBlockStep(this, step));
         
         LoggerInstance.info("PBR: Finished filling data");
+
+        this.setState("created");
     }
 
     /**
@@ -123,23 +119,12 @@ export class ProgramBlockRunner implements IProgramBlockRunnerHydrated
 
         LoggerInstance.info(`PBR: Started cycle ${this.name}.`);
 
-        LoggerInstance.info(`PBR: Will disable manual modes that are enabled.`);
-        ManualModeController.getInstance().manualModes.forEach(m => { 
-            this.manualModeStatesBeforeStart[m.name] = structuredClone(m.state);
-
-            if(m.state != 0)
-            {
-                LoggerInstance.info(` ↳ Settings ${m.name} to 0.`);
-                m.setValue(0); 
-            }
-        });
-
-        this.status.mode = "started";
+        this.setState("started");
         this.status.startDate = Date.now();
 
         while(this.currentStepIndex < this.steps.length)
         {
-            let result: EProgramStepResult | null = null;
+            let result: PBRStepResult | null = null;
             
             if(!["ended", "ending"].includes(this.status.mode))
                 result = await this.steps[this.currentStepIndex].execute();
@@ -203,6 +188,16 @@ export class ProgramBlockRunner implements IProgramBlockRunnerHydrated
             this.currentRunningStep.state = "ending";
     }
 
+    /** 
+     * Set the PBR State
+     * @param state State to set
+     */
+    private setState(state: PBRMode)
+    {
+        this.status.mode = state;
+        TurbineEventLoop.emit('pbr.status.update', state);
+    }
+
     /**
      * Ends the cycle
      * @param reason End reason
@@ -212,16 +207,18 @@ export class ProgramBlockRunner implements IProgramBlockRunnerHydrated
         if(["ended", "ending"].includes(this.status.mode))
             return;
 
-        this.status.mode = "ending";
+        this.setState("ending");
         this.status.endReason = reason;
 
         this.steps.forEach(s => s.state = "ending");
+
+        TurbineEventLoop.emit("pbr.status.update", this.status.mode);
 
         if(reason !== undefined)
             LoggerInstance.warn("PBR: Triggered cycle end with reason: " + reason);
     }
 
-    public async dispose()
+    public dispose()
     {
         if(this.status.endReason === undefined)
             this.status.endReason = "finished";
@@ -262,35 +259,18 @@ export class ProgramBlockRunner implements IProgramBlockRunnerHydrated
                     clearInterval(timer.timer);
             }
         }
+
+        TurbineEventLoop.removeAllListeners("pbr.profile.read");
         
         //Append 1 to cycle count
-        const m = MaintenanceController.getInstance().tasks.find((m) => m.name == "cycleCount") as CountableMaintenance | undefined;
-        m?.append(1);
+        TurbineEventLoop.emit(`maintenance.append.cycleCount`, 1);
 
-        this.status.mode = "ended";
+        this.setState("ended");
         this.status.endDate = Date.now();
 
         LoggerInstance.info("PBR: Resetting all io gates to default values.");
-        for(const g of IOController.getInstance().gates.filter(g => g.bus == "out"))
-        {
-            await g.write(g.default);
-        }
+        TurbineEventLoop.emit("io.resetAll");
 
-        if(Object.keys(this.manualModeStatesBeforeStart).length > 0)
-        {
-            LoggerInstance.info(`PBR: Re-enabling manual modes that were disabled before.`);
-            for(const m in this.manualModeStatesBeforeStart)
-            {
-                const previousValue = this.manualModeStatesBeforeStart[m];
-                const mode = ManualModeController.getInstance().find(m);
-    
-                if(previousValue != 0 && mode !== undefined)
-                {
-                    LoggerInstance.info(` ↳ Settings ${mode.name} to ${previousValue}.`);
-                    mode.setValue(structuredClone(previousValue));
-                }
-            }
-        }
         LoggerInstance.info(`PBR: Ended cycle ${this.name} with state: ${this.status.mode} & reason: ${this.status.endReason}.`);
     }
 
@@ -314,13 +294,7 @@ export class ProgramBlockRunner implements IProgramBlockRunnerHydrated
      */
     public get estimatedRunTime()
     {
-        let estimation = 0;
-
-        for(const step of this.steps)
-        {
-            estimation += step.duration
-        }
-        return estimation;
+        return this.steps.filter(s => s.isEnabled.data == 1).reduce((p, c) => p += c.duration, 0);
     }
 
     /**

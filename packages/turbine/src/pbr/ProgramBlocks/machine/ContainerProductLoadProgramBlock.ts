@@ -1,10 +1,9 @@
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
-import { SlotController } from "../../../controllers/slot/SlotController";
-import { LoggerInstance } from "../../../app";
 import { ProgramBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ProgramBlockHydrated";
-import type { EProductSeries } from "@metalizzsas/nuster-typings/build/spec/slot/products";
-import type { AllProgramBlocks, ContainerProductLoadProgramBlock as ContainerProductLoadProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlocks";
+import type { AllProgramBlocks, ContainerProductLoadProgramBlock as ContainerProductLoadProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
 import type { StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
+import { TurbineEventLoop } from "../../../events";
+import type { ProductSeries } from "@metalizzsas/nuster-typings/build/spec/containers/products";
 
 export class ContainerProductLoadProgramBlock extends ProgramBlockHydrated
 {
@@ -22,11 +21,10 @@ export class ContainerProductLoadProgramBlock extends ProgramBlockHydrated
 
     public async execute(): Promise<void> {
         const containerName = this.containerName.data;
-        const containerProductSeries = this.containerProductSeries.data as EProductSeries;
-        LoggerInstance.info("SlotLoadBlock: Will load slot with name: " + containerName);
+        const containerProductSeries = this.containerProductSeries.data as ProductSeries;
 
-        //TODO: not use Singleton
-        SlotController.getInstance().slots.find(s => s.name == containerName)?.loadSlot(containerProductSeries);
+        TurbineEventLoop.emit("log", "info", `ContainerLoadBlock: Will load ${containerName} with: ${containerProductSeries}.`)
+        TurbineEventLoop.emit(`container.load.${containerName}`, containerProductSeries);
 
         super.execute();
     }

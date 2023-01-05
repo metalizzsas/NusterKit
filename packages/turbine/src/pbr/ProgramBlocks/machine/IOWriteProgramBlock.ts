@@ -1,16 +1,15 @@
 import type { NumericParameterBlockHydrated, StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
 import { ProgramBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ProgramBlockHydrated";
-import type { AllProgramBlocks, IOWriteProgramBlock as IOWriteProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlocks";
-import { LoggerInstance } from "../../../app";
-import { IOController } from "../../../controllers/io/IOController";
+import type { AllProgramBlocks, IOWriteProgramBlock as IOWriteProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
+import { TurbineEventLoop } from "../../../events";
 
 export class IOWriteProgramBlock extends ProgramBlockHydrated
 {
     gateName: StringParameterBlockHydrated;
     gateValue: NumericParameterBlockHydrated;
 
-    estimatedRunTime = 0.05; // 50ms io write read time 
+    estimatedRunTime = 0.01; // 10ms io write read time
 
     constructor(obj: IOWriteProgramBlockSpec) {
 
@@ -21,16 +20,17 @@ export class IOWriteProgramBlock extends ProgramBlockHydrated
     }
 
     public async execute(): Promise<void> {
+
         const gateName = this.gateName.data;
         const gateValue = this.gateValue.data;
 
-        LoggerInstance.info(`IOAccessBlock: Will access ${gateName} to write ${gateValue}`);
+        TurbineEventLoop.emit("log", "info", `IOWriteBlock: Will access ${gateName} to write ${gateValue}.`);
 
-        //TODO: Changeme to avoid singleton instance
-        const gate = IOController.getInstance().gFinder(gateName);
-
-        if(gate)
-            await gate.write(gateValue);
+        await new Promise<void>(resolve => {
+            TurbineEventLoop.emit(`io.update.${this.gateName.data}`, { value: gateValue, callback: () => {
+                resolve();
+            }});
+        });
 
         super.execute();
     }

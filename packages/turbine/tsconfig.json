@@ -102,8 +102,8 @@
     ]
   },
   "include": [
-    "./**/*"
-, "../typings/src/socket/interfaces"  ],
+    "./src/*"
+  ],
   "exclude": [
       "./docs/**/*",
       "./dev/**/*",

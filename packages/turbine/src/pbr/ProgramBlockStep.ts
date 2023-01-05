@@ -1,21 +1,21 @@
 import type { NumericParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
 import type { ProgramBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ProgramBlockHydrated";
-import type { IProgramStepHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/IProgramStepHydrated";
-import type { EProgramStepResult, EProgramStepState, EProgramStepType, IProgramStep } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramStep";
 import { LoggerInstance } from "../app";
 import { ParameterBlockRegistry } from "./ParameterBlocks/ParameterBlockRegistry";
 import type { ProgramBlockRunner } from "./ProgramBlockRunner";
 import { ProgramBlockRegistry } from "./ProgramBlocks/ProgramBlockRegistry";
+import type { PBRStepHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/PBRStepHydrated";
+import type { PBRStep, PBRStepResult, PBRStepState, PBRStepType } from "@metalizzsas/nuster-typings/build/spec/cycle/PBRStep";
 
-export class ProgramBlockStep implements IProgramStepHydrated
+export class ProgramBlockStep implements PBRStepHydrated
 {
     private pbrInstance: ProgramBlockRunner;
 
     name: string;
 
     /** Current step state, Setting this flag to `ENDING` should end the step faster */
-    state: EProgramStepState = "created";
-    type: EProgramStepType = "single";
+    state: PBRStepState = "created";
+    type: PBRStepType = "single";
     
     isEnabled: NumericParameterBlockHydrated;
     
@@ -33,7 +33,7 @@ export class ProgramBlockStep implements IProgramStepHydrated
 
     duration: number;
     
-    constructor(pbrInstance: ProgramBlockRunner, obj: IProgramStep)
+    constructor(pbrInstance: ProgramBlockRunner, obj: PBRStep)
     {
         this.pbrInstance = pbrInstance;
         this.name = obj.name;
@@ -61,7 +61,7 @@ export class ProgramBlockStep implements IProgramStepHydrated
         this.duration = this.estimateRunTime();
     }
 
-    public async execute(): Promise<EProgramStepResult>
+    public async execute(): Promise<PBRStepResult>
     {
         if(this.isEnabled.data == 0)
         {

@@ -1,11 +1,11 @@
 import { ProgramBlockRegistry } from "../ProgramBlockRegistry";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
-import { LoggerInstance } from "../../../app";
 import { ProgramBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ProgramBlockHydrated";
-import type { AllProgramBlocks, IfProgramBlock as IfProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlocks";
-import type { Comparators } from "@metalizzsas/nuster-typings/build/spec/cycle/IParameterBlocks";
+import type { AllProgramBlocks, IfProgramBlock as IfProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
+import type { Comparators } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
 import type { NumericParameterBlockHydrated, StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
 import ComparativeFunctions from "../../ComparativeFunctions";
+import { TurbineEventLoop } from "../../../events";
 
 export class IfProgramBlock extends ProgramBlockHydrated
 {
@@ -44,7 +44,7 @@ export class IfProgramBlock extends ProgramBlockHydrated
         const right = this.rightSide.data;
         const comparator = this.comparator.data as Comparators;
 
-        LoggerInstance.info(`IfBlock: Will compare ${left} and ${right} by ${comparator}`);
+        TurbineEventLoop.emit("log", "info", `IfBlock: Will compare ${left} and ${right} by ${comparator}`);
 
         if (ComparativeFunctions[comparator](left, right))
         {

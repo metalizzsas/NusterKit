@@ -1,18 +1,17 @@
 import type { NumericParameterBlockHydrated, StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
 import { ProgramBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ProgramBlockHydrated";
-import type { AllProgramBlocks, SetVariableProgramBlock as SetVariableProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlocks";
+import type { AllProgramBlocks, SetVariableProgramBlock as SetVariableProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
-import { PBRMissingError } from "../../PBRMissingError";
-import type { ProgramBlockRunner } from "../../ProgramBlockRunner";
+import { TurbineEventLoop } from "../../../events";
 
 export class SetVariableProgramBlock extends ProgramBlockHydrated
 {
     variableName: StringParameterBlockHydrated;
     variableValue: NumericParameterBlockHydrated;
 
-    constructor(obj: SetVariableProgramBlockSpec, pbrInstance?: ProgramBlockRunner) 
+    constructor(obj: SetVariableProgramBlockSpec) 
     {
-        super(obj, pbrInstance);
+        super(obj);
 
         this.variableName = ParameterBlockRegistry.String(obj.set_var[0]);
         this.variableValue = ParameterBlockRegistry.Numeric(obj.set_var[1]);
@@ -20,18 +19,7 @@ export class SetVariableProgramBlock extends ProgramBlockHydrated
 
     public async execute(): Promise<void> {
 
-        if(this.pbrInstance === undefined)
-            throw new PBRMissingError("VariableBlock");
-        
-        const variableName = this.variableName.data;
-        const variableValue = this.variableValue.data;
-
-        const referenceIndex = this.pbrInstance.variables.findIndex((v) => v.name == variableName);
-
-        if (referenceIndex != -1)
-            this.pbrInstance.variables[referenceIndex].value = variableValue;
-        else
-            this.pbrInstance.variables.push({ name: variableName, value: variableValue });
+        TurbineEventLoop.emit(`pbr.variable.set.${this.variableName.data}`, this.variableValue.data);
 
         super.execute();           
     }

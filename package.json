@@ -7,7 +7,8 @@
     "node": "18.x"
   },
   "scripts": {
-    "dev": "pnpm -r --parallel run dev",
+    "dev": "pnpm -r --parallel --filter=!@metalizzsas/simulation-ui run dev",
+    "dev-sim": "pnpm -r --parallel run dev",
     "lint": "pnpm -r --parallel run lint",
     "test": "pnpm -r --parallel run test",
     "build": "pnpm -r --parallel --filter='./libs/*' run build && pnpm -r --parallel --filter='./packages/*' run build && pnpm -r --parallel --filter='./simulation/*' run build",
@@ -24,6 +25,12 @@
   "devDependencies": {
     "@changesets/cli": "^2.25.2",
     "@svitejs/changesets-changelog-github-compact": "^1.0.0"
+  },
+  "peerDependencies": {
+    "jest": "^29.3.1",
+    "ts-jest": "^29.0.3",
+    "ts-node": "10.9.1",
+    "@jest/globals": "^29.3.1"
   },
   "packageManager": "pnpm@7.18.2"
 }

@@ -1,12 +1,9 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import { changelog } from './changelog';
 
-/** @type {import('vite').UserConfig} */
-const config = {
-        plugins: [sveltekit(), changelog()],
+/** @type import('vite').UserConfig */
+export default {
+        plugins: [sveltekit()],
         ssr: {
-                noExternal: ["@fontsource/montserrat"]
+                noExternal: ["@fontsource/inter"],
         }
 };
-
-export default config;

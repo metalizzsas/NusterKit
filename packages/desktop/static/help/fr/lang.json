@@ -1,0 +1,18 @@
+{
+    "help": {
+        "files": {
+            "components_containers": "Conteneurs",
+            "components_cycle": "Cycles",
+            "components_maintenance": "Maintenances",
+            "components_profiles": "Profils",
+            "navModals_informations": "Informations",
+            "navModals_network": "Réseau",
+            "navModals_settings": "Réglages",
+            "index": "Bienvenue"
+        },
+        "folders": {
+            "components": "Composants",
+            "navModals": "Boites de dialogue"
+        }
+    }
+}

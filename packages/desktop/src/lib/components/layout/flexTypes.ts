@@ -1,6 +1,6 @@
 /**
-     * Flex direction
-     */
+ * Flex direction
+ */
 export type FlexDirection = keyof typeof directions;
 
 export const directions = {

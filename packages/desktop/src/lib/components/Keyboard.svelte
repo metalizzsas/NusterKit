@@ -1,0 +1,133 @@
+<script lang="ts">
+
+	import SimpleKeyboard from "simple-keyboard";
+    import 'simple-keyboard/build/css/index.css';
+    import frenchLayout from 'simple-keyboard-layouts/build/layouts/french';
+	import englishLayout from 'simple-keyboard-layouts/build/layouts/english';
+	import italianLayout from 'simple-keyboard-layouts/build/layouts/italian';
+
+	import { onMount, createEventDispatcher } from "svelte";
+	import Portal from "svelte-portal";
+	import { lang } from "$lib/utils/stores/settings";
+	import { _ } from "svelte-i18n";
+	import Flex from "./layout/flex.svelte";
+	import TextField from "./inputs/TextField.svelte";
+	import NumField from "./inputs/NumField.svelte";
+	import Button from "./buttons/Button.svelte";
+	import { keyboardLeft, keyboardTop } from "$lib/utils/stores/keyboard";
+	import PasswordField from "./inputs/PasswordField.svelte";
+
+    const dispatch = createEventDispatcher<{ close: void }>();
+
+    export let value: string | number;
+    export let isPassword: boolean = false;
+    export const close = () => dispatch("close");
+
+    let keyboard: SimpleKeyboard | undefined = undefined;
+    let keyboardWrapper: HTMLDivElement;
+    let layout: "shift" | "shiftOnce" | "default" = "default";
+
+    let moving = false;
+
+    const layouts: Record<("en" | "fr" | "it"), typeof frenchLayout> = {
+		"fr": frenchLayout,
+		"en": englishLayout,
+		"it": italianLayout
+	};
+
+    onMount(() => {
+        keyboard = new SimpleKeyboard(".keyboard", {
+			value: value,
+			onChange: (input) => {
+
+                if(typeof value === "number")
+                    value = parseInt(input);
+                else
+				    value = input;
+			},
+			onKeyPress: (button: string) =>
+            {
+                if(button === "{shift}")
+                {
+                    if(layout === "default")
+                    {
+                        layout = "shiftOnce";
+                        keyboard?.setOptions({ layoutName: "shift" });
+                    }
+                    else if(layout === "shiftOnce")
+                    {
+                        layout = "default";
+                        keyboard?.setOptions({ layoutName: "default"})
+                    }                    
+                }
+                else if(button === "{lock}")
+                {
+                    if(layout === "default" || layout === "shiftOnce")
+                        layout = "shift"
+                    else
+                        layout = "default"
+                    
+                    keyboard?.setOptions({ layoutName: layout });
+                }
+                else
+                {
+                    if(layout === "shiftOnce")
+                    {
+                        layout = "default"
+                        keyboard?.setOptions({ layoutName: layout})
+                    }
+                }
+			},
+			...layouts[$lang as ("en" | "fr" | "it") ?? 'en'],
+			inputPattern: typeof value === 'number' ? /^[0-9]*$/ : undefined,
+		});
+
+        keyboard.setInput(`${value}`);
+
+        if($keyboardLeft === 0 && $keyboardTop === 0)
+        {
+            $keyboardLeft = window.innerWidth / 2 - (keyboardWrapper.clientWidth / 2);
+            $keyboardTop = window.innerHeight / 2 - (keyboardWrapper.clientHeight / 2);
+        }
+    });
+
+    function mouseUp(e: MouseEvent) { moving = false; }
+
+    function mouseDown(e: MouseEvent) { moving = true; }
+
+    function mouseMove(e: MouseEvent) {
+        if(moving)
+        {
+            $keyboardTop += e.movementY;
+            $keyboardLeft += e.movementX;
+
+            if($keyboardTop < 0) $keyboardTop = 0;
+            if($keyboardLeft < 0) $keyboardLeft = 0;
+
+            if($keyboardTop > (window.innerHeight - keyboardWrapper.clientHeight)) $keyboardTop = window.innerHeight - keyboardWrapper.clientHeight;
+            if($keyboardLeft > (window.innerWidth - keyboardWrapper.clientWidth)) $keyboardLeft = window.innerWidth - keyboardWrapper.clientWidth;
+        }
+    }
+
+</script>
+
+<Portal target="body">
+    <div bind:this={keyboardWrapper} class="p-2 bg-white dark:bg-zinc-800 ring-2 ring-inset dark:ring-white rounded-md absolute" style:left={`${$keyboardLeft}px`} style:top={`${$keyboardTop}px`} on:mousedown={mouseDown}>
+        <Flex justify="between" class="mb-2">
+            {#if typeof value === "string" && isPassword === false}
+                <TextField bind:value={value} disabled={true} />
+            {:else if typeof value === "string" && isPassword === true}
+                <PasswordField bind:value={value} disabled={true} />
+            {:else if typeof value === "number"}
+                <NumField bind:value={value} disabled={true} />
+            {/if}
+
+            <Button on:click={close} color="hover:bg-red-500" ringColor="ring-red-500">
+                {$_('close-keyboard')}
+            </Button>
+        </Flex>
+        <div class="keyboard"/>
+    </div>
+</Portal>
+
+<svelte:window on:mouseup={mouseUp} on:mousemove={mouseMove} />

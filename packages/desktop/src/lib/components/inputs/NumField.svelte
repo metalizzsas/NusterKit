@@ -10,7 +10,7 @@
 
     export let change = () => dispatch("change", { value });
     export let value: number;
-    export let disabled: boolean = false;
+    export let disabled = false;
 
     let focused = false;
 

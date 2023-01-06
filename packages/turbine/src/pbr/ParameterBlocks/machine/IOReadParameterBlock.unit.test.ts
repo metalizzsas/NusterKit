@@ -1,21 +1,18 @@
 import { test, expect } from "@jest/globals";
 import { IOReadParameterBlock } from "./IOReadParameterBlock";
-import type { IOGateBase } from "@metalizzsas/nuster-typings/build/spec/iogates";
 import { TurbineEventLoop } from "../../../events";
+import { IOGateJSON } from "@metalizzsas/nuster-typings/build/hydrated/io";
 
-const gate: IOGateBase = {
+const gate: IOGateJSON = {
     name: "test-gate",
     category: "generic",
+    locked: false,
+    unity: undefined,
     type: "default",
-    controllerId: 0,
-    address: 0,
-    default: 0,
     value: 1,
     size: "bit",
     bus: "in",
-    async read() { return true; },
-    async write() { return true; }
-}
+};
 
 const ioReadParameterBlock = new IOReadParameterBlock({"io_read": "test-gate"});
 

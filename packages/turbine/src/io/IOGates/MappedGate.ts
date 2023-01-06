@@ -1,4 +1,3 @@
-import { LoggerInstance } from "../../app";
 import { map } from "../../utils/map";
 import { IOGate } from "./IOGate";
 import { TurbineEventLoop } from "../../events";

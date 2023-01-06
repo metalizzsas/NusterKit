@@ -9,7 +9,7 @@ export class IOGate implements IOGateBase
     name: string;
     category: string;
 
-    locked: boolean = false;
+    locked = false;
 
     size: "word" | "bit";
     bus: "out" | "in";

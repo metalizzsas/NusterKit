@@ -9,7 +9,7 @@ export class ContainerRegulation implements ContainerRegulationConfig
 {
     name: string;
     current: number;
-    state: boolean = false;
+    state = false;
     target: number;
     maxTarget: number;
 
@@ -156,7 +156,7 @@ export class ContainerRegulation implements ContainerRegulationConfig
      */
     private async setActuators(actuators: "minus" | "plus" | "active", state: boolean, lock = false)
     {
-        let actuatorsElement = actuators === "minus" ? this.minus : actuators === "plus" ? this.plus : this.active;
+        const actuatorsElement = actuators === "minus" ? this.minus : actuators === "plus" ? this.plus : this.active;
 
         for (const actuator of actuatorsElement) {
             await new Promise<void>(resolve => {

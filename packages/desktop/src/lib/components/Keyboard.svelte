@@ -20,7 +20,7 @@
     const dispatch = createEventDispatcher<{ close: void }>();
 
     export let value: string | number;
-    export let isPassword: boolean = false;
+    export let isPassword = false;
     export const close = () => dispatch("close");
 
     let keyboard: SimpleKeyboard | undefined = undefined;
@@ -43,7 +43,7 @@
                 if(typeof value === "number")
                     value = parseInt(input);
                 else
-				    value = input;
+                    value = input;
 			},
 			onKeyPress: (button: string) =>
             {
@@ -91,9 +91,9 @@
         }
     });
 
-    function mouseUp(e: MouseEvent) { moving = false; }
+    function mouseUp() { moving = false; }
 
-    function mouseDown(e: MouseEvent) { moving = true; }
+    function mouseDown() { moving = true; }
 
     function mouseMove(e: MouseEvent) {
         if(moving)

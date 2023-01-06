@@ -34,7 +34,6 @@ export class ForProgramBlock extends ProgramBlockHydrated {
      */
     public async execute()
     {        
-        const tA = performance.now();
         const loopCount = this.limit.data;
         TurbineEventLoop.emit("log", "info", `ForBlock: Will loop ${loopCount} times. Starting from: ${this.currentIteration}`);
 
@@ -53,11 +52,6 @@ export class ForProgramBlock extends ProgramBlockHydrated {
 
         this.currentIteration = 0; // reset current iteration if we dont, multiple steps execute for loops only at the begining
         this.executed = true;
-
-        const tB = performance.now();
-
-        console.log("for loop duration", tB - tA, this.estimatedRunTime);
-            
     }
     
     static isForPgB(obj: AllProgramBlocks): obj is ForProgramBlockSpec

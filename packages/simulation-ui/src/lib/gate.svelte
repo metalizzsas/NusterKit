@@ -10,13 +10,12 @@
 	};
 </script>
 
-<div
-	style="display:flex; flex-direction: column; align-items: start; gap: 0.25em; padding: 0.5em; border-radius: 0.25em; background-color: #ccc;"
->
+<div style="display:flex; flex-direction: column; align-items: start; gap: 0.25em; padding: 0.5em; border-radius: 0.25em; background-color: #ccc;">
 	<span style="font-weight:600;">{gate.name}</span>
-	<span style="font-weight: 500;"
-		>Value: <span style:color={gate.value > 0 ? 'emerald' : 'red'}>{gate.value}</span></span
-	>
+	<span style="font-weight: 500;">
+		Value: 
+		<span style:color={gate.value > 0 ? 'emerald' : 'red'}>{gate.value}</span>
+	</span>
 
 	{#if gate.bus == 'in'}
 		{#if gate.size == 'bit'}

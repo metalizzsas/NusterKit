@@ -1,5 +1,4 @@
 import type { PT100Gate as PT100GateConfig } from "@metalizzsas/nuster-typings/build/spec/iogates/";
-import { LoggerInstance } from "../../app";
 import { IOGate } from "./IOGate";
 import type { IOBase } from "@metalizzsas/nuster-typings/build/spec/iohandlers";
 import { TurbineEventLoop } from "../../events";

@@ -69,7 +69,7 @@ export declare interface Translations {
     toasts: {
         [key:string]: ToastTranslation
     }
-};
+}
 
 /** String keyed Translations group */
 type TranslationGroupString = {

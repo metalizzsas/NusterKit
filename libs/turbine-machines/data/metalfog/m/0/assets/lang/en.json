@@ -1,21 +1,30 @@
 {
-    "slots": {
-        "types": {
-            "ox": "Oxydiser",
-            "rd": "Reducer",
-            "act": "Activator",
-            "edi": "DI Water",
-            "eff": "Effluents"
-        },
-        "colors": {
-            "act": "from-red-500 to-red-600",
-            "edi": "from-blue-800 to-blue-900",
-            "eff": "from-zinc-700 to-zinc-800",
-            "ox": "from-emerald-800 to-emerald-900",
-            "rd": "from-zinc-400 to-zinc-500"
-        }
+    "$schema": "../../../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
+
+    "containers": {
+
+        "ox": { "name": "Oxydiser" },
+        "rd": { "name": "Reducer" },
+        "act": { "name": "Activator" },
+        "edi": { "name": "DI Water"},
+        "eff": { "name": "Effluents" }
+
     },
     "profile": {
+
+        "premade": {
+            "llc": "Look Like Chromium — LLC",
+            "usl": "Utility Silver Layer — USL",
+            "usl-retake": "USL retake",
+            "usl-activation-porous": "USL Porous parts activation",
+            "cem": "CEM shielding",
+            "cem-retake": "CEM shielding retake",
+            "act-fill": "Activator dilution",
+            "container-cleaning": "Container cleaning",
+            "emptying-activator": "Emptying activator",
+            "emptying-reactives": "Emptying reactives"
+        },
+
         "categories": {
             "motor": "Rotation Motor",
             "activation": "Activation",
@@ -38,14 +47,14 @@
         }
     },
     "cycle": {
-        "endreasons": {
+        "end_reasons": {
             "security-emergency-stop": "Emergency stop button pressed",
             "security-air-sensor": "Air pressure too low",
             "security-cover-closed": "Cover open",
             "security-levels#eff-max-n": "Effluents too high",
             "activator-timed-out": "Activator dilution was too long"
         },
-        "startconditions": {
+        "start_conditions": {
             "emergency-stop": "Emergency stop button",
             "cover-closed": "Cover closed",
             "air-sensor": "Air pressure",
@@ -62,18 +71,6 @@
             "emptying-activator": "Emptying activator",
             "emptying-reactives": "Emptying reactives",
             "nozzle-cleaning": "Nozzle cleaning"
-        },
-        "types": {
-            "llc": "Look Like Chromium — LLC",
-            "usl": "Utility Silver Layer — USL",
-            "usl-retake": "USL retake",
-            "usl-activation-porous": "USL Porous parts activation",
-            "cem": "CEM shielding",
-            "cem-retake": "CEM shielding retake",
-            "act-fill": "Activator dilution",
-            "container-cleaning": "Container cleaning",
-            "emptying-activator": "Emptying activator",
-            "emptying-reactives": "Emptying reactives"
         },
         "steps": {
             "start": {
@@ -162,38 +159,15 @@
             "met#lq-ox": "Oxydiser liquid control"
         }
     },
-    "manual": {
-        "categories": {
-            "generic": "Generic",
-            "empty": "Emptying",
-            "hybrid": "Activator & DI Water",
-            "met": "Reactives"
-        },
-        "tasks": {
-            "motor-rotation": "Motor speed",
-            "ventilation": "Vapors extraction",
-            "air-heater": "Air heater",
 
-            "empty#act": "Emptying activator container",
-            "empty#edi": "Emptying di water container",
-            "empty#chem": "Emptying chemicals containers",
-
-            "hybrid#act": "Activator pulverisation",
-            "hybrid#edi": "DI Water pulverisation",
-
-            "met#chem": "Chemicals pulverization"
-        }
-    },
     "maintenance": {
         "tasks": {
             "mfm-filter": {
                 "name": "Filter",
-                "desc": "Metalfog filter filters all gases produced by the chemicals reactions done inside the machine.",
-                "procedure": {
-                    "unscrew-mfm-filter": "Unscrew the filter from the machine",
-                    "replace-mfm-new-filter": "Replace the old filter with a new filter"
-                }
+                "desc": "Metalfog filter filters all gases produced by the chemicals reactions done inside the machine."
             }
         }
-    }
+    },
+
+    "toasts": {}
 }

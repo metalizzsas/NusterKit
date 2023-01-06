@@ -1,10 +1,17 @@
 {
-    "slots": {
-        "types": {
-            "eff": "Effluents",
-            "resin": "Coat"
+    "$schema": "../../../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
+
+    "containers": {
+
+        "eff": {
+            "name": "Effluents"
+        },
+
+        "resin": {
+            "name": "Coat"
         }
     },
+
     "profile": {
         "categories": {
             "vapors-extraction": "Vapors extraction",
@@ -13,6 +20,9 @@
             "inerting": "Inerting",
             "multilayer": "Multilayer",
             "motor": "Rotation Motor"
+        },
+        "premade": {
+            "sla": "SLA / DLP 3D Print"
         },
         "rows": {
             "interlayer-uvduration": "UV Curing time between layers",
@@ -27,10 +37,7 @@
         "names": {
             "default": "Base smoothit cycle"
         },
-        "types": {
-            "sla": "SLA / DLP 3D Print"
-        },
-        "endreasons": {
+        "end_reasons": {
             "uv-cache-wrong": "UV Cache error",
             "nozzle-low-cache-wrong": "Nozzle Low Cache error",
             "nozzle-high-cache-wrong": "Nozzle High Cache error",
@@ -40,7 +47,7 @@
             "security-resin#slot-sensor": "Vanish slot missing",
             "security-uv#overheat": "UV lamp overheat"
         },
-        "startconditions": {
+        "start_conditions": {
             "emergency-stop": "Emergency stop button pressed",
             "nitrogen-sensor": "Nitrogen pressure too low",
             "cover-closed": "Cover open",
@@ -55,6 +62,10 @@
             "inerting": {
                 "name": "Inerting",
                 "desc": "Filling the machine with nitrogen to ehance UV Curing."
+            },
+            "uv-curing-interlayer": {
+                "name": "UV Curing",
+                "desc": "Hardening the varnish on your parts."
             },
             "uv-curing": {
                 "name": "UV Curing",
@@ -112,27 +123,7 @@
             "nozzle-low#cache": "Nozzle low cache"
         }
     },
-    "manual": {
-        "categories": {            
-            "nozzle-high": "Pulverization high",
-            "nozzle-low": "Pulverization low",
-            "uv": "Ultraviolet"
-        },
-        "tasks": {
-            "motor-rotation": "Motor rotation",
-            "ventilation": "Vapors extraction",
-            "air-heater": "Air heater",
-            "inerting": "Inerting",
 
-            "uv#cache": "UV lamp cache",
-            "uv#curing": "UV curing",
-            
-            "nozzle-high#cache": "Nozzle high cache",
-            "nozzle-low#cache": "Nozzle low cache",
-            "nozzle-high#pulverization": "Nozzle high pulverization",
-            "nozzle-low#pulverization": "Nozzle low pulverization"
-        }
-    },
     "maintenance": {
         "tasks": {
             "smt-filter": {
@@ -148,5 +139,7 @@
                 "desc": "UV Lamp is used to harden varnish on top of your part."
             }
         }
-    }
+    },
+
+    "toasts": {}
 }

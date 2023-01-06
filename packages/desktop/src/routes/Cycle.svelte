@@ -94,7 +94,7 @@
     <Flex direction="col" gap={0.5}>
         {#each cycleData.startConditions.filter(sc => sc.result != "disabled") as sc}
             <Flex direction="row" items="center">
-                <span>{$_(`cycle.startconditions.${sc.conditionName}`)}</span>
+                <span>{$_(`cycle.start_conditions.${sc.conditionName}`)}</span>
                 <div class="h-[1px] bg-zinc-600/50 grow" />
                 <div 
                     class="rounded-full h-2.5 w-2.5"
@@ -200,7 +200,7 @@
                 </Flex>
 
                 {#if step.state === "started"}
-                    <p class="text-sm leading-6 mt-1">Progress</p> 
+                    <p class="text-sm leading-6 mt-1">{$_('progress')}</p> 
                     <div class="bg-zinc-600/50 h-1.5 rounded-full grow">
                         <div 
                             class="h-1.5 rounded-full duration-[2s] transition-all"
@@ -223,7 +223,7 @@
     <Flex justify="between">
         <div>
             <p class="text-sm text-zinc-600 dark:text-zinc-300">{$_('cycle.end.lead')}</p>
-            <h1 class="leading-6">{$_(`cycle.endreasons.${$realtime.cycle?.status.endReason ?? 'error'}`)}</h1>
+            <h1 class="leading-6">{$_(`cycle.end_reasons.${$realtime.cycle?.status.endReason ?? 'error'}`)}</h1>
         
             {#if cycleData.status.endDate && cycleData.status.startDate}
                 <p class="leading-10">

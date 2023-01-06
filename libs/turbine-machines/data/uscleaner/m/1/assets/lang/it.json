@@ -1,16 +1,21 @@
 {
-    "slots": {
-        "types": {
-            "bac": "Vasca"
-        },
-        "colors": {
-            "bac": "from-blue-800 to-blue-900"
-        },
-        "modal": {
-            "actions": {}
+    "$schema": "../../../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
+
+    "containers": {
+        "bac": {
+            "name": "Vasca",
+
+            "regulations": {
+                "temperature": "Temperatura"
+            }
         }
     },
     "profile": {
+
+        "premade": {
+            "15min": "15 minuti"
+        },
+
         "categories": {
             "principal": "Funzioni principali"
         },
@@ -20,31 +25,28 @@
             "motor-speed": "Velocità del motore"
         }
     },
-    "passives": {
-        "temperature": {
-            "name": "Temperatura"
-        }
-    },
+
     "cycle": {
-        "endreasons": {
+        "end_reasons": {
             "security-emergency-stop": "Pulsante arresto di emergenza inserito",
             "security-cover-closed": "Coperchio aperto"
         },
+        "start_conditions": {
+            "emergency-stop": "Pulsante arresto di emergenza",
+            "cover-closed": "Coperchio chiuso"
+        },
+
         "names": {
             "default": "Ciclo di base Uscleaner"
         },
-        "types": {},
         "steps": {
             "cleaning": {
                 "name": "Pulizia",
                 "desc": "Pulizia dei pezzi"
             }
-        },
-        "startconditions": {
-            "emergency-stop": "Pulsante arresto di emergenza",
-            "cover-closed": "Coperchio chiuso"
         }
     },
+
     "gates": {
         "categories": {
             "motor": "Motore di rotazione",
@@ -63,7 +65,6 @@
             "temperature#heater": "Scaldamento della vasca",
             "temperature#ventilation": "Ventilazione dello scambiatore vasca",
 
-            
             "us-power": "Trasduttori US",
 
             "pump#pressure": "Pressione in uscita della pompa",
@@ -71,34 +72,14 @@
 
         }
     },
-    "manual": {
-        "categories": {
-            "bac": "Temperatura vasca"
-        },
-        "tasks": {
-            "motor-rotation": "Velocità del motore",
-            "pump": "Filtrazione",
-            "us-cleaning": "Pulizia US",
-            "bac#heating": "Scaldamento vasca",
-            "bac#cooling": "Raffredamento vasca"
-        }
-    },
+
     "maintenance": {
         "tasks": {
             "usc-filter": {
                 "name": "Filtro",
-                "desc": "Il filtro dell'Uscleaner permette di catturare le particelle nella vasca.",
-                "procedure": {
-                    "open-door": "Apertura porta Uscleaner.",
-                    "close-valve-pump": "Chiusura delle valvole della pompa.",
-                    "pump-cover-unscrew": "Svitare il coperchio della pompa.",
-                    "filter-out-pump": "Togliere il filtro della pompa.",
-                    "replace-pump-filter": "Sostituire il filtro della pompa.",
-                    "pump-cover-screw": "Chiusura del coperchio della pompa.",
-                    "open-valve-pump": "Apertura delle valvole della pompa.",
-                    "door-close": "Chiusura della porta dell'Uscleaner"
-                }
+                "desc": "Il filtro dell'Uscleaner permette di catturare le particelle nella vasca."
             }
         }
-    }
+    },
+    "toasts": {}
 }

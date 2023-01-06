@@ -42,7 +42,7 @@
 								class:bg-blue-500={containerState.result == "info"}
 							/>
 							<Flex direction="col" gap={0} items="start" justify="items-start">
-								<h2>{$_('slots.types.' + container.name)}</h2>
+								<h2>{$_(`containers.${container.name}.name`)}</h2>
 								{#if containerState.issues.length > 0}
 									{#each containerState.issues as issues}
 										<p class="text-sm text-zinc-600 dark:text-zinc-300">{$_(`container.state.issues.${issues}`)}</p>

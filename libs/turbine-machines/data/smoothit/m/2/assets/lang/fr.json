@@ -1,8 +1,14 @@
 {
-    "slots": {
-        "types": {
-            "eff": "Effluents",
-            "resin": "Vernis"
+    "$schema": "../../../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
+
+    "containers": {
+
+        "eff": {
+            "name": "Effluents"
+        },
+
+        "resin": {
+            "name": "Vernis"
         }
     },
     "profile": {
@@ -13,6 +19,9 @@
             "inerting": "Inertage",
             "multilayer": "Multicouche",
             "motor": "Moteur de rotation"
+        },
+        "premade": {
+            "sla": "Pièce 3D SLA / DLP"
         },
         "rows": {
             "interlayer-uvduration": "Durée cuisson UV entre les couche",
@@ -25,10 +34,7 @@
         "names": {
             "default": "Cycle de base smoothit"
         },
-        "types": {
-            "sla": "Pièce 3D SLA / DLP"
-        },
-        "endreasons": {
+        "end_reasons": {
             "uv-cache-wrong": "Erreur position cache UV",
             "nozzle-cache-wrong": "Erreur position cache buse",
             "security-emergency-stop": "Boutton d'arret d'urgence déclenché",
@@ -37,7 +43,7 @@
             "security-resin#slot-sensor": "Pot de vernis manquant",
             "security-uv#overheat": "Surchauffe lampe UV"
         },
-        "startconditions": {
+        "start_conditions": {
             "emergency-stop": "Statut bouton d'arret d'urgence",
             "nitrogen-sensor": "Pression d'azote",
             "cover-closed": "Couvercle fermé",
@@ -52,6 +58,10 @@
             "inerting": {
                 "name": "Inertage",
                 "desc": "Remplissage de la cuve d'azote pour améliorer la cuisson UV."
+            },
+            "uv-curing-interlayer": {
+                "name": "Cuisson UV",
+                "desc": "Durcissement du vernis UV."
             },
             "uv-curing": {
                 "name": "Cuisson UV",
@@ -99,37 +109,12 @@
             "nozzle#cache": "Cache buse"
         }
     },
-    "manual": {
-        "categories": {
-            "nozzle": "Pulvérisation",
-            "ir": "Infrarouge",
-            "uv": "Ultraviolet"
-        },
-        "tasks": {
-            "motor-rotation": "Rotation des pièces",
-            "ventilation": "Extraction des vapeurs",
-            "air_heater": "Réchauffeur d'air",
-            "inerting": "Inertage",
-            
-            "uv#cache": "Cache lampe UV",
-            "ir#cache": "Cache lampe IR",
 
-            "uv#curing": "Cuisson UV",
-
-            "nozzle#cache": "Cache buse",
-            "nozzle#pulverization": "Pulvérization"
-        }
-    },
     "maintenance": {
         "tasks": {
             "smt-filter": {
                 "name": "Filtre solvants",
-                "desc": "Filtre de Smoothit permet de filtrer les solvants, particules et gazs produits par le programme.",
-                "procedure": {
-                    "unscrew-smt-filter": "Dévisser le filtre.",
-                    "replace-smt-filter": "Remplacer le filtre.",
-                    "replace-smt-new-filter": "Visser le nouveau filtre."
-                }
+                "desc": "Filtre de Smoothit permet de filtrer les solvants, particules et gazs produits par le programme."
             },
             "inner-cleaning": {
                 "name": "Masques interne",
@@ -140,5 +125,7 @@
                 "desc": "La lampe UV permet de durcir le vernis de lissage présent sur vos pièces."
             }
         }
-    }
+    },
+
+    "toasts": {}
 }

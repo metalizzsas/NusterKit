@@ -1,12 +1,14 @@
 {
-    "slots": {
-        "types": {
-            "eff": "Effluents",
-            "resin": "Coat"
+    "$schema": "../../../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
+
+    "containers": {
+
+        "eff": {
+            "name": "Effluents"
         },
-        "colors": {
-            "resin": "from-amber-700 to-amber-800",
-            "eff": "from-zinc-700 to-zinc-800"
+
+        "resin": {
+            "name": "Coat"
         }
     },
     "profile": {
@@ -24,18 +26,20 @@
             "uv-power": "UV Power",
             "reverseEnabled": "Motor direction reverse",
             "reverseTime": "Motor reverser timer"
+        },
+
+        "premade": {
+            "fdm": "FDM 3D Print",
+            "sla": "SLA / DLP 3D Print",
+            "sls": "SLS / MJF 3D Print"
         }
     },
+
     "cycle": {
         "names": {
             "default": "Base smoothit cycle"
         },
-        "types": {
-            "fdm": "FDM 3D Print",
-            "sla": "SLA / DLP 3D Print",
-            "sls": "SLS / MJF 3D Print"
-        },
-        "endreasons": {
+        "end_reasons": {
             "uv-cache-wrong": "UV Cache error",
             "ir-cache-wrong": "IR Cache error",
             "nozzle-cache-wrong": "Nozzle Cache error",
@@ -45,7 +49,7 @@
             "security-resin#slot-sensor": "Vanish slot missing",
             "security-uv#overheat": "UV lamp overheat"
         },
-        "startconditions": {
+        "start_conditions": {
             "emergency-stop": "Emergency stop button pressed",
             "nitrogen-sensor": "Nitrogen pressure too low",
             "cover-closed": "Cover open",
@@ -57,13 +61,13 @@
                 "name": "Pulverization",
                 "desc": "Applying varnish on your parts."
             },
-            "ir-curing": {
-                "name": "IR curing",
-                "desc": "Heating the varnish to smooth them."
-            },
             "inerting": {
                 "name": "Inerting",
                 "desc": "Filling the machine with nitrogen to ehance UV Curing."
+            },
+            "uv-curing-interlayer": {
+                "name": "UV Curing",
+                "desc": "Hardening the varnish on your parts."
             },
             "uv-curing": {
                 "name": "UV Curing",
@@ -76,7 +80,6 @@
         }
     },
     "gates": {
-        "name": "IO Controls",
         "categories": {
             "motor": "Rotation Motor",
             "ir": "Infrared",
@@ -122,37 +125,12 @@
             "nozzle#cache": "Nozzle cache"
         }
     },
-    "manual": {
-        "categories": {            
-            "nozzle": "Pulverization",
-            "ir": "Infrared",
-            "uv": "Ultraviolet"
-        },
-        "tasks": {
-            "motor-rotation": "Motor rotation",
-            "ventilation": "Vapors extraction",
-            "air-heater": "Air heater",
-            "inerting": "Inerting",
 
-            "uv#cache": "UV lamp cache",
-            "uv#curing": "UV curing",
-            
-            "ir#cache": "IR lamp cache",
-            "ir#curing": "IR curing",
-            
-            "nozzle#cache": "Nozzle cache",
-            "nozzle#pulverization": "Nozzle pulverization"
-        }
-    },
     "maintenance": {
         "tasks": {
             "smt-filter": {
                 "name": "Filter",
-                "desc": "Smoothit filter filters all coating solvants produced by the coating done inside the machine.",
-                "procedure": {
-                    "unscrew-smt-filter": "Unscrew the filter from the machine",
-                    "replace-smt-new-filter": "Replace the old filter with a new filter"
-                }
+                "desc": "Smoothit filter filters all coating solvants produced by the coating done inside the machine."
             },
             "inner-cleaning": {
                 "name": "Inner",
@@ -160,17 +138,14 @@
             },
             "ir-lamp": {
                 "name": "IR Lamp",
-                "desc": "IR Lamp is used to ehance varnish coating smoothing effect.",
-                "procedure": {
-                    "unscrew-top": "Unscrew the 4 M4 screw that holds the IR lamp cache in place.",
-                    "replace-ir-lamp": "While holding the lamp, shift the lamp toward the ground to unlock the lamp from its socket. Replace the lamp using the same technique.",
-                    "screw-top": "Place the cache on its initial place and re-screw the 4 M4 screws"
-                }
+                "desc": "IR Lamp is used to ehance varnish coating smoothing effect."
             },
             "uv-lamp": {
                 "name": "UV Lamp",
                 "desc": "UV Lamp is used to harden varnish on top of your part."
             }
         }
-    }
+    },
+
+    "toasts": {}
 }

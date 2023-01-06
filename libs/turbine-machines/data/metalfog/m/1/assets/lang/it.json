@@ -1,38 +1,49 @@
 {
-    "slots": {
-        "types": {
-            "ox": "Ossidante",
-            "rd": "Riduttore",
-            "act": "Attivatore",
-            "edi": "Acqua deionizzata",
-            "eff": "Effluenti"
-        },
-        "colors": {
-            "act": "from-red-500 to-red-600",
-            "edi": "from-blue-800 to-blue-900",
-            "eff": "from-zinc-700 to-zinc-800",
-            "ox": "from-emerald-800 to-emerald-900",
-            "rd": "from-zinc-400 to-zinc-500"
-        },
-        "modal": {
+    "$schema": "../../../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
+
+    "containers": {
+
+        "ox": {
+            "name": "Ossidante",
             "actions": {
-                "act": {
-                    "load": "Preparazione manuale",
-                    "load_alt": "Preparazione con diluzione automatica",
-                    "unload": "Spurgo"
-                },
-                "ox": {
-                    "load": "Preparazione manuale",
-                    "unload": "Spurgo reagenti"
-                },
-                "rd": {
-                    "load": "Preparazione manuale",
-                    "unload": "Spurgo reagenti"
-                }
+                "load": "Preparazione manuale",
+                "unload": "Spurgo reagenti"
             }
-        }
+        },
+
+        "rd": {
+            "name": "Riduttore",
+            "actions": {
+                "load": "Preparazione manuale",
+                "unload": "Spurgo reagenti"
+            }
+        },
+
+        "act": {
+            "name": "Attivatore",
+            "actions": {
+                "load": "Preparazione manuale",
+                "load_alt": "Preparazione con diluzione automatica",
+                "unload": "Spurgo"
+            }
+        },
+        
+        "edi": {"name": "Acqua deionizzata" },
+        "eff": {"name": "Effluenti"}
     },
     "profile": {
+
+        "premade": {
+            "llc": "Look Like Chromium — LLC",
+            "usl": "Utility Silver Layer — USL",
+            "usl-retake": "Rinforzo USL",
+            "usl-activation-porous": "Attivazione per pezzi porosi USL",
+            "cem": "Schermatura CEM",
+            "cem-retake": "Rinforzo schermatura CEM",
+            "act-fill": "Diluzione attivatore",
+            "container-emptying": "Spurgo contenitori"
+        },
+
         "categories": {
             "act-edi-nozzles": "Ugelli attivatore ed acqua deionizzata",
             "met-nozzles": "Ugelli metallizazzione",
@@ -63,7 +74,7 @@
         }
     },
     "cycle": {
-        "endreasons": {
+        "end_reasons": {
             "security-emergency-stop": "Pulsante arresto di emergenza inserito",
             "security-air-sensor": "Pressione aria compressa troppo bassa",
             "security-cover-closed": "Coperchio aperto",
@@ -75,7 +86,8 @@
             "security-levels#rd-min-n": "Livello minimo riduttore",
             "activator-timed-out": "La diluzione dell'attivatore ha impiegato troppo tempo"
         },
-        "startconditions": {
+       
+        "start_conditions": {
             "emergency-stop": "Pulsante arresto di emergenza",
             "cover-closed": "Coperchio chiuso",
             "air-sensor": "Pressione aria compressa",
@@ -90,26 +102,14 @@
             "activator-life": "Scadenza attivatore tra",
             "reducer-life": "Scadenza riduttore tra"
         },
+      
         "names": {
             "default": "Ciclo di base Metalfog",
             "act-fill": "Diluzione attivatore",
-            "emptying-activator": "Spurgo attivatore",
-            "emptying-reactives": "Spurgo reagenti",
-            "container-cleaning": "Pulizia serbatoi",
+            "container-emptying": "Spurgo contenitori",
             "nozzle-cleaning": "Pulizia degli ugelli"
         },
-        "types": {
-            "llc": "Look Like Chromium — LLC",
-            "usl": "Utility Silver Layer — USL",
-            "usl-retake": "Rinforzo USL",
-            "usl-activation-porous": "Attivazione per pezzi porosi USL",
-            "cem": "Schermatura CEM",
-            "cem-retake": "Rinforzo schermatura CEM",
-            "act-fill": "Diluzione attivatore",
-            "emptying-activator": "Spurgo attivatore",
-            "emptying-reactives": "Spurgo reagenti",
-            "container-cleaning": "Pulizia serbatoi"
-        },
+
         "steps": {
             "start": {
                 "name": "Inizio",
@@ -147,17 +147,9 @@
                 "name": "Diluzione attivatore",
                 "desc": "Acqua deionizzata nel serbatoio attivatore per diluzione."
             },
-            "container-cleaning": {
-                "name": "Pulizia",
-                "desc": "Pulizia serbatoi reagenti."
-            },
-            "emptying-activator": {
-                "name": "Spurgo attivatore",
-                "desc": "Spurgo serbatoio attivatore"
-            },
-            "emptying-reactives": {
-                "name": "Spurgo reagenti",
-                "desc": "Spurgo serbatoio reagenti"
+            "container-emptying": {
+                "name": "Spurgo contenitori",
+                "desc": "Spurgo contenitori."
             }
         }
     },
@@ -227,44 +219,15 @@
             "met#ox-air-cleaning-low": "Pulizia ugello ossidante basso"
         }
     },
-    "manual": {
-        "categories": {
-            "generic": "Generico",
-            "empty": "Spurgo",
-            "hybrid": "Acqua deionizzata ed attivatore",
-            "met": "Reagenti"
-        },
-        "tasks": {
-            "motor-rotation": "Velocità motore",
-            "ventilation": "Estrazione vapori",
-            "air-heater": "Riscaldatore aria",
-            "fill-act": "Carico serbatoio attivatore",
-            "empty#act": "Spurgo serbatoio attivatore",
-            "empty#edi": "Spurgo serbatoio acqua deionizzata",
-            "empty#ox": "Spurgo serbatoio ossidante",
-            "empty#rd": "Spurgo serbatoio riduttore",
-            "hybrid#act-high": "Spruzzatura attivatore alto",
-            "hybrid#act-low": "Spruzzatura attivatore basso",
-            "hybrid#edi-high": "Spruzzatura acqua deionizzata alto",
-            "hybrid#edi-low": "Spruzzatura acqua deionizzata basso",
-            "met#ox-high": "Spruzzatura ossidante alto",
-            "met#ox-mid": "Spruzzatura ossidante a metà",
-            "met#ox-low": "Spruzzatura ossidante basso",
-            "met#rd-high": "Spruzzatura riduttore alto",
-            "met#rd-mid": "Spruzzatura riduttore a metà",
-            "met#rd-low": "Spruzzatura riduttore basso"
-        }
-    },
+
     "maintenance": {
         "tasks": {
             "mfm-filter": {
                 "name": "Filtro",
-                "desc": "Il filtro della Metalfog permette di catturare ogni gaz nocivo, generato dalle reazioni chimiche nella camera di tratatmento.",
-                "procedure": {
-                    "unscrew-mfm-filter": "Svitare il filtro dalla macchine",
-                    "replace-mfm-new-filter": "Sostituire il filtro con uno nuovo"
-                }
+                "desc": "Il filtro della Metalfog permette di catturare ogni gaz nocivo, generato dalle reazioni chimiche nella camera di tratatmento."
             }
         }
-    }
+    },
+
+    "toasts": {}
 }

@@ -1,10 +1,17 @@
 {
-    "slots": {
-        "types": {
-            "eff": "Effluents",
-            "resin": "Vernis"
+    "$schema": "../../../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
+
+    "containers": {
+
+        "resin": {
+            "name": "Vernis"
+        },
+
+        "eff": {
+            "name": "Effluents"
         }
     },
+
     "profile": {
         "categories": {
             "vapors-extraction": "Extraction des vapeurs",
@@ -13,6 +20,9 @@
             "inerting": "Inertage",
             "multilayer": "Multicouche",
             "motor": "Moteur de rotation"
+        },
+        "premade": {
+            "sla": "Pièce 3D SLA / DLP"
         },
         "rows": {
             "interlayer-uvduration": "UV Curing time between layers",
@@ -23,14 +33,12 @@
             "low-enabled": "Buse bas activée"
         }
     },
+
     "cycle": {
         "names": {
             "default": "Cycle de base smoothit"
         },
-        "types": {
-            "sla": "Pièce 3D SLA / DLP"
-        },
-        "endreasons": {
+        "end_reasons": {
             "uv-cache-wrong": "Erreur position cache UV",
             "nozzle-low-cache-wrong": "Erreur position cache buse bas",
             "nozzle-high-cache-wrong": "Erreur position cache buse haut",
@@ -40,7 +48,7 @@
             "security-resin#slot-sensor": "Pot de vernis manquant",
             "security-uv#overheat": "Surchauffe lampe UV"
         },
-        "startconditions": {
+        "start_conditions": {
             "emergency-stop": "Statut bouton d'arret d'urgence",
             "nitrogen-sensor": "Pression d'azote",
             "cover-closed": "Couvercle fermé",
@@ -56,6 +64,10 @@
                 "name": "Inertage",
                 "desc": "Remplissage de la cuve d'azote pour améliorer la cuisson UV."
             },
+            "uv-curing-interlayer": {
+                "name": "Cuisson UV",
+                "desc": "Durcissement du vernis UV."
+            },
             "uv-curing": {
                 "name": "Cuisson UV",
                 "desc": "Durcissement du vernis UV."
@@ -66,6 +78,7 @@
             }
         }
     },
+
     "gates": {
         "categories": {
             "motor": "Moteur de rotation",
@@ -108,27 +121,7 @@
             "nozzle-low#cache": "Cache buse bas"
         }
     },
-    "manual": {
-        "categories": {
-            "nozzle-high": "Pulvérisation haut",
-            "nozzle-low": "Pulvérisation bas",
-            "uv": "Ultraviolet"
-        },
-        "tasks": {
-            "motor-rotation": "Rotation des pièces",
-            "ventilation": "Extraction des vapeurs",
-            "air-heater": "Réchauffeur d'air",
-            "inerting": "Inertage",
-            
-            "uv#cache": "Cache lampe UV",
-            "uv#curing": "Cuisson UV",
 
-            "nozzle-high#cache": "Cache buse haut",
-            "nozzle-low#cache": "Cache buse bas",
-            "nozzle-high#pulverization": "Pulvérization haut",
-            "nozzle-low#pulverization": "Pulvérization bas"
-        }
-    },
     "maintenance": {
         "tasks": {
             "smt-filter": {
@@ -148,5 +141,6 @@
                 "desc": "La lampe UV permet de durcir le vernis de lissage présent sur vos pièces."
             }
         }
-    }
+    },
+    "toasts": {}
 }

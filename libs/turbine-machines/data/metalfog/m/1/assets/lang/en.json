@@ -1,38 +1,44 @@
 {
-    "slots": {
-        "types": {
-            "ox": "Oxydiser",
-            "rd": "Reducer",
-            "act": "Activator",
-            "edi": "DI Water",
-            "eff": "Effluents"
-        },
-        "colors": {
-            "act": "from-red-500 to-red-600",
-            "edi": "from-blue-800 to-blue-900",
-            "eff": "from-zinc-700 to-zinc-800",
-            "ox": "from-emerald-800 to-emerald-900",
-            "rd": "from-zinc-400 to-zinc-500"
-        },
-        "modal": {
+    "$schema": "../../../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
+
+    "containers": {
+
+        "ox": {
+            "name": "Oxydiser",
             "actions": {
-                "act": {
-                    "load": "Manual loading",
-                    "load_alt": "Automatic dilution loading",
-                    "unload": "Emptying"
-                },
-                "ox": {
-                    "load": "Manual loading",
-                    "unload": "Reactives emptying"
-                },
-                "rd": {
-                    "load": "Manual loading",
-                    "unload": "Reactives emptying"
-                }
+                "load": "Manual loading",
+                "unload": "Reactives emptying"
             }
-        }
+        },
+        "rd": {
+            "name": "Reducer",
+            "actions": {
+                "load": "Manual loading",
+                "unload": "Reactives emptying"
+            }
+        },
+        "act": {
+            "name": "Activator",
+            "actions": {
+                "load": "Manual loading",
+                "load_alt": "Automatic dilution loading",
+                "unload": "Emptying"
+            }
+        },
+        "edi": { "name": "DI Water" },
+        "eff": { "name": "Effluents" }
     },
     "profile": {
+        "premade": {
+            "llc": "Look Like Chromium — LLC",
+            "usl": "Utility Silver Layer — USL",
+            "usl-retake": "USL retake",
+            "usl-activation-porous": "USL Porous parts activation",
+            "cem": "CEM shielding",
+            "cem-retake": "CEM shielding retake",
+            "act-fill": "Activator dilution",
+            "container-emptying": "Container emptying"
+        },
         "categories": {
             "act-edi-nozzles": "Activator & DI Water nozzles",
             "met-nozzles": "Metallization nozzles",
@@ -62,7 +68,7 @@
         }
     },
     "cycle": {
-        "endreasons": {
+        "end_reasons": {
             "security-emergency-stop": "Emergency stop button pressed",
             "security-air-sensor": "Air pressure too low",
             "security-cover-closed": "Cover open",
@@ -74,7 +80,8 @@
             "security-levels#rd-min-n": "Minimal Reducer level",
             "activator-timed-out": "Activator dilution was too long"
         },
-        "startconditions": {
+
+        "start_conditions": {
             "emergency-stop": "Emergency stop button",
             "cover-closed": "Cover closed",
             "air-sensor": "Air pressure",
@@ -89,25 +96,12 @@
             "activator-life": "Activator state",
             "reducer-life": "Reducer state"
         },
+
         "names": {
             "default": "Base metalfog cycle",
             "act-fill": "Activator dilution",
-            "container-cleaning": "Container cleaning",
-            "emptying-activator": "Emptying activator",
-            "emptying-reactives": "Emptying reactives",
+            "container-emptying": "Container emptying",
             "nozzle-cleaning": "Nozzle cleaning"
-        },
-        "types": {
-            "llc": "Look Like Chromium — LLC",
-            "usl": "Utility Silver Layer — USL",
-            "usl-retake": "USL retake",
-            "usl-activation-porous": "USL Porous parts activation",
-            "cem": "CEM shielding",
-            "cem-retake": "CEM shielding retake",
-            "act-fill": "Activator dilution",
-            "container-cleaning": "Container cleaning",
-            "emptying-activator": "Emptying activator",
-            "emptying-reactives": "Emptying reactives"
         },
         "steps": {
             "start": {
@@ -146,17 +140,9 @@
                 "name": "Activator dilution",
                 "desc": "DI Water is transfered to Activator containter to dilute concentrated activator."
             },
-            "container-cleaning": {
-                "name": "Cleaning",
-                "desc": "Cleaning reactive containers"
-            },
-            "emptying-activator": {
-                "name": "Emptying activator",
-                "desc": "Emptying activator container"
-            },
-            "emptying-reactives": {
-                "name": "Emptying reactives",
-                "desc": "Emptying reactives containers"
+            "container-emptying": {
+                "name": "Containers emptying",
+                "desc": "Automatic emptying of some containers."
             }
         }
     },
@@ -224,50 +210,16 @@
             "met#ox-air-cleaning-low": "Oxydiser air cleaning low"
         }
     },
-    "manual": {
-        "categories": {
-            "generic": "Generic",
-            "empty": "Emptying",
-            "hybrid": "Activator & DI Water",
-            "met": "Reactives"
-        },
-        "tasks": {
-            "motor-rotation": "Motor speed",
-            "ventilation": "Vapors extraction",
-            "air-heater": "Air heater",
-            "fill-act": "Fill activator container",
-
-            "empty#act": "Emptying activator container",
-            "empty#edi": "Emptying di water container",
-            "empty#ox": "Emptying oxydiser container",
-            "empty#rd": "Emptying reducer container",
-
-            "hybrid#act-high": "Activator pulverisation high",
-            "hybrid#act-low": "Activator pulverisation low",
-            "hybrid#edi-high": "DI Water pulverisation high",
-            "hybrid#edi-low": "DI Water pulverisation low",
-
-            "met#ox-high": "Oxydiser pulverisation high",
-            "met#ox-mid": "Oxydiser pulverisation high",
-            "met#ox-low": "Oxydiser pulverisation low",
-            "met#rd-high": "Reducer pulverisation high",
-            "met#rd-mid": "Reducer pulverisation high",
-            "met#rd-low": "Reducer pulverisation low"
-        }
-    },
     "maintenance": {
         "tasks": {
             "mfm-filter": {
                 "name": "Filter",
-                "desc": "Metalfog filter filters all gases produced by the chemicals reactions done inside the machine.",
-                "procedure": {
-                    "unscrew-mfm-filter": "Unscrew the filter from the machine",
-                    "replace-mfm-new-filter": "Replace the old filter with a new filter"
-                }
+                "desc": "Metalfog filter filters all gases produced by the chemicals reactions done inside the machine."
             }
         }
     },
-    "popups": {
+
+    "toasts": {
         "nozzle-cleaning": {
             "title": "Startup recommendations",
             "message": "As the Metalfog just started-up, We recommend doing a air cleaning of the metalization nozzles. Press Continue to cleanup the nozzles.",

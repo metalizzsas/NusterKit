@@ -228,22 +228,12 @@
       "estimated": "Estimated duration:"
     },
 
-    "quickstart": {
-      "head": "QuickStart Cycle",
-      "settings": "Cycle settings",
-      "settings-save": "Saved settings",
-      "settings-save-action": "Save",
-      "settings-edit-action": "Edit",
-      "settings-delete-action": "Delete",
-      "start": "Prepare cycle"
-    },
-
     "end": {
       "lead": "Cycle has ended.",
       "duration": "Cycle duration:"
     },
 
-    "endreasons": {
+    "end_reasons": {
       "user": "User aborted cycle",
       "finished": "Finished successfully",
       "controllerTimeout": "IO Controller timed out",

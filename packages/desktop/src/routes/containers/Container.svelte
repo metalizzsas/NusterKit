@@ -114,7 +114,7 @@
 </script>
 
 <Flex direction="col" gap={2}>
-    <h2 class="text-xl">{$_('slots.types.' + container.name)}</h2>
+    <h2 class="text-xl">{$_(`containers.${container.name}.name`)}</h2>
 
     {#if containerState.issues.length > 0}
         <div>
@@ -200,7 +200,7 @@
                                     <Button on:click={() => productEdit("load")}>
                                         <Flex direction="row" justify="center" items="center">
                                             <Icon src={ArrowDownTray} class="h-4 w-4"/>
-                                            {$_(`container.product.action.${container.name}.load`)}
+                                            {$_(`containers.${container.name}.actions.load`)}
                                         </Flex>
                                     </Button>
 
@@ -209,7 +209,7 @@
                                             <Button color="hover:bg-amber-500" ringColor="ring-amber-500" on:click={() => productEdit(cta.name)}>
                                                 <Flex direction="row" justify="center" items="center">
                                                     <Icon src={ArrowDownTray} class="h-4 w-4"/>
-                                                    {$_(`container.product.action.${container.name}.${cta.name}`)}
+                                                    {$_(`containers.${container.name}.actions.${cta.name}`)}
                                                 </Flex>
                                             </Button>
                                         {/each}
@@ -218,7 +218,7 @@
                                     <Button ringColor="ring-red-500" color="hover:bg-red-500" on:click={() => productEdit("unload")}>
                                         <Flex direction="row" justify="center" items="center">
                                             <Icon src={ArrowUpTray} class="h-4 w-4"/>
-                                            {$_(`container.product.action.${container.name}.unload`)}
+                                            {$_(`containers.${container.name}.actions.unload`)}
                                         </Flex>
                                     </Button>
                                 </Grid>
@@ -270,7 +270,7 @@
 
                     {#each container.regulations as regulation}
                         <Flex direction="col" gap={2}>
-                            <h3>{$_('container.regulation.names.' + regulation.name)}</h3>
+                            <h3>{$_(`containers.${container.name}.regulation.${regulation.name}`)}</h3>
 
                             <Flex items="center">
                                 <span>{$_('container.regulation.enabled')}</span>

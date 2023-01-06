@@ -1,6 +1,6 @@
 import { EventEmitter } from "node:events";
 import type { ProductSeries } from "@metalizzsas/nuster-typings/build/spec/containers/products";
-import type { ProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profile";
+import type { ProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profiles";
 import type { PBRMode } from "@metalizzsas/nuster-typings/build/hydrated/cycle/ProgramBlockRunnerHydrated";
 import type { PBRStepState } from "@metalizzsas/nuster-typings/build/spec/cycle/PBRStep";
 import type { ContainerHydrated } from "@metalizzsas/nuster-typings/build/hydrated/containers";

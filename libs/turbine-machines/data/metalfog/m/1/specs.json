@@ -6,7 +6,7 @@
          "title": "popups.nozzle-cleaning.title",
          "message": "popups.nozzle-cleaning.message",
          "level": "info",
-         "callToAction": [
+         "callToActions": [
             {
                "name": "popups.nozzle-cleaning.actions.main",
                "APIEndpoint": {
@@ -1819,5 +1819,5 @@
          ]
       }
    ],
-   "variables": ["ox_pressure", "rd_pressure"]
+   "variables": []
 }

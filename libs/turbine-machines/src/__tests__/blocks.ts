@@ -3,11 +3,12 @@ import path from "path";
 
 import { matchers } from 'jest-json-schema';
 
-import type { IMachineSpecs } from "@metalizzsas/nuster-typings/build/spec";
+import type { MachineSpecs } from "@metalizzsas/nuster-typings/build/spec";
 import { AllProgramBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
-import { ParameterBlockRegistry } from "@metalizzsas/nuster-turbine/src/pbr/ParameterBlocks/ParameterBlockRegistry";
-import { ProgramBlockRegistry } from "@metalizzsas/nuster-turbine/src/pbr/ProgramBlocks/ProgramBlockRegistry";
 import { AllParameterBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
+
+import { ProgramBlockRegistry } from "@metalizzsas/nuster-turbine/build/pbr/ProgramBlocks/ProgramBlockRegistry";
+import { ParameterBlockRegistry } from "@metalizzsas/nuster-turbine/build/pbr/ParameterBlocks/ParameterBlockRegistry";
 
 expect.extend(matchers);
 
@@ -49,60 +50,21 @@ for(const f of files.filter(f => f.isDirectory()))
 
 function validateBlock(obj: AllProgramBlocks)
 {
-    expect(ProgramBlockRegistry(obj)).not.toThrow();
+    expect(ProgramBlockRegistry(obj)).not.toBe(undefined);
 }
 
 function validateParameterBlock(obj: AllParameterBlocks)
 {
-    expect(ParameterBlockRegistry.All(obj)).not.toThrow();
+    expect(ParameterBlockRegistry.All(obj)).not.toBe(undefined);
 }
 
 for(const file of filesToCheck)
 {
-    const json = JSON.parse(fs.readFileSync(file.file, {encoding: "utf-8"})) as IMachineSpecs;
+    const json = JSON.parse(fs.readFileSync(file.file, {encoding: "utf-8"})) as MachineSpecs;
 
     const gateNames = json.iogates.map(m => m.name);
 
     const inputGateNames = json.iogates.filter(g => g.bus == "in").map(m => m.name);
-
-    it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' Manual controls', () => {
-
-        const manualNames = json.manual.map(m => m.name);
-
-        json.manual.forEach(m => {
-            m.controls.forEach(c => {
-                if(typeof c == "string")
-                {
-                    expect(gateNames).toContain(c);
-                }
-                else
-                {
-                    expect(gateNames).toContain(c.name);
-                }
-            });
-
-            if(m.requires !== undefined)
-            {
-                m.requires.forEach(r => {
-                    expect(manualNames).toContain(r);
-                });
-            }
-
-            if(m.incompatibility !== undefined)
-            {
-                m.incompatibility.forEach(i => {
-                    expect(manualNames).toContain(i);
-                });
-            }
-
-            if(m.watchdog !== undefined)
-            {
-                m.watchdog.forEach(w => {
-                    expect(gateNames).toContain(w.gateName);
-                });
-            }
-        });
-    });
 
     it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' IO Blocks', () => {
         json.cycleTypes.forEach(c => {
@@ -132,7 +94,6 @@ for(const file of filesToCheck)
             if(c.profileRequired !== false)
             {
                 c.steps.forEach(s => {
-                    validateParameterBlock(s.duration);
                     validateParameterBlock(s.isEnabled);
 
                     if(s.runAmount !== undefined)
@@ -158,35 +119,25 @@ for(const file of filesToCheck)
 
     it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' Slots sensors', () => {
 
-        for(const slot of json.slots.filter(s => s.sensors !== undefined))
+        for(const slot of json.containers)
         {
-            for(const sensor of slot.sensors!)
+            if(slot.sensors)
             {
-                expect(inputGateNames).toContain(sensor.io);
-
-                if(sensor.regulation !== undefined)
+                for(const sensor of slot.sensors)
                 {
-                    for(const t of [sensor.regulation.actuators.plus, sensor.regulation.actuators.minus])
+                    expect(inputGateNames).toContain(sensor.io);
+                }
+            }
+
+            if(slot.regulations)
+            {
+                for(const regulation of slot.regulations)
+                {
+                    const io = [...regulation.plus, ...regulation.active, regulation.security.map(s => s.name), regulation.sensor, ...regulation.minus];
+
+                    for(const t of io)
                     {
-                        if(t === undefined)
-                            continue;
-                        
-                        if(typeof t == "string")
-                            expect(gateNames).toContain(t);
-                        else
-                        {
-                            for(const p2 of t)
-                            {
-                                expect(gateNames).toContain(p2);
-                            }
-                        }
-                    }
-                    if(sensor.regulation.manualModes !== undefined)
-                    {
-                        for(const m of sensor.regulation.manualModes)
-                        {
-                            expect(json.manual.map(m => m.name)).toContain(m);
-                        }
+                        expect(gateNames).toContain(t);
                     }
                 }
             }
@@ -215,10 +166,7 @@ for(const file of filesToCheck)
             {
                 for(const ai of cycle.additionalInfo)
                 {
-                    if(ai.name == "gate")
-                    {
-                        expect(inputGateNames).toContain(ai.value);
-                    }
+                    expect(inputGateNames).toContain(ai);
                 }
             }
         }

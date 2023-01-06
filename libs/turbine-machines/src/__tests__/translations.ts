@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-import type { IMachineSpecs } from "@metalizzsas/nuster-typings/build/spec/";
+import type { MachineSpecs } from "@metalizzsas/nuster-typings/build/spec/";
 
 interface Specs {
     model: string;
@@ -50,7 +50,7 @@ for(const f of files.filter(f => f.isDirectory()))
 
 for(const file of filesToCheck)
 {
-    const json = JSON.parse(fs.readFileSync(file.file, {encoding: "utf-8"})) as IMachineSpecs;
+    const json = JSON.parse(fs.readFileSync(file.file, {encoding: "utf-8"})) as MachineSpecs;
 
     const ioGates = json.iogates.map(g => g.name);
 
@@ -62,6 +62,7 @@ for(const file of filesToCheck)
     const profileCategories = new Set([...profileFields].map(f => f.name.split("#").length > 1 ? f.name.split("#")[0] : undefined).filter(s => s != undefined)) as Set<string>;
     const profileFieldNames = new Set([...profileFields].map(f => f.name.split("#").length > 1 ? f.name.split("#")[1] : undefined).filter(s => s != undefined)) as Set<string>;
 
+    // Deleting fields that are translated by desktop
     profileFieldNames.delete("enabled");
     profileFieldNames.delete("timeOn");
     profileFieldNames.delete("timeOff");
@@ -69,22 +70,15 @@ for(const file of filesToCheck)
     profileFieldNames.delete("duration");
     profileFieldNames.delete("speed");
 
-    const slotsNames = json.slots.flatMap(s => s.name);
+    const containersNames = json.containers.flatMap(s => s.name);
 
-    const slotsActions: string[][] = json.slots.filter(s => s.callToAction !== undefined).flatMap(s => s.callToAction!.map(c => [s.name, c.name]))
+    const containersActions: string[][] = json.containers.filter(s => s.callToAction !== undefined).flatMap(s => s.callToAction!.map(c => [s.name, c.name]))
 
     const cyclesNames = json.cycleTypes.map(c => c.name);
     const cycleSteps = new Set(json.cycleTypes.flatMap(c => c.steps.map(s => s.name)));
     cycleSteps.delete("start");
 
     const cyclePremadeNames = new Set(json.cyclePremades.map(c => c.name));
-
-    const manuals = new Set(json.manual.map(m => m.name));
-
-    const manualsCategories = new Set(json.manual.map(m => m.name.split("#").length > 1 ? m.name.split("#")[0] : "null"));
-    manualsCategories.delete("null");
-
-    const maintenances = json.maintenance.map(m => [m.name, m.procedure?.steps.map(s => s.name)]);
 
     for(const langFile of Object.keys(file.translations))
     {
@@ -117,12 +111,12 @@ for(const file of filesToCheck)
 
             //slots
             //names
-            for(const slot of slotsNames)
+            for(const slot of containersNames)
             {
-                expect(translation).toHaveProperty("slots.types." + slot);
+                expect(translation).toHaveProperty("containers.types." + slot);
             }
             //actions
-            for(const [slot, action] of slotsActions)
+            for(const [slot, action] of containersActions)
             {
                 expect(translation).toHaveProperty("slots.modal.actions." + slot + "." + action);
             }
@@ -152,33 +146,6 @@ for(const file of filesToCheck)
         
                 if(sc.startOnly != true)
                     expect(translation).toHaveProperty("cycle.endreasons.security-" + sc.conditionName)
-            }
-
-            //manual
-            //names
-            for(const manual of manuals)
-            {
-                expect(translation).toHaveProperty("manual.tasks." + manual);
-            }
-            //categories
-            for(const mCategory of manualsCategories)
-            {
-                expect(translation).toHaveProperty("manual.categories." + mCategory);
-            }
-
-            //maintenance
-            for(const [maintenanceName, steps] of maintenances)
-            {
-                expect(translation).toHaveProperty("maintenance.tasks." + maintenanceName + ".name");
-                expect(translation).toHaveProperty("maintenance.tasks." + maintenanceName + ".desc");
-
-                if(steps != undefined) 
-                {
-                    for(const s of Array.from(steps))
-                    {
-                        expect(translation).toHaveProperty("maintenance.tasks." + maintenanceName + ".procedure." + s);
-                    }
-                }
             }
         });
     }

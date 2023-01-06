@@ -55,8 +55,7 @@
          "bus": "in",
          "controllerId": 0,
          "address": 4,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "nozzle#sensor-closed",
@@ -65,8 +64,7 @@
          "bus": "in",
          "controllerId": 0,
          "address": 5,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "uv#sensor-open",
@@ -75,8 +73,7 @@
          "bus": "in",
          "controllerId": 0,
          "address": 8,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "uv#sensor-closed",
@@ -85,8 +82,7 @@
          "bus": "in",
          "controllerId": 0,
          "address": 9,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "uv#overheat",
@@ -104,8 +100,7 @@
          "bus": "out",
          "controllerId": 0,
          "address": 0,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "uv#enable",
@@ -114,8 +109,7 @@
          "bus": "out",
          "controllerId": 0,
          "address": 1,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "uv#ventil",
@@ -124,8 +118,7 @@
          "bus": "out",
          "controllerId": 0,
          "address": 2,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "ventilation",
@@ -134,8 +127,7 @@
          "bus": "out",
          "controllerId": 0,
          "address": 5,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "air-heater",
@@ -144,8 +136,7 @@
          "bus": "out",
          "controllerId": 0,
          "address": 6,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "motor#speed",
@@ -181,8 +172,7 @@
          "bus": "out",
          "controllerId": 1,
          "address": 15,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "resin#pressure",
@@ -191,8 +181,7 @@
          "bus": "out",
          "controllerId": 1,
          "address": 14,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "inerting",
@@ -201,8 +190,7 @@
          "bus": "out",
          "controllerId": 1,
          "address": 13,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "nozzle#cache",
@@ -211,8 +199,7 @@
          "bus": "out",
          "controllerId": 1,
          "address": 11,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       },
       {
          "name": "uv#cache",
@@ -221,8 +208,7 @@
          "bus": "out",
          "controllerId": 1,
          "address": 9,
-         "default": 0,
-         "levelMax": 0
+         "default": 0
       }
    ],
    "containers": [

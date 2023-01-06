@@ -1,4 +1,4 @@
-import type { IMachineSpecs } from "@metalizzsas/nuster-typings/build/spec";
+import type { MachineSpecs } from "@metalizzsas/nuster-typings/build/spec";
 import fs from "fs";
 import path from "path";
 
@@ -39,12 +39,10 @@ for(const f of files.filter(f => f.isDirectory()))
 
 for(let file of filesToCheck)
 {
-    const json = JSON.parse(fs.readFileSync(file.file, {encoding: "utf-8"})) as IMachineSpecs;
+    const json = JSON.parse(fs.readFileSync(file.file, {encoding: "utf-8"})) as MachineSpecs;
 
     const cyclePremades = json.cyclePremades.map(c => c.name);
     const cpFiles = cyclePremades.map(cp => path.resolve("data", file.model, file.variant, file.revision, "assets", "cycle", cp + ".png"))
-
-    const maintenancesImages = json.maintenance.flatMap(m => {return {name: m.name, media: m.procedure?.steps.flatMap(s => s.media)}});
 
     it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' Cycle assets', () => {
         
@@ -52,17 +50,6 @@ for(let file of filesToCheck)
         for(const cp of cpFiles)
         {
             expect(fs.existsSync(cp)).toBe(true);
-        }
-    });
-
-    it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' Maintenance assets', () => {
-        
-        for(const obj of maintenancesImages)
-        {
-            for(const media of obj.media ?? [])
-            {
-                expect(fs.existsSync(path.resolve("data", file.model, file.variant, file.revision, "assets", "maintenance", obj.name ,media))).toBe(true);
-            }
         }
     });
 }

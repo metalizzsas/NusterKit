@@ -51,7 +51,7 @@ interface ContainerRegulation {
     /** Actuators used to reach target when we are under target */
     plus: string[];
     /** Actuators used to reach target when we are over target */
-    minus?: string[];
+    minus: string[];
 }
 
 export { Container, ContainerSensor, ContainerRegulation };

@@ -1,7 +1,7 @@
 import { test, expect } from "@jest/globals";
 import { IOReadParameterBlock } from "./IOReadParameterBlock";
 import { TurbineEventLoop } from "../../../events";
-import { IOGateJSON } from "@metalizzsas/nuster-typings/build/hydrated/io";
+import type { IOGateJSON } from "@metalizzsas/nuster-typings/build/hydrated/io";
 
 const gate: IOGateJSON = {
     name: "test-gate",

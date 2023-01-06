@@ -7,7 +7,6 @@
     "node": "18.x"
   },
   "scripts": {
-    "build": "tsc",
     "test": "jest"
   },
   "repository": {

@@ -4,6 +4,7 @@ volumes:
   nuster-data:
   mongodb:
   settings:
+  weston:
   
 services:
   mongodb:

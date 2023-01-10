@@ -41,7 +41,7 @@ services:
       - "mongodb"
 
   weston:
-    image: bh.cr/igalia/Weston
+    image: bh.cr/igalia/weston
     restart: always
     privileged: true
     volumes:

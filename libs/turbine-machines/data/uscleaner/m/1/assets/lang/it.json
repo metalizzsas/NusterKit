@@ -29,11 +29,13 @@
     "cycle": {
         "end_reasons": {
             "security-emergency-stop": "Pulsante arresto di emergenza inserito",
-            "security-cover-closed": "Coperchio aperto"
+            "security-cover-closed": "Coperchio aperto",
+            "security-temperature#over-heat": "Product overheat"
         },
         "start_conditions": {
             "emergency-stop": "Pulsante arresto di emergenza",
-            "cover-closed": "Coperchio chiuso"
+            "cover-closed": "Coperchio chiuso",
+            "temperature#over-heat": "No product overheat"
         },
 
         "names": {
@@ -62,6 +64,7 @@
             "motor#speed": "Velocità del motore",
 
             "temperature#sensor": "Sensore di temperatura",
+            "temperature#over-heat": "Fluid overheat",
             "temperature#heater": "Scaldamento della vasca",
             "temperature#ventilation": "Ventilazione dello scambiatore vasca",
 

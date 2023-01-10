@@ -26,6 +26,15 @@
             "default": 0
         },
         {
+            "name": "temperature#over-heat",
+            "type": "default",
+            "bus": "in",
+            "size": "bit",
+            "controllerId": 0,
+            "address": 2,
+            "default": 0
+        },
+        {
             "name": "pump#pressure",
             "type": "mapped",
             "bus": "in",
@@ -178,6 +187,16 @@
                     "checkchain": {
                         "io": {
                             "gateName": "cover-closed",
+                            "gateValue": 1
+                        }
+                    }
+                },
+                {
+                    "conditionName": "temperature#over-heat",
+                    "startOnly": false,
+                    "checkchain": {
+                        "io": {
+                            "gateName": "temperature#over-heat",
                             "gateValue": 1
                         }
                     }

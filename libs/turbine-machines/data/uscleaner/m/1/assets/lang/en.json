@@ -29,7 +29,8 @@
     "cycle": {
         "end_reasons": {
             "security-emergency-stop": "Emergency stop button triggered",
-            "security-cover-closed": "Cover openned"
+            "security-cover-closed": "Cover openned",
+            "security-temperature#over-heat": "Fluid overheat"
         },
 
         "names": {
@@ -45,7 +46,8 @@
 
         "start_conditions": {
             "emergency-stop": "Emergency stop button status",
-            "cover-closed": "Cover closed"
+            "cover-closed": "Cover closed",
+            "temperature#over-heat": "No fluid overheat"
         }
     },
 
@@ -65,6 +67,7 @@
 
             "temperature#sensor": "Temperature sensor",
             "temperature#heater": "Container heating",
+            "temperature#over-heat": "Fluid overheat",
             "temperature#ventilation": "Ventilation on exchanger",
 
             "us-power": "US Transducers",

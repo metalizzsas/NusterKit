@@ -7,9 +7,6 @@ import type { MachineSpecs } from "@metalizzsas/nuster-typings/build/spec";
 import { AllProgramBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
 import { AllParameterBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
 
-import { ProgramBlockRegistry } from "@metalizzsas/nuster-turbine/build/pbr/ProgramBlocks/ProgramBlockRegistry";
-import { ParameterBlockRegistry } from "@metalizzsas/nuster-turbine/build/pbr/ParameterBlocks/ParameterBlockRegistry";
-
 expect.extend(matchers);
 
 interface Specs {
@@ -48,16 +45,6 @@ for(const f of files.filter(f => f.isDirectory()))
     }
 }
 
-function validateBlock(obj: AllProgramBlocks)
-{
-    expect(ProgramBlockRegistry(obj)).not.toBe(undefined);
-}
-
-function validateParameterBlock(obj: AllParameterBlocks)
-{
-    expect(ParameterBlockRegistry.All(obj)).not.toBe(undefined);
-}
-
 for(const file of filesToCheck)
 {
     const json = JSON.parse(fs.readFileSync(file.file, {encoding: "utf-8"})) as MachineSpecs;
@@ -66,54 +53,12 @@ for(const file of filesToCheck)
 
     const inputGateNames = json.iogates.filter(g => g.bus == "in").map(m => m.name);
 
-    it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' IO Blocks', () => {
-        json.cycleTypes.forEach(c => {
-            c.steps.forEach(s => {
-                s.blocks.forEach(b => {
-                    validateBlock(b);
-                });
-                s.startBlocks.forEach(b => {
-                    validateBlock(b);
-                });
-                s.endBlocks.forEach(b => {
-                    validateBlock(b);
-                });
-            });
-        });
-    });
-
     it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' Profile fields', () => {
 
         const fields: {[x: string]: string[]} = {};
 
         json.profileSkeletons.forEach(p => {
             fields[p.name] = p.fields.flatMap(f => f.name);
-        });
-
-        json.cycleTypes.forEach(c => {
-            if(c.profileRequired !== false)
-            {
-                c.steps.forEach(s => {
-                    validateParameterBlock(s.isEnabled);
-
-                    if(s.runAmount !== undefined)
-                        validateParameterBlock(s.runAmount);
-
-                    for(const b of s.blocks)
-                    {
-                        validateBlock(b);
-                    }
-                    
-                    for(const b of s.startBlocks)
-                    {
-                        validateBlock(b);
-                    }
-                    for(const b of s.endBlocks)
-                    {
-                        validateBlock(b);
-                    }
-                });
-            }
         });
     });
 

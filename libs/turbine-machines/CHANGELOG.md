@@ -1,5 +1,23 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.3.0
+
+### Minor Changes
+
+- feat: made machine specs match new typings ([#188](https://github.com/metalizzsas/NusterKit/pull/188))
+
+### Patch Changes
+
+- fix: updated i18n ([#188](https://github.com/metalizzsas/NusterKit/pull/188))
+
+- fix: removed circular reference to Turbine from Turbine-Machines ([#188](https://github.com/metalizzsas/NusterKit/pull/188))
+
+- feat: updated specs to match new pbr format ([#188](https://github.com/metalizzsas/NusterKit/pull/188))
+
+- chore: updated test suites ([#188](https://github.com/metalizzsas/NusterKit/pull/188))
+
+- feat: added over-heat sensor ([#188](https://github.com/metalizzsas/NusterKit/pull/188))
+
 ## 1.2.15
 
 ### Patch Changes

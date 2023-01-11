@@ -1,6 +1,6 @@
 {
 	"name": "@metalizzsas/nuster-desktop",
-	"version": "1.9.5",
+	"version": "1.9.6",
 	"private": true,
 	"description": "Nuster Desktop",
 	"main": "build/index.js",

@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.9.6
+
+### Patch Changes
+
+- fix: forgot base /api/ on 1 file ([#200](https://github.com/metalizzsas/NusterKit/pull/200))
+
 ## 1.9.5
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-typings
 
+## 1.4.1
+
+### Patch Changes
+
+- fix: Github action now builds projects using NODE_ENV=production ([#194](https://github.com/metalizzsas/NusterKit/pull/194))
+
 ## 1.4.0
 
 ### Minor Changes

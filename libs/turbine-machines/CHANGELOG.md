@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.3.1
+
+### Patch Changes
+
+- fix: Github action now builds projects using NODE_ENV=production ([#194](https://github.com/metalizzsas/NusterKit/pull/194))
+
 ## 1.3.0
 
 ### Minor Changes

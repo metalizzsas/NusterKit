@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.9.5
+
+### Patch Changes
+
+- fix: removed base url on prod ([#198](https://github.com/metalizzsas/NusterKit/pull/198))
+
 ## 1.9.4
 
 ### Patch Changes

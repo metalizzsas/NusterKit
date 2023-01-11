@@ -1,4 +1,5 @@
 import type { Handle } from "@sveltejs/kit";
+import util from "node:util";
 
 export const handle = (async ({ event, resolve }) => {
 
@@ -6,9 +7,11 @@ export const handle = (async ({ event, resolve }) => {
 
     const ip = event.request.headers.get("Host")?.split(":").at(0);
 
-    console.log(ip);
+    const notSecure = event.url.protocol === "http:";
 
-    const notSecure = event.url.protocol === "http:"
+    console.log(util.inspect(event.request, false, null, true));
+    console.log("ip", ip);
+    console.log("secure", notSecure);
 
     const httpProtocol = notSecure ? "http:" : "https:";
     const wsProtocol = notSecure ? "ws:" : "wss:";

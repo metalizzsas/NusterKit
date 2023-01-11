@@ -46,6 +46,8 @@ jobs:
 
       - name: 🧱 Run build scripts on all packages
         run: pnpm run build
+        env:
+          NODE_ENV: production
 
       - name: 📝 Create Release Pull Request or Publish to npm
         id: changesets

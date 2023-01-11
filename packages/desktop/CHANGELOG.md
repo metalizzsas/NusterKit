@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.9.4
+
+### Patch Changes
+
+- fix: url was sometimes not prefixed by /api/ for api endpoints ([#196](https://github.com/metalizzsas/NusterKit/pull/196))
+
 ## 1.9.3
 
 ### Patch Changes

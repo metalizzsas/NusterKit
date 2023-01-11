@@ -26,6 +26,15 @@
             "default": 0
         },
         {
+            "name": "temperature#over-heat",
+            "type": "default",
+            "bus": "in",
+            "size": "bit",
+            "controllerId": 0,
+            "address": 2,
+            "default": 0
+        },
+        {
             "name": "pump#pressure",
             "type": "mapped",
             "bus": "in",
@@ -91,15 +100,14 @@
             "default": 0
         }
     ],
-    "slots": [
+    "containers": [
         {
             "name": "bac",
             "type": "media",
             "supportedProductSeries": ["cr", "any"],
             "sensors": [
                 {
-                    "io": "temperature#sensor",
-                    "type": "temperature"
+                    "io": "temperature#sensor"
                 }
             ]
         }
@@ -132,13 +140,11 @@
     "profilePremades": [
         {
             "skeleton": "default",
-            "_id": "premade_5min",
-            "name": "5min",
+            "_id": "premade_15min",
+            "name": "15min",
             "isPremade": true,
-            "isRemovable": false,
-            "isOverwritable": false,
             "values": {
-                "principal#duration": 300,
+                "principal#duration": 900,
                 "principal#motor-speed": 25
             }
         }
@@ -150,106 +156,16 @@
             "sensorBaseValue": 0.14,
             "sensorLimitValue": 0.10,
             "sensorGate": "pump#pressure",
-            "requireEnableGate": "pump#enable",
-            "procedure": {
-                "tools": [],
-                "steps": [
-                    {
-                        "name": "open-door",
-                        "media": [
-                            "1.jpg"
-                        ]
-                    },
-                    {
-                        "name": "close-valve-pump",
-                        "media": [
-                            "2.jpg",
-                            "3.jpg"
-                        ]
-                    },
-                    {
-                        "name": "pump-cover-unscrew",
-                        "media": [
-                            "4.jpg"
-                        ]
-                    },
-                    {
-                        "name": "filter-out-pump",
-                        "media": [
-                            "5.jpg",
-                            "6.jpg"
-                        ]
-                    },
-                    {
-                        "name": "replace-pump-filter",
-                        "media": [
-                            "7.jpg",
-                            "8.jpg"
-                        ]
-                    },
-                    {
-                        "name": "pump-cover-screw",
-                        "media": [
-                            "5.jpg",
-                            "4.jpg"
-                        ]
-                    },
-                    {
-                        "name": "open-valve-pump",
-                        "media": [
-                            "9.jpg"
-                        ]
-                    },
-                    {
-                        "name": "door-close",
-                        "media": [
-                            "1.jpg"
-                        ]
-                    }
-                ]
-            }
+            "requireEnableGate": "pump#enable"
         }
     ],
-    "manual": [
+    "cyclePremades": [
         {
-            "name": "motor-rotation",
-            "controls": [
-                {
-                    "name": "motor#speed",
-                    "analogScaleDependant": true,
-                    "isValueAbsolute": true 
-                },
-                {
-                    "name": "motor#direction",
-                    "analogScaleDependant": false,
-                    "triggerWhenNegative": true
-                }
-            ],
-            "analogScale": {
-                "min": -55,
-                "max": 55
-            },
-            "watchdog": [
-                {
-                    "gateName": "cover-closed",
-                    "gateValue": 1
-                }
-            ]
-        },
-        {
-            "name": "pump",
-            "controls": [
-                "pump#enable"
-            ]
-        },
-        {
-            "name": "us-cleaning",
-            "controls": [
-                "us-power"
-            ]
+            "cycle": "default",
+            "name": "15min",
+            "profile": "premade_15min"
         }
     ],
-    "cyclePremades": [],
     "cycleTypes": [
         {
             "name": "default",
@@ -258,8 +174,7 @@
                 {
                     "conditionName": "emergency-stop",
                     "startOnly": false,
-                    "checkChain": {
-                        "name": "io",
+                    "checkchain": {
                         "io": {
                             "gateName": "emergency-stop",
                             "gateValue": 1
@@ -269,166 +184,43 @@
                 {
                     "conditionName": "cover-closed",
                     "startOnly": false,
-                    "checkChain": {
-                        "name": "io",
+                    "checkchain": {
                         "io": {
                             "gateName": "cover-closed",
                             "gateValue": 1
                         }
                     }
-                }
-            ],
-            "additionalInfo": [
+                },
                 {
-                    "name": "gate",
-                    "value": "temperature#sensor"
+                    "conditionName": "temperature#over-heat",
+                    "startOnly": false,
+                    "checkchain": {
+                        "io": {
+                            "gateName": "temperature#over-heat",
+                            "gateValue": 1
+                        }
+                    }
                 }
             ],
+            "additionalInfo": ["temperature#sensor"],
             "steps": [
                 {
                     "name": "cleaning",
-                    "isEnabled": {
-                        "name": "const",
-                        "value": 1
-                    },
-                    "duration": {
-                        "name": "profile",
-                        "value": "principal#duration"
-                    },
+                    "isEnabled": 1,
                     "startBlocks": [
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "pump#enable"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 1
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "motor#speed"
-                                },
-                                {
-                                    "name": "profile",
-                                    "value": "principal#motor-speed"
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "us-power"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 1
-                                }
-                            ]
-                        }
+                        {"io_write": ["pump#enable", 1]},
+                        {"io_write": ["motor#speed", {"profile": "principal#motor-speed"}]},
+                        {"io_write": ["us-power", 1]}
                     ],
                     "endBlocks": [
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "pump#enable"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 0
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "us-power"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 0
-                                }
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "motor#speed"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 0
-                                }
-                            ]
-                        }
+                        {"io_write": ["pump#enable", 0]},
+                        {"io_write": ["motor#speed", 0]},
+                        {"io_write": ["us-power", 0]}
                     ],
                     "blocks": [
-                        {
-                            "name": "sleep",
-                            "params": [
-                                {
-                                    "name": "multiply",
-                                    "params": [
-                                        {
-                                            "name": "profile",
-                                            "value": "principal#duration"
-                                        },
-                                        {
-                                            "name": "const",
-                                            "value": 0.5
-                                        }
-                                    ]
-                                }
-                                
-                            ]
-                        },
-                        {
-                            "name": "io",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "motor#direction"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 1
-                                }
-                            ]
-                        },
-                        {
-                            "name": "sleep",
-                            "params": [
-                                {
-                                    "name": "multiply",
-                                    "params": [
-                                        {
-                                            "name": "profile",
-                                            "value": "principal#duration"
-                                        },
-                                        {
-                                            "name": "const",
-                                            "value": 0.5
-                                        }
-                                    ]
-                                }
-                                
-                            ]
-                        }
+                        {"sleep": {"divide": [{"profile": "principal#duration"}, 2]}},
+                        {"io_write": ["motor#direction", 1]},
+                        {"sleep": {"divide": [{"profile": "principal#duration"}, 2]}}
                     ]
                 }
             ]
@@ -463,134 +255,18 @@
                     ]
                 },
                 {
-                    "path": "profileSkeletons.0.fields",
-                    "mode": "merge",
+                    "mode": "set",
+                    "path": "containers.0.regulations",
                     "content": [{
-                        "name": "principal#target-temperature",
-                        "unity": "°C",
-                        "type": "int",
-                        "value": 20
+                        "name": "temperature",
+                        "target": 20,
+                        "maxTarget": 50,
+                        "security": [{ "name": "emergency-stop", "value": 1}],
+                        "sensor": "temperature#sensor",
+                        "active": ["pump#enable"],
+                        "plus": ["temperature#heater"],
+                        "minus": ["temperature#ventilation"]
                     }]
-                },
-                {
-                    "path": "profilePremades.0",
-                    "mode": "replace",
-                    "content": [
-                        {
-                            "skeleton": "default",
-                            "_id": "premade_10min30deg",
-                            "name": "10min30deg",
-                            "isRemovable": false,
-                            "isOverwritable": false,
-                            "isPremade": true,
-                            "values": {
-                                "principal#duration": 600,
-                                "principal#target-temperature": 30,
-                                "principal#motor-speed": 25
-                            }
-                        }
-                    ]
-                },
-                {
-                    "mode": "merge",
-                    "path": "slots.0.sensors.0.regulation",
-                    "content": {
-                        "manualModes": ["pump"],
-                        "actuators": {
-                            "plus": "temperature#heater",
-                            "minus": "temperature#ventilation"
-                        }
-                    }
-                },
-                {
-                    "mode": "merge",
-                    "path": "manual",
-                    "content": [
-                        {
-                            "name": "bac#heating",
-                            "incompatibility": [
-                                "bac#cooling"
-                            ],
-                            "requires": [
-                                "pump"
-                            ],
-                            "controls": [
-                                "temperature#heater"
-                            ],
-                            "watchdog": [
-                                {
-                                    "gateName": "temperature#sensor",
-                                    "gateValue": 60
-                                }
-                            ]
-                        },
-                        {
-                            "name": "bac#cooling",
-                            "incompatibility": [
-                                "bac#heating"
-                            ],
-                            "requires": [
-                                "pump"
-                            ],
-                            "controls": [
-                                "temperature#ventilation"
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "path": "cycleTypes.0.steps.0.startBlocks",
-                    "mode": "merge",
-                    "content": [
-                        {
-                            "name": "regulation",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "bac"
-                                },
-                                {
-                                    "name": "conststr",
-                                    "value": "temperature"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 1
-                                },
-                                {
-                                    "name": "profile",
-                                    "value": "principal#target-temperature"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "path": "cycleTypes.0.steps.0.endBlocks",
-                    "mode": "merge",
-                    "content": [
-                        {
-                            "name": "regulation",
-                            "params": [
-                                {
-                                    "name": "conststr",
-                                    "value": "bac"
-                                },
-                                {
-                                    "name": "conststr",
-                                    "value": "temperature"
-                                },
-                                {
-                                    "name": "const",
-                                    "value": 0
-                                },
-                                {
-                                    "name": "profile",
-                                    "value": "principal#target-temperature"
-                                }
-                            ]
-                        }
-                    ]
                 },
                 {
                     "path": "maintenance.0.sensorBaseValue",
@@ -604,5 +280,6 @@
                 }
             ]
         }
-    ]
+    ],
+    "variables": []
 }

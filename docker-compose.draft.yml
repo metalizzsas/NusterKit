@@ -4,6 +4,7 @@ volumes:
   nuster-data:
   mongodb:
   settings:
+  weston:
   
 services:
   mongodb:
@@ -38,23 +39,28 @@ services:
       - "nuster-turbine"
       - "mongodb"
 
-  nuster-kiosk:
-    image: bh.cr/balenalabs/browser-aarch64
+  weston:
+    image: bh.cr/igalia/weston
+    restart: always
+    privileged: true
+    volumes:
+      - 'weston:/run/weston'
+
+  wpe:
+    image: bh.cr/wpe_webkit/browser-wpe
+    restart: always
     privileged: true
     network_mode: host
-    depends_on:
-      - "nuster-turbine"
-      - "mongodb"
-      - 'nuster-desktop'
-    environment:
-      DISPLAY_NUM: 0
-      LAUNCH_URL: 'http://127.0.0.1/'
-      KIOSK: 1
-      ENABLE_GPU: 1
-      PERSISTENT: 1
-      ROTATE: 1
+    ports:
+      - 8080:8080
+      - 12321:12321
     volumes:
-      - 'settings:/data'
+      - 'weston:/run/weston'
+    environment:
+      WPE_URL: http://127.0.0.1/
+      WPE_COG_PLATFORM_FDO_VIEW_HEIGHT: 600
+      WPE_COG_PLATFORM_FDO_VIEW_WIDTH: 1024
+      GALLIUM_HUD: load+cpu+fps
 
   proxy: 
     build: ./containers/proxy/

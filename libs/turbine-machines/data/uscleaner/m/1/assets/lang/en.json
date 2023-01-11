@@ -1,16 +1,21 @@
 {
-    "slots": {
-        "types": {
-            "bac": "Container"
-        },
-        "colors": {
-            "bac": "from-blue-800 to-blue-900"
-        },
-        "modal": {
-            "actions": {}
+    "$schema": "../../../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
+
+    "containers": {
+
+        "bac": {
+            "name": "Liquid tank",
+            "regulations": {
+                "temperature": "Temperature"
+            }
         }
     },
     "profile": {
+
+        "premade": {
+            "15min": "15 minutes"
+        },
+
         "categories": {
             "principal": "Main settings"
         },
@@ -20,33 +25,32 @@
             "motor-speed": "Motor speed"
         }
     },
-    "passives": {
-        "temperature": {
-            "name": "Temperature"
-        }
-    },
+
     "cycle": {
-        "endreasons": {
+        "end_reasons": {
             "security-emergency-stop": "Emergency stop button triggered",
-            "security-cover-closed": "Cover openned"
+            "security-cover-closed": "Cover openned",
+            "security-temperature#over-heat": "Fluid overheat"
         },
+
         "names": {
             "default": "Main USCleaner cycle"
         },
-        "types": {
-            "10min30deg": "10 minutes at 30 °C"
-        },
+
         "steps": {
             "cleaning": {
                 "name": "Cleaning",
                 "desc": "Cleaning of your parts."
             }
         },
-        "startconditions": {
+
+        "start_conditions": {
             "emergency-stop": "Emergency stop button status",
-            "cover-closed": "Cover closed"
+            "cover-closed": "Cover closed",
+            "temperature#over-heat": "No fluid overheat"
         }
     },
+
     "gates": {
         "categories": {
             "motor": "Rotation motor",
@@ -63,6 +67,7 @@
 
             "temperature#sensor": "Temperature sensor",
             "temperature#heater": "Container heating",
+            "temperature#over-heat": "Fluid overheat",
             "temperature#ventilation": "Ventilation on exchanger",
 
             "us-power": "US Transducers",
@@ -73,34 +78,15 @@
 
         }
     },
-    "manual": {
-        "categories": {
-            "bac": "Container temperature"
-        },
-        "tasks": {
-            "motor-rotation": "Motor speed",
-            "pump": "Filtration",
-            "us-cleaning": "US Cleaning",
-            "bac#heating": "Container heating",
-            "bac#cooling": "Container cooling"
-        }
-    },
+
     "maintenance": {
         "tasks": {
             "usc-filter": {
                 "name": "Filter",
-                "desc": "The USCleaner filter is used to catch small particules and ehance solvant lifetime.",
-                "procedure": {
-                    "open-door": "Open the USCleaner door.",
-                    "close-valve-pump": "Closes the valves linked to the pump.",
-                    "pump-cover-unscrew": "Unscrew the pump filter cover.",
-                    "filter-out-pump": "Take the filter out of the pump.",
-                    "replace-pump-filter": "Replace the used filter wiht a new one.",
-                    "pump-cover-screw": "Close the pump cover.",
-                    "open-valve-pump": "Open pump valves.",
-                    "door-close": "Close the USCleaner door."
-                }
+                "desc": "The USCleaner filter is used to catch small particules and ehance solvant lifetime."
             }
         }
-    }
+    },
+
+    "toasts": {}
 }

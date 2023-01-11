@@ -38,6 +38,9 @@ jobs:
       - name: 🧱 Build nuster-typings # Build typings as its needed for testing other packages
         run: pnpm run build-typings
 
+      - name: 🧱 Build nuster-turbine # build turbine as it is need for testing other packages
+        run: pnpm run build-turbine
+
       - name: ✔️ Run tests
         run: pnpm test
 

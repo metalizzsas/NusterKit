@@ -1,11 +1,25 @@
 {
-    "slots": {
-        "types": {
-            "eff": "Effluents",
-            "resin": "Coat"
+    "$schema": "../../../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
+
+    "containers": {
+
+        "eff": {
+            "name": "Effluents"
+        },
+
+        "resin": {
+            "name": "Coat"
         }
+
     },
     "profile": {
+
+        "premade": {
+            "fdm": "FDM 3D Print",
+            "sla": "SLA / DLP 3D Print",
+            "sls": "SLS / MJF 3D Print"
+        },
+
         "categories": {
             "vapors-extraction": "Vapors extraction",
             "pulverization": "Pulverization",
@@ -26,12 +40,8 @@
         "names": {
             "default": "Base smoothit cycle"
         },
-        "types": {
-            "fdm": "FDM 3D Print",
-            "sla": "SLA / DLP 3D Print",
-            "sls": "SLS / MJF 3D Print"
-        },
-        "endreasons": {
+
+        "end_reasons": {
             "uv-cache-wrong": "UV Cache error",
             "ir-cache-wrong": "IR Cache error",
             "nozzle-cache-wrong": "Nozzle Cache error",
@@ -41,13 +51,14 @@
             "security-resin#slot-sensor": "Vanish slot missing",
             "security-uv#overheat": "UV lamp overheat"
         },
-        "startconditions": {
+        "start_conditions": {
             "emergency-stop": "Emergency stop button status",
             "nitrogen-sensor": "Nitrogen pressure",
             "cover-closed": "Cover closed",
             "resin#slot-sensor": "Vanish slot containter",
             "uv#overheat": "UV lamp temperature"
         },
+
         "steps": {
             "pulverization": {
                 "name": "Pulverization",
@@ -72,7 +83,6 @@
         }
     },
     "gates": {
-        "name": "IO Controls",
         "categories": {
             "motor": "Rotation Motor",
             "rd": "Reducer",
@@ -117,37 +127,12 @@
             "nozzle#sensor-closed": "Nozzle cache closed"
         }
     },
-    "manual": {
-        "categories": {
-            "uv": "Ultraviolet",
-            "ir": "Infrared",
-            "nozzle": "Pulverization"
-        },
-        "tasks": {
-            "motor-rotation": "Motor rotation",
-            "ventilation": "Vapors extraction",
-            "air-heater": "Air heater",
-            "inerting": "Inerting",
 
-            "uv#cache": "UV lamp cache",
-            "uv#curing": "UV curing",
-
-            "ir#cache": "IR lamp cache",
-            "ir#curing": "IR curing",
-
-            "nozzle#cache": "Nozzle cache",
-            "nozzle#pulverization": "Nozzle pulverization"
-        }
-    },
     "maintenance": {
         "tasks": {
             "smt-filter": {
                 "name": "Filter",
-                "desc": "Smoothit filter filters all coating solvants produced by the coating done inside the machine.",
-                "procedure": {
-                    "unscrew-smt-filter": "Unscrew the filter from the machine",
-                    "replace-smt-new-filter": "Replace the old filter with a new filter"
-                }
+                "desc": "Smoothit filter filters all coating solvants produced by the coating done inside the machine."
             },
             "inner-cleaning": {
                 "name": "Inner",
@@ -155,17 +140,14 @@
             },
             "ir-lamp": {
                 "name": "IR Lamp",
-                "desc": "IR Lamp is used to ehance varnish coating smoothing effect.",
-                "procedure": {
-                    "unscrew-top": "Unscrew the 4 M4 screw that holds the IR lamp cache in place.",
-                    "replace-ir-lamp": "While holding the lamp, shift the lamp toward the ground to unlock the lamp from its socket. Replace the lamp using the same technique.",
-                    "screw-top": "Place the cache on its initial place and re-screw the 4 M4 screws"
-                }
+                "desc": "IR Lamp is used to ehance varnish coating smoothing effect."
             },
             "uv-lamp": {
                 "name": "UV Lamp",
                 "desc": "UV Lamp is used to harden varnish on top of your part."
             }
         }
-    }
+    },
+
+    "toasts": {}
 }

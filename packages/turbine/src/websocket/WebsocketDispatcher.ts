@@ -1,8 +1,12 @@
-import type { IPopup, IWebSocketData } from "@metalizzsas/nuster-typings/build/hydrated";
+import type { WebsocketData } from "@metalizzsas/nuster-typings/build/hydrated";
+import type { Popup } from "@metalizzsas/nuster-typings/build/spec/nuster";
+
 import type { Server } from "http";
 import type { WebSocket} from "ws";
+
 import { OPEN, WebSocketServer } from "ws";
 import { LoggerInstance } from "../app";
+import { TurbineEventLoop } from "../events";
 
 const productionEnabled = process.env.NODE_ENV === 'production';
 
@@ -13,7 +17,7 @@ export class WebsocketDispatcher
     wsServer: WebSocketServer;
     
     /** Connect popup data */
-    connectPopup?: IPopup;
+    connectPopup?: Popup;
     /** Wheter the connect popup has been displayed or not */
     connectPopupDisplayed = false;
 
@@ -26,6 +30,8 @@ export class WebsocketDispatcher
         });
         
         this.wsServer.on('connection', this.onConnect.bind(this));
+
+        TurbineEventLoop.on("nuster.modal", this.togglePopup.bind(this));
     }
 
     static getInstance(httpServer?: Server)
@@ -43,7 +49,7 @@ export class WebsocketDispatcher
      * toggle a popup on all NusterDesktop clients
      * @param popup Popup data send to all clients
      */
-    togglePopup(popup: IPopup)
+    togglePopup(popup: Popup)
     {
         this.broadcastData(popup, "popup");
     }
@@ -53,7 +59,7 @@ export class WebsocketDispatcher
      * @param data data to be sent over Websocket
      * @param channel channel used to send data
      */
-    broadcastData(data: unknown, channel: IWebSocketData["type"] = "message")
+    broadcastData(data: unknown, channel: WebsocketData["type"] = "status")
     {
         for(const client of this.wsServer.clients)
         {

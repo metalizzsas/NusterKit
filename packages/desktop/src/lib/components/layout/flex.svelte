@@ -12,7 +12,7 @@
 		type FlexJustify,
 		type FlexWrap,
 		type GapSizes,
-	} from './flexTypes';
+	} from '$lib/components/layout/flexTypes';
 
 	export let direction: FlexDirection = 'row';
 	export let wrap: FlexWrap | null = null;

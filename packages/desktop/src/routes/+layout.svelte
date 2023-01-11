@@ -1,21 +1,38 @@
 <script lang="ts">
 
-	import '@fontsource/inter/variable.css';
-	import '$lib/app.css';
+    import "$lib/app.css";
 
-	import { locale } from 'svelte-i18n';
-	import { onMount } from 'svelte';
-	import { lang, dark, layoutSimplified } from '$lib/utils/stores/settings';
-	import { initi18nLocal } from '$lib/utils/i18n/i18nlocal';
-	import Loadindicator from '$lib/components/loadindicator.svelte';
+	import Flex from "$lib/components/layout/flex.svelte";
+	import { initI18nMachine } from "$lib/utils/i18n/i18nmachine";
+	import { onDestroy, onMount } from "svelte";
 
-	onMount(() => {
+	import PillMenu from "./PillMenu.svelte";
 
-		initi18nLocal();
+    import { machine, realtime, realtimeLock } from "$lib/utils/stores/nuster";
+	import type { Configuration, WebsocketData } from "@metalizzsas/nuster-typings";
+	import Loadindicator from "$lib/components/LoadIndicator.svelte";
+	import { dark, lang } from "$lib/utils/stores/settings";
+	import { locale } from "svelte-i18n";
+	import { page } from "$app/stores";
+	import { initi18nLocal } from "$lib/utils/i18n/i18nlocal";
+	import Toast from "$lib/components/Toast.svelte";
+	import type { Popup } from "@metalizzsas/nuster-typings/build/spec/nuster";
+	import { flip } from "svelte/animate";
+	import Button from "$lib/components/buttons/Button.svelte";
+	import type { MachineData } from "@metalizzsas/nuster-typings/build/hydrated/machine";
 
-		/**
-		 * Theme store (Boolean)
-		 */
+    type Toast = Popup & { date: number };
+
+    let toasts: Array<Toast> = [];
+
+    let websocketState: "connecting" | "connected" | "disconnected" = "connecting";
+    let websocket: WebSocket | undefined = undefined;
+
+    onMount(async () => {
+
+        initi18nLocal();
+
+        /** Theme store (Boolean) */
 		const storedDark = localStorage.getItem('theme') === 'dark';
 		$dark = storedDark;
 
@@ -26,19 +43,7 @@
 			else document.getElementsByTagName('html')[0].classList.remove('dark');
 		});
 
-		/**
-		 * Layout store (Boolean)
-		 */
-		const storedLayout = localStorage.getItem('simplified') === 'simplified';
-		$layoutSimplified = storedLayout;
-
-		layoutSimplified.subscribe((value) => {
-			localStorage.setItem('simplified', value === true ? 'simplified' : 'classic');
-		});
-
-		/**
-		 * Lang store
-		 */
+		/** Lang store */
 		const storedLang = localStorage.getItem('lang') ?? 'en';
 		$lang = storedLang;
 
@@ -46,11 +51,108 @@
 			localStorage.setItem('lang', value);
 			$locale = value;
 		});
-	});
+
+        await machineConnect();
+    });
+
+    onDestroy(() => {
+        websocket?.close();
+    });
+
+    const machineConnect = async () =>
+    {
+        websocketState = "connecting";
+
+        await initI18nMachine($page.data.nuster_api_host);
+
+        const req = await fetch(`${$page.data.nuster_api_host}/machine`);
+
+        if(req.ok && req.status === 200)
+            $machine = (await req.json()) as MachineData;
+
+        websocket = new WebSocket(`${$page.data.nuster_ws_host}/ws/`);
+
+        websocket.onerror = function() {
+            websocketState = "disconnected";
+            websocket = undefined;
+        }
+
+        setTimeout(() => {
+            if(websocketState === "connecting")
+            {
+                websocketState = "disconnected"
+                websocket?.close();
+            }
+        }, 5000);
+
+        websocket.onclose = function() {
+            websocketState = "disconnected";
+            websocket = undefined;
+        }
+
+        websocket.onopen = function() {
+            websocketState = "connected";
+        }
+
+        websocket.onmessage = function(ev) {
+
+            const data = JSON.parse(ev.data as string) as WebsocketData;
+
+            if(data.type == "status" && $realtimeLock === false)
+                $realtime = data.message;
+            else if(data.type === "popup")
+                toasts = [{...data.message, date: Date.now() }, ...toasts];
+        }
+    }
+    $: if(websocketState === "disconnected") { toasts = []; }
+
 </script>
 
 <Loadindicator />
 
-<main class="p-4">
-	<slot />
-</main>
+{#if websocketState === "connecting"}
+    <h1 class="m-6">Connecting to machine...</h1>
+{:else if websocketState === "connected"}
+
+    {#if $realtime}
+        <div class="absolute inset-0 bg-indigo-300 dark:bg-zinc-900 bg-grid dark:bg-grid-dark -z-10"></div>
+
+        <div class="absolute p-6 pl-0 right-0 top-0 bottom-0 h-screen overflow-y-scroll w-[40%] z-20 flex flex-col gap-6 pointer-events-none" id="toasts">
+            {#each toasts as toast (toast.date)}
+                <div animate:flip={{duration: 300}}>
+                    <Toast bind:toast on:exit={() => { toasts = toasts.filter(t => t !== toast)}} />
+                </div>
+            {/each}
+        </div>
+
+        <div class="h-screen">
+            <Flex direction="col" gap={6} class="h-full">
+                <header class="mt-6 mx-6">        
+                    <nav class="bg-white dark:bg-zinc-800 p-2 rounded-full w-full drop-shadow-xl border border-indigo-400/50 dark:border-indigo-400/25">
+                        <PillMenu />
+                    </nav>
+                </header>
+                <main class="pb-6 mx-6 rounded-t-xl grow overflow-y-scroll">
+                    <slot />
+                </main>
+            </Flex>
+        </div>
+    {:else}
+        <h1 class="m-6">Connecting to realtime data.</h1>
+    {/if}
+
+{:else}
+    <div class="m-6">
+        <h1>Realtime data has been interupted.</h1>
+        <Button color="hover:bg-zinc-800" ringColor="ring-zinc-800" on:click={machineConnect}>Reconnect</Button>
+    </div>
+{/if}
+
+<style>
+
+    .bg-grid
+    {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(15 23 42 / 0.04)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
+    }
+
+</style>

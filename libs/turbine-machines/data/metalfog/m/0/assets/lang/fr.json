@@ -1,21 +1,25 @@
 {
-    "slots": {
-        "types": {
-            "ox": "Oxydant",
-            "rd": "Réducteur",
-            "act": "Activant",
-            "edi": "Eau désionisée",
-            "eff": "Éffluents"
-        },
-        "colors": {
-            "act": "from-red-500 to-red-600",
-            "edi": "from-blue-800 to-blue-900",
-            "eff": "from-zinc-700 to-zinc-800",
-            "ox": "from-emerald-800 to-emerald-900",
-            "rd": "from-zinc-400 to-zinc-500"
-        }
+    "$schema": "../../../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
+
+    "containers": {
+
+        "ox": { "name": "Oxydant" },
+        "rd": { "name": "Réducteur" },
+        "act": { "name": "Activant" },
+        "edi": { "name": "DI Water" },
+        "eff": { "name": "Éffluents" }
     },
     "profile": {
+
+        "premade": {
+            "llc": "Look Like Chromium — LLC",
+            "usl": "Utility Silver Layer — USL",
+            "usl-retake": "Renforcement USL",
+            "usl-activation-porous": "Activation pièces poreuses USL",
+            "cem": "Blindage CEM",
+            "cem-retake": "Renforcement Blindage CEM"
+        },
+
         "categories": {
             "motor": "Moteur de rotation",
             "activation": "Activation",
@@ -38,14 +42,14 @@
         }
     },
     "cycle": {
-        "endreasons": {
+        "end_reasons": {
             "security-emergency-stop": "Boutton d'arret d'urgence déclenché",
             "security-air-sensor": "Pression d'air trop basse",
             "security-cover-closed": "Couvercle ouvert",
             "security-levels#eff-max-n": "Niveau d'effluents maximal",
             "activator-timed-out": "La dilution d'activant à été trop longue"
         },
-        "startconditions": {
+        "start_conditions": {
             "emergency-stop": "Bouton d'arret d'urgence",
             "cover-closed": "Couvercle fermé",
             "air-sensor": "Pression d'air comprimé",
@@ -58,14 +62,7 @@
         "names": {
             "default": "Cycle de base metalfog"
         },
-        "types": {
-            "llc": "Look Like Chromium — LLC",
-            "usl": "Utility Silver Layer — USL",
-            "usl-retake": "Renforcement USL",
-            "usl-activation-porous": "Activation pièces poreuses USL",
-            "cem": "Blindage CEM",
-            "cem-retake": "Renforcement Blindage CEM"
-        },
+
         "steps": {
             "start": {
                 "name": "Démarrage",
@@ -155,45 +152,15 @@
             "met#lq-ox": "Contrôle liquide oxydant"
         }
     },
-    "manual": {
-        "categories": {
-            "generic": "Générique",
-            "empty": "Vidange",
-            "hybrid": "Eau DI & Activant",
-            "met": "Réactifs"
-        },
-        "tasks": {
-            "motor-rotation": "Vitesse du moteur",
-            "ventilation": "Extraction des vapeurs",
-            "air-heater": "Rechauffeur d'air",
-            "fill-act": "Remplissage conteneur activant",
-            "empty#act": "Vidange conteneur Activant",
-            "empty#edi": "Vidange conteneur Eau désionisée",
-            "empty#chem": "Vidange conteneur Oxydant & Réducteur",
-            "hybrid#act": "Pulvérization activant",
-            "hybrid#edi": "Pulvérization eau désionisée",
-            "met#chem": "Pulvérization oxydant & réducteur"
-        }
-    },
+
     "maintenance": {
         "tasks": {
             "mfm-filter": {
                 "name": "Filtre",
-                "desc": "Le filtre de la metalfog permet de capturer tout les gazs nocifs crées par les reactions chimiques dans la cuve.",
-                "procedure": {
-                    "unscrew-mfm-filter": "Dévisser le filtre de la machine",
-                    "replace-mfm-new-filter": "Replacer le filtre avec un nouveau filtre"
-                }
+                "desc": "Le filtre de la metalfog permet de capturer tout les gazs nocifs crées par les reactions chimiques dans la cuve."
             }
         }
     },
-    "popups": {
-        "nozzle-cleaning": {
-            "title": "Recommendation au démarrage",
-            "message": "Votre Metalfog viens de démarrer, il est recommendé de lancer un nettoyage des buses de metallisation lors du démarrage de la machine. Cliquez sur continuer pour lancer ce nettoyage.",
-            "actions": {
-                "main": "Continuer"
-            }
-        }
-    }
+
+    "toasts": {}
 }

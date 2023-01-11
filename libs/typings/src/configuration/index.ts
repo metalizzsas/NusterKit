@@ -1,11 +1,14 @@
-import { IAddon } from "../spec/addons";
+import type { Addon } from "../spec/addons";
 
 export type ConfigModel = "metalfog" | "smoothit" | "uscleaner";
 export type ConfigVariant = "m";
 
 /** Configuration info.json driving NusterTurbine */
-export declare interface IConfiguration
+export declare interface Configuration
 {
+    /** JSON Schema for json validation */
+    $schema: string;
+
     /** Machine Name */
     name: string;
     /** Machine Serial number */
@@ -19,47 +22,42 @@ export declare interface IConfiguration
     revision: number;
 
     /** Machine Addons */
-    addons?: string[];
+    addons: string[];
     
     /** Machine Specific addon, should be used as less as possible */
-    machineAddons?: IAddon[];
+    machineAddons: Addon[];
 
     /** Machine Settings */
-    settings?: IMachineSettings;
+    settings: Settings;
 }
 
 /** Machine additional settings */
-export interface IMachineSettings
+export interface Settings
 {
-    /** Masked premade cycles */
-    maskedPremades?: string[];
-    /** Masked premade profiles */
-    maskedProfiles?: string[];
-    /** Masked manual modes */
-    maskedManuals?: string[];
-    
     /**
-     * Do profile button is masked
-     * @defaultValue false //TODO check this
-     */
-    profilesMasked?: true;
-
-    /** 
-     * Disable IO controls access 
-     * @defaultValue true
-     */
-    ioControlsMasked?: false;
-
-    /**
-     * Enable prototype mode
+     * Dev mode enabled on this machine.
+     * 
+     * Enables:
+     *  - NextStep button on cycle
+     *  - IO Controls
+     *  - profilesMasked is overriden to `true`.
      * @defaultValue false
      */
-    isPrototype?: true;
+    devMode: boolean;
 
     /**
-     * Enable when a machine doesnt have an RTC clock
-     * Adds a warning for products lifetimes if machine is not connected to VPN
-     * @defaultValue undefined
+     * Do profiles list is shown
+     * @defaultValue true
      */
-    isNotTimeTracked: true;
+    profilesShown: boolean;
+
+    /**
+     * Additional variables.
+     * Can be retreived by a `ParameterBlock` in `ProgramBlockRunner`.
+     * @defaultValue []
+     */
+    variables: Array<{
+        name: string;
+        value: number;
+    }>;
 }

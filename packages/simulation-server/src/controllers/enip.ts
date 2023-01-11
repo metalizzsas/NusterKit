@@ -1,11 +1,11 @@
-import { IOGatesConfig } from "@metalizzsas/nuster-typings/build/spec/iogates";
-import { IEX260Controller } from "@metalizzsas/nuster-typings/build/spec/iophysicalcontrollers/EX260xController";
+import { IOGates } from "@metalizzsas/nuster-typings/build/spec/iogates";
+import { EX260Sx } from "@metalizzsas/nuster-typings/build/spec/iohandlers";
 import { ENIPServer } from "enip-ts/dist/enipServer";
 import { ENIPDataVector } from "enip-ts/dist/enipServer/enipClient";
 
 export class ENIPController
 {
-    private gates: (IOGatesConfig & { value: number })[];
+    private gates: (IOGates & { value: number })[];
 
     enip: ENIPServer;
 
@@ -33,7 +33,7 @@ export class ENIPController
         }
     };
 
-    constructor(controller: IEX260Controller, gates: IOGatesConfig[], index)
+    constructor(controller: EX260Sx, gates: IOGates[], index)
     {
         this.enip = new ENIPServer(this.vector);
         this.enip.listen();
@@ -79,5 +79,10 @@ export class ENIPController
 
         if(gate)
             gate.value = this.getCoil(address);
+    }
+
+    close()
+    {
+        //this.enip.close();
     }
 }

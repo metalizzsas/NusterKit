@@ -1,6 +1,6 @@
-import type { IConfiguration } from "./configuration/";
-import type { IAddon } from "./spec/addons";
-import type { IMachineSpecs } from "./spec";
-import type { IWebSocketData, IStatusMessage, IPopup } from "./hydrated";
+import type { Configuration } from "./configuration";
+import type { WebsocketData, Status } from "./hydrated";
+import type { MachineSpecs } from "./spec";
+import type { Addon } from "./spec/addons";
 
-export { IConfiguration, IAddon, IMachineSpecs, IWebSocketData, IStatusMessage, IPopup as IPopupMessage };
+export { Configuration, Addon, MachineSpecs, WebsocketData, Status };

@@ -5,14 +5,15 @@
       "connectPopup": {
          "title": "popups.nozzle-cleaning.title",
          "message": "popups.nozzle-cleaning.message",
-         "callToAction": [
+         "level": "info",
+         "callToActions": [
             {
                "name": "popups.nozzle-cleaning.actions.main",
                "APIEndpoint": {
                   "url": "/api/v1/cycle/nozzle-cleaning",
                   "method": "post"
                },
-               "UIEndpoint": "/app/cycle/"
+               "UIEndpoint": "/"
             }
          ]
       }
@@ -407,7 +408,7 @@
          "size": "bit"
       }
    ],
-   "slots": [
+   "containers": [
       {
          "name": "ox",
          "type": "psp",
@@ -415,15 +416,36 @@
          "sensors": [
             {
                "io": "levels#ox-min-n",
-               "type": "level-min-n"
+               "logic": "level-min"
             }
          ],
          "callToAction": [
             {
                "name": "unload",
                "APIEndpoint": {
-                  "url": "/api/v1/cycle/emptying-reactives",
-                  "method": "post"
+                  "url": "/api/v1/cycle/container-emptying",
+                  "method": "post",
+                  "body": {
+                     "skeleton": "container-emptying",
+                     "name": "container-emptying-ox",
+                     "values": [
+                        {
+                           "name": "emptying#ox",
+                           "type": "bool",
+                           "value": 1
+                        },
+                        {
+                           "name": "emptying#rd",
+                           "type": "bool",
+                           "value": 0
+                        },
+                        {
+                           "name": "emptying#act",
+                           "type": "bool",
+                           "value": 0
+                        }
+                     ]
+                  }
                },
                "UIEndpoint": "/app/cycle/"
             }
@@ -436,15 +458,36 @@
          "sensors": [
             {
                "io": "levels#rd-min-n",
-               "type": "level-min-n"
+               "logic": "level-min"
             }
          ],
          "callToAction": [
             {
                "name": "unload",
                "APIEndpoint": {
-                  "url": "/api/v1/cycle/emptying-reactives",
-                  "method": "post"
+                  "url": "/api/v1/cycle/container-emptying",
+                  "method": "post",
+                  "body": {
+                     "skeleton": "container-emptying",
+                     "name": "container-emptying-rd",
+                     "values": [
+                        {
+                           "name": "emptying#ox",
+                           "type": "bool",
+                           "value": 0
+                        },
+                        {
+                           "name": "emptying#rd",
+                           "type": "bool",
+                           "value": 1
+                        },
+                        {
+                           "name": "emptying#act",
+                           "type": "bool",
+                           "value": 0
+                        }
+                     ]
+                  }
                },
                "UIEndpoint": "/app/cycle/"
             }
@@ -457,11 +500,11 @@
          "sensors": [
             {
                "io": "levels#act-min-n",
-               "type": "level-min-n"
+               "logic": "level-min"
             },
             {
                "io": "levels#act-max-n",
-               "type": "level-max-n"
+               "logic": "level-max"
             }
          ],
          "callToAction": [
@@ -476,8 +519,29 @@
             {
                "name": "unload",
                "APIEndpoint": {
-                  "url": "/api/v1/cycle/emptying-activator",
-                  "method": "post"
+                  "url": "/api/v1/cycle/container-emptying",
+                  "method": "post",
+                  "body": {
+                     "skeleton": "container-emptying",
+                     "name": "container-emptying-act",
+                     "values": [
+                        {
+                           "name": "emptying#ox",
+                           "type": "bool",
+                           "value": 0
+                        },
+                        {
+                           "name": "emptying#rd",
+                           "type": "bool",
+                           "value": 0
+                        },
+                        {
+                           "name": "emptying#act",
+                           "type": "bool",
+                           "value": 1
+                        }
+                     ]
+                  }
                },
                "UIEndpoint": "/app/cycle/"
             }
@@ -489,11 +553,11 @@
          "sensors": [
             {
                "io": "levels#edi-min-n",
-               "type": "level-min-n"
+               "logic": "level-min"
             },
             {
                "io": "levels#edi-max-n",
-               "type": "level-max-n"
+               "logic": "level-max"
             }
          ]
       },
@@ -503,11 +567,11 @@
          "sensors": [
             {
                "io": "levels#eff-max-n",
-               "type": "level-max-n"
+               "logic": "level-limit-max"
             },
             {
                "io": "eff-container-sensor",
-               "type": "level-np"
+               "logic": "presence"
             }
          ]
       }
@@ -692,6 +756,26 @@
                "value": 1
             }
          ]
+      },
+      {
+         "name": "container-emptying",
+         "fields": [
+            {
+               "name": "emptying#ox",
+               "type": "bool",
+               "value": 0
+            },
+            {
+               "name": "emptying#rd",
+               "type": "bool",
+               "value": 0
+            },
+            {
+               "name": "emptying#act",
+               "type": "bool",
+               "value": 0
+            }
+         ]
       }
    ],
    "profilePremades": [
@@ -700,8 +784,6 @@
          "_id": "premade_usl",
          "name": "usl",
          "isPremade": true,
-         "isRemovable": false,
-         "isOverwritable": false,
          "values": {
             "act-edi-nozzles#act-edi-high": 1,
             "act-edi-nozzles#act-edi-low": 1,
@@ -737,8 +819,6 @@
          "_id": "premade_usl-retake",
          "name": "usl-retake",
          "isPremade": true,
-         "isRemovable": false,
-         "isOverwritable": false,
          "values": {
             "act-edi-nozzles#act-edi-high": 1,
             "act-edi-nozzles#act-edi-low": 1,
@@ -774,8 +854,6 @@
          "_id": "premade_usl-activation-porous",
          "name": "usl-activation-porous",
          "isPremade": true,
-         "isRemovable": false,
-         "isOverwritable": false,
          "values": {
             "act-edi-nozzles#act-edi-high": 1,
             "act-edi-nozzles#act-edi-low": 1,
@@ -805,477 +883,24 @@
             "vapors-extraction#enabled": 1,
             "vapors-extraction#duration": 45
          }
+      },
+      {
+         "skeleton": "container-emptying",
+         "_id": "premade_container-emptying-all",
+         "isPremade": true,
+         "name": "container-emptying-all",
+         "values": {
+            "emptying#ox": 1,
+            "emptying#rd": 1,
+            "emptying#act": 1
+         }
       }
    ],
    "maintenance": [
       {
          "name": "mfm-filter",
          "durationType": "cycle",
-         "durationLimit": 50,
-         "procedure": {
-            "tools": [],
-            "steps": [
-               {
-                  "name": "unscrew-mfm-filter",
-                  "media": [
-                     "0.jpg"
-                  ]
-               },
-               {
-                  "name": "replace-mfm-new-filter",
-                  "media": [
-                     "1.jpg",
-                     "2.jpg",
-                     "1.jpg"
-                  ]
-               }
-            ]
-         }
-      }
-   ],
-   "manual": [
-      {
-         "name": "motor-rotation",
-         "controls": [
-            {
-               "name": "motor#speed",
-               "analogScaleDependant": true,
-               "isValueAbsolute": true
-            },
-            {
-               "name": "motor#direction",
-               "analogScaleDependant": false,
-               "triggerWhenNegative": true
-            }
-         ],
-         "analogScale": {
-            "min": -100,
-            "max": 100
-         },
-         "watchdog": [
-            {
-               "gateName": "cover-closed",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "hybrid#act-high",
-         "controls": [
-            "hybrid#act-res",
-            "hybrid#plv-high",
-            "hybrid#act-lq-high"
-         ],
-         "requires": [
-            "ventilation"
-         ],
-         "incompatibility": [
-            "hybrid#edi-high",
-            "empty#act",
-            "empty#edi"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "hybrid#act-low",
-         "controls": [
-            "hybrid#act-res",
-            "hybrid#plv-low",
-            "hybrid#act-lq-low"
-         ],
-         "requires": [
-            "ventilation"
-         ],
-         "incompatibility": [
-            "hybrid#edi-low",
-            "empty#act",
-            "empty#edi"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "hybrid#edi-high",
-         "controls": [
-            "hybrid#edi-res",
-            "hybrid#plv-high",
-            "hybrid#edi-lq-high"
-         ],
-         "requires": [
-            "ventilation"
-         ],
-         "incompatibility": [
-            "hybrid#act-high",
-            "empty#act",
-            "empty#edi"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "hybrid#edi-low",
-         "controls": [
-            "hybrid#edi-res",
-            "hybrid#plv-low",
-            "hybrid#edi-lq-low"
-         ],
-         "incompatibility": [
-            "hybrid#act-low",
-            "empty#act",
-            "empty#edi"
-         ],
-         "requires": [
-            "ventilation"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "met#ox-high",
-         "incompatibility": [
-            "empty#ox"
-         ],
-         "requires": [
-            "ventilation"
-         ],
-         "controls": [
-            "met#ox-res",
-            "met#ox-lq-high",
-            "met#plv-high"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "met#rd-high",
-         "incompatibility": [
-            "empty#rd"
-         ],
-         "requires": [
-            "ventilation"
-         ],
-         "controls": [
-            "met#rd-res",
-            "met#rd-lq-high",
-            "met#plv-high"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "met#ox-mid",
-         "incompatibility": [
-            "empty#ox"
-         ],
-         "requires": [
-            "ventilation"
-         ],
-         "controls": [
-            "met#ox-res",
-            "met#ox-lq-mid",
-            "met#plv-mid"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "met#rd-mid",
-         "incompatibility": [
-            "empty#rd"
-         ],
-         "requires": [
-            "ventilation"
-         ],
-         "controls": [
-            "met#rd-res",
-            "met#rd-lq-mid",
-            "met#plv-mid"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "met#ox-low",
-         "incompatibility": [
-            "empty#ox"
-         ],
-         "requires": [
-            "ventilation"
-         ],
-         "controls": [
-            "met#ox-res",
-            "met#ox-lq-low",
-            "met#plv-low"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "met#rd-low",
-         "incompatibility": [
-            "empty#rd"
-         ],
-         "requires": [
-            "ventilation"
-         ],
-         "controls": [
-            "met#rd-res",
-            "met#rd-lq-low",
-            "met#plv-low"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "ventilation",
-         "incompatibility": [],
-         "controls": [
-            "ventilation"
-         ]
-      },
-      {
-         "name": "air-heater",
-         "incompatibility": [],
-         "requires": [],
-         "controls": [
-            "air-heater"
-         ]
-      },
-      {
-         "name": "empty#act",
-         "incompatibility": [
-            "hybrid#act-high",
-            "hybrid#act-low",
-            "hybrid#edi-high",
-            "hybrid#edi-low",
-            "met#ox-high",
-            "met#rd-high",
-            "met#ox-mid",
-            "met#rd-mid",
-            "met#ox-low",
-            "met#rd-low",
-            "empty#edi",
-            "fill-act"
-         ],
-         "controls": [
-            "hybrid#act-res",
-            "hybrid#act-lq-high",
-            "hybrid#act-lq-low"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "empty#edi",
-         "incompatibility": [
-            "hybrid#act-high",
-            "hybrid#act-low",
-            "hybrid#edi-high",
-            "hybrid#edi-low",
-            "met#ox-high",
-            "met#rd-high",
-            "met#ox-mid",
-            "met#rd-mid",
-            "met#ox-low",
-            "met#rd-low",
-            "empty#act",
-            "fill-act"
-         ],
-         "controls": [
-            "hybrid#edi-res",
-            "hybrid#edi-lq-high",
-            "hybrid#edi-lq-low"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "empty#ox",
-         "incompatibility": [
-            "hybrid#act-high",
-            "hybrid#act-low",
-            "hybrid#edi-high",
-            "hybrid#edi-low",
-            "met#ox-high",
-            "met#rd-high",
-            "met#ox-mid",
-            "met#rd-mid",
-            "met#ox-low",
-            "met#rd-low"
-         ],
-         "controls": [
-            "met#ox-res",
-            "met#ox-lq-high",
-            "met#ox-lq-mid",
-            "met#ox-lq-low"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "empty#rd",
-         "incompatibility": [
-            "hybrid#act-high",
-            "hybrid#act-low",
-            "hybrid#edi-high",
-            "hybrid#edi-low",
-            "met#ox-high",
-            "met#rd-high",
-            "met#ox-mid",
-            "met#rd-mid",
-            "met#ox-low",
-            "met#rd-low"
-         ],
-         "controls": [
-            "met#rd-res",
-            "met#rd-lq-high",
-            "met#rd-lq-mid",
-            "met#rd-lq-low"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            }
-         ]
-      },
-      {
-         "name": "fill-act",
-         "incompatibility": [
-            "hybrid#act-high",
-            "hybrid#act-low",
-            "hybrid#edi-high",
-            "hybrid#edi-low",
-            "empty#act",
-            "empty#edi"
-         ],
-         "controls": [
-            "hybrid#edi-res",
-            "hybrid#lq-fill-act"
-         ],
-         "watchdog": [
-            {
-               "gateName": "levels#eff-max-n",
-               "gateValue": 1
-            },
-            {
-               "gateName": "eff-container-sensor",
-               "gateValue": 1
-            },
-            {
-               "gateName": "levels#act-max-n",
-               "gateValue": 0
-            }
-         ]
+         "durationLimit": 50
       }
    ],
    "cyclePremades": [
@@ -1295,9 +920,9 @@
          "cycle": "default"
       },
       {
-         "name": "container-cleaning",
-         "profile": "",
-         "cycle": "container-cleaning"
+         "name": "container-emptying",
+         "profile": "premade_container-emptying-all",
+         "cycle": "container-emptying"
       }
    ],
    "cycleTypes": [
@@ -1307,8 +932,7 @@
             {
                "conditionName": "emergency-stop",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "emergency-stop",
                      "gateValue": 1
@@ -1318,8 +942,7 @@
             {
                "conditionName": "air-sensor",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "air-sensor",
                      "gateValue": 1
@@ -1329,8 +952,7 @@
             {
                "conditionName": "cover-closed",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "cover-closed",
                      "gateValue": 1
@@ -1340,8 +962,7 @@
             {
                "conditionName": "levels#eff-max-n",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "levels#eff-max-n",
                      "gateValue": 1
@@ -1351,8 +972,7 @@
             {
                "conditionName": "eff-container-sensor",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "eff-container-sensor",
                      "gateValue": 1
@@ -1362,8 +982,7 @@
             {
                "conditionName": "levels#edi-min-n",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "levels#edi-min-n",
                      "gateValue": 1
@@ -1373,2277 +992,343 @@
             {
                "conditionName": "levels#act-min-n",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "levels#act-min-n",
                      "gateValue": 1
                   }
                },
-               "disabled": {
-                  "name": "reverse",
-                  "params": [{
-                     "name": "profile",
-                     "value": "activation#enabled"
-                  }]
-               }
+               "disabled": {"reverse": {"profile": "activation#enabled"}}
             },
             {
                "conditionName": "levels#ox-min-n",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "levels#ox-min-n",
                      "gateValue": 1
                   }
                },
-               "disabled": {
-                  "name": "reverse",
-                  "params": [{
-                     "name": "profile",
-                     "value": "metalization#enabled"
-                  }]
-               }
+               "disabled": { "reverse": {"profile": "metalization#enabled"}}
             },
             {
                "conditionName": "levels#rd-min-n",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "levels#rd-min-n",
                      "gateValue": 1
                   }
                },
-               "disabled": {
-                  "name": "reverse",
-                  "params": [{
-                     "name": "profile",
-                     "value": "metalization#enabled"
-                  }]
-               }
+               "disabled": { "reverse": {"profile": "metalization#enabled"}}
             },
             {
                "conditionName": "maintenance-filter",
                "startOnly": true,
-               "checkChain": {
-                  "name": "parameter",
-                  "parameter": {
-                     "name": "conditional",
-                     "value": "==",
-                     "params": [
-                        {
-                           "name": "maintenance",
-                           "value": "mfm-filter"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        },
-                        {
-                           "name": "conststr",
-                           "value": "warning"
-                        },
-                        {
-                           "name": "conststr",
-                           "value": "good"
-                        }
-                     ]
-                  }
+               "checkchain": {
+                  "parameter": {"maintenance_status": {"string": "mfm-filter"}}
                }
             },
             {
                "conditionName": "activator-life",
                "startOnly": true,
-               "checkChain": {
-                  "name": "parameter",
-                  "parameter": {
-                     "name": "slotstatus",
-                     "value": "act"
-                  }
+               "checkchain": {
+                  "parameter": {"product_status": {"string": "act"}}
                },
-               "disabled": {
-                  "name": "reverse",
-                  "params": [{
-                     "name": "profile",
-                     "value": "activation#enabled"
-                  }]
-               }
+               "disabled": { "reverse": {"profile": "activation#enabled"}}
             },
             {
                "conditionName": "oxydiser-life",
                "startOnly": true,
-               "checkChain": {
-                  "name": "parameter",
-                  "parameter": {
-                     "name": "slotstatus",
-                     "value": "rd"
-                  }
+               "checkchain": {
+                  "parameter": {"product_status": {"string": "ox"}}
                },
-               "disabled": {
-                  "name": "reverse",
-                  "params": [{
-                     "name": "profile",
-                     "value": "metalization#enabled"
-                  }]
-               }
+               "disabled": {"reverse": {"profile": "metalization#enabled"}}
             },
             {
                "conditionName": "reducer-life",
                "startOnly": true,
-               "checkChain": {
-                  "name": "parameter",
-                  "parameter": {
-                     "name": "slotstatus",
-                     "value": "ox"
-                  }
+               "checkchain": {
+                  "parameter": {"product_status": {"string": "rd"}}
                },
-               "disabled": {
-                  "name": "reverse",
-                  "params": [{
-                     "name": "profile",
-                     "value": "metalization#enabled"
-                  }]
-               }
+               "disabled": { "reverse": {"profile": "metalization#enabled"}}
             }
          ],
          "steps": [
             {
                "name": "start",
-               "isEnabled": {
-                  "name": "const",
-                  "value": 1
-               },
-               "duration": {
-                  "name": "const",
-                  "value": 90
-               },
+               "isEnabled": 1,
                "startBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ventilation"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "air-heater"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  }
+                  {"io_write": ["ventilation", 1]},
+                  {"io_write": ["air-heater", 1]}
                ],
                "endBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "motor#speed"
-                        },
-                        {
-                           "name": "multiply",
-                           "params": [
-                              {
-                                 "name": "profile",
-                                 "value": "motor#speed"
-                              },
-                              {
-                                 "name": "profile",
-                                 "value": "motor#enabled"
-                              }
-                           ]
-                        }
-                     ]
-                  },
-                  {
-                     "name": "if",
-                     "params": [
-                        {
-                           "name": "profile",
-                           "value": "motor#reverseEnabled"
-                        },
-                        {
-                           "name": "conststr",
-                           "value": "=="
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ],
-                     "trueBlocks": [
-                        {
-                           "name": "startTimer",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "motorRotation"
-                              },
-                              {
-                                 "name": "profile",
-                                 "value": "motor#reverseTime"
-                              }
-                           ],
+                  {"io_write": ["motor#speed", {"multiply": [{"profile": "motor#speed"}, {"profile": "motor#enabled"}]}]},
+                  {"if": {
+                     "statement": {
+                        "comparator": "==",
+                        "left_side": {"profile": "motor#reverseEnabled"},
+                        "right_side": 1
+                     },
+                     "true_blocks": [{
+                        "start_timer": {
+                           "timer_name": "motorRotation",
+                           "timer_interval": {"profile": "motor#reverseTime"},
                            "blocks": [
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "motor#direction"
-                                    },
-                                    {
-                                       "name": "reverse",
-                                       "value": "",
-                                       "params": [
-                                          {
-                                             "name": "io",
-                                             "value": "motor#direction"
-                                          }
-                                       ]
-                                    }
-                                 ]
-                              }
+                              {"io_write": ["motor#direction", {"reverse": {"io_read": "motor#direction"}}]}
                            ]
                         }
-                     ],
-                     "falseBlocks": []
-                  }
+                     }]
+                  }}
                ],
                "blocks": [
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "const",
-                           "value": 90
-                        }
-                     ]
-                  }
+                  {"sleep": 90}
                ]
             },
             {
                "name": "activation",
-               "isEnabled": {
-                  "name": "profile",
-                  "value": "activation#enabled"
-               },
-               "duration": {
-                  "name": "multiply",
-                  "params": [
-                     {
-                        "name": "profile",
-                        "value": "activation#count"
-                     },
-                     {
-                        "name": "add",
-                        "params": [
-                           {
-                              "name": "profile",
-                              "value": "activation#timeOn"
-                           },
-                           {
-                              "name": "profile",
-                              "value": "activation#timeOff"
-                           }
-                        ]
-                     }
-                  ]
-               },
+               "isEnabled": { "profile": "activation#enabled" },
                "startBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ventilation"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "motor#speed"
-                        },
-                        {
-                           "name": "multiply",
-                           "params": [
-                              {
-                                 "name": "profile",
-                                 "value": "motor#speed"
-                              },
-                              {
-                                 "name": "profile",
-                                 "value": "motor#enabled"
-                              }
-                           ]
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#act-res"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  }
+                  {"io_write": ["hybrid#act-res", 1]}
                ],
                "endBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#act-res"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  }
+                  {"io_write": ["hybrid#act-res", 0]}
                ],
                "blocks": [
-                  {
-                     "name": "for",
-                     "params": [
-                        {
-                           "name": "profile",
-                           "value": "activation#count"
-                        }
-                     ],
+                  {"for": {
+                     "limit": {"profile": "activation#count"},
                      "blocks": [
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "hybrid#plv-high"
-                              },
-                              {
-                                 "name": "profile",
-                                 "value": "act-edi-nozzles#act-edi-high"
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "hybrid#plv-low"
-                              },
-                              {
-                                 "name": "profile",
-                                 "value": "act-edi-nozzles#act-edi-low"
-                              }
-                           ]
-                        },
-                        {
-                           "name": "sleep",
-                           "params": [
-                              {
-                                 "name": "const",
-                                 "value": 0.25
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "hybrid#act-lq-high"
-                              },
-                              {
-                                 "name": "profile",
-                                 "value": "act-edi-nozzles#act-edi-high"
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "hybrid#act-lq-low"
-                              },
-                              {
-                                 "name": "profile",
-                                 "value": "act-edi-nozzles#act-edi-low"
-                              }
-                           ]
-                        },
-                        {
-                           "name": "sleep",
-                           "params": [
-                              {
-                                 "name": "profile",
-                                 "value": "activation#timeOn"
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "hybrid#act-lq-high"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 0
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "hybrid#act-lq-low"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 0
-                              }
-                           ]
-                        },
-                        {
-                           "name": "sleep",
-                           "params": [
-                              {
-                                 "name": "const",
-                                 "value": 0.25
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "hybrid#plv-high"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 0
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "hybrid#plv-low"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 0
-                              }
-                           ]
-                        },
-                        {
-                           "name": "sleep",
-                           "params": [
-                              {
-                                 "name": "profile",
-                                 "value": "activation#timeOff"
-                              }
-                           ]
-                        }
+                        {"io_write": ["hybrid#plv-high", {"profile": "act-edi-nozzles#act-edi-high"}]},
+                        {"io_write": ["hybrid#plv-low", {"profile": "act-edi-nozzles#act-edi-low"}]},
+                        {"sleep": 0.25},
+                        {"io_write": ["hybrid#act-lq-high", {"profile": "act-edi-nozzles#act-edi-high"}]},
+                        {"io_write": ["hybrid#act-lq-low", {"profile": "act-edi-nozzles#act-edi-low"}]},
+                        {"sleep": {"profile": "activation#timeOn"}},
+                        {"io_write": ["hybrid#act-lq-high", 0]},
+                        {"io_write": ["hybrid#act-lq-low", 0]},
+                        {"sleep": 0.25},
+                        {"io_write": ["hybrid#plv-high", 0]},
+                        {"io_write": ["hybrid#plv-low", 0]},
+                        {"sleep": {"profile": "activation#timeOff"}}
                      ]
-                  }
+                  }}
                ]
             },
             {
                "name": "wash1",
-               "isEnabled": {
-                  "name": "profile",
-                  "value": "wash1#enabled"
-               },
-               "duration": {
-                  "name": "profile",
-                  "value": "wash1#duration"
-               },
+               "isEnabled": {"profile": "wash1#enabled"},
                "startBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ventilation"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "motor#speed"
-                        },
-                        {
-                           "name": "multiply",
-                           "params": [
-                              {
-                                 "name": "profile",
-                                 "value": "motor#speed"
-                              },
-                              {
-                                 "name": "profile",
-                                 "value": "motor#enabled"
-                              }
-                           ]
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#edi-res"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  }
+                  {"io_write": ["hybrid#edi-res", 1]},
+                  {"io_write": ["hybrid#plv-high", {"profile": "act-edi-nozzles#act-edi-high"}]},
+                  {"io_write": ["hybrid#plv-low", {"profile": "act-edi-nozzles#act-edi-low"}]}
                ],
                "endBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#edi-res"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  }
+                  {"io_write": ["hybrid#edi-res", 0]},
+                  {"io_write": ["hybrid#plv-high", 0]},
+                  {"io_write": ["hybrid#plv-low", 0]}
                ],
                "blocks": [
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "const",
-                           "value": 0.5
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#plv-high"
-                        },
-                        {
-                           "name": "profile",
-                           "value": "act-edi-nozzles#act-edi-high"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#plv-low"
-                        },
-                        {
-                           "name": "profile",
-                           "value": "act-edi-nozzles#act-edi-low"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "const",
-                           "value": 0.25
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#edi-lq-high"
-                        },
-                        {
-                           "name": "profile",
-                           "value": "act-edi-nozzles#act-edi-high"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#edi-lq-low"
-                        },
-                        {
-                           "name": "profile",
-                           "value": "act-edi-nozzles#act-edi-low"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "profile",
-                           "value": "wash1#duration"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#edi-lq-high"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#edi-lq-low"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "const",
-                           "value": 0.25
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#plv-high"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#plv-low"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "const",
-                           "value": 0.5
-                        }
-                     ]
-                  }
+                  {"sleep": 0.25},
+                  {"io_write": ["hybrid#edi-lq-high", {"profile": "act-edi-nozzles#act-edi-high"}]},
+                  {"io_write": ["hybrid#edi-lq-low", {"profile": "act-edi-nozzles#act-edi-low"}]},
+
+                  {"sleep": {"profile": "wash1#duration"}},
+
+                  {"io_write": ["hybrid#edi-lq-high", 0]},
+                  {"io_write": ["hybrid#edi-lq-low", 0]},
+                  {"sleep": 0.25}
                ]
             },
             {
                "name": "metalization",
-               "isEnabled": {
-                  "name": "profile",
-                  "value": "metalization#enabled"
-               },
-               "duration": {
-                  "name": "multiply",
-                  "params": [
-                     {
-                        "name": "profile",
-                        "value": "metalization#count"
-                     },
-                     {
-                        "name": "add",
-                        "params": [
-                           {
-                              "name": "multiply",
-                              "params": [
-                                 {
-                                    "name": "profile",
-                                    "value": "metalization#timeOn"
-                                 },
-                                 {
-                                    "name": "add",
-                                    "params": [
-                                       {
-                                          "name": "profile",
-                                          "value": "met-nozzles#met-high"
-                                       },
-                                       {
-                                          "name": "profile",
-                                          "value": "met-nozzles#met-medium"
-                                       },
-                                       {
-                                          "name": "profile",
-                                          "value": "met-nozzles#met-low"
-                                       }
-                                    ]
-                                 }
-                              ]
-                           },
-                           {
-                              "name": "multiply",
-                              "params": [
-                                 {
-                                    "name": "const",
-                                    "value": 0.5
-                                 },
-                                 {
-                                    "name": "add",
-                                    "params": [
-                                       {
-                                          "name": "profile",
-                                          "value": "met-nozzles#met-high"
-                                       },
-                                       {
-                                          "name": "profile",
-                                          "value": "met-nozzles#met-medium"
-                                       },
-                                       {
-                                          "name": "profile",
-                                          "value": "met-nozzles#met-low"
-                                       }
-                                    ]
-                                 }
-                              ]
-                           },
-                           {
-                              "name": "profile",
-                              "value": "metalization#timeOff"
-                           },
-                           {
-                              "name": "const",
-                              "value": 0.5
-                           },
-                           {
-                              "name": "conditional",
-                              "value": "==",
-                              "params": [
-                                 {
-                                    "name": "profile",
-                                    "value": "metalization-wash#enabled"
-                                 },
-                                 {
-                                    "name": "const",
-                                    "value": 1
-                                 },
-                                 {
-                                    "name": "profile",
-                                    "value": "metalization-wash#duration"
-                                 },
-                                 {
-                                    "name": "const",
-                                    "value": 0
-                                 }
-                              ]
-                           }
-                        ]
-                     }
-                  ]
-               },
+               "isEnabled": {"profile": "metalization#enabled"},
                "startBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ventilation"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "motor#speed"
-                        },
-                        {
-                           "name": "multiply",
-                           "params": [
-                              {
-                                 "name": "profile",
-                                 "value": "motor#speed"
-                              },
-                              {
-                                 "name": "profile",
-                                 "value": "motor#enabled"
-                              }
-                           ]
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-res"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-res"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  }
+                  {"io_write": ["met#ox-res", 1]},
+                  {"io_write": ["met#rd-res", 1]}
                ],
                "endBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-res"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-res"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  }
+                  {"io_write": ["met#ox-res", 0]},
+                  {"io_write": ["met#rd-res", 0]}
                ],
                "blocks": [
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "const",
-                           "value": 0.25
-                        }
-                     ]
-                  },
-                  {
-                     "name": "for",
-                     "params": [
-                        {
-                           "name": "profile",
-                           "value": "metalization#count"
-                        }
-                     ],
-                     "blocks": [
-                        {
-                           "name": "if",
-                           "params": [
-                              {
-                                 "name": "profile",
-                                 "value": "met-nozzles#met-high"
-                              },
-                              {
-                                 "name": "conststr",
-                                 "value": "=="
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 1
-                              }
-                           ],
-                           "falseBlocks": [],
-                           "trueBlocks": [
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "met#plv-high"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 1
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "sleep",
-                                 "params": [
-                                    {
-                                       "name": "const",
-                                       "value": 0.25
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "met#rd-lq-high"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 1
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "met#ox-lq-high"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 1
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "sleep",
-                                 "params": [
-                                    {
-                                       "name": "profile",
-                                       "value": "metalization#timeOn"
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "met#rd-lq-high"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 0
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "met#ox-lq-high"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 0
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "sleep",
-                                 "params": [
-                                    {
-                                       "name": "const",
-                                       "value": 0.25
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "met#plv-high"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 0
-                                    }
-                                 ]
-                              }
-                           ]
+                  {"sleep": 0.25 },
+                  {"for": {
+                     "limit": {"profile": "metalization#count"},
+                     "blocks": [{"if": {
+                        "statement": {
+                           "comparator": "==",
+                           "left_side": {"profile": "met-nozzles#met-high"},
+                           "right_side": 1
                         },
-                        {
-                           "name": "if",
-                           "params": [
-                              {
-                                 "name": "profile",
-                                 "value": "met-nozzles#met-medium"
-                              },
-                              {
-                                 "name": "conststr",
-                                 "value": "=="
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 1
-                              }
-                           ],
-                           "falseBlocks": [],
-                           "trueBlocks": [
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "met#plv-mid"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 1
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "sleep",
-                                 "params": [
-                                    {
-                                       "name": "const",
-                                       "value": 0.25
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "met#rd-lq-mid"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 1
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "met#ox-lq-mid"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 1
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "sleep",
-                                 "params": [
-                                    {
-                                       "name": "profile",
-                                       "value": "metalization#timeOn"
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "met#rd-lq-mid"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 0
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "met#ox-lq-mid"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 0
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "sleep",
-                                 "params": [
-                                    {
-                                       "name": "const",
-                                       "value": 0.25
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "met#plv-mid"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 0
-                                    }
-                                 ]
-                              }
-                           ]
+                        "true_blocks": [
+                           {"io_write": ["met#plv-high", 1]},
+                           {"sleep": 0.25},
+                           {"io_write": ["met#rd-lq-high", 1]},
+                           {"io_write": ["met#ox-lq-high", 1]},
+                           {"sleep": {"profile": "metalization#timeOn"}},
+                           {"io_write": ["met#rd-lq-high", 0]},
+                           {"io_write": ["met#ox-lq-high", 0]},
+                           {"sleep": 0.25},
+                           {"io_write": ["met#plv-high", 0]}
+                        ]
+                     }},
+                     {"if": {
+                        "statement": {
+                           "comparator": "==",
+                           "left_side": {"profile": "met-nozzles#met-medium"},
+                           "right_side": 1
                         },
-                        {
-                           "name": "if",
-                           "params": [
-                              {
-                                 "name": "profile",
-                                 "value": "met-nozzles#met-low"
-                              },
-                              {
-                                 "name": "conststr",
-                                 "value": "=="
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 1
-                              }
-                           ],
-                           "falseBlocks": [],
-                           "trueBlocks": [
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "met#plv-low"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 1
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "sleep",
-                                 "params": [
-                                    {
-                                       "name": "const",
-                                       "value": 0.25
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "met#rd-lq-low"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 1
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "met#ox-lq-low"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 1
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "sleep",
-                                 "params": [
-                                    {
-                                       "name": "profile",
-                                       "value": "metalization#timeOn"
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "met#rd-lq-low"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 0
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "met#ox-lq-low"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 0
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "sleep",
-                                 "params": [
-                                    {
-                                       "name": "const",
-                                       "value": 0.25
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "met#plv-low"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 0
-                                    }
-                                 ]
-                              }
-                           ]
+                        "true_blocks": [
+                           {"io_write": ["met#plv-mid", 1]},
+                           {"sleep": 0.25},
+                           {"io_write": ["met#rd-lq-mid", 1]},
+                           {"io_write": ["met#ox-lq-mid", 1]},
+                           {"sleep": {"profile": "metalization#timeOn"}},
+                           {"io_write": ["met#rd-lq-mid", 0]},
+                           {"io_write": ["met#ox-lq-mid", 0]},
+                           {"sleep": 0.25},
+                           {"io_write": ["met#plv-mid", 0]}
+                        ]
+                     }},
+                     {"if": {
+                        "statement": {
+                           "comparator": "==",
+                           "left_side": {"profile": "met-nozzles#met-low"},
+                           "right_side": 1
                         },
-                        {
-                           "name": "sleep",
-                           "params": [
-                              {
-                                 "name": "profile",
-                                 "value": "metalization#timeOff"
-                              }
-                           ]
+                        "true_blocks": [
+                           {"io_write": ["met#plv-low", 1]},
+                           {"sleep": 0.25},
+                           {"io_write": ["met#rd-lq-low", 1]},
+                           {"io_write": ["met#ox-lq-low", 1]},
+                           {"sleep": {"profile": "metalization#timeOn"}},
+                           {"io_write": ["met#rd-lq-low", 0]},
+                           {"io_write": ["met#ox-lq-low", 0]},
+                           {"sleep": 0.25},
+                           {"io_write": ["met#plv-low", 0]}
+                        ]
+                     }},
+                     {"sleep": {"profile": "metalization#timeOff"}},
+                     {"if": {
+                        "statement": {
+                           "comparator": "==",
+                           "left_side": {"profile": "metalization-wash#enabled"},
+                           "right_side": 1
                         },
-                        {
-                           "name": "if",
-                           "params": [
-                              {
-                                 "name": "profile",
-                                 "value": "metalization-wash#enabled"
-                              },
-                              {
-                                 "name": "conststr",
-                                 "value": "=="
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 1
-                              }
-                           ],
-                           "trueBlocks": [
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "hybrid#edi-res"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 1
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "hybrid#edi-lq-high"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 1
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "hybrid#edi-lq-low"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 1
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "hybrid#plv-low"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 1
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "hybrid#plv-high"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 1
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "sleep",
-                                 "params": [
-                                    {
-                                       "name": "profile",
-                                       "value": "metalization-wash#duration"
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "hybrid#edi-res"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 0
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "hybrid#edi-lq-high"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 0
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "hybrid#edi-lq-low"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 0
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "hybrid#plv-low"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 0
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "io",
-                                 "params": [
-                                    {
-                                       "name": "conststr",
-                                       "value": "hybrid#plv-high"
-                                    },
-                                    {
-                                       "name": "const",
-                                       "value": 0
-                                    }
-                                 ]
-                              }
-                           ],
-                           "falseBlocks": []
-                        }
-                     ]
-                  },
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "const",
-                           "value": 0.25
-                        }
-                     ]
-                  },
-                  {
-                     "name": "maintenance",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "mfm-filter"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  }
+                        "true_blocks": [
+                           {"io_write": ["hybrid#edi-res", 1]},
+
+                           {"io_write": ["hybrid#plv-high", {"profile": "act-edi-nozzles#act-edi-high"}]},
+                           {"io_write": ["hybrid#plv-low", {"profile": "act-edi-nozzles#act-edi-low"}]},
+                           
+                           {"sleep": 0.25},
+
+                           {"io_write": ["hybrid#edi-lq-high", {"profile": "act-edi-nozzles#act-edi-high"}]},
+                           {"io_write": ["hybrid#edi-lq-low", {"profile": "act-edi-nozzles#act-edi-low"}]},
+
+                           {"sleep": {"profile": "metalization-wash#duration"}},
+
+                           {"io_write": ["hybrid#edi-lq-high", 0]},
+                           {"io_write": ["hybrid#edi-lq-low", 0]},
+                           {"sleep": 0.25},
+                        
+                           {"io_write": ["hybrid#plv-high", 0]},
+                           {"io_write": ["hybrid#plv-low", 0]},
+
+                           {"io_write": ["hybrid#edi-res", 0]}
+                        ]
+                     }}
+                  ]
+                  }},
+                  {"sleep": 0.25 },
+                  {"append_maintenance": ["mfm-filter", 1]}
                ]
             },
             {
                "name": "nozzle-cleaning",
-               "isEnabled": {
-                  "name": "profile",
-                  "value": "metalization#enabled"
-               },
-               "duration": {
-                  "name": "const",
-                  "value": 42
-               },
-               "startBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ventilation"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "motor#speed"
-                        },
-                        {
-                           "name": "multiply",
-                           "params": [
-                              {
-                                 "name": "profile",
-                                 "value": "motor#speed"
-                              },
-                              {
-                                 "name": "profile",
-                                 "value": "motor#enabled"
-                              }
-                           ]
-                        }
-                     ]
-                  }
-               ],
+               "isEnabled": {"profile": "metalization#enabled"},
+               "startBlocks": [],
                "endBlocks": [],
                "blocks": [
-                  {
-                     "name": "for",
-                     "params": [
-                        {
-                           "name": "const",
-                           "value": 6
-                        }
-                     ],
+                  {"for": {
+                     "limit": 6,
                      "blocks": [
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "met#rd-air-cleaning-high"
-                              },
-                              {
-                                 "name": "profile",
-                                 "value": "met-nozzles#met-high"
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "met#ox-air-cleaning-high"
-                              },
-                              {
-                                 "name": "profile",
-                                 "value": "met-nozzles#met-high"
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "met#rd-air-cleaning-mid"
-                              },
-                              {
-                                 "name": "profile",
-                                 "value": "met-nozzles#met-medium"
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "met#ox-air-cleaning-mid"
-                              },
-                              {
-                                 "name": "profile",
-                                 "value": "met-nozzles#met-medium"
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "met#ox-air-cleaning-low"
-                              },
-                              {
-                                 "name": "profile",
-                                 "value": "met-nozzles#met-low"
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "met#rd-air-cleaning-low"
-                              },
-                              {
-                                 "name": "profile",
-                                 "value": "met-nozzles#met-low"
-                              }
-                           ]
-                        },
-                        {
-                           "name": "sleep",
-                           "params": [
-                              {
-                                 "name": "const",
-                                 "value": 5
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "met#rd-air-cleaning-low"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 0
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "met#ox-air-cleaning-low"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 0
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "met#rd-air-cleaning-mid"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 0
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "met#ox-air-cleaning-mid"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 0
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "met#rd-air-cleaning-high"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 0
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "met#ox-air-cleaning-high"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 0
-                              }
-                           ]
-                        },
-                        {
-                           "name": "sleep",
-                           "params": [
-                              {
-                                 "name": "const",
-                                 "value": 2
-                              }
-                           ]
-                        }
+                        {"io_write": ["met#rd-air-cleaning-high", 1]},
+                        {"io_write": ["met#ox-air-cleaning-high", 1]},
+                        {"io_write": ["met#rd-air-cleaning-mid", 1]},
+                        {"io_write": ["met#ox-air-cleaning-mid", 1]},
+                        {"io_write": ["met#rd-air-cleaning-low", 1]},
+                        {"io_write": ["met#ox-air-cleaning-low", 1]},
+                        {"sleep": 5},
+                        {"io_write": ["met#rd-air-cleaning-high", 0]},
+                        {"io_write": ["met#ox-air-cleaning-high", 0]},
+                        {"io_write": ["met#rd-air-cleaning-mid", 0]},
+                        {"io_write": ["met#ox-air-cleaning-mid", 0]},
+                        {"io_write": ["met#rd-air-cleaning-low", 0]},
+                        {"io_write": ["met#ox-air-cleaning-low", 0]},
+                        {"sleep": 5}
                      ]
-                  }
+                  }}
                ]
             },
             {
                "name": "wash2",
-               "isEnabled": {
-                  "name": "profile",
-                  "value": "wash2#enabled"
-               },
-               "duration": {
-                  "name": "profile",
-                  "value": "wash2#duration"
-               },
+               "isEnabled": {"profile": "wash2#enabled"},
                "startBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ventilation"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "motor#speed"
-                        },
-                        {
-                           "name": "multiply",
-                           "params": [
-                              {
-                                 "name": "profile",
-                                 "value": "motor#speed"
-                              },
-                              {
-                                 "name": "profile",
-                                 "value": "motor#enabled"
-                              }
-                           ]
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#edi-res"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  }
+                  {"io_write": ["hybrid#edi-res", 1]},
+                  {"io_write": ["hybrid#plv-high", {"profile": "act-edi-nozzles#act-edi-high"}]},
+                  {"io_write": ["hybrid#plv-low", {"profile": "act-edi-nozzles#act-edi-low"}]}
                ],
                "endBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#edi-res"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  }
+                  {"io_write": ["hybrid#edi-res", 0]},
+                  {"io_write": ["hybrid#plv-high", 0]},
+                  {"io_write": ["hybrid#plv-low", 0]}
                ],
                "blocks": [
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "const",
-                           "value": 0.5
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#plv-high"
-                        },
-                        {
-                           "name": "profile",
-                           "value": "act-edi-nozzles#act-edi-high"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#plv-low"
-                        },
-                        {
-                           "name": "profile",
-                           "value": "act-edi-nozzles#act-edi-low"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "const",
-                           "value": 0.25
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#edi-lq-high"
-                        },
-                        {
-                           "name": "profile",
-                           "value": "act-edi-nozzles#act-edi-high"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#edi-lq-low"
-                        },
-                        {
-                           "name": "profile",
-                           "value": "act-edi-nozzles#act-edi-low"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "profile",
-                           "value": "wash2#duration"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#edi-lq-high"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#edi-lq-low"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "const",
-                           "value": 0.25
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#plv-high"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#plv-low"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "const",
-                           "value": 0.5
-                        }
-                     ]
-                  }
+                  {"sleep": 0.25},
+                  {"io_write": ["hybrid#edi-lq-high", {"profile": "act-edi-nozzles#act-edi-high"}]},
+                  {"io_write": ["hybrid#edi-lq-low", {"profile": "act-edi-nozzles#act-edi-low"}]},
+
+                  {"sleep": {"profile": "wash2#duration"}},
+
+                  {"io_write": ["hybrid#edi-lq-high", 0]},
+                  {"io_write": ["hybrid#edi-lq-low", 0]},
+                  {"sleep": 0.25}
                ]
             },
             {
                "name": "drying",
-               "isEnabled": {
-                  "name": "profile",
-                  "value": "drying#enabled"
-               },
-               "duration": {
-                  "name": "profile",
-                  "value": "drying#duration"
-               },
+               "isEnabled": {"profile": "drying#enabled"},
                "startBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ventilation"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "motor#speed"
-                        },
-                        {
-                           "name": "multiply",
-                           "value": 1,
-                           "params": [
-                              {
-                                 "name": "profile",
-                                 "value": "motor#speed"
-                              },
-                              {
-                                 "name": "profile",
-                                 "value": "motor#enabled"
-                              }
-                           ]
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-air-cleaning-high"
-                        },
-                        {
-                           "name": "profile",
-                           "value": "met-nozzles#met-high"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-air-cleaning-high"
-                        },
-                        {
-                           "name": "profile",
-                           "value": "met-nozzles#met-high"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-air-cleaning-mid"
-                        },
-                        {
-                           "name": "profile",
-                           "value": "met-nozzles#met-medium"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-air-cleaning-mid"
-                        },
-                        {
-                           "name": "profile",
-                           "value": "met-nozzles#met-medium"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-air-cleaning-low"
-                        },
-                        {
-                           "name": "profile",
-                           "value": "met-nozzles#met-low"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-air-cleaning-low"
-                        },
-                        {
-                           "name": "profile",
-                           "value": "met-nozzles#met-low"
-                        }
-                     ]
-                  }
+                  {"io_write": ["met#rd-air-cleaning-high", 1]},
+                  {"io_write": ["met#ox-air-cleaning-high", 1]},
+                  {"io_write": ["met#rd-air-cleaning-mid", 1]},
+                  {"io_write": ["met#ox-air-cleaning-mid", 1]},
+                  {"io_write": ["met#rd-air-cleaning-low", 1]},
+                  {"io_write": ["met#ox-air-cleaning-low", 1]}
                ],
                "endBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-air-cleaning-low"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-air-cleaning-low"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-air-cleaning-mid"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-air-cleaning-mid"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-air-cleaning-high"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-air-cleaning-high"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "stopTimer",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "motorRotation"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "air-heater"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  }
+                  {"io_write": ["met#rd-air-cleaning-high", 0]},
+                  {"io_write": ["met#ox-air-cleaning-high", 0]},
+                  {"io_write": ["met#rd-air-cleaning-mid", 0]},
+                  {"io_write": ["met#ox-air-cleaning-mid", 0]},
+                  {"io_write": ["met#rd-air-cleaning-low", 0]},
+                  {"io_write": ["met#ox-air-cleaning-low", 0]}
                ],
                "blocks": [
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "profile",
-                           "value": "drying#duration"
-                        }
-                     ]
-                  }
+                  {"sleep": {"profile": "drying#duration"}}
                ]
             },
             {
                "name": "vapors-extraction",
-               "isEnabled": {
-                  "name": "profile",
-                  "value": "vapors-extraction#enabled"
-               },
-               "duration": {
-                  "name": "profile",
-                  "value": "vapors-extraction#duration"
-               },
+               "isEnabled": {"profile": "vapors-extraction#enabled"},
                "startBlocks": [],
                "endBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ventilation"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "motor#speed"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  }
+                  {"io_write": ["ventilation", 0]},
+                  {"io_write": ["motor#speed", 0]}
                ],
                "blocks": [
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "profile",
-                           "value": "vapors-extraction#duration"
-                        }
-                     ]
-                  }
+                  {"sleep": {"profile": "vapors-extraction#duration"}}
                ]
             }
          ],
@@ -3656,8 +1341,7 @@
             {
                "conditionName": "emergency-stop",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "emergency-stop",
                      "gateValue": 1
@@ -3667,8 +1351,7 @@
             {
                "conditionName": "air-sensor",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "air-sensor",
                      "gateValue": 1
@@ -3678,8 +1361,7 @@
             {
                "conditionName": "cover-closed",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "cover-closed",
                      "gateValue": 1
@@ -3687,32 +1369,9 @@
                }
             },
             {
-               "conditionName": "levels#eff-max-n",
-               "startOnly": false,
-               "checkChain": {
-                  "name": "io",
-                  "io": {
-                     "gateName": "levels#eff-max-n",
-                     "gateValue": 1
-                  }
-               }
-            },
-            {
-               "conditionName": "eff-container-sensor",
-               "startOnly": false,
-               "checkChain": {
-                  "name": "io",
-                  "io": {
-                     "gateName": "eff-container-sensor",
-                     "gateValue": 1
-                  }
-               }
-            },
-            {
                "conditionName": "levels#edi-min-n",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "levels#edi-min-n",
                      "gateValue": 1
@@ -3723,162 +1382,43 @@
          "steps": [
             {
                "name": "act-fill",
-               "isEnabled": {
-                  "name": "const",
-                  "value": 1
-               },
-               "duration": {
-                  "name": "const",
-                  "value": 120
-               },
-               "runAmount": {
-                  "name": "const",
-                  "value": 1
-               },
+               "isEnabled": 1,
                "blocks": [
-                  {
-                     "name": "while",
-                     "params": [
-                        {
-                           "name": "io",
-                           "value": "levels#act-max-n"
-                        },
-                        {
-                           "name": "conststr",
-                           "value": "!="
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ],
-                     "blocks": [
-                        {
-                           "name": "sleep",
-                           "params": [
-                              {
-                                 "name": "const",
-                                 "value": 0.5
-                              }
-                           ]
-                        }
-                     ]
-                  }
+                  {"while": {
+                     "statement": {
+                        "comparator": "!=",
+                        "left_side": {"io_read": "levels#act-max-n"},
+                        "right_side": 1
+                     },
+                     "blocks": [{"sleep": 0.5}]
+                  }}
                ],
                "startBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#lq-fill-act"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#edi-res"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "startTimer",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "timeoutError"
-                        },
-                        {
-                           "name": "const",
-                           "value": 120
-                        }
-                     ],
-                     "blocks": [
-                        {
-                           "name": "stop",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "activator-timed-out"
-                              }
-                           ]
-                        }
-                     ]
-                  }
+                  {"io_write": ["hybrid#lq-fill-act", 1]},
+                  {"io_write": ["hybdrid#edi-res", 1]},
+                  {"start_timer": {
+                     "timer_name": "timeoutError",
+                     "timer_interval": 120,
+                     "blocks": [{"stop": "activator-timed-out"}]
+                  }}
                ],
                "endBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#edi-res"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#lq-fill-act"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "slotLoad",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "act"
-                        },
-                        {
-                           "name": "conststr",
-                           "value": "usl_act"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "stopTimer",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "timeoutError"
-                        }
-                     ]
-                  }
+                  {"io_write": ["hybrid#lq-fill-act", 0]},
+                  {"io_write": ["hybdrid#edi-res", 0]},
+                  {"load_container": ["act", "usl_act"]},
+                  {"stop_timer": "timeoutError"}
                ]
             }
          ]
       },
       {
-         "name": "container-cleaning",
-         "profileRequired": false,
+         "name": "container-emptying",
+         "profileRequired": true,
          "startConditions": [
             {
                "conditionName": "emergency-stop",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "emergency-stop",
                      "gateValue": 1
@@ -3888,8 +1428,7 @@
             {
                "conditionName": "air-sensor",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "air-sensor",
                      "gateValue": 1
@@ -3899,8 +1438,7 @@
             {
                "conditionName": "cover-closed",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "cover-closed",
                      "gateValue": 1
@@ -3910,8 +1448,7 @@
             {
                "conditionName": "levels#eff-max-n",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "levels#eff-max-n",
                      "gateValue": 1
@@ -3921,8 +1458,7 @@
             {
                "conditionName": "eff-container-sensor",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "eff-container-sensor",
                      "gateValue": 1
@@ -3932,1025 +1468,115 @@
          ],
          "steps": [
             {
-               "name": "container-cleaning",
-               "duration": {
-                  "name": "const",
-                  "value": -1
-               },
-               "isEnabled": {
-                  "name": "const",
-                  "value": 1
-               },
+               "name": "container-emptying",
+               "isEnabled": 1,
                "startBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#act-res"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
+                  {"io_write": ["ventilation", 1]},
+
+                  {"if": {
+                     "statement": {
+                        "comparator": "==",
+                        "left_side": {"profile": "emptying#ox"},
+                        "right_side": 1
+                     },
+                     "true_blocks": [
+                        {"io_write": ["met#ox-res", 1]},
+                        {"io_write": ["met#ox-lq-high", 1]},
+                        {"io_write": ["met#ox-lq-mid", 1]},
+                        {"io_write": ["met#ox-lq-low", 1]}
                      ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-res"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
+                  }},
+
+                  {"if": {
+                     "statement": {
+                        "comparator": "==",
+                        "left_side": {"profile": "emptying#rd"},
+                        "right_side": 1
+                     },
+                     "true_blocks": [
+                        {"io_write": ["met#rd-res", 1]},
+                        {"io_write": ["met#rd-lq-high", 1]},
+                        {"io_write": ["met#rd-lq-mid", 1]},
+                        {"io_write": ["met#rd-lq-low", 1]}
+
                      ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-res"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
+                  }},
+
+                  {"if": {
+                     "statement": {
+                        "comparator": "==",
+                        "left_side": {"profile": "emptying#act"},
+                        "right_side": 1
+                     },
+                     "true_blocks": [
+                        {"io_write": ["hybrid#act-res", 1]},
+                        {"io_write": ["met#act-lq-high", 1]},
+                        {"io_write": ["met#act-lq-low", 1]}
                      ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ventilation"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-lq-high"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-lq-mid"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-lq-low"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-lq-high"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-lq-mid"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-lq-low"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#act-lq-high"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#act-lq-low"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  }
-               ],
-               "blocks": [
-                  {
-                     "name": "while",
-                     "params": [
-                        {
-                           "name": "multiply",
-                           "params": [
-                              {
-                                 "name": "multiply",
-                                 "params": [
-                                    {
-                                       "name": "reverse",
-                                       "params": [
-                                          {
-                                             "name": "io",
-                                             "value": "levels#act-min-n"
-                                          }
-                                       ]
-                                    },
-                                    {
-                                       "name": "reverse",
-                                       "params": [
-                                          {
-                                             "name": "io",
-                                             "value": "levels#rd-min-n"
-                                          }
-                                       ]
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "reverse",
-                                 "params": [
-                                    {
-                                       "name": "io",
-                                       "value": "levels#ox-min-n"
-                                    }
-                                 ]
-                              }
-                           ]
-                        },
-                        {
-                           "name": "conststr",
-                           "value": "!="
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ],
-                     "blocks": [
-                        {
-                           "name": "sleep",
-                           "params": [
-                              {
-                                 "name": "const",
-                                 "value": 2
-                              }
-                           ]
-                        }
-                     ]
-                  },
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "const",
-                           "value": 10
-                        }
-                     ]
-                  }
+                  }}
                ],
                "endBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#act-res"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
+                  {"io_write": ["ventilation", 0]},
+
+                  {"if": {
+                     "statement": {
+                        "comparator": "==",
+                        "left_side": {"profile": "emptying#ox"},
+                        "right_side": 1
+                     },
+                     "true_blocks": [
+                        {"io_write": ["met#ox-res", 0]},
+                        {"io_write": ["met#ox-lq-high", 0]},
+                        {"io_write": ["met#ox-lq-mid", 0]},
+                        {"io_write": ["met#ox-lq-low", 0]},
+                        {"unload_container": "ox"}
                      ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-res"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
+                  }},
+
+                  {"if": {
+                     "statement": {
+                        "comparator": "==",
+                        "left_side": {"profile": "emptying#rd"},
+                        "right_side": 1
+                     },
+                     "true_blocks": [
+                        {"io_write": ["met#rd-res", 0]},
+                        {"io_write": ["met#rd-lq-high", 0]},
+                        {"io_write": ["met#rd-lq-mid", 0]},
+                        {"io_write": ["met#rd-lq-low", 0]},
+                        {"unload_container": "rd"}
+
                      ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-res"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
+                  }},
+
+                  {"if": {
+                     "statement": {
+                        "comparator": "==",
+                        "left_side": {"profile": "emptying#act"},
+                        "right_side": 1
+                     },
+                     "true_blocks": [
+                        {"io_write": ["hybrid#act-res", 1]},
+                        {"io_write": ["met#act-lq-high", 1]},
+                        {"io_write": ["met#act-lq-low", 1]},
+                        {"unload_container": "act"}
                      ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#act-lq-high"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#act-lq-low"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-lq-high"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-lq-mid"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-lq-low"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-lq-high"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-lq-mid"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-lq-low"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ventilation"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  }
-               ]
-            }
-         ]
-      },
-      {
-         "name": "emptying-reactives",
-         "profileRequired": false,
-         "startConditions": [
-            {
-               "conditionName": "emergency-stop",
-               "startOnly": false,
-               "checkChain": {
-                  "name": "io",
-                  "io": {
-                     "gateName": "emergency-stop",
-                     "gateValue": 1
-                  }
-               }
-            },
-            {
-               "conditionName": "air-sensor",
-               "startOnly": false,
-               "checkChain": {
-                  "name": "io",
-                  "io": {
-                     "gateName": "air-sensor",
-                     "gateValue": 1
-                  }
-               }
-            },
-            {
-               "conditionName": "cover-closed",
-               "startOnly": false,
-               "checkChain": {
-                  "name": "io",
-                  "io": {
-                     "gateName": "cover-closed",
-                     "gateValue": 1
-                  }
-               }
-            },
-            {
-               "conditionName": "levels#eff-max-n",
-               "startOnly": false,
-               "checkChain": {
-                  "name": "io",
-                  "io": {
-                     "gateName": "levels#eff-max-n",
-                     "gateValue": 1
-                  }
-               }
-            },
-            {
-               "conditionName": "eff-container-sensor",
-               "startOnly": false,
-               "checkChain": {
-                  "name": "io",
-                  "io": {
-                     "gateName": "eff-container-sensor",
-                     "gateValue": 1
-                  }
-               }
-            }
-         ],
-         "steps": [
-            {
-               "name": "emptying-reactives",
-               "duration": {
-                  "name": "const",
-                  "value": -1
-               },
-               "isEnabled": {
-                  "name": "const",
-                  "value": 1
-               },
-               "startBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-res"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-res"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-lq-high"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-lq-mid"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-lq-low"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-lq-high"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-lq-mid"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-lq-low"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ventilation"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  }
+                  }}
                ],
                "blocks": [
-                  {
-                     "name": "while",
-                     "params": [
-                        {
-                           "name": "multiply",
-                           "params": [
-                              {
-                                 "name": "reverse",
-                                 "params": [
-                                    {
-                                       "name": "io",
-                                       "value": "levels#rd-min-n"
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "reverse",
-                                 "params": [
-                                    {
-                                       "name": "io",
-                                       "value": "levels#ox-min-n"
-                                    }
-                                 ]
-                              }
-                           ]
-                        },
-                        {
-                           "name": "conststr",
-                           "value": "!="
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ],
-                     "blocks": [
-                        {
-                           "name": "sleep",
-                           "params": [
-                              {
-                                 "name": "const",
-                                 "value": 2
-                              }
-                           ]
-                        }
-                     ]
-                  },   
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "const",
-                           "value": 10
-                        }
-                     ]
-                  }
-               ],
-               "endBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-res"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-res"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-lq-high"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-lq-mid"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#rd-lq-low"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-lq-high"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-lq-mid"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "met#ox-lq-low"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ventilation"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "slotUnload",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ox"
-                        }
-                     ]
-                  },
-                  {
-                     "name": "slotUnload",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "rd"
-                        }
-                     ]
-                  }
-               ]
-            }
-         ]
-      },
-      {
-         "name": "emptying-activator",
-         "profileRequired": false,
-         "startConditions": [
-            {
-               "conditionName": "emergency-stop",
-               "startOnly": false,
-               "checkChain": {
-                  "name": "io",
-                  "io": {
-                     "gateName": "emergency-stop",
-                     "gateValue": 1
-                  }
-               }
-            },
-            {
-               "conditionName": "air-sensor",
-               "startOnly": false,
-               "checkChain": {
-                  "name": "io",
-                  "io": {
-                     "gateName": "air-sensor",
-                     "gateValue": 1
-                  }
-               }
-            },
-            {
-               "conditionName": "cover-closed",
-               "startOnly": false,
-               "checkChain": {
-                  "name": "io",
-                  "io": {
-                     "gateName": "cover-closed",
-                     "gateValue": 1
-                  }
-               }
-            },
-            {
-               "conditionName": "levels#eff-max-n",
-               "startOnly": false,
-               "checkChain": {
-                  "name": "io",
-                  "io": {
-                     "gateName": "levels#eff-max-n",
-                     "gateValue": 1
-                  }
-               }
-            },
-            {
-               "conditionName": "eff-container-sensor",
-               "startOnly": false,
-               "checkChain": {
-                  "name": "io",
-                  "io": {
-                     "gateName": "eff-container-sensor",
-                     "gateValue": 1
-                  }
-               }
-            }
-         ],
-         "steps": [
-            {
-               "name": "emptying-activator",
-               "duration": {
-                  "name": "const",
-                  "value": -1
-               },
-               "isEnabled": {
-                  "name": "const",
-                  "value": 1
-               },
-               "startBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#act-res"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#act-lq-high"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#act-lq-low"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ventilation"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  }
-               ],
-               "blocks": [
-                  {
-                     "name": "while",
-                     "params": [
-                        {
-                           "name": "reverse",
-                           "params": [
-                              {
-                                 "name": "io",
-                                 "value": "levels#act-min-n"
-                              }
-                           ]
-                        },
-                        {
-                           "name": "conststr",
-                           "value": "!="
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ],
-                     "blocks": [
-                        {
-                           "name": "sleep",
-                           "params": [
-                              {
-                                 "name": "const",
-                                 "value": 2
-                              }
-                           ]
-                        }
-                     ]
-                  },
-                  {
-                     "name": "sleep",
-                     "params": [
-                        {
-                           "name": "const",
-                           "value": 10
-                        }
-                     ]
-                  }
-               ],
-               "endBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#act-res"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#act-lq-high"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "hybrid#act-lq-low"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ventilation"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  },
-                  {
-                     "name": "slotUnload",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "act"
-                        }
-                     ]
-                  }
+                  {"while": {
+                     "statement": {
+                        "comparator": "!=",
+                        "left_side": {"add": [
+                           {"multiply": [{"io_read": "levels#act-min-n"}, {"profile": "emptying#act"}]},
+                           {"multiply": [{"io_read": "levels#rd-min-n"}, {"profile": "emptying#rd"}]},
+                           {"multiply": [{"io_read": "levels#ox-min-n"}, {"profile": "emptying#ox"}]}
+                        ]},
+                        "right_side": 0
+                     },
+                     "blocks": [{"sleep": 2}]
+                  }},
+                  {"sleep": 10}
                ]
             }
          ]
@@ -4962,8 +1588,7 @@
             {
                "conditionName": "emergency-stop",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "emergency-stop",
                      "gateValue": 1
@@ -4973,8 +1598,7 @@
             {
                "conditionName": "air-sensor",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "air-sensor",
                      "gateValue": 1
@@ -4984,21 +1608,9 @@
             {
                "conditionName": "cover-closed",
                "startOnly": false,
-               "checkChain": {
-                  "name": "io",
+               "checkchain": {
                   "io": {
                      "gateName": "cover-closed",
-                     "gateValue": 1
-                  }
-               }
-            },
-            {
-               "conditionName": "eff-container-sensor",
-               "startOnly": false,
-               "checkChain": {
-                  "name": "io",
-                  "io": {
-                     "gateName": "eff-container-sensor",
                      "gateValue": 1
                   }
                }
@@ -5007,230 +1619,29 @@
          "steps": [
             {
                "name": "nozzle-cleaning",
-               "duration": {
-                  "name": "const",
-                  "value": 90
-               },
-               "isEnabled": {
-                  "name": "const",
-                  "value": 1
-               },
-               "startBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ventilation"
-                        },
-                        {
-                           "name": "const",
-                           "value": 1
-                        }
-                     ]
-                  }
-               ],
+               "isEnabled": 1,
+               "startBlocks": [{"io_write": ["ventilation", 1]}],
+               "endBlocks": [{"io_write": ["ventilation", 0]}],
                "blocks": [
-                  {
-                     "name": "for",
-                     "params": [
-                        {
-                           "name": "const",
-                           "value": 12
-                        }
-                     ],
+                  {"for": {
+                     "limit": 6,
                      "blocks": [
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "met#rd-air-cleaning-high"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 1
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "met#ox-air-cleaning-high"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 1
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "met#rd-air-cleaning-mid"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 1
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "met#ox-air-cleaning-mid"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 1
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "met#ox-air-cleaning-low"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 1
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "met#rd-air-cleaning-low"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 1
-                              }
-                           ]
-                        },
-                        {
-                           "name": "sleep",
-                           "params": [
-                              {
-                                 "name": "const",
-                                 "value": 5
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "met#rd-air-cleaning-low"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 0
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "met#ox-air-cleaning-low"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 0
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "met#rd-air-cleaning-mid"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 0
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "met#ox-air-cleaning-mid"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 0
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "met#rd-air-cleaning-high"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 0
-                              }
-                           ]
-                        },
-                        {
-                           "name": "io",
-                           "params": [
-                              {
-                                 "name": "conststr",
-                                 "value": "met#ox-air-cleaning-high"
-                              },
-                              {
-                                 "name": "const",
-                                 "value": 0
-                              }
-                           ]
-                        },
-                        {
-                           "name": "sleep",
-                           "params": [
-                              {
-                                 "name": "const",
-                                 "value": 2
-                              }
-                           ]
-                        }
+                        {"io_write": ["met#rd-air-cleaning-high", 1]},
+                        {"io_write": ["met#ox-air-cleaning-high", 1]},
+                        {"io_write": ["met#rd-air-cleaning-mid", 1]},
+                        {"io_write": ["met#ox-air-cleaning-mid", 1]},
+                        {"io_write": ["met#rd-air-cleaning-low", 1]},
+                        {"io_write": ["met#ox-air-cleaning-low", 1]},
+                        {"sleep": 5},
+                        {"io_write": ["met#rd-air-cleaning-high", 0]},
+                        {"io_write": ["met#ox-air-cleaning-high", 0]},
+                        {"io_write": ["met#rd-air-cleaning-mid", 0]},
+                        {"io_write": ["met#ox-air-cleaning-mid", 0]},
+                        {"io_write": ["met#rd-air-cleaning-low", 0]},
+                        {"io_write": ["met#ox-air-cleaning-low", 0]},
+                        {"sleep": 5}
                      ]
-                  }
-               ],
-               "endBlocks": [
-                  {
-                     "name": "io",
-                     "params": [
-                        {
-                           "name": "conststr",
-                           "value": "ventilation"
-                        },
-                        {
-                           "name": "const",
-                           "value": 0
-                        }
-                     ]
-                  }
+                  }}
                ]
             }
          ]
@@ -5407,5 +1818,6 @@
             }
          ]
       }
-   ]
+   ],
+   "variables": []
 }

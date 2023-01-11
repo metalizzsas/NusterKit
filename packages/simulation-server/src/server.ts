@@ -1,23 +1,31 @@
 import express, { Request, Response } from "express";
 import { SimulationMachine } from "./simulationMachine";
 import cors from "cors";
+import { Configuration } from "@metalizzsas/nuster-typings";
 
 export const app = express();
 app.use(cors());
 app.use(express.json());
 
-let machine: SimulationMachine = undefined;
+let machine: SimulationMachine | undefined = undefined;
 
 app.listen(4081, () => {
     console.log("express started up"); 
 });
 
-app.post("/config", (req: Request, res: Response) => {
+app.post("/config", (req: Request<any, any, Configuration>, res: Response) => {
 
-    console.log("Received configuration");
+    if(machine)
+    {
+        res.end("Machine already defined");
+        return;
+    }
 
-    const { model, variant, revision } = req.body;
+    console.log("Received configuration.");
 
-    machine = new SimulationMachine(model, variant, revision);
+    const { model, variant, revision, addons } = req.body;
 
+    machine = new SimulationMachine(model, variant, revision, addons);
+
+    res.end("machine defined");
 });

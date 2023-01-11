@@ -1,16 +1,29 @@
-import type { ICallToAction } from "@metalizzsas/nuster-typings/build/spec/nuster/ICallToAction";
+import type { CallToAction } from "@metalizzsas/nuster-typings/build/spec/nuster";
+import { goto } from "$app/navigation";
 
-export const execCTA = async (ip: string, cta: ICallToAction): Promise<string | undefined> =>
+/**
+ * Execute a call to action.
+ * @param ip Ip of the machine to execute the call to action on.
+ * @param cta Call to action to execute
+ * @returns Returns a goto promise
+ */
+export async function executeCallToAction(ip: string, cta: CallToAction): Promise<ReturnType<typeof goto> | undefined>
 {
-    if (cta.APIEndpoint !== undefined) {
-        const request = await fetch(`//${ip}${cta.APIEndpoint.url}`, {
-            method: cta.APIEndpoint.method,
-            headers: {
-                'Content-Type': 'application/json',
-            },
+    if(cta.APIEndpoint)
+    {
+        const ctaRequest = await fetch(`${ip}${cta.APIEndpoint.url}`,{ 
+            method: cta.APIEndpoint.method, 
+            headers: { 'content-type': 'application/json'}, 
+            body: (cta.APIEndpoint.body) ? JSON.stringify(cta.APIEndpoint.body) : undefined
         });
 
-        if (request.status !== 200) return;
+        if(ctaRequest.ok === false || ctaRequest.status !== 200)  return;
     }
-    return cta.UIEndpoint;
+
+    if(cta.UIEndpoint)
+        return goto(cta.UIEndpoint);
+
+    return;
 }
+
+export const execCTA = executeCallToAction;

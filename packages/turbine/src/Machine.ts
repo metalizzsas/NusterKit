@@ -5,19 +5,17 @@ import path from "path";
 // @ts-ignore
 import pkg from "../package.json";
 
-import { CycleController } from "./controllers/cycle/CycleController";
-import { IOController } from "./controllers/io/IOController";
-import { MaintenanceController } from "./controllers/maintenance/MaintenanceController";
-import { ManualModeController } from "./controllers/manual/ManualModeController";
-import { ProfileController } from "./controllers/profile/ProfilesController";
-import { SlotController } from "./controllers/slot/SlotController";
+import { CycleRouter } from "./routers/CycleRouter";
+import { IORouter } from "./routers/IORouter";
+import { MaintenanceRouter } from "./routers/MaintenancesRouter";
+import { ProfilesRouter } from "./routers/ProfilesRouter";
+import { ContainersRouter } from "./routers/ContainersRouters";
 import { parseAddon } from "./addons/AddonLoader";
 import { LoggerInstance } from "./app";
 
-import type { IConfiguration, IMachineSpecs, IStatusMessage } from "@metalizzsas/nuster-typings";
-import type { IHypervisorData } from "@metalizzsas/nuster-typings/build/hydrated/balena/IHypervisorDevice";
-import type { IDeviceData } from "@metalizzsas/nuster-typings/build/hydrated/balena/IDeviceData";
-import type { IVPNData } from "@metalizzsas/nuster-typings/build/hydrated/balena/IVPNData";
+import type { Configuration, Status, MachineSpecs } from "@metalizzsas/nuster-typings";
+import type { HypervisorData, DeviceData, VPNData } from "@metalizzsas/nuster-typings/build/hydrated/balena";
+import type { MachineData } from "@metalizzsas/nuster-typings/build/hydrated/machine"; 
 
 import type { ConfigModel, ConfigVariant } from "@metalizzsas/nuster-typings/build/configuration";
 
@@ -29,6 +27,7 @@ import * as SmoothitMR2 from "@metalizzsas/nuster-turbine-machines/data/smoothit
 import * as SmoothitMR3 from "@metalizzsas/nuster-turbine-machines/data/smoothit/m/3/specs.json";
 
 import * as USCleanerMR1 from "@metalizzsas/nuster-turbine-machines/data/uscleaner/m/1/specs.json";
+import { TurbineEventLoop } from "./events";
 
 type models = `${ConfigModel}/${ConfigVariant}/${number}`;
 
@@ -43,24 +42,23 @@ export const AvailableMachineModels: {[x: models]: unknown} = {
 
 export class Machine
 {
-    data: IConfiguration;
-    specs: IMachineSpecs;
+    data: Configuration;
+    specs: MachineSpecs;
 
-    private maintenanceController: MaintenanceController;
-    private ioController: IOController;
-    private profileController: ProfileController;
-    private slotController: SlotController;
-    private manualmodeController: ManualModeController;
-    private cycleController: CycleController;
+    maintenanceRouter: MaintenanceRouter;
+    ioRouter: IORouter;
+    profileRouter: ProfilesRouter;
+    containerRouter: ContainersRouter;
+    cycleRouter: CycleRouter;
 
     WebSocketServer?: WebSocket.Server = undefined;
 
     //Balena given data
-    private hypervisorData?: IHypervisorData;
-    private vpnData?: IVPNData;
-    private deviceData?: IDeviceData;
+    private hypervisorData?: HypervisorData;
+    private vpnData?: VPNData;
+    private deviceData?: DeviceData;
 
-    constructor(obj: IConfiguration) {
+    constructor(obj: Configuration) {
         //Store machine data informations
         this.data = obj;
 
@@ -71,7 +69,7 @@ export class Machine
             throw new Error("Machine failed to load specs.json");
 
         // Assign specs to this instance
-        this.specs = specs as IMachineSpecs;
+        this.specs = specs as MachineSpecs;
 
         // Addon Parsing
         if (this.data.addons !== undefined && this.data.addons.length > 0) {
@@ -87,8 +85,9 @@ export class Machine
             }
         }
 
-        // Machine Specific addon parsing
-        if (this.data.machineAddons !== undefined) {
+        // Machine Specific addon parsing @beta
+        if (this.data.machineAddons.length > 0)
+        {
             LoggerInstance.warn(`Machine: Configuration has ${this.data.machineAddons.length} machine specific addon(s). SHOULD BE USED AS LESS AS POSSIBLE!`);
             for (const add of this.data.machineAddons)
                 this.specs = parseAddon(this.specs, add, LoggerInstance);
@@ -100,14 +99,21 @@ export class Machine
 
         LoggerInstance.info("Machine: Instantiating controllers");
 
-        this.ioController = IOController.getInstance(this.specs.iohandlers, this.specs.iogates);
-        this.profileController = ProfileController.getInstance(this.specs.profileSkeletons, this.specs.profilePremades, this.data.settings?.maskedProfiles);
-        this.maintenanceController = MaintenanceController.getInstance(this.specs.maintenance);
-        this.slotController = SlotController.getInstance(this.specs.slots);
-        this.manualmodeController = ManualModeController.getInstance(this.specs.manual, this.data.settings?.maskedManuals);
-        this.cycleController = CycleController.getInstance(this.specs.cycleTypes, this.specs.cyclePremades, this.data.settings?.maskedPremades);
+        this.ioRouter = new IORouter(this.specs.iohandlers, this.specs.iogates);
+        this.profileRouter = new ProfilesRouter(this.specs.profileSkeletons, this.specs.profilePremades);
+        this.maintenanceRouter = new MaintenanceRouter(this.specs.maintenance);
+        this.containerRouter = new ContainersRouter(this.specs.containers);
+        this.cycleRouter = new CycleRouter(this.specs.cycleTypes, this.specs.cyclePremades);
 
         LoggerInstance.info("Machine: Finished Instantiating controllers");
+
+        // Add event listener for machine variable reads
+        for(const variable of this.data.settings.variables)
+        {
+            TurbineEventLoop.on(`machine.read_variable.${variable.name}`, ({callback}) => {
+                callback?.(variable.value);
+            });
+        }
 
         if (process.env.NODE_ENV === 'production') {
             //Polling the balenaOS Data if device is not in dev mode
@@ -137,21 +143,14 @@ export class Machine
      * Data send to the socket as a Status message in socket connection
      * @returns Data hydrated for socket connection
      */
-    public async socketData(): Promise<IStatusMessage> {
-        const profiles = await this.profileController.socketData();
-        const maintenances = await this.maintenanceController.socketData();
-        const slot = await this.slotController.socketData();
+    public async socketData(): Promise<Status> {
+        const containers = await this.containerRouter.socketData();
 
         return {
-            "machine": this.toJSON(),
-            "cycle": this.cycleController.socketData,
-            "slots": slot,
-            "profiles": profiles,
-            "io": this.ioController.socketData[0],
-            "handlers": this.ioController.socketData[1],
-            "manuals": this.manualmodeController.socketData,
-            "maintenances": maintenances
-        }
+            "cycle": this.cycleRouter.socketData,
+            "containers": containers,
+            "io": this.ioRouter.socketData,
+        } satisfies Status;
     }
 
     get assetsFolder() {
@@ -162,14 +161,14 @@ export class Machine
         return path.resolve("node_modules", "@metalizzsas", "nuster-turbine-machines", "data", this.data.model, this.data.variant, `${this.data.revision}`);
     }
 
-    toJSON(): IStatusMessage["machine"] {
+    toJSON(): MachineData {
         return {
             ...this.data,
-
+            
+            nusterVersion: pkg.version,
             hypervisorData: this.hypervisorData,
             vpnData: this.vpnData,
-            deviceData: this.deviceData,
-            nusterVersion: pkg.version,
+            deviceData: this.deviceData
         };
     }
 }

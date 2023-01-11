@@ -5,6 +5,7 @@ nuster-desktop/
 nuster-kiosk/
 nuster-turbine-machines/
 docs/
+coverage/
 types/*
 !types/package.json
 !types/readme.md

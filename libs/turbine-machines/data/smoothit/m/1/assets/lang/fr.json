@@ -1,11 +1,23 @@
 {
-    "slots": {
-        "types": {
-            "eff": "Effluents",
-            "resin": "Vernis"
+    "$schema": "../../../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
+
+    "containers": {
+
+        "resin": {
+            "name": "Vernis"
+        },
+        "eff": {
+            "name": "Effluents"
         }
     },
     "profile": {
+
+        "premade": {
+            "fdm": "Pièce 3D FDM",
+            "sla": "Pièce 3D SLA / DLP",
+            "sls": "Pièce 3D MJF / SLS"
+        },
+
         "categories": {
             "vapors-extraction": "Extraction des vapeurs",
             "pulverization": "Pulvérisation",
@@ -26,12 +38,8 @@
         "names": {
             "default": "Cycle de base smoothit"
         },
-        "types": {
-            "fdm": "Pièce 3D FDM",
-            "sla": "Pièce 3D SLA / DLP",
-            "sls": "Pièce 3D MJF / SLS"
-        },
-        "endreasons": {
+
+        "end_reasons": {
             "uv-cache-wrong": "Erreur position cache UV",
             "ir-cache-wrong": "Erreur position cache IR",
             "nozzle-cache-wrong": "Erreur position cache buse",
@@ -41,7 +49,7 @@
             "security-resin#slot-sensor": "Pot de vernis manquant",
             "security-uv#overheat": "Surchauffe lampe UV"
         },
-        "startconditions": {
+        "start_conditions": {
             "emergency-stop": "Etat bouton d'arret d'urgence",
             "nitrogen-sensor": "Pression d'azote trop basse",
             "cover-closed": "Couvercle fermé",
@@ -113,38 +121,12 @@
             "motor#speed": "Motor speed"
         }
     },
-    "manual": {
-        "categories": {
-            "uv": "Ultraviolet",
-            "ir": "Infrarouge",
-            "nozzle": "Pulvérisation"
-        },
-        "tasks": {
-            "motor-rotation": "Rotation des pièces",
-            "ventilation": "Extraction des vapeurs",
-            "air-heater": "Réchauffeur d'air",
-            "inerting": "Inertage",
-            
-            "uv#cache": "Cache lampe UV",
-            "uv#curing": "Cuisson UV",
 
-            "ir#cache": "Cache lampe IR",
-            "ir#curing": "Cuisson IR",
-
-            "nozzle#cache": "Cache buse",
-            "nozzle#pulverization": "Pulvérization"
-        }
-    },
     "maintenance": {
         "tasks": {
             "smt-filter": {
                 "name": "Filtre solvants",
-                "desc": "Filtre de Smoothit permet de filtrer les solvants, particules et gazs produits par le programme.",
-                "procedure": {
-                    "unscrew-smt-filter": "Dévisser le filtre.",
-                    "replace-smt-filter": "Remplacer le filtre.",
-                    "replace-smt-new-filter": "Visser le nouveau filtre."
-                }
+                "desc": "Filtre de Smoothit permet de filtrer les solvants, particules et gazs produits par le programme."
             },
             "inner-cleaning": {
                 "name": "Masque interne",
@@ -152,17 +134,14 @@
             },
             "ir-lamp": {
                 "name": "Lampe IR",
-                "desc": "La lampe IR permet de lisser le vernis présent sur vos pièces.",
-                "procedure": {
-                    "unscrew-top": "Dévisser les 4 vis M4 qui tiennent le carter de la lampe IR en place.",
-                    "replace-ir-lamp": "Tout en tenant la lampe, déloger la lampe en poussant vers le sol. Remplacer la lampe en utilisant la même procédure.",
-                    "screw-top": "Re-placer le cache puis revisser les 4 vis M4."
-                }
+                "desc": "La lampe IR permet de lisser le vernis présent sur vos pièces."
             },
             "uv-lamp": {
                 "name": "Lampe UV",
                 "desc": "La lampe UV permet de durcir le vernis de lissage présent sur vos pièces."
             }
         }
-    }
+    },
+
+    "toasts": {}
 }

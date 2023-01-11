@@ -1,16 +1,22 @@
 {
-    "slots": {
-        "types": {
-            "bac": "Bac"
-        },
-        "colors": {
-            "bac": "from-blue-800 to-blue-900"
-        },
-        "modal": {
-            "actions": {}
+    "$schema": "../../../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
+
+    "containers": {
+
+        "bac": {
+            "name": "Bac de liquide",
+            "regulations": {
+                "temperature": "Température"
+            }
         }
     },
+
     "profile": {
+
+        "premade": {
+            "15min": "15 Minutes"
+        },
+
         "categories": {
             "principal": "Réglages principaux"
         },
@@ -20,21 +26,15 @@
             "motor-speed": "Vitesse du moteur"
         }
     },
-    "passives": {
-        "temperature": {
-            "name": "Temperature"
-        }
-    },
+
     "cycle": {
-        "endreasons": {
+        "end_reasons": {
             "security-emergency-stop": "Boutton d'arret d'urgence déclenché",
-            "security-cover-closed": "Couvercle ouvert"
+            "security-cover-closed": "Couvercle ouvert",
+            "security-temperature#over-heat": "Surchauffe produit"
         },
         "names": {
             "default": "Cycle de base USCleaner"
-        },
-        "types": {
-            "10min30deg": "10 minutes à 30 °C"
         },
         "steps": {
             "cleaning": {
@@ -42,9 +42,10 @@
                 "desc": "Nétoyage des pièces"
             }
         },
-        "startconditions": {
+        "start_conditions": {
             "emergency-stop": "Bouton d'arret d'urgence",
-            "cover-closed": "Couvercle fermé"
+            "cover-closed": "Couvercle fermé",
+            "temperature#over-heat": "Pas de surchauffe produit"
         }
     },
     "gates": {
@@ -63,6 +64,7 @@
 
             "temperature#sensor": "Sonde de température",
             "temperature#heater": "Chauffe du bac",
+            "temperature#over-heat": "Surchauffe produit",
             "temperature#ventilation": "Ventilation echangeur bac",
 
             
@@ -74,34 +76,14 @@
 
         }
     },
-    "manual": {
-        "categories": {
-            "bac": "Température bac"
-        },
-        "tasks": {
-            "motor-rotation": "Vitesse du moteur",
-            "pump": "Filtration",
-            "us-cleaning": "Nettoyage US",
-            "bac#heating": "Chauffe bac",
-            "bac#cooling": "Reffroidissement bac"
-        }
-    },
     "maintenance": {
         "tasks": {
             "usc-filter": {
                 "name": "Filtre",
-                "desc": "Le filtre de l'uscleaner permet de capturer les particules dans le bac.",
-                "procedure": {
-                    "open-door": "Ouverture de la porte de l'USCleaner.",
-                    "close-valve-pump": "Fermeture des vannes de la pompe.",
-                    "pump-cover-unscrew": "Dévisser le couvercle de la pompe.",
-                    "filter-out-pump": "Sortir le filtre de la pompe.",
-                    "replace-pump-filter": "Remplacerle le filtre de la pompe.",
-                    "pump-cover-screw": "Fermeture du couvercle de la pompe.",
-                    "open-valve-pump": "Ouverture des vannes de la pompe.",
-                    "door-close": "Fermeture de la porte de l'USCleaner"
-                }
+                "desc": "Le filtre de l'uscleaner permet de capturer les particules dans le bac."
             }
         }
-    }
+    },
+
+    "toasts": {}
 }

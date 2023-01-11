@@ -1,38 +1,44 @@
 {
-    "slots": {
-        "types": {
-            "ox": "Oxydant",
-            "rd": "Réducteur",
-            "act": "Activant",
-            "edi": "Eau désionisée",
-            "eff": "Éffluents"
-        },
-        "colors": {
-            "act": "from-red-500 to-red-600",
-            "edi": "from-blue-800 to-blue-900",
-            "eff": "from-zinc-700 to-zinc-800",
-            "ox": "from-emerald-800 to-emerald-900",
-            "rd": "from-zinc-400 to-zinc-500"
-        },
-        "modal": {
+    "$schema": "../../../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
+    "containers": {
+
+        "ox": {
+            "name": "Oxydant",
             "actions": {
-                "act": {
-                    "default": "Chargement manuel",
-                    "load_alt": "Chargement par dilution automatique",
-                    "unload": "Emptying"
-                },
-                "ox": {
-                    "load": "Chargement manuel",
-                    "unload": "Vidange réactifs"
-                },
-                "rd": {
-                    "load": "Chargement manuel",
-                    "unload": "Vidange réactifs"
-                }
+                "load": "Chargement manuel",
+                "unload": "Vidange réactifs"
             }
-        }
+        },
+        "rd": {
+            "name": "Réducteur",
+            "actions": {
+                "load": "Chargement manuel",
+                "unload": "Vidange réactifs"
+            }
+        },
+        "act": {
+            "name": "Activant",
+            "actions": {
+                "default": "Chargement manuel",
+                "load_alt": "Chargement par dilution automatique",
+                "unload": "Emptying"
+            }
+        },
+        "edi": { "name": "Eau désionisée" },
+        "eff": { "name": "Éffluents" }
     },
     "profile": {
+        "premade": {
+            "llc": "Look Like Chromium — LLC",
+            "usl": "Utility Silver Layer — USL",
+            "usl-retake": "Renforcement USL",
+            "usl-activation-porous": "Activation pièces poreuses USL",
+            "cem": "Blindage CEM",
+            "cem-retake": "Renforcement Blindage CEM",
+            "act-fill": "Dilution activant",
+            "container-emptying": "Vidange conteneurs"
+        },
+
         "categories": {
             "act-edi-nozzles": "Buses activant et eau désionisée",
             "met-nozzles": "Buses de métallisation",
@@ -63,7 +69,7 @@
         }
     },
     "cycle": {
-        "endreasons": {
+        "end_reasons": {
             "security-emergency-stop": "Boutton d'arret d'urgence déclenché",
             "security-air-sensor": "Pression d'air trop basse",
             "security-cover-closed": "Couvercle ouvert",
@@ -75,7 +81,7 @@
             "security-levels#rd-min-n": "Niveau de réducteur minimal",
             "activator-timed-out": "La dilution d'activant à été trop longue"
         },
-        "startconditions": {
+        "start_conditions": {
             "emergency-stop": "Bouton d'arret d'urgence",
             "cover-closed": "Couvercle fermé",
             "air-sensor": "Pression d'air comprimé",
@@ -93,22 +99,8 @@
         "names": {
             "default": "Cycle de base metalfog",
             "act-fill": "Dilution activant",
-            "emptying-activator": "Vidange activant",
-            "emptying-reactives": "Vidange réactifs",
-            "container-cleaning": "Nettoyage conteneurs",
+            "container-emptying": "Vidange conteneurs",
             "nozzle-cleaning": "Nettoyage des buses"
-        },
-        "types": {
-            "llc": "Look Like Chromium — LLC",
-            "usl": "Utility Silver Layer — USL",
-            "usl-retake": "Renforcement USL",
-            "usl-activation-porous": "Activation pièces poreuses USL",
-            "cem": "Blindage CEM",
-            "cem-retake": "Renforcement Blindage CEM",
-            "act-fill": "Dilution activant",
-            "emptying-activator": "Vidange activant",
-            "emptying-reactives": "Vidange réactifs",
-            "container-cleaning": "Nettoyage conteneurs"
         },
         "steps": {
             "start": {
@@ -147,17 +139,9 @@
                 "name": "Dilution de l'activant",
                 "desc": "De l'eau désionisée est transférée dans le conteneurs d'activant pour diluer la solution."
             },
-            "container-cleaning": {
-                "name": "Nettoyage",
-                "desc": "Nettoyage des conteneurs de reactifs."
-            },
-            "emptying-activator": {
-                "name": "Vidage activant",
-                "desc": "Vidange du conteneur d'activant"
-            },
-            "emptying-reactives": {
-                "name": "Vidage réactifs",
-                "desc": "Vidange des conteneurs de réactifs"
+            "container-emptying": {
+                "name": "Vidange",
+                "desc": "Vidange automatique de certains conteneurs"
             }
         }
     },
@@ -227,47 +211,17 @@
             "met#ox-air-cleaning-low": "Nettoyage buse oxydant bas"
         }
     },
-    "manual": {
-        "categories": {
-            "generic": "Générique",
-            "empty": "Vidange",
-            "hybrid": "Eau DI & Activant",
-            "met": "Réactifs"
-        },
-        "tasks": {
-            "motor-rotation": "Vitesse du moteur",
-            "ventilation": "Extraction des vapeurs",
-            "air-heater": "Rechauffeur d'air",
-            "fill-act": "Remplissage conteneur activant",
-            "empty#act": "Vidange conteneur Activant",
-            "empty#edi": "Vidange conteneur Eau désionisée",
-            "empty#ox": "Vidange conteneur Oxydant",
-            "empty#rd": "Vidange conteneur Réducteur",
-            "hybrid#act-high": "Pulvérization haute activant",
-            "hybrid#act-low": "Pulvérization basse activant",
-            "hybrid#edi-high": "Pulvérization haute eau désionisée",
-            "hybrid#edi-low": "Pulvérization basse eau désionisée",
-            "met#ox-high": "Pulvérization haute oxydant",
-            "met#ox-mid": "Pulvérization millieu oxydant",
-            "met#ox-low": "Pulvérization bas oxydant",
-            "met#rd-high": "Pulvérization haute réducteur",
-            "met#rd-mid": "Pulvérization millieu réducteur",
-            "met#rd-low": "Pulvérization bas réducteur"
-        }
-    },
+    
     "maintenance": {
         "tasks": {
             "mfm-filter": {
                 "name": "Filtre",
-                "desc": "Le filtre de la metalfog permet de capturer tout les gazs nocifs crées par les reactions chimiques dans la cuve.",
-                "procedure": {
-                    "unscrew-mfm-filter": "Dévisser le filtre de la machine",
-                    "replace-mfm-new-filter": "Replacer le filtre avec un nouveau filtre"
-                }
+                "desc": "Le filtre de la metalfog permet de capturer tout les gazs nocifs crées par les reactions chimiques dans la cuve."
             }
         }
     },
-    "popups": {
+
+    "toasts": {
         "nozzle-cleaning": {
             "title": "Recommendation au démarrage",
             "message": "Votre Metalfog viens de démarrer, il est recommendé de lancer un nettoyage des buses de metallisation lors du démarrage de la machine. Cliquez sur continuer pour lancer ce nettoyage.",

@@ -1,32 +1,32 @@
 {
   "ok": "Ok",
-  "nok": "Ko",
-  "yes": "Yes ✓",
-  "no": "No ✗",
+  "yes": "Yes",
+  "no": "No",
   "back": "Back",
   "cancel": "Cancel",
-  "binary_true": "True ✓",
-  "true": "Yes",
-  "false": "No",
-  "binary_false": "False ✗",
-  "present": "Ok ✓",
-  "missing": "Missing ✗",
+  "exit": "Exit",
+  "true": "True",
+  "false": "False",
+
   "close-keyboard": "Close the keyboard",
   "close-modal": "Close",
   "connect": "Connect",
   "proceed": "Proceed",
-  "machinelist": "Machine list",
-  "machinelist-empty": "Nothing found here! Add a machine first ↗",
-  "machinelist-add": "Add machine",
-  "renderError": "Failed to render this page",
-  "renderErrorSub": "This is unfortunate...",
-  "renderErrorRedirect": "Something went wrong, you will be redirected soon.",
-  "renderErrorRedirectButton": "Redirect now",
-  "timeTrackError": {
-    "label": "Time tracking",
-    "title": "Time tracking issue",
-    "body": "Your machine do not have a time tracking device. This is not problematic but time tracking on products loaded inside will get wrong after a machine restart. As an alternative you can let the machine connected to internet to avoid this issue."
+
+  "nuster": {
+    "lead": "Nuster",
+    "logo": "Nuster logo"
   },
+
+  "error": {
+    "render": {
+      "lead": "Failed to render this page",
+      "sub": "This is unfortunate...",
+      "redirect": "Something went wrong, you will be redirected soon.",
+      "button": "Redirect now"
+    }
+  },
+
   "date": {
     "days": "Days",
     "day": "Day",
@@ -39,78 +39,70 @@
     "milliseconds": "Milliseconds",
     "millisecond": "Millisecond"
   },
-  "machines": {
-    "metalfog": "Metalfog",
-    "smoothit": "Smoothit",
-    "uscleaner": "USCleaner"
-  },
-  "products": {
-    "usl_act": "USL Activator",
-    "usl_ox": "USL Oxydiser",
-    "usl_rd": "USL Reducer",
-    "llc_ox": "LLC Oxydiser",
-    "llc_rd": "LLC Reducer",
-    "tc": "Topcoat",
-    "bc": "Basecoat",
-    "cr": "CR-1",
-    "any": "Unknown"
-  },
-  "loadingScreen": {
-    "connectionAttemptCount": "Connection atempt :",
-    "connectionError": "Connection error, #ip is unreachable.",
-    "retry": "Retry",
-    "return": "Back"
-  },
-  "machine": {
-    "informations": "Machine informations",
-    "network_informations": "Network informations",
-    "model": "Model",
-    "variant": "Variant",
-    "revision": "Revision",
-    "serial": "Serial number",
-    "addons": "Addons",
-    "cycleCount": "Cycle count",
-    "nusterDesktopVersion": "Nuster UI version",
-    "nusterTurbineVersion": "Nuster Core version",
-    "balenaVersion": "Balena version",
-    "ips": "Machine IP Addresses",
-    "macs": "Machine MAC Addresses",
-    "vpn": {
-      "connected": "Connected to VPN"
-    }
-  },
-  "procedures": "Procedures",
-  "slots": {
-    "name": "Containers",
-    "product": {
-      "title": "Product",
-      "done": "Out of date",
-      "unknownLifespan": "Lifespan undefined"
+
+  "container": {
+    "lead": "Containers",
+
+    "unselected": {
+      "lead": "No container selected",
+      "sub": "Select a container to view or edit it's properties."
     },
-    "sensors": {
-      "name": "Sensors",
-      "types": {
-        "level-n": "Limit switch",
-        "level-min-n": "Minimal limit",
-        "level-max-n": "Maximal limit",
-        "level-np": "Presence switch",
-        "level-a": "Level",
-        "temperature": "Temperature"
+
+    "category": {
+      "products": "Product",
+      "sensors": "Sensors",
+      "regulation": "Regulation"
+    },
+
+    "state": {
+      "lead": {
+        "error": "This container has issues:",
+        "good": "This container's state is good."
+      },
+      "issues": {
+        "product_unloaded": "Product unloaded",
+        "product_lifespan": "product lifetime exceeded",
+        "product_lifespan_unknown": "Product lifetime is unknown",
+        "sensor": "Sensor error"
+      },
+      "infos": {
+        "regulation_active": "Active regulation"
       }
     },
-    "modal": {
-      "informations": "Informations",
-      "productManagement": "Product management",
-      "regulationManagement": "Regulation management",
-      "productSeries": "Product series",
-      "productLifetime": "Product lifetime",
-      "action": "Slot actions",
-      "load": "Load product",
-      "unload": "Unload product",
-      "defaultLoadMethod": "Manual loading",
-      "chooseLoadingMethod": "Choose loading method of this product",
-      "chooseProductToLoad": "Choose product series to load on this slot"
+
+    "product": {
+      "informations": {
+        "lead": "Product informations",
+        "loaded_product": "Loaded product type:",
+        "lifetime_remaining": "Lifetime remaining:",
+        "load_date": "Load date:",
+        "unknownLifespan": "Lifespan undefined",
+        "done": "Out of date",
+
+        "product_series": {
+          "usl_act": "USL Activator",
+          "usl_ox": "USL Oxydiser",
+          "usl_rd": "USL Reducer",
+          "llc_ox": "LLC Oxydiser",
+          "llc_rd": "LLC Reducer",
+          "tc": "Topcoat",
+          "bc": "Basecoat",
+          "cr": "CR-1",
+          "any": "Unknown"
+        }
+      },
+
+      "action": {
+        "lead": "Actions",
+        "product_choose": "Choose a product to load:",
+
+        "default": {
+          "load": "Load product",
+          "unload": "Unload product"
+        }
+      }
     },
+    
     "regulation": {
       "enabled": "Regulation state",
       "current": "Actual value",
@@ -121,41 +113,40 @@
       }
     }
   },
+
   "profile": {
-    "button": "Profiles",
-    "list": "Profile list",
-    "modification-date": "Last modification date",
+
+    "lead": "Profiles",
     "name": "Profile name",
-    "globals": "Global informations",
     "settings": "Profile settings",
     "defaultName": "Profile default name",
-    "lastRuntName": "Last Quickstart profile used",
+
+    "unselected": {
+      "lead": "No profile selected.",
+      "sub": "Select a profile to view or edit its properties."
+    },
+
+    "copy": {
+      "label": "Copy",
+      "button": "Copy profile",
+      "message": "Profile has been copied to {name}."
+    },
+
+    "save": {
+      "button": "Save profile",
+      "message": "Profile have been saved."
+    },
+
+    "delete": {
+      "button": "Delete profile",
+      "button_confirm": "Confirm profile deletion"
+    },
+
     "premades": {
-      "true": "Constructor profiles",
-      "false": "User profiles"
+      "true": "Constructor profile",
+      "false": "User profile"
     },
-    "buttons": {
-      "add": "Add a new profile"
-    },
-    "modals": {
-      "create": {
-        "title": "New profile",
-        "message": "Choose a profile blueprint"
-      },
-      "copy": {
-        "title": "Copy profile {profile.name}",
-        "message": "Choose a new name for the copied profile."
-      },
-      "delete": {
-        "title": "Delete profile {profile.name}",
-        "message": "Do you want to delete {profile.name} ?"
-      },
-      "save": {
-        "title": "Saving {profile.name}",
-        "message": "Would you like to save {profile.name} ?",
-        "name-short": "The name selected for this profile is invalid, please set the name to at least 1 caracter"
-      }
-    },
+
     "rows": {
       "enabled": "Enabled",
       "speed": "Speed",
@@ -165,63 +156,84 @@
       "timeOff": "Time disabled"
     }
   },
+
   "settings": {
-    "main": "Settings",
-    "enable-dark-mode": "Dark mode",
-    "layout-format": "Simplified layout",
-    "language": "Language",
-    "restart": "Restart machine",
-    "reload-nuster": "Reload interface",
-    "updateNotes": {
-      "main": "Release notes",
-      "firmware": "Firmware",
-      "ui": "User interface"
+    "lead": "Settings",
+
+    "ui": {
+      "lead": "UI Settings",
+      "dark_mode": "Dark mode",
+      "language": "Language"
     },
-    "updateGoing": {
-      "desc": "Installing the update, please wait...",
-      "title": "Update"
+
+    "machine": {
+      "lead": "Machine informations",
+      "model": "Model",
+      "variant": "Variant",
+      "revision": "Revision",
+      "serial": "Serial number",
+      "addons": "Addons",
+      "cycle_count":"Cycle count"
     },
-    "triggerUpdate": "Install update",
-    "updateProgress": "Update downloading progress"
+
+    "software": {
+      "lead": "Software informations",
+      "nuster": "Nuster version",
+      "balena": "BalenaOS version",
+      "update": "Update available",
+      "update_install": "Install update"
+    },
+
+    "network": {
+      "lead": "Network informations",
+      "ip": "IP addresses",
+      "mac": "Mac addresses",
+      "vpn": "Connected to VPN"
+    },
+
+    "advanced": {
+      "lead": "Advanced settings",
+      "sub": "This feature is not meant to be used by the end user.",
+      "password": "Password",
+      "edit": "Edit machine configuration"
+    },
+
+    "machines": {
+      "metalfog": "Metalfog",
+      "smoothit": "Smoothit",
+      "uscleaner": "USCleaner"
+    }
   },
+
   "cycle": {
+
+    "lead": "Cycle",
+
+    "categories": {
+      "steps": "Cycle steps",
+      "status":"Cycle status",
+      "additional_info": "Additional informations",
+      "security_conditions": "Starting security conditions"
+    },
+
+    "unselected": {
+      "lead": "No cycle selected.",
+      "sub": "Select a cycle on the left list to start using your machine. Trouble starting your machine ?",
+      "help": "Click here to read documentation."
+    },
+
     "eta": {
       "null": "Unknown",
-      "remaining": "Remaining time",
-      "estimated": "Estimated"
+      "remaining": "Remaining time:",
+      "estimated": "Estimated duration:"
     },
-    "button": "Cycle",
-    "presets": "Constructor defined cycles",
-    "presets-anex": "Secondary constructor cycles",
-    "user": "User defined cycles",
-    "name": "Cycles",
-    "quickstart": {
-      "head": "QuickStart Cycle",
-      "settings": "Cycle settings",
-      "settings-save": "Saved settings",
-      "settings-save-action": "Save",
-      "settings-edit-action": "Edit",
-      "settings-delete-action": "Delete",
-      "start": "Prepare cycle"
-    },
-    "types": {
-      "custom": "Customized cycle"
-    },
-    "custom": {
-      "select": {
-        "cycle": "Custom cycle",
-        "profile": "Profile"
-      }
-    },
+
     "end": {
-      "cycle-ended": "Cycle has ended.",
-      "cycle-ended-reason": "End reason",
-      "cycle-rating-lead": "Rate the cycle",
-      "cycle-rating-text": "Rating the cycle is not required but it helps us improving our cycles and machines.",
-      "cycle-rating-text2": "Rating the cycle can also help you in filtering cycle histories.",
-      "cycle-duration": "Cycle duration"
+      "lead": "Cycle has ended.",
+      "duration": "Cycle duration:"
     },
-    "endreasons": {
+
+    "end_reasons": {
       "user": "User aborted cycle",
       "finished": "Finished successfully",
       "controllerTimeout": "IO Controller timed out",
@@ -229,104 +241,64 @@
       "controllerUnreachable": "IO Controller is unreachable",
       "stepOvertime": "Cycle step has take too much time to end. Strange behavior might have happened"
     },
-    "modals": {
-      "security": {
-        "title": "Security chain error",
-        "message": "Cycle can't start. A security chain error has occured."
-      },
-      "security-warning": {
-        "title": "Security chain warning",
-        "message": "The cycle can start but the result might be outside expectations."
-      }
-    },
+
     "buttons": {
-      "resume": "Resume cycle",
-      "prepare": "Prepare cycle",
-      "end": "Stop cycle",
-      "finish": "Finish cycle",
       "start": "Start cycle",
-      "complete": "Complete cycle",
-      "cancel": "Cancel cycle",
-      "nextStep": "Next Step"
-    },
-    "steps": {
-      "title": "Cycle steps",
-      "status": "Cycle status",
-      "additional-info": "Additional informations"
-    },
-    "preparation": "Preparation",
-    "choice": "Cycle choice",
-    "progression": "Cycle progression",
-    "security": {
-      "conditions": "Starting security conditions"
-    },
-    "history": "Histories",
-    "histories": {
-      "retake": {
-        "title": "Warning with retaken cycles",
-        "main": "This feature is not completely implemented. Retaking cycles can have weird behavior, this should be used on critcal parts. Would you like to proceed anyways ?"
-      }
+      "nextStep": "Next step",
+      "stop": "Stop cycle",
+      "complete": "Complete cycle"
     }
   },
+
   "gates": {
-    "name": "IO Controls",
+    "lead": "I / O",
+
     "bus": {
       "in": "Inputs",
       "out": "Outputs"
     },
+
     "categories": {
       "generic": "Generic"
     }
   },
-  "popups": {
-    "manualMode": {
-      "security": {
-        "title": "Manual mode security error",
-        "message": "There was a security error on one of the enabled manual modes. It has been toggled off."
-      },
-      "requiredParent": {
-        "title": "Manual mode Parent error",
-        "message": "A parent manual mode has been switched off. All children manual modes were toggled off."
-      }
-    }
-  },
-  "manual": {
-    "button": "Manual mode",
-    "list": "Manual modes",
-    "warning": "Manual modes helps you to articulate the machine manually. Be careful Security restrictions are partialy disabled here.",
-    "incompatibilities": "Incompatibilities",
-    "requires": "Requires",
-    "categories": {
-      "generic": "Generic"
-    }
-  },
+
   "maintenance": {
-    "list": "Maintenance tasks",
-    "description": "Maintenance task informations",
+    "lead": "Maintenance",
     "duration": "Duration",
-    "percentage": "Percentage",
+
+    "unselected": {
+      "lead": "No Maintenance selected.",
+      "sub": "Select a maintenance task to view or edit its properties."
+    },
+
     "sensor": {
       "label": "Task warning",
       "warning": "This maintenance task requires linked manual mode to be enabled in order to check its status."
     },
+
     "procedure": {
-      "title": "Maintenance procedure",
-      "tools": "Tools used",
-      "next": "Next",
-      "previous": "Previous",
-      "reset": "Maintenance task validation"
+      "lead": "Maintenance procedure",
+      "clear": "Reset maintenance task counter.",
+      "lang_unavailable": "Maintenance procedure is unavailable in your language."
     },
+
     "unity": {
       "cycle": "Cycles",
       "hours": "Hours",
       "time": "Duration",
       "duration": "Hours"
-    },
-    "tools": {
-      "allen-wrench-2_5": "2.5mm Allen wrench",
-      "allen-wrench-3": "3mm Allen wrench",
-      "none": "No tools needed"
     }
   },
-  "locked": "Locked"
+
+  "help": {
+    "lead": "Help",
+
+    "unavailable": "No help available in your language.",
+
+    "unselected": {
+      "lead": "Help center.",
+      "sub": "Navigate using the left side list to read documentation."
+    }
+  }
 }

@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "lokalise.i18n-ally",
+        "ardenivanov.svelte-intellisense",
+        "fivethree.vscode-svelte-snippets",
+        "ms-vscode.vscode-typescript-next"
+    ]
+}

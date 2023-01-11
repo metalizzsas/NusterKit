@@ -3,11 +3,9 @@ import path from "path";
 
 import { matchers } from 'jest-json-schema';
 
-import type { IMachineSpecs } from "@metalizzsas/nuster-typings/build/spec";
-import type { IProgramBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/IProgramBlock";
-import type { IParameterBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/IParameterBlock";
-import type { IConstantStringParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ParameterBlocks/IConstantStringParameterBlock";
-import type { IIfProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/programblocks/ProgramBlocks/IIfProgramBlock";
+import type { MachineSpecs } from "@metalizzsas/nuster-typings/build/spec";
+import { AllProgramBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
+import { AllParameterBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
 
 expect.extend(matchers);
 
@@ -49,121 +47,11 @@ for(const f of files.filter(f => f.isDirectory()))
 
 for(const file of filesToCheck)
 {
-    const json = JSON.parse(fs.readFileSync(file.file, {encoding: "utf-8"})) as IMachineSpecs;
+    const json = JSON.parse(fs.readFileSync(file.file, {encoding: "utf-8"})) as MachineSpecs;
 
     const gateNames = json.iogates.map(m => m.name);
 
     const inputGateNames = json.iogates.filter(g => g.bus == "in").map(m => m.name);
-
-    it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' Manual controls', () => {
-
-        const manualNames = json.manual.map(m => m.name);
-
-        json.manual.forEach(m => {
-            m.controls.forEach(c => {
-                if(typeof c == "string")
-                {
-                    expect(gateNames).toContain(c);
-                }
-                else
-                {
-                    expect(gateNames).toContain(c.name);
-                }
-            });
-
-            if(m.requires !== undefined)
-            {
-                m.requires.forEach(r => {
-                    expect(manualNames).toContain(r);
-                });
-            }
-
-            if(m.incompatibility !== undefined)
-            {
-                m.incompatibility.forEach(i => {
-                    expect(manualNames).toContain(i);
-                });
-            }
-
-            if(m.watchdog !== undefined)
-            {
-                m.watchdog.forEach(w => {
-                    expect(gateNames).toContain(w.gateName);
-                });
-            }
-        });
-    });
-
-    it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' IO Blocks', () => {
-        json.cycleTypes.forEach(c => {
-            c.steps.forEach(s => {
-                s.blocks.forEach(b => {
-                    validateBlock(b);
-                });
-                s.startBlocks.forEach(b => {
-                    validateBlock(b);
-                });
-                s.endBlocks.forEach(b => {
-                    validateBlock(b);
-                });
-            });
-        });
-
-        function validateBlock(obj: IProgramBlocks)
-        {
-            if(obj.name == "io")
-            {
-                const gateName = obj.params[0] as IConstantStringParameterBlock;
-                expect(gateNames).toContain(gateName.value);
-            }
-            
-            if(obj.blocks !== undefined)
-            {
-                for(const b of obj.blocks)
-                {
-                    validateBlock(b);
-                }
-
-                if(obj.name == "if")
-                {
-                    for(const b of (obj as IIfProgramBlock).trueBlocks)
-                    {
-                        validateBlock(b);
-                    }
-                    for(const b of (obj as IIfProgramBlock).falseBlocks)
-                    {
-                        validateBlock(b);
-                    }
-                }
-            }
-
-            if(obj.params !== undefined)
-            {
-                for(const p of obj.params)
-                {
-                    validateParameterBlock(p);
-                }
-            }
-        }
-
-        function validateParameterBlock(obj: IParameterBlocks)
-        {
-            if(obj.name == "io")
-            {
-                expect(gateNames).toContain(obj.value);
-            }
-            else
-            {
-                if(obj.params !== undefined)
-                {
-                    for(const o of obj.params)
-                    {
-                        validateParameterBlock(o);
-                    }
-                }
-            }
-        }
-    });
 
     it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' Profile fields', () => {
 
@@ -172,113 +60,29 @@ for(const file of filesToCheck)
         json.profileSkeletons.forEach(p => {
             fields[p.name] = p.fields.flatMap(f => f.name);
         });
-
-        json.cycleTypes.forEach(c => {
-            if(c.profileRequired !== false)
-            {
-                c.steps.forEach(s => {
-                    validateParameterBlock(s.duration, c.name);
-                    validateParameterBlock(s.isEnabled, c.name);
-
-                    if(s.runAmount !== undefined)
-                        validateParameterBlock(s.runAmount, c.name);
-
-                    for(const b of s.blocks)
-                    {
-                        validateBlock(b, c.name);
-                    }
-                    
-                    for(const b of s.startBlocks)
-                    {
-                        validateBlock(b, c.name);
-                    }
-                    for(const b of s.endBlocks)
-                    {
-                        validateBlock(b, c.name);
-                    }
-                });
-            }
-        });
-
-        function validateBlock(obj: IProgramBlocks, profileName: string)
-        {
-            if(obj.params !== undefined)
-            {
-                for(const p of obj.params)
-                {
-                    validateParameterBlock(p, profileName);
-                }
-            }
-
-            if(obj.blocks !== undefined)
-            {
-                for(const b of obj.blocks)
-                {
-                    validateBlock(b, profileName);
-                }
-            }
-
-            if(obj.name == "if")
-            {
-                for(const b of obj.trueBlocks)
-                {
-                    validateBlock(b, profileName);
-                }
-                for(const b of obj.falseBlocks)
-                {
-                    validateBlock(b, profileName);
-                }
-            }
-        }
-
-        function validateParameterBlock(obj: IParameterBlocks, profileName: string)
-        {
-            if(obj.name == "profile")
-            {
-                expect(fields[profileName]).toContain(obj.value);
-            }
-            
-            if(obj.params !== undefined)
-            {
-                for(const p of obj.params)
-                {
-                    validateParameterBlock(p, profileName);
-                }
-            }
-        }
     });
 
     it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' Slots sensors', () => {
 
-        for(const slot of json.slots.filter(s => s.sensors !== undefined))
+        for(const slot of json.containers)
         {
-            for(const sensor of slot.sensors!)
+            if(slot.sensors)
             {
-                expect(inputGateNames).toContain(sensor.io);
-
-                if(sensor.regulation !== undefined)
+                for(const sensor of slot.sensors)
                 {
-                    for(const t of [sensor.regulation.actuators.plus, sensor.regulation.actuators.minus])
+                    expect(inputGateNames).toContain(sensor.io);
+                }
+            }
+
+            if(slot.regulations)
+            {
+                for(const regulation of slot.regulations)
+                {
+                    const io = [...regulation.plus, ...regulation.active, regulation.security.map(s => s.name), regulation.sensor, ...regulation.minus];
+
+                    for(const t of io)
                     {
-                        if(t === undefined)
-                            continue;
-                        
-                        if(typeof t == "string")
-                            expect(gateNames).toContain(t);
-                        else
-                        {
-                            for(const p2 of t)
-                            {
-                                expect(gateNames).toContain(p2);
-                            }
-                        }
-                    }
-                    if(sensor.regulation.manualModes !== undefined)
-                    {
-                        for(const m of sensor.regulation.manualModes)
-                        {
-                            expect(json.manual.map(m => m.name)).toContain(m);
-                        }
+                        expect(gateNames).toContain(t);
                     }
                 }
             }
@@ -291,9 +95,9 @@ for(const file of filesToCheck)
         {
             for(const sc of cycle.startConditions)
             {
-                if(sc.checkChain.name == "io")
+                if(sc.checkchain.io !== undefined)
                 {
-                    expect(inputGateNames).toContain(sc.checkChain.io?.gateName);
+                    expect(inputGateNames).toContain(sc.checkchain.io.gateName);
                 }
             }
         }
@@ -307,10 +111,7 @@ for(const file of filesToCheck)
             {
                 for(const ai of cycle.additionalInfo)
                 {
-                    if(ai.name == "gate")
-                    {
-                        expect(inputGateNames).toContain(ai.value);
-                    }
+                    expect(inputGateNames).toContain(ai);
                 }
             }
         }

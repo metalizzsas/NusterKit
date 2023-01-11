@@ -4,12 +4,16 @@ export const handle = (async ({ event, resolve }) => {
 
     const dev = import.meta.env.DEV;
 
+    const ip = event.request.headers.get("Host")?.split(":").at(0);
+
+    console.log(ip);
+
     const notSecure = event.url.protocol === "http:"
 
     const httpProtocol = notSecure ? "http:" : "https:";
     const wsProtocol = notSecure ? "ws:" : "wss:";
 
-    const endpoint = dev ? `${event.url.hostname}:4080` : event.url.hostname;
+    const endpoint = dev ? `${ip}:4080` : ip;
 
     event.locals.nuster_api_host = `${httpProtocol}//${endpoint}`;
     event.locals.nuster_ws_host = `${wsProtocol}//${endpoint}`;

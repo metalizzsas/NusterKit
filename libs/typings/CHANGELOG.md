@@ -1,5 +1,17 @@
 # @metalizzsas/nuster-typings
 
+## 1.4.0
+
+### Minor Changes
+
+- feat: Refactored typings to be more readable ([#188](https://github.com/metalizzsas/NusterKit/pull/188))
+
+### Patch Changes
+
+- fix: updated i18n ([#188](https://github.com/metalizzsas/NusterKit/pull/188))
+
+- feat: new pbr definitions ([#188](https://github.com/metalizzsas/NusterKit/pull/188))
+
 ## 1.3.4
 
 ### Patch Changes

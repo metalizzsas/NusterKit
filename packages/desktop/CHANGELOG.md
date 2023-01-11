@@ -1,5 +1,17 @@
 # @metalizzsas/nuster-desktop
 
+## 1.9.0
+
+### Minor Changes
+
+- feat: refactored desktop with a brand new look and is now using new typings ([#188](https://github.com/metalizzsas/NusterKit/pull/188))
+
+### Patch Changes
+
+- fix: updated i18n ([#188](https://github.com/metalizzsas/NusterKit/pull/188))
+
+- feat: new pbr definitions ([#188](https://github.com/metalizzsas/NusterKit/pull/188))
+
 ## 1.8.10
 
 ### Patch Changes

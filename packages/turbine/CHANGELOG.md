@@ -1,5 +1,25 @@
 # @metalizzsas/nuster-turbine
 
+## 1.9.0
+
+### Minor Changes
+
+- feat: Refactored Turbine, now using Turbine Event Loop, new PBR ([#188](https://github.com/metalizzsas/NusterKit/pull/188))
+
+### Patch Changes
+
+- fix: ProfileHydrated type was imported from wrong path ([#188](https://github.com/metalizzsas/NusterKit/pull/188))
+
+- feat: new pbr definitions ([#188](https://github.com/metalizzsas/NusterKit/pull/188))
+
+- chore: updated test suites ([#188](https://github.com/metalizzsas/NusterKit/pull/188))
+
+- feat: now using WPE instead of Chromium ([#188](https://github.com/metalizzsas/NusterKit/pull/188))
+
+- Updated dependencies [[`1c06dad`](https://github.com/metalizzsas/NusterKit/commit/1c06dad2d9dd0b30ecac8cdbabab56d5604ded7a), [`d6d9e82`](https://github.com/metalizzsas/NusterKit/commit/d6d9e82cc60a0f4f3f67bff64bdaf10bc43a742c), [`6e580c6`](https://github.com/metalizzsas/NusterKit/commit/6e580c60bec7cb82b73846d59a702d8469c67ef1), [`6a3439f`](https://github.com/metalizzsas/NusterKit/commit/6a3439feab7629454f11ef10c5e3f13522115265), [`0fb07f9`](https://github.com/metalizzsas/NusterKit/commit/0fb07f947e5d9e7c1956ab70202570b9d30c744d), [`96b424a`](https://github.com/metalizzsas/NusterKit/commit/96b424ac6648540ec9f6ddc32ce5c529d7a61a43), [`3ab8b1c`](https://github.com/metalizzsas/NusterKit/commit/3ab8b1c8b87268186c4fe5f8b786e3670de04d41), [`270f54f`](https://github.com/metalizzsas/NusterKit/commit/270f54fd4654cfe8103cc69470ca0f0f707a95f2)]:
+  - @metalizzsas/nuster-turbine-machines@1.3.0
+  - @metalizzsas/nuster-typings@1.4.0
+
 ## 1.8.18
 
 ### Patch Changes

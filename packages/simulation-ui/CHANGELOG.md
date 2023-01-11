@@ -1,5 +1,11 @@
 # @metalizzsas/simulation-ui
 
+## 1.0.4
+
+### Patch Changes
+
+- feat: now matching new typings ([#188](https://github.com/metalizzsas/NusterKit/pull/188))
+
 ## 1.0.3
 
 ### Patch Changes

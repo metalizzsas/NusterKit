@@ -5,7 +5,12 @@ export const handle = (async ({ event, resolve }) => {
 
     const dev = import.meta.env.DEV;
 
-    const ip = event.request.headers.get("Host")?.split(":").at(0);
+    let ip = event.request.headers.get("Host")?.split(":").at(0);
+    
+    if(ip === undefined)
+    {
+        ip = event.request.headers.get("host")?.split(":")?.at(0);
+    }
 
     const notSecure = event.url.protocol === "http:";
 

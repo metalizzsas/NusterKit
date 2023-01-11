@@ -13,10 +13,15 @@ The following packages are essentials for our system.
 
 | Packages | Description | Changelog |
 | ------ | ------ | ------- |
-| Nuster Desktop | UI Provided to machine screens | [Link](https://github.com/metalizzsas/NusterKit/blob/main/packages/desktop/CHANGELOG.md) |
-| Nuster Turbine | REST Api that drives machines | [Link](https://github.com/metalizzsas/NusterKit/blob/main/packages/turbine/CHANGELOG.md) |
-| Nuster Turbine Machines lib | Library of machines definitions | [Link](https://github.com/metalizzsas/NusterKit/blob/main/libs/turbine-machines/CHANGELOG.md) |
-| Typings lib | Types used for machine specification, configuration & communication | [Link](https://github.com/metalizzsas/NusterKit/blob/main/libs/typings/CHANGELOG.md) |
+| Nuster Desktop | UI Provided to machine screens | [Link](./packages/desktop/CHANGELOG.md) |
+| Nuster Turbine | REST Api that drives machines | [Link](./packages/turbine/CHANGELOG.md) |
+| Simulation Server | REST backend that simulates a hardware machine | [Link](./packages/simulation-server/CHANGELOG.md) |
+| Simulation UI | SvelteKIT App that interacts with simulation server | [Link](./packages/simulation-ui/CHANGELOG.md) |
+
+| Libraries | Description | Changelog |
+| ------ | ------ | ------- |
+| Nuster Turbine Machines | Library of machines definitions | [Link](./libs/turbine-machines/CHANGELOG.md) |
+| Typings lib | Types used for machine specification, configuration & communication | [Link](./main/libs/typings/CHANGELOG.md) |
 
 ## ❓ How to contribute
 

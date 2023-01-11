@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.9.3
+
+### Patch Changes
+
+- fix: Github action now builds projects using NODE_ENV=production ([#194](https://github.com/metalizzsas/NusterKit/pull/194))
+
 ## 1.9.2
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.9.2
+
+### Patch Changes
+
+- fix: nginx removed Host header ([#192](https://github.com/metalizzsas/NusterKit/pull/192))
+
 ## 1.9.1
 
 ### Patch Changes

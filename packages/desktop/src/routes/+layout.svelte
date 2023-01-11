@@ -65,7 +65,7 @@
 
         await initI18nMachine($page.data.nuster_api_host);
 
-        const req = await fetch(`${$page.data.nuster_api_host}/machine`);
+        const req = await fetch(`${$page.data.nuster_api_host}/api/machine`);
 
         if(req.ok && req.status === 200)
             $machine = (await req.json()) as MachineData;

@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.9.1
+
+### Patch Changes
+
+- fix: url is now computed using Host header ([#190](https://github.com/metalizzsas/NusterKit/pull/190))
+
 ## 1.9.0
 
 ### Minor Changes

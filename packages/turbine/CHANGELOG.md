@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.9.1
+
+### Patch Changes
+
+- chore: went back to using browser block, wpe need investigation ([#190](https://github.com/metalizzsas/NusterKit/pull/190))
+
 ## 1.9.0
 
 ### Minor Changes

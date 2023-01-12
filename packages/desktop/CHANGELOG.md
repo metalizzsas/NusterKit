@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.9.11
+
+### Patch Changes
+
+- fix: bypass fetch url to locahost url ([#210](https://github.com/metalizzsas/NusterKit/pull/210))
+
 ## 1.9.10
 
 ### Patch Changes

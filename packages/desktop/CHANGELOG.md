@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.9.13
+
+### Patch Changes
+
+- feat: using weston & webkit wpe instead of kiosk ([#214](https://github.com/metalizzsas/NusterKit/pull/214))
+
 ## 1.9.12
 
 ### Patch Changes

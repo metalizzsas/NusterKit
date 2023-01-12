@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.9.14
+
+### Patch Changes
+
+- chore: disabled tohora, network mode to host ([#216](https://github.com/metalizzsas/NusterKit/pull/216))
+
 ## 1.9.13
 
 ### Patch Changes

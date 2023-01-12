@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.9.4
+
+### Patch Changes
+
+- fix: removed /api redirect on turbine & on handleFetch ([#212](https://github.com/metalizzsas/NusterKit/pull/212))
+
 ## 1.9.3
 
 ### Patch Changes

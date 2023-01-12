@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.9.8
+
+### Patch Changes
+
+- fix: wrong path for mime types on proxy ([#204](https://github.com/metalizzsas/NusterKit/pull/204))
+
 ## 1.9.7
 
 ### Patch Changes

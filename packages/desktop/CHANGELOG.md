@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.9.9
+
+### Patch Changes
+
+- fix: proxy was listening on port 8080 ([#206](https://github.com/metalizzsas/NusterKit/pull/206))
+
 ## 1.9.8
 
 ### Patch Changes

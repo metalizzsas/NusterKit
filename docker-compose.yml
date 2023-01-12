@@ -41,14 +41,18 @@ services:
 
   weston:
     restart: always
-    build: ./weston
+    build:
+      dockerfile: ./containers/weston/Dockerfile.template
+      context: ./
     privileged: true
     volumes:
       - 'weston:/run/weston'
 
   wpe:
     restart: always
-    build: ./wpe
+    build:
+      dockerfile: ./containers/wpe/Dockerfile.template
+      context: ./
     privileged: true
     ports:
       - 8080:8080

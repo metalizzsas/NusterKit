@@ -1,12 +1,12 @@
-FROM igalia/balena-browser-wpe:%%BALENA_MACHINE_NAME%%-b7e469c
+FROM igalia/balena-browser-wpe:raspberrypi4-64-b7e469c
 
-COPY wpe-init /wpe-init
+COPY containers/wpe/wpe-init /wpe-init
 RUN chmod +x /wpe-init
 
-COPY cog-fdo /usr/bin/
+COPY containers/wpe/cog-fdo /usr/bin/
 RUN chmod +x /usr/bin/cog-fdo
 
-COPY cog-open /usr/bin/
+COPY containers/wpe/cog-open /usr/bin/
 RUN chmod +x /usr/bin/cog-open
 
 CMD [ "/wpe-init" ]

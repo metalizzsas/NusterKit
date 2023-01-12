@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.3.2
+
+### Patch Changes
+
+- feat: added over-heat security on USC M R1 ([#202](https://github.com/metalizzsas/NusterKit/pull/202))
+
 ## 1.3.1
 
 ### Patch Changes

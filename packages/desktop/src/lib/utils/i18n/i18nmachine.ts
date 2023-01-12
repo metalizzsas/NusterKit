@@ -1,12 +1,12 @@
 import { addMessages } from 'svelte-i18n';
 
-export async function initI18nMachine(ip: string)
+export async function initI18nMachine()
 {
     return new Promise<void>(resolve => {
     
-        const enurl = `${ip}/api/assets/lang/en.json`;
-        const frurl = `${ip}/api/assets/lang/fr.json`;
-        const iturl = `${ip}/api/assets/lang/it.json`;
+        const enurl = `/api/assets/lang/en.json`;
+        const frurl = `/api/assets/lang/fr.json`;
+        const iturl = `/api/assets/lang/it.json`;
 
         const langEN = fetch(enurl).then((response) => {
             if(response.status == 200)

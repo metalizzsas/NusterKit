@@ -8,7 +8,7 @@
 	import Flex from "./layout/flex.svelte";
     import { fly } from "svelte/transition";
 	import Button from "./buttons/Button.svelte";
-	import { execCTA } from "$lib/utils/callToAction";
+	import { executeCallToAction } from "$lib/utils/callToAction";
 	import { page } from "$app/stores";
 
     const dispatch = createEventDispatcher<{ exit: void }>();
@@ -50,7 +50,7 @@
     {#if toast.callToActions}
         <Flex items="center" justify="center">
             {#each toast.callToActions as cta}
-                <Button on:click={() => execCTA($page.data.nuster_api_host, cta)}>{$_(cta.name)}</Button>
+                <Button on:click={() => executeCallToAction(cta)}>{$_(cta.name)}</Button>
             {/each}
         </Flex>
     {/if}

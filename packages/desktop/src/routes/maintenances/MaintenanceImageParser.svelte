@@ -12,7 +12,7 @@
 </script>
 
 <img 
-    src={`${$page.data.nuster_api_host}/api/assets/maintenance/${maintenance.name}/${href}`} 
+    src={`/api/assets/maintenance/${maintenance.name}/${href}`} 
     {title} 
     alt={text} 
     class="my-1 border-[1px] border-indigo-500/50 rounded-md max-w-[66%] aspect-square object-cover mx-auto"

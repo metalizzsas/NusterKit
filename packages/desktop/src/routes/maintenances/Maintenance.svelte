@@ -19,7 +19,7 @@
     let procedureMarkdown: string | undefined;
 
     onMount(async () => {
-        const req = await fetch(`${$page.data.nuster_api_host}/api/assets/maintenance/${maintenance.name}/index-${$lang}.md`);
+        const req = await fetch(`/api/assets/maintenance/${maintenance.name}/index-${$lang}.md`);
 
         if(req.status !== 404)
             procedureMarkdown = await req.text();
@@ -31,7 +31,7 @@
     });
 
     const clearMaintenance = async () => {
-        await fetch(`${$page.data.nuster_api_host}/api/v1/maintenances/${maintenance.name}`, { method: "delete"} );
+        await fetch(`/api/v1/maintenances/${maintenance.name}`, { method: "delete"} );
         invalidate(() => true);
     }
 

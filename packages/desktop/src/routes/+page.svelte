@@ -26,7 +26,7 @@
         if(cycleData !== undefined)
             await patchCycle();  
 
-        await fetch(`${$page.data.nuster_api_host}/api/v1/cycle/${cycleType}/${profileID != undefined ? profileID : ''}`, {
+        await fetch(`/api/v1/cycle/${cycleType}/${profileID != undefined ? profileID : ''}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -38,7 +38,7 @@
     const patchCycle = async () => {
         cycleData = undefined;
 
-        await fetch(`${$page.data.nuster_api_host}/api/v1/cycle/0`, { method: "PATCH" });
+        await fetch(`/api/v1/cycle/0`, { method: "PATCH" });
     }
 
     /// — Reactives statements 

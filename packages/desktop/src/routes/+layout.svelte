@@ -63,9 +63,9 @@
     {
         websocketState = "connecting";
 
-        await initI18nMachine($page.data.nuster_api_host);
+        await initI18nMachine();
 
-        const req = await fetch(`${$page.data.nuster_api_host}/api/machine`);
+        const req = await fetch(`/api/machine`);
 
         if(req.ok && req.status === 200)
             $machine = (await req.json()) as MachineData;

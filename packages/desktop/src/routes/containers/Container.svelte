@@ -18,7 +18,6 @@
 	import { executeCallToAction } from "$lib/utils/callToAction";
 	import { transformDate } from "$lib/utils/dateparser";
 	import Select from "$lib/components/inputs/Select.svelte";
-	import { page } from "$app/stores";
 	import Toggle from "$lib/components/inputs/Toggle.svelte";
 	import NumField from "$lib/components/inputs/NumField.svelte";
 	import Label from "$lib/components/Label.svelte";
@@ -83,10 +82,10 @@
 
         if(callToAction === undefined)
         {
-            await fetch(`${$page.data.nuster_api_host}/api/v1/containers/${container.name}/${name}/${selectedProduct ?? ''}`, { method: "post" });
+            await fetch(`/api/v1/containers/${container.name}/${name}/${selectedProduct ?? ''}`, { method: "post" });
         }
         else
-            executeCallToAction($page.data.nuster_api_host, callToAction);
+            executeCallToAction(callToAction);
 
         // hide compatible product list
         compatibleProductListShown = false;
@@ -94,11 +93,11 @@
     }
 
     const toggleRegulation = async (sensor: string, state: boolean) => {
-        await fetch(`${$page.data.nuster_api_host}/api/v1/containers/${container.name}/regulation/${sensor.replace("#", "_")}/state/${state}`, { method: 'post' });
+        await fetch(`/api/v1/containers/${container.name}/regulation/${sensor.replace("#", "_")}/state/${state}`, { method: 'post' });
     }
 
     const setRegulation = async (sensor: string, target: number) => {
-        await fetch(`${$page.data.nuster_api_host}/api/v1/containers/${container.name}/regulation/${sensor.replace("#", "_")}/target/${target}`, { method: 'post' });
+        await fetch(`/api/v1/containers/${container.name}/regulation/${sensor.replace("#", "_")}/target/${target}`, { method: 'post' });
     }
 
     afterUpdate(() => {

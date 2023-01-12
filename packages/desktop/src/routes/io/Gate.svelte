@@ -13,7 +13,7 @@
     export let editable = true;
 
     const editGate = async (value: number) => {
-        await fetch(`${$page.data.nuster_api_host}/api/v1/io/${io.name.replace("#", "_")}/${value}`);
+        await fetch(`/api/v1/io/${io.name.replace("#", "_")}/${value}`);
     }
 
 </script>

@@ -3,7 +3,6 @@ version: "2"
 volumes: 
   nuster-data:
   mongodb:
-  settings:
   weston:
   
 services:
@@ -40,27 +39,31 @@ services:
       - "mongodb"
 
   weston:
-    image: bh.cr/igalia/weston
     restart: always
-    privileged: true
-    volumes:
-      - 'weston:/run/weston'
-
-  wpe:
-    image: bh.cr/wpe_webkit/browser-wpe
-    restart: always
-    privileged: true
     network_mode: host
-    ports:
-      - 8080:8080
-      - 12321:12321
+    build:
+      dockerfile: ./containers/weston/Dockerfile.template
+      context: ./
+    privileged: true
     volumes:
       - 'weston:/run/weston'
     environment:
-      WPE_URL: http://127.0.0.1/
-      WPE_COG_PLATFORM_FDO_VIEW_HEIGHT: 600
+      WPE_WESTON_OUTPUT_MAX_WIDTH: 1024
+      WPE_WESTON_OUTPUT_MAX_HEIGHT: 600
+    
+  wpe:
+    restart: always
+    network_mode: host
+    build:
+      dockerfile: ./containers/wpe/Dockerfile.template
+      context: ./
+    privileged: true
+    volumes:
+      - 'weston:/run/weston'
+    environment:
+      WPE_URL: 'http://127.0.0.1/'
       WPE_COG_PLATFORM_FDO_VIEW_WIDTH: 1024
-      GALLIUM_HUD: load+cpu+fps
+      WPE_COG_PLATFORM_FDO_VIEW_HEIGHT: 600
 
   proxy: 
     build: ./containers/proxy/

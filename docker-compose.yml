@@ -3,7 +3,6 @@ version: "2"
 volumes: 
   nuster-data:
   mongodb:
-  settings:
   weston:
   
 services:

@@ -7,6 +7,28 @@ This mono-repo contains all the code of the Nuster system.
 
 This code is mainly distributed over [BalenaCloud Fleets](https://www.balena.io/cloud/).
 
+## 📝 Development
+
+This monorepo uses `pnpm` workspaces. Start developing using:
+
+```bash
+pnpm run dev
+```
+
+This should start all the development servers. To be able to use the Machine simulation Interface use
+
+```bash
+pnpm run dev-sim
+```
+
+to emulate Reverse proxy used by the machines, you have to install Nginx on your machine. For macos we have a dedicated script that configures & restart nginx.
+
+```bash
+./containers/proxy/dev.sh
+```
+
+Then access NusterDesktop at the following [URL](http://localhost:8080/).
+
 ## 🗂️ Packages
 
 The following packages are essentials for our system.

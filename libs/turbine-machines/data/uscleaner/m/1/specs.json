@@ -26,15 +26,6 @@
             "default": 0
         },
         {
-            "name": "temperature#over-heat",
-            "type": "default",
-            "bus": "in",
-            "size": "bit",
-            "controllerId": 0,
-            "address": 2,
-            "default": 0
-        },
-        {
             "name": "pump#pressure",
             "type": "mapped",
             "bus": "in",
@@ -235,6 +226,15 @@
                     "mode": "merge",
                     "content": [
                         {
+                            "name": "temperature#over-heat",
+                            "type": "default",
+                            "bus": "in",
+                            "size": "bit",
+                            "controllerId": 0,
+                            "address": 2,
+                            "default": 0
+                        },
+                        {
                             "name": "temperature#heater",
                             "type": "default",
                             "bus": "out",
@@ -261,7 +261,7 @@
                         "name": "temperature",
                         "target": 20,
                         "maxTarget": 50,
-                        "security": [{ "name": "emergency-stop", "value": 1}],
+                        "security": [{"name": "emergency-stop", "value": 1}, {"name": "temperature#over-heat", "value": 1}],
                         "sensor": "temperature#sensor",
                         "active": ["pump#enable"],
                         "plus": ["temperature#heater"],

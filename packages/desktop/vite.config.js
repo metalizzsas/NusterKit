@@ -4,7 +4,7 @@ import { sveltekit } from '@sveltejs/kit/vite';
 export default {
     plugins: [sveltekit()],
     ssr: {
-        noExternal: ["@fontsource/inter"],
+        noExternal: ["@fontsource/inter", "simple-keyboard-layouts"],
     },
     server: {
         port: 4081,

@@ -2,6 +2,7 @@
 
 	import SimpleKeyboard from "simple-keyboard";
     import 'simple-keyboard/build/css/index.css';
+
     import frenchLayout from 'simple-keyboard-layouts/build/layouts/french';
 	import englishLayout from 'simple-keyboard-layouts/build/layouts/english';
 	import italianLayout from 'simple-keyboard-layouts/build/layouts/italian';
@@ -16,6 +17,7 @@
 	import Button from "./buttons/Button.svelte";
 	import { keyboardLeft, keyboardTop } from "$lib/utils/stores/keyboard";
 	import PasswordField from "./inputs/PasswordField.svelte";
+	import { browser } from "$app/environment";
 
     const dispatch = createEventDispatcher<{ close: void }>();
 
@@ -36,59 +38,64 @@
 	};
 
     onMount(() => {
-        keyboard = new SimpleKeyboard(".keyboard", {
-			value: value,
-			onChange: (input) => {
 
-                if(typeof value === "number")
-                    value = parseInt(input);
-                else
-                    value = input;
-			},
-			onKeyPress: (button: string) =>
-            {
-                if(button === "{shift}")
-                {
-                    if(layout === "default")
-                    {
-                        layout = "shiftOnce";
-                        keyboard?.setOptions({ layoutName: "shift" });
-                    }
-                    else if(layout === "shiftOnce")
-                    {
-                        layout = "default";
-                        keyboard?.setOptions({ layoutName: "default"})
-                    }                    
-                }
-                else if(button === "{lock}")
-                {
-                    if(layout === "default" || layout === "shiftOnce")
-                        layout = "shift"
-                    else
-                        layout = "default"
-                    
-                    keyboard?.setOptions({ layoutName: layout });
-                }
-                else
-                {
-                    if(layout === "shiftOnce")
-                    {
-                        layout = "default"
-                        keyboard?.setOptions({ layoutName: layout})
-                    }
-                }
-			},
-			...layouts[$lang as ("en" | "fr" | "it") ?? 'en'],
-			inputPattern: typeof value === 'number' ? /^[0-9]*$/ : undefined,
-		});
-
-        keyboard.setInput(`${value}`);
-
-        if($keyboardLeft === 0 && $keyboardTop === 0)
+        if(browser)
         {
-            $keyboardLeft = window.innerWidth / 2 - (keyboardWrapper.clientWidth / 2);
-            $keyboardTop = window.innerHeight / 2 - (keyboardWrapper.clientHeight / 2);
+            keyboard = new SimpleKeyboard(".keyboard", {
+                value: value,
+                onChange: (input) => {
+    
+                    if(typeof value === "number")
+                        value = parseInt(input);
+                    else
+                        value = input;
+                },
+                onKeyPress: (button: string) =>
+                {
+                    if(button === "{shift}")
+                    {
+                        if(layout === "default")
+                        {
+                            layout = "shiftOnce";
+                            keyboard?.setOptions({ layoutName: "shift" });
+                        }
+                        else if(layout === "shiftOnce")
+                        {
+                            layout = "default";
+                            keyboard?.setOptions({ layoutName: "default"})
+                        }                    
+                    }
+                    else if(button === "{lock}")
+                    {
+                        if(layout === "default" || layout === "shiftOnce")
+                            layout = "shift"
+                        else
+                            layout = "default"
+                        
+                        keyboard?.setOptions({ layoutName: layout });
+                    }
+                    else
+                    {
+                        if(layout === "shiftOnce")
+                        {
+                            layout = "default"
+                            keyboard?.setOptions({ layoutName: layout})
+                        }
+                    }
+                },
+                ...layouts[$lang as ("en" | "fr" | "it") ?? 'en'],
+                inputPattern: typeof value === 'number' ? /^[0-9]*$/ : undefined,
+            });
+    
+            keyboard.setInput(`${value}`);
+    
+            if($keyboardLeft === 0 && $keyboardTop === 0)
+            {
+                $keyboardLeft = window.innerWidth / 2 - (keyboardWrapper.clientWidth / 2);
+                $keyboardTop = window.innerHeight / 2 - (keyboardWrapper.clientHeight / 2);
+            }
         }
+
     });
 
     function mouseUp() { moving = false; }

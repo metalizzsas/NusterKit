@@ -1,26 +1,14 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
 
 	import { _ } from 'svelte-i18n';
-
-	let count = 0;
-
-	let timeout = 10;
-
-	onMount(() => {
-		setTimeout(redirect, timeout * 1000);
-
-		setInterval(() => {
-			count = count + 1;
-		}, 1000);
-	});
 
 	const redirect = () => {
 		window.location.href = '/';
 	};
 </script>
 
-<main class="text-zinc-800 dark:text-white -m-4">
+<main class="text-zinc-800 dark:text-white -m-4 rounded-xl p-6">
 	<div class="h-screen w-screen flex flex-row justify-center">
 		<div class="flex flex-row gap-8 items-center align-middle">
 			<img
@@ -31,10 +19,9 @@
 			<div>
 				<h1 class="text-xl">{$_('error.render.lead')}</h1>
 				<h2 class="text-base">{$_('error.render.sub')}</h2>
-				<p>{$_('error.render.redirect')}</p>
+				<p>{$page.status} - {$page.error?.message}</p>
 				<button
-					class="ring-[2px] ring-gray-800 dark:ring-white hover:ring-gray-600 bg-gray-400 bg-opacity-{count *
-						timeout} transition-colors duration-500 font-bold rounded-xl py-2 px-8 mt-5 cursor-pointer"
+					class="ring-[2px] ring-gray-800 dark:ring-white hover:ring-gray-600 bg-gray-400 transition-colors duration-500 font-bold rounded-xl py-2 px-8 mt-5 cursor-pointer"
 					on:click={redirect}
 				>
 					{$_('error.render.button')}

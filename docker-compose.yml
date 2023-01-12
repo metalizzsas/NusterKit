@@ -4,6 +4,7 @@ volumes:
   nuster-data:
   mongodb:
   settings:
+  weston:
   
 services:
   mongodb:
@@ -38,22 +39,27 @@ services:
       - "nuster-turbine"
       - "mongodb"
 
-  nuster-kiosk:
-    image: bh.cr/balenalabs/browser-aarch64
+  weston:
+    restart: always
+    build: ./weston
     privileged: true
-    network_mode: host
-    depends_on:
-      - "nuster-turbine"
-      - "mongodb"
-      - 'nuster-desktop'
-    environment:
-      DISPLAY_NUM: 0
-      LAUNCH_URL: 'http://127.0.0.1/'
-      KIOSK: 1
-      ENABLE_GPU: 1
-      PERSISTENT: 1
     volumes:
-      - 'settings:/data'
+      - 'weston:/run/weston'
+
+  wpe:
+    restart: always
+    build: ./wpe
+    privileged: true
+    ports:
+      - 8080:8080
+      - 12321:12321
+    volumes:
+      - 'weston:/run/weston'
+    environment:
+      WPE_URL: 'http://localhost/'
+      GALLIUM_HUD: 'load+cpu+fps'
+      WPE_COG_PLATFORM_FDO_VIEW_HEIGHT: 600
+      WPE_COG_PLATFORM_FDO_VIEW_WIDTH: 1024
 
   proxy: 
     build: ./containers/proxy/
@@ -75,6 +81,6 @@ services:
     cap_add:
       - NET_ADMIN
     environment:
-      PORTAL_LISTENING_PORT: 8080
+      PORTAL_LISTENING_PORT: 5000
       PORTAL_SSID: 'Nuster Wifi Configurator'
       DBUS_SYSTEM_BUS_ADDRESS: "unix:path=/host/run/dbus/system_bus_socket"

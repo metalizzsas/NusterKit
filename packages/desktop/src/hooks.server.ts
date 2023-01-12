@@ -24,7 +24,7 @@ export const handleFetch = ( async ({ request }) => {
 
     if(request.url.includes("/api/"))
     {
-        console.log("request url replaced", newURL);
+        console.log("request url replaced", request.url, "to", newURL);
         return fetch(newURL, request);
     }
 

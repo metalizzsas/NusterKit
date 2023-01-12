@@ -20,10 +20,12 @@ export const handle = (async ({ event, resolve }) => {
  */
 export const handleFetch = ( async ({ request }) => {
 
+    const newURL = request.url.replace(/(.*)\/api\//, "http://localhost:4080/api/");
+
     if(request.url.includes("/api/"))
     {
-        console.log("request url replaced", request.url.replace("/api/", ":4080/api/"));
-        return fetch(request.url.replace("/api/", ":4080/api/"), request);
+        console.log("request url replaced", request.url, "to", newURL);
+        return fetch(newURL, request);
     }
 
     return fetch(request);

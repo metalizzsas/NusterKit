@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.9.10
+
+### Patch Changes
+
+- chore: updated simple-keyboard-layout ([#208](https://github.com/metalizzsas/NusterKit/pull/208))
+
 ## 1.9.9
 
 ### Patch Changes

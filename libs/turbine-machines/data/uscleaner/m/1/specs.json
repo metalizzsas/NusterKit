@@ -26,6 +26,15 @@
             "default": 0
         },
         {
+            "name": "temperature#over-heat",
+            "type": "default",
+            "bus": "in",
+            "size": "bit",
+            "controllerId": 0,
+            "address": 2,
+            "default": 0
+        },
+        {
             "name": "pump#pressure",
             "type": "mapped",
             "bus": "in",
@@ -225,15 +234,6 @@
                     "path": "iogates",
                     "mode": "merge",
                     "content": [
-                        {
-                            "name": "temperature#over-heat",
-                            "type": "default",
-                            "bus": "in",
-                            "size": "bit",
-                            "controllerId": 0,
-                            "address": 2,
-                            "default": 0
-                        },
                         {
                             "name": "temperature#heater",
                             "type": "default",

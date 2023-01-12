@@ -15,7 +15,7 @@
 		"sync": "svelte-kit sync",
 		"dev": "vite dev",
 		"build": "svelte-kit sync && vite build",
-		"preview": "vite preview",
+		"preview": "vite preview --port 4081",
 		"lint-tocheck": "eslint ."
 	},
 	"dependencies": {
@@ -27,7 +27,7 @@
 		"jspdf": "^2.5.1",
 		"simple-keyboard": "^3.4.44",
 		"simple-keyboard-input-mask": "^3.0.373",
-		"simple-keyboard-layouts": "^3.1.214",
+		"simple-keyboard-layouts": "^3.1.259",
 		"svelte-i18n": "^3.3.13",
 		"svelte-markdown": "^0.2.2"
 	},

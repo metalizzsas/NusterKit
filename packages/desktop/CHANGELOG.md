@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-desktop
 
+## 1.9.7
+
+### Patch Changes
+
+- fix: api routes are now relative to client webapp ([#202](https://github.com/metalizzsas/NusterKit/pull/202))
+
+- fix: WS url is now determined by client side ([#202](https://github.com/metalizzsas/NusterKit/pull/202))
+
 ## 1.9.6
 
 ### Patch Changes

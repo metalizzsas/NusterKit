@@ -190,11 +190,6 @@ function SetupExpress(configOnly = false)
     }); 
     
     ExpressApp.get("/currentReleaseNotes", (_req, res: Response) => { res.sendFile(path.resolve("CHANGELOG.md")); });
-
-    if(!productionEnabled)
-    {
-        ExpressApp.all("/api/*", (req: Request, res: Response) => res.redirect(307, req.url.replace("/api", "")));
-    }
 }
 
 /**

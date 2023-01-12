@@ -3,7 +3,7 @@ import type { PageServerLoad } from "./$types";
 
 export const load = (async ({ fetch, locals }) => {
 
-    const req = await fetch(`${locals.nuster_api_host}/api/v1/profiles`);
+    const req = await fetch(`/api/v1/profiles`);
     const profiles = ((await req.json()) as Array<ProfileHydrated>).filter(p => p.skeleton === "default");
 
     return {

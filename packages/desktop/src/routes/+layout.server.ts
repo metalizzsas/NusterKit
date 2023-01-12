@@ -4,8 +4,6 @@ export const load = (async ({ locals }) => {
 
     /// - Tranfer locals from hook to pages
     return {
-        nuster_api_host: import.meta.env.DEV ? locals.nuster_api_host : '',
-        nuster_ws_host: locals.nuster_ws_host,
         is_machine_screen: locals.is_machine_screen
     };
     

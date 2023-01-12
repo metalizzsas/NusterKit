@@ -15,7 +15,7 @@
 
     async function save() {
 
-        const saveRequest = await fetch(`${$page.data.nuster_api_host}/api/config/`, {
+        const saveRequest = await fetch(`/api/config/`, {
             method: 'post',
             headers: {
                 'content-type': 'application/json'

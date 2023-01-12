@@ -27,7 +27,7 @@
     export let exit = () => dispatcher("exit");
 
     const saveProfile = async () => {
-        const req = await fetch(`${$page.data.nuster_api_host}/api/v1/profiles/`, { method: 'post', headers: { "content-type": "application/json" }, body: JSON.stringify(profile) });
+        const req = await fetch(`/api/v1/profiles/`, { method: 'post', headers: { "content-type": "application/json" }, body: JSON.stringify(profile) });
         if(req.ok && req.status === 200)
             profileSaved = true;
     };
@@ -35,7 +35,7 @@
     const copyProfile = async () => {
         const copy: ProfileHydrated = {...profile, _id: "copied", name: `${profile.name} — ${$_('profile.copy.label')}`};
 
-        const req = await fetch(`${$page.data.nuster_api_host}/api/v1/profiles/`, { method: 'put', headers: { "content-type": "application/json" }, body: JSON.stringify(copy) });
+        const req = await fetch(`/api/v1/profiles/`, { method: 'put', headers: { "content-type": "application/json" }, body: JSON.stringify(copy) });
 
         if(req.ok && req.status === 200)
             profileCopied = (await req.json() as ProfileHydrated);
@@ -49,7 +49,7 @@
             return;
         }
 
-        const req = await fetch(`${$page.data.nuster_api_host}/api/v1/profiles/${profile._id}`, { method: 'delete'});
+        const req = await fetch(`/api/v1/profiles/${profile._id}`, { method: 'delete'});
 
         if(req.ok && req.status === 200)
             exit();

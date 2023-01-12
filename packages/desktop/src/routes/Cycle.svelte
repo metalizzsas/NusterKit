@@ -24,19 +24,19 @@
         if(cycleData.startConditions.filter(sc => ["error", "warning"].includes(sc.result)).length > 0)
             return;
 
-        await fetch(`${$page.data.nuster_api_host}/api/v1/cycle/`, { method: "PUT" });
+        await fetch(`/api/v1/cycle/`, { method: "PUT" });
     }
 
     const stopCycle = async () => {
-        await fetch(`${$page.data.nuster_api_host}/api/v1/cycle`, { method: "DELETE" });
+        await fetch(`/api/v1/cycle`, { method: "DELETE" });
     }
 
     const nextStepCycle = async () => {
-        await fetch(`${$page.data.nuster_api_host}/api/v1/cycle/nextStep`, { method: "PATCH"})
+        await fetch(`/api/v1/cycle/nextStep`, { method: "PATCH"})
     }
 
     const patchCycle = () => {
-        fetch(`${$page.data.nuster_api_host}/api/v1/cycle/0`, { method: "PATCH" }).then(() => patched());
+        fetch(`/api/v1/cycle/0`, { method: "PATCH" }).then(() => patched());
     }
 
     /// — Reactive statements

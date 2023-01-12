@@ -13,7 +13,7 @@
 	"scripts": {
 		"check": "svelte-check",
 		"sync": "svelte-kit sync",
-		"dev": "vite dev --port 3001 --host",
+		"dev": "vite dev",
 		"build": "svelte-kit sync && vite build",
 		"preview": "vite preview",
 		"lint-tocheck": "eslint ."

@@ -18,10 +18,10 @@
     let machine: Configuration | undefined;
 
     onMount(async () => {
-        const maintenancesRequest = await fetch(`${$page.data.nuster_api_host}/api/v1/maintenances`);
+        const maintenancesRequest = await fetch(`/api/v1/maintenances`);
         maintenances = (await maintenancesRequest.json() as Array<MaintenanceHydrated>).filter(m => m.name !== "cycleCount");
 
-        const machineRequest = await fetch(`${$page.data.nuster_api_host}/api/machine`);
+        const machineRequest = await fetch(`/api/machine`);
         machine = await machineRequest.json() as Configuration;
 
     });

@@ -7,11 +7,11 @@ import { goto } from "$app/navigation";
  * @param cta Call to action to execute
  * @returns Returns a goto promise
  */
-export async function executeCallToAction(ip: string, cta: CallToAction): Promise<ReturnType<typeof goto> | undefined>
+export async function executeCallToAction(cta: CallToAction): Promise<ReturnType<typeof goto> | undefined>
 {
     if(cta.APIEndpoint)
     {
-        const ctaRequest = await fetch(`${ip}${cta.APIEndpoint.url}`,{ 
+        const ctaRequest = await fetch(`${cta.APIEndpoint.url}`,{ 
             method: cta.APIEndpoint.method, 
             headers: { 'content-type': 'application/json'}, 
             body: (cta.APIEndpoint.body) ? JSON.stringify(cta.APIEndpoint.body) : undefined
@@ -25,5 +25,3 @@ export async function executeCallToAction(ip: string, cta: CallToAction): Promis
 
     return;
 }
-
-export const execCTA = executeCallToAction;

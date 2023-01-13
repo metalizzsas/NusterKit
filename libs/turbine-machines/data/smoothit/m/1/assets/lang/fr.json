@@ -57,6 +57,10 @@
             "uv#overheat": "Température lampe UV"
         },
         "steps": {
+            "start": {
+                "name": "Démarrage",
+                "desc": "Préchauffe de la machine"
+            },
             "pulverization": {
                 "name": "Pulvérisation",
                 "desc": "Application du vernis sur vos pièces."

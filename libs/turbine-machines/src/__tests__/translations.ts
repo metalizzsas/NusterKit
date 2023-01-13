@@ -83,9 +83,10 @@ for(const file of filesToCheck)
 
     const cyclesNames = json.cycleTypes.map(c => c.name);
     const cycleSteps = new Set(json.cycleTypes.flatMap(c => c.steps.map(s => s.name)));
-    cycleSteps.delete("start");
 
-    const cyclePremadeNames = new Set(json.cyclePremades.map(c => c.name));
+    const cyclePremadeProfiles = new Set(json.cyclePremades.map(c => c.profile).filter((k): k is string => k !== undefined).map(c => c.replace("premade_", "")));
+
+    console.log("cycle premade profile", cyclePremadeProfiles);
 
     for(const langFile of Object.keys(file.translations))
     {
@@ -145,10 +146,11 @@ for(const file of filesToCheck)
                 expect(translation).toHaveProperty("cycle.steps." + step + ".desc")
             }
             //premades
-            for(const premade of cyclePremadeNames)
+            for(const premade of cyclePremadeProfiles)
             {
                 expect(translation).toHaveProperty("profile.premade." + premade);
             }
+
             //startConditions
             for(const sc of json.cycleTypes.flatMap(c => c.startConditions))
             {

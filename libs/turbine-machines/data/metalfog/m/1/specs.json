@@ -926,7 +926,6 @@
       },
       {
          "name": "nozzle-cleaning",
-         "profile": "",
          "cycle": "nozzle-cleaning"
       }
    ],

@@ -23,7 +23,6 @@ export const handleFetch = ( async ({ request }) => {
     if(request.url.includes("/api/"))
     {
         const newURL = request.url.replace(/(.*)\/api\//, "http://localhost:4080/");
-        console.log("request url replaced", request.url, "to", newURL);
         return fetch(newURL, request);
     }
 

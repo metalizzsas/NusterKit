@@ -1,12 +1,13 @@
 {
   "ok": "Ok",
   "yes": "Yes",
+  "true": "Yes",
   "no": "No",
+  "false": "No",
   "back": "Back",
   "cancel": "Cancel",
   "exit": "Exit",
-  "true": "True",
-  "false": "False",
+  "locked": "Locked",
 
   "close-keyboard": "Close the keyboard",
   "close-modal": "Close",
@@ -22,8 +23,7 @@
     "render": {
       "lead": "Failed to render this page",
       "sub": "This is unfortunate...",
-      "redirect": "Something went wrong, you will be redirected soon.",
-      "button": "Redirect now"
+      "button": "Reload"
     }
   },
 
@@ -106,11 +106,7 @@
     "regulation": {
       "enabled": "Regulation state",
       "current": "Actual value",
-      "target": "Target value",
-      "chart": {
-        "show": "Show graph",
-        "title": "Evolution over time"
-      }
+      "target": "Target value"
     }
   },
 
@@ -181,7 +177,7 @@
       "nuster": "Nuster version",
       "balena": "BalenaOS version",
       "update": "Update available",
-      "update_install": "Install update"
+      "update_install": "Install"
     },
 
     "network": {
@@ -280,7 +276,7 @@
     "procedure": {
       "lead": "Maintenance procedure",
       "clear": "Reset maintenance task counter.",
-      "lang_unavailable": "Maintenance procedure is unavailable in your language."
+      "lang_unavailable": "Maintenance procedure is not available in English."
     },
 
     "unity": {

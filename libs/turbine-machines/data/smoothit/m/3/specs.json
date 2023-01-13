@@ -12,7 +12,7 @@
       },
       {
          "type": "serial",
-         "port": "/dev/ttyACM1",
+         "port": "/dev/ttyACM0",
          "baudRate": 9600,
          "ip": ""
       }

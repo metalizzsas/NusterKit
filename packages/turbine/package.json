@@ -3,7 +3,7 @@
   "engines": {
     "node": "18.x"
   },
-  "version": "1.9.4",
+  "version": "1.9.5",
   "description": "Typescript project running on BalenaOS and RPi4.",
   "types": "build/app.d.ts",
   "main": "build/app.js",
@@ -29,8 +29,8 @@
   },
   "homepage": "https://github.com/metalizzsas/NusterKit/tree/main/packages/turbine",
   "dependencies": {
-    "@metalizzsas/nuster-turbine-machines": "1.3.2",
-    "@metalizzsas/nuster-typings": "1.4.1",
+    "@metalizzsas/nuster-turbine-machines": "1.3.3",
+    "@metalizzsas/nuster-typings": "1.4.2",
     "argon2": "^0.29.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

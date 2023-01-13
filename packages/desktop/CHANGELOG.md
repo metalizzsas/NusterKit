@@ -1,5 +1,21 @@
 # @metalizzsas/nuster-desktop
 
+## 1.9.15
+
+### Patch Changes
+
+- fix: float profile rows had no label ([#221](https://github.com/metalizzsas/NusterKit/pull/221))
+
+- feat: locking realtimeData if keyboard is open ([#221](https://github.com/metalizzsas/NusterKit/pull/221))
+
+- fix: re-add tohora as it was mandatory ([#219](https://github.com/metalizzsas/NusterKit/pull/219))
+
+- chore: added addons translations ([#221](https://github.com/metalizzsas/NusterKit/pull/221))
+
+- chore: updated translations for french & italian ([#221](https://github.com/metalizzsas/NusterKit/pull/221))
+
+- fix: made profile in cycle premade optional ([#221](https://github.com/metalizzsas/NusterKit/pull/221))
+
 ## 1.9.14
 
 ### Patch Changes

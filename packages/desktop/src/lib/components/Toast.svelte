@@ -50,7 +50,7 @@
     {#if toast.callToActions}
         <Flex items="center" justify="center">
             {#each toast.callToActions as cta}
-                <Button on:click={() => executeCallToAction(cta)}>{$_(cta.name)}</Button>
+                <Button on:click={() => { executeCallToAction(cta).then(() => { exit(); })}} textColor="dark:text-zinc-800 text-white">{$_(cta.name)}</Button>
             {/each}
         </Flex>
     {/if}

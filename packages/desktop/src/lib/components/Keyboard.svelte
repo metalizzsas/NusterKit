@@ -7,7 +7,7 @@
 	import englishLayout from 'simple-keyboard-layouts/build/layouts/english';
 	import italianLayout from 'simple-keyboard-layouts/build/layouts/italian';
 
-	import { onMount, createEventDispatcher } from "svelte";
+	import { onMount, createEventDispatcher, onDestroy } from "svelte";
 	import Portal from "svelte-portal";
 	import { lang } from "$lib/utils/stores/settings";
 	import { _ } from "svelte-i18n";
@@ -18,6 +18,7 @@
 	import { keyboardLeft, keyboardTop } from "$lib/utils/stores/keyboard";
 	import PasswordField from "./inputs/PasswordField.svelte";
 	import { browser } from "$app/environment";
+	import { realtimeLock } from "$lib/utils/stores/nuster";
 
     const dispatch = createEventDispatcher<{ close: void }>();
 
@@ -94,9 +95,14 @@
                 $keyboardLeft = window.innerWidth / 2 - (keyboardWrapper.clientWidth / 2);
                 $keyboardTop = window.innerHeight / 2 - (keyboardWrapper.clientHeight / 2);
             }
-        }
 
+            $realtimeLock = true;
+        }
     });
+    
+    onDestroy(() => {
+        $realtimeLock = false;
+    })
 
     function mouseUp() { moving = false; }
 
@@ -115,7 +121,6 @@
             if($keyboardLeft > (window.innerWidth - keyboardWrapper.clientWidth)) $keyboardLeft = window.innerWidth - keyboardWrapper.clientWidth;
         }
     }
-
 </script>
 
 <Portal target="body">

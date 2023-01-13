@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.3.4
+
+### Patch Changes
+
+- fix: smoothit mr3 updated serial /dev address ([#226](https://github.com/metalizzsas/NusterKit/pull/226))
+
 ## 1.3.3
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.3.3
+
+### Patch Changes
+
+- chore: added addons translations ([#221](https://github.com/metalizzsas/NusterKit/pull/221))
+
+- fix: made profile in cycle premade optional ([#221](https://github.com/metalizzsas/NusterKit/pull/221))
+
 ## 1.3.2
 
 ### Patch Changes

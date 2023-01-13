@@ -6,6 +6,7 @@
 
     import type { ProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated";
 	import { _ } from "svelte-i18n";
+	import Label from "$lib/components/label.svelte";
     
     export let field: ProfileHydrated["values"][number];
 
@@ -25,13 +26,17 @@
     {:else if field.type == "time"}
         <TimeField bind:value={field.value} {disabled} />
     {:else if field.type == 'float'}
-        <input
-            type="range"
-            bind:value={field.value}
-            min={field.floatMin}
-            max={field.floatMax}
-            step={field.floatStep ?? 1}
-            {disabled}
-        />
+            <Flex gap={2} items="center">
+                <Label>{field.value} <span class="font-semibold">{field.unity}</span></Label>
+                <input
+                    type="range"
+                    class="min-w-[17vw]"
+                    bind:value={field.value}
+                    min={field.floatMin}
+                    max={field.floatMax}
+                    step={field.floatStep ?? 1}
+                    {disabled}
+                />
+            </Flex>
     {/if}
 </Flex>

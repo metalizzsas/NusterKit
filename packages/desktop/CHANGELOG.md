@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.9.17
+
+### Patch Changes
+
+- chore: revert 3e350d8e8ac5f4b4fa996527775a3e056a75c07d ([#224](https://github.com/metalizzsas/NusterKit/pull/224))
+
 ## 1.9.16
 
 ### Patch Changes

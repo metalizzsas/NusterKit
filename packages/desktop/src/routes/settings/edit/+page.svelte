@@ -10,8 +10,8 @@
 	import SettingField from "../SettingField.svelte";
 
     import type { PageData } from "./$types";
-	import { page } from "$app/stores";
 	import { _ } from "svelte-i18n";
+	import ToggleGroup from "$lib/components/inputs/ToggleGroup.svelte";
     export let data: PageData;
 
     async function save() {
@@ -43,23 +43,21 @@
         <p>Base model settings</p>
 
         <SettingField label={"Model"}>
-            <Select bind:value={data.configuration.model}>
-                {#each Array.from(new Set(Object.keys(data.configurations).map(k => k.split("/")[0]))) as model}
-                    <option value={model}>{model}</option>
-                {/each}
-            </Select>
+            <Select 
+                bind:value={data.configuration.model}
+                selectableValues={Array.from(new Set(Object.keys(data.configurations).map(k => k.split("/")[0]))).map(k => { return { name: k, value: k}})}
+            />
         </SettingField>
 
         <SettingField label={"Variant"}>
-            <Select bind:value={data.configuration.variant}>
-                {#each Array.from(new Set(Object.keys(data.configurations).filter(k => k.startsWith(data.configuration.model)).map(k => k.split("/")[1]))) as variant}
-                    <option value={variant}>{variant}</option>
-                {/each}
-            </Select>
+            <Select 
+                bind:value={data.configuration.variant} 
+                selectableValues={Array.from(new Set(Object.keys(data.configurations).filter(k => k.startsWith(data.configuration.model)).map(k => k.split("/")[1]))).map(k => { return { name: k, value: k}})} 
+            />
         </SettingField>
 
         <SettingField label={"Revision"}>
-            <NumField bind:value={data.configuration.revision} />
+            <Select bind:value={data.configuration.revision} selectableValues={Array.from(new Set(Object.keys(data.configurations).filter(k => k.startsWith(data.configuration.model + '/' + data.configuration.variant)).map(k => k.split("/")[2]))).map(k => { return { name: parseInt(k), value: parseInt(k)}})} />
         </SettingField>
 
         <h2>Informations data</h2>
@@ -72,7 +70,9 @@
             <p>Addons are small specs parts that are added to base specs.</p>
     
             {#each specs.addons as item}
-                <SettingField label={item.addonName}><input type="checkbox" bind:group={data.configuration.addons} value={$_(`addons.${item.addonName}`)} /></SettingField>
+                <SettingField label={item.addonName}>
+                    <ToggleGroup bind:group={data.configuration.addons} value={item.addonName} />
+                </SettingField>
             {/each}
         {/if}
 
@@ -100,14 +100,10 @@
                 <Grid cols={6}>
                     <Flex direction="col" gap={0.5} class="col-span-3">
                         <span class="text-xs">Variable name</span>
-                        <Select bind:value={variable.name}>
-    
-                            <option value={"undefined"} selected>—</option>
-                            {#each specs.variables.filter(k => variable.name === k || data.configuration.settings.variables.find(j => j.name === k) === undefined) as availableVar}
-                                <option value={availableVar}>{availableVar}</option>
-                            {/each}
-    
-                        </Select>
+                        <Select
+                            bind:value={variable.name}
+                            selectableValues={specs.variables.filter(k => variable.name === k || data.configuration.settings.variables.find(j => j.name === k) === undefined).map(k => { return { name: k, value: k}})}
+                        />
                     </Flex>
     
                     <Flex direction="col" gap={0.5} class="col-span-2">

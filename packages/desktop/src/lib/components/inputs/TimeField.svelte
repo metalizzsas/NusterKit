@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { _ } from 'svelte-i18n';
+	import Select from './Select.svelte';
 
 	export let disabled = false;
 
@@ -40,7 +41,7 @@
 	{#if enabledTimes.includes('hours')}
 		<select
 			name="hours"
-			class="w-15 bg-transparent"
+			class="w-15 bg-white dark:bg-zinc-800"
 			bind:value={hours}
 			on:change={computeTo}
 			{disabled}
@@ -55,7 +56,7 @@
 
 	{#if enabledTimes.includes('minutes')}
 		<select
-			class="w-15 bg-transparent"
+			class="w-15 bg-white dark:bg-zinc-800"
 			name="minutes"
 			bind:value={minutes}
 			on:change={computeTo}
@@ -72,7 +73,7 @@
 	{#if enabledTimes.includes('seconds')}
 		<select
 			name="seconds"
-			class="w-15 bg-transparent"
+			class="w-15 bg-white dark:bg-zinc-800"
 			bind:value={seconds}
 			on:change={computeTo}
 			{disabled}
@@ -88,7 +89,7 @@
 	{#if enabledTimes.includes('milliseconds')}
 		<select
 			name="milliseconds"
-			class="w-15 bg-transparent"
+			class="w-15 bg-white dark:bg-zinc-800"
 			bind:value={milliseconds}
 			on:change={computeTo}
 			{disabled}

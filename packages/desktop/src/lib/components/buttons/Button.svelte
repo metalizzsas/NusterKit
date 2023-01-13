@@ -10,7 +10,7 @@
 
     const sizes = {
         "base" : "ring-2 text-md font-semibold py-2 px-4 drop-shadow-lg rounded-md",
-        "small": "ring-1 text-base font-medium py-1 px-2 drop-shadow-md rounded-md"
+        "small": "ring-2 text-base font-medium py-1 px-2 drop-shadow-md rounded-md"
     };
 
     let classData = $$props.class as string;

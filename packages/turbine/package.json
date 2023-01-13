@@ -7,6 +7,11 @@
   "description": "Typescript project running on BalenaOS and RPi4.",
   "types": "build/app.d.ts",
   "main": "build/app.js",
+  "files": [
+    "./build",
+    "entrypoint.sh",
+    "changelog.md"
+  ],
   "scripts": {
     "dev": "nodemon src/app.ts",
     "preview": "node build/app.js",

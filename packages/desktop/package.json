@@ -10,6 +10,10 @@
 	"engines": {
 		"node": "18.x"
 	},
+	"files": [
+		"./build",
+		"changelog.md"
+	],
 	"scripts": {
 		"check": "svelte-check",
 		"sync": "svelte-kit sync",

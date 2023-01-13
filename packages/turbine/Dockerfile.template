@@ -10,23 +10,21 @@ ENV NODE_ENV=production
 
 WORKDIR /usr/src/app
 
-# Copy .npmrc to authenticate to github npm registry
 COPY .npmrc ./.npmrc
 
-# Copy deployed
-COPY deploy/turbine/ .
+# Copying Package & Package lock json
+COPY packages/turbine/package*.json ./
 
-# pnpm fetch ne nécessite que lockfile
-COPY pnpm-lock.yaml ./
+COPY packages/turbine/CHANGELOG.md ./CHANGELOG.md
+COPY packages/turbine/entrypoint.sh ./entrypoint.sh
 
-RUN pnpm fetch --prod
+COPY packages/turbine/build/ ./build
 
-RUN pnpm install -r --prefer-offline --prod
+# Install Prod npm packages
+RUN pnpm install
 
 # Remove npmrc file
 RUN rm .npmrc
-
-RUN mkdir /data
 
 # Run args
 CMD ["bash", "entrypoint.sh"]

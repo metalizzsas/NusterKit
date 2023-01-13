@@ -6,18 +6,14 @@ ENV NODE_ENV=production
 
 WORKDIR /usr/src/app
 
-# Copy .npmrc to authenticate to github npm registry
 COPY .npmrc ./.npmrc
 
-# Copy deployed
-COPY deploy/desktop/ .
+COPY packages/desktop/package*.json ./
+COPY packages/desktop/CHANGELOG.md ./CHANGELOG.md
+COPY packages/desktop/build/ ./build
 
-# pnpm fetch ne nécessite que lockfile
-COPY pnpm-lock.yaml ./
-
-RUN pnpm fetch --prod
-
-RUN pnpm install -r --prefer-offline --prod
+# Install Prod npm packages
+RUN pnpm install
 
 # Remove npmrc file
 RUN rm .npmrc

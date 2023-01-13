@@ -36,7 +36,7 @@
             "cem": "Blindage CEM",
             "cem-retake": "Renforcement Blindage CEM",
             "act-fill": "Dilution activant",
-            "container-emptying": "Vidange conteneurs"
+            "container-emptying-all": "Vidange de tout les conteneurs"
         },
 
         "categories": {
@@ -229,5 +229,9 @@
                 "main": "Continuer"
             }
         }
+    },
+    "addons": {
+        "cem": "CEM",
+        "llc": "Look like chromium"
     }
 }

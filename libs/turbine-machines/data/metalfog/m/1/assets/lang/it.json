@@ -41,7 +41,7 @@
             "cem": "Schermatura CEM",
             "cem-retake": "Rinforzo schermatura CEM",
             "act-fill": "Diluzione attivatore",
-            "container-emptying": "Spurgo contenitori"
+            "container-emptying-all": "Spurghi di tutti contenitori"
         },
 
         "categories": {
@@ -229,5 +229,9 @@
         }
     },
 
-    "toasts": {}
+    "toasts": {},
+    "addons": {
+        "cem": "CEM",
+        "llc": "Look like chromium"
+    }
 }

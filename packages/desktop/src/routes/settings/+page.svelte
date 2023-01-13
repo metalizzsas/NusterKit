@@ -15,6 +15,7 @@
 	import type { PageData } from "./$types";
 	import { dark, lang } from "$lib/utils/stores/settings";
 	import { invalidateAll } from "$app/navigation";
+	import Label from "$lib/components/label.svelte";
 
     export let data: PageData;
 
@@ -64,7 +65,15 @@
         <SettingField label={$_('settings.machine.revision')} value={`${data.machine.revision}`} />
         <SettingField label={$_('settings.machine.serial')} value={data.machine.serial.toLocaleUpperCase()} />
         
-        {#if data.machine.addons !== undefined && data.machine.addons.length > 0}<SettingField label={$_('settings.machine.addons')} value={data.machine.addons?.map(k => $_('addons.' + k)).join(", ")} />{/if}
+        {#if data.machine.addons !== undefined && data.machine.addons.length > 0}
+            <SettingField label={$_('settings.machine.addons')}>
+                <Flex gap={2} items="center">
+                    {#each data.machine.addons as addon}
+                        <Label>{$_(`addons.${addon}`)}</Label>
+                    {/each}
+                </Flex>
+            </SettingField>
+        {/if}
         {#if data.cycleCount !== undefined } <SettingField label={$_('settings.machine.cycle_count')} value={`${data.cycleCount.duration}`} /> {/if}
 
         

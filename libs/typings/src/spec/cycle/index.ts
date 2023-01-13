@@ -2,8 +2,8 @@ import type { ProgramBlockRunner } from "./ProgramBlockRunner";
 
 type CyclePremade = {
     name: string;
-    profile: string;
     cycle: string;
+    profile?: string;
 };
 
 export { CyclePremade, ProgramBlockRunner };

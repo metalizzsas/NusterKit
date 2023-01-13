@@ -60,6 +60,10 @@
         },
 
         "steps": {
+            "start": {
+                "name": "Start",
+                "desc": "Preheating machine"
+            },
             "pulverization": {
                 "name": "Pulverization",
                 "desc": "Applying varnish on your parts."
@@ -149,5 +153,6 @@
         }
     },
 
-    "toasts": {}
+    "toasts": {},
+    "addons": {}
 }

@@ -84,5 +84,8 @@
             }
         }
     },
-    "toasts": {}
+    "toasts": {},
+    "addons": {
+        "temperature-control": "Controllo della temperatura"
+    }
 }

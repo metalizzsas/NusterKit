@@ -12,7 +12,6 @@
 	import { translateProfileName } from "$lib/utils/i18n/i18nprofile";
 	import SelectableButton from "$lib/components/buttons/SelectableButton.svelte";
 	import type { PageData } from "./$types";
-	import { page } from "$app/stores";
 
     export let data: PageData;
 
@@ -45,15 +44,27 @@
     $: cycleData = $realtime.cycle;
     $: if(cycleData !== undefined && selectedPremadeIndex === undefined)
     { 
-        const index = data.cyclePremades.findIndex(p => p.profile._id == cycleData?.profile?._id);
-        selectedPremadeIndex = index === -1 ? undefined : index;
+        const index = data.cyclePremades.findIndex(p => p.profile?._id == cycleData?.profile?._id);
+        const cycleIndex = data.cyclePremades.findIndex(p => p.cycle === cycleData?.name);
+
+        selectedPremadeIndex = index === -1 ? ((cycleIndex === -1) ? undefined : cycleIndex) : index;
 
         if(selectedPremadeIndex !== -1 && !["creat"].includes(cycleData.status.mode))
             listShrinked = true;
     }
 
-    $: if(cycleData !== undefined && !cycleData.status.mode.startsWith("creat")) { listShrinked = true } else if (cycleData !== undefined) { listShrinked = false } else { listShrinked = false }
-
+    $: if(cycleData !== undefined && !cycleData.status.mode.startsWith("creat"))
+    { 
+        listShrinked = true;
+    } 
+    else if (cycleData !== undefined)
+    { 
+        listShrinked = false;
+    }
+    else
+    { 
+        listShrinked = false;
+    }
 </script>
 
 <Flex direction="row" gap={listShrinked ? 0 : 6}>
@@ -65,6 +76,7 @@
             <Flex direction="col" gap={2}>
                 <h1>{$_(`cycle.lead`)}</h1>
                 {#each data.cyclePremades as premade, index}
+                    {@const isPrimaryPremade = premade.cycle === "default"}
 
                     <SelectableButton 
                         selected={selectedPremadeIndex === index}
@@ -75,22 +87,36 @@
 
                             } else {
                                 selectedPremadeIndex = index;
-                                prepareCycle(premade.cycle, premade.profile._id);
+                                prepareCycle(premade.cycle, premade.profile?._id);
                             }
                         }}
                     >
 
                         <Flex gap={4} items="center">
-                            <Icon
-                                src={premade.profile.isPremade === true ? Square3Stack3d : UserCircle}
-                                theme="solid"
-                                class="text-indigo-500 h-6 w-6"
-                            />
+                            {#if premade.profile}
+                                <Icon
+                                    src={premade.profile?.isPremade === true ? Square3Stack3d: UserCircle}
+                                    theme="solid"
+                                    class="{isPrimaryPremade ? "text-indigo-500" : "text-pink-500"} h-6 w-6"
+                                />
+                            {:else}
+                                <Icon
+                                    src={Square3Stack3d}
+                                    theme="solid"
+                                    class="{isPrimaryPremade ? "text-indigo-500" : "text-pink-500"} h-6 w-6"
+                                />
+                            {/if}
                             <Flex direction="col" gap={0} items="start" justify="items-start">
-                                <h2>{translateProfileName($_, premade.profile)}</h2>
-                                <p class="text-sm text-zinc-600 dark:text-zinc-300">
-                                    {$_("cycle.names." + premade.cycle)}
-                                </p>
+
+                                {#if premade.profile !== undefined}
+                                    <h2>{translateProfileName($_, premade.profile)}</h2>
+                                    <p class="text-sm text-zinc-600 dark:text-zinc-300">
+                                        {$_("cycle.names." + premade.cycle)}
+                                    </p>
+                                {:else}
+                                    <h2>{$_("cycle.names." + premade.cycle)}</h2>
+                                {/if}
+
                             </Flex>
                         </Flex>
 

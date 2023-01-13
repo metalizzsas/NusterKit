@@ -4,7 +4,7 @@ import type { PageServerLoad } from "./$types";
 
 export const load = (async ({ fetch }) => {
 
-    let cyclePremades: Array<Omit<CyclePremade, "profile"> & { profile: ProfileHydrated}> = [];
+    let cyclePremades: Array<Omit<CyclePremade, "profile"> & { profile?: ProfileHydrated}> = [];
 
     const req = await fetch(`/api/v1/cycle/premades`);
     let premades = await req.json() as Array<CyclePremade>;
@@ -17,7 +17,7 @@ export const load = (async ({ fetch }) => {
     cyclePremades = premades.map(k => { 
         return {
             ...k,
-            profile: profileList.find(p => p._id === k.profile) as ProfileHydrated
+            profile: profileList.find(p => p._id === k.profile)
         }
     });
 

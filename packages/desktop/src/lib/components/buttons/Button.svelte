@@ -4,7 +4,7 @@
     export let color: TailwindColors<"bg", true> = "hover:bg-emerald-500";
     export let ringColor: TailwindColors<"ring", false> = "ring-emerald-500"
     export let textColor: TailwindColors<"text", false> = "text-zinc-800 dark:text-white";
-    export let textHoverColor: TailwindColors<"text", true> = "hover:text-white";
+    export let textHoverColor: TailwindColors<"text", true> = "hover:text-white dark:hover:text-white";
 
     export let size: "base" | "small" = "base";
 

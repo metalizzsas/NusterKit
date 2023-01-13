@@ -11,6 +11,7 @@
 
     import type { PageData } from "./$types";
 	import { page } from "$app/stores";
+	import { _ } from "svelte-i18n";
     export let data: PageData;
 
     async function save() {
@@ -71,7 +72,7 @@
             <p>Addons are small specs parts that are added to base specs.</p>
     
             {#each specs.addons as item}
-                <SettingField label={item.addonName}><input type="checkbox" bind:group={data.configuration.addons} value={item.addonName} /></SettingField>
+                <SettingField label={item.addonName}><input type="checkbox" bind:group={data.configuration.addons} value={$_(`addons.${item.addonName}`)} /></SettingField>
             {/each}
         {/if}
 

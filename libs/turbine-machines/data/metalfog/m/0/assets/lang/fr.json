@@ -162,5 +162,6 @@
         }
     },
 
-    "toasts": {}
+    "toasts": {},
+    "addons": {}
 }

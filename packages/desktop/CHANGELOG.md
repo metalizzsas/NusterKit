@@ -1,5 +1,15 @@
 # @metalizzsas/nuster-desktop
 
+## 1.9.18
+
+### Patch Changes
+
+- fix: disabled internal keyboard of weston ([#226](https://github.com/metalizzsas/NusterKit/pull/226))
+
+- fix: select field is not handled correctly by safari ([#226](https://github.com/metalizzsas/NusterKit/pull/226))
+
+- fix: updated UA check for internal keyboard ([#226](https://github.com/metalizzsas/NusterKit/pull/226))
+
 ## 1.9.17
 
 ### Patch Changes

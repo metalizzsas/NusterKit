@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.9.16
+
+### Patch Changes
+
+- fix: window size was not set properly ([#222](https://github.com/metalizzsas/NusterKit/pull/222))
+
 ## 1.9.15
 
 ### Patch Changes

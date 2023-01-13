@@ -229,5 +229,9 @@
         }
     },
 
-    "toasts": {}
+    "toasts": {},
+    "addons": {
+        "cem": "CEM",
+        "llc": "Look like chromium"
+    }
 }

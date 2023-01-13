@@ -227,5 +227,9 @@
                 "main": "Continue"
             }
         }
+    },
+    "addons": {
+        "cem": "CEM",
+        "llc": "Look like chromium"
     }
 }

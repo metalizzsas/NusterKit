@@ -68,7 +68,10 @@ export declare interface Translations {
     /** Toasts */
     toasts: {
         [key:string]: ToastTranslation
-    }
+    },
+
+    /** Addons */
+    addons: TranslationGroupString
 }
 
 /** String keyed Translations group */

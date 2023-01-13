@@ -142,5 +142,6 @@
             }
         }
     },
-    "toasts": {}
+    "toasts": {},
+    "addons": {}
 }

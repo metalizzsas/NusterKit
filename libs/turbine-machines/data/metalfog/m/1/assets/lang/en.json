@@ -37,7 +37,7 @@
             "cem": "CEM shielding",
             "cem-retake": "CEM shielding retake",
             "act-fill": "Activator dilution",
-            "container-emptying": "Container emptying"
+            "container-emptying-all": "Emptying all containers"
         },
         "categories": {
             "act-edi-nozzles": "Activator & DI Water nozzles",

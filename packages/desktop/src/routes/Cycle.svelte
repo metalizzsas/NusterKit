@@ -9,7 +9,6 @@
 	import { translateProfileName } from "$lib/utils/i18n/i18nprofile";
 	import { machine, realtime } from "$lib/utils/stores/nuster";
 	import { createEventDispatcher } from "svelte";
-	import { page } from "$app/stores";
 	import Gate from "./io/Gate.svelte";
 
     const dispatch = createEventDispatcher<{ patched: void }>();
@@ -48,21 +47,27 @@
 
     {@const ready = cycleData.startConditions.filter(k => ["warning", "error"].includes(k.result)).length == 0}
 
-    <p class="text-sm text-zinc-600 dark:text-zinc-300">{$_(`cycle.names.${cycleData.name}`)}</p>
     {#if cycleData.profile}
+        <p class="text-sm text-zinc-600 dark:text-zinc-300 -mb-1">{$_(`cycle.names.${cycleData.name}`)}</p>
         <h1>{translateProfileName($_, cycleData.profile)}</h1>
+    {:else}
+        <h1>{$_(`cycle.names.${cycleData.name}`)}</h1>
     {/if}
 
     {#if cycleData !== undefined && cycleData.status.estimatedRunTime !== undefined}
-        <p>
+        <p class="mt-3 mb-4">
             <Icon src={Clock} class="h-5 w-5 mr-0.5 mb-0.5 inline-block" />
             <span class="font-semibold">{$_('cycle.eta.estimated')}</span>
-            <span>{parseDurationToString(cycleData.status.estimatedRunTime)}</span>
+            {#if cycleData.status.estimatedRunTime === null}
+                <span>{$_('cycle.eta.null')}</span>
+            {:else}
+                <span>{parseDurationToString(cycleData.status.estimatedRunTime)}</span>
+            {/if}
         </p>
     {/if}
 
     <Button 
-        class="group self-start my-3" 
+        class="group self-start mb-2" 
         color={ready ? "hover:bg-emerald-500" : "hover:bg-red-500"}
         ringColor={ready ? "ring-emerald-500" : "ring-red-500"}
         on:click={startCycle}

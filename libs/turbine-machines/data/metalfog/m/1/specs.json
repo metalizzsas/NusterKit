@@ -3,12 +3,12 @@
 
    "nuster": {
       "connectPopup": {
-         "title": "popups.nozzle-cleaning.title",
-         "message": "popups.nozzle-cleaning.message",
+         "title": "toasts.nozzle-cleaning.title",
+         "message": "toasts.nozzle-cleaning.message",
          "level": "info",
          "callToActions": [
             {
-               "name": "popups.nozzle-cleaning.actions.main",
+               "name": "toasts.nozzle-cleaning.actions.main",
                "APIEndpoint": {
                   "url": "/api/v1/cycle/nozzle-cleaning",
                   "method": "post"
@@ -923,6 +923,11 @@
          "name": "container-emptying",
          "profile": "premade_container-emptying-all",
          "cycle": "container-emptying"
+      },
+      {
+         "name": "nozzle-cleaning",
+         "profile": "",
+         "cycle": "nozzle-cleaning"
       }
    ],
    "cycleTypes": [

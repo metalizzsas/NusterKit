@@ -152,7 +152,7 @@
 {:else}
     <div class="m-6">
         <h1>Realtime data has been interupted.</h1>
-        <Button color="hover:bg-zinc-800" ringColor="ring-zinc-800" on:click={machineConnect}>Reconnect</Button>
+        <Button color="hover:bg-zinc-800" ringColor="ring-zinc-800" textColor="text-zinc-900" textHoverColor="hover:text-white" on:click={machineConnect}>Reconnect</Button>
     </div>
 {/if}
 

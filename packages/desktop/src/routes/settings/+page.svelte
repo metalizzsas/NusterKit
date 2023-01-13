@@ -49,7 +49,7 @@
         <h2>{$_('settings.ui.lead')}</h2>
         
         <SettingField label={$_('settings.ui.language')}>
-            <Select bind:value={$lang}>
+            <Select bind:value={$lang} selectableValues={Object.keys(langs).map(k => { return { name: langs[k], value: k}})}>
                 {#each $locales as locale}
                     <option value={locale}>{langs[locale]}</option>
                 {/each}

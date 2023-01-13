@@ -8,7 +8,7 @@ export const handle = (async ({ event, resolve }) => {
     // Is UI Served for machine screen ? If so we should display the floating keyboard.
     // We should take care of this User agent as it might change if we update balena-block/browser
     // In dev mode, this will always be true
-    event.locals.is_machine_screen = import.meta.env.DEV ? true : (event.request.headers.get("user-agent") == "Mozilla/5.0 (X11; Linux aarch64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36");
+    event.locals.is_machine_screen = import.meta.env.DEV ? true : (event.request.headers.get("user-agent") == "Mozilla/5.0 (X11; Linux aarch64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Safari/605.1.15");
 
     const response = await resolve(event);
     return response;

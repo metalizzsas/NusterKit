@@ -10,8 +10,8 @@
     outline: none;
     margin: 0;
     padding: 0;
-    user-select: none;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-appearance: none;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
   }

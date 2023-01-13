@@ -26,17 +26,9 @@
     {:else if field.type == "time"}
         <TimeField bind:value={field.value} {disabled} />
     {:else if field.type == 'float'}
-            <Flex gap={2} items="center">
-                <Label>{field.value} <span class="font-semibold">{field.unity}</span></Label>
-                <input
-                    type="range"
-                    class="min-w-[17vw]"
-                    bind:value={field.value}
-                    min={field.floatMin}
-                    max={field.floatMax}
-                    step={field.floatStep ?? 1}
-                    {disabled}
-                />
-            </Flex>
+        <Flex gap={2} items="center">
+            <NumField bind:value={field.value} min={field.floatMin} max={field.floatMax} step={field.floatStep} />
+            <Label>{field.value} <span class="font-semibold">{field.unity}</span></Label>
+        </Flex>
     {/if}
 </Flex>

@@ -220,8 +220,8 @@
 
     "eta": {
       "null": "Inconnu",
-      "remaining": "Temps restant",
-      "estimated": "Temps estimé"
+      "remaining": "Temps restant:",
+      "estimated": "Temps estimé:"
     },
 
     "end": {

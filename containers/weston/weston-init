@@ -74,6 +74,9 @@ if [ "$WPE_WESTON_OUTPUT_MAX_WIDTH" -gt 0 -o "$WPE_WESTON_OUTPUT_MAX_HEIGHT" -gt
         if [ -n "$foundres" -a "$moden" -gt 1 ]; then
             cat << IEOF >> /weston.ini
 
+[input-method]
+path=/usr/wrongpath
+
 [output]
 name=${outn}
 mode=${foundres}

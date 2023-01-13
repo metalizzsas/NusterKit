@@ -62,8 +62,8 @@ services:
       - 'weston:/run/weston'
     environment:
       WPE_URL: 'http://127.0.0.1/'
-      WPE_COG_PLATFORM_FDO_VIEW_WIDTH: 1024
-      WPE_COG_PLATFORM_FDO_VIEW_HEIGHT: 600
+      WPE_COG_PLATFORM_WL_VIEW_WIDTH: 1024
+      WPE_COG_PLATFORM_WL_VIEW_HEIGHT: 600
 
   proxy: 
     build: ./containers/proxy/

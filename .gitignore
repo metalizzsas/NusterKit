@@ -4,4 +4,5 @@ node_modules
 pnpm-lock.yaml
 .pnpm-store/
 /package.json
+/deploy
 docker-test.sh

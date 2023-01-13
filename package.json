@@ -7,6 +7,10 @@
     "node": "18.x"
   },
   "scripts": {
+    "deploy": "pnpm deploy:turbine && pnpm deploy:desktop",
+    "deploy:turbine": "pnpm deploy --filter @metalizzsas/nuster-turbine --prod ./deploy/turbine",
+    "deploy:desktop": "pnpm deploy --filter @metalizzsas/nuster-desktop --prod ./deploy/desktop",
+    
     "dev": "pnpm -r --parallel --filter=!@metalizzsas/simulation-ui run dev",
     "dev-sim": "pnpm -r --parallel run dev",
     "lint": "pnpm -r --parallel run lint",

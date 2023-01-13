@@ -4,15 +4,19 @@
     "type": "split",
     "children": [
       {
-        "id": "4f618221dacf7c00",
+        "id": "b99b2e072cc4bbb6",
         "type": "tabs",
         "children": [
           {
-            "id": "84df20331a8ae0aa",
+            "id": "d64af481d3993bc8",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "fr/index.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -65,7 +69,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 269.5
+    "width": 280.5
   },
   "right": {
     "id": "bd5f270bde93fffb",
@@ -81,6 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "fr/index.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -97,6 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "fr/index.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -118,7 +124,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "fr/index.md"
+              }
             }
           }
         ]
@@ -138,8 +146,9 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "18c97755314d5827",
+  "active": "d64af481d3993bc8",
   "lastOpenFiles": [
+    "fr/index.md",
     "index.md",
     "nav-modals/settings.md",
     "assets/quickstart-profile-saved.png",
@@ -148,7 +157,6 @@
     "components/cycle.md",
     "components/manual-modes.md",
     "assets/container-modal-load-method.png",
-    "assets/container-modal-load.png",
-    "components/profiles.md"
+    "assets/container-modal-load.png"
   ]
 }

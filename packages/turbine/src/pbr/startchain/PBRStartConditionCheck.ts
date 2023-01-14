@@ -17,19 +17,13 @@ export class PBRStartConditionCheck
         this.startcondition = sc;
 
         if(sc.io !== undefined)
-        {
-            TurbineEventLoop.on(`io.updated.${sc.io?.gateName}`, (gate) => this.gate = gate);
-        }
-
-        if(sc.parameter)
-        {
+            TurbineEventLoop.on(`io.updated.${sc.io.gateName}`, (gate) => this.gate = gate);
+        else if(sc.parameter)
             this.statusBlock = ParameterBlockRegistry.Status(sc.parameter);
-        }
     }
 
     check(): "error" | "warning" | "good" 
     {
-
         if(this.startcondition.io && this.gate)
             return this.gate.value == this.startcondition.io.gateValue ? "good" : "error";
 

@@ -39,14 +39,7 @@ export declare interface EventLoopEmitter extends EventEmitter
 
     emit<U extends keyof EventLoopEvents>(event: U, ...args: Parameters<EventLoopEvents[U]>): boolean
 }
-/**
- * Events Used in the `TurbineEventLoop`
- * 
- * TODO: Should use callbacks to directly send response instead of using 2 packets strategy
- * ```typescript
- * TurbineEventLoop.emit("event", {...dataToSend, callback(response) => { doSomothingWithResponse();}});
- * ```
- */
+/** Events Used in the `TurbineEventLoop` */
 interface EventLoopEvents
 {
     /** IO Controller events */

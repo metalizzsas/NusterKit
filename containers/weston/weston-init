@@ -26,6 +26,9 @@ locking=false
 animation=zoom
 startup-animation=fade
 
+[input-method]
+path=nokeyboard
+
 IEOF
 
 WPE_WESTON_OUTPUT_MAX_WIDTH=${WPE_WESTON_OUTPUT_MAX_WIDTH:-0}
@@ -73,9 +76,6 @@ if [ "$WPE_WESTON_OUTPUT_MAX_WIDTH" -gt 0 -o "$WPE_WESTON_OUTPUT_MAX_HEIGHT" -gt
         # found a res to use and it's non-preferred, override in weston
         if [ -n "$foundres" -a "$moden" -gt 1 ]; then
             cat << IEOF >> /weston.ini
-
-[input-method]
-path=/usr/wrongpath
 
 [output]
 name=${outn}

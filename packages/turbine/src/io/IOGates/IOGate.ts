@@ -63,12 +63,10 @@ export class IOGate implements IOGateBase
         if(this.bus == 'out') return true;
 
         const word = this.size == "word" ? true : undefined;
-
         const controllerData = await this.readFromController(word);
+        this.value = controllerData;
 
         TurbineEventLoop.emit(`io.updated.${this.name}`, this.toJSON());
-        
-        this.value = controllerData;
         return true;
     }
 
@@ -81,7 +79,6 @@ export class IOGate implements IOGateBase
         
         const word = this.size == "word" ? true : undefined;
         await this.writetoController(data, word);
-
         this.value = data;
 
         TurbineEventLoop.emit(`io.updated.${this.name}`, this.toJSON());

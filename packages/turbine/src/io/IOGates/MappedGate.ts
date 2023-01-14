@@ -29,7 +29,6 @@ export class MappedGate extends IOGate implements MappedGate
     public async read()
     {
         const v = await super.readFromController(true);
-    
         this.value = Math.floor(map(v, this.mapInMin, this.mapInMax, this.mapOutMin, this.mapOutMax) * 100) / 100;
 
         TurbineEventLoop.emit(`io.updated.${this.name}`, this.toJSON());

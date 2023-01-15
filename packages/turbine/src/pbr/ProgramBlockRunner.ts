@@ -51,7 +51,7 @@ export class ProgramBlockRunner implements ProgramBlockRunnerHydrated
             LoggerInstance.warn("PBR: This PBR is build without any profile.");
         else
         {
-            // Emit profile when asped by parameter blocks
+            // Emit profile when asked by profile parameter blocks
             TurbineEventLoop.on("pbr.profile.read", ({callback}) => {
                 callback?.(this.profile);
             });
@@ -64,15 +64,31 @@ export class ProgramBlockRunner implements ProgramBlockRunnerHydrated
 
         LoggerInstance.info("PBR: Finished building PBR.");
 
-        TurbineEventLoop.on(`pbr.timer.start`, (timer) => { this.timers.push(timer) });
+        TurbineEventLoop.on(`pbr.timer.start`, (timer) => {
+            
+            if(this.timers.find(k => k.name === timer.name)?.enabled === true)
+            {
+                TurbineEventLoop.emit("log", "warning", `PBR: Found a timer with ${timer.name} already active, ignoring.`);
+                return;
+            }
+            
+            this.timers.push(timer) 
+        });
 
-        // TODO: ProgramBlocks that needs PBRInstance are delayed because otherwise, they may find an undefined PBR Instance.
-        setTimeout(() => this.fill(object), 500);
-    }
+        TurbineEventLoop.on("pbr.timer.stop", (options) => {
+            const timer = this.timers.find(t => options.timerName === t.name)
+            
+            if(timer === undefined)
+            {
+                options.callback?.(false);
+                return;
+            }
 
-    private fill(object: ProgramBlockRunnerConfig)
-    {
-        LoggerInstance.info("PBR: Filling data.");
+            clearInterval(timer.timer);
+            this.timers = this.timers.filter(k => k.name !== timer.name); 
+
+            options.callback?.(true);
+        });
 
         //steps and watchdog
         for(const sc of object.startConditions)
@@ -81,9 +97,8 @@ export class ProgramBlockRunner implements ProgramBlockRunnerHydrated
         for(const step of object.steps)
             this.steps.push(new ProgramBlockStep(this, step));
         
-        LoggerInstance.info("PBR: Finished filling data");
-
         this.setState("created");
+        TurbineEventLoop.emit("log", "info", "PBR: Finished filling data");
     }
 
     /**

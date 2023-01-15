@@ -1,5 +1,20 @@
 # @metalizzsas/nuster-turbine
 
+## 1.9.7
+
+### Patch Changes
+
+- fix: multiple steps estimated runtimes are now calculated correclty ([#230](https://github.com/metalizzsas/NusterKit/pull/230))
+
+- fix: pbr stop timer block had no effect ([#230](https://github.com/metalizzsas/NusterKit/pull/230))
+
+- fix: updated simulation server port to 4082 ([#230](https://github.com/metalizzsas/NusterKit/pull/230))
+
+- fix: iogate value was assignated after `io.updated` event was sent ([#228](https://github.com/metalizzsas/NusterKit/pull/228))
+
+- Updated dependencies [[`77af338`](https://github.com/metalizzsas/NusterKit/commit/77af3385b2f6574240347175fe1e88a480dc559d)]:
+  - @metalizzsas/nuster-turbine-machines@1.3.5
+
 ## 1.9.6
 
 ### Patch Changes

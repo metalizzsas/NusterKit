@@ -1,5 +1,14 @@
 # @metalizzsas/simulation-server
 
+## 1.0.9
+
+### Patch Changes
+
+- fix: updated simulation server port to 4082 ([#230](https://github.com/metalizzsas/NusterKit/pull/230))
+
+- Updated dependencies [[`77af338`](https://github.com/metalizzsas/NusterKit/commit/77af3385b2f6574240347175fe1e88a480dc559d)]:
+  - @metalizzsas/nuster-turbine-machines@1.3.5
+
 ## 1.0.8
 
 ### Patch Changes

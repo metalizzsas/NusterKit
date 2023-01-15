@@ -10,7 +10,7 @@
     
     export let field: ProfileHydrated["values"][number];
 
-    export let disabled: boolean = false;
+    export let disabled = false;
 
 </script>
 

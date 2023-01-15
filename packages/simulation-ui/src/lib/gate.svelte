@@ -6,7 +6,7 @@
 	const updateGate = (name: string, value: number) => {
 		name = name.replace('#', '_');
 
-		void fetch(`http://localhost:4081/io/${name}/${value}`, { method: 'post' });
+		void fetch(`http://localhost:4082/io/${name}/${value}`, { method: 'post' });
 	};
 </script>
 

@@ -4,8 +4,8 @@ import path from "path";
 import { matchers } from 'jest-json-schema';
 
 import type { MachineSpecs } from "@metalizzsas/nuster-typings/build/spec";
-import { AllProgramBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
-import { AllParameterBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
+import { AllProgramBlocks, ForProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
+import { AllParameterBlocks, IOReadParameterBlock, ProfileParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
 
 expect.extend(matchers);
 
@@ -103,6 +103,25 @@ for(const file of filesToCheck)
         }
     });
 
+    it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' Cycle blocks', () => {
+        for(const cycle of json.cycleTypes)
+        {
+            const validator = new BlockValidator(json, cycle.name);
+
+            for(const step of cycle.steps)
+            {
+                expect(validator.validatePrBlock(step.isEnabled)).toBe(true);
+                if(step.runAmount)
+                    expect(validator.validatePrBlock(step.runAmount)).toBe(true);
+
+                for(const block of [...step.startBlocks, ...step.blocks, ...step.endBlocks])
+                {
+                    expect(validator.validatePBlock(block)).toBe(true);
+                }
+            }
+        }
+    });
+
     it('validating ' + file.model + ' ' + file.variant.toUpperCase() + ' R' + file.revision + ' Cycle additional informations', () => {
 
         for(const cycle of json.cycleTypes)
@@ -116,4 +135,60 @@ for(const file of filesToCheck)
             }
         }
     });
+}
+
+class BlockValidator
+{
+    machineConfig: MachineSpecs;
+    cycleName: string;
+
+    constructor(context: MachineSpecs, cycleName: string)
+    {
+        this.machineConfig = context;
+        this.cycleName = cycleName;
+    }
+
+    validatePrBlock(block: AllParameterBlocks): boolean
+    {
+        const cycleAttached = this.machineConfig.cycleTypes.find(k => k.name === this.cycleName); 
+
+        if(cycleAttached === undefined)
+            return false;
+
+        if((block as ProfileParameterBlock).profile !== undefined)
+        {
+            const profileAttached = this.machineConfig.profileSkeletons.find(k => k.name === this.cycleName);
+
+            if(profileAttached === undefined)
+                return false;
+            
+            return (profileAttached.fields.find(k => k.name === (block as ProfileParameterBlock).profile) !== undefined);
+        }
+        else if((block as IOReadParameterBlock).io_read !== undefined)
+        {
+            return this.machineConfig.iogates.find(k => k.name === (block as IOReadParameterBlock).io_read) !== undefined;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    
+    validatePBlock(block: AllProgramBlocks): boolean
+    {
+        const cycleAttached = this.machineConfig.cycleTypes.find(k => k.name === this.cycleName);
+
+        if(cycleAttached === undefined)
+            return false;
+
+        if((block as ForProgramBlock).for !== undefined)
+        {
+            const limitResult = this.validatePrBlock((block as ForProgramBlock).for.limit);
+            return (block as ForProgramBlock).for.blocks.reduce((p, c) => this.validatePBlock(c) && p, limitResult);
+        }
+        else
+        {
+            return true;
+        }
+    }
 }

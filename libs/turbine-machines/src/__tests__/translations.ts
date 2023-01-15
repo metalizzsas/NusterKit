@@ -86,8 +86,6 @@ for(const file of filesToCheck)
 
     const cyclePremadeProfiles = new Set(json.cyclePremades.map(c => c.profile).filter((k): k is string => k !== undefined).map(c => c.replace("premade_", "")));
 
-    console.log("cycle premade profile", cyclePremadeProfiles);
-
     for(const langFile of Object.keys(file.translations))
     {
         const translation = JSON.parse(fs.readFileSync(file.translations[langFile], {encoding: 'utf-8'})) as Translations;

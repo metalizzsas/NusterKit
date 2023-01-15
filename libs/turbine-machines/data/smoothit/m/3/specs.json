@@ -12,7 +12,7 @@
       },
       {
          "type": "serial",
-         "port": "/dev/ttyACM0",
+         "port": "/dev/ttyACM1",
          "baudRate": 9600,
          "ip": ""
       }
@@ -251,6 +251,7 @@
          "type": "mapped",
          "size": "word",
          "bus": "out",
+         "unity": "deg",
          "controllerId": 2,
          "address": 0,
          "default": 90,
@@ -537,7 +538,7 @@
                "isEnabled": {"profile": "pulverization#enabled"},
                "runAmount": {"conditional": {
                   "comparator": "==",
-                  "left_side": [{"profile": "multiplayer#enabled"}, {"profile": "multilayer#count"}],
+                  "left_side": [{"profile": "multilayer#enabled"}, {"profile": "multilayer#count"}],
                   "right_side": [1, 1]
                }},
                "blocks": [

@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { _ } from 'svelte-i18n';
-	import Select from './Select.svelte';
+	import Flex from '../layout/flex.svelte';
+	import NumField from './NumField.svelte';
 
 	export let disabled = false;
 
@@ -37,71 +38,33 @@
 	$: value, computeFrom();
 </script>
 
-<div class="inline-block rounded-md p-1 px-2 ring-1 ring-gray-500/50">
+<Flex items="center" gap={2}>
+
 	{#if enabledTimes.includes('hours')}
-		<select
-			name="hours"
-			class="w-15 bg-white dark:bg-zinc-800"
-			bind:value={hours}
-			on:change={computeTo}
-			{disabled}
-		>
-			{#each Array.from({ length: 24 }, (_, i) => i + 1).map((x) => x - 1) as count}
-				<option value={count}>{count}</option>
-				>
-			{/each}
-		</select>
-		<div class="px-1 font-semibold inline-block">{$_('date.hours')}</div>
+		<Flex direction={"col"} gap={0}>
+			<span class="text-sm font-medium">{$_('date.hours')}</span>
+			<NumField bind:value={milliseconds} on:change={computeTo} min={0} max={23} step={1} {disabled}/>
+		</Flex>
 	{/if}
 
 	{#if enabledTimes.includes('minutes')}
-		<select
-			class="w-15 bg-white dark:bg-zinc-800"
-			name="minutes"
-			bind:value={minutes}
-			on:change={computeTo}
-			{disabled}
-		>
-			{#each Array.from({ length: 99 }, (_, i) => i + 1).map((x) => x - 1) as count}
-				<option value={count}>{count}</option>
-				>
-			{/each}
-		</select>
-		<div class="px-1 font-semibold inline-block">{$_('date.minutes')} :</div>
+		<Flex direction="col" gap={0}>
+			<span class="text-sm font-medium">{$_('date.minutes')}</span>
+			<NumField bind:value={minutes} on:change={computeTo} min={0} max={59} step={1} {disabled}/>
+		</Flex>
 	{/if}
 
 	{#if enabledTimes.includes('seconds')}
-		<select
-			name="seconds"
-			class="w-15 bg-white dark:bg-zinc-800"
-			bind:value={seconds}
-			on:change={computeTo}
-			{disabled}
-		>
-			{#each Array.from({ length: 60 }, (_, i) => i + 1).map((x) => x - 1) as count}
-				<option value={count}>{count}</option>
-				>
-			{/each}
-		</select>
-		<div class="px-1 font-semibold inline-block">{$_('date.seconds')}</div>
+		<Flex direction="col" gap={0}>
+			<span class="text-sm font-medium">{$_('date.seconds')}</span>
+			<NumField bind:value={seconds} on:change={computeTo} min={0} max={59} step={1} {disabled}/>
+		</Flex>
 	{/if}
 
 	{#if enabledTimes.includes('milliseconds')}
-		<select
-			name="milliseconds"
-			class="w-15 bg-white dark:bg-zinc-800"
-			bind:value={milliseconds}
-			on:change={computeTo}
-			{disabled}
-		>
-			{#each Array.from({ length: 99 }, (_, i) => i + 1)
-
-				.map((x) => x - 1)
-				.filter((x) => x % 5 == 0) as count}
-				<option value={count * 10}>{count * 10}</option>
-				>
-			{/each}
-		</select>
-		<div class="px-1 font-semibold inline-block">{$_('date.milliseconds')}</div>
+		<Flex direction={"col"} gap={0}>
+			<span class="text-sm font-medium">{$_('date.seconds')}</span>
+			<NumField bind:value={milliseconds} on:change={computeTo} min={0} max={990} step={10} {disabled}/>
+		</Flex>
 	{/if}
-</div>
+</Flex>

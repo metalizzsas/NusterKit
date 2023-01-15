@@ -85,7 +85,7 @@
             await fetch(`/api/v1/containers/${container.name}/${name}/${selectedProduct ?? ''}`, { method: "post" });
         }
         else
-            executeCallToAction(callToAction);
+            void executeCallToAction(callToAction);
 
         // hide compatible product list
         compatibleProductListShown = false;
@@ -222,27 +222,20 @@
                                     </Button>
                                 </Grid>
 
-                            {:else if preselectedMethod !== undefined}
+                            {:else if preselectedMethod !== undefined && container.supportedProductSeries}
 
                                 <p class="text-zinc-700 dark:text-zinc-300 mb-2">{$_('container.product.action.product_choose')}</p>
 
                                 <Flex gap={4}>
 
-                                    <Select bind:value={selectedProduct} class="grow">
-                                        {#if container.supportedProductSeries}
-                                            <option selected value={undefined}>—</option>
-                                            {#each container.supportedProductSeries as series}
-                                                <option value={series}>{$_(`container.product.informations.product_series.${series}`)}</option>
-                                            {/each}
-                                        {/if}
-                                    </Select>
+                                    <Select bind:value={selectedProduct} selectableValues={[{name: "—", value: undefined}, ...(container.supportedProductSeries.map(k => { return { name: $_(`container.product.informations.product_series.${k}`), value: k}}))]} class="grow" />
 
                                     <Button 
                                         color="{selectedProduct === undefined ? 'hover:bg-gray-500' : 'hover:bg-amber-500'}"
                                         ringColor="{selectedProduct === undefined ? 'ring-gray-500' : 'ring-amber-500'}"
                                         on:click={() => {
                                             if(preselectedMethod) { 
-                                                productEdit(preselectedMethod); 
+                                                void productEdit(preselectedMethod); 
                                             }
                                         }}
                                     >
@@ -275,7 +268,7 @@
                                 <span>{$_('container.regulation.enabled')}</span>
                                 <div class="h-[1px] grow bg-zinc-500/50" />
                                 <Toggle bind:value={regulation.state} on:change={(e) => {
-                                    toggleRegulation(regulation.name, e.detail.value);
+                                    void toggleRegulation(regulation.name, e.detail.value);
                                 }}/>
                             </Flex>
 
@@ -294,7 +287,7 @@
                                 <span>{$_('container.regulation.target')}</span>
                                 <div class="h-[1px] grow bg-zinc-500/50" />
                                 <NumField bind:value={regulation.target} on:change={(e) => {
-                                    setRegulation(regulation.name, e.detail.value)
+                                    void setRegulation(regulation.name, e.detail.value)
                                 }}/>
                             </Flex>
                         </Flex>

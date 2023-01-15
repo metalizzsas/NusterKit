@@ -35,7 +35,9 @@
         <Flex>
             <Label>
                 {io.value}
-                <span class="font-medium">{io.unity}</span>
+                {#if io.unity}
+                    <span class="font-medium">{io.unity}</span>
+                {/if}
             </Label>
 
             {#if editable === true}

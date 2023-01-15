@@ -65,8 +65,8 @@ export class IOGate implements IOGateBase
         const word = this.size == "word" ? true : undefined;
         const controllerData = await this.readFromController(word);
         this.value = controllerData;
-
         TurbineEventLoop.emit(`io.updated.${this.name}`, this.toJSON());
+
         return true;
     }
 

@@ -10,6 +10,7 @@
 	import { machine, realtime } from "$lib/utils/stores/nuster";
 	import { createEventDispatcher } from "svelte";
 	import Gate from "./io/Gate.svelte";
+	import Label from "$lib/components/label.svelte";
 
     const dispatch = createEventDispatcher<{ patched: void }>();
 
@@ -185,7 +186,7 @@
         {@const icon = step.state === "started" ? ArrowPath : ["partial", "ended", "ending"].includes(step.state) ? Check : XMark}
         {@const iconColor = step.state === "started" ? "text-orange-500" : ["partial", "ended", "ending"].includes(step.state) ? "text-emerald-500" : "text-red-500"}
 
-            <div class="p-4 rounded-xl border-[1px] border-zinc-300/50">
+            <div class="p-4 rounded-xl border-[1px] border-zinc-400">
                 <Flex items="center" justify="between">
                     <Flex 
                         gap={1} 
@@ -201,7 +202,14 @@
                         <p class="text-sm">{$_(`cycle.steps.${step.name}.desc`)}</p>
                     </Flex>
 
-                    <Icon src={icon} class="h-6 w-6 self-start {icon === ArrowPath ? "animate-spin-slow" : ""} {iconColor}" />
+                    <Flex gap={4}>
+                        {#if step.runCount && step.runAmount !== undefined}
+                            <Label>{step.runCount} / {step.runAmount.data}</Label>
+                        {/if}
+                        
+                        <Icon src={icon} class="h-6 w-6 self-start {icon === ArrowPath ? "animate-spin-slow" : ""} {iconColor}" />
+                    </Flex>
+
                 </Flex>
 
                 {#if step.state === "started"}
@@ -212,7 +220,7 @@
                             class:bg-violet-500={step.progress === -1}
                             class:bg-indigo-500={step.state === "started" && step.progress !== -1}
                             class:animate-pulse={step.state === "started"}
-                            style:width={step.progress * 100 + "%"}
+                            style:width={`${step.progress * 100}%`}
                         />
                     </div>
                 {/if}

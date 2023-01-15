@@ -76,7 +76,7 @@ if(fs.existsSync(infoPath))
     if(productionEnabled == false)
     {
         LoggerInstance.warn("DEV: Sending configuration to simulation server.");
-        fetch("http://localhost:4081/config", { method: "post", headers: {"Content-Type": "application/json"}, body: JSON.stringify(parsedConfiguration)});
+        fetch("http://localhost:4082/config", { method: "post", headers: {"Content-Type": "application/json"}, body: JSON.stringify(parsedConfiguration)});
     }
 
     machine = new Machine(parsedConfiguration);

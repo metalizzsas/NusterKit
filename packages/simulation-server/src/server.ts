@@ -9,7 +9,7 @@ app.use(express.json());
 
 let machine: SimulationMachine | undefined = undefined;
 
-app.listen(4081, () => {
+app.listen(4082, () => {
     console.log("express started up"); 
 });
 

@@ -1,5 +1,11 @@
 # @metalizzsas/simulation-ui
 
+## 1.0.5
+
+### Patch Changes
+
+- fix: updated simulation server port to 4082 ([#230](https://github.com/metalizzsas/NusterKit/pull/230))
+
 ## 1.0.4
 
 ### Patch Changes

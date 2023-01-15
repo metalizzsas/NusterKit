@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-desktop
 
+## 1.9.19
+
+### Patch Changes
+
+- fix: updated time field using numField instead of select ([#230](https://github.com/metalizzsas/NusterKit/pull/230))
+
+- feat: cycle now display runCounts / runAmouts of multiple steps ([#230](https://github.com/metalizzsas/NusterKit/pull/230))
+
 ## 1.9.18
 
 ### Patch Changes

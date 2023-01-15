@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.3.5
+
+### Patch Changes
+
+- fix: updated smoothit m r3 ([#230](https://github.com/metalizzsas/NusterKit/pull/230))
+
 ## 1.3.4
 
 ### Patch Changes

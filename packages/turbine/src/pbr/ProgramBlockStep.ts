@@ -146,7 +146,12 @@ export class ProgramBlockStep implements PBRStepHydrated
     /** Estimate the run time of this step */
     private estimateRunTime(): number
     {
-        return [this.endBlocks, this.startBlocks, this.blocks].flatMap(k => k).reduce((p, c) => p + c.estimatedRunTime, 0);
+        let stepRunTime = [this.endBlocks, this.startBlocks, this.blocks].flatMap(k => k).reduce((p, c) => p + c.estimatedRunTime, 0);
+
+        if(this.runAmount !== undefined)
+            stepRunTime = this.runAmount?.data * stepRunTime;
+
+        return stepRunTime;
     }
 
     get progress()

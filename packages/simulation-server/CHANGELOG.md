@@ -1,5 +1,14 @@
 # @metalizzsas/simulation-server
 
+## 1.0.10
+
+### Patch Changes
+
+- fix: addons not supported by machine were crashing the app ([#231](https://github.com/metalizzsas/NusterKit/pull/231))
+
+- Updated dependencies [[`d1b13b2`](https://github.com/metalizzsas/NusterKit/commit/d1b13b23fdf3a3a96844767eb05aca7f59bd8a50)]:
+  - @metalizzsas/nuster-turbine-machines@1.3.6
+
 ## 1.0.9
 
 ### Patch Changes

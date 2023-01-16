@@ -1,5 +1,24 @@
 # @metalizzsas/nuster-turbine
 
+## 1.9.8
+
+### Patch Changes
+
+- fix: io.resetAll was not awaiting each gate write ([#231](https://github.com/metalizzsas/NusterKit/pull/231))
+
+- feat: Status blocks are subscribeable to check for change ([#231](https://github.com/metalizzsas/NusterKit/pull/231))
+
+- fix: TurbineEventLoop is now used correctly ([#231](https://github.com/metalizzsas/NusterKit/pull/231))
+
+- fix: addons not supported by machine were crashing the app ([#231](https://github.com/metalizzsas/NusterKit/pull/231))
+
+- chore: cleaned up api routes ([#231](https://github.com/metalizzsas/NusterKit/pull/231))
+
+- chore: removed Authmanager ([#231](https://github.com/metalizzsas/NusterKit/pull/231))
+
+- Updated dependencies [[`d1b13b2`](https://github.com/metalizzsas/NusterKit/commit/d1b13b23fdf3a3a96844767eb05aca7f59bd8a50)]:
+  - @metalizzsas/nuster-turbine-machines@1.3.6
+
 ## 1.9.7
 
 ### Patch Changes

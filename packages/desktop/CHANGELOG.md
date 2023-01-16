@@ -1,5 +1,17 @@
 # @metalizzsas/nuster-desktop
 
+## 1.9.20
+
+### Patch Changes
+
+- feat: Maintenance & Help images are zoomable now ([#231](https://github.com/metalizzsas/NusterKit/pull/231))
+
+- fix: new api routes ([#231](https://github.com/metalizzsas/NusterKit/pull/231))
+
+- fix: http method was PATCH instead of patch ([#231](https://github.com/metalizzsas/NusterKit/pull/231))
+
+- fix: now installing OTA updates ([#231](https://github.com/metalizzsas/NusterKit/pull/231))
+
 ## 1.9.19
 
 ### Patch Changes

@@ -88,19 +88,8 @@ export class ProfilesRouter extends Router {
             }
         });
 
-        /** Middleware to prevent deleting or editing premad profiles. */
-        this.router.all('/:id', (req: Request, res: Response, next: NextFunction) => {
-            if(req.params.id.startsWith("premade_"))
-            {
-                res.status(403).end("Cannot edit or remove premade profiles.");
-                return;
-            }
-            else
-                next();
-        });
-
         /** Route to delete a profil with its `id` */
-        this.router.delete('/:id', async (req: Request, res: Response) => {
+        this.router.delete('/:id', this.premadeProtect, async (req: Request, res: Response) => {
             await ProfileModel.findByIdAndDelete(req.params.id, {}, (err, doc) => {
                 if(doc && !err)
                     res.status(200).end();
@@ -110,7 +99,7 @@ export class ProfilesRouter extends Router {
         });
         
         /** Route to Update a profile */
-        this.router.patch('/:id', async (req: Modify<Request, { body: ProfileHydrated }> , res: Response) => {
+        this.router.patch('/:id', this.premadeProtect, async (req: Modify<Request, { body: ProfileHydrated }> , res: Response) => {
 
             const p: ProfileHydrated = req.body;
             p.modificationDate = Date.now();
@@ -124,6 +113,18 @@ export class ProfilesRouter extends Router {
                 res.status(404).end("failed to save profile");
             });
         });
+    }
+
+    /** Premade protection for `DELETE` & `PATCH` */
+    private premadeProtect(req: Request, res: Response, next: NextFunction)
+    {
+        if(req.params.id.startsWith("premade_"))
+        {
+            res.status(403).end("Cannot edit or remove premade profiles.");
+            return;
+        }
+        else
+            next();
     }
 
     /**

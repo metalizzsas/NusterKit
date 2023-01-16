@@ -66,7 +66,7 @@ export class IORouter extends Router
         TurbineEventLoop.on(`io.resetAll`, async () => {
             for(const gate of this.gates.filter(g => g.bus == "out"))
             {
-                gate.write(gate.default);
+                await gate.write(gate.default);
             }
         });
     }

@@ -2,7 +2,6 @@ import { Router } from "./Router";
 import { DefaultGate } from "../io/IOGates/DefaultGate";
 
 import type { Request, Response } from "express";
-import { AuthManager } from "./middleware/auth";
 import { MappedGate } from "../io/IOGates/MappedGate";
 import { EX260Sx } from "../io/IOHandlers/EX260Sx";
 import { WAGO } from "../io/IOHandlers/WAGO";
@@ -74,44 +73,27 @@ export class IORouter extends Router
 
     private _configureRouter()
     {
-        AuthManager.getInstance().registerEndpointPermission("io.list", {endpoint: "/v1/io", method: "get"});
-        this.router.get("/", (_req: Request, res: Response) => {
-            res.json(this.gates);
-        });
-
-
-        AuthManager.getInstance().registerEndpointPermission("io.toggle", {endpoint: new RegExp("/v1/io/.*/.*", "g"), method: "get"});
-        this.router.get("/:name/:value", async (req: Request, res: Response) => {
+        this.router.post("/:name/:value", async (req: Request, res: Response) => {
 
             const name = req.params.name.replace("_", "#");
+            const value = parseInt(req.params.value);
             const gate = this.gates.find((g) => g.name == name);
 
-            if(gate)
+            if(gate === undefined)
             {
-                if(gate.bus != "in")
-                {
-                    await gate.write(parseInt(req.params.value));
-                    res.status(200).end();
-                }
-                else
-                    res.status(403).end();
-            }
-            else
-            {
-                res.status(404).end();
+                res.status(404).end(`Gate with name ${name} not found.`);
                 return;
             }
-        });
 
-    }
-    /**
-     * Find any gate by its name
-     * @param name Gate name to find
-     * @returns iogates
-     */
-    public gFinder(name: string): IOGates | undefined
-    {
-        return this.gates.find((g) => g.name == name);
+            if(gate.bus === "in")
+            {
+                res.status(403).end("Cannot write to an input gate.");
+                return;
+            }
+
+            await gate.write(value);
+            res.status(200).end();  
+        });
     }
 
     /**
@@ -120,7 +102,6 @@ export class IORouter extends Router
      */
     public startIOScanner()
     {
-
         if(!this.timer)
         {
             LoggerInstance.info(`IOScanner: Started with interval ${this.ioScannerInterval}ms`);

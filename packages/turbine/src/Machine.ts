@@ -81,7 +81,7 @@ export class Machine
                 if(addon)
                     this.specs = parseAddon(this.specs, addon, LoggerInstance);
                 else
-                    LoggerInstance.error(`Addon: ${addon} does not exists.`);
+                    LoggerInstance.error(`Addon: ${add} does not exists.`);
             }
         }
 

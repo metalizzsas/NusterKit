@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.3.6
+
+### Patch Changes
+
+- fix: metalfog m r1 addons were extending wrong properties ([#231](https://github.com/metalizzsas/NusterKit/pull/231))
+
 ## 1.3.5
 
 ### Patch Changes

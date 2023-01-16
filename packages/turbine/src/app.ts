@@ -15,29 +15,24 @@ import { AvailableMachineModels, Machine } from "./Machine";
 import { TurbineEventLoop } from "./events";
 import { WebsocketDispatcher } from "./websocket/WebsocketDispatcher";
 
-/** Express app */
-const ExpressApp = express();
-/** Base http Server used by WebSocketServer */
-let httpServer: Server;
-
-/** Machine instance holding all the controllers */
-let machine: Machine;
-
 /** Http express & ws port */
 const HTTP_PORT = 4080;
-
 /** Is NusterTurbine running in production mode */
 const productionEnabled = (process.env.NODE_ENV === "production");
 
+/** Express app */
+const ExpressApp = express();
+/** Base http Server used by WebSocketServer */
+let httpServer: Server | undefined = undefined;
+/** Machine instance holding all the controllers */
+let machine: Machine | undefined = undefined;
+
 /** Info.json file path */
 const infoPath = productionEnabled ? "/data/info.json" : path.resolve("data", "info.json");
-
 const logsFolderPath = productionEnabled ? "/data/logs/" : path.resolve("data", "logs");
-
-if(!fs.existsSync(logsFolderPath))
-    fs.mkdirSync(logsFolderPath);
-
 const logFilePath = productionEnabled ? `/data/logs/log-${new Date().toISOString()}.log`: path.resolve("data", "logs", `log-${new Date().toISOString()}.log`);
+
+if(!fs.existsSync(logsFolderPath)) fs.mkdirSync(logsFolderPath);
 
 /** Pino logger instance */
 export const LoggerInstance = pino({
@@ -64,12 +59,13 @@ TurbineEventLoop.on("log", (level, message) => {
 
 LoggerInstance.info("Starting NusterTurbine");
 
+SetupExpress();
+
 if(fs.existsSync(infoPath))
 {
     const rawConfiguration = fs.readFileSync(infoPath, {encoding: "utf-8"});
     const parsedConfiguration = JSON.parse(rawConfiguration) as Configuration;
 
-    SetupExpress();
     SetupWebsocketServer();
     SetupMongoDB();
 
@@ -84,21 +80,15 @@ if(fs.existsSync(infoPath))
     SetupMachine(); //Expose machine routers to Express
 }
 else
-{
     LoggerInstance.warn("Machine: Info file not found");
-    SetupExpress(true);
-}
 
 /** Update locking the Balena Supervisor */
 lockFile.lock("/tmp/balena/updates.lock", (err) => {
     (err) ? LoggerInstance.error("Lock: Updates locking failed.", err) : LoggerInstance.info("Lock: Updates are now locked.");                
 });
 
-/**
- * Setup Express running server
- * @param configOnly if set to true, only add Configuration routes
- */
-function SetupExpress(configOnly = false)
+/** Setup Express running server */
+function SetupExpress()
 {
     httpServer = ExpressApp.listen(HTTP_PORT, () => { 
         LoggerInstance.info("Express: HTTP server listening on port " + HTTP_PORT); 
@@ -117,20 +107,12 @@ function SetupExpress(configOnly = false)
                 err: pino.stdSerializers.err,
                 req: pino.stdSerializers.req,
                 res: pino.stdSerializers.res
-                }
+            }
         }));
     }
 
-
     ExpressApp.get("/config", (req: Request, res: Response) => {
         res.json(AvailableMachineModels);
-    });
-
-    ExpressApp.post("/config/password/:password", async (req: Request, res: Response) => {
-        if(req.params.password)
-        {
-            res.status(req.params.password == "NusterMetalizz" ? 200 : 403).end();
-        }
     });
 
     ExpressApp.get("/config/actual", (req: Request, res: Response) => {
@@ -170,15 +152,6 @@ function SetupExpress(configOnly = false)
         }
     });
 
-    ExpressApp.get("/spec", (req: Request, res: Response) => {
-        res.json(machine.specs);
-    })
-
-    if(configOnly)
-        return;
-
-    ExpressApp.get("/ws", async (_req, res: Response) => res.json(await machine?.socketData()));
-
     //Tell the balena Hypervisor to force the pending update.
     ExpressApp.get("/forceUpdate", async (_req, res: Response) => {
         const req = await fetch("http://127.0.0.1:48484/v1/update?apikey=" + process.env.BALENA_SUPERVISOR_API_KEY, {headers: {"Content-Type": "application/json"}, body: JSON.stringify({force: true}), method: 'POST'});
@@ -187,26 +160,23 @@ function SetupExpress(configOnly = false)
             res.status(200).end();
         else
             res.status(req.status).end();
+
+        /** On update, reset all io gates */
+        TurbineEventLoop.emit('io.resetAll');
     }); 
-    
-    ExpressApp.get("/currentReleaseNotes", (_req, res: Response) => { res.sendFile(path.resolve("CHANGELOG.md")); });
 }
 
-/**
- * Setup Websocket server
- */
+/** Setup Websocket server */
 function SetupWebsocketServer()
 {
     WebsocketDispatcher.getInstance(httpServer);
 
     setInterval(async () => {
-        WebsocketDispatcher.getInstance().broadcastData(await machine.socketData(), "status");
+        WebsocketDispatcher.getInstance().broadcastData(await machine?.socketData(), "status");
     }, 500);
 }
 
-/**
- * Connect and configure mongoose
- */
+/** Connect and configure mongoose */
 function SetupMongoDB()
 {
     try
@@ -221,9 +191,7 @@ function SetupMongoDB()
     }
 }
 
-/**
- * Add all machines routes to express
- */
+/**  Add all machines routes to express */
 function SetupMachine()
 {
     if(machine)
@@ -241,22 +209,14 @@ function SetupMachine()
         ExpressApp.use("/assets", express.static(machine.assetsFolder));
         LoggerInstance.info(`Express: Will use ${machine.assetsFolder} as the assets folder.`);
 
-        ExpressApp.get("/machine", (_, res: Response) => {
-            res.json(machine.toJSON());
-        });
-
+        ExpressApp.get("/machine", (_, res: Response) => { res.json(machine?.toJSON()); });
+        ExpressApp.get("/ws", async (_req, res: Response) => res.json(await machine?.socketData()));
     }
     else
         LoggerInstance.fatal("Express: No machine defined, cannot add routes.");
 }
 
+/** NodeJS process events */
 process.on("uncaughtException", (error: Error) => LoggerInstance.error("unCaughtException: " + error.stack));
 process.on('unhandledRejection', (error: Error) => LoggerInstance.error("unhandledPromiseRejection: " + error.stack));
-
-/**
- * Handling SIGTERM Events
- */
-process.on("SIGTERM", async () => {
-    LoggerInstance.info("Shutdown: SIGTERM detected.");
-    TurbineEventLoop.emit("io.resetAll");
-});
+process.on("SIGTERM", () => { LoggerInstance.info("Shutdown: SIGTERM detected."); TurbineEventLoop.emit("io.resetAll"); });

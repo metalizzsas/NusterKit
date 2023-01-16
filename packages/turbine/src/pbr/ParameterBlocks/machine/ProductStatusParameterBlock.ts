@@ -15,9 +15,13 @@ export class ProductStatusParameterBlock extends StatusParameterBlockHydrated
         super(obj);
         this.containerName = ParameterBlockRegistry.String(obj.product_status);
 
-        TurbineEventLoop.on(`container.updated.${this.containerName.data}`, (container) => this.#container = container);
+        TurbineEventLoop.on(`container.updated.${this.containerName.data}`, (container) => {
+            this.#container = container;
+            this.subscriber?.(this.data);
+        });
         TurbineEventLoop.emit(`container.read.${this.containerName.data}`, { callback: (container) => {
             this.#container = container;
+            this.subscriber?.(this.data);
         }});
     }
 

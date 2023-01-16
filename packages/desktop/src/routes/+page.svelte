@@ -36,8 +36,7 @@
     /** End a prepared cycle if one is defined */
     const patchCycle = async () => {
         cycleData = undefined;
-
-        await fetch(`/api/v1/cycle/0`, { method: "PATCH" });
+        await fetch(`/api/v1/cycle`, { method: "PATCH" });
     }
 
     /// — Reactives statements 

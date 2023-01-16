@@ -11,7 +11,6 @@
 	import Button from "$lib/components/buttons/Button.svelte";
 	import { createEventDispatcher } from "svelte";
 	import TextField from "$lib/components/inputs/TextField.svelte";
-	import { page } from "$app/stores";
 	import { Icon } from "@steeze-ui/svelte-icon";
 	import { XMark } from "@steeze-ui/heroicons";
 
@@ -27,7 +26,11 @@
     export let exit = () => dispatcher("exit");
 
     const saveProfile = async () => {
-        const req = await fetch(`/api/v1/profiles/`, { method: 'post', headers: { "content-type": "application/json" }, body: JSON.stringify(profile) });
+
+        if(profile._id === undefined)
+            return;
+
+        const req = await fetch(`/api/v1/profiles/${profile._id}`, { method: 'PATCH', headers: { "content-type": "application/json" }, body: JSON.stringify(profile) });
         if(req.ok && req.status === 200)
             profileSaved = true;
     };
@@ -35,7 +38,7 @@
     const copyProfile = async () => {
         const copy: ProfileHydrated = {...profile, _id: "copied", name: `${profile.name} — ${$_('profile.copy.label')}`};
 
-        const req = await fetch(`/api/v1/profiles/`, { method: 'put', headers: { "content-type": "application/json" }, body: JSON.stringify(copy) });
+        const req = await fetch(`/api/v1/profiles/`, { method: 'post', headers: { "content-type": "application/json" }, body: JSON.stringify(copy) });
 
         if(req.ok && req.status === 200)
             profileCopied = (await req.json() as ProfileHydrated);
@@ -49,10 +52,12 @@
             return;
         }
 
-        const req = await fetch(`/api/v1/profiles/${profile._id}`, { method: 'delete'});
-
-        if(req.ok && req.status === 200)
-            exit();
+        if(profile._id)
+        {
+            const req = await fetch(`/api/v1/profiles/${profile._id}`, { method: 'delete'});
+            if(req.ok && req.status === 200)
+                exit();
+        }
     }
 
     /// - Reactive statements

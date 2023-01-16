@@ -93,7 +93,7 @@
     }
 
     const toggleRegulation = async (sensor: string, state: boolean) => {
-        await fetch(`/api/v1/containers/${container.name}/regulation/${sensor.replace("#", "_")}/state/${state}`, { method: 'post' });
+        await fetch(`/api/v1/containers/${container.name}/regulation/${sensor.replace("#", "_")}/state/${state === true ? "true" : "false"}`, { method: 'post' });
     }
 
     const setRegulation = async (sensor: string, target: number) => {
@@ -108,7 +108,7 @@
 
     $: if(container.sensors) { $realtime.io, sensorIO = container.sensors.map(s => $realtime.io.find(i => i.name == s.io)).filter(sensorIOFilter); }
     $: containerState = computeContainersState(container, $realtime.io);
-    $: if(selectedProductAlert === true) { setTimeout(() => { selectedProductAlert = false }, 3000); };
+    $: if(selectedProductAlert === true) { setTimeout(() => { selectedProductAlert = false }, 3000); }
 
 </script>
 
@@ -228,7 +228,14 @@
 
                                 <Flex gap={4}>
 
-                                    <Select bind:value={selectedProduct} selectableValues={[{name: "—", value: undefined}, ...(container.supportedProductSeries.map(k => { return { name: $_(`container.product.informations.product_series.${k}`), value: k}}))]} class="grow" />
+                                    <Select 
+                                        bind:value={selectedProduct}
+                                        selectableValues={container.supportedProductSeries.map(k => { return { 
+                                            name: $_(`container.product.informations.product_series.${k}`), 
+                                            value: k
+                                        }})}
+                                        class="grow" 
+                                    />
 
                                     <Button 
                                         color="{selectedProduct === undefined ? 'hover:bg-gray-500' : 'hover:bg-amber-500'}"
@@ -240,7 +247,7 @@
                                         }}
                                     >
                                         <Flex gap={2} items="center">
-                                            {$_(`slots.modal.actions.${container.name}.${preselectedMethod}`)}
+                                            {$_(`containers.${container.name}.actions.${preselectedMethod}`)}
                                             <Icon src={ArrowRight} class="h-4 w-4" />
                                         </Flex>
                                     </Button>

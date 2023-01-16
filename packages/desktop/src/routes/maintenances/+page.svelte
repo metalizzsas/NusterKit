@@ -1,6 +1,4 @@
 <script lang="ts">
-	import type { MaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydrated";
-	
 	import Flex from "$lib/components/layout/flex.svelte";
 	import SelectableButton from "$lib/components/buttons/SelectableButton.svelte";
 	import Wrapper from "$lib/components/Wrapper.svelte";
@@ -12,11 +10,13 @@
 
 	export let data: PageData;
 
-    let selectedMaintenance: MaintenanceHydrated | undefined = undefined;
+	let selectedMaintenanceName: string | undefined = undefined;
 
 	afterUpdate(() => {
 		selectedMaintenance = data.maintenances.at(0);
 	});
+
+	$: selectedMaintenance = data.maintenances.find(m => m.name === selectedMaintenanceName);
 
 </script>
 
@@ -25,8 +25,17 @@
 		<Wrapper>
 			<Flex direction="col" gap={2}>
 				<h1>{$_(`maintenance.lead`)}</h1>
-				{#each data.maintenances as maintenance}
-					<SelectableButton selected={selectedMaintenance == maintenance} on:click={() => {if(selectedMaintenance == maintenance) { selectedMaintenance = undefined } else { selectedMaintenance = maintenance }}}>
+				{#each data.maintenances as maintenance (maintenance.name)}
+					<SelectableButton 
+						selected={selectedMaintenanceName === maintenance.name} 
+						on:click={() => {
+							if(selectedMaintenanceName === maintenance.name) { 
+								selectedMaintenance = undefined 
+							} else { 
+								selectedMaintenanceName = maintenance.name
+							}
+						}}
+					>
 						<Flex gap={4} items="center">
 							<div 
 							class="h-3 aspect-square rounded-full" 

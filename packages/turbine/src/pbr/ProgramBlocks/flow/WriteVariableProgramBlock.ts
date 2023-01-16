@@ -19,7 +19,7 @@ export class SetVariableProgramBlock extends ProgramBlockHydrated
 
     public async execute(): Promise<void> {
 
-        TurbineEventLoop.emit(`pbr.variable.set.${this.variableName.data}`, this.variableValue.data);
+        TurbineEventLoop.emit(`pbr.variable.write`, { name: this.variableName.data, value: this.variableValue.data });
 
         super.execute();           
     }

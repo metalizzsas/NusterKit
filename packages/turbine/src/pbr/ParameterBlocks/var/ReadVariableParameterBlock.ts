@@ -13,11 +13,12 @@ export class ReadVariableParameterBlock extends NumericParameterBlockHydrated
     {
         super(obj);
         this.variableName = ParameterBlockRegistry.String(obj.read_var);
-        TurbineEventLoop.on(`pbr.variable.set.${this.variableName.data}`, (value) => this.#variableValue = value);
-        
-        TurbineEventLoop.emit(`pbr.variable.read.${this.variableName.data}`, { callback: (value) => {
-            this.#variableValue = value;
-        }});
+
+        TurbineEventLoop.emit('pbr.variable.read', { name: this.variableName.data });
+        TurbineEventLoop.on('pbr.variable.write', ({ name, value }) => {
+            if(name === this.variableName.data)
+                this.#variableValue = value;
+        });
     }
 
     public get data(): number

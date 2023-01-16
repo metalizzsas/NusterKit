@@ -447,7 +447,7 @@
                      ]
                   }
                },
-               "UIEndpoint": "/app/cycle/"
+               "UIEndpoint": "/"
             }
          ]
       },
@@ -489,7 +489,7 @@
                      ]
                   }
                },
-               "UIEndpoint": "/app/cycle/"
+               "UIEndpoint": "/"
             }
          ]
       },
@@ -514,7 +514,7 @@
                   "url": "/api/v1/cycle/act-fill",
                   "method": "post"
                },
-               "UIEndpoint": "/app/cycle/"
+               "UIEndpoint": "/"
             },
             {
                "name": "unload",
@@ -543,7 +543,7 @@
                      ]
                   }
                },
-               "UIEndpoint": "/app/cycle/"
+               "UIEndpoint": "/"
             }
          ]
       },
@@ -1399,7 +1399,7 @@
                ],
                "startBlocks": [
                   {"io_write": ["hybrid#lq-fill-act", 1]},
-                  {"io_write": ["hybdrid#edi-res", 1]},
+                  {"io_write": ["hybrid#edi-res", 1]},
                   {"start_timer": {
                      "timer_name": "timeoutError",
                      "timer_interval": 120,
@@ -1408,7 +1408,7 @@
                ],
                "endBlocks": [
                   {"io_write": ["hybrid#lq-fill-act", 0]},
-                  {"io_write": ["hybdrid#edi-res", 0]},
+                  {"io_write": ["hybrid#edi-res", 0]},
                   {"load_container": ["act", "usl_act"]},
                   {"stop_timer": "timeoutError"}
                ]
@@ -1811,12 +1811,12 @@
                ]
             },
             {
-               "path": "slots.0.supportedProductSeries",
+               "path": "containers.0.supportedProductSeries",
                "mode": "merge",
                "content": ["llc_ox"]
             },
             {
-               "path": "slots.1.supportedProductSeries",
+               "path": "containers.1.supportedProductSeries",
                "mode": "merge",
                "content": ["llc_rd"]
             }

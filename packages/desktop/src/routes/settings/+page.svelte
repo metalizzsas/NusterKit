@@ -29,7 +29,7 @@
 
     onMount(() => {
         reloadInterval = setInterval(() => {
-            invalidateAll();
+            void invalidateAll();
         }, 5000);
     });
 
@@ -37,6 +37,14 @@
         clearInterval(reloadInterval);
     });
 
+    const update = async () => {
+        const request = await fetch("/api/forceUpdate");
+
+        if(request.ok && request.status == 200)
+            isUpdating = true;
+    };
+
+    let isUpdating = false;
     let password = "";
 
 </script>
@@ -87,7 +95,11 @@
 
         {#if data.machine.hypervisorData?.appState !== 'applied' && data.machine.hypervisorData?.overallDownloadProgress === null}
             <SettingField label={$_('settings.software.update')}>
-                <Button color={"hover:bg-indigo-500"} ringColor={"ring-indigo-500"}>{$_('settings.software.update_install')}</Button>
+                {#if isUpdating}
+                    <Button color={"hover:bg-indigo-500"} ringColor={"ring-indigo-500"} on:click={update}>{$_('settings.software.update_install')}</Button>
+                {:else}
+                    {$_('settings.software.update_installing')}
+                {/if}
             </SettingField>
         {/if}
                 

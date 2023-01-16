@@ -43,7 +43,17 @@
 
     <div class="h-[1px] bg-zinc-500/50 grow mx-2" />
 
-    <a href="/" class:pillActive={$page.route.id == "/"} class:pillPassive={$page.route.id != "/"}>{$_('cycle.lead')}</a>
+    <a href="/" class:pillActive={$page.route.id == "/"} class:pillPassive={$page.route.id != "/"}>
+        {$_('cycle.lead')}
+        {#if $realtime.cycle}
+            <div 
+                class="h-2.5 aspect-square rounded-full"
+                class:bg-blue-500={$realtime.cycle?.status.mode !== "started"}
+                class:bg-green-500={$realtime.cycle?.status.mode === "started"}
+                class:animate-pulse={$realtime.cycle?.status.mode === "started"}
+            />
+        {/if}
+    </a>
 
     {#if machine !== undefined}
         {#if machine.settings.profilesShown === true || machine.settings.devMode === true}

@@ -35,7 +35,14 @@ export class SimulationMachine
 
         for(const addon of addons)
         {
-            this.config = parseAddon(this.config, this.config.addons.find(k => k.addonName == addon))
+            const addonConfig = this.config.addons.find(k => k.addonName === addon);
+            if(addonConfig === undefined)
+            {
+                console.log("Failed to add", addon);
+                continue;
+            }
+
+            this.config = parseAddon(this.config, addonConfig);
         }
         
         this.setupAutomatons(this.config.iohandlers, this.config.iogates);

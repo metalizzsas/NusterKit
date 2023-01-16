@@ -1,23 +1,22 @@
-import type { PBRMode, PBRStatus, PBRTimer, PBRVariable, ProgramBlockRunnerHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/ProgramBlockRunnerHydrated";
+import type { PBRMode, PBRStatus, PBRTimer, PBRVariable } from "@metalizzsas/nuster-typings/build/hydrated/cycle/ProgramBlockRunnerHydrated";
 import type { ProgramBlockRunner as ProgramBlockRunnerConfig } from "@metalizzsas/nuster-typings/build/spec/cycle/ProgramBlockRunner";
 import type { ProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profiles";
 import type { PBRStepResult } from "@metalizzsas/nuster-typings/build/spec/cycle/PBRStep";
 
 import { LoggerInstance } from "../app";
 import { ProgramBlockStep } from "./ProgramBlockStep";
-import { PBRStartCondition } from "./startchain/PBRStartCondition";
+import { PBRSecurityCondition } from "./PBRSecurityCondition";
 import { TurbineEventLoop } from "../events";
 
 /**
  * Program Block Runner
- * @desc Manages {@link ProgramBlocks}, {@link ParameterBlocks} & {@link ProgramBlockStep} to handle cycles
+ * @desc Transforms JSON Blocks into machine instructions.
  */
-export class ProgramBlockRunner implements ProgramBlockRunnerHydrated
+export class ProgramBlockRunner
 {
-    status: PBRStatus;
+    status: PBRStatus = { mode: "creating" };
 
     name: string;
-
     profileRequired: boolean;
 
     variables: Array<PBRVariable> = [];
@@ -27,7 +26,7 @@ export class ProgramBlockRunner implements ProgramBlockRunnerHydrated
     steps: Array<ProgramBlockStep> = [];
 
     /** Start conditions of the **PBR** */
-    startConditions: Array<PBRStartCondition> = [];
+    startConditions: Array<PBRSecurityCondition> = [];
 
     /** Index of the current step being runt */
     currentStepIndex = 0;
@@ -39,39 +38,42 @@ export class ProgramBlockRunner implements ProgramBlockRunnerHydrated
 
     constructor(object: ProgramBlockRunnerConfig, profile?: ProfileHydrated)
     {
-        this.status = { mode: "creating" };
-
         LoggerInstance.info("PBR: Building PBR...");
 
-        this.profileRequired = object.profileRequired;
-
-        this.profile = profile;
-
-        if(this.profile === undefined)
-            LoggerInstance.warn("PBR: This PBR is build without any profile.");
-        else
-        {
-            // Emit profile when asked by profile parameter blocks
-            TurbineEventLoop.on("pbr.profile.read", ({callback}) => {
-                callback?.(this.profile);
-            });
-        }
-            
-        //properties assignment
         this.name = object.name;
-
+        this.profileRequired = object.profileRequired;
+        this.profile = profile;
         this.additionalInfo = object.additionalInfo;
 
-        LoggerInstance.info("PBR: Finished building PBR.");
+        if(this.profile === undefined)
+            TurbineEventLoop.emit("log", "info", "PBR: This PBR is build without any profile.");
+
+        this.registerEvents();
+            
+        for(const sc of object.startConditions)
+            this.startConditions.push(new PBRSecurityCondition(sc));
+        //this.startConditions.push(new PBRStartCondition(sc, this));
+
+        for(const step of object.steps)
+            this.steps.push(new ProgramBlockStep(this, step));
+        
+        this.setState("created");
+        TurbineEventLoop.emit("log", "info", "PBR: Finished building PBR.");
+    }
+
+    /** Register events of this `PBR` */
+    private registerEvents()
+    {
+        TurbineEventLoop.on("pbr.profile.read", ({callback}) => {
+            callback?.(this.profile);
+        });
 
         TurbineEventLoop.on(`pbr.timer.start`, (timer) => {
-            
             if(this.timers.find(k => k.name === timer.name)?.enabled === true)
             {
                 TurbineEventLoop.emit("log", "warning", `PBR: Found a timer with ${timer.name} already active, ignoring.`);
                 return;
             }
-            
             this.timers.push(timer) 
         });
 
@@ -90,15 +92,36 @@ export class ProgramBlockRunner implements ProgramBlockRunnerHydrated
             options.callback?.(true);
         });
 
-        //steps and watchdog
-        for(const sc of object.startConditions)
-            this.startConditions.push(new PBRStartCondition(sc, this));
+        TurbineEventLoop.on(`pbr.variable.read`, ({ name, callback }) => {
+            if(name === "currentStepCount")
+                callback?.(this.currentRunningStep.runCount);
+            else
+                callback?.(this.variables.find(v => v.name === name)?.value ?? 0)
+        });
 
-        for(const step of object.steps)
-            this.steps.push(new ProgramBlockStep(this, step));
-        
-        this.setState("created");
-        TurbineEventLoop.emit("log", "info", "PBR: Finished filling data");
+        TurbineEventLoop.on("pbr.variable.write", ({ name, value }) => {
+            const pbrVar = this.variables.find(k => k.name === name);
+
+            if(pbrVar)
+                pbrVar.value = value;
+            else
+                this.variables.push({ name, value });
+
+        });
+
+        /** Listen for Stop events */
+        TurbineEventLoop.on('pbr.stop', (reason) => this.end(reason));
+    }
+
+    /** Removes all events listeners namespaced with `pbr.` */
+    private disposeEvents()
+    {
+        TurbineEventLoop.removeAllListeners('pbr.profile.read');
+        TurbineEventLoop.removeAllListeners('pbr.timer.stop');
+        TurbineEventLoop.removeAllListeners('pbr.timer.start');
+        TurbineEventLoop.removeAllListeners('pbr.variable.write');
+        TurbineEventLoop.removeAllListeners('pbr.variable.read');
+        TurbineEventLoop.removeAllListeners('pbr.stop');
     }
 
     /**
@@ -124,8 +147,8 @@ export class ProgramBlockRunner implements ProgramBlockRunnerHydrated
         this.startConditions = this.startConditions.filter(sc => {
             if(sc.startOnly == true)
             {
-                sc.stopTimer();
-                LoggerInstance.info(` ↳ Removed ${sc.conditionName}`);
+                sc.dispose();
+                LoggerInstance.info(` ↳ Removed ${sc.name}`);
                 return false;
             }
             return true;
@@ -227,8 +250,6 @@ export class ProgramBlockRunner implements ProgramBlockRunnerHydrated
 
         this.steps.forEach(s => s.state = "ending");
 
-        TurbineEventLoop.emit("pbr.status.update", this.status.mode);
-
         if(reason !== undefined)
             LoggerInstance.warn("PBR: Triggered cycle end with reason: " + reason);
     }
@@ -260,7 +281,7 @@ export class ProgramBlockRunner implements ProgramBlockRunnerHydrated
         {
             LoggerInstance.info("PBR: Removing Start Conditions checks.");
             for(const sc of this.startConditions)
-                sc.stopTimer();
+                sc.dispose();
         }
 
         //Clearing timer blocks
@@ -275,7 +296,7 @@ export class ProgramBlockRunner implements ProgramBlockRunnerHydrated
             }
         }
 
-        TurbineEventLoop.removeAllListeners("pbr.profile.read");
+        this.disposeEvents();
         
         //Append 1 to cycle count
         TurbineEventLoop.emit(`maintenance.append.cycleCount`, 1);
@@ -332,7 +353,7 @@ export class ProgramBlockRunner implements ProgramBlockRunnerHydrated
             
             //Inside definers
             steps: this.steps,
-            startConditions: this.startConditions,
+            startConditions: this.startConditions.map(k => k.toJSON()),
 
             //internals
             currentStepIndex: this.currentStepIndex,

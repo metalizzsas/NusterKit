@@ -4,7 +4,7 @@ import { ProgramBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated
 import type { AllProgramBlocks, IfProgramBlock as IfProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
 import type { Comparators } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
 import type { NumericParameterBlockHydrated, StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
-import ComparativeFunctions from "../../ComparativeFunctions";
+import ComparativeFunctions from "../../utils/ComparativeFunctions";
 import { TurbineEventLoop } from "../../../events";
 
 export class IfProgramBlock extends ProgramBlockHydrated

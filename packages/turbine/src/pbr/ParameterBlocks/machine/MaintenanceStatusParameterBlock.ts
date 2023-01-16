@@ -14,9 +14,14 @@ export class MaintenanceStatusParameterBlock extends StatusParameterBlockHydrate
         super(obj);
         this.taskName = ParameterBlockRegistry.String(obj.maintenance_status);
 
-        TurbineEventLoop.on(`maintenance.updated.${this.taskName.data}`, (maintenance) => { this.#maintenanceTask = maintenance; });
+        TurbineEventLoop.on(`maintenance.updated.${this.taskName.data}`, (maintenance) => { 
+            this.#maintenanceTask = maintenance;
+            this.subscriber?.(this.data);
+        });
+        
         TurbineEventLoop.emit(`maintenance.read.${this.taskName.data}`, {callback: (maintenance) => {
             this.#maintenanceTask = maintenance;
+            this.subscriber?.(this.data);
         }});
     }
 

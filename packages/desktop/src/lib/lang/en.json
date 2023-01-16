@@ -177,7 +177,8 @@
       "nuster": "Nuster version",
       "balena": "BalenaOS version",
       "update": "Update available",
-      "update_install": "Install"
+      "update_install": "Install",
+      "update_installing": "Installing"
     },
 
     "network": {

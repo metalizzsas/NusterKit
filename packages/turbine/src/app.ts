@@ -235,9 +235,7 @@ function SetupMachine()
         ExpressApp.use('/v1/profiles', machine.profileRouter.router);
         ExpressApp.use('/v1/maintenances', machine.maintenanceRouter.router);
         ExpressApp.use('/v1/containers', machine.containerRouter.router);
-        ExpressApp.use('/v1/slots', machine.containerRouter.router); //TODO: Remove, compat with old desktop ui
         ExpressApp.use('/v1/cycle', machine.cycleRouter.router);
-        //ExpressApp.use('/v1/auth', auth.router); //TODO: Fixme
         LoggerInstance.info("Express: Registered routers");
 
         ExpressApp.use("/assets", express.static(machine.assetsFolder));

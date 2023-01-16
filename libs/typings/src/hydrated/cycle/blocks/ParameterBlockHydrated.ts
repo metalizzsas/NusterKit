@@ -38,8 +38,16 @@ export class NumericParameterBlockHydrated extends ParameterBlockHydrated<number
 
 export class StatusParameterBlockHydrated extends ParameterBlockHydrated<"error" | "warning" | "good">
 {
+    subscriber: ((data: "error" | "warning" | "good") => void) | undefined;
+
     constructor(obj: AllParameterBlocks)
     {
         super(obj);
+    }
+
+    /** Subscribe to block data change */
+    subscribe(callback: (data: "error" | "warning" | "good") => void)
+    {
+        this.subscriber = callback;
     }
 }

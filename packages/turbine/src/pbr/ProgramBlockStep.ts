@@ -22,8 +22,8 @@ export class ProgramBlockStep implements PBRStepHydrated
     startTime?: number;
     endTime?: number;
     
+    runCount = 0;
     runAmount?: NumericParameterBlockHydrated;
-    runCount?: number;
     
     blocks: Array<ProgramBlockHydrated> = [];
     startBlocks: Array<ProgramBlockHydrated> = [];
@@ -42,7 +42,6 @@ export class ProgramBlockStep implements PBRStepHydrated
         if(obj.runAmount)
         {
             this.runAmount = ParameterBlockRegistry.Numeric(obj.runAmount);
-            this.runCount = 0;
             this.type = (this.runAmount?.data ?? 0) > 1 ? "multiple" : "single";
         }
 

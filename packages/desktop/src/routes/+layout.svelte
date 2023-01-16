@@ -15,11 +15,10 @@
 	import PillMenu from "./PillMenu.svelte";
 
     import { machine, realtime, realtimeLock } from "$lib/utils/stores/nuster";
-	import type { Configuration, WebsocketData } from "@metalizzsas/nuster-typings";
+	import type { WebsocketData } from "@metalizzsas/nuster-typings";
 	import Loadindicator from "$lib/components/LoadIndicator.svelte";
 	import { dark, lang } from "$lib/utils/stores/settings";
 	import { locale } from "svelte-i18n";
-	import { page } from "$app/stores";
 	import { initi18nLocal } from "$lib/utils/i18n/i18nlocal";
 	import Toast from "$lib/components/Toast.svelte";
 	import type { Popup } from "@metalizzsas/nuster-typings/build/spec/nuster";
@@ -27,9 +26,9 @@
 	import Button from "$lib/components/buttons/Button.svelte";
 	import type { MachineData } from "@metalizzsas/nuster-typings/build/hydrated/machine";
 
-    type Toast = Popup & { date: number };
+    type Toast_popup = Popup & { date: number };
 
-    let toasts: Array<Toast> = [];
+    let toasts: Array<Toast_popup> = [];
 
     let websocketState: "connecting" | "connected" | "disconnected" = "connecting";
     let websocket: WebSocket | undefined = undefined;
@@ -125,7 +124,7 @@
     {#if $realtime}
         <div class="absolute inset-0 bg-indigo-300 dark:bg-zinc-900 bg-grid dark:bg-grid-dark -z-10"></div>
 
-        <div class="absolute p-6 pl-0 right-0 top-0 bottom-0 h-screen overflow-y-scroll w-[40%] z-20 flex flex-col gap-6 pointer-events-none" id="toasts">
+        <div class="absolute p-6 pl-0 right-0 top-0 bottom-0 h-screen overflow-y-scroll w-1/2 z-20 flex flex-col gap-6 pointer-events-none" id="toasts">
             {#each toasts as toast (toast.date)}
                 <div animate:flip={{duration: 300}}>
                     <Toast bind:toast on:exit={() => { toasts = toasts.filter(t => t !== toast)}} />

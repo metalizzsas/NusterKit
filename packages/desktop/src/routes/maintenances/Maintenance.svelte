@@ -4,21 +4,20 @@
     import type { MaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydrated";
 	import { _ } from "svelte-i18n";
 	import SvelteMarkdown from "svelte-markdown";
-	import { onMount } from "svelte";
+	import { beforeUpdate } from "svelte";
 	import { Icon } from "@steeze-ui/svelte-icon";
 	import { WrenchScrewdriver } from "@steeze-ui/heroicons";
 	import MaintenanceImageParser from "./MaintenanceImageParser.svelte";
 	import { setContext } from "svelte";
 	import Button from "$lib/components/buttons/Button.svelte";
-	import { invalidate } from "$app/navigation";
+	import { invalidateAll } from "$app/navigation";
 	import { lang } from "$lib/utils/stores/settings";
-	import { page } from "$app/stores";
 
     export let maintenance: MaintenanceHydrated;
 
     let procedureMarkdown: string | undefined;
 
-    onMount(async () => {
+    beforeUpdate(async () => {
         const req = await fetch(`/api/assets/maintenance/${maintenance.name}/index-${$lang}.md`);
 
         if(req.status !== 404)
@@ -32,7 +31,7 @@
 
     const clearMaintenance = async () => {
         await fetch(`/api/v1/maintenances/${maintenance.name}`, { method: "delete"} );
-        invalidate(() => true);
+        void invalidateAll();
     }
 
 </script>

@@ -24,7 +24,7 @@
         if(cycleData.startConditions.filter(sc => ["error", "warning"].includes(sc.result)).length > 0)
             return;
 
-        await fetch(`/api/v1/cycle/`, { method: "PUT" });
+        await fetch(`/api/v1/cycle`, { method: "POST" });
     }
 
     const stopCycle = async () => {
@@ -32,11 +32,11 @@
     }
 
     const nextStepCycle = async () => {
-        await fetch(`/api/v1/cycle/nextStep`, { method: "PATCH"})
+        await fetch(`/api/v1/cycle`, { method: "PUT"})
     }
 
-    const patchCycle = () => {
-        fetch(`/api/v1/cycle/0`, { method: "PATCH" }).then(() => patched());
+    const patchCycle = async () => {
+        await fetch(`/api/v1/cycle`, { method: "PATCH" }).then(() => patched());
     }
 
     /// — Reactive statements
@@ -196,14 +196,14 @@
                         <h4 class="leading-6">{$_(`cycle.steps.${step.name}.name`)}</h4>
                         
                         {#if step.state !== "started"}
-                            <div class="mx-1 -skew-x-12 h-4 w-0.5 bg-white" />
+                            <div class="mx-1 -skew-x-12 h-4 w-0.5 dark:bg-white bg-zinc-800" />
                         {/if}
 
                         <p class="text-sm">{$_(`cycle.steps.${step.name}.desc`)}</p>
                     </Flex>
 
                     <Flex gap={4}>
-                        {#if step.runCount && step.runAmount !== undefined}
+                        {#if step.runCount !== undefined && step.runAmount !== undefined}
                             <Label>{step.runCount} / {step.runAmount.data}</Label>
                         {/if}
                         

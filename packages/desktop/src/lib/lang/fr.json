@@ -177,13 +177,14 @@
       "nuster": "Version de Nuster",
       "balena": "Version de balenaOS",
       "update": "Mise a jour disponible",
-      "update_install": "Installer"
+      "update_install": "Installer",
+      "update_installing": "En cours d'installation"
     },
     
     "network": {
       "lead": "Informations réseau",
-      "ips": "Liste des addresse IP",
-      "macs": "Liste des addresses mac",
+      "ip": "Liste des addresse IP",
+      "mac": "Liste des addresses mac",
       "vpn": "Connexion au VPN" 
     },
 

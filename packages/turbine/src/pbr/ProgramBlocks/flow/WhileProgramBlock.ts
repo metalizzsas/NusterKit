@@ -2,7 +2,7 @@ import type { NumericParameterBlockHydrated, StringParameterBlockHydrated } from
 import { ProgramBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ProgramBlockHydrated";
 import type { Comparators } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
 import type { AllProgramBlocks, WhileProgramBlock as WhileProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
-import ComparativeFunctions from "../../ComparativeFunctions";
+import ComparativeFunctions from "../../utils/ComparativeFunctions";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
 import { ProgramBlockRegistry } from "../ProgramBlockRegistry";
 import { TurbineEventLoop } from "../../../events";

@@ -14,24 +14,13 @@ export class ContainersRouter extends Router
     constructor(containers: ContainerConfig[])
     {
         super();
-
         this._configureRouter();
-
-        for(const container of containers)
-        {
-            this.containers.push(new Container(container));
-        }
+        this.containers = containers.map(c => new Container(c));
     }
 
     private _configureRouter()
     {
-        /**
-         * List all avalables containers fo this machine
-         */
-        this.router.get('/', async (req: Request, res: Response) => {
-            res.json(await this.socketData());
-        });
-
+        /** Route used to load a product inside the container */
         this.router.post("/:container/load/:series", async (req: Request, res: Response) => {
             const container = this.containers.find(s => s.name == req.params.container);
 
@@ -46,6 +35,7 @@ export class ContainersRouter extends Router
             }
         });
 
+        /** Route used to unload a product from a container */
         this.router.post("/:container/unload/", async (req: Request, res: Response) => {
             const container = this.containers.find(s => s.name == req.params.container);
 
@@ -60,6 +50,7 @@ export class ContainersRouter extends Router
             }
         });
 
+        /** Route used to set the state of a container's regulation */
         this.router.post("/:container/regulation/:regulation/state/:state", async (req: Request, res: Response) => {
 
             const state = req.params.state == "true" ? true : false
@@ -69,6 +60,7 @@ export class ContainersRouter extends Router
             }});
         });
 
+        /** Route used to set the target of a container's regulation */
         this.router.post("/:container/regulation/:regulation/target/:target", async (req: Request, res: Response) => {
 
             const target = parseInt(req.params.target)
@@ -78,6 +70,7 @@ export class ContainersRouter extends Router
             }});
         });
     }
+    
     async socketData(): Promise<ContainerHydrated[]>
     {
         return await Promise.all(this.containers.map(async k => await k.socketData()));

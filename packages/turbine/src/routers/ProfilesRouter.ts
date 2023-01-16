@@ -3,10 +3,10 @@ import { Router } from "./Router";
 import type { ProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profiles";
 import type { Profile, ProfileSkeleton, ProfileSkeletonFields } from "@metalizzsas/nuster-typings/build/spec/profiles";
 import type { ProfileStored } from "@metalizzsas/nuster-typings/build/stored";
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import { ProfileModel } from "../models";
-import { AuthManager } from "./middleware/auth";
 import { TurbineEventLoop } from "../events";
+import type { Modify } from "@metalizzsas/nuster-typings/build/utils/Modify";
 
 export class ProfilesRouter extends Router {
 
@@ -24,12 +24,10 @@ export class ProfilesRouter extends Router {
         
         for(const p of profilePremades)
         {
-            const converted = this.hydrateProfile(p);
+            const hydrated = this.hydrateProfile(p);
 
-            if(converted !== undefined)
-            {
-                this.profilePremades.push(converted);
-            }
+            if(hydrated !== undefined)
+                this.profilePremades.push(hydrated);
         }
 
         TurbineEventLoop.on('profile.read', async ({ profileID, callback }) => {
@@ -47,170 +45,19 @@ export class ProfilesRouter extends Router {
 
     private _configureRouter()
     {
-        /**
-         * List available profile maps
-         */
-        AuthManager.getInstance().registerEndpointPermission("profiles.list", {endpoint: "/v1/profiles/skeletons", method: "get"});
-        this.router.get('/skeletons', (_req: Request, res: Response) => {
-            res.json([...this.profileSkeletons.keys()]);
-        });
-
-        AuthManager.getInstance().registerEndpointPermission("profiles.list", {endpoint: new RegExp("/v1/profiles/skeletons/.*", "g"), method: "get"});
-        this.router.get('/skeletons/:name', (req: Request, res: Response) => {
-            res.json(this.profileSkeletons.get(req.params.name));
-        });
-
-        /**
-         * Route to List profiles
-         */
-        AuthManager.getInstance().registerEndpointPermission("profiles.list", {endpoint: "/v1/profiles/", method: "get"});
+        /** Route to List profiles */
         this.router.get('/', async (_req: Request, res: Response) => {
             res.json(await this.profileList());
         });
 
-        /**
-         * Route to List profile by identifier
-         */
-        AuthManager.getInstance().registerEndpointPermission("profiles.list", {endpoint: new RegExp("/v1/profiles/types/.*", "g"), method: "get"});
-        this.router.get('/type/:type', async (req: Request, res: Response) => {
-            const profiles = await ProfileModel.find({ identifier: req.params.type });
-
-            res.json(profiles);
-        });
-
-        AuthManager.getInstance().registerEndpointPermission("profiles.list", {endpoint: new RegExp("/v1/profiles/.*", "g"), method: "get"});
-        this.router.get('/:id', async (req: Request, res: Response) => {
-            if(req.params.id.startsWith("premade_"))
-            {
-                const profile = this.getPremade(req.params.id.split("_")[1]);
-                (profile) ? res.json(profile) : res.status(404).json({error: "Profile not found"});
-            }
-            else
-            {
-                const profile = await ProfileModel.findById(req.params.id).lean();
-                res.status(profile ? 200 : 404);
-    
-                (profile) ? res.json(this.hydrateProfile(profile)) : res.end();
-            }
-        });
-
-        /**
-         * Route to create a default profile with the given JSON Structure
-         */
-         AuthManager.getInstance().registerEndpointPermission("profile.create", {endpoint: new RegExp("/v1/profiles/create/.*", "g"), method: "post"});
-         this.router.post('/create/:type', async (req: Request, res: Response) => {
-            
-            const p = this.createProfile(req.params.type);
-
-            if(p !== undefined)
-            {
-                const storedProfileTemp = await ProfileModel.create(p);
-
-                const storedProfile = (await ProfileModel.findById(storedProfileTemp.id))?.toObject();
-
-                if(storedProfile)
-                {
-                    const returnProfile = this.hydrateProfile(storedProfile);
-    
-                    if(returnProfile)
-                    {
-                        res.json(returnProfile);
-                    }
-                    else
-                    {
-                        res.status(500).end();
-                    }
-                }
-                else
-                {
-                    res.status(404).end(`failed to find stored profile with id ${storedProfileTemp.id}`)
-                }
-            }
-            else
-            {
-                res.status(404).end();
-            }
-        });
-
-        /**
-         * Route to create a profile from given body
-         */
-        AuthManager.getInstance().registerEndpointPermission("profile.create", {endpoint: new RegExp("/v1/profiles/create/", "g"), method: "post"});
-        this.router.put('/create/', async (req: Request & { body: ProfileHydrated }, res: Response) => {
-
-            if(req.body._id == "created")
-            {
-                delete req.body._id;
-
-                req.body.isOverwritable = true;
-                req.body.isRemovable = true;
-                req.body.isPremade = false;
-
-                const created = this.prepareToStore(req.body);
-                const mongooseCreated = await ProfileModel.create(created);
-
-                res.status(200).json(this.hydrateProfile(mongooseCreated.toJSON()));
-                return;
-            }
-            else
-            {
-                res.status(400).end();
-                return;
-            }
-        });
-
-        AuthManager.getInstance().registerEndpointPermission("profile.edit", {endpoint: "/v1/profiles/", method: "post"});
-        this.router.post('/', async (req: Omit<Request, "body"> & { body: ProfileHydrated }, res: Response) => {
-
-            if(req.body._id !== undefined && req.body._id.startsWith("premade_"))
-            {
-                res.status(403).write("cant edit premade profiles");
-                return;
-            }
-
-            const p: ProfileHydrated = req.body;
-
-            p.modificationDate = Date.now();
-
-            const profile = this.prepareToStore(p);
-            
-            ProfileModel.findByIdAndUpdate(profile._id, profile)
-            .then(() => {
-                res.status(200).end("ok");
-            }).catch(() => {
-
-                res.status(403).end("failed to save profile");
-            });
-        });
-
-        AuthManager.getInstance().registerEndpointPermission("profiles.delete", {endpoint: new RegExp("/v1/profiles/.*", "g"), method: "delete"});
-        this.router.delete('/:id', async (req: Request, res: Response) => {
-            if(req.params.id != null)
-            {
-                await ProfileModel.findByIdAndDelete(req.params.id, {}, (err, doc) => {
-                    if(doc && !err)
-                        res.status(200).end();
-                    else
-                        res.status(404).end();
-                });
-            }
-            else
-            {
-                res.status(400).end();
-                return;
-            }
-        });
-
-        AuthManager.getInstance().registerEndpointPermission("profiles.create", {endpoint: "/v1/profiles/", method: "put"});
-        this.router.put('/', async (req: Omit<Request, "body"> & { body: ProfileHydrated }, res: Response) => {
-
+        /** Route to copy a profile */
+        this.router.post('/', async (req: Modify<Request, { body: ProfileHydrated }>, res: Response) => {
             if(req.body._id === "copied")
             {
                 delete req.body._id;
                 delete req.body.isPremade;
                 
                 const copied = this.prepareToStore(req.body);
-
                 const stored = (await ProfileModel.create(copied));
 
                 res.status(200).json(this.hydrateProfile(stored.toJSON()));
@@ -222,30 +69,62 @@ export class ProfilesRouter extends Router {
                 return;
             }
         });
+
+        /** Route to get a profile by its `id` */
+        this.router.get('/:id', async (req: Request, res: Response) => {
+            if(req.params.id.startsWith("premade_"))
+            {
+                const profile = this.getPremade(req.params.id.split("_")[1]);
+                res.status(profile ? 200 : 404);
+
+                (profile) ? res.json(profile) : res.end(`Could not find profile with id ${req.params.id}.`);
+            }
+            else
+            {
+                const profile = await ProfileModel.findById(req.params.id).lean();
+                res.status(profile ? 200 : 404);
+    
+                (profile) ? res.json(this.hydrateProfile(profile)) : res.end(`Could not find profile with id ${req.params.id}.`);
+            }
+        });
+
+        /** Route to delete a profil with its `id` */
+        this.router.delete('/:id', this.premadeProtect, async (req: Request, res: Response) => {
+            await ProfileModel.findByIdAndDelete(req.params.id, {}, (err, doc) => {
+                if(doc && !err)
+                    res.status(200).end();
+                else
+                    res.status(404).end();
+            });
+        });
+        
+        /** Route to Update a profile */
+        this.router.patch('/:id', this.premadeProtect, async (req: Modify<Request, { body: ProfileHydrated }> , res: Response) => {
+
+            const p: ProfileHydrated = req.body;
+            p.modificationDate = Date.now();
+
+            const profile = this.prepareToStore(p);
+            
+            ProfileModel.findByIdAndUpdate(profile._id, profile)
+            .then(() => {
+                res.status(200).end("ok");
+            }).catch(() => {
+                res.status(404).end("failed to save profile");
+            });
+        });
     }
 
-    /**
-     * Create profile from skeleton
-     * @param profileSkeletonName Skeleton name to use
-     * @deprecated
-     * @returns newly created profile to be saved in DB
-     */
-    public createProfile(profileSkeletonName: string): ProfileStored | undefined
+    /** Premade protection for `DELETE` & `PATCH` */
+    private premadeProtect(req: Request, res: Response, next: NextFunction)
     {
-        const profileSkeleton = structuredClone(this.profileSkeletons.get(profileSkeletonName))
-
-        if(profileSkeleton !== undefined)
+        if(req.params.id.startsWith("premade_"))
         {
-            const createdProfile: ProfileHydrated = {
-                name: "defaultProfileName",
-                skeleton: profileSkeleton.name,
-                modificationDate: Date.now(),
-                isPremade: undefined,
-                values: profileSkeleton.fields
-            };
-
-            return this.prepareToStore(createdProfile);
+            res.status(403).end("Cannot edit or remove premade profiles.");
+            return;
         }
+        else
+            next();
     }
 
     /**

@@ -1,7 +1,7 @@
 <script lang="ts">
 	
 	import { translateProfileName } from '$lib/utils/i18n/i18nprofile';
-	import type { ProfileHydrated } from '@metalizzsas/nuster-typings/build/hydrated/profile';
+	import type { ProfileHydrated } from '@metalizzsas/nuster-typings/build/hydrated/profiles';
 
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import { UserCircle, Square3Stack3d } from '@steeze-ui/heroicons';
@@ -74,7 +74,7 @@
 	<div class="overflow-y-scroll grow drop-shadow-xl">
 		<Wrapper>
 			{#if selectedProfile !== undefined}
-				<Profile bind:profile={selectedProfile} on:exit={() => { selectedProfileId = undefined; invalidateAll()}} />
+				<Profile bind:profile={selectedProfile} on:exit={() => { selectedProfileId = undefined; void invalidateAll()}} />
 			{:else}
 				<h3>{$_('profile.unselected.lead')}</h3>
 				<p>{$_('profile.unselected.sub')}</p>

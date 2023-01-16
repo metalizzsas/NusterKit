@@ -74,7 +74,6 @@ interface EventLoopEvents
     "profile.read": (options: {profileID: string, callback?: (profile?: ProfileHydrated) => void | Promise<void> }) => void;
     
     /** PBR Events */
-    "pbr.profile.set": (profile: ProfileHydrated) => void;
     "pbr.profile.read": (options: { callback?: (profile?: ProfileHydrated ) => void | Promise<void> }) => void;
 
     "pbr.status.update": (status: PBRMode) => void;
@@ -83,9 +82,8 @@ interface EventLoopEvents
     "pbr.timer.start": (timer: {name: string; timer: NodeJS.Timer, enabled: boolean}) => void;
     "pbr.timer.stop": (options: { timerName: string, callback?: (stopped: boolean) => void | Promise<void>}) => void;
 
-    [key: `pbr.variable.read.${string}`]: (options: { callback?: (value: number) => void | Promise<void> }) => void;
-
-    [key: `pbr.variable.set.${string}`]: (value: number) => void;
+    "pbr.variable.write": (options: { name: string, value: number }) => void;
+    "pbr.variable.read": (options: { name: string, callback?: (value: number) => void | Promise<void> }) => void;
 
     "pbr.stop": (reason: string) => void;
     "pbr.nextStep": () => void;

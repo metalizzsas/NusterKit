@@ -5,7 +5,6 @@
 	import Toggle from "$lib/components/inputs/Toggle.svelte";
 	import { _ } from "svelte-i18n";
     import { realtimeLock } from "$lib/utils/stores/nuster";
-	import { page } from "$app/stores";
 	import Label from "$lib/components/Label.svelte";
 
     export let io: IOGatesHydrated;
@@ -13,7 +12,7 @@
     export let editable = true;
 
     const editGate = async (value: number) => {
-        await fetch(`/api/v1/io/${io.name.replace("#", "_")}/${value}`);
+        await fetch(`/api/v1/io/${io.name.replace("#", "_")}/${value}`, { method: "post"});
     }
 
 </script>

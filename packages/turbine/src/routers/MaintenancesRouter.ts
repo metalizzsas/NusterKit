@@ -1,6 +1,4 @@
 import type { NextFunction, Request, Response } from "express";
-
-import { AuthManager } from "./middleware/auth";
 import { Router } from "./Router";
 
 import type { MaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydrated/maintenance";
@@ -46,15 +44,10 @@ export class MaintenanceRouter extends Router
             res.json(this.tasks);
         });
 
-        AuthManager.getInstance().registerEndpointPermission("maintenance.list", {endpoint: "/v1/maintenance/", method: "get"});
-
-
         this.router.get("/:name", this.maintenanceTaskExists, (req: Request, res: Response) => {
             const maintenance = this.tasks.find(task => task.name == req.params.name);
             res.json(maintenance);
         });
-
-        AuthManager.getInstance().registerEndpointPermission("maintenance.list", {endpoint: new RegExp("/v1/maintenance/.*", "g"), method: "get"});
 
         this.router.delete("/:name", this.maintenanceTaskExists, async (req: Request, res: Response) => {
 
@@ -63,8 +56,6 @@ export class MaintenanceRouter extends Router
 
             res.status(200).end()
         });
-
-        AuthManager.getInstance().registerEndpointPermission("maintenance.reset", {endpoint: new RegExp("/v1/maintenance/.*", "g"), method: "delete"});
     }
 
     public socketData(): MaintenanceHydrated[]

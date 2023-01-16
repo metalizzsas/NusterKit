@@ -30,7 +30,7 @@
         if(profile._id === undefined)
             return;
 
-        const req = await fetch(`/api/v1/profiles/${profile._id}`, { method: 'patch', headers: { "content-type": "application/json" }, body: JSON.stringify(profile) });
+        const req = await fetch(`/api/v1/profiles/${profile._id}`, { method: 'PATCH', headers: { "content-type": "application/json" }, body: JSON.stringify(profile) });
         if(req.ok && req.status === 200)
             profileSaved = true;
     };

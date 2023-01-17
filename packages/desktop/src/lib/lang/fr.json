@@ -106,7 +106,18 @@
     "regulation": {
       "enabled": "État de la régulation",
       "current": "Valeur actuelle",
-      "target": "Valeur recherchée"
+      "target": "Valeur recherchée",
+
+      "modal": {
+        "security_disable": {
+          "title": "Érreur de sécurité",
+          "message": "Un élément de sécurité a désactivé la régulation d'un conteneur."
+        },
+        "over_max_target": {
+          "title": "Érreur de sécurité",
+          "message": "La régulation est allé au dela de la valeur maximale admissible, elle a donc été désactivée"
+        }
+      }
     }
   },
 
@@ -189,7 +200,7 @@
     },
 
     "advanced": {
-      "lead": "Régalges avancés",
+      "lead": "Réglages avancés",
       "sub": "Cette fonctionalité n'est pas destinée a etre utilisé par l'utilisateur final.",
       "password": "Mot de passe",
       "edit": "Modifier la configuration machine"
@@ -210,12 +221,12 @@
       "steps": "Étapes du cycle",
       "status": "État du cycle",
       "additional_info": "Information additionelles",
-      "securite_conditions": "Conditions de sécurité"
+      "security_conditions": "Conditions de sécurité"
     },
 
     "unselected": {
       "lead": "Pas de cycle sélectionné",
-      "sub": "Selectionner un cycle dans la list de gauche pour commencer a utiliser votre machine. Des difficultés pour commencer ?",
+      "sub": "Selectionnez un cycle dans la liste de gauche pour commencer à utiliser votre machine. Si c'est votre première utilisation, lisez le guide fourni avec votre machine.",
       "help": "Cliquez ici pour lire la documentation"
     },
 

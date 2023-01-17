@@ -106,7 +106,18 @@
     "regulation": {
       "enabled": "Regulation state",
       "current": "Actual value",
-      "target": "Target value"
+      "target": "Target value",
+
+      "modal": {
+        "security_disable": {
+          "title": "Security error",
+          "message": "A security element, disabled a container regulation."
+        },
+        "over_max_target": {
+          "title": "Security error",
+          "message": "The regulation went over the maximum alowed value, it has been disabled."
+        }
+      }
     }
   },
 

@@ -51,6 +51,11 @@
 
         if(container.regulations)
             categories = [...categories, "regulation"];
+
+        containerState = computeContainersState(container, $realtime.io);
+
+        if(container.supportedProductSeries !== undefined)
+            selectedProduct = container.supportedProductSeries.at(0);
             
     });
 
@@ -99,10 +104,6 @@
     const setRegulation = async (sensor: string, target: number) => {
         await fetch(`/api/v1/containers/${container.name}/regulation/${sensor.replace("#", "_")}/target/${target}`, { method: 'post' });
     }
-
-    afterUpdate(() => {
-        containerState = computeContainersState(container, $realtime.io);
-    })
 
     /// — Reactivity statements
 
@@ -269,7 +270,7 @@
 
                     {#each container.regulations as regulation}
                         <Flex direction="col" gap={2}>
-                            <h3>{$_(`containers.${container.name}.regulation.${regulation.name}`)}</h3>
+                            <h3>{$_(`containers.${container.name}.regulations.${regulation.name}`)}</h3>
 
                             <Flex items="center">
                                 <span>{$_('container.regulation.enabled')}</span>

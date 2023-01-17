@@ -5,14 +5,14 @@ type helpFile = {
     folder: string | undefined,
     name: string,
     filename: string;
-}
+};
 
 type langFile = {
     lang: string;
     filename: string;
-}
+};
 
-export const load = (async () => {
+export const load = (() => {
 
     const helpFolder = import.meta.glob("../../../static/help/**/*.md", { as: "raw" });
     const langFiles = import.meta.glob("../../../static/help/**/*.json", { as: "raw" });
@@ -22,8 +22,8 @@ export const load = (async () => {
 
     const regex = new RegExp(/\/(\w*)\/?(\w*)?\/(\w*)\./);
     
-    let files: Array<helpFile> = [];
-    let langs: Array<langFile> = [];
+    const files: Array<helpFile> = [];
+    const langs: Array<langFile> = [];
 
     for(const file of list) {
 
@@ -31,6 +31,9 @@ export const load = (async () => {
 
         if(reg != null)
         {
+            if(reg[3] === "export")
+                continue;
+            
             files.push({
                 lang: reg[1],
                 folder: reg[2],

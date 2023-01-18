@@ -2,27 +2,12 @@ import { IOGates } from "@metalizzsas/nuster-typings/build/spec/iogates";
 import { IOHandlers } from "@metalizzsas/nuster-typings/build/spec/iohandlers";
 import { ModbusController } from "./controllers/modbus";
 
-import * as MetalfogMR1 from "@metalizzsas/nuster-turbine-machines/data/metalfog/m/1/specs.json";
-
-import * as USCleanerMR1 from "@metalizzsas/nuster-turbine-machines/data/uscleaner/m/1/specs.json";
-
-import * as SmoothitMR1 from "@metalizzsas/nuster-turbine-machines/data/smoothit/m/1/specs.json";
-import * as SmoothitMR2 from "@metalizzsas/nuster-turbine-machines/data/smoothit/m/2/specs.json";
-import * as SmoothitMR3 from "@metalizzsas/nuster-turbine-machines/data/smoothit/m/3/specs.json";
-
 import { Addon, MachineSpecs } from "@metalizzsas/nuster-typings";
 import { app } from "./server";
 import type { Request, Response } from "express";
 import { ENIPController } from "./controllers/enip";
 import { deepInsert } from "./deepInsert";
-
-const MachineConfigs = {
-    "metalfog/m/1": MetalfogMR1,
-    "uscleaner/m/1": USCleanerMR1,
-    "smoothit/m/1": SmoothitMR1,
-    "smoothit/m/2": SmoothitMR2,
-    "smoothit/m/3": SmoothitMR3
-}
+import { Machines } from "@metalizzsas/nuster-turbine-machines";
 
 export class SimulationMachine
 {
@@ -31,7 +16,12 @@ export class SimulationMachine
 
     constructor(model: string, variant: string, revision: number, addons: string[] = [])
     {
-        this.config = structuredClone(MachineConfigs[`${model}/${variant}/${revision}`]);
+        const cfg = Machines[`${model}-${variant}-${revision}`];
+
+        if(cfg === undefined)
+            throw "Failed to find machine configuration";
+
+        this.config = structuredClone(cfg);
 
         for(const addon of addons)
         {

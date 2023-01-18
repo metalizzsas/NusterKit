@@ -11,7 +11,7 @@ import express from "express";
 import type { Server } from "http";
 import { pino } from "pino";
 import { pinoHttp } from "pino-http";
-import { AvailableMachineModels, Machine } from "./Machine";
+import { Machine } from "./Machine";
 import { TurbineEventLoop } from "./events";
 import { WebsocketDispatcher } from "./websocket/WebsocketDispatcher";
 
@@ -111,10 +111,6 @@ function SetupExpress()
         }));
     }
 
-    ExpressApp.get("/config", (req: Request, res: Response) => {
-        res.json(AvailableMachineModels);
-    });
-
     ExpressApp.get("/config/actual", (req: Request, res: Response) => {
         try
         {
@@ -206,10 +202,9 @@ function SetupMachine()
         ExpressApp.use('/v1/cycle', machine.cycleRouter.router);
         LoggerInstance.info("Express: Registered routers");
 
-        ExpressApp.use("/assets", express.static(machine.assetsFolder));
-        LoggerInstance.info(`Express: Will use ${machine.assetsFolder} as the assets folder.`);
-
         ExpressApp.get("/machine", (_, res: Response) => { res.json(machine?.toJSON()); });
+        
+        /** Route for debug purposes */
         ExpressApp.get("/ws", async (_req, res: Response) => res.json(await machine?.socketData()));
     }
     else

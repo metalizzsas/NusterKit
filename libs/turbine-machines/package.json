@@ -22,7 +22,7 @@
   "scripts": {
     "build": "tsc && pnpm build-browser",
     "build-browser": "tsc -p tsconfig.browser.json",
-    "test": "jest"
+    "test": "jest ./build/"
   },
   "repository": {
     "type": "git",

@@ -16,7 +16,8 @@
 
   "nuster": {
     "lead": "Nuster",
-    "logo": "Logo nuster"
+    "logo": "Logo nuster",
+    "screensaver": "Pour reprendre votre session cliquez sur l'écran."
   },
 
   "error": {
@@ -46,6 +47,11 @@
     "unselected": {
       "lead": "Aucune conteneur sélectionné",
       "sub": "Sélectionnez un conteneur dans la liste de gauche pour voir ou éditer ses propriétés."
+    },
+
+    "unselected_informations": {
+      "lead": "Informations machine",
+      "sub": "Les informations affichées ici ne sont pas éditables, rendez vous dans les sections correspondantes pour les modifier."
     },
 
     "category": {

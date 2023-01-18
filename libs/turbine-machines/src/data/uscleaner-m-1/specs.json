@@ -1,5 +1,13 @@
 {
     "$schema": "../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-specs.json",
+    "nuster": {
+        "homeInformations": [
+            {
+                "type": "io",
+                "path": "temperature#sensor"
+            }
+        ]
+    },
     "iohandlers": [
         {
             "type": "wago",
@@ -234,6 +242,16 @@
         {
             "addonName": "temperature-control",
             "content": [
+                {
+                    "path": "nuster.homeInformations",
+                    "mode": "merge",
+                    "content": [
+                        {
+                            "type": "container.regulation.state",
+                            "path": ["bac", "temperature"]
+                        }
+                    ]
+                },
                 {
                     "path": "iogates",
                     "mode": "merge",

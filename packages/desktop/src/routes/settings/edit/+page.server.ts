@@ -6,7 +6,7 @@ export const load = (async ({ fetch}) => {
     const configurationRequest = await fetch(`/api/config/actual`);
     const configuration = await configurationRequest.json() as Configuration;
 
-    const configurations = (await import("@metalizzsas/nuster-turbine-machines")).Machines;
+    const configurations = structuredClone((await import("@metalizzsas/nuster-turbine-machines")).Machines);
 
     return {
         configuration,

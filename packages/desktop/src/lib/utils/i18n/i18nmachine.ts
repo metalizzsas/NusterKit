@@ -14,7 +14,6 @@ export async function initI18nMachine(machine: Configuration)
         {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
             addMessages(langName, JSON.parse(langFile));
-            console.log("Loaded", `${machine.model}-${machine.variant}-${machine.revision}`, langName);
         }
     }
 }

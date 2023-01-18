@@ -18,13 +18,14 @@
 	import type { WebsocketData } from "@metalizzsas/nuster-typings";
 	import Loadindicator from "$lib/components/LoadIndicator.svelte";
 	import { dark, lang } from "$lib/utils/stores/settings";
-	import { locale } from "svelte-i18n";
+	import { locale, _ } from "svelte-i18n";
 	import { initi18nLocal } from "$lib/utils/i18n/i18nlocal";
 	import Toast from "$lib/components/Toast.svelte";
 	import type { Popup } from "@metalizzsas/nuster-typings/build/spec/nuster";
 	import { flip } from "svelte/animate";
 	import Button from "$lib/components/buttons/Button.svelte";
 	import type { MachineData } from "@metalizzsas/nuster-typings/build/hydrated/machine";
+	import { fade } from "svelte/transition";
 
     type Toast_popup = Popup & { date: number };
 
@@ -32,6 +33,9 @@
 
     let websocketState: "connecting" | "connected" | "disconnected" = "connecting";
     let websocket: WebSocket | undefined = undefined;
+
+    let screenSaver = false;
+    let screenSaverTimeout: ReturnType<typeof setTimeout> | undefined = undefined;
 
     onMount(async () => {
 
@@ -62,6 +66,27 @@
     onDestroy(() => {
         websocket?.close();
     });
+
+    const screenSaverUpdate = () => {
+        
+        if(screenSaver === true)
+        {
+            screenSaver = false;
+            screenSaverTimer();
+        }
+        else
+            screenSaverTimer();
+
+        function screenSaverTimer()
+        {
+            if(screenSaverTimeout !== undefined)
+                clearTimeout(screenSaverTimeout);
+            
+            screenSaverTimeout = setTimeout(() => {
+                //screenSaver = true;
+            },import.meta.env.DEV ? 1000 : 15 * 60 * 1000);
+        }
+    }
 
     const machineConnect = async () =>
     {
@@ -98,6 +123,7 @@
 
         websocket.onopen = function() {
             websocketState = "connected";
+            screenSaverUpdate();
         }
 
         websocket.onmessage = function(ev) {
@@ -143,6 +169,20 @@
                 </main>
             </Flex>
         </div>
+
+        {#if screenSaver}
+            <div class="absolute inset-0 bg-zinc-900 p-24" in:fade out:fade>
+                <Flex class="h-full my-auto" items="center" gap={24}>
+                    <img src="/icons/icon-512.png" alt={$_('nuster.logo')} class="h-[33vh] aspect-square rounded-md"/>
+                    <div class="text-white">
+                        <h1 class="text-6xl">{$_('nuster.lead')}</h1>
+                        <p>{$_('nuster.screensaver')}</p>
+                    </div>
+                </Flex>
+            </div>
+        {/if}
+
+
     {:else}
         <h1 class="m-6">Connecting to realtime data.</h1>
     {/if}
@@ -153,6 +193,8 @@
         <Button color="hover:bg-zinc-800" ringColor="ring-zinc-800" textColor="text-zinc-900" textHoverColor="hover:text-white" on:click={machineConnect}>Reconnect</Button>
     </div>
 {/if}
+
+<svelte:window on:mousedown={screenSaverUpdate} />
 
 <style>
 

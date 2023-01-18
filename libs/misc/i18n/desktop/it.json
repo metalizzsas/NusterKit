@@ -16,7 +16,8 @@
 
   "nuster": {
     "lead": "Nuster",
-    "logo": "Logo di Nuster"
+    "logo": "Logo di Nuster",
+    "screensaver": ""
   },
 
   "error": {
@@ -217,6 +218,11 @@
       "lead": "",
       "sub": "",
       "help": ""
+    },
+
+    "unselected_informations": {
+      "lead": "",
+      "sub": ""
     },
 
     "eta": {

@@ -16,7 +16,8 @@
 
   "nuster": {
     "lead": "Nuster",
-    "logo": "Nuster logo"
+    "logo": "Nuster logo",
+    "screensaver": "To resume your session click anywhere."
   },
 
   "error": {
@@ -228,6 +229,11 @@
       "lead": "No cycle selected.",
       "sub": "Select a cycle on the left list to start using your machine. Trouble starting your machine ?",
       "help": "Click here to read documentation."
+    },
+
+    "unselected_informations":{
+      "lead": "Machine informations",
+      "sub": "The informations displayed here are not editable, go to the corresponding sections to edit them."
     },
 
     "eta": {

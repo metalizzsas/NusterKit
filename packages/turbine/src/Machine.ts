@@ -136,6 +136,8 @@ export class Machine
     toJSON(): MachineData {
         return {
             ...this.data,
+
+            nuster: this.specs.nuster,
             
             nusterVersion: pkg.version,
             hypervisorData: this.hypervisorData,

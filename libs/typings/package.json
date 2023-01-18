@@ -13,7 +13,7 @@
   "scripts": {
     "lint": "eslint --ext .ts .",
     "dev": "tsc --watch",
-    "build": "tsc && npm run schema",
+    "build": "tsc && pnpm run schema",
     "schema": "npm run schema:config && npm run schema:spec && npm run schema:translations",
     "schema:config": "typescript-json-schema src/configuration/index.ts Configuration --noExtraProps --required -o build/schemas/schema-config.json",
     "schema:spec": "typescript-json-schema src/spec/index.ts MachineSpecs --noExtraProps --required -o build/schemas/schema-specs.json",

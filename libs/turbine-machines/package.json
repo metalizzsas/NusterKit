@@ -7,16 +7,21 @@
   "files": [
     "./build/data/",
     "./build/index.js",
-    "./build/index.d.ts"
+    "./build/index.d.ts",
+    "./build.browser/data/",
+    "./build.browser/index.js",
+    "./build.browser/index.d.ts"
   ],
-  "exports":{
-    ".": "./build/index.js"
+  "exports": {
+    "import": "./build.browser/index.js",
+    "default": "./build/index.js"
   },
   "engines": {
     "node": "18.x"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && pnpm build-browser",
+    "build-browser": "tsc -p tsconfig.browser.json",
     "test": "jest"
   },
   "repository": {

@@ -1,5 +1,25 @@
 # @metalizzsas/nuster-desktop
 
+## 1.10.0
+
+### Minor Changes
+
+- feat: moved documentation to @metalizzsas/nuster-misc ([#233](https://github.com/metalizzsas/NusterKit/pull/233))
+
+### Patch Changes
+
+- feat: Additional machine informations can be displayed on landing page of desktop, configurable in machine specs.json ([#233](https://github.com/metalizzsas/NusterKit/pull/233))
+
+- fix: updated markdown styles ([#233](https://github.com/metalizzsas/NusterKit/pull/233))
+
+- feat: now using nuster-misc as source for i18n files & documentation files ([#233](https://github.com/metalizzsas/NusterKit/pull/233))
+
+- fix: updated translations ([#233](https://github.com/metalizzsas/NusterKit/pull/233))
+
+- feat: added vite plugin to copy documentation files to static folder ([#233](https://github.com/metalizzsas/NusterKit/pull/233))
+
+- fix: When loading product the first productseries is selected ([#233](https://github.com/metalizzsas/NusterKit/pull/233))
+
 ## 1.9.20
 
 ### Patch Changes

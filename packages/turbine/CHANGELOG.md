@@ -1,5 +1,21 @@
 # @metalizzsas/nuster-turbine
 
+## 1.9.9
+
+### Patch Changes
+
+- feat: Additional machine informations can be displayed on landing page of desktop, configurable in machine specs.json ([#233](https://github.com/metalizzsas/NusterKit/pull/233))
+
+- chore: cleaned up app.ts ([#233](https://github.com/metalizzsas/NusterKit/pull/233))
+
+- fix: updated regulation modals i18n keys ([#233](https://github.com/metalizzsas/NusterKit/pull/233))
+
+- chore: now using nuster-turbine Machines export ([#233](https://github.com/metalizzsas/NusterKit/pull/233))
+
+- Updated dependencies [[`ecd24e8`](https://github.com/metalizzsas/NusterKit/commit/ecd24e80bdab795827a88a508419c57329e157d8), [`1fcc0e9`](https://github.com/metalizzsas/NusterKit/commit/1fcc0e971b66254950c08ff5a97bb2401daa195e), [`adf08f9`](https://github.com/metalizzsas/NusterKit/commit/adf08f9a4b1153d332f062eb9e0f1e46dc5ab9cf), [`8aba4be`](https://github.com/metalizzsas/NusterKit/commit/8aba4bea60a80ff7b3fc9ec1ce142057b9e961c1), [`7f01ea8`](https://github.com/metalizzsas/NusterKit/commit/7f01ea80d1085e7c909ac37f3666b7ab637ddbf8), [`8aba4be`](https://github.com/metalizzsas/NusterKit/commit/8aba4bea60a80ff7b3fc9ec1ce142057b9e961c1)]:
+  - @metalizzsas/nuster-typings@1.4.3
+  - @metalizzsas/nuster-turbine-machines@1.4.0
+
 ## 1.9.8
 
 ### Patch Changes

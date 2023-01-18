@@ -1,5 +1,21 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.4.0
+
+### Minor Changes
+
+- feat: changed folder structure for turbine-machines ([#233](https://github.com/metalizzsas/NusterKit/pull/233))
+
+### Patch Changes
+
+- feat: Additional machine informations can be displayed on landing page of desktop, configurable in machine specs.json ([#233](https://github.com/metalizzsas/NusterKit/pull/233))
+
+- fix: updated translations ([#233](https://github.com/metalizzsas/NusterKit/pull/233))
+
+- chore: updated tests ([#233](https://github.com/metalizzsas/NusterKit/pull/233))
+
+- feat: added dedicated TSConfig file for ES6 module generation ([#233](https://github.com/metalizzsas/NusterKit/pull/233))
+
 ## 1.3.6
 
 ### Patch Changes

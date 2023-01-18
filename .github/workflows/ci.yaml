@@ -35,7 +35,7 @@ jobs:
       - name: ✔️ Run linting
         run: pnpm run lint
 
-      - name: 🧱 Build nuster-typings # Build all libraries
+      - name: 🧱 Build libraries # Build all libraries
         run: pnpm run build-libs
 
       - name: ✔️ Run tests

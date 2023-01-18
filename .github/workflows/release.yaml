@@ -44,6 +44,9 @@ jobs:
       - name: 📚 Install Node dependencies
         run: pnpm install --ignore-scripts
 
+      - name: 🧱 Build libraries # Build all libraries
+        run: pnpm run build-libs
+
       - name: 🧱 Run build scripts on all packages
         run: pnpm run build
         env:

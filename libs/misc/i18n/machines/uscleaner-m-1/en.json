@@ -1,5 +1,5 @@
 {
-    "$schema": "../../../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
+    "$schema": "../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
 
     "containers": {
 
@@ -7,6 +7,10 @@
             "name": "Liquid tank",
             "regulations": {
                 "temperature": "Temperature"
+            },
+            "actions": {
+                "load": "Manual loading",
+                "unload": "Manual unloading"
             }
         }
     },

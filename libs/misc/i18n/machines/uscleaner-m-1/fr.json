@@ -1,5 +1,5 @@
 {
-    "$schema": "../../../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
+    "$schema": "../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
 
     "containers": {
 
@@ -7,6 +7,10 @@
             "name": "Bac de liquide",
             "regulations": {
                 "temperature": "Température"
+            },
+            "actions": {
+                "load": "Chargement manuel",
+                "unload": "Vidange manuelle"
             }
         }
     },

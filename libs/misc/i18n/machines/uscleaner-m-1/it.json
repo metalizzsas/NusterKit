@@ -1,5 +1,5 @@
 {
-    "$schema": "../../../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
+    "$schema": "../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
 
     "containers": {
         "bac": {
@@ -7,6 +7,10 @@
 
             "regulations": {
                 "temperature": "Temperatura"
+            },
+            "actions": {
+                "load": "",
+                "unload": ""
             }
         }
     },

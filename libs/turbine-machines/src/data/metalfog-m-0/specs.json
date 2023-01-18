@@ -1,0 +1,848 @@
+{
+    "$schema": "../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-specs.json",
+    "iohandlers": [
+        {
+            "type": "wago",
+            "ip": "192.168.1.10",
+            "ioScannerInterval": 2500
+        }
+    ],
+    "iogates": [
+        {
+            "name": "emergency-stop",
+            "type": "default",
+            "bus": "in",
+            "controllerId": 0,
+            "address": 0,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "air-sensor",
+            "type": "default",
+            "bus": "in",
+            "controllerId": 0,
+            "address": 1,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "cover-closed",
+            "type": "default",
+            "bus": "in",
+            "controllerId": 0,
+            "address": 2,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "levels#eff-max-n",
+            "type": "default",
+            "bus": "in",
+            "controllerId": 0,
+            "address": 3,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "motor#speed",
+            "type": "mapped",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 0,
+            "default": 0,
+            "size": "word",
+            "unity": "RPM",
+            "mapInMin": 0,
+            "mapInMax": 32767,
+            "mapOutMin": 0,
+            "mapOutMax": 100
+        },
+        {
+            "name": "motor#direction",
+            "type": "default",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 0,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "ventilation",
+            "type": "default",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 1,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "air-heater",
+            "type": "default",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 2,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "hybrid#act-res",
+            "type": "default",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 3,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "hybrid#edi-res",
+            "type": "default",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 4,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "met#chem-res",
+            "type": "default",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 5,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "hybrid#plv",
+            "type": "default",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 6,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "met#plv",
+            "type": "default",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 7,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "hybrid#lq-act",
+            "type": "default",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 8,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "hybrid#lq-edi",
+            "type": "default",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 9,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "met#lq-ox",
+            "type": "default",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 10,
+            "default": 0,
+            "size": "bit"
+        },
+        {
+            "name": "met#lq-rd",
+            "type": "default",
+            "bus": "out",
+            "controllerId": 0,
+            "address": 11,
+            "default": 0,
+            "size": "bit"
+        }
+    ],
+    "containers": [
+        {
+            "name": "ox",
+            "type": "psp",
+            "supportedProductSeries": [
+                "usl_ox"
+            ],
+            "sensors": []
+        },
+        {
+            "name": "rd",
+            "type": "psp",
+            "supportedProductSeries": [
+                "usl_rd"
+            ],
+            "sensors": []
+        },
+        {
+            "name": "act",
+            "type": "psp",
+            "supportedProductSeries": [
+                "usl_act"
+            ],
+            "sensors": []
+        },
+        {
+            "name": "edi",
+            "type": "psp",
+            "sensors": []
+        },
+        {
+            "name": "eff",
+            "type": "cnt",
+            "sensors": [
+                {
+                    "io": "levels#eff-max-n",
+                    "logic": "level-max"
+                }
+            ]
+        }
+    ],
+    "profileSkeletons": [
+        {
+            "name": "default",
+            "fields": [
+                {
+                    "name": "activation#enabled",
+                    "type": "bool",
+                    "value": 1
+                },
+                {
+                    "name": "activation#timeOn",
+                    "type": "time",
+                    "units": [
+                        "seconds",
+                        "milliseconds"
+                    ],
+                    "value": 2
+                },
+                {
+                    "name": "activation#timeOff",
+                    "type": "time",
+                    "units": [
+                        "seconds",
+                        "milliseconds"
+                    ],
+                    "value": 10
+                },
+                {
+                    "name": "activation#count",
+                    "type": "int",
+                    "value": 5
+                },
+                {
+                    "name": "wash1#enabled",
+                    "type": "bool",
+                    "value": 1
+                },
+                {
+                    "name": "wash1#duration",
+                    "type": "time",
+                    "units": [
+                        "minutes",
+                        "seconds"
+                    ],
+                    "value": 15
+                },
+                {
+                    "name": "metalization#enabled",
+                    "type": "bool",
+                    "value": 1
+                },
+                {
+                    "name": "metalization#timeOn",
+                    "type": "time",
+                    "units": [
+                        "seconds",
+                        "milliseconds"
+                    ],
+                    "value": 2
+                },
+                {
+                    "name": "metalization#timeOff",
+                    "type": "time",
+                    "units": [
+                        "seconds",
+                        "milliseconds"
+                    ],
+                    "value": 10
+                },
+                {
+                    "name": "metalization#count",
+                    "type": "int",
+                    "value": 5
+                },
+                {
+                    "name": "metalization-wash#enabled",
+                    "type": "bool",
+                    "value": 0
+                },
+                {
+                    "name": "metalization-wash#duration",
+                    "type": "time",
+                    "units": ["seconds"],
+                    "value": 5
+                },
+                {
+                    "name": "wash2#enabled",
+                    "type": "bool",
+                    "value": 1
+                },
+                {
+                    "name": "wash2#duration",
+                    "type": "time",
+                    "units": [
+                        "minutes",
+                        "seconds"
+                    ],
+                    "value": 45
+                },
+                {
+                    "name": "vapors-extraction#enabled",
+                    "type": "bool",
+                    "value": 1
+                },
+                {
+                    "name": "vapors-extraction#duration",
+                    "type": "time",
+                    "units": [
+                        "minutes",
+                        "seconds"
+                    ],
+                    "value": 45
+                },
+                {
+                    "name": "motor#enabled",
+                    "type": "bool",
+                    "value": 1
+                },
+                {
+                    "name": "motor#speed",
+                    "type": "float",
+                    "unity": "RPM",
+                    "value": 50,
+                    "floatMin": 0,
+                    "floatMax": 100,
+                    "floatStep": 5
+                },
+                {
+                    "name": "motor#reverseEnabled",
+                    "type": "bool",
+                    "value": 1
+                },
+                {
+                    "name": "motor#reverseTime",
+                    "type": "time",
+                    "units": [
+                        "seconds"
+                    ],
+                    "value": 1
+                }
+            ]
+        }
+    ],
+    "profilePremades": [
+        {
+            "skeleton": "default",
+            "_id": "premade_usl",
+            "name": "usl",
+            "isPremade": true,
+            "values": {
+                "motor#enabled": 1,
+                "motor#speed": 50,
+                "motor#reverseEnabled": 1,
+                "motor#reverseTime": 5,
+                "activation#enabled": 1,
+                "activation#timeOn": 5,
+                "activation#timeOff": 10,
+                "activation#count": 3,
+                "wash1#enabled": 1,
+                "wash1#duration": 35,
+                "metalization#enabled": 1,
+                "metalization#timeOn": 6,
+                "metalization#timeOff": 10,
+                "metalization#count": 10,
+                "metalization-wash#enabled": 0,
+                "metalization-wash#duration": 5,
+                "wash2#enabled": 1,
+                "wash2#duration": 35,
+                "vapors-extraction#enabled": 1,
+                "vapors-extraction#duration": 45
+            }
+        },
+        {
+            "skeleton": "default",
+            "_id": "premade_usl-retake",
+            "name": "usl-retake",
+            "isPremade": true,
+            "values": {
+                "motor#enabled": 1,
+                "motor#speed": 50,
+                "motor#reverseEnabled": 1,
+                "motor#reverseTime": 5,
+                "activation#enabled": 0,
+                "activation#timeOn": 5,
+                "activation#timeOff": 10,
+                "activation#count": 3,
+                "wash1#enabled": 1,
+                "wash1#duration": 35,
+                "metalization#enabled": 1,
+                "metalization#timeOn": 6,
+                "metalization#timeOff": 10,
+                "metalization#count": 10,
+                "metalization-wash#enabled": 0,
+                "metalization-wash#duration": 5,
+                "wash2#enabled": 1,
+                "wash2#duration": 35,
+                "vapors-extraction#enabled": 1,
+                "vapors-extraction#duration": 45
+            }
+        },
+        {
+            "skeleton": "default",
+            "_id": "premade_usl-activation-porous",
+            "name": "usl-activation-porous",
+            "isPremade": true,
+            "values": {
+                "motor#enabled": 1,
+                "motor#speed": 50,
+                "motor#reverseEnabled": 1,
+                "motor#reverseTime": 5,
+                "activation#enabled": 1,
+                "activation#timeOn": 5,
+                "activation#timeOff": 10,
+                "activation#count": 3,
+                "wash1#enabled": 1,
+                "wash1#duration": 35,
+                "metalization#enabled": 0,
+                "metalization#timeOn": 6,
+                "metalization#timeOff": 10,
+                "metalization#count": 10,
+                "metalization-wash#enabled": 0,
+                "metalization-wash#duration": 5,
+                "wash2#enabled": 0,
+                "wash2#duration": 35,
+                "vapors-extraction#enabled": 1,
+                "vapors-extraction#duration": 45
+            }
+        }
+    ],
+    "maintenance": [
+        {
+            "name": "mfm-filter",
+            "durationType": "cycle",
+            "durationLimit": 50
+        }
+    ],
+    "cyclePremades": [
+        {
+            "name": "usl",
+            "profile": "premade_usl",
+            "cycle": "default"
+        },
+        {
+            "name": "usl-retake",
+            "profile": "premade_usl-retake",
+            "cycle": "default"
+        },
+        {
+            "name": "usl-activation-porous",
+            "profile": "premade_usl-activation-porous",
+            "cycle": "default"
+        }
+    ],
+    "cycleTypes": [
+        {
+            "name": "default",
+            "startConditions": [
+                {
+                    "conditionName": "emergency-stop",
+                    "startOnly": false,
+                    "checkchain": {
+                        "io": {
+                            "gateName": "emergency-stop",
+                            "gateValue": 1
+                        }
+                    }
+                },
+                {
+                    "conditionName": "air-sensor",
+                    "startOnly": false,
+                    "checkchain": {
+                        "io": {
+                            "gateName": "air-sensor",
+                            "gateValue": 1
+                        }
+                    }
+                },
+                {
+                    "conditionName": "cover-closed",
+                    "startOnly": false,
+                    "checkchain": {
+                        "io": {
+                            "gateName": "cover-closed",
+                            "gateValue": 1
+                        }
+                    }
+                },
+                {
+                    "conditionName": "levels#eff-max-n",
+                    "startOnly": false,
+                    "checkchain": {
+                        "io": {
+                            "gateName": "levels#eff-max-n",
+                            "gateValue": 1
+                        }
+                    }
+                },
+                {
+                    "conditionName": "maintenance-filter",
+                    "startOnly": true,
+                    "checkchain": {
+                        "parameter": {"maintenance_status": "mfm-filter"}
+                    }
+                },
+                {
+                    "conditionName": "activator-life",
+                    "startOnly": true,
+                    "checkchain": {
+                        "parameter": {"product_status": "act"}
+                    }
+                },
+                {
+                    "conditionName": "oxydiser-life",
+                    "startOnly": true,
+                    "checkchain": {
+                        "parameter": {"product_status": "ox"}
+                    }
+                },
+                {
+                    "conditionName": "reducer-life",
+                    "startOnly": true,
+                    "checkchain": {
+                        "parameter": {"product_status": "rd"}
+                    }
+                }
+            ],
+            "steps": [
+                {
+                    "name": "start",
+                    "isEnabled": 1,
+                    "startBlocks": [
+                        {"io_write": ["ventilation", 1]},
+                        {"io_write": ["air-heater", 1]}
+                    ],
+                    "endBlocks": [
+                        {"io_write": ["motor#speed", {"multiply": [{"profile": "motor#speed"}, {"profile": "motor#enabled"}]}]},
+                        {"if":{
+                            "statement": {
+                                "comparator": "==",
+                                "left_side": {"profile": "motor#reverseEnabled"},
+                                "right_side": 1
+                            },
+                            "true_blocks": [
+                                {"start_timer": {
+                                    "timer_name": "motorRotation",
+                                    "timer_interval": {"profile": "motor#reverseTime"},
+                                    "blocks": [{"io_write": ["motor#direction", {"reverse": {"io_read": "motor#direction"}}]}]
+                                }}
+                            ]
+                        }}
+                    ],
+                    "blocks": [
+                        {"sleep": 90}
+                    ]
+                },
+                {
+                    "name": "activation",
+                    "isEnabled": {"profile": "activation#enabled"},
+                    "startBlocks": [
+                        {"io_write": ["hybrid#act-res", 1]}
+                    ],
+                    "endBlocks": [
+                        {"io_write": ["hybrid#act-res", 0]}
+
+                    ],
+                    "blocks": [
+                        {"for": {
+                            "limit": {"profile": "activation#count"},
+                            "blocks": [
+                                {"io_write": ["hybrid#plv", 1]},
+                                {"sleep": 0.25},
+                                {"io_write": ["hybrid#lq-act", 1]},
+                                {"sleep": {"profile": "activation#timeOn"}},
+                                {"io_write": ["hybrid#lq-act", 0]},
+                                {"sleep": 0.25},
+                                {"io_write": ["hybrid#plv", 0]},
+                                {"sleep": {"profile": "activation#timeOff"}}
+                            ]
+                        }}
+                    ]
+                },
+                {
+                    "name": "wash1",
+                    "isEnabled": {"profile": "wash1#enabled"},
+                    "startBlocks": [
+                        {"io_write": ["hybrid#edi-res", 1]},
+                        {"io_write": ["hybrid#plv", 1]}
+                    ],
+                    "endBlocks": [
+                        {"io_write": ["hybrid#edi-res", 0]},
+                        {"io_write": ["hybrid#plv", 0]}
+                    ],
+                    "blocks": [
+                        {"sleep": 0.25},
+                        {"io_write": ["hybrid#lq-edi", 1]},
+                        {"sleep": {"profile": "wash1#duration"}},
+                        {"io_write": ["hybrid#lq-edi", 0]},
+                        {"sleep": 0.25}
+                    ]
+                },
+                {
+                    "name": "metalization",
+                    "isEnabled": {"profile": "metalization#enabled"},
+                    "startBlocks": [
+                        {"io_write": ["met#chem-res", 1]}
+                    ],
+                    "endBlocks": [
+                        {"io_write": ["met#chem-res", 0]}
+
+                    ],
+                    "blocks": [
+                        {"sleep": 0.25},
+                        {"for": {
+                            "limit": {"profile": "metalization#count"},
+                            "blocks": [
+                                {"io_write": ["met#plv", 1]},
+                                {"sleep": 0.25},
+                                {"io_write": ["met#lq-rd", 1]},
+                                {"io_write": ["met##lq-ox", 1]},
+                                {"sleep": {"profile": "metalization#timeOn"}},
+                                {"io_write": ["met#lq-rd", 0]},
+                                {"io_write": ["met##lq-ox", 0]},
+                                {"sleep": 0.25},
+                                {"io_write": ["met#plv", 0]},
+
+                                {"if": {
+                                    "statement": {
+                                        "comparator": "==",
+                                        "left_side": {"profile": "metalization-wash#enabled"},
+                                        "right_side": 1
+                                    },
+                                    "true_blocks": [
+                                        {"io_write": ["hybrid#edi-res", 1]},
+                                        {"sleep": 0.5},
+                                        {"io_write": ["hybrid#plv", 1]},
+                                        {"sleep": 0.25},
+                                        {"io_write": ["hybrid#lq-edi", 1]},
+                                        {"sleep": {"profile": "metalization-wash#duration"}},
+                                        {"io_write": ["hybrid#lq-edi", 0]},
+                                        {"sleep": 0.25},
+                                        {"io_write": ["hybrid#plv", 0]},
+                                        {"sleep": 0.5},
+                                        {"io_write": ["hybrid#edi-res", 0]}
+                                    ]
+                                }}
+                            ]
+                        }},
+                        {"sleep": 0.25}
+                    ]
+                },
+                {
+                    "name": "wash2",
+                    "isEnabled": {"profile": "wash2#enabled"},
+                    "startBlocks": [
+                        {"io_write": ["hybrid#edi-res", 1]},
+                        {"io_write": ["hybrid#plv", 1]}
+                    ],
+                    "endBlocks": [
+                        {"io_write": ["hybrid#edi-res", 0]},
+                        {"io_write": ["hybrid#plv", 0]}
+                    ],
+                    "blocks": [
+                        {"sleep": 0.25},
+                        {"io_write": ["hybrid#lq-edi", 1]},
+                        {"sleep": {"profile": "wash2#duration"}},
+                        {"io_write": ["hybrid#lq-edi", 0]},
+                        {"sleep": 0.25}
+                    ]
+                },
+                {
+                    "name": "vapors-extraction",
+                    "isEnabled": {"profile": "vapors-extraction#enabled"},
+                    "startBlocks": [],
+                    "endBlocks": [
+                        {"io_write": ["ventilation", 0]},
+                        {"io_write": ["motor#speed", 0]}
+                    ],
+                    "blocks": [
+                        {"sleep": {"profile": "vapors-extraction#duration"}}
+                    ]
+                }
+            ],
+            "profileRequired": true
+        }
+    ],
+    "addons": [
+        {
+            "addonName": "cem",
+            "content": [
+                {
+                    "path": "profilePremades",
+                    "mode": "merge",
+                    "content": [
+                        {
+                            "skeleton": "default",
+                            "_id": "premade_cem",
+                            "name": "cem",
+                            "isPremade": true,
+                            "isRemovable": false,
+                            "isOverwritable": false,
+                            "values": {
+                                "motor#enabled": 1,
+                                "motor#speed": 50,
+                                "motor#reverseEnabled": 1,
+                                "motor#reverseTime": 5,
+                                "activation#enabled": 1,
+                                "activation#timeOn": 5,
+                                "activation#timeOff": 10,
+                                "activation#count": 3,
+                                "wash1#enabled": 1,
+                                "wash1#duration": 35,
+                                "metalization#enabled": 1,
+                                "metalization#timeOn": 6,
+                                "metalization#timeOff": 10,
+                                "metalization#count": 20,
+                                "metalization-wash#enabled": 0,
+                                "metalization-wash#duration": 5,
+                                "wash2#enabled": 1,
+                                "wash2#duration": 35,
+                                "vapors-extraction#enabled": 1,
+                                "vapors-extraction#duration": 45
+                            }
+                        },
+                        {
+                            "skeleton": "default",
+                            "_id": "premade_cem-retake",
+                            "name": "cem-retake",
+                            "isPremade": true,
+                            "isRemovable": false,
+                            "isOverwritable": false,
+                            "values": {
+                                "motor#enabled": 1,
+                                "motor#speed": 50,
+                                "motor#reverseEnabled": 1,
+                                "motor#reverseTime": 5,
+                                "activation#enabled": 0,
+                                "activation#timeOn": 5,
+                                "activation#timeOff": 10,
+                                "activation#count": 3,
+                                "wash1#enabled": 1,
+                                "wash1#duration": 35,
+                                "metalization#enabled": 1,
+                                "metalization#timeOn": 6,
+                                "metalization#timeOff": 10,
+                                "metalization#count": 20,
+                                "metalization-wash#enabled": 0,
+                                "metalization-wash#duration": 5,
+                                "wash2#enabled": 1,
+                                "wash2#duration": 35,
+                                "vapors-extraction#enabled": 1,
+                                "vapors-extraction#duration": 45
+                            }
+                        }
+                    ]
+                },
+                {
+                    "path": "cyclePremades",
+                    "mode": "merge",
+                    "content": [
+                        {
+                            "name": "cem",
+                            "profile": "premade_cem",
+                            "cycle": "default"
+                        },
+                        {
+                            "name": "cem-retake",
+                            "profile": "premade_cem-retake",
+                            "cycle": "default"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "addonName": "llc",
+            "content": [
+                {
+                    "path": "profilePremades",
+                    "mode": "merge",
+                    "content": [
+                        {
+                            "skeleton": "default",
+                            "_id": "premade_llc",
+                            "name": "llc",
+                            "isPremade": true,
+                            "isRemovable": false,
+                            "isOverwritable": false,
+                            "values": {
+                                "motor#enabled": 1,
+                                "motor#speed": 50,
+                                "motor#reverseEnabled": 1,
+                                "motor#reverseTime": 5,
+                                "activation#enabled": 1,
+                                "activation#timeOn": 5,
+                                "activation#timeOff": 10,
+                                "activation#count": 3,
+                                "wash1#enabled": 1,
+                                "wash1#duration": 30,
+                                "metalization#enabled": 1,
+                                "metalization#timeOn": 5,
+                                "metalization#timeOff": 10,
+                                "metalization#count": 8,
+                                "metalization-wash#enabled": 1,
+                                "metalization-wash#duration": 5,
+                                "wash2#enabled": 1,
+                                "wash2#duration": 30,
+                                "vapors-extraction#enabled": 1,
+                                "vapors-extraction#duration": 45
+                            }
+                        }
+                    ]
+                },
+                {
+                    "path": "cyclePremades",
+                    "mode": "merge",
+                    "content": [
+                        {
+                            "name": "llc",
+                            "profile": "premade_llc",
+                            "cycle": "default"
+                        }
+                    ]
+                },
+                {
+                    "path": "slots.0.supportedProductSeries",
+                    "mode": "merge",
+                    "content": ["llc_ox"]
+                 },
+                 {
+                    "path": "slots.1.supportedProductSeries",
+                    "mode": "merge",
+                    "content": ["llc_rd"]
+                 }
+            ]
+        }
+    ],
+    "variables": []
+}

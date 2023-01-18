@@ -1,5 +1,4 @@
 import type WebSocket from "ws";
-import path from "path";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -17,28 +16,9 @@ import type { Configuration, Status, MachineSpecs } from "@metalizzsas/nuster-ty
 import type { HypervisorData, DeviceData, VPNData } from "@metalizzsas/nuster-typings/build/hydrated/balena";
 import type { MachineData } from "@metalizzsas/nuster-typings/build/hydrated/machine"; 
 
-import type { ConfigModel, ConfigVariant } from "@metalizzsas/nuster-typings/build/configuration";
-
-import * as MetalfogMR0 from "@metalizzsas/nuster-turbine-machines/data/metalfog/m/0/specs.json";
-import * as MetalfogMR1 from "@metalizzsas/nuster-turbine-machines/data/metalfog/m/1/specs.json";
-
-import * as SmoothitMR1 from "@metalizzsas/nuster-turbine-machines/data/smoothit/m/1/specs.json";
-import * as SmoothitMR2 from "@metalizzsas/nuster-turbine-machines/data/smoothit/m/2/specs.json";
-import * as SmoothitMR3 from "@metalizzsas/nuster-turbine-machines/data/smoothit/m/3/specs.json";
-
-import * as USCleanerMR1 from "@metalizzsas/nuster-turbine-machines/data/uscleaner/m/1/specs.json";
 import { TurbineEventLoop } from "./events";
 
-type models = `${ConfigModel}/${ConfigVariant}/${number}`;
-
-export const AvailableMachineModels: {[x: models]: unknown} = {
-    "metalfog/m/0": MetalfogMR0,
-    "metalfog/m/1": MetalfogMR1,
-    "smoothit/m/1": SmoothitMR1,
-    "smoothit/m/2": SmoothitMR2,
-    "smoothit/m/3": SmoothitMR3,
-    "uscleaner/m/1": USCleanerMR1
-};
+import { Machines } from "@metalizzsas/nuster-turbine-machines";
 
 export class Machine
 {
@@ -63,7 +43,7 @@ export class Machine
         this.data = obj;
 
         // Retreive machine base specs to build all the controllers
-        const specs = AvailableMachineModels[`${this.data.model}/${this.data.variant}/${this.data.revision}`];
+        const specs = Machines[`${this.data.model}-${this.data.variant}-${this.data.revision}`];
 
         if(specs === undefined)
             throw new Error("Machine failed to load specs.json");
@@ -153,17 +133,11 @@ export class Machine
         } satisfies Status;
     }
 
-    get assetsFolder() {
-        return path.resolve(this.baseNTMFolder, 'assets');
-    }
-
-    get baseNTMFolder() {
-        return path.resolve("node_modules", "@metalizzsas", "nuster-turbine-machines", "data", this.data.model, this.data.variant, `${this.data.revision}`);
-    }
-
     toJSON(): MachineData {
         return {
             ...this.data,
+
+            nuster: this.specs.nuster,
             
             nusterVersion: pkg.version,
             hypervisorData: this.hypervisorData,

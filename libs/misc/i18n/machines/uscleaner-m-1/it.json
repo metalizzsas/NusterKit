@@ -1,0 +1,95 @@
+{
+    "$schema": "../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
+
+    "containers": {
+        "bac": {
+            "name": "Vasca",
+
+            "regulations": {
+                "temperature": "Temperatura"
+            },
+            "actions": {
+                "load": "",
+                "unload": ""
+            }
+        }
+    },
+    "profile": {
+
+        "premade": {
+            "15min": "15 minuti"
+        },
+
+        "categories": {
+            "principal": "Funzioni principali"
+        },
+        "rows": {
+            "duration": "Durata",
+            "target-temperature": "Temperatura",
+            "motor-speed": "Velocità del motore"
+        }
+    },
+
+    "cycle": {
+        "end_reasons": {
+            "security-emergency-stop": "Pulsante arresto di emergenza inserito",
+            "security-cover-closed": "Coperchio aperto",
+            "security-temperature#over-heat": "Product overheat"
+        },
+        "start_conditions": {
+            "emergency-stop": "Pulsante arresto di emergenza",
+            "cover-closed": "Coperchio chiuso",
+            "temperature#over-heat": "No product overheat"
+        },
+
+        "names": {
+            "default": "Ciclo di base Uscleaner"
+        },
+        "steps": {
+            "cleaning": {
+                "name": "Pulizia",
+                "desc": "Pulizia dei pezzi"
+            }
+        }
+    },
+
+    "gates": {
+        "categories": {
+            "motor": "Motore di rotazione",
+            "temperature": "Gestione temperatura",
+            "levels": "Livelli",
+            "pump": "Gestione pompa"
+        },
+        "names": {
+            "emergency-stop": "Pulsante arresto di emergenza",
+            "cover-closed": "Sensore coperchio",
+
+            "motor#direction": "Senso di rotazione del motore",
+            "motor#speed": "Velocità del motore",
+
+            "temperature#sensor": "Sensore di temperatura",
+            "temperature#over-heat": "Fluid overheat",
+            "temperature#heater": "Scaldamento della vasca",
+            "temperature#ventilation": "Ventilazione dello scambiatore vasca",
+
+            "us-power": "Trasduttori US",
+
+            "pump#pressure": "Pressione in uscita della pompa",
+            "pump#enable": "Attivazione della pompa"
+
+        }
+    },
+
+    "maintenance": {
+        "tasks": {
+            "usc-filter": {
+                "name": "Filtro",
+                "desc": "Il filtro dell'Uscleaner permette di catturare le particelle nella vasca."
+            }
+        }
+    },
+    "toasts": {},
+    "addons": {
+        "temperature-control": "Controllo della temperatura"
+    }
+}

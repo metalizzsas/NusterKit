@@ -37,7 +37,6 @@
 
         initi18nLocal();
 
-        /** Theme store (Boolean) */
 		const storedDark = localStorage.getItem('theme') === 'dark';
 		$dark = storedDark;
 
@@ -68,12 +67,12 @@
     {
         websocketState = "connecting";
 
-        await initI18nMachine();
-
         const req = await fetch(`/api/machine`);
-
+        
         if(req.ok && req.status === 200)
-            $machine = (await req.json()) as MachineData;
+        $machine = (await req.json()) as MachineData;
+        
+        await initI18nMachine($machine);
 
         const isSecure = window.location.protocol === "https:";
 
@@ -144,6 +143,7 @@
                 </main>
             </Flex>
         </div>
+
     {:else}
         <h1 class="m-6">Connecting to realtime data.</h1>
     {/if}

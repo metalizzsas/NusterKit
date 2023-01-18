@@ -2,7 +2,7 @@ import type { MaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydr
 import type { PageServerLoad } from "./$types";
 import type { MachineData } from "@metalizzsas/nuster-typings/build/hydrated/machine";
 
-export const load = ( async ({ fetch, locals }) => {
+export const load = ( async ({ fetch }) => {
 
     const req = await fetch(`/api/machine`);
     const machine = (await req.json()) as MachineData;

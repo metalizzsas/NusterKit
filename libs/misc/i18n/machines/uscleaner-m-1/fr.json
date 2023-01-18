@@ -1,0 +1,96 @@
+{
+    "$schema": "../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
+
+    "containers": {
+
+        "bac": {
+            "name": "Bac de liquide",
+            "regulations": {
+                "temperature": "Température"
+            },
+            "actions": {
+                "load": "Chargement manuel",
+                "unload": "Vidange manuelle"
+            }
+        }
+    },
+
+    "profile": {
+
+        "premade": {
+            "15min": "15 Minutes"
+        },
+
+        "categories": {
+            "principal": "Réglages principaux"
+        },
+        "rows": {
+            "duration": "Durée",
+            "target-temperature": "Température",
+            "motor-speed": "Vitesse du moteur"
+        }
+    },
+
+    "cycle": {
+        "end_reasons": {
+            "security-emergency-stop": "Boutton d'arret d'urgence déclenché",
+            "security-cover-closed": "Couvercle ouvert",
+            "security-temperature#over-heat": "Surchauffe produit"
+        },
+        "names": {
+            "default": "Cycle de base USCleaner"
+        },
+        "steps": {
+            "cleaning": {
+                "name": "Nettoyage",
+                "desc": "Nétoyage des pièces"
+            }
+        },
+        "start_conditions": {
+            "emergency-stop": "Bouton d'arret d'urgence",
+            "cover-closed": "Couvercle fermé",
+            "temperature#over-heat": "Pas de surchauffe produit"
+        }
+    },
+    "gates": {
+        "categories": {
+            "motor": "Moteur de rotation",
+            "temperature": "Gestion température",
+            "levels": "Niveaux",
+            "pump": "Gestion pompe"
+        },
+        "names": {
+            "emergency-stop": "Bouton d'arret d'urgence",
+            "cover-closed": "Capteur de couvercle",
+
+            "motor#direction": "Direction du moteur",
+            "motor#speed": "Vitesse du moteur",
+
+            "temperature#sensor": "Sonde de température",
+            "temperature#heater": "Chauffe du bac",
+            "temperature#over-heat": "Surchauffe produit",
+            "temperature#ventilation": "Ventilation echangeur bac",
+
+            
+            "us-power": "Transducteurs US",
+
+            "pump#pressure": "Pression en sortie de pompe",
+            "pump#enable": "Activation de la pompe",
+            "pump#drain": "Activation du drain"
+
+        }
+    },
+    "maintenance": {
+        "tasks": {
+            "usc-filter": {
+                "name": "Filtre",
+                "desc": "Le filtre de l'uscleaner permet de capturer les particules dans le bac."
+            }
+        }
+    },
+
+    "toasts": {},
+    "addons": {
+        "temperature-control": "Régulation de la température"
+    }
+}

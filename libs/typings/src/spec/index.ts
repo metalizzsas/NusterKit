@@ -14,7 +14,7 @@ export declare interface MachineSpecs
      * Schema used by the configuration file
      * @defaultValue ../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-specs.json
      */
-    $schema: "../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-specs.json";
+    $schema: string;
 
     /** Nuster Additional data */
     nuster?: Nuster

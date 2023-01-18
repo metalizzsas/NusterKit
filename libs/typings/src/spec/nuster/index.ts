@@ -1,6 +1,9 @@
 type Nuster = {
     /** Connect popup is triggered when the user logs on for the first time */
-    connectPopup: Popup
+    connectPopup?: Popup,
+
+    /** Home screen informations, path of the data to be fetched, should only be reactive data such as io or containers */
+    homeInformations?: Array<HomeInfo>
 }
 
 /** Call to action inteface */
@@ -33,5 +36,22 @@ interface Popup {
     /** Call to actions of this popup. */
     callToActions?: CallToAction[]
 }
+
+type HomeInfoIO = {
+    type: "io",
+    path: string
+}
+
+type HomeInfoContainerRegulationState = {
+    type: "container.regulation.state",
+    path: [string, string]
+};
+
+type HomeInfoContainerRegulationTarget = {
+    type: "container.regulation.target",
+    path: [string, string]
+}
+
+type HomeInfo = HomeInfoIO | HomeInfoContainerRegulationState | HomeInfoContainerRegulationTarget;
 
 export { Nuster, CallToAction, Popup };

@@ -5,25 +5,25 @@ type helpFile = {
     folder: string | undefined,
     name: string,
     filename: string;
-}
+};
 
 type langFile = {
     lang: string;
     filename: string;
-}
+};
 
-export const load = (async () => {
+export const load = (() => {
 
-    const helpFolder = import.meta.glob("../../../static/help/**/*.md", { as: "raw" });
-    const langFiles = import.meta.glob("../../../static/help/**/*.json", { as: "raw" });
+    const helpFolder = import.meta.glob("../../../static/documentation/desktop/**/*.md", { as: "raw" });
+    const langFiles = import.meta.glob("../../../static/documentation/desktop/**/*.json", { as: "raw" });
 
-    const list = Object.keys(helpFolder).map(k => k.replace("../../../static/help", ""));
-    const langList = Object.keys(langFiles).map(k => k.replace("../../../static/help", ""));
+    const list = Object.keys(helpFolder).map(k => k.replace("../../../static/documentation/desktop", ""));
+    const langList = Object.keys(langFiles).map(k => k.replace("../../../static/documentation/desktop", ""));
 
     const regex = new RegExp(/\/(\w*)\/?(\w*)?\/(\w*)\./);
     
-    let files: Array<helpFile> = [];
-    let langs: Array<langFile> = [];
+    const files: Array<helpFile> = [];
+    const langs: Array<langFile> = [];
 
     for(const file of list) {
 
@@ -31,6 +31,10 @@ export const load = (async () => {
 
         if(reg != null)
         {
+            // disable showing raw export pdf
+            if(reg[3] === "export")
+                continue;
+            
             files.push({
                 lang: reg[1],
                 folder: reg[2],

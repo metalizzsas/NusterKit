@@ -1,0 +1,10 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "outDir": "./build.browser",
+        "module": "ES6",
+    },
+    "exclude": [
+        "src/tests/*"
+    ]
+}

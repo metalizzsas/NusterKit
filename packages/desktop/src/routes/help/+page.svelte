@@ -10,30 +10,35 @@
 
 	import { addMessages, _ } from 'svelte-i18n';
 	import type { PageData } from './$types';
-	import { onMount } from 'svelte';
+	import { onMount, setContext } from 'svelte';
+    import { writable, type Writable } from 'svelte/store';
 	import { lang } from '$lib/utils/stores/settings';
+	import HelpLinkParser from './HelpLinkParser.svelte';
 
 	export let data: PageData;
 
-    let selectedHelp: string | undefined;
+    let selectedHelp = writable<string | undefined>(undefined);
     let helpContent: string | undefined;
+
+    setContext<Writable<string | undefined>>("help", selectedHelp);
 
     onMount(async () => {
 
         for(const l of data.langs)
         {
-            const r = await fetch(`/help${l.filename}`);
+            const r = await fetch(`/documentation/desktop${l.filename}`);
             if(r.ok && r.status === 200)
-                addMessages(l.lang, await r.json() as {})
+                addMessages(l.lang, await r.json())
         }
 
         const index = helpFiles.find(k => k.name == "index" && k.folder == undefined);
-        selectedHelp = index?.filename;
+        $selectedHelp = index?.filename;
     });
 
 	/// — Reactive statements
-    $: if(selectedHelp !== undefined) { 
-        fetch(`/help${selectedHelp}`).then(r => r.text().then(c => helpContent = c));
+    $: if($selectedHelp !== undefined) { 
+        console.log($selectedHelp);
+        void fetch(`/documentation/desktop${$selectedHelp}`).then(r => r.text().then(c => helpContent = c));
     } else { helpContent = undefined }
 
     $: helpFiles = data.files.filter(k => k.lang == $lang);
@@ -50,7 +55,7 @@
                 {#each Array.from(new Set(helpFiles.map(k => k.folder).sort((a, b) => { let a2 = a || ''; let b2 = b || ''; return a2.localeCompare(b2) }))) as folder}
                     {#if folder !== undefined}
                         <h3 class="my-1">
-                            <Icon src={Folder} class="h-6 w-6 text-indigo-500 inline mr-1" />
+                            <Icon src={Folder} class="h-4 w-4 text-indigo-500 inline mr-1" />
                             {$_(`help.folders.${folder}`)}
                         </h3>
                     {:else}
@@ -58,17 +63,17 @@
                     {/if}
                     {#each helpFiles.filter(k => k.folder == folder) as helpFile (helpFile.filename)}
                         <SelectableButton 
-                            selected={helpFile.filename === selectedHelp}
+                            selected={helpFile.filename === $selectedHelp}
                             on:click={() => {
-                                if(selectedHelp === helpFile.filename) {
-                                    selectedHelp = undefined;
+                                if($selectedHelp === helpFile.filename) {
+                                    $selectedHelp = undefined;
                                 } else {
-                                    selectedHelp = helpFile.filename;
+                                    $selectedHelp = helpFile.filename;
                                 }
                             }}
                         >
                             <h4 class="leading-6 text-start">
-                                <Icon src={BookOpen} class="h-6 w-6 text-indigo-500 inline mr-1"/>
+                                <Icon src={BookOpen} class="h-4 w-4 text-indigo-500 inline mr-1"/>
                                 {$_(`help.files.${helpFile.folder !== undefined ? `${helpFile.folder}_` : ''}${helpFile.name}`)}
                             </h4>
                         </SelectableButton>
@@ -81,9 +86,11 @@
 	<div class="overflow-y-scroll grow drop-shadow-xl max-w-[66%]">
         <Wrapper>
             {#if selectedHelp !== undefined && helpContent !== undefined}
-            <SvelteMarkdown source={helpContent} renderers={{ image: HelpImageParser}} />
+            <div class="markdown">
+                <SvelteMarkdown source={helpContent} renderers={{ image: HelpImageParser, link: HelpLinkParser }}/>
+            </div>
             {:else}
-			    <h1>{$_('help.unselected.lead')}</h1>
+                <h1>{$_('help.unselected.lead')}</h1>
                 <p>{$_('help.unselected.sub')}</p>
             {/if}
 		</Wrapper>

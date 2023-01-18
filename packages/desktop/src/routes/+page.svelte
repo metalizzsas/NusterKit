@@ -7,11 +7,14 @@
     import { Icon } from '@steeze-ui/svelte-icon';
 	import Wrapper from "$lib/components/Wrapper.svelte";
 	import Cycle from "./Cycle.svelte";
-	import { realtime } from "$lib/utils/stores/nuster";
+	import { machine, realtime } from "$lib/utils/stores/nuster";
 	import type { ProgramBlockRunnerHydrated } from "@metalizzsas/nuster-typings/build/hydrated";
 	import { translateProfileName } from "$lib/utils/i18n/i18nprofile";
 	import SelectableButton from "$lib/components/buttons/SelectableButton.svelte";
 	import type { PageData } from "./$types";
+	import Gate from "./io/Gate.svelte";
+	import Toggle from "$lib/components/inputs/Toggle.svelte";
+	import Label from "$lib/components/label.svelte";
 
     export let data: PageData;
 
@@ -86,7 +89,7 @@
 
                             } else {
                                 selectedPremadeIndex = index;
-                                prepareCycle(premade.cycle, premade.profile?._id);
+                                void prepareCycle(premade.cycle, premade.profile?._id);
                             }
                         }}
                     >
@@ -127,18 +130,56 @@
 	</div>
 
 	<div class="overflow-y-scroll grow drop-shadow-xl">
-        <Wrapper>
-            {#if selectedPremadeIndex !== undefined && cycleData !== undefined}
-                <Cycle on:patched={() => {
-                    selectedPremadeIndex = undefined;
-                }}/>
-            {:else}
-                <h3>{$_('cycle.unselected.lead')}</h3>
-                <p>
-                    {$_('cycle.unselected.sub')}
-                    <a href="/help" class="text-indigo-500 font-medium underline-offset-1 underline">{$_('cycle.unselected.help')}</a>
-                </p>
+        <Flex gap={6} direction="col">
+            <Wrapper>
+                {#if selectedPremadeIndex !== undefined && cycleData !== undefined}
+                    <Cycle on:patched={() => {
+                        selectedPremadeIndex = undefined;
+                    }}/>
+                {:else}
+                    <h3>{$_('cycle.unselected.lead')}</h3>
+                    <p class="mt-2">
+                        {$_('cycle.unselected.sub')}
+                        <a href="/help" class="text-indigo-500 font-medium underline-offset-1 underline">{$_('cycle.unselected.help')}</a>
+                    </p>
+                {/if}
+            </Wrapper>
+
+            {#if selectedPremadeIndex === undefined && cycleData === undefined && $machine.nuster?.homeInformations !== undefined}
+                <Wrapper>
+                    <h3>{$_('cycle.unselected_informations.lead')}</h3>
+                    <p class="mt-2 mb-6">{$_('cycle.unselected_informations.sub')}</p>
+
+                    <Flex direction="col">
+                        {#each $machine.nuster.homeInformations as homeInfo}
+                            {#if homeInfo.type === "io"}
+                                {@const gate = $realtime.io.find(k => k.name === homeInfo.path)}
+                                {#if gate !== undefined}
+                                    <Gate io={gate} editable={false}/>
+                                {/if}
+                            {:else if homeInfo.type === "container.regulation.state"}
+                                {@const regulationState = $realtime.containers.find(k => k.name === homeInfo.path.at(0))?.regulations?.find(k => k.name === homeInfo.path.at(1))?.state}
+                                {#if regulationState !== undefined}
+                                    <Flex items="center">
+                                        <p>{$_(`containers.${homeInfo.path[0]}.regulations.${homeInfo.path[1]}`)} → {$_('container.regulation.enabled')}</p>
+                                        <div class="h-[1px] grow bg-zinc-500/50" />
+                                        <Toggle value={regulationState} locked={true}/>
+                                    </Flex>
+                                {/if}
+                            {:else if homeInfo.type === "container.regulation.target"}
+                                {@const regulation = $realtime.containers.find(k => k.name === homeInfo.path.at(0))?.regulations?.find(k => k.name === homeInfo.path.at(1))}
+                                {#if regulation !== undefined}
+                                    <Flex items="center">
+                                        <p>{$_(`containers.${homeInfo.path[0]}.regulations.${homeInfo.path[1]}`)} → {$_('container.regulation.target')}</p>
+                                        <div class="h-[1px] grow bg-zinc-500/50" />
+                                        <Label>{regulation.target} <span class="font-semibold">{regulation.currentUnity}</span></Label>
+                                    </Flex>
+                                {/if}
+                            {/if}
+                        {/each}
+                    </Flex>
+                </Wrapper>
             {/if}
-        </Wrapper>
+        </Flex>
 	</div>
 </Flex>

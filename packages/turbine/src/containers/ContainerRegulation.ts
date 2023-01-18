@@ -101,22 +101,21 @@ export class ContainerRegulation implements ContainerRegulationConfig
             this.setActuators("minus", false);
             this.setActuators("active", false);
 
-
             TurbineEventLoop.emit("nuster.modal", {
-                title: "containers.regulation.modal.security_disable.title",
-                message: "containers.regulation.modal.security_disable.message",
+                title: "container.regulation.modal.security_disable.title",
+                message: "container.regulation.modal.security_disable.message",
                 level: "error"
             });
         }
 
-        if(this.value > this.maxTarget)
+        if(this.value > (this.maxTarget + 1))
         {
             // Advert the user that maxtarget has been reached
             if(this.state !== false)
             {
                 TurbineEventLoop.emit("nuster.modal", {
-                    title: "containers.regulation.modal.over_max_target.title",
-                    message: "containers.regulation.modal.over_max_target.message",
+                    title: "container.regulation.modal.over_max_target.title",
+                    message: "container.regulation.modal.over_max_target.message",
                     level: "warn"
                 });
             }

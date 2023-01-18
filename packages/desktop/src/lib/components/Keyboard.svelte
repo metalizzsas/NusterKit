@@ -108,6 +108,7 @@
 
     function mouseDown() { moving = true; }
 
+    // TODO: Use Touch events
     function mouseMove(e: MouseEvent) {
         if(moving)
         {

@@ -1,7 +1,5 @@
 FROM balenalib/raspberrypi4-64-node:18-buster
 
-#ENV NODE_ENV=devlopment
-
 WORKDIR /usr/src/app
 
 COPY .npmrc ./.npmrc
@@ -16,6 +14,8 @@ COPY packages/desktop/build/ ./build
 RUN pnpm install
 
 # Copy workspace libs
+COPY libs/misc/ ./node_modules/@metalizzsas/nuster-misc
+COPY libs/turbine-machines/ ./node_modules/@metalizzsas/nuster-turbine-machines
 COPY libs/typings/ ./node_modules/@metalizzsas/nuster-typings
 
 # Remove npmrc file

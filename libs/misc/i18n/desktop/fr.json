@@ -16,8 +16,7 @@
 
   "nuster": {
     "lead": "Nuster",
-    "logo": "Logo nuster",
-    "screensaver": "Pour reprendre votre session cliquez sur l'écran."
+    "logo": "Logo nuster"
   },
 
   "error": {
@@ -47,11 +46,6 @@
     "unselected": {
       "lead": "Aucune conteneur sélectionné",
       "sub": "Sélectionnez un conteneur dans la liste de gauche pour voir ou éditer ses propriétés."
-    },
-
-    "unselected_informations": {
-      "lead": "Informations machine",
-      "sub": "Les informations affichées ici ne sont pas éditables, rendez vous dans les sections correspondantes pour les modifier."
     },
 
     "category": {
@@ -234,6 +228,11 @@
       "lead": "Pas de cycle sélectionné",
       "sub": "Selectionnez un cycle dans la liste de gauche pour commencer à utiliser votre machine. Si c'est votre première utilisation, lisez le guide fourni avec votre machine.",
       "help": "Cliquez ici pour lire la documentation"
+    },
+
+    "unselected_informations": {
+      "lead": "Informations machine",
+      "sub": "Les informations affichées ici ne sont pas modifiables, rendez vous dans les sections correspondantes pour les modifier."
     },
 
     "eta": {

@@ -14,6 +14,8 @@
   ],
   "exports": {
     "import": "./build.browser/index.js",
+    "node": "./build/index.js",
+    "require": "./build/index.js",
     "default": "./build/index.js"
   },
   "engines": {

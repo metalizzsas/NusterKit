@@ -138,7 +138,7 @@
                     }}/>
                 {:else}
                     <h3>{$_('cycle.unselected.lead')}</h3>
-                    <p>
+                    <p class="mt-2">
                         {$_('cycle.unselected.sub')}
                         <a href="/help" class="text-indigo-500 font-medium underline-offset-1 underline">{$_('cycle.unselected.help')}</a>
                     </p>

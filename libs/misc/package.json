@@ -18,5 +18,8 @@
   "license": "UNLICENCED",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
+  },
+  "devDependencies": {
+    "@metalizzsas/nuster-typings": "1.4.2"
   }
 }

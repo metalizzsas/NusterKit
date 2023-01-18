@@ -29,6 +29,11 @@
     "typescript": "^4.8.4",
     "typescript-json-schema": "0.54.0"
   },
+  "repository": {
+    "type": "git",
+    "directory": "libs/typings",
+    "url": "git+https://github.com/metalizzsas/NusterKit.git"
+  },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },

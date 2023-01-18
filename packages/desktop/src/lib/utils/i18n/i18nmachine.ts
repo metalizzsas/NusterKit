@@ -1,51 +1,20 @@
+import type { Configuration } from '@metalizzsas/nuster-typings';
 import { addMessages } from 'svelte-i18n';
 
-export async function initI18nMachine()
+export async function initI18nMachine(machine: Configuration)
 {
-    return new Promise<void>(resolve => {
-    
-        const enurl = `/api/assets/lang/en.json`;
-        const frurl = `/api/assets/lang/fr.json`;
-        const iturl = `/api/assets/lang/it.json`;
+    const langs = import.meta.glob("../../../../node_modules/@metalizzsas/nuster-misc/i18n/machines/**/*.json", {as: "raw"});
 
-        const langEN = fetch(enurl).then((response) => {
-            if(response.status == 200)
-            {
-                response.json().then((content) => {
-                    addMessages("en", content);
-                }).catch(() => {
-                    throw new Error("Failed to add En language file");
-                })
-            }
-        });
-    
-        const langFR = fetch(frurl).then((response) => {
-            if(response.status == 200)
-            {
-                response.json().then((content) => {
-                    addMessages("fr", content);
-                }).catch(() => {
-                    throw new Error("Failed to add FR language file");
-                })
-            }
-        });
+    for(const lang of Object.keys(langs).filter(k => k.includes(`${machine.model}-${machine.variant}-${machine.revision}`)))
+    {
+        const langName = lang.split("/").at(-1)?.split(".").at(0);
+        const langFile = await langs[lang]();
 
-        const langIT = fetch(iturl).then((response) => {
-            if(response.status == 200)
-            {
-                response.json().then((content) => {
-                    addMessages("it", content);
-                }).catch(() => {
-                    throw new Error("Failed to add IT language file");
-                })
-            }
-        });
-        
-        Promise.all([langEN, langFR, langIT]).then(() => {
-            resolve();
-        }).catch((e: Error) => {
-            resolve();
-            console.error(e.message);
-        });
-    });
+        if(langName !== undefined && langFile !== undefined)
+        {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+            addMessages(langName, JSON.parse(langFile));
+            console.log("Loaded", `${machine.model}-${machine.variant}-${machine.revision}`, langName);
+        }
+    }
 }

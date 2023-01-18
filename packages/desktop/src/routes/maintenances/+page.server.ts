@@ -1,7 +1,7 @@
 import type { MaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydrated";
 import type { PageServerLoad } from "./$types";
 
-export const load = (async ({ fetch, locals }) => {
+export const load = (async ({ fetch }) => {
 
     const req = await fetch(`/api/v1/maintenances/`);
     

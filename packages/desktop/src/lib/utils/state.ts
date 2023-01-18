@@ -12,8 +12,8 @@ export const computeContainersState = (containers: Array<ContainerHydrated> | Co
         containers = [containers] as Array<ContainerHydrated>;
 
     let globalResult: State<unknown, unknown>["result"] = "good";
-    let globalIssues: Set<"sensor" | "product_unloaded" | "product_lifespan" | "product_lifespan_unknown"> = new Set();
-    let globalInfos: Set<"regulation_active"> = new Set();
+    const globalIssues: Set<"sensor" | "product_unloaded" | "product_lifespan" | "product_lifespan_unknown"> = new Set();
+    const globalInfos: Set<"regulation_active"> = new Set();
 
     for(const container of containers)
     {

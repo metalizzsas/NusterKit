@@ -12,13 +12,15 @@
 	import Button from "$lib/components/buttons/Button.svelte";
 	import { invalidateAll } from "$app/navigation";
 	import { lang } from "$lib/utils/stores/settings";
+	import { machine } from "$lib/utils/stores/nuster";
 
     export let maintenance: MaintenanceHydrated;
 
     let procedureMarkdown: string | undefined;
 
     beforeUpdate(async () => {
-        const req = await fetch(`/api/assets/maintenance/${maintenance.name}/index-${$lang}.md`);
+
+        const req = await fetch(`/documentation/machines/${$machine.model}-${$machine.variant}-${$machine.revision}/maintenance-${maintenance.name}/${$lang}.md`);
 
         if(req.status !== 404)
             procedureMarkdown = await req.text();
@@ -43,7 +45,9 @@
     <h3 class="leading-10 font-medium"><Icon src={WrenchScrewdriver} class="h-5 w-5 mr-1 inline-block text-indigo-500"/>{$_('maintenance.procedure.lead')}</h3>
     
     {#if procedureMarkdown}
-        <SvelteMarkdown source={procedureMarkdown} renderers={{ image: MaintenanceImageParser }}/>
+        <div class="markdown">
+            <SvelteMarkdown source={procedureMarkdown} renderers={{ image: MaintenanceImageParser }}/>
+        </div>
         <Button on:click={clearMaintenance}>{$_('maintenance.procedure.clear')}</Button>
     {:else}
         <p class="text-amber-500">{$_('maintenance.procedure.lang_unavailable')}</p>

@@ -1,8 +1,7 @@
 {
   "name": "@metalizzsas/nuster-kit",
   "version": "1.0.0",
-  "description": "",
-  "main": "",
+  "description": "Mono repository that holds the nuster project",
   "engines": {
     "node": "18.x"
   },
@@ -13,7 +12,6 @@
     "test": "pnpm -r --parallel run test",
     "build": "pnpm -r --parallel --filter='./libs/*' run build && pnpm -r --parallel --filter='./packages/*' run build && pnpm -r --parallel --filter='./simulation/*' run build",
     "build-typings": "pnpm -r --parallel --filter='./libs/typings/' run build",
-    "build-turbine": "pnpm -r --parallel --filter='./packages/turbine/' run build",
     "release": "changeset publish"
   },
   "keywords": [],

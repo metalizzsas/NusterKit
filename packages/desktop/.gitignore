@@ -8,4 +8,5 @@ svelte-build/
 *.local
 dist/
 build/
+static/documentation/
 static/CHANGELOG.md

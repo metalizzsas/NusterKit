@@ -11,7 +11,7 @@
     "lint": "pnpm -r --parallel run lint",
     "test": "pnpm -r --parallel run test",
     "build": "pnpm -r --parallel --filter='./libs/*' run build && pnpm -r --parallel --filter='./packages/*' run build && pnpm -r --parallel --filter='./simulation/*' run build",
-    "build-typings": "pnpm -r --parallel --filter='./libs/typings/' run build",
+    "build-libs": "pnpm -r --parallel --filter='./libs/*' run build",
     "release": "changeset publish"
   },
   "keywords": [],

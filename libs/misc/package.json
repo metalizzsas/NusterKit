@@ -1,0 +1,22 @@
+{
+  "name": "@metalizzsas/nuster-misc",
+  "version": "1.0.0",
+  "description": "Documentation & language files for machine & desktop apps.",
+  "main": "",
+  "files": [
+    "./documentation/**/*",
+    "./i18n/**/*"
+  ],
+  "scripts": {},
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "directory": "libs/misc",
+    "url": "git+https://github.com/metalizzsas/NusterKit.git"
+  },
+  "author": "@metalizzsas",
+  "license": "UNLICENCED",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
+}

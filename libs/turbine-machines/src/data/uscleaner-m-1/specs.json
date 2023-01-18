@@ -1,5 +1,5 @@
 {
-    "$schema": "../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-specs.json",
+    "$schema": "../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-specs.json",
     "iohandlers": [
         {
             "type": "wago",
@@ -218,9 +218,13 @@
                         {"io_write": ["us-power", 0]}
                     ],
                     "blocks": [
-                        {"sleep": {"divide": [{"profile": "principal#duration"}, 2]}},
-                        {"io_write": ["motor#direction", 1]},
-                        {"sleep": {"divide": [{"profile": "principal#duration"}, 2]}}
+                        {"for": {
+                            "limit": 4,
+                            "blocks": [
+                                {"sleep": {"divide": [{"profile": "principal#duration"}, 4]}},
+                                {"io_write": ["motor#direction", {"reverse": {"io_read": "motor#direction"}}]}
+                            ]
+                        }}
                     ]
                 }
             ]

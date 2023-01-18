@@ -1,5 +1,5 @@
 {
-   "$schema": "../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-specs.json",
+   "$schema": "../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-specs.json",
    "iohandlers": [
       {
          "type": "wago",
@@ -356,7 +356,7 @@
             "inerting#duration": 15,
             "uv-curing#enabled": 1,
             "uv-curing#duration": 180,
-            "uv-curing.uv-power": 100,
+            "uv-curing#uv-power": 100,
             "vapors-extraction#enabled": 1,
             "vapors-extraction#duration": 45,
             "multilayer#enabled": 1,

@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-typings
 
+## 1.4.3
+
+### Patch Changes
+
+- chore: updated tsconfig ([#233](https://github.com/metalizzsas/NusterKit/pull/233))
+
+- feat: Additional machine informations can be displayed on landing page of desktop, configurable in machine specs.json ([#233](https://github.com/metalizzsas/NusterKit/pull/233))
+
 ## 1.4.2
 
 ### Patch Changes

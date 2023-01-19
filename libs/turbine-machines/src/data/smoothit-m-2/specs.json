@@ -466,7 +466,7 @@
                "isEnabled": {"profile": "pulverization#enabled"},
                "runAmount": {"conditional": {
                   "comparator": "==",
-                  "left_side": [{"profile": "multiplayer#enabled"}, {"profile": "multilayer#count"}],
+                  "left_side": [{"profile": "multilayer#enabled"}, {"profile": "multilayer#count"}],
                   "right_side": [1, 1]
                }},
                "blocks": [
@@ -501,17 +501,13 @@
                ],
                "startBlocks": [
                   {"stop_timer": "motorRotation"},
-                  {"io_write": ["ventilation-valve", 90]},
-                  {"io_write": ["nozzle-high#cache", 0]},
-                  {"io_write": ["nozzle-low#cache", 0]},
+                  {"io_write": ["nozzle#cache", 0]},
                   {"io_write": ["uv#cache", 1]},
                   {"io_write": ["resin#pressure", 1]}
                ],
                "endBlocks": [
-                  {"io_write": ["ventilation-valve", 90]},
                   {"io_write": ["resin#pressure", 0]},
-                  {"io_write": ["nozzle-high#cache", 1]},
-                  {"io_write": ["nozzle-low#cache", 1]},
+                  {"io_write": ["nozzle#cache", 1]},
                   {"if": {
                      "statement": {
                         "comparator": "==",
@@ -540,8 +536,7 @@
                   {"sleep": {"profile": "inerting#duration"}}
                ],
                "startBlocks": [
-                  {"io_write": ["inerting", 1]},
-                  {"io_write": ["ventilation", 0]}
+                  {"io_write": ["inerting", 1]}
                ],
                "endBlocks": [
                   {"io_write": ["inerting", 0]}
@@ -652,8 +647,7 @@
                "endBlocks": [
                   {"io_write": ["ventilation", 0]},
                   {"io_write": ["motor#speed", 0]},
-                  {"io_write": ["nozzle-high#cache", 0]},
-                  {"io_write": ["nozzle-low#cache", 0]},
+                  {"io_write": ["nozzle#cache", 0]},
                   {"io_write": ["uv#cache", 0]},
                   {"append_maintenance": ["smt-filter", 1]},
                   {"append_maintenance": ["inner-cleaning", 1]}

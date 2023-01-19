@@ -616,7 +616,7 @@
                "isEnabled": {"profile": "pulverization#enabled"},
                "runAmount": {"conditional": {
                   "comparator": "==",
-                  "left_side": [{"profile": "multilayer#enabled"}, {"profile": "mulilayer#count"}],
+                  "left_side": [{"profile": "multilayer#enabled"}, {"profile": "multilayer#count"}],
                   "right_side": [1, 1]
                }},
                "blocks": [
@@ -671,7 +671,7 @@
                "isEnabled": {"profile": "ir-curing#enabled"},
                "runAmount": {"conditional": {
                   "comparator": "==",
-                  "left_side": [{"profile": "multilayer#enabled"}, {"profile": "mulilayer#count"}],
+                  "left_side": [{"profile": "multilayer#enabled"}, {"profile": "multilayer#count"}],
                   "right_side": [1, 1]
                }},
                "blocks": [
@@ -718,7 +718,7 @@
                "isEnabled": {"profile": "inerting#enabled"},
                "runAmount": {"conditional": {
                   "comparator": "==",
-                  "left_side": [{"profile": "multilayer#enabled"}, {"profile": "mulilayer#count"}],
+                  "left_side": [{"profile": "multilayer#enabled"}, {"profile": "multilayer#count"}],
                   "right_side": [1, 1]
                }},
                "blocks": [
@@ -737,7 +737,7 @@
                "isEnabled": {"profile": "uv-curing#enabled"},
                "runAmount": {"conditional": {
                   "comparator": "==",
-                  "left_side": [{"profile": "multilayer#enabled"}, {"profile": "mulilayer#count"}],
+                  "left_side": [{"profile": "multilayer#enabled"}, {"profile": "multilayer#count"}],
                   "right_side": [1, 1]
                }},
                "blocks": [

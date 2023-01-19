@@ -626,10 +626,10 @@
                                 {"io_write": ["met#plv", 1]},
                                 {"sleep": 0.25},
                                 {"io_write": ["met#lq-rd", 1]},
-                                {"io_write": ["met##lq-ox", 1]},
+                                {"io_write": ["met#lq-ox", 1]},
                                 {"sleep": {"profile": "metalization#timeOn"}},
                                 {"io_write": ["met#lq-rd", 0]},
-                                {"io_write": ["met##lq-ox", 0]},
+                                {"io_write": ["met#lq-ox", 0]},
                                 {"sleep": 0.25},
                                 {"io_write": ["met#plv", 0]},
 

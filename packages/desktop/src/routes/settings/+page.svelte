@@ -19,7 +19,7 @@
 
     export let data: PageData;
 
-    let reloadInterval: NodeJS.Timer | undefined = undefined; 
+    let reloadInterval: ReturnType<typeof setTimeout> | undefined = undefined; 
 
     const langs: { [x: string]: string } = {
 		en: 'English',
@@ -84,7 +84,6 @@
         {/if}
         {#if data.cycleCount !== undefined } <SettingField label={$_('settings.machine.cycle_count')} value={`${data.cycleCount.duration}`} /> {/if}
 
-        
         <h2>{$_('settings.software.lead')}</h2>
         
         <SettingField label={$_('settings.software.nuster')} value={data.machine.nusterVersion} />
@@ -96,9 +95,9 @@
         {#if data.machine.hypervisorData?.appState !== 'applied' && data.machine.hypervisorData?.overallDownloadProgress === null}
             <SettingField label={$_('settings.software.update')}>
                 {#if isUpdating}
-                    <Button color={"hover:bg-indigo-500"} ringColor={"ring-indigo-500"} on:click={update}>{$_('settings.software.update_install')}</Button>
-                {:else}
                     {$_('settings.software.update_installing')}
+                {:else}
+                    <Button color={"hover:bg-indigo-500"} ringColor={"ring-indigo-500"} on:click={update}>{$_('settings.software.update_install')}</Button>
                 {/if}
             </SettingField>
         {/if}

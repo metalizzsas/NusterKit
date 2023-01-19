@@ -25,6 +25,7 @@
 	import { flip } from "svelte/animate";
 	import Button from "$lib/components/buttons/Button.svelte";
 	import type { MachineData } from "@metalizzsas/nuster-typings/build/hydrated/machine";
+	import { fade } from "svelte/transition";
 
     type Toast_popup = Popup & { date: number };
 
@@ -116,42 +117,51 @@
 
 <Loadindicator />
 
-{#if websocketState === "connecting"}
-    <h1 class="m-6">Connecting to machine...</h1>
-{:else if websocketState === "connected"}
+{#if websocketState === "connected" && $realtime !== undefined}
 
-    {#if $realtime}
-        <div class="absolute inset-0 bg-indigo-300 dark:bg-zinc-900 bg-grid dark:bg-grid-dark -z-10"></div>
+    <div class="absolute inset-0 bg-indigo-300 dark:bg-zinc-900 bg-grid dark:bg-grid-dark -z-10"></div>
 
-        <div class="absolute p-6 pl-0 right-0 top-0 bottom-0 h-screen overflow-y-scroll w-1/2 z-20 flex flex-col gap-6 pointer-events-none" id="toasts">
-            {#each toasts as toast (toast.date)}
-                <div animate:flip={{duration: 300}}>
-                    <Toast bind:toast on:exit={() => { toasts = toasts.filter(t => t !== toast)}} />
-                </div>
-            {/each}
-        </div>
+    <div class="absolute p-6 pl-0 right-0 top-0 bottom-0 h-screen overflow-y-scroll w-1/2 z-20 flex flex-col gap-6 pointer-events-none" id="toasts">
+        {#each toasts as toast (toast.date)}
+            <div animate:flip={{duration: 300}}>
+                <Toast bind:toast on:exit={() => { toasts = toasts.filter(t => t !== toast)}} />
+            </div>
+        {/each}
+    </div>
 
-        <div class="h-screen">
-            <Flex direction="col" gap={6} class="h-full">
-                <header class="mt-6 mx-6">        
-                    <nav class="bg-white dark:bg-zinc-800 p-2 rounded-full w-full drop-shadow-xl border border-indigo-400/50 dark:border-indigo-400/25">
-                        <PillMenu />
-                    </nav>
-                </header>
-                <main class="pb-6 mx-6 rounded-t-xl grow overflow-y-scroll">
-                    <slot />
-                </main>
-            </Flex>
-        </div>
-
-    {:else}
-        <h1 class="m-6">Connecting to realtime data.</h1>
-    {/if}
-
+    <div class="h-screen">
+        <Flex direction="col" gap={6} class="h-full">
+            <header class="mt-6 mx-6">        
+                <nav class="bg-white dark:bg-zinc-800 p-2 rounded-full w-full drop-shadow-xl border border-indigo-400/50 dark:border-indigo-400/25">
+                    <PillMenu />
+                </nav>
+            </header>
+            <main class="pb-6 mx-6 rounded-t-xl grow overflow-y-scroll">
+                <slot />
+            </main>
+        </Flex>
+    </div>
 {:else}
-    <div class="m-6">
-        <h1>Realtime data has been interupted.</h1>
-        <Button color="hover:bg-zinc-800" ringColor="ring-zinc-800" textColor="text-zinc-900" textHoverColor="hover:text-white" on:click={machineConnect}>Reconnect</Button>
+    <div class="bg-zinc-900 absolute z-50 inset-0" out:fade={{duration: 250, delay: 600}}>
+        <Flex direction="col" items="center" justify="center" class="h-screen">
+            <Flex gap={24} items="center">
+                <img src="/icons/icon-512.png" class="h-2/3 aspect-square rounded-xl" alt="Nuster logo" />
+                <div class="text-white grow">
+                    <h1 class="text-4xl mb-12">
+                        {#if websocketState === "connecting"}
+                            Connecting to machine...
+                        {:else if websocketState === "connected" && $realtime !== undefined}
+                            Connecting to realtime data.
+                        {:else if websocketState === "disconnected"}
+                            Realtime data has been interupted.
+                        {:else}
+                            Connected.
+                        {/if}
+                    </h1>
+                    <Button color="hover:bg-zinc-800" ringColor="ring-zinc-800" textColor="text-white" textHoverColor="hover:text-white" on:click={() => window.location.reload()}>Reconnect</Button>
+                </div>
+            </Flex>               
+        </Flex>
     </div>
 {/if}
 

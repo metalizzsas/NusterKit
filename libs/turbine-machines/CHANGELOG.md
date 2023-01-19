@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.4.1
+
+### Patch Changes
+
+- chore: updated machine specs after tests ehancements ([#235](https://github.com/metalizzsas/NusterKit/pull/235))
+
 ## 1.4.0
 
 ### Minor Changes

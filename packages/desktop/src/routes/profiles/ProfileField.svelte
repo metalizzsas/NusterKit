@@ -24,7 +24,7 @@
     {:else if field.type == 'int'}
         <NumField bind:value={field.value} {disabled} />
     {:else if field.type == "time"}
-        <TimeField bind:value={field.value} {disabled} />
+        <TimeField bind:value={field.value} enabledTimes={field.units} {disabled} />
     {:else if field.type == 'float'}
         <Flex gap={2} items="center">
             <NumField bind:value={field.value} min={field.floatMin} max={field.floatMax} step={field.floatStep} />

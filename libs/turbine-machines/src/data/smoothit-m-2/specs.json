@@ -574,12 +574,14 @@
                         }},
       
                         {"io_write": ["uv#power", {"profile": "uv-curing#uv-power"}]},
+                        {"io_write": ["uv#ventil", 1]},
                         {"io_write": ["uv#enable", 1]},
       
                         {"sleep": {"profile": "multilayer#interlayer-uvduration"}},
                         {"append_maintenance": ["uv-lamp", {"multiply": [0.0002777778, {"profile": "multilayer#interlayer-uvduration"}]}]},
       
                         {"io_write": ["uv#power", 0]},
+                        {"io_write": ["uv#ventil", 0]},
                         {"io_write": ["uv#enable", 0]}
                      ]
                   }}
@@ -617,12 +619,14 @@
                   }},
 
                   {"io_write": ["uv#power", {"profile": "uv-curing#uv-power"}]},
+                  {"io_write": ["uv#ventil", 1]},
                   {"io_write": ["uv#enable", 1]},
 
                   {"sleep": {"profile": "uv-curing#duration"}},
                   {"append_maintenance": ["uv-lamp", {"multiply": [0.0002777778, {"profile": "uv-curing#duration"}]}]},
 
                   {"io_write": ["uv#power", 0]},
+                  {"io_write": ["uv#ventil", 0]},
                   {"io_write": ["uv#enable", 0]}
                ],
                "startBlocks": [

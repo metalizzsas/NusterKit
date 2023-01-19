@@ -1,6 +1,6 @@
 import type { MachineSpecs } from "@metalizzsas/nuster-typings/build/spec";
-import type { AllProgramBlocks, ForProgramBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
-import type { AllParameterBlocks, IOReadParameterBlock, ProfileParameterBlock } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
+import type { AllProgramBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
+import type { NumericParameterBlocks, StatusParameterBlocks, StringParameterBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
 
 import { Machines } from "..";
 
@@ -75,8 +75,8 @@ for(const machine of Object.keys(Machines))
                 }
                 else if (sc.checkchain.parameter !== undefined)
                 {
-                    const validator = new BlockValidator(machineSpec, "default");
-                    expect(validator.validatePrBlock(sc.checkchain.parameter)).toBe(true);
+                    const validator = new BlockValidator(machineSpec, cycle.name);
+                    validator.validateStatusParameterBlock(sc.checkchain.parameter);
                 }
             }
         }
@@ -89,13 +89,13 @@ for(const machine of Object.keys(Machines))
 
             for(const step of cycle.steps)
             {
-                expect(validator.validatePrBlock(step.isEnabled)).toBe(true);
+                validator.validateNumericParameterBlock(step.isEnabled);
                 if(step.runAmount)
-                    expect(validator.validatePrBlock(step.runAmount)).toBe(true);
+                    validator.validateNumericParameterBlock(step.runAmount);
 
                 for(const block of [...step.startBlocks, ...step.blocks, ...step.endBlocks])
                 {
-                    expect(validator.validatePBlock(block)).toBe(true);
+                    validator.validateProgramBlock(block)
                 }
             }
         }
@@ -129,58 +129,242 @@ class BlockValidator
     }
 
     /**
-     * Test parameter blocks validity agaisnt their context
-     * TODO: Impletement all parameter blocks
-     * @param block block to be validated
-     * @returns block validity
+     * Unwraps string blocks values
+     * @param block String blocks
+     * @returns string extracted
      */
-    validatePrBlock(block: AllParameterBlocks): boolean
+    unwrapString(block: StringParameterBlocks): string
     {
-        const cycleAttached = this.machineConfig.cycleTypes.find(k => k.name === this.cycleName); 
+        if(typeof block === "string")
+            return block;
+        else
+            return block.string;
+    }
 
-        if(cycleAttached === undefined)
-            return false;
+    /**
+     * Test string parameter blocks validity agaisnt their context
+     * @param block block to be validated
+     */
+    validateStringParameterBlock(block: StringParameterBlocks)
+    {
+        if(typeof block === "string")
+            return;
 
-        if((block as ProfileParameterBlock).profile !== undefined)
+        expect(typeof block.string).toBe("string");
+    }
+
+    /**
+     * Validates a status block against its context
+     * @param block Status block to be validated
+     */
+    validateStatusParameterBlock(block: StatusParameterBlocks)
+    {
+        if('maintenance_status' in block)
+        {
+            const maintenanceTask = this.machineConfig.maintenance.find(k => k.name === this.unwrapString(block.maintenance_status));
+            expect(maintenanceTask?.name).toBe(this.unwrapString(block.maintenance_status));
+            return;
+        }
+
+        if('product_status' in block)
+        {
+            const container = this.machineConfig.containers.filter(k => k.supportedProductSeries !== undefined).find(k => k.name === this.unwrapString(block.product_status));
+            expect(container?.name).toBe(this.unwrapString(block.product_status));
+            return;
+        }
+
+        console.log(block, "is not tested");
+        return false;
+    }
+
+    /**
+     * Validates numeric blocks
+     * @param block Numeric block to be validated
+     */
+    validateNumericParameterBlock(block: NumericParameterBlocks): void
+    {
+        if(typeof block === "number")
+            return;
+
+        if('multiply' in block)
+        {
+            block.multiply.forEach(this.validateNumericParameterBlock.bind(this));
+            return;
+        }
+
+        if('divide' in block)
+        {
+            expect(block.divide[1]).not.toBe(0);
+            this.validateNumericParameterBlock(block.divide[0]);
+            return;
+        }
+
+        if('add' in block)
+        {
+            block.add.forEach(this.validateNumericParameterBlock.bind(this));
+            return;
+        }
+
+        if('sub' in block)
+        {
+            this.validateNumericParameterBlock(block.sub[0]);
+            this.validateNumericParameterBlock(block.sub[1]);
+            return;
+        }
+
+        if('reverse' in block)
+        {
+            this.validateNumericParameterBlock(block.reverse);
+            return;
+        }
+
+        if('profile' in block)
         {
             const profileAttached = this.machineConfig.profileSkeletons.find(k => k.name === this.cycleName);
 
+            expect(profileAttached).not.toBe(undefined);
+
             if(profileAttached === undefined)
-                return false;
-            
-            return (profileAttached.fields.find(k => k.name === (block as ProfileParameterBlock).profile) !== undefined);
+                return;
+
+            const profileFieldName = this.unwrapString(block.profile);
+            const profileFieldAttached = profileAttached.fields.find(k => k.name === profileFieldName)
+
+            expect(profileFieldAttached?.name).toBe(profileFieldName);
+            return;
         }
-        else if((block as IOReadParameterBlock).io_read !== undefined)
+        
+        if('io_read' in block)
         {
-            return this.machineConfig.iogates.find(k => k.name === (block as IOReadParameterBlock).io_read) !== undefined;
+            const gateName = this.unwrapString(block.io_read);
+            const gate = this.machineConfig.iogates.find(k => k.name === gateName)
+            expect(gate?.name).toBe(gateName);
+            return;
         }
-        else
+
+        if('conditional' in block)
         {
-            return true;
+            [...block.conditional.left_side, ...block.conditional.right_side].forEach(this.validateNumericParameterBlock.bind(this));
+            return;
         }
+
+        if('read_var' in block)
+        {
+            this.validateStringParameterBlock(block.read_var);
+            return;
+        }
+
+        console.log(block, "is not tested");
     }
     
     /**
-     * Test a block validity against its context
-     * TODO: Implents test for each blocks
-     * @param block block to be validated
-     * @returns block validity
+     * Test a program block validity against its context
+     * @param block program block to be validated
      */
-    validatePBlock(block: AllProgramBlocks): boolean
+    validateProgramBlock(block: AllProgramBlocks): void
     {
         const cycleAttached = this.machineConfig.cycleTypes.find(k => k.name === this.cycleName);
+        expect(cycleAttached).not.toBe(undefined);
 
         if(cycleAttached === undefined)
-            return false;
+            return;
 
-        if((block as ForProgramBlock).for !== undefined)
+        if('for' in block)
         {
-            const limitResult = this.validatePrBlock((block as ForProgramBlock).for.limit);
-            return (block as ForProgramBlock).for.blocks.reduce((p, c) => this.validatePBlock(c) && p, limitResult);
+            this.validateNumericParameterBlock(block.for.limit);
+            block.for.blocks.forEach(this.validateProgramBlock.bind(this));
+            return;
         }
-        else
+        
+        if('while' in block)
         {
-            return true;
+            this.validateNumericParameterBlock(block.while.statement.left_side);
+            this.validateNumericParameterBlock(block.while.statement.right_side);
+
+            block.while.blocks.forEach(this.validateProgramBlock.bind(this));
+            return;
         }
+        
+        if('sleep' in block)
+        {
+            this.validateNumericParameterBlock(block.sleep);
+            return;
+        }
+        
+        if('stop' in block)
+        {
+            this.validateStringParameterBlock(block.stop);
+            return;
+        }
+        
+        if('if' in block)
+        {
+            [block.if.statement.left_side, block.if.statement.right_side].forEach(this.validateNumericParameterBlock.bind(this));
+
+            block.if.true_blocks.forEach(this.validateProgramBlock.bind(this));
+            block.if.false_blocks?.forEach(this.validateProgramBlock.bind(this));
+            return;
+        }
+
+        if('io_write' in block)
+        {
+            const gateName = this.unwrapString(block.io_write[0]);
+            const gate = this.machineConfig.iogates.find(k => k.name === gateName);
+
+            expect(gate?.name).toBe(gateName);
+            this.validateNumericParameterBlock(block.io_write[1]);
+            return;
+        }
+
+        if('start_timer' in block)
+        {
+            this.validateStringParameterBlock(block.start_timer.timer_name);
+            this.validateNumericParameterBlock(block.start_timer.timer_interval);
+            block.start_timer.blocks.forEach(this.validateProgramBlock.bind(this));
+            return;
+        }
+
+        if('stop_timer' in block)
+        {
+            this.validateStringParameterBlock(block.stop_timer);
+            return;
+        }
+
+        if('append_maintenance' in block)
+        {
+            const maintenanceName = this.unwrapString(block.append_maintenance[0]);
+            const maintenance = this.machineConfig.maintenance.find(k => k.name === maintenanceName);
+            expect(maintenance?.name).toBe(maintenanceName);
+            this.validateNumericParameterBlock(block.append_maintenance[1]);
+
+            return;
+        }
+
+        if('load_container' in block)
+        {
+            const containerName = this.unwrapString(block.load_container[0]);
+            const productName = this.unwrapString(block.load_container[1]);
+            const container = this.machineConfig.containers.find(k => k.name === containerName);
+
+            expect(container?.name).toBe(containerName);
+            
+            if(container)
+            {
+                expect(container.supportedProductSeries).toContain(productName);
+            }
+
+            return;
+        }
+
+        if('unload_container' in block)
+        {
+            const containerName = this.unwrapString(block.unload_container);
+            const container = this.machineConfig.containers.find(k => k.name === containerName);
+
+            expect(container?.name).toBe(containerName);
+            return;
+        }
+        
+        console.log(block, "is not tested");
     }
 }

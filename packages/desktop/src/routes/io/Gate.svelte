@@ -4,8 +4,9 @@
 	import Flex from "$lib/components/layout/flex.svelte";
 	import Toggle from "$lib/components/inputs/Toggle.svelte";
 	import { _ } from "svelte-i18n";
-    import { realtimeLock } from "$lib/utils/stores/nuster";
 	import Label from "$lib/components/Label.svelte";
+	import NumField from "$lib/components/inputs/NumField.svelte";
+	import Button from "$lib/components/buttons/Button.svelte";
 
     export let io: IOGatesHydrated;
 
@@ -31,7 +32,7 @@
     {#if io.size === "bit"}
         <Toggle bind:value={io.value} locked={!editable || io.bus == "in" || io.locked} enableGrayScale={io.locked} on:changeNum={(e) => editGate(e.detail.value)}/>
     {:else}
-        <Flex>
+        <Flex class="items-center">
             <Label>
                 {io.value}
                 {#if io.unity}
@@ -40,20 +41,14 @@
             </Label>
 
             {#if editable === true}
-                <input
-                    type="range"
-                    class="max-w-[17vw] min-w-[15vw]"
+                <Button ringColor={"ring-amber-500"} color={"hover:bg-amber-500"} size={"small"} on:click={() => { void editGate(0) }}>{$_('gates.reset')}</Button>
+                <NumField 
+                    bind:value={io.value} 
                     min={io.type == "mapped" ? io.mapOutMin : 0}
                     max={io.type == "mapped" ? io.mapOutMax : 100}
-                    bind:value={io.value}
-                    on:input|self={(ev) => {
-                        $realtimeLock = true;
-                        io.value = parseInt(ev.currentTarget.value);
-                    }}
-                    on:change={async () => {
-                        $realtimeLock = false;
-                        void editGate(io.value);
-                    }}
+                    on:change={(e) => {
+                        void editGate(e.detail.value);
+                    }} 
                 />
             {/if}
         </Flex>

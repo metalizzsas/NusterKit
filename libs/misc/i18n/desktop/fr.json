@@ -266,6 +266,8 @@
   "gates": {
     "lead": "E / S",
 
+    "reset": "Remise a zéro",
+
     "bus": {
       "in": "Entrées",
       "out": "Sorties"

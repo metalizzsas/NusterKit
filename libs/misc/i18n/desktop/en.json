@@ -266,6 +266,8 @@
   "gates": {
     "lead": "I / O",
 
+    "reset": "Reset",
+
     "bus": {
       "in": "Inputs",
       "out": "Outputs"

@@ -255,6 +255,8 @@
   "gates": {
     "lead": "I / U",
 
+    "reset": "",
+
     "bus": {
       "in": "Ingressi",
       "out": "Uscite"

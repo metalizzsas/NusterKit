@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.10.1
+
+### Patch Changes
+
+- fix: profile time field was not taking enabledTimes in account ([#237](https://github.com/metalizzsas/NusterKit/pull/237))
+
 ## 1.10.0
 
 ### Minor Changes

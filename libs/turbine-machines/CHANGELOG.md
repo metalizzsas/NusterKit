@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.4.2
+
+### Patch Changes
+
+- fix: when uv-curing smoothit m r2 did not enabled uv lamp ventilation ([#237](https://github.com/metalizzsas/NusterKit/pull/237))
+
 ## 1.4.1
 
 ### Patch Changes

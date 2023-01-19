@@ -63,7 +63,7 @@
 
 	{#if enabledTimes.includes('milliseconds')}
 		<Flex direction={"col"} gap={0}>
-			<span class="text-sm font-medium">{$_('date.seconds')}</span>
+			<span class="text-sm font-medium">{$_('date.milliseconds')}</span>
 			<NumField bind:value={milliseconds} on:change={computeTo} min={0} max={990} step={10} {disabled}/>
 		</Flex>
 	{/if}

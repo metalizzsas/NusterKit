@@ -42,7 +42,7 @@
         {max}
     />
     <button on:click={() => { value = (step !== undefined) ? value - step : value - 1; change(); }}><Icon src={MinusCircle} class="h-6 w-6 text-zinc-600 dark:text-white" {disabled}></Icon></button>
-    <button on:click={() => { value = (step !== undefined) ? value + step : value + 1;; change(); }}><Icon src={PlusCircle} class="h-6 w-6 text-zinc-600 dark:text-white" {disabled}></Icon></button>
+    <button on:click={() => { value = (step !== undefined) ? value + step : value + 1; change(); }}><Icon src={PlusCircle} class="h-6 w-6 text-zinc-600 dark:text-white" {disabled}></Icon></button>
 </Flex>
 
 {#if focused && $page.data.is_machine_screen}

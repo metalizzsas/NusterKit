@@ -3,10 +3,6 @@
 	import SimpleKeyboard from "simple-keyboard";
     import 'simple-keyboard/build/css/index.css';
 
-    import frenchLayout from 'simple-keyboard-layouts/build/layouts/french';
-	import englishLayout from 'simple-keyboard-layouts/build/layouts/english';
-	import italianLayout from 'simple-keyboard-layouts/build/layouts/italian';
-
 	import { onMount, createEventDispatcher, onDestroy } from "svelte";
 	import Portal from "svelte-portal";
 	import { lang } from "$lib/utils/stores/settings";
@@ -19,6 +15,7 @@
 	import PasswordField from "./inputs/PasswordField.svelte";
 	import { browser } from "$app/environment";
 	import { realtimeLock } from "$lib/utils/stores/nuster";
+	import type { LayoutItem } from "simple-keyboard-layouts/build/interfaces";
 
     const dispatch = createEventDispatcher<{ close: void }>();
 
@@ -32,16 +29,16 @@
 
     let moving = false;
 
-    const layouts: Record<("en" | "fr" | "it"), typeof frenchLayout> = {
-		"fr": frenchLayout,
-		"en": englishLayout,
-		"it": italianLayout
-	};
-
-    onMount(() => {
+    onMount(async () => {
 
         if(browser)
         {
+            const layouts: Record<("en" | "fr" | "it"), LayoutItem> = {
+                "fr": (await import("simple-keyboard-layouts/build/layouts/french")).default,
+                "en": (await import("simple-keyboard-layouts/build/layouts/english")).default,
+                "it": (await import("simple-keyboard-layouts/build/layouts/italian")).default
+            };
+
             keyboard = new SimpleKeyboard(".keyboard", {
                 value: value,
                 onChange: (input) => {

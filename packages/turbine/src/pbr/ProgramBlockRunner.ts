@@ -36,6 +36,9 @@ export class ProgramBlockRunner
 
     additionalInfo?: Array<string>;
 
+    /** Estimated duration */
+    duration: number;
+
     constructor(object: ProgramBlockRunnerConfig, profile?: ProfileHydrated)
     {
         LoggerInstance.info("PBR: Building PBR...");
@@ -52,13 +55,14 @@ export class ProgramBlockRunner
             
         for(const sc of object.startConditions)
             this.startConditions.push(new PBRSecurityCondition(sc));
-        //this.startConditions.push(new PBRStartCondition(sc, this));
 
         for(const step of object.steps)
             this.steps.push(new ProgramBlockStep(this, step));
         
         this.setState("created");
         TurbineEventLoop.emit("log", "info", "PBR: Finished building PBR.");
+
+        this.duration = this.steps.filter(s => s.isEnabled.data == 1).reduce((p, c) => p += c.duration, 0);
     }
 
     /** Register events of this `PBR` */
@@ -113,7 +117,7 @@ export class ProgramBlockRunner
         TurbineEventLoop.on('pbr.stop', (reason) => this.end(reason));
     }
 
-    /** Removes all events listeners namespaced with `pbr.` */
+    /** Removes all events listeners namespaced with `pbr`. */
     private disposeEvents()
     {
         TurbineEventLoop.removeAllListeners('pbr.profile.read');
@@ -122,6 +126,7 @@ export class ProgramBlockRunner
         TurbineEventLoop.removeAllListeners('pbr.variable.write');
         TurbineEventLoop.removeAllListeners('pbr.variable.read');
         TurbineEventLoop.removeAllListeners('pbr.stop');
+        TurbineEventLoop.removeAllListeners('pbr.status.update');
     }
 
     /**
@@ -135,7 +140,7 @@ export class ProgramBlockRunner
 
         const invalidStartConditionsCount = this.startConditions.filter((sc) => sc.canStart == false).length;
 
-        if(invalidStartConditionsCount > 0 && process.env.NODE_ENV == "production")
+        if(invalidStartConditionsCount > 0)
         {
             LoggerInstance.error("PBRSC: Start conditions are not valid.");
             return false;
@@ -203,10 +208,7 @@ export class ProgramBlockRunner
                 }
             }
             
-            // TypeScriptCompiler is not able to understand that status.mode can be changed externally
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore: disabled overlap checking
-            if(this.status.mode != "ended")
+            if(this.status.mode !== "ended")
                 this.currentStepIndex++;
         }
 
@@ -254,6 +256,7 @@ export class ProgramBlockRunner
             LoggerInstance.warn("PBR: Triggered cycle end with reason: " + reason);
     }
 
+    /** Dispose the cycle before its deletion */
     public dispose()
     {
         if(this.status.endReason === undefined)
@@ -310,43 +313,22 @@ export class ProgramBlockRunner
         LoggerInstance.info(`PBR: Ended cycle ${this.name} with state: ${this.status.mode} & reason: ${this.status.endReason}.`);
     }
 
-    /**
-     * Compute progress of the cycle
-     */
+    /** Compute progress of the cycle */
     public get progress()
     {
-        let duration = 0;
-
-        for(const step of this.steps)
-            duration += step.progress;
-
-        return duration / this.steps.length;
+        return (Date.now() / (this.status.startDate ?? 1)) / this.duration;
     }
 
-    /**
-     * Compute the estimated cycle run time
-     * TODO: This should be calculated once instead on each time this.toJSON() is called
-     * TODO: This should also take in account the steps with multiple runs
-     */
-    public get estimatedRunTime()
-    {
-        return this.steps.filter(s => s.isEnabled.data == 1).reduce((p, c) => p += c.duration, 0);
-    }
-
-    /**
-     * Return current running step reference
-     */
+    /** Return current running step reference */
     public get currentRunningStep(): ProgramBlockStep
-    {
-        
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        return this.steps.at(this.currentStepIndex)!;
+    {        
+        return this.steps[this.currentStepIndex];
     }
 
     toJSON()
     {
         return {
-            status: {...this.status, progress: this.progress, estimatedRunTime: this.estimatedRunTime},
+            status: {...this.status, progress: this.progress, estimatedRunTime: this.duration},
 
             //identifiers vars
             name: this.name,

@@ -588,7 +588,9 @@
                ],
                "startBlocks": [
                   {"io_write": ["uv#cache", 0]},
-                  {"io_write": ["ventilation", 0]}
+                  {"io_write": ["ventilation", 0]},
+                  {"io_write": ["nozzle#cache", 1]},
+                  {"io_write": ["uv#cache", 0]}
                ],
                "endBlocks": [
                   {"io_write": ["uv#cache", 1]},
@@ -631,7 +633,9 @@
                ],
                "startBlocks": [
                   {"io_write": ["uv#cache", 0]},
-                  {"io_write": ["ventilation", 0]}
+                  {"io_write": ["ventilation", 0]},
+                  {"io_write": ["nozzle#cache", 1]},
+                  {"io_write": ["uv#cache", 0]}
                ],
                "endBlocks": [
                   {"io_write": ["uv#cache", 1]},

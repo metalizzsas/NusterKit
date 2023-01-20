@@ -5,6 +5,7 @@
   },
   "version": "1.9.11",
   "description": "Typescript project running on BalenaOS and RPi4.",
+  "private": true,
   "types": "build/app.d.ts",
   "main": "build/app.js",
   "scripts": {

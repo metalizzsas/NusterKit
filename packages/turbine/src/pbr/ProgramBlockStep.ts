@@ -157,50 +157,23 @@ export class ProgramBlockStep implements PBRStepHydrated
     {
         let progress = 0;
 
-        //precalculate progress
-        switch(this.state)
+        if(this.state === "started")
         {
-            case "started":
+            if(this.duration != Infinity)
             {
-                if(this.startTime)
-                {
-                    if(this.duration != Infinity)
-                    {
-                        progress = parseFloat(((Date.now() - this.startTime) / ((this.duration) * 1000)).toFixed(2));
-                        progress = (progress >= 1 ? 1 : progress);
-                        break;
-                    }
-                    else
-                    {
-                        progress = -1;
-                        break;
-                    }
-                }
-                else
-                {
-                    progress = 0;
-                    break;
-                }
+                progress = ((Date.now() - (this.startTime ?? 1)) / 1000) / (this.type === "single" ? this.duration : this.duration / (this.runAmount?.data ?? 1))
+                progress = progress >=1 ? 1 : progress;
             }
-            case "ended" || "partial":
-            {
-                progress = (this.type == "single") ? 1 : 0;
-                break;
-            }
-            default: {
-                progress = 0;
-                break;
-            }
+            else
+                progress = -1;
         }
+        else if(["ended", "partial"].includes(this.state))
+            progress = 1;
         
-        if((this.type == "multiple") && this.runAmount)
-        {
-            return ((1 * progress) / (this.runAmount.data)) + ((this.runCount || 0) / (this.runAmount.data))
-        }
-        else
-        {
-            return progress;
-        }
+        if((this.type == "multiple") && this.runAmount !== undefined)
+            return (this.runCount / this.runAmount.data) + (progress / this.runAmount.data)
+        
+        return progress;
     }
 
     public resetTimes()
@@ -211,7 +184,6 @@ export class ProgramBlockStep implements PBRStepHydrated
 
     toJSON()
     {
-
         return {
             name: this.name,
             state: this.state,

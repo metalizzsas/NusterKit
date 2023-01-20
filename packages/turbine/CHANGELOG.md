@@ -1,5 +1,14 @@
 # @metalizzsas/nuster-turbine
 
+## 1.9.12
+
+### Patch Changes
+
+- feat: enhanced progress computation and progress display ([#249](https://github.com/metalizzsas/NusterKit/pull/249))
+
+- Updated dependencies [[`11c0359`](https://github.com/metalizzsas/NusterKit/commit/11c0359df8cd9cf0e8f85569f79665ed7140d297)]:
+  - @metalizzsas/nuster-turbine-machines@1.4.3
+
 ## 1.9.11
 
 ### Patch Changes

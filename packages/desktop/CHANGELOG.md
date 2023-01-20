@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-desktop
 
+## 1.10.3
+
+### Patch Changes
+
+- fix: would not show install update button ([#247](https://github.com/metalizzsas/NusterKit/pull/247))
+
+- feat: enhanced progress computation and progress display ([#249](https://github.com/metalizzsas/NusterKit/pull/249))
+
 ## 1.10.2
 
 ### Patch Changes

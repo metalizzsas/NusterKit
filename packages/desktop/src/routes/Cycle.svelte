@@ -214,12 +214,22 @@
 
                 {#if step.state === "started"}
                     <p class="text-sm leading-6 mt-1">{$_('progress')}</p> 
-                    <div class="bg-zinc-600/50 h-1.5 rounded-full grow">
+                    <div class="bg-zinc-600/50 h-1.5 rounded-full grow relative">
+                        {#if step.runAmount}
+                            {@const items = step.runAmount.data}
+                            {#each Array.from(Array(step.runAmount.data).keys()) as item}
+                                <div 
+                                    class="h-1.5 w-1.5 absolute top-0 bg-white/50 rounded-full z-10" 
+                                    style:left="{(1 / items) * 100 + (item / items) * 100}%"
+                                    class:invisible={(item + 2 > items)}
+                                    style:transform={"translateX(-50%"}
+                                />
+                            {/each}
+                        {/if}
                         <div 
-                            class="h-1.5 rounded-full duration-[2s] transition-all"
+                            class="h-1.5 rounded-full duration-[2s] transition-all z-20"
                             class:bg-violet-500={step.progress === -1}
                             class:bg-indigo-500={step.state === "started" && step.progress !== -1}
-                            class:animate-pulse={step.state === "started"}
                             style:width={`${step.progress * 100}%`}
                         />
                     </div>

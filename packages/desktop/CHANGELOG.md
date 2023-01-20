@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.10.4
+
+### Patch Changes
+
+- fix: simple-keyboard-layout were imported on server side ([#251](https://github.com/metalizzsas/NusterKit/pull/251))
+
 ## 1.10.3
 
 ### Patch Changes

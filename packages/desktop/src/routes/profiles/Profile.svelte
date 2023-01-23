@@ -36,7 +36,7 @@
     };
 
     const copyProfile = async () => {
-        const copy: ProfileHydrated = {...profile, _id: "copied", name: `${profile.name} — ${$_('profile.copy.label')}`};
+        const copy: ProfileHydrated = {...profile, _id: "copied", name: `${translateProfileName($_, profile)} — ${$_('profile.copy.suffix')}`};
 
         const req = await fetch(`/api/v1/profiles/`, { method: 'post', headers: { "content-type": "application/json" }, body: JSON.stringify(copy) });
 

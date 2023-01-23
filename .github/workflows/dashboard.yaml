@@ -5,7 +5,6 @@ jobs:
   dashboard:
     runs-on: ubuntu-latest
     name: 📤 Deploy Nuster dashboard
-    if: contains(github.event.release.tag_name, 'nuster-dashboard')
     steps:
 
       - name: 📚 Checkout Repo

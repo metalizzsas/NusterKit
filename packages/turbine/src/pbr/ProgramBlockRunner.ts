@@ -244,8 +244,11 @@ export class ProgramBlockRunner
      */
     public end(reason: string)
     {
-        if(["ended", "ending"].includes(this.status.mode))
+        if(this.status.mode !== "started")
+        {
+            TurbineEventLoop.emit("log", "warning", "PBR: Cannot end a cycle that has not started.");
             return;
+        }
 
         this.setState("ending");
         this.status.endReason = reason;

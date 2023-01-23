@@ -56,17 +56,11 @@
     }
 
     $: if(cycleData !== undefined && !cycleData.status.mode.startsWith("creat"))
-    { 
         listShrinked = true;
-    } 
     else if (cycleData !== undefined)
-    { 
         listShrinked = false;
-    }
     else
-    { 
         listShrinked = false;
-    }
 </script>
 
 <Flex direction="row" gap={listShrinked ? 0 : 6}>
@@ -134,6 +128,7 @@
             <Wrapper>
                 {#if selectedPremadeIndex !== undefined && cycleData !== undefined}
                     <Cycle on:patched={() => {
+                        cycleData = undefined;
                         selectedPremadeIndex = undefined;
                     }}/>
                 {:else}

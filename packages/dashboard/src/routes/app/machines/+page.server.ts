@@ -8,14 +8,14 @@ export const load = (async ({ locals }) => {
     const machineList = await locals.pb.collection("machines").getFullList(undefined, { expand: "sold_by,parent_organization"});
 
     const sdk = getSdk({ "apiUrl": "https://api.balena-cloud.com/" });
-    await sdk.auth.loginWithToken("pDSwvnPRjaeJqazTxchAlH3Gjsgx6R7G");
+    await sdk.auth.loginWithToken(import.meta.env.VITE_BALENA_TOKEN);
 
     const machineListHydrated = await Promise.all(machineList.map(async k => {
         return {
             ...k,
             balenaDevice: await sdk.models.device.get(k.balenaSerial)
         }
-    })) as Array<Record & { balenaDevice: Device}>;
+    })) as Array<Record & { balenaDevice: Device }>;
 
     return {
         devices: structuredClone(machineListHydrated)

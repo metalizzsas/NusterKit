@@ -33,6 +33,7 @@ jobs:
         working-directory: ./packages/dashboard
         env:
           NODE_ENV: production
+          VITE_BALENA_TOKEN: ${{ secrets.DASHBOARD_BALENA_TOKEN }}
       
       - name: 📝 SSH Copy to production server
         uses: appleboy/scp-action@master
@@ -41,7 +42,7 @@ jobs:
           username: ${{ secrets.DASHBOARD_USER }}
           password: ${{ secrets.DASHBOARD_PASS }}
           port: ${{ secrets.DASHBOARD_PORT }}
-          source: "./packages/dashboard/build/*,./packages/dashboard/pb_data/*,./packages/dashboard/pb_migrations/*,./packages/dashboard/ecosystem.config.json,./packages/dashboard/package*.json,./packages/dashboard/start.sh,./packages/dashboard/pocketbase.sh,./packages/dashboard/pocketbase"
+          source: "./packages/dashboard/build/*,./packages/dashboard/pb_data/*,./packages/dashboard/pb_migrations/*,./packages/dashboard/ecosystem.config.json,./packages/dashboard/package*.json,./packages/dashboard/start.sh,./packages/dashboard/pocketbase.sh"
           target: "./dashboard"
 
       - name: ⚙️ Relaunch PM2 on production server

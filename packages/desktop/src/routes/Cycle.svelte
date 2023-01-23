@@ -35,8 +35,9 @@
         await fetch(`/api/v1/cycle`, { method: "PUT"})
     }
 
-    const patchCycle = async () => {
-        await fetch(`/api/v1/cycle`, { method: "PATCH" }).then(() => patched());
+    const patchCycle = () => {
+        patched();
+        void fetch(`/api/v1/cycle`, { method: "PATCH" });
     }
 
     /// — Reactive statements

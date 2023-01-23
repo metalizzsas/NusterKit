@@ -8,17 +8,14 @@
   "cancel": "Annullare",
   "exit": "",
   "locked": "Bloccato",
-
   "close-keyboard": "Chiudere la tastiera",
   "close-modal": "Chiudere",
   "connect": "Connessione",
   "proceed": "Proseguire",
-
   "nuster": {
     "lead": "Nuster",
     "logo": "Logo di Nuster"
   },
-
   "error": {
     "render": {
       "lead": "Errore visualizzazione pagina",
@@ -26,7 +23,6 @@
       "button": "Ricaricare"
     }
   },
-
   "date": {
     "days": "Giorni",
     "day": "Giorno",
@@ -39,21 +35,17 @@
     "milliseconds": "Millisecondi",
     "millisecond": "Millisecondo"
   },
-
   "container": {
     "lead": "Contenitori",
-
     "unselected": {
       "lead": "",
       "sub": ""
     },
-
     "category": {
       "products": "Prodotto",
       "sensors": "Sensori",
       "regulation": "Regolazione"
     },
-
     "state": {
       "lead": {
         "error": "",
@@ -69,7 +61,6 @@
         "regulation_active": ""
       }
     },
-    
     "product": {
       "informations": {
         "lead": "Prodotto informazioni",
@@ -78,7 +69,6 @@
         "load_date": "",
         "unknownLifespan": "Scadenza non definita",
         "done": "Scaduto",
-
         "product_series": {
           "usl_act": "USL Attivattore",
           "usl_ox": "USL Ossidante",
@@ -91,58 +81,48 @@
           "any": "Sconosciuto"
         }
       },
-
       "action": {
         "lead": "Operazioni",
         "product_choose": "Scegliete il prodoto da caricare in questo contenitore",
-        
         "default": {
-          "load":"Caricare un prodotto",
+          "load": "Caricare un prodotto",
           "unload": "Svuotare il prodotto"
         }
       }
     },
-
     "regulation": {
       "enabled": "Stato della regolazione",
       "current": "Valore attuale",
       "target": "Valore ricercato"
     }
   },
-
   "profile": {
-
     "lead": "Profili",
     "name": "Nome del profilo",
     "settings": "Parametri del profilo",
     "defaultName": "Nome profilo predefinito",
-
     "unselected": {
       "lead": "",
       "sub": ""
     },
-
     "copy": {
       "label": "",
       "button": "Copiare",
-      "message": "Il profilo è stato copiato in {name}."
+      "message": "Il profilo è stato copiato in {name}.",
+      "suffix": ""
     },
-
     "save": {
       "button": "Salvaguardare",
       "message": "Il profilo è stato salvato."
     },
-
     "delete": {
       "button": "Eliminare",
       "button_confirm": "Conferma eliminare"
     },
-
     "premades": {
       "true": "Profili costruttore",
       "false": "Profili utente"
     },
-
     "rows": {
       "enabled": "Attivato",
       "speed": "Velocità",
@@ -152,16 +132,13 @@
       "timeOff": "Tempo disattivato"
     }
   },
-  
   "settings": {
     "lead": "Parametri",
-    
     "ui": {
       "lead": "",
       "dark_mode": "Modalità scuro",
       "language": "Lingua"
     },
-
     "machine": {
       "lead": "Informazioni macchina",
       "model": "Modello",
@@ -171,7 +148,6 @@
       "addons": "Opzioni",
       "cycle_count": "Quantità di cicli"
     },
-
     "software": {
       "lead": "",
       "nuster": "Versione di Nuster",
@@ -180,61 +156,50 @@
       "update_install": "Installare l'aggiornamento",
       "update_installing": ""
     },
-    
     "network": {
       "lead": "Informazioni rete",
       "ip": "Indirizzo IP macchina",
       "mac": "Liste degli indirizzi Mac",
       "vpn": "Connessione VPN"
     },
-
     "advanced": {
       "lead": "",
       "sub": "",
       "password": "",
       "edit": ""
     },
-
     "machines": {
       "metalfog": "Metalfog",
       "smoothit": "Smoothit",
       "uscleaner": "USCleaner"
     }
   },
-
   "cycle": {
-
     "lead": "Ciclo",
-
     "categories": {
       "steps": "Tappe del ciclo",
       "status": "Statuto del ciclo",
       "additional_info": "Informazioni aggiuntive",
       "security_conditions": "Condizioni di sicurezza"
     },
-
     "unselected": {
       "lead": "",
       "sub": "",
       "help": ""
     },
-
     "unselected_informations": {
       "lead": "",
       "sub": ""
     },
-
     "eta": {
       "null": "Sconosciuto",
       "remaining": "Tempo rimanente:",
       "estimated": "Tempo stimato:"
     },
-
     "end": {
       "lead": "Ciclo completato",
       "duration": "Durata del ciclo:"
     },
-
     "end_reasons": {
       "user": "Fine utente",
       "finished": "Realizzato con successo",
@@ -243,7 +208,6 @@
       "controllerUnreachable": "Controllore IO indisponibile",
       "stepOvertime": "Una tappa del ciclo ha impiegato troppo tempo. Per evitare operazioni errate, si raccomanda di riavviare la macchina."
     },
-
     "buttons": {
       "start": "Iniziare il ciclo",
       "nextStep": "Passare questa tappa",
@@ -251,42 +215,33 @@
       "complete": "Terminare il ciclo"
     }
   },
-
   "gates": {
     "lead": "I / U",
-
     "reset": "",
-
     "bus": {
       "in": "Ingressi",
       "out": "Uscite"
     },
-
     "categories": {
       "generic": "Generico"
     }
   },
-
   "maintenance": {
     "lead": "Manutenzione",
     "duration": "Durata",
-
     "unselected": {
       "lead": "",
       "sub": ""
     },
-
     "sensor": {
       "label": "",
       "warning": ""
     },
-
     "procedure": {
       "lead": "Procedura di manutenzione",
       "clear": "Validare l'operazione di manutenzione",
       "lang_unavailable": ""
     },
-
     "unity": {
       "cycle": "Cicli",
       "hours": "Ore",
@@ -294,12 +249,9 @@
       "duration": "Ore"
     }
   },
-
   "help": {
     "lead": "",
-
     "unavailable": "",
-    
     "unselected": {
       "lead": "",
       "sub": ""

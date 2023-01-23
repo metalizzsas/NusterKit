@@ -8,17 +8,14 @@
   "cancel": "Cancel",
   "exit": "Exit",
   "locked": "Locked",
-
   "close-keyboard": "Close the keyboard",
   "close-modal": "Close",
   "connect": "Connect",
   "proceed": "Proceed",
-
   "nuster": {
     "lead": "Nuster",
     "logo": "Nuster logo"
   },
-
   "error": {
     "render": {
       "lead": "Failed to render this page",
@@ -26,7 +23,6 @@
       "button": "Reload"
     }
   },
-
   "date": {
     "days": "Days",
     "day": "Day",
@@ -39,21 +35,17 @@
     "milliseconds": "Milliseconds",
     "millisecond": "Millisecond"
   },
-
   "container": {
     "lead": "Containers",
-
     "unselected": {
       "lead": "No container selected",
       "sub": "Select a container to view or edit it's properties."
     },
-
     "category": {
       "products": "Product",
       "sensors": "Sensors",
       "regulation": "Regulation"
     },
-
     "state": {
       "lead": {
         "error": "This container has issues:",
@@ -69,7 +61,6 @@
         "regulation_active": "Active regulation"
       }
     },
-
     "product": {
       "informations": {
         "lead": "Product informations",
@@ -78,7 +69,6 @@
         "load_date": "Load date:",
         "unknownLifespan": "Lifespan undefined",
         "done": "Out of date",
-
         "product_series": {
           "usl_act": "USL Activator",
           "usl_ox": "USL Oxydiser",
@@ -91,23 +81,19 @@
           "any": "Unknown"
         }
       },
-
       "action": {
         "lead": "Actions",
         "product_choose": "Choose a product to load:",
-
         "default": {
           "load": "Load product",
           "unload": "Unload product"
         }
       }
     },
-    
     "regulation": {
       "enabled": "Regulation state",
       "current": "Actual value",
       "target": "Target value",
-
       "modal": {
         "security_disable": {
           "title": "Security error",
@@ -120,40 +106,33 @@
       }
     }
   },
-
   "profile": {
-
     "lead": "Profiles",
     "name": "Profile name",
     "settings": "Profile settings",
     "defaultName": "Profile default name",
-
     "unselected": {
       "lead": "No profile selected.",
       "sub": "Select a profile to view or edit its properties."
     },
-
     "copy": {
       "label": "Copy",
       "button": "Copy profile",
-      "message": "Profile has been copied to {name}."
+      "message": "Profile has been copied to {name}.",
+      "suffix": "Copy"
     },
-
     "save": {
       "button": "Save profile",
       "message": "Profile have been saved."
     },
-
     "delete": {
       "button": "Delete profile",
       "button_confirm": "Confirm profile deletion"
     },
-
     "premades": {
       "true": "Constructor profile",
       "false": "User profile"
     },
-
     "rows": {
       "enabled": "Enabled",
       "speed": "Speed",
@@ -163,16 +142,13 @@
       "timeOff": "Time disabled"
     }
   },
-
   "settings": {
     "lead": "Settings",
-
     "ui": {
       "lead": "UI Settings",
       "dark_mode": "Dark mode",
       "language": "Language"
     },
-
     "machine": {
       "lead": "Machine informations",
       "model": "Model",
@@ -180,9 +156,8 @@
       "revision": "Revision",
       "serial": "Serial number",
       "addons": "Addons",
-      "cycle_count":"Cycle count"
+      "cycle_count": "Cycle count"
     },
-
     "software": {
       "lead": "Software informations",
       "nuster": "Nuster version",
@@ -191,61 +166,50 @@
       "update_install": "Install",
       "update_installing": "Installing"
     },
-
     "network": {
       "lead": "Network informations",
       "ip": "IP addresses",
       "mac": "Mac addresses",
       "vpn": "Connected to VPN"
     },
-
     "advanced": {
       "lead": "Advanced settings",
       "sub": "This feature is not meant to be used by the end user.",
       "password": "Password",
       "edit": "Edit machine configuration"
     },
-
     "machines": {
       "metalfog": "Metalfog",
       "smoothit": "Smoothit",
       "uscleaner": "USCleaner"
     }
   },
-
   "cycle": {
-
     "lead": "Cycle",
-
     "categories": {
       "steps": "Cycle steps",
-      "status":"Cycle status",
+      "status": "Cycle status",
       "additional_info": "Additional informations",
       "security_conditions": "Starting security conditions"
     },
-
     "unselected": {
       "lead": "No cycle selected.",
       "sub": "Select a cycle on the left list to start using your machine. Trouble starting your machine ?",
       "help": "Click here to read documentation."
     },
-
-    "unselected_informations":{
+    "unselected_informations": {
       "lead": "Machine informations",
       "sub": "The informations displayed here are not editable, go to the corresponding sections to edit them."
     },
-
     "eta": {
       "null": "Unknown",
       "remaining": "Remaining time:",
       "estimated": "Estimated duration:"
     },
-
     "end": {
       "lead": "Cycle has ended.",
       "duration": "Cycle duration:"
     },
-
     "end_reasons": {
       "user": "User aborted cycle",
       "finished": "Finished successfully",
@@ -254,7 +218,6 @@
       "controllerUnreachable": "IO Controller is unreachable",
       "stepOvertime": "Cycle step has take too much time to end. Strange behavior might have happened"
     },
-
     "buttons": {
       "start": "Start cycle",
       "nextStep": "Next step",
@@ -262,42 +225,33 @@
       "complete": "Complete cycle"
     }
   },
-
   "gates": {
     "lead": "I / O",
-
     "reset": "Reset",
-
     "bus": {
       "in": "Inputs",
       "out": "Outputs"
     },
-
     "categories": {
       "generic": "Generic"
     }
   },
-
   "maintenance": {
     "lead": "Maintenance",
     "duration": "Duration",
-
     "unselected": {
       "lead": "No Maintenance selected.",
       "sub": "Select a maintenance task to view or edit its properties."
     },
-
     "sensor": {
       "label": "Task warning",
       "warning": "This maintenance task requires linked manual mode to be enabled in order to check its status."
     },
-
     "procedure": {
       "lead": "Maintenance procedure",
       "clear": "Reset maintenance task counter.",
       "lang_unavailable": "Maintenance procedure is not available in English."
     },
-
     "unity": {
       "cycle": "Cycles",
       "hours": "Hours",
@@ -305,12 +259,9 @@
       "duration": "Hours"
     }
   },
-
   "help": {
     "lead": "Help",
-
     "unavailable": "No help available in your language.",
-
     "unselected": {
       "lead": "Help center.",
       "sub": "Navigate using the left side list to read documentation."

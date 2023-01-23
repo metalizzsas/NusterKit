@@ -123,13 +123,13 @@
 
 <Portal target="body">
     <div bind:this={keyboardWrapper} class="p-2 bg-white dark:bg-zinc-800 ring-2 ring-inset dark:ring-white rounded-md absolute" style:left={`${$keyboardLeft}px`} style:top={`${$keyboardTop}px`} on:mousedown={mouseDown}>
-        <Flex justify="between" class="mb-2">
+        <Flex justify="between" class="mb-2" gap={2}>
             {#if typeof value === "string" && isPassword === false}
-                <TextField bind:value={value} disabled={true} />
+                <TextField bind:value={value} disabled={true} class="grow"/>
             {:else if typeof value === "string" && isPassword === true}
-                <PasswordField bind:value={value} disabled={true} />
+                <PasswordField bind:value={value} disabled={true} class="grow"/>
             {:else if typeof value === "number"}
-                <NumField bind:value={value} disabled={true} />
+                <NumField bind:value={value} disabled={true} class="grow"/>
             {/if}
 
             <Button on:click={close} color="hover:bg-red-500" ringColor="ring-red-500">

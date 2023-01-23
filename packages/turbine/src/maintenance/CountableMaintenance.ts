@@ -26,6 +26,10 @@ export class CountableMaintenance extends Maintenance implements CountableMainte
         TurbineEventLoop.on(`maintenance.read.${this.name}`, (options) => {
             options.callback?.(this.toJSON());
         });
+
+        TurbineEventLoop.on(`maintenance.append.${this.name}`, (value) => {
+            this.append(value);
+        });
     }
 
     async loadTrackerData()

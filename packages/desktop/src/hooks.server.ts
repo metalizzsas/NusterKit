@@ -22,7 +22,7 @@ export const handleFetch = ( async ({ request }) => {
 
     if(request.url.includes("/api/"))
     {
-        const newURL = request.url.replace(/(.*)\/api\//, "http://localhost:4080/");
+        const newURL = request.url.replace(/(.*)\/api\//, `http://${import.meta.env.DEV ? "localhost" : "nuster-turbine"}:4080/`);
         return fetch(newURL, request);
     }
 

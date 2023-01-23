@@ -24,7 +24,7 @@
   "scripts": {
     "build": "tsc && pnpm build-browser",
     "build-browser": "tsc -p tsconfig.browser.json",
-    "test": "jest ./build/"
+    "test": "jest ./src/"
   },
   "repository": {
     "type": "git",

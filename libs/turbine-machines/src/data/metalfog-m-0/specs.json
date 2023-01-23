@@ -241,6 +241,17 @@
                     "value": 5
                 },
                 {
+                    "name": "activation-wash#enabled",
+                    "type": "bool",
+                    "value": 0
+                },
+                {
+                    "name": "activation-wash#duration",
+                    "type": "time",
+                    "units": ["seconds", "milliseconds"],
+                    "value": 5
+                },
+                {
                     "name": "wash1#enabled",
                     "type": "bool",
                     "value": 1
@@ -366,6 +377,8 @@
                 "activation#timeOn": 5,
                 "activation#timeOff": 10,
                 "activation#count": 3,
+                "activation-wash#enabled": 0,
+                "activation-wash#duration": 5,
                 "wash1#enabled": 1,
                 "wash1#duration": 35,
                 "metalization#enabled": 1,
@@ -394,6 +407,8 @@
                 "activation#timeOn": 5,
                 "activation#timeOff": 10,
                 "activation#count": 3,
+                "activation-wash#enabled": 0,
+                "activation-wash#duration": 5,
                 "wash1#enabled": 1,
                 "wash1#duration": 35,
                 "metalization#enabled": 1,
@@ -422,6 +437,8 @@
                 "activation#timeOn": 5,
                 "activation#timeOff": 10,
                 "activation#count": 3,
+                "activation-wash#enabled": 0,
+                "activation-wash#duration": 5,
                 "wash1#enabled": 1,
                 "wash1#duration": 35,
                 "metalization#enabled": 0,
@@ -567,11 +584,12 @@
                     "name": "activation",
                     "isEnabled": {"profile": "activation#enabled"},
                     "startBlocks": [
-                        {"io_write": ["hybrid#act-res", 1]}
+                        {"io_write": ["hybrid#act-res", 1]},
+                        {"io_write": ["hybrid#edi-res", {"profile": "activation-wash#enabled"}]}
                     ],
                     "endBlocks": [
-                        {"io_write": ["hybrid#act-res", 0]}
-
+                        {"io_write": ["hybrid#act-res", 0]},
+                        {"io_write": ["hybrid#edi-res", 0]}
                     ],
                     "blocks": [
                         {"for": {
@@ -582,6 +600,18 @@
                                 {"io_write": ["hybrid#lq-act", 1]},
                                 {"sleep": {"profile": "activation#timeOn"}},
                                 {"io_write": ["hybrid#lq-act", 0]},
+                                {"if": {
+                                    "statement": {
+                                        "comparator": "==",
+                                        "left_side": {"profile": "activation-wash#enabled"},
+                                        "right_side": 1
+                                    },
+                                    "true_blocks": [
+                                        {"io_write": ["hybrid#lq-edi", 1]},
+                                        {"sleep": {"profile": "activation-wash#duration"}},
+                                        {"io_write": ["hybrid#lq-edi", 0]}                                        
+                                    ]   
+                                }},
                                 {"sleep": 0.25},
                                 {"io_write": ["hybrid#plv", 0]},
                                 {"sleep": {"profile": "activation#timeOff"}}
@@ -717,6 +747,8 @@
                                 "activation#timeOn": 5,
                                 "activation#timeOff": 10,
                                 "activation#count": 3,
+                                "activation-wash#enabled": 0,
+                                "activation-wash#duration": 5,
                                 "wash1#enabled": 1,
                                 "wash1#duration": 35,
                                 "metalization#enabled": 1,
@@ -747,6 +779,8 @@
                                 "activation#timeOn": 5,
                                 "activation#timeOff": 10,
                                 "activation#count": 3,
+                                "activation-wash#enabled": 0,
+                                "activation-wash#duration": 5,
                                 "wash1#enabled": 1,
                                 "wash1#duration": 35,
                                 "metalization#enabled": 1,
@@ -804,6 +838,40 @@
                                 "activation#timeOn": 5,
                                 "activation#timeOff": 10,
                                 "activation#count": 3,
+                                "activation-wash#enabled": 0,
+                                "activation-wash#duration": 5,
+                                "wash1#enabled": 1,
+                                "wash1#duration": 30,
+                                "metalization#enabled": 1,
+                                "metalization#timeOn": 5,
+                                "metalization#timeOff": 10,
+                                "metalization#count": 8,
+                                "metalization-wash#enabled": 1,
+                                "metalization-wash#duration": 5,
+                                "wash2#enabled": 1,
+                                "wash2#duration": 30,
+                                "vapors-extraction#enabled": 1,
+                                "vapors-extraction#duration": 45
+                            }
+                        },
+                        {
+                            "skeleton": "default",
+                            "_id": "premade_llc_washed",
+                            "name": "llc_washed",
+                            "isPremade": true,
+                            "isRemovable": false,
+                            "isOverwritable": false,
+                            "values": {
+                                "motor#enabled": 1,
+                                "motor#speed": 50,
+                                "motor#reverseEnabled": 1,
+                                "motor#reverseTime": 5,
+                                "activation#enabled": 1,
+                                "activation#timeOn": 5,
+                                "activation#timeOff": 10,
+                                "activation#count": 3,
+                                "activation-wash#enabled": 1,
+                                "activation-wash#duration": 5,
                                 "wash1#enabled": 1,
                                 "wash1#duration": 30,
                                 "metalization#enabled": 1,

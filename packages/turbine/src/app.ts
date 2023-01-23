@@ -177,13 +177,14 @@ function SetupMongoDB()
 {
     try
     {
-        mongoose.connect('mongodb://127.0.0.1/nuster2');
+        mongoose.connect(`mongodb://${process.env.MONGO_DB_URL ?? "127.0.0.1"}:27017/nuster2`);
         LoggerInstance.info("Mongo: Connected to database");
     }
     catch(err)
     {
         LoggerInstance.fatal("Mongo: Failed to connect to database");
         LoggerInstance.fatal(err);
+        throw Error("Failed to connect to mongoDB.");
     }
 }
 

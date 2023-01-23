@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.4.4
+
+### Patch Changes
+
+- tests: profil is now checked if all fields are present ([#253](https://github.com/metalizzsas/NusterKit/pull/253))
+
+- feat: added activation-wash for mf-m-0 ([#253](https://github.com/metalizzsas/NusterKit/pull/253))
+
 ## 1.4.3
 
 ### Patch Changes

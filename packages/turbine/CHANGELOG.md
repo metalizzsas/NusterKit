@@ -1,5 +1,16 @@
 # @metalizzsas/nuster-turbine
 
+## 1.9.13
+
+### Patch Changes
+
+- fix: maintenances tasks were not updated on cycle end ([#253](https://github.com/metalizzsas/NusterKit/pull/253))
+
+- feat: containers no longer use a network_mode of `host` ([#253](https://github.com/metalizzsas/NusterKit/pull/253))
+
+- Updated dependencies [[`1b14ee5`](https://github.com/metalizzsas/NusterKit/commit/1b14ee5539db63d3d2cca427c4a56ae6ef51b7dd), [`7da82d5`](https://github.com/metalizzsas/NusterKit/commit/7da82d5adf7eb017e9334d19a264a4baa235070e)]:
+  - @metalizzsas/nuster-turbine-machines@1.4.4
+
 ## 1.9.12
 
 ### Patch Changes

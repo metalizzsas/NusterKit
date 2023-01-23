@@ -5,6 +5,7 @@ jobs:
   dashboard:
     runs-on: ubuntu-latest
     name: 📤 Deploy Nuster dashboard
+    environment: "Dashboard deployment"
     steps:
 
       - name: 📚 Checkout Repo

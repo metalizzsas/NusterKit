@@ -18,6 +18,8 @@ export class PBRSecurityCondition
     #statusBlock: StatusParameterBlockHydrated | undefined;
     #pbrState: PBRMode = "creating";
 
+    #gateListenerReference: (typeof this.gateListener) | undefined = undefined;
+
     constructor(pbrsc: PBRStartConditionConfig)
     {
         this.name = pbrsc.conditionName;
@@ -36,7 +38,10 @@ export class PBRSecurityCondition
         }
 
         if(pbrsc.checkchain.io !== undefined)
-            TurbineEventLoop.on(`io.updated.${pbrsc.checkchain.io.gateName}`, this.gateListener.bind(this));
+        {
+            this.#gateListenerReference = this.gateListener.bind(this);
+            TurbineEventLoop.on(`io.updated.${pbrsc.checkchain.io.gateName}`, this.#gateListenerReference);
+        }
 
         if(pbrsc.checkchain.parameter !== undefined)
         {
@@ -57,7 +62,7 @@ export class PBRSecurityCondition
         if(this.state === "error" && this.#pbrState === "started")
             TurbineEventLoop.emit(`pbr.stop`, `security-${this.name}`)
     }
-
+    
     private pbrStateListener(state: PBRMode) {
         this.#pbrState = state;
     }
@@ -65,7 +70,7 @@ export class PBRSecurityCondition
     /** Dispose Security Condition */
     public dispose()
     {
-        TurbineEventLoop.removeListener(`io.updated.${this.scc.checkchain.io?.gateName}`, this.gateListener);
+        if(this.#gateListenerReference) {  TurbineEventLoop.removeListener(`io.updated.${this.scc.checkchain.io?.gateName}`, this.#gateListenerReference); }
         TurbineEventLoop.removeListener('pbr.status.update', this.pbrStateListener);
     }
 

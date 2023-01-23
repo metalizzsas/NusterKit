@@ -7,40 +7,41 @@ volumes:
   
 services:
   mongodb:
+    container_name: mongodb
     image: mongo:4.2
     restart: always
-    network_mode: host
     volumes: 
       - mongodb:/data/db
+    ports:
+      - 27017:27017
 
   nuster-turbine:
+    container_name: nuster-turbine
     build: 
       dockerfile: ./packages/turbine/Dockerfile.template
       context: ./
-    network_mode: host
     privileged: true
     depends_on: 
       - "mongodb"
     volumes:
       - nuster-data:/data
     environment:
-      DISABLE_AUTH: 'true'
+      MONGO_DB_URL: 'mongodb'
     labels:
       io.balena.features.supervisor-api: '1'
 
   nuster-desktop:
+    container_name: nuster-desktop
     build: 
       dockerfile: ./packages/desktop/Dockerfile.template
       context: ./
     restart: always
-    network_mode: host
     depends_on: 
       - "nuster-turbine"
       - "mongodb"
 
   weston:
     restart: always
-    network_mode: host
     build:
       dockerfile: ./containers/weston/Dockerfile.template
       context: ./
@@ -53,7 +54,6 @@ services:
     
   wpe:
     restart: always
-    network_mode: host
     build:
       dockerfile: ./containers/wpe/Dockerfile.template
       context: ./
@@ -61,23 +61,24 @@ services:
     volumes:
       - 'weston:/run/weston'
     environment:
-      WPE_URL: 'http://127.0.0.1/'
+      WPE_URL: 'http://proxy/'
       WPE_COG_PLATFORM_WL_VIEW_WIDTH: 1024
       WPE_COG_PLATFORM_WL_VIEW_HEIGHT: 600
 
   proxy: 
+    container_name: proxy
     build: ./containers/proxy/
     restart: always
-    network_mode: host
     depends_on: 
       - "nuster-desktop"
       - "nuster-turbine"
       - "mongodb"
+    ports:
+      - 80:80
 
   wifi-connect:
     image: bh.cr/balenalabs/wifi-connect-aarch64
     restart: always
-    network_mode: host
     privileged: true
     labels: 
       io.balena.features.dbus: "1"
@@ -88,3 +89,5 @@ services:
       PORTAL_LISTENING_PORT: 5000
       PORTAL_SSID: 'Nuster Wifi Configurator'
       DBUS_SYSTEM_BUS_ADDRESS: "unix:path=/host/run/dbus/system_bus_socket"
+    ports:
+      - 5000:5000

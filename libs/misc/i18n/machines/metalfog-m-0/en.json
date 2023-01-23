@@ -1,5 +1,5 @@
 {
-    "$schema": "../../../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
+    "$schema": "../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
 
     "containers": {
 
@@ -28,6 +28,7 @@
         "categories": {
             "motor": "Rotation Motor",
             "activation": "Activation",
+            "activation-wash": "Wash during activation",
             "metalization": "Metallization",
             "metalization-wash": "Wash during metallization",
             "wash1": "Wash 1",

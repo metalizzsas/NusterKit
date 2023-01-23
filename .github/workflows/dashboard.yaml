@@ -26,9 +26,11 @@ jobs:
 
       - name: 📚 Install Node dependencies
         run: pnpm install --ignore-scripts
+        working-directory: ./packages/dashboard
 
       - name: 🧱 Run build scripts on all packages
         run: pnpm run build
+        working-directory: ./packages/dashboard
         env:
           NODE_ENV: production
       
@@ -39,7 +41,7 @@ jobs:
           username: ${{ secrets.DASHBOARD_USER }}
           password: ${{ secrets.DASHBOARD_PASS }}
           port: ${{ secrets.DASHBOARD_PORT }}
-          source: "./build/*,./pb_data/*,./pb_migrations/*,ecosystem.config.json,package*.json,start.sh,pocketbase.sh,pocketbase"
+          source: "./packages/dashboard/build/*,./packages/dashboard/pb_data/*,./packages/dashboard/pb_migrations/*,./packages/dashboard/ecosystem.config.json,./packages/dashboard/package*.json,./packages/dashboard/start.sh,./packages/dashboard/pocketbase.sh,./packages/dashboard/pocketbase"
           target: "dashboard"
 
       - name: ⚙️ Relaunch PM2 on production server

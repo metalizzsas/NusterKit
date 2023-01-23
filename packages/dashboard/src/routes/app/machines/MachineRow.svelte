@@ -36,7 +36,7 @@
 
         for(const path of connectPaths)
         {
-            const req = await fetch(`/api/machine_connect_test`, { method: 'POST', body: JSON.stringify({ ip: path.ip, secure: path.vpn })});
+            const req = await fetch(`/internal_api/machine_connect_test`, { method: 'POST', body: JSON.stringify({ ip: path.ip, secure: path.vpn })});
 
             if(req.ok && req.status === 200)
             {

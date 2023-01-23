@@ -1,0 +1,54 @@
+on:
+  release:
+    types: ["published"]
+
+jobs:
+  dashboard:
+    runs-on: ubuntu-latest
+    name: 📤 Deploy Nuster dashboard
+    if: contains(github.event.release.tag_name, 'nuster-dashboard')
+    steps:
+
+      - name: 📚 Checkout Repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: ⛏️ Setup node
+        uses: actions/setup-node@v3.4.1
+        with:
+          node-version: '18.x'
+
+      - name: ⛏️ Setup PNPM 
+        run: |
+          corepack enable
+          pnpm --version
+
+      - name: 📚 Install Node dependencies
+        run: pnpm install --ignore-scripts
+
+      - name: 🧱 Run build scripts on all packages
+        run: pnpm run build
+        env:
+          NODE_ENV: production
+      
+      - name: 📝 SSH Copy to production server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.DASHBOARD_HOST }}
+          username: ${{ secrets.DASHBOARD_USER }}
+          password: ${{ secrets.DASHBOARD_PASS }}
+          port: ${{ secrets.DASHBOARD_PORT }}
+          source: "./build/*,./pb_data/*,./pb_migrations/*,ecosystem.config.json,package*.json,start.sh,pocketbase.sh,pocketbase"
+          target: "dashboard"
+
+      - name: ⚙️ Relaunch PM2 on production server
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.DASHBOARD_HOST }}
+          username: ${{ secrets.DASHBOARD_USER }}
+          password: ${{ secrets.DASHBOARD_PASS }}
+          port: ${{ secrets.DASHBOARD_PORT }}
+          script: bash ./dashboard/start.sh
+      
+      

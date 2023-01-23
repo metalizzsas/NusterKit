@@ -1,3 +1,4 @@
+name: 📤 Deploy Nuster dashboard
 on:
   workflow_dispatch:
 
@@ -41,7 +42,7 @@ jobs:
           password: ${{ secrets.DASHBOARD_PASS }}
           port: ${{ secrets.DASHBOARD_PORT }}
           source: "./packages/dashboard/build/*,./packages/dashboard/pb_data/*,./packages/dashboard/pb_migrations/*,./packages/dashboard/ecosystem.config.json,./packages/dashboard/package*.json,./packages/dashboard/start.sh,./packages/dashboard/pocketbase.sh,./packages/dashboard/pocketbase"
-          target: "dashboard"
+          target: "./dashboard"
 
       - name: ⚙️ Relaunch PM2 on production server
         uses: appleboy/ssh-action@v0.1.7
@@ -50,6 +51,6 @@ jobs:
           username: ${{ secrets.DASHBOARD_USER }}
           password: ${{ secrets.DASHBOARD_PASS }}
           port: ${{ secrets.DASHBOARD_PORT }}
-          script: bash ./dashboard/start.sh
+          script: bash ./dashboard/packages/dashboard/start.sh
       
       

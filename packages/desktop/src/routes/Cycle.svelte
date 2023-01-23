@@ -203,7 +203,7 @@
                     </Flex>
 
                     <Flex gap={4}>
-                        {#if step.runCount !== undefined && step.runAmount !== undefined}
+                        {#if step.runCount !== undefined && step.runAmount !== undefined && step.runAmount.data > 1}
                             <Label>{step.runCount} / {step.runAmount.data}</Label>
                         {/if}
                         

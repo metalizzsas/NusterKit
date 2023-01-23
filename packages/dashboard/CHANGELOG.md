@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-dashboard
 
+## 1.0.4
+
+### Patch Changes
+
+- fix: backend url modified ([#259](https://github.com/metalizzsas/NusterKit/pull/259))
+
 ## 1.0.3
 
 ### Patch Changes

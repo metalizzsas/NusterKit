@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-dashboard
 
+## 1.0.2
+
+### Patch Changes
+
+- cd: created ci/cd strategy for nuster-dashboard ([#255](https://github.com/metalizzsas/NusterKit/pull/255))
+
 ## 1.0.1
 
 ### Patch Changes

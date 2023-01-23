@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-misc
 
+## 1.1.2
+
+### Patch Changes
+
+- fix: translations updates ([#255](https://github.com/metalizzsas/NusterKit/pull/255))
+
+- fix: profile copy is now translated correctly ([#255](https://github.com/metalizzsas/NusterKit/pull/255))
+
 ## 1.1.1
 
 ### Patch Changes

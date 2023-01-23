@@ -135,6 +135,7 @@
 
     "copy": {
       "label": "Copier",
+      "suffix": "Copie",
       "button": "Copier le profil",
       "message": "Le profil a été copié avec le nom {name}."
     },

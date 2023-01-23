@@ -1,5 +1,15 @@
 # @metalizzsas/nuster-desktop
 
+## 1.10.5
+
+### Patch Changes
+
+- fix: containers would not unload product ([#253](https://github.com/metalizzsas/NusterKit/pull/253))
+
+- feat: containers no longer use a network_mode of `host` ([#253](https://github.com/metalizzsas/NusterKit/pull/253))
+
+- fix: only show runAmout when set to more than 1 ([#253](https://github.com/metalizzsas/NusterKit/pull/253))
+
 ## 1.10.4
 
 ### Patch Changes

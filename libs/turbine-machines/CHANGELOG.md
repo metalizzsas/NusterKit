@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.4.3
+
+### Patch Changes
+
+- fix: smoothit m r2 was not opening uv#cache & closing nozzle#cache if only uv-curing was enabled ([#249](https://github.com/metalizzsas/NusterKit/pull/249))
+
 ## 1.4.2
 
 ### Patch Changes

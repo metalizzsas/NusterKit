@@ -1,5 +1,12 @@
 # @metalizzsas/simulation-server
 
+## 1.0.14
+
+### Patch Changes
+
+- Updated dependencies [[`11c0359`](https://github.com/metalizzsas/NusterKit/commit/11c0359df8cd9cf0e8f85569f79665ed7140d297)]:
+  - @metalizzsas/nuster-turbine-machines@1.4.3
+
 ## 1.0.13
 
 ### Patch Changes

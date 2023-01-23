@@ -1,5 +1,19 @@
 # @metalizzsas/nuster-desktop
 
+## 1.10.4
+
+### Patch Changes
+
+- fix: simple-keyboard-layout were imported on server side ([#251](https://github.com/metalizzsas/NusterKit/pull/251))
+
+## 1.10.3
+
+### Patch Changes
+
+- fix: would not show install update button ([#247](https://github.com/metalizzsas/NusterKit/pull/247))
+
+- feat: enhanced progress computation and progress display ([#249](https://github.com/metalizzsas/NusterKit/pull/249))
+
 ## 1.10.2
 
 ### Patch Changes

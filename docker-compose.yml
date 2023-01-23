@@ -18,7 +18,7 @@ services:
   nuster-turbine:
     container_name: nuster-turbine
     build: 
-      dockerfile: ./packages/turbine/Dockerfile.template
+      dockerfile: ./packages/turbine/Dockerfile.draft.template
       context: ./
     privileged: true
     depends_on: 
@@ -33,7 +33,7 @@ services:
   nuster-desktop:
     container_name: nuster-desktop
     build: 
-      dockerfile: ./packages/desktop/Dockerfile.template
+      dockerfile: ./packages/desktop/Dockerfile.draft.template
       context: ./
     restart: always
     depends_on: 

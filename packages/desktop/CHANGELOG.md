@@ -1,5 +1,15 @@
 # @metalizzsas/nuster-desktop
 
+## 1.10.6
+
+### Patch Changes
+
+- fix: various input fields changes ([#255](https://github.com/metalizzsas/NusterKit/pull/255))
+
+- fix: when cycle is patched it is now unselected correctly ([#255](https://github.com/metalizzsas/NusterKit/pull/255))
+
+- fix: profile copy is now translated correctly ([#255](https://github.com/metalizzsas/NusterKit/pull/255))
+
 ## 1.10.5
 
 ### Patch Changes

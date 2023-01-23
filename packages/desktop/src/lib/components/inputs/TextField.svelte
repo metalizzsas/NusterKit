@@ -4,7 +4,7 @@
 
     export let value: string;
     export let placeholder: string | undefined = undefined;
-    export let disabled: boolean = false;
+    export let disabled = false;
 
     let focused = false;
 

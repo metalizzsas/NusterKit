@@ -93,10 +93,13 @@
             {/if}
         </Flex>
     </Flex>
-    <Flex direction="col" items="start" gap={0.5} class="my-2">
-        <span class="text-sm text-zinc-600 dark:text-zinc-300">{$_('profile.name')}</span>
-        <TextField bind:value={profile.name} disabled={profile.isPremade === true}/>
-    </Flex>
+
+    {#if profile.isPremade !== true}
+        <Flex direction="col" items="start" gap={0.5} class="my-2">
+            <span class="text-sm text-zinc-600 dark:text-zinc-300">{$_('profile.name')}</span>
+            <TextField bind:value={profile.name} class="w-1/3" />
+        </Flex>
+    {/if}
 
     <h3>{$_('profile.settings')}</h3>
 

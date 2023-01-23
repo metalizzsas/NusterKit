@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-dashboard
 
+## 1.0.3
+
+### Patch Changes
+
+- fix: nuster dashboard pocketbase api port ([#257](https://github.com/metalizzsas/NusterKit/pull/257))
+
 ## 1.0.2
 
 ### Patch Changes

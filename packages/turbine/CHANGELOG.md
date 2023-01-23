@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-turbine
 
+## 1.9.14
+
+### Patch Changes
+
+- fix: pbr cycles could be ended while not started yet ([#257](https://github.com/metalizzsas/NusterKit/pull/257))
+
+- fix: security condition was not removing event listener due to binding ([#257](https://github.com/metalizzsas/NusterKit/pull/257))
+
 ## 1.9.13
 
 ### Patch Changes

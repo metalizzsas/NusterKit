@@ -1,4 +1,4 @@
-import type { IOBase, WAGO as WAGOConfig } from "@metalizzsas/nuster-typings/src/spec/iohandlers";
+import type { IOBase, WAGO as WAGOConfig } from "@metalizzsas/nuster-typings/build/spec/iohandlers";
 
 import ModbusTCP from "modbus-serial";
 import ping from "ping";

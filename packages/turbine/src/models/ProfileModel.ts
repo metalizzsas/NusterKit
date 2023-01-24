@@ -1,4 +1,4 @@
-import type { ProfileStored } from "@metalizzsas/nuster-typings/src/stored";
+import type { ProfileStored } from "@metalizzsas/nuster-typings/build/stored";
 import { model, Schema } from "mongoose";
 
 export const ProfileSchema = new Schema<ProfileStored>({

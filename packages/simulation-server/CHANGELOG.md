@@ -1,5 +1,14 @@
 # @metalizzsas/simulation-server
 
+## 1.0.16
+
+### Patch Changes
+
+- fix: typings were used in production ([#268](https://github.com/metalizzsas/NusterKit/pull/268))
+
+- Updated dependencies [[`30d1564`](https://github.com/metalizzsas/NusterKit/commit/30d15646f3e40b0d3ae941552af9676f74bd9918)]:
+  - @metalizzsas/nuster-typings@1.4.4
+
 ## 1.0.15
 
 ### Patch Changes

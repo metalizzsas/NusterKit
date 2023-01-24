@@ -6,12 +6,15 @@
     "node": "18.x"
   },
   "scripts": {
-    "dev": "pnpm -r --parallel --filter=!@metalizzsas/simulation-ui run dev",
-    "dev-sim": "pnpm -r --parallel run dev",
+    "dev": "pnpm -r --parallel run dev",
     "lint": "pnpm -r --parallel run lint",
     "test": "pnpm -r --parallel run test",
-    "build": "pnpm -r --parallel --filter='./libs/*' run build && pnpm -r --parallel --filter='./packages/*' run build && pnpm -r --parallel --filter='./simulation/*' run build",
-    "build-libs": "pnpm -r --filter='./libs/*' run build",
+
+    "build": "pnpm build:libs && pnpm build:packages && pnpm build:simulation",
+    "build:libs": "pnpm -r --filter='./libs/*' run build",
+    "build:packages": "pnpm -r --filter='./packages/*' run build",
+    "build:simulation": "pnpm -r --filter='./simulation/*' run build",
+    
     "release": "changeset publish"
   },
   "keywords": [],

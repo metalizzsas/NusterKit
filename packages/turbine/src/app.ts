@@ -27,7 +27,7 @@ let httpServer: Server | undefined = undefined;
 /** Machine instance holding all the controllers */
 let machine: Machine | undefined = undefined;
 
-/** Info.json file path */
+/** File / Folders paths */
 const infoPath = productionEnabled ? "/data/info.json" : path.resolve("data", "info.json");
 const settingsPath = productionEnabled ? "/data/settings.json" : path.resolve("data", "settings.json");
 const logsFolderPath = productionEnabled ? "/data/logs/" : path.resolve("data", "logs");

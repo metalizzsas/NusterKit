@@ -38,7 +38,10 @@ jobs:
           pnpm --version
 
       - name: 📚 Install workspace packages
-        run: pnpm i -w
+        run: pnpm i
+
+      - name: 🧱 Build libraries
+        run: pnpm run build:libs
 
       - name: ⛭ Setup Pnpm github registry
         run: pnpm config set @metalizzsas:registry=https://npm.pkg.github.com //npm.pkg.github.com/:_authToken=$GITHUB_TOKEN --location project
@@ -53,9 +56,6 @@ jobs:
           publish: pnpm release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: 📝 Export outputs
-        run: echo 
 
   balena-release:
 

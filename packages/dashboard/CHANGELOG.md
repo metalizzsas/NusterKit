@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-dashboard
 
+## 1.0.5
+
+### Patch Changes
+
+- fix: users email verification & password reset could not be sent ([#261](https://github.com/metalizzsas/NusterKit/pull/261))
+
 ## 1.0.4
 
 ### Patch Changes

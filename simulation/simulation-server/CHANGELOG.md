@@ -1,5 +1,15 @@
 # @metalizzsas/simulation-server
 
+## 1.0.17
+
+### Patch Changes
+
+- chore: updated mono repo structure ([#270](https://github.com/metalizzsas/NusterKit/pull/270))
+
+- Updated dependencies [[`f93c1bd`](https://github.com/metalizzsas/NusterKit/commit/f93c1bd591278264e4da37ae8dede0d758f42469)]:
+  - @metalizzsas/nuster-typings@1.4.5
+  - @metalizzsas/nuster-turbine-machines@1.4.5
+
 ## 1.0.16
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-typings
 
+## 1.4.5
+
+### Patch Changes
+
+- chore: updated mono repo structure ([#270](https://github.com/metalizzsas/NusterKit/pull/270))
+
 ## 1.4.4
 
 ### Patch Changes

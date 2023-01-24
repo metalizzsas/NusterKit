@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-desktop
 
+## 1.10.7
+
+### Patch Changes
+
+- feat: ui settings are now stored on turbine instead of desktop localeStorage ([#266](https://github.com/metalizzsas/NusterKit/pull/266))
+
+- fix: timefields units could overflow on other units ([#266](https://github.com/metalizzsas/NusterKit/pull/266))
+
 ## 1.10.6
 
 ### Patch Changes

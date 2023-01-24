@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.9.20
+
+### Patch Changes
+
+- fix: updated base Path ([#276](https://github.com/metalizzsas/NusterKit/pull/276))
+
 ## 1.9.19
 
 ### Patch Changes

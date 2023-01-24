@@ -28,10 +28,11 @@ let httpServer: Server | undefined = undefined;
 let machine: Machine | undefined = undefined;
 
 /** File / Folders paths */
-const infoPath = productionEnabled ? "/data/info.json" : path.resolve("data", "info.json");
-const settingsPath = productionEnabled ? "/data/settings.json" : path.resolve("data", "settings.json");
-const logsFolderPath = productionEnabled ? "/data/logs/" : path.resolve("data", "logs");
-const logFilePath = productionEnabled ? `/data/logs/log-${new Date().toISOString()}.log`: path.resolve("data", "logs", `log-${new Date().toISOString()}.log`);
+const basePath = productionEnabled ? "/data" : "data";
+const infoPath = path.resolve(basePath, "info.json");
+const settingsPath = path.resolve(basePath, "settings.json");
+const logsFolderPath = path.resolve(basePath, "logs");
+const logFilePath = path.resolve(basePath, "logs", `log-${new Date().toISOString()}.log`);
 
 if(!fs.existsSync(logsFolderPath)) fs.mkdirSync(logsFolderPath);
 if(!fs.existsSync(settingsPath)) fs.writeFileSync(settingsPath, JSON.stringify({ dark: 1, lang: "en" }), { encoding: "utf-8" });

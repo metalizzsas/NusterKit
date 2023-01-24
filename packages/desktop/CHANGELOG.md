@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.10.8
+
+### Patch Changes
+
+- chore: updated mono repo structure ([#270](https://github.com/metalizzsas/NusterKit/pull/270))
+
 ## 1.10.7
 
 ### Patch Changes

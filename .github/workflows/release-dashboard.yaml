@@ -33,7 +33,7 @@ jobs:
         working-directory: ./packages/dashboard
 
       - name: 📝 Run Svelte-kit sync
-        run: pnpm run check
+        run: pnpm run sync
         working-directory: ./packages/dashboard
 
       - name: 🧱 Run build scripts on all packages

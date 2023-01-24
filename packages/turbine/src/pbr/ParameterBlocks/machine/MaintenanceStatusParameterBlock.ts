@@ -1,10 +1,11 @@
-import { StatusParameterBlockHydrated, type StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
+import type { StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
 import type { AllParameterBlocks, MaintenanceStatusParameterBlock as MaintenanceStatusParameterBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlockRegistry";
 import { TurbineEventLoop } from "../../../events";
 import type { MaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydrated/maintenance";
+import { StatusParameterBlock } from "../StatusParameterBlock";
 
-export class MaintenanceStatusParameterBlock extends StatusParameterBlockHydrated
+export class MaintenanceStatusParameterBlock extends StatusParameterBlock
 {
     private taskName: StringParameterBlockHydrated;
     #maintenanceTask?: MaintenanceHydrated;

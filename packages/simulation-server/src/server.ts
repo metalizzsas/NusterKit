@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { SimulationMachine } from "./simulationMachine";
 import cors from "cors";
-import { Configuration } from "@metalizzsas/nuster-typings";
+import type { Configuration } from "@metalizzsas/nuster-typings";
 
 export const app = express();
 app.use(cors());

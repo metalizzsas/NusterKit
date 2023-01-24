@@ -1,9 +1,10 @@
-import { NumericParameterBlockHydrated, type StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
+import type { StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
 import type { AllParameterBlocks, IOReadParameterBlock as IOReadParameterBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlockRegistry";
 import { TurbineEventLoop } from "../../../events";
+import { NumericParameterBlock } from "../NumericParameterBlock";
 
-export class IOReadParameterBlock extends NumericParameterBlockHydrated
+export class IOReadParameterBlock extends NumericParameterBlock
 {
     private gateName: StringParameterBlockHydrated;
     #gateValue = 0;

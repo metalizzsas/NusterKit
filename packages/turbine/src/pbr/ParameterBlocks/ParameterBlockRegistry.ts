@@ -16,6 +16,10 @@ import { ProfileParameterBlock } from "./machine/ProfileParameterBlock";
 import { ProductStatusParameterBlock } from "./machine/ProductStatusParameterBlock";
 import { ReadMachineVariableParameterBlock } from "./var/ReadMachineVariableBlock";
 
+import type { NumericParameterBlock } from "./NumericParameterBlock";
+import type { StringParameterBlock as StringParameterBlockType } from "./StringParameterBlock";
+import type { StatusParameterBlock } from "./StatusParameterBlock";
+
 /**
  * Parameter Block Registry
  * @desc Creates parameter blocks from their non hydrated form
@@ -27,7 +31,7 @@ export class ParameterBlockRegistry
      * @param obj non hydrated source object
      * @returns Numeric parameter block hydrated
      */
-    static Numeric(obj: NumericParameterBlocks): NumericParameterBlockHydrated
+    static Numeric(obj: NumericParameterBlocks): NumericParameterBlock
     {
         if(typeof obj === "number") return new NumberParameterBlock({"number": obj});
         if(NumberParameterBlock.isNumberPB(obj)) return new NumberParameterBlock(obj);
@@ -57,7 +61,7 @@ export class ParameterBlockRegistry
      * @param obj Non hydrated source object
      * @returns String parameter block hydrated
      */
-    static String(obj: StringParameterBlocks): StringParameterBlockHydrated
+    static String(obj: StringParameterBlocks): StringParameterBlockType
     {
         if(typeof obj === "string") return new StringParameterBlock({"string": obj});
         if(StringParameterBlock.isStringPB(obj)) return new StringParameterBlock(obj);
@@ -70,7 +74,7 @@ export class ParameterBlockRegistry
      * @param obj Non hydrated source objects
      * @returns Status parameter block hydrated
      */
-    static Status(obj: StatusParameterBlocks): StatusParameterBlockHydrated
+    static Status(obj: StatusParameterBlocks): StatusParameterBlock
     {
         if(MaintenanceStatusParameterBlock.isMaintenanceStatusPB(obj)) return new MaintenanceStatusParameterBlock(obj);
         if(ProductStatusParameterBlock.isProductStatusPB(obj)) return new ProductStatusParameterBlock(obj);

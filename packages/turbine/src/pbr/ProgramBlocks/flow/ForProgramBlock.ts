@@ -1,14 +1,14 @@
 import type { NumericParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
 import type { AllProgramBlocks, ForProgramBlock as ForProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
-import { ProgramBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ProgramBlockHydrated";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
 import { ProgramBlockRegistry } from "../ProgramBlockRegistry";
 import { TurbineEventLoop } from "../../../events";
+import { ProgramBlock } from "../ProgramBlock";
 
-export class ForProgramBlock extends ProgramBlockHydrated {
+export class ForProgramBlock extends ProgramBlock {
 
     limit: NumericParameterBlockHydrated;
-    blocks: Array<ProgramBlockHydrated>;
+    blocks: Array<ProgramBlock>;
 
     currentIteration = 0;
     executed = false;

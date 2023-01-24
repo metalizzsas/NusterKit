@@ -4,10 +4,11 @@ import { ContainerRegulation } from "./ContainerRegulation";
 import { TurbineEventLoop } from "../events";
 
 import type { CallToAction } from "@metalizzsas/nuster-typings/build/spec/nuster";
-import { type ProductSeries, Products } from "@metalizzsas/nuster-typings/build/spec/containers/products";
+import type { ProductSeries } from "@metalizzsas/nuster-typings/build/spec/containers/products";
 import type { Container as ContainerConfig } from "@metalizzsas/nuster-typings/build/spec/containers";
 
 import type { ContainerHydrated, ContainerProductData, ContainerSensorHydrated } from "@metalizzsas/nuster-typings/build/hydrated/containers";
+import { Products } from "./Products";
 
 export class Container implements ContainerConfig
 {

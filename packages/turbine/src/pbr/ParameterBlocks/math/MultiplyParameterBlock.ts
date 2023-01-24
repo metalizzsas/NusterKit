@@ -1,8 +1,10 @@
-import { ParameterBlockRegistry } from "../ParameterBlockRegistry";
 import type { AllParameterBlocks, MultiplyParameterBlock as MultiplyParameterBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
-import { NumericParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
+import type { NumericParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
 
-export class MultiplyParameterBlock extends NumericParameterBlockHydrated
+import { ParameterBlockRegistry } from "../ParameterBlockRegistry";
+import { NumericParameterBlock } from "../NumericParameterBlock";
+
+export class MultiplyParameterBlock extends NumericParameterBlock
 {
     numbers: NumericParameterBlockHydrated[]
 

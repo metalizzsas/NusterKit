@@ -1,10 +1,10 @@
 import type { NumericParameterBlockHydrated, StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
-import { ProgramBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ProgramBlockHydrated";
 import type { AllProgramBlocks, SetVariableProgramBlock as SetVariableProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
 import { TurbineEventLoop } from "../../../events";
+import { ProgramBlock } from "../ProgramBlock";
 
-export class SetVariableProgramBlock extends ProgramBlockHydrated
+export class SetVariableProgramBlock extends ProgramBlock
 {
     variableName: StringParameterBlockHydrated;
     variableValue: NumericParameterBlockHydrated;

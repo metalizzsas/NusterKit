@@ -1,21 +1,21 @@
 import { ProgramBlockRegistry } from "../ProgramBlockRegistry";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
-import { ProgramBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ProgramBlockHydrated";
 import type { AllProgramBlocks, IfProgramBlock as IfProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
 import type { Comparators } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
 import type { NumericParameterBlockHydrated, StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
 import ComparativeFunctions from "../../utils/ComparativeFunctions";
 import { TurbineEventLoop } from "../../../events";
+import { ProgramBlock } from "../ProgramBlock";
 
-export class IfProgramBlock extends ProgramBlockHydrated
+export class IfProgramBlock extends ProgramBlock
 {
     comparator: StringParameterBlockHydrated;
 
     leftSide: NumericParameterBlockHydrated;
     rightSide: NumericParameterBlockHydrated;
 
-    trueBlocks: Array<ProgramBlockHydrated>
-    falseBlocks: Array<ProgramBlockHydrated> | undefined;
+    trueBlocks: Array<ProgramBlock>
+    falseBlocks: Array<ProgramBlock> | undefined;
 
     constructor(obj: IfProgramBlockSpec)
     {

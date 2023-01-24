@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-dashboard
 
+## 1.0.9
+
+### Patch Changes
+
+- ci: fixed deploy script ([#274](https://github.com/metalizzsas/NusterKit/pull/274))
+
 ## 1.0.8
 
 ### Patch Changes

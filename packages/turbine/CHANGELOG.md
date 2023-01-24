@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.9.19
+
+### Patch Changes
+
+- fix: turbine was still using typings src exports ([#274](https://github.com/metalizzsas/NusterKit/pull/274))
+
 ## 1.9.18
 
 ### Patch Changes

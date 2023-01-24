@@ -13,7 +13,7 @@
 	import { onMount, onDestroy } from "svelte";
 	import { locales, _ } from "svelte-i18n";
 	import type { PageData } from "./$types";
-	import { dark, lang } from "$lib/utils/stores/settings";
+	import { settings } from "$lib/utils/stores/settings";
 	import { invalidateAll } from "$app/navigation";
 	import Label from "$lib/components/label.svelte";
 
@@ -57,14 +57,14 @@
         <h2>{$_('settings.ui.lead')}</h2>
         
         <SettingField label={$_('settings.ui.language')}>
-            <Select bind:value={$lang} selectableValues={Object.keys(langs).map(k => { return { name: langs[k], value: k}})}>
+            <Select bind:value={$settings.lang} selectableValues={Object.keys(langs).map(k => { return { name: langs[k], value: k}})}>
                 {#each $locales as locale}
                     <option value={locale}>{langs[locale]}</option>
                 {/each}
             </Select>
         </SettingField>
 
-        <SettingField label={$_('settings.ui.dark_mode')}><Toggle bind:value={$dark} /></SettingField>
+        <SettingField label={$_('settings.ui.dark_mode')}><Toggle bind:value={$settings.dark} /></SettingField>
 
         <h2>{$_('settings.machine.lead')}</h2>
 

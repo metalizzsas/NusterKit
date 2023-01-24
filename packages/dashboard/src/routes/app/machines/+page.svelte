@@ -15,6 +15,7 @@
         <tr>
             <td class="p-4">Nom de la machine</td>
             <td>Type</td>
+            <td>Prete pour production ?</td>
             <td>Cycle</td>
             <td>Ouvrir dans nuster</td>
         </tr>

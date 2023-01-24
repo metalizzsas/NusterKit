@@ -114,6 +114,17 @@
     </td>
     <td>
         {#if wsData !== undefined}
+            {#if wsData.cycle?.status.mode !== "started"}
+                <span class="text-emerald-500 text-xl font-bold animate-bounce block">Oui</span>
+            {:else}
+                <span class="text-red-500 text-xl font-bold">Non</span>
+            {/if}
+        {:else}
+            <span class="text-zinc-300 text-sm font-bold">Indisponible</span>
+        {/if}
+    </td>
+    <td>
+        {#if wsData !== undefined}
             {#if wsData.cycle?.status.mode === "started"}
                 <span class="text-indigo-500 font-semibold">Cycle en cours ({Math.floor((wsData.cycle.status.progress ?? 0) * 100)} %)</span>
             {:else if wsData.cycle?.status.mode === "ended"}

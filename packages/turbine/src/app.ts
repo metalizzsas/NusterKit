@@ -29,10 +29,12 @@ let machine: Machine | undefined = undefined;
 
 /** Info.json file path */
 const infoPath = productionEnabled ? "/data/info.json" : path.resolve("data", "info.json");
+const settingsPath = productionEnabled ? "/data/settings.json" : path.resolve("data", "settings.json");
 const logsFolderPath = productionEnabled ? "/data/logs/" : path.resolve("data", "logs");
 const logFilePath = productionEnabled ? `/data/logs/log-${new Date().toISOString()}.log`: path.resolve("data", "logs", `log-${new Date().toISOString()}.log`);
 
 if(!fs.existsSync(logsFolderPath)) fs.mkdirSync(logsFolderPath);
+if(!fs.existsSync(settingsPath)) fs.writeFileSync(settingsPath, JSON.stringify({ dark: 1, lang: "en" }), { encoding: "utf-8" });
 
 /** Pino logger instance */
 export const LoggerInstance = pino({
@@ -160,6 +162,34 @@ function SetupExpress()
         /** On update, reset all io gates */
         TurbineEventLoop.emit('io.resetAll');
     }); 
+
+    ExpressApp.post("/settings", async (req, res) => {
+        try
+        {
+            if(req.body.theme !== undefined && req.body.lang !== undefined)
+                throw Error("Settings not complete");
+            
+            fs.writeFileSync(settingsPath, JSON.stringify(req.body));
+            res.status(200).end();
+        }
+        catch(ex)
+        {
+            res.status(500).end(String(ex));
+        }
+    });
+
+    ExpressApp.get("/settings",async (_req, res) => {
+        try
+        {
+            const data = fs.readFileSync(settingsPath, { encoding: "utf-8" });
+            const settings = JSON.parse(data);
+            res.status(200).json(settings);
+        }
+        catch(ex)
+        {
+            res.status(500).end();
+        }
+    })
 }
 
 /** Setup Websocket server */

@@ -1,10 +1,10 @@
 import type { NumericParameterBlockHydrated, StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
-import { ProgramBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ProgramBlockHydrated";
 import type { AllProgramBlocks, IOWriteProgramBlock as IOWriteProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
 import { TurbineEventLoop } from "../../../events";
+import { ProgramBlock } from "../ProgramBlock";
 
-export class IOWriteProgramBlock extends ProgramBlockHydrated
+export class IOWriteProgramBlock extends ProgramBlock
 {
     gateName: StringParameterBlockHydrated;
     gateValue: NumericParameterBlockHydrated;

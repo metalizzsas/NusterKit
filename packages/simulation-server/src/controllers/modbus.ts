@@ -1,5 +1,5 @@
-import { IOGates } from "@metalizzsas/nuster-typings/build/spec/iogates";
-import { IOHandlers } from "@metalizzsas/nuster-typings/build/spec/iohandlers";
+import type { IOGates } from "@metalizzsas/nuster-typings/build/spec/iogates";
+import type { IOHandlers } from "@metalizzsas/nuster-typings/build/spec/iohandlers";
 import { type IServiceVector } from "modbus-serial/ServerTCP";
 import { ServerTCP } from "modbus-serial";
 

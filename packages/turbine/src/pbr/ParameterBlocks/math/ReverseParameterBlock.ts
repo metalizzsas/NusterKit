@@ -1,8 +1,9 @@
-import { NumericParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
+import type { NumericParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
 import type { AllParameterBlocks, ReverseParameterBlock as ReverseParameterBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlockRegistry";
+import { NumericParameterBlock } from "../NumericParameterBlock";
 
-export class ReverseParameterBlock extends NumericParameterBlockHydrated
+export class ReverseParameterBlock extends NumericParameterBlock
 {
     number: NumericParameterBlockHydrated;
 

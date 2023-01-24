@@ -1,4 +1,3 @@
-import type { ProgramBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ProgramBlockHydrated";
 import type { AllProgramBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
 
 import { ForProgramBlock } from "./flow/ForProgramBlock";
@@ -13,8 +12,9 @@ import { AppendMaintenanceProgramBlock } from "./machine/AppendMaintenanceProgra
 import { ContainerProductLoadProgramBlock } from "./machine/ContainerProductLoadProgramBlock";
 import { ContainerProductUnloadProgramBlock } from "./machine/ContainerUnloadProgramBlock";
 import { IOWriteProgramBlock } from "./machine/IOWriteProgramBlock";
+import type { ProgramBlock } from "./ProgramBlock";
 
-export function ProgramBlockRegistry(obj: AllProgramBlocks): ProgramBlockHydrated {
+export function ProgramBlockRegistry(obj: AllProgramBlocks): ProgramBlock {
 
     // Flow control blocks
 

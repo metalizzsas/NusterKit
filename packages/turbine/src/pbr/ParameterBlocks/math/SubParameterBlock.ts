@@ -1,8 +1,9 @@
-import { NumericParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
 import type { AllParameterBlocks, SubParameterBlock as SubParameterBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlockRegistry";
+import { NumericParameterBlock } from "../NumericParameterBlock";
+import type { NumericParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
 
-export class SubParameterBlock extends NumericParameterBlockHydrated
+export class SubParameterBlock extends NumericParameterBlock
 {
     private numbers: Array<NumericParameterBlockHydrated>;
 

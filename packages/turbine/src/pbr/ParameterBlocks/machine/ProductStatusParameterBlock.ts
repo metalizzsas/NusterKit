@@ -1,11 +1,12 @@
 import type { ContainerHydrated } from "@metalizzsas/nuster-typings/build/hydrated/containers";
-import { StatusParameterBlockHydrated, type StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
+import type { StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
 import type { AllParameterBlocks, ProductStatusParameterBlock as ProductStatusParameterBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
 import { TurbineEventLoop } from "../../../events";
 import { ParameterBlockRegistry } from "../ParameterBlockRegistry";
+import { StatusParameterBlock } from "../StatusParameterBlock";
 
 /** Slot status should be only used for security conditions */
-export class ProductStatusParameterBlock extends StatusParameterBlockHydrated
+export class ProductStatusParameterBlock extends StatusParameterBlock
 {
     private containerName: StringParameterBlockHydrated;
     #container?: ContainerHydrated;

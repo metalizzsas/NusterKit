@@ -1,19 +1,19 @@
 import type { NumericParameterBlockHydrated, StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
-import { ProgramBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ProgramBlockHydrated";
 import type { Comparators } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
 import type { AllProgramBlocks, WhileProgramBlock as WhileProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
 import ComparativeFunctions from "../../utils/ComparativeFunctions";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
 import { ProgramBlockRegistry } from "../ProgramBlockRegistry";
 import { TurbineEventLoop } from "../../../events";
+import { ProgramBlock } from "../ProgramBlock";
 
-export class WhileProgramBlock extends ProgramBlockHydrated
+export class WhileProgramBlock extends ProgramBlock
 {
     comparator: StringParameterBlockHydrated;
     leftSide: NumericParameterBlockHydrated;
     rightSide: NumericParameterBlockHydrated;
 
-    blocks: Array<ProgramBlockHydrated>;
+    blocks: Array<ProgramBlock>;
 
     constructor(obj: WhileProgramBlockSpec)
     {

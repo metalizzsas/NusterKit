@@ -1,8 +1,8 @@
-import { IOGates } from "@metalizzsas/nuster-typings/build/spec/iogates";
-import { IOHandlers } from "@metalizzsas/nuster-typings/build/spec/iohandlers";
+import type { IOGates } from "@metalizzsas/nuster-typings/build/spec/iogates";
+import type { IOHandlers } from "@metalizzsas/nuster-typings/build/spec/iohandlers";
 import { ModbusController } from "./controllers/modbus";
 
-import { Addon, MachineSpecs } from "@metalizzsas/nuster-typings";
+import type { Addon, MachineSpecs } from "@metalizzsas/nuster-typings";
 import { app } from "./server";
 import type { Request, Response } from "express";
 import { ENIPController } from "./controllers/enip";

@@ -36,6 +36,9 @@ jobs:
         run: |
           corepack enable
           pnpm --version
+
+      - name: 📚 Install workspace packages
+        run: pnpm i -w
           
       - name: 📝 Create Release Pull Request or Publish to npm
         id: changesets

@@ -57,7 +57,7 @@ export const actions: Actions = {
                 throw "no email";
 
             await locals.pb.collection("users").create(form);
-            await locals.pb.collection("user").requestVerification(email);
+            await locals.pb.collection("users").requestVerification(email);
         }
         catch(ex)
         {
@@ -85,7 +85,7 @@ export const actions: Actions = {
         {
             try
             {
-                await locals.pb.collection("user").requestPasswordReset(email);
+                await locals.pb.collection("users").requestPasswordReset(email);
 
                 return {
                     forgotPassword: {
@@ -119,7 +119,7 @@ export const actions: Actions = {
             if(email === undefined)
                 throw "Failed to find email";
             
-            await locals.pb.collection("user").requestVerification(email);
+            await locals.pb.collection("users").requestVerification(email);
 
             return {
                 resendConfirmationEmail: {

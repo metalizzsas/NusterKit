@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-typings
 
+## 1.4.4
+
+### Patch Changes
+
+- fix: typings were used in production ([#268](https://github.com/metalizzsas/NusterKit/pull/268))
+
 ## 1.4.3
 
 ### Patch Changes

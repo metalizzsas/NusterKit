@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.9.16
+
+### Patch Changes
+
+- fix: typings were used in production ([#268](https://github.com/metalizzsas/NusterKit/pull/268))
+
 ## 1.9.15
 
 ### Patch Changes

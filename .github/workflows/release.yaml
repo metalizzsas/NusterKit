@@ -39,6 +39,11 @@ jobs:
 
       - name: 📚 Install workspace packages
         run: pnpm i -w
+
+      - name: ⛭ Setup Pnpm github registry
+        run: pnpm config set @metalizzsas:registry=https://npm.pkg.github.com //npm.pkg.github.com/:_authToken=$GITHUB_TOKEN --location project
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - name: 📝 Create Release Pull Request or Publish to npm
         id: changesets
@@ -48,7 +53,6 @@ jobs:
           publish: pnpm release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 📝 Export outputs
         run: echo 

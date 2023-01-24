@@ -35,13 +35,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - name: 📚 Install Node dependencies
-        run: pnpm install --ignore-scripts
-
-      - name: 🧱 Build libraries
-        run: pnpm run build-libs
+        run: pnpm i
 
       - name: 🧱 Run build scripts on all packages
-        run: pnpm run build
+        run: pnpm run build:packages
         env:
           NODE_ENV: production
 

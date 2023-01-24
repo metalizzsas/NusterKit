@@ -1,5 +1,11 @@
 # @metalizzsas/simulation-ui
 
+## 1.0.6
+
+### Patch Changes
+
+- chore: updated mono repo structure ([#270](https://github.com/metalizzsas/NusterKit/pull/270))
+
 ## 1.0.5
 
 ### Patch Changes

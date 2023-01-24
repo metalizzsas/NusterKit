@@ -1,2 +1,3 @@
+cd /root/dashboard/packages/dashboard/
 pnpm i --production
-pm2 start ecosystem.config.json
+/root/.local/share/pnpm/pm2 start ecosystem.config.json

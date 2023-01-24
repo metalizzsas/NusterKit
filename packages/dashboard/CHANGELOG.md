@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-dashboard
 
+## 1.0.6
+
+### Patch Changes
+
+- feat: added production disponibility label ([#266](https://github.com/metalizzsas/NusterKit/pull/266))
+
+- fix: removed json stringify ([#266](https://github.com/metalizzsas/NusterKit/pull/266))
+
 ## 1.0.5
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.9.15
+
+### Patch Changes
+
+- feat: ui settings are now stored on turbine instead of desktop localeStorage ([#266](https://github.com/metalizzsas/NusterKit/pull/266))
+
 ## 1.9.14
 
 ### Patch Changes

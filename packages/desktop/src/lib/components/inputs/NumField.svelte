@@ -18,13 +18,34 @@
     export let max: number | undefined = undefined;
     export let step: number | undefined = undefined;
 
-    // Min, Max, Step number control to avoid loosing the control over the value
-    $: if(min !== undefined && value < min) { 
-        value = min 
-    } else if(max !== undefined && value > max) { 
-        value = max 
-    } else if(step !== undefined && value % step !== 0) { 
-        value = value - (value % step) 
+    const increment = () => {
+
+        if(max !== undefined && value >= max)
+            value = max;
+        else
+        {
+            if(step !== undefined)
+                value = value + step
+            else
+                value = value + 1;
+        }
+
+        change();
+    };
+
+    const decrement = () => {
+
+        if(min !== undefined && value <= min)
+            value = min;
+        else
+        {
+            if(step !== undefined)
+                value = value - step;
+            else
+                value = value - 1;
+        }
+
+        change();
     }
 
 </script>
@@ -41,8 +62,8 @@
         {min}
         {max}
     />
-    <button on:click={() => { value = (step !== undefined) ? value - step : value - 1; change(); }}><Icon src={MinusCircle} class="h-6 w-6 text-zinc-600 dark:text-white" {disabled}></Icon></button>
-    <button on:click={() => { value = (step !== undefined) ? value + step : value + 1; change(); }}><Icon src={PlusCircle} class="h-6 w-6 text-zinc-600 dark:text-white" {disabled}></Icon></button>
+    <button on:click={decrement}><Icon src={MinusCircle} class="h-6 w-6 text-zinc-600 dark:text-white" {disabled}></Icon></button>
+    <button on:click={increment}><Icon src={PlusCircle} class="h-6 w-6 text-zinc-600 dark:text-white" {disabled}></Icon></button>
 </Flex>
 
 {#if focused && $page.data.is_machine_screen}

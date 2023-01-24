@@ -12,7 +12,7 @@
 	import type { PageData } from './$types';
 	import { onMount, setContext } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
-	import { lang } from '$lib/utils/stores/settings';
+	import { settings } from '$lib/utils/stores/settings';
 	import HelpLinkParser from './HelpLinkParser.svelte';
 
 	export let data: PageData;
@@ -41,7 +41,7 @@
         void fetch(`/documentation/desktop${$selectedHelp}`).then(r => r.text().then(c => helpContent = c));
     } else { helpContent = undefined }
 
-    $: helpFiles = data.files.filter(k => k.lang == $lang);
+    $: helpFiles = data.files.filter(k => k.lang === $settings.lang);
 
 </script>
 

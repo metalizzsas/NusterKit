@@ -17,7 +17,7 @@
     import { machine, realtime, realtimeLock } from "$lib/utils/stores/nuster";
 	import type { WebsocketData } from "@metalizzsas/nuster-typings";
 	import Loadindicator from "$lib/components/LoadIndicator.svelte";
-	import { dark, lang } from "$lib/utils/stores/settings";
+	import { settings } from "$lib/utils/stores/settings";
 	import { locale } from "svelte-i18n";
 	import { initi18nLocal } from "$lib/utils/i18n/i18nlocal";
 	import Toast from "$lib/components/Toast.svelte";
@@ -26,6 +26,7 @@
 	import Button from "$lib/components/buttons/Button.svelte";
 	import type { MachineData } from "@metalizzsas/nuster-typings/build/hydrated/machine";
 	import { fade } from "svelte/transition";
+	import type { Unsubscriber } from "svelte/store";
 
     type Toast_popup = Popup & { date: number };
 
@@ -33,29 +34,20 @@
 
     let websocketState: "connecting" | "connected" | "disconnected" = "connecting";
     let websocket: WebSocket | undefined = undefined;
+    let settingsSubscribe: Unsubscriber | undefined = undefined;
 
     onMount(async () => {
 
         initi18nLocal();
 
-		const storedDark = localStorage.getItem('theme') === 'dark';
-		$dark = storedDark;
+        settings.subscribe((value) => {
+            $locale = value.lang;
 
-		dark.subscribe((value) => {
-			localStorage.setItem('theme', value === true ? 'dark' : 'light');
-
-			if (value === true) document.getElementsByTagName('html')[0].classList.add('dark');
-			else document.getElementsByTagName('html')[0].classList.remove('dark');
-		});
-
-		/** Lang store */
-		const storedLang = localStorage.getItem('lang') ?? 'en';
-		$lang = storedLang;
-
-		lang.subscribe((value) => {
-			localStorage.setItem('lang', value);
-			$locale = value;
-		});
+            if(value.dark === 1)
+                document.getElementsByTagName('html')[0].classList.add("dark");
+            else
+                document.getElementsByTagName('html')[0].classList.remove("dark");
+        });
 
         await machineConnect();
     });
@@ -71,9 +63,24 @@
         const req = await fetch(`/api/machine`);
         
         if(req.ok && req.status === 200)
-        $machine = (await req.json()) as MachineData;
+            $machine = (await req.json()) as MachineData;
         
         await initI18nMachine($machine);
+
+        const reqSettings = await fetch('/api/settings');
+        if(reqSettings.ok && reqSettings.status === 200)
+        {
+            const s = await reqSettings.json() as { dark: boolean, lang: string };
+            $settings = s;
+
+            settingsSubscribe = settings.subscribe(value => {
+
+                if(Object.keys(value).length !== 2)
+                    return;
+
+                void fetch("/api/settings", { method: "POST", headers: {"content-type": "application/json"}, body: JSON.stringify(value) });
+            });
+        }
 
         const isSecure = window.location.protocol === "https:";
 
@@ -82,6 +89,7 @@
         websocket.onerror = function() {
             websocketState = "disconnected";
             websocket = undefined;
+            settingsSubscribe?.();
         }
 
         setTimeout(() => {
@@ -89,12 +97,14 @@
             {
                 websocketState = "disconnected"
                 websocket?.close();
+                settingsSubscribe?.();
             }
         }, 5000);
 
         websocket.onclose = function() {
             websocketState = "disconnected";
             websocket = undefined;
+            settingsSubscribe?.();
         }
 
         websocket.onopen = function() {

@@ -11,7 +11,7 @@
 	import { setContext } from "svelte";
 	import Button from "$lib/components/buttons/Button.svelte";
 	import { invalidateAll } from "$app/navigation";
-	import { lang } from "$lib/utils/stores/settings";
+	import { settings } from "$lib/utils/stores/settings";
 	import { machine } from "$lib/utils/stores/nuster";
 
     export let maintenance: MaintenanceHydrated;
@@ -20,7 +20,7 @@
 
     beforeUpdate(async () => {
 
-        const req = await fetch(`/documentation/machines/${$machine.model}-${$machine.variant}-${$machine.revision}/maintenance-${maintenance.name}/${$lang}.md`);
+        const req = await fetch(`/documentation/machines/${$machine.model}-${$machine.variant}-${$machine.revision}/maintenance-${maintenance.name}/${$settings.lang}.md`);
 
         if(req.status !== 404)
             procedureMarkdown = await req.text();

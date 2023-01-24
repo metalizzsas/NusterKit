@@ -5,7 +5,7 @@
 
 	import { onMount, createEventDispatcher, onDestroy } from "svelte";
 	import Portal from "svelte-portal";
-	import { lang } from "$lib/utils/stores/settings";
+	import { settings } from "$lib/utils/stores/settings";
 	import { _ } from "svelte-i18n";
 	import Flex from "./layout/flex.svelte";
 	import TextField from "./inputs/TextField.svelte";
@@ -81,7 +81,7 @@
                         }
                     }
                 },
-                ...layouts[$lang as ("en" | "fr" | "it") ?? 'en'],
+                ...layouts[$settings.lang as ("en" | "fr" | "it") ?? 'en'],
                 inputPattern: typeof value === 'number' ? /^[0-9]*$/ : undefined,
             });
     

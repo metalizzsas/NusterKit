@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Flex from "$lib/components/layout/flex.svelte";
-	import { lang } from "$lib/utils/stores/settings";
+	import { settings } from "$lib/utils/stores/settings";
 	import { ArrowsPointingIn, ArrowsPointingOut } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";
 
@@ -15,7 +15,7 @@
 <Flex direction="row" items="center" justify="center">
     <div style:max-width={expanded ? '100%' : '66%'} class="relative duration-300 group">
         <img 
-            src={`/documentation/desktop/${$lang}/${href}`} 
+            src={`/documentation/desktop/${$settings.lang}/${href}`} 
             {title} 
             alt={text} 
             class="my-1 border-[1px] border-indigo-500/50 rounded-md mx-auto duration-300"

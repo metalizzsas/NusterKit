@@ -36,10 +36,10 @@ jobs:
         run: pnpm run lint
 
       - name: 🧱 Build libraries # Build all libraries
-        run: pnpm run build-libs
+        run: pnpm run build:libs
 
       - name: ✔️ Run tests
         run: pnpm test
 
       - name: 🧱 Build packages 
-        run: pnpm run build
+        run: pnpm run build:packages

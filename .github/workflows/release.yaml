@@ -14,6 +14,10 @@ jobs:
       pull-requests: write
       issues: read
 
+    outputs:
+      published: ${{ steps.changesets.outputs.published }}
+      publishedPackages: ${{ steps.changesets.outputs.publishedPackages }}
+
     name: 📝 Changeset checking
     runs-on: ubuntu-latest
     if: github.repository == 'metalizzsas/nusterkit'
@@ -42,10 +46,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: 📝 Export outputs
+        run: echo 
+
   balena-release:
 
     needs: release
-    if: jobs.release.steps.changesets.outputs.published == 'true'
+    if: needs.release.outputs.published == 'true'
 
     name: 🚀 Trigger Balena-cloud release deployment
     uses: metalizzsas/nusterkit/.github/workflows/release-balena.yaml@main
@@ -54,7 +61,7 @@ jobs:
   dashboard-release:
 
     needs: release
-    if: contains(fromJSON(jobs.release.steps.changesets.outputs.publishedPackages).*.name, "nuster-dashboard")
+    if: contains(fromJSON(needs.release.outputs.publishedPackages).*.name, "nuster-dashboard")
 
     name: 🚀 Trigger Nuster Dashboard Deployment
     uses: metalizzsas/nusterkit/.github/workflows/release-dashboard.yaml@main

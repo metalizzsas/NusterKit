@@ -1,4 +1,4 @@
-import type { ContainerStored } from "@metalizzsas/nuster-typings/src/stored";
+import type { ContainerStored } from "@metalizzsas/nuster-typings/build/stored";
 import { model, Schema } from "mongoose";
 
 const ContainerSchema = new Schema<ContainerStored>({

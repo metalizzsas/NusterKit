@@ -1,4 +1,4 @@
-import type { IOBase, SerialCom } from "@metalizzsas/nuster-typings/src/spec/iohandlers";
+import type { IOBase, SerialCom } from "@metalizzsas/nuster-typings/build/spec/iohandlers";
 
 import { LoggerInstance } from "../../app";
 import { SerialPort } from "serialport";

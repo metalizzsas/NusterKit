@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.10.9
+
+### Patch Changes
+
+- chore: trigger a rebuild ([#272](https://github.com/metalizzsas/NusterKit/pull/272))
+
 ## 1.10.8
 
 ### Patch Changes

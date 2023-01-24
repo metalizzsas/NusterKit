@@ -1,5 +1,14 @@
 # @metalizzsas/nuster-turbine
 
+## 1.9.18
+
+### Patch Changes
+
+- chore: trigger a rebuild ([#272](https://github.com/metalizzsas/NusterKit/pull/272))
+
+- Updated dependencies [[`1d202c4`](https://github.com/metalizzsas/NusterKit/commit/1d202c4fbd9c01abe950bf2d7ebebc9358ee1519)]:
+  - @metalizzsas/nuster-turbine-machines@1.4.6
+
 ## 1.9.17
 
 ### Patch Changes

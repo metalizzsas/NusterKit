@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-dashboard
 
+## 1.0.8
+
+### Patch Changes
+
+- chore: trigger a rebuild ([#272](https://github.com/metalizzsas/NusterKit/pull/272))
+
 ## 1.0.7
 
 ### Patch Changes

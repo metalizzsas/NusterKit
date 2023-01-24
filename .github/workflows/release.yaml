@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-env:
-  NODE_ENV: development
-  VITE_BUNDLED: true
 
 jobs:
   release:
@@ -17,7 +14,7 @@ jobs:
       pull-requests: write
       issues: read
 
-    name: Release
+    name: 📝 Changeset checking
     runs-on: ubuntu-latest
     if: github.repository == 'metalizzsas/nusterkit'
     steps:
@@ -35,23 +32,7 @@ jobs:
         run: |
           corepack enable
           pnpm --version
-
-      - name: ⛭ Setup Pnpm github registry
-        run: pnpm config set @metalizzsas:registry=https://npm.pkg.github.com //npm.pkg.github.com/:_authToken=$GITHUB_TOKEN --location project
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
-      - name: 📚 Install Node dependencies
-        run: pnpm install --ignore-scripts
-
-      - name: 🧱 Build libraries # Build all libraries
-        run: pnpm run build-libs
-
-      - name: 🧱 Run build scripts on all packages
-        run: pnpm run build
-        env:
-          NODE_ENV: production
-
       - name: 📝 Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
@@ -61,11 +42,22 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Run BalenaCloud release even if no packages were publied
-      - name: 🐳 Create BalenaCloud Release
-        if: steps.changesets.outputs.published == 'true'
-        uses: balena-io/deploy-to-balena-action@master
-        with:
-          balena_token: ${{ secrets.BALENA_TOKEN }}
-          fleet: romain_sapet/nusterturbine
-          finalize: true
+  balena-release:
+
+    needs: release
+    if: jobs.release.steps.changesets.outputs.published == 'true'
+
+    name: 🚀 Trigger Balena-cloud release deployment
+    uses: metalizzsas/nusterkit/.github/workflows/release-balena.yaml@main
+    secrets: inherit
+
+  dashboard-release:
+
+    needs: release
+    if: contains(fromJSON(jobs.release.steps.changesets.outputs.publishedPackages).*.name, "nuster-dashboard")
+
+    name: 🚀 Trigger Nuster Dashboard Deployment
+    uses: metalizzsas/nusterkit/.github/workflows/release-dashboard.yaml@main
+    secrets: inherit
+
+  

@@ -61,7 +61,7 @@ jobs:
   dashboard-release:
 
     needs: release
-    if: contains(fromJSON(needs.release.outputs.publishedPackages).*.name, "nuster-dashboard")
+    if: contains(fromJSON(needs.release.outputs.publishedPackages).*.name, 'nuster-dashboard')
 
     name: 🚀 Trigger Nuster Dashboard Deployment
     uses: metalizzsas/nusterkit/.github/workflows/release-dashboard.yaml@main

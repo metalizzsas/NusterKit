@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.9.21
+
+### Patch Changes
+
+- fix: production docker-compose used draft dockerfiles ([#279](https://github.com/metalizzsas/NusterKit/pull/279))
+
 ## 1.9.20
 
 ### Patch Changes

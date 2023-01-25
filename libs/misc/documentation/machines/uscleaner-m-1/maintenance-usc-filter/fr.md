@@ -36,7 +36,7 @@ Resserrer l'écrou de la cartouche filtrante.
 
 ![Resserrer l'ecrou](9.jpeg)
 
-Remonter l'écrou du corps de filtre, revisser l'évent du corps de filtre sans le sérrer jusqu'au bout.
+Remonter l'écrou du corps de filtre, revisser l'évent du corps de filtre sans le serrer jusqu'au bout.
 
 ![Fermeture ecrou corps de filtre](10.jpeg)
 

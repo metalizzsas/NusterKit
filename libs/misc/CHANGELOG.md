@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-misc
 
+## 1.1.5
+
+### Patch Changes
+
+- fix: uscleaner m 1 maintenance task pictures were in disorder ([#285](https://github.com/metalizzsas/NusterKit/pull/285))
+
 ## 1.1.4
 
 ### Patch Changes

@@ -153,7 +153,7 @@ function SetupExpress()
 
     //Tell the balena Hypervisor to force the pending update.
     ExpressApp.get("/forceUpdate", async (_req, res: Response) => {
-        const req = await fetch("http://127.0.0.1:48484/v1/update?apikey=" + process.env.BALENA_SUPERVISOR_API_KEY, {headers: {"Content-Type": "application/json"}, body: JSON.stringify({force: true}), method: 'POST'});
+        const req = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v1/update?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" }, body: JSON.stringify({force: true}), method: 'POST'});
 
         if(req.status == 204)
             res.status(200).end();

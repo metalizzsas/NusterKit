@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-misc
 
+## 1.1.4
+
+### Patch Changes
+
+- feat: updated uscleaner m 1 french filter maintenance task ([#283](https://github.com/metalizzsas/NusterKit/pull/283))
+
 ## 1.1.3
 
 ### Patch Changes

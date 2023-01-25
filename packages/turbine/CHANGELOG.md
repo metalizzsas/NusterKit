@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.9.22
+
+### Patch Changes
+
+- fix: turbine would fail to fetch hypervisor data ([#281](https://github.com/metalizzsas/NusterKit/pull/281))
+
 ## 1.9.21
 
 ### Patch Changes

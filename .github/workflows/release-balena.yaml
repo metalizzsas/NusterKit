@@ -39,6 +39,8 @@ jobs:
 
       - name: 🧱 Run build scripts on all packages
         run: pnpm run build:packages
+        env:
+          NODE_ENV: production
 
       - name: 🐳 Create BalenaCloud Release
         uses: balena-io/deploy-to-balena-action@master

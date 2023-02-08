@@ -1,5 +1,11 @@
 # @metalizzsas/simulation-ui
 
+## 1.0.7
+
+### Patch Changes
+
+- chore: updated packages ([#291](https://github.com/metalizzsas/NusterKit/pull/291))
+
 ## 1.0.6
 
 ### Patch Changes

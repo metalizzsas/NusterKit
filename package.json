@@ -14,7 +14,7 @@
     "build:packages": "pnpm -r --filter='./packages/*' run build",
     "build:simulation": "pnpm -r --filter='./simulation/*' run build",
     "release": "changeset publish",
-    "version": "changeset version && pnpm install"
+    "version": "changeset version && pnpm install --lockfile-only"
   },
   "keywords": [],
   "author": "@metalizzsas",

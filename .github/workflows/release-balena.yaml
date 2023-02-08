@@ -35,7 +35,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - name: 📚 Install Node dependencies
-        run: pnpm i
+        run: pnpm i --no-lockfile
 
       - name: 🧱 Run build scripts on all packages
         run: pnpm run build:packages

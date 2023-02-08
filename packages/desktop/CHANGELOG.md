@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.10.11
+
+### Patch Changes
+
+- fix: localhost was used in server hook instead of nuster-turbine due to NODE_ENV being `development` ([#298](https://github.com/metalizzsas/NusterKit/pull/298))
+
 ## 1.10.10
 
 ### Patch Changes

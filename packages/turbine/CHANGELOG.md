@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.9.26
+
+### Patch Changes
+
+- chore: updated lockfile build strategy ([#296](https://github.com/metalizzsas/NusterKit/pull/296))
+
 ## 1.9.25
 
 ### Patch Changes

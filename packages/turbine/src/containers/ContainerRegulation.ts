@@ -2,7 +2,6 @@ import type { ContainerRegulationHydrated } from "@metalizzsas/nuster-typings/bu
 import type { ContainerRegulation as ContainerRegulationConfig } from "@metalizzsas/nuster-typings/build/spec/containers";
 import type { IOGateJSON } from "@metalizzsas/nuster-typings/build/hydrated/io";
 
-import type { Container } from "./Containers";
 import { TurbineEventLoop } from "../events";
 
 export class ContainerRegulation implements ContainerRegulationConfig
@@ -23,10 +22,13 @@ export class ContainerRegulation implements ContainerRegulationConfig
     #sensorGate?: IOGateJSON;
 
     #securityGates: Array<{name: string, value: number, gate?: IOGateJSON}> = [];
+
+    #parentName: string;
     
-    constructor(parent: Container, regulation: ContainerRegulationConfig)
+    constructor(parentName: string, regulation: ContainerRegulationConfig)
     {
         this.name = regulation.name;
+        this.#parentName = parentName;
 
         /// - State
      
@@ -43,7 +45,7 @@ export class ContainerRegulation implements ContainerRegulationConfig
         this.minus = regulation.minus ?? [];
         this.plus = regulation.plus;
 
-        TurbineEventLoop.on(`container.${parent.name}.regulation.${this.name}.set_state`, (options) => { 
+        TurbineEventLoop.on(`container.${this.#parentName}.regulation.${this.name}.set_state`, (options) => { 
             this.state = options.state;
 
             if(options.state === false)
@@ -56,9 +58,13 @@ export class ContainerRegulation implements ContainerRegulationConfig
             options.callback?.(this.state);
 
         });
-        TurbineEventLoop.on(`container.${parent.name}.regulation.${this.name}.set_target`, (options) => { 
+        TurbineEventLoop.on(`container.${this.#parentName}.regulation.${this.name}.set_target`, (options) => { 
             this.target = options.target; 
             options.callback?.(this.target);
+        });
+
+        TurbineEventLoop.on(`container.${this.#parentName}.regulation.${this.name}.read`, ({ callback }) => {
+            callback?.(this.toJSON());
         });
 
         TurbineEventLoop.on(`io.updated.${this.sensor}`, (gate) => { this.#sensorGate = gate });
@@ -145,6 +151,8 @@ export class ContainerRegulation implements ContainerRegulationConfig
             else
                 this.setActuators("plus", false, true);
         }
+
+        TurbineEventLoop.emit(`container.${this.#parentName}.regulation.${this.name}.updated`, this.toJSON());
     }
 
     /**

@@ -30,6 +30,7 @@ export type ConditionalParameterBlock = {"conditional": {
         "right_side": [NumericParameterBlocks, NumericParameterBlocks]
     }
 };
+
 export type IOReadParameterBlock = {"io_read": StringParameterBlocks};
 export type ProfileParameterBlock = {"profile": StringParameterBlocks};
 export type ReadVariableParameterBlock = {"read_var": StringParameterBlocks};
@@ -39,10 +40,11 @@ export type ReadMachineVariableParameterBlock = {"read_machine_var": StringParam
 
 export type MaintenanceStatusParameterBlock = {"maintenance_status": StringParameterBlocks};
 export type ProductStatusParameterBlock = {"product_status": StringParameterBlocks};
+export type RegulationStatusParameterBlock = {"regulation_status": [StringParameterBlocks, StringParameterBlocks]}
 
 // Parameter Blocks Groups
 
-export type StatusParameterBlocks = MaintenanceStatusParameterBlock | ProductStatusParameterBlock;
+export type StatusParameterBlocks = MaintenanceStatusParameterBlock | ProductStatusParameterBlock | RegulationStatusParameterBlock;
 export type StringParameterBlocks = StringParameterBlock | string;
 export type NumericParameterBlocks = AddParameterBlock | SubParameterBlock | MultiplyParameterBlock | DivideParameterBlock | ReverseParameterBlock | ConditionalParameterBlock | NumberParameterBlock | IOReadParameterBlock | ProfileParameterBlock | ReadVariableParameterBlock | ReadMachineVariableParameterBlock | number ;
 

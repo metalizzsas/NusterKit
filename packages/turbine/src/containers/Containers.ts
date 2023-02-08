@@ -32,7 +32,7 @@ export class Container implements ContainerConfig
         //optionals
         this.supportedProductSeries = container.supportedProductSeries;
         this.sensors = container.sensors;
-        this.regulations = container.regulations?.map(r => new ContainerRegulation(this, r));
+        this.regulations = container.regulations?.map(r => new ContainerRegulation(this.name, r));
 
         this.callToAction = container.callToAction ?? [];
 

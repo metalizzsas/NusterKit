@@ -3,7 +3,7 @@ import type { ProductSeries } from "@metalizzsas/nuster-typings/build/spec/conta
 import type { ProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profiles";
 import type { PBRMode } from "@metalizzsas/nuster-typings/build/hydrated/cycle/ProgramBlockRunnerHydrated";
 import type { PBRStepState } from "@metalizzsas/nuster-typings/build/spec/cycle/PBRStep";
-import type { ContainerHydrated } from "@metalizzsas/nuster-typings/build/hydrated/containers";
+import type { ContainerHydrated, ContainerRegulationHydrated } from "@metalizzsas/nuster-typings/build/hydrated/containers";
 import type { MaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydrated/maintenance";
 import type { IOGateJSON } from "@metalizzsas/nuster-typings/build/hydrated/io";
 import type { Popup } from "@metalizzsas/nuster-typings/build/spec/nuster";
@@ -64,6 +64,8 @@ interface EventLoopEvents
     /** Regulation container events */
     [key: `container.${string}.regulation.${string}.set_state`]: (options: {state: boolean, callback?: (state: boolean) => void | Promise<void>} ) => void;
     [key: `container.${string}.regulation.${string}.set_target`]: (options: {target: number, callback?: (target: number) => void | Promise<void>} ) => void;
+    [key: `container.${string}.regulation.${string}.updated`]: (containerRegulation: ContainerRegulationHydrated) => void;
+    [key: `container.${string}.regulation.${string}.read`]: (options: { callback?: (containerRegulation: ContainerRegulationHydrated) => void | Promise<void> }) => void;
 
     /** Maintenance events */
     [key: `maintenance.read.${string}`]: (options: {callback?: (maintenance: MaintenanceHydrated) => void | Promise<void> }) => void;

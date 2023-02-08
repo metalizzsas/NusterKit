@@ -12,6 +12,8 @@ RUN corepack enable && pnpm --version
 
 RUN install_packages build-essential python3 git openssh-client
 
+COPY packages/turbine/arduino.rules /etc/udev/rules.d/arduino.rules
+
 # Copying Package & Package lock json
 COPY packages/turbine/package*.json ./
 

@@ -10,6 +10,8 @@ ENV NODE_ENV=production
 
 WORKDIR /usr/src/app
 
+COPY packages/turbine/arduino.rules /etc/udev/rules.d/arduino.rules
+
 COPY .npmrc ./.npmrc
 
 # Copying Package & Package lock json

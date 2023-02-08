@@ -13,7 +13,8 @@
     "build:libs": "pnpm -r --filter='./libs/*' run build",
     "build:packages": "pnpm -r --filter='./packages/*' run build",
     "build:simulation": "pnpm -r --filter='./simulation/*' run build",
-    "release": "changeset publish"
+    "release": "changeset publish",
+    "version": "changeset version && pnpm install"
   },
   "keywords": [],
   "author": "@metalizzsas",

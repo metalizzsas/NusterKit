@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.9.25
+
+### Patch Changes
+
+- chore: force-build ([#293](https://github.com/metalizzsas/NusterKit/pull/293))
+
 ## 1.9.24
 
 ### Patch Changes

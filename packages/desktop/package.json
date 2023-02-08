@@ -32,7 +32,7 @@
 	},
 	"devDependencies": {
 		"@metalizzsas/nuster-misc": "1.1.5",
-		"@metalizzsas/nuster-turbine-machines": "1.4.6",
+		"@metalizzsas/nuster-turbine-machines": "1.4.7",
 		"@metalizzsas/nuster-typings": "1.4.6",
 		"@sveltejs/adapter-node": "^1.1.7",
 		"@sveltejs/kit": "^1.5.0",

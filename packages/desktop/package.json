@@ -1,6 +1,6 @@
 {
 	"name": "@metalizzsas/nuster-desktop",
-	"version": "1.10.9",
+	"version": "1.10.10",
 	"private": true,
 	"description": "Nuster Desktop",
 	"main": "build/index.js",
@@ -31,8 +31,8 @@
 	},
 	"devDependencies": {
 		"@metalizzsas/nuster-misc": "1.1.5",
-		"@metalizzsas/nuster-turbine-machines": "1.4.7",
-		"@metalizzsas/nuster-typings": "1.4.6",
+		"@metalizzsas/nuster-turbine-machines": "1.4.8",
+		"@metalizzsas/nuster-typings": "1.4.7",
 		"@sveltejs/adapter-node": "^1.1.7",
 		"@sveltejs/kit": "^1.5.0",
 		"@tailwindcss/typography": "^0.5.9",

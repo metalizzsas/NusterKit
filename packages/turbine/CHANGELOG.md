@@ -1,5 +1,14 @@
 # @metalizzsas/nuster-turbine
 
+## 1.9.24
+
+### Patch Changes
+
+- chore: updated packages ([#291](https://github.com/metalizzsas/NusterKit/pull/291))
+
+- Updated dependencies [[`ee671fd`](https://github.com/metalizzsas/NusterKit/commit/ee671fd145e3511559137aadec44224c01baca82)]:
+  - @metalizzsas/nuster-turbine-machines@1.4.8
+
 ## 1.9.23
 
 ### Patch Changes

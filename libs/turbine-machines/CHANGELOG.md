@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.4.7
+
+### Patch Changes
+
+- chore: updated serial path for smoothit m r 3 ([#289](https://github.com/metalizzsas/NusterKit/pull/289))
+
 ## 1.4.6
 
 ### Patch Changes

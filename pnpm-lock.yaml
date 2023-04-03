@@ -18,7 +18,7 @@ importers:
 
   libs/turbine-machines:
     specifiers:
-      '@metalizzsas/nuster-misc': 1.1.5
+      '@metalizzsas/nuster-misc': 1.1.6
       '@metalizzsas/nuster-typings': 1.4.7
       '@types/jest': ^29.4.0
       '@types/jest-json-schema': ^6.1.1
@@ -108,7 +108,7 @@ importers:
   packages/desktop:
     specifiers:
       '@fontsource/inter': ^4.5.15
-      '@metalizzsas/nuster-misc': 1.1.5
+      '@metalizzsas/nuster-misc': 1.1.6
       '@metalizzsas/nuster-turbine-machines': 1.4.8
       '@metalizzsas/nuster-typings': 1.4.7
       '@steeze-ui/heroicons': ^2.2.1

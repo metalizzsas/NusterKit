@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-desktop
 
+## 1.10.12
+
+### Patch Changes
+
+- fix: improved select field display ([#307](https://github.com/metalizzsas/NusterKit/pull/307))
+
+- feat: new help files folders structure ([#307](https://github.com/metalizzsas/NusterKit/pull/307))
+
 ## 1.10.11
 
 ### Patch Changes

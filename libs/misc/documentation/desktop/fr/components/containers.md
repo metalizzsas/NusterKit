@@ -8,13 +8,13 @@ Cette section permet de gérer les conteneurs de votre machine:
 - Les capteurs affectés à ces conteneurs
 - Les régulations affectés à ces conteneurs
 
-![Conteneurs](assets/component_containers.png)
+![Conteneurs](/desktop/fr/assets/component_containers.png)
 
 Chaque conteneur possède des configuration différentes, certains conteneurs n'ont pas d'affectation de produits, d'autres n'ont pas de capteurs assignés et quelques-un ont des régulations attitrées.
 
 ### Gestion du produit
 
-![Gestion produit](assets/containers_product.png)
+![Gestion produit](/desktop/fr/assets/containers_product.png)
 
 #### Informations produit
 
@@ -34,13 +34,13 @@ Grâce à ces actions vous pouvez charger et vidanger les produits soit automati
 
 ### Capteurs
 
-![Capteurs conteneurs](assets/containers_sensors.png)
+![Capteurs conteneurs](/desktop/fr/assets/containers_sensors.png)
 
 Dans cette sous-section, vous trouverez les différents capteurs assignés au conteneur.
 
 ### Gestion des regulations
 
-![Régulation conteneur](assets/containers_regulation.png)
+![Régulation conteneur](/desktop/fr/assets/containers_regulation.png)
 
 Vous pouvez modifier la consigne en modifiant la `Valeur recherchée` et activer la régulation en changeant `l'État de la régulation`. 
 

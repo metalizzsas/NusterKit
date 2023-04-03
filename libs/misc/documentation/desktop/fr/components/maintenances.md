@@ -16,11 +16,11 @@ Cliquez sur une tache pour afficher la tache de maintenance en question.
 
 Chaque tache de maintenance est accompagnée de sa procédure.
 
-![Tache de maintenance](assets/component_maintenances.png)
+![Tache de maintenance](/desktop/fr/assets/component_maintenances.png)
 
 A la fin de la procédure de maintenance vous, trouverez le bouton de validation de la tache de maintenance qui remettra le compteur à 0.
 
-![Valider tache maintenance](assets/maintenances_clear.png)
+![Valider tache maintenance](/desktop/fr/assets/maintenances_clear.png)
 
 ### Avertissement: Maintenance rattachés à un capteur
 

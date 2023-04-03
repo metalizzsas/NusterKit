@@ -101,15 +101,13 @@
         </Flex>
     {/if}
 
-    <h3>{$_('profile.settings')}</h3>
-
     {#each [...new Set(profile.values.map(k => k.name.split("#")[0]))] as category}
 
-        <section class="mb-2">
+        <section class="mb-4">
 
-            <h4 class="mb-1">{$_(`profile.categories.${category}`)}</h4>
+            <h2 class="mb-2">{$_(`profile.categories.${category}`)}</h2>
 
-            <Flex direction="col" gap={1.5}>
+            <Flex direction="col" gap={3}>
                 {#each profile.values.filter(k => k.name.split("#").at(0) == category) as field}
                     <ProfileField bind:field disabled={profile.isPremade === true} />
                 {/each}

@@ -8,17 +8,14 @@
   "cancel": "Annuler",
   "exit": "Retour",
   "locked": "Vérouillé",
-
   "close-keyboard": "Fermer le clavier",
   "close-modal": "Fermer",
   "connect": "Connexion",
   "proceed": "Continuer",
-
   "nuster": {
     "lead": "Nuster",
     "logo": "Logo nuster"
   },
-
   "error": {
     "render": {
       "lead": "Erreur de rendu dans la page",
@@ -26,7 +23,6 @@
       "button": "Rechargement"
     }
   },
-
   "date": {
     "days": "Jours",
     "day": "jour",
@@ -39,26 +35,22 @@
     "milliseconds": "Millisecondes",
     "millisecond": "Milliseconde"
   },
-
   "container": {
     "lead": "Conteneurs",
-
     "unselected": {
       "lead": "Aucune conteneur sélectionné",
       "sub": "Sélectionnez un conteneur dans la liste de gauche pour voir ou éditer ses propriétés."
     },
-
     "category": {
       "products": "Produits",
       "sensors": "Capteurs",
       "regulation": "Régulation"
     },
-    
     "state": {
       "lead": {
-          "error": "Avertissements du conteneur:",
-          "good": "L'état du conteneur est ok."
-        },
+        "error": "Avertissements du conteneur:",
+        "good": "L'état du conteneur est ok."
+      },
       "issues": {
         "product_unloaded": "Produit non chargé",
         "product_lifespan": "Produit périmé",
@@ -69,7 +61,6 @@
         "regulation_active": "Régulation activée"
       }
     },
-
     "product": {
       "informations": {
         "lead": "Information produit",
@@ -78,7 +69,6 @@
         "load_date": "Date de chargement:",
         "unknownLifespan": "Durée de vie non définie",
         "done": "Produit périmé",
-
         "product_series": {
           "usl_act": "USL Activant",
           "usl_ox": "USL Oxydant",
@@ -91,23 +81,19 @@
           "any": "Inconnu"
         }
       },
-
       "action": {
         "lead": "Actions",
         "product_choose": "Choisissez un produit a charger:",
-
         "default": {
           "load": "Charger un produit",
           "unload": "Décharger un produit"
         }
       }
     },
-
     "regulation": {
       "enabled": "État de la régulation",
       "current": "Valeur actuelle",
       "target": "Valeur recherchée",
-
       "modal": {
         "security_disable": {
           "title": "Érreur de sécurité",
@@ -120,41 +106,33 @@
       }
     }
   },
-
   "profile": {
-
     "lead": "Profils",
-    "name":"Nom du profil",
-    "settings":"Réglages du profil",
-    "defaultName":"Nom de profil par défaut",
-    
+    "name": "Nom du profil",
+    "settings": "Réglages du profil",
+    "defaultName": "Nom de profil par défaut",
     "unselected": {
       "lead": "Pas de profil sélectionné.",
       "sub": "Choisir un profil pour consulter ou modifier ses paramètres."
     },
-
     "copy": {
       "label": "Copier",
       "suffix": "Copie",
       "button": "Copier le profil",
       "message": "Le profil a été copié avec le nom {name}."
     },
-
     "save": {
       "button": "Sauvegarder le profil",
       "message": "Le profil a été sauvegardé."
     },
-
     "delete": {
       "button": "Supprimer le profil",
       "button_confirm": "Confirmer la suppression du profil"
     },
-
     "premades": {
       "true": "Profils constructeur",
       "false": "Profils utilisateur"
     },
-
     "rows": {
       "enabled": "Activé",
       "speed": "Vitesse",
@@ -164,16 +142,13 @@
       "timeOff": "Temps désactivé"
     }
   },
-
   "settings": {
     "lead": "Réglages",
-
     "ui": {
       "lead": "Réglages interface",
       "dark_mode": "Mode sombre",
       "language": "Langue"
     },
-
     "machine": {
       "lead": "Informations machine",
       "model": "Modèle",
@@ -183,7 +158,6 @@
       "addons": "Options",
       "cycle_count": "Nombre de cycles"
     },
-    
     "software": {
       "lead": "Informations logiciel",
       "nuster": "Version de Nuster",
@@ -192,61 +166,50 @@
       "update_install": "Installer",
       "update_installing": "En cours d'installation"
     },
-    
     "network": {
       "lead": "Informations réseau",
       "ip": "Liste des addresse IP",
       "mac": "Liste des addresses mac",
-      "vpn": "Connexion au VPN" 
+      "vpn": "Connexion au VPN"
     },
-
     "advanced": {
       "lead": "Réglages avancés",
       "sub": "Cette fonctionalité n'est pas destinée a etre utilisé par l'utilisateur final.",
       "password": "Mot de passe",
       "edit": "Modifier la configuration machine"
     },
-
     "machines": {
       "metalfog": "Metalfog",
       "smoothit": "Smoothit",
       "uscleaner": "USCleaner"
     }
   },
-
   "cycle": {
-
     "lead": "Cycle",
-
     "categories": {
       "steps": "Étapes du cycle",
       "status": "État du cycle",
       "additional_info": "Information additionelles",
       "security_conditions": "Conditions de sécurité"
     },
-
     "unselected": {
       "lead": "Pas de cycle sélectionné",
       "sub": "Selectionnez un cycle dans la liste de gauche pour commencer à utiliser votre machine. Si c'est votre première utilisation, lisez le guide fourni avec votre machine.",
       "help": "Cliquez ici pour lire la documentation"
     },
-
     "unselected_informations": {
       "lead": "Informations machine",
       "sub": "Les informations affichées ici ne sont pas modifiables, rendez vous dans les sections correspondantes pour les modifier."
     },
-
     "eta": {
       "null": "Inconnu",
       "remaining": "Temps restant:",
       "estimated": "Temps estimé:"
     },
-
     "end": {
       "lead": "Le cycle est terminé.",
       "duration": "Durée du cycle:"
     },
-
     "end_reasons": {
       "user": "Fin utilisateur",
       "finished": "Terminé avec succès",
@@ -255,7 +218,6 @@
       "controllerUnreachable": "Controlleur IO indisponible",
       "stepOvertime": "Une etape du cycle as mis trop de temps a se terminer. Un comportement étrange de la machine peu etre observé. Nous vous recommandons de la redémarrer."
     },
-
     "buttons": {
       "start": "Démarrer le cycle",
       "nextStep": "Sauter l'étape",
@@ -263,42 +225,33 @@
       "complete": "Terminer le cycle"
     }
   },
-
   "gates": {
     "lead": "E / S",
-
     "reset": "Remise a zéro",
-
     "bus": {
       "in": "Entrées",
       "out": "Sorties"
     },
-
     "categories": {
       "generic": "Générique"
     }
   },
-
   "maintenance": {
     "lead": "Maintenance",
     "duration": "Durée",
-    
     "unselected": {
       "lead": "Pas de maintenance selectionnée",
       "sub": "Choissiez une tache de maintenance dans la liste de gauche pour consulter la procédure et voir les details de cette tache."
     },
-
     "sensor": {
       "label": "Avertissement tache",
       "warning": "Cette tache de maintenance necessite un mode manuel lié pour calculer son statut."
     },
-
     "procedure": {
       "lead": "Procédure de maintenance",
       "clear": "Valider la tache de maintenance",
       "lang_unavailable": "La procédure n'est pas disponible en français."
     },
-
     "unity": {
       "cycle": "Cycles",
       "hours": "Heures",
@@ -306,15 +259,16 @@
       "duration": "Heures"
     }
   },
-
   "help": {
     "lead": "Aide",
-
     "unavailable": "Aucune aide disponible dans votre langue.",
-
     "unselected": {
       "lead": "Centre d'aide",
       "sub": "Naviguez dans le centre d'aide a l'aide de la liste a votre gauche."
+    },
+    "category": {
+      "software": "Nuster",
+      "machine": "Machine"
     }
   }
 }

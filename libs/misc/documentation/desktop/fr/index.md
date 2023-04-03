@@ -11,7 +11,7 @@ Vous trouverez ici les informations utiles pour prendre en main ce logiciel.
 
 Au démarrage de votre machine, vous trouverez l'interface principale.
 
-![Interface principale](./assets/interface_principale.png)
+![Interface principale](/desktop/fr/assets/interface_principale.png)
 
 L'interface est divisée en 3 blocs.
 
@@ -19,12 +19,12 @@ L'interface est divisée en 3 blocs.
 
 Situé en haut de la fenêtre dans la barre horizontale, le menu permet de naviguer à travers les sections du logiciel tels que:
 
-- Les [cycles](components/cycles.md)
-- Les [profils](components/profiles) (cette option n'est pas disponible par défaut sur certaines machines).
-- Les [conteneurs](components/containers.md)
-- La [maintenance](components/maintenances.md)
+- Les [cycles](/desktop/fr/components/cycles.md)
+- Les [profils](/desktop/fr/components/profiles) (cette option n'est pas disponible par défaut sur certaines machines).
+- Les [conteneurs](/desktop/fr/components/containers.md)
+- La [maintenance](/desktop/fr/components/maintenances.md)
 - L'aide
-- Les [réglages](components/settings)
+- Les [réglages](desktop/fr/components/settings)
 
 Certains éléments dans le menu sont accompagnés d'une pastille de couleur:
 

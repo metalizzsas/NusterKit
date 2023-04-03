@@ -8,73 +8,76 @@
 	import HelpImageParser from './HelpImageParser.svelte';
 	import { BookOpen, Folder } from '@steeze-ui/heroicons';
 
-	import { addMessages, _ } from 'svelte-i18n';
+	import { _ } from 'svelte-i18n';
 	import type { PageData } from './$types';
-	import { onMount, setContext } from 'svelte';
+	import { setContext } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
 	import { settings } from '$lib/utils/stores/settings';
 	import HelpLinkParser from './HelpLinkParser.svelte';
+	import Select from '$lib/components/inputs/Select.svelte';
+	import type { HelpDocument } from './+page.server';
+	import { machine } from '$lib/utils/stores/nuster';
 
 	export let data: PageData;
+
+    let category: "software" | "machine" = "software";
 
     let selectedHelp = writable<string | undefined>(undefined);
     let helpContent: string | undefined;
 
     setContext<Writable<string | undefined>>("help", selectedHelp);
 
-    onMount(async () => {
+    const pageFilter = (page: HelpDocument, cat: typeof category) => {
+        return (cat === "machine") ? (page.path.includes(`${$machine.model}-${$machine.variant}-${$machine.revision}`) && page.lang === $settings.lang && page.category === cat) : (page.category === cat && $settings.lang);
+    };
 
-        for(const l of data.langs)
+    $: pages = data.documents.filter((p) => pageFilter(p, category));
+    $: category, function() {
+        const firstPage = pages.find(d => d.folder === "root" && d.path.includes("index.md"));
+        $selectedHelp = (firstPage !== undefined) ? firstPage.path : undefined;
+    }();
+
+    selectedHelp.subscribe((v) => {
+        if(v !== undefined)
         {
-            const r = await fetch(`/documentation/desktop${l.filename}`);
-            if(r.ok && r.status === 200)
-                addMessages(l.lang, await r.json())
+            fetch(`/documentation/${v}`)
+                .then(res => res.text())
+                .then(text => helpContent = text)
+                .catch(() => selectedHelp.set(undefined));
         }
-
-        const index = helpFiles.find(k => k.name == "index" && k.folder == undefined);
-        $selectedHelp = index?.filename;
+        else
+            helpContent = undefined;
     });
-
-	/// — Reactive statements
-    $: if($selectedHelp !== undefined) { 
-        console.log($selectedHelp);
-        void fetch(`/documentation/desktop${$selectedHelp}`).then(r => r.text().then(c => helpContent = c));
-    } else { helpContent = undefined }
-
-    $: helpFiles = data.files.filter(k => k.lang === $settings.lang);
 
 </script>
 
 <Flex direction="row">
 	<div class="overflow-y-scroll drop-shadow-xl duration-300 grow">
         <Wrapper>
-            {#if helpFiles.length === 0}
+            <Select bind:value={category} selectableValues={[{ name: $_('help.category.machine'), value: "machine" }, { name: $_('help.category.software'), value: "software" }]} class="mb-6" />
+
+            {#if pages.length === 0}
                 <h3 class="text-amber-500">{$_('help.unavailable')}</h3>
             {/if}
+            
             <Flex direction="col" gap={1}>
-                {#each Array.from(new Set(helpFiles.map(k => k.folder).sort((a, b) => { let a2 = a || ''; let b2 = b || ''; return a2.localeCompare(b2) }))) as folder}
-                    {#if folder !== undefined}
+                {#each [...new Set(pages.map(k => k.folder))] as folder}
+                    {#if folder !== "root"}
                         <h3 class="my-1">
                             <Icon src={Folder} class="h-4 w-4 text-indigo-500 inline mr-1" />
-                            {$_(`help.folders.${folder}`)}
+                            {folder}
                         </h3>
                     {:else}
                         <div class="h-[1px] bg-zinc-300/50 my-2" />
                     {/if}
-                    {#each helpFiles.filter(k => k.folder == folder) as helpFile (helpFile.filename)}
+                    {#each pages.filter(p => p.folder === folder) as helpFile (helpFile.path)}
                         <SelectableButton 
-                            selected={helpFile.filename === $selectedHelp}
-                            on:click={() => {
-                                if($selectedHelp === helpFile.filename) {
-                                    $selectedHelp = undefined;
-                                } else {
-                                    $selectedHelp = helpFile.filename;
-                                }
-                            }}
+                            selected={helpFile.path === $selectedHelp}
+                            on:click={() => ($selectedHelp === helpFile.path) ? $selectedHelp = undefined : $selectedHelp = helpFile.path}
                         >
                             <h4 class="leading-6 text-start">
                                 <Icon src={BookOpen} class="h-4 w-4 text-indigo-500 inline mr-1"/>
-                                {$_(`help.files.${helpFile.folder !== undefined ? `${helpFile.folder}_` : ''}${helpFile.name}`)}
+                                {helpFile.name}
                             </h4>
                         </SelectableButton>
                     {/each}
@@ -86,9 +89,9 @@
 	<div class="overflow-y-scroll grow drop-shadow-xl max-w-[66%]">
         <Wrapper>
             {#if selectedHelp !== undefined && helpContent !== undefined}
-            <div class="markdown">
-                <SvelteMarkdown source={helpContent} renderers={{ image: HelpImageParser, link: HelpLinkParser }}/>
-            </div>
+                <div class="markdown">
+                    <SvelteMarkdown source={helpContent} renderers={{ image: HelpImageParser, link: HelpLinkParser }}/>
+                </div>
             {:else}
                 <h1>{$_('help.unselected.lead')}</h1>
                 <p>{$_('help.unselected.sub')}</p>

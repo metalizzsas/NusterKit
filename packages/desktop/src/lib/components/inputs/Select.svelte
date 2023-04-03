@@ -20,8 +20,8 @@
         <button on:click={() => { if(disabled === false) { expand = !expand } }} class="grow">{selectableValues.find(k => k.value == value)?.name}</button>
 
         {#if expand === true}
-            <div class="absolute z-50 max-h-[15vw] overflow-y-scroll" style:min-width={"100%"}>
-                <Flex direction={"col"} gap={1}>
+            <div class="absolute top-[calc(100%+0.5rem)] left-0 z-50 max-h-[15vw] overflow-y-scroll" style:min-width={"100%"}>
+                <Flex direction={"col"} gap={2}>
                     {#each selectableValues as sValue}
                          <button 
                             class="rounded-lg p-1.5 ring-inset ring-1 ring-gray-500/50 dark:bg-white dark:text-zinc-800 bg-zinc-800 text-white text-start" 

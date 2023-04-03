@@ -7,8 +7,8 @@
     const dispatch = createEventDispatcher<{change: void}>();
     
     export let value: string | number | undefined;
-    export let selectableValues: Array<{name: string | number, value: string | number}>;
-    export let style = "p-2 rounded-lg ring-inset ring-1 ring-gray-500/50 bg-white dark:bg-zinc-800";
+    export let selectableValues: Array<{name: string | number, value: string | number }>;
+    export let style = "p-2 rounded-lg ring-inset ring-1 hover:ring-2 ring-gray-500/50 bg-white dark:bg-zinc-800 duration-100";
     export let disabled = false;
     export let change = () => dispatch("change");
 
@@ -24,7 +24,7 @@
                 <Flex direction={"col"} gap={2}>
                     {#each selectableValues as sValue}
                          <button 
-                            class="rounded-lg p-1.5 ring-inset ring-1 ring-gray-500/50 dark:bg-white dark:text-zinc-800 bg-zinc-800 text-white text-start" 
+                            class="rounded-lg p-1.5 ring-inset ring-1 hover:ring-2 ring-gray-500/50 bg-zinc-200 hover:bg-zinc-100 dark:bg-zinc-700 dark:hover:bg-zinc-600 dark:text-white text-zinc-800 text-center duration-200" 
                             on:click={() => { value = sValue.value; expand = false; change()}}
                         >
                             {sValue.name}

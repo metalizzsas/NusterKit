@@ -1,0 +1,235 @@
+{
+    "$schema": "../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
+
+    "containers": {
+
+        "ox": {
+            "name": "Oxydiser",
+            "actions": {
+                "load": "Manual loading",
+                "unload": "Reactives emptying"
+            }
+        },
+        "rd": {
+            "name": "Reducer",
+            "actions": {
+                "load": "Manual loading",
+                "unload": "Reactives emptying"
+            }
+        },
+        "act": {
+            "name": "Activator",
+            "actions": {
+                "load": "Manual loading",
+                "load_alt": "Automatic dilution loading",
+                "unload": "Emptying"
+            }
+        },
+        "edi": { "name": "DI Water" },
+        "eff": { "name": "Effluents" }
+    },
+    "profile": {
+        "premade": {
+            "llc": "Look Like Chromium — LLC",
+            "usl": "Utility Silver Layer — USL",
+            "usl-retake": "USL retake",
+            "usl-activation-porous": "USL Porous parts activation",
+            "cem": "CEM shielding",
+            "cem-retake": "CEM shielding retake",
+            "act-fill": "Activator dilution",
+            "container-emptying-all": "Emptying all containers"
+        },
+        "categories": {
+            "act-edi-nozzles": "Activator & DI Water nozzles",
+            "met-nozzles": "Metallization nozzles",
+            "motor": "Rotation Motor",
+            "activation": "Activation",
+            "metalization": "Metallization",
+            "metalization-wash": "Wash during metallization",
+            "wash1": "Wash 1",
+            "wash2": "Wash 2",
+            "drying": "Drying",
+            "vapors-extraction": "Vapors extraction"
+        },
+        "rows": {
+            "enabled": "Enabled",
+            "act-edi-high": "High row nozzles",
+            "act-edi-low": "Low row nozzles",
+            "met-high": "High row nozzles",
+            "met-medium": "Medium row nozzles",
+            "met-low": "Low row nozzles",
+            "speed": "Speed",
+            "duration": "Duration",
+            "count": "Iteration count",
+            "timeOn": "Time enabled",
+            "timeOff": "Time disabled",
+            "reverseEnabled": "Motor direction reverse",
+            "reverseTime": "Motor reverser timer"
+        }
+    },
+    "cycle": {
+        "end_reasons": {
+            "security-emergency-stop": "Emergency stop button pressed",
+            "security-air-sensor": "Air pressure too low",
+            "security-cover-closed": "Cover open",
+            "security-levels#eff-max-n": "Effluents too high",
+            "security-eff-container-sensor": "Effluents container missing",
+            "security-levels#edi-min-n": "Minimal DI water level",
+            "security-levels#act-min-n": "Minimal Activator level",
+            "security-levels#ox-min-n": "Minimal Oxydiser level",
+            "security-levels#rd-min-n": "Minimal Reducer level",
+            "activator-timed-out": "Activator dilution was too long"
+        },
+
+        "start_conditions": {
+            "emergency-stop": "Emergency stop button",
+            "cover-closed": "Cover closed",
+            "air-sensor": "Air pressure",
+            "eff-container-sensor": "Waste container present",
+            "levels#eff-max-n": "Waste level",
+            "levels#edi-min-n": "DI Water level",
+            "levels#act-min-n": "Activator level",
+            "levels#rd-min-n": "Reducer level",
+            "levels#ox-min-n": "Oxydiser level",
+            "maintenance-filter": "Machine filter",
+            "oxydiser-life": "Oxydiser state",
+            "activator-life": "Activator state",
+            "reducer-life": "Reducer state"
+        },
+
+        "names": {
+            "default": "Base metalfog cycle",
+            "act-fill": "Activator dilution",
+            "container-emptying": "Container emptying",
+            "nozzle-cleaning": "Nozzle cleaning"
+        },
+        "steps": {
+            "start": {
+                "name": "Start",
+                "desc": "Starting the cycle, preheating air."
+            },
+            "activation": {
+                "name": "Activation",
+                "desc": "Activating parts surface."
+            },
+            "wash1": {
+                "name": "Washing 1",
+                "desc": "Washing the parts."
+            },
+            "metalization": {
+                "name": "Metallization",
+                "desc": "Applying chemicals to generate metallic layer on your part."
+            },
+            "nozzle-cleaning": {
+                "name": "Nozzle cleaning",
+                "desc": "Cleaning the metalization nozzles to ehance their lifespan and fiability."
+            },
+            "wash2": {
+                "name": "Washing 2",
+                "desc": "Final washing before part drying."
+            },
+            "drying": {
+                "name": "Drying",
+                "desc": "Parts drying."
+            },
+            "vapors-extraction": {
+                "name": "Vapors filtering",
+                "desc": "Filtering gases and thin particules produced by the program."
+            },
+            "act-fill": {
+                "name": "Activator dilution",
+                "desc": "DI Water is transfered to Activator containter to dilute concentrated activator."
+            },
+            "container-emptying": {
+                "name": "Containers emptying",
+                "desc": "Automatic emptying of some containers."
+            }
+        }
+    },
+    "gates": {
+        "categories": {
+            "motor": "Rotation Motor",
+            "levels": "Levels",
+            "hybrid": "Activator & DI Water",
+            "met": "Chemicals",
+            "regulators": "Regulators"
+        },
+        "names": {
+            "emergency-stop": "Emergency stop button",
+            "cover-closed": "Cover closed",
+            "air-sensor": "Air pressure sensor",
+            "eff-container-sensor": "Effluents container sensor",
+            
+            "air-heater": "Air heater",
+            "ventilation": "Vapors extraction",
+            
+            "motor#direction": "Motor direction",
+            "motor#speed": "Motor speed",
+            
+            "levels#eff-max-n": "Effluents limit",
+            
+            "levels#ox-min-n": "Oxydiser minimal level",
+            "levels#rd-min-n": "Reducer minimal level",
+            
+            "levels#act-max-n": "Activator maximal level",
+            "levels#act-min-n": "Activator minimal level",
+            
+            "levels#edi-max-n": "DI water maximal level",
+            "levels#edi-min-n": "DI water minimal level",
+            
+            "hybrid#act-res": "Activator container pressure",
+            "hybrid#edi-res": "DI Water container pressure",
+
+            "hybrid#plv": "Activator & DI water pulverization",
+
+            "hybrid#act-lq": "Activator liquid control",
+            "hybrid#edi-lq": "DI water liquid control",
+            
+            "hybrid#lq-fill-act": "DI water liquid control to Activator container",
+
+            "hybrid#air-cleaning": "DI Water & Activator nozzle air cleaning",
+
+            "met#ox-res": "Oxydiser container pressure",
+            "met#rd-res": "Reducer container pressure",
+
+            "met#plv-high": "Metallization pulverization high",
+            "met#plv-mid": "Metallization pulverization medium",
+            "met#plv-low": "Metallization pulverization low",
+
+            "met#met-lq-high": "Oxydiser & reducer liquid control high",
+            "met#met-lq-mid": "Oxydiser & reducer liquid control medium",
+            "met#met-lq-low": "Oxydiser & reducer liquid control low",
+
+            "met#air-cleaning": "Oxydiser & reducer nozzle air cleaning",
+
+            "regulators#rd-pressure": "Reducer pressure",
+            "regulators#ox-pressure": "Oxydiser pressure"
+        }
+    },
+    "maintenance": {
+        "tasks": {
+            "mfm-filter": {
+                "name": "Filter",
+                "desc": "Metalfog filter filters all gases produced by the chemicals reactions done inside the machine."
+            },
+            "sensor-cleaning": {
+                "name": "Sensors cleaning",
+                "desc": "Optical sensors are used to detect the presence of chemicals, it is recommended to clean them regularly."
+            }
+        }
+    },
+
+    "toasts": {
+        "nozzle-cleaning": {
+            "title": "Startup recommendations",
+            "message": "As the Metalfog just started-up, We recommend doing a air cleaning of the metalization nozzles. Press Continue to cleanup the nozzles.",
+            "actions": {
+                "main": "Continue"
+            }
+        }
+    },
+    "addons": {
+        "cem": "CEM",
+        "llc": "Look like chromium"
+    }
+}

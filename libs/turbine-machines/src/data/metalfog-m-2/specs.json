@@ -1,0 +1,1723 @@
+{
+   "$schema": "../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-specs.json",
+
+   "nuster": {
+      "connectPopup": {
+         "title": "toasts.nozzle-cleaning.title",
+         "message": "toasts.nozzle-cleaning.message",
+         "level": "info",
+         "callToActions": [
+            {
+               "name": "toasts.nozzle-cleaning.actions.main",
+               "APIEndpoint": {
+                  "url": "/api/v1/cycle/nozzle-cleaning",
+                  "method": "post"
+               },
+               "UIEndpoint": "/"
+            }
+         ]
+      }
+   },
+
+   "iohandlers": [
+      {
+         "type": "wago",
+         "ip": "192.168.1.10"
+      },
+      {
+         "type": "ex260sx",
+         "size": 32,
+         "ip": "192.168.1.3"
+      }
+   ],
+   "iogates": [
+      {
+         "name": "emergency-stop",
+         "type": "default",
+         "bus": "in",
+         "controllerId": 0,
+         "address": 0,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "air-sensor",
+         "type": "default",
+         "bus": "in",
+         "controllerId": 0,
+         "address": 1,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "cover-closed",
+         "type": "default",
+         "bus": "in",
+         "controllerId": 0,
+         "address": 2,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "levels#edi-max-n",
+         "type": "default",
+         "bus": "in",
+         "controllerId": 0,
+         "address": 3,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "levels#act-max-n",
+         "type": "default",
+         "bus": "in",
+         "controllerId": 0,
+         "address": 4,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "levels#eff-max-n",
+         "type": "default",
+         "bus": "in",
+         "controllerId": 0,
+         "address": 5,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "eff-container-sensor",
+         "type": "default",
+         "bus": "in",
+         "controllerId": 0,
+         "address": 6,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "levels#edi-min-n",
+         "type": "default",
+         "bus": "in",
+         "controllerId": 0,
+         "address": 7,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "levels#act-min-n",
+         "type": "default",
+         "bus": "in",
+         "controllerId": 0,
+         "address": 8,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "levels#ox-min-n",
+         "type": "default",
+         "bus": "in",
+         "controllerId": 0,
+         "address": 9,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "levels#rd-min-n",
+         "type": "default",
+         "bus": "in",
+         "controllerId": 0,
+         "address": 10,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "motor#speed",
+         "type": "mapped",
+         "bus": "out",
+         "controllerId": 0,
+         "address": 0,
+         "default": 0,
+         "size": "word",
+
+         "unity": "RPM",
+
+         "mapInMin": 0,
+         "mapInMax": 32767,
+         "mapOutMin": 0,
+         "mapOutMax": 100
+      },
+      {
+         "name": "regulators#rd-pressure",
+         "type": "mapped",
+         "bus": "out",
+         "controllerId": 0,
+         "address": 1,
+         "default": 0,
+         "size": "word",
+
+         "unity": "bar",
+
+         "mapInMin": 0,
+         "mapInMax": 32767,
+         "mapOutMin": 0.05,
+         "mapOutMax": 5
+      },
+      {
+         "name": "regulators#ox-pressure",
+         "type": "mapped",
+         "bus": "out",
+         "controllerId": 0,
+         "address": 2,
+         "default": 0,
+         "size": "word",
+
+         "unity": "bar",
+
+         "mapInMin": 0,
+         "mapInMax": 32767,
+         "mapOutMin": 0.05,
+         "mapOutMax": 5
+      },
+      {
+         "name": "motor#direction",
+         "type": "default",
+         "bus": "out",
+         "controllerId": 0,
+         "address": 0,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "ventilation",
+         "type": "default",
+         "bus": "out",
+         "controllerId": 0,
+         "address": 1,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "air-heater",
+         "type": "default",
+         "bus": "out",
+         "controllerId": 0,
+         "address": 2,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "hybrid#act-res",
+         "type": "default",
+         "bus": "out",
+         "controllerId": 1,
+         "address": 31,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "hybrid#edi-res",
+         "type": "default",
+         "bus": "out",
+         "controllerId": 1,
+         "address": 30,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "met#ox-res",
+         "type": "default",
+         "bus": "out",
+         "controllerId": 1,
+         "address": 29,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "met#rd-res",
+         "type": "default",
+         "bus": "out",
+         "controllerId": 1,
+         "address": 28,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "hybrid#plv",
+         "type": "default",
+         "bus": "out",
+         "controllerId": 1,
+         "address": 27,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "met#plv-high",
+         "type": "default",
+         "bus": "out",
+         "controllerId": 1,
+         "address": 26,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "met#plv-mid",
+         "type": "default",
+         "bus": "out",
+         "controllerId": 1,
+         "address": 25,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "met#plv-low",
+         "type": "default",
+         "bus": "out",
+         "controllerId": 1,
+         "address": 24,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "hybrid#act-lq",
+         "type": "default",
+         "bus": "out",
+         "controllerId": 1,
+         "address": 23,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "hybrid#edi-lq",
+         "type": "default",
+         "bus": "out",
+         "controllerId": 1,
+         "address": 22,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "met#met-lq-high",
+         "type": "default",
+         "bus": "out",
+         "controllerId": 1,
+         "address": 21,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "met#met-lq-mid",
+         "type": "default",
+         "bus": "out",
+         "controllerId": 1,
+         "address": 20,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "met#met-lq-low",
+         "type": "default",
+         "bus": "out",
+         "controllerId": 1,
+         "address": 19,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "hybrid#lq-fill-act",
+         "type": "default",
+         "bus": "out",
+         "controllerId": 1,
+         "address": 18,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "hybrid#air-cleaning",
+         "type": "default",
+         "bus": "out",
+         "controllerId": 1,
+         "address": 17,
+         "default": 0,
+         "size": "bit"
+      },
+      {
+         "name": "met#air-cleaning",
+         "type": "default",
+         "bus": "out",
+         "controllerId": 1,
+         "address": 16,
+         "default": 0,
+         "size": "bit"
+      }
+   ],
+   "containers": [
+      {
+         "name": "ox",
+         "type": "psp",
+         "supportedProductSeries": ["usl_ox"],
+         "sensors": [
+            {
+               "io": "levels#ox-min-n",
+               "logic": "level-min"
+            }
+         ],
+         "callToAction": [
+            {
+               "name": "unload",
+               "APIEndpoint": {
+                  "url": "/api/v1/cycle/container-emptying",
+                  "method": "post",
+                  "body": {
+                     "skeleton": "container-emptying",
+                     "name": "container-emptying-ox",
+                     "values": [
+                        {
+                           "name": "emptying#ox",
+                           "type": "bool",
+                           "value": 1
+                        },
+                        {
+                           "name": "emptying#rd",
+                           "type": "bool",
+                           "value": 0
+                        },
+                        {
+                           "name": "emptying#act",
+                           "type": "bool",
+                           "value": 0
+                        }
+                     ]
+                  }
+               },
+               "UIEndpoint": "/"
+            }
+         ]
+      },
+      {
+         "name": "rd",
+         "type": "psp",
+         "supportedProductSeries": ["usl_rd"],
+         "sensors": [
+            {
+               "io": "levels#rd-min-n",
+               "logic": "level-min"
+            }
+         ],
+         "callToAction": [
+            {
+               "name": "unload",
+               "APIEndpoint": {
+                  "url": "/api/v1/cycle/container-emptying",
+                  "method": "post",
+                  "body": {
+                     "skeleton": "container-emptying",
+                     "name": "container-emptying-rd",
+                     "values": [
+                        {
+                           "name": "emptying#ox",
+                           "type": "bool",
+                           "value": 0
+                        },
+                        {
+                           "name": "emptying#rd",
+                           "type": "bool",
+                           "value": 1
+                        },
+                        {
+                           "name": "emptying#act",
+                           "type": "bool",
+                           "value": 0
+                        }
+                     ]
+                  }
+               },
+               "UIEndpoint": "/"
+            }
+         ]
+      },
+      {
+         "name": "act",
+         "type": "psp",
+         "supportedProductSeries": ["usl_act"],
+         "sensors": [
+            {
+               "io": "levels#act-min-n",
+               "logic": "level-min"
+            },
+            {
+               "io": "levels#act-max-n",
+               "logic": "level-max"
+            }
+         ],
+         "callToAction": [
+            {
+               "name": "load_alt",
+               "APIEndpoint": {
+                  "url": "/api/v1/cycle/act-fill",
+                  "method": "post"
+               },
+               "UIEndpoint": "/"
+            },
+            {
+               "name": "unload",
+               "APIEndpoint": {
+                  "url": "/api/v1/cycle/container-emptying",
+                  "method": "post",
+                  "body": {
+                     "skeleton": "container-emptying",
+                     "name": "container-emptying-act",
+                     "values": [
+                        {
+                           "name": "emptying#ox",
+                           "type": "bool",
+                           "value": 0
+                        },
+                        {
+                           "name": "emptying#rd",
+                           "type": "bool",
+                           "value": 0
+                        },
+                        {
+                           "name": "emptying#act",
+                           "type": "bool",
+                           "value": 1
+                        }
+                     ]
+                  }
+               },
+               "UIEndpoint": "/"
+            }
+         ]
+      },
+      {
+         "name": "edi",
+         "type": "psp",
+         "sensors": [
+            {
+               "io": "levels#edi-min-n",
+               "logic": "level-min"
+            },
+            {
+               "io": "levels#edi-max-n",
+               "logic": "level-max"
+            }
+         ]
+      },
+      {
+         "name": "eff",
+         "type": "cnt",
+         "sensors": [
+            {
+               "io": "levels#eff-max-n",
+               "logic": "level-limit-max"
+            },
+            {
+               "io": "eff-container-sensor",
+               "logic": "presence"
+            }
+         ]
+      }
+   ],
+   "profileSkeletons": [
+      {
+         "name": "default",
+         "fields": [
+            {
+               "name": "met-nozzles#met-high",
+               "type": "bool",
+               "value": 1
+            },
+            {
+               "name": "met-nozzles#met-medium",
+               "type": "bool",
+               "value": 1
+            },
+            {
+               "name": "met-nozzles#met-low",
+               "type": "bool",
+               "value": 1
+            },
+            {
+               "name": "activation#enabled",
+               "type": "bool",
+               "value": 1
+            },
+            {
+               "name": "activation#timeOn",
+               "type": "time",
+               "units": [
+                  "seconds",
+                  "milliseconds"
+               ],
+               "value": 2
+            },
+            {
+               "name": "activation#timeOff",
+               "type": "time",
+               "units": [
+                  "seconds",
+                  "milliseconds"
+               ],
+               "value": 10
+            },
+            {
+               "name": "activation#count",
+               "type": "int",
+               "value": 5
+            },
+            {
+               "name": "wash1#enabled",
+               "type": "bool",
+               "value": 1
+            },
+            {
+               "name": "wash1#duration",
+               "type": "time",
+               "units": [
+                  "minutes",
+                  "seconds"
+               ],
+               "value": 15
+            },
+            {
+               "name": "metalization#enabled",
+               "type": "bool",
+               "value": 1
+            },
+            {
+               "name": "metalization#timeOn",
+               "type": "time",
+               "units": [
+                  "seconds",
+                  "milliseconds"
+               ],
+               "value": 2
+            },
+            {
+               "name": "metalization#timeOff",
+               "type": "time",
+               "units": [
+                  "seconds",
+                  "milliseconds"
+               ],
+               "value": 10
+            },
+            {
+               "name": "metalization#count",
+               "type": "int",
+               "value": 5
+            },
+            {
+               "name": "metalization-wash#enabled",
+               "type": "bool",
+               "value": 0
+            },
+            {
+               "name": "metalization-wash#duration",
+               "type": "time",
+               "units": ["seconds"],
+               "value": 5
+            },
+            {
+               "name": "wash2#enabled",
+               "type": "bool",
+               "value": 1
+            },
+            {
+               "name": "wash2#duration",
+               "type": "time",
+               "units": [
+                  "minutes",
+                  "seconds"
+               ],
+               "value": 45
+            },
+            {
+               "name": "drying#enabled",
+               "type": "bool",
+               "value": 1
+            },
+            {
+               "name": "drying#duration",
+               "type": "time",
+               "units": [
+                  "minutes",
+                  "seconds"
+               ],
+               "value": 45
+            },
+            {
+               "name": "vapors-extraction#enabled",
+               "type": "bool",
+               "value": 1
+            },
+            {
+               "name": "vapors-extraction#duration",
+               "type": "time",
+               "units": [
+                  "minutes",
+                  "seconds"
+               ],
+               "value": 45
+            },
+            {
+               "name": "motor#enabled",
+               "type": "bool",
+               "value": 1
+            },
+            {
+               "name": "motor#speed",
+               "type": "float",
+               "unity": "RPM",
+               "value": 50,
+               "floatMin": 0,
+               "floatMax": 100,
+               "floatStep": 5
+            },
+            {
+               "name": "motor#reverseEnabled",
+               "type": "bool",
+               "value": 1
+            },
+            {
+               "name": "motor#reverseTime",
+               "type": "time",
+               "units": [
+                  "seconds"
+               ],
+               "value": 1
+            }
+         ]
+      },
+      {
+         "name": "container-emptying",
+         "fields": [
+            {
+               "name": "emptying#ox",
+               "type": "bool",
+               "value": 0
+            },
+            {
+               "name": "emptying#rd",
+               "type": "bool",
+               "value": 0
+            },
+            {
+               "name": "emptying#act",
+               "type": "bool",
+               "value": 0
+            }
+         ]
+      }
+   ],
+   "profilePremades": [
+      {
+         "skeleton": "default",
+         "_id": "premade_usl",
+         "name": "usl",
+         "isPremade": true,
+         "values": {
+            "met-nozzles#met-high": 1,
+            "met-nozzles#met-medium": 1,
+            "met-nozzles#met-low": 1,
+            "motor#enabled": 1,
+            "motor#speed": 50,
+            "motor#reverseEnabled": 1,
+            "motor#reverseTime": 5,
+            "activation#enabled": 1,
+            "activation#timeOn": 5,
+            "activation#timeOff": 10,
+            "activation#count": 3,
+            "wash1#enabled": 1,
+            "wash1#duration": 35,
+            "metalization#enabled": 1,
+            "metalization#timeOn": 6,
+            "metalization#timeOff": 10,
+            "metalization#count": 10,
+            "metalization-wash#enabled": 0,
+            "metalization-wash#duration": 5,
+            "wash2#enabled": 1,
+            "wash2#duration": 35,
+            "drying#enabled": 1,
+            "drying#duration": 120,
+            "vapors-extraction#enabled": 1,
+            "vapors-extraction#duration": 45
+         }
+      },
+      {
+         "skeleton": "default",
+         "_id": "premade_usl-retake",
+         "name": "usl-retake",
+         "isPremade": true,
+         "values": {
+            "met-nozzles#met-high": 1,
+            "met-nozzles#met-medium": 1,
+            "met-nozzles#met-low": 1,
+            "motor#enabled": 1,
+            "motor#speed": 50,
+            "motor#reverseEnabled": 1,
+            "motor#reverseTime": 5,
+            "activation#enabled": 0,
+            "activation#timeOn": 5,
+            "activation#timeOff": 10,
+            "activation#count": 3,
+            "wash1#enabled": 1,
+            "wash1#duration": 35,
+            "metalization#enabled": 1,
+            "metalization#timeOn": 6,
+            "metalization#timeOff": 10,
+            "metalization#count": 10,
+            "metalization-wash#enabled": 0,
+            "metalization-wash#duration": 5,
+            "wash2#enabled": 1,
+            "wash2#duration": 35,
+            "drying#enabled": 1,
+            "drying#duration": 120,
+            "vapors-extraction#enabled": 1,
+            "vapors-extraction#duration": 45
+         }
+      },
+      {
+         "skeleton": "default",
+         "_id": "premade_usl-activation-porous",
+         "name": "usl-activation-porous",
+         "isPremade": true,
+         "values": {
+            "met-nozzles#met-high": 1,
+            "met-nozzles#met-medium": 1,
+            "met-nozzles#met-low": 1,
+            "motor#enabled": 1,
+            "motor#speed": 50,
+            "motor#reverseEnabled": 1,
+            "motor#reverseTime": 5,
+            "activation#enabled": 1,
+            "activation#timeOn": 5,
+            "activation#timeOff": 10,
+            "activation#count": 3,
+            "wash1#enabled": 1,
+            "wash1#duration": 35,
+            "metalization#enabled": 0,
+            "metalization#timeOn": 6,
+            "metalization#timeOff": 10,
+            "metalization#count": 10,
+            "metalization-wash#enabled": 0,
+            "metalization-wash#duration": 5,
+            "wash2#enabled": 0,
+            "wash2#duration": 35,
+            "drying#enabled": 0,
+            "drying#duration": 120,
+            "vapors-extraction#enabled": 1,
+            "vapors-extraction#duration": 45
+         }
+      },
+      {
+         "skeleton": "container-emptying",
+         "_id": "premade_container-emptying-all",
+         "isPremade": true,
+         "name": "container-emptying-all",
+         "values": {
+            "emptying#ox": 1,
+            "emptying#rd": 1,
+            "emptying#act": 1
+         }
+      }
+   ],
+   "maintenance": [
+      {
+         "name": "mfm-filter",
+         "durationType": "cycle",
+         "durationLimit": 50
+      },
+      {
+         "name": "sensor-cleaning",
+         "durationType": "cycle",
+         "durationLimit": 8
+      }
+   ],
+   "cyclePremades": [
+      {
+         "name": "usl",
+         "profile": "premade_usl",
+         "cycle": "default"
+      },
+      {
+         "name": "usl-retake",
+         "profile": "premade_usl-retake",
+         "cycle": "default"
+      },
+      {
+         "name": "usl-activation-porous",
+         "profile": "premade_usl-activation-porous",
+         "cycle": "default"
+      },
+      {
+         "name": "container-emptying",
+         "profile": "premade_container-emptying-all",
+         "cycle": "container-emptying"
+      },
+      {
+         "name": "nozzle-cleaning",
+         "cycle": "nozzle-cleaning"
+      }
+   ],
+   "cycleTypes": [
+      {
+         "name": "default",
+         "startConditions": [
+            {
+               "conditionName": "emergency-stop",
+               "startOnly": false,
+               "checkchain": {
+                  "io": {
+                     "gateName": "emergency-stop",
+                     "gateValue": 1
+                  }
+               }
+            },
+            {
+               "conditionName": "air-sensor",
+               "startOnly": false,
+               "checkchain": {
+                  "io": {
+                     "gateName": "air-sensor",
+                     "gateValue": 1
+                  }
+               }
+            },
+            {
+               "conditionName": "cover-closed",
+               "startOnly": false,
+               "checkchain": {
+                  "io": {
+                     "gateName": "cover-closed",
+                     "gateValue": 1
+                  }
+               }
+            },
+            {
+               "conditionName": "levels#eff-max-n",
+               "startOnly": false,
+               "checkchain": {
+                  "io": {
+                     "gateName": "levels#eff-max-n",
+                     "gateValue": 1
+                  }
+               }
+            },
+            {
+               "conditionName": "eff-container-sensor",
+               "startOnly": false,
+               "checkchain": {
+                  "io": {
+                     "gateName": "eff-container-sensor",
+                     "gateValue": 1
+                  }
+               }
+            },
+            {
+               "conditionName": "levels#edi-min-n",
+               "startOnly": false,
+               "checkchain": {
+                  "io": {
+                     "gateName": "levels#edi-min-n",
+                     "gateValue": 1
+                  }
+               }
+            },
+            {
+               "conditionName": "levels#act-min-n",
+               "startOnly": false,
+               "checkchain": {
+                  "io": {
+                     "gateName": "levels#act-min-n",
+                     "gateValue": 1
+                  }
+               },
+               "disabled": {"reverse": {"profile": "activation#enabled"}}
+            },
+            {
+               "conditionName": "levels#ox-min-n",
+               "startOnly": false,
+               "checkchain": {
+                  "io": {
+                     "gateName": "levels#ox-min-n",
+                     "gateValue": 1
+                  }
+               },
+               "disabled": { "reverse": {"profile": "metalization#enabled"}}
+            },
+            {
+               "conditionName": "levels#rd-min-n",
+               "startOnly": false,
+               "checkchain": {
+                  "io": {
+                     "gateName": "levels#rd-min-n",
+                     "gateValue": 1
+                  }
+               },
+               "disabled": { "reverse": {"profile": "metalization#enabled"}}
+            },
+            {
+               "conditionName": "maintenance-filter",
+               "startOnly": true,
+               "checkchain": {
+                  "parameter": {"maintenance_status": {"string": "mfm-filter"}}
+               }
+            },
+            {
+               "conditionName": "activator-life",
+               "startOnly": true,
+               "checkchain": {
+                  "parameter": {"product_status": {"string": "act"}}
+               },
+               "disabled": { "reverse": {"profile": "activation#enabled"}}
+            },
+            {
+               "conditionName": "oxydiser-life",
+               "startOnly": true,
+               "checkchain": {
+                  "parameter": {"product_status": {"string": "ox"}}
+               },
+               "disabled": {"reverse": {"profile": "metalization#enabled"}}
+            },
+            {
+               "conditionName": "reducer-life",
+               "startOnly": true,
+               "checkchain": {
+                  "parameter": {"product_status": {"string": "rd"}}
+               },
+               "disabled": { "reverse": {"profile": "metalization#enabled"}}
+            }
+         ],
+         "steps": [
+            {
+               "name": "start",
+               "isEnabled": 1,
+               "startBlocks": [
+                  {"io_write": ["ventilation", 1]},
+                  {"io_write": ["air-heater", 1]}
+               ],
+               "endBlocks": [
+                  {"io_write": ["motor#speed", {"multiply": [{"profile": "motor#speed"}, {"profile": "motor#enabled"}]}]},
+                  {"if": {
+                     "statement": {
+                        "comparator": "==",
+                        "left_side": {"profile": "motor#reverseEnabled"},
+                        "right_side": 1
+                     },
+                     "true_blocks": [{
+                        "start_timer": {
+                           "timer_name": "motorRotation",
+                           "timer_interval": {"profile": "motor#reverseTime"},
+                           "blocks": [
+                              {"io_write": ["motor#direction", {"reverse": {"io_read": "motor#direction"}}]}
+                           ]
+                        }
+                     }]
+                  }}
+               ],
+               "blocks": [
+                  {"sleep": 90}
+               ]
+            },
+            {
+               "name": "activation",
+               "isEnabled": { "profile": "activation#enabled" },
+               "startBlocks": [
+                  {"io_write": ["hybrid#act-res", 1]}
+               ],
+               "endBlocks": [
+                  {"io_write": ["hybrid#act-res", 0]}
+               ],
+               "blocks": [
+                  {"for": {
+                     "limit": {"profile": "activation#count"},
+                     "blocks": [
+                        {"io_write": ["hybrid#plv", 1]},
+                        {"sleep": 0.25},
+                        {"io_write": ["hybrid#act-lq", 1]},
+                        {"sleep": {"profile": "activation#timeOn"}},
+                        {"io_write": ["hybrid#act-lq", 0]},
+                        {"sleep": 0.25},
+                        {"io_write": ["hybrid#plv", 0]},
+                        {"sleep": {"profile": "activation#timeOff"}}
+                     ]
+                  }}
+               ]
+            },
+            {
+               "name": "wash1",
+               "isEnabled": {"profile": "wash1#enabled"},
+               "startBlocks": [
+                  {"io_write": ["hybrid#edi-res", 1]},
+                  {"io_write": ["hybrid#plv", 1]}
+               ],
+               "endBlocks": [
+                  {"io_write": ["hybrid#edi-res", 0]},
+                  {"io_write": ["hybrid#plv", 0]}
+               ],
+               "blocks": [
+                  {"sleep": 0.25},
+                  {"io_write": ["hybrid#edi-lq", 1]},
+
+                  {"sleep": {"profile": "wash1#duration"}},
+
+                  {"io_write": ["hybrid#edi-lq", 0]},
+                  {"sleep": 0.25}
+               ]
+            },
+            {
+               "name": "metalization",
+               "isEnabled": {"profile": "metalization#enabled"},
+               "startBlocks": [
+                  {"io_write": ["met#ox-res", 1]},
+                  {"io_write": ["met#rd-res", 1]},
+                  {"io_write": ["regulators#rd-pressure", {"read_machine_var": "rd-pressure"}]},
+                  {"io_write": ["regulators#ox-pressure", {"read_machine_var": "ox-pressure"}]}
+               ],
+               "endBlocks": [
+                  {"io_write": ["met#ox-res", 0]},
+                  {"io_write": ["met#rd-res", 0]},
+                  {"io_write": ["regulators#rd-pressure", 0]},
+                  {"io_write": ["regulators#ox-pressure", 0]}
+               ],
+               "blocks": [
+                  {"sleep": 0.25 },
+                  {"for": {
+                     "limit": {"profile": "metalization#count"},
+                     "blocks": [{"if": {
+                        "statement": {
+                           "comparator": "==",
+                           "left_side": {"profile": "met-nozzles#met-high"},
+                           "right_side": 1
+                        },
+                        "true_blocks": [
+                           {"io_write": ["met#plv-high", 1]},
+                           {"sleep": 0.25},
+                           {"io_write": ["met#met-lq-high", 1]},
+                           {"sleep": {"profile": "metalization#timeOn"}},
+                           {"io_write": ["met#met-lq-high", 0]},
+                           {"sleep": 0.25},
+                           {"io_write": ["met#plv-high", 0]}
+                        ]
+                     }},
+                     {"if": {
+                        "statement": {
+                           "comparator": "==",
+                           "left_side": {"profile": "met-nozzles#met-medium"},
+                           "right_side": 1
+                        },
+                        "true_blocks": [
+                           {"io_write": ["met#plv-mid", 1]},
+                           {"sleep": 0.25},
+                           {"io_write": ["met#met-lq-mid", 1]},
+                           {"sleep": {"profile": "metalization#timeOn"}},
+                           {"io_write": ["met#met-lq-mid", 0]},
+                           {"sleep": 0.25},
+                           {"io_write": ["met#plv-mid", 0]}
+                        ]
+                     }},
+                     {"if": {
+                        "statement": {
+                           "comparator": "==",
+                           "left_side": {"profile": "met-nozzles#met-low"},
+                           "right_side": 1
+                        },
+                        "true_blocks": [
+                           {"io_write": ["met#plv-low", 1]},
+                           {"sleep": 0.25},
+                           {"io_write": ["met#met-lq-low", 1]},
+                           {"sleep": {"profile": "metalization#timeOn"}},
+                           {"io_write": ["met#met-lq-low", 0]},
+                           {"sleep": 0.25},
+                           {"io_write": ["met#plv-low", 0]}
+                        ]
+                     }},
+                     {"sleep": {"profile": "metalization#timeOff"}},
+                     {"if": {
+                        "statement": {
+                           "comparator": "==",
+                           "left_side": {"profile": "metalization-wash#enabled"},
+                           "right_side": 1
+                        },
+                        "true_blocks": [
+                           {"io_write": ["hybrid#edi-res", 1]},
+
+                           {"io_write": ["hybrid#plv", 1]},
+                           
+                           {"sleep": 0.25},
+
+                           {"io_write": ["hybrid#edi-lq", 1]},
+
+                           {"sleep": {"profile": "metalization-wash#duration"}},
+
+                           {"io_write": ["hybrid#edi-lq", 0]},
+                           {"sleep": 0.25},
+                        
+                           {"io_write": ["hybrid#plv", 0]},
+
+                           {"io_write": ["hybrid#edi-res", 0]}
+                        ]
+                     }}
+                  ]
+                  }},
+                  {"sleep": 0.25 },
+                  {"append_maintenance": ["mfm-filter", 1]}
+               ]
+            },
+            {
+               "name": "nozzle-cleaning",
+               "isEnabled": {"profile": "metalization#enabled"},
+               "startBlocks": [],
+               "endBlocks": [],
+               "blocks": [
+                  {"for": {
+                     "limit": 6,
+                     "blocks": [
+                        {"io_write": ["met#air-cleaning", 1]},
+                        {"sleep": 5},
+                        {"io_write": ["met#air-cleaning", 0]},
+                        {"sleep": 5}
+                     ]
+                  }},
+                  {"for": {
+                     "limit": 6,
+                     "blocks": [
+                        {"io_write": ["hybrid#air-cleaning", 1]},
+                        {"sleep": 5},
+                        {"io_write": ["hybrid#air-cleaning", 0]},
+                        {"sleep": 5}
+                     ]
+                  }}
+               ]
+            },
+            {
+               "name": "wash2",
+               "isEnabled": {"profile": "wash2#enabled"},
+               "startBlocks": [
+                  {"io_write": ["hybrid#edi-res", 1]},
+                  {"io_write": ["hybrid#plv", 1]}
+               ],
+               "endBlocks": [
+                  {"io_write": ["hybrid#edi-res", 0]},
+                  {"io_write": ["hybrid#plv", 0]}
+               ],
+               "blocks": [
+                  {"sleep": 0.25},
+                  {"io_write": ["hybrid#edi-lq", 1]},
+
+                  {"sleep": {"profile": "wash2#duration"}},
+
+                  {"io_write": ["hybrid#edi-lq", 0]},
+                  {"sleep": 0.25}
+               ]
+            },
+            {
+               "name": "drying",
+               "isEnabled": {"profile": "drying#enabled"},
+               "startBlocks": [
+                  {"io_write": ["met#plv-high", 1]},
+                  {"io_write": ["met#plv-mid", 1]},
+                  {"io_write": ["met#plv-low", 1]}
+               ],
+               "endBlocks": [
+                  {"io_write": ["met#plv-high", 0]},
+                  {"io_write": ["met#plv-mid", 0]},
+                  {"io_write": ["met#plv-low", 0]}
+               ],
+               "blocks": [
+                  {"sleep": {"profile": "drying#duration"}}
+               ]
+            },
+            {
+               "name": "vapors-extraction",
+               "isEnabled": {"profile": "vapors-extraction#enabled"},
+               "startBlocks": [],
+               "endBlocks": [
+                  {"io_write": ["ventilation", 0]},
+                  {"io_write": ["motor#speed", 0]}
+               ],
+               "blocks": [
+                  {"sleep": {"profile": "vapors-extraction#duration"}}
+               ]
+            }
+         ],
+         "profileRequired": true
+      },
+      {
+         "name": "act-fill",
+         "profileRequired": false,
+         "startConditions": [
+            {
+               "conditionName": "emergency-stop",
+               "startOnly": false,
+               "checkchain": {
+                  "io": {
+                     "gateName": "emergency-stop",
+                     "gateValue": 1
+                  }
+               }
+            },
+            {
+               "conditionName": "air-sensor",
+               "startOnly": false,
+               "checkchain": {
+                  "io": {
+                     "gateName": "air-sensor",
+                     "gateValue": 1
+                  }
+               }
+            },
+            {
+               "conditionName": "cover-closed",
+               "startOnly": false,
+               "checkchain": {
+                  "io": {
+                     "gateName": "cover-closed",
+                     "gateValue": 1
+                  }
+               }
+            },
+            {
+               "conditionName": "levels#edi-min-n",
+               "startOnly": false,
+               "checkchain": {
+                  "io": {
+                     "gateName": "levels#edi-min-n",
+                     "gateValue": 1
+                  }
+               }
+            }
+         ],
+         "steps": [
+            {
+               "name": "act-fill",
+               "isEnabled": 1,
+               "blocks": [
+                  {"while": {
+                     "statement": {
+                        "comparator": "!=",
+                        "left_side": {"io_read": "levels#act-max-n"},
+                        "right_side": 1
+                     },
+                     "blocks": [{"sleep": 0.5}]
+                  }}
+               ],
+               "startBlocks": [
+                  {"io_write": ["hybrid#lq-fill-act", 1]},
+                  {"io_write": ["hybrid#edi-res", 1]},
+                  {"start_timer": {
+                     "timer_name": "timeoutError",
+                     "timer_interval": 120,
+                     "blocks": [{"stop": "activator-timed-out"}]
+                  }}
+               ],
+               "endBlocks": [
+                  {"io_write": ["hybrid#lq-fill-act", 0]},
+                  {"io_write": ["hybrid#edi-res", 0]},
+                  {"load_container": ["act", "usl_act"]},
+                  {"stop_timer": "timeoutError"}
+               ]
+            }
+         ]
+      },
+      {
+         "name": "container-emptying",
+         "profileRequired": true,
+         "startConditions": [
+            {
+               "conditionName": "emergency-stop",
+               "startOnly": false,
+               "checkchain": {
+                  "io": {
+                     "gateName": "emergency-stop",
+                     "gateValue": 1
+                  }
+               }
+            },
+            {
+               "conditionName": "air-sensor",
+               "startOnly": false,
+               "checkchain": {
+                  "io": {
+                     "gateName": "air-sensor",
+                     "gateValue": 1
+                  }
+               }
+            },
+            {
+               "conditionName": "cover-closed",
+               "startOnly": false,
+               "checkchain": {
+                  "io": {
+                     "gateName": "cover-closed",
+                     "gateValue": 1
+                  }
+               }
+            },
+            {
+               "conditionName": "levels#eff-max-n",
+               "startOnly": false,
+               "checkchain": {
+                  "io": {
+                     "gateName": "levels#eff-max-n",
+                     "gateValue": 1
+                  }
+               }
+            },
+            {
+               "conditionName": "eff-container-sensor",
+               "startOnly": false,
+               "checkchain": {
+                  "io": {
+                     "gateName": "eff-container-sensor",
+                     "gateValue": 1
+                  }
+               }
+            }
+         ],
+         "steps": [
+            {
+               "name": "container-emptying",
+               "isEnabled": 1,
+               "startBlocks": [
+                  {"io_write": ["ventilation", 1]},
+
+                  {"if": {
+                     "statement": {
+                        "comparator": "==",
+                        "left_side": {"profile": "emptying#ox"},
+                        "right_side": 1
+                     },
+                     "true_blocks": [
+                        {"io_write": ["met#ox-res", 1]},
+                        {"io_write": ["met#met-lq-high", 1]},
+                        {"io_write": ["met#met-lq-mid", 1]},
+                        {"io_write": ["met#met-lq-low", 1]}
+                     ]
+                  }},
+
+                  {"if": {
+                     "statement": {
+                        "comparator": "==",
+                        "left_side": {"profile": "emptying#rd"},
+                        "right_side": 1
+                     },
+                     "true_blocks": [
+                        {"io_write": ["met#rd-res", 1]},
+                        {"io_write": ["met#met-lq-high", 1]},
+                        {"io_write": ["met#met-lq-mid", 1]},
+                        {"io_write": ["met#met-lq-low", 1]}
+                     ]
+                  }},
+
+                  {"if": {
+                     "statement": {
+                        "comparator": "==",
+                        "left_side": {"profile": "emptying#act"},
+                        "right_side": 1
+                     },
+                     "true_blocks": [
+                        {"io_write": ["hybrid#act-res", 1]},
+                        {"io_write": ["hybrid#act-lq", 1]}
+                     ]
+                  }}
+               ],
+               "endBlocks": [
+                  {"io_write": ["ventilation", 0]},
+
+                  {"if": {
+                     "statement": {
+                        "comparator": "==",
+                        "left_side": {"profile": "emptying#ox"},
+                        "right_side": 1
+                     },
+                     "true_blocks": [
+                        {"io_write": ["met#ox-res", 0]},
+                        {"io_write": ["met#met-lq-high", 0]},
+                        {"io_write": ["met#met-lq-mid", 0]},
+                        {"io_write": ["met#met-lq-low", 0]},
+                        {"unload_container": "ox"}
+                     ]
+                  }},
+
+                  {"if": {
+                     "statement": {
+                        "comparator": "==",
+                        "left_side": {"profile": "emptying#rd"},
+                        "right_side": 1
+                     },
+                     "true_blocks": [
+                        {"io_write": ["met#rd-res", 0]},
+                        {"io_write": ["met#met-lq-high", 0]},
+                        {"io_write": ["met#met-lq-mid", 0]},
+                        {"io_write": ["met#met-lq-low", 0]},
+                        {"unload_container": "rd"}
+
+                     ]
+                  }},
+
+                  {"if": {
+                     "statement": {
+                        "comparator": "==",
+                        "left_side": {"profile": "emptying#act"},
+                        "right_side": 1
+                     },
+                     "true_blocks": [
+                        {"io_write": ["hybrid#act-res", 0]},
+                        {"io_write": ["hybrid#act-lq", 0]},
+                        {"unload_container": "act"}
+                     ]
+                  }}
+               ],
+               "blocks": [
+                  {"while": {
+                     "statement": {
+                        "comparator": "!=",
+                        "left_side": {"add": [
+                           {"multiply": [{"io_read": "levels#act-min-n"}, {"profile": "emptying#act"}]},
+                           {"multiply": [{"io_read": "levels#rd-min-n"}, {"profile": "emptying#rd"}]},
+                           {"multiply": [{"io_read": "levels#ox-min-n"}, {"profile": "emptying#ox"}]}
+                        ]},
+                        "right_side": 0
+                     },
+                     "blocks": [{"sleep": 2}]
+                  }},
+                  {"sleep": 10}
+               ]
+            }
+         ]
+      },
+      {
+         "name": "nozzle-cleaning",
+         "profileRequired": false,
+         "startConditions": [
+            {
+               "conditionName": "emergency-stop",
+               "startOnly": false,
+               "checkchain": {
+                  "io": {
+                     "gateName": "emergency-stop",
+                     "gateValue": 1
+                  }
+               }
+            },
+            {
+               "conditionName": "air-sensor",
+               "startOnly": false,
+               "checkchain": {
+                  "io": {
+                     "gateName": "air-sensor",
+                     "gateValue": 1
+                  }
+               }
+            },
+            {
+               "conditionName": "cover-closed",
+               "startOnly": false,
+               "checkchain": {
+                  "io": {
+                     "gateName": "cover-closed",
+                     "gateValue": 1
+                  }
+               }
+            }
+         ],
+         "steps": [
+            {
+               "name": "nozzle-cleaning",
+               "isEnabled": 1,
+               "startBlocks": [{"io_write": ["ventilation", 1]}],
+               "endBlocks": [{"io_write": ["ventilation", 0]}],
+               "blocks": [
+                  {"for": {
+                     "limit": 6,
+                     "blocks": [
+                        {"io_write": ["met#air-cleaning", 1]},
+                        {"sleep": 5},
+                        {"io_write": ["met#air-cleaning", 0]},
+                        {"sleep": 5}
+                     ]
+                  }},
+                  {"for": {
+                     "limit": 6,
+                     "blocks": [
+                        {"io_write": ["hybrid#air-cleaning", 1]},
+                        {"sleep": 5},
+                        {"io_write": ["hybrid#air-cleaning", 0]},
+                        {"sleep": 5}
+                     ]
+                  }}
+               ]
+            }
+         ]
+      }
+   ],
+   "addons": [
+      {
+         "addonName": "cem",
+         "content": [
+            {
+               "path": "profilePremades",
+               "mode": "merge",
+               "content": [
+                  {
+                     "skeleton": "default",
+                     "_id": "premade_cem",
+                     "name": "cem",
+                     "isPremade": true,
+                     "isRemovable": false,
+                     "isOverwritable": false,
+                     "values": {
+                        "met-nozzles#met-high": 1,
+                        "met-nozzles#met-medium": 1,
+                        "met-nozzles#met-low": 1,
+                        "motor#enabled": 1,
+                        "motor#speed": 50,
+                        "motor#reverseEnabled": 1,
+                        "motor#reverseTime": 5,
+                        "activation#enabled": 1,
+                        "activation#timeOn": 5,
+                        "activation#timeOff": 10,
+                        "activation#count": 3,
+                        "wash1#enabled": 1,
+                        "wash1#duration": 35,
+                        "metalization#enabled": 1,
+                        "metalization#timeOn": 6,
+                        "metalization#timeOff": 10,
+                        "metalization#count": 20,
+                        "metalizationWash#enabled": 0,
+                        "metalizationWash#duration": 5,
+                        "wash2#enabled": 1,
+                        "wash2#duration": 35,
+                        "drying#enabled": 1,
+                        "drying#duration": 120,
+                        "vapors-extraction#enabled": 1,
+                        "vapors-extraction#duration": 45
+                     }
+                  },
+                  {
+                     "skeleton": "default",
+                     "_id": "premade_cem-retake",
+                     "name": "cem-retake",
+                     "isPremade": true,
+                     "isRemovable": false,
+                     "isOverwritable": false,
+                     "values": {
+                        "met-nozzles#met-high": 1,
+                        "met-nozzles#met-medium": 1,
+                        "met-nozzles#met-low": 1,
+                        "motor#enabled": 1,
+                        "motor#speed": 50,
+                        "motor#reverseEnabled": 1,
+                        "motor#reverseTime": 5,
+                        "activation#enabled": 0,
+                        "activation#timeOn": 5,
+                        "activation#timeOff": 10,
+                        "activation#count": 3,
+                        "wash1#enabled": 1,
+                        "wash1#duration": 35,
+                        "metalization#enabled": 1,
+                        "metalization#timeOn": 6,
+                        "metalization#timeOff": 10,
+                        "metalization#count": 20,
+                        "metalization-wash#enabled": 0,
+                        "metalization-wash#duration": 5,
+                        "wash2#enabled": 1,
+                        "wash2#duration": 35,
+                        "drying#enabled": 1,
+                        "drying#duration": 120,
+                        "vapors-extraction#enabled": 1,
+                        "vapors-extraction#duration": 45
+                     }
+                  }
+               ]
+            },
+            {
+               "path": "cyclePremades",
+               "mode": "merge",
+               "content": [
+                  {
+                     "name": "cem",
+                     "profile": "premade_cem",
+                     "cycle": "default"
+                  },
+                  {
+                     "name": "cem-retake",
+                     "profile": "premade_cem-retake",
+                     "cycle": "default"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "addonName": "llc",
+         "content": [
+            {
+               "path": "profilePremades",
+               "mode": "merge",
+               "content": [
+                  {
+                     "skeleton": "default",
+                     "_id": "premade_llc",
+                     "name": "llc",
+                     "isPremade": true,
+                     "isRemovable": false,
+                     "isOverwritable": false,
+                     "values": {
+                        "met-nozzles#met-high": 1,
+                        "met-nozzles#met-medium": 1,
+                        "met-nozzles#met-low": 1,
+                        "motor#enabled": 1,
+                        "motor#speed": 50,
+                        "motor#reverseEnabled": 1,
+                        "motor#reverseTime": 5,
+                        "activation#enabled": 1,
+                        "activation#timeOn": 5,
+                        "activation#timeOff": 10,
+                        "activation#count": 3,
+                        "wash1#enabled": 1,
+                        "wash1#duration": 30,
+                        "metalization#enabled": 1,
+                        "metalization#timeOn": 5,
+                        "metalization#timeOff": 10,
+                        "metalization#count": 8,
+                        "metalization-wash#enabled": 1,
+                        "metalization-wash#duration": 5,
+                        "wash2#enabled": 1,
+                        "wash2#duration": 30,
+                        "drying#enabled": 1,
+                        "drying#duration": 120,
+                        "vapors-extraction#enabled": 1,
+                        "vapors-extraction#duration": 45
+                     }
+                  }
+               ]
+            },
+            {
+               "path": "cyclePremades",
+               "mode": "merge",
+               "content": [
+                  {
+                     "name": "llc",
+                     "profile": "premade_llc",
+                     "cycle": "default"
+                  }
+               ]
+            },
+            {
+               "path": "containers.0.supportedProductSeries",
+               "mode": "merge",
+               "content": ["llc_ox"]
+            },
+            {
+               "path": "containers.1.supportedProductSeries",
+               "mode": "merge",
+               "content": ["llc_rd"]
+            }
+         ]
+      }
+   ],
+   "variables": ["rd-pressure", "ox-pressure"]
+}

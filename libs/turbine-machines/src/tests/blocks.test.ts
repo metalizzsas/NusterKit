@@ -259,6 +259,12 @@ class BlockValidator
             return;
         }
 
+        if('read_machine_var' in block)
+        {
+            this.validateStringParameterBlock(block.read_machine_var);
+            return;
+        }
+
         console.log(block, "is not tested");
     }
     

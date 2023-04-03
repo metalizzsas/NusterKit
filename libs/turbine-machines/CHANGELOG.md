@@ -1,5 +1,19 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.5.0
+
+### Minor Changes
+
+- feat: Created Metalfog M R2 ([#312](https://github.com/metalizzsas/NusterKit/pull/312))
+
+### Patch Changes
+
+- tests: updated tests ([#312](https://github.com/metalizzsas/NusterKit/pull/312))
+
+- feat: smoothit m r3 no longer uses 3way valve ([#309](https://github.com/metalizzsas/NusterKit/pull/309))
+
+- fix: USCleaner M R1 now uses Duration instead of a sensor based filter duration ([#311](https://github.com/metalizzsas/NusterKit/pull/311))
+
 ## 1.4.8
 
 ### Patch Changes

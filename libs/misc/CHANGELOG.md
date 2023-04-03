@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-misc
 
+## 1.1.6
+
+### Patch Changes
+
+- feat: new help files folders structure ([#307](https://github.com/metalizzsas/NusterKit/pull/307))
+
 ## 1.1.5
 
 ### Patch Changes

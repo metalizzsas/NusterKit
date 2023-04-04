@@ -23,6 +23,7 @@ jobs:
         uses: actions/setup-node@v3.4.1
         with:
           node-version: '18.x'
+          cache: 'pnpm'
 
       - name: ⛏️ Setup PNPM 
         run: |
@@ -38,7 +39,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - name: 📚 Install Node dependencies
-        run: pnpm i
+        run: pnpm i --frozen-lockfile
         env:
           NODE_ENV: production
 

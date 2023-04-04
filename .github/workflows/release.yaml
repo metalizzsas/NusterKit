@@ -31,6 +31,7 @@ jobs:
         uses: actions/setup-node@v3.4.1
         with:
           node-version: '18.x'
+          cache: 'pnpm'
 
       - name: ⛏️ Setup PNPM 
         run: |
@@ -38,7 +39,7 @@ jobs:
           pnpm --version
 
       - name: 📚 Install workspace packages
-        run: pnpm i
+        run: pnpm i --frozen-lockfile
 
       - name: 🧱 Build libraries
         run: pnpm run build:libs

@@ -27,16 +27,16 @@ jobs:
         with:
           fetch-depth: 0 # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
 
+      - name: ⛏️ Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
       - name: ⛏️ Setup node
         uses: actions/setup-node@v3.4.1
         with:
           node-version: '18.x'
           cache: 'pnpm'
-
-      - name: ⛏️ Setup PNPM 
-        run: |
-          corepack enable
-          pnpm --version
 
       - name: 📚 Install workspace packages
         run: pnpm i --frozen-lockfile

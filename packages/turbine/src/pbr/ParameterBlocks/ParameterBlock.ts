@@ -17,6 +17,6 @@ export class ParameterBlock<T> implements ParameterBlockHydrated<T>
 
     toJSON()
     {
-        return {...this, pbrInstance: undefined, data: this.data}
+        return {...this, pbrInstance: undefined, data: this.data }
     }
 }

@@ -29,7 +29,8 @@ export class MappedGate extends IOGate implements MappedGate
     public async read()
     {
         const v = await super.readFromController(true);
-        this.value = Math.floor(map(v, this.mapInMin, this.mapInMax, this.mapOutMin, this.mapOutMax) * 100) / 100;
+        const newVal = Math.floor(map(v, this.mapInMin, this.mapInMax, this.mapOutMin, this.mapOutMax) * 100) / 100;
+        this.value = newVal < 0 ? 0 : newVal;
 
         TurbineEventLoop.emit(`io.updated.${this.name}`, this.toJSON());
 
@@ -41,7 +42,8 @@ export class MappedGate extends IOGate implements MappedGate
         this.value = data;
 
         //resolve value to be written of the fieldbus
-        const v = Math.floor(map(data, this.mapOutMin, this.mapOutMax, this.mapInMin, this.mapInMax));
+        let v = Math.floor(map(data, this.mapOutMin, this.mapOutMax, this.mapInMin, this.mapInMax));
+        v = (v < 0) ? 0 : v;
 
         TurbineEventLoop.emit(`io.updated.${this.name}`, this.toJSON());
 

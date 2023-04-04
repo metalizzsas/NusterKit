@@ -1269,9 +1269,9 @@
       {
          "name": "act-fill",
          "profileRequired": false,
-         "startConditions": [
+         "runConditions": [
             {
-               "conditionName": "emergency-stop",
+               "name": "emergency-stop",
                "startOnly": false,
                "checkchain": {
                   "io": {
@@ -1281,7 +1281,7 @@
                }
             },
             {
-               "conditionName": "air-sensor",
+               "name": "air-sensor",
                "startOnly": false,
                "checkchain": {
                   "io": {
@@ -1291,7 +1291,7 @@
                }
             },
             {
-               "conditionName": "cover-closed",
+               "name": "cover-closed",
                "startOnly": false,
                "checkchain": {
                   "io": {
@@ -1301,7 +1301,7 @@
                }
             },
             {
-               "conditionName": "levels#edi-min-n",
+               "name": "levels#edi-min-n",
                "startOnly": false,
                "checkchain": {
                   "io": {
@@ -1346,9 +1346,9 @@
       {
          "name": "container-emptying",
          "profileRequired": true,
-         "startConditions": [
+         "runConditions": [
             {
-               "conditionName": "emergency-stop",
+               "name": "emergency-stop",
                "startOnly": false,
                "checkchain": {
                   "io": {
@@ -1358,7 +1358,7 @@
                }
             },
             {
-               "conditionName": "air-sensor",
+               "name": "air-sensor",
                "startOnly": false,
                "checkchain": {
                   "io": {
@@ -1368,7 +1368,7 @@
                }
             },
             {
-               "conditionName": "cover-closed",
+               "name": "cover-closed",
                "startOnly": false,
                "checkchain": {
                   "io": {
@@ -1378,7 +1378,7 @@
                }
             },
             {
-               "conditionName": "levels#eff-max-n",
+               "name": "levels#eff-max-n",
                "startOnly": false,
                "checkchain": {
                   "io": {
@@ -1388,7 +1388,7 @@
                }
             },
             {
-               "conditionName": "eff-container-sensor",
+               "name": "eff-container-sensor",
                "startOnly": false,
                "checkchain": {
                   "io": {
@@ -1513,9 +1513,9 @@
       {
          "name": "nozzle-cleaning",
          "profileRequired": false,
-         "startConditions": [
+         "runConditions": [
             {
-               "conditionName": "emergency-stop",
+               "name": "emergency-stop",
                "startOnly": false,
                "checkchain": {
                   "io": {
@@ -1525,7 +1525,7 @@
                }
             },
             {
-               "conditionName": "air-sensor",
+               "name": "air-sensor",
                "startOnly": false,
                "checkchain": {
                   "io": {
@@ -1535,7 +1535,7 @@
                }
             },
             {
-               "conditionName": "cover-closed",
+               "name": "cover-closed",
                "startOnly": false,
                "checkchain": {
                   "io": {

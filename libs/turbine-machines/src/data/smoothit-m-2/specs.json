@@ -397,9 +397,9 @@
       {
          "name": "default",
          "profileRequired": true,
-         "startConditions": [
+         "runConditions": [
             {
-               "conditionName": "emergency-stop",
+               "name": "emergency-stop",
                "startOnly": false,
                "checkchain": {
                   "io": {
@@ -409,7 +409,7 @@
                }
             },
             {
-               "conditionName": "nitrogen-sensor",
+               "name": "nitrogen-sensor",
                "startOnly": false,
                "checkchain": {
                   "io": {
@@ -419,7 +419,7 @@
                }
             },
             {
-               "conditionName": "cover-closed",
+               "name": "cover-closed",
                "startOnly": false,
                "checkchain": {
                   "io": {
@@ -429,7 +429,7 @@
                }
             },
             {
-               "conditionName": "resin#slot-sensor",
+               "name": "resin#slot-sensor",
                "startOnly": false,
                "checkchain": {
                   "io": {
@@ -439,7 +439,7 @@
                }
             },
             {
-               "conditionName": "uv#overheat",
+               "name": "uv#overheat",
                "startOnly": false,
                "checkchain": {
                   "io": {
@@ -546,6 +546,7 @@
                "name": "uv-curing-interlayer",
                "isEnabled": {"profile": "multilayer#enabled"},
                "runAmount": {"profile": "multilayer#count"},
+               "partialStepFallback": 1,
                "blocks": [
                   {"sleep": 3},
 

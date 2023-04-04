@@ -38,7 +38,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 📚 Install Node dependencies
-        run: pnpm install --ignore-scripts --frozen-lockfile
+        run: pnpm install --frozen-lockfile
         working-directory: ./packages/dashboard
 
       - name: 📝 Run Svelte-kit sync

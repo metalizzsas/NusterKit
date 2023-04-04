@@ -67,6 +67,8 @@ export class ProgramBlockRunner
         TurbineEventLoop.emit("log", "info", "PBR: Finished building PBR.");
 
         this.duration = this.steps.filter(s => s.isEnabled.data == 1).reduce((p, c) => p += c.duration, 0);
+
+        this.addEvent(`PBR Created, estimated duration ${this.duration}s`);
     }
 
     /** Register events of this `PBR` */
@@ -164,6 +166,8 @@ export class ProgramBlockRunner
         });
 
         LoggerInstance.info(`PBR: Started cycle ${this.name}.`);
+
+        this.addEvent(`PBR Started`);
 
         this.setState("started");
         this.status.startDate = Date.now();

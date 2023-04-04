@@ -98,6 +98,7 @@ export class ProgramBlockStep
         }
 
         LoggerInstance.info(`PBS-${this.name}: Started step.`);
+        this.pbrInstance.addEvent(`PBS: Started ${this.name} step.`);
         this.state = "started";
 
         //Disable step overtime timeout if the step duration is equal to -1
@@ -191,6 +192,8 @@ export class ProgramBlockStep
         LoggerInstance.info(`PBS: Crashing ${this.name} with reason: ${this.endReason}.`);
         this.stepRuncontroller.abort();
         this.state = "crashed";
+
+        this.pbrInstance.addEvent(`PBS: Step crashed ${this.name}, reason: ${this.endReason ?? "no reason given"}.`);
         
     }
 
@@ -203,6 +206,8 @@ export class ProgramBlockStep
         LoggerInstance.info(`PBS: Ending ${this.name} with reason: ${this.endReason}.`)
         this.stepRuncontroller.abort();
         this.state = "ended";
+
+        this.pbrInstance.addEvent(`PBS: Step ${this.name} ended, reason: ${this.endReason ?? "No reason given"}.`);
     }
 
     /** Estimate the run time of this step */

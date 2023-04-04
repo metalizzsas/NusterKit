@@ -989,6 +989,30 @@
                "checkchain": {
                   "parameter": {"maintenance_status": {"string": "mfm-filter"}}
                }
+            },
+            {
+               "name": "activator-life",
+               "startOnly": true,
+               "checkchain": {
+                  "parameter": {"product_status": {"string": "act"}}
+               },
+               "disabled": { "reverse": {"profile": "activation#enabled"}}
+            },
+            {
+               "name": "oxydiser-life",
+               "startOnly": true,
+               "checkchain": {
+                  "parameter": {"product_status": {"string": "ox"}}
+               },
+               "disabled": {"reverse": {"profile": "metalization#enabled"}}
+            },
+            {
+               "name": "reducer-life",
+               "startOnly": true,
+               "checkchain": {
+                  "parameter": {"product_status": {"string": "rd"}}
+               },
+               "disabled": { "reverse": {"profile": "metalization#enabled"}}
             }
          ],
          "steps": [
@@ -1027,14 +1051,6 @@
                "isEnabled": { "profile": "activation#enabled" },
                "crashStepFallback": 5,
                "runConditions": [
-                  {
-                     "name": "activator-life",
-                     "startOnly": true,
-                     "checkchain": {
-                        "parameter": {"product_status": {"string": "act"}}
-                     },
-                     "disabled": { "reverse": {"profile": "activation#enabled"}}
-                  },
                   {
                      "name": "levels#act-min-n",
                      "startOnly": false,
@@ -1135,22 +1151,6 @@
                            "gateName": "levels#rd-min-n",
                            "gateValue": 1
                         }
-                     },
-                     "disabled": { "reverse": {"profile": "metalization#enabled"}}
-                  },
-                  {
-                     "name": "oxydiser-life",
-                     "startOnly": true,
-                     "checkchain": {
-                        "parameter": {"product_status": {"string": "ox"}}
-                     },
-                     "disabled": {"reverse": {"profile": "metalization#enabled"}}
-                  },
-                  {
-                     "name": "reducer-life",
-                     "startOnly": true,
-                     "checkchain": {
-                        "parameter": {"product_status": {"string": "rd"}}
                      },
                      "disabled": { "reverse": {"profile": "metalization#enabled"}}
                   }

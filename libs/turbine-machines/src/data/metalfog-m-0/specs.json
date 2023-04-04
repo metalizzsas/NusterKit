@@ -527,6 +527,27 @@
                     "checkchain": {
                         "parameter": {"maintenance_status": "mfm-filter"}
                     }
+                },
+                {
+                    "name": "oxydiser-life",
+                    "startOnly": true,
+                    "checkchain": {
+                        "parameter": {"product_status": "ox"}
+                    }
+                },
+                {
+                    "name": "reducer-life",
+                    "startOnly": true,
+                    "checkchain": {
+                        "parameter": {"product_status": "rd"}
+                    }
+                },
+                {
+                    "name": "activator-life",
+                    "startOnly": true,
+                    "checkchain": {
+                        "parameter": {"product_status": "act"}
+                    }
                 }
             ],
             "steps": [
@@ -562,15 +583,6 @@
                     "name": "activation",
                     "isEnabled": {"profile": "activation#enabled"},
                     "crashStepFallback": 4,
-                    "runConditions": [
-                        {
-                            "name": "activator-life",
-                            "startOnly": true,
-                            "checkchain": {
-                                "parameter": {"product_status": "act"}
-                            }
-                        }
-                    ],
                     "startBlocks": [
                         {"io_write": ["hybrid#act-res", 1]},
                         {"io_write": ["hybrid#edi-res", {"profile": "activation-wash#enabled"}]}
@@ -630,22 +642,6 @@
                     "name": "metalization",
                     "isEnabled": {"profile": "metalization#enabled"},
                     "crashStepFallback": 4,
-                    "runConditions": [
-                        {
-                            "name": "oxydiser-life",
-                            "startOnly": true,
-                            "checkchain": {
-                                "parameter": {"product_status": "ox"}
-                            }
-                        },
-                        {
-                            "name": "reducer-life",
-                            "startOnly": true,
-                            "checkchain": {
-                                "parameter": {"product_status": "rd"}
-                            }
-                        }
-                    ],
                     "startBlocks": [
                         {"io_write": ["met#chem-res", 1]}
                     ],

@@ -51,7 +51,7 @@
             "security-resin#slot-sensor": "Vanish slot missing",
             "security-uv#overheat": "UV lamp overheat"
         },
-        "start_conditions": {
+        "run_conditions": {
             "emergency-stop": "Emergency stop button status",
             "nitrogen-sensor": "Nitrogen pressure",
             "cover-closed": "Cover closed",

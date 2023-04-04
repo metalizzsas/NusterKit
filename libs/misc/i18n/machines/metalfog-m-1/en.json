@@ -81,7 +81,7 @@
             "activator-timed-out": "Activator dilution was too long"
         },
 
-        "start_conditions": {
+        "run_conditions": {
             "emergency-stop": "Emergency stop button",
             "cover-closed": "Cover closed",
             "air-sensor": "Air pressure",

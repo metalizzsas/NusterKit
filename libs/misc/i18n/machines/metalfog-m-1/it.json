@@ -87,7 +87,7 @@
             "activator-timed-out": "La diluzione dell'attivatore ha impiegato troppo tempo"
         },
        
-        "start_conditions": {
+        "run_conditions": {
             "emergency-stop": "Pulsante arresto di emergenza",
             "cover-closed": "Coperchio chiuso",
             "air-sensor": "Pressione aria compressa",

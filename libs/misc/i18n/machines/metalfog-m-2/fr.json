@@ -81,7 +81,7 @@
             "security-levels#rd-min-n": "Niveau de réducteur minimal",
             "activator-timed-out": "La dilution d'activant à été trop longue"
         },
-        "start_conditions": {
+        "run_conditions": {
             "emergency-stop": "Bouton d'arret d'urgence",
             "cover-closed": "Couvercle fermé",
             "air-sensor": "Pression d'air comprimé",

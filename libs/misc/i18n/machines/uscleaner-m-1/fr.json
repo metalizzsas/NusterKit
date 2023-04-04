@@ -46,7 +46,7 @@
                 "desc": "Nétoyage des pièces"
             }
         },
-        "start_conditions": {
+        "run_conditions": {
             "emergency-stop": "Bouton d'arret d'urgence",
             "cover-closed": "Couvercle fermé",
             "temperature#over-heat": "Pas de surchauffe produit"

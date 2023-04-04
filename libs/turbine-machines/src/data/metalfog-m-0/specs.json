@@ -3,8 +3,7 @@
     "iohandlers": [
         {
             "type": "wago",
-            "ip": "192.168.1.10",
-            "ioScannerInterval": 2500
+            "ip": "192.168.1.10"
         }
     ],
     "iogates": [
@@ -481,9 +480,9 @@
     "cycleTypes": [
         {
             "name": "default",
-            "startConditions": [
+            "runConditions": [
                 {
-                    "conditionName": "emergency-stop",
+                    "name": "emergency-stop",
                     "startOnly": false,
                     "checkchain": {
                         "io": {
@@ -493,7 +492,7 @@
                     }
                 },
                 {
-                    "conditionName": "air-sensor",
+                    "name": "air-sensor",
                     "startOnly": false,
                     "checkchain": {
                         "io": {
@@ -503,7 +502,7 @@
                     }
                 },
                 {
-                    "conditionName": "cover-closed",
+                    "name": "cover-closed",
                     "startOnly": false,
                     "checkchain": {
                         "io": {
@@ -513,7 +512,7 @@
                     }
                 },
                 {
-                    "conditionName": "levels#eff-max-n",
+                    "name": "levels#eff-max-n",
                     "startOnly": false,
                     "checkchain": {
                         "io": {
@@ -523,31 +522,10 @@
                     }
                 },
                 {
-                    "conditionName": "maintenance-filter",
+                    "name": "maintenance-filter",
                     "startOnly": true,
                     "checkchain": {
                         "parameter": {"maintenance_status": "mfm-filter"}
-                    }
-                },
-                {
-                    "conditionName": "activator-life",
-                    "startOnly": true,
-                    "checkchain": {
-                        "parameter": {"product_status": "act"}
-                    }
-                },
-                {
-                    "conditionName": "oxydiser-life",
-                    "startOnly": true,
-                    "checkchain": {
-                        "parameter": {"product_status": "ox"}
-                    }
-                },
-                {
-                    "conditionName": "reducer-life",
-                    "startOnly": true,
-                    "checkchain": {
-                        "parameter": {"product_status": "rd"}
                     }
                 }
             ],
@@ -583,6 +561,16 @@
                 {
                     "name": "activation",
                     "isEnabled": {"profile": "activation#enabled"},
+                    "crashStepFallback": 4,
+                    "runConditions": [
+                        {
+                            "name": "activator-life",
+                            "startOnly": true,
+                            "checkchain": {
+                                "parameter": {"product_status": "act"}
+                            }
+                        }
+                    ],
                     "startBlocks": [
                         {"io_write": ["hybrid#act-res", 1]},
                         {"io_write": ["hybrid#edi-res", {"profile": "activation-wash#enabled"}]}
@@ -641,6 +629,23 @@
                 {
                     "name": "metalization",
                     "isEnabled": {"profile": "metalization#enabled"},
+                    "crashStepFallback": 4,
+                    "runConditions": [
+                        {
+                            "name": "oxydiser-life",
+                            "startOnly": true,
+                            "checkchain": {
+                                "parameter": {"product_status": "ox"}
+                            }
+                        },
+                        {
+                            "name": "reducer-life",
+                            "startOnly": true,
+                            "checkchain": {
+                                "parameter": {"product_status": "rd"}
+                            }
+                        }
+                    ],
                     "startBlocks": [
                         {"io_write": ["met#chem-res", 1]}
                     ],

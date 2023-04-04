@@ -29,7 +29,7 @@ jobs:
           pnpm --version
 
       - name: ⛭ Setup Pnpm github registry
-        run: echo "@metalizzsas:registry=https://npm.pkg.github.com" >> .npmrc && echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> .npmrc
+        run: echo "@metalizzsas:registry=https://npm.pkg.github.com" >> .npmrc && echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> .npmrc && echo "link-workspace-packages=false" >> .npmrc
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

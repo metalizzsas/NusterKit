@@ -863,9 +863,9 @@
    "cycleTypes": [
       {
          "name": "default",
-         "startConditions": [
+         "runConditions": [
             {
-               "conditionName": "emergency-stop",
+               "name": "emergency-stop",
                "startOnly": false,
                "checkchain": {
                   "io": {
@@ -875,7 +875,7 @@
                }
             },
             {
-               "conditionName": "air-sensor",
+               "name": "air-sensor",
                "startOnly": false,
                "checkchain": {
                   "io": {
@@ -885,7 +885,7 @@
                }
             },
             {
-               "conditionName": "cover-closed",
+               "name": "cover-closed",
                "startOnly": false,
                "checkchain": {
                   "io": {
@@ -895,7 +895,7 @@
                }
             },
             {
-               "conditionName": "levels#eff-max-n",
+               "name": "levels#eff-max-n",
                "startOnly": false,
                "checkchain": {
                   "io": {
@@ -905,7 +905,7 @@
                }
             },
             {
-               "conditionName": "eff-container-sensor",
+               "name": "eff-container-sensor",
                "startOnly": false,
                "checkchain": {
                   "io": {
@@ -915,78 +915,11 @@
                }
             },
             {
-               "conditionName": "levels#edi-min-n",
-               "startOnly": false,
-               "checkchain": {
-                  "io": {
-                     "gateName": "levels#edi-min-n",
-                     "gateValue": 1
-                  }
-               }
-            },
-            {
-               "conditionName": "levels#act-min-n",
-               "startOnly": false,
-               "checkchain": {
-                  "io": {
-                     "gateName": "levels#act-min-n",
-                     "gateValue": 1
-                  }
-               },
-               "disabled": {"reverse": {"profile": "activation#enabled"}}
-            },
-            {
-               "conditionName": "levels#ox-min-n",
-               "startOnly": false,
-               "checkchain": {
-                  "io": {
-                     "gateName": "levels#ox-min-n",
-                     "gateValue": 1
-                  }
-               },
-               "disabled": { "reverse": {"profile": "metalization#enabled"}}
-            },
-            {
-               "conditionName": "levels#rd-min-n",
-               "startOnly": false,
-               "checkchain": {
-                  "io": {
-                     "gateName": "levels#rd-min-n",
-                     "gateValue": 1
-                  }
-               },
-               "disabled": { "reverse": {"profile": "metalization#enabled"}}
-            },
-            {
-               "conditionName": "maintenance-filter",
+               "name": "maintenance-filter",
                "startOnly": true,
                "checkchain": {
                   "parameter": {"maintenance_status": {"string": "mfm-filter"}}
                }
-            },
-            {
-               "conditionName": "activator-life",
-               "startOnly": true,
-               "checkchain": {
-                  "parameter": {"product_status": {"string": "act"}}
-               },
-               "disabled": { "reverse": {"profile": "activation#enabled"}}
-            },
-            {
-               "conditionName": "oxydiser-life",
-               "startOnly": true,
-               "checkchain": {
-                  "parameter": {"product_status": {"string": "ox"}}
-               },
-               "disabled": {"reverse": {"profile": "metalization#enabled"}}
-            },
-            {
-               "conditionName": "reducer-life",
-               "startOnly": true,
-               "checkchain": {
-                  "parameter": {"product_status": {"string": "rd"}}
-               },
-               "disabled": { "reverse": {"profile": "metalization#enabled"}}
             }
          ],
          "steps": [
@@ -1023,6 +956,28 @@
             {
                "name": "activation",
                "isEnabled": { "profile": "activation#enabled" },
+               "runConditions": [
+                  {
+                     "name": "levels#act-min-n",
+                     "startOnly": false,
+                     "checkchain": {
+                        "io": {
+                           "gateName": "levels#act-min-n",
+                           "gateValue": 1
+                        }
+                     },
+                     "disabled": {"reverse": {"profile": "activation#enabled"}}
+                  },
+                  {
+                     "name": "activator-life",
+                     "startOnly": true,
+                     "checkchain": {
+                        "parameter": {"product_status": {"string": "act"}}
+                     },
+                     "disabled": { "reverse": {"profile": "activation#enabled"}}
+                  }
+               ],
+               "crashStepFallback": 4,
                "startBlocks": [
                   {"io_write": ["hybrid#act-res", 1]}
                ],
@@ -1048,6 +1003,19 @@
             {
                "name": "wash1",
                "isEnabled": {"profile": "wash1#enabled"},
+               "crashStepFallback": 6,
+               "runConditions": [
+                  {
+                     "name": "levels#edi-min-n",
+                     "startOnly": false,
+                     "checkchain": {
+                        "io": {
+                           "gateName": "levels#edi-min-n",
+                           "gateValue": 1
+                        }
+                     }
+                  }
+               ],
                "startBlocks": [
                   {"io_write": ["hybrid#edi-res", 1]},
                   {"io_write": ["hybrid#plv", 1]}
@@ -1069,6 +1037,47 @@
             {
                "name": "metalization",
                "isEnabled": {"profile": "metalization#enabled"},
+               "runConditions": [
+                  {
+                     "name": "levels#ox-min-n",
+                     "startOnly": false,
+                     "checkchain": {
+                        "io": {
+                           "gateName": "levels#ox-min-n",
+                           "gateValue": 1
+                        }
+                     },
+                     "disabled": { "reverse": {"profile": "metalization#enabled"}}
+                  },
+                  {
+                     "name": "levels#rd-min-n",
+                     "startOnly": false,
+                     "checkchain": {
+                        "io": {
+                           "gateName": "levels#rd-min-n",
+                           "gateValue": 1
+                        }
+                     },
+                     "disabled": { "reverse": {"profile": "metalization#enabled"}}
+                  },
+                  {
+                     "name": "oxydiser-life",
+                     "startOnly": true,
+                     "checkchain": {
+                        "parameter": {"product_status": {"string": "ox"}}
+                     },
+                     "disabled": {"reverse": {"profile": "metalization#enabled"}}
+                  },
+                  {
+                     "name": "reducer-life",
+                     "startOnly": true,
+                     "checkchain": {
+                        "parameter": {"product_status": {"string": "rd"}}
+                     },
+                     "disabled": { "reverse": {"profile": "metalization#enabled"}}
+                  }
+               ],
+               "crashStepFallback": 4,
                "startBlocks": [
                   {"io_write": ["met#ox-res", 1]},
                   {"io_write": ["met#rd-res", 1]},
@@ -1194,6 +1203,19 @@
             {
                "name": "wash2",
                "isEnabled": {"profile": "wash2#enabled"},
+               "crashStepFallback": 6,
+               "runConditions": [
+                  {
+                     "name": "levels#edi-min-n",
+                     "startOnly": false,
+                     "checkchain": {
+                        "io": {
+                           "gateName": "levels#edi-min-n",
+                           "gateValue": 1
+                        }
+                     }
+                  }
+               ],
                "startBlocks": [
                   {"io_write": ["hybrid#edi-res", 1]},
                   {"io_write": ["hybrid#plv", 1]}

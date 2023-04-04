@@ -1,17 +1,17 @@
 import type { NumericParameterBlockHydrated, StatusParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
-import type { PBRStartConditionResult, PBRStartCondition as PBRStartConditionConfig } from "@metalizzsas/nuster-typings/build/spec/cycle/PBRStartCondition";
+import type { PBRStartConditionResult, PBRRunCondition as PBRRunConditionConfig } from "@metalizzsas/nuster-typings/build/spec/cycle/PBRRunCondition";
 import type { PBRMode } from "@metalizzsas/nuster-typings/build/hydrated/cycle/ProgramBlockRunnerHydrated";
 
 import { ParameterBlockRegistry } from "./ParameterBlocks/ParameterBlockRegistry";
 import { TurbineEventLoop } from "../events";
 import type { IOGateJSON } from "@metalizzsas/nuster-typings/build/hydrated/io";
 
-export class PBRSecurityCondition
+export class PBRRunCondition
 {
     name: string;
     startOnly: boolean;
     disabled: NumericParameterBlockHydrated | undefined;
-    scc: PBRStartConditionConfig;
+    scc: PBRRunConditionConfig;
 
     state: PBRStartConditionResult = "error";
 
@@ -20,11 +20,15 @@ export class PBRSecurityCondition
 
     #gateListenerReference: (typeof this.gateListener) | undefined = undefined;
 
-    constructor(pbrsc: PBRStartConditionConfig)
+    subscriber: ((data: { name: string, startOnly: boolean, result: PBRStartConditionResult }) => void) | undefined = undefined;
+
+    constructor(pbrsc: PBRRunConditionConfig, subscribeCallback?: (data: { name: string, startOnly: boolean, result: PBRStartConditionResult }) => void)
     {
-        this.name = pbrsc.conditionName;
+        this.name = pbrsc.name;
         this.startOnly = pbrsc.startOnly;
         this.scc = pbrsc;
+
+        this.subscriber = subscribeCallback;
 
         if(pbrsc.disabled)
             this.disabled = ParameterBlockRegistry.Numeric(pbrsc.disabled);
@@ -51,6 +55,7 @@ export class PBRSecurityCondition
             /** Subscribe to status block data change */
             this.#statusBlock.subscribe((data) => {
                 this.state = data;
+                this.subscriber?.(this.toJSON());
             });
         }
     }
@@ -60,7 +65,7 @@ export class PBRSecurityCondition
         this.state = (gate.value === this.scc.checkchain.io?.gateValue) ? "good" : "error";
 
         if(this.state === "error" && this.#pbrState === "started")
-            TurbineEventLoop.emit(`pbr.stop`, `security-${this.name}`)
+            this.subscriber?.(this.toJSON());
     }
     
     private pbrStateListener(state: PBRMode) {
@@ -82,7 +87,7 @@ export class PBRSecurityCondition
     toJSON()
     {
         return {
-            conditionName: this.name,
+            name: this.name,
             startOnly: this.startOnly,
             result: this.state
         }

@@ -1,3 +1,4 @@
+import type { PBRRunCondition } from "./PBRRunCondition";
 import type { NumericParameterBlocks } from "./blocks/ParameterBlocks";
 import type { AllProgramBlocks } from "./blocks/ProgramBlocks";
 
@@ -11,6 +12,15 @@ export interface PBRStep
 
     /** Optional Parameter block that tells the PBR if this steps must be runt multiple times */
     runAmount?: NumericParameterBlocks;
+
+    /** Step run conditions, theeses runConditions triggers Soft End Strategy if defined, otherwise, runs hard end strategy */
+    runConditions?: Array<PBRRunCondition>;
+
+    /** Partial end step fallback */
+    partialStepFallback?: number;
+
+    /** Step to goto on soft end */
+    crashStepFallback?: number;
     
     /** Program Blocks array that are executed at the start of a step */
     startBlocks: Array<AllProgramBlocks>;
@@ -36,10 +46,10 @@ export interface PBRStepInformations
 }
 
 /** Step state */
-export type PBRStepState = "created" | "started" | "partial" | "disabled" | "skipped" | "ending" | "ended";
+export type PBRStepState = "created" | "started" | "disabled" | "partial" | "skipped" | "ending" | "ended" | "crashed";
 
 /** Step Type Programaticaly given by the RunAmount parameter of a step */
 export type PBRStepType = "single" | "multiple";
 
 /** Result from a step execution */
-export type PBRStepResult = "partial" | "ended";
+export type PBRStepResult = "next" | number;

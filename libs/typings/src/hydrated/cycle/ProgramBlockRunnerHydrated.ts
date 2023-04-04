@@ -13,11 +13,13 @@ export type ProgramBlockRunnerHydrated = Modify<ProgramBlockRunner, {
 
     currentStepIndex: number;
 
-    startConditions: Array<PBRStartConditionHydrated>,
+    runConditions: Array<PBRStartConditionHydrated>,
     steps: Array<PBRStepHydrated>;
     profile?: ProfileHydrated,
 
     additionalInfo?: Array<string>;
+
+    events: Array<{ data: string, time: number}>;
 
     get currentRunningStep(): PBRStepHydrated
 

@@ -6,6 +6,7 @@ import type { MachineSpecs } from "@metalizzsas/nuster-typings/build/spec/";
 
 import * as fileSchema from "@metalizzsas/nuster-typings/build/schemas/schema-translations.json";
 import { Machines } from "..";
+import type { PBRRunCondition } from "@metalizzsas/nuster-typings/build/spec/cycle/PBRRunCondition";
 
 expect.extend(matchers);
 
@@ -116,12 +117,18 @@ for(const machine of Object.keys(Machines))
             }
 
             //startConditions
-            for(const sc of machineSpecs.cycleTypes.flatMap(c => c.startConditions))
+            for(const sc of machineSpecs.cycleTypes.flatMap(c => c.runConditions))
             {
-                expect(translation).toHaveProperty("cycle.start_conditions." + sc.conditionName);
+                expect(translation).toHaveProperty("cycle.run_conditions." + sc.name);
         
                 if(sc.startOnly != true)
-                    expect(translation).toHaveProperty("cycle.end_reasons.security-" + sc.conditionName)
+                    expect(translation).toHaveProperty("cycle.end_reasons.security-" + sc.name)
+            }
+
+            for(const sr of machineSpecs.cycleTypes.flatMap(c => c.steps.flatMap(s => s.runConditions).filter((s): s is PBRRunCondition => s != undefined)))
+            {
+                expect(translation).toHaveProperty("cycle.run_conditions." + sr.name);
+                expect(translation).toHaveProperty("cycle.end_reasons.security-" + sr.name);
             }
 
             for(const maintenancesName of maintenancesNames)

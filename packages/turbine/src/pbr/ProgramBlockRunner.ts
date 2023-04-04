@@ -5,7 +5,7 @@ import type { PBRStepResult } from "@metalizzsas/nuster-typings/build/spec/cycle
 
 import { LoggerInstance } from "../app";
 import { ProgramBlockStep } from "./ProgramBlockStep";
-import { PBRSecurityCondition } from "./PBRSecurityCondition";
+import { PBRRunCondition } from "./PBRSecurityCondition";
 import { TurbineEventLoop } from "../events";
 
 /**
@@ -26,7 +26,7 @@ export class ProgramBlockRunner
     steps: Array<ProgramBlockStep> = [];
 
     /** Start conditions of the **PBR** */
-    startConditions: Array<PBRSecurityCondition> = [];
+    runConditions: Array<PBRRunCondition> = [];
 
     /** Index of the current step being runt */
     currentStepIndex = 0;
@@ -38,6 +38,8 @@ export class ProgramBlockRunner
 
     /** Estimated duration */
     duration: number;
+
+    events: Array<{ data: string, time: number }> = []; 
 
     constructor(object: ProgramBlockRunnerConfig, profile?: ProfileHydrated)
     {
@@ -53,8 +55,10 @@ export class ProgramBlockRunner
 
         this.registerEvents();
             
-        for(const sc of object.startConditions)
-            this.startConditions.push(new PBRSecurityCondition(sc));
+        for(const sc of object.runConditions)
+            this.runConditions.push(new PBRRunCondition(sc, (data) => {
+                TurbineEventLoop.emit(`pbr.stop`, `security-${data.name}`)
+            }));
 
         for(const step of object.steps)
             this.steps.push(new ProgramBlockStep(this, step));
@@ -138,7 +142,7 @@ export class ProgramBlockRunner
     {
         LoggerInstance.info("PBRSC: Checking Start conditions.");
 
-        const invalidStartConditionsCount = this.startConditions.filter((sc) => sc.canStart == false).length;
+        const invalidStartConditionsCount = this.allRunConditions.filter((sc) => sc.canStart == false).length;
 
         if(invalidStartConditionsCount > 0)
         {
@@ -149,7 +153,7 @@ export class ProgramBlockRunner
         LoggerInstance.info("PBRSC: Start conditions are valid.");
         LoggerInstance.info("PBRSC: Removing start conditions only used at start.");
 
-        this.startConditions = this.startConditions.filter(sc => {
+        this.runConditions = this.runConditions.filter(sc => {
             if(sc.startOnly == true)
             {
                 sc.dispose();
@@ -157,7 +161,6 @@ export class ProgramBlockRunner
                 return false;
             }
             return true;
-            
         });
 
         LoggerInstance.info(`PBR: Started cycle ${this.name}.`);
@@ -174,42 +177,16 @@ export class ProgramBlockRunner
             else
                 break;
 
-            switch(result)
+            if(result === "next")
             {
-                case "partial":
-                {
-                    //reset times at the end of a partial step
-                    this.steps[this.currentStepIndex].resetTimes();
-
-                    LoggerInstance.info("PBR: Partial step ended, fetching first multiple step.");
-
-                    //if next step does not exists or next step is not a multiple step,
-                    //return to first multiple step
-                    if(this.steps[this.currentStepIndex + 1].type != "multiple")
-                    {
-                        const j = this.steps.findIndex(step => step.type == "multiple");
-
-                        if(j != -1)
-                        {
-                            LoggerInstance.info("PBR: Next partial step: " + this.steps[j].name);
-                            this.currentStepIndex = j;
-                        }
-                        else
-                        {
-                            LoggerInstance.error("PBR: No first multiple step found.");
-                            this.end("partial-definition-error");
-                        }
-                        continue;
-                    }
-                    else
-                    {
-                        LoggerInstance.info("PBR: Next partial step not found, going next step.");
-                    }
-                }
-            }
-            
-            if(this.status.mode !== "ended")
+                LoggerInstance.info("PBR: Step ended, going to next step.");
                 this.currentStepIndex++;
+            }
+            else
+            {
+                LoggerInstance.info(`PBR: Ended step asked to go to step: ${this.steps[result].name}.`)
+                this.currentStepIndex = result;
+            }
         }
 
         this.dispose();
@@ -223,9 +200,14 @@ export class ProgramBlockRunner
      */
     public nextStep()
     {
-        LoggerInstance.warn("PBR: Next step triggered");
-        if(this.currentRunningStep)
-            this.currentRunningStep.state = "ending";
+        LoggerInstance.warn(`PBR: Next step triggered.`);
+        this.currentRunningStep.end("skipped");
+    }
+
+    /** Add Events to the PBR history */
+    public addEvent(event: string)
+    {
+        this.events.push({ data: event, time: Date.now() });
     }
 
     /** 
@@ -257,6 +239,8 @@ export class ProgramBlockRunner
 
         if(reason !== undefined)
             LoggerInstance.warn("PBR: Triggered cycle end with reason: " + reason);
+
+        this.addEvent(`Cycle ended with reason ${reason}.`);
     }
 
     /** Dispose the cycle before its deletion */
@@ -283,10 +267,10 @@ export class ProgramBlockRunner
         }
 
         //Removing Start conditions timers
-        if(this.startConditions.length > 0)
+        if(this.runConditions.length > 0)
         {
             LoggerInstance.info("PBR: Removing Start Conditions checks.");
-            for(const sc of this.startConditions)
+            for(const sc of this.runConditions)
                 sc.dispose();
         }
 
@@ -314,6 +298,8 @@ export class ProgramBlockRunner
         TurbineEventLoop.emit("io.resetAll");
 
         LoggerInstance.info(`PBR: Ended cycle ${this.name} with state: ${this.status.mode} & reason: ${this.status.endReason}.`);
+
+        this.addEvent(`Cycle disposed.`);
     }
 
     /** Compute progress of the cycle */
@@ -328,6 +314,11 @@ export class ProgramBlockRunner
         return this.steps[this.currentStepIndex];
     }
 
+    get allRunConditions(): Array<PBRRunCondition>
+    {
+        return [...this.runConditions, ...this.steps.flatMap(s => s.runConditions).filter((s): s is PBRRunCondition => s !== undefined)];
+    }
+
     toJSON()
     {
         return {
@@ -338,7 +329,7 @@ export class ProgramBlockRunner
             
             //Inside definers
             steps: this.steps,
-            startConditions: this.startConditions.map(k => k.toJSON()),
+            runConditions: this.allRunConditions.map(k => k.toJSON()).filter((rc, i, a) => a.findIndex(rc2 => rc2.name === rc.name) === i),
 
             //internals
             currentStepIndex: this.currentStepIndex,
@@ -347,7 +338,9 @@ export class ProgramBlockRunner
             profile: this.profile,
 
             //additional informations
-            additionalInfo: this.additionalInfo
+            additionalInfo: this.additionalInfo,
+
+            events: this.events
         }
     }
 }

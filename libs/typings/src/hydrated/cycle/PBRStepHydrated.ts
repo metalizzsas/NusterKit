@@ -1,5 +1,6 @@
 import type { PBRStep, PBRStepState, PBRStepType } from "../../spec/cycle/PBRStep";
 import type { Modify } from "../../utils/Modify";
+import type { PBRStartConditionHydrated } from "./PBRStartConditionHydrated";
 import type { NumericParameterBlockHydrated } from "./blocks/ParameterBlockHydrated";
 import type { ProgramBlockHydrated } from "./blocks/ProgramBlockHydrated";
 
@@ -13,6 +14,8 @@ export type PBRStepHydrated = Modify<PBRStep, {
     isEnabled: NumericParameterBlockHydrated,
 
     runAmount?: NumericParameterBlockHydrated,
+
+    runConditions: PBRStartConditionHydrated[],
 
     startBlocks: ProgramBlockHydrated[],
     blocks: ProgramBlockHydrated[],

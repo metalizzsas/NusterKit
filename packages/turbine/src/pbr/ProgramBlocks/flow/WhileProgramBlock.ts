@@ -31,18 +31,18 @@ export class WhileProgramBlock extends ProgramBlock
         TurbineEventLoop.on(`pbr.stop`, () => this.earlyExit = true);
     }
 
-    public async execute(): Promise<void>
+    public async execute(signal?: AbortSignal): Promise<void>
     {        
         while (ComparativeFunctions[this.comparator.data as Comparators](this.leftSide.data, this.rightSide.data))
         {
-            if (this.earlyExit === true)
+            if (this.earlyExit === true || signal?.aborted === true)
             { 
                 this.executed = true;
                 return;
             }
             for (const b of this.blocks)
             {
-                await b.execute();
+                await b.execute(signal);
             }
         }
 

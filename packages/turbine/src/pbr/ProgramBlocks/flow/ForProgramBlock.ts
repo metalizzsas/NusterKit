@@ -32,13 +32,13 @@ export class ForProgramBlock extends ProgramBlock {
      * Execute for loop
      * @throws
      */
-    public async execute()
+    public async execute(signal?: AbortSignal)
     {        
         const loopCount = this.limit.data;
         TurbineEventLoop.emit("log", "info", `ForBlock: Will loop ${loopCount} times. Starting from: ${this.currentIteration}`);
 
         for (; this.currentIteration < (loopCount); this.currentIteration++) {
-            if (this.earlyExit === true)
+            if (this.earlyExit === true || signal?.aborted === true)
             { 
                 this.executed = (this.currentIteration + 1 == (loopCount));
                 return;
@@ -46,7 +46,7 @@ export class ForProgramBlock extends ProgramBlock {
 
             for (const instuction of this.blocks)
             {
-                await instuction.execute();
+                await instuction.execute(signal);
             }
         }
 

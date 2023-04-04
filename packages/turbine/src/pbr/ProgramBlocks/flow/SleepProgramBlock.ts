@@ -19,7 +19,7 @@ export class SleepProgramBlock extends ProgramBlock
         TurbineEventLoop.on(`pbr.status.update`, (state) => { if (state === "ended" || state === "ending") { this.earlyExit = true }});
     }
 
-    async execute(): Promise<void>
+    async execute(signal?: AbortSignal): Promise<void>
     {        
         const timeStart = performance.now();
         const sleepTime = this.sleepTime.data * 1000;
@@ -30,7 +30,7 @@ export class SleepProgramBlock extends ProgramBlock
         {
             const timeLoop = performance.now();
 
-            if (this.earlyExit === true)
+            if (this.earlyExit === true || signal?.aborted === true)
                 break;
             if(timeLoop - timeStart >= sleepTime)
                 break;

@@ -15,7 +15,7 @@ export class ProgramBlock implements ProgramBlockHydrated
     }
     
     /** Execute function */
-    execute(): void | Promise<void>
+    execute(signal?: AbortSignal): void | Promise<void>
     {
         this.executed = true;
     }

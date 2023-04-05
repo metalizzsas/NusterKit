@@ -8,7 +8,7 @@ volumes:
 services:
   mongodb:
     container_name: mongodb
-    image: mongo:4.2
+    image: mongo:4.2.21
     restart: always
     volumes: 
       - mongodb:/data/db

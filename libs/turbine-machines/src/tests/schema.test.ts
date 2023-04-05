@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-import * as fileSchema from "@metalizzsas/nuster-typings/build/schemas/schema-specs.json";
+import { SpecsSchema as fileSchema } from "@metalizzsas/nuster-typings";
 import { matchers } from 'jest-json-schema';
 
 expect.extend(matchers);

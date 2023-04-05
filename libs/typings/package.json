@@ -17,11 +17,11 @@
   "scripts": {
     "lint": "eslint --ext .ts .",
     "dev": "tsc --watch",
-    "build": "tsc && pnpm run schema",
+    "build": "pnpm run schema && tsc",
     "schema": "npm run schema:config && npm run schema:spec && npm run schema:translations",
-    "schema:config": "typescript-json-schema src/configuration/index.ts Configuration --noExtraProps --required -o build/schemas/schema-config.json",
-    "schema:spec": "typescript-json-schema src/spec/index.ts MachineSpecs --noExtraProps --required -o build/schemas/schema-specs.json",
-    "schema:translations": "typescript-json-schema src/translations/index.ts Translations --noExtraProps --required -o build/schemas/schema-translations.json"
+    "schema:config": "typescript-json-schema src/configuration/index.ts Configuration --noExtraProps --required -o src/schemas/schema-config.json",
+    "schema:spec": "typescript-json-schema src/spec/index.ts MachineSpecs --noExtraProps --required -o src/schemas/schema-specs.json",
+    "schema:translations": "typescript-json-schema src/translations/index.ts Translations --noExtraProps --required -o src/schemas/schema-translations.json"
   },
   "keywords": [],
   "author": "@metalizzsas/kworz",

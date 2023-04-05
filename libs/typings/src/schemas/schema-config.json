@@ -1,0 +1,158 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "definitions": {
+        "ConfigModel": {
+            "enum": [
+                "metalfog",
+                "smoothit",
+                "uscleaner"
+            ],
+            "type": "string"
+        },
+        "Settings": {
+            "additionalProperties": false,
+            "description": "Machine additional settings",
+            "properties": {
+                "devMode": {
+                    "description": "Dev mode enabled on this machine.\n\nEnables:\n - NextStep button on cycle\n - IO Controls\n - profilesMasked is overriden to `true`.",
+                    "type": "boolean"
+                },
+                "profilesShown": {
+                    "description": "Do profiles list is shown",
+                    "type": "boolean"
+                },
+                "variables": {
+                    "description": "Additional variables.\nCan be retreived by a `ParameterBlock` in `ProgramBlockRunner`.",
+                    "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "value": {
+                                "type": "number"
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "value"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "devMode",
+                "profilesShown",
+                "variables"
+            ],
+            "type": "object"
+        }
+    },
+    "description": "Configuration info.json driving NusterTurbine",
+    "properties": {
+        "$schema": {
+            "description": "JSON Schema for json validation",
+            "type": "string"
+        },
+        "addons": {
+            "description": "Machine Addons",
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "machineAddons": {
+            "description": "Machine Specific addon, should be used as less as possible",
+            "items": {
+                "additionalProperties": false,
+                "description": "Addon",
+                "properties": {
+                    "addonName": {
+                        "description": "Addon name, should be the same as the Json file holding him",
+                        "type": "string"
+                    },
+                    "content": {
+                        "description": "Addon content Array",
+                        "items": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "content": {
+                                    "description": "Content replaced or inserted to this category"
+                                },
+                                "mode": {
+                                    "description": "Insertion mode",
+                                    "enum": [
+                                        "merge",
+                                        "replace",
+                                        "set"
+                                    ],
+                                    "type": "string"
+                                },
+                                "path": {
+                                    "description": "Path were the content is added",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "content",
+                                "mode",
+                                "path"
+                            ],
+                            "type": "object"
+                        },
+                        "type": "array"
+                    }
+                },
+                "required": [
+                    "addonName",
+                    "content"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        },
+        "model": {
+            "$ref": "#/definitions/ConfigModel",
+            "description": "Machine model"
+        },
+        "name": {
+            "description": "Machine Name",
+            "type": "string"
+        },
+        "revision": {
+            "description": "Machine revision",
+            "type": "number"
+        },
+        "serial": {
+            "description": "Machine Serial number",
+            "type": "string"
+        },
+        "settings": {
+            "$ref": "#/definitions/Settings",
+            "description": "Machine Settings"
+        },
+        "variant": {
+            "description": "Machine variant",
+            "enum": [
+                "m"
+            ],
+            "type": "string"
+        }
+    },
+    "required": [
+        "$schema",
+        "addons",
+        "machineAddons",
+        "model",
+        "name",
+        "revision",
+        "serial",
+        "settings",
+        "variant"
+    ],
+    "type": "object"
+}
+

@@ -10,8 +10,18 @@ export const handle = (async ({ event, resolve }) => {
     // In dev mode, this will always be true
     event.locals.is_machine_screen = import.meta.env.DEV ? true : (event.request.headers.get("user-agent") == "Mozilla/5.0 (X11; Linux aarch64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Safari/605.1.15");
 
-    const response = await resolve(event);
-    return response;
+    const machineConfigured = await fetch(`http://${import.meta.env.DEV ? "localhost" : "nuster-turbine"}:4080/machine`).then(res => res.status !== 404).catch(() => false);
+
+    if(machineConfigured === false && !event.url.pathname.startsWith("/configure"))
+    {
+        return new Response(null, { headers: { "Location": "/configure" }, status: 302 });
+    }
+    else if(machineConfigured === true && event.url.pathname.startsWith("/configure"))
+    {
+        return new Response(null, { headers: { "Location": "/" }, status: 302 });
+    }
+
+    return await resolve(event);
 
 }) satisfies Handle;
 

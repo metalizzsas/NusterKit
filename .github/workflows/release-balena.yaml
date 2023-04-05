@@ -42,7 +42,7 @@ jobs:
         run: pnpm i --frozen-lockfile
 
       - name: 🧱 Run build scripts on all packages
-        run: pnpm run build:packages
+        run: pnpm run build
         env:
           NODE_ENV: production
 

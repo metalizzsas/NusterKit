@@ -1,11 +1,11 @@
-# Simulation UI
+# ⚙️ Simulation UI
 
 Interface of the simulation tool. Should be only used in dev mode.
 
-## Running
+## 📝 Developping
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
-Creates the interface of the simulator on port `5174`
+Creates the interface of the simulator on port `5174`.

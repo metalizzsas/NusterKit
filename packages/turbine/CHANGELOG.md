@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.10.7
+
+### Patch Changes
+
+- chore: fixed mongodb to 4.2.21 ([#334](https://github.com/metalizzsas/NusterKit/pull/334))
+
 ## 1.10.6
 
 ### Patch Changes

@@ -4,7 +4,7 @@ on:
   workflow_call:
     
 env:
-  NODE_ENV: production
+  NODE_ENV: development
 
 jobs:
   release:
@@ -40,8 +40,6 @@ jobs:
           
       - name: 📚 Install Node dependencies
         run: pnpm i --frozen-lockfile
-        env:
-          NODE_ENV: production
 
       - name: 🧱 Run build scripts on all packages
         run: pnpm run build:packages

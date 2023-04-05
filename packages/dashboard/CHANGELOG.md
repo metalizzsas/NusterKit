@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-dashboard
 
+## 1.0.11
+
+### Patch Changes
+
+- ci: test build features ([#318](https://github.com/metalizzsas/NusterKit/pull/318))
+
 ## 1.0.10
 
 ### Patch Changes

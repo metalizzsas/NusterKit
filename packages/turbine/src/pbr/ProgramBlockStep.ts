@@ -4,10 +4,11 @@ import { LoggerInstance } from "../app";
 import { ParameterBlockRegistry } from "./ParameterBlocks/ParameterBlockRegistry";
 import type { ProgramBlockRunner } from "./ProgramBlockRunner";
 import { ProgramBlockRegistry } from "./ProgramBlocks/ProgramBlockRegistry";
-import type { PBRStepHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/PBRStepHydrated";
 import type { PBRStep, PBRStepResult, PBRStepState, PBRStepType } from "@metalizzsas/nuster-typings/build/spec/cycle/PBRStep";
+import { TurbineEventLoop } from "../events";
+import { PBRRunCondition } from "./PBRSecurityCondition";
 
-export class ProgramBlockStep implements PBRStepHydrated
+export class ProgramBlockStep
 {
     private pbrInstance: ProgramBlockRunner;
 
@@ -16,22 +17,31 @@ export class ProgramBlockStep implements PBRStepHydrated
     /** Current step state, Setting this flag to `ENDING` should end the step faster */
     state: PBRStepState = "created";
     type: PBRStepType = "single";
+
+    endReason?: string;
     
     isEnabled: NumericParameterBlockHydrated;
-    
+
     startTime?: number;
     endTime?: number;
     
     runCount = 0;
     runAmount?: NumericParameterBlockHydrated;
+
+    partialStepFallback?: number;
+    crashStepFallback?: number;
     
     blocks: Array<ProgramBlockHydrated> = [];
     startBlocks: Array<ProgramBlockHydrated> = [];
     endBlocks: Array<ProgramBlockHydrated> = [];
 
+    runConditions: Array<PBRRunCondition> = [];
+
     stepOvertimeTimer?: NodeJS.Timeout;
 
     duration: number;
+
+    stepRuncontroller: AbortController = new AbortController();
     
     constructor(pbrInstance: ProgramBlockRunner, obj: PBRStep)
     {
@@ -39,42 +49,56 @@ export class ProgramBlockStep implements PBRStepHydrated
         this.name = obj.name;
         this.isEnabled = ParameterBlockRegistry.Numeric(obj.isEnabled);
 
+        this.partialStepFallback = obj.partialStepFallback;
+        this.crashStepFallback = obj.crashStepFallback;
+
         if(obj.runAmount)
         {
             this.runAmount = ParameterBlockRegistry.Numeric(obj.runAmount);
             this.type = (this.runAmount?.data ?? 0) > 1 ? "multiple" : "single";
         }
 
-        //Adding io starting blocks
-        for(const startBlock of obj.startBlocks)
-            this.startBlocks.push(ProgramBlockRegistry(startBlock));
+        // Build blocks
+        obj.startBlocks.forEach(b => this.startBlocks.push(ProgramBlockRegistry(b)));
+        obj.endBlocks.forEach(b => this.endBlocks.push(ProgramBlockRegistry(b)));
+        obj.blocks.forEach(b => this.blocks.push(ProgramBlockRegistry(b)));
 
-        //Adding io ending blocks
-        for(const endBlock of obj.endBlocks)
-            this.endBlocks.push(ProgramBlockRegistry(endBlock));
-
-        //adding program blocks
-        for(const block of obj.blocks)
-            this.blocks.push(ProgramBlockRegistry(block));
+        // Build run conditions
+        obj.runConditions?.forEach(rc => this.runConditions.push(new PBRRunCondition(rc, (data) => {
+            this.crash(`security-${data.name}`);
+        })));
 
         this.duration = this.estimateRunTime();
+
+        /** Listen for step end events */
+        TurbineEventLoop.addListener(`pbr.step.${this.name}.stop`, (reason?: string) => {
+            if(this.state == "started")
+            {
+                LoggerInstance.warn(`PBS-${this.name}: Step has been stopped by the user. Reason: ${reason ?? "No reason given."}`);
+                this.state = "ending";
+
+                this.stepRuncontroller.abort();
+            }
+        });
     }
 
     public async execute(): Promise<PBRStepResult>
     {
+        // End step if disabled
         if(this.isEnabled.data == 0)
         {
             LoggerInstance.warn(`PBS-${this.name}: Step is disabled.`);
-            return "ended";
+            return "next";
         }
 
         if(this.pbrInstance.status.mode == "ended")
         {
             LoggerInstance.warn(`PBS-${this.name}: Tried to execute step while cycle ended.`);
-            return "ended";
+            return "next";
         }
 
         LoggerInstance.info(`PBS-${this.name}: Started step.`);
+        this.pbrInstance.addEvent(`PBS: Started ${this.name} step.`);
         this.state = "started";
 
         //Disable step overtime timeout if the step duration is equal to -1
@@ -101,7 +125,7 @@ export class ProgramBlockStep implements PBRStepHydrated
         LoggerInstance.info(`PBS-${this.name}: Executing step main blocks.`);
         for(const b of this.blocks)
         {
-            await b.execute();
+            await b.execute(this.stepRuncontroller.signal);
         }
 
         LoggerInstance.info(`${this.name}: Executing io ending blocks.`);
@@ -112,40 +136,84 @@ export class ProgramBlockStep implements PBRStepHydrated
 
         if(this.stepOvertimeTimer)
             clearTimeout(this.stepOvertimeTimer);
+        
+        // Handle step end
 
-        //handling of multiple runned steps
-        if(this.runAmount !== undefined && this.runCount !== undefined && this.runAmount.data > 1)
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        if(this.state === "crashed")
         {
-            this.runCount++;
+            this.state = "ended";
+            LoggerInstance.info(`PBS-${this.name}: Ended step with state ${this.state}`);
+            this.endTime = Date.now();
 
-            if(this.runCount && this.runAmount && (this.runCount == this.runAmount.data))
+            return this.crashStepFallback ?? "next";
+        }
+
+        if(this.type === "multiple")
+        {
+            if(this.runCount === this.runAmount?.data)
             {
                 this.state = "ended";
-                LoggerInstance.info(`PBS-${this.name}: Ended step with state ${"ended"}`);
+                LoggerInstance.info(`PBS-${this.name}: Ended step with state ${this.state}`);
                 this.endTime = Date.now();
-                return "ended";
+
+                return "next";
             }
             else
             {
+                this.runCount++;
                 this.state = "partial";
-                LoggerInstance.info(`PBS-${this.name}: Ended step with state ${"ended"}`);
+                LoggerInstance.info(`PBS-${this.name}: Ended step with state ${this.state}`);
                 this.endTime = Date.now();
-                return "partial";
-            }   
+
+                return this.partialStepFallback ?? "next";
+            }
         }
         else
         {
             this.state = "ended";
-            LoggerInstance.info(`PBS-${this.name}: Ended step with state ${"ended"}`);
+            LoggerInstance.info(`PBS-${this.name}: Ended step with state ${this.state}`);
             this.endTime = Date.now();
-            return "ended";
+
+            return "next";
         }
+    }
+
+    /**
+     * Crash the step, use the abortController to stop running blocks.
+     */
+    public crash(reason?: string)
+    {
+        if(this.state !== "started")
+            return;
+        
+        this.endReason = reason;
+        LoggerInstance.info(`PBS: Crashing ${this.name} with reason: ${this.endReason}.`);
+        this.stepRuncontroller.abort();
+        this.state = "crashed";
+
+        this.pbrInstance.addEvent(`PBS: Step crashed ${this.name}, reason: ${this.endReason ?? "no reason given"}.`);
+        
+    }
+
+    public end(reason?: string)
+    {
+        if(this.state !== "started")
+            return;
+        
+        this.endReason = reason;
+        LoggerInstance.info(`PBS: Ending ${this.name} with reason: ${this.endReason}.`)
+        this.stepRuncontroller.abort();
+        this.state = "ended";
+
+        this.pbrInstance.addEvent(`PBS: Step ${this.name} ended, reason: ${this.endReason ?? "No reason given"}.`);
     }
 
     /** Estimate the run time of this step */
     private estimateRunTime(): number
     {
-        let stepRunTime = [this.endBlocks, this.startBlocks, this.blocks].flatMap(k => k).reduce((p, c) => p + c.estimatedRunTime, 0);
+        let stepRunTime = [...this.endBlocks, ...this.startBlocks, ...this.blocks].reduce((p, c) => p + c.estimatedRunTime, 0);
 
         if(this.runAmount !== undefined)
             stepRunTime = this.runAmount?.data * stepRunTime;

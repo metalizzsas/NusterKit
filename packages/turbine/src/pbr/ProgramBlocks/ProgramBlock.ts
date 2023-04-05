@@ -15,7 +15,8 @@ export class ProgramBlock implements ProgramBlockHydrated
     }
     
     /** Execute function */
-    execute(): void | Promise<void>
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    execute(signal?: AbortSignal): void | Promise<void>
     {
         this.executed = true;
     }

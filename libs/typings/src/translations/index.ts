@@ -25,7 +25,7 @@ export declare interface Translations {
         end_reasons: TranslationGroupString,
 
         /** Cycle start conditions */
-        start_conditions: TranslationGroupString,
+        run_conditions: TranslationGroupString,
 
         /** Cycle steps */
         steps: {

@@ -20,23 +20,28 @@ jobs:
       - name: 📚 Checkout Repo
         uses: actions/checkout@v3
 
+      - name: ⛏️ Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
       - name: ⛏️ Setup node
         uses: actions/setup-node@v3.4.1
         with:
           node-version: '18.x'
+          cache: 'pnpm'
 
-      - name: ⛏️ Setup PNPM 
+      - name: ⛭ Setup Pnpm github registry to .npmrc
         run: |
-          corepack enable
-          pnpm --version
-
-      - name: ⛭ Setup Pnpm github registry
-        run: pnpm config set @metalizzsas:registry=https://npm.pkg.github.com //npm.pkg.github.com/:_authToken=$GITHUB_TOKEN --location project
+          rm .npmrc
+          echo "@metalizzsas:registry=https://npm.pkg.github.com" >> .npmrc
+          echo "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN" >> .npmrc
+          echo "node-linker=hoisted" >> .npmrc
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - name: 📚 Install Node dependencies
-        run: pnpm install --ignore-scripts
+        run: pnpm install --frozen-lockfile
 
       - name: 🧱 Build libraries
         run: pnpm run build:libs

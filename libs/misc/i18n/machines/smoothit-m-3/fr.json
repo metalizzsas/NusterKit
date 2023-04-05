@@ -48,7 +48,7 @@
             "security-resin#slot-sensor": "Pot de vernis manquant",
             "security-uv#overheat": "Surchauffe lampe UV"
         },
-        "start_conditions": {
+        "run_conditions": {
             "emergency-stop": "Statut bouton d'arret d'urgence",
             "nitrogen-sensor": "Pression d'azote",
             "cover-closed": "Couvercle fermé",

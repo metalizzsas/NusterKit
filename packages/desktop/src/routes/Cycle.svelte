@@ -5,7 +5,7 @@
     import { parseDurationToString } from "$lib/utils/dateparser";
     import { ArrowPath, ArrowRight, Check, CheckCircle, Clock, ExclamationCircle, InformationCircle, Square3Stack3d, XMark } from "@steeze-ui/heroicons";
     import { Icon } from "@steeze-ui/svelte-icon";
-	import { _ } from "svelte-i18n";
+	import { date, time, _ } from "svelte-i18n";
 	import { translateProfileName } from "$lib/utils/i18n/i18nprofile";
 	import { machine, realtime } from "$lib/utils/stores/nuster";
 	import { createEventDispatcher } from "svelte";
@@ -21,7 +21,7 @@
         if(cycleData === undefined)
             return;
         
-        if(cycleData.startConditions.filter(sc => ["error", "warning"].includes(sc.result)).length > 0)
+        if(cycleData.runConditions.filter(sc => ["error", "warning"].includes(sc.result)).length > 0)
             return;
 
         await fetch(`/api/v1/cycle`, { method: "POST" });
@@ -47,7 +47,7 @@
 
 {#if cycleData !== undefined && cycleData.status.mode === "created"}
 
-    {@const ready = cycleData.startConditions.filter(k => ["warning", "error"].includes(k.result)).length == 0}
+    {@const ready = cycleData.runConditions.filter(k => ["warning", "error"].includes(k.result)).length == 0}
 
     {#if cycleData.profile}
         <p class="text-sm text-zinc-600 dark:text-zinc-300 -mb-1">{$_(`cycle.names.${cycleData.name}`)}</p>
@@ -89,9 +89,9 @@
         <h3 class="leading-10 font-semibold text-md">{$_('cycle.categories.security_conditions')}</h3>
         <div class="h-[1px] bg-zinc-600/50 grow" />
         <div 
-            class:text-red-500={cycleData.startConditions.filter(k => k.result == "error").length > 0}
-            class:text-amber-500={cycleData.startConditions.filter(k => k.result == "warning").length > 0}
-            class:text-emerald-500={cycleData.startConditions.filter(k => k.result == "good").length > 0}
+            class:text-red-500={cycleData.runConditions.filter(k => k.result == "error").length > 0}
+            class:text-amber-500={cycleData.runConditions.filter(k => k.result == "warning").length > 0}
+            class:text-emerald-500={cycleData.runConditions.filter(k => k.result == "good").length > 0}
         >
             <Icon src={ready ? CheckCircle : ExclamationCircle} theme="solid" class="h-7 w-7 -ml-1.5 translate-x-1.5 grow {ready ? "text-emerald-500" : "text-red-500"}" />
         </div>
@@ -99,9 +99,9 @@
     </Flex>
 
     <Flex direction="col" gap={0.5}>
-        {#each cycleData.startConditions.filter(sc => sc.result != "disabled") as sc}
+        {#each cycleData.runConditions.filter(sc => sc.result != "disabled") as sc}
             <Flex direction="row" items="center">
-                <span>{$_(`cycle.start_conditions.${sc.conditionName}`)}</span>
+                <span>{$_(`cycle.start_conditions.${sc.name}`)}</span>
                 <div class="h-[1px] bg-zinc-600/50 grow" />
                 <div 
                     class="rounded-full h-2.5 w-2.5"
@@ -223,7 +223,7 @@
                                     class="h-1.5 w-1.5 absolute top-0 bg-white/50 rounded-full z-10" 
                                     style:left="{(1 / items) * 100 + (item / items) * 100}%"
                                     class:invisible={(item + 2 > items)}
-                                    style:transform={"translateX(-50%"}
+                                    style:transform={"translateX(-50%)"}
                                 />
                             {/each}
                         {/if}
@@ -235,7 +235,6 @@
                         />
                     </div>
                 {/if}
-
             </div>
         {/each}
     </Flex>
@@ -261,8 +260,22 @@
         <Icon src={isSuccess ? Check : XMark} class="h-10 w-10 self-start {isSuccess ? "text-emerald-500" : "text-red-500"}" />
     </Flex>
 
+    <Button on:click={patchCycle} class="mt-4 mb-8">{$_('cycle.buttons.complete')}</Button>
 
-    <Button on:click={patchCycle} class="mt-8">{$_('cycle.buttons.complete')}</Button>
+    <div>
+        <h3 class="mb-4">Évenements de cycle.</h3>
+        <Flex direction="col">
+            {#each cycleData.events as event, i}
+            <Flex items="center">
+                <div class="bg-zinc-700 p-0.5 text-center rounded-md text-sm aspect-square h-6 ring-1 ring-inset ring-white/50">{i}</div>
+                <div>
+                    <h4 class="leading-6">{event.data}</h4>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-300">{$date(event.time)} — {$time(event.time)}</p>
+                </div>
+            </Flex>
+            {/each}
+        </Flex>
+    </div>    
 {:else}
     <h3>Loading...</h3>
 {/if}

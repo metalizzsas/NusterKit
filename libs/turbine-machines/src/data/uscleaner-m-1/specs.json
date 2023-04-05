@@ -175,9 +175,9 @@
         {
             "name": "default",
             "profileRequired": true,
-            "startConditions": [
+            "runConditions": [
                 {
-                    "conditionName": "emergency-stop",
+                    "name": "emergency-stop",
                     "startOnly": false,
                     "checkchain": {
                         "io": {
@@ -187,7 +187,7 @@
                     }
                 },
                 {
-                    "conditionName": "cover-closed",
+                    "name": "cover-closed",
                     "startOnly": false,
                     "checkchain": {
                         "io": {
@@ -197,7 +197,7 @@
                     }
                 },
                 {
-                    "conditionName": "temperature#over-heat",
+                    "name": "temperature#over-heat",
                     "startOnly": false,
                     "checkchain": {
                         "io": {

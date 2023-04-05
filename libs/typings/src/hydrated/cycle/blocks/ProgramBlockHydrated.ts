@@ -5,6 +5,6 @@ export type ProgramBlockHydrated = {
     executed: boolean;
     earlyExit: boolean;
 
-    execute(): void | Promise<void>
+    execute(signal?: AbortSignal): void | Promise<void>
     toJSON(): ProgramBlockHydrated
 }

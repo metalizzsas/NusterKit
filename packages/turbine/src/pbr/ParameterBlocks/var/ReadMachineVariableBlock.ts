@@ -21,7 +21,7 @@ export class ReadMachineVariableParameterBlock extends NumericParameterBlock
         }});
     }
 
-    public get value(): number
+    public get data(): number
     {
         return this.#variableValue;
     }

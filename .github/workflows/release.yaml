@@ -27,24 +27,27 @@ jobs:
         with:
           fetch-depth: 0 # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
 
+      - name: ⛏️ Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
       - name: ⛏️ Setup node
         uses: actions/setup-node@v3.4.1
         with:
           node-version: '18.x'
-
-      - name: ⛏️ Setup PNPM 
-        run: |
-          corepack enable
-          pnpm --version
+          cache: 'pnpm'
 
       - name: 📚 Install workspace packages
-        run: pnpm i
+        run: pnpm i --frozen-lockfile
 
       - name: 🧱 Build libraries
         run: pnpm run build:libs
 
       - name: ⛭ Setup Pnpm github registry
-        run: echo "@metalizzsas:registry=https://npm.pkg.github.com" >> .npmrc && echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> .npmrc
+        run: |
+          echo "@metalizzsas:registry=https://npm.pkg.github.com" >> .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> .npmrc
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           

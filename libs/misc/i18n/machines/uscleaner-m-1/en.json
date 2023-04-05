@@ -48,7 +48,7 @@
             }
         },
 
-        "start_conditions": {
+        "run_conditions": {
             "emergency-stop": "Emergency stop button status",
             "cover-closed": "Cover closed",
             "temperature#over-heat": "No fluid overheat"

@@ -38,7 +38,7 @@ export class IfProgramBlock extends ProgramBlock
             this.estimatedRunTime = this.falseBlocks.reduce((p, c) => p + c.estimatedRunTime, 0);
     }
 
-    public async execute()
+    public async execute(signal?: AbortSignal)
     {
         const left = this.leftSide.data;
         const right = this.rightSide.data;
@@ -50,7 +50,7 @@ export class IfProgramBlock extends ProgramBlock
         {
             for(const tB of this.trueBlocks)
             {
-                await tB.execute();
+                await tB.execute(signal);
             }
         }
 
@@ -58,7 +58,7 @@ export class IfProgramBlock extends ProgramBlock
         {
             for(const fB of this.falseBlocks)
             {
-                await fB.execute();
+                await fB.execute(signal);
             }
         }
 

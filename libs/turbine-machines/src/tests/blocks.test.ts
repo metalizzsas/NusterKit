@@ -71,7 +71,7 @@ for(const machine of Object.keys(Machines))
 
         for(const cycle of machineSpec.cycleTypes)
         {
-            for(const sc of cycle.startConditions)
+            for(const sc of [...cycle.runConditions, ...cycle.steps.filter(s => s.runConditions != undefined).flatMap(s => s.runConditions ?? [])])
             {
                 if(sc.checkchain.io !== undefined)
                 {

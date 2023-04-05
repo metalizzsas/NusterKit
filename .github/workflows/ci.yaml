@@ -19,18 +19,19 @@ jobs:
       - name: 📚 Checkout repository
         uses: actions/checkout@v3
 
+      - name: ⛏️ Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
       - name: ⛏️ Setup node
         uses: actions/setup-node@v3.4.1
         with:
           node-version: '18.x'
-
-      - name: ⛏️ Setup PNPM 
-        run: |
-          corepack enable
-          pnpm --version
+          cache: 'pnpm'
 
       - name: 🗂️ Install packages 
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: ✔️ Run linting
         run: pnpm run lint

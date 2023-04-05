@@ -36,7 +36,7 @@
             "security-cover-closed": "Coperchio aperto",
             "security-temperature#over-heat": "Product overheat"
         },
-        "start_conditions": {
+        "run_conditions": {
             "emergency-stop": "Pulsante arresto di emergenza",
             "cover-closed": "Coperchio chiuso",
             "temperature#over-heat": "No product overheat"

@@ -88,6 +88,8 @@ interface EventLoopEvents
     "pbr.stop": (reason: string) => void;
     "pbr.nextStep": () => void;
 
+    [key: `pbr.step.${string}.stop`]: (reason?: string) => void;    
+
     [key: `machine.read_variable.${string}`]: (options: { callback?: (value: number) => void | Promise<void> }) => void;
 
     "log": (level: "trace" | "info" | "warning" | "error" | "fatal", message: string) => void;

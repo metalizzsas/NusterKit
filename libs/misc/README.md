@@ -1,6 +1,6 @@
-# Nuster-misc
+# 📑 Nuster Misc
 
-## Information
+## ❓ Information
 
 This folder holds:
 
@@ -9,7 +9,7 @@ This folder holds:
 - Maintenance tasks
 - User manuals
 
-## How to edit
+## 📝 How to edit
 
 We recommend opening this folder using [Obsidian](https://obsidian.md/) to edit markdown `.md` files. Machine user manuals, Nuster documentation ix exported using Obsidian you you will have a good vision on what you are doing.
 

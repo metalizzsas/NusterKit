@@ -1,6 +1,6 @@
 {
   "name": "@metalizzsas/simulation-server",
-  "version": "1.0.23",
+  "version": "1.0.24",
   "description": "Simulation tool server.",
   "main": "src/server.ts",
   "private": true,
@@ -11,7 +11,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@metalizzsas/nuster-turbine-machines": "1.6.1",
-    "@metalizzsas/nuster-typings": "1.5.1",
+    "@metalizzsas/nuster-typings": "1.5.2",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/node": "^18.13.0",

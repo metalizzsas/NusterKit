@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-typings
 
+## 1.5.2
+
+### Patch Changes
+
+- chore: generating schemas on the fly ([#332](https://github.com/metalizzsas/NusterKit/pull/332))
+
 ## 1.5.1
 
 ### Patch Changes

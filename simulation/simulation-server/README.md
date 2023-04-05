@@ -1,11 +1,11 @@
-# Simulation Server
+# ⚙️ Simulation Server
 
 Simulation Tool server. Should be only used in dev mode
 
-## Running
+## 📝 Developping
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
-Runs the simulation server on port `4081`
+Runs the Simulation express server on port `4081`.

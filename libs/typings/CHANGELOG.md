@@ -1,5 +1,18 @@
 # @metalizzsas/nuster-typings
 
+## 1.5.0
+
+### Minor Changes
+
+- feat: PBR can now end using 2 scenarios: ([#314](https://github.com/metalizzsas/NusterKit/pull/314))
+
+  - Soft ending stops a step then goes to another step then the cycle ends.
+  - Hard ending was the default behavior before, it is stoping the cycle directly.
+
+### Patch Changes
+
+- feat: replaced startConditions with runConditions ([#314](https://github.com/metalizzsas/NusterKit/pull/314))
+
 ## 1.4.7
 
 ### Patch Changes

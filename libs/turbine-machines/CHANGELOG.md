@@ -1,5 +1,22 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.6.0
+
+### Minor Changes
+
+- feat: PBR can now end using 2 scenarios: ([#314](https://github.com/metalizzsas/NusterKit/pull/314))
+
+  - Soft ending stops a step then goes to another step then the cycle ends.
+  - Hard ending was the default behavior before, it is stoping the cycle directly.
+
+### Patch Changes
+
+- fix: moved product life to pbr run conditions ([#314](https://github.com/metalizzsas/NusterKit/pull/314))
+
+- feat: updated smoothits, metalfogs & uscleaners to match new PBR format ([#314](https://github.com/metalizzsas/NusterKit/pull/314))
+
+- feat: updated metalfogs to match new PBR format ([#314](https://github.com/metalizzsas/NusterKit/pull/314))
+
 ## 1.5.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.10.3
+
+### Patch Changes
+
+- ci: build test 3 ([#322](https://github.com/metalizzsas/NusterKit/pull/322))
+
 ## 1.10.2
 
 ### Patch Changes

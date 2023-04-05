@@ -7,6 +7,10 @@
   "files": [
     "build"
   ],
+  "exports": {
+    "default": "./build/index.js",
+    "types": "./build/index.d.ts"
+  },
   "engines": {
     "node": "18.x"
   },

@@ -13,10 +13,16 @@
     "./build.browser/index.d.ts"
   ],
   "exports": {
-    "import": "./build.browser/index.js",
-    "node": "./build/index.js",
-    "require": "./build/index.js",
-    "default": "./build/index.js"
+    ".": {
+      "import": {
+        "default": "./build.browser/index.js",
+        "types": "/build.browser/index.d.ts"
+      },
+      "require": {
+        "default": "./build/index.js",
+        "types": "./build/index.d.ts"
+      }
+    }
   },
   "engines": {
     "node": "18.x"

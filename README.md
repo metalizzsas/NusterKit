@@ -37,14 +37,16 @@ The following packages are essentials for our system.
 | ------ | ------ | ------- |
 | Nuster Desktop | UI Provided to machine screens | [Link](./packages/desktop/CHANGELOG.md) |
 | Nuster Turbine | REST Api that drives machines | [Link](./packages/turbine/CHANGELOG.md) |
-| Simulation Server | REST backend that simulates a hardware machine | [Link](./packages/simulation-server/CHANGELOG.md) |
-| Simulation UI | SvelteKIT App that interacts with simulation server | [Link](./packages/simulation-ui/CHANGELOG.md) |
+| Nuster Dashboard | Dashboard that displays customers machines | [Link](./packages/dashboard//CHANGELOG.md) |
+| Simulation Server | REST backend that simulates a hardware machine | [Link](./simulation/simulation-server/CHANGELOG.md) |
+| Simulation UI | SvelteKIT App that interacts with simulation server | [Link](./simulation/simulation-ui/CHANGELOG.md) |
 
 | Libraries | Description | Changelog |
 | ------ | ------ | ------- |
 | Nuster Turbine Machines | Library of machines definitions | [Link](./libs/turbine-machines/CHANGELOG.md) |
-| Typings lib | Types used for machine specification, configuration & communication | [Link](./main/libs/typings/CHANGELOG.md) |
+| Typings lib | Types used for machine specification, configuration & communication | [Link](./libs/typings/CHANGELOG.md) |
+| Misc | Various markdown & i18n files | [Link](./libs/misc/CHANGELOG.md) |
 
 ## ❓ How to contribute
 
-Create a pull request and generate a changeset for the stuff you have added using `npx changeset`
+Create a pull request and generate a changeset for the stuff you have added using `pnpm changeset`

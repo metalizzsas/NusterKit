@@ -20,6 +20,6 @@
     "registry": "https://npm.pkg.github.com"
   },
   "devDependencies": {
-    "@metalizzsas/nuster-typings": "1.5.0"
+    "@metalizzsas/nuster-typings": "1.5.1"
   }
 }

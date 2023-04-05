@@ -27,7 +27,7 @@ importers:
   libs/misc:
     devDependencies:
       '@metalizzsas/nuster-typings':
-        specifier: 1.5.0
+        specifier: 1.5.1
         version: link:../typings
 
   libs/turbine-machines:
@@ -40,7 +40,7 @@ importers:
         specifier: 1.2.0
         version: link:../misc
       '@metalizzsas/nuster-typings':
-        specifier: 1.5.0
+        specifier: 1.5.1
         version: link:../typings
       '@types/jest':
         specifier: ^29.4.0
@@ -102,7 +102,7 @@ importers:
         version: 0.10.1
     devDependencies:
       '@metalizzsas/nuster-typings':
-        specifier: 1.5.0
+        specifier: 1.5.1
         version: link:../../libs/typings
       '@sveltejs/adapter-node':
         specifier: ^1.1.7
@@ -187,10 +187,10 @@ importers:
         specifier: 1.2.0
         version: link:../../libs/misc
       '@metalizzsas/nuster-turbine-machines':
-        specifier: 1.6.0
+        specifier: 1.6.1
         version: link:../../libs/turbine-machines
       '@metalizzsas/nuster-typings':
-        specifier: 1.5.0
+        specifier: 1.5.1
         version: link:../../libs/typings
       '@sveltejs/adapter-node':
         specifier: ^1.1.7
@@ -268,7 +268,7 @@ importers:
   packages/turbine:
     dependencies:
       '@metalizzsas/nuster-turbine-machines':
-        specifier: 1.6.0
+        specifier: 1.6.1
         version: link:../../libs/turbine-machines
       cookie-parser:
         specifier: ^1.4.6
@@ -323,7 +323,7 @@ importers:
         specifier: ^29.4.2
         version: 29.4.2
       '@metalizzsas/nuster-typings':
-        specifier: 1.5.0
+        specifier: 1.5.1
         version: link:../../libs/typings
       '@types/cookie-parser':
         specifier: ^1.4.3
@@ -377,10 +377,10 @@ importers:
   simulation/simulation-server:
     dependencies:
       '@metalizzsas/nuster-turbine-machines':
-        specifier: 1.6.0
+        specifier: 1.6.1
         version: link:../../libs/turbine-machines
       '@metalizzsas/nuster-typings':
-        specifier: 1.5.0
+        specifier: 1.5.1
         version: link:../../libs/typings
       '@types/cors':
         specifier: ^2.8.13
@@ -416,7 +416,7 @@ importers:
   simulation/simulation-ui:
     devDependencies:
       '@metalizzsas/nuster-typings':
-        specifier: 1.5.0
+        specifier: 1.5.1
         version: link:../../libs/typings
       '@sveltejs/adapter-node':
         specifier: ^1.1.7

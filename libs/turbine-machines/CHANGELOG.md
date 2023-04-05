@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.6.1
+
+### Patch Changes
+
+- chore: modified exports ([#329](https://github.com/metalizzsas/NusterKit/pull/329))
+
 ## 1.6.0
 
 ### Minor Changes

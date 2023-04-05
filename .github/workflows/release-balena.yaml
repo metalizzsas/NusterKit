@@ -3,6 +3,9 @@ name: 🚀 Deploy on balena-cloud
 on:
   workflow_call:
 
+env:
+  NODE_ENV: development
+
 jobs:
   release:
     permissions:
@@ -37,6 +40,8 @@ jobs:
           
       - name: 📚 Install Node dependencies
         run: pnpm install --frozen-lockfile
+        env:
+          NODE_ENV: development
 
       - name: 🧱 Run build scripts on all packages
         run: pnpm run build:packages

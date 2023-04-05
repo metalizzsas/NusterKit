@@ -2,9 +2,6 @@ name: 🚀 Deploy on balena-cloud
 
 on:
   workflow_call:
-    
-env:
-  NODE_ENV: development
 
 jobs:
   release:
@@ -28,7 +25,6 @@ jobs:
         uses: actions/setup-node@v3.4.1
         with:
           node-version: '18.x'
-          cache: 'pnpm'
 
       - name: ⛭ Setup Pnpm github registry
         run: |
@@ -41,11 +37,9 @@ jobs:
           
       - name: 📚 Install Node dependencies
         run: pnpm install --frozen-lockfile
-        env:
-          NODE_ENV: development
 
       - name: 🧱 Run build scripts on all packages
-        run: pnpm run build
+        run: pnpm run build:packages
         env:
           NODE_ENV: production
 

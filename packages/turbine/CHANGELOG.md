@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.10.5
+
+### Patch Changes
+
+- ci: install packages with node_env set to devlopment ([#327](https://github.com/metalizzsas/NusterKit/pull/327))
+
 ## 1.10.4
 
 ### Patch Changes

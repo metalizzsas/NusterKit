@@ -3,8 +3,7 @@ import path from "path";
 import { matchers } from 'jest-json-schema';
 
 import type { MachineSpecs } from "@metalizzsas/nuster-typings/build/spec/";
-
-import * as fileSchema from "@metalizzsas/nuster-typings/build/schemas/schema-translations.json";
+import { TranslationsSchema as fileSchema } from "@metalizzsas/nuster-typings";
 import { Machines } from "..";
 import type { PBRRunCondition } from "@metalizzsas/nuster-typings/build/spec/cycle/PBRRunCondition";
 

@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.11.1
+
+### Patch Changes
+
+- feat: detect if machine is configured, if not, redirect to configuration screen ([#332](https://github.com/metalizzsas/NusterKit/pull/332))
+
 ## 1.11.0
 
 ### Minor Changes

@@ -1,5 +1,25 @@
 # @metalizzsas/nuster-turbine
 
+## 1.10.0
+
+### Minor Changes
+
+- feat: PBR can now end using 2 scenarios: ([#314](https://github.com/metalizzsas/NusterKit/pull/314))
+
+  - Soft ending stops a step then goes to another step then the cycle ends.
+  - Hard ending was the default behavior before, it is stoping the cycle directly.
+
+### Patch Changes
+
+- feat: replaced startConditions with runConditions ([#314](https://github.com/metalizzsas/NusterKit/pull/314))
+
+- feat: some program blocks admits an `AbortSignal` to early exit. ([#314](https://github.com/metalizzsas/NusterKit/pull/314))
+
+- fix: Mapped gate could write negative data to fieldbus ([#314](https://github.com/metalizzsas/NusterKit/pull/314))
+  fix: ReadMachineVariableBlock was crashing the NusterTurbine
+- Updated dependencies [[`6ad7222`](https://github.com/metalizzsas/NusterKit/commit/6ad72222aade50cacb7d0a4db81bbb363118ed82), [`2ec18c6`](https://github.com/metalizzsas/NusterKit/commit/2ec18c6a6f5968cec5b7497e4c4246e3bc888e37), [`be6a29f`](https://github.com/metalizzsas/NusterKit/commit/be6a29f06b7a5efef0da6000041f32273535c1ad), [`73e3858`](https://github.com/metalizzsas/NusterKit/commit/73e385892edef0104af20db887c17f8ca88afaa4)]:
+  - @metalizzsas/nuster-turbine-machines@1.6.0
+
 ## 1.9.27
 
 ### Patch Changes

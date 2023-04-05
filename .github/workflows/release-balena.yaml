@@ -4,7 +4,7 @@ on:
   workflow_call:
     
 env:
-  NODE_ENV: development
+  NODE_ENV: production
 
 jobs:
   release:
@@ -30,12 +30,14 @@ jobs:
           pnpm --version
 
       - name: ⛭ Setup Pnpm github registry
-        run: pnpm config set @metalizzsas:registry=https://npm.pkg.github.com //npm.pkg.github.com/:_authToken=$GITHUB_TOKEN link-workspace-packages=false --location project
+        run: echo "@metalizzsas:registry=https://npm.pkg.github.com" >> .npmrc && echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> .npmrc && echo "link-workspace-packages=false" >> .npmrc
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - name: 📚 Install Node dependencies
         run: pnpm i
+        env:
+          NODE_ENV: production
 
       - name: 🧱 Run build scripts on all packages
         run: pnpm run build:packages

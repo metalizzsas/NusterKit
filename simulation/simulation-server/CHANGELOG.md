@@ -1,5 +1,29 @@
 # @metalizzsas/simulation-server
 
+## 1.0.21
+
+### Patch Changes
+
+- Updated dependencies [[`97bd169`](https://github.com/metalizzsas/NusterKit/commit/97bd169e1e4070dab76ad2e5acb629691a9218de), [`0a1ee42`](https://github.com/metalizzsas/NusterKit/commit/0a1ee4257dd284d31b425087450acde406d8ace6), [`4f7990b`](https://github.com/metalizzsas/NusterKit/commit/4f7990bcb189db14662c2f8e7676e8e1a78da7c6), [`a1b3a89`](https://github.com/metalizzsas/NusterKit/commit/a1b3a89fcf9b0d9e65143745900423c39afa7438)]:
+  - @metalizzsas/nuster-turbine-machines@1.5.0
+
+## 1.0.20
+
+### Patch Changes
+
+- chore: updated packages ([#291](https://github.com/metalizzsas/NusterKit/pull/291))
+
+- Updated dependencies [[`ee671fd`](https://github.com/metalizzsas/NusterKit/commit/ee671fd145e3511559137aadec44224c01baca82)]:
+  - @metalizzsas/nuster-turbine-machines@1.4.8
+  - @metalizzsas/nuster-typings@1.4.7
+
+## 1.0.19
+
+### Patch Changes
+
+- Updated dependencies [[`6d1fed1`](https://github.com/metalizzsas/NusterKit/commit/6d1fed18e7dc8f5f90fb563e7d58ac4d2c767559)]:
+  - @metalizzsas/nuster-turbine-machines@1.4.7
+
 ## 1.0.18
 
 ### Patch Changes

@@ -9,13 +9,12 @@
     "dev": "pnpm -r --parallel run dev",
     "lint": "pnpm -r --parallel run lint",
     "test": "pnpm -r --parallel run test",
-
     "build": "pnpm build:libs && pnpm build:packages && pnpm build:simulation",
     "build:libs": "pnpm -r --filter='./libs/*' run build",
     "build:packages": "pnpm -r --filter='./packages/*' run build",
     "build:simulation": "pnpm -r --filter='./simulation/*' run build",
-    
-    "release": "changeset publish"
+    "release": "changeset publish",
+    "version": "changeset version && pnpm install --lockfile-only"
   },
   "keywords": [],
   "author": "@metalizzsas",
@@ -25,8 +24,8 @@
     "url": "git@github.com:metalizzsas/NusterKit.git"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.25.2",
-    "@svitejs/changesets-changelog-github-compact": "^1.0.0"
+    "@changesets/cli": "^2.26.0",
+    "@svitejs/changesets-changelog-github-compact": "^1.1.0"
   },
   "peerDependencies": {
     "@jest/globals": "^29.3.1",
@@ -34,5 +33,5 @@
     "ts-jest": "^29.0.3",
     "ts-node": "10.9.1"
   },
-  "packageManager": "pnpm@7.18.2"
+  "packageManager": "pnpm@8.1.0"
 }

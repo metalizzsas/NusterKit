@@ -1,5 +1,25 @@
 # @metalizzsas/nuster-desktop
 
+## 1.10.12
+
+### Patch Changes
+
+- fix: improved select field display ([#307](https://github.com/metalizzsas/NusterKit/pull/307))
+
+- feat: new help files folders structure ([#307](https://github.com/metalizzsas/NusterKit/pull/307))
+
+## 1.10.11
+
+### Patch Changes
+
+- fix: localhost was used in server hook instead of nuster-turbine due to NODE_ENV being `development` ([#298](https://github.com/metalizzsas/NusterKit/pull/298))
+
+## 1.10.10
+
+### Patch Changes
+
+- chore: updated packages ([#291](https://github.com/metalizzsas/NusterKit/pull/291))
+
 ## 1.10.9
 
 ### Patch Changes

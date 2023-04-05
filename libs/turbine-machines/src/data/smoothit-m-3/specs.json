@@ -12,7 +12,7 @@
       },
       {
          "type": "serial",
-         "port": "/dev/ttyACM1",
+         "port": "/dev/arduino0",
          "baudRate": 9600,
          "ip": ""
       }
@@ -570,36 +570,14 @@
                   {"for": {
                      "limit": {"profile": "pulverization#count"},
                      "blocks": [
-                        {"if": {
-                           "statement": {
-                              "comparator": "==",
-                              "left_side": {"profile": "pulverization#high-enabled"},
-                              "right_side": 1
-                           },
-                           "true_blocks": [
-                              {"io_write": ["ventilation-valve", 45]},
-                              {"sleep": 1},
-                              {"io_write": ["nozzle-high#pulverization", 1]},
-                              {"sleep": {"profile": "pulverization#timeOn"}},
-                              {"io_write": ["nozzle-high#pulverization", 0]},
-                              {"sleep": {"profile": "pulverization#timeOff"}}
-                           ]
-                        }},
-                        {"if": {
-                           "statement": {
-                              "comparator": "==",
-                              "left_side": {"profile": "pulverization#low-enabled"},
-                              "right_side": 1
-                           },
-                           "true_blocks": [
-                              {"io_write": ["ventilation-valve", 135]},
-                              {"sleep": 1},
-                              {"io_write": ["nozzle-low#pulverization", 1]},
-                              {"sleep": {"profile": "pulverization#timeOn"}},
-                              {"io_write": ["nozzle-low#pulverization", 0]},
-                              {"sleep": {"profile": "pulverization#timeOff"}}
-                           ]
-                        }},
+
+                        {"io_write": ["nozzle-high#pulverization", 1]},
+                        {"io_write": ["nozzle-low#pulverization", 1]},
+                        {"sleep": {"profile": "pulverization#timeOn"}},
+                        {"io_write": ["nozzle-low#pulverization", 0]},
+                        {"io_write": ["nozzle-low#pulverization", 0]},
+                        {"sleep": {"profile": "pulverization#timeOff"}},
+
                         {"io_write": ["motor#direction", {"reverse": {"io_read": "motor#direction"}}]}
                      ]
                   }}

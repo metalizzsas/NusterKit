@@ -255,6 +255,10 @@
     "unselected": {
       "lead": "",
       "sub": ""
+    },
+    "category": {
+      "software": "Nuster",
+      "machine": "Machina"
     }
   }
 }

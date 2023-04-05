@@ -49,6 +49,8 @@ for(const machine of Object.keys(Machines))
 
     const cyclePremadeProfiles = new Set(machineSpecs.cyclePremades.map(c => c.profile).filter((k): k is string => k !== undefined).map(c => c.replace("premade_", "")));
 
+    const maintenancesNames = machineSpecs.maintenance.map(m => m.name);
+
     for(const lang of langs)
     {
         const translation = JSON.parse(fs.readFileSync(path.resolve(machinePath, lang), "utf-8"));
@@ -120,6 +122,12 @@ for(const machine of Object.keys(Machines))
         
                 if(sc.startOnly != true)
                     expect(translation).toHaveProperty("cycle.end_reasons.security-" + sc.conditionName)
+            }
+
+            for(const maintenancesName of maintenancesNames)
+            {
+                expect(translation).toHaveProperty(`maintenance.tasks.${maintenancesName}.name`);
+                expect(translation).toHaveProperty(`maintenance.tasks.${maintenancesName}.desc`);
             }
         });
     }

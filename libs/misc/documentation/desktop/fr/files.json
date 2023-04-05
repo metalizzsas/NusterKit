@@ -1,0 +1,23 @@
+{
+    "category": "software",
+    "lang": "fr",
+    
+    "folders": {
+        "components": {
+            "name": "Sections",
+            "files": [
+                { "name": "Conteneurs", "path": "/desktop/fr/components/containers.md" },
+                { "name": "Cycles", "path": "/desktop/fr/components/cycles.md" },
+                { "name": "Maintenance", "path": "/desktop/fr/components/maintenances.md" },
+                { "name": "Profils", "path": "/desktop/fr/components/profiles.md" },
+                { "name": "Réglages", "path": "/desktop/fr/components/settings.md" }
+            ]
+        },
+        "root": {
+            "name": "root",
+            "files": [
+                { "name": "Bienvenue", "path": "/desktop/fr/index.md" }
+            ]
+        }
+    }
+}

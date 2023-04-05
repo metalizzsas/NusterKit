@@ -1,5 +1,42 @@
 # @metalizzsas/nuster-turbine
 
+## 1.9.27
+
+### Patch Changes
+
+- Updated dependencies [[`97bd169`](https://github.com/metalizzsas/NusterKit/commit/97bd169e1e4070dab76ad2e5acb629691a9218de), [`0a1ee42`](https://github.com/metalizzsas/NusterKit/commit/0a1ee4257dd284d31b425087450acde406d8ace6), [`4f7990b`](https://github.com/metalizzsas/NusterKit/commit/4f7990bcb189db14662c2f8e7676e8e1a78da7c6), [`a1b3a89`](https://github.com/metalizzsas/NusterKit/commit/a1b3a89fcf9b0d9e65143745900423c39afa7438)]:
+  - @metalizzsas/nuster-turbine-machines@1.5.0
+
+## 1.9.26
+
+### Patch Changes
+
+- chore: updated lockfile build strategy ([#296](https://github.com/metalizzsas/NusterKit/pull/296))
+
+## 1.9.25
+
+### Patch Changes
+
+- chore: force-build ([#293](https://github.com/metalizzsas/NusterKit/pull/293))
+
+## 1.9.24
+
+### Patch Changes
+
+- chore: updated packages ([#291](https://github.com/metalizzsas/NusterKit/pull/291))
+
+- Updated dependencies [[`ee671fd`](https://github.com/metalizzsas/NusterKit/commit/ee671fd145e3511559137aadec44224c01baca82)]:
+  - @metalizzsas/nuster-turbine-machines@1.4.8
+
+## 1.9.23
+
+### Patch Changes
+
+- feat: added udev rules for arduino devices ([#289](https://github.com/metalizzsas/NusterKit/pull/289))
+
+- Updated dependencies [[`6d1fed1`](https://github.com/metalizzsas/NusterKit/commit/6d1fed18e7dc8f5f90fb563e7d58ac4d2c767559)]:
+  - @metalizzsas/nuster-turbine-machines@1.4.7
+
 ## 1.9.22
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.11.3
+
+### Patch Changes
+
+- feat: io gates supports float values ([#338](https://github.com/metalizzsas/NusterKit/pull/338))
+
 ## 1.11.2
 
 ### Patch Changes

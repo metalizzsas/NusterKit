@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.10.10
+
+### Patch Changes
+
+- fix: status blocks would end cycle at any state ([#340](https://github.com/metalizzsas/NusterKit/pull/340))
+
 ## 1.10.9
 
 ### Patch Changes

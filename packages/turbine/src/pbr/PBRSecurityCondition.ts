@@ -10,6 +10,9 @@ export class PBRRunCondition
 {
     name: string;
     startOnly: boolean;
+
+    disabledFlag = false;
+
     disabled: NumericParameterBlockHydrated | undefined;
     scc: PBRRunConditionConfig;
 
@@ -54,6 +57,8 @@ export class PBRRunCondition
 
             /** Subscribe to status block data change */
             this.#statusBlock.subscribe((data) => {
+                if(this.disabledFlag === true) return;
+        
                 this.state = data;
 
                 if(this.state === "error" && this.#pbrState === "started")
@@ -64,12 +69,13 @@ export class PBRRunCondition
 
     private gateListener(gate: IOGateJSON)
     {
+        if(this.disabledFlag === true) return;
         this.state = (gate.value === this.scc.checkchain.io?.gateValue) ? "good" : "error";
 
         if(this.state === "error" && this.#pbrState === "started")
             this.subscriber?.(this.toJSON());
     }
-    
+
     private pbrStateListener(state: PBRMode) {
         this.#pbrState = state;
     }
@@ -79,6 +85,7 @@ export class PBRRunCondition
     {
         if(this.#gateListenerReference) {  TurbineEventLoop.removeListener(`io.updated.${this.scc.checkchain.io?.gateName}`, this.#gateListenerReference); }
         TurbineEventLoop.removeListener('pbr.status.update', this.pbrStateListener);
+        this.disabledFlag = true;
     }
 
     get canStart(): boolean

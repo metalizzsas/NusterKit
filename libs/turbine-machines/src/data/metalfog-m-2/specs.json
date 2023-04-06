@@ -158,9 +158,9 @@
          "unity": "bar",
 
          "mapInMin": 0,
-         "mapInMax": 32767,
+         "mapInMax": 3277,
          "mapOutMin": 0.05,
-         "mapOutMax": 5
+         "mapOutMax": 0.5
       },
       {
          "name": "regulators#ox-pressure",
@@ -174,9 +174,9 @@
          "unity": "bar",
 
          "mapInMin": 0,
-         "mapInMax": 32767,
+         "mapInMax": 3277,
          "mapOutMin": 0.05,
-         "mapOutMax": 5
+         "mapOutMax": 0.5
       },
       {
          "name": "motor#direction",
@@ -296,7 +296,7 @@
          "size": "bit"
       },
       {
-         "name": "met#met-lq-high",
+         "name": "hybrid#lq-fill-act",
          "type": "default",
          "bus": "out",
          "controllerId": 1,
@@ -305,7 +305,7 @@
          "size": "bit"
       },
       {
-         "name": "met#met-lq-mid",
+         "name": "met#met-lq-high",
          "type": "default",
          "bus": "out",
          "controllerId": 1,
@@ -314,7 +314,7 @@
          "size": "bit"
       },
       {
-         "name": "met#met-lq-low",
+         "name": "met#met-lq-mid",
          "type": "default",
          "bus": "out",
          "controllerId": 1,
@@ -323,7 +323,7 @@
          "size": "bit"
       },
       {
-         "name": "hybrid#lq-fill-act",
+         "name": "met#met-lq-low",
          "type": "default",
          "bus": "out",
          "controllerId": 1,

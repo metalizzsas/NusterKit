@@ -160,7 +160,11 @@
       "lead": "Informazioni rete",
       "ip": "Indirizzo IP macchina",
       "mac": "Liste degli indirizzi Mac",
-      "vpn": "Connessione VPN"
+      "vpn": "Connessione VPN",
+      "wifi": {
+        "label": "Impostazioni Wi-Fi",
+        "button": "Aggiorna le impostazioni Wi-Fi"
+      }
     },
     "advanced": {
       "lead": "",

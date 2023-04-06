@@ -170,7 +170,11 @@
       "lead": "Informations réseau",
       "ip": "Liste des addresse IP",
       "mac": "Liste des addresses mac",
-      "vpn": "Connexion au VPN"
+      "vpn": "Connexion au VPN",
+      "wifi": {
+        "label": "Réglages WiFi",
+        "button": "Modifier les réglages"
+      }
     },
     "advanced": {
       "lead": "Réglages avancés",

@@ -223,8 +223,8 @@
 
     "toasts": {
         "nozzle-cleaning": {
-            "title": "Recommendation au démarrage",
-            "message": "Votre Metalfog viens de démarrer, il est recommendé de lancer un nettoyage des buses de metallisation lors du démarrage de la machine. Cliquez sur continuer pour lancer ce nettoyage.",
+            "title": "Recommandation au démarrage",
+            "message": "Votre Metalfog viens de démarrer, il est recommandé de lancer un nettoyage des buses de metallisation lors du démarrage de la machine. Cliquez sur continuer pour lancer ce nettoyage.",
             "actions": {
                 "main": "Continuer"
             }

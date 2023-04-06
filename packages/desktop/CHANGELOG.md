@@ -1,5 +1,15 @@
 # @metalizzsas/nuster-desktop
 
+## 1.11.4
+
+### Patch Changes
+
+- fix: run conditions had wrong translations keys namespace ([#340](https://github.com/metalizzsas/NusterKit/pull/340))
+
+- feat: can access wifi setup using settings page ([#340](https://github.com/metalizzsas/NusterKit/pull/340))
+
+- fix: display cycle events only if dev mode ([#340](https://github.com/metalizzsas/NusterKit/pull/340))
+
 ## 1.11.3
 
 ### Patch Changes

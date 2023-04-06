@@ -76,9 +76,8 @@ export class IORouter extends Router
         this.router.post("/:name/:value", async (req: Request, res: Response) => {
 
             const name = req.params.name.replace("_", "#");
-            const value = parseInt(req.params.value);
             const gate = this.gates.find((g) => g.name == name);
-
+            
             if(gate === undefined)
             {
                 res.status(404).end(`Gate with name ${name} not found.`);
@@ -90,6 +89,8 @@ export class IORouter extends Router
                 res.status(403).end("Cannot write to an input gate.");
                 return;
             }
+
+            const value = (gate.size === "word") ? (parseFloat(req.params.value) || 0) : (req.params.value === "1" ? 1 : 0);
 
             await gate.write(value);
             res.status(200).end();  

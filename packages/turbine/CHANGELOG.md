@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.10.9
+
+### Patch Changes
+
+- feat: io gates supports float values ([#338](https://github.com/metalizzsas/NusterKit/pull/338))
+
 ## 1.10.8
 
 ### Patch Changes

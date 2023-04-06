@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.11.2
+
+### Patch Changes
+
+- fix: desktop reditects to / if turbine in unreachable ([#336](https://github.com/metalizzsas/NusterKit/pull/336))
+
 ## 1.11.1
 
 ### Patch Changes

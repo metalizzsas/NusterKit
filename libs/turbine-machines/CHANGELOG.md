@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.6.2
+
+### Patch Changes
+
+- fix: moved pneumatics addresses, reduced the admissible setting for pressure reducers ([#336](https://github.com/metalizzsas/NusterKit/pull/336))
+
 ## 1.6.1
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-misc
 
+## 1.2.1
+
+### Patch Changes
+
+- fix: typo in metalfog m 1 french translation ([#336](https://github.com/metalizzsas/NusterKit/pull/336))
+
 ## 1.2.0
 
 ### Minor Changes

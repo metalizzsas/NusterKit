@@ -43,7 +43,7 @@
 
     <div class="h-[1px] bg-zinc-500/50 grow mx-2" />
 
-    <a href="/" class:pillActive={$page.route.id == "/"} class:pillPassive={$page.route.id != "/"}>
+    <a href="/" class:pillActive={$page.route.id == "/(connected)"} class:pillPassive={$page.route.id != "/(connected)"}>
         {$_('cycle.lead')}
         {#if $realtime.cycle}
             <div 
@@ -57,11 +57,11 @@
 
     {#if machine !== undefined}
         {#if machine.settings.profilesShown === true || machine.settings.devMode === true}
-            <a href="/profiles" class:pillActive={$page.route.id == "/profiles"} class:pillPassive={$page.route.id != "/profiles"}>{$_('profile.lead')}</a>
+            <a href="/profiles" class:pillActive={$page.route.id == "/(connected)/profiles"} class:pillPassive={$page.route.id != "/(connected)/profiles"}>{$_('profile.lead')}</a>
         {/if}
     {/if}
 
-    <a href="/containers" class:pillActive={$page.route.id == "/containers"} class:pillPassive={$page.route.id != "/containers"}>
+    <a href="/containers" class:pillActive={$page.route.id == "/(connected)/containers"} class:pillPassive={$page.route.id != "/(connected)/containers"}>
         {$_('container.lead')}
         <div 
             class="h-2.5 aspect-square rounded-full"
@@ -73,7 +73,7 @@
         />
     </a>
     
-    <a href="/maintenances" class:pillActive={$page.route.id == "/maintenances"} class:pillPassive={$page.route.id != "/maintenances"}>
+    <a href="/maintenances" class:pillActive={$page.route.id == "/(connected)/maintenances"} class:pillPassive={$page.route.id != "/(connected)/maintenances"}>
         {$_('maintenance.lead')}
         <div 
             class="h-2.5 aspect-square rounded-full"
@@ -84,20 +84,19 @@
         />
     </a>
 
-    <a href="/help" class:pillActive={$page.route.id == "/help"} class:pillPassive={$page.route.id != "/help"}>
+    <a href="/help" class:pillActive={$page.route.id == "/(connected)/help"} class:pillPassive={$page.route.id != "/(connected)/help"}>
         {$_('help.lead')}
     </a>
 
     {#if machine !== undefined}
         {#if machine.settings.devMode === true}
-            <a href="/io" class:pillActive={$page.route.id == "/io"} class:pillPassive={$page.route.id != "/io"}>
+            <a href="/io" class:pillActive={$page.route.id == "/(connected)/io"} class:pillPassive={$page.route.id != "/(connected)/io"}>
                 {$_('gates.lead')}
             </a>
         {/if}
     {/if}
 
-
-    <a href="/settings" class:pillActive={$page.route.id?.startsWith("/settings") ?? false} class:pillPassive={$page.route.id?.startsWith("/settings") || true}>{$_('settings.lead')}</a>
+    <a href="/settings" class:pillActive={$page.route.id?.startsWith("/(connected)/settings") ?? false} class:pillPassive={$page.route.id?.startsWith("/(connected)/settings") || true}>{$_('settings.lead')}</a>
 </Flex>
 
 <style lang="css">

@@ -101,7 +101,7 @@
     <Flex direction="col" gap={0.5}>
         {#each cycleData.runConditions.filter(sc => sc.result != "disabled") as sc}
             <Flex direction="row" items="center">
-                <span>{$_(`cycle.start_conditions.${sc.name}`)}</span>
+                <span>{$_(`cycle.run_conditions.${sc.name}`)}</span>
                 <div class="h-[1px] bg-zinc-600/50 grow" />
                 <div 
                     class="rounded-full h-2.5 w-2.5"

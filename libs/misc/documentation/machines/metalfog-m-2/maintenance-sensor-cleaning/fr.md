@@ -4,7 +4,7 @@
 
 Sur l'outillage `MF-OT-001`, Monter une compresse 5 x 5. 
 
-**Attention: utiliser uniquement des compresse, tout autre tissu et papier essuie tout pourrait se désagréger dans le conteneur et boucher les buses.**
+**Attention: utiliser uniquement des compresses, tout autre tissu ou papier essuie tout pourrait se désagréger dans le conteneur et boucher les buses.**
 
 | 1 | 2 | 3 |
 |--- |---|---|

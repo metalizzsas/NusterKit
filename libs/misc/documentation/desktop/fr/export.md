@@ -3,7 +3,7 @@ Ce document est la version papier du guide numérique présent dans les machines
 
 <div style="page-break-after: always;"></div>
 
-![[index]]
+![[documentation/desktop/fr/index]]
 
 <div style="page-break-after: always;"></div>
 

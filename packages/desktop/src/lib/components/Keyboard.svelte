@@ -42,9 +42,9 @@
             keyboard = new SimpleKeyboard(".keyboard", {
                 value: value,
                 onChange: (input) => {
-    
+
                     if(typeof value === "number")
-                        value = parseInt(input);
+                        value = parseFloat(input.replace(",", '.'));
                     else
                         value = input;
                 },
@@ -82,7 +82,7 @@
                     }
                 },
                 ...layouts[$settings.lang as ("en" | "fr" | "it") ?? 'en'],
-                inputPattern: typeof value === 'number' ? /^[0-9]*$/ : undefined,
+                inputPattern: typeof value === 'number' ? /^[0-9|,|.]*$/ : undefined,
             });
     
             keyboard.setInput(`${value}`);
@@ -119,6 +119,7 @@
             if($keyboardLeft > (window.innerWidth - keyboardWrapper.clientWidth)) $keyboardLeft = window.innerWidth - keyboardWrapper.clientWidth;
         }
     }
+
 </script>
 
 <Portal target="body">

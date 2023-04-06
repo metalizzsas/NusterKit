@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.10.11
+
+### Patch Changes
+
+- fix: PBR Runconditions could still end cycle even if the flag startOnly was set to true ([#343](https://github.com/metalizzsas/NusterKit/pull/343))
+
 ## 1.10.10
 
 ### Patch Changes

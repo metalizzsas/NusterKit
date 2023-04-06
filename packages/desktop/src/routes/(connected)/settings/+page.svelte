@@ -120,6 +120,8 @@
             } />
         {/if}
 
+        <SettingField label={$_('settings.network.wifi.label')}><a href="/settings/wifi"><Button color={"hover:bg-indigo-500"} ringColor={"ring-indigo-500"}>{$_('settings.network.wifi.button')}</Button></a></SettingField>
+
         <SettingField label={$_('settings.network.vpn')} value={
             data.machine.vpnData?.vpn.connected === undefined
             ? $_("false")

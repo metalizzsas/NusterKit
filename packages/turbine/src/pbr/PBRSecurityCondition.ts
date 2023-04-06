@@ -55,7 +55,9 @@ export class PBRRunCondition
             /** Subscribe to status block data change */
             this.#statusBlock.subscribe((data) => {
                 this.state = data;
-                this.subscriber?.(this.toJSON());
+
+                if(this.state === "error" && this.#pbrState === "started")
+                    this.subscriber?.(this.toJSON());
             });
         }
     }

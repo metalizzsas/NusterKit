@@ -101,7 +101,7 @@
     <Flex direction="col" gap={0.5}>
         {#each cycleData.runConditions.filter(sc => sc.result != "disabled") as sc}
             <Flex direction="row" items="center">
-                <span>{$_(`cycle.start_conditions.${sc.name}`)}</span>
+                <span>{$_(`cycle.run_conditions.${sc.name}`)}</span>
                 <div class="h-[1px] bg-zinc-600/50 grow" />
                 <div 
                     class="rounded-full h-2.5 w-2.5"
@@ -262,20 +262,22 @@
 
     <Button on:click={patchCycle} class="mt-4 mb-8">{$_('cycle.buttons.complete')}</Button>
 
-    <div>
-        <h3 class="mb-4">Évenements de cycle.</h3>
-        <Flex direction="col">
-            {#each cycleData.events as event, i}
-            <Flex items="center">
-                <div class="bg-zinc-700 p-0.5 text-center rounded-md text-sm aspect-square h-6 ring-1 ring-inset ring-white/50">{i}</div>
-                <div>
-                    <h4 class="leading-6">{event.data}</h4>
-                    <p class="text-sm text-zinc-600 dark:text-zinc-300">{$date(event.time)} — {$time(event.time)}</p>
-                </div>
+    {#if $machine.settings.devMode === true}
+        <div>
+            <h3 class="mb-4">Évenements de cycle.</h3>
+            <Flex direction="col">
+                {#each cycleData.events as event, i}
+                <Flex items="center">
+                    <div class="bg-zinc-700 p-0.5 text-center rounded-md text-sm aspect-square h-6 ring-1 ring-inset ring-white/50">{i}</div>
+                    <div>
+                        <h4 class="leading-6">{event.data}</h4>
+                        <p class="text-sm text-zinc-600 dark:text-zinc-300">{$date(event.time)} — {$time(event.time)}</p>
+                    </div>
+                </Flex>
+                {/each}
             </Flex>
-            {/each}
-        </Flex>
-    </div>    
+        </div> 
+    {/if}
 {:else}
     <h3>Loading...</h3>
 {/if}

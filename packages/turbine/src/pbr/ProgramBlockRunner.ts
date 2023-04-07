@@ -246,7 +246,7 @@ export class ProgramBlockRunner
         this.setState("ending");
         this.status.endReason = reason;
 
-        this.steps.forEach(s => s.state = "ending");
+        this.steps.forEach(s => s.crash("ending"));
 
         if(reason !== undefined)
             LoggerInstance.warn("PBR: Triggered cycle end with reason: " + reason);

@@ -12,7 +12,7 @@ importers:
         version: 29.4.2(@types/node@18.15.11)(ts-node@10.9.1)
       ts-jest:
         specifier: ^29.0.3
-        version: 29.0.5(@babel/core@7.20.12)(jest@29.4.2)(typescript@4.9.5)
+        version: 29.0.5(@babel/core@7.21.4)(jest@29.4.2)(typescript@4.9.5)
       ts-node:
         specifier: 10.9.1
         version: 10.9.1(@types/node@18.15.11)(typescript@4.9.5)
@@ -59,7 +59,7 @@ importers:
         version: 6.1.0
       ts-jest:
         specifier: ^29.0.5
-        version: 29.0.5(@babel/core@7.21.4)(jest@29.4.2)(typescript@4.9.5)
+        version: 29.0.5(@babel/core@7.20.12)(jest@29.4.2)(typescript@4.9.5)
 
   libs/typings:
     dependencies:
@@ -136,10 +136,10 @@ importers:
         version: 3.55.1
       svelte-check:
         specifier: ^3.0.3
-        version: 3.0.3(@babel/core@7.20.12)(postcss-load-config@4.0.1)(postcss@8.4.21)(svelte@3.55.1)
+        version: 3.0.3(@babel/core@7.21.4)(postcss-load-config@4.0.1)(postcss@8.4.21)(svelte@3.55.1)
       svelte-preprocess:
         specifier: ^5.0.1
-        version: 5.0.1(@babel/core@7.20.12)(postcss-load-config@4.0.1)(postcss@8.4.21)(svelte@3.55.1)(typescript@4.9.5)
+        version: 5.0.1(@babel/core@7.21.4)(postcss-load-config@4.0.1)(postcss@8.4.21)(svelte@3.55.1)(typescript@4.9.5)
       tailwindcss:
         specifier: ^3.2.6
         version: 3.2.6(postcss@8.4.21)(ts-node@10.9.1)
@@ -187,7 +187,7 @@ importers:
         specifier: 1.2.1
         version: link:../../libs/misc
       '@metalizzsas/nuster-turbine-machines':
-        specifier: 1.6.2
+        specifier: 1.6.3
         version: link:../../libs/turbine-machines
       '@metalizzsas/nuster-typings':
         specifier: 1.5.2
@@ -245,7 +245,7 @@ importers:
         version: 3.55.1
       svelte-check:
         specifier: ^3.0.3
-        version: 3.0.3(@babel/core@7.20.12)(postcss@8.4.21)(sass@1.58.0)(svelte@3.55.1)
+        version: 3.0.3(@babel/core@7.21.4)(postcss@8.4.21)(sass@1.58.0)(svelte@3.55.1)
       svelte-eslint-parser:
         specifier: ^0.23.0
         version: 0.23.0(svelte@3.55.1)
@@ -254,7 +254,7 @@ importers:
         version: 2.2.0
       svelte-preprocess:
         specifier: ^5.0.1
-        version: 5.0.1(@babel/core@7.20.12)(postcss@8.4.21)(sass@1.58.0)(svelte@3.55.1)(typescript@4.9.5)
+        version: 5.0.1(@babel/core@7.21.4)(postcss@8.4.21)(sass@1.58.0)(svelte@3.55.1)(typescript@4.9.5)
       tailwindcss:
         specifier: ^3.2.6
         version: 3.2.6(postcss@8.4.21)(ts-node@10.9.1)
@@ -268,7 +268,7 @@ importers:
   packages/turbine:
     dependencies:
       '@metalizzsas/nuster-turbine-machines':
-        specifier: 1.6.2
+        specifier: 1.6.3
         version: link:../../libs/turbine-machines
       cookie-parser:
         specifier: ^1.4.6
@@ -377,7 +377,7 @@ importers:
   simulation/simulation-server:
     dependencies:
       '@metalizzsas/nuster-turbine-machines':
-        specifier: 1.6.2
+        specifier: 1.6.3
         version: link:../../libs/turbine-machines
       '@metalizzsas/nuster-typings':
         specifier: 1.5.2
@@ -450,10 +450,10 @@ importers:
         version: 3.55.1
       svelte-check:
         specifier: ^3.0.3
-        version: 3.0.3(@babel/core@7.20.12)(postcss@8.4.21)(sass@1.58.0)(svelte@3.55.1)
+        version: 3.0.3(@babel/core@7.21.4)(postcss-load-config@4.0.1)(postcss@8.4.21)(svelte@3.55.1)
       svelte-preprocess:
         specifier: ^5.0.1
-        version: 5.0.1(@babel/core@7.20.12)(postcss@8.4.21)(sass@1.58.0)(svelte@3.55.1)(typescript@4.9.5)
+        version: 5.0.1(@babel/core@7.21.4)(postcss-load-config@4.0.1)(postcss@8.4.21)(svelte@3.55.1)(typescript@4.9.5)
       tslib:
         specifier: ^2.5.0
         version: 2.5.0
@@ -8755,7 +8755,7 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  /svelte-check@3.0.3(@babel/core@7.20.12)(postcss-load-config@4.0.1)(postcss@8.4.21)(svelte@3.55.1):
+  /svelte-check@3.0.3(@babel/core@7.21.4)(postcss-load-config@4.0.1)(postcss@8.4.21)(svelte@3.55.1):
     resolution: {integrity: sha512-ByBFXo3bfHRGIsYEasHkdMhLkNleVfszX/Ns1oip58tPJlKdo5Ssr8kgVIuo5oq00hss8AIcdesuy0Xt0BcTvg==}
     hasBin: true
     peerDependencies:
@@ -8768,7 +8768,7 @@ packages:
       picocolors: 1.0.0
       sade: 1.8.1
       svelte: 3.55.1
-      svelte-preprocess: 5.0.1(@babel/core@7.20.12)(postcss-load-config@4.0.1)(postcss@8.4.21)(svelte@3.55.1)(typescript@4.9.5)
+      svelte-preprocess: 5.0.1(@babel/core@7.21.4)(postcss-load-config@4.0.1)(postcss@8.4.21)(svelte@3.55.1)(typescript@4.9.5)
       typescript: 4.9.5
     transitivePeerDependencies:
       - '@babel/core'
@@ -8782,7 +8782,7 @@ packages:
       - sugarss
     dev: true
 
-  /svelte-check@3.0.3(@babel/core@7.20.12)(postcss@8.4.21)(sass@1.58.0)(svelte@3.55.1):
+  /svelte-check@3.0.3(@babel/core@7.21.4)(postcss@8.4.21)(sass@1.58.0)(svelte@3.55.1):
     resolution: {integrity: sha512-ByBFXo3bfHRGIsYEasHkdMhLkNleVfszX/Ns1oip58tPJlKdo5Ssr8kgVIuo5oq00hss8AIcdesuy0Xt0BcTvg==}
     hasBin: true
     peerDependencies:
@@ -8795,7 +8795,7 @@ packages:
       picocolors: 1.0.0
       sade: 1.8.1
       svelte: 3.55.1
-      svelte-preprocess: 5.0.1(@babel/core@7.20.12)(postcss@8.4.21)(sass@1.58.0)(svelte@3.55.1)(typescript@4.9.5)
+      svelte-preprocess: 5.0.1(@babel/core@7.21.4)(postcss@8.4.21)(sass@1.58.0)(svelte@3.55.1)(typescript@4.9.5)
       typescript: 4.9.5
     transitivePeerDependencies:
       - '@babel/core'
@@ -8860,7 +8860,7 @@ packages:
     resolution: {integrity: sha512-jhtZWtD6cUE2nMw46dJ5VXWYiqnER+JH+V/BmNBQ5fNP/YdsJCpJi+DemUy9msklqGb0f+wLhJPBtKHLWQvzjg==}
     dev: true
 
-  /svelte-preprocess@5.0.1(@babel/core@7.20.12)(postcss-load-config@4.0.1)(postcss@8.4.21)(svelte@3.55.1)(typescript@4.9.5):
+  /svelte-preprocess@5.0.1(@babel/core@7.21.4)(postcss-load-config@4.0.1)(postcss@8.4.21)(svelte@3.55.1)(typescript@4.9.5):
     resolution: {integrity: sha512-0HXyhCoc9rsW4zGOgtInylC6qj259E1hpFnJMJWTf+aIfeqh4O/QHT31KT2hvPEqQfdjmqBR/kO2JDkkciBLrQ==}
     engines: {node: '>= 14.10.0'}
     requiresBuild: true
@@ -8898,7 +8898,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@babel/core': 7.20.12
+      '@babel/core': 7.21.4
       '@types/pug': 2.0.6
       '@types/sass': 1.43.1
       detect-indent: 6.1.0
@@ -8911,7 +8911,7 @@ packages:
       typescript: 4.9.5
     dev: true
 
-  /svelte-preprocess@5.0.1(@babel/core@7.20.12)(postcss@8.4.21)(sass@1.58.0)(svelte@3.55.1)(typescript@4.9.5):
+  /svelte-preprocess@5.0.1(@babel/core@7.21.4)(postcss@8.4.21)(sass@1.58.0)(svelte@3.55.1)(typescript@4.9.5):
     resolution: {integrity: sha512-0HXyhCoc9rsW4zGOgtInylC6qj259E1hpFnJMJWTf+aIfeqh4O/QHT31KT2hvPEqQfdjmqBR/kO2JDkkciBLrQ==}
     engines: {node: '>= 14.10.0'}
     requiresBuild: true
@@ -8949,7 +8949,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@babel/core': 7.20.12
+      '@babel/core': 7.21.4
       '@types/pug': 2.0.6
       '@types/sass': 1.43.1
       detect-indent: 6.1.0
@@ -9124,7 +9124,7 @@ packages:
       '@babel/core': 7.20.12
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
-      jest: 29.4.2(@types/node@18.15.11)(ts-node@10.9.1)
+      jest: 29.4.2(@types/node@18.13.0)(ts-node@10.9.1)
       jest-util: 29.4.2
       json5: 2.2.3
       lodash.memoize: 4.1.2
@@ -9132,7 +9132,7 @@ packages:
       semver: 7.3.8
       typescript: 4.9.5
       yargs-parser: 21.1.1
-    dev: false
+    dev: true
 
   /ts-jest@29.0.5(@babel/core@7.21.4)(jest@29.4.2)(typescript@4.9.5):
     resolution: {integrity: sha512-PL3UciSgIpQ7f6XjVOmbi96vmDHUqAyqDr8YxzopDqX3kfgYtX1cuNeBjP+L9sFXi6nzsGGA6R3fP3DDDJyrxA==}
@@ -9158,7 +9158,7 @@ packages:
       '@babel/core': 7.21.4
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
-      jest: 29.4.2(@types/node@18.13.0)(ts-node@10.9.1)
+      jest: 29.4.2(@types/node@18.15.11)(ts-node@10.9.1)
       jest-util: 29.4.2
       json5: 2.2.3
       lodash.memoize: 4.1.2
@@ -9166,7 +9166,7 @@ packages:
       semver: 7.3.8
       typescript: 4.9.5
       yargs-parser: 21.1.1
-    dev: true
+    dev: false
 
   /ts-jest@29.1.0(@babel/core@7.21.4)(jest@29.5.0)(typescript@4.9.5):
     resolution: {integrity: sha512-ZhNr7Z4PcYa+JjMl62ir+zPiNJfXJN6E8hSLnaUKhOgqcn8vb3e537cpkd0FuAfRK3sR1LSqM1MOhliXNgOFPA==}

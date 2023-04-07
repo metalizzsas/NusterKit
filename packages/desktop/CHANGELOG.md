@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.11.5
+
+### Patch Changes
+
+- feat: enhanced cycle step progress bar ([#345](https://github.com/metalizzsas/NusterKit/pull/345))
+
 ## 1.11.4
 
 ### Patch Changes

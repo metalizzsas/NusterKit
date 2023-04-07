@@ -1,5 +1,18 @@
 # @metalizzsas/nuster-turbine
 
+## 1.10.12
+
+### Patch Changes
+
+- fix: abort signal was not set when ending step via PBR ([#345](https://github.com/metalizzsas/NusterKit/pull/345))
+
+- feat: enhanced cycle step progress bar ([#345](https://github.com/metalizzsas/NusterKit/pull/345))
+
+- chore: updated packages ([#345](https://github.com/metalizzsas/NusterKit/pull/345))
+
+- Updated dependencies [[`fabc9faa`](https://github.com/metalizzsas/NusterKit/commit/fabc9faa3c0189a6b7dd352955893bd9efc55c4b)]:
+  - @metalizzsas/nuster-turbine-machines@1.6.3
+
 ## 1.10.11
 
 ### Patch Changes

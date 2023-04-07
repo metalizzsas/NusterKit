@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.6.3
+
+### Patch Changes
+
+- fix: regulators pressure was not set on container emptying, thus making container emptying impossible ([#345](https://github.com/metalizzsas/NusterKit/pull/345))
+
 ## 1.6.2
 
 ### Patch Changes

@@ -14,8 +14,6 @@
 
     let expanded = false;
 
-    $: expanded, console.log("expanded", expanded);
-
 </script>
 
 <Flex direction="row" items="center" justify="center">

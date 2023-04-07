@@ -38,9 +38,11 @@ export class ForProgramBlock extends ProgramBlock {
         TurbineEventLoop.emit("log", "info", `ForBlock: Will loop ${loopCount} times. Starting from: ${this.currentIteration}`);
 
         for (; this.currentIteration < (loopCount); this.currentIteration++) {
+
             if (this.earlyExit === true || signal?.aborted === true)
             { 
                 this.executed = (this.currentIteration + 1 == (loopCount));
+                TurbineEventLoop.emit("log", "info", `ForBlock: Early exit at ${loopCount}.`);
                 return;
             }
 

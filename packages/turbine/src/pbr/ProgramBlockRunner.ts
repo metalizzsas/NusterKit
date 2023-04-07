@@ -188,7 +188,14 @@ export class ProgramBlockRunner
             }
             else
             {
-                LoggerInstance.info(`PBR: Ended step asked to go to step: ${this.steps[result].name}.`)
+                LoggerInstance.info(`PBR: Ended step asked to go to step: ${this.steps[result].name}.`);
+
+                if(this.currentStepIndex < result)
+                {
+                    for(let i = this.currentStepIndex; i < result; i++)
+                        this.steps[i].endReason = "skipped";
+                }
+
                 this.currentStepIndex = result;
             }
         }
@@ -239,7 +246,7 @@ export class ProgramBlockRunner
         this.setState("ending");
         this.status.endReason = reason;
 
-        this.steps.forEach(s => s.state = "ending");
+        this.steps.forEach(s => s.crash("ending"));
 
         if(reason !== undefined)
             LoggerInstance.warn("PBR: Triggered cycle end with reason: " + reason);

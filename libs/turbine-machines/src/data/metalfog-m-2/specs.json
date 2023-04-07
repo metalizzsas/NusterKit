@@ -1413,6 +1413,7 @@
                      },
                      "true_blocks": [
                         {"io_write": ["met#ox-res", 1]},
+                        {"io_write": ["regulators#ox-pressure", 0.4]},
                         {"io_write": ["met#met-lq-high", 1]},
                         {"io_write": ["met#met-lq-mid", 1]},
                         {"io_write": ["met#met-lq-low", 1]}
@@ -1427,6 +1428,7 @@
                      },
                      "true_blocks": [
                         {"io_write": ["met#rd-res", 1]},
+                        {"io_write": ["regulators#rd-pressure", 0.4]},
                         {"io_write": ["met#met-lq-high", 1]},
                         {"io_write": ["met#met-lq-mid", 1]},
                         {"io_write": ["met#met-lq-low", 1]}
@@ -1456,6 +1458,7 @@
                      },
                      "true_blocks": [
                         {"io_write": ["met#ox-res", 0]},
+                        {"io_write": ["regulators#ox-pressure", 0]},
                         {"io_write": ["met#met-lq-high", 0]},
                         {"io_write": ["met#met-lq-mid", 0]},
                         {"io_write": ["met#met-lq-low", 0]},
@@ -1471,6 +1474,7 @@
                      },
                      "true_blocks": [
                         {"io_write": ["met#rd-res", 0]},
+                        {"io_write": ["regulators#ox-pressure", 0]},
                         {"io_write": ["met#met-lq-high", 0]},
                         {"io_write": ["met#met-lq-mid", 0]},
                         {"io_write": ["met#met-lq-low", 0]},

@@ -3,7 +3,7 @@
     import Button from "$lib/components/buttons/Button.svelte";
     import Flex from "$lib/components/layout/flex.svelte";
     import { parseDurationToString } from "$lib/utils/dateparser";
-    import { ArrowPath, ArrowRight, Check, CheckCircle, Clock, ExclamationCircle, InformationCircle, Square3Stack3d, XMark } from "@steeze-ui/heroicons";
+    import { ArrowDown, ArrowPath, ArrowRight, Check, CheckCircle, Clock, ExclamationCircle, InformationCircle, Square3Stack3d, XMark } from "@steeze-ui/heroicons";
     import { Icon } from "@steeze-ui/svelte-icon";
 	import { date, time, _ } from "svelte-i18n";
 	import { translateProfileName } from "$lib/utils/i18n/i18nprofile";
@@ -11,6 +11,7 @@
 	import { createEventDispatcher } from "svelte";
 	import Gate from "./io/Gate.svelte";
 	import Label from "$lib/components/label.svelte";
+	import ProgressBar from "$lib/components/ProgressBar.svelte";
 
     const dispatch = createEventDispatcher<{ patched: void }>();
 
@@ -184,8 +185,8 @@
     <Flex gap={2} direction={"col"}>
         {#each cycleData.steps.filter(s => s.isEnabled.data == 1) as step}
 
-        {@const icon = step.state === "started" ? ArrowPath : ["partial", "ended", "ending"].includes(step.state) ? Check : XMark}
-        {@const iconColor = step.state === "started" ? "text-orange-500" : ["partial", "ended", "ending"].includes(step.state) ? "text-emerald-500" : "text-red-500"}
+        {@const icon = step.endReason !== "skipped" ? (step.state === "started" ? ArrowPath : ["partial", "ended", "ending"].includes(step.state) ? Check : XMark) : ArrowDown}
+        {@const iconColor = step.endReason !== "skipped" ? (step.state === "started" ? "text-blue-500" : ["partial", "ended", "ending"].includes(step.state) ? "text-emerald-500" : "text-red-500") : "text-orange-500"}
 
             <div class="p-4 rounded-xl border-[1px] border-zinc-400">
                 <Flex items="center" justify="between">
@@ -207,7 +208,7 @@
                         {#if step.runCount !== undefined && step.runAmount !== undefined && step.runAmount.data > 1}
                             <Label>{step.runCount} / {step.runAmount.data}</Label>
                         {/if}
-                        
+
                         <Icon src={icon} class="h-6 w-6 self-start {icon === ArrowPath ? "animate-spin-slow" : ""} {iconColor}" />
                     </Flex>
 
@@ -215,25 +216,7 @@
 
                 {#if step.state === "started"}
                     <p class="text-sm leading-6 mt-1">{$_('progress')}</p> 
-                    <div class="bg-zinc-600/50 h-1.5 rounded-full grow relative">
-                        {#if step.runAmount}
-                            {@const items = step.runAmount.data}
-                            {#each Array.from(Array(step.runAmount.data).keys()) as item}
-                                <div 
-                                    class="h-1.5 w-1.5 absolute top-0 bg-white/50 rounded-full z-10" 
-                                    style:left="{(1 / items) * 100 + (item / items) * 100}%"
-                                    class:invisible={(item + 2 > items)}
-                                    style:transform={"translateX(-50%)"}
-                                />
-                            {/each}
-                        {/if}
-                        <div 
-                            class="h-1.5 rounded-full duration-[2s] transition-all z-20"
-                            class:bg-violet-500={step.progress === -1}
-                            class:bg-indigo-500={step.state === "started" && step.progress !== -1}
-                            style:width={`${step.progress * 100}%`}
-                        />
-                    </div>
+                    <ProgressBar dots={step.runAmount?.data} bind:progress={step.progress} />
                 {/if}
             </div>
         {/each}

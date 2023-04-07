@@ -256,6 +256,8 @@ export class ProgramBlockStep
             name: this.name,
             state: this.state,
             type: this.type,
+
+            endReason: this.endReason,
     
             isEnabled: this.isEnabled,
             duration: this.duration,

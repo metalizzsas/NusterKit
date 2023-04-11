@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.10.14
+
+### Patch Changes
+
+- fix: check if IOWrite block was executed before toggleing the timeout ([#349](https://github.com/metalizzsas/NusterKit/pull/349))
+
 ## 1.10.13
 
 ### Patch Changes

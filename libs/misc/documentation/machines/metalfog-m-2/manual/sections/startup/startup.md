@@ -24,5 +24,6 @@ Pour démarrer la machine, positionnez le sectionneur situé à l'arrière de la
 ![Sectionneur](sectionneur.png)
 
 
+test test
 
-![t'st](/desktop/index.md)
+

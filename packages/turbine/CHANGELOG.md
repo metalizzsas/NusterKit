@@ -1,5 +1,16 @@
 # @metalizzsas/nuster-turbine
 
+## 1.10.13
+
+### Patch Changes
+
+- feat: added AbortSignal support for IOWrite Block ([#347](https://github.com/metalizzsas/NusterKit/pull/347))
+
+- feat: added a gate timeout on IOWriteGate Program Block ([#347](https://github.com/metalizzsas/NusterKit/pull/347))
+
+- Updated dependencies [[`075d6373`](https://github.com/metalizzsas/NusterKit/commit/075d6373a932615418c9241536e30bfe0c2d18d5)]:
+  - @metalizzsas/nuster-turbine-machines@1.6.4
+
 ## 1.10.12
 
 ### Patch Changes

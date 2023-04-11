@@ -19,7 +19,7 @@ export class IOWriteProgramBlock extends ProgramBlock
         this.gateValue = ParameterBlockRegistry.Numeric(obj.io_write[1]);
     }
 
-    public async execute(signal: AbortSignal): Promise<void> {
+    public async execute(signal?: AbortSignal): Promise<void> {
 
         const gateName = this.gateName.data;
         const gateValue = this.gateValue.data;
@@ -32,16 +32,18 @@ export class IOWriteProgramBlock extends ProgramBlock
             }});
 
             setTimeout(() => {
-                TurbineEventLoop.emit("log", "warning", `IOWriteBlock: ${gateName} write timeout.`);
-                TurbineEventLoop.emit("pbr.stop", "controllerError");
-                resolve();
+                if(this.executed !== true)
+                {
+                    TurbineEventLoop.emit("log", "warning", `IOWriteBlock: ${gateName} write timeout.`);
+                    TurbineEventLoop.emit("pbr.stop", "controllerError");
+                    resolve();
+                }
             }, 2000);
 
             setInterval(() => {
-                if(signal.aborted === true)
+                if(signal?.aborted === true && this.executed === false)
                     resolve();
             }, 250);
-
         });
 
         super.execute();

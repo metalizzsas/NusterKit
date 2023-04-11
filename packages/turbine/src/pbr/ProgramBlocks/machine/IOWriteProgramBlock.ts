@@ -30,6 +30,13 @@ export class IOWriteProgramBlock extends ProgramBlock
             TurbineEventLoop.emit(`io.update.${this.gateName.data}`, { value: gateValue, callback: () => {
                 resolve();
             }});
+
+            setTimeout(() => {
+                TurbineEventLoop.emit("log", "warning", `IOWriteBlock: ${gateName} write timeout.`);
+                TurbineEventLoop.emit("pbr.stop", "controllerError");
+                resolve();
+            }, 2000);
+
         });
 
         super.execute();

@@ -1238,14 +1238,10 @@
                "name": "drying",
                "isEnabled": {"profile": "drying#enabled"},
                "startBlocks": [
-                  {"io_write": ["met#plv-high", 1]},
-                  {"io_write": ["met#plv-mid", 1]},
-                  {"io_write": ["met#plv-low", 1]}
+                  {"io_write": ["met#plv-mid", 1]}
                ],
                "endBlocks": [
-                  {"io_write": ["met#plv-high", 0]},
-                  {"io_write": ["met#plv-mid", 0]},
-                  {"io_write": ["met#plv-low", 0]}
+                  {"io_write": ["met#plv-mid", 0]}
                ],
                "blocks": [
                   {"sleep": {"profile": "drying#duration"}}

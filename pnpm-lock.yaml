@@ -187,7 +187,7 @@ importers:
         specifier: 1.2.1
         version: link:../../libs/misc
       '@metalizzsas/nuster-turbine-machines':
-        specifier: 1.6.4
+        specifier: 1.6.5
         version: link:../../libs/turbine-machines
       '@metalizzsas/nuster-typings':
         specifier: 1.5.2
@@ -268,7 +268,7 @@ importers:
   packages/turbine:
     dependencies:
       '@metalizzsas/nuster-turbine-machines':
-        specifier: 1.6.4
+        specifier: 1.6.5
         version: link:../../libs/turbine-machines
       cookie-parser:
         specifier: ^1.4.6
@@ -377,7 +377,7 @@ importers:
   simulation/simulation-server:
     dependencies:
       '@metalizzsas/nuster-turbine-machines':
-        specifier: 1.6.4
+        specifier: 1.6.5
         version: link:../../libs/turbine-machines
       '@metalizzsas/nuster-typings':
         specifier: 1.5.2

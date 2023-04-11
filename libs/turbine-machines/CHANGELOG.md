@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.6.5
+
+### Patch Changes
+
+- fix: Smoothit M R3 high row pulverization was not stopped on time ([#352](https://github.com/metalizzsas/NusterKit/pull/352))
+
 ## 1.6.4
 
 ### Patch Changes

@@ -119,7 +119,7 @@ export class ProgramBlockStep
         LoggerInstance.info(`PBS-${this.name}: Executing io starter blocks.`);
         for(const io of this.startBlocks)
         {
-            await io.execute(this.stepRuncontroller.signal);
+            await io.execute();
         }
 
         LoggerInstance.info(`PBS-${this.name}: Executing step main blocks.`);
@@ -131,7 +131,7 @@ export class ProgramBlockStep
         LoggerInstance.info(`${this.name}: Executing io ending blocks.`);
         for(const io of this.endBlocks)
         {
-            await io.execute(this.stepRuncontroller.signal);
+            await io.execute();
         }
 
         if(this.stepOvertimeTimer)

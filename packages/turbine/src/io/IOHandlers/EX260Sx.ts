@@ -55,9 +55,10 @@ export class EX260Sx implements IOBase, EX260SxConfig
                 LoggerInstance.info("EX260Sx: Connected");
 
                 //change state if disconnected
-                this.controller.events.once('close', async () => { 
+                this.controller.events.on('close', async () => { 
                     LoggerInstance.info("EX260Sx: Disconnected");
-                    this.connected = false; 
+                    this.connected = false;
+                    this.controller.events.removeAllListeners('close');
                 });
 
                 return true;

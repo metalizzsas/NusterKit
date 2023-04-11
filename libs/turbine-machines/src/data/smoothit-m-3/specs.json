@@ -574,7 +574,7 @@
                         {"io_write": ["nozzle-high#pulverization", 1]},
                         {"io_write": ["nozzle-low#pulverization", 1]},
                         {"sleep": {"profile": "pulverization#timeOn"}},
-                        {"io_write": ["nozzle-low#pulverization", 0]},
+                        {"io_write": ["nozzle-high#pulverization", 0]},
                         {"io_write": ["nozzle-low#pulverization", 0]},
                         {"sleep": {"profile": "pulverization#timeOff"}},
 

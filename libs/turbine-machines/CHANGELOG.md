@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.6.4
+
+### Patch Changes
+
+- fix: use only middle metalization pulverization nozzles on drying ([#347](https://github.com/metalizzsas/NusterKit/pull/347))
+
 ## 1.6.3
 
 ### Patch Changes

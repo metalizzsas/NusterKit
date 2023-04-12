@@ -1,3 +1,5 @@
+## Préparation des pièces
+
 Les pièces à traiter avec la machine Metalfog doivent, au préalable, passer par des étapes de préparation afin de réussir et d’optimiser la qualité de la métallisation chimique.
 
 Tout au long des étapes de préparation et durant le procédé de métallisation chimique, veillez à manipuler les pièces avec **des gants** afin d’éviter toute pollution de surface.

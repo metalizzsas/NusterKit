@@ -1,3 +1,5 @@
+## Cycle de métallisation chimique "Simple"
+
 Pour lancer le cycle de métallisation chimique « Simple », procédez ainsi :
 
  - Depuis l’écran d’accueil de l’interface digitale, appuyez sur « Cycle »

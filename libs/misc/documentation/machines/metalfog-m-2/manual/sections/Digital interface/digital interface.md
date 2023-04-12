@@ -1,3 +1,5 @@
+## Interface digitale
+
 La Metalfog est pilotée par le logiciel NUSTER.
 
 Vous trouverez ci-dessous la présentation des fonctions disponibles.

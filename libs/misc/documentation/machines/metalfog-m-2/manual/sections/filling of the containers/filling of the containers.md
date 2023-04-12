@@ -1,3 +1,5 @@
+## Remplissage des conteneurs
+
 Avant de manipuler les solutions chimiques, veillez à porter les EPI adéquats, en particulier : gants en nitrile, lunettes de protection et masque de protection FFP3.
 
 Nous conseillons d’utiliser des entonnoirs pour éviter les salissures et les coulures de réactifs sur la Metalfog.

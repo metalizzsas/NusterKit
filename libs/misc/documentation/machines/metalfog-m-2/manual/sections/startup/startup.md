@@ -1,3 +1,5 @@
+## Mise en route de la Metalfog
+
 La Metalfog doit être installée dans un local équipé d’une Ventilation Mécanique Contrôlée (VMC) ou dans un local pouvant être aéré.
 
 Une fois la Metalfog positionnée à son emplacement, bloquez les deux roulettes frein situées à l’avant de la machine.

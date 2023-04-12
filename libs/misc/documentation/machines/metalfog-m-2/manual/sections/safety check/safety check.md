@@ -1,3 +1,5 @@
+## Vérification des conditions de sécurité
+
 o   **Vérification préalable au lancement d'un cycle**
 
 Avant son utilisation, il est nécessaire de s'assurer du bon fonctionnement de la Metalfog.

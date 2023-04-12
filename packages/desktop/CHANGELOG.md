@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-desktop
 
+## 1.11.6
+
+### Patch Changes
+
+- feat: Settings can now display array of strings ([#355](https://github.com/metalizzsas/NusterKit/pull/355))
+
+- feat: changed iframe url to windows host ([#355](https://github.com/metalizzsas/NusterKit/pull/355))
+
 ## 1.11.5
 
 ### Patch Changes

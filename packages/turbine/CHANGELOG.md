@@ -1,5 +1,12 @@
 # @metalizzsas/nuster-turbine
 
+## 1.10.16
+
+### Patch Changes
+
+- feat: updated nginx config to proxy /wifi requests to wifi-connect ([#355](https://github.com/metalizzsas/NusterKit/pull/355))
+  Ò
+
 ## 1.10.15
 
 ### Patch Changes

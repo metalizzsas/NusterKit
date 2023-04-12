@@ -4,6 +4,8 @@ La métallisation chimique "Complexe" comprend un cycle "Activation pièces pore
 
 Pour lancer le cycle de métallisation chimique « Complexe », procédez ainsi :
 
+#### Cycle "Activation pièces poreuses USL"
+
  - Depuis l’écran d’accueil de l’interface digitale, appuyez sur « Cycle » ;
 
 _Screenshot_
@@ -28,10 +30,13 @@ _Screenshot_
 
  **Attention** : Si cette page affiche tout autre message que « Cycle terminé avec succès », reportez-vous au chapitre « Reprendre un cycle non terminé ».
 
+#### Rinçage
 
  - Une fois le cycle « Activation pièces poreuses USL » terminé, sortez les pièces de la Metalfog et rincez-les à l’eau désionisée si possible dans un bac à ultrasons pendant 2 minutes.
 
  - Replacez ensuite les pièces dans la Metalfog.
+
+#### Cycle "Renforcement USL"
 
  - Appuyez sur "Renforcement USL"
 

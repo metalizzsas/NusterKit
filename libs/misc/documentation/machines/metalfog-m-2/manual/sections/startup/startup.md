@@ -13,7 +13,7 @@ Une fois la Metalfog positionnée à son emplacement, bloquez les deux roulettes
 
 - Reliez la machine à un réseau d'air comprimé ou à un compresseur grâce au raccord ISO 6150 Type B situé sur la gauche de la machine.
 - La pression doit être au minimum égale à 6 bars (0.6 MPa).
-- Vérifier que la vanne d’air comprimée est ouverte.
+- Vérifiez que la vanne d’air comprimée est ouverte.
 
 ![Air comprimé](pneumatique.png)
 Vanne d'air comprimé ouverte
@@ -26,6 +26,5 @@ Pour démarrer la machine, positionnez le sectionneur situé à l'arrière de la
 ![Sectionneur](sectionneur.png)
 
 
-test test
 
 

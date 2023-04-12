@@ -2,27 +2,29 @@
 
 Afin de garantir un bon fonctionnement et une longue durée de vie à la Metalfog, il est important d’effectuer des nettoyages réguliers, en respectant les consignes à suivre.
 
- - **Couvercle**
+#### Couvercle
 
 Lorsque le couvercle est trop chargé en argenture, une pellicule blanchâtre se forme à la surface.
 
 Lors des cycles, cette pellicule peut alors polluer les pièces à l’intérieur de la cuve et nuire à la qualité de la métallisation chimique (cf. photo ci-dessous).
 
-_photo_
+![Couvercle chargé en argenture](nettoyage_couvercle_metalfog.png)
+
 
 Nous vous conseillons de nettoyer le couvercle dès l’apparition des premières traces en utilisant du produit nettoyant pour vitres ou de l’alcool isopropylique.
 
 Frottez la surface avec une brosse à poils plastiques souples afin de ne pas rayer le couvercle.
 
-- **Cuve**
+#### Cuve
 
 Nous conseillons de nettoyer la cuve une fois par mois, ou plus si utilisation intense, dans le but d’enlever les pellicules d’argent présentes au fond de la cuve. Celles-ci pourraient boucher la grille d’aspiration (cf. photos ci-dessous).
 
-_photos
+![Cuve avec pellicules d'argent](nettoyage_cuve_metalfog1.png)
+![Grille d'aspiration obstruée](nettoyage_cuve_metalfog2.png)
 
 Nettoyez la grille et le fond de cuve en aspirant les pellicules. Pour détacher les parties les plus résistantes, utilisez une brosse à poils plastiques souples et aspirez à nouveau.
 
- - **Conteneurs réactifs**
+#### Conteneurs réactifs
 
 Afin de garantir la qualité de la métallisation chimique, nous préconisons le nettoyage des conteneurs des réactifs (activant, oxydant et réducteur) tous les 50 cycles, plus si utilisation intense.
 

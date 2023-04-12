@@ -8,7 +8,7 @@ Nous conseillons d’utiliser des entonnoirs pour éviter les salissures et les 
 
 Ces réactifs ne doivent **JAMAIS** entrer en contact entre eux, même en infime quantité, au risque de compromettre la qualité du procédé de métallisation chimique.
 
-**Vérification de l'état des conteneurs**
+#### Vérification de l'état des conteneurs
 
 Avant de remplir les conteneurs de réactifs ou d’eau désionisée, vérifiez qu’ils sont bien vides. 
 Pour cela :
@@ -22,7 +22,7 @@ Avant que le cycle commence, la page des conditions de sécurité s’affiche (v
 
 Une fois lancé, laisser le cycle se terminer avant de revenir à la page d’accueil.
 
-·      **Remplissage Activant**
+#### Remplissage Activant
 
 Le bouchon du conteneur Activant est de couleur rouge (3ème bouchon en partant de la gauche). Le flacon Activant fourni par Metalizz présente une étiquette avec l’indication N°0 UTILITY SILVER LAYER (USL) ACTIVANT.
 
@@ -40,7 +40,7 @@ Pour remplir le conteneur d'Activant, procédez ainsi :
  
  - Depuis l’écran d’accueil de l’interface digitale, cliquer sur « Cycle ».
 
-·      **Remplissage Oxydant**
+#### Remplissage Oxydant
 
 Le bouchon du conteneur Oxydant est de couleur verte (1er bouchon en partant de la gauche). Les flacons "Oxydant" fournis par Metalizz présentent des étiquettes avec les indications N°1 UTILITY SILVER LAYER (étiquette bleue) et N°2 UTILITY SILVER LAYER (étiquette verte).
 
@@ -54,7 +54,7 @@ Pour remplir le conteneur d'Oxydant, procédez ainsi :
 
  - Dans le conteneur Oxydant (1er bouchon en partant de la gauche, de couleur vert), versez, à l’aide d’un entonnoir propre, d'abord le produit N°1 UTILITY SILVER LAYER puis, en utilisant un autre entonoir propre, le produit N°2 UTILITY SILVER LAYER.
 
-·      **Remplissage Réducteur**
+#### Remplissage Réducteur
 
 Le bouchon du conteneur Réducteur est de couleur blanche (2ème bouchon en partant de la gauche). Les flacons "Réducteur" fournis par Metalizz présentent des étiquettes avec les indications N°3 UTILITY SILVER LAYER (étiquette marron) et N°4 UTILITY SILVER LAYER (étiquette jaune).
 
@@ -68,7 +68,7 @@ Pour remplir le conteneur Réducteur, procédez ainsi :
 
  - Dans le conteneur Réducteur (2ème bouchon en partant de la gauche, de couleur blanche), versez d'abord, à l’aide d’un entonnoir propre, le produit N°3 UTILITY SILVER LAYER puis, en utilisant un autre entonoir propre, le produit N°4 UTILITY SILVER LAYER.
 
-·      **Remplissage Eau désionisée**
+#### Remplissage Eau désionisée
 
 Le bouchon du conteneur d’eau désionisée est de couleur bleue (4ème bouchon en partant de la gauche).
 

@@ -29,19 +29,21 @@ export class EX260Sx implements IOBase, EX260SxConfig
         this.size = size;
         
         this.controller = new ENIP.SocketController();
-        this.connected = false;
 
         this.connect();
     }
     
     async connect(): Promise<boolean>
     {
+        if(this.connected)
+            return true;
+
         if(this.unreachable)
             return false;
         
-        const available = await new Promise((resolve) => {
+        const available = await new Promise<boolean>((resolve) => {
             ping.sys.probe(this.ip, (isAlive) => {
-                resolve(isAlive);
+                resolve(isAlive || false);
             });
         });
 
@@ -94,10 +96,9 @@ export class EX260Sx implements IOBase, EX260SxConfig
     async readData2(address: number): Promise<Buffer>
     {
         if(this.unreachable)
-            return Buffer.alloc(0);
+            throw "EX260Sx: Unreachable";
 
-        if(!this.connected || this.controller === undefined)
-            await this.connect();
+        await this.connect();
         
         //Path for ethernet ip protocol
         const idPath = Buffer.from([0x20, 0x04, 0x24, address, 0x30, 0x03]);
@@ -110,6 +111,7 @@ export class EX260Sx implements IOBase, EX260SxConfig
 
         if(!write)
         {
+            LoggerInstance.error("EX260Sx: Failed to write data");
             TurbineEventLoop.emit(`pbr.stop`, "controllerError");
             return Buffer.alloc(0);
         }
@@ -130,10 +132,9 @@ export class EX260Sx implements IOBase, EX260SxConfig
     async writeData(address: number, value: number): Promise<void>
     {
         if(this.unreachable)
-            return;
+            throw "EX260Sx: Unreachable";
 
-        if(!this.connected)
-            await this.connect();    
+        await this.connect();
 
         //patch to prevent writing too early
         await new Promise((resolve) => {
@@ -191,6 +192,7 @@ export class EX260Sx implements IOBase, EX260SxConfig
 
         if(write === false)
         {
+            LoggerInstance.warn("EX260Sx: Failed to write data");
             TurbineEventLoop.emit(`pbr.stop`, "controllerError");
         }
     }

@@ -2,7 +2,7 @@ Le filtre de la Metalfog est situé sur le côté gauche de la machine.
 
 ![Metalfog filter](0.jpg)
 
-Dévissez le filtre en effectuant une rotation anti-horaire. Quand le filtre est libéré, sortez le de son logement.
+Dévissez le filtre en effectuant une rotation anti-horaire. Quand le filtre est libéré, sortez-le de son logement.
 
 ![Metalfog filter](1.jpg)
 

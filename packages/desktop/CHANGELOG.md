@@ -1,5 +1,15 @@
 # @metalizzsas/nuster-desktop
 
+## 1.11.7
+
+### Patch Changes
+
+- fix: clicking on input inside keyboard will not re-open keyboard ([#360](https://github.com/metalizzsas/NusterKit/pull/360))
+
+- feat: password field can now show text typed if asked ([#360](https://github.com/metalizzsas/NusterKit/pull/360))
+
+- feat: keyboard will now be 65% screen wide ([#360](https://github.com/metalizzsas/NusterKit/pull/360))
+
 ## 1.11.6
 
 ### Patch Changes

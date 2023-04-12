@@ -16,6 +16,7 @@
     let focused = false;
 
     $: if(passwordElement) { passwordElement.type = secretShown ? "text" : "password"; }
+    $: if(secretShown) { setTimeout(() => secretShown = false, 3000); }
 
 </script>
 

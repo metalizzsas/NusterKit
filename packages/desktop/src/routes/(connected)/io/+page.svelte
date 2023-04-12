@@ -10,9 +10,15 @@
 	import { realtime } from "$lib/utils/stores/nuster";
 	import Wrapper from "$lib/components/Wrapper.svelte";
 	import SelectableButton from "$lib/components/buttons/SelectableButton.svelte";
+	import type { Snapshot } from "./$types";
 
     let selectedBus: "in" | "out" = "in";
     let buses: Array<"in" | "out"> = ["in", "out"];
+
+	export const snapshot: Snapshot<"in" | "out"> = {
+		capture: () => selectedBus,
+		restore: (bus) => selectedBus = bus
+	}
 
 </script>
 

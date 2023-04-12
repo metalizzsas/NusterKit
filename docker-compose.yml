@@ -78,6 +78,7 @@ services:
 
   wifi-connect:
     image: bh.cr/balenalabs/wifi-connect-aarch64
+    network_mode: "host"
     restart: always
     privileged: true
     labels: 
@@ -87,7 +88,7 @@ services:
       - NET_ADMIN
     environment:
       PORTAL_LISTENING_PORT: 5000
-      PORTAL_SSID: 'Nuster Wifi Configurator'
+      PORTAL_SSID: 'Nuster Wifi'
+      PORTAL_PASSPHRASE: '4CBrxKdm4CBrxKdm'
       DBUS_SYSTEM_BUS_ADDRESS: "unix:path=/host/run/dbus/system_bus_socket"
-    ports:
-      - 5000:5000
+      VERBOSE: false

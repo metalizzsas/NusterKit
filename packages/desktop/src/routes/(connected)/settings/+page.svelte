@@ -109,18 +109,20 @@
                 data.machine.deviceData.ip_address
                 .split(' ')
                 .filter((k) => k !== '192.168.1.2' && k !== '192.168.42.1')
-                .join(", ")
             } />
 
             <SettingField label={$_('settings.network.mac')} value={
                 data.machine.deviceData.mac_address
                 .split(' ')
                 .filter((mac_adr) => { return !['E4:5F:01', 'DC:A6:32', '3A:35:41', '28:CD:C1'].map(mask => mac_adr.startsWith(mask)).reduce((p, c) => p || c) })
-                .join(", ")
             } />
         {/if}
 
-        <SettingField label={$_('settings.network.wifi.label')}><a href="/settings/wifi"><Button color={"hover:bg-indigo-500"} ringColor={"ring-indigo-500"}>{$_('settings.network.wifi.button')}</Button></a></SettingField>
+        {#await fetch('/wifi') then request}
+            {#if ![404, 502].includes(request.status)}
+                <SettingField label={$_('settings.network.wifi.label')}><a href="/settings/wifi"><Button color={"hover:bg-indigo-500"} ringColor={"ring-indigo-500"}>{$_('settings.network.wifi.button')}</Button></a></SettingField>
+            {/if}
+        {/await}
 
         <SettingField label={$_('settings.network.vpn')} value={
             data.machine.vpnData?.vpn.connected === undefined

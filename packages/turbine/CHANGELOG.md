@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.10.17
+
+### Patch Changes
+
+- fix: address error on nginx configuration ([#357](https://github.com/metalizzsas/NusterKit/pull/357))
+
 ## 1.10.16
 
 ### Patch Changes

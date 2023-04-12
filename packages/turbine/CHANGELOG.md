@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.10.18
+
+### Patch Changes
+
+- feat: enhanced connect flow for EX260Sx ([#362](https://github.com/metalizzsas/NusterKit/pull/362))
+
 ## 1.10.17
 
 ### Patch Changes

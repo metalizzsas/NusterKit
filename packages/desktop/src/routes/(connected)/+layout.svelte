@@ -153,7 +153,7 @@
     </div>
 {:else}
     <div class="bg-zinc-900 absolute z-50 inset-0" out:fade={{duration: 250, delay: 600}}>
-        <Flex direction="col" items="center" justify="center" class="h-screen">
+        <Flex direction="col" items="center" justify="center" class="h-screen w-5/6 mx-auto">
             <Flex gap={24} items="center">
                 <img src="/icons/icon-512.png" class="h-2/3 aspect-square rounded-xl" alt="Nuster logo" />
                 <div class="text-white grow">

@@ -28,7 +28,7 @@ Le bouchon du conteneur Activant est de couleur rouge (3ème bouchon en partant 
 
 Pour remplir le conteneur d'Activant, procédez ainsi :
 
- -  Avant de remplir les conteneurs de réactifs ou d’eau déionisée, penser à vérifier qu’ils sont bien vides comme précisé ci-dessus ;
+ -  Avant de remplir les conteneurs de réactifs ou d’eau déionisée, pensez à vérifier qu’ils sont bien vides comme précisé ci-dessus ;
 
  -  Pour faire  1 litre d’Activant, remplir une éprouvette graduée avec 20 mL de produit N°0 UTILITY SILVER LAYER (USL) ACTIVANT. L’activant doit toujours être dilué à 2% dans de l’eau désionisée;
 
@@ -40,40 +40,40 @@ Pour remplir le conteneur d'Activant, procédez ainsi :
 
 ·      **Remplissage Oxydant**
 
-Le bouchon du conteneur Oxydant est de couleur vert (1er bouchon en partant de la gauche). Les flacons Oxydant fournis par Metalizz présentent des étiquettes avec les indications N°1 UTILITY SILVER LAYER (étiquette bleue) et N°2 UTILITY SILVER LAYER étiquette verte.
+Le bouchon du conteneur Oxydant est de couleur verte (1er bouchon en partant de la gauche). Les flacons "Oxydant" fournis par Metalizz présentent des étiquettes avec les indications N°1 UTILITY SILVER LAYER (étiquette bleue) et N°2 UTILITY SILVER LAYER (étiquette verte).
 
 **Attention** : Une fois mélangé, l’oxydant se dégrade rapidement. Il est conseillé de le changer au bout de 4 jours suivant sa préparation.
 
 Pour remplir le conteneur d'Oxydant, procédez ainsi :
 
- - Avant de remplir les conteneurs de réactifs ou d’eau déionisée, penser à vérifier qu’ils sont bien vides comme précisé ci-dessus ;
+ - Avant de remplir les conteneurs de réactifs ou d’eau déionisée, pensez à vérifier qu’ils sont bien vides comme précisé ci-dessus ;
 
  - Munissez-vous des 2 flacons du kit oxydant N°1 UTILITY SILVER LAYER et N°2 UTILITY SILVER LAYER ;
 
- - Dans le conteneur Oxydant (1er bouchon en partant de la gauche, de couleur vert), verser en premier, à l’aide d’un entonnoir propre, le produit ~~dénommé~~ N°1 UTILITY SILVER LAYER ~~sur fond~~ étiquette bleue puis, dans un second temps, avec un entonnoir propre, le produit ~~dénommé~~ N°2 UTILITY SILVER LAYER étiquette ~~sur fond~~ verte.
+ - Dans le conteneur Oxydant (1er bouchon en partant de la gauche, de couleur vert), versez, à l’aide d’un entonnoir propre, d'abord le produit N°1 UTILITY SILVER LAYER puis, en utilisant un autre entonoir propre, le produit N°2 UTILITY SILVER LAYER.
 
 ·      **Remplissage Réducteur**
 
-Le bouchon du conteneur Réducteur est de couleur blanc, 2nd bouchon en partant de la gauche. Les flacons Réducteur fournis par la société Metalizz présentent des étiquettes identifiées ~~avec les indications~~ N°3 UTILITY SILVER LAYER sur fond marron et N°4 UTILITY SILVER LAYER sur fond jaune.
+Le bouchon du conteneur Réducteur est de couleur blanche (2ème bouchon en partant de la gauche). Les flacons "Réducteur" fournis par Metalizz présentent des étiquettes avec les indications N°3 UTILITY SILVER LAYER (étiquette marron) et N°4 UTILITY SILVER LAYER (étiquette jaune).
 
-**Rappel** : une fois mélangé, le réducteur se dégrade rapidement, il est conseillé de le changer ~~tous les 4 à 5 jours~~. au bout de 4 jours après préparation.
+**Attention** : Une fois mélangé, le réducteur se dégrade rapidement. Il est conseillé de le changer au bout de 4 jours après préparation.
 
-Procéder par étapes :
+Pour remplir le conteneur Réducteur, procédez ainsi :
 
-·      avant de remplir les conteneurs de réactifs ou d’eau désionisée, penser à vérifier qu’ils sont bien vides. Se référer au « VII. Remplissage conteneurs » Vérification état des conteneurs page 12 ;
+ - Avant de remplir les conteneurs de réactifs ou d’eau déionisée, penser à vérifier qu’ils sont bien vides comme précisé ci-dessus ;
 
-·       se munir des 2 flacons du kit oxydant  N°3 UTILITY SILVER LAYER sur fond marron et N°4 UTILITY SILVER LAYER sur fond jaune ;
+ - Munissez-vous des 2 flacons du kit réducteur  N°3 UTILITY SILVER LAYER et N°4 UTILITY SILVER LAYER ;
 
-·       dans le conteneur Réducteur (2nd bouchon en partant de la gauche, de couleur blanc), verser en premier, à l’aide ~~d’un~~ de l’entonnoir repéré N°3 ~~propre~~, le produit ~~dénommé~~ N°3 UTILITY SILVER LAYER sur fond marron puis, dans un second temps, avec ~~un~~ l’entonnoir repéré N°4 ~~propre~~, le produit ~~dénommé~~ N°4 UTILITY SILVER LAYER sur fond jaune.
+ - Dans le conteneur Réducteur (2ème bouchon en partant de la gauche, de couleur blanche), versez d'abord, à l’aide d’un entonnoir propre, le produit N°3 UTILITY SILVER LAYER puis, en utilisant un autre entonoir propre, le produit N°4 UTILITY SILVER LAYER.
 
 ·      **Remplissage Eau désionisée**
 
-Le bouchon du conteneur d’eau désionisée est de couleur bleu, 4ème bouchon en partant de la gauche.
+Le bouchon du conteneur d’eau désionisée est de couleur bleue (4ème bouchon en partant de la gauche).
 
-**Attention** : ne jamais remplir le conteneur avec plus de 3 litres d’eau.
+**Attention** : Ne jamais remplir le conteneur avec plus de 3 litres d’eau désionisée.
 
-·       Utiliser le ~~un~~ pot gradué dédié et ~~un~~ l’entonnoir dédié ~~propre~~ pour ne pas polluer la Metalfog ;
+ - Utilisez un pot gradué dédié et un entonnoir dédié pour ne pas polluer la Metalfog ;
 
-·      vérifier le niveau d’eau à l’aide de l’interface digitale ;
+ - Vérifiez le niveau d’eau à l’aide de l’interface digitale ;
 
-·      s’arrêter lorsque « Limite max. » de l’eau désionisée passe de « Faux X » à « Vrai ✓ ».
+ - Arrêtez de remplir lorsque l'indicateur « Limite max. » de l’eau désionisée passe de « rouge » à « vert ».

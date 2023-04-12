@@ -12,6 +12,8 @@
     export let value: number;
     export let disabled = false;
 
+    export let keyboardEmbedded = false;
+
     let focused = false;
 
     export let min: number | undefined = undefined;
@@ -66,7 +68,7 @@
     <button on:click={increment}><Icon src={PlusCircle} class="h-6 w-6 text-zinc-600 dark:text-white" {disabled}></Icon></button>
 </Flex>
 
-{#if focused && $page.data.is_machine_screen}
+{#if !keyboardEmbedded && focused && $page.data.is_machine_screen}
     <Keyboard bind:value on:close={() => { focused = false; change(); }} />
 {/if}
 

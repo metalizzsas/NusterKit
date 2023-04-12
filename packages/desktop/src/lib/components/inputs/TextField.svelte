@@ -5,6 +5,7 @@
     export let value: string;
     export let placeholder: string | undefined = undefined;
     export let disabled = false;
+    export let keyboardEmbedded = false;
 
     let focused = false;
 
@@ -22,6 +23,6 @@
     }}
 />
 
-{#if focused && $page.data.is_machine_screen}
+{#if !keyboardEmbedded && focused && $page.data.is_machine_screen}
     <Keyboard bind:value on:close={() => focused = false} />
 {/if}

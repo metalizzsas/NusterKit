@@ -21,6 +21,7 @@
 
     export let value: string | number;
     export let isPassword = false;
+    export let isPasswordShown = false;
     export const close = () => dispatch("close");
 
     let keyboard: SimpleKeyboard | undefined = undefined;
@@ -123,14 +124,14 @@
 </script>
 
 <Portal target="body">
-    <div bind:this={keyboardWrapper} class="p-2 bg-white dark:bg-zinc-800 ring-2 ring-inset dark:ring-white rounded-md absolute" style:left={`${$keyboardLeft}px`} style:top={`${$keyboardTop}px`} on:mousedown={mouseDown}>
+    <div bind:this={keyboardWrapper} class="p-2 bg-white dark:bg-zinc-800 ring-2 ring-inset dark:ring-white rounded-md absolute min-w-[65%]" style:left={`${$keyboardLeft}px`} style:top={`${$keyboardTop}px`} on:mousedown={mouseDown}>
         <Flex justify="between" class="mb-2" gap={2}>
             {#if typeof value === "string" && isPassword === false}
-                <TextField bind:value={value} disabled={true} class="grow"/>
+                <TextField bind:value={value} disabled keyboardEmbedded class="grow"/>
             {:else if typeof value === "string" && isPassword === true}
-                <PasswordField bind:value={value} disabled={true} class="grow"/>
+                <PasswordField bind:value={value} bind:secretShown={isPasswordShown} keyboardEmbedded disabled class="grow" />
             {:else if typeof value === "number"}
-                <NumField bind:value={value} disabled={true} class="grow"/>
+                <NumField bind:value={value} disabled keyboardEmbedded class="grow"/>
             {/if}
 
             <Button on:click={close} color="hover:bg-red-500" ringColor="ring-red-500">

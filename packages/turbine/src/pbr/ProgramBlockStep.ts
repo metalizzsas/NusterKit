@@ -97,6 +97,13 @@ export class ProgramBlockStep
             return "next";
         }
 
+        // Reset abort controller if step is multiple and runCount > 0
+        if(this.type === "multiple" && this.runCount > 0)
+        {
+            this.stepRuncontroller = new AbortController();
+            this.endReason = undefined;
+        }
+
         LoggerInstance.info(`PBS-${this.name}: Started step.`);
         this.pbrInstance.addEvent(`PBS: Started ${this.name} step.`);
         this.state = "started";
@@ -136,6 +143,8 @@ export class ProgramBlockStep
 
         if(this.stepOvertimeTimer)
             clearTimeout(this.stepOvertimeTimer);
+
+        this.runCount++;
         
         // Handle step end
 
@@ -152,7 +161,7 @@ export class ProgramBlockStep
 
         if(this.type === "multiple")
         {
-            if(this.runCount === this.runAmount?.data)
+            if(this.runCount >= (this.runAmount?.data ?? 1))
             {
                 this.state = "ended";
                 LoggerInstance.info(`PBS-${this.name}: Ended step with state ${this.state}`);
@@ -162,9 +171,8 @@ export class ProgramBlockStep
             }
             else
             {
-                this.runCount++;
                 this.state = "partial";
-                LoggerInstance.info(`PBS-${this.name}: Ended step with state ${this.state}`);
+                LoggerInstance.info(`PBS-${this.name}: Ended step partialy with state ${this.state}`);
                 this.endTime = Date.now();
 
                 return this.partialStepFallback ?? "next";

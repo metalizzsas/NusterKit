@@ -12,6 +12,8 @@
 	import Gate from "./io/Gate.svelte";
 	import Label from "$lib/components/label.svelte";
 	import ProgressBar from "$lib/components/ProgressBar.svelte";
+	import type { IconSource } from "@steeze-ui/heroicons/types";
+	import type { PBRStepHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/PBRStepHydrated";
 
     const dispatch = createEventDispatcher<{ patched: void }>();
 
@@ -39,6 +41,38 @@
     const patchCycle = () => {
         patched();
         void fetch(`/api/v1/cycle`, { method: "PATCH" });
+    }
+
+    const computeStepIcon = (step: PBRStepHydrated): { icon: IconSource, color: string } => {
+
+        const icon = step.endReason !== "skipped" ? (step.state === "started" ? ArrowPath : ["partial", "ended", "ending"].includes(step.state) ? Check : XMark) : ArrowDown;
+
+        let color = "text-white";
+
+        if(step.endReason === "skipped")
+            color = "text-orange-500"
+        else
+        {
+            switch(step.state)
+            {
+                case "started":
+                    color = "text-blue-500";
+                    break;
+                case "partial":
+                    color = "text-orange-500";
+                    break;
+                case "ended":
+                case "ending":
+                    color = "text-emerald-500";
+                    break;
+            }
+        }
+
+        return {
+            icon,
+            color
+        }
+
     }
 
     /// — Reactive statements
@@ -185,11 +219,10 @@
     <Flex gap={2} direction={"col"}>
         {#each cycleData.steps.filter(s => s.isEnabled.data == 1) as step}
 
-        {@const icon = step.endReason !== "skipped" ? (step.state === "started" ? ArrowPath : ["partial", "ended", "ending"].includes(step.state) ? Check : XMark) : ArrowDown}
-        {@const iconColor = step.endReason !== "skipped" ? (step.state === "started" ? "text-blue-500" : ["partial", "ended", "ending"].includes(step.state) ? "text-emerald-500" : "text-red-500") : "text-orange-500"}
+        {@const iconData = computeStepIcon(step)}
 
             <div class="p-4 rounded-xl border-[1px] border-zinc-400">
-                <Flex items="center" justify="between">
+                <Flex items="center" justify="between" class="mb-2">
                     <Flex 
                         gap={1} 
                         items={step.state === "started" ? "start" : "center"} 
@@ -209,13 +242,12 @@
                             <Label>{step.runCount} / {step.runAmount.data}</Label>
                         {/if}
 
-                        <Icon src={icon} class="h-6 w-6 self-start {icon === ArrowPath ? "animate-spin-slow" : ""} {iconColor}" />
+                        <Icon src={iconData.icon} class="h-6 w-6 self-start {iconData.icon === ArrowPath ? "animate-spin-slow" : ""} {iconData.color}" />
                     </Flex>
 
                 </Flex>
 
                 {#if step.state === "started"}
-                    <p class="text-sm leading-6 mt-1">{$_('progress')}</p> 
                     <ProgressBar dots={step.runAmount?.data} bind:progress={step.progress} />
                 {/if}
             </div>

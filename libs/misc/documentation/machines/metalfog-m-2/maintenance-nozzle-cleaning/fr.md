@@ -16,5 +16,5 @@ Sortez la buse et nettoyez-la avec de l'`air comprimé`.
 
 ![Nettoyage de la buse](3.png)
 
-> Il est possible que lors du remontage d'une buse, l'entrée dans son support soit difficile. Il est recommandé d'ajouter de la graisse sur le joint autour de la buse.
+> Il est possible que lors du remontage d'une buse, l'entrée dans son support soit difficile. Il est recommandé d'ajouter de la graisse sur le joint autour de la buse. Il ne faut pas que de la graisse se retrouve à l'intérieur de la cuve : risque de pollution.
 

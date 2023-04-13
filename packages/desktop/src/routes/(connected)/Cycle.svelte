@@ -5,7 +5,7 @@
     import { parseDurationToString } from "$lib/utils/dateparser";
     import { ArrowDown, ArrowPath, ArrowRight, Check, CheckCircle, Clock, ExclamationCircle, InformationCircle, Square3Stack3d, XMark } from "@steeze-ui/heroicons";
     import { Icon } from "@steeze-ui/svelte-icon";
-	import { date, time, _ } from "svelte-i18n";
+	import { _ } from "svelte-i18n";
 	import { translateProfileName } from "$lib/utils/i18n/i18nprofile";
 	import { machine, realtime } from "$lib/utils/stores/nuster";
 	import { createEventDispatcher } from "svelte";
@@ -35,7 +35,7 @@
     }
 
     const nextStepCycle = async () => {
-        await fetch(`/api/v1/cycle`, { method: "PUT"})
+        await fetch(`/api/v1/cycle`, { method: "PUT"});
     }
 
     const patchCycle = () => {
@@ -211,7 +211,7 @@
         </Flex>
     {/if}
 
-    <h3 class="leading-[4rem]">
+    <h3 class="leading-[4rem] mt-2">
         <Icon src={Square3Stack3d} class="h-6 w-6 inline mr-1 text-indigo-500"/>
         {$_('cycle.categories.steps')}
     </h3>
@@ -275,24 +275,36 @@
         <Icon src={isSuccess ? Check : XMark} class="h-10 w-10 self-start {isSuccess ? "text-emerald-500" : "text-red-500"}" />
     </Flex>
 
-    <Button on:click={patchCycle} class="mt-4 mb-8">{$_('cycle.buttons.complete')}</Button>
+    <Button on:click={patchCycle} class="mt-4 mb-6">{$_('cycle.buttons.complete')}</Button>
 
-    {#if $machine.settings.devMode === true}
-        <div>
-            <h3 class="mb-4">Évenements de cycle.</h3>
-            <Flex direction="col">
-                {#each cycleData.events as event, i}
-                <Flex items="center">
-                    <div class="bg-zinc-700 p-0.5 text-center rounded-md text-sm aspect-square h-6 ring-1 ring-inset ring-white/50">{i}</div>
-                    <div>
-                        <h4 class="leading-6">{event.data}</h4>
-                        <p class="text-sm text-zinc-600 dark:text-zinc-300">{$date(event.time)} — {$time(event.time)}</p>
-                    </div>
-                </Flex>
-                {/each}
-            </Flex>
-        </div> 
-    {/if}
+    <div class="h-0.5 bg-zinc-300/50 rounded-full mx-auto w-2/3 my-2" />
+
+    <div>
+        <h3 class="leading-[4rem] mt-2">
+            <Icon src={Square3Stack3d} class="h-6 w-6 inline mr-1 text-indigo-500"/>
+            {$_('cycle.categories.steps')}
+        </h3>
+        
+        <Flex gap={2} direction={"col"}>
+            {#each cycleData.steps.filter(s => s.isEnabled.data == 1) as step}
+    
+                {@const iconData = computeStepIcon(step)}
+    
+                <div class="p-4 rounded-xl border-[1px] border-zinc-400">
+                    <Flex items="center" justify="between" class={step.state === "started" ? "mb-2" : ""}>
+                        <h4 class="leading-6">{$_(`cycle.steps.${step.name}.name`)}</h4>
+                        <Flex gap={4}>
+                            {#if step.runCount !== undefined && step.runAmount !== undefined && step.runAmount.data > 1}
+                                <Label>{step.runCount} / {step.runAmount.data}</Label>
+                            {/if}
+    
+                            <Icon src={iconData.icon} class="h-6 w-6 self-start {iconData.icon === ArrowPath ? "animate-spin-slow" : ""} {iconData.color}" />
+                        </Flex>
+                    </Flex>
+                </div>
+            {/each}
+        </Flex>
+    </div>
 {:else}
     <h3>Loading...</h3>
 {/if}

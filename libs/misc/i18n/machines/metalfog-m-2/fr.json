@@ -24,7 +24,12 @@
                 "unload": "Vidange activant"
             }
         },
-        "edi": { "name": "Eau désionisée" },
+        "edi": { 
+            "name": "Eau déionisée",
+            "actions": {
+                "unload_alt": "Vidange Eau déionisée"
+            }
+        },
         "eff": { "name": "Éffluents" }
     },
     "profile": {
@@ -36,11 +41,15 @@
             "cem": "Blindage CEM",
             "cem-retake": "Renforcement Blindage CEM",
             "act-fill": "Dilution activant",
-            "container-emptying-all": "Vidange de tout les conteneurs"
+            "container-emptying-reactives": "Vidange de tous les réactifs",
+            "container-emptying-act": "Vidange de l'activant",
+            "container-emptying-rd": "Vidange du réducteur",
+            "container-emptying-ox": "Vidange de l'oxydant",
+            "container-emptying-edi": "Vidange de l'eau déionisée"
         },
 
         "categories": {
-            "act-edi-nozzles": "Buses activant et eau désionisée",
+            "act-edi-nozzles": "Buses activant et eau déionisée",
             "met-nozzles": "Buses de métallisation",
             "motor": "Moteur de rotation",
             "activation": "Activation",
@@ -70,7 +79,7 @@
     },
     "cycle": {
         "end_reasons": {
-            "security-emergency-stop": "Boutton d'arret d'urgence déclenché",
+            "security-emergency-stop": "Boutton d'arrêt d'urgence déclenché",
             "security-air-sensor": "Pression d'air trop basse",
             "security-cover-closed": "Couvercle ouvert",
             "security-levels#eff-max-n": "Niveau d'effluents maximal",
@@ -79,15 +88,16 @@
             "security-levels#act-min-n": "Niveau d'activant minimal",
             "security-levels#ox-min-n": "Niveau d'oxydant minimal",
             "security-levels#rd-min-n": "Niveau de réducteur minimal",
-            "activator-timed-out": "La dilution d'activant à été trop longue"
+            "activator-timed-out": "La dilution d'activant à été trop longue",
+            "container-emptying-profile-invalid": "Le profil de vidange est invalide"
         },
         "run_conditions": {
-            "emergency-stop": "Bouton d'arret d'urgence",
+            "emergency-stop": "Bouton d'arrêt d'urgence",
             "cover-closed": "Couvercle fermé",
             "air-sensor": "Pression d'air comprimé",
             "eff-container-sensor": "Réservoir d'effluents présent",
-            "levels#eff-max-n": "Niveau d'effluent",
-            "levels#edi-min-n": "Niveau eau désionisée",
+            "levels#eff-max-n": "Niveau d'effluents",
+            "levels#edi-min-n": "Niveau eau déionisée",
             "levels#act-min-n": "Niveau activant",
             "levels#rd-min-n": "Niveau réducteur",
             "levels#ox-min-n": "Niveau oxydant",
@@ -137,7 +147,7 @@
             },
             "act-fill": {
                 "name": "Dilution de l'activant",
-                "desc": "De l'eau désionisée est transférée dans le conteneurs d'activant pour diluer la solution."
+                "desc": "De l'eau déionisée est transférée dans le conteneurs d'activant pour diluer la solution."
             },
             "container-emptying": {
                 "name": "Vidange",
@@ -154,7 +164,7 @@
             "regulators": "Régulateurs"
         },
         "names": {
-            "emergency-stop": "Bouton d'arret d'urgence",
+            "emergency-stop": "Bouton d'arrêt d'urgence",
             "air-sensor": "Capteur de préssion d'air",
             "cover-closed": "Capteur de couvercle",
             "eff-container-sensor": "Capteur de présence du conteneur d'éffluents",
@@ -173,19 +183,19 @@
             "levels#act-max-n": "Niveau maximal activant",
             "levels#act-min-n": "Niveau minimal activant",
             
-            "levels#edi-max-n": "Niveau maximal eau désionisée",
-            "levels#edi-min-n": "Niveau minimal eau désionisée",
+            "levels#edi-max-n": "Niveau maximal eau déionisée",
+            "levels#edi-min-n": "Niveau minimal eau déionisée",
 
             "hybrid#act-res": "Mise sous pression conteneur activant",
-            "hybrid#edi-res": "Mise sous pression conteneur eau désionisée",
+            "hybrid#edi-res": "Mise sous pression conteneur eau déionisée",
 
-            "hybrid#plv": "Pulvérisation Activant ou Eau désionisée",
+            "hybrid#plv": "Pulvérisation Activant ou Eau déionisée",
 
             "hybrid#act-lq": "Contrôle liquide activant",
-            "hybrid#edi-lq": "Contrôle liquide eau désionisée",
-            "hybrid#lq-fill-act": "Contrôle liquide eau désionisée vers conteur activant",
+            "hybrid#edi-lq": "Contrôle liquide eau déionisée",
+            "hybrid#lq-fill-act": "Contrôle liquide eau déionisée vers conteur activant",
 
-            "hybrid#air-cleaning": "Nettoyage buse activant & eau désionisée",
+            "hybrid#air-cleaning": "Nettoyage buse activant & eau déionisée",
 
             "met#ox-res": "Mise sous pression conteneur oxydant",
             "met#rd-res": "Mise sous pression conteneur réducteur",

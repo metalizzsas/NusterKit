@@ -225,7 +225,7 @@
     "buttons": {
       "start": "Démarrer le cycle",
       "nextStep": "Sauter l'étape",
-      "stop": "Arreter le cycle",
+      "stop": "Arrêter le cycle",
       "complete": "Terminer le cycle"
     }
   },

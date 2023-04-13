@@ -85,12 +85,15 @@
         {#if compatibleProductListShown === false}
 
             <Grid cols={1} gap={4}>
-                <Button on:click={() => productEdit("load")}>
-                    <Flex direction="row" justify="center" items="center">
-                        <Icon src={ArrowDownTray} class="h-4 w-4"/>
-                        {$_(`containers.${container.name}.actions.load`)}
-                    </Flex>
-                </Button>
+
+                {#if container.isProductable}
+                    <Button on:click={() => productEdit("load")}>
+                        <Flex direction="row" justify="center" items="center">
+                            <Icon src={ArrowDownTray} class="h-4 w-4"/>
+                            {$_(`containers.${container.name}.actions.load`)}
+                        </Flex>
+                    </Button>
+                {/if}
 
                 {#if container.callToAction}
                     {#each container.callToAction.filter(k => k.name !== "load" && k.name !== "unload") as cta}
@@ -103,12 +106,14 @@
                     {/each}
                 {/if}
 
-                <Button ringColor="ring-red-500" color="hover:bg-red-500" on:click={() => productEdit("unload")}>
-                    <Flex direction="row" justify="center" items="center">
-                        <Icon src={ArrowUpTray} class="h-4 w-4"/>
-                        {$_(`containers.${container.name}.actions.unload`)}
-                    </Flex>
-                </Button>
+                {#if container.isProductable}
+                    <Button ringColor="ring-red-500" color="hover:bg-red-500" on:click={() => productEdit("unload")}>
+                        <Flex direction="row" justify="center" items="center">
+                            <Icon src={ArrowUpTray} class="h-4 w-4"/>
+                            {$_(`containers.${container.name}.actions.unload`)}
+                        </Flex>
+                    </Button>
+                {/if}
             </Grid>
 
         {:else if preselectedMethod !== undefined && container.supportedProductSeries}

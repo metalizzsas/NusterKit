@@ -24,7 +24,7 @@
                 "unload": "Vidange activant"
             }
         },
-        "edi": { "name": "Eau désionisée" },
+        "edi": { "name": "Eau déionisée" },
         "eff": { "name": "Éffluents" }
     },
     "profile": {
@@ -40,7 +40,7 @@
         },
 
         "categories": {
-            "act-edi-nozzles": "Buses activant et eau désionisée",
+            "act-edi-nozzles": "Buses activant et eau déionisée",
             "met-nozzles": "Buses de métallisation",
             "motor": "Moteur de rotation",
             "activation": "Activation",
@@ -87,7 +87,7 @@
             "air-sensor": "Pression d'air comprimé",
             "eff-container-sensor": "Réservoir d'effluents présent",
             "levels#eff-max-n": "Niveau d'effluent",
-            "levels#edi-min-n": "Niveau eau désionisée",
+            "levels#edi-min-n": "Niveau eau déionisée",
             "levels#act-min-n": "Niveau activant",
             "levels#rd-min-n": "Niveau réducteur",
             "levels#ox-min-n": "Niveau oxydant",
@@ -137,7 +137,7 @@
             },
             "act-fill": {
                 "name": "Dilution de l'activant",
-                "desc": "De l'eau désionisée est transférée dans le conteneurs d'activant pour diluer la solution."
+                "desc": "De l'eau déionisée est transférée dans le conteneurs d'activant pour diluer la solution."
             },
             "container-emptying": {
                 "name": "Vidange",
@@ -172,20 +172,20 @@
             "levels#act-max-n": "Niveau maximal activant",
             "levels#act-min-n": "Niveau minimal activant",
             
-            "levels#edi-max-n": "Niveau maximal eau désionisée",
-            "levels#edi-min-n": "Niveau minimal eau désionisée",
+            "levels#edi-max-n": "Niveau maximal eau déionisée",
+            "levels#edi-min-n": "Niveau minimal eau déionisée",
 
             "hybrid#act-res": "Mise sous pression conteneur activant",
-            "hybrid#edi-res": "Mise sous pression conteneur eau désionisée",
+            "hybrid#edi-res": "Mise sous pression conteneur eau déionisée",
 
-            "hybrid#plv-high": "Pulvérisation Activant ou Eau désionisée haut",
-            "hybrid#plv-low": "Pulvérisation Activant ou Eau désionisée bas",
+            "hybrid#plv-high": "Pulvérisation Activant ou Eau déionisée haut",
+            "hybrid#plv-low": "Pulvérisation Activant ou Eau déionisée bas",
 
             "hybrid#act-lq-high": "Contrôle liquide activant haut",
             "hybrid#act-lq-low": "Contrôle liquide activant bas",
-            "hybrid#edi-lq-high": "Contrôle liquide eau désionisée haut",
-            "hybrid#edi-lq-low": "Contrôle liquide eau désionisée bas",
-            "hybrid#lq-fill-act": "Contrôle liquide eau désionisée vers conteur activant",
+            "hybrid#edi-lq-high": "Contrôle liquide eau déionisée haut",
+            "hybrid#edi-lq-low": "Contrôle liquide eau déionisée bas",
+            "hybrid#lq-fill-act": "Contrôle liquide eau déionisée vers conteur activant",
 
             "met#ox-res": "Mise sous pression conteneur oxydant",
             "met#rd-res": "Mise sous pression conteneur réducteur",

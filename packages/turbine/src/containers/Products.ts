@@ -6,7 +6,7 @@ export const Products: Record<ProductSeries, ContainerProduct> = {
     "usl_ox": { lifespan: 7 },
     "llc_rd": { lifespan: 7 },
     "usl_rd": { lifespan: 7 },
-    "usl_act": { lifespan: 1},
+    "usl_act": { lifespan: 0.5 },
     "tc": { lifespan: 31 },
     "bc": { lifespan: 31 },
     "cr": { lifespan: 60 },

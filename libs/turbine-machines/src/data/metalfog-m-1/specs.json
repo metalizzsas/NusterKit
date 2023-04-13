@@ -428,6 +428,7 @@
                   "body": {
                      "skeleton": "container-emptying",
                      "name": "container-emptying-ox",
+                     "isPremade": true,
                      "values": [
                         {
                            "name": "emptying#ox",
@@ -470,6 +471,7 @@
                   "body": {
                      "skeleton": "container-emptying",
                      "name": "container-emptying-rd",
+                     "isPremade": true,
                      "values": [
                         {
                            "name": "emptying#ox",
@@ -524,6 +526,7 @@
                   "body": {
                      "skeleton": "container-emptying",
                      "name": "container-emptying-act",
+                     "isPremade": true,
                      "values": [
                         {
                            "name": "emptying#ox",

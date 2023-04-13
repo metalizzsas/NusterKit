@@ -25,7 +25,7 @@ export class EX260Sx implements IOBase, EX260SxConfig
      */
     constructor(ip: string, size: 16 | 32)
     {
-        this.ip = "192.168.1.3";
+        this.ip = ip;
         this.size = size;
         
         this.controller = new ENIP.SocketController(120000);

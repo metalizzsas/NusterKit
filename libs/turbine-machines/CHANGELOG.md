@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.6.6
+
+### Patch Changes
+
+- feat: metalfog m r2 can now empty edi container ([#369](https://github.com/metalizzsas/NusterKit/pull/369))
+
 ## 1.6.5
 
 ### Patch Changes

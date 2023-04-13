@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-misc
 
+## 1.2.3
+
+### Patch Changes
+
+- chore: updated translations ([#369](https://github.com/metalizzsas/NusterKit/pull/369))
+
 ## 1.2.2
 
 ### Patch Changes

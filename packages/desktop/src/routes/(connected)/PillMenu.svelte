@@ -103,7 +103,7 @@
 
     .pillActive
     {
-        @apply bg-indigo-500 py-1 px-3 rounded-full text-white font-medium flex flex-row gap-2 items-center;
+        @apply bg-indigo-500/40 py-1 px-3 rounded-full text-white font-medium flex flex-row gap-2 items-center;
     }
 
     .pillPassive
@@ -113,7 +113,7 @@
 
     .pillPassive:hover
     {
-        @apply ring-indigo-500;
+        @apply ring-indigo-500/50;
     }
 
 </style>

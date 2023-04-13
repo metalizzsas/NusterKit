@@ -1,5 +1,17 @@
 # @metalizzsas/nuster-turbine
 
+## 1.10.19
+
+### Patch Changes
+
+- fix: cycle now shows correct icons and colors ([#365](https://github.com/metalizzsas/NusterKit/pull/365))
+  fix: multiple steps now works as intended
+  fix: skipped multiple step no longer skip itself at the next iteration
+
+- chore: updated to ts-enip@1.2.2 ([#365](https://github.com/metalizzsas/NusterKit/pull/365))
+  feat: added 120s timeout to EX260Sx io handler
+  fix: fixed a margin in cycle step display
+
 ## 1.10.18
 
 ### Patch Changes

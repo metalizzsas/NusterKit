@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-desktop
 
+## 1.11.8
+
+### Patch Changes
+
+- fix: cycle now shows correct icons and colors ([#365](https://github.com/metalizzsas/NusterKit/pull/365))
+  fix: multiple steps now works as intended
+  fix: skipped multiple step no longer skip itself at the next iteration
+
 ## 1.11.7
 
 ### Patch Changes

@@ -34,6 +34,8 @@ export class EX260Sx implements IOBase, EX260SxConfig
         this.controller.events.on('close', () => { 
             LoggerInstance.info("EX260Sx: Disconnected");
             this.connected = false;
+
+            this.controller.close();
         });
 
         this.connect();
@@ -59,16 +61,15 @@ export class EX260Sx implements IOBase, EX260SxConfig
 
             if(sessionID !== undefined)
             {
-                this.connected = true;
                 LoggerInstance.info("EX260Sx: Connected");
-
+                this.connected = true;
                 return true;
             }
             else
             {
-                this.connected = false;
                 LoggerInstance.error("EX260Sx: Failed to connect");
                 TurbineEventLoop.emit(`pbr.stop`, "controllerError");
+                this.connected = false;
                 return false;
             } 
         }

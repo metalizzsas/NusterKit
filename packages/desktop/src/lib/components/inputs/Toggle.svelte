@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { settings } from '$lib/utils/stores/settings';
 	import { createEventDispatcher, beforeUpdate } from 'svelte';
 
 	export let value: number | boolean;
@@ -20,11 +21,11 @@
 </script>
 
 <button
-	class="dark:bg-white bg-black relative block rounded-full h-6 w-12 min-h-fit min-w-fit toggle"
+	class="{!locked ? "dark:bg-white bg-black" : ($settings.dark) ? "toggle-bg-dark" : "toggle-bg"} relative block rounded-full h-6 w-12 min-h-fit min-w-fit toggle"
 	class:grayscale={locked && enableGrayScale}
 	class:checked={checked}
 	class:uncheked={!checked}
-	class:cursor-default={locked}
+	class:cursor-default={locked}	
 	on:click={() => {
 		if (!locked)
 		{
@@ -44,7 +45,27 @@
 	}}
 />
 
-<style>
+<style lang="postcss">
+	.toggle-bg-dark {
+		background: repeating-linear-gradient(
+			135deg,
+			white,
+			white 5px,
+			rgb(212 212 216) 5px,
+			rgb(212 212 216) 10px
+		);
+	}
+
+	.toggle-bg {
+		background: repeating-linear-gradient(
+			135deg,
+			black,
+			black 5px,
+			rgb(39 39 42) 5px,
+			rgb(39 39 42) 10px
+		);
+	}
+
 	.toggle::before {
 		@apply block h-4 w-4 rounded-full;
 		content: '';

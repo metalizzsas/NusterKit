@@ -1,5 +1,5 @@
 {
-    "$schema": "../../../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
+    "$schema": "../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
     "containers": {
 
         "ox": {
@@ -19,9 +19,9 @@
         "act": {
             "name": "Activant",
             "actions": {
-                "default": "Chargement manuel",
+                "load": "Chargement manuel",
                 "load_alt": "Chargement par dilution automatique",
-                "unload": "Emptying"
+                "unload": "Vidange activant"
             }
         },
         "edi": { "name": "Eau désionisée" },

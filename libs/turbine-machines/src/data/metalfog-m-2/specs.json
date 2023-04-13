@@ -370,6 +370,7 @@
                   "body": {
                      "skeleton": "container-emptying",
                      "name": "container-emptying-ox",
+                     "isPremade": true,
                      "values": [
                         {
                            "name": "emptying#ox",
@@ -383,6 +384,11 @@
                         },
                         {
                            "name": "emptying#act",
+                           "type": "bool",
+                           "value": 0
+                        },
+                        {
+                           "name": "emptying#edi",
                            "type": "bool",
                            "value": 0
                         }
@@ -412,6 +418,7 @@
                   "body": {
                      "skeleton": "container-emptying",
                      "name": "container-emptying-rd",
+                     "isPremade": true,
                      "values": [
                         {
                            "name": "emptying#ox",
@@ -425,6 +432,11 @@
                         },
                         {
                            "name": "emptying#act",
+                           "type": "bool",
+                           "value": 0
+                        },
+                        {
+                           "name": "emptying#edi",
                            "type": "bool",
                            "value": 0
                         }
@@ -465,6 +477,7 @@
                   "method": "post",
                   "body": {
                      "skeleton": "container-emptying",
+                     "isPremade": true,
                      "name": "container-emptying-act",
                      "values": [
                         {
@@ -481,6 +494,11 @@
                            "name": "emptying#act",
                            "type": "bool",
                            "value": 1
+                        },
+                        {
+                           "name": "emptying#edi",
+                           "type": "bool",
+                           "value": 0
                         }
                      ]
                   }
@@ -500,6 +518,43 @@
             {
                "io": "levels#edi-max-n",
                "logic": "level-max"
+            }
+         ],
+         "callToAction": [
+            {
+               "name": "unload_alt",
+               "APIEndpoint": {
+                  "url": "/api/v1/cycle/container-emptying",
+                  "method": "post",
+                  "body": {
+                     "skeleton": "container-emptying",
+                     "name": "container-emptying-edi",
+                     "isPremade": true,
+                     "values": [
+                        {
+                           "name": "emptying#ox",
+                           "type": "bool",
+                           "value": 0
+                        },
+                        {
+                           "name": "emptying#rd",
+                           "type": "bool",
+                           "value": 0
+                        },
+                        {
+                           "name": "emptying#act",
+                           "type": "bool",
+                           "value": 0
+                        },
+                        {
+                           "name": "emptying#edi",
+                           "type": "bool",
+                           "value": 1
+                        }
+                     ]
+                  }
+               },
+               "UIEndpoint": "/"
             }
          ]
       },
@@ -706,6 +761,11 @@
                "name": "emptying#act",
                "type": "bool",
                "value": 0
+            },
+            {
+               "name": "emptying#edi",
+               "type": "bool",
+               "value": 0
             }
          ]
       }
@@ -812,13 +872,14 @@
       },
       {
          "skeleton": "container-emptying",
-         "_id": "premade_container-emptying-all",
+         "_id": "premade_container-emptying-reactives",
          "isPremade": true,
-         "name": "container-emptying-all",
+         "name": "container-emptying-reactives",
          "values": {
             "emptying#ox": 1,
             "emptying#rd": 1,
-            "emptying#act": 1
+            "emptying#act": 1,
+            "emptying#edi": 0
          }
       }
    ],
@@ -852,7 +913,7 @@
       },
       {
          "name": "container-emptying",
-         "profile": "premade_container-emptying-all",
+         "profile": "premade_container-emptying-reactives",
          "cycle": "container-emptying"
       },
       {
@@ -1399,6 +1460,16 @@
                "name": "container-emptying",
                "isEnabled": 1,
                "startBlocks": [
+
+                  {"if": {
+                     "statement": {
+                        "comparator": "==",
+                        "left_side": {"add": [{"profile": "emptying#act"}, {"profile": "emptying#edi"}]},
+                        "right_side": 2
+                     },
+                     "true_blocks": [{"stop": "container-emptying-profile-invalid"}]
+                  }},
+
                   {"io_write": ["ventilation", 1]},
 
                   {"if": {
@@ -1440,6 +1511,18 @@
                      "true_blocks": [
                         {"io_write": ["hybrid#act-res", 1]},
                         {"io_write": ["hybrid#act-lq", 1]}
+                     ]
+                  }},
+
+                  {"if": {
+                     "statement": {
+                        "comparator": "==",
+                        "left_side": {"profile": "emptying#edi"},
+                        "right_side": 1
+                     },
+                     "true_blocks": [
+                        {"io_write": ["hybrid#edi-res", 1]},
+                        {"io_write": ["hybrid#edi-lq", 1]}
                      ]
                   }}
                ],
@@ -1490,6 +1573,18 @@
                         {"io_write": ["hybrid#act-lq", 0]},
                         {"unload_container": "act"}
                      ]
+                  }},
+
+                  {"if": {
+                     "statement": {
+                        "comparator": "==",
+                        "left_side": {"profile": "emptying#edi"},
+                        "right_side": 1
+                     },
+                     "true_blocks": [
+                        {"io_write": ["hybrid#edi-res", 0]},
+                        {"io_write": ["hybrid#edi-lq", 0]}
+                     ]
                   }}
                ],
                "blocks": [
@@ -1499,7 +1594,8 @@
                         "left_side": {"add": [
                            {"multiply": [{"io_read": "levels#act-min-n"}, {"profile": "emptying#act"}]},
                            {"multiply": [{"io_read": "levels#rd-min-n"}, {"profile": "emptying#rd"}]},
-                           {"multiply": [{"io_read": "levels#ox-min-n"}, {"profile": "emptying#ox"}]}
+                           {"multiply": [{"io_read": "levels#ox-min-n"}, {"profile": "emptying#ox"}]},
+                           {"multiply": [{"io_read": "levels#edi-min-n"}, {"profile": "emptying#edi"}]}
                         ]},
                         "right_side": 0
                      },

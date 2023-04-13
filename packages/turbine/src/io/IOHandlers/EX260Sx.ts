@@ -31,7 +31,7 @@ export class EX260Sx implements IOBase, EX260SxConfig
         this.controller = new ENIP.SocketController(120000);
 
         //change state if disconnected
-        this.controller.events.on('close', async () => { 
+        this.controller.events.on('close', () => { 
             LoggerInstance.info("EX260Sx: Disconnected");
             this.connected = false;
         });

@@ -30,7 +30,7 @@
 
         categories = [];
 
-        if(container.isProductable) categories = [...categories, "products"];
+        if(container.isProductable || ((container.callToAction?.length ?? 0) > 0)) categories = [...categories, "products"];
         if(container.sensors) categories = [...categories, "sensors"];
         if(container.regulations) categories = [...categories, "regulation"];
 

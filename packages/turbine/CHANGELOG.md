@@ -1,5 +1,16 @@
 # @metalizzsas/nuster-turbine
 
+## 1.10.21
+
+### Patch Changes
+
+- feat: on timeout EX260Sx will close connection ([#369](https://github.com/metalizzsas/NusterKit/pull/369))
+
+- feat: reduced activator lifetime from 24h to 12h ([#369](https://github.com/metalizzsas/NusterKit/pull/369))
+
+- Updated dependencies [[`54b0e51c`](https://github.com/metalizzsas/NusterKit/commit/54b0e51c58fb04fead4636f5ca0852638e55fafc)]:
+  - @metalizzsas/nuster-turbine-machines@1.6.6
+
 ## 1.10.20
 
 ### Patch Changes

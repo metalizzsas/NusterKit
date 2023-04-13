@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-desktop
 
+## 1.11.9
+
+### Patch Changes
+
+- feat: toggle now has a background with stripes when locked ([#369](https://github.com/metalizzsas/NusterKit/pull/369))
+
+- feat: cycle displays a resume when ended ([#369](https://github.com/metalizzsas/NusterKit/pull/369))
+
 ## 1.11.8
 
 ### Patch Changes

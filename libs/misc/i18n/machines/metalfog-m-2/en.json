@@ -25,7 +25,12 @@
                 "unload": "Emptying"
             }
         },
-        "edi": { "name": "DI Water" },
+        "edi": { 
+            "name": "DI Water",
+            "actions": {
+                "unload_alt": "Emptying"
+            }
+        },
         "eff": { "name": "Effluents" }
     },
     "profile": {
@@ -37,7 +42,10 @@
             "cem": "CEM shielding",
             "cem-retake": "CEM shielding retake",
             "act-fill": "Activator dilution",
-            "container-emptying-all": "Emptying all containers"
+            "container-emptying-reactives": "Emptying all reactives",
+            "container-emptying-ox": "Emptying oxydiser",
+            "container-emptying-rd": "Emptying reducer",
+            "container-emptying-act": "Emptying activator"
         },
         "categories": {
             "act-edi-nozzles": "Activator & DI Water nozzles",

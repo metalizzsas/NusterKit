@@ -99,7 +99,7 @@
             },
             "act-fill": {
                 "name": "Dilution de l'activant",
-                "desc": "De l'eau désionisée est transférée dans le conteneurs d'activant pour diluer la solution."
+                "desc": "De l'eau déionisée est transférée dans le conteneurs d'activant pour diluer la solution."
             },
             "container-cleaning": {
                 "name": "Nettoyage",
@@ -137,12 +137,12 @@
             "levels#eff-max-n": "Limite niveau éffluents",
 
             "hybrid#act-res": "Mise sous pression conteneur activant",
-            "hybrid#edi-res": "Mise sous pression conteneur eau désionisée",
+            "hybrid#edi-res": "Mise sous pression conteneur eau déionisée",
 
-            "hybrid#plv": "Pulvérisation Activant ou Eau désionisée",
+            "hybrid#plv": "Pulvérisation Activant ou Eau déionisée",
 
             "hybrid#lq-act": "Contrôle liquide activant",
-            "hybrid#lq-edi": "Contrôle liquide eau désionisée",
+            "hybrid#lq-edi": "Contrôle liquide eau déionisée",
 
             "met#chem-res": "Mise sous pression conteneur oxydant & réducteur",
 

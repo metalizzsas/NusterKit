@@ -25,10 +25,16 @@ export class EX260Sx implements IOBase, EX260SxConfig
      */
     constructor(ip: string, size: 16 | 32)
     {
-        this.ip = ip;
+        this.ip = "192.168.1.3";
         this.size = size;
         
-        this.controller = new ENIP.SocketController();
+        this.controller = new ENIP.SocketController(120000);
+
+        //change state if disconnected
+        this.controller.events.on('close', async () => { 
+            LoggerInstance.info("EX260Sx: Disconnected");
+            this.connected = false;
+        });
 
         this.connect();
     }
@@ -55,13 +61,6 @@ export class EX260Sx implements IOBase, EX260SxConfig
             {
                 this.connected = true;
                 LoggerInstance.info("EX260Sx: Connected");
-
-                //change state if disconnected
-                this.controller.events.on('close', async () => { 
-                    LoggerInstance.info("EX260Sx: Disconnected");
-                    this.connected = false;
-                    this.controller.events.removeAllListeners('close');
-                });
 
                 return true;
             }

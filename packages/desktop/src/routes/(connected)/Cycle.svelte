@@ -219,10 +219,10 @@
     <Flex gap={2} direction={"col"}>
         {#each cycleData.steps.filter(s => s.isEnabled.data == 1) as step}
 
-        {@const iconData = computeStepIcon(step)}
+            {@const iconData = computeStepIcon(step)}
 
             <div class="p-4 rounded-xl border-[1px] border-zinc-400">
-                <Flex items="center" justify="between" class="mb-2">
+                <Flex items="center" justify="between" class={step.state === "started" ? "mb-2" : ""}>
                     <Flex 
                         gap={1} 
                         items={step.state === "started" ? "start" : "center"} 

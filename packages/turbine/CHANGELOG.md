@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.10.20
+
+### Patch Changes
+
+- fix: EX260 used constant ip ([#367](https://github.com/metalizzsas/NusterKit/pull/367))
+
 ## 1.10.19
 
 ### Patch Changes

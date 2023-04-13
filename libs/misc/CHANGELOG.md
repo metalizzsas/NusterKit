@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-misc
 
+## 1.2.2
+
+### Patch Changes
+
+- fix: activator actions keys adjusted ([#367](https://github.com/metalizzsas/NusterKit/pull/367))
+
 ## 1.2.1
 
 ### Patch Changes

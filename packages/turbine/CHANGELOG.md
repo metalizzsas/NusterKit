@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.10.22
+
+### Patch Changes
+
+- feat: IOWrite gate will retry to after 1 s ([#372](https://github.com/metalizzsas/NusterKit/pull/372))
+
 ## 1.10.21
 
 ### Patch Changes

@@ -1,4 +1,5 @@
 import fs from "fs/promises";
+import  { existsSync } from "fs";
 import path from "path";
 
 async function getFiles(root: string, directory: string): Promise<string[]>
@@ -25,6 +26,12 @@ export const documentationCopy = () => {
     return {
         name: "nuster-documentation-copy",
         buildStart: async () => {
+
+            if(existsSync(path.resolve("static", "documentation")))
+            {
+                await fs.rm(path.resolve("static", "documentation"), { recursive: true });
+            }
+
             const files = await getFiles(path.resolve("node_modules", "@metalizzsas", "nuster-misc"), "documentation");
 
             files.forEach(f => {

@@ -44,8 +44,8 @@ export function transformDate(translatorKey: (arg0: string) => string, date: num
 
         return `${days} ${daysPlural}, ${hours} ${hoursPlural}`;
     } else if(productseries == "any"){
-        return translatorKey('slots.product.unknownLifespan');
+        return translatorKey('container.product.information.unknownLifespan');
     } else {
-        return translatorKey('slots.product.done');
+        return translatorKey('container.product.informations.done');
     }
 }

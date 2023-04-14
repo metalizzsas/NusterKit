@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-misc
 
+## 1.2.4
+
+### Patch Changes
+
+- fix: typo ([#376](https://github.com/metalizzsas/NusterKit/pull/376))
+
 ## 1.2.3
 
 ### Patch Changes

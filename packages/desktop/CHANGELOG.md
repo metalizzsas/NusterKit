@@ -1,5 +1,15 @@
 # @metalizzsas/nuster-desktop
 
+## 1.11.10
+
+### Patch Changes
+
+- feat: show wifi button in any case ([#374](https://github.com/metalizzsas/NusterKit/pull/374))
+
+- feat: progressbar indefinite if value is set to -1 ([#374](https://github.com/metalizzsas/NusterKit/pull/374))
+
+- fix: container product translation key was off ([#374](https://github.com/metalizzsas/NusterKit/pull/374))
+
 ## 1.11.9
 
 ### Patch Changes

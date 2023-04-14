@@ -12,7 +12,7 @@ Retirez les goupilles qui retiennent la buse en place.
 
 ![Retrait goupilles](2.png)
 
-Sortez la buse et nettoyez-la avec de l'`air comprimé`. 
+Sortez la buse et nettoyez-la avec de l'`air comprimé`.
 
 ![Nettoyage de la buse](3.png)
 

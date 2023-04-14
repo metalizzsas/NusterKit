@@ -83,7 +83,7 @@
       },
       "action": {
         "lead": "Actions",
-        "product_choose": "Choisissez un produit a charger:",
+        "product_choose": "Choisissez un produit à charger:",
         "default": {
           "load": "Charger un produit",
           "unload": "Décharger un produit"
@@ -245,7 +245,7 @@
     "duration": "Durée",
     "unselected": {
       "lead": "Pas de maintenance selectionnée",
-      "sub": "Choissiez une tache de maintenance dans la liste de gauche pour consulter la procédure et voir les details de cette tache."
+      "sub": "Choisissez une tache de maintenance dans la liste de gauche pour consulter la procédure et voir les details de cette tache."
     },
     "sensor": {
       "label": "Avertissement tache",

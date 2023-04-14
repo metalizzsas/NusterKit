@@ -36,7 +36,7 @@
     h4 { @apply text-base font-semibold leading-8; }
     h5 { @apply text-base font-medium leading-6;}
 
-    p { @apply text-base my-2; }
+    p { @apply text-base my-4; }
 
     ul, ol { @apply my-2; }
 
@@ -52,6 +52,8 @@
     code { font-family: inherit; @apply rounded-sm px-1 py-[1px] text-sm bg-zinc-800 text-white dark:bg-zinc-600; }
 
     img { @apply my-4; }
+
+    td, th { @apply border border-white dark:border-neutral-500 p-2 }
   }
 
   @keyframes bounceX {

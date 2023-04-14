@@ -8,7 +8,7 @@ Cette section permet de gérer les cycles machines. Dans la liste de gauche vous
 - Cycles constructeur principaux: Marqués par un pictogramme bleu `contructeur`
 - Cycles constructeur secondaires: Marqués par un pictogramme rose `contructeur`
 
-![Liste cycles](/desktop/fr/assets/component_cycles.png)
+![Liste cycles](component_cycles.png)
 
 Lorsque vous avez sélectionné un cycle, la partie principale affiche les informations de ce cycle.
 
@@ -32,7 +32,7 @@ Si les états pour lancer un cycle le permettent alors le bouton `Démarrer le c
 
 Lorsque le cycle est en cours, dans la partie principale apparait le déroule du cycle.
 
-![Liste cycles](/desktop/fr/assets/cycles_running.png)
+![Liste cycles](cycles_running.png)
 
 #### Informations du cycle
 
@@ -64,7 +64,7 @@ Pour certaines machines, une rubrique `Informations addtionnelles`, peut être p
 
 Une fois le cycle terminé, La partie principale affiche le contenu suivant:
 
-![Fin du cycle](/desktop/fr/assets/cycles_end.png)
+![Fin du cycle](cycles_end.png)
 
 Cette page contient diverses informations:
 

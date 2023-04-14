@@ -11,7 +11,7 @@ Vous trouverez ici les informations utiles pour prendre en main ce logiciel.
 
 Au démarrage de votre machine, vous trouverez l'interface principale.
 
-![Interface principale](/desktop/fr/assets/interface_principale.png)
+![Interface principale](interface_principale.png)
 
 L'interface est divisée en 3 blocs.
 

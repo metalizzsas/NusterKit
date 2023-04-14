@@ -16,6 +16,7 @@
 	import { settings } from "$lib/utils/stores/settings";
 	import { invalidateAll } from "$app/navigation";
 	import Label from "$lib/components/label.svelte";
+	import ProgressBar from "$lib/components/ProgressBar.svelte";
 
     export let data: PageData;
 
@@ -92,10 +93,12 @@
             <SettingField label={$_('settings.software.balena')} value={data.machine.deviceData?.os_version} />
         {/if}
 
+        
         {#if data.machine.hypervisorData?.appState !== 'applied' && data.machine.hypervisorData?.overallDownloadProgress === null}
             <SettingField label={$_('settings.software.update')}>
                 {#if isUpdating}
                     {$_('settings.software.update_installing')}
+                    <ProgressBar progress={-1} />
                 {:else}
                     <Button color={"hover:bg-indigo-500"} ringColor={"ring-indigo-500"} on:click={update}>{$_('settings.software.update_install')}</Button>
                 {/if}

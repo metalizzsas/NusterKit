@@ -1,18 +1,35 @@
 <script lang="ts">
 
     import { tweened } from "svelte/motion";
-    import { cubicOut } from 'svelte/easing';
+    import { cubicInOut, cubicOut} from 'svelte/easing';
 
     export let progress: number;
 
     export let dots: number | undefined = undefined;
-
+    
     let springProgress = tweened(0, {
 		duration: 500,
 		easing: cubicOut
 	});
 
-    $: springProgress.set(progress);
+    let indefiniteProgress = tweened(0, {
+		duration: 1500,
+		easing: cubicInOut
+	});
+
+    $: if (progress === -1) {
+        setInterval(() => {
+            void indefiniteProgress.set(0.5);
+        }, 1500);
+        setInterval(() => {
+            void indefiniteProgress.set(1);
+        }, 3000);
+        setInterval(() => {
+            void indefiniteProgress.set(0);
+        }, 4500);
+    }
+    
+    $: void springProgress.set(progress);
 
 </script>
 
@@ -28,8 +45,18 @@
             />
         {/each}
     {/if}
-    <div 
-        class="h-1.5 rounded-full z-20 bg-indigo-500"
-        style:width={`${$springProgress * 100}%`}
-    />
+    {#if progress !== -1}
+        <div 
+            class="h-1.5 rounded-full z-20 bg-indigo-500"
+            style:width={`${$springProgress * 100}%`}
+        />
+    {:else}
+        <div
+            class="h-1.5 rounded-full z-20 bg-violet-500 animate-pulse"
+            style:max-width="{($indefiniteProgress + 1) * 5}%"
+            style:margin-left="{$indefiniteProgress * 90}%"
+            style:margin-right="{-$indefiniteProgress * 90}%"
+        />
+
+    {/if}
 </div>

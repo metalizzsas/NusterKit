@@ -4,9 +4,9 @@ Avant de manipuler les solutions chimiques, veillez à porter les EPI adéquats,
 
 Nous conseillons d’utiliser des entonnoirs pour éviter les salissures et les coulures de réactifs sur la Metalfog.
 
->**Attention** : lors de la manipulation des réactifs Oxydants et Réducteurs, il est capital d’utiliser des entonnoirs et des récipients  propres et différents pour chacun des produits.
+> **Attention** : lors de la manipulation des réactifs Oxydants et Réducteurs, il est capital d’utiliser des entonnoirs et des récipients  propres et différents pour chacun des produits.
 
->Ces réactifs ne doivent **JAMAIS** entrer en contact entre eux, même en infime quantité, au risque de compromettre la qualité du procédé de métallisation chimique.
+> Ces réactifs ne doivent **JAMAIS** entrer en contact entre eux, même en infime quantité, au risque de compromettre la qualité du procédé de métallisation chimique.
 
 #### Vérification de l'état des conteneurs
 

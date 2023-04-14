@@ -24,7 +24,3 @@ Vérifiez que le bouton d'arrêt d'urgence soit désenclenché.
 Pour démarrer la machine, positionnez le sectionneur situé à l'arrière de la machine sur `I`, Le voyant `Sous tension` s'allume. 
 
 ![Sectionneur](sectionneur.png)
-
-
-
-

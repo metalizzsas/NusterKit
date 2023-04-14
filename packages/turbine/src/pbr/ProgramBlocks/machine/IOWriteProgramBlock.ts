@@ -27,9 +27,21 @@ export class IOWriteProgramBlock extends ProgramBlock
         TurbineEventLoop.emit("log", "info", `IOWriteBlock: Will access ${gateName} to write ${gateValue}.`);
 
         await new Promise<void>(resolve => {
+
             TurbineEventLoop.emit(`io.update.${this.gateName.data}`, { value: gateValue, callback: () => {
                 resolve();
             }});
+
+            // Retry if not executed
+            setTimeout(() => {
+                if(this.executed !== true)
+                {
+                    TurbineEventLoop.emit("log", "warning", `IOWriteBlock: ${gateName} write retry.`);
+                    TurbineEventLoop.emit(`io.update.${this.gateName.data}`, { value: gateValue, callback: () => {
+                        resolve();
+                    }});
+                }
+            }, 1000);
 
             setTimeout(() => {
                 if(this.executed !== true)

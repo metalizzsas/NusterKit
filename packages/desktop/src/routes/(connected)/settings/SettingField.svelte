@@ -1,7 +1,7 @@
 <script lang="ts">
 
     import Label from "$lib/components/label.svelte";
-import Flex from "$lib/components/layout/flex.svelte";
+    import Flex from "$lib/components/layout/flex.svelte";
 
     export let label: string;
     export let value: string | string[] | undefined = undefined;

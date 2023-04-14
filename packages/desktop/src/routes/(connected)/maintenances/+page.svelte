@@ -5,18 +5,21 @@
 	import Maintenance from "./Maintenance.svelte";
 
 	import { _ } from "svelte-i18n";
-	import { afterUpdate } from "svelte";
+	import { onMount, setContext } from "svelte";
 	import type { PageData } from "./$types";
+	import type { MaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydrated";
+	import { writable, type Writable } from "svelte/store";
 
 	export let data: PageData;
 
+	onMount(() => {
+		selectedMaintenanceName = data.maintenances.at(0)?.name;
+	})
+
 	let selectedMaintenanceName: string | undefined = undefined;
+	let selectedMaintenance = setContext<Writable<MaintenanceHydrated | undefined>>("task", writable<MaintenanceHydrated | undefined>(undefined));
 
-	afterUpdate(() => {
-		selectedMaintenance = data.maintenances.at(0);
-	});
-
-	$: selectedMaintenance = data.maintenances.find(m => m.name === selectedMaintenanceName);
+	$: selectedMaintenance, selectedMaintenance.set(data.maintenances.find(m => m.name === selectedMaintenanceName));
 
 </script>
 
@@ -30,9 +33,9 @@
 						selected={selectedMaintenanceName === maintenance.name} 
 						on:click={() => {
 							if(selectedMaintenanceName === maintenance.name) { 
-								selectedMaintenance = undefined 
+								$selectedMaintenance = undefined;
 							} else { 
-								selectedMaintenanceName = maintenance.name
+								selectedMaintenanceName = maintenance.name;
 							}
 						}}
 					>
@@ -56,8 +59,8 @@
 
 	<div class="overflow-y-scroll grow drop-shadow-xl">
 		<Wrapper>
-			{#if selectedMaintenance !== undefined}
-				<Maintenance bind:maintenance={selectedMaintenance} />
+			{#if $selectedMaintenance !== undefined}
+				<Maintenance bind:maintenance={$selectedMaintenance} />
 			{:else}
 				<h3>{$_('maintenance.unselected.lead')}</h3>
 				<p>{$_('maintenance.unselected.sub')}</p>

@@ -8,7 +8,6 @@
 	import { Icon } from "@steeze-ui/svelte-icon";
 	import { WrenchScrewdriver } from "@steeze-ui/heroicons";
 	import MaintenanceImageParser from "./MaintenanceImageParser.svelte";
-	import { setContext } from "svelte";
 	import Button from "$lib/components/buttons/Button.svelte";
 	import { invalidateAll } from "$app/navigation";
 	import { settings } from "$lib/utils/stores/settings";
@@ -24,11 +23,6 @@
 
         if(req.status !== 404)
             procedureMarkdown = await req.text();
-    });
-
-    /// — Set context to use in image parser
-    setContext<{ maintenance: MaintenanceHydrated }>("task", {
-        maintenance: maintenance
     });
 
     const clearMaintenance = async () => {

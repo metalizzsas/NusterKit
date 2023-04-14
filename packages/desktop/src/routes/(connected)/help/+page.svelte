@@ -54,7 +54,7 @@
 <Flex direction="row">
 	<div class="overflow-y-scroll drop-shadow-xl duration-300 grow">
         <Wrapper>
-            <Select bind:value={category} selectableValues={[{ name: $_('help.category.machine'), value: "machine" }, { name: $_('help.category.software'), value: "software" }]} class="mb-6" />
+            <Select bind:value={category} selectableValues={[{ name: $_('help.category.software'), value: "software" }, { name: $_('help.category.machine'), value: "machine" }]} class="mb-6" />
 
             {#if pages.length === 0}
                 <h3 class="text-amber-500">{$_('help.unavailable')}</h3>
@@ -62,7 +62,8 @@
             
             <Flex direction="col" gap={1}>
                 {#each [...new Set(pages.map(k => k.folder))] as folder}
-                    {#if folder !== "root"}
+
+                    {#if folder !== "999-root"}
                         <h3 class="my-1">
                             <Icon src={Folder} class="h-4 w-4 text-indigo-500 inline mr-1" />
                             {folder}
@@ -70,6 +71,7 @@
                     {:else}
                         <div class="h-[1px] bg-zinc-300/50 my-2" />
                     {/if}
+
                     {#each pages.filter(p => p.folder === folder) as helpFile (helpFile.path)}
                         <SelectableButton 
                             selected={helpFile.path === $selectedHelp}
@@ -81,6 +83,7 @@
                             </h4>
                         </SelectableButton>
                     {/each}
+
                 {/each}
             </Flex>
         </Wrapper>

@@ -2,19 +2,24 @@
 	import Flex from "$lib/components/layout/flex.svelte";
 	import { ArrowsPointingIn, ArrowsPointingOut } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";
+	import { getContext } from "svelte";
 
     export let href = '';
     export let title: string | undefined = undefined;
     export let text = '';
 
+    const selectedHelp = getContext<Writable<string | undefined>>("help");
+
     let expanded = false;
+
+    $: completeHref = `/documentation${$selectedHelp.replace("index.md", href)}`;
 
 </script>
 
 <Flex direction="row" items="center" justify="center">
     <div style:max-width={expanded ? '100%' : '66%'} class="relative duration-300 group">
         <img 
-            src={`/documentation${href}`}
+            src={completeHref}
             {title} 
             alt={text} 
             class="my-1 border-[1px] border-indigo-500/50 rounded-md mx-auto duration-300"

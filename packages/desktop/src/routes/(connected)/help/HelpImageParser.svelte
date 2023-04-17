@@ -3,6 +3,7 @@
 	import { ArrowsPointingIn, ArrowsPointingOut } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";
 	import { getContext } from "svelte";
+    import type { Writable } from "svelte/store";
 
     export let href = '';
     export let title: string | undefined = undefined;
@@ -12,7 +13,7 @@
 
     let expanded = false;
 
-    $: completeHref = `/documentation${$selectedHelp.replace("index.md", href)}`;
+    $: completeHref = $selectedHelp === undefined ? '#' : `/documentation${$selectedHelp.replace("index.md", href)}`;
 
 </script>
 

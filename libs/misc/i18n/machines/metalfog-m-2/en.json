@@ -223,6 +223,10 @@
             "sensor-cleaning": {
                 "name": "Sensors cleaning",
                 "desc": "Optical sensors are used to detect the presence of chemicals, it is recommended to clean them regularly."
+            },
+            "nozzle-cleaning": {
+                "name": "Nozzles cleaning",
+                "desc": "Nozzles are fragile, it is recommended to clean them regularly."
             }
         }
     },

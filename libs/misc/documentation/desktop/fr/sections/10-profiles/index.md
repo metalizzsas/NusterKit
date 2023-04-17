@@ -4,7 +4,7 @@
 
 La section profil vous permet de modifier les profils de votre machine.
 
-![Interface profils](/desktop/fr/assets/component_profiles.png)
+![Interface profils](component_profiles.png)
 
 ### Liste des profils
 
@@ -25,7 +25,7 @@ Pour consulter ou modifier un profil, cliquez simplement sur le profil que vous 
 
 Une fois le profil ouvert, la liste de gauche se masque pour laisser place aux détails du profil. Vous pouvez alors modifier les réglages du profil.
 
-![Profile Edit](/desktop/fr/assets/profiles_edit.png)
+![Profile Edit](profiles_edit.png)
 
 Une fois les paramètres modifiés, cliquez sur le bouton `Sauvegarder le profil` pour le sauvegarder.  Un message de confirmation apparait au dessus du nom du profil lorsque celui-ci est sauvegardé.
 

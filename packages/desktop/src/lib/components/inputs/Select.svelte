@@ -13,6 +13,28 @@
     export let change = () => dispatch("change");
 
     let expand = false;
+
+    /** Dispatch event on click outside of node */
+    export function clickOutside(node: HTMLElement) {
+    
+    const handleClick = (event: MouseEvent) => {
+        if (node && !node.contains(event.target) && !event.defaultPrevented)
+        {
+        node.dispatchEvent(
+            new CustomEvent('click_outside', node)
+        )
+        }
+    }
+
+    document.addEventListener('click', handleClick, true);
+    
+    return {
+        destroy() {
+        document.removeEventListener('click', handleClick, true);
+        }
+        }
+    }
+
 </script>
 
 <div class="relative {style} {$$props.class}">
@@ -20,7 +42,7 @@
         <button on:click={() => { if(disabled === false) { expand = !expand } }} class="grow">{selectableValues.find(k => k.value == value)?.name}</button>
 
         {#if expand === true}
-            <div class="absolute top-[calc(100%+0.5rem)] left-0 z-50 max-h-[15vw] overflow-y-scroll" style:min-width={"100%"}>
+            <div class="absolute top-[calc(100%+0.5rem)] left-0 z-50 max-h-[15vw] overflow-y-scroll" style:min-width={"100%"} use:clickOutside on:click_outside={() => { if(expand) { expand = false; }}}>
                 <Flex direction={"col"} gap={2}>
                     {#each selectableValues as sValue}
                          <button 

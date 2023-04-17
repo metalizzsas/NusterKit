@@ -224,6 +224,10 @@
             "sensor-cleaning": {
                 "name": "Nettoyage capteurs",
                 "desc": "Les capteurs de la Metalfog sont des capteurs optiques, il est recommandé de nettoyer ces capteurs régulièrement."
+            },
+            "nozzle-cleaning": {
+                "name": "Nettoyage des buses",
+                "desc": "Les buses de la Metalfog sont fragiles, il est recommandé de nettoyer ces buses régulièrement."
             }
         }
     },

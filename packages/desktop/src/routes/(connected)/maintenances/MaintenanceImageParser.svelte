@@ -5,12 +5,13 @@
 	import { ArrowsPointingIn, ArrowsPointingOut } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";
 	import { getContext } from "svelte";
+	import type { Writable } from "svelte/store";
 
     export let href = '';
     export let title: string | undefined = undefined;
     export let text = '';
 
-    const { maintenance } = getContext<{maintenance: MaintenanceHydrated}>("task");
+    const selectedMaintenance = getContext<Writable<MaintenanceHydrated | undefined>>("task");
 
     let expanded = false;
 
@@ -19,7 +20,7 @@
 <Flex direction="row" items="center" justify="center">
     <div style:max-width={expanded ? '100%' : '66%'} class="relative duration-300">
         <img 
-            src={`/documentation/machines/${$machine.model}-${$machine.variant}-${$machine.revision}/maintenance-${maintenance.name}/${href}`}  
+            src={`/documentation/machines/${$machine.model}-${$machine.variant}-${$machine.revision}/maintenance-${$selectedMaintenance?.name}/${href}`}  
             {title} 
             alt={text} 
             class="my-1 border-[1px] border-indigo-500/50 rounded-md mx-auto duration-300"

@@ -893,6 +893,11 @@
          "name": "sensor-cleaning",
          "durationType": "cycle",
          "durationLimit": 8
+      },
+      {
+         "name": "nozzle-cleaning",
+         "durationType": "cycle",
+         "durationLimit": 16
       }
    ],
    "cyclePremades": [

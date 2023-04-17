@@ -4,7 +4,7 @@
 
 Cette section permet de consulter les différents détails de votre machine et d'en ajuster certains réglages.
 
-![Interface réglages](/desktop/fr/assets/component_settings.png)
+![Interface réglages](component_settings.png)
 
 Vous pouvez ainsi modifier:
 

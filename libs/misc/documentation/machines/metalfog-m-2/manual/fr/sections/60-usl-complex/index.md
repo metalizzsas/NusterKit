@@ -9,11 +9,11 @@ Pour lancer le cycle de métallisation chimique « Complexe », procédez ains
  - Depuis l’écran d’accueil de l’interface digitale, appuyez sur « Cycle » ;
  - Puis appuyez sur « Activation pièces poreuses USL ».
 
-_Screenshot_
+![Menu Activation pièces poreuses USL](menu_activation.png)
 
 -  Les conditions de sécurité pour lancer le cycle apparaissent. Chaque indicateur doit être vert pour pouvoir démarer le cycle. Les conditions de sécurité sont détaillées au chapitre « Vérification des conditions de sécurité ».
 
- - Une fois les conditions de sécurité validées (indicateurs en vert), le cycle peut alors être lancé en cliquant sur le bouton « Démarrer le cycle » jusqu'alors grisé.
+ - Une fois les conditions de sécurité validées (indicateurs en vert), le cycle peut alors être lancé en cliquant sur le bouton « Démarrer le cycle » jusqu'alors rouge.
 
  - Au terme du cycle, une nouvelle page s'affiche spécifiant que le cycle est terminé. La mention "Cycle terminé avec succès" indique que la métallisation chimique s'est dérouleé correctement.
 
@@ -34,13 +34,11 @@ _Screenshot_
  - Depuis l’écran d’accueil de l’interface digitale, appuyez sur « Cycle » ;
  - Puis sur "Renforcement USL".
 
-_Screenshot_
+![Menu Renforcement USL](menu_renforcement.png)
 
 -  Comme pour chaque programme, les conditions de sécurité pour lancer le cycle apparaissent. Chaque indicateur doit être vert pour pouvoir démarer le cycle. Les conditions de sécurité sont détaillées au chapitre « Vérification des conditions de sécurité ».
 
- - Une fois les conditions de sécurité validées (indicateurs en vert), le cycle peut alors être lancé en cliquant sur le bouton « Démarrer le cycle » jusqu'alors grisé.
-
-_Screenshot_
+ - Une fois les conditions de sécurité validées (indicateurs en vert), le cycle peut alors être lancé en cliquant sur le bouton « Démarrer le cycle » jusqu'alors rouge.
 
 ·        Au terme du cycle, une nouvelle page s'affiche spécifiant que le cycle est terminé. La mention "Cycle terminé avec succès" indique que la métallisation chimique s'est dérouleé correctement.
 

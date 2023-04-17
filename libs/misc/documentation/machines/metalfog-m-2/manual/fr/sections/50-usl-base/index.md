@@ -8,9 +8,9 @@ Pour lancer le cycle de métallisation chimique « Simple », procédez ainsi�
 
  -  Les conditions de sécurité pour lancer le cycle apparaissent. Chaque indicateur doit être vert pour pouvoir démarer le cycle. Les conditions de sécurité sont détaillées au chapitre « Vérification des conditions de sécurité ».
 
-_Screenshot_
+![Menu Utility Silver Layer - USL](menu_USL.png)
 
- - Une fois les conditions de sécurité validées (indicateurs en vert), le cycle peut alors être lancé en cliquant sur le bouton « Démarrer le cycle » jusqu'alors grisé.
+ - Une fois les conditions de sécurité validées (indicateurs en vert), le cycle peut alors être lancé en cliquant sur le bouton « Démarrer le cycle » jusqu'alors rouge.
 
 ![Affichage Cycle USL en cours](cycleUSLencours.png)
 

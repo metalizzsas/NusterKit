@@ -21,7 +21,7 @@ Avant que le cycle commence, la page des conditions de sécurité s’affiche (v
 
 Une fois lancé, laissez le cycle se terminer avant de revenir à la page d’accueil en appuyant sur "Terminer le cycle". Ce cycle vide les conteneurs d'Activant, d'Oxydant et de Réducteur mais pas celui d'eau déionisée.
 
-Screenshot Vidange de tous les réactifs
+![Menu Vidange de tous les réacifs](vidange_reactifs.png)
 
 #### Remplissage Activant
 
@@ -68,7 +68,7 @@ Le bouchon du conteneur Oxydant est de couleur verte (1er bouchon en partant de 
 
 >**Attention** : Une fois mélangé, l’oxydant se dégrade rapidement. Il est conseillé de le changer au bout de 7 jours suivant sa préparation.
 
-
+![Menu remplissage Oxydant](remplissage_oxydant.png)
 
 Pour remplir le conteneur d'Oxydant, procédez ainsi :
 
@@ -90,6 +90,8 @@ Quantité `N°1 UTILITY SILVER`= Quantité `N°2 UTILITY SILVER LAYER` = Quantit
 Le bouchon du conteneur Réducteur est de couleur blanche (2ème bouchon en partant de la gauche). Les flacons "Réducteur" fournis par Metalizz présentent des étiquettes avec les indications `N°3 UTILITY SILVER LAYER` (étiquette marron) et `N°4 UTILITY SILVER LAYER` (étiquette jaune).
 
 >**Attention** : Une fois mélangé, le réducteur se dégrade rapidement. Il est conseillé de le changer au bout de 7 jours après préparation.
+
+![Menu Remplissage Réducteur](remplissage_reducteur.png)
 
 Pour remplir le conteneur Réducteur, procédez ainsi :
 

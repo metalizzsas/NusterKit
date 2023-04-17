@@ -35,3 +35,4 @@ _screenshot_
 
 Une fois lancé, laissez le cycle se terminer avant de revenir à la page d’accueil.
 
+![Menu Maintenance](maintenance.png)

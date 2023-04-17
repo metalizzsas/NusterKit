@@ -30,7 +30,7 @@ Pour démarrer la machine, positionnez le sectionneur situé à l'arrière de la
 La Metalfog est pilotée grâce au logiciel Nuster. 
 Une fois la machine en route, vous pouvez acccéder à ses fonctions avec l'écran tactile.
 
-Screenshot Home menu
+![Menu Home](home.png)
 
 Il est possible de choisir entre 2 modes d'affichage : Clair ou Sombre. Pour cela, appuyez sur l'onglet "Réglages", puis sur le bouton de sélection du mode.
 

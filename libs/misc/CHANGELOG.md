@@ -1,5 +1,21 @@
 # @metalizzsas/nuster-misc
 
+## 1.3.0
+
+### Minor Changes
+
+- feat: added fr metalfog m r2 machine documentation ([#351](https://github.com/metalizzsas/NusterKit/pull/351))
+
+### Patch Changes
+
+- feat: added nozzle cleaning & sensor cleaning maintenance ([#351](https://github.com/metalizzsas/NusterKit/pull/351))
+
+- feat: added nozzle-cleaning & sensor-cleaning for mf-m-r2 ([#351](https://github.com/metalizzsas/NusterKit/pull/351))
+
+- docs: created nozzle cleaning mf m r2 procedure ([#351](https://github.com/metalizzsas/NusterKit/pull/351))
+
+- docs: copied to metalfog m r2 filter maintenance ([#351](https://github.com/metalizzsas/NusterKit/pull/351))
+
 ## 1.2.4
 
 ### Patch Changes

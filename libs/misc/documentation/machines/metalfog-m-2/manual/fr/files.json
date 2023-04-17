@@ -18,7 +18,8 @@
                 { "name": "Conditions de sécurité", "path": "/machines/metalfog-m-2/manual/fr/sections/40-safety/index.md" },
                 { "name": "USL Simple", "path": "/machines/metalfog-m-2/manual/fr/sections/50-usl-base/index.md" },
                 { "name": "USL Complexe", "path": "/machines/metalfog-m-2/manual/fr/sections/60-usl-complet/index.md" },
-                { "name": "Nettoyage de la machine", "path": "/machines/metalfog-m-2/manual/fr/sections/70-cleaning/index.md" }
+                { "name": "Nettoyage de la machine", "path": "/machines/metalfog-m-2/manual/fr/sections/70-cleaning/index.md" },
+                { "name": "Remplacement charbon", "path": "/machines/metalfog-m-2/manual/fr/sections/80-coal-swap/index.md" }
             ]
         },
         "999-root": {

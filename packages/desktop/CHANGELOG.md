@@ -1,5 +1,15 @@
 # @metalizzsas/nuster-desktop
 
+## 1.11.11
+
+### Patch Changes
+
+- fix: maintenances images are now displayed correctly ([#351](https://github.com/metalizzsas/NusterKit/pull/351))
+
+- fix: help image could crash the app ([#351](https://github.com/metalizzsas/NusterKit/pull/351))
+
+- fix: help Indexes were not found due to wrong path ([#351](https://github.com/metalizzsas/NusterKit/pull/351))
+
 ## 1.11.10
 
 ### Patch Changes

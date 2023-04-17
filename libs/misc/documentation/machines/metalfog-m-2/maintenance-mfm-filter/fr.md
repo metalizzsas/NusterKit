@@ -1,3 +1,7 @@
+La cartouche filtrante est à changer tous les 50 cycles.
+
+![Menu Maintenance](maintenance.png)
+
 Le filtre de la Metalfog est situé sur le côté gauche de la machine.
 
 ![Metalfog filter](0.jpg)

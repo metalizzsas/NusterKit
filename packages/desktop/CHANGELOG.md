@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.11.13
+
+### Patch Changes
+
+- fix: help page would not load due to clone error ([#383](https://github.com/metalizzsas/NusterKit/pull/383))
+
 ## 1.11.12
 
 ### Patch Changes

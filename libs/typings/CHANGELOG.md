@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-typings
 
+## 1.5.3
+
+### Patch Changes
+
+- feat: maintenance status can now only return a warning state maximum ([#381](https://github.com/metalizzsas/NusterKit/pull/381))
+
 ## 1.5.2
 
 ### Patch Changes

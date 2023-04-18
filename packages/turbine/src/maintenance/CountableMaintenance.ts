@@ -71,6 +71,7 @@ export class CountableMaintenance extends Maintenance implements CountableMainte
             this.duration = document.duration;
             this.operationDate = document.operationDate;
             LoggerInstance.info(`Maintenance: Cleared maintenance task ${this.name}.`);
+            await this.loadTrackerData();
         }
         else
             LoggerInstance.error(`Maintenance: Failed to update ${this.name} document.`);

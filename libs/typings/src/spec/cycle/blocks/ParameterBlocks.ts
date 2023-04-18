@@ -37,7 +37,7 @@ export type ReadMachineVariableParameterBlock = {"read_machine_var": StringParam
 
 // Status parameter blocks
 
-export type MaintenanceStatusParameterBlock = {"maintenance_status": StringParameterBlocks};
+export type MaintenanceStatusParameterBlock = {"maintenance_status": StringParameterBlocks | [StringParameterBlocks, NumericParameterBlocks]};
 export type ProductStatusParameterBlock = {"product_status": StringParameterBlocks};
 
 // Parameter Blocks Groups

@@ -190,6 +190,7 @@
   },
   "cycle": {
     "lead": "Cycle",
+    "run_conditions_warning": "Une des condition de sécurité présente un avertissement, vous pouvez lancer le cycle mais le résultat n'est pas garanti.",
     "categories": {
       "steps": "Étapes du cycle",
       "status": "État du cycle",

@@ -984,7 +984,21 @@
                "name": "maintenance-filter",
                "startOnly": true,
                "checkchain": {
-                  "parameter": {"maintenance_status": {"string": "mfm-filter"}}
+                  "parameter": {"maintenance_status": "mfm-filter"}
+               }
+            },
+            {
+               "name": "sensor-cleaning",
+               "startOnly": true,
+               "checkchain": {
+                  "parameter": {"maintenance_status": ["sensor-cleaning", 1]}
+               }
+            },
+            {
+               "name": "nozzle-cleaning",
+               "startOnly": true,
+               "checkchain": {
+                  "parameter": {"maintenance_status": ["nozzle-cleaning", 1]}
                }
             },
             {
@@ -1237,7 +1251,9 @@
                   ]
                   }},
                   {"sleep": 0.25 },
-                  {"append_maintenance": ["mfm-filter", 1]}
+                  {"append_maintenance": ["mfm-filter", 1]},
+                  {"append_maintenance": ["sensor-cleaning", 1]},
+                  {"append_maintenance": ["nozzle-cleaning", 1]}
                ]
             },
             {

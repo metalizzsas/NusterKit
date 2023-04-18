@@ -83,15 +83,17 @@ export const computeContainersState = (containers: Array<ContainerHydrated> | Co
 
 export const computeMaintenancesState = (maintenances: Array<MaintenanceHydrated> | MaintenanceHydrated): "good" | "warn" | "error" => {
 
-    if(typeof maintenances == "object")
+    if(!(maintenances instanceof Array))
         maintenances = [maintenances] as Array<MaintenanceHydrated>;
 
-    for(const maintenance of maintenances)
-    {
-        if(maintenance.durationProgress >= 1)
-            return "error";
-        if(maintenance.durationProgress >= .75)
-            return "warn";
-    }
+    const hasError = maintenances.some(k => k.durationProgress >= 1);
+    const hasWarn = maintenances.some(k => k.durationProgress >= .75);
+
+    if(hasError)
+        return "error";
+    
+    if(hasWarn)
+        return "warn";
+    
     return "good";
 }

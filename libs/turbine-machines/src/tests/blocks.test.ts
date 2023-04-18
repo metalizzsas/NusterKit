@@ -166,9 +166,22 @@ class BlockValidator
     {
         if('maintenance_status' in block)
         {
-            const maintenanceTask = this.machineConfig.maintenance.find(k => k.name === this.unwrapString(block.maintenance_status));
-            expect(maintenanceTask?.name).toBe(this.unwrapString(block.maintenance_status));
-            return;
+            if(block.maintenance_status instanceof Array)
+            {
+                expect(block.maintenance_status.length).toBe(2);
+
+                const taskName = this.unwrapString(block.maintenance_status[0]);
+                const maintenanceTask = this.machineConfig.maintenance.find(k => k.name === taskName);
+                expect(maintenanceTask?.name).toBe(taskName);
+                return;
+            }
+            else
+            {
+                const taskName = this.unwrapString(block.maintenance_status);
+                const maintenanceTask = this.machineConfig.maintenance.find(k => k.name === this.unwrapString(taskName));
+                expect(maintenanceTask?.name).toBe(taskName);
+                return;
+            }
         }
 
         if('product_status' in block)
@@ -178,7 +191,7 @@ class BlockValidator
             return;
         }
 
-        console.log(block, "is not tested");
+        console.error(block, "is not tested");
         return false;
     }
 

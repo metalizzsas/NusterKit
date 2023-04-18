@@ -100,6 +100,8 @@
             "levels#rd-min-n": "Reducer level",
             "levels#ox-min-n": "Oxydiser level",
             "maintenance-filter": "Machine filter",
+            "sensor-cleaning": "Sensors state",
+            "nozzle-cleaning": "Nozzles state",
             "oxydiser-life": "Oxydiser state",
             "activator-life": "Activator state",
             "reducer-life": "Reducer state"

@@ -102,6 +102,8 @@
             "levels#rd-min-n": "Niveau réducteur",
             "levels#ox-min-n": "Niveau oxydant",
             "maintenance-filter": "Filtre machine",
+            "sensor-cleaning": "État des capteurs",
+            "nozzle-cleaning": "État des buses",
             "oxydiser-life": "Durée de vie oxydant",
             "activator-life": "Durée de vie activant",
             "reducer-life": "Durée de vie réducteur"

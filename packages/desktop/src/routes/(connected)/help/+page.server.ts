@@ -28,7 +28,7 @@ export const load = (async () => {
 
     for(const file in filesIndexes)
     {
-        const files = structuredClone(await filesIndexes[file]()) as HelpRootFile;
+        const files = await filesIndexes[file]() as HelpRootFile;
 
         for(const folder in files.folders)
         {

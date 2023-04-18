@@ -53,10 +53,11 @@ Pour effectuer un remplissage avec dilution automatique :
  - Sélectionnez "Chargement par dilution automatique".
  - Mesurez 20 mL de produit `N°0 UTILITY SILVER LAYER (USL) ACTIVANT` dans une éprouvette graduée. 
  - Versez la quantité de produit mesurée dans le conteneur d’Activant  (4ème bouchon en partant de la gauche, de couleur rouge).
- - Refermez le bouchon.
+ - Laissez ouvert le conteneur d'Activant pour éviter une montée en pression.
  - Appuyez sur "Démarrer le cycle".
  Si les conditions de sécurité sont toutes validées (indicateurs au vert), la machine va automatiquement remplir le réservoir d'Activant avec de l'eau déionisée jusqu'à obtenir 1 L de mélange.
  - Lorsque l'interface indique "Cycle terminé avec succès", appuyez sur "Terminer le cycle" pour revenir au menu principal.
+ - Remettez le bouchon du conteneur.
 
 Une fois le conteneur rempli, la machine indique alors la date et l'heure du chargement et lance le décompte de durée de vie du réactif.
 

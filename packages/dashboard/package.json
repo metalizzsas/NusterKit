@@ -14,7 +14,7 @@
     "start": "node build/index.js"
   },
   "devDependencies": {
-    "@metalizzsas/nuster-typings": "1.5.2",
+    "@metalizzsas/nuster-typings": "1.5.3",
     "@sveltejs/adapter-node": "^1.1.7",
     "@sveltejs/kit": "^1.5.0",
     "@typescript-eslint/eslint-plugin": "^5.51.0",

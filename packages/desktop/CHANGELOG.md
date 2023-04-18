@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-desktop
 
+## 1.11.12
+
+### Patch Changes
+
+- fix: compute the maintenance state correctly ([#381](https://github.com/metalizzsas/NusterKit/pull/381))
+
+- feat: display a warning if some of the safety conditions are in a warning state ([#381](https://github.com/metalizzsas/NusterKit/pull/381))
+
 ## 1.11.11
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @metalizzsas/nuster-turbine
 
+## 1.10.23
+
+### Patch Changes
+
+- feat: maintenance status can now only return a warning state maximum ([#381](https://github.com/metalizzsas/NusterKit/pull/381))
+
+- fix: maintenance woudl not refresh its data after a reset ([#381](https://github.com/metalizzsas/NusterKit/pull/381))
+
+- Updated dependencies [[`39bc69f6`](https://github.com/metalizzsas/NusterKit/commit/39bc69f6ced495cd9d4ab61b042168184fd9e6c3)]:
+  - @metalizzsas/nuster-turbine-machines@1.6.7
+
 ## 1.10.22
 
 ### Patch Changes

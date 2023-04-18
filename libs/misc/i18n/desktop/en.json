@@ -190,6 +190,7 @@
   },
   "cycle": {
     "lead": "Cycle",
+    "run_conditions_warning": "Some of the safety are shows a warning, you can start the cycle but the result might be altered.",
     "categories": {
       "steps": "Cycle steps",
       "status": "Cycle status",

@@ -24,7 +24,7 @@
         if(cycleData === undefined)
             return;
         
-        if(cycleData.runConditions.filter(sc => ["error", "warning"].includes(sc.result)).length > 0)
+        if(cycleData.runConditions.some(c => c.result === "error"))
             return;
 
         await fetch(`/api/v1/cycle`, { method: "POST" });
@@ -82,7 +82,8 @@
 
 {#if cycleData !== undefined && cycleData.status.mode === "created"}
 
-    {@const ready = cycleData.runConditions.filter(k => ["warning", "error"].includes(k.result)).length == 0}
+    {@const ready = !cycleData.runConditions.some(k => k.result === "error")}
+    {@const readyWarn = cycleData.runConditions.some(k => k.result === "warning")}
 
     {#if cycleData.profile}
         <p class="text-sm text-zinc-600 dark:text-zinc-300 -mb-1">{$_(`cycle.names.${cycleData.name}`)}</p>
@@ -92,8 +93,8 @@
     {/if}
 
     {#if cycleData !== undefined && cycleData.status.estimatedRunTime !== undefined}
-        <p class="mt-3 mb-4">
-            <Icon src={Clock} class="h-5 w-5 mr-0.5 mb-0.5 inline-block" />
+        <p class="mt-3 mb-2">
+            <Icon src={Clock} class="h-5 w-5 mr-0.5 mb-0.5 inline-block text-indigo-500" />
             <span class="font-semibold">{$_('cycle.eta.estimated')}</span>
             {#if cycleData.status.estimatedRunTime === null}
                 <span>{$_('cycle.eta.null')}</span>
@@ -103,10 +104,17 @@
         </p>
     {/if}
 
+    {#if ready && readyWarn}
+        <p class="mb-6">
+            <Icon src={ExclamationCircle} class="h-5 w-5 mr-0.5 mb-0.5 inline-block text-amber-500" />
+            {$_('cycle.run_conditions_warning')}
+        </p>
+    {/if}
+
     <Button 
         class="group self-start mb-2" 
-        color={ready ? "hover:bg-emerald-500" : "hover:bg-red-500"}
-        ringColor={ready ? "ring-emerald-500" : "ring-red-500"}
+        color={ready ? (readyWarn ? "hover:bg-amber-500" : "hover:bg-emerald-500") : "hover:bg-red-500"}
+        ringColor={ready ? (readyWarn ? "ring-amber-500" : "ring-emerald-500") : "ring-red-500"}
         on:click={startCycle}
     >
         <Flex>
@@ -128,7 +136,7 @@
             class:text-amber-500={cycleData.runConditions.filter(k => k.result == "warning").length > 0}
             class:text-emerald-500={cycleData.runConditions.filter(k => k.result == "good").length > 0}
         >
-            <Icon src={ready ? CheckCircle : ExclamationCircle} theme="solid" class="h-7 w-7 -ml-1.5 translate-x-1.5 grow {ready ? "text-emerald-500" : "text-red-500"}" />
+            <Icon src={ready ? CheckCircle : ExclamationCircle} theme="solid" class="h-7 w-7 -ml-1.5 translate-x-1.5 grow {ready ? ((readyWarn) ? "text-amber-500" : "text-emerald-500") : "text-red-500"}" />
         </div>
 
     </Flex>

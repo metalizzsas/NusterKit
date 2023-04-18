@@ -1,4 +1,4 @@
-import type { StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
+import type { NumericParameterBlockHydrated, StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
 import type { AllParameterBlocks, MaintenanceStatusParameterBlock as MaintenanceStatusParameterBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
 import { ParameterBlockRegistry } from "../ParameterBlockRegistry";
 import { TurbineEventLoop } from "../../../events";
@@ -8,12 +8,24 @@ import { StatusParameterBlock } from "../StatusParameterBlock";
 export class MaintenanceStatusParameterBlock extends StatusParameterBlock
 {
     private taskName: StringParameterBlockHydrated;
+    private optional: NumericParameterBlockHydrated;
+
     #maintenanceTask?: MaintenanceHydrated;
 
     constructor(obj: MaintenanceStatusParameterBlockSpec)
     {
         super(obj);
-        this.taskName = ParameterBlockRegistry.String(obj.maintenance_status);
+
+        if(obj.maintenance_status instanceof Array)
+        {
+            this.taskName = ParameterBlockRegistry.String(obj.maintenance_status[0]);
+            this.optional = ParameterBlockRegistry.Numeric(obj.maintenance_status[1]);
+        }
+        else
+        {
+            this.taskName = ParameterBlockRegistry.String(obj.maintenance_status);
+            this.optional = ParameterBlockRegistry.Numeric(0);
+        }
 
         TurbineEventLoop.on(`maintenance.updated.${this.taskName.data}`, (maintenance) => { 
             this.#maintenanceTask = maintenance;
@@ -31,7 +43,14 @@ export class MaintenanceStatusParameterBlock extends StatusParameterBlock
         if(this.#maintenanceTask === undefined)
             return "error";
 
-        return this.#maintenanceTask.durationProgress < 0.75 ? "good" : this.#maintenanceTask.durationProgress > 1 ? "error" : "warning";
+        if(this.#maintenanceTask.durationProgress < 0.75)
+            return "good";
+        
+        if(this.#maintenanceTask.durationProgress > 1)
+            return (this.optional.data === 1) ? "warning" : "error";
+        
+        return "warning";
+
     }
 
     static isMaintenanceStatusPB(obj: AllParameterBlocks): obj is MaintenanceStatusParameterBlockSpec

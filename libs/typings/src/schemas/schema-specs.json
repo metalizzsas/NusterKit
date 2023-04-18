@@ -1587,7 +1587,36 @@
                     "additionalProperties": false,
                     "properties": {
                         "maintenance_status": {
-                            "$ref": "#/definitions/StringParameterBlocks"
+                            "anyOf": [
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "string": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "string"
+                                    ],
+                                    "type": "object"
+                                },
+                                {
+                                    "items": [
+                                        {
+                                            "$ref": "#/definitions/StringParameterBlocks"
+                                        },
+                                        {
+                                            "$ref": "#/definitions/NumericParameterBlocks"
+                                        }
+                                    ],
+                                    "maxItems": 2,
+                                    "minItems": 2,
+                                    "type": "array"
+                                },
+                                {
+                                    "type": "string"
+                                }
+                            ]
                         }
                     },
                     "required": [

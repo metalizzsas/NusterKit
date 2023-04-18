@@ -32,7 +32,7 @@ Lorsque l’indicateur de sécurité « Capteur de présence du conteneur d’e
 
 Avant de lancer un cycle, il est primordial de s’assurer que le conteneur d'effluents soit bien à l’intérieur de la machine (côté gauche) et qu’il soit positionné correctement.
 
-**Rappel** : Les effluents générés lors de l’utilisation de la Metalfog doivent être récoltés et traités dans la filière appropriée. Le code européen déterminé par la directive (UE) 2008/98/CE pour ce type de déchets est le : 09 01 06*, il correspond à « déchets contenant de l'argent provenant du traitement in situ des déchets photographiques- Effluents liquides alcalin pH 10 ».
+>**Attention** : Les effluents générés lors de l’utilisation de la Metalfog doivent être récoltés et traités dans la filière appropriée. Le code européen déterminé par la directive (UE) 2008/98/CE pour ce type de déchets est le : 09 01 06*, il correspond à « déchets contenant de l'argent provenant du traitement in situ des déchets photographiques- Effluents liquides alcalin pH 10 ».
 
 #### Air comprimé
 

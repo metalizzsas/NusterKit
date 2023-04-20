@@ -25,7 +25,7 @@ Une fois lancé, laissez le cycle se terminer avant de revenir à la page d’ac
 
 #### Remplissage Activant
 
-Le bouchon du conteneur Activant est de couleur rouge (4ème bouchon en partant de la gauche). Le flacon Activant fourni par Metalizz présente une étiquette avec l’indication `N°0 UTILITY SILVER LAYER (USL) ACTIVANT`.
+Le bouchon du conteneur Activant est de couleur rouge (4ème bouchon en partant de la gauche). Le flacon Activant fourni par Metalizz présente une étiquette rouge avec l’indication `N°0 UTILITY SILVER LAYER (USL) ACTIVANT`.
 
 >**Attention** : Une fois dilué, l’activant se dégrade rapidement. Il est demandé automatiquement de le changer toutes les 12 heures.
 

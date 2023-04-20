@@ -6,7 +6,7 @@ Pour lancer le cycle de métallisation chimique « Simple », procédez ainsi�
 
  -  Puis appuyez sur "Utility Silver Layer - USL"
 
- -  Les conditions de sécurité pour lancer le cycle apparaissent. Chaque indicateur doit être vert pour pouvoir démarer le cycle. Les conditions de sécurité sont détaillées au chapitre « Vérification des conditions de sécurité ».
+ -  Les conditions de sécurité pour lancer le cycle apparaissent. Chaque indicateur doit être vert pour pouvoir démarrer le cycle. Les conditions de sécurité sont détaillées au chapitre « Vérification des conditions de sécurité ».
 
 ![Menu Utility Silver Layer - USL](menu_USL.png)
 
@@ -14,7 +14,7 @@ Pour lancer le cycle de métallisation chimique « Simple », procédez ainsi�
 
 ![Affichage Cycle USL en cours](cycleUSLencours.png)
 
- - Au terme du cycle, une nouvelle page s'affiche spécifiant que le cycle est terminé. La mention "Cycle terminé avec succès" indique que la métallisation chimique s'est dérouleé correctement.
+ - Au terme du cycle, une nouvelle page s'affiche spécifiant que le cycle est terminé. La mention "Cycle terminé avec succès" indique que la métallisation chimique s'est déroulée correctement.
 
  - Appuyer sur « Terminer le cycle » pour revenir à la page d’accueil.
 

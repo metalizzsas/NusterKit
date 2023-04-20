@@ -28,7 +28,7 @@ Pour démarrer la machine, positionnez le sectionneur situé à l'arrière de la
 ## Interface logiciel
 
 La Metalfog est pilotée grâce au logiciel Nuster. 
-Une fois la machine en route, vous pouvez acccéder à ses fonctions avec l'écran tactile.
+Une fois la machine en route, vous pouvez accéder à ses fonctions avec l'écran tactile.
 
 ![Menu Home](home.png)
 
@@ -42,7 +42,7 @@ Il est recommandé de lancer un nettoyage des buses de métallisation lors du d�
 
 Une boîte de dialogue s'affiche à l'écran après le démarrage de la Metalfog.
 
-![Boîte de dialogue de recommendation](reco_nettoyage_buses.png)
+![Boîte de dialogue de recommandation](reco_nettoyage_buses.png)
 
 Appuyez sur "Continuer" dans cette boîte de dialogue puis lancez le cycle de nettoyage une fois que les conditions de sécurité sont validées (indicateurs au vert). Une fois le cycle fini, appuyez sur "Terminer le cycle" pour revenir au menu principal.
 

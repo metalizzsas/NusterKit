@@ -12,7 +12,7 @@ _Pièce métallisée présentant des défauts de mouillabilité
 #### Préparation
 
 1. Sablez les pièces (vivement conseillé) ;
-2. Dépoussierez  à l'aide d'air comprimé ;
+2. Dépoussiérez  à l'aide d'air comprimé ;
 3. Nettoyez et dégraissez les pièces ;
 4. Rincez les pièces à l'eau désionisée, de préférence dans un bac à ultrasons ;
 5. Assurez-vous que les pièces soient bien propres grâce au test du film d'eau ;

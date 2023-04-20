@@ -1,6 +1,6 @@
 Bienvenue sur le guide d'utilisation de votre Metalfog M R2. Ce document vous guidera afin de bien utiliser votre Metalfog.
 
-METALIZZ a apporté le plus grand soin à la conception et à la fabrication de cette machine dans un souci d'efficacité, de durabilité et de respect sociétal et environmental.
+METALIZZ a apporté le plus grand soin à la conception et à la fabrication de cette machine dans un souci d'efficacité, de durabilité et de respect sociétal et environnemental.
 
 > **RAPPEL**: Les procédés de métallisation chimique effectués avec la Metalfog utilisent des solutions écoconçues sans Chrome.
 

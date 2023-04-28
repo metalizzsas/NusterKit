@@ -4,7 +4,7 @@ Avant de manipuler les solutions chimiques, veillez à porter les EPI adéquats,
 
 Nous conseillons d’utiliser des entonnoirs pour éviter les salissures et les coulures de réactifs sur la Metalfog.
 
-> **Attention** : lors de la manipulation des réactifs Oxydant N°1 et N° 2 et Réducteur N°3 et N°4, il est capital d’utiliser des entonnoirs et des récipients  propres et différents pour chaque type de produit.
+> **Attention** : lors de la manipulation des réactifs Oxydant N°1 et N° 2 et Réducteur N°3 et N°4, il est capital d’utiliser des entonnoirs et des récipients propres et différents pour chaque type de produit.
 
 > Les réactifs Oxydants et les réactifs Réducteurs ne doivent **JAMAIS** entrer en contact entre eux, même en infime quantité, au risque de compromettre la qualité du procédé de métallisation chimique.
 
@@ -21,13 +21,13 @@ Avant que le cycle commence, la page des conditions de sécurité s’affiche (v
 
 Une fois lancé, laissez le cycle se terminer avant de revenir à la page d’accueil en appuyant sur "Terminer le cycle". Ce cycle vide les conteneurs d'Activant, d'Oxydant et de Réducteur mais pas celui d'eau déionisée.
 
-![Menu Vidange de tous les réacifs](vidange_reactifs.png)
+![Menu Vidange de tous les réactifs](vidange_reactifs.png)
 
 #### Remplissage Activant
 
-Le bouchon du conteneur Activant est de couleur rouge (4ème bouchon en partant de la gauche). Le flacon Activant fourni par Metalizz présente une étiquette avec l’indication `N°0 UTILITY SILVER LAYER (USL) ACTIVANT`.
+Le bouchon du conteneur Activant est de couleur rouge (4ème bouchon en partant de la gauche). Le flacon Activant fourni par Metalizz présente une étiquette rouge avec l’indication `N°0 UTILITY SILVER LAYER (USL) ACTIVANT`.
 
->**Attention** : Une fois dilué, l’activant se dégrade rapidement. Il est demandé automatiquement  de le changer toutes les 12 heures.
+>**Attention** : Une fois dilué, l’activant se dégrade rapidement. Il est demandé automatiquement de le changer toutes les 12 heures.
 
 ![Menu Conteneurs](menu_conteneurs.png)
 
@@ -45,18 +45,19 @@ Il existe 2 méthodes de remplissage de l'Activant : dilution manuelle ou diluti
 Pour effectuer un remplissage avec dilution manuelle : 
  - Réalisez votre dilution à 2 % de l'Activant grâce à une éprouvette graduée.
  - Par exemple, pour faire 1 L d’Activant, remplissez une éprouvette graduée avec 20 mL de produit `N°0 UTILITY SILVER LAYER (USL) ACTIVANT`. Versez le produit `N°0 UTILITY SILVER LAYER (USL) ACTIVANT` dans l'eau déionisée et non l'inverse.
- - Versez le mélange dans le conteneur d’Activant  (4ème bouchon en partant de la gauche, de couleur rouge).
+ - Versez le mélange dans le conteneur d’Activant (4ème bouchon en partant de la gauche, de couleur rouge).
  - Refermez le bouchon.
  - Appuyez sur "Chargement manuel".
 
 Pour effectuer un remplissage avec dilution automatique : 
  - Sélectionnez "Chargement par dilution automatique".
  - Mesurez 20 mL de produit `N°0 UTILITY SILVER LAYER (USL) ACTIVANT` dans une éprouvette graduée. 
- - Versez la quantité de produit mesurée dans le conteneur d’Activant  (4ème bouchon en partant de la gauche, de couleur rouge).
- - Refermez le bouchon.
+ - Versez la quantité de produit mesurée dans le conteneur d’Activant (4ème bouchon en partant de la gauche, de couleur rouge).
+ - Laissez ouvert le conteneur d'Activant pour éviter une montée en pression.
  - Appuyez sur "Démarrer le cycle".
  Si les conditions de sécurité sont toutes validées (indicateurs au vert), la machine va automatiquement remplir le réservoir d'Activant avec de l'eau déionisée jusqu'à obtenir 1 L de mélange.
  - Lorsque l'interface indique "Cycle terminé avec succès", appuyez sur "Terminer le cycle" pour revenir au menu principal.
+ - Remettez le bouchon du conteneur.
 
 Une fois le conteneur rempli, la machine indique alors la date et l'heure du chargement et lance le décompte de durée de vie du réactif.
 

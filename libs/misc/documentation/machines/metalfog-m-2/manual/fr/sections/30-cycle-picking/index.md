@@ -6,4 +6,4 @@ Le tableau suivant permet de déterminer le cycle le plus adapté pour rendre un
 |:----------:|:---------:|:-------:|
 |Type de métallisation |Cycle : « Utility Silver Layer – USL » |Cycles : « Activation pièces poreuses » puis « Renforcement USL »
 
-Les pièces SLS, MJF et FDM sont poreuses et présentent souvent une surface irrégulière. Lors du procédé de métallisation chimique, il pourrait y avoir des manques de dépôt du primaire conducteur. Pour éviter cela, les pièces SLS, MJF et FDM sont donc traitées en métallisation complexe : Cycle « Activation pièces poreuses USL» + Cycle « Renforcement USL ».
+Les pièces SLS, MJF et FDM sont poreuses et présentent souvent une surface irrégulière. Lors du procédé de métallisation chimique, il pourrait y avoir des manques de dépôt du primaire conducteur. Pour éviter cela, les pièces SLS, MJF et FDM sont donc traitées en métallisation complexe : Cycle « Activation pièces poreuses USL » + Cycle « Renforcement USL ».

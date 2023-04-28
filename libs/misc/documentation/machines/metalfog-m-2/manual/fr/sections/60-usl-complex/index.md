@@ -1,4 +1,4 @@
-## Cycle de métalisation chimique "Complexe"
+## Cycle de métallisation chimique "Complexe"
 
 La métallisation chimique "Complexe" comprend un cycle "Activation pièces poreuses USL" et un cycle "Renforcement USL".
 
@@ -11,17 +11,17 @@ Pour lancer le cycle de métallisation chimique « Complexe », procédez ains
 
 ![Menu Activation pièces poreuses USL](menu_activation.png)
 
--  Les conditions de sécurité pour lancer le cycle apparaissent. Chaque indicateur doit être vert pour pouvoir démarer le cycle. Les conditions de sécurité sont détaillées au chapitre « Vérification des conditions de sécurité ».
+-  Les conditions de sécurité pour lancer le cycle apparaissent. Chaque indicateur doit être vert pour pouvoir démarrer le cycle. Les conditions de sécurité sont détaillées au chapitre « Vérification des conditions de sécurité ».
 
  - Une fois les conditions de sécurité validées (indicateurs en vert), le cycle peut alors être lancé en cliquant sur le bouton « Démarrer le cycle » jusqu'alors rouge.
 
- - Au terme du cycle, une nouvelle page s'affiche spécifiant que le cycle est terminé. La mention "Cycle terminé avec succès" indique que la métallisation chimique s'est dérouleé correctement.
+ - Au terme du cycle, une nouvelle page s'affiche spécifiant que le cycle est terminé. La mention "Cycle terminé avec succès" indique que la métallisation chimique s'est déroulée correctement.
 
  - Appuyer sur « Terminer le cycle » pour revenir à la page d’accueil.
 
 >**Attention** : Si cette page affiche tout autre message que « Cycle terminé avec succès », alors le message qui apparait précise la raison d'arrêt du cycle. En dessous, vous pouvez visualiser les étapes effectuées ou non. 
 
->Si le cycle n'a pas aboutit, sortez les pièces traitées de la machine et rincez-les à l'eau désionisée. Replacez-les dans la cuve et relancez un cycle « Activation pièces poreuses USL ».
+>Si le cycle n'a pas abouti, sortez les pièces traitées de la machine et rincez-les à l'eau désionisée. Replacez-les dans la cuve et relancez un cycle « Activation pièces poreuses USL ».
 
 #### Rinçage
 
@@ -36,11 +36,11 @@ Pour lancer le cycle de métallisation chimique « Complexe », procédez ains
 
 ![Menu Renforcement USL](menu_renforcement.png)
 
--  Comme pour chaque programme, les conditions de sécurité pour lancer le cycle apparaissent. Chaque indicateur doit être vert pour pouvoir démarer le cycle. Les conditions de sécurité sont détaillées au chapitre « Vérification des conditions de sécurité ».
+-  Comme pour chaque programme, les conditions de sécurité pour lancer le cycle apparaissent. Chaque indicateur doit être vert pour pouvoir démarrer le cycle. Les conditions de sécurité sont détaillées au chapitre « Vérification des conditions de sécurité ».
 
  - Une fois les conditions de sécurité validées (indicateurs en vert), le cycle peut alors être lancé en cliquant sur le bouton « Démarrer le cycle » jusqu'alors rouge.
 
-·        Au terme du cycle, une nouvelle page s'affiche spécifiant que le cycle est terminé. La mention "Cycle terminé avec succès" indique que la métallisation chimique s'est dérouleé correctement.
+·        Au terme du cycle, une nouvelle page s'affiche spécifiant que le cycle est terminé. La mention "Cycle terminé avec succès" indique que la métallisation chimique s'est déroulée correctement.
 
  - Appuyer sur « Terminer le cycle » pour revenir à la page d’accueil.
 

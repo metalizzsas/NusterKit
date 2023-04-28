@@ -1,8 +1,8 @@
 Bienvenue sur le guide d'utilisation de votre Metalfog M R2. Ce document vous guidera afin de bien utiliser votre Metalfog.
 
-METALIZZ a apporté le plus grand soin à la conception et à la fabrication de cette machine dans un souci d'efficacité, de durabilité et de respect sociétal et environmental.
+METALIZZ a apporté le plus grand soin à la conception et à la fabrication de cette machine dans un souci d'efficacité, de durabilité et de respect sociétal et environnemental.
 
-> **RAPPEL**: Les procédés de métallisation chimique effectués avec la Metalfog utilisent des solutions écoconçues sans Chrome.
+> Les procédés de métallisation chimique effectués avec la Metalfog utilisent des solutions écoconçues sans Chrome.
 
 Veillez à vous munir des EPI nécessaires à la manipulation d’agents chimiques tels que : gants en nitrile, lunettes de protection, masque FFP3 et à respecter les précautions d’emploi indiquées sur les emballages des réactifs.
 

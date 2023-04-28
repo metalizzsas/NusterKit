@@ -1,10 +1,12 @@
+## Nettoyage des buses
+
 > Attention: Les buses sont fragiles, manipulez-les avec précaution.
 
 Localisez les carters des buses à l'arrière de la cuve, puis dévissez les deux vis M4 x 20 à l'aide d'un `Tournevis hexagonal T2.5`.
 
 ![Dévissage carter](0.png)
 
-Une fois le carter retiré, extrayez les tubes reliés au buses. Ces tubes sont maintenus grâce à des raccords instantanés.
+Une fois le carter retiré, extrayez les tubes reliés aux buses. Ces tubes sont maintenus grâce à des raccords instantanés.
 
 ![Retrait raccords](1.png)
 

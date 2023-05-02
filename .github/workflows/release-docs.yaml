@@ -12,8 +12,8 @@ jobs:
     strategy:
       matrix:
         docs-paths: [
-          "machines/metalfog-m-2/manual/fr",
           "machines/uscleaner-m-1/manual/fr",
+          "machines/metalfog-m-2/manual/fr",
           "desktop/fr"
         ] 
 
@@ -23,18 +23,18 @@ jobs:
         uses: actions/checkout@v3
 
 
-      - name: Create output directories
-        run: mkdir -p libs/misc/output/${{ matrix.docs-paths }}
+      - name: 📂 Create output directory
+        run: mkdir -p libs/misc/documentation/output
 
       - name: 📝 Generate pdf for all docs
-        uses: docker://pandoc/latex:3.1
+        uses: docker://pandoc/extra:3.1
         with:
-          args: "--output=libs/misc/output/${{ matrix.docs-paths }}/output.pdf libs/misc/documentation/${{ matrix.docs-paths }}/export.md"
+          args: "-d libs/misc/documentation/${{ matrix.docs-paths }}/export.yaml"
           
       - name: 📦 Upload pdf
         uses: actions/upload-artifact@v3
         with:
           name: output
-          path: libs/misc/output
+          path: libs/misc/documentation/output/
     
       

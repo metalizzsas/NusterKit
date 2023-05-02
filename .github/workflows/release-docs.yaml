@@ -35,7 +35,7 @@ jobs:
       - name: 📝 Generate pdf for all docs
         uses: docker://pandoc/extra:3.1
         with:
-          args: "-d libs/misc/documentation/${{ matrix.docs-paths }}/export.yaml"
+          args: "-d libs/misc/documentation/${{ matrix.docs-paths }}/export.yaml --template ~/.pandoc/templates/eisvogel.latex"
           
       - name: 📦 Upload pdf
         uses: actions/upload-artifact@v3

@@ -1,4 +1,4 @@
-template: eisvogel.latex
+template: ~/.pandoc/templates/eisvogel.latex
 toc: true
 toc-depth: 3
 file-scope: true

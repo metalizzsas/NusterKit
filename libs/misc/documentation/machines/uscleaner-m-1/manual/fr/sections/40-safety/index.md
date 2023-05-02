@@ -25,5 +25,3 @@ Si vous percevez une réduction du débit de fluides dans la machine, ou que la 
 Il est conseillé de changer la cartouche du filtre toute les 3 mois. Contactez METALIZZ ou votre distributeur agréé pour commander des cartouches filtrantes.
 
 > Il est important que le traitement de la cartouche filtrante usagée soit réalisé en filière agréée (code déchet européen 07 01 10* d'après la directive (UE) 2008/98/CE).
-
-

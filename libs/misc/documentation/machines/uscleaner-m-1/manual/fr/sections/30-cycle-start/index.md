@@ -1,7 +1,7 @@
 ## Lancement d'un cycle de nettoyage
 ### Préparation du cycle
 
-Pour lancer un cycle de nettoyage, rendez vous sur la page `Cycles`. Dans la liste de gauche sont disponible vos profils ainsi que les profils construteur.
+Pour lancer un cycle de nettoyage, rendez vous sur la page **Cycles**. Dans la liste de gauche sont disponible vos profils ainsi que les profils construteur.
 
 ![Liste des cycles](cycle_list.png)
 
@@ -18,4 +18,4 @@ Lorsque le cycle est terminé, cet écran s'affiche.
 
 ![Fin du cycle](cycle_end.png)
 
-Il résume le déroulé du cycle, ainsi que sa raison de fin, Si cette raison est autre que `Terminé avec succès` alors quelque-chose c'est mal déroulé. La raison de fin précise l'élément mis en cause.
+Il résume le déroulé du cycle, ainsi que sa raison de fin, Si cette raison est autre que **Terminé avec succès** alors quelque-chose c'est mal déroulé. La raison de fin précise l'élément mis en cause.

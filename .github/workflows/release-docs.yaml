@@ -2,6 +2,12 @@ name: 📚 Generate PDF from Markdown
 
 on:
   workflow_call:
+  pull_request:
+  
+# cancel in-progress runs on new commits to same PR (gitub.event.number)
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: true
 
 jobs:
   docs:

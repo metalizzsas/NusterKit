@@ -1,4 +1,4 @@
-name: 📚 Generate PDF from Markdown
+name: 🚀 Generate documentation
 
 on:
   workflow_call:

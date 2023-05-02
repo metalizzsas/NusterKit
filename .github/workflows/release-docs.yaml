@@ -1,0 +1,40 @@
+name: 📚 Generate PDF from Markdown
+
+on:
+  workflow_call:
+
+jobs:
+  docs:
+
+    runs-on: ubuntu-latest
+    name: 📚 Generate PDF from Markdown
+
+    strategy:
+      matrix:
+        docs-paths: [
+          "machines/metalfog-m-2/manual/fr",
+          "machines/uscleaner-m-1/manual/fr",
+          "desktop/fr"
+        ] 
+
+    steps:
+
+      - name: 📚 Checkout Repo
+        uses: actions/checkout@v3
+
+
+      - name: Create output directories
+        run: mkdir -p libs/misc/output/${{ matrix.docs-paths }}
+
+      - name: 📝 Generate pdf for all docs
+        uses: docker://pandoc/latex:3.1
+        with:
+          args: "--output=libs/misc/output/${{ matrix.docs-paths }}/output.pdf libs/misc/documentation/${{ matrix.docs-paths }}/export.md"
+          
+      - name: 📦 Upload pdf
+        uses: actions/upload-artifact@v3
+        with:
+          name: output
+          path: libs/misc/output
+    
+      

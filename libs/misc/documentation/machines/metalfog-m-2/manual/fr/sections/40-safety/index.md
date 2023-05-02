@@ -1,6 +1,5 @@
 ## Vérification des conditions de sécurité
-
-#### Vérification préalable au lancement d'un cycle
+### Vérification préalable au lancement d'un cycle
 
 Avant son utilisation, il est nécessaire de s'assurer du bon fonctionnement de la Metalfog.
 
@@ -12,6 +11,7 @@ Puis sur le bouton du cycle choisi parmi ceux proposés.
 
 Avant de lancer un cycle, l’écran affiche les conditions de sécurité. Si un ou plusieurs indicateurs est au rouge, le bouton « Démarrer le cycle » est rouge et ne peut être activé. Il passera au vert lorsque tous les indicateurs seront aussi affichés en vert.
 
+### Conditions de sécurité
 #### Arrêt d’urgence
 
 Lorsque l’indicateur de sécurité « Bouton d’arrêt d’urgence » est rouge, cela signifie qu’il est enfoncé.
@@ -48,7 +48,7 @@ Les consignes de remplissage du conteneur d’eau désionisée se trouvent au ch
 
 Si vous percevez une odeur d’ammoniaque, il faut rapidement procéder au changement de la cartouche de filtration à charbon actif.  Cette dernière est située sur le côté gauche de la Metalfog.
 
-Il est conseillé de changer la cartouche du filtre à charbon actif tous les 50 cycles. Contactez METALIZZ pour commander les recharges de charbon actif.
+Il est conseillé de changer la cartouche du filtre à charbon actif tous les 50 cycles. Contactez METALIZZ ou votre distributeur agréé pour commander les recharges de charbon actif.
 
 Il est important que le traitement des déchets de charbon actif usagé soit réalisé en filière agréée (code déchet européen 06 13 02* d'après la directive (UE) 2008/98/CE).
 

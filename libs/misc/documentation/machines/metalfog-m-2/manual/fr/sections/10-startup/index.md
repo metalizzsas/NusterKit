@@ -4,7 +4,8 @@ La Metalfog doit être installée dans un local équipé d’une Ventilation Mé
 
 Une fois la Metalfog positionnée à son emplacement, bloquez les deux roulettes frein situées à l’avant de la machine.
 
-#### Electricité
+### Énergies
+#### Électricité
 
 - Vérifiez que le câble et la fiche d’alimentation électrique sont en bon état.
 - Reliez la machine au réseau 220V / 10A à l'aide câble d'alimentation.
@@ -18,19 +19,18 @@ Une fois la Metalfog positionnée à son emplacement, bloquez les deux roulettes
 ![Air comprimé](pneumatique.png)
 Vanne d'air comprimé ouverte
 
-#### Mise en route
+### Mise en route
 
-Vérifiez que le bouton d'arrêt d'urgence soit désenclenché.
 Pour démarrer la machine, positionnez le sectionneur situé à l'arrière de la machine sur `I`, Le voyant `Sous tension` s'allume. 
 
 ![Sectionneur](sectionneur.png)
 
-## Interface logiciel
+### Interface logiciel
 
 La Metalfog est pilotée grâce au logiciel Nuster. 
 Une fois la machine en route, vous pouvez accéder à ses fonctions avec l'écran tactile.
 
-![Menu Home](home.png)
+![Menu Home](documentation/machines/metalfog-m-2/manual/fr/sections/10-startup/home.png)
 
 Il est possible de choisir entre 2 modes d'affichage : Clair ou Sombre. Pour cela, appuyez sur l'onglet "Réglages", puis sur le bouton de sélection du mode.
 

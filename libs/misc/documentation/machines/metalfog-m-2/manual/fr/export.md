@@ -1,21 +1,41 @@
 ![index](index.md)
 
-![copyright](copyright.md)
+<div style="page-break-before:always;"></div>
 
-![preparation](00-preparation/index.md)
+![license](license.md)
 
-![Startup](10-startup/index.md)
+<div style="page-break-before:always;"></div>
 
-![container](20-containers/index.md)
+![preparation](sections/00-preparation/index.md)
 
-![Cycle picking](30-cycle-picking/index.md)
+<div style="page-break-before:always;"></div>
 
-![Securité](40-safety/index.md)
+![Startup](sections/10-startup/index.md)
 
-![USL Base](50-usl-base/index.md)
+<div style="page-break-before:always;"></div>
 
-![USL Complexe](60-usl-complex/index.md)
+![container](sections/20-containers/index.md)
 
-![Nettoyage](70-cleaning/index.md)
+<div style="page-break-before:always;"></div>
 
-![Coal swap](80-coal-swap/index.md)
+![Cycle picking](sections/30-cycle-picking/index.md)
+
+<div style="page-break-before:always;"></div>
+
+![Securité](sections/40-safety/index.md)
+
+<div style="page-break-before:always;"></div>
+
+![USL Base](sections/50-usl-base/index.md)
+
+<div style="page-break-before:always;"></div>
+
+![USL Complexe](sections/60-usl-complex/index.md)
+
+<div style="page-break-before:always;"></div>
+
+![Nettoyage](sections/70-cleaning/index.md)
+
+<div style="page-break-before:always;"></div>
+
+![Coal swap](sections/80-coal-swap/index.md)

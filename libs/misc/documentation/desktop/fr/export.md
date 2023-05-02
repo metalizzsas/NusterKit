@@ -3,7 +3,7 @@ Ce document est la version papier du guide numérique présent dans les machines
 
 <div style="page-break-after: always;"></div>
 
-![[documentation/desktop/fr/index]]
+![Page principale](index.md)
 
 <div style="page-break-after: always;"></div>
 
@@ -11,21 +11,20 @@ Ce document est la version papier du guide numérique présent dans les machines
 
 Ici sont décrites toutes les sections de Nuster.
 
-![[settings]]
+![Réglages](sections/40-settings/index.md)
 
 <div style="page-break-after: always;"></div>
 
-![[profiles]]
+![Profils](sections/10-profiles/index.md)
 
 <div style="page-break-after: always;"></div>
 
-![[containers]]
+![Conteneurs](sections/20-containers/index.md)
 
 <div style="page-break-after: always;"></div>
 
-![[maintenances]]
+![Maintenance](sections/30-maintenances/index.md)
 
 <div style="page-break-after: always;"></div>
 
-![[cycles]]
-
+![Cycles](sections/00-cycles/index.md)

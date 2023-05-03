@@ -54,9 +54,6 @@ variables:
   colorlinks: true
   urlcolor: blue
 
-  geometry:
-    - margin=1.5cm
-
   metadata: 
     author: Metalizz
     title: Notice d'utilisation de l'USCleaner M R1

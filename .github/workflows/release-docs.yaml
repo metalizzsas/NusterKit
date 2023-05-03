@@ -15,8 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     name: 📚 Generate PDF from Markdown
 
-    if: 
-
     strategy:
       matrix:
         docs-paths: [

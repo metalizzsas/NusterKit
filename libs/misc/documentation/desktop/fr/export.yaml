@@ -28,8 +28,7 @@ resource-path:
 output-file: libs/misc/documentation/output/FR_nuster.pdf
 pdf-engine: xelatex
 
-include-in-header:
-  - libs/misc/documentation/utils/font.tex
+fontfamily: montserrat
 
 variables:
   titlepage: true

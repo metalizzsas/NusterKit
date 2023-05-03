@@ -51,8 +51,7 @@ resource-path:
 output-file: libs/misc/documentation/output/FR_metalfog-m-r2.pdf
 pdf-engine: xelatex
 
-include-in-header:
-  - libs/misc/documentation/utils/font.tex
+fontfamily: montserrat
 
 variables:
   titlepage: true

@@ -37,8 +37,7 @@ resource-path:
 output-file: libs/misc/documentation/output/FR_uscleaner-m-r1.pdf
 pdf-engine: xelatex
 
-include-in-header:
-  - libs/misc/documentation/utils/font.tex
+fontfamily: montserrat
 
 variables:
   titlepage: true

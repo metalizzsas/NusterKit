@@ -52,6 +52,10 @@ jobs:
         if: steps.doc-build-check.outputs.misc-present == '@metalizzsas/nuster-misc'
         run: mkdir -p libs/misc/documentation/output
 
+      - name: Download latest eisvogel version
+        if: steps.doc-build-check.outputs.misc-present == '@metalizzsas/nuster-misc'
+        run: curl https://raw.githubusercontent.com/Wandmalfarbe/pandoc-latex-template/master/eisvogel.tex -o libs/misc/documentation/utils/eisvogel.tex
+
       - name: 📝 Generate pdf for all docs
         if: steps.doc-build-check.outputs.misc-present == '@metalizzsas/nuster-misc'
         uses: docker://pandoc/extra:3.1

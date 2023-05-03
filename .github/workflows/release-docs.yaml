@@ -36,7 +36,7 @@ jobs:
       - name: ⛏️ Setup node
         uses: actions/setup-node@v3.4.1
         with:
-          node-version: '16.x'
+          node-version: '14.x'
           cache: 'pnpm'
         
       - name: 📦 Install dependencies
@@ -45,7 +45,7 @@ jobs:
       - name: ❓ Check if doc building is necessary
         id: doc-build-check
         run: |
-          pnpm exec changeset status --since origin/main --output changeset.json &&
+          pnpm exec changeset status --output changeset.json &&
           echo "misc-present="$(cat > changeset.json | jq '.releases[] | select(.name == "@metalizzsas/nuster-misc") | .name') >> $GITHUB_OUTPUT
 
       - name: 📂 Create output directory

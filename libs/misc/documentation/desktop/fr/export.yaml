@@ -28,11 +28,11 @@ resource-path:
 output-file: libs/misc/documentation/output/FR_nuster.pdf
 pdf-engine: xelatex
 
-fontfamily: montserrat
-
 variables:
   titlepage: true
   titlepage-background: libs/misc/documentation/desktop/homepage.pdf
+
+  fontfamily: montserrat
   
   toc-own-page: true
   lang: fr-FR

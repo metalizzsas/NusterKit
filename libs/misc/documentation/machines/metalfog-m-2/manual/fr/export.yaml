@@ -51,11 +51,11 @@ resource-path:
 output-file: libs/misc/documentation/output/FR_metalfog-m-r2.pdf
 pdf-engine: xelatex
 
-fontfamily: montserrat
-
 variables:
   titlepage: true
   titlepage-background: libs/misc/documentation/machines/metalfog-m-2/manual/homepage.pdf
+
+  fontfamily: montserrat
   
   toc-own-page: true
   lang: fr-FR

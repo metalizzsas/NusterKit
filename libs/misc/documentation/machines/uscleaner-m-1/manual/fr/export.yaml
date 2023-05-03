@@ -37,11 +37,11 @@ resource-path:
 output-file: libs/misc/documentation/output/FR_uscleaner-m-r1.pdf
 pdf-engine: xelatex
 
-fontfamily: montserrat
-
 variables:
   titlepage: true
   titlepage-background: libs/misc/documentation/machines/uscleaner-m-1/manual/homepage.pdf
+
+  fontfamily: montserrat
   
   toc-own-page: true
   lang: fr-FR

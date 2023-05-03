@@ -36,7 +36,7 @@ jobs:
       - name: ⛏️ Setup node
         uses: actions/setup-node@v3.4.1
         with:
-          node-version: '16.x'
+          node-version: '16.18.0'
           cache: 'pnpm'
         
       - name: 📦 Install dependencies

@@ -28,6 +28,9 @@ resource-path:
 output-file: libs/misc/documentation/output/FR_nuster.pdf
 pdf-engine: xelatex
 
+include-in-header:
+  - libs/misc/documentation/utils/font.tex
+
 variables:
   titlepage: true
   titlepage-background: libs/misc/documentation/desktop/homepage.pdf

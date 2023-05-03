@@ -1,20 +1,24 @@
 ## Mise en route de l'USCleaner
 
-L'USCleaner doit être installé dans un local équipé d’une Ventilation Mécanique Contrôlée (VMC) ou dans un local pouvant être aéré si il est utilisé avec une autre agent chimique de l'eau.
+L'USCleaner doit être installé dans un local équipé d’une Ventilation Mécanique Contrôlée (VMC) ou dans un local pouvant être aéré s'il est utilisé avec une autre agent chimique que l'eau.
 
 Une fois l'USCleaner positionné à son emplacement, bloquez les deux roulettes frein situées à l’avant de la machine.
 
 ### Énergies
 #### Électricité
 
-- Vérifiez que le câble et la fiche d’alimentation électrique sont en bon état.
-- Reliez la machine au réseau 220V / 10A à l'aide câble d'alimentation.
+Vérifiez que le câble et la fiche d’alimentation électrique sont en bon état.
+Reliez la machine au réseau 220V / 10A à l'aide câble d'alimentation.
 
 ### Mise en route
 
 Pour démarrer la machine, positionnez le sectionneur situé à l'arrière de la machine sur **I**, Le voyant **Sous tension** s'allume. 
 
 ![Sectionneur](sectionneur.png)
+
+
+
+
 
 ### Interface logiciel
 

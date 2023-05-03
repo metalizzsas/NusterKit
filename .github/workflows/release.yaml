@@ -80,4 +80,13 @@ jobs:
     uses: metalizzsas/nusterkit/.github/workflows/release-dashboard.yaml@main
     secrets: inherit
 
+  docs-release:
+
+    needs: release
+    if: contains(fromJSON(needs.release.outputs.publishedPackages).*.name, '@metalizzsas/nuster-misc')
+
+    name: 🚀 Trigger Nuster Docs Generation
+    uses: metalizzsas/nusterkit/.github/workflows/release-docs.yaml@main
+    secrets: inherit
+
   

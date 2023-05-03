@@ -1,0 +1,73 @@
+toc: true
+toc-depth: 3
+file-scope: true
+shift-heading-level-by: -1
+number-sections: true
+
+input-files:
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/license.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/00-preparation/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/10-startup/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/20-containers/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/30-cycle-picking/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/40-safety/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/50-usl-base/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/60-usl-complex/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/70-cleaning/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/80-maintenance/index.md
+  - libs/misc/documentation/machines/metalfog-m-2/maintenance-mfm-filter/fr.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/metalfog-m-2/maintenance-nozzle-cleaning/fr.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/metalfog-m-2/maintenance-sensor-cleaning/fr.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/90-storing/index.md
+
+resource-path: 
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/00-preparation/
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/10-startup/
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/20-containers/
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/30-cycle-picking/
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/40-safety/
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/50-usl-base/
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/60-usl-complex/
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/70-cleaning/
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/80-maintenance/
+  - libs/misc/documentation/machines/metalfog-m-2/maintenance-mfm-filter/
+  - libs/misc/documentation/machines/metalfog-m-2/maintenance-nozzle-cleaning/
+  - libs/misc/documentation/machines/metalfog-m-2/maintenance-sensor-cleaning/
+
+output-file: libs/misc/documentation/output/FR_metalfog-m-r2.pdf
+pdf-engine: xelatex
+
+variables:
+  titlepage: true
+  titlepage-background: libs/misc/documentation/machines/metalfog-m-2/manual/homepage.pdf
+
+  fontfamily: sourcesanspro
+  fontfamilyoptions: default
+  
+  toc-own-page: true
+  lang: fr-FR
+
+  caption-justification: centering
+
+  footer-left: Notice d'utilisation de la Metalfog © Metalizz 2023
+
+  colorlinks: true
+  urlcolor: blue
+
+  metadata: 
+    author: Metalizz
+    title: Notice d'utilisation de la Metalfog M R2

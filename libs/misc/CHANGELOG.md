@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-misc
 
+## 1.3.1
+
+### Patch Changes
+
+- feat: create USCleaner M R1 & USCleaner M R1 TR manual ([#389](https://github.com/metalizzsas/NusterKit/pull/389))
+
 ## 1.3.0
 
 ### Minor Changes

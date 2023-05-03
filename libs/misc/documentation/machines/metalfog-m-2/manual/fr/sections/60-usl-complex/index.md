@@ -18,11 +18,11 @@ Pour lancer le cycle de métallisation chimique « Complexe », procédez ains
 
 > **Attention** : Si cette page affiche tout autre message que « Cycle terminé avec succès », alors le message qui apparait précise la raison d'arrêt du cycle. En dessous, vous pouvez visualiser les étapes effectuées ou non.
 
-> Si le cycle n'a pas abouti, sortez les pièces traitées de la machine et rincez-les à l'eau désionisée. Replacez-les dans la cuve et relancez un cycle « Activation pièces poreuses USL ».
+> Si le cycle n'a pas abouti, sortez les pièces traitées de la machine et rincez-les à l'eau déionisée. Replacez-les dans la cuve et relancez un cycle « Activation pièces poreuses USL ».
 
 ### Rinçage
 
-- Une fois le cycle « Activation pièces poreuses USL » terminé, sortez les pièces de la Metalfog et rincez-les à l’eau désionisée si possible dans un bac à ultrasons pendant 2 minutes.
+- Une fois le cycle « Activation pièces poreuses USL » terminé, sortez les pièces de la Metalfog et rincez-les à l’eau déionisée si possible dans un bac à ultrasons pendant 2 minutes.
 - Replacez ensuite les pièces dans la Metalfog.
 
 ### Cycle "Renforcement USL"

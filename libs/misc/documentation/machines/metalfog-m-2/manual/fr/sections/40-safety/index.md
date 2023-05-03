@@ -38,11 +38,11 @@ Avant de lancer un cycle, il est primordial de s’assurer que le conteneur d'ef
 
 Lorsque l’indicateur de sécurité « Capteur de pression d’air » est au rouge cela signifie que la Metalfog n’est pas correctement alimentée en air comprimé.
 
-#### Niveau minimal eau désionisée
+#### Niveau minimal eau déionisée
 
-Lorsque l’indicateur « Niveau minimal eau désionisée » est au rouge cela signifie que le conteneur d ’eau désionisée est vide.
+Lorsque l’indicateur « Niveau minimal eau déionisée » est au rouge cela signifie que le conteneur d’eau déionisée est vide.
 
-Les consignes de remplissage du conteneur d’eau désionisée se trouvent au chapitre « VII. Remplissage des conteneurs » - Remplissage Eau désionisée.
+Les consignes de remplissage du conteneur d’eau déionisée se trouvent au chapitre « VII. Remplissage des conteneurs » - Remplissage Eau déionisée.
 
 #### Cartouche filtre à charbon actif
 

@@ -1,12 +1,12 @@
 ### Nettoyage des capteurs des conteneurs
 
-> Attention : Assurez-vous que le conteneur de produit soit vide.
+> **Attention**: Assurez-vous que le conteneur de produit soit vide.
 
-> Le nettoyage des capteurs se réalise à l'aide de l'outil `MF-OT-001`. Vérifiez sa propreté avant chaque nettoyage.
+Le nettoyage des capteurs se réalise à l'aide de l'outil `MF-OT-001.` Vérifiez sa propreté avant chaque nettoyage.
 
 Sur l'outillage `MF-OT-001`, montez une compresse 5 x 5.
 
-**Attention: Utilisez uniquement des compresses, tout autre tissu ou papier essuie-tout pourrait se désagréger dans le conteneur et boucher les buses.**
+>**Attention**: Utilisez uniquement des compresses, tout autre tissu ou papier essuie-tout pourrait se désagréger dans le conteneur et boucher les buses.
 
 | 1 | 2 | 3 |
 |--- |---|---|

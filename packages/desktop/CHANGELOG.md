@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.11.14
+
+### Patch Changes
+
+- fix: help links could resolve to wrong url if relative path was given ([#389](https://github.com/metalizzsas/NusterKit/pull/389))
+
 ## 1.11.13
 
 ### Patch Changes

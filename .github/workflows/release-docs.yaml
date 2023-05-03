@@ -38,6 +38,12 @@ jobs:
         with:
           node-version: '18.x'
 
+      - name: 🛠️ Configure PNPM
+        run: pnpm config set recursive-install false
+        
+      - name: 📦 Install dependencies
+        run: pnpm install
+
       - name: ❓ Check if doc building is necessary
         id: doc-build-check
         run: |

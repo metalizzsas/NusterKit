@@ -1,10 +1,8 @@
+### Changement de la cartouche filtrante
+
 Dans un premier temps, positioner l'USCleaner afin que les roulettes de la partie arrière soient disposée vers l'arrière.
 
 ![Ouverture porte](1.jpeg)
-
-Dévérouiller la porte arrière en tourant le vérrou du haut vers la gauche.
-
-![Dévérouillage](2.jpeg)
 
 Fermer les 2 vannes, installer le tube de vidange et ouvrir la vanne de vidange.
 

@@ -7,16 +7,17 @@ Tout au long des étapes de préparation et durant le procédé de métallisatio
 L’état de surface initial impacte la qualité du dépôt du primaire conducteur et la métallisation qui suit. Une surface polluée, mal dégraissée ou mal polymérisée entraine des défauts de métallisation chimique.
 
 ![Pièce polluée non préparée](poluee.png)
-_Pièce métallisée présentant des défauts de mouillabilité
 
-#### Préparation
+Pièce métallisée présentant des défauts de mouillabilité
 
-1. Sablez les pièces (vivement conseillé) ;
-2. Dépoussiérez  à l'aide d'air comprimé ;
-3. Nettoyez et dégraissez les pièces ;
-4. Rincez les pièces à l'eau désionisée, de préférence dans un bac à ultrasons ;
-5. Assurez-vous que les pièces soient bien propres grâce au test du film d'eau ;
-6. Placez les pièces sur le montage approprié en veillant à respecter un écartement minimum de 10 à 15 mm entre chaque pièce.
+### Préparation
+
+1. Sablez les pièces (vivement conseillé)
+2. Dépoussiérez  à l'aide d'air comprimé
+3. Nettoyez et dégraissez les pièces
+4. Rincez les pièces à l'eau désionisée, de préférence dans un bac à ultrasons
+5. Assurez-vous que les pièces soient bien propres grâce au test du film d'eau
+6. Placez les pièces sur le montage approprié en veillant à respecter un écartement minimum de 10 à 15 mm entre chaque pièce
 
 | ![Pièce non sablée](non_sablee.png) | ![Pièce sablée](sablee.png) |
 | ---- | ---- |

@@ -1,4 +1,4 @@
-## Remplacement du charbon actif d'une cartouche filtrante
+### Remplacement du charbon actif d'une cartouche filtrante
 
 Le filtre de la Metalfog est situé sur le côté gauche de la machine.
 

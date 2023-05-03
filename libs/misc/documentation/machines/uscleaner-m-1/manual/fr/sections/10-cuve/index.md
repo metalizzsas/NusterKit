@@ -18,7 +18,7 @@ Veillez a respecter les limites de remplissages indiquées au niveau du grand en
 
 ### Suivi de la durée de vie des produits
 
-Vius pouvez faire le suivi de la durée de vie du produit chargé dans le bac a l'aide de Nuster. Rendez vous dans la page **Conteneurs**, selectionnez le **Bac de liquide**, puis cliquez sur **Produits**.
+Vous pouvez faire le suivi de la durée de vie du produit chargé dans le bac a l'aide de Nuster. Rendez vous dans la page **Conteneurs**, selectionnez le **Bac de liquide**, puis cliquez sur **Produits**.
 
 ![Page de produit](product_page.png)
 

@@ -49,7 +49,6 @@ resource-path:
   - libs/misc/documentation/machines/metalfog-m-2/maintenance-sensor-cleaning/
 
 output-file: libs/misc/documentation/output/FR_metalfog-m-r2.pdf
-pdf-engine: xelatex
 
 variables:
   titlepage: true

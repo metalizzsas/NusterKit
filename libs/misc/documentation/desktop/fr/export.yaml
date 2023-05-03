@@ -26,7 +26,6 @@ resource-path:
   - libs/misc/documentation/desktop/fr/sections/40-settings/
 
 output-file: libs/misc/documentation/output/FR_nuster.pdf
-pdf-engine: xelatex
 
 variables:
   titlepage: true

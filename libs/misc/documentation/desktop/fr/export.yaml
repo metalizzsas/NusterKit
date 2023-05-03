@@ -26,12 +26,14 @@ resource-path:
   - libs/misc/documentation/desktop/fr/sections/40-settings/
 
 output-file: libs/misc/documentation/output/FR_nuster.pdf
+pdf-engine: xelatex
 
 variables:
   titlepage: true
   titlepage-background: libs/misc/documentation/desktop/homepage.pdf
 
-  fontfamily: montserrat
+  fontfamily: sourcesanspro
+  fontfamilyoptions: default
   
   toc-own-page: true
   lang: fr-FR
@@ -43,7 +45,8 @@ variables:
   colorlinks: true
   urlcolor: blue
 
-  geometry:margin: 1.5cm
+  geometry:
+    - margin=1.5cm
 
   metadata: 
     author: Metalizz

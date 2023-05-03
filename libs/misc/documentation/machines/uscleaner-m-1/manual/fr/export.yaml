@@ -35,12 +35,14 @@ resource-path:
   - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/50-storing/
 
 output-file: libs/misc/documentation/output/FR_uscleaner-m-r1.pdf
+pdf-engine: xelatex
 
 variables:
   titlepage: true
   titlepage-background: libs/misc/documentation/machines/uscleaner-m-1/manual/homepage.pdf
 
-  fontfamily: montserrat
+  fontfamily: sourcesanspro
+  fontfamilyoptions: default
   
   toc-own-page: true
   lang: fr-FR
@@ -52,7 +54,8 @@ variables:
   colorlinks: true
   urlcolor: blue
 
-  geometry:margin: 1.5cm
+  geometry:
+    - margin=1.5cm
 
   metadata: 
     author: Metalizz

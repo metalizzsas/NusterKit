@@ -45,7 +45,7 @@ jobs:
       - name: ❓ Check if doc building is necessary
         id: doc-build-check
         run: |
-          pnpm exec changeset status --since main --output changeset.json &&
+          pnpm exec changeset status --since origin/main --output changeset.json &&
           echo "misc-present="$(cat > changeset.json | jq '.releases[] | select(.name == "@metalizzsas/nuster-misc") | .name') >> $GITHUB_OUTPUT
 
       - name: 📂 Create output directory

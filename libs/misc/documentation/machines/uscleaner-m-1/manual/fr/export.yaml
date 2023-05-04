@@ -9,7 +9,9 @@ input-files:
   - libs/misc/documentation/utils/newpage.md
   - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/license.md
   - libs/misc/documentation/utils/newpage.md
-  - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/00-startup/index.md
+  - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/00-description/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/05-startup/index.md
   - libs/misc/documentation/utils/newpage.md
   - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/10-cuve/index.md
   - libs/misc/documentation/utils/newpage.md
@@ -27,7 +29,8 @@ input-files:
   - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/50-storing/index.md
 
 resource-path: 
-  - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/00-startup/
+  - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/00-description/
+  - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/05-startup/
   - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/10-cuve/
   - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/20-cycle-definition/
   - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/30-cycle-start/

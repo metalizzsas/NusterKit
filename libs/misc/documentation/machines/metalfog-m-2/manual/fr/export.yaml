@@ -34,12 +34,15 @@ input-files:
   - libs/misc/documentation/utils/newpage.md
   - libs/misc/documentation/machines/metalfog-m-2/maintenance-sensor-cleaning/fr.md
   - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/85-network/index.md
+  - libs/misc/documentation/utils/newpage.md
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/90-storing/index.md
 
 resource-path: 
-  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/00-preparation/
-  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/10-startup/
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/00-startup/
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/10-description/
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/20-containers/
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/25-preparation/
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/30-cycle-picking/
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/40-safety/
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/50-usl-base/
@@ -49,6 +52,8 @@ resource-path:
   - libs/misc/documentation/machines/metalfog-m-2/maintenance-mfm-filter/
   - libs/misc/documentation/machines/metalfog-m-2/maintenance-nozzle-cleaning/
   - libs/misc/documentation/machines/metalfog-m-2/maintenance-sensor-cleaning/
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/85-network/
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/90-storing/
 
 output-file: libs/misc/documentation/output/FR_metalfog-m-r2.pdf
 pdf-engine: xelatex

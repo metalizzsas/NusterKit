@@ -22,6 +22,8 @@ input-files:
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/80-maintenance/index.md
   - libs/misc/documentation/machines/uscleaner-m-1/maintenance-usc-filter/fr.md
   - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/85-network/index.md
+  - libs/misc/documentation/utils/newpage.md
   - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/50-storing/index.md
 
 resource-path: 
@@ -32,6 +34,7 @@ resource-path:
   - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/40-safety/
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/80-maintenance/
   - libs/misc/documentation/machines/uscleaner-m-1/maintenance-usc-filter/
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/85-network/
   - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/50-storing/
 
 output-file: libs/misc/documentation/output/FR_uscleaner-m-r1.pdf

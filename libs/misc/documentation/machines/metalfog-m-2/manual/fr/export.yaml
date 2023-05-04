@@ -9,11 +9,13 @@ input-files:
   - libs/misc/documentation/utils/newpage.md
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/license.md
   - libs/misc/documentation/utils/newpage.md
-  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/00-preparation/index.md
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/00-startup/index.md
   - libs/misc/documentation/utils/newpage.md
-  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/10-startup/index.md
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/10-description/index.md
   - libs/misc/documentation/utils/newpage.md
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/20-containers/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/25-preparation/index.md
   - libs/misc/documentation/utils/newpage.md
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/30-cycle-picking/index.md
   - libs/misc/documentation/utils/newpage.md

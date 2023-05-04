@@ -20,6 +20,13 @@
 | 12 | Conteur d'eau déionisée |
 | 13 | Conteneur d'activant |
 
+### Caractéristiques techniques
+
+- Masse: 80 kg à vide
+- Dimensions: 810 mm x 830 mm x 1350 mm
+- Puissance max: 1.2 kW
+- Débit d'air max: 600 L / min
+
 ### Dimensions
 
 #### Vue de face

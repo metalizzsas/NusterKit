@@ -9,9 +9,9 @@ input-files:
   - libs/misc/documentation/utils/newpage.md
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/license.md
   - libs/misc/documentation/utils/newpage.md
-  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/00-startup/index.md
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/00-description/index.md
   - libs/misc/documentation/utils/newpage.md
-  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/10-description/index.md
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/10-startup/index.md
   - libs/misc/documentation/utils/newpage.md
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/20-containers/index.md
   - libs/misc/documentation/utils/newpage.md
@@ -39,8 +39,8 @@ input-files:
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/90-storing/index.md
 
 resource-path: 
-  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/00-startup/
-  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/10-description/
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/00-description/
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/10-startup/
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/20-containers/
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/25-preparation/
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/30-cycle-picking/

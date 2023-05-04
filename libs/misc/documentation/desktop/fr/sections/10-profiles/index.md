@@ -1,23 +1,23 @@
 ## Section — Profils
 
-### Description de la section
+### Description générale - Onglet Profils
 
-La section profil vous permet de modifier les profils de votre machine.
+La section Profils permet de modifier les profils de la machine.
 
 ![Interface profils](component_profiles.png)
 
 ### Liste des profils
 
-Vous pouvez voir ici 2 catégories:
+Il existe 2 catégories de profil :
 
-- Profils utilisateurs:
-	- marqués à l'aide du pictogramme `utilisateur`.
+- Profils utilisateur :
+	- marqués avec le pictogramme `utilisateur`.
 	- sous titrés avec la date de leur dernière modification.
-- Profils constructeur:
-	- marqués à l'aide du pictogramme `constructeur`.
-	- sous titrés avec `profils contructeur`
+- Profils constructeur :
+	- marqués avec le pictogramme `constructeur`.
+	- sous titrés avec `profils constructeur`
 
-Les profils constructeur ne sont pas supprimables ni modifiables. En revanche, vous pouvez les copier pour modifiers certains paramètres en fonction de votre utilisation de la machine.
+Les profils constructeur ne sont ni supprimables, ni modifiables. En revanche, il est possible de les dupliquer. Leur copie vous permettra de modifier certains paramètres en fonction de votre utilisation de la machine.
 
 Pour consulter ou modifier un profil, cliquez simplement sur le profil que vous souhaitez consulter ou modifier dans la liste de gauche. 
 
@@ -27,11 +27,11 @@ Une fois le profil ouvert, la liste de gauche se masque pour laisser place aux d
 
 ![Profile Edit](profiles_edit.png)
 
-Une fois les paramètres modifiés, cliquez sur le bouton `Sauvegarder le profil` pour le sauvegarder.  Un message de confirmation apparait au dessus du nom du profil lorsque celui-ci est sauvegardé.
+Une fois les paramètres modifiés, cliquez sur le bouton   `Sauvegarder le profil`  pour le sauvegarder.  Un message de confirmation apparait au dessus du nom du profil lorsque celui-ci est sauvegardé.
 
-Vous pouvez aussi:
+Il est possible également de :
 
-- Supprimer le profil: Cliquez sur le boutton "Supprimer le profil", une confirmation vous sera demandée pour éviter les erreurs de suppression.
-- Copier le profil: Le profil sera copié avec un suffixe " — Copie " dans son nom.
+- Supprimer le profil : cliquez sur le bouton   `Supprimer le profil`, une confirmation vous sera demandée pour éviter les erreurs;
+- Copier le profil : le profil sera copié avec le suffixe " — Copie " dans son nom.
 
 Pour quitter la modification / consultation du profil, cliquez sur `Retour`.

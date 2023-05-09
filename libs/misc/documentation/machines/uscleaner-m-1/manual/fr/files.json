@@ -6,7 +6,7 @@
         "preparation": {
             "name": "Sections",
             "files": [
-                { "name": "Démarrage de la machine", "path": "/machines/uscleaner-m-1/manual/fr/sections/00-startup/index.md" },
+                { "name": "Démarrage de la machine", "path": "/machines/uscleaner-m-1/manual/fr/sections/05-startup/index.md" },
                 { "name": "Remplissage de la cuve", "path": "/machines/uscleaner-m-1/manual/fr/sections/10-cuve/index.md" },
                 { "name": "Stockage", "path": "/machines/uscleaner-m-1/manual/fr/sections/50-storing/index.md" }
             ]

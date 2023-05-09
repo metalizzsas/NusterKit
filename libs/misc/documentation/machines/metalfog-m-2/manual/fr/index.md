@@ -16,6 +16,6 @@ METALIZZ vous remercie de votre confiance et vous souhaite un excellent travail 
 | Addresse | 840 Chemin de Chabanne, 26270 Loriol-sur-drôme, France |
 | Numéro de téléphone | +33 4 75 63 78 11 |
 | Addresse email | [contact@metalizz.com](mailto:contact@metalizz.com) |
-| Site internet | [https://www.metalizz.com/](www.metalizz.com) |
+| Site internet | [www.metalizz.com](https://www.metalizz.com/) |
 | SIRET | 82753044500010 |
 | Numéro TVA | FR22827530445 |

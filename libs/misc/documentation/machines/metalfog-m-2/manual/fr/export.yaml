@@ -11,6 +11,8 @@ input-files:
   - libs/misc/documentation/utils/newpage.md
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/00-description/index.md
   - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/07-ce/index.md
+  - libs/misc/documentation/utils/newpage.md
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/10-startup/index.md
   - libs/misc/documentation/utils/newpage.md
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/20-containers/index.md

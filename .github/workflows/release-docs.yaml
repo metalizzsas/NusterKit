@@ -36,10 +36,6 @@ jobs:
         if: ${{ github.event_name == 'workflow_call' || steps.doc-build-check.outputs.misc-present != '' }}
         run: mkdir -p libs/misc/documentation/output
 
-      - name: Download latest eisvogel version
-        if: ${{ github.event_name == 'workflow_call' || steps.doc-build-check.outputs.misc-present != '' }}
-        run: curl https://raw.githubusercontent.com/Wandmalfarbe/pandoc-latex-template/master/eisvogel.tex -o libs/misc/documentation/utils/eisvogel.tex
-
       - name: 📝 Generate pdf for all docs
         if: ${{ github.event_name == 'workflow_call' || steps.doc-build-check.outputs.misc-present != '' }}
         uses: docker://pandoc/extra:3.1

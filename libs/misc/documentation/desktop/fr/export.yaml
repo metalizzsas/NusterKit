@@ -30,7 +30,8 @@ pdf-engine: xelatex
 
 variables:
   titlepage: true
-  titlepage-background: libs/misc/documentation/desktop/homepage.pdf
+  titlepage-background: libs/misc/documentation/utils/nuster.pdf
+  titlepage-rule-height: 0
 
   fontfamily: sourcesanspro
   fontfamilyoptions: default

@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-misc
 
+## 1.4.1
+
+### Patch Changes
+
+- feat: added mf-m-r2, usc-m-r1 machine descriptions ([#393](https://github.com/metalizzsas/NusterKit/pull/393))
+
 ## 1.4.0
 
 ### Minor Changes

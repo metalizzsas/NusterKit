@@ -1,5 +1,7 @@
 ### Changement de la cartouche filtrante
 
+> Attention: Il est recommandé de changer le filtre tout les 3 mois, même si il n'est pas colmaté.
+
 Dans un premier temps, positioner l'USCleaner afin que les roulettes de la partie arrière soient disposée vers l'arrière.
 
 ![Ouverture porte](1.jpeg)

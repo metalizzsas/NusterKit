@@ -1,5 +1,7 @@
 ### Remplacement du charbon actif d'une cartouche filtrante
 
+> Attention: Il est recommandé de changer les cartouches tout les 3 mois ou tout les 50 cycles.
+
 Le filtre de la Metalfog est situé sur le côté gauche de la machine.
 
 ![Localisation du filtre](filter_locate.jpg)

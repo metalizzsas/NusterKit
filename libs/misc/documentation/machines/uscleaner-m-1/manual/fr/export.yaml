@@ -9,7 +9,11 @@ input-files:
   - libs/misc/documentation/utils/newpage.md
   - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/license.md
   - libs/misc/documentation/utils/newpage.md
-  - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/00-startup/index.md
+  - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/00-description/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/07-ce/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/05-startup/index.md
   - libs/misc/documentation/utils/newpage.md
   - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/10-cuve/index.md
   - libs/misc/documentation/utils/newpage.md
@@ -22,16 +26,20 @@ input-files:
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/80-maintenance/index.md
   - libs/misc/documentation/machines/uscleaner-m-1/maintenance-usc-filter/fr.md
   - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/85-network/index.md
+  - libs/misc/documentation/utils/newpage.md
   - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/50-storing/index.md
 
 resource-path: 
-  - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/00-startup/
+  - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/00-description/
+  - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/05-startup/
   - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/10-cuve/
   - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/20-cycle-definition/
   - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/30-cycle-start/
   - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/40-safety/
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/80-maintenance/
   - libs/misc/documentation/machines/uscleaner-m-1/maintenance-usc-filter/
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/85-network/
   - libs/misc/documentation/machines/uscleaner-m-1/manual/fr/sections/50-storing/
 
 output-file: libs/misc/documentation/output/FR_uscleaner-m-r1.pdf
@@ -39,7 +47,8 @@ pdf-engine: xelatex
 
 variables:
   titlepage: true
-  titlepage-background: libs/misc/documentation/machines/uscleaner-m-1/manual/homepage.pdf
+  titlepage-background: libs/misc/documentation/utils/uscleaner-m-1.pdf
+  titlepage-rule-height: 0
 
   fontfamily: sourcesanspro
   fontfamilyoptions: default

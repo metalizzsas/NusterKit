@@ -6,9 +6,9 @@
         "preparation": {
             "name": "Sections",
             "files": [
-                { "name": "Préparation des pièces", "path": "/machines/metalfog-m-2/manual/fr/sections/00-preparation/index.md" },
                 { "name": "Démarrage de la machine", "path": "/machines/metalfog-m-2/manual/fr/sections/10-startup/index.md" },
                 { "name": "Remplissage des conteneurs", "path": "/machines/metalfog-m-2/manual/fr/sections/20-containers/index.md" },
+                { "name": "Préparation des pièces", "path": "/machines/metalfog-m-2/manual/fr/sections/25-preparation/index.md" },
                 { "name": "Choix du cycle", "path": "/machines/metalfog-m-2/manual/fr/sections/30-cycle-picking/index.md" }
             ]
         },

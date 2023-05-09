@@ -9,3 +9,13 @@ Veillez à vous munir des EPI nécessaires à la manipulation d’agents chimiqu
 Notre service support est disponible de 9h00 à 12h00 et de 14h00 à 17h00 durant les jours ouvrés au +33 4 75 63 78 11 ou par mail à [contact@metalizz.com](mailto:contact@metalizz.com).
 
 METALIZZ vous remercie de votre confiance et vous souhaite un excellent travail de post-traitement et finition !
+
+| Informations | |
+| ---- | ---- |
+| Raison sociale | Metalizz SAS |
+| Addresse | 840 Chemin de Chabanne, 26270 Loriol-sur-drôme, France |
+| Numéro de téléphone | +33 4 75 63 78 11 |
+| Addresse email | [contact@metalizz.com](mailto:contact@metalizz.com) |
+| Site internet | [www.metalizz.com](https://www.metalizz.com/) |
+| SIRET | 82753044500010 |
+| Numéro TVA | FR22827530445 |

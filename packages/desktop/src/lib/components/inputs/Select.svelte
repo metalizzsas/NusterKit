@@ -30,18 +30,20 @@
     
     return {
         destroy() {
-        document.removeEventListener('click', handleClick, true);
-        }
+            document.removeEventListener('click', handleClick, true);
+            }
         }
     }
 
 </script>
 
-<div class="relative {style} {$$props.class}">
+<div class="relative z-50 {style} {$$props.class}">
     <Flex items="center" gap={2}>
-        <button on:click={() => { if(disabled === false) { expand = !expand } }} class="grow">{selectableValues.find(k => k.value == value)?.name}</button>
+        <button on:click={() => { if(disabled === false) { expand = !expand } }} class="grow text-left">{selectableValues.find(k => k.value == value)?.name ?? "—"}</button>
+        <Icon src={ChevronDown} class="h-4 w-4"/>
+    </Flex>
 
-        {#if expand === true}
+    {#if expand === true}
             <div class="absolute top-[calc(100%+0.5rem)] left-0 z-50 max-h-[15vw] overflow-y-scroll" style:min-width={"100%"} use:clickOutside on:click_outside={() => { if(expand) { expand = false; }}}>
                 <Flex direction={"col"} gap={2}>
                     {#each selectableValues as sValue}
@@ -55,6 +57,4 @@
                 </Flex>
             </div>
         {/if}
-        <Icon src={ChevronDown} class="h-4 w-4"/>
-    </Flex>
 </div>

@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.11.15
+
+### Patch Changes
+
+- fix: container product would not accept any other value than the first compatible product if supportedProductSeries length was more than 1 ([#396](https://github.com/metalizzsas/NusterKit/pull/396))
+
 ## 1.11.14
 
 ### Patch Changes

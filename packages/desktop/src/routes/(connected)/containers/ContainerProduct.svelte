@@ -9,7 +9,6 @@
 	import type { ProductSeries } from "@metalizzsas/nuster-typings/build/spec/containers/products";
 	import { ArrowDownTray, ArrowRight, ArrowUpTray } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";
-	import { afterUpdate } from "svelte";
 	import { date, time, _ } from "svelte-i18n";
 
     export let container: ContainerHydrated;
@@ -33,8 +32,10 @@
                     return;
                 }
             }
-            else
+            else if((container.supportedProductSeries?.length ?? 0) === 1)
+            {
                 selectedProduct = container.supportedProductSeries?.at(0);
+            }
         }
 
         const callToAction = container.callToAction?.find(k => k.name == name);
@@ -50,11 +51,6 @@
         // hide compatible product list
         compatibleProductListShown = false;
     }
-
-    afterUpdate(() => {
-        if(container.supportedProductSeries !== undefined)
-            selectedProduct = container.supportedProductSeries.at(0);
-    });
     
 </script>
 
@@ -128,7 +124,8 @@
                         name: $_(`container.product.informations.product_series.${k}`), 
                         value: k
                     }})}
-                    class="grow" 
+                    class="grow"
+                    on:change={() => console.log(selectedProduct)}
                 />
 
                 <Button 

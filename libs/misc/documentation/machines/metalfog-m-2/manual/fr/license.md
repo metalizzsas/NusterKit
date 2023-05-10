@@ -1,4 +1,4 @@
-**LICENSE**
+**LICENCE**
 
 Aucune partie de cette publication ne peut être reproduite, ni transmise sous quelque forme que ce soit, ni par aucun procédé électronique ou mécanique, y compris la photocopie, l’enregistrement ou autrement, sans le consentement écrit préalable du fabriquant Metalizz.
 

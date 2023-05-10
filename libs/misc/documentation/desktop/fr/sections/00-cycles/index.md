@@ -22,9 +22,9 @@ Lorsque vous sélectionnez un cycle, la partie principale affiche les informatio
 
 Les conditions de sécurité ont 3 états possibles :
 
-- **Vert** : OK pour lancer,
-- **Orange** : Avertissement (Le cycle peut être lancé mais son résultat n'est pas garanti),
-- **Rouge** : Impossible de lancer (Action requise).
+- 🟢 **Vert** : OK pour lancer,
+- 🟠 **Orange** : Avertissement (Le cycle peut être lancé mais son résultat n'est pas garanti),
+- 🔴 **Rouge** : Impossible de lancer (Action requise).
 
 Si les états des conditions de sécurité le permettent alors le bouton   `Démarrer le cycle`   passe au vert.
 

@@ -38,10 +38,10 @@ Grâce à ces actions vous pouvez charger et vidanger les produits  automatiquem
 
 Dans cette sous-section, vous trouverez les différents capteurs assignés au conteneur.
 
-### Gestion des regulations
+### Gestion des régulations
 
 ![Régulation conteneur](containers_regulation.png)
 
-Vous pouvez modifier la consigne en modifiant la   `Valeur recherchée` et activer la régulation en changeant   `l'État de la régulation`. 
+Vous pouvez modifier la consigne en modifiant la   `Valeur recherchée` et activer la régulation en changeant   l'`État de la régulation`. 
 
->**Avertissement:** La régulation est indépendante des cycles, elle continue automatiquement en arrière plan.
+>**Avertissement:** La régulation est indépendante des cycles, elle continue automatiquement en arrière plan. Pour l'activer ou l'arrêter, appuyez sur le bouton   `État de la régulation` (indicateur rouge = non activée, indicateur vert = activée).

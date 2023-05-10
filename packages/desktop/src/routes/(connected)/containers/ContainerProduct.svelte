@@ -9,7 +9,6 @@
 	import type { ProductSeries } from "@metalizzsas/nuster-typings/build/spec/containers/products";
 	import { ArrowDownTray, ArrowRight, ArrowUpTray } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";
-	import { afterUpdate } from "svelte";
 	import { date, time, _ } from "svelte-i18n";
 
     export let container: ContainerHydrated;

@@ -95,10 +95,11 @@
             </button>
 
             <div 
-                class="duration-100 overflow-hidden"
+                class="duration-100"
                 class:h-0={expandedCategory !== category}
                 class:m-4={expandedCategory === category}
                 class:px-2={expandedCategory === category}
+                class:overflow-hidden={expandedCategory !== category}
             >
                 {#if expandedCategory === "products"}
                     <ContainerProduct bind:container />

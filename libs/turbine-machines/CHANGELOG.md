@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.6.8
+
+### Patch Changes
+
+- feat: rotation is not reversed at each pulverization ([#400](https://github.com/metalizzsas/NusterKit/pull/400))
+
 ## 1.6.7
 
 ### Patch Changes

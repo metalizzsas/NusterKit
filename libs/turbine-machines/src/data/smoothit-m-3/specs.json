@@ -578,23 +578,25 @@
                         {"io_write": ["nozzle-low#pulverization", 0]},
                         {"sleep": {"profile": "pulverization#timeOff"}},
 
-                        {"io_write": ["motor#direction", {"reverse": {"io_read": "motor#direction"}}]}
+                        {"if": {
+                           "statement": {
+                              "left_side": {"profile": "motor#reverseEnabled"},
+                              "right_side": 0,
+                              "comparator": "=="
+                           },
+                           "true_blocks": [
+                              {"io_write": ["motor#direction", {"reverse": {"io_read": "motor#direction"}}]}
+                           ]
+                        }}
                      ]
                   }}
                ],
                "startBlocks": [
-                  {"stop_timer": "motorRotation"},
                   {"io_write": ["ventilation-valve", 90]},
                   {"io_write": ["nozzle-high#cache", 0]},
                   {"io_write": ["nozzle-low#cache", 0]},
                   {"io_write": ["uv#cache", 1]},
-                  {"io_write": ["resin#pressure", 1]}
-               ],
-               "endBlocks": [
-                  {"io_write": ["ventilation-valve", 90]},
-                  {"io_write": ["resin#pressure", 0]},
-                  {"io_write": ["nozzle-high#cache", 1]},
-                  {"io_write": ["nozzle-low#cache", 1]},
+                  {"io_write": ["resin#pressure", 1]},
                   {"if": {
                      "statement": {
                         "comparator": "==",
@@ -609,6 +611,12 @@
                         }}
                      ]
                   }}
+               ],
+               "endBlocks": [
+                  {"io_write": ["ventilation-valve", 90]},
+                  {"io_write": ["resin#pressure", 0]},
+                  {"io_write": ["nozzle-high#cache", 1]},
+                  {"io_write": ["nozzle-low#cache", 1]}
                ]
             },
             {

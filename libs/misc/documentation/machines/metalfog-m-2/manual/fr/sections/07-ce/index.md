@@ -1,4 +1,4 @@
-## Marquage CE
+## Conformité CE
 
 La machine Metalfog décrite dans cette notice est conçue et fabriquée selon les dernières technologies en vigueur. 
 Cet appareil est conforme aux dispositions réglementaires définies par les directives et autres documents normatifs suivants :

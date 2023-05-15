@@ -28,10 +28,10 @@ Situés en haut de la fenêtre dans la barre horizontale, les onglets  permetten
 
 Certains onglets sont accompagnés d'une pastille de couleur :
 
-- 🔴 **Rouge :** une action est requise dans cette section,
-- 🟠 **Orange :** un avertissement est présent dans cette section,
-- 🟢 **Vert :** rien à signaler dans cette section,
-- 🔵 **Bleu :** une nouvelle information est à consulter dans cette section.
+- **Rouge :** une action est requise dans cette section,
+- **Orange :** un avertissement est présent dans cette section,
+- **Vert :** rien à signaler dans cette section,
+- **Bleu :** une nouvelle information est à consulter dans cette section.
 
 #### Bloc 2: La liste
 

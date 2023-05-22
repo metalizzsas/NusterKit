@@ -8,7 +8,7 @@ Veillez à vous munir des EPI nécessaires à la manipulation d’agents chimiqu
 
 Notre service support est disponible de 9h00 à 12h00 et de 14h00 à 17h00 durant les jours ouvrés au +33 4 75 63 78 11 ou par mail à [contact@metalizz.com](mailto:contact@metalizz.com).
 
-METALIZZ vous remercie de votre confiance et vous souhaite un excellent travail de post-traitement et finition !
+Metalizz vous remercie de votre confiance et vous souhaite un excellent travail de post-traitement et finition !
 
 
 

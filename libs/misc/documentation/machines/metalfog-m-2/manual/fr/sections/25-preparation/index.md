@@ -13,11 +13,13 @@ Pièce métallisée présentant des défauts de mouillabilité.
 ### Préparation
 
 1. Sablez les pièces (vivement conseillé)
-2. Dépoussiérez à l'aide d'air comprimé
+2. Dépoussiérez-les à l'aide d'air comprimé
 3. Nettoyez et dégraissez les pièces 
 4. Rincez les pièces à l'eau déionisée, de préférence dans un bac à ultrasons
 5. Assurez-vous que les pièces soient bien propres
 6. Placez les pièces sur le montage approprié en veillant à respecter un écartement minimum de 10 à 15 mm entre chaque pièce
+
+> Pour effectuer un nettoyage soigné et efficace, adapté aux post-traitements sur pièces polymères, vous pouvez utiliser la machine Uscleaner. Consultez notre site : www.metalizz.com.
 
 | ![Pièce non sablée](non_sablee.png) | ![Pièce sablée](sablee.png) |
 | ---- | ---- |

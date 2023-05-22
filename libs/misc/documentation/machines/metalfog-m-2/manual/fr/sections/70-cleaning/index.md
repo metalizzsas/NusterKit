@@ -1,4 +1,4 @@
-## Entretien de la Metalfog
+## Nettoyage de la Metalfog
 
 Afin de garantir le bon fonctionnement et une durée de vie optimale à la Metalfog, il est important d’effectuer des nettoyages réguliers de la machine, en respectant les consignes à suivre.
 

@@ -13,9 +13,9 @@ Nous conseillons d’utiliser des entonnoirs pour éviter les salissures et les 
 Avant de remplir les conteneurs de réactifs, vérifiez qu’ils sont bien vides.
 Pour cela :
 
-- Mettre le couvercle sur la machine
-- Aller à la page d’accueil de l’interface digitale
-- Appuyez sur l'onglet `Cycle`
+- Mettre le couvercle sur la machine.
+- Aller à la page d’accueil de l’interface digitale.
+- Appuyez sur l'onglet `Cycle`.
 - Puis sur `Vidange de tout les réactifs`.
 
 Avant que le cycle commence, la page des conditions de sécurité s’affiche (voir chapitre Vérification des conditions de sécurité).
@@ -34,14 +34,14 @@ Le bouchon du conteneur Activant est de couleur rouge (4ème bouchon en partant 
 
 Pour remplir le conteneur d'Activant, procédez ainsi :
 
-- Cliquez sur `Conteneurs` dans les onglets en haut de l'écran
+- Cliquez sur `Conteneurs` dans les onglets en haut de l'écran.
 - Puis sur `Activant`.
 - Avant de remplir le conteneur de réactifs, vérifiez qu’il est bien vide afin de ne pas utiliser de produit dégradé. Appuyez sur `Capteurs` et vérifiez l'indicateur `Niveau minimal activant` : si l'indicateur est au vert le conteneur est vide, si l'indicateur est au rouge le conteneur ne l'est pas. Dans ce cas, appuyez sur `Produits` puis sur `Vidange réactifs` pour le vider.
 - Dans le menu, appuyez alors sur `Produits` pour dérouler les choix de remplissage.
 
 ![Menu Remplissage Activant](menu_activant.png)
 
-Il existe 2 méthodes de remplissage de l'Activant : dilution manuelle ou dilution automatique, sachant que l'Activant doit toujours être dilué à **2 %** dans de l'eau déionisée.
+>**Attention** : Il existe 2 méthodes de remplissage de l'Activant : dilution manuelle ou dilution automatique, sachant que l'Activant doit toujours être dilué à **2 %** dans de l'eau déionisée.
 
 Pour effectuer un remplissage avec dilution manuelle :
 
@@ -76,7 +76,7 @@ Le bouchon du conteneur Oxydant est de couleur verte (1er bouchon en partant de 
 
 Pour remplir le conteneur d'Oxydant, procédez ainsi :
 
-- Appuyez sur `Conteneurs` dans les onglets en haut de l'écran,
+- Appuyez sur `Conteneurs` dans les onglets en haut de l'écran.
 - Puis sur `Oxydant`.
 - Avant de remplir le conteneur de réactifs, vérifiez qu’il est bien vide. Cliquez sur `Capteurs` et vérifiez l'indicateur `Niveau minimal oxydant` : si l'indicateur est au vert le conteneur est vide, si l'indicateur est au rouge le conteneur ne l'est pas. Dans ce cas, appuyez sur `Produits` puis sur `Vidange réactifs` pour le vider.
 - Dans le menu, appuyez ensuite sur `Produits`.
@@ -86,9 +86,9 @@ Pour remplir le conteneur d'Oxydant, procédez ainsi :
 
 Une fois le conteneur rempli, la machine indique alors la date et l'heure du chargement et lance le décompte de durée de vie du réactif.
 
-Il est possible de ne pas verser l'intégralité des flacons d'Oxydant mais il faut toujours verser des quantités telles que :
+Il est possible de ne pas verser l'intégralité des flacons d'Oxydant pour éviter de gaspiller du produit, cependant il faut toujours verser des quantités telles que :
 
-Quantité `N°1 UTILITY SILVER`= Quantité `N°2 UTILITY SILVER LAYER` = Quantité `N°3 UTILITY SILVER LAYER` = Quantité `N°4 UTILITY SILVER LAYER`.
+Quantité `N°1 UTILITY SILVER` = Quantité `N°2 UTILITY SILVER LAYER` = Quantité `N°3 UTILITY SILVER LAYER` = Quantité `N°4 UTILITY SILVER LAYER`.
 
 ### Remplissage Réducteur
 
@@ -100,7 +100,7 @@ Le bouchon du conteneur Réducteur est de couleur blanche (2ème bouchon en part
 
 Pour remplir le conteneur Réducteur, procédez ainsi :
 
-- Appuyez sur `Conteneurs` dans les onglets en haut de l'écran,
+- Appuyez sur `Conteneurs` dans les onglets en haut de l'écran.
 - Puis sur `Réducteur`.
 - Avant de remplir le conteneur de réactifs, vérifiez qu’il est bien vide. Appuyez sur `Capteurs` et vérifiez l'indicateur `Niveau minimal réducteur` : si l'indicateur est au vert le conteneur est vide, si l'indicateur est au rouge le conteneur ne l'est pas. Dans ce cas, appuyez sur `Produits` puis sur `Vidange réactifs` pour le vider.
 - Dans le menu, appuyez ensuite sur `Produits`.
@@ -110,7 +110,7 @@ Pour remplir le conteneur Réducteur, procédez ainsi :
 
 Une fois le conteneur rempli, la machine indique alors la date et l'heure du chargement et lance le décompte de durée de vie du réactif.
 
-Il est possible de ne pas verser l'intégralité des flacons de Réducteur mais il faut toujours verser des quantités telles que :
+Il est possible de ne pas verser l'intégralité des flacons de Réducteur pour éviter de gaspiller du produit, cependant il faut toujours verser des quantités telles que :
 
 Quantité `N°1 UTILITY SILVER` = Quantité `N°2 UTILITY SILVER LAYER` = Quantité `N°3 UTILITY SILVER LAYER` = Quantité `N°4 UTILITY SILVER LAYER`.
 
@@ -123,3 +123,5 @@ Le bouchon du conteneur d’Eau déionisée est de couleur bleue (3ème bouchon 
 - Appuyez sur `Conteneurs` dans les onglets en haut de l'écran
 - Puis sur `Eau déionisée`
 - Avant de remplir le conteneur d'eau déionisée, vérifiez que le volume maximal n'est pas atteint. Appuyez sur `Capteurs` et vérifiez les indicateurs `Niveau minimal eau déionisée` (vert = conteneur vide) et `Niveau maximal eau déionisée` (vert = conteneur plein). Si besoin, vous pouvez vider le conteneur en appuyant sur `Produits` puis sur `Vidange eau déionisée`.
+
+Nous préconisons de vidanger le conteneur d'eau déionisée si celle-ci date de plus de 2 semaines afin de garantir une bonne qualité du procédé.

@@ -8,7 +8,7 @@ Une fois la Metalfog positionnée à son emplacement, bloquez les deux roulettes
 #### Électricité
 
 - Vérifiez que le câble et la fiche d’alimentation électrique sont en bon état.
-- Reliez la machine au réseau 220V / 10A à l'aide câble d'alimentation.
+- Reliez la machine au réseau 220V / 10A à l'aide du câble d'alimentation.
 
 #### Air comprimé
 
@@ -20,14 +20,14 @@ Une fois la Metalfog positionnée à son emplacement, bloquez les deux roulettes
 
 ### Mise en route
 
-Pour démarrer la machine, positionnez le sectionneur situé à l'arrière de la machine sur `I`, Le voyant `Sous tension` s'allume.
+Pour démarrer la machine, positionnez le sectionneur situé à l'arrière de la machine sur `I`, le voyant " `Sous tension` "s'allume.
 
 ![Sectionneur](sectionneur.png)
 
 ### Interface logiciel
 
 La Metalfog est pilotée grâce au logiciel Nuster.
-Une fois la machine en route, vous pouvez accéder à ses fonctions avec l'écran tactile.
+Une fois la machine en route, vous pouvez accéder à ses fonctions via l'écran tactile.
 
 ![Menu Home](home.png)
 

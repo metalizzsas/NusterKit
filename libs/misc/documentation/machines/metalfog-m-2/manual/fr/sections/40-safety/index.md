@@ -42,7 +42,7 @@ Lorsque l’indicateur de sécurité « Capteur de pression d’air » est au r
 
 Lorsque l’indicateur « Niveau minimal eau déionisée » est au rouge cela signifie que le conteneur d’eau déionisée est vide.
 
-Les consignes de remplissage du conteneur d’eau déionisée se trouvent au chapitre « VII. Remplissage des conteneurs » - Remplissage Eau déionisée.
+Les consignes de remplissage du conteneur d’eau déionisée se trouvent au chapitre « Remplissage des conteneurs - Remplissage Eau déionisée ».
 
 #### Cartouche filtre à charbon actif
 
@@ -50,6 +50,6 @@ Si vous percevez une odeur d’ammoniaque, il faut rapidement procéder au chang
 
 Il est conseillé de changer la cartouche du filtre à charbon actif tous les 50 cycles. Contactez METALIZZ ou votre distributeur agréé pour commander les recharges de charbon actif.
 
-Il est important que le traitement des déchets de charbon actif usagé soit réalisé en filière agréée (code déchet européen 06 13 02* d'après la directive (UE) 2008/98/CE).
+>**Attention** : Il est important que le traitement des déchets de charbon actif usagé soit réalisé en filière agréée (code déchet européen 06 13 02* d'après la directive (UE) 2008/98/CE).
 
 

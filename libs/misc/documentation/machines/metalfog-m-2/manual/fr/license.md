@@ -8,6 +8,6 @@ Les informations présentées dans ce manuel d’utilisation ne peuvent être ut
 
 Metalizz ne peut être tenue responsable par l’acheteur de la machine ou par des tiers de tout dommage, perte, coût et dépense encourus par l’acheteur ou des tiers à la suite d’un accident, d’une mauvaise utilisation, d’un abus ou de modifications, réparations ou altérations non autorisées sur cette machine ou le non-respect strict des instructions d’utilisation.
 
-Metalizz ne peut être tenue responsale des dommages ou des problèmes découlant de l’utilisation de consommables autres que ceux désignés comme produits approuvés par Metalizz pour le fonctionnement de la machine Metalfog modèle M.
+Metalizz ne peut être tenue responsable des dommages ou des problèmes découlant de l’utilisation de consommables autres que ceux désignés comme produits approuvés par Metalizz pour le fonctionnement de la machine Metalfog modèle M.
 
 Le contenu de ce manuel d’utilisation et les caractéristiques de la machine Metalfog modèle M sont modifiables sans préavis.

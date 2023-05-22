@@ -1,6 +1,6 @@
-## Nettoyage de la Metalfog
+## Entretien de la Metalfog
 
-Afin de garantir un bon fonctionnement et une longue durée de vie à la Metalfog, il est important d’effectuer des nettoyages réguliers, en respectant les consignes à suivre.
+Afin de garantir le bon fonctionnement et une durée de vie optimale à la Metalfog, il est important d’effectuer des nettoyages réguliers de la machine, en respectant les consignes à suivre.
 
 ### Couvercle
 
@@ -21,14 +21,13 @@ Nous conseillons de nettoyer la cuve une fois par mois, ou plus si utilisation i
 ![Cuve avec pellicules d'argent](nettoyage_cuve_metalfog1.png)
 ![Grille d'aspiration obstruée](nettoyage_cuve_metalfog2.png)
 
-Nettoyez la grille et le fond de cuve en aspirant les pellicules. Pour détacher les parties les plus résistantes, utilisez une brosse à poils plastiques souples et aspirez à nouveau.
+Nettoyez la grille et le fond de cuve en aspirant les pellicules à l'aspirateur avec un embout brosse souple. Pour détacher les parties les plus résistantes, utilisez une brosse à poils plastiques souples et aspirez à nouveau.
 
 ### Conteneurs réactifs
 
 Afin de garantir la qualité de la métallisation chimique, nous préconisons le nettoyage des conteneurs des réactifs (Activant, Oxydant et Réducteur) tous les 50 cycles, plus si utilisation intense.
 
-Pour effectuer ce nettoyage, lancez une première vidange puis
-remplir les 3 conteneurs de réactifs avec 500mL d’eau déionisée chacun et lancer le cycle en appuyant sur « Vidange de tous les réactifs ».
+Pour effectuer ce nettoyage, lancez une première vidange. Une fois les 3 conteneurs de réactifs vidés, remplissez-les à nouveau avec 500 mL d’eau déionisée chacun et lancer le cycle en appuyant sur « Vidange de tous les réactifs ».
 
 ![Menu Vidange de tous les réactifs](vidange_reactifs.png)
 

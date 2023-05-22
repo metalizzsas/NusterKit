@@ -10,8 +10,8 @@ Cette connexion réseau nécéssite l'accès au ports sortants suivants:
 | 123 UDP | Pour la synchronisation de la date et l'heure |
 | 53 UDP | Pour la résolution DNS |
 
-Elle necessite aussi l'acces au domaine suivant:
+Elle nécessite aussi l'accès au domaine suivant:
 
 - *.balena-cloud.com
 
-Aucune connexion directe entre votre machine et nos services n'est possible. Toutes les connexions sont sécurisées a l'aide d'un VPN.
+Aucune connexion directe entre la machine et nos services n'est possible. Toutes les connexions sont sécurisées a l'aide d'un VPN.

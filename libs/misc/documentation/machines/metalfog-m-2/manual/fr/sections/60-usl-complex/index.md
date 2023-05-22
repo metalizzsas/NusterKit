@@ -6,7 +6,7 @@ Pour lancer le cycle de métallisation chimique « Complexe », procédez ains
 
 ### Cycle "Activation pièces poreuses USL"
 
-- Depuis l’écran d’accueil de l’interface digitale, appuyez sur « Cycle » ;
+- Depuis l’écran d’accueil de l’interface digitale, appuyez sur « Cycle »,
 - Puis appuyez sur « Activation pièces poreuses USL ».
 
 ![Menu Activation pièces poreuses USL](menu_activation.png)
@@ -27,7 +27,7 @@ Pour lancer le cycle de métallisation chimique « Complexe », procédez ains
 
 ### Cycle "Renforcement USL"
 
-- Depuis l’écran d’accueil de l’interface digitale, appuyez sur « Cycle » ;
+- Depuis l’écran d’accueil de l’interface digitale, appuyez sur « Cycle »,
 - Puis sur "Renforcement USL".
 
 ![Menu Renforcement USL](menu_renforcement.png)

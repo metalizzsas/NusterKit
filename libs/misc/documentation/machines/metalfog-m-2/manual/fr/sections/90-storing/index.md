@@ -1,6 +1,6 @@
 ## Préconisations de stockage
 
-Si votre Metalfog ne sera pas utilisée durant une période prolongée, il est recommander de procéder comme suit:
+Si la Metalfog n'est pas utilisée pendant une période prolongée, il est recommandé de procéder comme suit:
 
 - Vider les conteneurs de réactifs en utilisant le cycle de vidange,
 - Vider le conteneur d'eau déionisée en utilisant le menu, `Conteneur` > `Eau déionisée` > `Produit` > `Vidange`,

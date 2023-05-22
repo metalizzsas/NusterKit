@@ -1,6 +1,6 @@
-### Nettoyage des buses
+### Entretien des buses
 
-> Attention: Les buses sont fragiles, manipulez-les avec précaution.
+> **Attention** : Les buses sont fragiles, manipulez-les avec précaution.
 
 Localisez les carters des buses à l'arrière de la cuve, puis dévissez les deux vis M4 x 20 à l'aide d'un `Tournevis hexagonal T2.5`.
 

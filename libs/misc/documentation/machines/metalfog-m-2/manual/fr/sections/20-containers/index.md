@@ -16,13 +16,13 @@ Pour cela :
 - Mettre le couvercle sur la machine
 - Aller à la page d’accueil de l’interface digitale
 - Appuyez sur l'onglet `Cycle`
-- Puis sur `Vidange de tous les réactifs`.
+- Puis sur `Vidange de tout les réactifs`.
 
 Avant que le cycle commence, la page des conditions de sécurité s’affiche (voir chapitre Vérification des conditions de sécurité).
 
 Une fois lancé, laissez le cycle se terminer avant de revenir à la page d’accueil en appuyant sur `Terminer le cycle`. Ce cycle vide les conteneurs d'Activant, d'Oxydant et de Réducteur mais pas celui d'Eau déionisée.
 
-![Menu Vidange de tous les réactifs](vidange_reactifs.png)
+![Menu Vidange de tout les réactifs](vidange_reactifs.png)
 
 ### Remplissage Activant
 

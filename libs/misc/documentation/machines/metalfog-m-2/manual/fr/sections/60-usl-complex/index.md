@@ -16,7 +16,7 @@ Pour lancer le cycle de métallisation chimique « Complexe », procédez ains
 - Au terme du cycle, une nouvelle page s'affiche spécifiant que le cycle est terminé. La mention "Cycle terminé avec succès" indique que la métallisation chimique s'est déroulée correctement.
 - Appuyer sur « Terminer le cycle » pour revenir à la page d’accueil.
 
-> **Attention** : Si cette page affiche tout autre message que « Cycle terminé avec succès », alors le message qui apparait précise la raison d'arrêt du cycle. En dessous, vous pouvez visualiser les étapes effectuées ou non.
+> **Attention** : Si cette page affiche tout autre message que « Cycle terminé avec succès », alors le message qui apparait précise la raison d'arrêt du cycle (pression d'air trop basse, couvercle ouvert, niveau d'oxydant minimal...). En dessous, vous pouvez visualiser les étapes effectuées ou non.
 
 > Si le cycle n'a pas abouti, sortez les pièces traitées de la machine et rincez-les à l'eau déionisée. Replacez-les dans la cuve et relancez un cycle « Activation pièces poreuses USL ».
 
@@ -39,6 +39,6 @@ Pour lancer le cycle de métallisation chimique « Complexe », procédez ains
 
 ![Affichage de fin de cycle normal](cycletermineavecsucces.png)
 
- >**Attention** : Si cette page affiche tout autre message que « Cycle terminé avec succès », alors le message qui apparait précise la raison d'arrêt du cycle. En dessous, vous pouvez visualiser les étapes effectuées ou non.
+ >**Attention** : Si cette page affiche tout autre message que « Cycle terminé avec succès », alors le message qui apparait précise la raison d'arrêt du cycle (pression d'air trop basse, couvercle ouvert, niveau d'oxydant minimal...). En dessous, vous pouvez visualiser les étapes effectuées ou non.
 
 > Si un cycle Renforcement USL s'arrête pendant la métallisation, relancez le même cycle ("Renforcement USL") pour terminer la métallisation.

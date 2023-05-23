@@ -20,7 +20,7 @@ Pour lancer le cycle de métallisation chimique « Simple », procédez ainsi�
 
 ![Affichage de fin de cycle normal](cycletermineavecsucces.png)
 
- >**Attention** : Si cette page affiche tout autre message que « Cycle terminé avec succès », alors le message qui apparait précise la raison d'arrêt du cycle. En dessous, vous pouvez visualiser les étapes effectuées ou non. 
+ >**Attention** : Si cette page affiche tout autre message que « Cycle terminé avec succès », alors le message qui apparait précise la raison d'arrêt du cycle (pression d'air trop basse, couvercle ouvert, niveau d'oxydant minimal...). En dessous, vous pouvez visualiser les étapes effectuées ou non. 
 
 >Si un cycle Utility Silver Layer - USL s'arrête pendant la métallisation, **ne relancez pas le même cycle** : l'activant viendrait polluer la surface des pièces traitées. Il faut alors lancer un cycle "Renforcement USL" pour terminer la métallisation.
 

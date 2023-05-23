@@ -48,7 +48,7 @@ Les consignes de remplissage du conteneur d’eau déionisée se trouvent au cha
 
 Si vous percevez une odeur d’ammoniaque, il faut rapidement procéder au changement de la cartouche de filtration à charbon actif.  Cette dernière est située sur le côté gauche de la Metalfog.
 
-Il est conseillé de changer la cartouche du filtre à charbon actif tout les 50 cycles. Contactez METALIZZ ou votre distributeur agréé pour commander les recharges de charbon actif.
+Il est conseillé de changer la cartouche du filtre à charbon actif tout les 50 cycles. Contactez Metalizz ou votre distributeur agréé pour commander les recharges de charbon actif.
 
 >**Attention** : Il est important que le traitement des déchets de charbon actif usagé soit réalisé en filière agréée (code déchet européen 06 13 02* d'après la directive (UE) 2008/98/CE).
 

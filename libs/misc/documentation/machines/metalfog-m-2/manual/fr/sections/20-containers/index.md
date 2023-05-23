@@ -120,8 +120,8 @@ Le bouchon du conteneur d’Eau déionisée est de couleur bleue (3ème bouchon 
 
 >**Attention** : Ne jamais remplir le conteneur avec plus de 3 litres d’eau déionisée.
 
-- Appuyez sur `Conteneurs` dans les onglets en haut de l'écran
-- Puis sur `Eau déionisée`
+- Appuyez sur `Conteneurs` dans les onglets en haut de l'écran.
+- Puis sur `Eau déionisée`.
 - Avant de remplir le conteneur d'eau déionisée, vérifiez que le volume maximal n'est pas atteint. Appuyez sur `Capteurs` et vérifiez les indicateurs `Niveau minimal eau déionisée` (vert = conteneur vide) et `Niveau maximal eau déionisée` (vert = conteneur plein). Si besoin, vous pouvez vider le conteneur en appuyant sur `Produits` puis sur `Vidange eau déionisée`.
 
 Nous préconisons de vidanger le conteneur d'eau déionisée si celle-ci date de plus de 2 semaines afin de garantir une bonne qualité du procédé.

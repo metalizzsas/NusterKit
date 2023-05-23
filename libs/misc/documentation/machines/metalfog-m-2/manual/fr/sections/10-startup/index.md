@@ -44,5 +44,3 @@ Une boîte de dialogue s'affiche à l'écran après le démarrage de la Metalfog
 ![Boîte de dialogue de recommandation](reco_nettoyage_buses.png)
 
 Appuyez sur `Continuer` dans cette boîte de dialogue puis lancez le cycle de nettoyage une fois que les conditions de sécurité sont validées (indicateurs au vert). Une fois le cycle fini, appuyez sur `Terminer le cycle` pour revenir au menu principal.
-
-![Menu Nettoyage des buses](menu_nettoyage_buses.png)

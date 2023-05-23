@@ -40,7 +40,7 @@ jobs:
         if: ${{ github.event_name == 'workflow_call' || steps.doc-build-check.outputs.misc-present != '' }}
         uses: docker://pandoc/extra:3.1
         with:
-          args: "-d libs/misc/documentation/${{ matrix.docs-paths }}/export.yaml --template=libs/misc/documentation/utils/eisvogel.tex" 
+          args: "-d libs/misc/documentation/${{ matrix.docs-paths }}/export.yaml --listings -s -F pandoc-crossref --citeproc --template=libs/misc/documentation/utils/eisvogel.tex" 
           
       - name: 📦 Upload pdf to artifacts
         if: ${{ github.event_name == 'pull_request' && steps.doc-build-check.outputs.misc-present != '' }}

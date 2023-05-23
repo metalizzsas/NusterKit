@@ -43,6 +43,8 @@ variables:
 
   footer-left: Notice d'utilisation de Nuster © Metalizz 2023
 
+  table-use-row-colors: true
+
   colorlinks: true
   urlcolor: blue
 

@@ -2,6 +2,8 @@
 
 ![Vue 1 des composants](elements.jpg)
 
+\newpage
+
 | Numéro | Description |
 | ----- | ----- |
 | 1 | Bouton d'arrêt d'urgence |
@@ -12,6 +14,8 @@
 | 6 | Echangeur (Uniquement USCleaner M R1 TR) |
 
 ![Vue 2 des composants](elements_2.jpg)
+
+\newpage
 
 | Numéro | Description |
 | ----- | ----- |

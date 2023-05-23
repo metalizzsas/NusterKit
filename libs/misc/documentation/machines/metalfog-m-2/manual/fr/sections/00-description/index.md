@@ -4,6 +4,8 @@
 
 ![Vue des composants](elements.jpg)
 
+\newpage
+
 | Numéro | Description |
 | ----- | ----- |
 | 1 | Écran de contrôle |

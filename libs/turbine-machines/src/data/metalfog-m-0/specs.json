@@ -901,12 +901,12 @@
                     ]
                 },
                 {
-                    "path": "slots.0.supportedProductSeries",
+                    "path": "containers.0.supportedProductSeries",
                     "mode": "merge",
                     "content": ["llc_ox"]
                  },
                  {
-                    "path": "slots.1.supportedProductSeries",
+                    "path": "containers.1.supportedProductSeries",
                     "mode": "merge",
                     "content": ["llc_rd"]
                  }

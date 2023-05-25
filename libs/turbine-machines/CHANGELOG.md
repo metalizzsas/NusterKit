@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.6.9
+
+### Patch Changes
+
+- fix: metalfog m-0 had a wrong specs file ([#402](https://github.com/metalizzsas/NusterKit/pull/402))
+
 ## 1.6.8
 
 ### Patch Changes

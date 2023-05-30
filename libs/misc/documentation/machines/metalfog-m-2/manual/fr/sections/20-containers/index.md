@@ -16,13 +16,13 @@ Pour cela :
 - Mettre le couvercle sur la machine.
 - Aller à la page d’accueil de l’interface digitale.
 - Appuyez sur l'onglet `Cycle`.
-- Puis sur `Vidange de tout les réactifs`.
+- Puis sur `Vidange de tous les réactifs`.
 
 Avant que le cycle commence, la page des conditions de sécurité s’affiche (voir chapitre Vérification des conditions de sécurité).
 
 Une fois lancé, laissez le cycle se terminer avant de revenir à la page d’accueil en appuyant sur `Terminer le cycle`. Ce cycle vide les conteneurs d'Activant, d'Oxydant et de Réducteur mais pas celui d'Eau déionisée.
 
-![Menu Vidange de tout les réactifs](vidange_reactifs.png)
+![Menu Vidange de tous les réactifs](vidange_reactifs.png)
 
 ### Remplissage Activant
 
@@ -81,7 +81,7 @@ Pour remplir le conteneur d'Oxydant, procédez ainsi :
 - Avant de remplir le conteneur de réactifs, vérifiez qu’il est bien vide. Cliquez sur `Capteurs` et vérifiez l'indicateur `Niveau minimal oxydant` : si l'indicateur est au vert le conteneur est vide, si l'indicateur est au rouge le conteneur ne l'est pas. Dans ce cas, appuyez sur `Produits` puis sur `Vidange réactifs` pour le vider.
 - Dans le menu, appuyez ensuite sur `Produits`.
 - Munissez-vous des 2 flacons  `N°1 UTILITY SILVER LAYER` et `N°2 UTILITY SILVER LAYER`.
-- Dans le conteneur Oxydant (1er bouchon en partant de la gauche, de couleur vert), versez, à l’aide d’un entonnoir propre, d'abord le produit `N°1 UTILITY SILVER LAYER` puis le produit `N°2 UTILITY SILVER LAYER`. Il est possible d'utiliser le même entonoir pour les 2 produits.
+- Dans le conteneur Oxydant (1er bouchon en partant de la gauche, de couleur vert), versez, à l’aide d’un entonnoir propre, d'abord le produit `N°1 UTILITY SILVER LAYER` puis le produit `N°2 UTILITY SILVER LAYER`. Il est possible d'utiliser le même entonnoir pour les 2 produits.
 - Appuyer sur `Chargement manuel`.
 
 Une fois le conteneur rempli, la machine indique alors la date et l'heure du chargement et lance le décompte de durée de vie du réactif.
@@ -105,7 +105,7 @@ Pour remplir le conteneur Réducteur, procédez ainsi :
 - Avant de remplir le conteneur de réactifs, vérifiez qu’il est bien vide. Appuyez sur `Capteurs` et vérifiez l'indicateur `Niveau minimal réducteur` : si l'indicateur est au vert le conteneur est vide, si l'indicateur est au rouge le conteneur ne l'est pas. Dans ce cas, appuyez sur `Produits` puis sur `Vidange réactifs` pour le vider.
 - Dans le menu, appuyez ensuite sur `Produits`.
 - Munissez-vous des 2 flacons  `N°3 UTILITY SILVER LAYER` et `N°4 UTILITY SILVER LAYER`
-- Dans le conteneur Réducteur (2ème bouchon en partant de la gauche, de couleur blanche), versez, à l’aide d’un entonnoir propre, d'abord le produit `N°3 UTILITY SILVER LAYER` puis le produit `N°4 UTILITY SILVER LAYER`. Il est possible d'utiliser le même entonoir pour les 2 produits.
+- Dans le conteneur Réducteur (2ème bouchon en partant de la gauche, de couleur blanche), versez, à l’aide d’un entonnoir propre, d'abord le produit `N°3 UTILITY SILVER LAYER` puis le produit `N°4 UTILITY SILVER LAYER`. Il est possible d'utiliser le même entonnoir pour les 2 produits.
 - Appuyer sur `Chargement manuel`.
 
 Une fois le conteneur rempli, la machine indique alors la date et l'heure du chargement et lance le décompte de durée de vie du réactif.

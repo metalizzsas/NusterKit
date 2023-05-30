@@ -22,6 +22,6 @@ Si le produit chargé dans l'USCleaner dépasse la température de 50°C, un cyc
 
 Si vous percevez une réduction du débit de fluides dans la machine, ou que la pompe est en train de "forcer", procédez à un remplacement de la cartouche filtrante.
 
-Il est conseillé de changer la cartouche du filtre tout les 3 mois. Contactez METALIZZ ou votre distributeur agréé pour commander des cartouches filtrantes.
+Il est conseillé de changer la cartouche du filtre tous les 3 mois. Contactez METALIZZ ou votre distributeur agréé pour commander des cartouches filtrantes.
 
 > Il est important que le traitement de la cartouche filtrante usagée soit réalisé en filière agréée (code déchet européen 07 01 10* d'après la directive (UE) 2008/98/CE).

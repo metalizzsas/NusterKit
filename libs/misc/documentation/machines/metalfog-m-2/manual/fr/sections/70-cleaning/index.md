@@ -25,10 +25,10 @@ Nettoyez la grille et le fond de cuve en aspirant les pellicules à l'aspirateur
 
 ### Conteneurs réactifs
 
-Afin de garantir la qualité de la métallisation chimique, nous préconisons le nettoyage des conteneurs des réactifs (Activant, Oxydant et Réducteur) tout les 50 cycles, plus si utilisation intense.
+Afin de garantir la qualité de la métallisation chimique, nous préconisons le nettoyage des conteneurs des réactifs (Activant, Oxydant et Réducteur) tous les 50 cycles, plus si utilisation intense.
 
 Pour effectuer ce nettoyage, lancez une première vidange puis
-remplir les 3 conteneurs de réactifs avec 500mL d’eau déionisée chacun et lancer le cycle en appuyant sur « Vidange de tout les réactifs ».
+remplir les 3 conteneurs de réactifs avec 500mL d’eau déionisée chacun et lancer le cycle en appuyant sur « Vidange de tous les réactifs ».
 
 ![Menu Vidange de tout les réactifs](vidange_reactifs.png)
 

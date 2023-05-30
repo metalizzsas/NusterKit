@@ -88,7 +88,7 @@ Une fois le conteneur rempli, la machine indique alors la date et l'heure du cha
 
 Il est possible de ne pas verser l'intégralité des flacons d'Oxydant pour éviter de gaspiller du produit, cependant il faut toujours verser des quantités telles que :
 
-Quantité `N°1 UTILITY SILVER` = Quantité `N°2 UTILITY SILVER LAYER` = Quantité `N°3 UTILITY SILVER LAYER` = Quantité `N°4 UTILITY SILVER LAYER`.
+Quantité `N°1 UTILITY SILVER LAYER` = Quantité `N°2 UTILITY SILVER LAYER` = Quantité `N°3 UTILITY SILVER LAYER` = Quantité `N°4 UTILITY SILVER LAYER`.
 
 ### Remplissage Réducteur
 
@@ -112,7 +112,7 @@ Une fois le conteneur rempli, la machine indique alors la date et l'heure du cha
 
 Il est possible de ne pas verser l'intégralité des flacons de Réducteur pour éviter de gaspiller du produit, cependant il faut toujours verser des quantités telles que :
 
-Quantité `N°1 UTILITY SILVER` = Quantité `N°2 UTILITY SILVER LAYER` = Quantité `N°3 UTILITY SILVER LAYER` = Quantité `N°4 UTILITY SILVER LAYER`.
+Quantité `N°1 UTILITY SILVER LAYER` = Quantité `N°2 UTILITY SILVER LAYER` = Quantité `N°3 UTILITY SILVER LAYER` = Quantité `N°4 UTILITY SILVER LAYER`.
 
 ### Remplissage Eau déionisée
 

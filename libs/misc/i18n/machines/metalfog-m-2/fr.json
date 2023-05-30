@@ -221,7 +221,7 @@
         "tasks": {
             "mfm-filter": {
                 "name": "Filtre",
-                "desc": "Le filtre de la Metalfog permet de capturer tout les gazs nocifs créés par les réactions chimiques dans la cuve."
+                "desc": "Le filtre de la Metalfog permet de capturer tous les gazs nocifs créés par les réactions chimiques dans la cuve."
             },
             "sensor-cleaning": {
                 "name": "Nettoyage capteurs",

@@ -36,7 +36,7 @@
             "cem": "Blindage CEM",
             "cem-retake": "Renforcement Blindage CEM",
             "act-fill": "Dilution activant",
-            "container-emptying-all": "Vidange de tout les conteneurs"
+            "container-emptying-all": "Vidange de tous les conteneurs"
         },
 
         "categories": {
@@ -216,7 +216,7 @@
         "tasks": {
             "mfm-filter": {
                 "name": "Filtre",
-                "desc": "Le filtre de la Metalfog permet de capturer tout les gazs nocifs créés par les réactions chimiques dans la cuve."
+                "desc": "Le filtre de la Metalfog permet de capturer tous les gazs nocifs créés par les réactions chimiques dans la cuve."
             }
         }
     },

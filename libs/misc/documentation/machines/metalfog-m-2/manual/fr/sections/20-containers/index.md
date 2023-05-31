@@ -4,9 +4,21 @@ Avant de manipuler les solutions chimiques, veillez à porter les EPI adéquats,
 
 Nous conseillons d’utiliser des entonnoirs pour éviter les salissures et les coulures de réactifs sur la Metalfog.
 
-> **Attention** : lors de la manipulation des réactifs Oxydant N°1 et N°2 et Réducteur N°3 et N°4, il est capital d’utiliser des entonnoirs et des récipients propres et différents pour chaque type de produit.
+> **Attention** : Lors de la manipulation des réactifs Oxydant N°1 et N°2 et Réducteur N°3 et N°4, il est capital d’utiliser des entonnoirs et des récipients propres et différents pour chaque type de produit.
 
 > Les réactifs Oxydants et les réactifs Réducteurs ne doivent **JAMAIS** entrer en contact entre eux, même en infime quantité, au risque de compromettre la qualité du procédé de métallisation chimique.
+
+Un kit Utility Silver Layer permet de réaliser 4 cycles parmi les cycles proposés : Utility Silver Layer - USL, Activation pièces poreuses USL, Renforcement USL. Une fois ouverts, les produits peuvent être conservés pendant 1 mois. 
+
+Les dosages pour effectuer 1 cycle sont les suivants :
+
+|      | N°0 UTILITY SILVER LAYER ACTIVANT | N°1 UTILITY SILVER LAYER OXYDANT | N°2 UTILITY SILVER LAYER OXYDANT | N°3 UTILITY SILVER LAYER RÉDUCTEUR | N°4 UTILITY SILVER LAYER RÉDUCTEUR |
+| : ------ : | : ------ : | : ------ : | : ------ : | : ------ : | : ------ : |
+| Utility Silver Layer - USL | 250 ml dilué à 2% (5 ml d'activant + 245 ml d'eau déionisée) | 125 ml | 125 ml | 125 ml | 125 ml |
+| Activation pièces poreuses USL | 250 ml dilué à 2% (5 ml d'activant + 245 ml d'eau déionisée) |      |      |      |        |
+| Renforcement USL |          | 125 ml | 125 ml | 125 ml | 125 ml |
+ 
+
 
 ### Vérification de l'état des conteneurs
 
@@ -41,21 +53,52 @@ Pour remplir le conteneur d'Activant, procédez ainsi :
 
 ![Menu Remplissage Activant](menu_activant.png)
 
->**Attention** : Il existe 2 méthodes de remplissage de l'Activant : dilution manuelle ou dilution automatique, sachant que l'Activant doit toujours être dilué à **2 %** dans de l'eau déionisée.
+>**Attention** : Il existe 2 méthodes de remplissage de l'Activant : **dilution manuelle** ou **dilution automatique**, sachant que l'Activant doit toujours être dilué à **2 %** dans de l'eau déionisée.
+
+Sachant qu'une fois dilué, le produit  `N°0 UTILITY SILVER LAYER (USL) ACTIVANT` ne se conserve que 12 heures, le choix du mode de dilution de celui-ci dépendra de votre utilisation de la machine.
+Si vous prévoyez de faire 4 cycles en 1 journée, alors la dilution automatique est conseillée. 
+Si vous choisissez plutôt d'étaler l'utilisation sur plusieurs jours, la dilution manuelle est recommandée afin de ne pas gaspiller de réactifs.
+
+Exemples :
+
+|       | Lundi | Mardi | Mercredi | Jeudi | Vendredi | Samedi | Dimanche| 
+| : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : |
+| Nbr de cycles | 4 |  |  |  |  |  |  |
+ - 4 cycles prévus sur 1 journée → Dilution automatique
+
+|       | Lundi | Mardi | Mercredi | Jeudi | Vendredi | Samedi | Dimanche| 
+| : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : |
+| Nbr de cycles | 1 | 1 |  | 1 | 1 |  |  |
+- 1 cycle/jour prévu sur 4 jours différents → Dilution manuelle
+
+|       | Lundi | Mardi | Mercredi | Jeudi | Vendredi | Samedi | Dimanche| 
+| : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : |
+| Nbr de cycles |  | 3 |  | 1 |  |  |  |
+- 3 cycles/jour puis 1 cycle plus tard → Dilution manuelle
+
+#### Dilution manuelle
 
 Pour effectuer un remplissage avec dilution manuelle :
 
 - Réalisez votre dilution à **2 %** de l'Activant grâce à une éprouvette graduée.
-- Par exemple, pour faire 1 L d’Activant, remplissez une éprouvette graduée avec 20 mL de produit `N°0 UTILITY SILVER LAYER (USL) ACTIVANT`. Versez le produit `N°0 UTILITY SILVER LAYER (USL) ACTIVANT` dans 980 ml d'eau déionisée et non l'inverse.
+
+| Pour faire : | N°0 UTILITY SILVER LAYER ACTIVANT | EAU DÉIONISÉE |
+| : ---- : | ---- : | ---- : | 
+| 250 ml | 5 ml | 245 ml |
+| 500 ml | 10 ml | 490 ml |
+| 750 ml | 15 ml | 735 ml |
+
+- Versez le produit `N°0 UTILITY SILVER LAYER (USL) ACTIVANT` dans l'eau déionisée et non l'inverse.
 - Versez le mélange dans le conteneur d’Activant (4ème bouchon en partant de la gauche, de couleur rouge).
 - Refermez le bouchon.
 - Appuyez sur `Chargement manuel`.
 
+#### Dilution automatique
+
 Pour effectuer un remplissage avec dilution automatique :
 
 - Sélectionnez `Chargement par dilution automatique`.
-- Mesurez 20 mL de produit `N°0 UTILITY SILVER LAYER (USL) ACTIVANT` dans une éprouvette graduée.
-- Versez la quantité de produit mesurée dans le conteneur d’Activant (4ème bouchon en partant de la gauche, de couleur rouge).
+- Versez 20 ml de produit `N°0 UTILITY SILVER LAYER (USL) ACTIVANT` dans le conteneur d’Activant (4ème bouchon en partant de la gauche, de couleur rouge).
 - Laissez ouvert le conteneur d'Activant pour éviter une montée en pression.
 - Appuyez sur `Démarrer le cycle`.
  Si les conditions de sécurité sont toutes validées (indicateurs au vert), la machine va automatiquement remplir le réservoir d'Activant avec de l'eau déionisée jusqu'à obtenir 1 L de mélange.
@@ -86,9 +129,9 @@ Pour remplir le conteneur d'Oxydant, procédez ainsi :
 
 Une fois le conteneur rempli, la machine indique alors la date et l'heure du chargement et lance le décompte de durée de vie du réactif.
 
-Il est possible de ne pas verser l'intégralité des flacons d'Oxydant pour éviter de gaspiller du produit, cependant il faut toujours verser des quantités telles que :
+>Il faut toujours verser des quantités égales pour les réactifs oxydants et réducteurs :
+Quantité `N°1 UTILITY SILVER LAYER OXYDANT` = Quantité `N°2 UTILITY SILVER LAYER OXYDANT` = Quantité `N°3 UTILITY SILVER LAYER RÉDUCTEUR` = Quantité `N°4 UTILITY SILVER LAYER RÉDUCTEUR`.
 
-Quantité `N°1 UTILITY SILVER LAYER` = Quantité `N°2 UTILITY SILVER LAYER` = Quantité `N°3 UTILITY SILVER LAYER` = Quantité `N°4 UTILITY SILVER LAYER`.
 
 ### Remplissage Réducteur
 
@@ -110,9 +153,8 @@ Pour remplir le conteneur Réducteur, procédez ainsi :
 
 Une fois le conteneur rempli, la machine indique alors la date et l'heure du chargement et lance le décompte de durée de vie du réactif.
 
-Il est possible de ne pas verser l'intégralité des flacons de Réducteur pour éviter de gaspiller du produit, cependant il faut toujours verser des quantités telles que :
-
-Quantité `N°1 UTILITY SILVER LAYER` = Quantité `N°2 UTILITY SILVER LAYER` = Quantité `N°3 UTILITY SILVER LAYER` = Quantité `N°4 UTILITY SILVER LAYER`.
+>Il faut toujours verser des quantités égales pour les réactifs oxydants et réducteurs :
+Quantité `N°1 UTILITY SILVER LAYER OXYDANT` = Quantité `N°2 UTILITY SILVER LAYER OXYDANT` = Quantité `N°3 UTILITY SILVER LAYER RÉDUCTEUR` = Quantité `N°4 UTILITY SILVER LAYER RÉDUCTEUR`.
 
 ### Remplissage Eau déionisée
 

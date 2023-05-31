@@ -11,7 +11,7 @@ Si la Metalfog n'est pas utilisée pendant une période prolongée, il est recom
 
 ### Kit Chimie
 
-Les 5 produits du kit chimie Utility Silver Layer doivent être stockés dans un endroit temperé, entre 15 et 25° à l'abris de la lumière.
+Les 5 produits du kit chimie Utility Silver Layer doivent être stockés dans un endroit tempéré, entre 15 et 25° à l'abris de la lumière.
 
 Une fois ouverts, les produits peuvent être conservés pendant 1 mois. Au delà de cette durée, leur efficacité n'est plus garantie. Lorsque l'activant  s'oxyde, il prend une couleur jaunâtre : son efficacité sera considérablement réduite.
 

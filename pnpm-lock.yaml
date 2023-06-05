@@ -1,4 +1,8 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
 
 importers:
 
@@ -187,7 +191,7 @@ importers:
         specifier: 1.4.1
         version: link:../../libs/misc
       '@metalizzsas/nuster-turbine-machines':
-        specifier: 1.6.9
+        specifier: 1.6.10
         version: link:../../libs/turbine-machines
       '@metalizzsas/nuster-typings':
         specifier: 1.5.3
@@ -268,7 +272,7 @@ importers:
   packages/turbine:
     dependencies:
       '@metalizzsas/nuster-turbine-machines':
-        specifier: 1.6.9
+        specifier: 1.6.10
         version: link:../../libs/turbine-machines
       cookie-parser:
         specifier: ^1.4.6
@@ -377,7 +381,7 @@ importers:
   simulation/simulation-server:
     dependencies:
       '@metalizzsas/nuster-turbine-machines':
-        specifier: 1.6.9
+        specifier: 1.6.10
         version: link:../../libs/turbine-machines
       '@metalizzsas/nuster-typings':
         specifier: 1.5.3

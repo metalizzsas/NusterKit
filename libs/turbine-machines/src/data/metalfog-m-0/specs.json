@@ -664,6 +664,8 @@
                                 {"sleep": 0.25},
                                 {"io_write": ["met#plv", 0]},
 
+                                {"sleep": {"profile": "metalization#timeOff"}},
+
                                 {"if": {
                                     "statement": {
                                         "comparator": "==",

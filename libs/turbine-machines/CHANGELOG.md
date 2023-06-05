@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.6.10
+
+### Patch Changes
+
+- fix: metalfog m 0 would not wait for metalization time off ([#404](https://github.com/metalizzsas/NusterKit/pull/404))
+
 ## 1.6.9
 
 ### Patch Changes

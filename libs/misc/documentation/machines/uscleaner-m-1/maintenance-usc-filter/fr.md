@@ -1,49 +1,45 @@
 ### Changement de la cartouche filtrante
 
-> Attention: Il est recommandé de changer le filtre tout les 3 mois, même si il n'est pas colmaté.
+> **Attention :** Il est recommandé de changer le filtre tous les 3 mois, même s'il n'est pas colmaté.
 
-Dans un premier temps, positioner l'USCleaner afin que les roulettes de la partie arrière soient disposée vers l'arrière.
+Les effluents de l'Uscleaner sont des produits à manipuler avec précaution, veillez à porter les EPI adéquats, en particulier : ***gants en latex, lunettes de protection et à éviter tout contact avec la peau***.
+
+Dans un premier temps, positionnez les roulettes de la partie arrière de la machine vers l'arrière et ouvrez la porte.
 
 ![Ouverture porte](1.jpeg)
 
-Fermer les 2 vannes, installer le tube de vidange et ouvrir la vanne de vidange.
+À l'intérieur, fermez les 2 vannes puis installez le tube de vidange. Une fois ce dernier en place, ouvrez la vanne de vidange.
 
 ![Vannes](3.jpeg)
 
-Ouvrir l'évent de la la pompe pour vidanger le corps de filtre. Vidanger le corps de filtre jusqu'as ce qu'aucun liquide ne coule.
+Ouvrez l'évent de la pompe pour vidanger le corps de filtre jusqu'à ce que plus rien ne s'écoule. 
 
 ![Ouverture évent pompe](4.jpeg)
 
-Ouvrir le corps de filtre en dévissant l'écrou du corps de filtre.
+Ensuite, ouvrez le corps de filtre en dévissant l'écrou du haut puis retirez la cartouche filtrante en dévissant son écrou de maintient.
 
-![Ouverture corps filtre](5.jpeg)
+![Retirer écrou cartouche](6.jpeg)
 
-> A partir de cet instant il est reccomandé d'utiliser des gants Latex.
-
-Après ouverture du corps de filtre, retirer la cartouche filtrante en dévissant son écrou.
-
-![Retirer ecrou cartouche](6.jpeg)
-
-Sortir la cartouche du corps de filtre, attention la sortie de la cartouche peut s'avérer délicate due a la place disponible.
+Sortez la cartouche du corps de filtre en l'inclinant.
 
 ![Retirer cartouche](7.jpeg)
 
-Remplacer la cartouche par une cartouche neuve.
+Remplacez la cartouche par une cartouche neuve.
 
-![Remplacement cartouche](8.jpeg)
+![Insertion cartouche neuve](8.jpeg)
 
-Resserrer l'écrou de la cartouche filtrante.
+Puis resserrez l'écrou de la cartouche filtrante.
 
-![Resserrer l'ecrou](9.jpeg)
+![Resserrer écrou cartouche](9.jpeg)
 
-Remonter l'écrou du corps de filtre, revisser l'évent du corps de filtre sans le serrer jusqu'au bout.
+Remontez l'écrou du corps de filtre et revissez l'évent sans le serrer jusqu'au bout.
 
-![Fermeture ecrou corps de filtre](10.jpeg)
+![Fermeture écrou corps de filtre](10.jpeg)
 
-Fermer la vanne de vidange, ouvrir les deux vannes principales.
+Fermez la vanne de vidange et ouvrez les deux vannes principales.
 
-![Fermer vidange, ouvrir vannes principales](11.jpeg)
+![Fermeture vanne de vidange, ouverture vannes principales](11.jpeg)
 
-Refermer l'évent du filtre lorsque du liquide sort par l'évent.
+Une fois que vous observez du liquide couler légèrement par l'évent, l'air est purgé : vous pouvez serrez l'évent du filtre jusqu'au bout.
 
-![Refermer event](12.jpeg)
+![Serrage complet évent](12.jpeg)

@@ -1,8 +1,10 @@
-## Mise en route de l'USCleaner
+## Mise en route de l'Uscleaner
 
-L'USCleaner doit être installé dans un local équipé d’une Ventilation Mécanique Contrôlée (VMC) ou dans un local pouvant être aéré s'il est utilisé avec une autre agent chimique que l'eau.
+L'Uscleaner doit être installé dans un local équipé d’une Ventilation Mécanique Contrôlée (VMC) ou dans un local pouvant être aéré, s'il est utilisé avec une autre agent chimique que l'eau.
 
-Une fois l'USCleaner positionné à son emplacement, bloquez les deux roulettes frein situées à l’avant de la machine.
+Une fois l'Uscleaner positionné à son emplacement, bloquez les deux roulettes frein situées à l’avant de la machine.
+
+Il est conseillé de placer la machine sur rétention lorsque le bac est rempli. D'autant plus, si la machine est utilisée avec notre nettoyant spécial résine  `Cleaner CR1` : le solvant peut dégrader les sols peints.
 
 ### Énergies
 #### Électricité
@@ -22,11 +24,12 @@ Pour démarrer la machine, positionnez le sectionneur situé à l'arrière de la
 
 ### Interface logiciel
 
-L'USCleaner est piloté grâce au logiciel Nuster.
-Une fois la machine en route, vous pouvez accéder à ses fonctions avec l'écran tactile.
+L'Uscleaner est piloté grâce au logiciel Nuster.
+Une fois la machine en route, vous pouvez accéder à ses fonctions via l'écran tactile.
 
 ![Menu Home](home.png)
 
 Il est possible de choisir entre 2 modes d'affichage : Clair ou Sombre. Pour cela, appuyez sur l'onglet **Réglages**, puis sur le bouton de sélection du mode.
 
 ![Menu Réglages](reglages.png)
+

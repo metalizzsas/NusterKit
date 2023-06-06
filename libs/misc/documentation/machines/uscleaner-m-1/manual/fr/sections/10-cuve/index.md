@@ -2,11 +2,11 @@
 
 Avant de manipuler les solutions chimiques, veillez à porter les EPI adéquats, en particulier : ***gants en latex, lunettes de protection et masque de protection FFP3 et à éviter tout contact avec la peau***.
 
-Lors d'un remplissage du bac, veillez a ce que tout le circuit de la pompe soit vidangé. Utilisez la vanne de vidange située a l'intérieur de la machine.
+Lors d'un remplissage du bac, veillez à ce que tout le circuit de la pompe soit vidangé. Utilisez la vanne de vidange située a l'intérieur de la machine avec son tube prolongateur.
 
 ![Vanne de vidange](emptying_valve.png)
 
-Selon la configuration de votre USCleaner, la quantité de fluide nécessaire diffère.
+Selon la configuration de votre Uscleaner, la quantité de fluide nécessaire diffère.
 
 | USCleaner | USCleaner TR |
 | --------- | ------------ |
@@ -14,7 +14,7 @@ Selon la configuration de votre USCleaner, la quantité de fluide nécessaire di
 
 Veillez à respecter les limites de remplissage indiquées au niveau du grand engrenage.
 
-![Niveau minimum / maximum](min_max_level.png)
+![Niveaux minimum / maximum](min_max_level.png)
 
 ### Suivi de la durée de vie des produits
 
@@ -26,13 +26,13 @@ En cliquant sur **Chargement manuel**, Nuster vous demande quel type de produit 
 
 ![Durée de vie du produit](product_life.png)
 
-En cliquant sur **Vidange manuelle**,  Nuster retire le suivi du produit, et considère qu'aucun produit est chargé dans le **Bac de liquide**.
+En cliquant sur **Vidange manuelle**,  Nuster retire le suivi du produit, et considère qu'aucun produit n'est chargé dans le **Bac de liquide**.
 
 > En cas de vidange du CR-1, le produit usagé doit être traité en filière agréée (code déchet européen 14 06 03* d'après la directive (UE) 2008/98/CE).
 
 ### Thermorégulation
 
-> Avertissement: Disponible uniquement sur les USCleaner TR
+> **Attention :** La thermorégulation est disponible uniquement sur le modèle Uscleaner thermorégulé.
 
 Il est possible de réguler la température du fluide contenu dans le **Bac de liquide** de votre USCleaner. Pour ce faire, rendez-vous dans l'onglet **Conteneurs**, appuyez sur **Bac de liquide**, puis sur **Régulation**.
 
@@ -41,4 +41,4 @@ Il est possible de réguler la température du fluide contenu dans le **Bac de l
 Dans ce menu vous pouvez :
 
 - Gérer l'état de la régulation (activé / désactivé)
-- Gérer la consigne de température (max 50°C).
+- Gérer la consigne de température (maximum = 50°C).

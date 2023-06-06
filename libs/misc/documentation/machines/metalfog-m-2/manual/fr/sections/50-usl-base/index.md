@@ -16,7 +16,7 @@ Pour lancer le cycle de métallisation chimique « Simple », procédez ainsi�
 
  - Au terme du cycle, une nouvelle page s'affiche spécifiant que le cycle est terminé. La mention "Cycle terminé avec succès" indique que la métallisation chimique s'est déroulée correctement.
 
- - Appuyer sur « Terminer le cycle » pour revenir à la page d’accueil.
+ - Appuyez sur « Terminer le cycle » pour revenir à la page d’accueil.
 
 ![Affichage de fin de cycle normal](cycletermineavecsucces.png)
 

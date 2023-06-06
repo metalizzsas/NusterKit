@@ -1,8 +1,8 @@
 ## Informations réseau
 
-Pour permettre la télé-maintenance de votre machine, il suffit de la connecter à votre réseau via le port RJ45, situé sous le coffret électrique.
+Pour permettre la télémaintenance de votre machine, il suffit de la connecter à votre réseau via le port RJ45, situé sous le coffret électrique.
 
-Cette connexion réseau nécéssite l'accès au ports sortants suivants:
+Cette connexion réseau nécessite l'accès aux ports sortants suivants:
 
 | Port | Description |
 | --- | --- |
@@ -14,4 +14,4 @@ Elle nécessite aussi l'accès au domaine suivant:
 
 - *.balena-cloud.com
 
-Aucune connexion directe entre la machine et nos services n'est possible. Toutes les connexions sont sécurisées a l'aide d'un VPN.
+Aucune connexion directe entre la machine et nos services n'est possible. Toutes les connexions sont sécurisées via un VPN.

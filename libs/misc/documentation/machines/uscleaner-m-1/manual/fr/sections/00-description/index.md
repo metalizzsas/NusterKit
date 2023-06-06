@@ -11,7 +11,7 @@
 | 3 | Couvercle |
 | 4 | Coffret électrique |
 | 5 | Poignée de manipulation des tonneaux |
-| 6 | Echangeur (Uniquement USCleaner M R1 TR) |
+| 6 | Echangeur (Uniquement Uscleaner thermorégulé) |
 
 ![Vue 2 des composants](elements_2.jpg)
 
@@ -20,17 +20,17 @@
 | Numéro | Description |
 | ----- | ----- |
 | 7 | Ensemble pompe & filtre |
-| 8 | Transducteurs Ultrasons |
+| 8 | Transducteurs ultrasons |
 | 9 | Vanne de refoulement |
 | 10 | Vanne d'aspiration |
 | 11 | Vanne de vidange |
 
 ### Caractéristiques techniques
 
-- Masse: 60 kg à vide
-- Dimensions: 970 mm x 865 mm x 1100 mm
-- Surface au sol: 0.84 m<sup>2<sup>
-- Puissance max: 1.2 kW
+- Masse : 60 kg à vide
+- Dimensions : 970 mm x 865 mm x 1100 mm
+- Surface au sol : 0.84 m<sup>2<sup>
+- Puissance max : 1.2 kW
 
 ### Dimensions
 

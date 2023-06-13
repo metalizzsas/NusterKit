@@ -1,4 +1,4 @@
-Bienvenue sur le guide d'utilisation de votre Uscleaner / Uscleaner thermorégulé. Ce document vous guidera vers une utilisation optimale de votre Uscleaner.
+Bienvenue dans le guide d'utilisation de votre Uscleaner/Uscleaner thermorégulé. Ce document vous guidera pour une utilisation optimale de votre Uscleaner.
 
 METALIZZ a apporté le plus grand soin à la conception et à la fabrication de cette machine dans un souci d'efficacité, de durabilité et de respect sociétal et environnemental.
 
@@ -11,9 +11,9 @@ METALIZZ vous remercie de votre confiance et vous souhaite un excellent travail 
 | Informations | |
 | ---- | ---- |
 | Raison sociale | Metalizz SAS |
-| Addresse | 840 Chemin de Chabanne, 26270 Loriol-sur-drôme, France |
+| Adresse | 840 Chemin de Chabanne, 26270 Loriol-sur-Drôme, France |
 | Numéro de téléphone | +33 4 75 63 78 11 |
-| Addresse email | [contact@metalizz.com](mailto:contact@metalizz.com) |
+| Adresse email | [contact@metalizz.com](mailto:contact@metalizz.com) |
 | Site internet | [www.metalizz.com](https://www.metalizz.com/) |
 | SIRET | 82753044500010 |
 | Numéro TVA | FR22827530445 |

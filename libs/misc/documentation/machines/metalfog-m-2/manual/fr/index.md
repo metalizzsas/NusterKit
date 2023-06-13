@@ -1,4 +1,4 @@
-Bienvenue dans le guide d'utilisation de la Metalfog modèle M. Ce document vous guidera afin d'optimiser l'utilisation de votre Metalfog.
+Bienvenue dans le guide d'utilisation de la Metalfog modèle M. Ce document vous guidera pour une utilisation optimale de votre Metalfog.
 
 Metalizz a apporté le plus grand soin à la conception et à la fabrication de cette machine dans un souci d'efficacité, de durabilité et de respect sociétal et environnemental.
 

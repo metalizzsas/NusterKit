@@ -2,7 +2,7 @@
 
 Pour permettre la télémaintenance de votre machine, il suffit de la connecter à votre réseau via le port RJ45, situé sous le coffret électrique.
 
-Cette connexion réseau nécessite l'accès aux ports sortants suivants:
+Cette connexion réseau nécessite l'accès aux ports sortants suivants :
 
 | Port | Description |
 | --- | --- |

@@ -38,7 +38,7 @@
 
 ![Vue de face](front_view.jpg)
 
-#### Vue de coté
+#### Vue de côté
 
 ![Vue de coté](side_view.jpg)
 

@@ -160,8 +160,11 @@
     "maintenance": [
         {
             "name": "usc-filter",
-            "durationType": "duration",
-            "durationLimit": 15
+            "durationType": "sensor",
+            "sensorBaseValue": 0.14,
+            "sensorLimitValue": 0.10,
+            "sensorGate": "pump#pressure",
+            "requireEnableGate": "pump#enable"
         }
     ],
     "cyclePremades": [
@@ -203,6 +206,15 @@
                         "io": {
                             "gateName": "temperature#over-heat",
                             "gateValue": 1
+                        }
+                    }
+                },
+                {
+                    "name": "usc-filter",
+                    "startOnly": true,
+                    "checkchain": {
+                        "parameter": {
+                            "maintenance_status": ["usc-filter", 1]
                         }
                     }
                 }
@@ -286,6 +298,16 @@
                         "plus": ["temperature#heater"],
                         "minus": ["temperature#ventilation"]
                     }]
+                },
+                {
+                    "path": "maintenance.0.sensorBaseValue",
+                    "mode": "set",
+                    "content": 0.20
+                },
+                {
+                    "path": "maintenance.0.sensorLimitValue",
+                    "mode": "set",
+                    "content": 0.12
                 }
             ]
         }

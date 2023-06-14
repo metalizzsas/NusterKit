@@ -35,7 +35,7 @@ export class SensorMaintenance extends Maintenance implements Omit<SensorMainten
             options.callback?.(this.toJSON());
         });
 
-        super.checkTracker();
+        super.checkTracker().then(k => this.#lastKnownDurationProgress = k ?? -1);
     }
 
     get computeDurationProgress(): number
@@ -47,7 +47,7 @@ export class SensorMaintenance extends Maintenance implements Omit<SensorMainten
             return this.#lastKnownDurationProgress;
 
         this.#lastKnownDurationProgress = map(this.#sensorGate.value, this.sensorBaseValue, this.sensorLimitValue, 0, 100) / 100;
-        MaintenanceModel.findOneAndUpdate({ name: this.name }, { duration: this.#lastKnownDurationProgress });
+        void MaintenanceModel.findOneAndUpdate({ name: this.name }, { duration: this.#lastKnownDurationProgress }).then();
         
         return this.#lastKnownDurationProgress;
     }

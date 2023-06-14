@@ -17,6 +17,8 @@ export class SensorMaintenance extends Maintenance implements Omit<SensorMainten
     #requireEnabledGate?: IOGateJSON;
     #sensorGate?: IOGateJSON;
 
+    #lastKnownDurationProgress = -1;
+
     constructor(obj: SensorMaintenanceConfig)
     {
         super(obj);
@@ -36,15 +38,18 @@ export class SensorMaintenance extends Maintenance implements Omit<SensorMainten
         super.checkTracker();
     }
 
-    get computeDurationProgress(): number {
-
-        if(this.#requireEnabledGate?.value == 0)
-            return -1;
+    get computeDurationProgress(): number
+    {
+        if(this.#requireEnabledGate?.value !== 1)
+            return this.#lastKnownDurationProgress;
 
         if(this.#sensorGate === undefined)
-            return -1;
+            return this.#lastKnownDurationProgress;
+
+        this.#lastKnownDurationProgress = map(this.#sensorGate.value, this.sensorBaseValue, this.sensorLimitValue, 0, 100) / 100;
+        MaintenanceModel.findOneAndUpdate({ name: this.name }, { duration: this.#lastKnownDurationProgress });
         
-        return Math.floor(map(this.#sensorGate.value, this.sensorBaseValue, this.sensorLimitValue, 0, 1));
+        return this.#lastKnownDurationProgress;
     }
 
     /** Reset maintenance task */
@@ -64,9 +69,10 @@ export class SensorMaintenance extends Maintenance implements Omit<SensorMainten
         return {
             name: this.name,
             durationType: this.durationType,
-            duration: (this.#sensorGate?.value ?? -1),
+            duration: (this.#requireEnabledGate?.value === 1 ? this.#sensorGate?.value ?? -1 : -1),
             durationMax: this.sensorLimitValue,
-            durationProgress: this.computeDurationProgress
+            durationProgress: this.computeDurationProgress,
+            sensorUnit: this.#sensorGate?.unity
         }
     }
 }

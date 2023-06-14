@@ -126,11 +126,13 @@ export class Machine
      */
     public async socketData(): Promise<Status> {
         const containers = await this.containerRouter.socketData();
+        const maintenances = await this.maintenanceRouter.socketData();
 
         return {
-            "cycle": this.cycleRouter.socketData,
-            "containers": containers,
-            "io": this.ioRouter.socketData,
+            cycle: this.cycleRouter.socketData,
+            containers: containers,
+            io: this.ioRouter.socketData,
+            maintenance: maintenances
         } satisfies Status;
     }
 

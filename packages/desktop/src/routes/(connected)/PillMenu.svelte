@@ -1,6 +1,5 @@
 <script lang="ts">
 
-    import type { MaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydrated";
 	import { computeContainersState, computeMaintenancesState } from "$lib/utils/state";
 
 	import Flex from "$lib/components/layout/flex.svelte";
@@ -12,14 +11,11 @@
 
     let containersState: "good" | "warn" | "error" | "info" = "error";
 
-    let maintenances: Array<MaintenanceHydrated> = [];
     let maintenancesState: "good" | "warn" | "error" = "error";
 
     let machine: Configuration | undefined;
 
     onMount(async () => {
-        const maintenancesRequest = await fetch(`/api/v1/maintenances`);
-        maintenances = (await maintenancesRequest.json() as Array<MaintenanceHydrated>).filter(m => m.name !== "cycleCount");
 
         const machineRequest = await fetch(`/api/machine`);
         machine = await machineRequest.json() as Configuration;
@@ -27,7 +23,7 @@
     });
 
     /// Reactive statements
-    $: maintenancesState = computeMaintenancesState(maintenances);
+    $: maintenancesState = computeMaintenancesState($realtime.maintenance);
     $: containersState = computeContainersState($realtime.containers, $realtime.io).result;
 
 </script>

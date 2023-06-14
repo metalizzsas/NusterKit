@@ -16,16 +16,16 @@ export class Maintenance implements BaseMaintenance
         this.durationType = obj.durationType;
     }
 
-    async checkTracker()
+    async checkTracker(): Promise<number | void>
     {
         const doc = await MaintenanceModel.findOne({ name: this.name });
 
         if(doc)
         {
             this.operationDate = doc.operationDate;
-            return;
+            return doc.duration;
         }
-
+        
         LoggerInstance.warn(`Maintenance-${this.name}: Maintenance tracker not found, creating it...`);
         await MaintenanceModel.create({
             name: this.name

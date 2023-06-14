@@ -8,6 +8,7 @@ Dans un premier temps, positionnez les roulettes de la partie arrière de la mac
 
 ![Ouverture porte](Image1.jpg)
 
+\newpage
 
 À l'intérieur, fermez les 2 vannes puis installez le tube de vidange. Une fois ce dernier en place, ouvrez la vanne de vidange.
 
@@ -18,6 +19,7 @@ Ouvrez l'évent de la pompe pour vidanger le corps de filtre jusqu'à ce que plu
 
 ![Ouverture évent pompe](Image4.jpg)
 
+\newpage
 
 Ensuite, ouvrez le corps de filtre en dévissant l'écrou du haut puis retirez la cartouche filtrante en dévissant son écrou de maintient.
 
@@ -27,6 +29,8 @@ Sortez la cartouche du corps de filtre en l'inclinant.
 
 ![Retirer cartouche](Image7.jpg)
 
+\newpage
+
 Remplacez la cartouche par une cartouche neuve.
 
 ![Insertion cartouche neuve](Image8.jpg)
@@ -35,6 +39,8 @@ Puis resserrez l'écrou de la cartouche filtrante.
 
 ![Resserrer écrou cartouche](Image9.jpg)
 
+\newpage
+
 Remontez l'écrou du corps de filtre et revissez l'évent sans le serrer jusqu'au bout.
 
 ![Fermeture écrou corps de filtre](Image10.jpg)
@@ -42,6 +48,7 @@ Remontez l'écrou du corps de filtre et revissez l'évent sans le serrer jusqu'a
 Fermez la vanne de vidange et ouvrez les deux vannes principales.
 
 ![Fermeture vanne de vidange, ouverture vannes principales](Image11.jpg)
+\newpage
 
 Une fois que vous observez du liquide couler légèrement par l'évent, l'air est purgé : vous pouvez serrez complétement l'évent du filtre.
 

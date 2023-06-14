@@ -8,15 +8,16 @@
 
 		void fetch(`http://localhost:4082/io/${name}/${value}`, { method: 'post' });
 	};
+
+	export function map(source: number, inMin: number, inMax: number, outMin: number, outMax: number)
+	{
+	return (source - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+	}
+
 </script>
 
 <div style="display:flex; flex-direction: column; align-items: start; gap: 0.25em; padding: 0.5em; border-radius: 0.25em; background-color: #ccc;">
 	<span style="font-weight:600;">{gate.name}</span>
-	<span style="font-weight: 500;">
-		Value: 
-		<span style:color={gate.value > 0 ? 'emerald' : 'red'}>{gate.value}</span>
-	</span>
-
 	{#if gate.bus == 'in'}
 		{#if gate.size == 'bit'}
 			<span style="display:flex; gap:0.25em; align-items: center; font-size: 0.9rem;">
@@ -30,21 +31,25 @@
 				Change value
 			</span>
 		{:else if gate.type == 'mapped'}
+			{@const v = map(gate.value, gate.mapInMin, gate.mapInMax, gate.mapOutMin, gate.mapOutMax)}
+			Value: {v} {gate.unity}
 			<input
 				type="range"
-				min={gate.mapInMin}
+				min={gate.mapOutMin}
 				max={gate.mapOutMax}
-				value={gate.value}
+				step={0.1}
+				value={v}
 				on:change={(e) => {
 					updateGate(gate.name, e.target.value);
 				}}
 			/>
 		{:else if gate.type == "pt100"}
+			Value: {gate.value / 10} °C
 			<input
 				type="range"
 				min={0}
-				max={10000}
-				value={gate.value}
+				max={100}
+				value={gate.value / 10}
 				on:change={(e) => {
 					updateGate(gate.name, e.target.value);
 				}}

@@ -9,6 +9,11 @@ import { ENIPController } from "./controllers/enip";
 import { deepInsert } from "./deepInsert";
 import { Machines } from "@metalizzsas/nuster-turbine-machines";
 
+function map(source: number, inMin: number, inMax: number, outMin: number, outMax: number)
+{
+  return (source - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+}
+
 export class SimulationMachine
 {
     config: MachineSpecs;
@@ -71,9 +76,22 @@ export class SimulationMachine
                 res.status(404).end();
                 return;
             }
+
+            if(gate.type === "pt100"){
+                //@ts-ignore
+                gate.value = parseInt(req.params.value) * 10;
+            }
+            else if(gate.type === "mapped")
+            {
+                //@ts-ignore
+                gate.value = map(parseFloat(req.params.value), gate.mapOutMin, gate.mapOutMax, gate.mapInMin, gate.mapInMax);
+            }
+            else
+            {
+                //@ts-ignore
+                gate.value = parseInt(req.params.value);
+            }
             
-            //@ts-ignore
-            gate.value = parseInt(req.params.value);
 
             res.status(200);
             res.write("ok");

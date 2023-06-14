@@ -47,7 +47,10 @@ Remontez l'écrou du corps de filtre et revissez l'évent sans le serrer jusqu'a
 
 Fermez la vanne de vidange et ouvrez les deux vannes principales.
 
+
 ![Fermeture vanne de vidange, ouverture vannes principales](Image11.jpg)
+
+
 \newpage
 
 Une fois que vous observez du liquide couler légèrement par l'évent, l'air est purgé : vous pouvez serrez complétement l'évent du filtre.

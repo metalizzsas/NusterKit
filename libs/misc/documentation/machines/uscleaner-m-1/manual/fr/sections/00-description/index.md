@@ -1,35 +1,20 @@
 ## Description des composants de la machine
 
-![Vue 1 des composants](elements.jpg)
+![Vue 1 des composants](elements+tab.png)
+
 
 \newpage
 
-| Numéro | Description |
-| ----- | ----- |
-| 1 | Bouton d'arrêt d'urgence |
-| 2 | Écran de contrôle |
-| 3 | Couvercle |
-| 4 | Coffret électrique |
-| 5 | Poignée de manipulation des tonneaux |
-| 6 | Echangeur (Uniquement Uscleaner thermorégulé) |
+![Vue 2 des composants](elements_2+tab.png)
 
-![Vue 2 des composants](elements_2.jpg)
 
 \newpage
-
-| Numéro | Description |
-| ----- | ----- |
-| 7 | Ensemble pompe & filtre |
-| 8 | Transducteurs ultrasons |
-| 9 | Vanne de refoulement |
-| 10 | Vanne d'aspiration |
-| 11 | Vanne de vidange |
 
 ### Caractéristiques techniques
 
 - Masse : 60 kg à vide
 - Dimensions : 970 mm x 865 mm x 1100 mm
-- Surface au sol : 0.84 m<sup>2<sup>
+- Surface au sol : 0.84 m<sup>2</sup>
 - Puissance max : 1.2 kW
 
 ### Dimensions

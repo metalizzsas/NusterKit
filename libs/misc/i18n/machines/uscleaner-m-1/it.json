@@ -39,7 +39,8 @@
         "run_conditions": {
             "emergency-stop": "Pulsante arresto di emergenza",
             "cover-closed": "Coperchio chiuso",
-            "temperature#over-heat": "No product overheat"
+            "temperature#over-heat": "No product overheat",
+            "usc-filter": "Filtro pulito"
         },
 
         "names": {

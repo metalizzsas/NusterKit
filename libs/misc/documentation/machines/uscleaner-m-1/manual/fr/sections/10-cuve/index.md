@@ -16,7 +16,7 @@ Selon la configuration de votre Uscleaner, la quantité de fluide nécessaire di
 
 Veillez à respecter les limites de remplissage indiquées au niveau du grand engrenage.
 
-![Niveaux minimum / maximum](min_max_level.png)
+![Niveaux minimum / maximum](min_max_level2.png)
 
 ### Suivi de la durée de vie des produits
 
@@ -31,6 +31,8 @@ En cliquant sur **Chargement manuel**, le logiciel Nuster vous demande quel type
 En cliquant sur **Vidange manuelle**, le suivi de la durée de vie du produit est désactivé, et la machine considère qu'aucun produit n'est chargé dans le bac de liquide.
 
 > En cas de vidange du CR-1, le produit usagé doit être traité en filière agréée (code déchet européen 14 06 03* d'après la directive (UE) 2008/98/CE).
+
+\newpage
 
 ### Thermorégulation
 

@@ -19,6 +19,8 @@ Les profils constructeurs ne sont ni supprimables, ni modifiables. En revanche, 
 
 Pour consulter ou modifier un profil, cliquez sur le profil que vous souhaitez consulter ou modifier dans la liste de gauche. 
 
+\newpage
+
 ### Consultation / Modification d'un profil
 
 Une fois le profil ouvert, la liste de gauche se masque pour laisser place aux détails du profil. Vous pouvez alors modifier les réglages du profil.
@@ -26,8 +28,6 @@ Une fois le profil ouvert, la liste de gauche se masque pour laisser place aux d
 ![Modification profil](profiles_edit.png)
 
 Une fois les paramètres modifiés, cliquez sur le bouton   `Sauvegarder le profil`  pour le sauvegarder.  Un message de confirmation apparait au dessus du nom du profil lorsque celui-ci est sauvegardé.
-
-\newpage
 
 Il est possible également de :
 

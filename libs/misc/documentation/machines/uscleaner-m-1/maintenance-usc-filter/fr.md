@@ -1,6 +1,6 @@
 ### Changement de la cartouche filtrante
 
-> **Attention :** Il est recommandé de changer la cartouche filtrante tous les 3 mois, même s'il n'est pas colmaté.
+> **Attention :** Il est recommandé de changer la cartouche filtrante tous les 3 mois, même si elle n'est pas colmatée.
 
 Les effluents de l'Uscleaner sont des produits à manipuler avec précaution, veillez à porter les EPI adéquats, en particulier : ***gants en latex, lunettes de protection et à éviter tout contact avec la peau***.
 

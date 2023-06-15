@@ -16,6 +16,7 @@
 
 	beforeUpdate(() => {
 		if (typeof value === 'boolean') checked = value;
+		else if(typeof value === "undefined") { value = false; checked = false }
 		else value == 0 ? (checked = false) : (checked = true);
 	});
 </script>

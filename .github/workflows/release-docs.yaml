@@ -33,11 +33,11 @@ jobs:
         run: echo "misc-present="$(grep -rIl "@metalizzsas/nuster-misc" .changeset/) >> $GITHUB_OUTPUT 
 
       - name: 📂 Create output directory
-        if: ${{ github.event_name == 'workflow_call' || steps.doc-build-check.outputs.misc-present != '' }}
+        if: ${{ github.event_name == 'push' || steps.doc-build-check.outputs.misc-present != '' }}
         run: mkdir -p libs/misc/documentation/output
 
       - name: 📝 Generate pdf for all docs
-        if: ${{ github.event_name == 'workflow_call' || steps.doc-build-check.outputs.misc-present != '' }}
+        if: ${{ github.event_name == 'push' || steps.doc-build-check.outputs.misc-present != '' }}
         uses: docker://pandoc/extra:3.1
         with:
           args: "-d libs/misc/documentation/${{ matrix.docs-paths }}/export.yaml --template libs/misc/documentation/utils/eisvogel.tex"
@@ -50,20 +50,20 @@ jobs:
           path: libs/misc/documentation/output/
 
       - name: ❓ Find first pdf file of folder
-        if: ${{ github.event_name == 'workflow_call' || steps.doc-build-check.outputs.misc-present != '' }}
+        if: ${{ github.event_name == 'push' || steps.doc-build-check.outputs.misc-present != '' }}
         id: find_pdf
         run: |
           echo "pdf-path="$(find libs/misc/documentation/output -type f -name '*.pdf' -print -quit) >> $GITHUB_OUTPUT &&
           echo "pdf-name="$(find libs/misc/documentation/output -type f -name '*.pdf' -printf "%f\n") >> $GITHUB_OUTPUT
 
       - name: 📖 Parse package.json
-        if: ${{ github.event_name == 'workflow_call' || steps.doc-build-check.outputs.misc-present != '' }}
+        if: ${{ github.event_name == 'push' || steps.doc-build-check.outputs.misc-present != '' }}
         id: get_misc_version
         run: |
           echo "misc-version="$(cat libs/misc/package.json | jq -r '.version') >> $GITHUB_OUTPUT
 
       - name: ⛭ Get nuster-misc latest tag
-        if: ${{ github.event_name == 'workflow_call' || steps.doc-build-check.outputs.misc-present != '' }}
+        if: ${{ github.event_name == 'push' || steps.doc-build-check.outputs.misc-present != '' }}
         id: get_tag_id
         run: |
           curl -L \
@@ -76,7 +76,7 @@ jobs:
           MISC_VERSION: ${{ steps.get_misc_version.outputs.misc-version }}
 
       - name: 📦 Upload pdf to release
-        if: ${{ github.event_name == 'workflow_call' || steps.doc-build-check.outputs.misc-present != '' }}
+        if: ${{ github.event_name == 'push' || steps.doc-build-check.outputs.misc-present != '' }}
         run: |
           curl -L \
           -X POST \

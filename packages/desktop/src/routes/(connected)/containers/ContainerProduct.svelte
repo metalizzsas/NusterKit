@@ -69,7 +69,7 @@
             </p>
             <p>
                 <span class="font-medium">{$_('container.product.informations.lifetime_remaining')}</span>
-                {transformDate($_, container.productData.lifetimeRemaining, container.productData.loadedProductType)}.
+                {transformDate($_, container.productData.lifetimeRemaining)}.
             </p>
         </section>
     {/if}

@@ -27,7 +27,7 @@ export function parseDurationToString(date: number): string {
  * @param productseries product series of the product we transform the date on
  * @returns transformed date
  */
-export function transformDate(translatorKey: (arg0: string) => string, date: number, productseries: ProductSeries = "any"): string {
+export function transformDate(translatorKey: (arg0: string) => string, date: number): string {
     if (date > 0) {
 
         const years = new Date(date).getFullYear() - 1970;
@@ -43,7 +43,7 @@ export function transformDate(translatorKey: (arg0: string) => string, date: num
         const hoursPlural = hours != 1 ? translatorKey('date.hours') : translatorKey('date.hour');
 
         return `${days} ${daysPlural}, ${hours} ${hoursPlural}`;
-    } else if(productseries == "any"){
+    } else if(date === -1){
         return translatorKey('container.product.informations.unknownLifespan');
     } else {
         return translatorKey('container.product.informations.done');

@@ -25,9 +25,9 @@ export const computeContainersState = (containers: Array<ContainerHydrated> | Co
             globalResult = "error";
         }
 
-        if(container.productData !== undefined && container.productData.lifetimeRemaining == 0)
+        if(container.productData !== undefined)
         {
-            if(container.productData.loadedProductType === "any")
+            if(container.productData.lifetimeRemaining < 0)
                 globalIssues.add("product_lifespan_unknown")
             else
                 globalIssues.add("product_lifespan");

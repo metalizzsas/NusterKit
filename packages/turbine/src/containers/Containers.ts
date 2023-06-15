@@ -120,7 +120,8 @@ export class Container implements ContainerConfig
 
         if(containerDocument && this.isProductable)
         {
-            const limitTime = new Date(containerDocument.loadDate).getTime() + 1000 * 60 * 60 * 24 * (Products[containerDocument.loadedProductType].lifespan ?? -1);
+            const productLifeSpan = Products[containerDocument.loadedProductType]?.lifespan ?? -1;
+            const limitTime = new Date(containerDocument.loadDate).getTime() + 1000 * 60 * 60 * 24 * productLifeSpan;
 
             let lifetimeRemaining = (limitTime) - Date.now();
             lifetimeRemaining = lifetimeRemaining < 0 ? 0 : lifetimeRemaining;
@@ -128,7 +129,7 @@ export class Container implements ContainerConfig
             this.productData = { 
                 loadedProductType: containerDocument.loadedProductType, 
                 loadDate: containerDocument.loadDate, 
-                lifetimeRemaining: lifetimeRemaining
+                lifetimeRemaining: productLifeSpan !== -1 ? lifetimeRemaining : -1
             };
         }
         else

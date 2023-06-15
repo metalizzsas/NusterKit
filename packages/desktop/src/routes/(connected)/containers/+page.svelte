@@ -21,7 +21,7 @@
 </script>
 
 <Flex direction="row" gap={6}>
-	<div class="shrink-0 overflow-y-scroll drop-shadow-xl">
+	<div class="shrink-0 drop-shadow-xl">
 		<Wrapper>
 			<Flex direction="col" gap={2}>
 				<h1>{$_(`container.lead`)}</h1>
@@ -62,7 +62,7 @@
 		</Wrapper>
 	</div>
 
-	<div class="overflow-y-scroll grow drop-shadow-xl">
+	<div class="grow drop-shadow-xl">
 		<Wrapper>
 			{#if selectedContainer !== undefined}
 				<Container bind:container={selectedContainer}/>

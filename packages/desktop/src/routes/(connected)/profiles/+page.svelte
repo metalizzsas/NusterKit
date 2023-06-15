@@ -26,7 +26,7 @@
 
 <Flex direction="row" gap={selectedProfileId !== undefined ? 0 : 6}>
 	<div 
-		class="overflow-y-scroll drop-shadow-xl duration-300"
+		class="drop-shadow-xl duration-300"
 		class:max-w-0={selectedProfileId !== undefined}
 		class:min-w-0={selectedProfileId !== undefined}
 		class:shrink={selectedProfileId !== undefined}
@@ -71,7 +71,7 @@
 	</Wrapper>
 	</div>
 
-	<div class="overflow-y-scroll grow drop-shadow-xl">
+	<div class="grow drop-shadow-xl">
 		<Wrapper>
 			{#if selectedProfile !== undefined}
 				<Profile bind:profile={selectedProfile} on:exit={() => { selectedProfileId = undefined; void invalidateAll()}} />

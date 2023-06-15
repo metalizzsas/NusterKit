@@ -1,5 +1,5 @@
 {
-    "$schema": "../../../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
+    "$schema": "../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
 
     "containers": {
 
@@ -8,7 +8,7 @@
         },
 
         "resin": {
-            "name": "Coat"
+            "name": "Varnish"
         }
     },
 
@@ -22,7 +22,11 @@
             "motor": "Rotation Motor"
         },
         "premade": {
-            "sla": "SLA / DLP 3D Print"
+            "shiny-polyjet": "Shiny Polyjet",
+            "shiny-resin": "Shiny SLA / DLP",
+
+            "translucent-polyjet": "Translucent Polyjet",
+            "translucent-resin": "Translucent SLA / DLP"
         },
         "rows": {
             "interlayer-uvduration": "UV Curing time between layers",

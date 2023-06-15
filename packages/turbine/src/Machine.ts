@@ -51,6 +51,10 @@ export class Machine
         // Assign specs to this instance
         this.specs = specs as MachineSpecs;
 
+        TurbineEventLoop.on("machine.config", (callback) => {
+            callback(this.specs);
+        });
+
         // Addon Parsing
         if (this.data.addons !== undefined && this.data.addons.length > 0) {
             LoggerInstance.warn("Machine: " + this.data.addons.length + " Addon(s) detected.");

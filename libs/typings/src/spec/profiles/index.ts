@@ -25,19 +25,22 @@ interface ProfileSkeleton {
 }
 
 /** Base profile skeletons fields types */
-type ProfileSkeletonFields = (IProfileSkeletonFieldFloat | IProfileSkeletonFieldBoolean | IProfileSkeletonFieldNumber | IProfileSkeletonFieldTime) & IProfileSkeletonField;
+type ProfileSkeletonFields = (IProfileSkeletonFieldFloat | IProfileSkeletonFieldBoolean | IProfileSkeletonFieldNumber | IProfileSkeletonFieldTime | IProfileSkeletonFieldIncremental) & IProfileSkeletonField;
 
 interface IProfileSkeletonField
 {
     /** Name of the profile field can be splitted by category using a #. `ex: temperature#target` */
     name: string;
     /** Type of the profile field */
-    type: "bool" | "float" | "int" | "time";
+    type: "bool" | "float" | "int" | "incremental" | "time";
     /** Value contained byt the profile field */
     value: number;
 
     /** Unity of the profile field, it used for UI purposes only */
     unity?: string;
+
+    /** Is Profile Field hidden */
+    detailsShown?: boolean;
 }
 
 /** Float ProfileField type */
@@ -61,6 +64,15 @@ interface IProfileSkeletonFieldNumber extends IProfileSkeletonField
 {
     type: "int";
     value: number;
+}
+
+type IProfileSkeletonFieldIncremental = IProfileSkeletonField & {
+    type: "incremental",
+    value: number,
+
+    baseValue: number,
+    incrementalRangeMin: number,
+    incrementalRangeMax: number
 }
 
 /** Time profile field type */

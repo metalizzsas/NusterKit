@@ -83,6 +83,8 @@
             
             <SettingField label={"Dev Mode"}><Toggle bind:value={data.configuration.settings.devMode} /></SettingField>
             <SettingField label={"Profiles shown"}><Toggle bind:value={data.configuration.settings.profilesShown} /></SettingField>
+            <SettingField label={"Only show selected profile rows"}><Toggle bind:value={data.configuration.settings.onlyShowSelectedProfileFields} /></SettingField>
+            <SettingField label={"Hide Multilayer informations"}><Toggle bind:value={data.configuration.settings.hideMultilayerIndications} /></SettingField>
 
             {#if specs.variables.length > 0}
                 <h2>Machine Variables</h2>

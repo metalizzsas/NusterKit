@@ -4,12 +4,15 @@ import { ParameterBlockRegistry } from "../ParameterBlockRegistry";
 import { TurbineEventLoop } from "../../../events";
 import type { ProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profiles";
 import { NumericParameterBlock } from "../NumericParameterBlock";
+import type { ProfileSkeleton } from "@metalizzsas/nuster-typings/build/spec/profiles";
+import type { MachineSpecs } from "@metalizzsas/nuster-typings";
 
 export class ProfileParameterBlock extends NumericParameterBlock
 {
     private profileRow: StringParameterBlockHydrated;
 
     #profile?: ProfileHydrated;
+    #profileSkeleton?: ProfileSkeleton;
 
     constructor(obj: ProfileParameterBlockSpec)
     {
@@ -18,6 +21,10 @@ export class ProfileParameterBlock extends NumericParameterBlock
 
         TurbineEventLoop.emit("pbr.profile.read", ({ callback: (profile) => {
             this.#profile = profile;
+
+            TurbineEventLoop.emit("machine.config", (config: MachineSpecs) => {
+                this.#profileSkeleton = config.profileSkeletons.find(p => p.name === this.#profile?.skeleton);
+            });
         }}));
     }
 
@@ -25,19 +32,23 @@ export class ProfileParameterBlock extends NumericParameterBlock
     {
         const profileRowData = this.profileRow.data;
 
-        if(this.#profile === undefined)
+        if(this.#profile === undefined || this.#profileSkeleton === undefined)
         {
             TurbineEventLoop.emit("log", "warning", "Profile: profile not defined, returning 0");
             return 0;
         }
 
         const val = this.#profile.values.find(v => v.name == profileRowData);
+        const profileSkeletonRow = this.#profileSkeleton.fields.find(r => r.name === profileRowData);
 
-        if(val === undefined)
+        if(val === undefined || profileSkeletonRow === undefined)
         {
             TurbineEventLoop.emit("log", "warning", `Profile: profile row ${profileRowData} not defined returning 0`);
             return 0;
         }
+
+        if(profileSkeletonRow.type === "incremental")
+            return profileSkeletonRow.baseValue + val.value;
 
         if(typeof val === "boolean")
             return val ? 1 : 0;

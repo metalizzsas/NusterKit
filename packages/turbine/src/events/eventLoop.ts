@@ -7,6 +7,7 @@ import type { ContainerHydrated } from "@metalizzsas/nuster-typings/build/hydrat
 import type { MaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydrated/maintenance";
 import type { IOGateJSON } from "@metalizzsas/nuster-typings/build/hydrated/io";
 import type { Popup } from "@metalizzsas/nuster-typings/build/spec/nuster";
+import type { MachineSpecs } from "@metalizzsas/nuster-typings";
 
 export class EventLoop extends EventEmitter implements EventLoopEmitter
 {
@@ -97,4 +98,6 @@ interface EventLoopEvents
     "nuster.modal": (popup: Popup) => void;
 
     "close": () => void;
+
+    "machine.config": (callback: (config: MachineSpecs) => void) => void;
 }

@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.6.11
+
+### Patch Changes
+
+- feat: updated Smoothit M R3 to use new incremental profile field. Removed 3way valve, Created 4 new premade profiles ([#415](https://github.com/metalizzsas/NusterKit/pull/415))
+
+- feat: uscleaner m r1 now have a filter indicator at start ([#407](https://github.com/metalizzsas/NusterKit/pull/407))
+
 ## 1.6.10
 
 ### Patch Changes

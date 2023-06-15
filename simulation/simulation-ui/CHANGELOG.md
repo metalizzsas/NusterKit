@@ -1,5 +1,11 @@
 # @metalizzsas/simulation-ui
 
+## 1.0.8
+
+### Patch Changes
+
+- feat: updated gates to havce their real values used ([#407](https://github.com/metalizzsas/NusterKit/pull/407))
+
 ## 1.0.7
 
 ### Patch Changes

@@ -1,5 +1,24 @@
 # @metalizzsas/nuster-turbine
 
+## 1.10.27
+
+### Patch Changes
+
+- feat: created variables to hide multilayer and profile non-selected fields ([#415](https://github.com/metalizzsas/NusterKit/pull/415))
+
+- feat: realtime maintenance ([#407](https://github.com/metalizzsas/NusterKit/pull/407))
+
+- fix: product with no lifespan set now displays "Lifespan unknown" ([#414](https://github.com/metalizzsas/NusterKit/pull/414))
+
+- feat: updated product series ([#414](https://github.com/metalizzsas/NusterKit/pull/414))
+
+- feat: created Incremental profile field type ([#415](https://github.com/metalizzsas/NusterKit/pull/415))
+
+- feat: sensor maintenance now shows units ([#407](https://github.com/metalizzsas/NusterKit/pull/407))
+
+- Updated dependencies [[`7eae6dee`](https://github.com/metalizzsas/NusterKit/commit/7eae6deeab2fdce20214bb93e5c5d15c708c01a5), [`7cb04725`](https://github.com/metalizzsas/NusterKit/commit/7cb047251effa20cfaf937c1c40b90109b50ba5d)]:
+  - @metalizzsas/nuster-turbine-machines@1.6.11
+
 ## 1.10.26
 
 ### Patch Changes

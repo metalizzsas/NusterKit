@@ -51,7 +51,8 @@
         "run_conditions": {
             "emergency-stop": "Emergency stop button status",
             "cover-closed": "Cover closed",
-            "temperature#over-heat": "No fluid overheat"
+            "temperature#over-heat": "No fluid overheat",
+            "usc-filter": "Filter status"
         }
     },
 

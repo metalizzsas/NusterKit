@@ -5,21 +5,16 @@
 	import Maintenance from "./Maintenance.svelte";
 
 	import { _ } from "svelte-i18n";
-	import { onMount, setContext } from "svelte";
-	import type { PageData } from "./$types";
+	import { setContext } from "svelte";
 	import type { MaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydrated";
 	import { writable, type Writable } from "svelte/store";
-
-	export let data: PageData;
-
-	onMount(() => {
-		selectedMaintenanceName = data.maintenances.at(0)?.name;
-	})
+	import { realtime } from "$lib/utils/stores/nuster";
 
 	let selectedMaintenanceName: string | undefined = undefined;
 	let selectedMaintenance = setContext<Writable<MaintenanceHydrated | undefined>>("task", writable<MaintenanceHydrated | undefined>(undefined));
-
-	$: selectedMaintenance, selectedMaintenance.set(data.maintenances.find(m => m.name === selectedMaintenanceName));
+		
+	$: maintenances = $realtime.maintenance.filter(k => k.name !== "cycleCount");
+	$: selectedMaintenance, selectedMaintenance.set(maintenances.find(m => m.name === selectedMaintenanceName));
 
 </script>
 
@@ -28,7 +23,7 @@
 		<Wrapper>
 			<Flex direction="col" gap={2}>
 				<h1>{$_(`maintenance.lead`)}</h1>
-				{#each data.maintenances as maintenance (maintenance.name)}
+				{#each maintenances as maintenance (maintenance.name)}
 					<SelectableButton 
 						selected={selectedMaintenanceName === maintenance.name} 
 						on:click={() => {
@@ -44,11 +39,18 @@
 							class="h-3 aspect-square rounded-full" 
 							class:bg-emerald-500={maintenance.durationProgress < .75}
 							class:bg-amber-500={maintenance.durationProgress >= .75 && maintenance.durationProgress < 1}
-							class:bg-red-500={maintenance.durationProgress >= 1}
+							class:bg-red-500={maintenance.durationProgress >= 1 || maintenance.durationProgress === -1}
 							/>
 							<Flex direction="col" gap={0} items="start" justify="items-start">
 								<h2>{$_('maintenance.tasks.' + maintenance.name + '.name')}</h2>
-								<p class="text-sm text-zinc-600 dark:text-zinc-300">{maintenance.duration} / {maintenance.durationMax} {$_(`maintenance.unity.${maintenance.durationType}`)}</p>
+								<p class="text-sm text-zinc-600 dark:text-zinc-300">
+									{#if maintenance.durationType === "sensor"}
+										{maintenance.duration === -1 ? "—" : maintenance.duration} {maintenance.sensorUnit ?? ""} / {maintenance.durationMax} {maintenance.sensorUnit ?? ""}
+									{:else}
+										{maintenance.duration === -1 ? "—" : maintenance.duration} / {maintenance.durationMax}
+										{$_(`maintenance.unity.${maintenance.durationType}`)}
+									{/if}
+								</p>
 							</Flex>
 						</Flex>
 					</SelectableButton>

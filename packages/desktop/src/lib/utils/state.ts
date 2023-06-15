@@ -86,7 +86,7 @@ export const computeMaintenancesState = (maintenances: Array<MaintenanceHydrated
     if(!(maintenances instanceof Array))
         maintenances = [maintenances] as Array<MaintenanceHydrated>;
 
-    const hasError = maintenances.some(k => k.durationProgress >= 1);
+    const hasError = maintenances.some(k => k.durationProgress >= 1 || k.durationProgress === -1);
     const hasWarn = maintenances.some(k => k.durationProgress >= .75);
 
     if(hasError)

@@ -43,6 +43,9 @@ export class MaintenanceStatusParameterBlock extends StatusParameterBlock
         if(this.#maintenanceTask === undefined)
             return "error";
 
+        if(this.#maintenanceTask.durationProgress === -1)
+            return "warning";
+
         if(this.#maintenanceTask.durationProgress < 0.75)
             return "good";
         
@@ -50,7 +53,6 @@ export class MaintenanceStatusParameterBlock extends StatusParameterBlock
             return (this.optional.data === 1) ? "warning" : "error";
         
         return "warning";
-
     }
 
     static isMaintenanceStatusPB(obj: AllParameterBlocks): obj is MaintenanceStatusParameterBlockSpec

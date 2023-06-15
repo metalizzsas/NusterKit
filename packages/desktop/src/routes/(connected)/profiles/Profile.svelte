@@ -13,6 +13,7 @@
 	import TextField from "$lib/components/inputs/TextField.svelte";
 	import { Icon } from "@steeze-ui/svelte-icon";
 	import { XMark } from "@steeze-ui/heroicons";
+	import { machine } from "$lib/utils/stores/nuster";
 
     export let profile: ProfileHydrated;
 
@@ -103,15 +104,27 @@
 
     {#each [...new Set(profile.values.map(k => k.name.split("#")[0]))] as category}
 
-        <section class="mb-4">
+        {@const fields = profile.values.filter(k => { 
+            const catReturn = k.name.split("#").at(0) == category;
+            const shouldHideFields = $machine.settings.onlyShowSelectedProfileFields ?? false;
 
-            <h2 class="mb-2">{$_(`profile.categories.${category}`)}</h2>
+            if(shouldHideFields)
+                return catReturn && k.detailsShown
+            else
+                return catReturn;
+        })}
 
-            <Flex direction="col" gap={3}>
-                {#each profile.values.filter(k => k.name.split("#").at(0) == category) as field}
-                    <ProfileField bind:field disabled={profile.isPremade === true} />
-                {/each}
-            </Flex>
-        </section>
+        {#if fields.length > 0}
+            <section class="mb-4">
+
+                <h2 class="mb-2">{$_(`profile.categories.${category}`)}</h2>
+
+                <Flex direction="col" gap={3}>
+                    {#each fields as field}
+                        <ProfileField bind:field disabled={profile.isPremade === true} />
+                    {/each}
+                </Flex>
+            </section>
+        {/if}
     {/each}
 </Flex>

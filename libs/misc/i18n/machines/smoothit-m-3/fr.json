@@ -1,5 +1,5 @@
 {
-    "$schema": "../../../../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
+    "$schema": "../../../node_modules/@metalizzsas/nuster-typings/build/schemas/schema-translations.json",
 
     "containers": {
 
@@ -22,10 +22,14 @@
             "motor": "Moteur de rotation"
         },
         "premade": {
-            "sla": "Pièce 3D SLA / DLP"
+            "shiny-polyjet": "Polyjet Brillant",
+            "shiny-resin": "SLA / DLP Brillant",
+
+            "translucent-polyjet": "Polyjet Transparent",
+            "translucent-resin": "SLA / DLP Transparent"
         },
         "rows": {
-            "interlayer-uvduration": "UV Curing time between layers",
+            "interlayer-uvduration": "Durée cuisson uv entre les couches",
             "uv-power": "Puissance UV",
             "reverseEnabled": "Invertion moteur",
             "reverseTime": "Motor reverser timer",

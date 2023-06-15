@@ -1352,14 +1352,16 @@
             "description": "Product series available with machines",
             "enum": [
                 "any",
-                "bc",
-                "cr",
+                "cr-01",
+                "cv-01",
                 "llc_ox",
                 "llc_rd",
-                "tc",
+                "mv-01",
+                "sv-01",
                 "usl_act",
                 "usl_ox",
-                "usl_rd"
+                "usl_rd",
+                "water"
             ],
             "type": "string"
         },

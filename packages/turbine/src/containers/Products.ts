@@ -7,8 +7,12 @@ export const Products: Record<ProductSeries, ContainerProduct> = {
     "llc_rd": { lifespan: 7 },
     "usl_rd": { lifespan: 7 },
     "usl_act": { lifespan: 0.5 },
-    "tc": { lifespan: 31 },
-    "bc": { lifespan: 31 },
-    "cr": { lifespan: 60 },
+
+    "cv-01": { lifespan: 31 },
+    "sv-01": { lifespan: 31 },
+    "mv-01": { lifespan: 31 },
+
+    "cr-01": { lifespan: 60 },
+    "water": {},
     "any": {}
-}
+};

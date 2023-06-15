@@ -23,7 +23,7 @@
 </script>
 
 <Flex direction="row" gap={6}>
-	<div class="shrink-0 overflow-y-scroll drop-shadow-xl">
+	<div class="shrink-0 drop-shadow-xl">
 		<Wrapper>
 			<Flex direction="col" gap={2}>
 				<h1 class="leading-8">{$_(`gates.lead`)}</h1>
@@ -39,7 +39,7 @@
 		</Wrapper>
 	</div>
 
-	<div class="overflow-y-scroll grow drop-shadow-xl">
+	<div class="grow drop-shadow-xl">
 		<Wrapper>
 			<h2 class="leading-10">{$_('gates.bus.' + selectedBus)}</h2>
 			<Flex direction="col" gap={1}>

@@ -65,7 +65,7 @@
 
 <Flex direction="row" gap={listShrinked ? 0 : 6}>
 	<div 
-        class="shrink-0 overflow-y-scroll drop-shadow-xl"
+        class="shrink-0 drop-shadow-xl"
         class:max-w-0={listShrinked}
         class:max-h-0={listShrinked}
     >
@@ -124,7 +124,7 @@
         </Wrapper>
 	</div>
 
-	<div class="overflow-y-scroll grow drop-shadow-xl">
+	<div class="grow drop-shadow-xl">
         <Flex gap={6} direction="col">
             <Wrapper>
                 {#if selectedPremadeIndex !== undefined && cycleData !== undefined}

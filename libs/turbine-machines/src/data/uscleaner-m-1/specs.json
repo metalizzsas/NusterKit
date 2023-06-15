@@ -112,7 +112,7 @@
         {
             "name": "bac",
             "type": "media",
-            "supportedProductSeries": ["cr", "any"],
+            "supportedProductSeries": ["cr-01", "water", "any"],
             "sensors": [
                 {
                     "io": "temperature#sensor"

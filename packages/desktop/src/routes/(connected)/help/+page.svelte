@@ -52,7 +52,7 @@
 </script>
 
 <Flex direction="row">
-	<div class="overflow-y-scroll drop-shadow-xl duration-300 grow">
+	<div class="drop-shadow-xl duration-300 grow">
         <Wrapper>
             <Select bind:value={category} selectableValues={[{ name: $_('help.category.software'), value: "software" }, { name: $_('help.category.machine'), value: "machine" }]} class="mb-6" />
 
@@ -89,7 +89,7 @@
         </Wrapper>
 	</div>
 
-	<div class="overflow-y-scroll grow drop-shadow-xl max-w-[66%]">
+	<div class="grow drop-shadow-xl max-w-[66%]">
         <Wrapper>
             {#if selectedHelp !== undefined && helpContent !== undefined}
                 <div class="markdown">

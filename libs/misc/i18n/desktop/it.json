@@ -74,10 +74,12 @@
           "usl_ox": "USL Ossidante",
           "usl_rd": "USL Riduttore",
           "llc_ox": "LLC Ossidante",
-          "llc_rd": "Riduttore",
-          "tc": "Topcoat",
-          "bc": "Basecoat",
-          "cr": "CR-1",
+          "llc_rd": "LLC Riduttore",
+          "cv-01": "Crystal varnish 01",
+          "sv-01": "Shiny varnish 01",
+          "mv-01": "Matte varnish 01",
+          "cr-01": "CR-1",
+          "water": "Acqua",
           "any": "Sconosciuto"
         }
       },

@@ -54,7 +54,7 @@
       "issues": {
         "product_unloaded": "Produit non chargé",
         "product_lifespan": "Produit périmé",
-        "product_lifespan_unknown": "Produit inconnu",
+        "product_lifespan_unknown": "Durée de vie du produit inconnue",
         "sensor": "Erreur capteur"
       },
       "infos": {
@@ -75,9 +75,11 @@
           "usl_rd": "USL Réducteur",
           "llc_ox": "LLC Oxydant",
           "llc_rd": "LLC Réducteur",
-          "tc": "Topcoat",
-          "bc": "Basecoat",
-          "cr": "CR-1",
+          "cv-01": "Crystal varnish 01",
+          "sv-01": "Shiny varnish 01",
+          "mv-01": "Matte varnish 01",
+          "cr-01": "CR-1",
+          "water": "Eau",
           "any": "Inconnu"
         }
       },

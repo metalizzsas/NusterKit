@@ -44,17 +44,17 @@
     </Flex>
 
     {#if expand === true}
-            <div class="absolute top-[calc(100%+0.5rem)] left-0 z-50 max-h-[15vw] overflow-y-scroll" style:min-width={"100%"} use:clickOutside on:click_outside={() => { if(expand) { expand = false; }}}>
-                <Flex direction={"col"} gap={2}>
-                    {#each selectableValues as sValue}
-                         <button 
-                            class="rounded-lg py-1.5 px-3 ring-inset ring-1 hover:ring-2 ring-gray-500/50 bg-zinc-200 hover:bg-zinc-100 dark:bg-zinc-700 dark:hover:bg-zinc-600 dark:text-white text-zinc-800 text-left duration-200" 
-                            on:click={() => { value = sValue.value; expand = false; change()}}
-                        >
-                            {sValue.name}
-                        </button>
-                    {/each}
-                </Flex>
-            </div>
-        {/if}
+        <div class="absolute top-[calc(100%+0.5rem)] left-0 z-50 max-h-[15vw] overflow-y-scroll" style:min-width={"100%"} use:clickOutside on:click_outside={() => { if(expand) { expand = false; }}}>
+            <Flex direction={"col"} gap={2}>
+                {#each selectableValues as sValue}
+                        <button 
+                        class="rounded-lg py-1.5 px-3 ring-inset ring-1 hover:ring-2 ring-gray-500/50 bg-zinc-200 hover:bg-zinc-100 dark:bg-zinc-700 dark:hover:bg-zinc-600 dark:text-white text-zinc-800 text-left duration-200" 
+                        on:click={() => { value = sValue.value; expand = false; change()}}
+                    >
+                        {sValue.name}
+                    </button>
+                {/each}
+            </Flex>
+        </div>
+    {/if}
 </div>

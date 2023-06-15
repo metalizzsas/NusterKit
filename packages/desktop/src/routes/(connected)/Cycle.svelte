@@ -246,7 +246,7 @@
                     </Flex>
 
                     <Flex gap={4}>
-                        {#if step.runCount !== undefined && step.runAmount !== undefined && step.runAmount.data > 1}
+                        {#if step.runCount !== undefined && step.runAmount !== undefined && step.runAmount.data > 1 && !$machine.settings.hideMultilayerIndications}
                             <Label>{step.runCount} / {step.runAmount.data}</Label>
                         {/if}
 
@@ -256,7 +256,7 @@
                 </Flex>
 
                 {#if step.state === "started"}
-                    <ProgressBar dots={step.runAmount?.data} bind:progress={step.progress} />
+                    <ProgressBar dots={$machine.settings.hideMultilayerIndications ? undefined : step.runAmount?.data} bind:progress={step.progress} />
                 {/if}
             </div>
         {/each}
@@ -302,11 +302,11 @@
                     <Flex items="center" justify="between" class={step.state === "started" ? "mb-2" : ""}>
                         <h4 class="leading-6">{$_(`cycle.steps.${step.name}.name`)}</h4>
                         <Flex gap={4}>
-                            {#if step.runCount !== undefined && step.runAmount !== undefined && step.runAmount.data > 1}
+                            {#if step.runCount !== undefined && step.runAmount !== undefined && step.runAmount.data > 1 && !$machine.settings.hideMultilayerIndications}
                                 <Label>{step.runCount} / {step.runAmount.data}</Label>
                             {/if}
     
-                            <Icon src={iconData.icon} class="h-6 w-6 self-start {iconData.icon === ArrowPath ? "animate-spin-slow" : ""} {iconData.color}" />
+                            <Icon src={iconData.icon} class="h-6 w-6 self-start {iconData.color}" />
                         </Flex>
                     </Flex>
                 </div>

@@ -40,7 +40,7 @@ export interface Settings
      * Enables:
      *  - NextStep button on cycle
      *  - IO Controls
-     *  - profilesMasked is overriden to `true`.
+     *  - profilesShown is overriden to `true`.
      * @defaultValue false
      */
     devMode: boolean;
@@ -50,6 +50,18 @@ export interface Settings
      * @defaultValue true
      */
     profilesShown: boolean;
+
+    /**
+     * Only show picked profile fields
+     * @defaultValue false
+     */
+    onlyShowSelectedProfileFields: boolean;
+
+    /**
+     * Hides multilayer indications in cycle
+     * @defaultValue false
+     */
+    hideMultilayerIndications: boolean;
 
     /**
      * Additional variables.

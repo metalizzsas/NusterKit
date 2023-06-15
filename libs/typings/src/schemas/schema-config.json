@@ -15,7 +15,15 @@
             "description": "Machine additional settings",
             "properties": {
                 "devMode": {
-                    "description": "Dev mode enabled on this machine.\n\nEnables:\n - NextStep button on cycle\n - IO Controls\n - profilesMasked is overriden to `true`.",
+                    "description": "Dev mode enabled on this machine.\n\nEnables:\n - NextStep button on cycle\n - IO Controls\n - profilesShown is overriden to `true`.",
+                    "type": "boolean"
+                },
+                "hideMultilayerIndications": {
+                    "description": "Hides multilayer indications in cycle",
+                    "type": "boolean"
+                },
+                "onlyShowSelectedProfileFields": {
+                    "description": "Only show picked profile fields",
                     "type": "boolean"
                 },
                 "profilesShown": {
@@ -45,6 +53,8 @@
             },
             "required": [
                 "devMode",
+                "hideMultilayerIndications",
+                "onlyShowSelectedProfileFields",
                 "profilesShown",
                 "variables"
             ],

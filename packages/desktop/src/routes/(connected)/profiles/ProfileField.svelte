@@ -7,6 +7,9 @@
     import type { ProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated";
 	import { _ } from "svelte-i18n";
 	import Label from "$lib/components/label.svelte";
+	import Button from "$lib/components/buttons/Button.svelte";
+	import { Minus, Plus } from "@steeze-ui/heroicons";
+	import { Icon } from "@steeze-ui/svelte-icon";
     
     export let field: ProfileHydrated["values"][number];
 
@@ -29,6 +32,26 @@
         <Flex gap={2} items="center">
             <NumField bind:value={field.value} min={field.floatMin} max={field.floatMax} step={field.floatStep} />
             <Label>{field.value} <span class="font-semibold">{field.unity}</span></Label>
+        </Flex>
+    {:else if field.type == "incremental"}
+        <Flex items="center">
+            <Button on:click={() => {
+                if(disabled) return;
+                if(field.baseValue + field.value >= field.incrementalRangeMax) return;
+                field.value = field.value + 1
+            }} disabled={disabled}>
+                <Icon src={Plus} class="h-4 w-4" />
+            </Button>
+            
+            <p>Offset: <span class="font-bold">{field.value}</span></p>
+
+            <Button on:click={() => {
+                if(disabled) return;
+                if(field.baseValue + field.value <= field.incrementalRangeMin) return;
+                field.value = field.value - 1
+            }} disabled={disabled}>
+                <Icon src={Minus} class="h-4 w-4" />
+            </Button>
         </Flex>
     {/if}
 </Flex>

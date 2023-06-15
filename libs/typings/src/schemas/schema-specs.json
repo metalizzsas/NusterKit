@@ -1424,6 +1424,10 @@
                 {
                     "additionalProperties": false,
                     "properties": {
+                        "detailsShown": {
+                            "description": "Is Profile Field hidden",
+                            "type": "boolean"
+                        },
                         "floatMax": {
                             "type": "number"
                         },
@@ -1442,6 +1446,7 @@
                             "enum": [
                                 "bool",
                                 "float",
+                                "incremental",
                                 "int",
                                 "time"
                             ],
@@ -1469,6 +1474,10 @@
                 {
                     "additionalProperties": false,
                     "properties": {
+                        "detailsShown": {
+                            "description": "Is Profile Field hidden",
+                            "type": "boolean"
+                        },
                         "name": {
                             "description": "Name of the profile field can be splitted by category using a #. `ex: temperature#target`",
                             "type": "string"
@@ -1478,6 +1487,7 @@
                             "enum": [
                                 "bool",
                                 "float",
+                                "incremental",
                                 "int",
                                 "time"
                             ],
@@ -1502,6 +1512,10 @@
                 {
                     "additionalProperties": false,
                     "properties": {
+                        "detailsShown": {
+                            "description": "Is Profile Field hidden",
+                            "type": "boolean"
+                        },
                         "name": {
                             "description": "Name of the profile field can be splitted by category using a #. `ex: temperature#target`",
                             "type": "string"
@@ -1511,6 +1525,7 @@
                             "enum": [
                                 "bool",
                                 "float",
+                                "incremental",
                                 "int",
                                 "time"
                             ],
@@ -1535,6 +1550,10 @@
                 {
                     "additionalProperties": false,
                     "properties": {
+                        "detailsShown": {
+                            "description": "Is Profile Field hidden",
+                            "type": "boolean"
+                        },
                         "name": {
                             "description": "Name of the profile field can be splitted by category using a #. `ex: temperature#target`",
                             "type": "string"
@@ -1544,6 +1563,7 @@
                             "enum": [
                                 "bool",
                                 "float",
+                                "incremental",
                                 "int",
                                 "time"
                             ],
@@ -1574,6 +1594,50 @@
                         "name",
                         "type",
                         "units",
+                        "value"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "baseValue": {
+                            "type": "number"
+                        },
+                        "detailsShown": {
+                            "description": "Is Profile Field hidden",
+                            "type": "boolean"
+                        },
+                        "incrementalRangeMax": {
+                            "type": "number"
+                        },
+                        "incrementalRangeMin": {
+                            "type": "number"
+                        },
+                        "name": {
+                            "description": "Name of the profile field can be splitted by category using a #. `ex: temperature#target`",
+                            "type": "string"
+                        },
+                        "type": {
+                            "enum": [
+                                "incremental"
+                            ],
+                            "type": "string"
+                        },
+                        "unity": {
+                            "description": "Unity of the profile field, it used for UI purposes only",
+                            "type": "string"
+                        },
+                        "value": {
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "baseValue",
+                        "incrementalRangeMax",
+                        "incrementalRangeMin",
+                        "name",
+                        "type",
                         "value"
                     ],
                     "type": "object"

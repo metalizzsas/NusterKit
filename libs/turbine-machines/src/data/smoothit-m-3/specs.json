@@ -265,7 +265,7 @@
       {
          "name": "resin",
          "type": "cnt",
-         "supportedProductSeries": ["tc", "bc"],
+         "supportedProductSeries": ["cv-01", "sv-01", "mv-01"],
          "sensors": [
             {
                "io": "resin#slot-sensor",

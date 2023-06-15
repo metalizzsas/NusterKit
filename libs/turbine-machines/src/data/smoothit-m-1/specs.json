@@ -264,7 +264,7 @@
    "containers": [
       {
          "name": "resin",
-         "supportedProductSeries": ["tc", "bc"],
+         "supportedProductSeries": ["cv-01", "sv-01", "mv-01"],
          "type": "cnt",
          "sensors": [
             {

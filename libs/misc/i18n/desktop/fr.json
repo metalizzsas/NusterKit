@@ -54,7 +54,7 @@
       "issues": {
         "product_unloaded": "Produit non chargé",
         "product_lifespan": "Produit périmé",
-        "product_lifespan_unknown": "Produit inconnu",
+        "product_lifespan_unknown": "Durée de vie du produit inconnue",
         "sensor": "Erreur capteur"
       },
       "infos": {
@@ -79,7 +79,7 @@
           "sv-01": "Shiny varnish 01",
           "mv-01": "Matte varnish 01",
           "cr-01": "CR-1",
-          "water": "Water",
+          "water": "Eau",
           "any": "Inconnu"
         }
       },

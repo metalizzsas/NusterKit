@@ -1,5 +1,21 @@
 # @metalizzsas/nuster-desktop
 
+## 1.11.16
+
+### Patch Changes
+
+- fix: toggle with undefnied values are now converted to boolean by default ([#415](https://github.com/metalizzsas/NusterKit/pull/415))
+
+- feat: created variables to hide multilayer and profile non-selected fields ([#415](https://github.com/metalizzsas/NusterKit/pull/415))
+
+- feat: realtime maintenance ([#407](https://github.com/metalizzsas/NusterKit/pull/407))
+
+- fix: product with no lifespan set now displays "Lifespan unknown" ([#414](https://github.com/metalizzsas/NusterKit/pull/414))
+
+- fix: removed overflow rules that made select fiels invisible sometimes ([#414](https://github.com/metalizzsas/NusterKit/pull/414))
+
+- feat: sensor maintenance now shows units ([#407](https://github.com/metalizzsas/NusterKit/pull/407))
+
 ## 1.11.15
 
 ### Patch Changes

@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 importers:
 
   .:
@@ -27,7 +31,7 @@ importers:
   libs/misc:
     devDependencies:
       '@metalizzsas/nuster-typings':
-        specifier: 1.5.3
+        specifier: 1.5.4
         version: link:../typings
 
   libs/turbine-machines:
@@ -37,10 +41,10 @@ importers:
         version: 4.9.5
     devDependencies:
       '@metalizzsas/nuster-misc':
-        specifier: 1.4.1
+        specifier: 1.4.2
         version: link:../misc
       '@metalizzsas/nuster-typings':
-        specifier: 1.5.3
+        specifier: 1.5.4
         version: link:../typings
       '@types/jest':
         specifier: ^29.4.0
@@ -102,7 +106,7 @@ importers:
         version: 0.10.1
     devDependencies:
       '@metalizzsas/nuster-typings':
-        specifier: 1.5.3
+        specifier: 1.5.4
         version: link:../../libs/typings
       '@sveltejs/adapter-node':
         specifier: ^1.1.7
@@ -184,13 +188,13 @@ importers:
         version: 0.2.3(svelte@3.58.0)
     devDependencies:
       '@metalizzsas/nuster-misc':
-        specifier: 1.4.1
+        specifier: 1.4.2
         version: link:../../libs/misc
       '@metalizzsas/nuster-turbine-machines':
-        specifier: 1.6.10
+        specifier: 1.6.11
         version: link:../../libs/turbine-machines
       '@metalizzsas/nuster-typings':
-        specifier: 1.5.3
+        specifier: 1.5.4
         version: link:../../libs/typings
       '@sveltejs/adapter-node':
         specifier: ^1.2.3
@@ -268,7 +272,7 @@ importers:
   packages/turbine:
     dependencies:
       '@metalizzsas/nuster-turbine-machines':
-        specifier: 1.6.10
+        specifier: 1.6.11
         version: link:../../libs/turbine-machines
       cookie-parser:
         specifier: ^1.4.6
@@ -323,7 +327,7 @@ importers:
         specifier: ^29.5.0
         version: 29.5.0
       '@metalizzsas/nuster-typings':
-        specifier: 1.5.3
+        specifier: 1.5.4
         version: link:../../libs/typings
       '@types/cookie-parser':
         specifier: ^1.4.3
@@ -377,10 +381,10 @@ importers:
   simulation/simulation-server:
     dependencies:
       '@metalizzsas/nuster-turbine-machines':
-        specifier: 1.6.10
+        specifier: 1.6.11
         version: link:../../libs/turbine-machines
       '@metalizzsas/nuster-typings':
-        specifier: 1.5.3
+        specifier: 1.5.4
         version: link:../../libs/typings
       '@types/cors':
         specifier: ^2.8.13
@@ -416,7 +420,7 @@ importers:
   simulation/simulation-ui:
     devDependencies:
       '@metalizzsas/nuster-typings':
-        specifier: 1.5.3
+        specifier: 1.5.4
         version: link:../../libs/typings
       '@sveltejs/adapter-node':
         specifier: ^1.1.7
@@ -9390,7 +9394,3 @@ packages:
   /yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false

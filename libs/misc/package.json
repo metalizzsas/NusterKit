@@ -1,6 +1,6 @@
 {
   "name": "@metalizzsas/nuster-misc",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Documentation & language files for machine & desktop apps.",
   "main": "",
   "files": [
@@ -20,6 +20,6 @@
     "registry": "https://npm.pkg.github.com"
   },
   "devDependencies": {
-    "@metalizzsas/nuster-typings": "1.5.3"
+    "@metalizzsas/nuster-typings": "1.5.4"
   }
 }

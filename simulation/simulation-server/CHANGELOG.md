@@ -1,5 +1,15 @@
 # @metalizzsas/simulation-server
 
+## 1.0.34
+
+### Patch Changes
+
+- feat: updated gates to havce their real values used ([#407](https://github.com/metalizzsas/NusterKit/pull/407))
+
+- Updated dependencies [[`843029e9`](https://github.com/metalizzsas/NusterKit/commit/843029e909d9d30768fafb002a24b1117bee551d), [`9cc3d049`](https://github.com/metalizzsas/NusterKit/commit/9cc3d049577c11046190755a9129fddb00f8af9c), [`b534eaac`](https://github.com/metalizzsas/NusterKit/commit/b534eaac970118b82d746cf4cf2102e083960059), [`7eae6dee`](https://github.com/metalizzsas/NusterKit/commit/7eae6deeab2fdce20214bb93e5c5d15c708c01a5), [`9683bf45`](https://github.com/metalizzsas/NusterKit/commit/9683bf4521a38e3e1d7bad0db4527f92ceb5c8e1), [`7cb04725`](https://github.com/metalizzsas/NusterKit/commit/7cb047251effa20cfaf937c1c40b90109b50ba5d)]:
+  - @metalizzsas/nuster-typings@1.5.4
+  - @metalizzsas/nuster-turbine-machines@1.6.11
+
 ## 1.0.33
 
 ### Patch Changes

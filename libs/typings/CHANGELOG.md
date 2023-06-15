@@ -1,5 +1,17 @@
 # @metalizzsas/nuster-typings
 
+## 1.5.4
+
+### Patch Changes
+
+- feat: created variables to hide multilayer and profile non-selected fields ([#415](https://github.com/metalizzsas/NusterKit/pull/415))
+
+- feat: realtime maintenance ([#407](https://github.com/metalizzsas/NusterKit/pull/407))
+
+- feat: updated product series ([#414](https://github.com/metalizzsas/NusterKit/pull/414))
+
+- feat: created Incremental profile field type ([#415](https://github.com/metalizzsas/NusterKit/pull/415))
+
 ## 1.5.3
 
 ### Patch Changes

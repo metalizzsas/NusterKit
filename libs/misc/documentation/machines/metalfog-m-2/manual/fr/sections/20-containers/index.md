@@ -4,7 +4,7 @@ Avant de manipuler les solutions chimiques, veillez à porter les EPI adéquats,
 
 Nous conseillons d’utiliser des entonnoirs pour éviter les salissures et les coulures de réactifs sur la Metalfog.
 
-> **Attention** : Lors de la manipulation des réactifs Oxydant N°1 et N°2 et Réducteur N°3 et N°4, il est capital d’utiliser des entonnoirs et des récipients propres et différents pour chaque type de produit.
+> **Attention** : Lors de la manipulation des réactifs Oxydants N°1 et N°2 et Réducteurs N°3 et N°4, il est capital d’utiliser des entonnoirs et des récipients propres et différents pour chaque type de produit.
 
 > Les réactifs Oxydants et les réactifs Réducteurs ne doivent **JAMAIS** entrer en contact entre eux, même en infime quantité, au risque de compromettre la qualité du procédé de métallisation chimique.
 
@@ -53,28 +53,35 @@ Pour remplir le conteneur d'Activant, procédez ainsi :
 
 ![Menu Remplissage Activant](menu_activant.png)
 
->**Attention** : Il existe 2 méthodes de remplissage de l'Activant : **dilution manuelle** ou **dilution automatique**, sachant que l'Activant doit toujours être dilué à **2 %** dans de l'eau déionisée.
+>**Attention** : Il existe 2 méthodes de remplissage de l'Activant : **dilution manuelle** ou **dilution automatique**, dans tous les cas l'Activant doit toujours être dilué à **2 %** dans de l'eau déionisée.
 
 Sachant qu'une fois dilué, le produit  `N°0 UTILITY SILVER LAYER (USL) ACTIVANT` ne se conserve que 12 heures, le choix du mode de dilution de celui-ci dépendra de votre utilisation de la machine.
 Si vous prévoyez de faire 4 cycles en 1 journée, alors la dilution automatique est conseillée. 
 Si vous choisissez plutôt d'étaler l'utilisation sur plusieurs jours, la dilution manuelle est recommandée afin de ne pas gaspiller de réactifs.
 
-Exemples :
+**Exemples :**
 
-|       | Lundi | Mardi | Mercredi | Jeudi | Vendredi | Samedi | Dimanche| 
+1) 4 cycles prévus en 1 journée 
+
+|       |  Lundi   |  Mardi   | Mercredi |  Jeudi   | Vendredi |  Samedi  | Dimanche| 
 | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : |
 | Nbr de cycles | 4 |  |  |  |  |  |  |
- - 4 cycles prévus sur 1 journée → Dilution automatique
+ **→ Dilution automatique**
+
+2) 1 cycle/jour prévu sur 4 jours différents
 
 |       | Lundi | Mardi | Mercredi | Jeudi | Vendredi | Samedi | Dimanche| 
 | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : |
 | Nbr de cycles | 1 | 1 |  | 1 | 1 |  |  |
-- 1 cycle/jour prévu sur 4 jours différents → Dilution manuelle
+**→ Dilution manuelle**
+
+3) 3 cycles/jour puis 1 cycle plus tard
 
 |       | Lundi | Mardi | Mercredi | Jeudi | Vendredi | Samedi | Dimanche| 
 | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : |
 | Nbr de cycles |  | 3 |  | 1 |  |  |  |
-- 3 cycles/jour puis 1 cycle plus tard → Dilution manuelle
+**→ Dilution manuelle**
+
 
 #### Dilution manuelle
 
@@ -83,7 +90,7 @@ Pour effectuer un remplissage avec dilution manuelle :
 - Réalisez votre dilution à **2 %** de l'Activant grâce à une éprouvette graduée.
 
 | Pour faire : | N°0 UTILITY SILVER LAYER ACTIVANT | EAU DÉIONISÉE |
-| : ---- : | ---- : | ---- : | 
+| : ---- : | : ---- : | : ---- : | 
 | 250 ml | 5 ml | 245 ml |
 | 500 ml | 10 ml | 490 ml |
 | 750 ml | 15 ml | 735 ml |

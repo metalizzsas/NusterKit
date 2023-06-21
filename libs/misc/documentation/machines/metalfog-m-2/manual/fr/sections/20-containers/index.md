@@ -8,16 +8,17 @@ Nous conseillons d’utiliser des entonnoirs pour éviter les salissures et les 
 
 > Les réactifs Oxydants et les réactifs Réducteurs ne doivent **JAMAIS** entrer en contact entre eux, même en infime quantité, au risque de compromettre la qualité du procédé de métallisation chimique.
 
-Un kit Utility Silver Layer permet de réaliser 4 cycles parmi les cycles proposés : Utility Silver Layer - USL, Activation pièces poreuses USL, Renforcement USL. Une fois ouverts, les produits peuvent être conservés pendant 1 mois. 
+Un kit Utility Silver Layer (USL) permet de réaliser 4 cycles parmi les cycles proposés : Utility Silver Layer - USL, Activation pièces poreuses USL, Renforcement USL. Une fois ouverts, les produits peuvent être conservés pendant 1 mois. 
 
 Les dosages pour effectuer 1 cycle sont les suivants :
 
-|      | N°0 UTILITY SILVER LAYER ACTIVANT | N°1 UTILITY SILVER LAYER OXYDANT | N°2 UTILITY SILVER LAYER OXYDANT | N°3 UTILITY SILVER LAYER RÉDUCTEUR | N°4 UTILITY SILVER LAYER RÉDUCTEUR |
-| : ------ : | : ------ : | : ------ : | : ------ : | : ------ : | : ------ : |
-| Utility Silver Layer - USL | 250 ml dilué à 2% (5 ml d'activant + 245 ml d'eau déionisée) | 125 ml | 125 ml | 125 ml | 125 ml |
-| Activation pièces poreuses USL | 250 ml dilué à 2% (5 ml d'activant + 245 ml d'eau déionisée) |      |      |      |        |
-| Renforcement USL |          | 125 ml | 125 ml | 125 ml | 125 ml |
- 
+|      | Utility Silver Layer - USL | Activation pièces poreuses USL | Renforcement USL | 
+| : ------ : | : ------ : | : ------ : | : ------ : | 
+| N°0 USL ACTIVANT | 250 ml dilué à 2% (5 ml d'activant + 245 ml d'eau déionisée) | 250 ml dilué à 2% (5 ml d'activant + 245 ml d'eau déionisée) |   |
+| N°1 USL OXYDANT | 125 ml |      |  125 ml  |
+| N°2 USL OXYDANT | 125 ml|   | 125 ml | 
+| N°3 USL RÉDUCTEUR | 125 ml|   | 125 ml | 
+| N°4 USL RÉDUCTEUR | 125 ml|   | 125 ml | 
 
 
 ### Vérification de l'état des conteneurs
@@ -35,6 +36,7 @@ Avant que le cycle commence, la page des conditions de sécurité s’affiche (v
 Une fois lancé, laissez le cycle se terminer avant de revenir à la page d’accueil en appuyant sur `Terminer le cycle`. Ce cycle vide les conteneurs d'Activant, d'Oxydant et de Réducteur mais pas celui d'Eau déionisée.
 
 ![Menu Vidange de tous les réactifs](vidange_reactifs.png)
+
 
 ### Remplissage Activant
 
@@ -61,31 +63,31 @@ Si vous choisissez plutôt d'étaler l'utilisation sur plusieurs jours, la dilut
 
 **Exemples :**
 
-1) 4 cycles prévus en 1 journée 
+**I)** 4 cycles prévus en 1 journée 
 
 |       |  Lundi   |  Mardi   | Mercredi |  Jeudi   | Vendredi |  Samedi  | Dimanche| 
 | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : |
 | Nbr de cycles | 4 |  |  |  |  |  |  |
- **→ Dilution automatique**
+ → Dilution automatique
 
-2) 1 cycle/jour prévu sur 4 jours différents
+**II)** 1 cycle/jour prévu sur 4 jours différents
 
 |       | Lundi | Mardi | Mercredi | Jeudi | Vendredi | Samedi | Dimanche| 
 | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : |
 | Nbr de cycles | 1 | 1 |  | 1 | 1 |  |  |
-**→ Dilution manuelle**
+→ Dilution manuelle
 
-3) 3 cycles/jour puis 1 cycle plus tard
+**III)** 3 cycles/jour puis 1 cycle plus tard
 
 |       | Lundi | Mardi | Mercredi | Jeudi | Vendredi | Samedi | Dimanche| 
 | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : |
 | Nbr de cycles |  | 3 |  | 1 |  |  |  |
-**→ Dilution manuelle**
+→ Dilution manuelle
 
 
 #### Dilution manuelle
 
-Pour effectuer un remplissage avec dilution manuelle :
+Pour effectuer un remplissage en faisant une dilution manuelle :
 
 - Réalisez votre dilution à **2 %** de l'Activant grâce à une éprouvette graduée.
 
@@ -102,7 +104,7 @@ Pour effectuer un remplissage avec dilution manuelle :
 
 #### Dilution automatique
 
-Pour effectuer un remplissage avec dilution automatique :
+Pour effectuer un remplissage en faisant une dilution automatique :
 
 - Sélectionnez `Chargement par dilution automatique`.
 - Versez 20 ml de produit `N°0 UTILITY SILVER LAYER (USL) ACTIVANT` dans le conteneur d’Activant (4ème bouchon en partant de la gauche, de couleur rouge).

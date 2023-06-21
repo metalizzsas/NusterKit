@@ -4,23 +4,18 @@
 
 ![Vue des composants](elements.jpg)
 
-\newpage
 
-| Numéro | Description |
-| ----- | ----- |
-| 1 | Écran de contrôle |
-| 2 | Couvercle |
-| 3 | Cache de buses |
-| 4 | Coffret électrique |
-| 5 | Arrivée pneumatique |
-| 6 | Cartouche filtrante à charbon actif |
-| 7 | Porte d'accès aux effluents |
-| 8 | Support de couvercle |
-| 9 | Conteneur d'Oxydant |
-| 10 | Bouton d'arrêt d'urgence |
-| 11 | Conteneur de Réducteur |
-| 12 | Conteneur d'Eau déionisée |
-| 13 | Conteneur d'Activant |
+| Numéro | Description | Numéro | Description |
+| ----- | ----- | ----- | ----- |
+| 1 | Écran de contrôle | 8 | Support de couvercle |
+| 2 | Couvercle | 9 | Conteneur d'Oxydant |
+| 3 | Cache de buses | 10 | Bouton d'arrêt d'urgence |
+| 4 | Coffret électrique | 11 | Conteneur de Réducteur |
+| 5 | Arrivée pneumatique | 12 | Conteneur d'Eau déionisée |
+| 6 | Cartouche filtrante à charbon actif | 13 | Conteneur d'Activant |
+| 7 | Porte d'accès aux effluents |  |  |
+
+\newpage
 
 ### Caractéristiques techniques
 

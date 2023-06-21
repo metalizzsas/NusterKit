@@ -4,7 +4,7 @@ Pour lancer le cycle de métallisation « Utility Silver Layer - USL », procéd
 
  - Depuis l’écran d’accueil de l’interface digitale, appuyez sur « Cycle », puis appuyez sur « Utility Silver Layer - USL ».
 
- -  Les conditions de sécurité pour lancer le cycle apparaissent. Chaque indicateur doit être vert pour pouvoir démarrer le cycle. Les conditions de sécurité sont détaillées au chapitre « Vérification des conditions de sécurité ».
+ -  Les conditions de sécurité pour lancer le cycle apparaissent. Chaque indicateur doit être vert pour pouvoir démarrer le cycle (voir chapitre « Vérification des conditions de sécurité »).
 
 ![Menu Utility Silver Layer - USL](menu_USL.png)
 
@@ -12,7 +12,7 @@ Pour lancer le cycle de métallisation « Utility Silver Layer - USL », procéd
 
 ![Affichage Cycle USL en cours](cycleUSLencours.png)
 
- - Au terme du cycle, une nouvelle page s'affiche spécifiant que le cycle est terminé. La mention "Cycle terminé avec succès" indique que la métallisation chimique s'est déroulée correctement.
+ - Au terme du cycle, une nouvelle page s'affiche spécifiant que le cycle est terminé. La mention "Cycle terminé avec succès" indique que la métallisation s'est déroulée correctement.
 
  - Appuyez sur « Terminer le cycle » pour revenir à la page d’accueil.
 
@@ -20,5 +20,5 @@ Pour lancer le cycle de métallisation « Utility Silver Layer - USL », procéd
 
  >**Attention** : Si cette page affiche tout autre message que « Cycle terminé avec succès », alors le message qui apparait précise la raison d'arrêt du cycle (pression d'air trop basse, couvercle ouvert, niveau d'oxydant minimal...). En dessous, vous pouvez visualiser les étapes effectuées ou non. 
 
->Si un cycle Utility Silver Layer - USL s'arrête pendant la métallisation, **ne relancez pas le même cycle** : l'activant viendrait polluer la surface des pièces traitées. Il faut alors lancer un cycle « Renforcement USL »  pour terminer la métallisation.
+>Si un cycle « Utility Silver Layer - USL » s'arrête pendant la métallisation, **ne relancez pas le même cycle** : l'activant viendrait polluer la surface des pièces traitées. Il faut alors lancer un cycle « Renforcement USL »  pour terminer la métallisation.
 

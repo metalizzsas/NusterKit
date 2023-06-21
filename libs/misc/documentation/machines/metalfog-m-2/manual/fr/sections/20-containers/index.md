@@ -13,6 +13,7 @@ Un kit Utility Silver Layer (USL) permet de réaliser 4 cycles parmi les cycles 
 Les dosages pour effectuer 1 cycle sont les suivants :
 
 
+
 |      | Utility Silver Layer - USL | Activation pièces poreuses USL | Renforcement USL | 
 | : ------ : | : ------ : | : ------ : | : ------ : | 
 | N°0 USL ACTIVANT | 250 ml dilué à 2% (5 ml d'activant + 245 ml d'eau déionisée) | 250 ml dilué à 2% (5 ml d'activant + 245 ml d'eau déionisée) |   |
@@ -20,6 +21,7 @@ Les dosages pour effectuer 1 cycle sont les suivants :
 | N°2 USL OXYDANT | 125 ml|   | 125 ml | 
 | N°3 USL RÉDUCTEUR | 125 ml|   | 125 ml | 
 | N°4 USL RÉDUCTEUR | 125 ml|   | 125 ml | 
+
 
 
 ### Vérification de l'état des conteneurs
@@ -70,6 +72,7 @@ Si vous choisissez plutôt d'étaler l'utilisation sur plusieurs jours, la dilut
 |       |  Lundi   |  Mardi   | Mercredi |  Jeudi   | Vendredi |  Samedi  | Dimanche| 
 | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : |
 | Nbr de cycles | 4 |  |  |  |  |  |  |
+ 
  → Dilution automatique
 
 **II)** 1 cycle/jour prévu sur 4 jours différents
@@ -78,6 +81,7 @@ Si vous choisissez plutôt d'étaler l'utilisation sur plusieurs jours, la dilut
 |       | Lundi | Mardi | Mercredi | Jeudi | Vendredi | Samedi | Dimanche| 
 | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : |
 | Nbr de cycles | 1 | 1 |  | 1 | 1 |  |  |
+
 → Dilution manuelle
 
 **III)** 3 cycles/jour puis 1 cycle plus tard
@@ -86,6 +90,7 @@ Si vous choisissez plutôt d'étaler l'utilisation sur plusieurs jours, la dilut
 |       | Lundi | Mardi | Mercredi | Jeudi | Vendredi | Samedi | Dimanche| 
 | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : |
 | Nbr de cycles |  | 3 |  | 1 |  |  |  |
+
 → Dilution manuelle
 
 
@@ -101,6 +106,7 @@ Pour effectuer un remplissage en faisant une dilution manuelle :
 | 250 ml | 5 ml | 245 ml |
 | 500 ml | 10 ml | 490 ml |
 | 750 ml | 15 ml | 735 ml |
+
 
 - Versez le produit `N°0 UTILITY SILVER LAYER (USL) ACTIVANT` dans l'eau déionisée et non l'inverse.
 - Versez le mélange dans le conteneur d’Activant (4ème bouchon en partant de la gauche, de couleur rouge).

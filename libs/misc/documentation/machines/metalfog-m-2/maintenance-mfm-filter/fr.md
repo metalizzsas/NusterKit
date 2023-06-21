@@ -12,6 +12,8 @@ Dévissez le filtre en effectuant une rotation anti-horaire. Quand le filtre est
 
 Une fois sorti de son logement, remplacez le filtre : soit par un filtre neuf, soit en remplaçant le charbon actif contenu dans la cartouche filtrante.
 
+\newpage
+
 #### Remplacement du charbon actif
 
 > Pour le remplacement du charbon actif, veillez à porter des gants en nitrile, un masque FFP3, et des lunettes de protection.

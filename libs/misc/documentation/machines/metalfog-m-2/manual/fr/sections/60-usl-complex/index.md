@@ -1,9 +1,9 @@
-## Cycle de métallisation « Activation pièces poreuses USL » + « Renforcement USL »
+## Cycle de métallisation « Activation pièces poreuses USL »  +  « Renforcement USL »
 
 
 Pour lancer le cycle de métallisation « Activation pièces poreuses USL » + « Renforcement USL », procédez ainsi :
 
-### Cycle "Activation pièces poreuses USL"
+### Cycle « Activation pièces poreuses USL »
 
 - Depuis l’écran d’accueil de l’interface digitale, appuyez sur « Cycle »,
 - Puis appuyez sur « Activation pièces poreuses USL ».
@@ -24,7 +24,7 @@ Pour lancer le cycle de métallisation « Activation pièces poreuses USL » + �
 - Une fois le cycle « Activation pièces poreuses USL » terminé, sortez les pièces de la Metalfog et rincez-les à l’eau déionisée si possible dans un bac à ultrasons pendant 2 minutes.
 - Replacez ensuite les pièces dans la Metalfog.
 
-### Cycle "Renforcement USL"
+### Cycle « Renforcement USL »
 
 - Depuis l’écran d’accueil de l’interface digitale, appuyez sur « Cycle »,
 - Puis sur « Renforcement USL ».

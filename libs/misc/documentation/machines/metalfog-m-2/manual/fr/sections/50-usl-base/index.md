@@ -1,10 +1,8 @@
-## Cycle de métallisation chimique "Simple"
+## Cycle de métallisation « Utility Silver Layer - USL »
 
-Pour lancer le cycle de métallisation chimique « Simple », procédez ainsi :
+Pour lancer le cycle de métallisation « Utility Silver Layer - USL », procédez ainsi :
 
- - Depuis l’écran d’accueil de l’interface digitale, appuyez sur « Cycle »,
-
- -  Puis appuyez sur "Utility Silver Layer - USL".
+ - Depuis l’écran d’accueil de l’interface digitale, appuyez sur « Cycle », puis appuyez sur « Utility Silver Layer - USL ».
 
  -  Les conditions de sécurité pour lancer le cycle apparaissent. Chaque indicateur doit être vert pour pouvoir démarrer le cycle. Les conditions de sécurité sont détaillées au chapitre « Vérification des conditions de sécurité ».
 
@@ -22,5 +20,5 @@ Pour lancer le cycle de métallisation chimique « Simple », procédez ainsi�
 
  >**Attention** : Si cette page affiche tout autre message que « Cycle terminé avec succès », alors le message qui apparait précise la raison d'arrêt du cycle (pression d'air trop basse, couvercle ouvert, niveau d'oxydant minimal...). En dessous, vous pouvez visualiser les étapes effectuées ou non. 
 
->Si un cycle Utility Silver Layer - USL s'arrête pendant la métallisation, **ne relancez pas le même cycle** : l'activant viendrait polluer la surface des pièces traitées. Il faut alors lancer un cycle "Renforcement USL" pour terminer la métallisation.
+>Si un cycle Utility Silver Layer - USL s'arrête pendant la métallisation, **ne relancez pas le même cycle** : l'activant viendrait polluer la surface des pièces traitées. Il faut alors lancer un cycle « Renforcement USL »  pour terminer la métallisation.
 

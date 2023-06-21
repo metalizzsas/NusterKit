@@ -2,7 +2,7 @@
 
 Le tableau suivant permet de déterminer le cycle le plus adapté pour rendre une pièce conductrice, en tenant compte du procédé de fabrication ou d’impression 3D.
 
-| Procédé de fabrication / d’impression 3D | Type de métallisation |
+| **Procédé de fabrication / d’impression 3D** | **Type de métallisation** |
 | ---------- | --------- |
 | Injection, SLA, DLP, LCD, MJP, Polyjet | Cycle : « Utility Silver Layer – USL » |
 | SLS, MJF, FDM, SAF | Cycles : « Activation pièces poreuses » puis « Renforcement USL » |

@@ -1,6 +1,6 @@
 ### Remplacement du charbon actif d'une cartouche filtrante
 
-> **Attention** : Il est recommandé de changer les cartouches tous les 3 mois ou tous les 50 cycles ou avant si vous percevez une odeur d'ammoniaque. 
+> **Attention** : Il est recommandé de changer les cartouches tous les 50 cycles ou bien dès que vous percevez une odeur d'ammoniaque. 
 
 Le filtre de la Metalfog est situé sur le côté gauche de la machine.
 
@@ -8,13 +8,13 @@ Le filtre de la Metalfog est situé sur le côté gauche de la machine.
 
 Dévissez le filtre en effectuant une rotation anti-horaire. Quand le filtre est libéré, sortez-le de son logement.
 
-![Dévissage du filtre](filter_unscrew.jpg)
+![Dévissage du filtre](unscrew_filter.jpg)
 
 Une fois sorti de son logement, remplacez le filtre : soit par un filtre neuf, soit en remplaçant le charbon actif contenu dans la cartouche filtrante.
 
 #### Remplacement du charbon actif
 
-> Ceci est la procédure pour le remplacement du charbon actif, veillez à porter des gants en nitrile, un masque FFP3, et des lunettes de protection.
+> Pour le remplacement du charbon actif, veillez à porter des gants en nitrile, un masque FFP3, et des lunettes de protection.
 
 - Retirez les 3 vis maintenant le couvercle de la cartouche à l'aide d'un  `tournevis hexagonal T2.5`.
 - Videz le charbon usagé.

@@ -12,6 +12,7 @@ Un kit Utility Silver Layer (USL) permet de réaliser 4 cycles parmi les cycles 
 
 Les dosages pour effectuer 1 cycle sont les suivants :
 
+
 |      | Utility Silver Layer - USL | Activation pièces poreuses USL | Renforcement USL | 
 | : ------ : | : ------ : | : ------ : | : ------ : | 
 | N°0 USL ACTIVANT | 250 ml dilué à 2% (5 ml d'activant + 245 ml d'eau déionisée) | 250 ml dilué à 2% (5 ml d'activant + 245 ml d'eau déionisée) |   |
@@ -65,6 +66,7 @@ Si vous choisissez plutôt d'étaler l'utilisation sur plusieurs jours, la dilut
 
 **I)** 4 cycles prévus en 1 journée 
 
+
 |       |  Lundi   |  Mardi   | Mercredi |  Jeudi   | Vendredi |  Samedi  | Dimanche| 
 | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : |
 | Nbr de cycles | 4 |  |  |  |  |  |  |
@@ -72,12 +74,14 @@ Si vous choisissez plutôt d'étaler l'utilisation sur plusieurs jours, la dilut
 
 **II)** 1 cycle/jour prévu sur 4 jours différents
 
+
 |       | Lundi | Mardi | Mercredi | Jeudi | Vendredi | Samedi | Dimanche| 
 | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : |
 | Nbr de cycles | 1 | 1 |  | 1 | 1 |  |  |
 → Dilution manuelle
 
 **III)** 3 cycles/jour puis 1 cycle plus tard
+
 
 |       | Lundi | Mardi | Mercredi | Jeudi | Vendredi | Samedi | Dimanche| 
 | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : |
@@ -90,6 +94,7 @@ Si vous choisissez plutôt d'étaler l'utilisation sur plusieurs jours, la dilut
 Pour effectuer un remplissage en faisant une dilution manuelle :
 
 - Réalisez votre dilution à **2 %** de l'Activant grâce à une éprouvette graduée.
+
 
 | Pour faire : | N°0 UTILITY SILVER LAYER ACTIVANT | EAU DÉIONISÉE |
 | : ---- : | : ---- : | : ---- : | 

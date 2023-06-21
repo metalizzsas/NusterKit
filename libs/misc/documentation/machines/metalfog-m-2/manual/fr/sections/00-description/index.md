@@ -4,6 +4,7 @@
 
 ![Vue des composants](elements.jpg)
 
+\newpage
 
 | Numéro | Description | Numéro | Description |
 | ----- | ----- | ----- | ----- |
@@ -15,7 +16,6 @@
 | 6 | Cartouche filtrante à charbon actif | 13 | Conteneur d'Activant |
 | 7 | Porte d'accès aux effluents |  |  |
 
-\newpage
 
 ### Caractéristiques techniques
 
@@ -23,6 +23,8 @@
 - Dimensions : 810 mm x 830 mm x 1350 mm
 - Puissance max : 1.2 kW
 - Débit d'air max : 600 L / min
+
+\newpage
 
 ### Dimensions
 

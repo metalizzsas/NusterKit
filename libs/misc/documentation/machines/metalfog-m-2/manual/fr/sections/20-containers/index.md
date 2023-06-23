@@ -14,7 +14,7 @@ Les dosages pour effectuer 1 cycle sont les suivants :
 
 
 
-|      | Utility Silver Layer - USL | Activation pièces poreuses USL | Renforcement USL | 
+|     | Utility Silver Layer - USL | Activation pièces poreuses USL | Renforcement USL | 
 | : ------ : | : ------ : | : ------ : | : ------ : | 
 | N°0 USL ACTIVANT | 250 ml dilué à 2% (5 ml d'activant + 245 ml d'eau déionisée) | 250 ml dilué à 2% (5 ml d'activant + 245 ml d'eau déionisée) |   |
 | N°1 USL OXYDANT | 125 ml |      |  125 ml  |
@@ -69,11 +69,11 @@ Si vous choisissez plutôt d'étaler l'utilisation sur plusieurs jours, la dilut
 **I)** 4 cycles prévus en 1 journée 
 
 
-|       |  Lundi   |  Mardi   | Mercredi |  Jeudi   | Vendredi |  Samedi  | Dimanche| 
+|      |  Lundi   |  Mardi   | Mercredi |  Jeudi   | Vendredi |  Samedi  | Dimanche| 
 | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : | : ---- : |
-| Nbr de cycles | 4 |  |  |  |  |  |  |
- 
- → Dilution automatique
+|Nbr de cycles | 4 |  |  |  |  |  |  |
+
+  → Dilution automatique
 
 **II)** 1 cycle/jour prévu sur 4 jours différents
 

@@ -1,12 +1,22 @@
 ## Description des composants de la machine
 
-![Vue 1 des composants](elements+tab.png)
+![Vue 1 des composants](elements.jpg)
 
+| Numéro | Description | Numéro | Description |
+| ----- | ----- | ----- | ----- |
+| 1 | Bouton d'arrêt d'urgence | 4 | Coffret électrique |
+| 2 | Écran de contrôle | 5 | Poignée de manipulation des tonneaux |
+| 3 | Couvercle | 6 | Echangeur (Uniquement Uscleaner thermorégulé) |
 
 \newpage
 
-![Vue 2 des composants](elements_2+tab.png)
+![Vue 2 des composants](elements_2.jpg)
 
+| Numéro | Description | Numéro | Description |
+| ----- | ----- |----- | ----- |
+| 7 | Ensemble pompe & filtre | 10 | Vanne d'aspiration |
+| 8 | Transducteurs ultrasons |  11 | Vanne de vidange |
+| 9 | Vanne de refoulement |
 
 \newpage
 

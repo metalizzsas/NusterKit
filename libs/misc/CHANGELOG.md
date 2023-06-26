@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-misc
 
+## 1.4.3
+
+### Patch Changes
+
+- chore: corrections notices ([#399](https://github.com/metalizzsas/NusterKit/pull/399))
+
 ## 1.4.2
 
 ### Patch Changes

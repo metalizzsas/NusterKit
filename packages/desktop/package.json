@@ -30,7 +30,7 @@
 		"svelte-markdown": "^0.2.3"
 	},
 	"devDependencies": {
-		"@metalizzsas/nuster-misc": "1.4.2",
+		"@metalizzsas/nuster-misc": "1.4.3",
 		"@metalizzsas/nuster-turbine-machines": "1.6.11",
 		"@metalizzsas/nuster-typings": "1.5.4",
 		"@sveltejs/adapter-node": "^1.2.3",

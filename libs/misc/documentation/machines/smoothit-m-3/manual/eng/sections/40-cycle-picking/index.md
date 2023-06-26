@@ -10,3 +10,8 @@ The following table will help you determine the most suitable cycle for smoothin
 | SLA, DLP | Smoothing |
 | SLA, DLP | Transparency | |
 
+Transparence: CrystalVarnish-01 [CV01]  
+Lissage: ShinyVarnish-01 [SV01]  
+Mat: MatVarnish-01 [MV01]
+
+Durée de vie des vernis: 6 mois

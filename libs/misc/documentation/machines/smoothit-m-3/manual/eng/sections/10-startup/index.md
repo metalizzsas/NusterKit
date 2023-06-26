@@ -19,6 +19,11 @@ Once the Smoothit is in position, lock the two brake wheels at the front of the 
 
 ![Vanne d'air comprimé](pneumatique.png)
 
+### Nitrogen
+
+Connect the machine to 
+
+
 ### Start-up
 
 To start the machine, turn the switch on the rear of the machine to `I`, and the `Under voltage` indicator will light up.

@@ -1,6 +1,6 @@
 ## Préparation des pièces
 
-Les pièces à traiter avec la machine Metalfog doivent, au préalable, passer par des étapes de préparation afin de réussir et d’optimiser la qualité de la métallisation chimique.
+Les pièces à traiter avec la machine Metalfog doivent, au préalable, passer par des étapes de préparation afin de réussir la métallisation chimique.
 
 Tout au long des étapes de préparation et durant le procédé de métallisation chimique, veillez à manipuler les pièces avec **des gants** afin d’éviter toute pollution de surface.
 
@@ -8,22 +8,24 @@ L’état de surface initial impacte la qualité du dépôt du primaire conducte
 
 ![Pièce polluée non préparée](poluee.png)
 
-Pièce métallisée présentant des défauts de mouillabilité
+Pièce métallisée présentant des défauts de mouillabilité.
 
 ### Préparation
 
 1. Sablez les pièces (vivement conseillé)
-2. Dépoussiérez  à l'aide d'air comprimé
-3. Nettoyez et dégraissez les pièces
+2. Dépoussiérez-les à l'aide d'air comprimé
+3. Nettoyez et dégraissez les pièces 
 4. Rincez les pièces à l'eau déionisée, de préférence dans un bac à ultrasons
-5. Assurez-vous que les pièces soient bien propres grâce au test du film d'eau
+5. Assurez-vous que les pièces soient bien propres
 6. Placez les pièces sur le montage approprié en veillant à respecter un écartement minimum de 10 à 15 mm entre chaque pièce
+
+> Pour effectuer un nettoyage soigné et efficace, adapté aux post-traitements sur pièces polymères, vous pouvez utiliser la machine Uscleaner. Consultez notre site : www.metalizz.com.
 
 | ![Pièce non sablée](non_sablee.png) | ![Pièce sablée](sablee.png) |
 | ---- | ---- |
 | Pièce non sablée | Pièce sablée |
 
-Le sablage permet d’améliorer l’adhésion du primaire conducteur au substrat. Cette étape n’est pas obligatoire, elle est cependant vivement conseillée pour obtenir des pièces très lisses.
+Le sablage permet d’améliorer l’adhésion du primaire conducteur au substrat. Cette étape n’est pas obligatoire, elle est cependant vivement conseillée pour obtenir un état de surface plus propice au traitement.
 
 Le nettoyage enlève les particules restantes à la surface des pièces.
 

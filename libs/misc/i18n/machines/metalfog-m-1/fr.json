@@ -36,7 +36,7 @@
             "cem": "Blindage CEM",
             "cem-retake": "Renforcement Blindage CEM",
             "act-fill": "Dilution activant",
-            "container-emptying-all": "Vidange de tout les conteneurs"
+            "container-emptying-all": "Vidange de tous les conteneurs"
         },
 
         "categories": {
@@ -224,7 +224,7 @@
     "toasts": {
         "nozzle-cleaning": {
             "title": "Recommandation au démarrage",
-            "message": "Votre Metalfog viens de démarrer, il est recommandé de lancer un nettoyage des buses de metallisation lors du démarrage de la machine. Cliquez sur continuer pour lancer ce nettoyage.",
+            "message": "Votre Metalfog vient de démarrer, il est recommandé de lancer un nettoyage des buses de metallisation lors du démarrage de la machine. Cliquez sur continuer pour lancer ce nettoyage.",
             "actions": {
                 "main": "Continuer"
             }

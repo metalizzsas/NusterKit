@@ -2,31 +2,30 @@
 
 ![Vue 1 des composants](elements.jpg)
 
-| Numéro | Description |
-| ----- | ----- |
-| 1 | Bouton d'arrêt d'urgence |
-| 2 | Écran de contrôle |
-| 3 | Couvercle |
-| 4 | Coffret électrique |
-| 5 | Poignée de manipulation des tonneaux |
-| 6 | Echangeur (Uniquement USCleaner M R1 TR) |
+| Numéro | Description | Numéro | Description |
+| ----- | ----- | ----- | ----- |
+| 1 | Bouton d'arrêt d'urgence | 4 | Coffret électrique |
+| 2 | Écran de contrôle | 5 | Poignée de manipulation des tonneaux |
+| 3 | Couvercle | 6 | Echangeur (Uniquement Uscleaner thermorégulé) |
+
+\newpage
 
 ![Vue 2 des composants](elements_2.jpg)
 
-| Numéro | Description |
-| ----- | ----- |
-| 7 | Ensemble pompe & filtre |
-| 8 | Transducteurs Ultrasons |
+| Numéro | Description | Numéro | Description |
+| ----- | ----- |----- | ----- |
+| 7 | Ensemble pompe & filtre | 10 | Vanne d'aspiration |
+| 8 | Transducteurs ultrasons |  11 | Vanne de vidange |
 | 9 | Vanne de refoulement |
-| 10 | Vanne d'aspiration |
-| 11 | Vanne de vidange |
+
+\newpage
 
 ### Caractéristiques techniques
 
-- Masse: 60 kg à vide
-- Dimensions: 970 mm x 865 mm x 1100 mm
-- Surface au sol: 0.84 m<sup>2<sup>
-- Puissance max: 1.2 kW
+- Masse : 60 kg à vide
+- Dimensions : 970 mm x 865 mm x 1100 mm
+- Surface au sol : 0.84 m<sup>2</sup>
+- Puissance max : 1.2 kW
 
 ### Dimensions
 
@@ -34,7 +33,7 @@
 
 ![Vue de face](front_view.jpg)
 
-#### Vue de coté
+#### Vue de côté
 
 ![Vue de coté](side_view.jpg)
 

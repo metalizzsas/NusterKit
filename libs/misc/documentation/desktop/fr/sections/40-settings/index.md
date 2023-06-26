@@ -13,16 +13,16 @@ Vous pouvez ainsi modifier :
 
 Vous pouvez aussi consulter différentes informations machine telles que :
 
-- Le modèle
-- La variante
-- La révision
-- Le numéro de série
-- Les options
-- Le nombre de cycles
-- Les informations logiciel
-- Les informations réseau
+- Le modèle,
+- La variante,
+- La révision,
+- Le numéro de série,
+- Les options,
+- Le nombre de cycles,
+- Les informations logiciel,
+- Les informations réseau.
 
-Une dernière rubrique est disponible :  `Réglages avancés`, cette rubrique est réservée aux interventions de **METALIZZ** et à ses sociétés partenaires.
+Une dernière rubrique est disponible :  `Réglages avancés`, cette rubrique est réservée aux interventions de **METALIZZ** et à ses partenaires.
 
 ### Mises à jour
 

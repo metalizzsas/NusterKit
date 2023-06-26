@@ -1,7 +1,7 @@
-## Marquage CE
+## Conformité CE
 
-Cet USCleaner est déclaré conforme au directives suivantes:
+La machine Uscleaner ou Uscleaner thermorégulé décrite dans cette notice est conçue et fabriquée selon les dernières technologies en vigueur.
+Cet appareil est conforme aux dispositions réglementaires définies par les directives et les documents normatifs suivants :
 
 - 2006/42/CE: Relative aux machines
-- 2014/35/UE: Relatove a la basse tension
-- 2014/30/UE: Relative a la compatibilité électromagnétique
+- 2014/35/UE: Relative à la basse tension.

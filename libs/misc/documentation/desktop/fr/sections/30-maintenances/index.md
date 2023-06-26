@@ -6,9 +6,9 @@ Cette section permet de gérer les tâches de maintenance de vos machines.
 
 Chaque tâche de maintenance est disponible dans la liste de gauche. Son état est indiqué avec une pastille de couleur :
 
-- 🟢 Vert : la maintenance n'est pas à prévoir,
-- 🟠 Orange : la tâche de maintenance est à prévoir (> 75%),
-- 🔴 Rouge : la tâche de maintenance est à effectuer.
+- **Vert** : la maintenance n'est pas à prévoir,
+- **Orange** : la tâche de maintenance est à prévoir (> 75%),
+- **Rouge** : la tâche de maintenance est à effectuer.
 
 Cliquez sur une tâche pour afficher la procédure de maintenance à suivre.
 

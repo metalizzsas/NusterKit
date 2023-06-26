@@ -158,7 +158,7 @@
         "tasks": {
             "mfm-filter": {
                 "name": "Filtre",
-                "desc": "Le filtre de la metalfog permet de capturer tout les gazs nocifs crées par les reactions chimiques dans la cuve."
+                "desc": "Le filtre de la metalfog permet de capturer tous les gazs nocifs crées par les reactions chimiques dans la cuve."
             }
         }
     },

@@ -29,6 +29,8 @@ input-files:
   - libs/misc/documentation/utils/newpage.md
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/70-cleaning/index.md
   - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/75-effluents/index.md
+  - libs/misc/documentation/utils/newpage.md
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/80-maintenance/index.md
   - libs/misc/documentation/machines/metalfog-m-2/maintenance-mfm-filter/fr.md
   - libs/misc/documentation/utils/newpage.md
@@ -50,6 +52,7 @@ resource-path:
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/50-usl-base/
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/60-usl-complex/
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/70-cleaning/
+  - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/75-effluents/
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/80-maintenance/
   - libs/misc/documentation/machines/metalfog-m-2/maintenance-mfm-filter/
   - libs/misc/documentation/machines/metalfog-m-2/maintenance-nozzle-cleaning/
@@ -74,6 +77,8 @@ variables:
   caption-justification: centering
 
   footer-left: Notice d'utilisation de la Metalfog © Metalizz 2023
+
+  table-use-row-colors: true
 
   colorlinks: true
   urlcolor: blue

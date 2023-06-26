@@ -30,7 +30,7 @@
                 "unload_alt": "Vidange Eau déionisée"
             }
         },
-        "eff": { "name": "Éffluents" }
+        "eff": { "name": "Effluents" }
     },
     "profile": {
         "premade": {
@@ -54,7 +54,7 @@
             "motor": "Moteur de rotation",
             "activation": "Activation",
             "metalization": "Métallisation",
-            "metalization-wash": "Rinçage pendant la metalization",
+            "metalization-wash": "Rinçage pendant la métallisation",
             "wash1": "Rinçage 1",
             "wash2": "Rinçage 2",
             "drying": "Séchage",
@@ -88,7 +88,7 @@
             "security-levels#act-min-n": "Niveau d'activant minimal",
             "security-levels#ox-min-n": "Niveau d'oxydant minimal",
             "security-levels#rd-min-n": "Niveau de réducteur minimal",
-            "activator-timed-out": "La dilution d'activant à été trop longue",
+            "activator-timed-out": "La dilution d'activant a été trop longue",
             "container-emptying-profile-invalid": "Le profil de vidange est invalide"
         },
         "run_conditions": {
@@ -177,7 +177,7 @@
             "motor#direction": "Direction du moteur",
             "motor#speed": "Vitesse du moteur",
 
-            "levels#eff-max-n": "Limite niveau éffluents",
+            "levels#eff-max-n": "Limite niveau effluents",
 
             "levels#ox-min-n": "Niveau minimal oxydant",
             "levels#rd-min-n": "Niveau minimal réducteur",
@@ -237,7 +237,7 @@
     "toasts": {
         "nozzle-cleaning": {
             "title": "Recommandation au démarrage",
-            "message": "Votre Metalfog viens de démarrer, il est recommandé de lancer un nettoyage des buses de metallisation lors du démarrage de la machine. Cliquez sur continuer pour lancer ce nettoyage.",
+            "message": "Votre Metalfog vient de démarrer, il est recommandé de lancer un nettoyage des buses de metallisation lors du démarrage de la machine. Cliquez sur continuer pour lancer ce nettoyage.",
             "actions": {
                 "main": "Continuer"
             }

@@ -1,6 +1,6 @@
 ## Nettoyage de la Metalfog
 
-Afin de garantir un bon fonctionnement et une longue durée de vie à la Metalfog, il est important d’effectuer des nettoyages réguliers, en respectant les consignes à suivre.
+Afin de garantir le bon fonctionnement et une durée de vie optimale à la Metalfog, il est important d’effectuer des nettoyages réguliers de la machine, en respectant les consignes à suivre.
 
 ### Couvercle
 
@@ -21,7 +21,7 @@ Nous conseillons de nettoyer la cuve une fois par mois, ou plus si utilisation i
 ![Cuve avec pellicules d'argent](nettoyage_cuve_metalfog1.png)
 ![Grille d'aspiration obstruée](nettoyage_cuve_metalfog2.png)
 
-Nettoyez la grille et le fond de cuve en aspirant les pellicules. Pour détacher les parties les plus résistantes, utilisez une brosse à poils plastiques souples et aspirez à nouveau.
+Nettoyez la grille et le fond de cuve en aspirant les pellicules à l'aspirateur avec un embout brosse souple. Pour détacher les parties les plus résistantes, utilisez une brosse à poils plastiques souples et aspirez à nouveau.
 
 ### Conteneurs réactifs
 
@@ -30,8 +30,8 @@ Afin de garantir la qualité de la métallisation chimique, nous préconisons le
 Pour effectuer ce nettoyage, lancez une première vidange puis
 remplir les 3 conteneurs de réactifs avec 500mL d’eau déionisée chacun et lancer le cycle en appuyant sur « Vidange de tous les réactifs ».
 
-![Menu Vidange de tous les réactifs](vidange_reactifs.png)
+![Menu Vidange de tout les réactifs](vidange_reactifs.png)
 
 Une fois lancé, laissez le cycle se terminer avant de revenir à la page d’accueil.
 
->**Attention** : Les effluents générés lors de l’utilisation de la Metalfog doivent être récoltés et traités dans la filière appropriée. Le code européen déterminé par la directive (UE) 2008/98/CE pour ce type de déchets est le : 09 01 06*, il correspond à « déchets contenant de l'argent provenant du traitement in situ des déchets photographiques- Effluents liquides alcalin pH 10 ».
+>**Attention** : Les effluents générés lors de l’utilisation de la Metalfog doivent être récupérés et traités dans la filière appropriée. Le code européen déterminé par la directive (UE) 2008/98/CE pour ce type de déchets est le : 09 01 06*, il correspond à « déchets contenant de l'argent provenant du traitement in situ des déchets photographiques- Effluents liquides alcalin pH 10 ».

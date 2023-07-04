@@ -513,9 +513,7 @@
                             "type": "string"
                         },
                         "type": {
-                            "enum": [
-                                "io"
-                            ],
+                            "const": "io",
                             "type": "string"
                         }
                     },
@@ -542,9 +540,7 @@
                             "type": "array"
                         },
                         "type": {
-                            "enum": [
-                                "container.regulation.state"
-                            ],
+                            "const": "container.regulation.state",
                             "type": "string"
                         }
                     },
@@ -571,9 +567,7 @@
                             "type": "array"
                         },
                         "type": {
-                            "enum": [
-                                "container.regulation.target"
-                            ],
+                            "const": "container.regulation.target",
                             "type": "string"
                         }
                     },
@@ -1621,9 +1615,7 @@
                             "type": "string"
                         },
                         "type": {
-                            "enum": [
-                                "incremental"
-                            ],
+                            "const": "incremental",
                             "type": "string"
                         },
                         "unity": {

@@ -4,7 +4,11 @@
     "containers": {
 
         "resin": {
-            "name": "Vernis"
+            "name": "Vernis",
+            "actions": {
+                "load": "Charger le vernis",
+                "unload": "Retirer le vernins"
+            }
         },
 
         "eff": {

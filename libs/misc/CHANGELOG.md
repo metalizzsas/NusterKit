@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-misc
 
+## 1.4.4
+
+### Patch Changes
+
+- chore: updated smoothit M R3 gates ([#421](https://github.com/metalizzsas/NusterKit/pull/421))
+
 ## 1.4.3
 
 ### Patch Changes

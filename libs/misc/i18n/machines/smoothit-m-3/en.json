@@ -8,7 +8,11 @@
         },
 
         "resin": {
-            "name": "Varnish"
+            "name": "Varnish",
+            "actions": {
+                "load": "Load varnish",
+                "unload": "Unload le varnish"
+            }
         }
     },
 

@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-typings
 
+## 1.5.5
+
+### Patch Changes
+
+- chore: updated deps ([#422](https://github.com/metalizzsas/NusterKit/pull/422))
+
 ## 1.5.4
 
 ### Patch Changes

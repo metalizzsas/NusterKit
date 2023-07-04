@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.11.17
+
+### Patch Changes
+
+- chore: updated deps ([#422](https://github.com/metalizzsas/NusterKit/pull/422))
+
 ## 1.11.16
 
 ### Patch Changes

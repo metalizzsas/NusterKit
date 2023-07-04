@@ -1,6 +1,6 @@
 ## Onglet — Cycle
 
-### Description générale - Onglet Cycle
+### Description générale - Onglet Cycle 
 
 Cette section permet de gérer les cycles machines. Dans la liste de gauche vous trouverez différents éléments :
 

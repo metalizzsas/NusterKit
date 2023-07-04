@@ -145,10 +145,8 @@
             "description": "Machine Settings"
         },
         "variant": {
+            "const": "m",
             "description": "Machine variant",
-            "enum": [
-                "m"
-            ],
             "type": "string"
         }
     },

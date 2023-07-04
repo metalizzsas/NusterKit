@@ -90,12 +90,15 @@ export class ProfilesRouter extends Router {
 
         /** Route to delete a profil with its `id` */
         this.router.delete('/:id', this.premadeProtect, async (req: Request, res: Response) => {
-            await ProfileModel.findByIdAndDelete(req.params.id, {}, (err, doc) => {
-                if(doc && !err)
-                    res.status(200).end();
-                else
-                    res.status(404).end();
-            });
+            try
+            {
+                await ProfileModel.findByIdAndDelete(req.params.id);
+                res.status(200).end();
+            }
+            catch(ex)
+            {
+                res.status(404).end(ex);
+            }
         });
         
         /** Route to Update a profile */

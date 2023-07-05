@@ -42,8 +42,8 @@
         {
             fetch(`/documentation/${v}`)
                 .then(res => res.text())
-                .then(text => helpContent = text)
-                .catch(() => selectedHelp.set(undefined));
+                .then(text => helpContent = text.replaceAll(/\\(\S*)/g, ""))
+                .catch((e) => { selectedHelp.set(undefined); console.log(e); });
         }
         else
             helpContent = undefined;

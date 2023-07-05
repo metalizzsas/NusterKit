@@ -7,6 +7,10 @@
             "name": "Effluents"
         },
 
+        "eff-water": {
+            "name": "Water slide effluents"
+        },
+
         "resin": {
             "name": "Varnish",
             "actions": {
@@ -138,17 +142,25 @@
 
     "maintenance": {
         "tasks": {
-            "smt-filter": {
-                "name": "Filter",
-                "desc": "Smoothit filter filters all coating solvants produced by the coating done inside the machine."
-            },
             "inner-cleaning": {
                 "name": "Inner",
                 "desc": "The inner layer masks the machine to avoid vanish accumulation on the cuve."
             },
+            "eff-container-varnish": {
+                "name": "Varnish waste container",
+                "desc": "The varnish water container is used to collect the varnish waste."
+            },
+            "eff-container-water": {
+                "name": "Varnish water slide container",
+                "desc": "The varnish water slide container is used to collecte remaining varnish residues after the varnish container."
+            },
+            "smt-filter": {
+                "name": "Filter",
+                "desc": "Smoothit filter filters all the remaining varnish and coating solvants produced by the coating done inside the machine."
+            },
             "uv-lamp": {
                 "name": "UV Lamp",
-                "desc": "UV Lamp is used to harden varnish on top of your part."
+                "desc": "The UV lamp is used to harden the varnish on your parts."
             }
         }
     },

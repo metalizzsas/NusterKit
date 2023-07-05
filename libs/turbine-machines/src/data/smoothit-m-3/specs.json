@@ -256,6 +256,11 @@
          "name": "eff",
          "type": "cnt",
          "sensors": []
+      },
+      {
+         "name": "eff-water",
+         "type": "cnt",
+         "sensors": []
       }
    ],
    "profileSkeletons": [
@@ -502,19 +507,29 @@
    ],
    "maintenance": [
       {
+         "name": "inner-cleaning",
+         "durationType": "cycle",
+         "durationLimit": 40
+      },
+      {
+         "name": "eff-container-varnish",
+         "durationType": "cycle",
+         "durationLimit": 60
+      },
+      {
+         "name": "eff-container-water",
+         "durationType": "cycle",
+         "durationLimit": 60
+      },
+      {
          "name": "smt-filter",
          "durationType": "cycle",
          "durationLimit": 75
       },
       {
-         "name": "inner-cleaning",
-         "durationType": "cycle",
-         "durationLimit": 50
-      },
-      {
          "name": "uv-lamp",
          "durationType": "duration",
-         "durationLimit": 30000
+         "durationLimit": 20000
       }
    ],
    "cyclePremades": [
@@ -836,7 +851,9 @@
                   {"io_write": ["nozzle-low#cache", 0]},
                   {"io_write": ["uv#cache", 0]},
                   {"append_maintenance": ["smt-filter", 1]},
-                  {"append_maintenance": ["inner-cleaning", 1]}
+                  {"append_maintenance": ["inner-cleaning", 1]},
+                  {"append_maintenance": ["eff-container-varnish", 1]},
+                  {"append_maintenance": ["eff-container-water", 1]}
                ]
             }
          ]

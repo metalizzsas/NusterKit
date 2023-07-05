@@ -65,7 +65,7 @@
             </p>
             <p>
                 <span class="font-medium">{$_('container.product.informations.load_date')}</span>
-                {$date(Date.parse(container.productData.loadDate))} — {$time(Date.parse(container.productData.loadDate), {format: "medium"})}.
+                {$date(Date.parse(container.productData.loadDate), { format: "medium"})} — {$time(Date.parse(container.productData.loadDate), {format: "medium"})}.
             </p>
             <p>
                 <span class="font-medium">{$_('container.product.informations.lifetime_remaining')}</span>

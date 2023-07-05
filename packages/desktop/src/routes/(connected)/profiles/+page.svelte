@@ -30,6 +30,7 @@
 		class:max-w-0={selectedProfileId !== undefined}
 		class:min-w-0={selectedProfileId !== undefined}
 		class:shrink={selectedProfileId !== undefined}
+		class:overflow-hidden={selectedProfileId !== undefined}
 	>
 	<Wrapper>
 		<Flex direction="col" gap={2}>

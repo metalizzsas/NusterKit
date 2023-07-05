@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-misc
 
+## 1.4.5
+
+### Patch Changes
+
+- chore: typo in translations ([#427](https://github.com/metalizzsas/NusterKit/pull/427))
+
+- chore: smoothit m r3 varnish actions had no translation keys ([#425](https://github.com/metalizzsas/NusterKit/pull/425))
+
 ## 1.4.4
 
 ### Patch Changes

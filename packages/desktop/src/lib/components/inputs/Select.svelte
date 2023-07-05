@@ -37,7 +37,7 @@
 
 </script>
 
-<div class="relative z-50 {style} {$$props.class}">
+<div class="relative {style} {$$props.class}">
     <Flex items="center" gap={2}>
         <button on:click={() => { if(disabled === false) { expand = !expand } }} class="grow text-left">{selectableValues.find(k => k.value == value)?.name ?? "—"}</button>
         <Icon src={ChevronDown} class="h-4 w-4"/>

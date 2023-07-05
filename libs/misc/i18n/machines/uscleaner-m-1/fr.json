@@ -43,7 +43,7 @@
         "steps": {
             "cleaning": {
                 "name": "Nettoyage",
-                "desc": "Nétoyage des pièces"
+                "desc": "Nettoyage des pièces"
             }
         },
         "run_conditions": {

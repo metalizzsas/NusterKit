@@ -87,7 +87,7 @@
 
         <h2>{$_('settings.software.lead')}</h2>
         
-        <SettingField label={$_('settings.software.nuster')} value={data.machine.nusterVersion} />
+        <SettingField label={$_('settings.software.nuster')} value={data.version} />
 
         {#if data.machine.deviceData?.os_version !== undefined}
             <SettingField label={$_('settings.software.balena')} value={data.machine.deviceData?.os_version} />

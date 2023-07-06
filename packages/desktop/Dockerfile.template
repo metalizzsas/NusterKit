@@ -10,6 +10,7 @@ COPY .npmrc ./.npmrc
 
 COPY packages/desktop/package*.json ./
 COPY packages/desktop/CHANGELOG.md ./CHANGELOG.md
+COPY packages/desktop/version.txt ./version.txt
 COPY packages/desktop/build/ ./build
 
 # Install Prod npm packages

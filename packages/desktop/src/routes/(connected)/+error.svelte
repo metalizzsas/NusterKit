@@ -21,7 +21,7 @@
 			<div>
 				<h1 class="text-xl">{$_('error.render.lead')}</h1>
 				<h2 class="text-base">{$_('error.render.sub')}</h2>
-				<p>{$page.status} - {$page.error?.message}</p>
+				<p class="mt-2 mb-4">{$page.status} - {$page.error?.message}</p>
 				<Button on:click={redirect}>{$_('error.render.button')}</Button>
 			</div>
 		</div>

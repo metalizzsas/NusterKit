@@ -49,4 +49,4 @@ jobs:
       - name: 🧱 Build packages 
         run: pnpm run build:packages
         env:
-          NUSTER_VERSION: ${{ steps.get_nuster_version.outputs.version }}
+          VITE_NUSTER_VERSION: ${{ steps.get_nuster_version.outputs.version }}

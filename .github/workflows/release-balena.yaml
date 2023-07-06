@@ -58,7 +58,7 @@ jobs:
         run: pnpm run build:packages
         env:
           NODE_ENV: production
-          PUBLIC_NUSTER_VERSION: ${{ steps.get_nuster_version.outputs.version }}
+          VITE_NUSTER_VERSION: ${{ steps.get_nuster_version.outputs.version }}
 
       - name: 🐳 Create BalenaCloud Release
         id: balena_release

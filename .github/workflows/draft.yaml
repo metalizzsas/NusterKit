@@ -53,7 +53,7 @@ jobs:
       - name: 🧱 Run build scripts on all packages
         run: pnpm run build:packages
         env:
-          PUBLIC_NUSTER_VERSION: ${{ steps.get_nuster_version.outputs.version }}
+          VITE_NUSTER_VERSION: ${{ steps.get_nuster_version.outputs.version }}
 
       - name: ↔ Replace prod compose file by draft compose finalize
         run: mv -f docker-compose.draft.yml docker-compose.yml

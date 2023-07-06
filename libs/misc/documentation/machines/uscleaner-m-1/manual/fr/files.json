@@ -23,7 +23,7 @@
             "name": "999-root",
             "files": [
                 { "name": "Bienvenue", "path": "/machines/uscleaner-m-1/manual/fr/index.md" },
-                { "name": "LICENSE", "path": "/machines/uscleaner-m-1/manual/fr/license.md" }
+                { "name": "LICENCE", "path": "/machines/uscleaner-m-1/manual/fr/license.md" }
             ]
         }
     }

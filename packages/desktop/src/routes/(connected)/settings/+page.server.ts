@@ -1,7 +1,7 @@
 import type { MaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydrated";
 import type { PageServerLoad } from "./$types";
 import type { MachineData } from "@metalizzsas/nuster-typings/build/hydrated/machine";
-import version from "/version.txt?raw";
+import { PUBLIC_NUSTER_VERSION } from "$env/static/public";
 
 export const load = ( async ({ fetch }) => {
 
@@ -14,7 +14,7 @@ export const load = ( async ({ fetch }) => {
     return {
         machine,
         cycleCount,
-        version
+        version: (PUBLIC_NUSTER_VERSION as string)
     }
 
 }) satisfies PageServerLoad;

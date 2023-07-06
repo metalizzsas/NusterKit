@@ -46,8 +46,14 @@ jobs:
       - name: 🧱 Build libraries
         run: pnpm run build:libs
 
+      - name: ❔ Get Nuster BalenaCloud version from package.json
+        id: get_nuster_version
+        run: cat ./packages/nuster/package.json | echo version=$(jq -r '.version') >> $GITHUB_OUTPUT
+
       - name: 🧱 Run build scripts on all packages
         run: pnpm run build:packages
+        env:
+          PUBLIC_NUSTER_VERSION: ${{ steps.get_nuster_version.outputs.version }}
 
       - name: ↔ Replace prod compose file by draft compose finalize
         run: mv -f docker-compose.draft.yml docker-compose.yml

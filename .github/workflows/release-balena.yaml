@@ -50,14 +50,19 @@ jobs:
       - name: 🧱 Build libs
         run: pnpm run build:libs
 
+      - name: ❔ Get Nuster BalenaCloud version from package.json
+        id: get_nuster_version
+        run: cat ./packages/nuster/package.json | echo version=$(jq -r '.version') >> $GITHUB_OUTPUT
+
+      - name: 📝 Write Nuster version on desktop package
+        run: cat $VERSION > packages/desktop/version.txt
+        env:
+          VERSION: ${{ steps.get_nuster_version.outputs.version }}
+
       - name: 🧱 Run build scripts on all packages
         run: pnpm run build:packages
         env:
           NODE_ENV: production
-
-      - name: ❔ Get Nuster BalenaCloud version from package.json
-        id: get_nuster_version
-        run: cat ./packages/nuster/package.json | echo version=$(jq -r '.version') >> $GITHUB_OUTPUT
 
       - name: 🐳 Create BalenaCloud Release
         id: balena_release

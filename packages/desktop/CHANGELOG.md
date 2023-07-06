@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-desktop
 
+## 1.11.18
+
+### Patch Changes
+
+- fix: selects options could be under other selects ([#428](https://github.com/metalizzsas/NusterKit/pull/428))
+
+- fix: Container product load date was not readable enough ([#428](https://github.com/metalizzsas/NusterKit/pull/428))
+
 ## 1.11.17
 
 ### Patch Changes

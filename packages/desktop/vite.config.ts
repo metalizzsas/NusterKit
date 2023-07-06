@@ -15,4 +15,11 @@ export default {
             port: 9026
         }
     },
+    build: {
+        rollupOptions: {
+            external: [
+                "/version.txt?raw"
+            ]
+        }
+    }
 } satisfies UserConfig;

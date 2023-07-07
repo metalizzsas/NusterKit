@@ -42,5 +42,11 @@ jobs:
       - name: ✔️ Run tests
         run: pnpm test
 
+      - name: ❔ Get Nuster BalenaCloud version from package.json
+        id: get_nuster_version
+        run: cat ./packages/nuster/package.json | echo version=$(jq -r '.version') >> $GITHUB_OUTPUT
+
       - name: 🧱 Build packages 
         run: pnpm run build:packages
+        env:
+          VITE_NUSTER_VERSION: ${{ steps.get_nuster_version.outputs.version }}

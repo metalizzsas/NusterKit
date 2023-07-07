@@ -265,6 +265,24 @@ importers:
         specifier: ^4.3.9
         version: 4.3.9(@types/node@20.3.3)(sass@1.63.6)
 
+  packages/nuster:
+    dependencies:
+      '@metalizzsas/nuster-desktop':
+        specifier: 1.11.18
+        version: link:../desktop
+      '@metalizzsas/nuster-misc':
+        specifier: 1.4.5
+        version: link:../../libs/misc
+      '@metalizzsas/nuster-turbine':
+        specifier: 1.10.28
+        version: link:../turbine
+      '@metalizzsas/nuster-turbine-machines':
+        specifier: 1.6.12
+        version: link:../../libs/turbine-machines
+      '@metalizzsas/nuster-typings':
+        specifier: 1.5.5
+        version: link:../../libs/typings
+
   packages/turbine:
     dependencies:
       '@metalizzsas/nuster-turbine-machines':

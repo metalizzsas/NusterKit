@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-misc
 
+## 1.4.6
+
+### Patch Changes
+
+- [#438](https://github.com/metalizzsas/NusterKit/pull/438) [`90c0e885`](https://github.com/metalizzsas/NusterKit/commit/90c0e885fd4733708a81017e0df2077124efc423) Thanks [@Kworz](https://github.com/Kworz)! - feat: machine can now be shutted down or rebooted from nuster desktop
+
 ## 1.4.5
 
 ### Patch Changes

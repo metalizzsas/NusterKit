@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 importers:
 
   .:
@@ -37,7 +41,7 @@ importers:
         version: 5.1.6
     devDependencies:
       '@metalizzsas/nuster-misc':
-        specifier: 1.4.5
+        specifier: 1.4.6
         version: link:../misc
       '@metalizzsas/nuster-typings':
         specifier: 1.5.5
@@ -184,7 +188,7 @@ importers:
         version: 0.2.3(svelte@4.0.3)
     devDependencies:
       '@metalizzsas/nuster-misc':
-        specifier: 1.4.5
+        specifier: 1.4.6
         version: link:../../libs/misc
       '@metalizzsas/nuster-turbine-machines':
         specifier: 1.6.12
@@ -268,13 +272,13 @@ importers:
   packages/nuster:
     dependencies:
       '@metalizzsas/nuster-desktop':
-        specifier: 1.11.18
+        specifier: 1.11.19
         version: link:../desktop
       '@metalizzsas/nuster-misc':
-        specifier: 1.4.5
+        specifier: 1.4.6
         version: link:../../libs/misc
       '@metalizzsas/nuster-turbine':
-        specifier: 1.10.28
+        specifier: 1.10.29
         version: link:../turbine
       '@metalizzsas/nuster-turbine-machines':
         specifier: 1.6.12
@@ -7809,7 +7813,3 @@ packages:
   /yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false

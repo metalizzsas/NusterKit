@@ -21,7 +21,7 @@ Ouvrez l'évent de la pompe pour vidanger le corps de filtre jusqu'à ce que plu
 
 \newpage
 
-Ensuite, ouvrez le corps de filtre en dévissant l'écrou du haut puis retirez la cartouche filtrante en dévissant son écrou de maintient.
+Ensuite, ouvrez le corps de filtre en dévissant l'écrou du haut puis retirez la cartouche filtrante en dévissant son écrou de maintien.
 
 ![Retirer écrou cartouche](Image6.jpg)
 

@@ -65,7 +65,7 @@ pdf-engine: xelatex
 
 variables:
   titlepage: true
-  titlepage-background: libs/misc/documentation/utils/metalfog-m-2.pdf
+  titlepage-background: libs/misc/documentation/utils/FR-metalfog-m-2.pdf
   titlepage-rule-height: 0
 
   fontfamily: sourcesanspro

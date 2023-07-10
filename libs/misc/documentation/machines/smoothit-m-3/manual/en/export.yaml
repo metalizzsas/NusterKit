@@ -1,0 +1,64 @@
+toc: true
+toc-depth: 3
+file-scope: true
+shift-heading-level-by: -1
+number-sections: true
+
+input-files:
+  - libs/misc/documentation/machines/smoothit-m-3/manual/en/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/smoothit-m-3/manual/en/license.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/smoothit-m-3/manual/en/sections/00-description/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/smoothit-m-3/manual/en/sections/10-startup/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/smoothit-m-3/manual/en/sections/20-containers/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/smoothit-m-3/manual/en/sections/30-parts-preparation/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/smoothit-m-3/manual/en/sections/40-cycle-picking/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/smoothit-m-3/manual/en/sections/80-maintenance/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/smoothit-m-3/manual/en/sections/90-network/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/machines/smoothit-m-3/manual/en/sections/95-storing/index.md
+
+resource-path: 
+  - libs/misc/documentation/machines/smoothit-m-3/manual/en/sections/00-description/
+  - libs/misc/documentation/machines/smoothit-m-3/manual/en/sections/10-startup/
+  - libs/misc/documentation/machines/smoothit-m-3/manual/en/sections/20-containers/
+  - libs/misc/documentation/machines/smoothit-m-3/manual/en/sections/30-parts-preparation/
+  - libs/misc/documentation/machines/smoothit-m-3/manual/en/sections/40-cycle-picking/
+  - libs/misc/documentation/machines/smoothit-m-3/manual/en/sections/50-safety/
+  - libs/misc/documentation/machines/smoothit-m-3/manual/en/sections/80-maintenance/
+  - libs/misc/documentation/machines/smoothit-m-3/manual/en/sections/90-network/
+  - libs/misc/documentation/machines/smoothit-m-3/manual/en/sections/95-storing/
+
+output-file: libs/misc/documentation/output/EN_smoothit-m-r3.pdf
+pdf-engine: xelatex
+
+variables:
+  titlepage: true
+  titlepage-background: libs/misc/documentation/utils/EN-smoothit-m-3.pdf
+  titlepage-rule-height: 0
+
+  fontfamily: sourcesanspro
+  fontfamilyoptions: default
+  
+  toc-own-page: true
+  lang: en-GB
+
+  caption-justification: centering
+
+  footer-left: Smoothit M R3 Users guide © Metalizz 2023
+
+  table-use-row-colors: true
+
+  colorlinks: true
+  urlcolor: blue
+
+  metadata: 
+    author: Metalizz
+    title: Smoothit M R3 Users guide

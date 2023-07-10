@@ -1,0 +1,32 @@
+{
+    "category": "machine",
+    "lang": "en",
+    
+    "folders": {
+        "preparation": {
+            "name": "Sections",
+            "files": [
+                { "name": "Machine description", "path": "/machines/smoothit-m-3/manual/en/sections/00-description/index.md"},
+                { "name": "Machine startup", "path": "/machines/smoothit-m-3/manual/en/sections/10-startup/index.md" },
+                { "name": "Containers", "path": "/machines/smoothit-m-3/manual/en/sections/20-containers/index.md" },
+                { "name": "Parts preparation", "path": "/machines/smoothit-m-3/manual/en/sections/30-parts-preparation/index.md" },
+                { "name": "Cycle picking", "path": "/machines/smoothit-m-3/manual/en/sections/40-cycle-picking/index.md" }
+            ]
+        },
+        "running": {
+            "name": "Running",
+            "files": [
+                { "name": "Safety", "path": "/machines/smoothit-m-3/manual/en/sections/50-safety/index.md" },
+                { "name": "Network", "path": "/machines/smoothit-m-3/manual/en/sections/90-network/index.md" },
+                { "name": "Storing", "path": "/machines/smoothit-m-3/manual/en/sections/95-storing/index.md" }
+            ]
+        },
+        "999-root": {
+            "name": "999-root",
+            "files": [
+                { "name": "Welcome", "path": "/machines/smoothit-m-3/manual/en/index.md" },
+                { "name": "LICENSE", "path": "/machines/smoothit-m-3/manual/en/license.md" }
+            ]
+        }
+    }
+}

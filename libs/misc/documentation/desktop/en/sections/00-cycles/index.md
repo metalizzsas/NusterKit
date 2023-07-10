@@ -1,76 +1,81 @@
-## Onglet — Cycle
+## Cycle tab
 
-### Description générale - Onglet Cycle 
+### General description
 
-Cette section permet de gérer les cycles machines. Dans la liste de gauche vous trouverez différents éléments :
+This section handles machine cycles. In the lefts list, you can find these elements:
 
-- Cycles utilisateurs : marqués par un pictogramme bleu   `utilisateur`,
-- Cycles constructeur principaux : marqués par un pictogramme  bleu  `constructeur`,
-- Cycles constructeur secondaires : marqués par un pictogramme  rose  `constructeur`.
+- User cycles: marked with a blue icon `user`.
+- Primary Manufacturer cycles: marked with a blue icon `manufacturer`.
+- Secondary Manufacturer cycles: marked with a blue icon `manufacturer`.
 
-![Liste cycles](component_cycles.png)
+![Cycles list](component_cycles.png)
 
-Lorsque vous sélectionnez un cycle, la partie principale affiche les informations de ce cycle.
+When you select a cycle, the main section displays informations about this cycle.
 
-- Le nom du cycle utilisé, ici    `Cycle de base metalfog`
-- Le nom du profil utilisé, ici    `Utility Silver Layer — USL`
-- Le temps estimé, ici    `12m 11s`
-- Le bouton pour démarrer le cycle
-- Les conditions de sécurité pour démarrer le cycle
+- Name of the used cycle, here: `Base metalfog cycle`
+- Name of the used profile, here: `Utility Silver Layer — USL`,
+- Cycle estimated duration, here: `13m 9s`,
+- The `Start cycle` button,
+- Starting security conditions to start the cycle.
 
-#### Conditions de sécurité
+#### Starting conditions
 
-Les conditions de sécurité ont 3 états possibles :
+The Starting security conditions can have 3 states:
 
-- **Vert** : OK pour lancer,
-- **Orange** : Avertissement (Le cycle peut être lancé mais son résultat n'est pas garanti),
-- **Rouge** : Impossible de lancer (Action requise).
+- **Green** : Good to go,
+- **Orange** : Warning (The cycle can be started, but its result is not guaranteed),
+- **Red** : Impossible to start (Required action).
 
-Si les états des conditions de sécurité le permettent alors le bouton   `Démarrer le cycle`   passe au vert.
+When all theses conditions are good to go, then the start cycle button `Start cycle` goes to green.
 
-### Cycle en cours
+### Running cycle
 
-Lorsqu'un cycle est en cours, son déroulement s'affiche dans la partie principale.
+When a cycle is running, its progress is displayed in the main section.
 
-![Liste cycles](cycles_running.png)
+![Running cycle](cycles_running.png)
 
-#### Informations du cycle
+#### Cycle informations
 
-Dans la partie haute, vous trouverez :
+In the upper section, you will find :
 
-- Le nom du cycle,
-- Le nom du profil utilisé,
-- Le temps estimé,
-- Le temps restant,
-- Un bouton   `Arrêter le cycle`.
+- Name of the used cycle,
+- Name of the used profile,
+- Cycle estimated duration,
+- Cycle remaining duration,
+- A `Stop cycle` button.
 
-#### Étapes du cycle
+#### Cycle steps
 
-Dans la partie   `Étapes du cycle` , chaque étape est représentée par :
+In the `Cycle steps` section, each step is displayed with:
 
-- Son nom,
-- Sa description,
-- Sa progression, si elle est en cours,
-- Son statut :
-        - Croix rouge : Pas encore executée,
-        - 2 Flèches tournantes : Étape en cours,
-        - Coche verte : Étape terminée.
+- Its name,
+- A breive description,
+- Its progress, if its running,
+- Its state:
+  - Gray X Mark: Not executed,
+  - Spinning arrows: Current running step,
+  - Orange Arrow: Skipped or early exited step,
+  - Green checkmark: Ended step.
 
-#### Informations additionnelles
+#### Additional informations
 
-Pour certaines machines, une rubrique   `Informations addtionnelles`, peut être présente au dessus des étapes du cycle, elle peuvent donner par exemple   `la température du bac` pour un USCleaner thermorégulé.
+For some machines, an `Additional informations` section can be added over the cycles steps. This section can display additional informations such as:
 
-### Cycle terminé
+- `Temperature` for an Thermoregulated USCleaner.
 
-Une fois le cycle terminé, la partie principale affiche le message :
-"Le cycle est terminé. Terminé avec succès".
+### Cycle end
 
-![Fin du cycle](cycles_end.png)
+Once the cycle has ended, the main section display the following informations:
+"Cycle has ended. Finished successfully"
 
-Cette page permet de savoir si le cycle s'est terminé correctement et connaitre sa durée totale.
+![Cycle end](cycles_end.png)
 
-Si cette page affiche tout autre message que   `Terminé avec succès`, alors le message qui apparait précise la raison d’arrêt du cycle. 
+This page, help to know if the cycle has ended successfuly et know its total duration.
 
-Validez la fin du cycle avec le bouton   `Terminer le cycle`.
+If this page shows an end reason other than "Finished successfully", then the end reason help you to understand what went wrong.
 
-> Vous venez de réaliser votre premier cycle à l'aide de Nuster, félicitations !
+The steps resumé, also helps to understand what happened.
+
+Validate the cycle end using the button `Complete cycle`.
+
+> Congratulations! You have successfully completed a cycle with help from nuster !

@@ -1,47 +1,47 @@
-## Onglet — Conteneurs
+## Containers section
 
-### Description générale - Onglet Conteneurs
+### General description
 
-Cette section permet de gérer les conteneurs de votre machine, c'est à dire :
+The container section handles container management of your machine :
 
-- L'affectation des produits chargés dans les conteneurs,
-- Les capteurs affectés à ces conteneurs,
-- Les régulations affectés à ces conteneurs.
+- Product loaded in the machine,
+- Sensors attached to this container,
+- Regulations attached to this container.
 
 ![Conteneurs](component_containers.png)
 
-Chaque conteneur possède des configurations différentes (affectation de produits, capteurs assignés, régulations attitrées ou non).
+Each container has differents configurations (product loadables, sensors attached, regulations attached or not)
 
-### Gestion du produit
+### Product management
 
-![Gestion produit](containers_product.png)
+![Product managemenet](containers_product.png)
 
-#### Informations produit
+#### Product informations
 
-Lorsqu'un produit est chargé dans la machine, les informations suivantes sont disponibles : 
+When you load a product into the machine, the following informations are displayed:
 
-- Le type de produit chargé,
-- La date de chargement du produit,
-- La durée de vie restante pour un produit optimal.
+- Loaded product type,
+- Load date,
+- Remaining optimal lifetime.
 
-> **Avertissement:** Certains produits n'ont pas de durée de vie. Le conteneur affichera donc un avertissement.
+> **Warning**: Some products have no lifetime. The container will display a warning.
 
-#### Actions produit
+#### Product actions
 
-Grâce à ces actions vous pouvez charger et vidanger les produits  automatiquement ou manuellement. Vous serez guidé par le logiciel pour le chargement du produit dans votre machine.
+Thanks to these actions, you can empty or load the products automatically or manually into the container. You will be guided by the software to handle product loading into your machine.
 
-> **Avertissement:** Certaines actions peuvent vous renvoyer vers l'exécution de cycles nécessaires à leur finalisation.
+> **Warning:** Some actiuons can redirect you to a cycle that you will have to start to finish the product loading / unloading.
 
-### Capteurs
+### Sensors
 
-![Capteurs conteneurs](containers_sensors.png)
+![Containers sensors](containers_sensors.png)
 
-Dans cette sous-section, vous trouverez les différents capteurs assignés au conteneur.
+In this sub section, you will find all the attached sensors on this container.
 
-### Gestion des régulations
+### Regulation management
 
-![Régulation conteneur](containers_regulation.png)
+![Container regulation](containers_regulation.png)
 
-Vous pouvez modifier la consigne en modifiant la   `Valeur recherchée` et activer la régulation en changeant   l'`État de la régulation`. 
+Here, you can edit the setpoint, by modify the `target value` and enable the regulation by setting the `regulation state` to true or false.
 
->**Avertissement:** La régulation est indépendante des cycles, elle continue automatiquement en arrière plan. Pour l'activer ou l'arrêter, appuyez sur le bouton   `État de la régulation` (indicateur rouge = non activée, indicateur vert = activée).
+> **Warning:** The regulation is independant from the cycles, it keeps going in the background.

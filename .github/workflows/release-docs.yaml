@@ -20,7 +20,8 @@ jobs:
         docs-paths: [
           "machines/uscleaner-m-1/manual/fr",
           "machines/metalfog-m-2/manual/fr",
-          "desktop/fr"
+          "desktop/fr",
+          "desktop/en"
         ]
 
     steps:

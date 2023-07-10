@@ -4,6 +4,7 @@ The Smoothit must be installed in a room equipped with controlled mechanical ven
 Once the Smoothit is in position, lock the two brake wheels at the front of the machine.
 
 ### Energies
+
 #### Electricity
 
 - Check that the power cable and plug are in good condition.
@@ -15,7 +16,7 @@ Once the Smoothit is in position, lock the two brake wheels at the front of the 
 - Pressure must be at least 6 bar (0.6 MPa).
 - Check that the pressurized nitrogen valve is open.
 
-![Vanne d'air comprimé](nitrogen.png)
+![Nitrogen valve](nitrogen.png)
 
 ### Start-up
 

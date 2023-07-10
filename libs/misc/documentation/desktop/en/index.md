@@ -26,7 +26,7 @@ Located at the top, the tabs leads your to different sections of the software:
 - Help center,
 - [Settings](desktop/fr/components/settings).
 
-Some tabs goes with a colored dot.
+Some tabs are given with a colored dot.
 
 - **Red :** An action is required is this section
 - **Orange :** A warning is present in this section,

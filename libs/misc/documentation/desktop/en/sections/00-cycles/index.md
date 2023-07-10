@@ -2,7 +2,7 @@
 
 ### General description
 
-This section handles machine cycles. In the lefts list, you can find these elements:
+This section handles machine cycles. In the left list, you can find these elements:
 
 - User cycles: marked with a blue icon `user`.
 - Primary Manufacturer cycles: marked with a blue icon `manufacturer`.

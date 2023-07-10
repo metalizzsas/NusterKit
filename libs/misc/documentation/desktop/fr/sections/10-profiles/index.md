@@ -11,11 +11,11 @@ La section Profils permet de modifier les profils de la machine.
 Il existe 2 catégories de profil :
 
 - Profils utilisateurs :
-	- marqués avec le pictogramme `utilisateur`.
-	- sous titrés avec la date de leur dernière modification.
+  - marqués avec le pictogramme `utilisateur`.
+  - sous titrés avec la date de leur dernière modification.
 - Profils constructeurs :
-	- marqués avec le pictogramme `constructeur`.
-	- sous titrés avec `profils constructeur`
+  - marqués avec le pictogramme `constructeur`.
+  - sous titrés avec `profils constructeur`
 
 Les profils constructeurs ne sont ni supprimables, ni modifiables. En revanche, il est possible de les dupliquer. Leur copie vous permettra de modifier certains paramètres en fonction de votre utilisation de la machine.
 

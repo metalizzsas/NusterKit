@@ -1,4 +1,4 @@
-## Cycle tab
+## Cycle section
 
 ### General description
 

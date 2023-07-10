@@ -1,29 +1,31 @@
-## Section - Réglages
+## Settings section
 
-### Description générale - Onglet Réglages
+### General description
 
-Cette section permet de consulter les différents détails de votre machine et d'en ajuster certains réglages.
+This section displays all of your machine details, and tweak some settings.
 
-![Interface réglages](component_settings.png)
+![Settings](component_settings.png)
 
-Vous pouvez ainsi modifier :
+You can edit :
 
-- La langue de l'interface,
-- L'utilisation du mode sombre / mode clair.
+- Software language,
+- Dark mode / Bright mode.
 
-Vous pouvez aussi consulter différentes informations machine telles que :
+You can also view:
 
-- Le modèle,
-- La variante,
-- La révision,
-- Le numéro de série,
-- Les options,
-- Le nombre de cycles,
-- Les informations logiciel,
-- Les informations réseau.
+- The model,
+- The variant,
+- The revision,
+- The serial number,
+- Machine options,
+- Machine cycle count,
+- Software informations,
+- Network settings.
 
-Une dernière rubrique est disponible :  `Réglages avancés`, cette rubrique est réservée aux interventions de **METALIZZ** et à ses partenaires.
+A last sub-section is available: `Advanced settings`, this sub-section is reserved for **METALIZZ* and its partners.
 
-### Mises à jour
+### Updates
+
+When an updated is availble, it will be automatically downloaded to your machine if its connected to the network. An `Update` button is available to install the update. Click on the buton and it will be installed automatically.
 
 Lorsqu'une mise à jour est disponible pour votre machine, une ligne   `Mise à jour` apparait dans les informations logicielles avec un bouton pour installer la mise à jour. Cliquez sur le bouton et la mise à jour s'installera automatiquement.

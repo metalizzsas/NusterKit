@@ -27,5 +27,3 @@ A last sub-section is available: `Advanced settings`, this sub-section is reserv
 ### Updates
 
 When an updated is availble, it will be automatically downloaded to your machine if its connected to the network. An `Update` button is available to install the update. Click on the buton and it will be installed automatically.
-
-Lorsqu'une mise à jour est disponible pour votre machine, une ligne   `Mise à jour` apparait dans les informations logicielles avec un bouton pour installer la mise à jour. Cliquez sur le bouton et la mise à jour s'installera automatiquement.

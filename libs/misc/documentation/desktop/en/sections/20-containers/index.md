@@ -30,7 +30,7 @@ When you load a product into the machine, the following informations are display
 
 Thanks to these actions, you can empty or load the products automatically or manually into the container. You will be guided by the software to handle product loading into your machine.
 
-> **Warning:** Some actiuons can redirect you to a cycle that you will have to start to finish the product loading / unloading.
+> **Warning:** Some actions can redirect you to a cycle that you will have to start to finish the product loading / unloading.
 
 ### Sensors
 

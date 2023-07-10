@@ -4,13 +4,11 @@
 
 ![Elements view](elements1.jpg)
 
-| Number | Description |
-| ----- | ----- |
-| 29 | Electric cabinet |
-| 61 | Emergency stop button |
-| 84 | Varnish bottle |
-| 128 | Lid |
-| 189 | Tactile screen |
+| Number | Description | Number | Description |
+| ----- | ----- | ----- | ----- |
+| 29 | Electric cabinet | 128 | Lid |
+| 61 | Emergency stop button | 189 | Tactile screen |
+| 84 | Varnish bottle | | |
 
 \newpage
 
@@ -21,6 +19,8 @@
 | 50 | Compressed nitrogen valve |
 | 103 | UV Lamp |
 | 177 | Filter |
+
+\newpage
 
 ### Technical caracteristics
 

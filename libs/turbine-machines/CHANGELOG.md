@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.6.12
+
+### Patch Changes
+
+- chore: updated deps ([#422](https://github.com/metalizzsas/NusterKit/pull/422))
+
+- chore: updated smoothit M R3 gates ([#421](https://github.com/metalizzsas/NusterKit/pull/421))
+
 ## 1.6.11
 
 ### Patch Changes

@@ -164,6 +164,33 @@ function SetupExpress()
         TurbineEventLoop.emit('io.resetAll');
     }); 
 
+    ExpressApp.get("/reboot", async (_req, res: Response) => {
+
+        /** On reboot, reset all io gates */
+        TurbineEventLoop.emit('io.resetAll');
+
+        const req = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v1/reboot?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" }, body: JSON.stringify({force: true}), method: 'POST'});
+        if(req.status == 202)
+            res.status(200).end();
+        else
+            res.status(req.status).end();
+
+    });
+
+    ExpressApp.get("/shutdown", async (_req, res: Response) => {
+
+        /** On shutdown, reset all io gates */
+        TurbineEventLoop.emit('io.resetAll');
+
+        const req = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v1/shutdown?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" }, body: JSON.stringify({force: true}), method: 'POST'});
+
+        if(req.status == 202)
+            res.status(200).end();
+        else
+            res.status(req.status).end();
+
+    });
+
     ExpressApp.post("/settings", async (req, res) => {
         try
         {

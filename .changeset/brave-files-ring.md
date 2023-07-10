@@ -2,4 +2,4 @@
 "@metalizzsas/nuster-misc": patch
 ---
 
-chore: corrections notices
+chore: translated nuster EN guide

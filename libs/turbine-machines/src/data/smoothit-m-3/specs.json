@@ -139,7 +139,7 @@
          "default": 0
       },
       {
-         "name": "air-heater",
+         "name": "water-slide-pump",
          "type": "default",
          "size": "bit",
          "bus": "out",
@@ -601,7 +601,7 @@
                "isEnabled": 1,
                "blocks": [{"sleep": 30}],
                "startBlocks": [
-                  {"io_write": ["air-heater", 1]},
+                  {"io_write": ["water-slide-pump", 1]},
                   {"io_write": ["ventilation", 1]},
                   {"io_write": ["motor#speed", {"multiply": [{"profile": "motor#speed"}, {"profile": "motor#enabled"}]}]}
                ],
@@ -826,7 +826,7 @@
                   {"sleep": {"profile": "vapors-extraction#duration"}}
                ],
                "startBlocks": [
-                  {"io_write": ["air-heater", 0]},
+                  {"io_write": ["water-slide-pump", 0]},
                   {"stop_timer": "motorRotation"}
                ],
                "endBlocks": [

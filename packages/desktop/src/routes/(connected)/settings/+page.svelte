@@ -8,35 +8,22 @@
 	import SettingField from "./SettingField.svelte";
 	import PasswordField from "$lib/components/inputs/PasswordField.svelte";
 	import { Icon } from "@steeze-ui/svelte-icon";
-	import { ExclamationTriangle } from "@steeze-ui/heroicons";
+	import { ArrowPath, ExclamationTriangle, Power } from "@steeze-ui/heroicons";
     
-	import { onMount, onDestroy } from "svelte";
 	import { locales, _ } from "svelte-i18n";
 	import type { PageData } from "./$types";
 	import { settings } from "$lib/utils/stores/settings";
-	import { invalidateAll } from "$app/navigation";
 	import Label from "$lib/components/label.svelte";
 	import ProgressBar from "$lib/components/ProgressBar.svelte";
+	import Grid from "$lib/components/layout/grid.svelte";
 
     export let data: PageData;
-
-    let reloadInterval: ReturnType<typeof setTimeout> | undefined = undefined; 
 
     const langs: { [x: string]: string } = {
 		en: 'English',
 		fr: 'Français',
 		it: 'Italiano'
 	};
-
-    onMount(() => {
-        reloadInterval = setInterval(() => {
-            void invalidateAll();
-        }, 5000);
-    });
-
-    onDestroy(() => {
-        clearInterval(reloadInterval);
-    });
 
     const update = async () => {
         const request = await fetch("/api/forceUpdate");
@@ -45,7 +32,23 @@
             isUpdating = true;
     };
 
+    const reboot = async () => {
+        const request = await fetch("/api/reboot");
+
+        if(request.ok && request.status == 200)
+            isRebooting = true;
+    }
+
+    const shutdown = async () => {
+        const request = await fetch("/api/shutdown");
+
+        if(request.ok && request.status == 200)
+            isRebooting = true;
+    }
+
     let isUpdating = false;
+    let isRebooting = false;
+    let isShuttingDown = false;
     let password = "";
 
 </script>
@@ -87,7 +90,7 @@
 
         <h2>{$_('settings.software.lead')}</h2>
         
-        <SettingField label={$_('settings.software.nuster')} value={data.machine.nusterVersion} />
+        <SettingField label={$_('settings.software.nuster')} value={data.version} />
 
         {#if data.machine.deviceData?.os_version !== undefined}
             <SettingField label={$_('settings.software.balena')} value={data.machine.deviceData?.os_version} />
@@ -128,6 +131,19 @@
         } />
 
         <SettingField label={$_('settings.network.wifi.label')}><a href="/settings/wifi"><Button size="small" color={"hover:bg-indigo-500"} ringColor={"ring-indigo-500"}>{$_('settings.network.wifi.button')}</Button></a></SettingField>
+
+        <h2 class="mt-8">{$_('settings.power.lead')}</h2>
+
+        <Grid cols={2} gap={8}>
+            <Button color="hover:bg-amber-500" ringColor="ring-amber-500" on:click={reboot}>
+                <Icon src={ArrowPath} class="h-4 w-4 inline mr-2 mb-1" />
+                {$_('settings.power.reboot')}
+            </Button>
+            <Button color="hover:bg-red-500" ringColor="ring-red-500" on:click={shutdown}>
+                <Icon src={Power} class="h-4 w-4 inline mr-2 mb-1" />
+                {$_('settings.power.shutdown')}
+            </Button>
+        </Grid>
 
         <h2 class="mt-8">{$_('settings.advanced.lead')}</h2>
         

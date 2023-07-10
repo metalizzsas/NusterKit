@@ -1,5 +1,20 @@
 # @metalizzsas/nuster-turbine
 
+## 1.10.29
+
+### Patch Changes
+
+- [#438](https://github.com/metalizzsas/NusterKit/pull/438) [`90c0e885`](https://github.com/metalizzsas/NusterKit/commit/90c0e885fd4733708a81017e0df2077124efc423) Thanks [@Kworz](https://github.com/Kworz)! - feat: machine can now be shutted down or rebooted from nuster desktop
+
+## 1.10.28
+
+### Patch Changes
+
+- chore: updated deps ([#422](https://github.com/metalizzsas/NusterKit/pull/422))
+
+- Updated dependencies [[`c41d8b9a`](https://github.com/metalizzsas/NusterKit/commit/c41d8b9a126d996581bc67faf1f535562b24a1d3), [`dd6b30d4`](https://github.com/metalizzsas/NusterKit/commit/dd6b30d43db86af82e8bf55420adcf975463aaaa)]:
+  - @metalizzsas/nuster-turbine-machines@1.6.12
+
 ## 1.10.27
 
 ### Patch Changes

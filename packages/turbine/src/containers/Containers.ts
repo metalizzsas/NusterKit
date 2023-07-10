@@ -104,7 +104,14 @@ export class Container implements ContainerConfig
 
         if(slot)
         {
-            await slot.delete();
+            try
+            {
+                await ContainerModel.deleteOne({ name: this.name });
+            }
+            catch(ex)
+            {
+                LoggerInstance.error(`Container: ${this.name} was not found in database and thus not deleted.`);
+            }
         }
 
         this.socketData().then(data => {

@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-dashboard
 
+## 1.0.12
+
+### Patch Changes
+
+- chore: updated deps ([#422](https://github.com/metalizzsas/NusterKit/pull/422))
+
 ## 1.0.11
 
 ### Patch Changes

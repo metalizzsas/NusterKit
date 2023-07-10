@@ -1,5 +1,31 @@
 # @metalizzsas/nuster-misc
 
+## 1.4.6
+
+### Patch Changes
+
+- [#438](https://github.com/metalizzsas/NusterKit/pull/438) [`90c0e885`](https://github.com/metalizzsas/NusterKit/commit/90c0e885fd4733708a81017e0df2077124efc423) Thanks [@Kworz](https://github.com/Kworz)! - feat: machine can now be shutted down or rebooted from nuster desktop
+
+## 1.4.5
+
+### Patch Changes
+
+- chore: typo in translations ([#427](https://github.com/metalizzsas/NusterKit/pull/427))
+
+- chore: smoothit m r3 varnish actions had no translation keys ([#425](https://github.com/metalizzsas/NusterKit/pull/425))
+
+## 1.4.4
+
+### Patch Changes
+
+- chore: updated smoothit M R3 gates ([#421](https://github.com/metalizzsas/NusterKit/pull/421))
+
+## 1.4.3
+
+### Patch Changes
+
+- chore: corrections notices ([#399](https://github.com/metalizzsas/NusterKit/pull/399))
+
 ## 1.4.2
 
 ### Patch Changes

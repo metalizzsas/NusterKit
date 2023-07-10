@@ -28,7 +28,7 @@
     setContext<Writable<string | undefined>>("help", selectedHelp);
 
     const pageFilter = (page: HelpDocument, cat: typeof category) => {
-        return (cat === "machine") ? (page.path.includes(`${$machine.model}-${$machine.variant}-${$machine.revision}`) && page.lang === $settings.lang && page.category === cat) : (page.category === cat && $settings.lang);
+        return (cat === "machine") ? (page.path.includes(`${$machine.model}-${$machine.variant}-${$machine.revision}`) && page.lang === $settings.lang && page.category === cat) : (page.category === cat && page.lang === $settings.lang);
     };
 
     $: pages = data.documents.filter((p) => pageFilter(p, category));

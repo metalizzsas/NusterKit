@@ -188,6 +188,11 @@
       "metalfog": "Metalfog",
       "smoothit": "Smoothit",
       "uscleaner": "USCleaner"
+    },
+    "power": {
+      "lead": "Gestion de l'alimentation",  
+      "reboot": "Redémarrer",
+      "shutdown": "Éteindre"
     }
   },
   "cycle": {

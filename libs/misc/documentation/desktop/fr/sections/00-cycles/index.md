@@ -1,6 +1,6 @@
 ## Onglet — Cycle
 
-### Description générale - Onglet Cycle 
+### Description générale - Onglet Cycle
 
 Cette section permet de gérer les cycles machines. Dans la liste de gauche vous trouverez différents éléments :
 
@@ -52,9 +52,10 @@ Dans la partie   `Étapes du cycle` , chaque étape est représentée par :
 - Sa description,
 - Sa progression, si elle est en cours,
 - Son statut :
-        - Croix rouge : Pas encore executée,
-        - 2 Flèches tournantes : Étape en cours,
-        - Coche verte : Étape terminée.
+  - Croix grise : Pas encore executée,
+  - 2 Flèches tournantes oranges : Étape en cours,
+  - Fleche orange: Étape passée ou terminée prématurément,
+  - Coche verte : Étape terminée.
 
 #### Informations additionnelles
 

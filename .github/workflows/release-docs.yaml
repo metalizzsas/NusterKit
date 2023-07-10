@@ -21,7 +21,8 @@ jobs:
           "machines/uscleaner-m-1/manual/fr",
           "machines/metalfog-m-2/manual/fr",
           "machines/smoothit-m-3/manual/en",
-          "desktop/fr"
+          "desktop/fr",
+          "desktop/en"
         ]
 
     steps:

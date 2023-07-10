@@ -8,12 +8,12 @@ The profile section, handles profile creation and editing.
 
 ### Profiles list
 
-There is 2 profiles categories:
+There is 2 profile categories:
 
 - User profiles:
   - with a `user` icon
   - subtitled with the last modification date
-- Manufcaturer profiles
+- Manufacturer profiles
   - with a `manufacturer` icon
   - subtitled with `Constructor profile`
 

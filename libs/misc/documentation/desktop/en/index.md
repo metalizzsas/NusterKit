@@ -7,11 +7,11 @@ Nuster is complete software that comes with every Machine created by METALIZZ.
 
 You will find here all the informations needed to carry out this software.
 
-### Prise en main
+### First hands on
 
 When the machine is switched on, vous will find the main interface..
 
-![Interface principale](interface_principale.png) // Changer le screen
+![Main interface](interface_principale.png) // Changer le screen
 
 The interface is divided in 3 blocks.
 

@@ -1,5 +1,7 @@
 ## Machine elements description
 
+All the quotations are in millimeters.
+
 ### Elements
 
 ![Elements view](elements1.jpg)

@@ -1,31 +1,30 @@
-## Section — Maintenances
+## Maintenance section
 
-### Description générale - Onglet Maintenance
+### General description
 
-Cette section permet de gérer les tâches de maintenance de vos machines.
+The section manages the maintenance tasks of your machines.
 
-Chaque tâche de maintenance est disponible dans la liste de gauche. Son état est indiqué avec une pastille de couleur :
+Each maintenance task in available in the left list. Its stat is given with a color:
 
-- **Vert** : la maintenance n'est pas à prévoir,
-- **Orange** : la tâche de maintenance est à prévoir (> 75%),
-- **Rouge** : la tâche de maintenance est à effectuer.
+- Green: Good to go,
+- Orange: The maintenance should be planned (> 75%),
+- Red: The maintenance task must be done.
 
-Cliquez sur une tâche pour afficher la procédure de maintenance à suivre.
+Click on the maintenance task to show the task procedure to follow.
 
-### Procédure de maintenance
+### Maintenance procedure
 
-Chaque tâche de maintenance est accompagnée de sa procédure.
+Each maintenance task is followed by its maintenance procedure.
 
-![Tache de maintenance](component_maintenances.png)
+![Maintenance Tasks](component_maintenances.png)
 
-À la fin de la procédure de maintenance, vous trouverez le bouton de validation de la tâche qui remettra le compteur à 0.
+At the end of the procedure, you will find the Validation button that resets the maintenance task counter to 0.
 
-![Valider tache maintenance](maintenances_clear.png)
+![Clear maintenance task](maintenances_clear.png)
 
-### Avertissement : Maintenance rattachés à un capteur
+### Warning: Maintenance tasks attached to a sensor
 
-Certaines tâches de maintenance sont assignées à la mesure d'un capteur.
+Some maintenance tasks are attached to a sensor.
+The maintenance task state depends on the sensor state.
 
->Exemple: Le filtre de l'USCleaner.
-
-Le statut de cette tâche de maintenance dépend de l'état du capteur. Valider la tâche de maintenance sans avoir effectué le remplacement du filtre n'aura donc aucun effet sur son statut.
+> Example: the USCleaner filter.

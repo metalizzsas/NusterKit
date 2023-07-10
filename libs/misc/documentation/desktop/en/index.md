@@ -11,7 +11,7 @@ You will find here all the informations needed to carry out this software.
 
 When the machine is switched on, vous will find the main interface..
 
-![Main interface](interface_principale.png) // Changer le screen
+![Main interface](interface_principale.png)
 
 The interface is divided in 3 blocks.
 

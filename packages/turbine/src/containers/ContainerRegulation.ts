@@ -13,7 +13,7 @@ export class ContainerRegulation implements ContainerRegulationConfig
     target: number;
     maxTarget: number;
 
-    security: Array<{ name: string, value: number }>;
+    security: Array<{ name: string, value: number } | { name: string, valueDiff: number }>;
 
     sensor: string;
     active: Array<string>;
@@ -22,7 +22,7 @@ export class ContainerRegulation implements ContainerRegulationConfig
 
     #sensorGate?: IOGateJSON;
 
-    #securityGates: Array<{name: string, value: number, gate?: IOGateJSON}> = [];
+    #securityGates: Array<({ name: string, value: number } | { name: string, valueDiff: number }) & {gate?: IOGateJSON}> = [];
     
     constructor(parent: Container, regulation: ContainerRegulationConfig)
     {
@@ -65,10 +65,20 @@ export class ContainerRegulation implements ContainerRegulationConfig
 
         for(const s of this.security)
         {
-            this.#securityGates.push({
-                name: s.name,
-                value: s.value
-            });
+            if("valueDiff" in s)
+            {
+                this.#securityGates.push({
+                    name: s.name,
+                    valueDiff: s.valueDiff
+                });
+            }
+            else
+            {
+                this.#securityGates.push({
+                    name: s.name,
+                    value: s.value
+                });
+            }
 
             TurbineEventLoop.on(`io.updated.${s.name}`, (gate) => { 
                 const g = this.#securityGates?.find(sg => sg.name == gate.name ); 
@@ -92,7 +102,12 @@ export class ContainerRegulation implements ContainerRegulationConfig
         let allGood = true;
 
         if(this.#securityGates)
-            allGood = this.#securityGates.map(s => s.value == s.gate?.value).reduce((p, c) => p && c, true);
+            allGood = this.#securityGates.map(s => {
+                if("valueDiff" in s)
+                    return s.valueDiff != s.gate?.value
+                else
+                    return s.value == s.gate?.value
+            }).reduce((p, c) => p && c, true);
 
         if(allGood === false && this.state === true)
         {

@@ -442,20 +442,40 @@
                 "security": {
                     "description": "Regulation Security thats stops it",
                     "items": {
-                        "additionalProperties": false,
-                        "properties": {
-                            "name": {
-                                "type": "string"
+                        "anyOf": [
+                            {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "value": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "value"
+                                ],
+                                "type": "object"
                             },
-                            "value": {
-                                "type": "number"
+                            {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "valueDiff": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "valueDiff"
+                                ],
+                                "type": "object"
                             }
-                        },
-                        "required": [
-                            "name",
-                            "value"
-                        ],
-                        "type": "object"
+                        ]
                     },
                     "type": "array"
                 },

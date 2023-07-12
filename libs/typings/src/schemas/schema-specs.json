@@ -1350,6 +1350,10 @@
                     "description": "i18n message, body of this popup",
                     "type": "string"
                 },
+                "payload": {
+                    "$ref": "#/definitions/Record<string,string>",
+                    "description": "Translation payloads"
+                },
                 "title": {
                     "description": "i18n text, title of this pop up",
                     "type": "string"
@@ -1658,6 +1662,10 @@
                 }
             ],
             "description": "Base profile skeletons fields types"
+        },
+        "Record<string,string>": {
+            "additionalProperties": false,
+            "type": "object"
         },
         "StatusParameterBlocks": {
             "anyOf": [

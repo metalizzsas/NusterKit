@@ -34,7 +34,10 @@ interface Popup {
     level: "info" | "warn" | "error";
 
     /** Call to actions of this popup. */
-    callToActions?: CallToAction[]
+    callToActions?: CallToAction[],
+
+    /** Translation payloads */
+    payload?: Record<string, string>
 }
 
 type HomeInfoIO = {

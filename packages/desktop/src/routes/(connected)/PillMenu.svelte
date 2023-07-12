@@ -3,11 +3,11 @@
 	import { computeContainersState, computeMaintenancesState } from "$lib/utils/state";
 
 	import Flex from "$lib/components/layout/flex.svelte";
-	import { page } from "$app/stores";
 	import { onMount } from "svelte";
 	import { realtime } from "$lib/utils/stores/nuster";
 	import { _ } from "svelte-i18n";
 	import type { Configuration } from "@metalizzsas/nuster-typings";
+	import PillMenuButton from "./PillMenuButton.svelte";
 
     let containersState: "good" | "warn" | "error" | "info" = "error";
 
@@ -39,7 +39,7 @@
 
     <div class="h-[1px] bg-zinc-500/50 grow mx-2" />
 
-    <a href="/" class:pillActive={$page.route.id == "/(connected)"} class:pillPassive={$page.route.id != "/(connected)"}>
+    <PillMenuButton href="/" activeUrl="/(connected)" exclusiveURL>
         {$_('cycle.lead')}
         {#if $realtime.cycle}
             <div 
@@ -49,15 +49,13 @@
                 class:animate-pulse={$realtime.cycle?.status.mode === "started"}
             />
         {/if}
-    </a>
+    </PillMenuButton>
 
-    {#if machine !== undefined}
-        {#if machine.settings.profilesShown === true || machine.settings.devMode === true}
-            <a href="/profiles" class:pillActive={$page.route.id == "/(connected)/profiles"} class:pillPassive={$page.route.id != "/(connected)/profiles"}>{$_('profile.lead')}</a>
-        {/if}
+    {#if machine !== undefined && (machine?.settings.profilesShown === true || machine.settings.devMode === true)}
+        <PillMenuButton href="/profiles" activeUrl="/(connected)/profiles">{$_('profile.lead')}</PillMenuButton>
     {/if}
 
-    <a href="/containers" class:pillActive={$page.route.id == "/(connected)/containers"} class:pillPassive={$page.route.id != "/(connected)/containers"}>
+    <PillMenuButton href="/containers" activeUrl="/(connected)/containers">
         {$_('container.lead')}
         <div 
             class="h-2.5 aspect-square rounded-full"
@@ -67,9 +65,9 @@
             class:bg-blue-500={containersState === "info"}
             class:animate-pulse={containersState !== "good"}
         />
-    </a>
-    
-    <a href="/maintenances" class:pillActive={$page.route.id == "/(connected)/maintenances"} class:pillPassive={$page.route.id != "/(connected)/maintenances"}>
+    </PillMenuButton>
+
+    <PillMenuButton href="/maintenances" activeUrl={"/(connected)/maintenances"}>
         {$_('maintenance.lead')}
         <div 
             class="h-2.5 aspect-square rounded-full"
@@ -78,38 +76,14 @@
             class:bg-emerald-500={maintenancesState === "good"}
             class:animate-pulse={maintenancesState !== "good"}
         />
-    </a>
+    </PillMenuButton>
 
-    <a href="/help" class:pillActive={$page.route.id == "/(connected)/help"} class:pillPassive={$page.route.id != "/(connected)/help"}>
-        {$_('help.lead')}
-    </a>
+    <PillMenuButton href="/help" activeUrl={"/(connected)/help"}>{$_('help.lead')}</PillMenuButton>
 
-    {#if machine !== undefined}
-        {#if machine.settings.devMode === true}
-            <a href="/io" class:pillActive={$page.route.id == "/(connected)/io"} class:pillPassive={$page.route.id != "/(connected)/io"}>
-                {$_('gates.lead')}
-            </a>
-        {/if}
+    {#if machine?.settings.devMode === true}
+        <PillMenuButton href="/io" activeUrl={"/(connected)/io"}>{$_('gates.lead')}</PillMenuButton>
     {/if}
 
-    <a href="/settings" class:pillActive={$page.route.id?.startsWith("/(connected)/settings") ?? false} class:pillPassive={$page.route.id?.startsWith("/(connected)/settings") || true}>{$_('settings.lead')}</a>
+    <PillMenuButton href="/settings" activeUrl={"/(connected)/settings"}>{$_('settings.lead')}</PillMenuButton>
+
 </Flex>
-
-<style lang="css">
-
-    .pillActive
-    {
-        @apply bg-indigo-500/40 py-1 px-3 rounded-full text-white font-medium flex flex-row gap-2 items-center;
-    }
-
-    .pillPassive
-    {
-        @apply py-1 px-3 ring-2 font-medium ring-transparent ring-inset duration-300 rounded-full cursor-pointer flex flex-row gap-2 items-center;
-    }
-
-    .pillPassive:hover
-    {
-        @apply ring-indigo-500/50;
-    }
-
-</style>

@@ -99,11 +99,11 @@
       "modal": {
         "security_disable": {
           "title": "Security error",
-          "message": "A security element, disabled a container regulation."
+          "message": "{gate}, disabled {container} → {regulation} regulation."
         },
         "over_max_target": {
           "title": "Security error",
-          "message": "The regulation went over the maximum alowed value, it has been disabled."
+          "message": "{container} → {regulation} regulation went over {maxTarget}, it has been disabled."
         }
       }
     }

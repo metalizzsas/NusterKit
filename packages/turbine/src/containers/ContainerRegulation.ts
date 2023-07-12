@@ -7,6 +7,7 @@ import { TurbineEventLoop } from "../events";
 
 export class ContainerRegulation implements ContainerRegulationConfig
 {
+    #parentName: string;
     name: string;
     current: number;
     state = false;
@@ -27,6 +28,7 @@ export class ContainerRegulation implements ContainerRegulationConfig
     constructor(parent: Container, regulation: ContainerRegulationConfig)
     {
         this.name = regulation.name;
+        this.#parentName = parent.name;
 
         /// - State
      
@@ -99,28 +101,36 @@ export class ContainerRegulation implements ContainerRegulationConfig
     /** Regulation loop, will be executed periodicaly */
     private regulationLoop()
     {
-        let allGood = true;
+        let allGood: string[] = [];
 
         if(this.#securityGates)
             allGood = this.#securityGates.map(s => {
                 if("valueDiff" in s)
-                    return s.valueDiff != s.gate?.value
+                    return s.valueDiff != s.gate?.value ? undefined : s.name;
                 else
-                    return s.value == s.gate?.value
-            }).reduce((p, c) => p && c, true);
+                    return s.value == s.gate?.value ? undefined : s.name;
+            }).filter((k): k is string => k !== undefined);
 
-        if(allGood === false && this.state === true)
+        if(allGood.length > 0 && this.state === true)
         {
             this.state = false;
             this.setActuators("plus", false);
             this.setActuators("minus", false);
             this.setActuators("active", false);
 
-            TurbineEventLoop.emit("nuster.modal", {
-                title: "container.regulation.modal.security_disable.title",
-                message: "container.regulation.modal.security_disable.message",
-                level: "error"
-            });
+            allGood.forEach(k => {
+                TurbineEventLoop.emit("nuster.modal", {
+                    title: "container.regulation.modal.security_disable.title",
+                    message: "container.regulation.modal.security_disable.message",
+                    level: "error",
+                    payload: {
+                        gate: `gates.names.${k}`,
+                        container: `containers.${this.#parentName}.name`,
+                        regulation: `containers.${this.#parentName}.regulations.${this.name}`
+                    }
+                });
+            })
+
         }
 
         if(this.value > (this.maxTarget + 1))
@@ -131,7 +141,12 @@ export class ContainerRegulation implements ContainerRegulationConfig
                 TurbineEventLoop.emit("nuster.modal", {
                     title: "container.regulation.modal.over_max_target.title",
                     message: "container.regulation.modal.over_max_target.message",
-                    level: "warn"
+                    level: "warn",
+                    payload: {
+                        container: `containers.${this.#parentName}.name`,
+                        regulation: `containers.${this.#parentName}.regulations.${this.name}`,
+                        maxTarget: `${this.maxTarget} ${this.#sensorGate?.unity}`
+                    }
                 });
             }
 

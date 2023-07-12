@@ -1,5 +1,19 @@
 # @metalizzsas/nuster-misc
 
+## 1.4.7
+
+### Patch Changes
+
+- [#423](https://github.com/metalizzsas/NusterKit/pull/423) [`81c4258c`](https://github.com/metalizzsas/NusterKit/commit/81c4258c2164524f84c8f5eb3a14b0e1e2f604f7) Thanks [@Kworz](https://github.com/Kworz)! - chore: translated nuster EN guide
+
+- [#445](https://github.com/metalizzsas/NusterKit/pull/445) [`b0e6d476`](https://github.com/metalizzsas/NusterKit/commit/b0e6d47650ce4088dbbf52d6d9af0cdbd6391d30) Thanks [@Kworz](https://github.com/Kworz)! - feat: adapted help files ot match new help center specs
+
+## 1.4.6
+
+### Patch Changes
+
+- [#438](https://github.com/metalizzsas/NusterKit/pull/438) [`90c0e885`](https://github.com/metalizzsas/NusterKit/commit/90c0e885fd4733708a81017e0df2077124efc423) Thanks [@Kworz](https://github.com/Kworz)! - feat: machine can now be shutted down or rebooted from nuster desktop
+
 ## 1.4.5
 
 ### Patch Changes

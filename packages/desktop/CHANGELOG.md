@@ -1,5 +1,35 @@
 # @metalizzsas/nuster-desktop
 
+## 1.12.0
+
+### Minor Changes
+
+- [#445](https://github.com/metalizzsas/NusterKit/pull/445) [`b0e6d476`](https://github.com/metalizzsas/NusterKit/commit/b0e6d47650ce4088dbbf52d6d9af0cdbd6391d30) Thanks [@Kworz](https://github.com/Kworz)! - feat: desktop help has been re-designed to have less issues
+
+### Patch Changes
+
+- [#445](https://github.com/metalizzsas/NusterKit/pull/445) [`f3d14e93`](https://github.com/metalizzsas/NusterKit/commit/f3d14e93280d4d82e28182683790543a492559cd) Thanks [@Kworz](https://github.com/Kworz)! - feat: changed profile display method, used sveltekit routes instead of displaying profil on the same route.
+
+- [#423](https://github.com/metalizzsas/NusterKit/pull/423) [`e8384828`](https://github.com/metalizzsas/NusterKit/commit/e838482886f2c31039148fe7e31662b015db3d64) Thanks [@Kworz](https://github.com/Kworz)! - fix: nuster help would display All languages
+
+- [#445](https://github.com/metalizzsas/NusterKit/pull/445) [`5bbedae0`](https://github.com/metalizzsas/NusterKit/commit/5bbedae0c11c93016e331d5c9e88a32e2163b2c6) Thanks [@Kworz](https://github.com/Kworz)! - chore: moved PillMenu buttons to a seprate component
+
+- [#445](https://github.com/metalizzsas/NusterKit/pull/445) [`f3d14e93`](https://github.com/metalizzsas/NusterKit/commit/f3d14e93280d4d82e28182683790543a492559cd) Thanks [@Kworz](https://github.com/Kworz)! - feat: on profile copy, user is redirected to the copied profile
+
+## 1.11.19
+
+### Patch Changes
+
+- [#438](https://github.com/metalizzsas/NusterKit/pull/438) [`90c0e885`](https://github.com/metalizzsas/NusterKit/commit/90c0e885fd4733708a81017e0df2077124efc423) Thanks [@Kworz](https://github.com/Kworz)! - feat: machine can now be shutted down or rebooted from nuster desktop
+
+## 1.11.18
+
+### Patch Changes
+
+- fix: selects options could be under other selects ([#428](https://github.com/metalizzsas/NusterKit/pull/428))
+
+- fix: Container product load date was not readable enough ([#428](https://github.com/metalizzsas/NusterKit/pull/428))
+
 ## 1.11.17
 
 ### Patch Changes

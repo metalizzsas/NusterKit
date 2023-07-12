@@ -21,12 +21,12 @@ importers:
         specifier: 10.9.1
         version: 10.9.1(@types/node@20.3.3)(typescript@5.1.6)
     devDependencies:
+      '@changesets/changelog-github':
+        specifier: ^0.4.8
+        version: 0.4.8
       '@changesets/cli':
         specifier: ^2.26.2
         version: 2.26.2
-      '@svitejs/changesets-changelog-github-compact':
-        specifier: ^1.1.0
-        version: 1.1.0
 
   libs/misc:
     devDependencies:
@@ -41,7 +41,7 @@ importers:
         version: 5.1.6
     devDependencies:
       '@metalizzsas/nuster-misc':
-        specifier: 1.4.5
+        specifier: 1.4.7
         version: link:../misc
       '@metalizzsas/nuster-typings':
         specifier: 1.5.5
@@ -188,7 +188,7 @@ importers:
         version: 0.2.3(svelte@4.0.3)
     devDependencies:
       '@metalizzsas/nuster-misc':
-        specifier: 1.4.5
+        specifier: 1.4.7
         version: link:../../libs/misc
       '@metalizzsas/nuster-turbine-machines':
         specifier: 1.6.12
@@ -268,6 +268,24 @@ importers:
       vite:
         specifier: ^4.3.9
         version: 4.3.9(@types/node@20.3.3)(sass@1.63.6)
+
+  packages/nuster:
+    dependencies:
+      '@metalizzsas/nuster-desktop':
+        specifier: 1.12.0
+        version: link:../desktop
+      '@metalizzsas/nuster-misc':
+        specifier: 1.4.7
+        version: link:../../libs/misc
+      '@metalizzsas/nuster-turbine':
+        specifier: 1.10.29
+        version: link:../turbine
+      '@metalizzsas/nuster-turbine-machines':
+        specifier: 1.6.12
+        version: link:../../libs/turbine-machines
+      '@metalizzsas/nuster-typings':
+        specifier: 1.5.5
+        version: link:../../libs/typings
 
   packages/turbine:
     dependencies:
@@ -833,6 +851,16 @@ packages:
     resolution: {integrity: sha512-+vRfnKtXVWsDDxGctOfzJsPhaCdXRYoe+KyWYoq5X/GqoISREiat0l3L8B0a453B2B4dfHGcZaGyowHbp9BSaA==}
     dependencies:
       '@changesets/types': 5.2.1
+    dev: true
+
+  /@changesets/changelog-github@0.4.8:
+    resolution: {integrity: sha512-jR1DHibkMAb5v/8ym77E4AMNWZKB5NPzw5a5Wtqm1JepAuIF+hrKp2u04NKM14oBZhHglkCfrla9uq8ORnK/dw==}
+    dependencies:
+      '@changesets/get-github-info': 0.5.2
+      '@changesets/types': 5.2.1
+      dotenv: 8.6.0
+    transitivePeerDependencies:
+      - encoding
     dev: true
 
   /@changesets/cli@2.26.2:
@@ -1933,16 +1961,6 @@ packages:
       vitefu: 0.2.4(vite@4.3.9)
     transitivePeerDependencies:
       - supports-color
-    dev: true
-
-  /@svitejs/changesets-changelog-github-compact@1.1.0:
-    resolution: {integrity: sha512-qhUGGDHcpbY2zpjW3SwqchuW8J/5EzlPFud7xNntHKA7f3a/mx5+g+ruJKFHSAiVZYo30PALt+AyhmPUNKH/Og==}
-    engines: {node: ^14.13.1 || ^16.0.0 || >=18}
-    dependencies:
-      '@changesets/get-github-info': 0.5.2
-      dotenv: 16.3.1
-    transitivePeerDependencies:
-      - encoding
     dev: true
 
   /@tailwindcss/typography@0.5.9(tailwindcss@3.3.2):
@@ -3285,6 +3303,11 @@ packages:
   /dotenv@16.3.1:
     resolution: {integrity: sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==}
     engines: {node: '>=12'}
+    dev: true
+
+  /dotenv@8.6.0:
+    resolution: {integrity: sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==}
+    engines: {node: '>=10'}
     dev: true
 
   /ee-first@1.1.1:

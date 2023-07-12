@@ -2,29 +2,14 @@
     "category": "machine",
     "lang": "fr",
     
-    "folders": {
-        "preparation": {
-            "name": "Sections",
-            "files": [
-                { "name": "Démarrage de la machine", "path": "/machines/uscleaner-m-1/manual/fr/sections/05-startup/index.md" },
-                { "name": "Remplissage de la cuve", "path": "/machines/uscleaner-m-1/manual/fr/sections/10-cuve/index.md" },
-                { "name": "Stockage", "path": "/machines/uscleaner-m-1/manual/fr/sections/50-storing/index.md" }
-            ]
-        },
-        "running": {
-            "name": "Fonctionnement",
-            "files": [
-                { "name": "Définition profil", "path": "/machines/uscleaner-m-1/manual/fr/sections/20-cycle-definition/index.md" },
-                { "name": "Démarrage d'un cycle", "path": "/machines/uscleaner-m-1/manual/fr/sections/30-cycle-start/index.md" },
-                { "name": "Conditions de sécurité", "path": "/machines/uscleaner-m-1/manual/fr/sections/40-safety/index.md" }
-            ]
-        },
-        "999-root": {
-            "name": "999-root",
-            "files": [
-                { "name": "Bienvenue", "path": "/machines/uscleaner-m-1/manual/fr/index.md" },
-                { "name": "LICENCE", "path": "/machines/uscleaner-m-1/manual/fr/license.md" }
-            ]
-        }
-    }
+    "files": [
+        { "name": "Bienvenue", "path": "/machines/uscleaner-m-1/manual/fr/index.md" },
+        { "name": "LICENSE", "path": "/machines/uscleaner-m-1/manual/fr/license.md" },
+        { "name": "Démarrage de la machine", "path": "/machines/uscleaner-m-1/manual/fr/sections/05-startup/index.md", "folder": "Sections" },
+        { "name": "Remplissage de la cuve", "path": "/machines/uscleaner-m-1/manual/fr/sections/10-cuve/index.md", "folder": "Sections" },
+        { "name": "Stockage", "path": "/machines/uscleaner-m-1/manual/fr/sections/50-storing/index.md", "folder": "Sections" },
+        { "name": "Définition profil", "path": "/machines/uscleaner-m-1/manual/fr/sections/20-cycle-definition/index.md", "folder": "Fonctionnement" },
+        { "name": "Démarrage d'un cycle", "path": "/machines/uscleaner-m-1/manual/fr/sections/30-cycle-start/index.md" , "folder": "Fonctionnement"},
+        { "name": "Conditions de sécurité", "path": "/machines/uscleaner-m-1/manual/fr/sections/40-safety/index.md", "folder": "Fonctionnement" }
+    ]
 }

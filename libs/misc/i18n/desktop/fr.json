@@ -188,6 +188,11 @@
       "metalfog": "Metalfog",
       "smoothit": "Smoothit",
       "uscleaner": "USCleaner"
+    },
+    "power": {
+      "lead": "Gestion de l'alimentation",  
+      "reboot": "Redémarrer",
+      "shutdown": "Éteindre"
     }
   },
   "cycle": {
@@ -271,7 +276,7 @@
     "unavailable": "Aucune aide disponible dans votre langue.",
     "unselected": {
       "lead": "Centre d'aide",
-      "sub": "Naviguez dans le centre d'aide a l'aide de la liste a votre gauche."
+      "sub": "Naviguez dans le centre d'aide a l'aide des éléments ci dessous."
     },
     "category": {
       "software": "Nuster",

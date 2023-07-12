@@ -3,20 +3,18 @@ import type { PageServerLoad } from "../$types";
 type HelpRootFile = {
     lang: "fr" | "en" | "it";
     category: "machine" | "software";
-    folders: Record<string, {
-        name: string;
-        files: {
+    files: {
             name: string;
             path: string;
-        }[]
-    }>;
-}
+            folder: string | undefined;
+    }[];
+};
 
 export type HelpDocument = {
     category: "machine" | "software";
     lang: "fr" | "en" | "it";
     name: string;
-    folder: string;
+    folder: string | undefined;
     path: string;
 }
 
@@ -30,20 +28,15 @@ export const load = (async () => {
     {
         const files = await filesIndexes[file]() as HelpRootFile;
 
-        for(const folder in files.folders)
+        for(const file of files.files)
         {
-            const folderName = files.folders[folder].name;
-
-            for(const file of files.folders[folder].files)
-            {
-                documents.push({
-                    category: files.category,
-                    lang: files.lang,
-                    name: file.name,
-                    folder: folderName,
-                    path: file.path
-                });
-            }
+            documents.push({
+                category: files.category,
+                lang: files.lang,
+                name: file.name,
+                folder: file.folder,
+                path: file.path
+            });
         }
     }
 

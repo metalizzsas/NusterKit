@@ -1,23 +1,13 @@
 {
     "category": "software",
     "lang": "en",
-    
-    "folders": {
-        "sections": {
-            "name": "Sections",
-            "files": [
-                { "name": "Cycles", "path": "/desktop/en/sections/00-cycles/index.md" },
-                { "name": "Profiles", "path": "/desktop/en/sections/10-profiles/index.md" },
-                { "name": "Containers", "path": "/desktop/en/sections/20-containers/index.md" },
-                { "name": "Maintenance", "path": "/desktop/en/sections/30-maintenances/index.md" },
-                { "name": "Settings", "path": "/desktop/en/sections/40-settings/index.md" }
-            ]
-        },
-        "999-root": {
-            "name": "999-root",
-            "files": [
-                { "name": "Welcome", "path": "/desktop/en/index.md" }
-            ]
-        }
-    }
+
+    "files": [
+        { "name": "Welcome", "path": "/desktop/en/index.md" },
+        { "name": "Cycles", "path": "/desktop/en/sections/00-cycles/index.md", "folder": "Sections" },
+        { "name": "Profiles", "path": "/desktop/en/sections/10-profiles/index.md", "folder": "Sections" },
+        { "name": "Containers", "path": "/desktop/en/sections/20-containers/index.md", "folder": "Sections" },
+        { "name": "Maintenance", "path": "/desktop/en/sections/30-maintenances/index.md", "folder": "Sections" },
+        { "name": "Settings", "path": "/desktop/en/sections/40-settings/index.md", "folder": "Sections" }
+    ]
 }

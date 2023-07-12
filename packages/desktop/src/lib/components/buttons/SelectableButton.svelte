@@ -1,6 +1,6 @@
 <script lang="ts">
 
-    export let selected: boolean;
+    export let selected = false;
 
 </script>
 

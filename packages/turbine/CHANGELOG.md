@@ -1,5 +1,14 @@
 # @metalizzsas/nuster-turbine
 
+## 1.10.30
+
+### Patch Changes
+
+- [#448](https://github.com/metalizzsas/NusterKit/pull/448) [`44c0abb0`](https://github.com/metalizzsas/NusterKit/commit/44c0abb02554a8b1ea5ffc02e3a9665a61f7e00d) Thanks [@Kworz](https://github.com/Kworz)! - fix: pbr timer could overflow existing timers thus making ghost timers
+
+- Updated dependencies [[`74f56344`](https://github.com/metalizzsas/NusterKit/commit/74f56344822171bd5f7b7596cd7eee9538c1fbcd)]:
+  - @metalizzsas/nuster-turbine-machines@1.6.13
+
 ## 1.10.29
 
 ### Patch Changes

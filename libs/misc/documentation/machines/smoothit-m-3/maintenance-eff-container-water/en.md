@@ -1,3 +1,5 @@
+### Emptying water mixed with varnish container
+
 To empty the used water mixed with varnish in the container, Open the right door.
 
 ![Opening the right door](open_right_door.png)

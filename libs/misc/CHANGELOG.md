@@ -1,5 +1,21 @@
 # @metalizzsas/nuster-misc
 
+## 1.5.0
+
+### Minor Changes
+
+- [#419](https://github.com/metalizzsas/NusterKit/pull/419) [`30b9fa98`](https://github.com/metalizzsas/NusterKit/commit/30b9fa9880d03c4579e7a6027e1de83cadb76bb2) Thanks [@0auriane](https://github.com/0auriane)! - feat: created smoothit m r3 users guide
+
+### Patch Changes
+
+- [#429](https://github.com/metalizzsas/NusterKit/pull/429) [`23c0b7c4`](https://github.com/metalizzsas/NusterKit/commit/23c0b7c46e975095f8ffa48b7db02ee84cb83401) Thanks [@Kworz](https://github.com/Kworz)! - chore: typo in docs/usc-m-r1/cycle/cycle_run
+
+- [#419](https://github.com/metalizzsas/NusterKit/pull/419) [`15e1f3e0`](https://github.com/metalizzsas/NusterKit/commit/15e1f3e0f062e4f1331a883c53721055e0726fed) Thanks [@0auriane](https://github.com/0auriane)! - feat: created smoothit m r3 user guide
+
+- [#446](https://github.com/metalizzsas/NusterKit/pull/446) [`6630c52c`](https://github.com/metalizzsas/NusterKit/commit/6630c52c68e360399d5c13daffefa1b40af6310a) Thanks [@Kworz](https://github.com/Kworz)! - chore: Typo à maintien dans USCleaner
+
+- [#429](https://github.com/metalizzsas/NusterKit/pull/429) [`74f56344`](https://github.com/metalizzsas/NusterKit/commit/74f56344822171bd5f7b7596cd7eee9538c1fbcd) Thanks [@Kworz](https://github.com/Kworz)! - chore: updated maintenance tasks for smoothit M R3
+
 ## 1.4.7
 
 ### Patch Changes

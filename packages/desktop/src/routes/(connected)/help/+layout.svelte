@@ -5,6 +5,8 @@
 	import Wrapper from "$lib/components/Wrapper.svelte";
 	import Button from "$lib/components/buttons/Button.svelte";
 	import Flex from "$lib/components/layout/flex.svelte";
+	import { ArrowLeft } from "@steeze-ui/heroicons";
+	import { Icon } from "@steeze-ui/svelte-icon";
 import { _ } from "svelte-i18n";
 
 </script>
@@ -18,7 +20,10 @@ import { _ } from "svelte-i18n";
 
         {#if $page.route.id !== "/(connected)/help"}
             <a href="/help">
-                <Button class="mt-4" size="small" ringColor="ring-slate-500" color="hover:bg-slate-500">Retour a l'accueil</Button>
+                <Button class="mt-4" size="small" ringColor="ring-amber-500" color="hover:bg-amber-500">
+                    <Icon src={ArrowLeft} class="inline-block h-5 w-5 mr-1 mb-0.5" />
+                    {$_('back')}
+                </Button>
             </a>
         {/if}
     </Flex>

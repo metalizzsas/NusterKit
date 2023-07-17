@@ -1,19 +1,16 @@
 <script lang="ts">
+	import { page } from "$app/stores";
 	import Flex from "$lib/components/layout/flex.svelte";
 	import { ArrowsPointingIn, ArrowsPointingOut } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";
-	import { getContext } from "svelte";
-    import type { Writable } from "svelte/store";
 
     export let href = '';
     export let title: string | undefined = undefined;
     export let text = '';
 
-    const selectedHelp = getContext<Writable<string | undefined>>("help");
-
     let expanded = false;
-
-    $: completeHref = $selectedHelp === undefined ? '#' : `/documentation${$selectedHelp.replace("index.md", href)}`;
+    
+    $: completeHref = `/documentation/${$page.params.helpFile.replace("index.md", href)}`;
 
 </script>
 

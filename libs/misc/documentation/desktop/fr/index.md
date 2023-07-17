@@ -19,12 +19,12 @@ L'interface est divisée en 3 blocs.
 
 Situés en haut de la fenêtre dans la barre horizontale, les onglets  permettent de naviguer à travers les sections du logiciel :
 
-- Les [cycles](/desktop/fr/components/cycles.md),
-- Les [profils](/desktop/fr/components/profiles) (cette option n'est pas disponible par défaut sur certaines machines),
-- Les [conteneurs](/desktop/fr/components/containers.md),
-- La [maintenance](/desktop/fr/components/maintenances.md),
+- Les [cycles](sections/00-cycles/index.md),
+- Les [profils](sections/10-profiles/index.md) (cette option n'est pas disponible par défaut sur certaines machines),
+- Les [conteneurs](sections/20-containers/index.md),
+- La [maintenance](sections/30-maintenances/index.md),
 - L'aide,
-- Les [réglages](desktop/fr/components/settings).
+- Les [réglages](sections/40-settings/index.md).
 
 Certains onglets sont accompagnés d'une pastille de couleur :
 

@@ -19,12 +19,12 @@ The interface is divided in 3 blocks.
 
 Located at the top, the tabs leads your to different sections of the software:
 
-- [Cyles](/desktop/fr/components/cycles.md),
-- [Profiles](/desktop/fr/components/profiles) (this feature is not enabled on some machines),
-- [Containers](/desktop/fr/components/containers.md),
-- [Maintenance](/desktop/fr/components/maintenances.md),
+- [Cyles](sections/00-cycles/index.md),
+- [Profiles](sections/10-profiles/index.md) (this feature is not enabled on some machines),
+- [Containers](sections/20-containers/index.md),
+- [Maintenance](sections/30-maintenances/index.md),
 - Help center,
-- [Settings](desktop/fr/components/settings).
+- [Settings](sections/40-settings/index.md).
 
 Some tabs are given with a colored dot.
 

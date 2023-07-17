@@ -11,7 +11,7 @@ Si une de ces conditions n'est pas valide (voyant rouge ou orange), une action e
 
 Lorsque toutes les conditions de sécurité sont valides, le bouton `Lancer le cycle`  passe au vert et vous pouvez démarrez le cycle.
 
-![Cycle en cours](cycle_run.png)
+![Cycle en cours](cycle_run2.png)
 
 ### Fin du cycle
 

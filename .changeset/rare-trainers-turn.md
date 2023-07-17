@@ -2,4 +2,4 @@
 "@metalizzsas/nuster-misc": patch
 ---
 
-chore: translated nuster EN guide
+chore: Typo à maintien dans USCleaner

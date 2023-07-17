@@ -46,3 +46,5 @@ Dans ce menu vous pouvez :
 
 - Gérer l'état de la régulation (activé / désactivé)
 - Gérer la consigne de température (maximum = 50°C).
+
+>L'USCleaner ne fait pas de refroidissement en dessous de la température ambiante.

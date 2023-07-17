@@ -2,4 +2,4 @@
 "@metalizzsas/nuster-desktop": patch
 ---
 
-fix: nuster help would display All languages
+fix: remove Latex code in help files

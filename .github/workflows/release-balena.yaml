@@ -77,6 +77,6 @@ jobs:
           --data "{\"release_version\": \"$VERSION\", \"semver\": \"$VERSION\"}"
         env:
           BALENA_TOKEN: ${{ secrets.BALENA_TOKEN }}
-          RELEASE_ID: ${{ steps.get_nuster_version.outputs.release_id }}
-          VERSION: ${{ steps.balena_release.outputs.version }}
+          VERSION: ${{ steps.get_nuster_version.outputs.version }}
+          RELEASE_ID: ${{ steps.balena_release.outputs.release_id }}
 

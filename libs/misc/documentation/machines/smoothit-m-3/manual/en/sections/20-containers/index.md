@@ -1,4 +1,4 @@
-## Installing varnishes
+## Varnish handling
 
 ### Prequisites
 
@@ -21,6 +21,8 @@ To install a varnish, get the varnish you want to use:
 
 Unscrew the bottle cap.
 
+> **Warning:** Once opened, the varnish lifespan is 3 months from the open date.
+
 ![Unscrewing bottle cap](unscrew_bottle_cap.png)
 
 Place the silicon joint to prevent presurized nitrogen and varnish leaks.
@@ -28,6 +30,7 @@ Place the silicon joint to prevent presurized nitrogen and varnish leaks.
 ![Place silicon joint](place_silicon_joint.png)
 
 Screw the bottle inside its handler.
+
 > **Warning:** Take care to not overtorque the bottle inside its handler.
 
 ![Screw the varnish bottle](screw_bottle.png)

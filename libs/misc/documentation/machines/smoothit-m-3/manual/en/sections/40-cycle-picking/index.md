@@ -4,14 +4,7 @@ The following table will help you determine the most suitable cycle for smoothin
 
 | **3D printing process** | **Desired rendering** | **Required vanish** | **Cycle** |
 | ---------- | --------- | ------ | --------- |
-| Polyjet | Smoothing | SV01 | Shiny Polyjet |
-| Polyjet | Transparency | CV01 | Translucent Polyjet |
-| SLA, DLP | Smoothing | SV01 | Shiny SLA / DLP |
-| SLA, DLP | Transparency | CV01 | Translucent SLA / DLP |
-
-Varnish names:
-
-- Transparency: CrystalVarnish-01 `CV01`
-- Smoothing: ShinyVarnish-01 `SV01`
-
-Varnish lifetime: 6 mois
+| Polyjet | Smoothing | SV-01 | Shiny Polyjet |
+| Polyjet | Transparency | CV-01 | Translucent Polyjet |
+| SLA, DLP | Smoothing | SV-01 | Shiny SLA / DLP |
+| SLA, DLP | Transparency | CV-01 | Translucent SLA / DLP |

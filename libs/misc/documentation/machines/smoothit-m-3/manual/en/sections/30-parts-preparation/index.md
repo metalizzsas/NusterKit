@@ -1,16 +1,12 @@
 ## Parts preparation
 
-All parts to be treated with the Smoothit machine must first undergo a set of preparation steps to ensure a successful coating.
+Parts post-processed with the Smoothit machine must first go under a set of preparation steps to ensure a successful coating. Throughout the preparation stages and during the process, make sure you handle the parts with **gloves** to avoid surface contamination.
 
-Throughout the preparation stages and during the process, make sure you handle the parts with **gloves** to avoid surface contamination.
-
-The initial surface condition affects the quality of the varnish deposit. A polluted, undegreased or unpolymerized surface will lead to varnish defects (poor adherence, nodules, etc.)
-
-### Preparation
+The initial surface condition affects the quality of the varnish deposit. A polluted, undegreased or unpolymerized surface will lead to varnish defects (poor adherence, nodules, etc.).
 
 Follow these key steps to improve the result givent by your Smoothit.
 
-#### Sandblasting
+### Sandblasting
 
 Follow the table to get the sandblasting parameters for the material you wish deposit on
 
@@ -21,7 +17,7 @@ Follow the table to get the sandblasting parameters for the material you wish de
 
 > After sandblasting, make sure to remove all the remaining sand off the part by blowing pressurized air on the part.
 
-#### Washing / Rinsing
+### Washing & Rinsing
 
 We recommand to wash your part using degreasant with an ultrasonic bath. Degrasing removes all the hydrophobic molecules.
 
@@ -29,15 +25,15 @@ Then rinse your parts using clean deionized water in a ultrasonic bath. The rins
 
 > To have an efficient, adapted on polymer parts, you can use an USCleaner. Get additional informations on [www.metalizz.com](https://www.metalizz.com/solutions-metallisation/uscleaner/)
 
-#### Checking
+### Checking
 
 Make sure the parts do not have remaining dust after the Washing / Rinsing step.
 
-#### Drying
+### Drying
 
 You need to dry your parts using a drying oven, parts with remaining water will not get post-processed correctly.
 
-#### (Optional) Surface activation
+### (Optional) Surface activation
 
 If the surface adhesion must meet some requirements, you can use:
 
@@ -47,7 +43,7 @@ If the surface adhesion must meet some requirements, you can use:
 
 These surface activations techniques might require additional care about your parts.
 
-#### Placing parts in the support
+## Placing parts in the support
 
 To be post-processed with your Smoothit machine, your parts must be attached to the Smoothit HPAD part handling system.
 
@@ -56,13 +52,13 @@ Each part must be not too close from each-other, we recommend a 15-20mm space be
 Use the provided supports to attach parts into the support.
 
 | ![Grippers rake](grippers_rake.png) | ![Grippers Screw M3x10](grippers_screw_m3x10.png) | ![Grippers Screw M3x16](grippers_screw_m3x16.png) |
-| ---- | ---- | ---- | ---- |
+| :----: | :----: | :----: |
 | Grippers Rake | Grippers Screw M3 x 10 | Grippers Screw M4 x 16 |
 
 For the **Grippers Rake**, you can add springs to maintain your parts using springs. Push the springs on top of the pins to attach them on the Rake gripper.
 
 | ![Inward spring](grippers_rake_spring_inward.png)| ![Outward spring](grippers_rake_spring_outward.png) |
-| --- | --- |
+| :---: | :---: |
 | Inward spring | Outward spring |
 
 Each gripper can be attached to the inner frame using `HPAx-Fix` small parts. They can be attached to the frame using an M3 Screw.

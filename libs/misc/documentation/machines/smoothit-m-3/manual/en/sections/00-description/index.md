@@ -1,6 +1,11 @@
 ## Machine elements description
 
+Here are some informations about the elements, sizes and caracteristics about your machine.
+
+We use the international system of units.
 All the quotations are in millimeters.
+
+\newpage
 
 ### Elements
 

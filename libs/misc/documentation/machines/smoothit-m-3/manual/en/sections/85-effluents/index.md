@@ -1,2 +1,0 @@
-## Effluent management
-

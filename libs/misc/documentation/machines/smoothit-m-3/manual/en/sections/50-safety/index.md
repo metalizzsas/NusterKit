@@ -26,9 +26,9 @@ It is located on the front of the Smoothit.
 
 When the "Nitrogen pressure too low" safety indicator is red, this means that the Smoothit is not correctly supplied with compressed nitrogen.
 
-#### Lid
+#### Cover closed
 
-To close the tanks, close the lid when you hear a `click` it is properly closed.
+To close the tank, close the lid when you hear a `click` it is properly closed.
 The presense sensor will light up.
 
 #### Varnish container
@@ -43,4 +43,4 @@ Checks if the UV lamp has reached its overheat protection.
 
 We recommend changing the activated carbon filter cartridge every 75 cycles.
 
->**Please note**: Used activated carbon must be disposed of in an approved waste disposal facility (European waste code 06 13 02* in accordance with Directive (EU) 2008/98/EC).
+> **Please note**: Used activated carbon must be disposed of in an approved waste disposal facility (European waste code 06 13 02* in accordance with Directive (EU) 2008/98/EC).

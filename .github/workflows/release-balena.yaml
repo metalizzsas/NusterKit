@@ -71,10 +71,10 @@ jobs:
       - name: 🐳 Set BalenaCloud Release version
         run: >
           curl --request PATCH 
-          --url 'https://api.balena-cloud.com/v6/release($RELEASE_ID)' 
-          --header 'Authorization: Bearer $BALENA_TOKEN' 
-          --header 'Content-Type: application/json' 
-          --data '{"release_version": "$VERSION", "semver": "$VERSION"}'
+          --url "https://api.balena-cloud.com/v6/release($RELEASE_ID)"
+          --header "Authorization: Bearer $BALENA_TOKEN"
+          --header "Content-Type: application/json" 
+          --data "{\"release_version\": \"$VERSION\", \"semver\": \"$VERSION\"}"
         env:
           BALENA_TOKEN: ${{ secrets.BALENA_TOKEN }}
           RELEASE_ID: ${{ steps.get_nuster_version.outputs.release_id }}

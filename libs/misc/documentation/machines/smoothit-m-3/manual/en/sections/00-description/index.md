@@ -34,7 +34,7 @@ All the quotations are in millimeters.
 - Mass : 80 kg when empty
 - Dimensions : 790 mm x 850 mm x 1390 mm
 - Maximum consumed power : 1 kW
-- Maximum nitrogen flowrate : 600 L / min
+- Maximum nitrogen flowrate : 300 L / min
 
 \newpage
 

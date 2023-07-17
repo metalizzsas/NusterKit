@@ -29,8 +29,6 @@ input-files:
   - libs/misc/documentation/utils/newpage.md
   - libs/misc/documentation/machines/smoothit-m-3/maintenance-inner-cleaning/en.md
   - libs/misc/documentation/utils/newpage.md
-  - libs/misc/documentation/machines/smoothit-m-3/maintenance-uv-lamp/en.md
-  - libs/misc/documentation/utils/newpage.md
   - libs/misc/documentation/machines/smoothit-m-3/manual/en/sections/90-network/index.md
   - libs/misc/documentation/utils/newpage.md
   - libs/misc/documentation/machines/smoothit-m-3/manual/en/sections/95-storing/index.md
@@ -46,7 +44,6 @@ resource-path:
   - libs/misc/documentation/machines/smoothit-m-3/maintenance-eff-container-varnish/
   - libs/misc/documentation/machines/smoothit-m-3/maintenance-eff-container-water/
   - libs/misc/documentation/machines/smoothit-m-3/maintenance-inner-cleaning/
-  - libs/misc/documentation/machines/smoothit-m-3/maintenance-uv-lamp/
   - libs/misc/documentation/machines/smoothit-m-3/manual/en/sections/90-network/
   - libs/misc/documentation/machines/smoothit-m-3/manual/en/sections/95-storing/
 

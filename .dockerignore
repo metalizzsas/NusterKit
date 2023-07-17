@@ -3,6 +3,4 @@
 .pnpm/
 .vscode/
 
-node_modules/
-utils/
-output/
+node_modules

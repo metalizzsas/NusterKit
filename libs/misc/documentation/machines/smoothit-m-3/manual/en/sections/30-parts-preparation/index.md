@@ -33,7 +33,7 @@ Make sure the parts do not have remaining dust after the Washing / Rinsing step.
 
 You need to dry your parts using a drying oven, parts with remaining water will not get post-processed correctly.
 
-### (Optional) Surface activation
+### Surface activation *(Optional)*
 
 If the surface adhesion must meet some requirements, you can use:
 

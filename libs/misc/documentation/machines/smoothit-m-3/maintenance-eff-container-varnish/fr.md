@@ -1,3 +1,5 @@
+### Vidange conteneur vernis
+
 Pour vidanger le conteneur de vernis usagé, Ouvrez la porte gauche.
 
 ![Ouverture de la porte gauche](open_left_door.png)

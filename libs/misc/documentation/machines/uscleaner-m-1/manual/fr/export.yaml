@@ -46,7 +46,7 @@ pdf-engine: xelatex
 
 variables:
   titlepage: true
-  titlepage-background: libs/misc/documentation/utils/uscleaner-m-1.pdf
+  titlepage-background: libs/misc/documentation/utils/FR-uscleaner-m-1.pdf
   titlepage-rule-height: 0
 
   fontfamily: sourcesanspro

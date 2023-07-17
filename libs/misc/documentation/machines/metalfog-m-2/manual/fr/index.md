@@ -10,8 +10,6 @@ Notre service support est disponible de 9h00 à 12h00 et de 14h00 à 17h00 duran
 
 Metalizz vous remercie de votre confiance et vous souhaite un excellent travail de post-traitement et de finition !
 
-
-
 | Informations | |
 | ---- | ---- |
 | Raison sociale | Metalizz SAS |

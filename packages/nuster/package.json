@@ -1,6 +1,6 @@
 {
     "name": "@metalizzsas/nuster",
-    "version": "1.11.3",
+    "version": "1.11.4",
     "description": "Nuster package to keep versionig and dependencies on BalenaOS Releases",
     "private": true,
     "repository": {

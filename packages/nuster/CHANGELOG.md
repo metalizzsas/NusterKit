@@ -1,5 +1,11 @@
 # @metalizzsas/nuster
 
+## 1.11.4
+
+### Patch Changes
+
+- [#449](https://github.com/metalizzsas/NusterKit/pull/449) [`94d0c5ed`](https://github.com/metalizzsas/NusterKit/commit/94d0c5edccc89dd10f95f6e2d874ca2df6e987b9) Thanks [@Kworz](https://github.com/Kworz)! - ci: force .dockerignore to remove useless files when uploading to balena cloud
+
 ## 1.11.3
 
 ### Patch Changes

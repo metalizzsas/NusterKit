@@ -16,7 +16,7 @@
         {
             fetch(`/documentation/${$page.params.helpFile}`)
                 .then(res => res.text())
-                .then(text => { content = text; scrollY = 0; })
+                .then(text => { content = text.replaceAll(/\\(\S*)/g, ""); scrollY = 0; })
                 .catch(() => content = undefined);
         }
     });

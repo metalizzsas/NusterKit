@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.12.2
+
+### Patch Changes
+
+- [#451](https://github.com/metalizzsas/NusterKit/pull/451) [`28d7f9ff`](https://github.com/metalizzsas/NusterKit/commit/28d7f9ff4bf1700dc349857f21c3fe9577695a31) Thanks [@Kworz](https://github.com/Kworz)! - fix: desktop would not compute container product state correctly due to new product lifespan values
+
 ## 1.12.1
 
 ### Patch Changes

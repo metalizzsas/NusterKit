@@ -13,6 +13,10 @@
 
         "eff": {
             "name": "Effluents"
+        },
+
+        "eff-water": {
+            "name": "Effluents rideau d'eau"
         }
     },
 
@@ -136,21 +140,25 @@
 
     "maintenance": {
         "tasks": {
-            "smt-filter": {
-                "name": "Filtre solvants",
-                "desc": "Filtre de Smoothit permet de filtrer les solvants, particules et gazs produits par le programme."
-            },
             "inner-cleaning": {
                 "name": "Masque interne",
                 "desc": "Le masque interne evite l'accumulation de vernis dans la cuve."
             },
-            "ir-lamp": {
-                "name": "Lampe IR",
-                "desc": "La lampe IR permet de lisser le vernis présent sur vos pièces."
+            "eff-container-varnish": {
+                "name": "Conteneur de vernis",
+                "desc": "Ce conteneur récupère les résidus de vernis après la pulvérisation."
+            },
+            "eff-container-water": {
+                "name": "Conteneur d'eau & vernis",
+                "desc": "Ce conteneur récupère les résidus de vernis restant a l'aide d'un rideau d'eau."
+            },
+            "smt-filter": {
+                "name": "Filtre solvants",
+                "desc": "Filtre de Smoothit permet de filtrer les solvants, particules et gazs produits par le programme."
             },
             "uv-lamp": {
                 "name": "Lampe UV",
-                "desc": "La lampe UV permet de durcir le vernis de lissage présent sur vos pièces."
+                "desc": "La lampe UV permet de durcir le vernis."
             }
         }
     },

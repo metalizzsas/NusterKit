@@ -3,7 +3,7 @@
 	import Flex from '$lib/components/layout/flex.svelte';
 	import Wrapper from '$lib/components/Wrapper.svelte';
 
-    import { machine } from '$lib/utils/stores/nuster';
+  import { machine } from '$lib/utils/stores/nuster';
 	import { _ } from 'svelte-i18n';
 	import type { PageData } from './$types';
 	import { settings } from '$lib/utils/stores/settings';

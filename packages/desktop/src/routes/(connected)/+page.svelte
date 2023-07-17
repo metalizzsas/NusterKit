@@ -68,6 +68,7 @@
         class="shrink-0 drop-shadow-xl"
         class:max-w-0={listShrinked}
         class:max-h-0={listShrinked}
+        class:overflow-hidden={listShrinked}
     >
         <Wrapper>
             <Flex direction="col" gap={2}>

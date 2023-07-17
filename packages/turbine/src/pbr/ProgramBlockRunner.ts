@@ -87,12 +87,17 @@ export class ProgramBlockRunner
             this.timers.push(timer) 
         });
 
+        TurbineEventLoop.on(`pbr.timer.exists`, (options) => {
+            options.callback?.(this.timers.find(k => k.name === options.timerName) !== undefined);
+        });
+
         TurbineEventLoop.on("pbr.timer.stop", (options) => {
             const timer = this.timers.find(t => options.timerName === t.name)
             
             if(timer === undefined)
             {
                 options.callback?.(false);
+                TurbineEventLoop.emit("log", "warning", `PBR: Tried to stop a timer (${options.timerName}) that doesn't exist.`);
                 return;
             }
 
@@ -127,6 +132,7 @@ export class ProgramBlockRunner
     private disposeEvents()
     {
         TurbineEventLoop.removeAllListeners('pbr.profile.read');
+        TurbineEventLoop.removeAllListeners('pbr.timer.exists');
         TurbineEventLoop.removeAllListeners('pbr.timer.stop');
         TurbineEventLoop.removeAllListeners('pbr.timer.start');
         TurbineEventLoop.removeAllListeners('pbr.variable.write');
@@ -292,8 +298,7 @@ export class ProgramBlockRunner
             for(const timer of this.timers)
             {
                 LoggerInstance.info(" ↳ Clearing timer: " + timer.name);
-                if(timer.timer !== undefined)
-                    clearInterval(timer.timer);
+                clearInterval(timer.timer);
             }
         }
 

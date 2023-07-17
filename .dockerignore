@@ -3,4 +3,10 @@
 .pnpm/
 .vscode/
 
+packages/nuster
+packages/dashboard
 node_modules
+**/node_modules
+libs
+simulation
+utils

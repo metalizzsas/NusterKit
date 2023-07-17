@@ -82,6 +82,7 @@ interface EventLoopEvents
 
     "pbr.timer.start": (timer: {name: string; timer: NodeJS.Timer, enabled: boolean}) => void;
     "pbr.timer.stop": (options: { timerName: string, callback?: (stopped: boolean) => void | Promise<void>}) => void;
+    "pbr.timer.exists": (options: { timerName: string, callback?: (exists: boolean) => void | Promise<void>}) => void;
 
     "pbr.variable.write": (options: { name: string, value: number }) => void;
     "pbr.variable.read": (options: { name: string, callback?: (value: number) => void | Promise<void> }) => void;

@@ -32,14 +32,23 @@ export class StartTimerProgramBlock extends ProgramBlock
         const timerName = this.timerName.data;
         const timerInterval = this.timerInterval.data;
 
-        const timer = setInterval(async () => {
-            for (const b of this.blocks) {
-                await b.execute();
+        TurbineEventLoop.emit("pbr.timer.exists", { timerName, callback: (exists: boolean) => {
+            if (exists === true)
+            {
+                TurbineEventLoop.emit("log", "info", `StartTimerBlock: Will not start timer with name: ${timerName} because it already exists.`)
+                return;
             }
-        }, timerInterval * 1000);
-
-        TurbineEventLoop.emit("log", "info", `StartTimerBlock: Will start timer with name: ${timerName} and interval: ${timerInterval * 1000} ms.`)
-        TurbineEventLoop.emit("pbr.timer.start", { name: timerName, timer: timer, enabled: true });
+            
+            const timer = setInterval(async () => {
+                for (const b of this.blocks) {
+                    await b.execute();
+                }
+            }, timerInterval * 1000);
+    
+            TurbineEventLoop.emit("log", "info", `StartTimerBlock: Will start timer with name: ${timerName} and interval: ${timerInterval * 1000} ms.`)
+            TurbineEventLoop.emit("pbr.timer.start", { name: timerName, timer: timer, enabled: true });
+    
+        }});
 
         super.execute();
     }

@@ -1,6 +1,6 @@
 ## Parts preparation
 
-All parts to be treated with the Smoothit machine must first undergo a set of preparation steps to ensure successful coating.
+All parts to be treated with the Smoothit machine must first undergo a set of preparation steps to ensure a successful coating.
 
 Throughout the preparation stages and during the process, make sure you handle the parts with **gloves** to avoid surface contamination.
 
@@ -10,20 +10,20 @@ The initial surface condition affects the quality of the varnish deposit. A poll
 
 Follow these key steps to improve the result givent by your Smoothit.
 
-#### Sanding
+#### Sandblasting
 
-Follow the table to get the sanding parameters for the material you wish deposit on
+Follow the table to get the sandblasting parameters for the material you wish deposit on
 
-| Material | Sanding pressure | Sanding media |
+| Material | Sanding pressure | Sandblasting media |
 | ------ | ------ | ----- |
 | Polyjet | 0.6 MPa | Corindon 180 |
 | SLA / DLP | 0.25 MPa | Corindon 180 |
 
-> After sanding, make sure to remove all the remaining sand off the part by blowing pressurized air on the part.
+> After sandblasting, make sure to remove all the remaining sand off the part by blowing pressurized air on the part.
 
 #### Washing / Rinsing
 
-We recommand to wash your part using degreasant with an ultrasonic bath. Degrasing removes all the hydrophic molecules.
+We recommand to wash your part using degreasant with an ultrasonic bath. Degrasing removes all the hydrophobic molecules.
 
 Then rinse your parts using clean deionized water in a ultrasonic bath. The rinsing step is mandatory to remove any remaining degreaser on the part.
 

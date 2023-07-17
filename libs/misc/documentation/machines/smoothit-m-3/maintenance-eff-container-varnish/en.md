@@ -1,3 +1,5 @@
+### Varnish container emptying
+
 To empty the used varnish container, Open the left door.
 
 ![Opening the left door](open_left_door.png)

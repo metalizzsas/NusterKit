@@ -110,7 +110,6 @@ The cover should now look like this.
 #### Liner replacement
 
 In order to place the cardboard liner, you will need to place the thermoformed caches before anything else.
-
 Place the nozzle thermoformed caches (`SMT-CA-NZ`).
 
 ![Placing nozzle thermoformed caches](place_nozzle_caches.png)

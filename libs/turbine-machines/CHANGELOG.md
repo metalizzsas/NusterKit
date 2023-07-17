@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.6.13
+
+### Patch Changes
+
+- [#429](https://github.com/metalizzsas/NusterKit/pull/429) [`74f56344`](https://github.com/metalizzsas/NusterKit/commit/74f56344822171bd5f7b7596cd7eee9538c1fbcd) Thanks [@Kworz](https://github.com/Kworz)! - chore: updated maintenance tasks for smoothit M R3
+
 ## 1.6.12
 
 ### Patch Changes

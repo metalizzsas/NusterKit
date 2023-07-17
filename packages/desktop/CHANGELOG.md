@@ -1,5 +1,17 @@
 # @metalizzsas/nuster-desktop
 
+## 1.12.1
+
+### Patch Changes
+
+- [#419](https://github.com/metalizzsas/NusterKit/pull/419) [`dd2614ac`](https://github.com/metalizzsas/NusterKit/commit/dd2614aca055c45068f28e2a67dc8b0d7e1b9261) Thanks [@0auriane](https://github.com/0auriane)! - fix: updated back button ui in help page
+
+- [#429](https://github.com/metalizzsas/NusterKit/pull/429) [`172ca476`](https://github.com/metalizzsas/NusterKit/commit/172ca476dbf55352ebe08dc68f0e48f42b106b03) Thanks [@Kworz](https://github.com/Kworz)! - fix: remove Latex code in help files
+
+- [#419](https://github.com/metalizzsas/NusterKit/pull/419) [`d73a60c9`](https://github.com/metalizzsas/NusterKit/commit/d73a60c9dc4a9713982c3a1d30a60f1d9cb8ee0c) Thanks [@0auriane](https://github.com/0auriane)! - fix: re-introduced latex code remover
+
+- [#429](https://github.com/metalizzsas/NusterKit/pull/429) [`7689c4b5`](https://github.com/metalizzsas/NusterKit/commit/7689c4b575c505c761569ff44d43e486f35e7c0b) Thanks [@Kworz](https://github.com/Kworz)! - fix: list could overflow when reduced
+
 ## 1.12.0
 
 ### Minor Changes

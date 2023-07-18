@@ -30,11 +30,8 @@
             "motor": "Moteur de rotation"
         },
         "premade": {
-            "shiny-polyjet": "Polyjet Brillant",
-            "shiny-resin": "SLA / DLP Brillant",
-
-            "translucent-polyjet": "Polyjet Transparent",
-            "translucent-resin": "SLA / DLP Transparent"
+            "shiny": "Brillant",
+            "translucent": "Transparent"
         },
         "rows": {
             "interlayer-uvduration": "Durée cuisson uv entre les couches",

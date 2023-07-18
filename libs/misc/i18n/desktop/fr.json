@@ -192,7 +192,17 @@
     "power": {
       "lead": "Gestion de l'alimentation",  
       "reboot": "Redémarrer",
-      "shutdown": "Éteindre"
+      "shutdown": "Éteindre",
+      "modal": {
+        "shutdown": {
+          "title": "Arrêt en cours",
+          "message": "La machine est en cours d'ârret, lorsque l'écran s'éteindra vous pourrez débrancher la machine."
+        },
+        "reboot": {
+          "title": "Redémarrage en cours",
+          "message": "La machine est en train de redémarrer, veuillez patienter."
+        }
+      }
     }
   },
   "cycle": {

@@ -13,7 +13,7 @@ export const load = ( async ({ fetch }) => {
     return {
         machine,
         cycleCount,
-        version: import.meta.env.VITE_APP_VERSION as string,
+        version: import.meta.env.VITE_NUSTER_VERSION as string,
     }
 
 }) satisfies PageServerLoad;

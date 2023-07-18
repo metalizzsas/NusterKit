@@ -32,23 +32,15 @@
             isUpdating = true;
     };
 
-    const reboot = async () => {
-        const request = await fetch("/api/reboot");
-
-        if(request.ok && request.status == 200)
-            isRebooting = true;
+    const reboot = () => {
+        void fetch("/api/reboot");
     }
 
-    const shutdown = async () => {
-        const request = await fetch("/api/shutdown");
-
-        if(request.ok && request.status == 200)
-            isRebooting = true;
+    const shutdown = () => {
+        void fetch("/api/shutdown");
     }
 
     let isUpdating = false;
-    let isRebooting = false;
-    let isShuttingDown = false;
     let password = "";
 
 </script>
@@ -91,11 +83,6 @@
         <h2>{$_('settings.software.lead')}</h2>
         
         <SettingField label={$_('settings.software.nuster')} value={data.version} />
-
-        {#if data.machine.deviceData?.os_version !== undefined}
-            <SettingField label={$_('settings.software.balena')} value={data.machine.deviceData?.os_version} />
-        {/if}
-
         
         {#if data.machine.hypervisorData?.appState !== 'applied' && data.machine.hypervisorData?.overallDownloadProgress === null}
             <SettingField label={$_('settings.software.update')}>
@@ -120,7 +107,7 @@
             <SettingField label={$_('settings.network.mac')} value={
                 data.machine.deviceData.mac_address
                 .split(' ')
-                .filter((mac_adr) => { return !['E4:5F:01', 'DC:A6:32', '3A:35:41', '28:CD:C1'].map(mask => mac_adr.startsWith(mask)).reduce((p, c) => p || c) })
+                .filter((mac_adr) => { return !['E4:5F:01', 'DC:A6:32', '3A:35:41', 'D8:3A:DD', 'B8:27:EB', '28:CD:C1'].map(mask => mac_adr.startsWith(mask)).reduce((p, c) => p || c) })
             } />
         {/if}
 
@@ -129,8 +116,6 @@
             ? $_("false")
             : $_(String(data.machine.vpnData?.vpn.connected))
         } />
-
-        <SettingField label={$_('settings.network.wifi.label')}><a href="/settings/wifi"><Button size="small" color={"hover:bg-indigo-500"} ringColor={"ring-indigo-500"}>{$_('settings.network.wifi.button')}</Button></a></SettingField>
 
         <h2 class="mt-8">{$_('settings.power.lead')}</h2>
 

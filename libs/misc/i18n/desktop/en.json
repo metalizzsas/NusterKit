@@ -192,7 +192,17 @@
     "power": {
       "lead": "Power management",
       "reboot": "Restart",
-      "shutdown": "Shutdown"
+      "shutdown": "Shutdown",
+      "modal": {
+        "shutdown": {
+          "title": "Shutting down",
+          "message": "The machine is shutting down, after the screen goes black, you can unplug the machine."
+        },
+        "reboot": {
+          "title": "Restarting",
+          "message": "The machine is restarting, please wait."
+        }
+      }
     }
   },
   "cycle": {

@@ -166,29 +166,56 @@ function SetupExpress()
 
     ExpressApp.get("/reboot", async (_req, res: Response) => {
 
-        /** On reboot, reset all io gates */
-        TurbineEventLoop.emit('io.resetAll');
+        try
+        {
+            const req = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v1/reboot?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" }, body: JSON.stringify({force: true}), method: 'POST'});
+    
+            if(req.status == 202)
+            {
+                /** On reboot, reset all io gates */
+                TurbineEventLoop.emit('io.resetAll');
+                TurbineEventLoop.emit(`nuster.modal`, {
+                    title: "settings.power.modal.reboot.title",
+                    message: "settings.power.modal.reboot.message",
+                    level: "info"
+                });
+                res.status(200).end();
+            }
+            else
+                res.status(req.status).end();
 
-        const req = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v1/reboot?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" }, body: JSON.stringify({force: true}), method: 'POST'});
-        if(req.status == 202)
-            res.status(200).end();
-        else
-            res.status(req.status).end();
+        }
+        catch(ex)
+        {
+            res.status(500).end();
+        }
 
     });
 
     ExpressApp.get("/shutdown", async (_req, res: Response) => {
 
-        /** On shutdown, reset all io gates */
-        TurbineEventLoop.emit('io.resetAll');
+        try
+        {
+            const req = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v1/shutdown?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" }, body: JSON.stringify({force: true}), method: 'POST'});
 
-        const req = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v1/shutdown?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" }, body: JSON.stringify({force: true}), method: 'POST'});
-
-        if(req.status == 202)
-            res.status(200).end();
-        else
-            res.status(req.status).end();
-
+            if(req.status == 202)
+            {
+                /** On shutdown, reset all io gates */
+                TurbineEventLoop.emit('io.resetAll');
+                TurbineEventLoop.emit(`nuster.modal`, {
+                    title: "settings.power.modal.shutdown.title",
+                    message: "settings.power.modal.shutdown.message",
+                    level: "info"
+                });
+                res.status(200).end();
+            }
+            else
+                res.status(req.status).end();
+        }
+        catch(ex)
+        {
+            res.status(500).end();
+        }
     });
 
     ExpressApp.post("/settings", async (req, res) => {

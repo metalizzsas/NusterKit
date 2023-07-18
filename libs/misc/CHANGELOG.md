@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-misc
 
+## 1.5.1
+
+### Patch Changes
+
+- [#455](https://github.com/metalizzsas/NusterKit/pull/455) [`d9fba54f`](https://github.com/metalizzsas/NusterKit/commit/d9fba54faade92d8c9f482c4ebc008a68e1f2222) Thanks [@Kworz](https://github.com/Kworz)! - feat: updated profiles for smoothit m r3
+
 ## 1.5.0
 
 ### Minor Changes

@@ -30,11 +30,8 @@
             "motor": "Rotation Motor"
         },
         "premade": {
-            "shiny-polyjet": "Shiny Polyjet",
-            "shiny-resin": "Shiny SLA / DLP",
-
-            "translucent-polyjet": "Translucent Polyjet",
-            "translucent-resin": "Translucent SLA / DLP"
+            "shiny": "Shiny",
+            "translucent": "Translucent"
         },
         "rows": {
             "interlayer-uvduration": "UV Curing time between layers",

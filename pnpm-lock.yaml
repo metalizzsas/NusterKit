@@ -272,7 +272,7 @@ importers:
   packages/nuster:
     dependencies:
       '@metalizzsas/nuster-desktop':
-        specifier: 1.12.3
+        specifier: 1.12.4
         version: link:../desktop
       '@metalizzsas/nuster-misc':
         specifier: 1.5.1

@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.12.4
+
+### Patch Changes
+
+- [#457](https://github.com/metalizzsas/NusterKit/pull/457) [`0684196f`](https://github.com/metalizzsas/NusterKit/commit/0684196fedb0c9118bf95d78edf272f3de977e54) Thanks [@Kworz](https://github.com/Kworz)! - chore: add a redirect button on main error screen
+
 ## 1.12.3
 
 ### Patch Changes

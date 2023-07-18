@@ -1,5 +1,14 @@
 # @metalizzsas/nuster-turbine
 
+## 1.10.31
+
+### Patch Changes
+
+- [#453](https://github.com/metalizzsas/NusterKit/pull/453) [`92dcf103`](https://github.com/metalizzsas/NusterKit/commit/92dcf1033d14a3a918427806359b3bc361cd5cae) Thanks [@Kworz](https://github.com/Kworz)! - feat: emit a popup when the user asked for a shutdown or a reboot
+
+- Updated dependencies [[`d64f2595`](https://github.com/metalizzsas/NusterKit/commit/d64f2595970952bde06707b858d7e537bbdcf795)]:
+  - @metalizzsas/nuster-turbine-machines@1.6.14
+
 ## 1.10.30
 
 ### Patch Changes

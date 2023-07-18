@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.12.3
+
+### Patch Changes
+
+- [#453](https://github.com/metalizzsas/NusterKit/pull/453) [`2353ca17`](https://github.com/metalizzsas/NusterKit/commit/2353ca176bdf92ff03ada657cdaeaf53846bf54f) Thanks [@Kworz](https://github.com/Kworz)! - fix: nuster version was not diplayed
+
 ## 1.12.2
 
 ### Patch Changes

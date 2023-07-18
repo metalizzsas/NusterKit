@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.6.14
+
+### Patch Changes
+
+- [#453](https://github.com/metalizzsas/NusterKit/pull/453) [`d64f2595`](https://github.com/metalizzsas/NusterKit/commit/d64f2595970952bde06707b858d7e537bbdcf795) Thanks [@Kworz](https://github.com/Kworz)! - fix: smt m r3 execute inerting only once
+
 ## 1.6.13
 
 ### Patch Changes

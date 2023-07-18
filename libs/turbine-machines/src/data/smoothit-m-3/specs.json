@@ -614,7 +614,7 @@
             {
                "name": "start",
                "isEnabled": 1,
-               "blocks": [{"sleep": 30}],
+               "blocks": [{"sleep": 10}],
                "startBlocks": [
                   {"io_write": ["water-slide-pump", 1]},
                   {"io_write": ["ventilation", 1]},
@@ -707,25 +707,6 @@
                ]
             },
             {
-               "name": "inerting",
-               "isEnabled": {"profile": "inerting#enabled"},
-               "runAmount": {"conditional": {
-                  "comparator": "==",
-                  "left_side": [{"profile": "multilayer#enabled"}, {"profile": "multilayer#count"}],
-                  "right_side": [1, 1]
-               }},
-               "blocks": [
-                  {"sleep": {"profile": "inerting#duration"}}
-               ],
-               "startBlocks": [
-                  {"io_write": ["inerting", 1]},
-                  {"io_write": ["ventilation", 0]}
-               ],
-               "endBlocks": [
-                  {"io_write": ["inerting", 0]}
-               ]
-            },
-            {
                "name": "uv-curing-interlayer",
                "isEnabled": {"profile": "multilayer#enabled"},
                "runAmount": {"profile": "multilayer#count"},
@@ -783,6 +764,20 @@
                "endBlocks": [
                   {"io_write": ["uv#cache", 1]},
                   {"io_write": ["ventilation", 1]}
+               ]
+            },
+            {
+               "name": "inerting",
+               "isEnabled": {"profile": "inerting#enabled"},
+               "blocks": [
+                  {"sleep": {"profile": "inerting#duration"}}
+               ],
+               "startBlocks": [
+                  {"io_write": ["inerting", 1]},
+                  {"io_write": ["ventilation", 0]}
+               ],
+               "endBlocks": [
+                  {"io_write": ["inerting", 0]}
                ]
             },
             {

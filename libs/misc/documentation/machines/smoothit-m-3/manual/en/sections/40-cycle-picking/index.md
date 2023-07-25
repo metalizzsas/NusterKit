@@ -4,7 +4,7 @@ The following table will help you determine the most suitable cycle for smoothin
 
 | **3D printing process** | **Desired rendering** | **Required vanish** | **Cycle** |
 | ---------- | --------- | ------ | --------- |
-| Polyjet | Smoothing | SV-01 | Shiny Polyjet |
-| Polyjet | Transparency | CV-01 | Translucent Polyjet |
-| SLA, DLP | Smoothing | SV-01 | Shiny SLA / DLP |
-| SLA, DLP | Transparency | CV-01 | Translucent SLA / DLP |
+| Polyjet | Smoothing | SV-01 | Shiny |
+| Polyjet | Transparency | CV-01 | Translucent |
+| SLA, DLP | Smoothing | SV-01 | Shiny |
+| SLA, DLP | Transparency | CV-01 | Translucent |

@@ -18,7 +18,7 @@ Chaque conteneur possède des configurations différentes (affectation de produi
 
 #### Informations produit
 
-Lorsqu'un produit est chargé dans la machine, les informations suivantes sont disponibles :
+Lorsqu'un produit est chargé dans la machine, les informations suivantes sont disponibles : 
 
 - Le type de produit chargé,
 - La date de chargement du produit,
@@ -42,6 +42,6 @@ Dans cette sous-section, vous trouverez les différents capteurs assignés au co
 
 ![Régulation conteneur](containers_regulation.png)
 
-Vous pouvez modifier la consigne en modifiant la   `Valeur recherchée` et activer la régulation en changeant l'`État de la régulation`.
+Vous pouvez modifier la consigne en modifiant la   `Valeur recherchée` et activer la régulation en changeant   l'`État de la régulation`. 
 
->**Avertissement:** La régulation est indépendante des cycles, elle continue automatiquement en arrière plan.
+>**Avertissement:** La régulation est indépendante des cycles, elle continue automatiquement en arrière plan. Pour l'activer ou l'arrêter, appuyez sur le bouton   `État de la régulation` (indicateur rouge = non activée, indicateur vert = activée).

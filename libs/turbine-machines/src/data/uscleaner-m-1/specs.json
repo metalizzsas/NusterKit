@@ -310,6 +310,16 @@
                     "content": 0.12
                 }
             ]
+        },
+        {
+            "addonName": "temperature-control-60",
+            "content": [
+                {
+                    "mode": "set",
+                    "path": "containers.0.regulations.0.maxTarget",
+                    "content": 60
+                }
+            ]
         }
     ],
     "variables": []

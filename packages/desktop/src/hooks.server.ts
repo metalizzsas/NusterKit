@@ -19,8 +19,6 @@ export const handle = (async ({ event, resolve }) => {
         setTimeout(() => resolve(false), 2000);
     });
 
-    console.log(machineConfigured);
-
     if(machineConfigured === false && !event.url.pathname.startsWith("/configure"))
         return new Response(null, { headers: { "Location": "/configure" }, status: 302 });
 

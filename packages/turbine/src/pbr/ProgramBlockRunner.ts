@@ -198,7 +198,8 @@ export class ProgramBlockRunner
 
                 if(this.currentStepIndex < result)
                 {
-                    for(let i = this.currentStepIndex; i < result; i++)
+                    // The starting loop index is set to currentStepIndex + 1 because the current step has already ended, it prevents PBR to set the step state to "skipped" when it's not.
+                    for(let i = (this.currentStepIndex + 1); i < result; i++)
                         this.steps[i].endReason = "skipped";
                 }
 

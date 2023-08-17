@@ -9,6 +9,8 @@ export type PBRStepHydrated = Modify<PBRStep, {
     startTime?: number;
     endTime?: number;
 
+    endReason?: string;
+
     runCount?: number;
     
     isEnabled: NumericParameterBlockHydrated,

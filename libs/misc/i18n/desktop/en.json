@@ -235,6 +235,7 @@
     "end_reasons": {
       "user": "User aborted cycle",
       "finished": "Finished successfully",
+      "error": "Cycle has ended early because of an error",
       "controllerTimeout": "IO Controller timed out",
       "controllerError": "IO Controller error",
       "controllerUnreachable": "IO Controller is unreachable",

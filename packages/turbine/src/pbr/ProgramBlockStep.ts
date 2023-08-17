@@ -152,7 +152,7 @@ export class ProgramBlockStep
         // @ts-ignore
         if(this.state === "crashed")
         {
-            this.state = "ended";
+            this.state = "crashed";
             LoggerInstance.info(`PBS-${this.name}: Ended step with state ${this.state}`);
             this.endTime = Date.now();
 
@@ -243,8 +243,13 @@ export class ProgramBlockStep
             else
                 progress = -1;
         }
-        else if(["ended", "partial"].includes(this.state))
-            progress = 1;
+        else if(["ended", "partial", "crashed"].includes(this.state))
+        {
+            if(this.endReason === "skipped" || this.endReason?.includes("security"))
+                progress = (((this.endTime ?? 1) - (this.startTime ?? 1)) / 1000) / this.duration;
+            else
+                progress = 1;
+        }
         
         if((this.type == "multiple") && this.runAmount !== undefined)
             return (this.runCount / this.runAmount.data) + (progress / this.runAmount.data)

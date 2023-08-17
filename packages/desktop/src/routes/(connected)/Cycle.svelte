@@ -2,19 +2,17 @@
     
     import Button from "$lib/components/buttons/Button.svelte";
     import Flex from "$lib/components/layout/flex.svelte";
+	import Gate from "./io/Gate.svelte";
+	import CycleStep from "./CycleStep.svelte";
+
     import { parseDurationToString } from "$lib/utils/dateparser";
-    import { ArrowDown, ArrowPath, ArrowRight, Check, CheckCircle, Clock, ExclamationCircle, InformationCircle, Square3Stack3d, XMark } from "@steeze-ui/heroicons";
+    import { ArrowRight, Check, CheckCircle, Clock, ExclamationCircle, InformationCircle, Square3Stack3d, XMark } from "@steeze-ui/heroicons";
     import { Icon } from "@steeze-ui/svelte-icon";
 	import { _ } from "svelte-i18n";
 	import { translateProfileName } from "$lib/utils/i18n/i18nprofile";
 	import { machine, realtime } from "$lib/utils/stores/nuster";
 	import { createEventDispatcher } from "svelte";
-	import Gate from "./io/Gate.svelte";
-	import Label from "$lib/components/label.svelte";
-	import ProgressBar from "$lib/components/ProgressBar.svelte";
-	import type { IconSource } from "@steeze-ui/heroicons/types";
-	import type { PBRStepHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/PBRStepHydrated";
-
+    
     const dispatch = createEventDispatcher<{ patched: void }>();
 
     export let patched = () => { dispatch("patched"); }
@@ -41,38 +39,6 @@
     const patchCycle = () => {
         patched();
         void fetch(`/api/v1/cycle`, { method: "PATCH" });
-    }
-
-    const computeStepIcon = (step: PBRStepHydrated): { icon: IconSource, color: string } => {
-
-        const icon = step.endReason !== "skipped" ? (step.state === "started" ? ArrowPath : ["partial", "ended", "ending"].includes(step.state) ? Check : XMark) : ArrowDown;
-
-        let color = "text-white";
-
-        if(step.endReason === "skipped")
-            color = "text-orange-500"
-        else
-        {
-            switch(step.state)
-            {
-                case "started":
-                    color = "text-blue-500";
-                    break;
-                case "partial":
-                    color = "text-orange-500";
-                    break;
-                case "ended":
-                case "ending":
-                    color = "text-emerald-500";
-                    break;
-            }
-        }
-
-        return {
-            icon,
-            color
-        }
-
     }
 
     /// — Reactive statements
@@ -226,54 +192,22 @@
 
     <Flex gap={2} direction={"col"}>
         {#each cycleData.steps.filter(s => s.isEnabled.data == 1) as step}
-
-            {@const iconData = computeStepIcon(step)}
-
-            <div class="p-4 rounded-xl border-[1px] border-zinc-400">
-                <Flex items="center" justify="between" class={step.state === "started" ? "mb-2" : ""}>
-                    <Flex 
-                        gap={1} 
-                        items={step.state === "started" ? "start" : "center"} 
-                        direction={step.state === "started" ? "col" : "row"}
-                    >
-                        <h4 class="leading-6">{$_(`cycle.steps.${step.name}.name`)}</h4>
-                        
-                        {#if step.state !== "started"}
-                            <div class="mx-1 -skew-x-12 h-4 w-0.5 dark:bg-white bg-zinc-800" />
-                        {/if}
-
-                        <p class="text-sm">{$_(`cycle.steps.${step.name}.desc`)}</p>
-                    </Flex>
-
-                    <Flex gap={4}>
-                        {#if step.runCount !== undefined && step.runAmount !== undefined && step.runAmount.data > 1 && !$machine.settings.hideMultilayerIndications}
-                            <Label>{step.runCount} / {step.runAmount.data}</Label>
-                        {/if}
-
-                        <Icon src={iconData.icon} class="h-6 w-6 self-start {iconData.icon === ArrowPath ? "animate-spin-slow" : ""} {iconData.color}" />
-                    </Flex>
-
-                </Flex>
-
-                {#if step.state === "started"}
-                    <ProgressBar dots={$machine.settings.hideMultilayerIndications ? undefined : step.runAmount?.data} bind:progress={step.progress} />
-                {/if}
-            </div>
+            <CycleStep {step} />
         {/each}
     </Flex>
 
 {:else if cycleData !== undefined && ["ending", "ended"].includes(cycleData.status.mode)}
 
-    {@const isSuccess = cycleData.status.endReason === "finished"}
+    {@const isSuccess = cycleData.status.endReason === "finished" && !cycleData.steps.some(s => s.state === "crashed")}
 
     <Flex justify="between">
         <div>
             <p class="text-sm text-zinc-600 dark:text-zinc-300">{$_('cycle.end.lead')}</p>
-            <h1 class="leading-6">{$_(`cycle.end_reasons.${$realtime.cycle?.status.endReason ?? 'error'}`)}</h1>
+            <h1 class="leading-6">{$_(`cycle.end_reasons.${(isSuccess) ? $realtime.cycle?.status.endReason ?? 'error' : 'error'}`)}</h1>
         
             {#if cycleData.status.endDate && cycleData.status.startDate}
                 <p class="leading-10">
-                    <Icon src={Clock} class="h-4 w-4 mb-0.5 inline-block" />
+                    <Icon src={Clock} class="h-4 w-4 mb-0.5 inline-block text-indigo-500" />
                     <span class="text-sm font-semibold">{$_('cycle.end.duration')}</span>
                     <span>{parseDurationToString((cycleData.status.endDate - cycleData.status.startDate) / 1000)}</span>
                 </p>
@@ -294,22 +228,8 @@
         </h3>
         
         <Flex gap={2} direction={"col"}>
-            {#each cycleData.steps.filter(s => s.isEnabled.data == 1) as step}
-    
-                {@const iconData = computeStepIcon(step)}
-    
-                <div class="p-4 rounded-xl border-[1px] border-zinc-400">
-                    <Flex items="center" justify="between" class={step.state === "started" ? "mb-2" : ""}>
-                        <h4 class="leading-6">{$_(`cycle.steps.${step.name}.name`)}</h4>
-                        <Flex gap={4}>
-                            {#if step.runCount !== undefined && step.runAmount !== undefined && step.runAmount.data > 1 && !$machine.settings.hideMultilayerIndications}
-                                <Label>{step.runCount} / {step.runAmount.data}</Label>
-                            {/if}
-    
-                            <Icon src={iconData.icon} class="h-6 w-6 self-start {iconData.color}" />
-                        </Flex>
-                    </Flex>
-                </div>
+            {#each cycleData.steps.filter(s => s.isEnabled.data == 1) as step (step.name)}
+                <CycleStep {step} />
             {/each}
         </Flex>
     </div>

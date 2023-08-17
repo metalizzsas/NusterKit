@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-desktop
 
+## 1.12.5
+
+### Patch Changes
+
+- [#444](https://github.com/metalizzsas/NusterKit/pull/444) [`59c2d0fe`](https://github.com/metalizzsas/NusterKit/commit/59c2d0fef7bbd3c2bc6c107f721a02736acd96e2) Thanks [@Kworz](https://github.com/Kworz)! - feat: container regulation messages now supply additional information about which security condition is responsible of the regulation shutdown
+
+- [#465](https://github.com/metalizzsas/NusterKit/pull/465) [`8cbe98d1`](https://github.com/metalizzsas/NusterKit/commit/8cbe98d12cb320b24004112d8cbbcee41cc48671) Thanks [@Kworz](https://github.com/Kworz)! - feat: early exited steps are now displayed with a great UI
+
 ## 1.12.4
 
 ### Patch Changes

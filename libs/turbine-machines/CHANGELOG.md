@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.6.16
+
+### Patch Changes
+
+- [#463](https://github.com/metalizzsas/NusterKit/pull/463) [`41b5fed9`](https://github.com/metalizzsas/NusterKit/commit/41b5fed99451246775f9da0e5d419421188ee83a) Thanks [@Kworz](https://github.com/Kworz)! - feat: created temperature-control 60°C Max target addon
+
+- [#444](https://github.com/metalizzsas/NusterKit/pull/444) [`c29d60b9`](https://github.com/metalizzsas/NusterKit/commit/c29d60b955fbe84000d9ac41151482f07e78de5e) Thanks [@Kworz](https://github.com/Kworz)! - feat: uscleaner tank container regulation now requires a pressure value other than 0
+
 ## 1.6.15
 
 ### Patch Changes

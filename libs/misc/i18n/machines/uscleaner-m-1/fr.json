@@ -92,6 +92,7 @@
 
     "toasts": {},
     "addons": {
-        "temperature-control": "Régulation de la température"
+        "temperature-control": "Régulation de la température",
+        "temperature-control-60": "RT Max 60°C"
     }
 }

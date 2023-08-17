@@ -14,7 +14,7 @@ Les cycles de nettoyage doivent être effectués avec le couvercle fermé. Si ce
 
 ### Surchauffe produit
 
-Si le produit chargé dans l'Uscleaner dépasse la température de 50°C, l'indicateur correspondant sera rouge et le cycle ne pourra pas démarrer ou s'arrêtera en cours de déroulement.
+Si le produit chargé dans l'Uscleaner dépasse la température de 60°C (70°C si option TR60), l'indicateur correspondant sera rouge et le cycle ne pourra pas démarrer ou s'arrêtera en cours de déroulement.
 
 ### Cartouche filtrante
 
@@ -22,7 +22,6 @@ Si l'indicateur **Cartouche filtrante** est rouge, la pression mesurée est trop
 
 Lors d'une utilisation régulière de l'Uscleaner, il est conseillé de changer la cartouche filtrante tous les 3 mois. Contactez Metalizz ou votre distributeur agréé pour commander des cartouches filtrantes.
 
+> Il est important que le traitement de la cartouche filtrante usagée soit réalisé en filière agréée (code déchet européen 07 01 10* d'après la directive (UE) 2008/98/CE).
 
-> Il est important que le traitement de la cartouche filtrante usagée soit réalisé en filière agréée (code déchet européen 07 01 10* d'après la directive (UE) 2008/98/CE). 
-> 
-> **Exception :** Si la machine est utilisée **uniquement avec de l'eau**, alors la cartouche filtrante peut être considérée comme Déchet Industriel Banal (DIB). 
+> **Exception :** Si la machine est utilisée **uniquement avec de l'eau**, alors la cartouche filtrante peut être considérée comme Déchet Industriel Banal (DIB).

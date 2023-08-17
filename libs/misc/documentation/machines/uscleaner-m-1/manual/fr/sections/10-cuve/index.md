@@ -45,6 +45,6 @@ Il est possible de réguler la température du fluide contenu dans le bac de liq
 Dans ce menu vous pouvez :
 
 - Gérer l'état de la régulation (activé / désactivé)
-- Gérer la consigne de température (maximum = 50°C).
+- Gérer la consigne de température (de base 50°C, avec option TR60, 60°C).
 
->L'USCleaner ne fait pas de refroidissement en dessous de la température ambiante.
+> L'USCleaner ne fait pas de refroidissement en dessous de la température ambiante.

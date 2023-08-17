@@ -42,7 +42,7 @@ interface ContainerRegulation {
     maxTarget: number;
 
     /** Regulation Security thats stops it */
-    security: {name: string, value: number}[];
+    security: ({name: string, value: number} | { name: string, valueDiff: number })[];
     
     /** Sensor used by this regulation */
     sensor: string;

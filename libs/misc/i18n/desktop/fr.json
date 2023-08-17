@@ -99,11 +99,11 @@
       "modal": {
         "security_disable": {
           "title": "Érreur de sécurité",
-          "message": "Un élément de sécurité a désactivé la régulation d'un conteneur."
+          "message": "{gate} a désactivé la régulation de {container} → {regulation}."
         },
         "over_max_target": {
           "title": "Érreur de sécurité",
-          "message": "La régulation est allé au dela de la valeur maximale admissible, elle a donc été désactivée"
+          "message": "La régulation {container} → {regulation} est allé au dela de {maxTarget}, elle a donc été désactivée"
         }
       }
     }

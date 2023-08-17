@@ -18,7 +18,7 @@
 	import type { WebsocketData } from "@metalizzsas/nuster-typings";
 	import Loadindicator from "$lib/components/LoadIndicator.svelte";
 	import { settings } from "$lib/utils/stores/settings";
-	import { locale } from "svelte-i18n";
+	import { _, locale } from "svelte-i18n";
 	import { initi18nLocal } from "$lib/utils/i18n/i18nlocal";
 	import Toast from "$lib/components/Toast.svelte";
 	import type { Popup } from "@metalizzsas/nuster-typings/build/spec/nuster";
@@ -118,7 +118,17 @@
             if(data.type == "status" && $realtimeLock === false)
                 $realtime = data.message;
             else if(data.type === "popup")
+            {
+                if(data.message.payload !== undefined)
+                {
+                    for(const key in data.message.payload)
+                    {
+                        data.message.payload[key] = $_(data.message.payload[key]);
+                    }
+                }
+                
                 toasts = [{...data.message, date: Date.now() }, ...toasts];
+            }
         }
     }
     $: if(websocketState === "disconnected") { toasts = []; }

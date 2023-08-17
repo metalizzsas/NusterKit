@@ -9,7 +9,6 @@
     import { fly } from "svelte/transition";
 	import Button from "./buttons/Button.svelte";
 	import { executeCallToAction } from "$lib/utils/callToAction";
-	import { page } from "$app/stores";
 
     const dispatch = createEventDispatcher<{ exit: void }>();
 
@@ -45,7 +44,7 @@
         </button>
     </Flex>
 
-    <p class="leading-6 my-3 break-words">{$_(toast.message)}</p>
+    <p class="leading-6 {toast.callToActions ? "my-3" : "mt-3"} break-words">{$_(toast.message, { values: toast.payload })}</p>
 
     {#if toast.callToActions}
         <Flex items="center" justify="center">

@@ -442,20 +442,40 @@
                 "security": {
                     "description": "Regulation Security thats stops it",
                     "items": {
-                        "additionalProperties": false,
-                        "properties": {
-                            "name": {
-                                "type": "string"
+                        "anyOf": [
+                            {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "value": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "value"
+                                ],
+                                "type": "object"
                             },
-                            "value": {
-                                "type": "number"
+                            {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "valueDiff": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "valueDiff"
+                                ],
+                                "type": "object"
                             }
-                        },
-                        "required": [
-                            "name",
-                            "value"
-                        ],
-                        "type": "object"
+                        ]
                     },
                     "type": "array"
                 },
@@ -1330,6 +1350,10 @@
                     "description": "i18n message, body of this popup",
                     "type": "string"
                 },
+                "payload": {
+                    "$ref": "#/definitions/Record<string,string>",
+                    "description": "Translation payloads"
+                },
                 "title": {
                     "description": "i18n text, title of this pop up",
                     "type": "string"
@@ -1638,6 +1662,10 @@
                 }
             ],
             "description": "Base profile skeletons fields types"
+        },
+        "Record<string,string>": {
+            "additionalProperties": false,
+            "type": "object"
         },
         "StatusParameterBlocks": {
             "anyOf": [

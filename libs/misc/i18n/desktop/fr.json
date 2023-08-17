@@ -235,6 +235,7 @@
     "end_reasons": {
       "user": "Fin utilisateur",
       "finished": "Terminé avec succès",
+      "error": "Cycle terminé prématurément à cause d'une erreur",
       "controllerTimeout": "Delai connection controlleur IO expiré",
       "controllerError": "Erreur connection controlleur IO",
       "controllerUnreachable": "Controlleur IO indisponible",

@@ -1,5 +1,12 @@
 # @metalizzsas/simulation-server
 
+## 1.0.40
+
+### Patch Changes
+
+- Updated dependencies [[`a83bf8d8`](https://github.com/metalizzsas/NusterKit/commit/a83bf8d8d4e2a874f244fc6ad95f0e550990643e)]:
+  - @metalizzsas/nuster-typings@1.5.7
+
 ## 1.0.39
 
 ### Patch Changes

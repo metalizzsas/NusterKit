@@ -1,5 +1,11 @@
 # @metalizzsas/simulation-ui
 
+## 1.0.10
+
+### Patch Changes
+
+- [#467](https://github.com/metalizzsas/NusterKit/pull/467) [`bec6da4f`](https://github.com/metalizzsas/NusterKit/commit/bec6da4f5058a89b81fa92a9356b486ad0c1d72d) Thanks [@Kworz](https://github.com/Kworz)! - feat: added gate values on chronogram elements
+
 ## 1.0.9
 
 ### Patch Changes

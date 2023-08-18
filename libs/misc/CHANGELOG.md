@@ -1,5 +1,15 @@
 # @metalizzsas/nuster-misc
 
+## 1.5.3
+
+### Patch Changes
+
+- [#468](https://github.com/metalizzsas/NusterKit/pull/468) [`44d53637`](https://github.com/metalizzsas/NusterKit/commit/44d53637d13ff122d199ea396e06e0db6faccc27) Thanks [@Kworz](https://github.com/Kworz)! - chore: update uscleaner docs
+
+- [#467](https://github.com/metalizzsas/NusterKit/pull/467) [`47f9d70c`](https://github.com/metalizzsas/NusterKit/commit/47f9d70cf8acf04b8aab73ebccc5439151e70e84) Thanks [@Kworz](https://github.com/Kworz)! - chore: updated docs for pause & enhanced ending messages
+
+- [#467](https://github.com/metalizzsas/NusterKit/pull/467) [`a83bf8d8`](https://github.com/metalizzsas/NusterKit/commit/a83bf8d8d4e2a874f244fc6ad95f0e550990643e) Thanks [@Kworz](https://github.com/Kworz)! - feat: cycles can now be paused
+
 ## 1.5.2
 
 ### Patch Changes

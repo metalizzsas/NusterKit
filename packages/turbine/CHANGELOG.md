@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.10.34
+
+### Patch Changes
+
+- [#467](https://github.com/metalizzsas/NusterKit/pull/467) [`a83bf8d8`](https://github.com/metalizzsas/NusterKit/commit/a83bf8d8d4e2a874f244fc6ad95f0e550990643e) Thanks [@Kworz](https://github.com/Kworz)! - feat: cycles can now be paused
+
 ## 1.10.33
 
 ### Patch Changes

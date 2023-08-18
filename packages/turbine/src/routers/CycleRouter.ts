@@ -1,6 +1,6 @@
 import { Router } from "./Router";
 
-import type { Request, Response } from "express";
+import { type Request, type Response } from "express";
 
 import type { CyclePremade, ProgramBlockRunner as ProgramBlockRunnerConfig } from "@metalizzsas/nuster-typings/build/spec/cycle";
 import type { ProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profiles";
@@ -103,9 +103,14 @@ export class CycleRouter extends Router
         });
 
         /** Route to trigger next step for the cycle */
-        this.router.put("/", async(_req, res: Response) => {
+        this.router.put("/", async (_req, res: Response) => {
             this.program?.nextStep();
             res.status(200).end();
+        });
+
+        this.router.put("/pause", async (_req, res: Response) => {
+            TurbineEventLoop.emit(`pbr.${(this.program?.status.mode === "paused") ? "resume" : "pause"}`);
+            res.status(200).end((this.program?.status.mode === "paused") ? "resuming" : "pausing");
         });
 
         /** Dispose the cycle and delete it */

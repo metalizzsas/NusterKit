@@ -4,7 +4,6 @@ import type { AllProgramBlocks, WhileProgramBlock as WhileProgramBlockSpec } fro
 import ComparativeFunctions from "../../utils/ComparativeFunctions";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
 import { ProgramBlockRegistry } from "../ProgramBlockRegistry";
-import { TurbineEventLoop } from "../../../events";
 import { ProgramBlock } from "../ProgramBlock";
 
 export class WhileProgramBlock extends ProgramBlock
@@ -27,8 +26,6 @@ export class WhileProgramBlock extends ProgramBlock
 
         // While loop has an infinity runTime because it cannot be determined
         this.estimatedRunTime = Infinity;
-
-        TurbineEventLoop.on(`pbr.stop`, () => this.earlyExit = true);
     }
 
     public async execute(signal?: AbortSignal): Promise<void>

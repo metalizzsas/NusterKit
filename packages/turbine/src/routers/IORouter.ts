@@ -23,9 +23,6 @@ export class IORouter extends Router
     /** IO Scanner interval timer */
     private timer?: NodeJS.Timer;
 
-    /** IOController Instance */
-    private static _instance: IORouter;
-
     private ioScannerInterval = 500;
 
     constructor(handlers: IOHandlers[], gates: IOGates[])
@@ -69,6 +66,16 @@ export class IORouter extends Router
                 await gate.write(gate.default);
             }
         });
+
+        TurbineEventLoop.on('io.snapshot', (options) => {
+
+            const snapshot = this.gates.filter(g => g.bus === "out").reduce((acc, gate) => {
+                acc[gate.name] = gate.value;
+                return acc;
+            }, {} as Record<string, number>);
+
+            options.callback(snapshot);
+        })
     }
 
     private _configureRouter()

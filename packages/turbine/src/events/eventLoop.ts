@@ -53,7 +53,8 @@ interface EventLoopEvents
 
     [key: `io.update.${string}`]: (options: { value: number, lock?: boolean, callback?: () => void | Promise<void> }) => void;
 
-    "io.resetAll": () => Promise<void>
+    "io.resetAll": () => Promise<void>;
+    "io.snapshot": (options: { callback: (snapshot: Record<string, number>) => void }) => void;
 
     /** Container events */
     [key: `container.read.${string}`]: (options: { callback?: (container: ContainerHydrated) => void | Promise<void> }) => void;
@@ -89,6 +90,9 @@ interface EventLoopEvents
 
     "pbr.stop": (reason: string) => void;
     "pbr.nextStep": () => void;
+    "pbr.pause": () => void;
+    "pbr.resume": () => void;
+    "pbr.setPausable": (pausable: boolean) => void;
 
     [key: `pbr.step.${string}.stop`]: (reason?: string) => void;    
 

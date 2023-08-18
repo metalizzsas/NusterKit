@@ -14,7 +14,7 @@ import { TurbineEventLoop } from "../events";
  */
 export class ProgramBlockRunner
 {
-    status: PBRStatus = { mode: "creating" };
+    status: PBRStatus = { mode: "creating", pausable: false };
 
     name: string;
     profileRequired: boolean;
@@ -40,6 +40,12 @@ export class ProgramBlockRunner
     duration: number;
 
     events: Array<{ data: string, time: number }> = []; 
+
+    /** Pause utils */
+    ioPauseSnapshot: Record<string, number> = {};
+
+    totalPausedTime = 0;
+    pauseStartDate?: number;
 
     constructor(object: ProgramBlockRunnerConfig, profile?: ProfileHydrated)
     {
@@ -91,6 +97,66 @@ export class ProgramBlockRunner
             options.callback?.(this.timers.find(k => k.name === options.timerName) !== undefined);
         });
 
+        TurbineEventLoop.on('pbr.pause', () => {
+
+            if(this.status.mode === "paused")
+            {
+                TurbineEventLoop.emit("log", "warning", "PBR: Tried to pause a cycle that is already paused.");
+                return;
+            }
+
+            if(this.status.mode !== "started")
+            {
+                TurbineEventLoop.emit("log", "warning", "PBR: Tried to pause a cycle that is not started.");
+                return;
+            }
+
+            this.setState("paused");
+
+            TurbineEventLoop.emit("io.snapshot", ({ callback: (snapshot: Record<string, number>) => {
+                this.ioPauseSnapshot = structuredClone(snapshot);
+                TurbineEventLoop.emit("io.resetAll");
+            }}));
+
+            this.pauseStartDate = Date.now();
+
+            TurbineEventLoop.emit("log", "warning", "PBR: Paused cycle.");
+
+        });
+
+        TurbineEventLoop.on("pbr.resume", async () => {
+
+            if(this.status.mode === "started")
+            {
+                TurbineEventLoop.emit("log", "warning", "PBR: Tried to resume a cycle that is already started.");
+                return;
+            }
+
+            if(this.status.mode !== "paused")
+            {
+                TurbineEventLoop.emit("log", "warning", "PBR: Tried to resume a cycle that is not paused.");
+                return;
+            }
+
+            this.setState("started");
+
+            for(const io in this.ioPauseSnapshot)
+            {
+                await new Promise<void>(resolve => {
+                    TurbineEventLoop.emit(`io.update.${io}`, { value: this.ioPauseSnapshot[io], callback: () => resolve() });
+                });
+            }
+
+            this.totalPausedTime += (Date.now() - (this.pauseStartDate ?? 0)) / 1000;
+            this.pauseStartDate = undefined;
+
+            TurbineEventLoop.emit("log", "warning", "PBR: Resumed cycle.");
+        });
+
+        TurbineEventLoop.on('pbr.setPausable', (pausable: boolean) => {
+            this.status.pausable = pausable;
+        });
+
         TurbineEventLoop.on("pbr.timer.stop", (options) => {
             const timer = this.timers.find(t => options.timerName === t.name)
             
@@ -139,6 +205,8 @@ export class ProgramBlockRunner
         TurbineEventLoop.removeAllListeners('pbr.variable.read');
         TurbineEventLoop.removeAllListeners('pbr.stop');
         TurbineEventLoop.removeAllListeners('pbr.status.update');
+        TurbineEventLoop.removeAllListeners('pbr.pause');
+        TurbineEventLoop.removeAllListeners('pbr.resume');
     }
 
     /**
@@ -322,7 +390,7 @@ export class ProgramBlockRunner
     /** Compute progress of the cycle */
     public get progress()
     {
-        return (Date.now() / (this.status.startDate ?? 1)) / this.duration;
+        return (Date.now() / (this.status.startDate ?? 1)) / (this.duration + this.overallPausedTime);
     }
 
     /** Return current running step reference */
@@ -336,10 +404,17 @@ export class ProgramBlockRunner
         return [...this.runConditions, ...this.steps.flatMap(s => s.runConditions).filter((s): s is PBRRunCondition => s !== undefined)];
     }
 
+    get overallPausedTime(): number
+    {
+        const currentPauseTime = (this.pauseStartDate !== undefined) ? (Date.now() - this.pauseStartDate) : 0;
+
+        return this.totalPausedTime + (currentPauseTime / 1000);
+    }
+
     toJSON()
     {
         return {
-            status: {...this.status, progress: this.progress, estimatedRunTime: this.duration},
+            status: {...this.status, progress: this.progress, estimatedRunTime: this.duration, overallPausedTime: this.overallPausedTime },
 
             //identifiers vars
             name: this.name,

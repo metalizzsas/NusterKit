@@ -13,6 +13,8 @@ Lorsque toutes les conditions de sécurité sont valides, le bouton `Lancer le c
 
 ![Cycle en cours](cycle_run2.png)
 
+Il est possible de mettre en pause un cycle en cours en utilisant le bouton `Pause`. Ce bouton mets en pause le cycle et désactive les conditions de sécurité. vous pouvez ainsi ouvrir le couvercle pour voir l'avancement de votre nettoyage.
+
 ### Fin du cycle
 
 Au terme d'un cycle, une nouvelle page s'affiche spécifiant que le cycle est terminé. La mention "Cycle terminé avec succès" indique que le nettoyage s'est déroulé correctement.
@@ -21,5 +23,4 @@ Appuyer sur « Terminer le cycle » pour revenir à la page d’accueil.
 
 ![Fin du cycle](cycle_end.png)
 
- >**Attention** : Si cette page affiche tout autre message que « Cycle terminé avec succès », alors le message qui apparait précise la raison d'arrêt du cycle (surchauffe, couvercle ouvert...). En dessous, vous pouvez visualiser les étapes effectuées ou non. 
-
+ > **Attention** : Si cette page affiche tout autre message que « Cycle terminé avec succès », alors le message qui apparait précise la raison d'arrêt du cycle (surchauffe, couvercle ouvert...). En dessous, vous pouvez visualiser les étapes effectuées ou non.

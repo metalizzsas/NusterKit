@@ -20,8 +20,6 @@ export class StartTimerProgramBlock extends ProgramBlock
         this.timerInterval = ParameterBlockRegistry.Numeric(obj.start_timer.timer_interval);
 
         this.blocks = obj.start_timer.blocks.map(k => ProgramBlockRegistry(k));
-
-        TurbineEventLoop.on(`pbr.stop`, () => this.earlyExit = true);
     }
 
     public async execute(): Promise<void> {
@@ -40,8 +38,11 @@ export class StartTimerProgramBlock extends ProgramBlock
             }
             
             const timer = setInterval(async () => {
-                for (const b of this.blocks) {
-                    await b.execute();
+                if(!this.paused)
+                {
+                    for (const b of this.blocks) {
+                        await b.execute();
+                    }
                 }
             }, timerInterval * 1000);
     

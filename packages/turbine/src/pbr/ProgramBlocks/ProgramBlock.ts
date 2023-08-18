@@ -1,5 +1,6 @@
 import type { ProgramBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ProgramBlockHydrated";
 import type { AllProgramBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
+import { TurbineEventLoop } from "../../events";
 
 export class ProgramBlock implements ProgramBlockHydrated
 {
@@ -8,10 +9,17 @@ export class ProgramBlock implements ProgramBlockHydrated
     estimatedRunTime = 0;
     executed = false;
     earlyExit = false;
+    paused = false;
     
     constructor(obj: AllProgramBlocks)
     {
         this.name = Object.keys(obj)[0]; // Crappy way to get the function name
+
+        TurbineEventLoop.on(`pbr.stop`, () => this.earlyExit = true);
+        TurbineEventLoop.on(`pbr.status.update`, (state) => { if (state === "ended" || state === "ending") { this.earlyExit = true }});
+
+        TurbineEventLoop.on('pbr.pause', () => this.paused = true);
+        TurbineEventLoop.on('pbr.resume', () => this.paused = false);
     }
     
     /** Execute function */

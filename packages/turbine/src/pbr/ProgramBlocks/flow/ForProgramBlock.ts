@@ -24,8 +24,6 @@ export class ForProgramBlock extends ProgramBlock {
         for(let i = 0; i < this.limit.data; i++)
             for(const block of this.blocks)
                 this.estimatedRunTime += block.estimatedRunTime;
-
-        TurbineEventLoop.on(`pbr.stop`, () => this.earlyExit = true);
     }
 
     /**

@@ -44,7 +44,8 @@
         {#if $realtime.cycle}
             <div 
                 class="h-2.5 aspect-square rounded-full"
-                class:bg-blue-500={$realtime.cycle?.status.mode !== "started"}
+                class:bg-blue-500={$realtime.cycle?.status.mode !== "started" && $realtime.cycle?.status.mode !== "paused"}
+                class:bg-amber-500={$realtime.cycle?.status.mode === "paused"}
                 class:bg-green-500={$realtime.cycle?.status.mode === "started"}
                 class:animate-pulse={$realtime.cycle?.status.mode === "started"}
             />

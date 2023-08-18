@@ -50,7 +50,7 @@
 </script>
 
 <div class="p-4 rounded-md border-[1px] border-zinc-400">
-    <Flex items="center" justify="between" class={(step.state === "started" || (step.endReason === "skipped" && step.progress > 0) || step.state === "crashed") ? "mb-2" : ""}>
+    <Flex items="center" justify="between" class={(step.state === "started" || (step.endReason === "skipped" && step.progress > 0) || (step.state === "crashed" && step.endReason != "ending")) ? "mb-2" : ""}>
         <Flex 
             gap={1} 
             items={step.state === "started" ? "start" : "center"} 
@@ -70,7 +70,7 @@
                 <Label>{step.runCount} / {step.runAmount.data}</Label>
             {/if}
 
-            {#if step.state === "crashed"}
+            {#if step.state === "crashed" && step.endReason !== "ending"}
                 <Label>
                     {$_(`cycle.end_reasons.${step.endReason ?? 'error'}`)}
                 </Label>
@@ -82,7 +82,7 @@
 
     </Flex>
 
-    {#if step.state === "started" || (step.endReason === "skipped" && step.progress > 0) || step.state === "crashed"}
+    {#if step.state === "started" || (step.endReason === "skipped" && step.progress > 0) || (step.state === "crashed" && step.endReason !== "ending")}
         <ProgressBar dots={$machine.settings.hideMultilayerIndications ? undefined : step.runAmount?.data} bind:progress={step.progress} showNumbers />
     {/if}
 </div>

@@ -226,7 +226,8 @@
     "eta": {
       "null": "Inconnu",
       "remaining": "Temps restant:",
-      "estimated": "Temps estimé:"
+      "estimated": "Temps estimé:",
+      "paused": "Temps de pause:"
     },
     "end": {
       "lead": "Le cycle est terminé.",
@@ -243,6 +244,8 @@
     },
     "buttons": {
       "start": "Démarrer le cycle",
+      "pause": "Pause",
+      "resume": "Reprendre le cycle",
       "nextStep": "Sauter l'étape",
       "stop": "Arrêter le cycle",
       "complete": "Terminer le cycle"

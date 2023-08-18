@@ -6,7 +6,7 @@
 	import CycleStep from "./CycleStep.svelte";
 
     import { parseDurationToString } from "$lib/utils/dateparser";
-    import { ArrowRight, Check, CheckCircle, Clock, ExclamationCircle, InformationCircle, Square3Stack3d, XMark } from "@steeze-ui/heroicons";
+    import { ArrowRight, Check, CheckCircle, Clock, ExclamationCircle, Forward, InformationCircle, Pause, Play, Square3Stack3d, Stop, XMark } from "@steeze-ui/heroicons";
     import { Icon } from "@steeze-ui/svelte-icon";
 	import { _ } from "svelte-i18n";
 	import { translateProfileName } from "$lib/utils/i18n/i18nprofile";
@@ -34,6 +34,13 @@
 
     const nextStepCycle = async () => {
         await fetch(`/api/v1/cycle`, { method: "PUT"});
+    }
+
+    const pauseCycle = async () => {
+        if($machine.model !== "uscleaner")
+            return;
+
+        await fetch(`/api/v1/cycle/pause`, { method: "PUT" });
     }
 
     const patchCycle = () => {
@@ -122,12 +129,16 @@
         {/each}
     </Flex>
 
-{:else if cycleData !== undefined && cycleData.status.mode === "started"}
+{:else if cycleData !== undefined && (cycleData.status.mode === "started" || cycleData.status.mode === "paused")}
     <Flex>
         <Flex direction="col" gap={1}>
             <p class="text-sm text-zinc-600 dark:text-zinc-300">{$_(`cycle.names.${cycleData.name}`)}</p>
             {#if cycleData.profile}
                 <h1 class="leading-6 mb-2">{translateProfileName($_, cycleData.profile)}</h1>
+            {/if}
+
+            {#if cycleData.status.mode === "paused"}
+                <h2 class="leading-4 mb-2 text-amber-500 animate-pulse"><Icon src={ExclamationCircle} class="inline h-5 w-5 mr-2 mb-0.5" />Cycle en pause</h2>
             {/if}
 
             {#if cycleData.status.estimatedRunTime}
@@ -142,9 +153,18 @@
                 <p>
                     <Icon src={Clock} class="h-4 w-4 mb-0.5 inline-block text-indigo-500" />
                     <span class="text-sm font-semibold">{$_('cycle.eta.remaining')}</span>
-                    <span>{parseDurationToString(cycleData.status.estimatedRunTime - (Date.now() - cycleData.status.startDate) / 1000)}</span>
+                    <span>{parseDurationToString((cycleData.status.estimatedRunTime + (cycleData.status.overallPausedTime ?? 0)) - (Date.now() - cycleData.status.startDate) / 1000)}</span>
                 </p>
             {/if}
+
+            {#if cycleData.status.overallPausedTime !== undefined && cycleData.status.overallPausedTime > 0}
+                <p>
+                    <Icon src={Clock} class="h-4 w-4 mb-0.5 inline-block text-yellow-500" />
+                    <span class="text-sm font-semibold">{$_('cycle.eta.paused')}</span>
+                    <span>{parseDurationToString(cycleData.status.overallPausedTime)}</span>
+                </p>
+            {/if}
+
         </Flex>
 
         <Flex gap={4} class="ml-auto self-start">
@@ -154,8 +174,22 @@
                     color="hover:bg-amber-500"
                     ringColor={"ring-amber-500"}
                     on:click={nextStepCycle}
+                    disabled={cycleData.status.mode === "paused"}
                 >
+                    <Icon src={Forward} class="h-5 w-5 mb-0.5 mr-1 inline" />
                     {$_('cycle.buttons.nextStep')}
+                </Button>
+            {/if}
+
+            {#if cycleData.status.pausable && $machine.model === "uscleaner"}
+                <Button 
+                    class="group self-start" 
+                    color="hover:bg-yellow-500"
+                    ringColor={"ring-yellow-500"}
+                    on:click={pauseCycle}
+                >
+                    <Icon src={cycleData.status.mode === "paused" ? Play : Pause} class="h-5 w-5 mr-1 mb-0.5 inline" />
+                    {$_(`cycle.buttons.${cycleData.status.mode === "paused" ? "resume" : "pause"}`)}
                 </Button>
             {/if}
     
@@ -164,7 +198,9 @@
                 color="hover:bg-red-500"
                 ringColor={"ring-red-500"}
                 on:click={stopCycle}
+                disabled={cycleData.status.mode === "paused"}
             >
+                <Icon src={Stop} class="h-5 w-5 mr-1 mb-0.5 inline" />
                 {$_('cycle.buttons.stop')}
             </Button>
         </Flex>
@@ -198,12 +234,13 @@
 
 {:else if cycleData !== undefined && ["ending", "ended"].includes(cycleData.status.mode)}
 
-    {@const isSuccess = cycleData.status.endReason === "finished" && !cycleData.steps.some(s => s.state === "crashed")}
+    {@const isSuccess = cycleData.status.endReason === "finished"}
+    {@const hasOneStepErrored = cycleData.status.endReason === "finished" && cycleData.steps.some(s => s.state === "crashed" && s.endReason != "ending")}
 
     <Flex justify="between">
         <div>
             <p class="text-sm text-zinc-600 dark:text-zinc-300">{$_('cycle.end.lead')}</p>
-            <h1 class="leading-6">{$_(`cycle.end_reasons.${(isSuccess) ? $realtime.cycle?.status.endReason ?? 'error' : 'error'}`)}</h1>
+            <h1 class="leading-6">{$_(`cycle.end_reasons.${(!hasOneStepErrored) ? ($realtime.cycle?.status.endReason ?? 'error') : 'error'}`)}</h1>
         
             {#if cycleData.status.endDate && cycleData.status.startDate}
                 <p class="leading-10">
@@ -212,9 +249,18 @@
                     <span>{parseDurationToString((cycleData.status.endDate - cycleData.status.startDate) / 1000)}</span>
                 </p>
             {/if}
+
+            {#if cycleData.status.overallPausedTime !== undefined && cycleData.status.overallPausedTime > 0}
+                <p>
+                    <Icon src={Clock} class="h-4 w-4 mb-0.5 inline-block text-yellow-500" />
+                    <span class="text-sm font-semibold">{$_('cycle.eta.paused')}</span>
+                    <span>{parseDurationToString(cycleData.status.overallPausedTime)}</span>
+                </p>
+            {/if}
+
         </div>
 
-        <Icon src={isSuccess ? Check : XMark} class="h-10 w-10 self-start {isSuccess ? "text-emerald-500" : "text-red-500"}" />
+        <Icon src={isSuccess && !hasOneStepErrored ? Check : XMark} class="h-10 w-10 self-start {isSuccess && !hasOneStepErrored ? "text-emerald-500" : "text-red-500"}" />
     </Flex>
 
     <Button on:click={patchCycle} class="mt-4 mb-6">{$_('cycle.buttons.complete')}</Button>

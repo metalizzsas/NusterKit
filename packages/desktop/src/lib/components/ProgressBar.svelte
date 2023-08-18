@@ -38,7 +38,7 @@
 <div class="bg-zinc-600/50 h-1.5 rounded-full grow relative" class:mt-4={showNumbers}>
 
     {#if showNumbers}
-        <span class="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-indigo-500 rounded-full py-0.5 px-3 text-xs">{Math.floor(progress * 100)} %</span>
+        <span class="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-indigo-500 rounded-full py-0.5 px-3 text-xs text-white font-medium">{Math.floor(progress * 100)} %</span>
     {/if}
 
     {#if dots}

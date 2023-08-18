@@ -44,8 +44,9 @@ export class MappedGate extends IOGate implements MappedGate
         //resolve value to be written of the fieldbus
         let v = Math.floor(map(data, this.mapOutMin, this.mapOutMax, this.mapInMin, this.mapInMax));
         v = (v < 0) ? 0 : v;
-
+        
         TurbineEventLoop.emit(`io.updated.${this.name}`, this.toJSON());
+        TurbineEventLoop.emit("log", "info", "IOMG-" + this.name + ": Writing (" + data + ") to fieldbus.");
 
         return super.writetoController(v, true);
     }

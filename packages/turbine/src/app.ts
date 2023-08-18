@@ -42,7 +42,7 @@ export const LoggerInstance = pino({
     level: "trace",
     transport: {
         targets: [
-            { target: 'pino-pretty', level: productionEnabled ? "info" : "trace", options: { destination: 1}},
+            { target: 'pino-pretty', level: productionEnabled ? "info" : "trace", options: { destination: 1, colorize: true }},
             { target: 'pino/file', level: "trace", options: { destination: logFilePath }}
         ]
     }

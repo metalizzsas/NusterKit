@@ -10,7 +10,7 @@
 <div
 	style="display:flex; flex-direction: row; gap: 1em; padding:0.5em; border-radius: 0.5em; background: white; align-items: center;"
 >
-	<div style="width: 17%;">{gateHistory[0].name}</div>
+	<div style="width: 17%;">{gateHistory[0].name} {gateHistory.at(-1)?.value}</div>
 
 	<div
 		style="display:flex; flex-direction: column; font-size: 0.75em; justify-content:space-between; padding-top: 0.5em; padding-bottom: 0.5em;"

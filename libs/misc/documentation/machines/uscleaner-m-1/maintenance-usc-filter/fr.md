@@ -1,6 +1,6 @@
 ### Changement de la cartouche filtrante
 
-> **Attention :** Il est recommandé de changer la cartouche filtrante tous les 3 mois, même si elle n'est pas colmatée.
+> **Attention**: La cartouche filtrante est a changer tout les 3 mois ou lorsque la pression en sortie de filtre est trop faible.
 
 Les effluents de l'Uscleaner sont des produits à manipuler avec précaution, veillez à porter les EPI adéquats, en particulier : ***gants en latex, lunettes de protection et à éviter tout contact avec la peau***.
 
@@ -14,8 +14,7 @@ Dans un premier temps, positionnez les roulettes de la partie arrière de la mac
 
 ![Vannes](Image3.jpg)
 
-
-Ouvrez l'évent de la pompe pour vidanger le corps de filtre jusqu'à ce que plus rien ne s'écoule. 
+Ouvrez l'évent de la pompe pour vidanger le corps de filtre jusqu'à ce que plus rien ne s'écoule.
 
 ![Ouverture évent pompe](Image4.jpg)
 
@@ -47,9 +46,7 @@ Remontez l'écrou du corps de filtre et revissez l'évent sans le serrer jusqu'a
 
 Fermez la vanne de vidange et ouvrez les deux vannes principales.
 
-
 ![Fermeture vanne de vidange, ouverture vannes principales](Image11.jpg)
-
 
 \newpage
 

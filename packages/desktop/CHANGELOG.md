@@ -1,5 +1,15 @@
 # @metalizzsas/nuster-desktop
 
+## 1.12.6
+
+### Patch Changes
+
+- [#467](https://github.com/metalizzsas/NusterKit/pull/467) [`65b791df`](https://github.com/metalizzsas/NusterKit/commit/65b791dfff39724ce29335f7331f3a29d3ca8352) Thanks [@Kworz](https://github.com/Kworz)! - fix: select is now clickable from the whole box
+
+- [#467](https://github.com/metalizzsas/NusterKit/pull/467) [`a83bf8d8`](https://github.com/metalizzsas/NusterKit/commit/a83bf8d8d4e2a874f244fc6ad95f0e550990643e) Thanks [@Kworz](https://github.com/Kworz)! - feat: cycles can now be paused
+
+- [#467](https://github.com/metalizzsas/NusterKit/pull/467) [`2901aa3f`](https://github.com/metalizzsas/NusterKit/commit/2901aa3ff3961da7473c949f3d560e17f4f33673) Thanks [@Kworz](https://github.com/Kworz)! - fix: button no longer have a dropdown shadow
+
 ## 1.12.5
 
 ### Patch Changes

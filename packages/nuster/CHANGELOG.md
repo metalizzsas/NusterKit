@@ -1,5 +1,15 @@
 # @metalizzsas/nuster
 
+## 1.11.10
+
+### Patch Changes
+
+- Updated dependencies [[`44d53637`](https://github.com/metalizzsas/NusterKit/commit/44d53637d13ff122d199ea396e06e0db6faccc27), [`65b791df`](https://github.com/metalizzsas/NusterKit/commit/65b791dfff39724ce29335f7331f3a29d3ca8352), [`47f9d70c`](https://github.com/metalizzsas/NusterKit/commit/47f9d70cf8acf04b8aab73ebccc5439151e70e84), [`a83bf8d8`](https://github.com/metalizzsas/NusterKit/commit/a83bf8d8d4e2a874f244fc6ad95f0e550990643e), [`2901aa3f`](https://github.com/metalizzsas/NusterKit/commit/2901aa3ff3961da7473c949f3d560e17f4f33673)]:
+  - @metalizzsas/nuster-misc@1.5.3
+  - @metalizzsas/nuster-desktop@1.12.6
+  - @metalizzsas/nuster-turbine@1.10.34
+  - @metalizzsas/nuster-typings@1.5.7
+
 ## 1.11.9
 
 ### Patch Changes

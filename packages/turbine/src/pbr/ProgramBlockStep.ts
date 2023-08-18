@@ -42,6 +42,9 @@ export class ProgramBlockStep
     duration: number;
 
     stepRuncontroller: AbortController = new AbortController();
+
+    totalPauseTime = 0;
+    currentPauseStartDate?: number;
     
     constructor(pbrInstance: ProgramBlockRunner, obj: PBRStep)
     {
@@ -78,6 +81,21 @@ export class ProgramBlockStep
                 this.state = "ending";
 
                 this.stepRuncontroller.abort();
+            }
+        });
+
+        TurbineEventLoop.on('pbr.pause', () => {
+            if(this.state === "started")
+            {
+                this.currentPauseStartDate = Date.now();
+            }
+        });
+
+        TurbineEventLoop.on('pbr.resume', () => {
+            if(this.state === "started")
+            {
+                this.totalPauseTime += (Date.now() - (this.currentPauseStartDate ?? 0)) / 1000;
+                this.currentPauseStartDate = undefined;
             }
         });
     }
@@ -119,11 +137,12 @@ export class ProgramBlockStep
                 }
                 else
                     LoggerInstance.warn(`PBS-${this.name}: Step overtime has been canceled because step was not running.`);
-            }, this.duration * 2000);
+            }, this.duration * 2000 + this.overallPausedTime * 1000);
 
         this.startTime = Date.now();
 
         LoggerInstance.info(`PBS-${this.name}: Executing io starter blocks.`);
+
         for(const io of this.startBlocks)
         {
             await io.execute();
@@ -233,12 +252,20 @@ export class ProgramBlockStep
     {
         let progress = 0;
 
+        let realDuration = this.duration;
+
+        // Divide the duration by the runAmount if the step is multiple, in order to make progressbars splitable
+        if(this.type === "multiple" && (this.runAmount?.data ?? 1 > 1))
+        {
+            realDuration = realDuration / (this.runAmount?.data ?? 1);
+        }
+
         if(this.state === "started")
         {
-            if(this.duration != Infinity)
+            if(realDuration != Infinity)
             {
-                progress = ((Date.now() - (this.startTime ?? 1)) / 1000) / (this.type === "single" ? this.duration : this.duration / (this.runAmount?.data ?? 1))
-                progress = progress >=1 ? 1 : progress;
+                progress = (((Date.now() - (this.startTime ?? 1)) / 1000) - this.overallPausedTime) / realDuration;
+                progress = progress >= 1 ? 1 : progress;
             }
             else
                 progress = -1;
@@ -246,14 +273,14 @@ export class ProgramBlockStep
         else if(["ended", "partial", "crashed"].includes(this.state))
         {
             if(this.endReason === "skipped" || this.endReason?.includes("security"))
-                progress = (((this.endTime ?? 1) - (this.startTime ?? 1)) / 1000) / this.duration;
+                progress = (((this.endTime ?? 1) - (this.startTime ?? 1)) / 1000) / realDuration;
             else
                 progress = 1;
         }
         
         if((this.type == "multiple") && this.runAmount !== undefined)
             return (this.runCount / this.runAmount.data) + (progress / this.runAmount.data)
-        
+
         return progress;
     }
 
@@ -261,6 +288,12 @@ export class ProgramBlockStep
     {
         this.startTime = undefined;
         this.endTime = undefined;
+    }
+
+    get overallPausedTime(): number
+    {
+        const currentPauseTime = (this.currentPauseStartDate !== undefined) ? (Date.now() - this.currentPauseStartDate) : 0;
+        return this.totalPauseTime + (currentPauseTime / 1000);
     }
 
     toJSON()
@@ -273,7 +306,7 @@ export class ProgramBlockStep
             endReason: this.endReason,
     
             isEnabled: this.isEnabled,
-            duration: this.duration,
+            duration: this.duration + this.overallPausedTime,
 
             progress: this.progress,
         

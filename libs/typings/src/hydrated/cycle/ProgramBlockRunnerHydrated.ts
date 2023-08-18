@@ -27,7 +27,7 @@ export type ProgramBlockRunnerHydrated = Modify<ProgramBlockRunner, {
     end(reason: string): void
 }>;
 
-export type PBRMode = "creating" | "created" | "started" | "ending" | "ended";
+export type PBRMode = "creating" | "created" | "started" | "paused" | "ending" | "ended";
 
 export interface PBRVariable
 {
@@ -41,15 +41,17 @@ export interface PBRTimer
     enabled: boolean;
 }
 
-export interface PBRStatus
-{
-    mode: PBRMode,
-
-    estimatedRunTime?: number,
+export type PBRStatus = {
     
-    startDate?: number,
-    endDate?: number,
-    endReason?: string,
+    mode: PBRMode;
 
-    progress?: number
+    estimatedRunTime?: number;
+    overallPausedTime?: number;
+    pausable: boolean;
+    
+    startDate?: number;
+    endDate?: number;
+    endReason?: string;
+
+    progress?: number;
 }

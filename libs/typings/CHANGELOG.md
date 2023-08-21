@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-typings
 
+## 1.5.8
+
+### Patch Changes
+
+- [#471](https://github.com/metalizzsas/NusterKit/pull/471) [`4614a04d`](https://github.com/metalizzsas/NusterKit/commit/4614a04d1fc1d4751b6fb4029f60aaceaa99140a) Thanks [@Kworz](https://github.com/Kworz)! - feat: regulation max security target is now set in the machine configuration
+
 ## 1.5.7
 
 ### Patch Changes

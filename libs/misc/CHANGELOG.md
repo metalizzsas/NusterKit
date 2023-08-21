@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-misc
 
+## 1.5.4
+
+### Patch Changes
+
+- [#471](https://github.com/metalizzsas/NusterKit/pull/471) [`4614a04d`](https://github.com/metalizzsas/NusterKit/commit/4614a04d1fc1d4751b6fb4029f60aaceaa99140a) Thanks [@Kworz](https://github.com/Kworz)! - feat: regulation max security target is now set in the machine configuration
+
 ## 1.5.3
 
 ### Patch Changes

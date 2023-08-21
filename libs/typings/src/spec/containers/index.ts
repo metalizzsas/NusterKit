@@ -38,8 +38,11 @@ interface ContainerRegulation {
     /** Base target */
     target: number;
 
-    /** Max target, this is a security condition that will disable regulation if exceeded */
+    /** Max target is the maximum setable value for this regulation */
     maxTarget: number;
+
+    /** Security max is the maximum admissible value from the sensor read, will disable regulation if went over */
+    securityMax: number;
 
     /** Regulation Security thats stops it */
     security: ({name: string, value: number} | { name: string, valueDiff: number })[];

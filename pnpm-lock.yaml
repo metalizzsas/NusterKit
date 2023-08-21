@@ -278,7 +278,7 @@ importers:
         specifier: 1.5.4
         version: link:../../libs/misc
       '@metalizzsas/nuster-turbine':
-        specifier: 1.10.35
+        specifier: 1.10.36
         version: link:../turbine
       '@metalizzsas/nuster-turbine-machines':
         specifier: 1.6.17

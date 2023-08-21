@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine
 
+## 1.10.36
+
+### Patch Changes
+
+- [#475](https://github.com/metalizzsas/NusterKit/pull/475) [`3c9358fc`](https://github.com/metalizzsas/NusterKit/commit/3c9358fc678a373b974a604f6efcd90eee0a379d) Thanks [@Kworz](https://github.com/Kworz)! - feat: shutding down, rebooting and installing updated now disables container regulations
+
 ## 1.10.35
 
 ### Patch Changes

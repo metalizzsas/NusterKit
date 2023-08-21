@@ -101,9 +101,9 @@
           "title": "Security error",
           "message": "{gate}, disabled {container} → {regulation} regulation."
         },
-        "over_max_target": {
+        "over_security_max": {
           "title": "Security error",
-          "message": "{container} → {regulation} regulation went over {maxTarget}, it has been disabled."
+          "message": "{container} → {regulation} regulation went over {securityMax}, it has been disabled."
         }
       }
     }

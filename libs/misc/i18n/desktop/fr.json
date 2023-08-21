@@ -101,9 +101,9 @@
           "title": "Érreur de sécurité",
           "message": "{gate} a désactivé la régulation de {container} → {regulation}."
         },
-        "over_max_target": {
+        "over_security_max": {
           "title": "Érreur de sécurité",
-          "message": "La régulation {container} → {regulation} est allé au dela de {maxTarget}, elle a donc été désactivée"
+          "message": "La régulation {container} → {regulation} est allé au dela de {securityMax}, elle a donc été désactivée."
         }
       }
     }

@@ -292,7 +292,8 @@
                         "name": "temperature",
                         "target": 20,
                         "maxTarget": 50,
-                        "security": [{"name": "emergency-stop", "value": 1}, {"name": "temperature#over-heat", "value": 1}, {"name": "pump#pressure", "valueDiff": 0}],
+                        "securityMax": 55,
+                        "security": [{"name": "emergency-stop", "value": 1}, {"name": "temperature#over-heat", "value": 1}],
                         "sensor": "temperature#sensor",
                         "active": ["pump#enable"],
                         "plus": ["temperature#heater"],
@@ -318,6 +319,11 @@
                     "mode": "set",
                     "path": "containers.0.regulations.0.maxTarget",
                     "content": 60
+                },
+                {
+                    "mode": "set",
+                    "path": "containers.0.regulations.0.securityMax",
+                    "content": 65
                 }
             ]
         }

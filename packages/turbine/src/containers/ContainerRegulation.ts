@@ -61,7 +61,12 @@ export class ContainerRegulation implements ContainerRegulationConfig
 
         });
         TurbineEventLoop.on(`container.${parent.name}.regulation.${this.name}.set_target`, (options) => { 
-            this.target = options.target; 
+
+            if(options.target > this.maxTarget)
+                this.target = this.maxTarget;
+            else
+                this.target = options.target;
+            
             options.callback?.(this.target);
         });
 

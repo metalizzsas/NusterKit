@@ -136,7 +136,7 @@ function SetupExpress()
         {
             if(!productionEnabled)
             {
-                fs.mkdirSync(path.resolve("data"), {recursive: true});
+                fs.mkdirSync(path.resolve("data"), { recursive: true });
                 fs.writeFileSync(path.resolve("data", "info.json"), JSON.stringify(req.body, null, 4));
             }
             else
@@ -153,6 +153,18 @@ function SetupExpress()
 
     //Tell the balena Hypervisor to force the pending update.
     ExpressApp.get("/forceUpdate", async (_req, res: Response) => {
+
+        /** On update, reset all io gates */
+        try
+        {
+            await SoftExit();
+        }
+        catch(ex)
+        {
+            TurbineEventLoop.emit('log', 'error', (ex as Error).message);
+            return;
+        }
+
         const req = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v1/update?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" }, body: JSON.stringify({force: true}), method: 'POST'});
 
         if(req.status == 204)
@@ -160,8 +172,6 @@ function SetupExpress()
         else
             res.status(req.status).end();
 
-        /** On update, reset all io gates */
-        TurbineEventLoop.emit('io.resetAll');
     }); 
 
     ExpressApp.get("/reboot", async (_req, res: Response) => {
@@ -173,7 +183,16 @@ function SetupExpress()
             if(req.status == 202)
             {
                 /** On reboot, reset all io gates */
-                TurbineEventLoop.emit('io.resetAll');
+                try
+                {
+                    await SoftExit();
+                }
+                catch(ex)
+                {
+                    TurbineEventLoop.emit('log', 'error', (ex as Error).message);
+                    return;
+                }
+
                 TurbineEventLoop.emit(`nuster.modal`, {
                     title: "settings.power.modal.reboot.title",
                     message: "settings.power.modal.reboot.message",
@@ -201,7 +220,17 @@ function SetupExpress()
             if(req.status == 202)
             {
                 /** On shutdown, reset all io gates */
-                TurbineEventLoop.emit('io.resetAll');
+
+                try
+                {
+                    await SoftExit();
+                }
+                catch(ex)
+                {
+                    TurbineEventLoop.emit('log', 'error', (ex as Error).message);
+                    return;
+                }
+
                 TurbineEventLoop.emit(`nuster.modal`, {
                     title: "settings.power.modal.shutdown.title",
                     message: "settings.power.modal.shutdown.message",
@@ -245,6 +274,29 @@ function SetupExpress()
             res.status(500).end();
         }
     })
+}
+
+/**
+ * Gently exit the nuster turbine program
+ * @throws
+ */
+async function SoftExit()
+{
+
+    if(machine?.cycleRouter.program !== undefined)
+        throw Error("Cannot exit NusterTurbine while a program is running.");
+
+    for(const container of machine?.containerRouter.containers.filter(c => (c.regulations?.length  ?? 0 )> 0) ?? [])
+    {
+        for(const regulation of container.regulations ?? [])
+        {
+            await new Promise<void>((resolve) => {
+                TurbineEventLoop.emit(`container.${container.name}.regulation.${regulation.name}.set_state`, { state: false, callback: () => resolve()})
+            });
+        }
+    }
+
+    TurbineEventLoop.emit('io.resetAll');
 }
 
 /** Setup Websocket server */

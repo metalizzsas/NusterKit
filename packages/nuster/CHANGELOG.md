@@ -1,5 +1,16 @@
 # @metalizzsas/nuster
 
+## 1.11.11
+
+### Patch Changes
+
+- Updated dependencies [[`4614a04d`](https://github.com/metalizzsas/NusterKit/commit/4614a04d1fc1d4751b6fb4029f60aaceaa99140a)]:
+  - @metalizzsas/nuster-turbine-machines@1.6.17
+  - @metalizzsas/nuster-desktop@1.12.7
+  - @metalizzsas/nuster-turbine@1.10.35
+  - @metalizzsas/nuster-typings@1.5.8
+  - @metalizzsas/nuster-misc@1.5.4
+
 ## 1.11.10
 
 ### Patch Changes

@@ -15,7 +15,10 @@
         await fetch(`/api/v1/containers/${container.name}/regulation/${sensor.replace("#", "_")}/state/${state === true ? "true" : "false"}`, { method: 'post' });
     }
 
-    const setRegulation = async (sensor: string, target: number) => {
+    const setRegulation = async (sensor: string, target: number, maxTarget: number) => {
+
+        if(target > maxTarget) target = maxTarget;
+
         await fetch(`/api/v1/containers/${container.name}/regulation/${sensor.replace("#", "_")}/target/${target}`, { method: 'post' });
     }
 
@@ -47,8 +50,8 @@
         <Flex items="center">
             <span>{$_('container.regulation.target')}</span>
             <div class="h-[1px] grow bg-zinc-500/50" />
-            <NumField bind:value={regulation.target} on:change={(e) => {
-                void setRegulation(regulation.name, e.detail.value)
+            <NumField bind:value={regulation.target} max={regulation.maxTarget} on:change={(e) => {
+                void setRegulation(regulation.name, e.detail.value, regulation.maxTarget)
             }}/>
         </Flex>
     </Flex>

@@ -19,6 +19,7 @@ import type { MachineData } from "@metalizzsas/nuster-typings/build/hydrated/mac
 import { TurbineEventLoop } from "./events";
 
 import { Machines } from "@metalizzsas/nuster-turbine-machines";
+import { WiFiRouter } from "./routers";
 
 export class Machine
 {
@@ -30,6 +31,7 @@ export class Machine
     profileRouter: ProfilesRouter;
     containerRouter: ContainersRouter;
     cycleRouter: CycleRouter;
+    wifiRouter: WiFiRouter;
 
     WebSocketServer?: WebSocket.Server = undefined;
 
@@ -88,6 +90,7 @@ export class Machine
         this.maintenanceRouter = new MaintenanceRouter(this.specs.maintenance);
         this.containerRouter = new ContainersRouter(this.specs.containers);
         this.cycleRouter = new CycleRouter(this.specs.cycleTypes, this.specs.cyclePremades);
+        this.wifiRouter = new WiFiRouter();
 
         LoggerInstance.info("Machine: Finished Instantiating controllers");
 
@@ -136,7 +139,8 @@ export class Machine
             cycle: this.cycleRouter.socketData,
             containers: containers,
             io: this.ioRouter.socketData,
-            maintenance: maintenances
+            maintenance: maintenances,
+            wifiData: this.wifiRouter.socketData
         } satisfies Status;
     }
 

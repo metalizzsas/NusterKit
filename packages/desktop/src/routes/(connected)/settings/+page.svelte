@@ -16,6 +16,7 @@
 	import Label from "$lib/components/label.svelte";
 	import ProgressBar from "$lib/components/ProgressBar.svelte";
 	import Grid from "$lib/components/layout/grid.svelte";
+	import { realtime } from "$lib/utils/stores/nuster";
 
     export let data: PageData;
 
@@ -90,7 +91,7 @@
                     {$_('settings.software.update_installing')}
                     <ProgressBar progress={-1} />
                 {:else}
-                    <Button color={"hover:bg-indigo-500"} ringColor={"ring-indigo-500"} on:click={update}>{$_('settings.software.update_install')}</Button>
+                    <Button color={"hover:bg-indigo-500"} ringColor={"ring-indigo-500"} on:click={update} disabled={$realtime.cycle !== undefined}>{$_('settings.software.update_install')}</Button>
                 {/if}
             </SettingField>
         {/if}
@@ -120,11 +121,11 @@
         <h2 class="mt-8">{$_('settings.power.lead')}</h2>
 
         <Grid cols={2} gap={8}>
-            <Button color="hover:bg-amber-500" ringColor="ring-amber-500" on:click={reboot}>
+            <Button color="hover:bg-amber-500" ringColor="ring-amber-500" on:click={reboot} disabled={$realtime.cycle !== undefined}>
                 <Icon src={ArrowPath} class="h-4 w-4 inline mr-2 mb-1" />
                 {$_('settings.power.reboot')}
             </Button>
-            <Button color="hover:bg-red-500" ringColor="ring-red-500" on:click={shutdown}>
+            <Button color="hover:bg-red-500" ringColor="ring-red-500" on:click={shutdown} disabled={$realtime.cycle !== undefined}>
                 <Icon src={Power} class="h-4 w-4 inline mr-2 mb-1" />
                 {$_('settings.power.shutdown')}
             </Button>
@@ -147,6 +148,7 @@
                 <Button 
                     color={password === "NusterMetalizz" ?  "hover:bg-amber-500" : "hover:bg-zinc-500"} 
                     ringColor={password === "NusterMetalizz" ? "ring-amber-500" : "ring-zinc-500"}
+                    disabled={$realtime.cycle !== undefined}
                 >
                     {$_('settings.advanced.edit')}
                 </Button>

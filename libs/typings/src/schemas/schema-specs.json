@@ -418,7 +418,7 @@
                     "type": "array"
                 },
                 "maxTarget": {
-                    "description": "Max target, this is a security condition that will disable regulation if exceeded",
+                    "description": "Max target is the maximum setable value for this regulation",
                     "type": "number"
                 },
                 "minus": {
@@ -479,6 +479,10 @@
                     },
                     "type": "array"
                 },
+                "securityMax": {
+                    "description": "Security max is the maximum admissible value from the sensor read, will disable regulation if went over",
+                    "type": "number"
+                },
                 "sensor": {
                     "description": "Sensor used by this regulation",
                     "type": "string"
@@ -495,6 +499,7 @@
                 "name",
                 "plus",
                 "security",
+                "securityMax",
                 "sensor",
                 "target"
             ],

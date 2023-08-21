@@ -13,6 +13,7 @@ export class ContainerRegulation implements ContainerRegulationConfig
     state = false;
     target: number;
     maxTarget: number;
+    securityMax: number;
 
     security: Array<{ name: string, value: number } | { name: string, valueDiff: number }>;
 
@@ -35,6 +36,7 @@ export class ContainerRegulation implements ContainerRegulationConfig
         this.current = regulation.target;
         this.target = regulation.target;
         this.maxTarget = regulation.maxTarget;
+        this.securityMax = regulation.securityMax;
 
         /// - Gates
 
@@ -59,7 +61,12 @@ export class ContainerRegulation implements ContainerRegulationConfig
 
         });
         TurbineEventLoop.on(`container.${parent.name}.regulation.${this.name}.set_target`, (options) => { 
-            this.target = options.target; 
+
+            if(options.target > this.maxTarget)
+                this.target = this.maxTarget;
+            else
+                this.target = options.target;
+            
             options.callback?.(this.target);
         });
 
@@ -133,19 +140,19 @@ export class ContainerRegulation implements ContainerRegulationConfig
 
         }
 
-        if(this.value > (this.maxTarget + 1))
+        if(this.value > this.securityMax)
         {
             // Advert the user that maxtarget has been reached
             if(this.state !== false)
             {
                 TurbineEventLoop.emit("nuster.modal", {
-                    title: "container.regulation.modal.over_max_target.title",
-                    message: "container.regulation.modal.over_max_target.message",
+                    title: "container.regulation.modal.over_security_max.title",
+                    message: "container.regulation.modal.over_security_max.message",
                     level: "warn",
                     payload: {
                         container: `containers.${this.#parentName}.name`,
                         regulation: `containers.${this.#parentName}.regulations.${this.name}`,
-                        maxTarget: `${this.maxTarget} ${this.#sensorGate?.unity}`
+                        securityMax: `${this.securityMax} ${this.#sensorGate?.unity}`
                     }
                 });
             }

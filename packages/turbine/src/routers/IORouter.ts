@@ -69,7 +69,7 @@ export class IORouter extends Router
 
         TurbineEventLoop.on('io.snapshot', (options) => {
 
-            const snapshot = this.gates.filter(g => g.bus === "out").reduce((acc, gate) => {
+            const snapshot = this.gates.filter(g => g.bus === "out" && g.locked === false).reduce((acc, gate) => {
                 acc[gate.name] = gate.value;
                 return acc;
             }, {} as Record<string, number>);

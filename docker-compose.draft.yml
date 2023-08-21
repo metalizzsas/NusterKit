@@ -27,8 +27,13 @@ services:
       - nuster-data:/data
     environment:
       MONGO_DB_URL: 'mongodb'
+      DBUS_SYSTEM_BUS_ADDRESS: "unix:path=/host/run/dbus/system_bus_socket"
     labels:
       io.balena.features.supervisor-api: '1'
+      io.balena.features.dbus: "1"
+      io.balena.features.firmware: "1"
+    cap_add:
+      - NET_ADMIN
 
   nuster-desktop:
     container_name: nuster-desktop

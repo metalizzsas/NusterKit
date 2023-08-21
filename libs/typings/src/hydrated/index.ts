@@ -6,6 +6,8 @@ import type { IOGatesHydrated } from "./io";
 import type { MaintenanceHydrated } from "./maintenance";
 import type { ProfileHydrated } from "./profiles";
 
+import type { AccessPointProperties } from "networkmanager-dbus";
+
 export type WebsocketData = StatusMessage | PopupMessage;
 
 type StatusMessage = {
@@ -29,7 +31,13 @@ export interface Status {
     io: IOGatesHydrated[],
 
     /** Maintenance tasks */
-    maintenance: MaintenanceHydrated[]
+    maintenance: MaintenanceHydrated[];
+
+    wifiData: {
+        connectedNetwork?: AccessPointProperties;
+        accessPoints?: Record<string, AccessPointProperties>;
+    
+    }
 }
 
 export { MaintenanceHydrated, ContainerHydrated, IOGatesHydrated, ProgramBlockRunnerHydrated, ProfileHydrated };

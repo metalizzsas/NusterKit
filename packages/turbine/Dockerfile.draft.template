@@ -23,7 +23,7 @@ COPY packages/turbine/entrypoint.sh ./entrypoint.sh
 COPY packages/turbine/build/ ./build
 
 # Install Prod npm packages
-RUN pnpm install
+RUN pnpm install --no-optional
 
 # Copy workspace libs
 COPY libs/typings/ ./node_modules/@metalizzsas/nuster-typings

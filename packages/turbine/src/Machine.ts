@@ -139,8 +139,7 @@ export class Machine
             cycle: this.cycleRouter.socketData,
             containers: containers,
             io: this.ioRouter.socketData,
-            maintenance: maintenances,
-            wifiData: this.wifiRouter.socketData
+            maintenance: maintenances
         } satisfies Status;
     }
 

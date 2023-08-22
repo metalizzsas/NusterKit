@@ -1,12 +1,9 @@
-import { type ConnectionSettingsManager, NetworkManager, type WifiDevice } from "networkmanager-dbus";
 import { Router } from "./Router";
-import { TurbineEventLoop } from "../events";
+
+import { listWifiNetworks, connectToWifi, type WirelessNetwork } from "../dbus/wifi";
 
 export class WiFiRouter extends Router
 {
-    wifiDevice: WifiDevice | undefined;
-    connecttionSettingsManager: ConnectionSettingsManager | undefined;
-
     constructor()
     {
         super();
@@ -15,55 +12,21 @@ export class WiFiRouter extends Router
 
     async configureRouter()
     {
-        try
-        {
-            const networkmanager = await NetworkManager.init();
-            this.wifiDevice = await networkmanager.wifiDevice();
-            this.connecttionSettingsManager = await networkmanager.connectionSettingsManager();
-        }
-        catch(ex)
-        {
-            TurbineEventLoop.emit("log", "error", "WifiRouter: Failed to instanciate NetworkManger dbus bridge. The wifi endpoints are disabled.");
-            return;
-        }
-
         this.router.get("/list", async (req, res) => {
-            await this.wifiDevice?.requestScan();
-            res.json(this.wifiDevice?.accessPoints);
+            res.json(await listWifiNetworks("wlan0"));
         });
 
         this.router.post("/connect", async (req, res) => {
 
-            if(this.connecttionSettingsManager && this.wifiDevice)
+            try
             {
-                const { ssid, password, hidden } = req.body;
-                const connectionPath = await this.connecttionSettingsManager.addWifiWpaConnection(ssid, hidden, password);
-                await this.wifiDevice.activateConnection(connectionPath);
-
-                if(this.connectedNetwork?.Ssid === ssid)
-                    res.status(200).end();
-                else
-                    res.status(500).end();
+                const result = await connectToWifi({ iface: "wlan0", ssid: req.body.ssid, password: req.body.password }  satisfies WirelessNetwork)
+                res.status(result ? 200 : 500).end();
             }
-            else
+            catch(e)
             {
-                res.status(500).end();
+                res.status(500).json(e);
             }
         });
-    }
-
-    /** Get current connected access point */
-    get connectedNetwork()
-    {
-        const properties = this.wifiDevice?.properties;
-        return this.wifiDevice?.accessPoints[properties.ActiveAccessPoint];
-    }
-
-    get socketData()
-    {
-        return {
-            connectedNetwork: this.connectedNetwork,
-            accessPoints: this.wifiDevice?.accessPoints
-        }
     }
 }

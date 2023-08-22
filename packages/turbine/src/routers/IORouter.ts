@@ -21,7 +21,7 @@ export class IORouter extends Router
     gates: IOGatesHydrated[] = [];
 
     /** IO Scanner interval timer */
-    private timer?: NodeJS.Timer;
+    private timer?: ReturnType<typeof setInterval>;
 
     private ioScannerInterval = 500;
 

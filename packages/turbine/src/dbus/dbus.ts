@@ -1,21 +1,20 @@
-import { systemBus, type Message, type Bus } from 'dbus-native';
+import { systemBus, type Message, type Bus, type BodyEntry } from 'dbus-native';
 
 export const dbus: Bus = systemBus();
 
-export const dbusInvoker = (message: Message): Promise<any> => {
+export function dbusInvoker<T extends BodyEntry>(message: Message): Promise<T>{
 
-    return new Promise<any>((resolve, reject) => {
+    return new Promise<T>((resolve, reject) => {
         return dbus.invoke(message, (error, response) => {
             if(error)
                 reject(error)
             else
-                resolve(response)
+                resolve(response as T)
         });
-
     });
-};
+}
 
-export const getProperty = async (service: string, objectPath: string, objectInterface: string, property: string): Promise<any> => {
+export async function getProperty<T extends BodyEntry>(service: string, objectPath: string, objectInterface: string, property: string): Promise<T>{
     
 	const message: Message = {
 		destination: service,
@@ -26,7 +25,5 @@ export const getProperty = async (service: string, objectPath: string, objectInt
 		body: [objectInterface, property] 
 	}
 
-	// eslint-disable-next-line no-empty-pattern
-	const [[], [value]] = await dbusInvoker(message);
-	return value;
-};
+	return await dbusInvoker(message);
+}

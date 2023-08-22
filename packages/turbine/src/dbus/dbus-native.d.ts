@@ -1,8 +1,8 @@
 declare module 'dbus-native' {
 
-	export type BodyEntry = string | number | Array<BodyEntry> | null;
+	export type BodyEntry = null | string | number | Array<BodyEntry>;
 
-  export interface Message {
+	export interface Message {
 		destination: string;
 		path: string;
 		interface: string;
@@ -14,7 +14,7 @@ declare module 'dbus-native' {
 	export interface Bus {
 		invoke: (
 			message: Message,
-			callback: (error: Error, response: any) => void,
+			callback: (error: Error, response: BodyEntry) => void,
 		) => void;
 	}
 

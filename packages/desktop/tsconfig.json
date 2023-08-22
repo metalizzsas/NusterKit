@@ -22,6 +22,6 @@
 		"forceConsistentCasingInFileNames": true,
 		"sourceRoot": "./",
 		"allowJs": true,
-		"checkJs": false,
+		"checkJs": false
 	},
 }

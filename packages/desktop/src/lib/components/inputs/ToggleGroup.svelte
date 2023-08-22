@@ -8,7 +8,7 @@
 
 </script>
 
-<Toggle bind:value={internalValue} on:change={(e) => {
+<Toggle bind:value={internalValue} on:change={() => {
     if(group.includes(value))
     {
         group = group.filter(k => k !== value)

@@ -1,5 +1,3 @@
-import type { ProductSeries } from "@metalizzsas/nuster-typings/build/spec/containers/products";
-
 /**
  * Parses duration to an human readable translated string
  * @param date Date to parse

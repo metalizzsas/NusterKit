@@ -20,7 +20,7 @@ export class ProgramBlockRunner
     profileRequired: boolean;
 
     variables: Array<PBRVariable> = [];
-    timers: (PBRTimer & {timer?: NodeJS.Timer})[] = [];
+    timers: (PBRTimer & {timer?: ReturnType<typeof setInterval>})[] = [];
     
     /** **PBR** Steps */
     steps: Array<ProgramBlockStep> = [];

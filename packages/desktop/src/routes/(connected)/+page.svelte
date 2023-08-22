@@ -14,7 +14,7 @@
 	import type { PageData } from "./$types";
 	import Gate from "./io/Gate.svelte";
 	import Toggle from "$lib/components/inputs/Toggle.svelte";
-	import Label from "$lib/components/label.svelte";
+	import Label from "$lib/components/Label.svelte";
 
     export let data: PageData;
 

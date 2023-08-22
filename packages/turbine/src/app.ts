@@ -14,6 +14,7 @@ import { pinoHttp } from "pino-http";
 import { Machine } from "./Machine";
 import { TurbineEventLoop } from "./events";
 import { WebsocketDispatcher } from "./websocket/WebsocketDispatcher";
+import { WiFiRouter } from "./routers";
 
 /** Http express & ws port */
 const HTTP_PORT = 4080;
@@ -273,7 +274,9 @@ function SetupExpress()
         {
             res.status(500).end();
         }
-    })
+    });
+
+    ExpressApp.use('/wifi', new WiFiRouter().router);
 }
 
 /**

@@ -13,7 +13,7 @@ COPY packages/desktop/CHANGELOG.md ./CHANGELOG.md
 COPY packages/desktop/build/ ./build
 
 # Install Prod npm packages
-RUN pnpm install
+RUN pnpm install --no-optional
 
 # Remove npmrc file
 RUN rm .npmrc

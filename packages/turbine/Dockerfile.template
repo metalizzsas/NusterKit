@@ -23,7 +23,7 @@ COPY packages/turbine/entrypoint.sh ./entrypoint.sh
 COPY packages/turbine/build/ ./build
 
 # Install Prod npm packages
-RUN pnpm install
+RUN pnpm install --no-optional
 
 # Remove npmrc file
 RUN rm .npmrc

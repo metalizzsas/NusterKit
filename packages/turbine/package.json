@@ -33,6 +33,7 @@
     "@metalizzsas/nuster-turbine-machines": "1.6.17",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "dbus-native": "^0.4.0",
     "deep-extend": "^0.6.0",
     "enip-ts": "1.2.2",
     "express": "^4.18.2",

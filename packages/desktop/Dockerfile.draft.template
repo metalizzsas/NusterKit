@@ -11,7 +11,7 @@ COPY packages/desktop/CHANGELOG.md ./CHANGELOG.md
 COPY packages/desktop/build/ ./build
 
 # Install Prod npm packages
-RUN pnpm install
+RUN pnpm install --no-optional
 
 # Copy workspace libs
 COPY libs/misc/ ./node_modules/@metalizzsas/nuster-misc

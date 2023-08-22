@@ -29,7 +29,8 @@ export interface Status {
     io: IOGatesHydrated[],
 
     /** Maintenance tasks */
-    maintenance: MaintenanceHydrated[]
+    maintenance: MaintenanceHydrated[];
+
 }
 
 export { MaintenanceHydrated, ContainerHydrated, IOGatesHydrated, ProgramBlockRunnerHydrated, ProfileHydrated };

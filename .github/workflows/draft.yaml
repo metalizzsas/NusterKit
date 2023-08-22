@@ -23,7 +23,7 @@ jobs:
       - name: ⛏️ Setup PNPM
         uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: latest
 
       - name: ⛏️ Setup node
         uses: actions/setup-node@v3.4.1
@@ -36,12 +36,11 @@ jobs:
           rm .npmrc
           echo "@metalizzsas:registry=https://npm.pkg.github.com" >> .npmrc
           echo "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN" >> .npmrc
-          echo "node-linker=hoisted" >> .npmrc
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - name: 📚 Install Node dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --no-optional
 
       - name: 🧱 Build libraries
         run: pnpm run build:libs

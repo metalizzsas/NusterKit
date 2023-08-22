@@ -1,5 +1,20 @@
 # @metalizzsas/nuster-turbine
 
+## 1.11.0
+
+### Minor Changes
+
+- [#478](https://github.com/metalizzsas/NusterKit/pull/478) [`875fb150`](https://github.com/metalizzsas/NusterKit/commit/875fb150a91c442d67e48e07696b982dccd6a0bf) Thanks [@Kworz](https://github.com/Kworz)! - chore(deps): updated dependencies to latest versions
+
+### Patch Changes
+
+- [#478](https://github.com/metalizzsas/NusterKit/pull/478) [`eec96cbe`](https://github.com/metalizzsas/NusterKit/commit/eec96cbe028455748f5cd7952199f302249e051f) Thanks [@Kworz](https://github.com/Kworz)! - chore(deps): updated dependencies
+
+- [#477](https://github.com/metalizzsas/NusterKit/pull/477) [`a8bae300`](https://github.com/metalizzsas/NusterKit/commit/a8bae300d31820052a926d927b4e792984da7898) Thanks [@Kworz](https://github.com/Kworz)! - feat: created wifi router endpoints
+
+- Updated dependencies [[`eec96cbe`](https://github.com/metalizzsas/NusterKit/commit/eec96cbe028455748f5cd7952199f302249e051f), [`875fb150`](https://github.com/metalizzsas/NusterKit/commit/875fb150a91c442d67e48e07696b982dccd6a0bf)]:
+  - @metalizzsas/nuster-turbine-machines@1.7.0
+
 ## 1.10.36
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@metalizzsas/nuster-typings",
-  "version": "1.5.8",
+  "version": "1.6.0",
   "description": "Typings for NusterKit",
   "types": "build/index.d.ts",
   "main": "build/index.js",

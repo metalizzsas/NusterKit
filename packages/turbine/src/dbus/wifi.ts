@@ -54,7 +54,7 @@ export const listWifiNetworks = async (iface: string): Promise<WirelessNetwork[]
                 });
 
                 for await (const apPath of accessPoints) {
-                    const [ssid] = await dbusInvoker({
+                    const [ssid] = await dbusInvoker<Array<string>>({
                         destination: nm,
                         path: apPath,
                         interface: 'org.freedesktop.NetworkManager.AccessPoint',
@@ -124,7 +124,7 @@ export const getWiFiDevices = async (): Promise<WirelessDevice[]> =>
 
     for await (const device of devices)
     {
-        const apCapable = !!(await getProperty(nm, device.path, 'org.freedesktop.NetworkManager.Device.Wireless', 'WirelessCapabilities') & NetworkManagerTypes.WIFI_DEVICE_CAP.AP);
+        const apCapable = !!(await getProperty<number>(nm, device.path, 'org.freedesktop.NetworkManager.Device.Wireless', 'WirelessCapabilities') & NetworkManagerTypes.WIFI_DEVICE_CAP.AP);
         wifiDevices.push({ ...device, apCapable });
     }
 
@@ -159,7 +159,7 @@ export const getDevicesPath = async (): Promise<string[]> => {
         path: '/org/freedesktop/NetworkManager',
         interface: 'org.freedesktop.NetworkManager',
         member: 'GetDevices'
-    });
+    }) as Array<string>;
 };
 
 export const getPathByIface = async (iface: string): Promise<string> => {
@@ -170,27 +170,27 @@ export const getPathByIface = async (iface: string): Promise<string> => {
         member: 'GetDeviceByIpIface',
         signature: 's',
         body: [iface]
-    });
+    }) as string;
 };
 
-export const checkDeviceConnectivity = async (iface: string): Promise<any> => {
+export const checkDeviceConnectivity = async (iface: string): Promise<BodyEntry> => {
     const path: string = await getPathByIface(iface)
     return await getProperty(nm, path, 'org.freedesktop.NetworkManager.Device', 'Ip4Connectivity')
 };
 
-export const checkNMConnectivity = async (): Promise<any> => {
+export const checkNMConnectivity = async (): Promise<boolean> => {
     const nmConnectivityState = await dbusInvoker({
         destination: nm,
         path: '/org/freedesktop/NetworkManager',
         interface: 'org.freedesktop.NetworkManager',
         member: 'CheckConnectivity'
-    });
+    }) as number;
 
     return nmConnectivityState === NetworkManagerTypes.CONNECTIVITY.FULL
 };
 
-export const addConnection = async (params: BodyEntry[]): Promise<any> => {
-    return await dbusInvoker({
+export const addConnection = async (params: BodyEntry[]): Promise<string> => {
+    return await dbusInvoker<string>({
         destination: nm,
         path: '/org/freedesktop/NetworkManager/Settings',
         interface: 'org.freedesktop.NetworkManager.Settings',

@@ -39,13 +39,24 @@ export const listWifiNetworks = async (iface: string): Promise<WirelessNetwork[]
 
     const networks: WirelessNetwork[] = [];
 
-    for await (const path of paths) {
+    for await (const path of paths)
+    {
         const deviceType: number = await getProperty(nm, path, 'org.freedesktop.NetworkManager.Device', 'DeviceType');
 
-        if (deviceType === NetworkManagerTypes.DEVICE_TYPE.WIFI) {
+        if (deviceType === NetworkManagerTypes.DEVICE_TYPE.WIFI)
+        {
             const ifaceName: string = await getProperty(nm, path, 'org.freedesktop.NetworkManager.Device', 'Interface');
 
             if (ifaceName === iface) {
+
+                // Request a scan of the ssids using the RequestScan method
+                await dbusInvoker({
+                    destination: nm,
+                    path,
+                    interface: 'org.freedesktop.NetworkManager.Device.Wireless',
+                    member: 'RequestScan'
+                });
+
                 const accessPoints: string[] = await dbusInvoker({
                     destination: nm,
                     path,

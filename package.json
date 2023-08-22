@@ -7,6 +7,7 @@
   },
   "scripts": {
     "dev": "pnpm -r --parallel run dev",
+    "sync": "pnpm -r --parallel run sync",
     "lint": "pnpm -r --parallel run lint",
     "test": "pnpm -r --parallel run test",
     "build": "pnpm build:libs && pnpm build:packages && pnpm build:simulation",

@@ -33,6 +33,9 @@ jobs:
       - name: 🗂️ Install packages 
         run: pnpm install --frozen-lockfile
 
+      - name: 🔄 Sync packages
+        run: pnpm run sync
+
       - name: ✔️ Run linting
         run: pnpm run lint
 

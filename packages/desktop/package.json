@@ -16,7 +16,6 @@
 		"dev": "vite dev",
 		"build": "svelte-kit sync && vite build",
 		"preview": "vite preview --port 4081",
-		"lint-tocheck": "eslint .",
 		"lint": "eslint ./src"
 	},
 	"dependencies": {

@@ -1,7 +1,10 @@
 <script lang="ts">
     export let href: string | undefined = undefined;
+    const classNames = "text-sm text-indigo-500 hover:text-indigo-600 duration-200";
 </script>
 
-<svelte:element this={href === undefined ? "button" : "a"} class="text-sm text-indigo-500 hover:text-indigo-600 duration-200" {href} on:click>
-    <slot />
-</svelte:element>
+{#if href === undefined}
+    <button on:click class={classNames}><slot /></button>
+{:else}
+    <a {href} class={classNames}><slot /></a>
+{/if}

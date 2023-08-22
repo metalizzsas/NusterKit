@@ -10,7 +10,7 @@ export const load = (async ({ fetch }) => {
     let premades = await req.json() as Array<CyclePremade>;
 
     const reqProfiles = await fetch(`/api/v1/profiles/`);
-    let profileList = await reqProfiles.json() as Array<ProfileHydrated>;
+    const profileList = await reqProfiles.json() as Array<ProfileHydrated>;
 
     premades = [...profileList.filter(k => k.isPremade === undefined).map(k => { return { cycle: "default", profile: k._id, name: "user" } as CyclePremade}), ...premades];
 

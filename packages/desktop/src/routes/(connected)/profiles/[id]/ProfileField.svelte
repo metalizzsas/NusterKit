@@ -6,7 +6,7 @@
 
     import type { ProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated";
 	import { _ } from "svelte-i18n";
-	import Label from "$lib/components/label.svelte";
+	import Label from "$lib/components/Label.svelte";
 	import Button from "$lib/components/buttons/Button.svelte";
 	import { Minus, Plus } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";

@@ -13,7 +13,7 @@
 	import { locales, _ } from "svelte-i18n";
 	import type { PageData } from "./$types";
 	import { settings } from "$lib/utils/stores/settings";
-	import Label from "$lib/components/label.svelte";
+	import Label from "$lib/components/Label.svelte";
 	import ProgressBar from "$lib/components/ProgressBar.svelte";
 	import Grid from "$lib/components/layout/grid.svelte";
 	import { realtime } from "$lib/utils/stores/nuster";

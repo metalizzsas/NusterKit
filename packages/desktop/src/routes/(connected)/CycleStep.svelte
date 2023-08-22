@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Label from "$lib/components/label.svelte";
+	import Label from "$lib/components/Label.svelte";
 	import Flex from "$lib/components/layout/flex.svelte";
 	import type { PBRStepHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/PBRStepHydrated";
 	import { ArrowPath, Check, XMark, type IconSource, ArrowDown } from "@steeze-ui/heroicons";

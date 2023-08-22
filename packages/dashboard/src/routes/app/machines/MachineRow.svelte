@@ -61,15 +61,17 @@
 
             ws = new WebSocket(wsAddress);
 
-            ws.onopen = function(e) {
-
-                ws.onmessage = function(e)
+            ws.onopen = function() {
+                if(ws)
                 {
-                    isConnected = true;
-                    const data = JSON.parse(e.data) as WebsocketData;
-
-                    if(data.type === "status")
-                        wsData = data.message
+                    ws.onmessage = function(messageEvent)
+                    {
+                        isConnected = true;
+                        const data = JSON.parse(messageEvent.data) as WebsocketData;
+    
+                        if(data.type === "status")
+                            wsData = data.message
+                    }
                 }
             }
 

@@ -81,7 +81,7 @@ interface EventLoopEvents
     "pbr.status.update": (status: PBRMode) => void;
     "pbr.step.status.update": (status: PBRStepState) => void;
 
-    "pbr.timer.start": (timer: {name: string; timer: NodeJS.Timer, enabled: boolean}) => void;
+    "pbr.timer.start": (timer: {name: string; timer: ReturnType<typeof setInterval>, enabled: boolean}) => void;
     "pbr.timer.stop": (options: { timerName: string, callback?: (stopped: boolean) => void | Promise<void>}) => void;
     "pbr.timer.exists": (options: { timerName: string, callback?: (exists: boolean) => void | Promise<void>}) => void;
 

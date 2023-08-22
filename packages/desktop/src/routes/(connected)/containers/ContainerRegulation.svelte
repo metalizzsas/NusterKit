@@ -6,7 +6,7 @@
 	import { _ } from "svelte-i18n";
 	import type { ContainerRegulationHydrated } from "@metalizzsas/nuster-typings/build/hydrated/containers";
 	import Toggle from "$lib/components/inputs/Toggle.svelte";
-	import Label from "$lib/components/label.svelte";
+	import Label from "$lib/components/Label.svelte";
 	import NumField from "$lib/components/inputs/NumField.svelte";
 
     export let container: Modify<ContainerHydrated, { regulations: Array<ContainerRegulationHydrated> }>;

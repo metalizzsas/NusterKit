@@ -11,6 +11,7 @@ export function deepInsert(obj: MachineSpecs, value: unknown, objPath: string, m
 
     let index;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let tempObj: MachineSpecs | any = obj;
 
     const path = objPath.split(".");
@@ -47,7 +48,10 @@ export function deepInsert(obj: MachineSpecs, value: unknown, objPath: string, m
             if(Array.isArray(value))
                 tempObj[path[index]].push(...value);
             else
+            {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 tempObj[path[index]] = {...tempObj[path[index]], ...value as any};
+            }
     }
     return obj;
 }

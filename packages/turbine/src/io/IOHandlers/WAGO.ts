@@ -15,7 +15,7 @@ export class WAGO implements IOBase, WAGOConfig
     ip: string;
 
     public client: ModbusTCP;
-    private connectTimer?: NodeJS.Timer;
+    private connectTimer?: ReturnType<typeof setInterval>;
 
     constructor(ip: string)
     {

@@ -45,6 +45,9 @@ export const listWifiNetworks = async (): Promise<WirelessNetwork[]> => {
     {
         const deviceType: number = await getProperty(nm, path, 'org.freedesktop.NetworkManager.Device', 'DeviceType');
 
+        const deviceTypeName = Object.keys(NetworkManagerTypes.DEVICE_TYPE).find(key => NetworkManagerTypes.DEVICE_TYPE[key as keyof typeof NetworkManagerTypes.DEVICE_TYPE] === deviceType) || "UNKNOWN";
+        TurbineEventLoop.emit("log", "info", `Wifi-Dbus: Device type: ${deviceTypeName} (${deviceType}).`);
+
         if (deviceType === NetworkManagerTypes.DEVICE_TYPE.WIFI)
         {
             TurbineEventLoop.emit("log", "info", "Wifi-Dbus: Found a wifi device.")

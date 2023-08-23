@@ -1,6 +1,6 @@
 import { Router } from "./Router";
 
-import { listWifiNetworks, connectToWifi, type WirelessNetwork, getWiredIps, connectedWifiNetwork } from "../dbus/wifi";
+import { listWifiNetworks, connectToWifi, getDevicesData, connectedWifiNetwork } from "../dbus/wifi";
 
 export class WiFiRouter extends Router
 {
@@ -36,10 +36,10 @@ export class WiFiRouter extends Router
             }
         });
 
-        this.router.get("/eth", async (req, res) => {
+        this.router.get("/devices/:type?", async (req, res) => {
             try
             {
-                const list = await getWiredIps();
+                const list = await getDevicesData(req.params.type !== undefined ? parseInt(req.params.type) : undefined);
                 res.json(list);
             }
             catch (ex)
@@ -52,7 +52,7 @@ export class WiFiRouter extends Router
 
             try
             {
-                const result = await connectToWifi({ iface: "wlan0", ssid: req.body.ssid, password: req.body.password }  satisfies WirelessNetwork)
+                const result = await connectToWifi(req.body.ssid, req.body.password)
                 res.status(result ? 200 : 500).end();
             }
             catch(e)

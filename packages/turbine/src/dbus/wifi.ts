@@ -50,7 +50,8 @@ export const listWifiNetworks = async (): Promise<WirelessNetwork[]> => {
 
         if (deviceInfo[1] == 2)
         {
-            TurbineEventLoop.emit("log", "info", `Wifi-Dbus: Found a wifi device (${JSON.stringify(deviceInfo[0])}).`)
+            TurbineEventLoop.emit("log", "info", `Wifi-Dbus: Found a wifi device (${JSON.stringify(deviceInfo[0])}).`);
+            
             // Request a scan of the ssids using the RequestScan method
             await dbusInvoker({
                 destination: nm,
@@ -59,16 +60,21 @@ export const listWifiNetworks = async (): Promise<WirelessNetwork[]> => {
                 member: 'RequestScan'
             });
 
+            TurbineEventLoop.emit("log", "info", `Wifi-Dbus: Requested a scan of the ssids.`);
+
             const accessPoints: string[] = await dbusInvoker({
                 destination: nm,
                 path,
                 interface: 'org.freedesktop.NetworkManager.Device.Wireless',
-                member: 'GetAccessPoints'
+                member: 'GetAllAccessPoints'
             });
 
-            for await (const apPath of accessPoints)
+            TurbineEventLoop.emit("log", "info", `Wifi-Dbus: Found ${accessPoints.length} access points.`);
+            accessPoints.forEach(ap => TurbineEventLoop.emit("log", "info", `Wifi-Dbus: Access point: ${JSON.stringify(ap)}.`));
+
+            for(const apPath of accessPoints)
             {
-                const [ssid] = await dbusInvoker<Array<string>>({
+                const result = await dbusInvoker<Array<string>>({
                     destination: nm,
                     path: apPath,
                     interface: 'org.freedesktop.NetworkManager.AccessPoint',
@@ -77,7 +83,9 @@ export const listWifiNetworks = async (): Promise<WirelessNetwork[]> => {
                     body: ['Ssid']
                 });
 
-                const ssidString = ssid.toString();
+                TurbineEventLoop.emit("log", "info", `Wifi-Dbus: Access point ssid: ${JSON.stringify(result)}.`);
+
+                const ssidString = result[0].toString();
 
                 const network: WirelessNetwork = {
                     iface: path,

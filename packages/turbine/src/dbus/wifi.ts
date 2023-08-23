@@ -65,31 +65,58 @@ export const listWifiNetworks = async (): Promise<AccessPoint[]> => {
 
     for(const apPath of accessPoints)
     {
-        const accessPointSsid = await getProperty(nm, apPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Ssid');
-        const accessPointStrengh = await getProperty(nm, apPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Strength');
-        const accessPointFrenquency = await getProperty(nm, apPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Frequency');
+        const accessPointSsid = await getProperty<[[unknown], [{ type: "Buffer", data: Array<number>}]]>(nm, apPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Ssid');
+        const accessPointStrengh = await getProperty<[[unknown], [number]]>(nm, apPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Strength');
+        const accessPointFrenquency = await getProperty<[[unknown], [number]]>(nm, apPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Frequency');
 
         TurbineEventLoop.emit("log", "info", `Wifi-Dbus: Access point ssid: ${JSON.stringify(accessPointSsid)} ${JSON.stringify(accessPointStrengh)}, ${JSON.stringify(accessPointFrenquency)}.`);
 
         accessPointsResult.push({
-            ssid: accessPointSsid as string,
-            strength: accessPointStrengh as number,
-            frenquency: accessPointFrenquency as number
+            ssid: String.fromCharCode.apply(null, accessPointSsid[1][0].data),
+            strength: accessPointStrengh[1][0],
+            frenquency: accessPointFrenquency[1][0]
         } satisfies AccessPoint);
     }
 
     return accessPointsResult;
 };
 
-export const getWiredIps = async (): Promise<Array<{ iface: string, config: unknown }>> => {
+export const connectedWifiNetwork = async (): Promise<AccessPoint | undefined> => {
+
+    const wifiDevices = await getDevices(NetworkManagerTypes.DEVICE_TYPE.WIFI);
+
+    const wlan0 = wifiDevices.find(device => device.iface === "wlan0");
+
+    if(wlan0 === undefined)
+        throw new Error("Main physical wifi device not found.");
+
+    const [, [activeAccessPointPath]] = await getProperty<[[unknown], [string]]>(nm, wlan0.path, 'org.freedesktop.NetworkManager.Device.Wireless', 'ActiveAccessPoint');
+
+    const accessPointSsid = await getProperty<[[unknown], [{ type: "Buffer", data: Array<number>}]]>(nm, activeAccessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Ssid');
+    const accessPointStrengh = await getProperty<[[unknown], [number]]>(nm, activeAccessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Strength');
+    const accessPointFrenquency = await getProperty<[[unknown], [number]]>(nm, activeAccessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Frequency');
+
+    return {
+        ssid: String.fromCharCode.apply(null, accessPointSsid[1][0].data),
+        strength: accessPointStrengh[1][0],
+        frenquency: accessPointFrenquency[1][0]
+    } satisfies AccessPoint;
+}
+
+export const getWiredIps = async (): Promise<Array<{ iface: string, addresses: unknown, gateway: unknown }>> => {
     const wiredDevices = await getDevices(NetworkManagerTypes.DEVICE_TYPE.ETHERNET);
 
-    const ips: Array<{ iface: string, config: unknown }> = [];
+    const ips: Array<{ iface: string, addresses: unknown, gateway: unknown }> = [];
 
-    for await (const device of wiredDevices)
+    for (const device of wiredDevices.filter(d => d.iface === "enp1s0u1"))
     {
-        const config: [[unknown], [unknown]] = await getProperty(nm, device.path, 'org.freedesktop.NetworkManager.Device', 'Ip4Config');
-        ips.push({ iface: device.iface, config });
+        const config: [[unknown], [string]] = await getProperty(nm, device.path, 'org.freedesktop.NetworkManager.Device', 'Ip4Config');
+        const configPath = config[1][0];
+
+        const addesses = await getProperty<[[unknown], [Array<Record<string, string | number>>]]>(nm, configPath, 'org.freeDesktop.NetworkManager.IP4Config', 'AddressData');
+        const gateway = await getProperty<[[unknown], [string]]>(nm, configPath, 'org.freeDesktop.NetworkManager.IP4Config', 'Gateway');
+
+        ips.push({ iface: device.iface, addresses: addesses[1][0], gateway: gateway[1][0] });
     }
 
     return ips;

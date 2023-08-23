@@ -1,6 +1,6 @@
 import { Router } from "./Router";
 
-import { listWifiNetworks, connectToWifi, type WirelessNetwork, getWiredIps } from "../dbus/wifi";
+import { listWifiNetworks, connectToWifi, type WirelessNetwork, getWiredIps, connectedWifiNetwork } from "../dbus/wifi";
 
 export class WiFiRouter extends Router
 {
@@ -16,6 +16,18 @@ export class WiFiRouter extends Router
             try
             {
                 const list = await listWifiNetworks();
+                res.json(list);
+            }
+            catch (ex)
+            {
+                res.status(500).json(ex);
+            }
+        });
+
+        this.router.get("/active", async (req, res) => {
+            try
+            {
+                const list = await connectedWifiNetwork();
                 res.json(list);
             }
             catch (ex)

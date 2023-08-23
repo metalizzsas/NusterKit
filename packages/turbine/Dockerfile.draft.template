@@ -1,18 +1,18 @@
 ## Runner image from base with npm tools installed properly
 FROM balenalib/raspberrypi4-64-node:18-buster
 
-#ENV NODE_ENV=production
+RUN install_packages build-essential python3 git openssh-client
+
+RUN corepack enable
+
 ENV UDEV=1
+ENV NODE_ENV=production
 
 WORKDIR /usr/src/app
 
-COPY .npmrc ./.npmrc
-
-RUN corepack enable && pnpm --version
-
-RUN install_packages build-essential python3 git openssh-client
-
 COPY packages/turbine/arduino.rules /etc/udev/rules.d/arduino.rules
+
+COPY .npmrc ./.npmrc
 
 # Copying Package & Package lock json
 COPY packages/turbine/package*.json ./

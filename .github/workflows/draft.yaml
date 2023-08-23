@@ -52,6 +52,7 @@ jobs:
       - name: 🧱 Run build scripts on all packages
         run: pnpm run build:packages
         env:
+          NODE_ENV: production
           VITE_NUSTER_VERSION: ${{ steps.get_nuster_version.outputs.version }}
 
       - name: ↔ Replace prod turbine dockerfile by draft dockerfile

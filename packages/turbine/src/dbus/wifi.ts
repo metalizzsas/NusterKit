@@ -26,9 +26,15 @@ export interface WirelessNetwork {
     password?: string;
 }
 
+type AccessPoint = {
+    ssid: string;
+    strength: number;
+    frenquency: number;
+}
+
 const nm = 'org.freedesktop.NetworkManager';
 
-export const listWifiNetworks = async (): Promise<WirelessNetwork[]> => {
+export const listWifiNetworks = async (): Promise<AccessPoint[]> => {
 
     const paths: string[] = await dbusInvoker({
         destination: nm,
@@ -39,11 +45,16 @@ export const listWifiNetworks = async (): Promise<WirelessNetwork[]> => {
 
     TurbineEventLoop.emit("log", "info", `Wifi-Dbus: Found ${paths.length} network devices.`);
 
-    const networks: WirelessNetwork[] = [];
+    const accessPointsResult: AccessPoint[] = [];
 
     for (const path of paths)
     {
         const deviceInfo: [BodyEntry, number] = await getProperty(nm, path, 'org.freedesktop.NetworkManager.Device', 'DeviceType');
+        
+        const deviceIFace: string = await getProperty(nm, path, 'org.freedesktop.NetworkManager.Device', 'Interface');
+        
+        //eslint-disable-next-line no-console
+        console.log(JSON.stringify(deviceIFace), JSON.stringify(deviceInfo));
 
         const deviceTypeName = Object.keys(NetworkManagerTypes.DEVICE_TYPE).find(key => NetworkManagerTypes.DEVICE_TYPE[key as keyof typeof NetworkManagerTypes.DEVICE_TYPE] == deviceInfo[1]) ?? "UNKNOWN";
         TurbineEventLoop.emit("log", "info", `Wifi-Dbus: Device type: ${deviceTypeName} (${deviceInfo[1]}).`);
@@ -78,31 +89,22 @@ export const listWifiNetworks = async (): Promise<WirelessNetwork[]> => {
 
             for(const apPath of accessPoints)
             {
-                const result = await dbusInvoker<Array<string>>({
-                    destination: nm,
-                    path: apPath,
-                    interface: 'org.freedesktop.NetworkManager.AccessPoint',
-                    member: 'Get',
-                    signature: 's',
-                    body: ['Ssid']
-                });
+                const accessPointSsid = await getProperty(nm, apPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Ssid');
+                const accessPointStrengh = await getProperty(nm, apPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Strength');
+                const accessPointFrenquency = await getProperty(nm, apPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Frenquency');
 
-                TurbineEventLoop.emit("log", "info", `Wifi-Dbus: Access point ssid: ${JSON.stringify(result)}.`);
+                TurbineEventLoop.emit("log", "info", `Wifi-Dbus: Access point ssid: ${JSON.stringify(accessPointSsid)} ${JSON.stringify(accessPointStrengh)}, ${JSON.stringify(accessPointFrenquency)}.`);
 
-                const ssidString = result[0].toString();
-
-                const network: WirelessNetwork = {
-                    iface: path,
-                    ssid: ssidString,
-                    password: '',
-                };
-
-                networks.push(network);
+                accessPointsResult.push({
+                    ssid: accessPointSsid as string,
+                    strength: accessPointStrengh as number,
+                    frenquency: accessPointFrenquency as number
+                } satisfies AccessPoint);
             }
         }
     }
 
-    return networks;
+    return accessPointsResult;
 };
 
 export const connectToWifi = async (network: WirelessNetwork): Promise<boolean> => {

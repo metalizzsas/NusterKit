@@ -1,6 +1,6 @@
 declare module 'dbus-native' {
 
-	export type BodyEntry = null | string | number | Array<BodyEntry>;
+	export type BodyEntry = null | string | number | Array<BodyEntry> | Record<string, BodyEntry>;
 
 	export interface Message {
 		destination: string;

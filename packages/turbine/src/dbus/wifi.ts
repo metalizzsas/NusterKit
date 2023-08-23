@@ -50,16 +50,16 @@ export const listWifiNetworks = async (): Promise<WirelessNetwork[]> => {
 
         if (deviceInfo[1] == 2)
         {
-            TurbineEventLoop.emit("log", "info", `Wifi-Dbus: Found a wifi device (${JSON.stringify(deviceInfo[0])}).`);
+            TurbineEventLoop.emit("log", "info", `Wifi-Dbus: Found a wifi device at ${path}.`);
 
             //Request a scan of the networks using dbus
             await dbusInvoker({
                 destination: nm,
-                path,
+                path: path,
                 interface: 'org.freedesktop.NetworkManager.Device.Wireless',
                 member: 'RequestScan',
                 signature: 'a{sv}',
-                body: []
+                body: [{ "ssids": [] }]
             });
 
             await new Promise(resolve => setTimeout(resolve, 3000));

@@ -13,7 +13,7 @@ export class WiFiRouter extends Router
     async configureRouter()
     {
         this.router.get("/list", async (req, res) => {
-            res.json(await listWifiNetworks("wlan0"));
+            res.json(await listWifiNetworks());
         });
 
         this.router.post("/connect", async (req, res) => {

@@ -28,7 +28,7 @@ export interface WirelessNetwork {
 
 const nm = 'org.freedesktop.NetworkManager';
 
-export const listWifiNetworks = async (iface: string): Promise<WirelessNetwork[]> => {
+export const listWifiNetworks = async (): Promise<WirelessNetwork[]> => {
 
     const paths: string[] = await dbusInvoker({
         destination: nm,
@@ -37,53 +37,52 @@ export const listWifiNetworks = async (iface: string): Promise<WirelessNetwork[]
         member: 'GetDevices'
     });
 
+    TurbineEventLoop.emit("log", "info", `Wifi-Dbus: Found ${paths.length} network devices.`);
+
     const networks: WirelessNetwork[] = [];
 
-    for await (const path of paths)
+    for (const path of paths)
     {
         const deviceType: number = await getProperty(nm, path, 'org.freedesktop.NetworkManager.Device', 'DeviceType');
 
         if (deviceType === NetworkManagerTypes.DEVICE_TYPE.WIFI)
         {
-            const ifaceName: string = await getProperty(nm, path, 'org.freedesktop.NetworkManager.Device', 'Interface');
+            TurbineEventLoop.emit("log", "info", "Wifi-Dbus: Found a wifi device.")
+            // Request a scan of the ssids using the RequestScan method
+            await dbusInvoker({
+                destination: nm,
+                path,
+                interface: 'org.freedesktop.NetworkManager.Device.Wireless',
+                member: 'RequestScan'
+            });
 
-            if (ifaceName === iface) {
+            const accessPoints: string[] = await dbusInvoker({
+                destination: nm,
+                path,
+                interface: 'org.freedesktop.NetworkManager.Device.Wireless',
+                member: 'GetAccessPoints'
+            });
 
-                // Request a scan of the ssids using the RequestScan method
-                await dbusInvoker({
+            for await (const apPath of accessPoints)
+            {
+                const [ssid] = await dbusInvoker<Array<string>>({
                     destination: nm,
-                    path,
-                    interface: 'org.freedesktop.NetworkManager.Device.Wireless',
-                    member: 'RequestScan'
+                    path: apPath,
+                    interface: 'org.freedesktop.NetworkManager.AccessPoint',
+                    member: 'Get',
+                    signature: 's',
+                    body: ['Ssid']
                 });
 
-                const accessPoints: string[] = await dbusInvoker({
-                    destination: nm,
-                    path,
-                    interface: 'org.freedesktop.NetworkManager.Device.Wireless',
-                    member: 'GetAccessPoints'
-                });
+                const ssidString = ssid.toString();
 
-                for await (const apPath of accessPoints) {
-                    const [ssid] = await dbusInvoker<Array<string>>({
-                        destination: nm,
-                        path: apPath,
-                        interface: 'org.freedesktop.NetworkManager.AccessPoint',
-                        member: 'Get',
-                        signature: 's',
-                        body: ['Ssid']
-                    });
+                const network: WirelessNetwork = {
+                    iface: path,
+                    ssid: ssidString,
+                    password: '',
+                };
 
-                    const ssidString = ssid.toString();
-
-                    const network: WirelessNetwork = {
-                        iface,
-                        ssid: ssidString,
-                        password: '',
-                    };
-
-                    networks.push(network);
-                }
+                networks.push(network);
             }
         }
     }

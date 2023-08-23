@@ -43,14 +43,14 @@ export const listWifiNetworks = async (): Promise<WirelessNetwork[]> => {
 
     for (const path of paths)
     {
-        const deviceType: number = await getProperty(nm, path, 'org.freedesktop.NetworkManager.Device', 'DeviceType');
+        const deviceInfo: [BodyEntry, number] = await getProperty(nm, path, 'org.freedesktop.NetworkManager.Device', 'DeviceType');
 
-        const deviceTypeName = Object.keys(NetworkManagerTypes.DEVICE_TYPE).find(key => NetworkManagerTypes.DEVICE_TYPE[key as keyof typeof NetworkManagerTypes.DEVICE_TYPE] === deviceType) || "UNKNOWN";
-        TurbineEventLoop.emit("log", "info", `Wifi-Dbus: Device type: ${deviceTypeName} (${deviceType}).`);
+        const deviceTypeName = Object.keys(NetworkManagerTypes.DEVICE_TYPE).find(key => NetworkManagerTypes.DEVICE_TYPE[key as keyof typeof NetworkManagerTypes.DEVICE_TYPE] === deviceInfo[1]) || "UNKNOWN";
+        TurbineEventLoop.emit("log", "info", `Wifi-Dbus: Device type: ${deviceTypeName} (${deviceInfo[1]}).`);
 
-        if (deviceType === NetworkManagerTypes.DEVICE_TYPE.WIFI)
+        if (deviceInfo[1] === NetworkManagerTypes.DEVICE_TYPE.WIFI)
         {
-            TurbineEventLoop.emit("log", "info", "Wifi-Dbus: Found a wifi device.")
+            TurbineEventLoop.emit("log", "info", `Wifi-Dbus: Found a wifi device (${JSON.stringify(deviceInfo[0])}).`)
             // Request a scan of the ssids using the RequestScan method
             await dbusInvoker({
                 destination: nm,

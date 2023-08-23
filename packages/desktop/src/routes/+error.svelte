@@ -1,4 +1,26 @@
-<h1>Server render error</h1>
-<p>Click on the redirect button.</p>
+<script lang="ts">
+	import { onMount } from "svelte";
 
-<a href="/">Redirect</a>
+    let time = 0;
+
+    onMount(() => {
+        const interval = setInterval(() => {
+
+            while(time < 4)
+            {
+                time++;
+                return;
+            }
+
+            window.location.reload();
+        }, 1000);
+
+        return clearInterval(interval);
+    });
+
+</script>
+
+<h1>Server render error</h1>
+<p>Refreshing in {5 - time} seconds.</p>
+
+<a href="/">Redirect now</a>

@@ -1,10 +1,11 @@
-import { systemBus, type Message, type Bus, type BodyEntry } from 'dbus-native';
+import { systemBus, type DBusMessage, type BodyEntry } from 'dbus-native';
 
-export const dbus: Bus = systemBus();
+export const dbus = systemBus();
 
-export function dbusInvoker<T extends BodyEntry>(message: Message): Promise<T>{
+/** Promisified version of `dbus.invoke` */
+export function dbusInvoker<T extends BodyEntry>(message: DBusMessage): Promise<T> {
 
-    return new Promise<T>((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         return dbus.invoke(message, (error, response) => {
             if(error)
                 reject(error)
@@ -14,9 +15,10 @@ export function dbusInvoker<T extends BodyEntry>(message: Message): Promise<T>{
     });
 }
 
-export async function getProperty<T extends BodyEntry>(service: string, objectPath: string, objectInterface: string, property: string): Promise<T>{
+/** Get a property from the bus */
+export async function getProperty<T extends BodyEntry>(service: string, objectPath: string, objectInterface: string, property: string): Promise<T> {
     
-	const message: Message = {
+	const message: DBusMessage = {
 		destination: service,
 		path: objectPath,
 		interface: 'org.freedesktop.DBus.Properties',

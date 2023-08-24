@@ -338,7 +338,7 @@ function SetupMachine()
         ExpressApp.use('/v1/maintenances', machine.maintenanceRouter.router);
         ExpressApp.use('/v1/containers', machine.containerRouter.router);
         ExpressApp.use('/v1/cycle', machine.cycleRouter.router);
-        ExpressApp.use('/network', machine.wifiRouter.router);
+        ExpressApp.use('/network', machine.networkRouter.router);
         
         LoggerInstance.info("Express: Registered routers");
 

@@ -31,7 +31,7 @@ export class Machine
     profileRouter: ProfilesRouter;
     containerRouter: ContainersRouter;
     cycleRouter: CycleRouter;
-    wifiRouter: NetworkRouter;
+    networkRouter: NetworkRouter;
 
     WebSocketServer?: WebSocket.Server = undefined;
 
@@ -90,7 +90,7 @@ export class Machine
         this.maintenanceRouter = new MaintenanceRouter(this.specs.maintenance);
         this.containerRouter = new ContainersRouter(this.specs.containers);
         this.cycleRouter = new CycleRouter(this.specs.cycleTypes, this.specs.cyclePremades);
-        this.wifiRouter = new NetworkRouter();
+        this.networkRouter = new NetworkRouter();
 
         LoggerInstance.info("Machine: Finished Instantiating controllers");
 
@@ -139,7 +139,8 @@ export class Machine
             cycle: this.cycleRouter.socketData,
             containers: containers,
             io: this.ioRouter.socketData,
-            maintenance: maintenances
+            maintenance: maintenances,
+            network: this.networkRouter.socketData,
         } satisfies Status;
     }
 

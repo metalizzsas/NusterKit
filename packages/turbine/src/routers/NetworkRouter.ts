@@ -1,7 +1,8 @@
 import { Router } from "./Router";
 
-import { type NetworkDevice, type AccessPoint, computeSubnet, stringToArrayOfBytes } from "../dbus/network";
+import type { NetworkDevice, AccessPoint } from "@metalizzsas/nuster-typings/build/hydrated/balena";
 import type { BodyEntry } from "dbus-native";
+import { computeSubnet, stringToArrayOfBytes } from "../dbus/network-utils";
 import { dbusInvoker, getProperty } from "../dbus/dbus";
 import { NetworkManagerTypes } from "../dbus/networkManagerTypes";
 

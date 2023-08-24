@@ -128,21 +128,38 @@ export const getDevices = async (type?: number): Promise<NetworkDevice[]> => {
         interface: 'org.freedesktop.NetworkManager',
         member: 'GetDevices'
     });
-
-    const bus = systemBus();
-
+    
     try
     {
-        bus.getService(nm).getInterface('/org/freedresktop/NetworkManager', 'org.freedesktop.NetworkManager', (error, iface) => {
-    
+        const bus = systemBus();
+        bus.getService(nm).getInterface('/org/freedesktop/NetworkManager', 'org.freedesktop.NetworkManager', (error, iface) => {
+
             if(!iface)
                 return;
+
+            TurbineEventLoop.emit("log", "info", `Wifi-Dbus-new: Get interface ${iface.$name}`);
             iface.GetDevices((error, devices) => {
                 if(error)
                     return;
                 TurbineEventLoop.emit("log", "info", "Wifi-Dbus-new: Devices: " + devices);
+
+                for(const device of devices as string[])
+                {
+                    bus.getService(nm).getObject(device, (error, object) => {
+
+                        if(error || !object)
+                            return;
+
+                        const obj2 = object.as('org.freedesktop.NetworkManager.Device');
+
+                        obj2.$readProp('DeviceType', (error, type) => {
+                            if(!error && type)
+                                TurbineEventLoop.emit("log", "info", `Wifi-Dbus-new: Device type: ${type}`)
+                        });
+                    })
+                }
+
             });
-    
         });
     }
     catch(ex)

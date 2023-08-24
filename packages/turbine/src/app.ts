@@ -14,7 +14,6 @@ import { pinoHttp } from "pino-http";
 import { Machine } from "./Machine";
 import { TurbineEventLoop } from "./events";
 import { WebsocketDispatcher } from "./websocket/WebsocketDispatcher";
-import { WiFiRouter } from "./routers";
 
 /** Http express & ws port */
 const HTTP_PORT = 4080;
@@ -275,8 +274,6 @@ function SetupExpress()
             res.status(500).end();
         }
     });
-
-    ExpressApp.use('/wifi', new WiFiRouter().router);
 }
 
 /**
@@ -341,6 +338,8 @@ function SetupMachine()
         ExpressApp.use('/v1/maintenances', machine.maintenanceRouter.router);
         ExpressApp.use('/v1/containers', machine.containerRouter.router);
         ExpressApp.use('/v1/cycle', machine.cycleRouter.router);
+        ExpressApp.use('/network', machine.wifiRouter.router);
+        
         LoggerInstance.info("Express: Registered routers");
 
         ExpressApp.get("/machine", (_, res: Response) => { res.json(machine?.toJSON()); });

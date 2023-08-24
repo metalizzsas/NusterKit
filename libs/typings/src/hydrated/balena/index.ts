@@ -49,3 +49,4 @@ interface DeviceData {
 }
 
 export { VPNData, HypervisorData, DeviceData };
+export { AccessPoint, NetworkDevice } from './dbus';

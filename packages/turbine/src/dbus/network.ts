@@ -3,230 +3,25 @@
  * source file: src/nm.ts
  */
 
-import { systemBus, type BodyEntry } from 'dbus-native';
-import { NetworkManagerTypes } from './networkManagerTypes';
-import { dbusInvoker, getProperty } from './dbus';
-import { TurbineEventLoop } from '../events';
+import { type BodyEntry } from 'dbus-native';
+import { dbusInvoker } from './dbus';
 
-type AccessPoint = {
+export type AccessPoint = {
     ssid: string;
     strength: number;
     frenquency: number;
+    active: boolean;
 }
 
-type NetworkDevice = {
+export type NetworkDevice = {
     iface: string;
     path: string;
-}
-
-type NetworkDeviceData = NetworkDevice & {
-    addresses: Array<Record<string, string | number>>;
-    gateway: string;
+    address?: string;
+    gateway?: string;
+    subnet?: string;
 }
 
 const nm = 'org.freedesktop.NetworkManager';
-
-/**
- * List all the wifi networks available ofer the `wlan0` interface.
- * @throws
- * @returns A list of all the wifi networks available
- */
-export const listWifiNetworks = async (): Promise<AccessPoint[]> => {
-
-    const wifiDevices = await getDevices(NetworkManagerTypes.DEVICE_TYPE.WIFI);
-    const accessPointsResult: AccessPoint[] = [];
-
-    const wlan0 = wifiDevices.find(device => device.iface === "wlan0");
-
-    if(wlan0 === undefined)
-        throw new Error("Main physical wifi device not found.");
-
-    //Request a scan of the networks using dbus
-    await dbusInvoker({
-        destination: nm,
-        path: wlan0.path,
-        interface: 'org.freedesktop.NetworkManager.Device.Wireless',
-        member: 'RequestScan',
-        signature: 'a{sv}',
-        body: [{ "ssids": [] }]
-    });
-
-    await new Promise(resolve => setTimeout(resolve, 3000));
-
-    const accessPoints: string[] = await dbusInvoker({
-        destination: nm,
-        path: wlan0.path,
-        interface: 'org.freedesktop.NetworkManager.Device.Wireless',
-        member: 'GetAllAccessPoints'
-    });
-
-    for(const apPath of accessPoints)
-    {
-        const accessPointSsid = await getProperty<[[BodyEntry], [Buffer]]>(nm, apPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Ssid');
-        const accessPointStrengh = await getProperty<[[BodyEntry], [number]]>(nm, apPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Strength');
-        const accessPointFrenquency = await getProperty<[[BodyEntry], [number]]>(nm, apPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Frequency');
-
-        TurbineEventLoop.emit("log", "info", `Wifi-Dbus: Access point ssid: ${JSON.stringify(accessPointSsid)} ${JSON.stringify(accessPointStrengh)}, ${JSON.stringify(accessPointFrenquency)}.`);
-
-        accessPointsResult.push({
-            ssid: accessPointSsid[1][0].toString(),
-            strength: accessPointStrengh[1][0],
-            frenquency: accessPointFrenquency[1][0]
-        } satisfies AccessPoint);
-    }
-
-    return accessPointsResult;
-};
-
-export const connectedWifiNetwork = async (): Promise<AccessPoint | undefined> => {
-
-    const wifiDevices = await getDevices(NetworkManagerTypes.DEVICE_TYPE.WIFI);
-
-    const wlan0 = wifiDevices.find(device => device.iface === "wlan0");
-
-    if(wlan0 === undefined)
-        throw new Error("Main physical wifi device not found.");
-
-    const [, [activeAccessPointPath]] = await getProperty<[[BodyEntry], [string]]>(nm, wlan0.path, 'org.freedesktop.NetworkManager.Device.Wireless', 'ActiveAccessPoint');
-
-    const accessPointSsid = await getProperty<[[BodyEntry], [Buffer]]>(nm, activeAccessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Ssid');
-    const accessPointStrengh = await getProperty<[[BodyEntry], [number]]>(nm, activeAccessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Strength');
-    const accessPointFrenquency = await getProperty<[[BodyEntry], [number]]>(nm, activeAccessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Frequency');
-
-    return {
-        ssid: accessPointSsid[1][0].toString(),
-        strength: accessPointStrengh[1][0],
-        frenquency: accessPointFrenquency[1][0]
-    } satisfies AccessPoint;
-}
-
-export const getDevicesData = async (type?: number): Promise<Array<NetworkDeviceData>> => {
-
-    const wiredDevices = await getDevices(type);
-
-    const ips: Array<NetworkDeviceData> = [];
-
-    for (const device of wiredDevices.filter(d => !(['eth0', 'resin-dns', 'resin-vpn', 'lo', 'balena0'].includes(d.iface))))
-    {
-        const config: [[BodyEntry], [string]] = await getProperty(nm, device.path, 'org.freedesktop.NetworkManager.Device', 'Ip4Config');
-        const configPath = config[1][0];
-
-        const addesses = await getProperty<[[BodyEntry], [Array<Record<string, string | number>>]]>(nm, configPath, 'org.freedesktop.NetworkManager.IP4Config', 'AddressData');
-        const gateway = await getProperty<[[BodyEntry], [string]]>(nm, configPath, 'org.freedesktop.NetworkManager.IP4Config', 'Gateway');
-
-        ips.push({ ...device, addresses: addesses[1][0], gateway: gateway[1][0] });
-    }
-
-    return ips;
-}
-
-export const getDevices = async (type?: number): Promise<NetworkDevice[]> => {
-
-    const devicePaths: string[] = await dbusInvoker({
-        destination: nm,
-        path: '/org/freedesktop/NetworkManager',
-        interface: 'org.freedesktop.NetworkManager',
-        member: 'GetDevices'
-    });
-    
-    try
-    {
-        const bus = systemBus();
-        bus.getService(nm).getInterface('/org/freedesktop/NetworkManager', 'org.freedesktop.NetworkManager', (error, iface) => {
-
-            if(!iface)
-                return;
-
-            TurbineEventLoop.emit("log", "info", `Wifi-Dbus-new: Get interface ${iface.$name}`);
-            iface.GetDevices((error, devices) => {
-                if(error)
-                    return;
-                TurbineEventLoop.emit("log", "info", "Wifi-Dbus-new: Devices: " + devices);
-
-                for(const device of devices as string[])
-                {
-                    bus.getService(nm).getObject(device, (error, object) => {
-
-                        if(error || !object)
-                            return;
-
-                        const obj2 = object.as('org.freedesktop.NetworkManager.Device');
-
-                        obj2.$readProp('DeviceType', (error, type) => {
-                            if(!error && type)
-                                TurbineEventLoop.emit("log", "info", `Wifi-Dbus-new: Device type: ${type}`)
-                        });
-                    })
-                }
-
-            });
-        });
-    }
-    catch(ex)
-    {
-        TurbineEventLoop.emit("log", "error", `Wifi-Dbus-new: Failed to get devices ${ex}.`);
-    }
-
-    const devicesPathsFiltered: NetworkDevice[] = [];
-
-    for(const path of devicePaths)
-    {
-        const deviceType = await getProperty<[BodyEntry, [number]]>(nm, path, 'org.freedesktop.NetworkManager.Device', 'DeviceType');
-        const deviceIFace = await getProperty<[BodyEntry, [string]]>(nm, path, 'org.freedesktop.NetworkManager.Device', 'Interface');
-
-        if(type !== undefined && deviceType[1][0] === type)        
-        {
-            devicesPathsFiltered.push({
-                iface: deviceIFace[1][0],
-                path: path
-            });
-        }
-    }
-
-    return devicesPathsFiltered;
-}
-
-export const connectToWifi = async (ssid: string, password: string): Promise<boolean> => {
-    try {
-
-        const wifiDevices = await getDevices(NetworkManagerTypes.DEVICE_TYPE.WIFI);
-        const wlan0 = wifiDevices.find(device => device.iface === "wlan0");
-    
-        if(wlan0 === undefined)
-            throw new Error("Main physical wifi device not found.");
-
-        const connectionParams = [
-            ['connection', [
-                ['id', ['s', ssid]],
-                ['type', ['s', '802-11-wireless']],
-            ]],
-            ['802-11-wireless', [
-                ['ssid', ['ay', stringToArrayOfBytes(ssid)]],
-                ['mode', ['s', 'infrastructure']],
-            ]],
-            ['802-11-wireless-security', [
-                ['key-mgmt', ['s', 'wpa-psk']],
-                ['psk', ['s', password]],
-            ]],
-            ['ipv4', [
-                ['method', ['s', 'auto']],
-            ]],
-            ['ipv6', [
-                ['method', ['s', 'auto']],
-            ]],
-        ] satisfies BodyEntry[];
-
-        const connection = await addConnection(connectionParams);
-        const result = await activateConnection(connection, wlan0.path);
-        
-        return result !== undefined;
-    }
-    catch (error)
-    {
-        TurbineEventLoop.emit("log", "error", `Wifi-Dbus: Failed to connect to the wifi network ${error}.`);
-        throw new Error(`Failed to connect to the wifi network (${error}).`);
-    }
-};
 
 export const addConnection = async (params: BodyEntry[]): Promise<string> => {
     return await dbusInvoker<string>({
@@ -250,6 +45,22 @@ export const activateConnection = async (connection: string, path: string) => {
     });
 };
 
-function stringToArrayOfBytes(str: string) {
+export function stringToArrayOfBytes(str: string) {
     return str.split('').map(c => c.charCodeAt(0));
+}
+
+export function computeSubnet(prefixLength: number): string
+{
+    if (prefixLength < 0 || prefixLength > 32)
+    {
+        throw new Error('Prefix length must be between 0 and 32.');
+    }
+
+    const subnetMask = new Array(4).fill(0);
+
+    for (let i = 0; i < prefixLength; i++) {
+        subnetMask[Math.floor(i / 8)] |= 1 << (7 - (i % 8));
+    }
+
+    return subnetMask.join('.');
 }

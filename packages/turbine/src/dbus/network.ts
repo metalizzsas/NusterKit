@@ -3,7 +3,7 @@
  * source file: src/nm.ts
  */
 
-import type { BodyEntry } from 'dbus-native';
+import { systemBus, type BodyEntry } from 'dbus-native';
 import { NetworkManagerTypes } from './networkManagerTypes';
 import { dbusInvoker, getProperty } from './dbus';
 import { TurbineEventLoop } from '../events';
@@ -26,6 +26,11 @@ type NetworkDeviceData = NetworkDevice & {
 
 const nm = 'org.freedesktop.NetworkManager';
 
+/**
+ * List all the wifi networks available ofer the `wlan0` interface.
+ * @throws
+ * @returns A list of all the wifi networks available
+ */
 export const listWifiNetworks = async (): Promise<AccessPoint[]> => {
 
     const wifiDevices = await getDevices(NetworkManagerTypes.DEVICE_TYPE.WIFI);
@@ -57,9 +62,9 @@ export const listWifiNetworks = async (): Promise<AccessPoint[]> => {
 
     for(const apPath of accessPoints)
     {
-        const accessPointSsid = await getProperty<[[unknown], [Buffer]]>(nm, apPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Ssid');
-        const accessPointStrengh = await getProperty<[[unknown], [number]]>(nm, apPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Strength');
-        const accessPointFrenquency = await getProperty<[[unknown], [number]]>(nm, apPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Frequency');
+        const accessPointSsid = await getProperty<[[BodyEntry], [Buffer]]>(nm, apPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Ssid');
+        const accessPointStrengh = await getProperty<[[BodyEntry], [number]]>(nm, apPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Strength');
+        const accessPointFrenquency = await getProperty<[[BodyEntry], [number]]>(nm, apPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Frequency');
 
         TurbineEventLoop.emit("log", "info", `Wifi-Dbus: Access point ssid: ${JSON.stringify(accessPointSsid)} ${JSON.stringify(accessPointStrengh)}, ${JSON.stringify(accessPointFrenquency)}.`);
 
@@ -82,11 +87,11 @@ export const connectedWifiNetwork = async (): Promise<AccessPoint | undefined> =
     if(wlan0 === undefined)
         throw new Error("Main physical wifi device not found.");
 
-    const [, [activeAccessPointPath]] = await getProperty<[[unknown], [string]]>(nm, wlan0.path, 'org.freedesktop.NetworkManager.Device.Wireless', 'ActiveAccessPoint');
+    const [, [activeAccessPointPath]] = await getProperty<[[BodyEntry], [string]]>(nm, wlan0.path, 'org.freedesktop.NetworkManager.Device.Wireless', 'ActiveAccessPoint');
 
-    const accessPointSsid = await getProperty<[[unknown], [Buffer]]>(nm, activeAccessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Ssid');
-    const accessPointStrengh = await getProperty<[[unknown], [number]]>(nm, activeAccessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Strength');
-    const accessPointFrenquency = await getProperty<[[unknown], [number]]>(nm, activeAccessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Frequency');
+    const accessPointSsid = await getProperty<[[BodyEntry], [Buffer]]>(nm, activeAccessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Ssid');
+    const accessPointStrengh = await getProperty<[[BodyEntry], [number]]>(nm, activeAccessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Strength');
+    const accessPointFrenquency = await getProperty<[[BodyEntry], [number]]>(nm, activeAccessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Frequency');
 
     return {
         ssid: accessPointSsid[1][0].toString(),
@@ -103,11 +108,11 @@ export const getDevicesData = async (type?: number): Promise<Array<NetworkDevice
 
     for (const device of wiredDevices.filter(d => !(['eth0', 'resin-dns', 'resin-vpn', 'lo', 'balena0'].includes(d.iface))))
     {
-        const config: [[unknown], [string]] = await getProperty(nm, device.path, 'org.freedesktop.NetworkManager.Device', 'Ip4Config');
+        const config: [[BodyEntry], [string]] = await getProperty(nm, device.path, 'org.freedesktop.NetworkManager.Device', 'Ip4Config');
         const configPath = config[1][0];
 
-        const addesses = await getProperty<[[unknown], [Array<Record<string, string | number>>]]>(nm, configPath, 'org.freeDesktop.NetworkManager.IP4Config', 'AddressData');
-        const gateway = await getProperty<[[unknown], [string]]>(nm, configPath, 'org.freedesktop.NetworkManager.IP4Config', 'Gateway');
+        const addesses = await getProperty<[[BodyEntry], [Array<Record<string, string | number>>]]>(nm, configPath, 'org.freedesktop.NetworkManager.IP4Config', 'AddressData');
+        const gateway = await getProperty<[[BodyEntry], [string]]>(nm, configPath, 'org.freedesktop.NetworkManager.IP4Config', 'Gateway');
 
         ips.push({ ...device, addresses: addesses[1][0], gateway: gateway[1][0] });
     }
@@ -124,12 +129,33 @@ export const getDevices = async (type?: number): Promise<NetworkDevice[]> => {
         member: 'GetDevices'
     });
 
+    const bus = systemBus();
+
+    try
+    {
+        bus.getService(nm).getInterface('/org/freedresktop/NetworkManager', 'org.freedesktop.NetworkManager', (error, iface) => {
+    
+            if(!iface)
+                return;
+            iface.GetDevices((error, devices) => {
+                if(error)
+                    return;
+                TurbineEventLoop.emit("log", "info", "Wifi-Dbus-new: Devices: " + devices);
+            });
+    
+        });
+    }
+    catch(ex)
+    {
+        TurbineEventLoop.emit("log", "error", `Wifi-Dbus-new: Failed to get devices ${ex}.`);
+    }
+
     const devicesPathsFiltered: NetworkDevice[] = [];
 
     for(const path of devicePaths)
     {
-        const deviceType = await getProperty<[unknown, [number]]>(nm, path, 'org.freedesktop.NetworkManager.Device', 'DeviceType');
-        const deviceIFace = await getProperty<[unknown, [string]]>(nm, path, 'org.freedesktop.NetworkManager.Device', 'Interface');
+        const deviceType = await getProperty<[BodyEntry, [number]]>(nm, path, 'org.freedesktop.NetworkManager.Device', 'DeviceType');
+        const deviceIFace = await getProperty<[BodyEntry, [string]]>(nm, path, 'org.freedesktop.NetworkManager.Device', 'Interface');
 
         if(type !== undefined && deviceType[1][0] === type)        
         {

@@ -23,6 +23,7 @@ export class NetworkRouter extends Router
             try
             {
                 const list = await this.listWifiNetworks();
+                this.accessPoints = list;
                 res.json(list);
             }
             catch (ex)
@@ -44,7 +45,7 @@ export class NetworkRouter extends Router
             }
         });
 
-        this.router.post("/wifi/disconnect", async (req, res) => {
+        this.router.get("/wifi/disconnect", async (req, res) => {
             try
             {
                 await this.disconnectFromWifi()
@@ -60,6 +61,7 @@ export class NetworkRouter extends Router
             try
             {
                 const list = await this.getDevices(req.params.type !== undefined ? parseInt(req.params.type) : undefined);
+                this.devices = list;
                 res.json(list);
             }
             catch (ex)
@@ -98,6 +100,9 @@ export class NetworkRouter extends Router
 
             const deviceIFace = await getProperty<[BodyEntry, [string]]>('org.freedesktop.NetworkManager', path, 'org.freedesktop.NetworkManager.Device', 'Interface');
             
+            if(['eth0', 'lo', 'balena0'].includes(deviceIFace[1][0]))
+                continue;
+
             device.iface = deviceIFace[1][0];
             device.path = path;
 
@@ -106,12 +111,12 @@ export class NetworkRouter extends Router
             if(deviceState[1][0] === NetworkManagerTypes.DEVICE_STATE.ACTIVATED)
             {
                 const IP4Config = await getProperty<[BodyEntry, [string]]>('org.freedesktop.NetworkManager', path, 'org.freedesktop.NetworkManager.Device', 'Ip4Config');
-                const addresses = await getProperty<[[BodyEntry], [Array<Array<Array<Array<string | number | { type: string, child: []}>>>>]]>('org.freedesktop.NetworkManager', IP4Config[1][0], 'org.freedesktop.NetworkManager.IP4Config', 'AddressData');
+                const addresses = await getProperty<[[BodyEntry], [Array<Array<Array<Array<Array<string | number | { type: string, child: []}>>>>>]]>('org.freedesktop.NetworkManager', IP4Config[1][0], 'org.freedesktop.NetworkManager.IP4Config', 'AddressData');
                 const gateway = await getProperty<[[BodyEntry], [string]]>('org.freedesktop.NetworkManager', IP4Config[1][0], 'org.freedesktop.NetworkManager.IP4Config', 'Gateway');
             
                 device.gateway = gateway[1][0];
-                device.address = addresses[1][0][0][0][1][1] as string;
-                device.subnet = computeSubnet(addresses[1][0][0][1][1][1] as number);
+                device.address = addresses[1][0][0][0][1][1][0] as string;
+                device.subnet = computeSubnet(addresses[1][0][0][1][1][1][0] as number);
             }
             
             devicesPathsFiltered.push(device as NetworkDevice);

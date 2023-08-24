@@ -1,21 +1,19 @@
 import { Router } from "./Router";
 
 import { type NetworkDevice, type AccessPoint, computeSubnet, stringToArrayOfBytes } from "../dbus/network";
-import { systemBus, type DBusService, type BodyEntry } from "dbus-native";
+import type { BodyEntry } from "dbus-native";
 import { dbusInvoker, getProperty } from "../dbus/dbus";
 import { NetworkManagerTypes } from "../dbus/networkManagerTypes";
 
 export class NetworkRouter extends Router
 {
-
-    networkManagerService: DBusService;
+    private accessPoints: AccessPoint[] = [];
+    private devices: NetworkDevice[] = [];
 
     constructor()
     {
         super();
         this.configureRouter();
-
-        this.networkManagerService = systemBus().getService('org.freedesktop.NetworkManager');
     }
 
     async configureRouter()
@@ -38,6 +36,18 @@ export class NetworkRouter extends Router
             {
                 const result = await this.connectToWifi(req.body.ssid, req.body.password)
                 res.status(result ? 200 : 500).end();
+            }
+            catch(e)
+            {
+                res.status(500).json(e);
+            }
+        });
+
+        this.router.post("/wifi/disconnect", async (req, res) => {
+            try
+            {
+                await this.disconnectFromWifi()
+                res.status(200).end();
             }
             catch(e)
             {
@@ -218,6 +228,45 @@ export class NetworkRouter extends Router
         catch (error)
         {
             throw new Error(`Failed to connect to the wifi network (${error}).`);
+        }
+    }
+
+    /**
+     * Disconnect from the current wifi network
+     */
+    private async disconnectFromWifi(): Promise<void> {
+        try {
+            const wifiDevices = await this.getDevices(NetworkManagerTypes.DEVICE_TYPE.WIFI);
+            const wlan0 = wifiDevices.find(device => device.iface === "wlan0");
+        
+            if(wlan0 === undefined)
+                throw new Error("Main physical wifi device not found.");
+
+            const wlanActiveConnection = await getProperty<[BodyEntry, [string]]>('org.freedesktop.NetworkManager', wlan0.path, 'org.freedesktop.NetworkManager.Device.Wireless', 'ActiveConnection');
+
+            if(wlanActiveConnection === undefined)
+                return;
+
+            await dbusInvoker({
+                destination: 'org.freedesktop.NetworkManager',
+                path: '/org/freedesktop/NetworkManager',
+                interface: 'org.freedesktop.NetworkManager',
+                member: 'DeactivateConnection',
+                signature: 'o',
+                body: [wlanActiveConnection]
+            });
+        }
+        catch (error)
+        {
+            throw new Error(`Failed to disconnect from the wifi network (${error}).`);
+        }
+    }
+
+    get socketData()
+    {
+        return {
+            accessPoints: this.accessPoints,
+            devices: this.devices
         }
     }
 }

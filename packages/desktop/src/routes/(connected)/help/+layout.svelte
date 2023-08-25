@@ -11,7 +11,7 @@ import { _ } from "svelte-i18n";
 
 </script>
 
-<Wrapper class="mb-6">
+<Wrapper class="mb-6" padding="p-4">
     <Flex justify="between">
         <div>
             <h1>{$_('help.unselected.lead')}</h1>

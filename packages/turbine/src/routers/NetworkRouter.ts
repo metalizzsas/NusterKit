@@ -5,6 +5,7 @@ import type { BodyEntry } from "dbus-native";
 import { computeSubnet, stringToArrayOfBytes } from "../dbus/network-utils";
 import { dbusInvoker, getProperty } from "../dbus/dbus";
 import { NetworkManagerTypes } from "../dbus/networkManagerTypes";
+import { TurbineEventLoop } from "../events";
 
 export class NetworkRouter extends Router
 {
@@ -23,7 +24,6 @@ export class NetworkRouter extends Router
             try
             {
                 const list = await this.listWifiNetworks();
-                this.accessPoints = list;
                 res.json(list);
             }
             catch (ex)
@@ -57,11 +57,10 @@ export class NetworkRouter extends Router
             }
         });
 
-        this.router.get("/devices/:type?", async (req, res) => {
+        this.router.get("/devices", async (req, res) => {
             try
             {
-                const list = await this.getDevices(req.params.type !== undefined ? parseInt(req.params.type) : undefined);
-                this.devices = list;
+                const list = await this.getDevices();
                 res.json(list);
             }
             catch (ex)
@@ -73,11 +72,10 @@ export class NetworkRouter extends Router
 
     /**
      * Fetch network devices from the Dbus
-     * @param type Network type of this device (Wireless / Wired...)
      * @async
      * @returns Array of network devices
      */
-    private async getDevices(type?: number): Promise<NetworkDevice[]>
+    private async getDevices(): Promise<NetworkDevice[]>
     {
         const devicePaths: string[] = await dbusInvoker({
             destination: 'org.freedesktop.NetworkManager',
@@ -86,21 +84,15 @@ export class NetworkRouter extends Router
             member: 'GetDevices'
         });
     
-        const devicesPathsFiltered: NetworkDevice[] = [];
+        const devices: NetworkDevice[] = [];
     
         for(const path of devicePaths)
         {
             const device: Partial<NetworkDevice> = {};
 
-            const deviceType = await getProperty<[BodyEntry, [number]]>('org.freedesktop.NetworkManager', path, 'org.freedesktop.NetworkManager.Device', 'DeviceType');
-
-            // if type is specified but the device type is not the one asked, skip this device
-            if(type !== undefined && deviceType[1][0] !== type)
-                continue;
-
             const deviceIFace = await getProperty<[BodyEntry, [string]]>('org.freedesktop.NetworkManager', path, 'org.freedesktop.NetworkManager.Device', 'Interface');
             
-            if(['eth0', 'lo', 'balena0'].includes(deviceIFace[1][0]))
+            if(!['wlan0', 'enp1s0u1'].includes(deviceIFace[1][0]))
                 continue;
 
             device.iface = deviceIFace[1][0];
@@ -119,21 +111,25 @@ export class NetworkRouter extends Router
                 device.subnet = computeSubnet(addresses[1][0][0][1][1][1][0] as number);
             }
             
-            devicesPathsFiltered.push(device as NetworkDevice);
+            devices.push(device as NetworkDevice);
         }
-        return devicesPathsFiltered;
+
+        this.devices = devices;
+
+        return devices;
     }
 
     /**
      * List the available wifi networks over `wlan0`interface
+     * @async
      * @returns List of wifi networks
      */
     private async listWifiNetworks(): Promise<AccessPoint[]> {
 
-        const wifiDevices = await this.getDevices(NetworkManagerTypes.DEVICE_TYPE.WIFI);
-        const accessPointsResult: AccessPoint[] = [];
+        const devices = await this.getDevices();
+        const accessPoints: AccessPoint[] = [];
     
-        const wlan0 = wifiDevices.find(device => device.iface === "wlan0");
+        const wlan0 = devices.find(device => device.iface === "wlan0");
     
         if(wlan0 === undefined)
             throw new Error("Main physical wifi device not found.");
@@ -150,28 +146,32 @@ export class NetworkRouter extends Router
 
         const [, [activeAccessPointPath]] = await getProperty<[[BodyEntry], [string]]>('org.freedesktop.NetworkManager', wlan0.path, 'org.freedesktop.NetworkManager.Device.Wireless', 'ActiveAccessPoint');
     
-        const accessPoints: string[] = await dbusInvoker({
+        const accessPointPaths: string[] = await dbusInvoker({
             destination: 'org.freedesktop.NetworkManager',
             path: wlan0.path,
             interface: 'org.freedesktop.NetworkManager.Device.Wireless',
             member: 'GetAllAccessPoints'
         });
     
-        for(const apPath of accessPoints)
+        for(const accessPointPath of accessPointPaths)
         {
-            const accessPointSsid = await getProperty<[[BodyEntry], [Buffer]]>('org.freedesktop.NetworkManager', apPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Ssid');
-            const accessPointStrengh = await getProperty<[[BodyEntry], [number]]>('org.freedesktop.NetworkManager', apPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Strength');
-            const accessPointFrenquency = await getProperty<[[BodyEntry], [number]]>('org.freedesktop.NetworkManager', apPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Frequency');
+            const accessPointSsid = await getProperty<[[BodyEntry], [Buffer]]>('org.freedesktop.NetworkManager', accessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Ssid');
+            const accessPointStrengh = await getProperty<[[BodyEntry], [number]]>('org.freedesktop.NetworkManager', accessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Strength');
+            const accessPointFrenquency = await getProperty<[[BodyEntry], [number]]>('org.freedesktop.NetworkManager', accessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Frequency');
+            const accessPointEncryption = await getProperty<[[BodyEntry], [number]]>('org.freedesktop.NetworkManager', accessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Flags');
         
-            accessPointsResult.push({
+            accessPoints.push({
                 ssid: accessPointSsid[1][0].toString(),
                 strength: accessPointStrengh[1][0],
                 frenquency: accessPointFrenquency[1][0],
-                active: apPath === activeAccessPointPath
+                encryption: accessPointEncryption[1][0],
+                active: accessPointPath === activeAccessPointPath
             } satisfies AccessPoint);
         }
+
+        this.accessPoints = accessPoints;
     
-        return accessPointsResult;
+        return accessPoints;
     }
 
     /**
@@ -182,10 +182,18 @@ export class NetworkRouter extends Router
      * @async
      */
     private async connectToWifi(ssid: string, password: string): Promise<boolean> {
-        try {
-
-            const wifiDevices = await this.getDevices(NetworkManagerTypes.DEVICE_TYPE.WIFI);
+        try
+        {
+            const wifiDevices = await this.getDevices();
             const wlan0 = wifiDevices.find(device => device.iface === "wlan0");
+
+            const connections = await getProperty<[[BodyEntry], [string[]]]>('org.freedesktop.NetworkManager', '/org/freedesktop/NetworkManager/Settings', 'org.freedesktop.NetworkManager.Settings', 'ListConnections');
+
+            for(const connection of connections[1][0])
+            {
+                const [, [connectionSettings]] = await getProperty<[BodyEntry, [Array<Record<string, Array<Record<string, string | number | Buffer>>>>]]>('org.freedesktop.NetworkManager', connection, 'org.freedesktop.NetworkManager.Settings.Connection', 'GetSettings');
+                TurbineEventLoop.emit('log', 'info', `Connection: ${JSON.stringify(connectionSettings)}`);
+            }
         
             if(wlan0 === undefined)
                 throw new Error("Main physical wifi device not found.");
@@ -239,16 +247,17 @@ export class NetworkRouter extends Router
 
     /**
      * Disconnect from the current wifi network
+     * @throws
      */
     private async disconnectFromWifi(): Promise<void> {
         try {
-            const wifiDevices = await this.getDevices(NetworkManagerTypes.DEVICE_TYPE.WIFI);
+            const wifiDevices = await this.getDevices();
             const wlan0 = wifiDevices.find(device => device.iface === "wlan0");
         
             if(wlan0 === undefined)
                 throw new Error("Main physical wifi device not found.");
 
-            const wlanActiveConnection = await getProperty<[BodyEntry, [string]]>('org.freedesktop.NetworkManager', wlan0.path, 'org.freedesktop.NetworkManager.Device.Wireless', 'ActiveConnection');
+            const [, [wlanActiveConnection]] = await getProperty<[BodyEntry, [string]]>('org.freedesktop.NetworkManager', wlan0.path, 'org.freedesktop.NetworkManager.Device.Wireless', 'ActiveConnection');
 
             if(wlanActiveConnection === undefined)
                 return;
@@ -267,6 +276,7 @@ export class NetworkRouter extends Router
             throw new Error(`Failed to disconnect from the wifi network (${error}).`);
         }
     }
+
 
     get socketData()
     {

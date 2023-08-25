@@ -2,6 +2,7 @@ export type AccessPoint = {
     ssid: string;
     strength: number;
     frenquency: number;
+    encryption: number;
     active: boolean;
 }
 

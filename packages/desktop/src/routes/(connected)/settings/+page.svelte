@@ -91,32 +91,34 @@
                     {$_('settings.software.update_installing')}
                     <ProgressBar progress={-1} />
                 {:else}
-                    <Button color={"hover:bg-indigo-500"} ringColor={"ring-indigo-500"} on:click={update} disabled={$realtime.cycle !== undefined}>{$_('settings.software.update_install')}</Button>
+                    <Button color={"hover:bg-indigo-500"} ringColor={"ring-indigo-500"} size="small" on:click={update} disabled={$realtime.cycle !== undefined}>{$_('settings.software.update_install')}</Button>
                 {/if}
             </SettingField>
         {/if}
                 
         <h2>{$_('settings.network.lead')}</h2>
 
-        {#if data.machine.deviceData}
-            <SettingField label={$_('settings.network.ip')} value={
-                data.machine.deviceData.ip_address
-                .split(' ')
-                .filter((k) => k !== '192.168.1.2' && k !== '192.168.42.1')
-            } />
-
-            <SettingField label={$_('settings.network.mac')} value={
-                data.machine.deviceData.mac_address
-                .split(' ')
-                .filter((mac_adr) => { return !['E4:5F:01', 'DC:A6:32', '3A:35:41', 'D8:3A:DD', 'B8:27:EB', '28:CD:C1'].map(mask => mac_adr.startsWith(mask)).reduce((p, c) => p || c) })
-            } />
-        {/if}
-
         <SettingField label={$_('settings.network.vpn')} value={
             data.machine.vpnData?.vpn.connected === undefined
             ? $_("false")
             : $_(String(data.machine.vpnData?.vpn.connected))
         } />
+
+        <SettingField label="Connecté en wifi" value={
+            $realtime.network.devices.find(k => k.iface === "wlan0")?.address !== undefined ? $_("true") : $_("false")
+        } />
+
+        <SettingField label="Connecté en ethernet" value={
+            $realtime.network.devices.find(k => k.iface === "enp1s0u1")?.address !== undefined ? $_("true") : $_("false")
+        } />
+
+        <SettingField label="editer les configurations réseau">
+            <a href="/settings/network">
+                <Button color="hover:bg-indigo-500" ringColor="ring-indigo-500" size="small">
+                    {$_('settings.network.edit')}
+                </Button>
+            </a>
+        </SettingField>
 
         <h2 class="mt-8">{$_('settings.power.lead')}</h2>
 

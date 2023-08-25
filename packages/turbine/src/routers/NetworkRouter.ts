@@ -189,6 +189,8 @@ export class NetworkRouter extends Router
 
             const connections = await getProperty<[[BodyEntry], [string[]]]>('org.freedesktop.NetworkManager', '/org/freedesktop/NetworkManager/Settings', 'org.freedesktop.NetworkManager.Settings', 'ListConnections');
 
+            TurbineEventLoop.emit('log', 'info', `Connection: found ${connections[1][0].length} connections.`);
+
             for(const connection of connections[1][0])
             {
                 const [, [connectionSettings]] = await getProperty<[BodyEntry, [Array<Record<string, Array<Record<string, string | number | Buffer>>>>]]>('org.freedesktop.NetworkManager', connection, 'org.freedesktop.NetworkManager.Settings.Connection', 'GetSettings');
@@ -241,6 +243,7 @@ export class NetworkRouter extends Router
         }
         catch (error)
         {
+            TurbineEventLoop.emit('log', 'error', JSON.stringify(error));
             throw new Error(`Failed to connect to the wifi network (${error}).`);
         }
     }
@@ -262,6 +265,8 @@ export class NetworkRouter extends Router
             if(wlanActiveConnection === undefined)
                 return;
 
+            TurbineEventLoop.emit('log', 'info', `Disconnecting from ${wlanActiveConnection}`);
+
             await dbusInvoker({
                 destination: 'org.freedesktop.NetworkManager',
                 path: '/org/freedesktop/NetworkManager',
@@ -273,10 +278,10 @@ export class NetworkRouter extends Router
         }
         catch (error)
         {
+            TurbineEventLoop.emit('log', 'error', JSON.stringify(error));
             throw new Error(`Failed to disconnect from the wifi network (${error}).`);
         }
     }
-
 
     get socketData()
     {

@@ -42,7 +42,7 @@
     let password = "";
     let showPasswordField = "";
 
-    $: wired_device = $realtime.network.devices.find(d => d.iface == "ensp1");
+    $: wired_device = $realtime.network.devices.find(d => d.iface == "enp1s0u1");
     $: wifi_device = $realtime.network.devices.find(d => d.iface == "wlan0");
 
 </script>

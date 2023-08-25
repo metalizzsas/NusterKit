@@ -121,7 +121,7 @@
                 {
                     data.message = {...data.message, network: {
                         devices: [
-                            { iface: "ensp1", path: "", gateway: "192.168.49.254", subnet: "255.255.255.0"  },
+                            { iface: "enp1s0u1", path: "", gateway: "192.168.49.254", subnet: "255.255.255.0"  },
                             { iface: "wlan0", path: "", address: "192.168.49.193", gateway: "192.168.49.254", subnet: "255.255.255.0"  }
                         ],
                         accessPoints: [

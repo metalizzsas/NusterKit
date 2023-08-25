@@ -70,7 +70,7 @@
         const reqSettings = await fetch('/api/settings');
         if(reqSettings.ok && reqSettings.status === 200)
         {
-            const s = await reqSettings.json() as { dark: boolean, lang: string };
+            const s = await reqSettings.json() as { dark: 1 | 0, lang: string };
             $settings = s;
 
             settingsSubscribe = settings.subscribe(value => {
@@ -116,7 +116,22 @@
             const data = JSON.parse(ev.data as string) as WebsocketData;
 
             if(data.type == "status" && $realtimeLock === false)
+            {
+                if(import.meta.env.DEV)
+                {
+                    data.message = {...data.message, network: {
+                        devices: [
+                            { iface: "ensp1", path: "", gateway: "192.168.49.254", subnet: "255.255.255.0"  },
+                            { iface: "wlan0", path: "", address: "192.168.49.193", gateway: "192.168.49.254", subnet: "255.255.255.0"  }
+                        ],
+                        accessPoints: [
+                            { ssid: "Test", active: true, strength: 75, frenquency: 2500, encryption: 2 },
+                            { ssid: "Test2", active: false, strength: 75, frenquency: 2500, encryption: 2 }
+                        ]
+                    }}
+                }
                 $realtime = data.message;
+            }
             else if(data.type === "popup")
             {
                 if(data.message.payload !== undefined)

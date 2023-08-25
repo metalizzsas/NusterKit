@@ -173,10 +173,30 @@
       "ip": "IP addresses",
       "mac": "Mac addresses",
       "vpn": "Connected to VPN",
+      "edit": "Edit network settings",
+      "edit_button": "Go to network settings",
+      "connected": {
+        "true": "Connected",
+        "false": "Disconnected"
+      },
+      "interface": {
+        "wired": "Wired",
+        "wireless": "WiFi",
+        "ip_4": "IPv4 address",
+        "gateway_4": "IPv4 gateway",
+        "subnet_mask": "Subnet mask"
+      },
       "wifi": {
         "label": "Wifi settings",
         "button": "Update wifi settings"
-      }
+      },
+      "available_networks": "Available networks",
+      "refresh_available_networks": "Seek networks",
+      "connect": "Connect",
+      "disconnect": "Disconnect",
+      "network_quality": "Network qualtity",
+      "wireless_connected": "Connected with WiFi",
+      "wired_connected": "Connected with Ethernet"
     },
     "advanced": {
       "lead": "Advanced settings",

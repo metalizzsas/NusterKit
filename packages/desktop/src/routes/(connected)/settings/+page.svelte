@@ -104,18 +104,18 @@
             : $_(String(data.machine.vpnData?.vpn.connected))
         } />
 
-        <SettingField label="Connecté en wifi" value={
+        <SettingField label={$_('settings.network.wireless_connected')} value={
             $realtime.network.devices.find(k => k.iface === "wlan0")?.address !== undefined ? $_("true") : $_("false")
         } />
 
-        <SettingField label="Connecté en ethernet" value={
+        <SettingField label={$_('settings.network.wired_connected')} value={
             $realtime.network.devices.find(k => k.iface === "enp1s0u1")?.address !== undefined ? $_("true") : $_("false")
         } />
 
-        <SettingField label="editer les configurations réseau">
+        <SettingField label={$_('settings.network.edit')}>
             <a href="/settings/network">
                 <Button color="hover:bg-indigo-500" ringColor="ring-indigo-500" size="small">
-                    {$_('settings.network.edit')}
+                    {$_('settings.network.edit_button')}
                 </Button>
             </a>
         </SettingField>

@@ -18,6 +18,7 @@
     }
 
     const disconnect = async () => {
+
         await fetch("/api/network/wifi/disconnect");
     }
 
@@ -25,7 +26,11 @@
 
         if(ap.active)
         {
-            disconnect();
+            if(showDisconnect === ap.ssid)
+                disconnect
+            else
+                showDisconnect = ap.ssid;
+
             return;
         }
 
@@ -42,8 +47,12 @@
     let password = "";
     let showPasswordField = "";
 
+    let showDisconnect = "";
+
     $: wired_device = $realtime.network.devices.find(d => d.iface == "enp1s0u1");
     $: wifi_device = $realtime.network.devices.find(d => d.iface == "wlan0");
+
+    $: if(showDisconnect === "") { setTimeout(() => showDisconnect = "", 10000); }
 
 </script>
 
@@ -69,21 +78,21 @@
                 class:text-amber-500={!connected}
                 class:text-emerald-500={connected}
             >{$_(`settings.network.connected.${connected}`)}</p>
-            <h1>Ethernet</h1>
+            <h1>{$_('settings.network.interface.wired')}</h1>
 
             {#if wired_device.address}
                 <Flex items="center" justify="between" class="mb-2 mt-2">
-                    <span>Addresse IPv4</span>
+                    <span>{$_('settings.network.interface.ip_4')}</span>
                     <Label>{wired_device.address}</Label>
                 </Flex>
     
                 <Flex items="center" justify="between" class="mb-2">
-                    <span>Masque de sous-réseau</span>
+                    <span>{$_('settings.network.interface.subnet_mask')}</span>
                     <Label>{wired_device.subnet}</Label>
                 </Flex>
     
                 <Flex items="center" justify="between">
-                    <span>Passerelle</span>
+                    <span>{$_('settings.network.interface.gateway_4')}</span>
                     <Label>{wired_device.gateway}</Label>
                 </Flex>
             {/if}
@@ -98,28 +107,31 @@
                 class:text-amber-500={!connected}
                 class:text-emerald-500={connected}
             >{$_(`settings.network.connected.${connected}`)}</p>
-            <h1>Wifi</h1>
+            <h1>{$_('settings.network.interface.wireless')}</h1>
 
             {#if connected}
                 <Flex items="center" justify="between" class="mb-2 mt-2">
-                    <span>Addresse IPv4</span>
+                    <span>{$_('settings.network.interface.ip_4')}</span>
                     <Label>{wifi_device.address}</Label>
                 </Flex>
 
                 <Flex items="center" justify="between" class="mb-2">
-                    <span>Masque de sous-réseau</span>
+                    <span>{$_('settings.network.interface.subnet_mask')}</span>
                     <Label>{wifi_device.subnet}</Label>
                 </Flex>
 
                 <Flex items="center" justify="between" class="mb-6">
-                    <span>Passerelle</span>
+                    <span>{$_('settings.network.interface.gateway_4')}</span>
                     <Label>{wifi_device.gateway}</Label>
                 </Flex>
             {/if}
 
             <Flex align="middle" justify="between" class="mb-4 mt-2">
-                <h4 class="leading-6">Liste des réseaux disponibles</h4>
-                <button on:click={refreshNetworks} class="bg-gray-500 hover:bg-gray-600 group duration-200 py-0.5 pr-1.5 pl-2 rounded-md text-sm text-white">Recharger<Icon src={ArrowPath} class="h-4 w-4 inline ml-2 mb-0.5 group-hover:rotate-180 duration-500"/></button>
+                <h4 class="leading-6">{$_('settings.network.available_networks')}</h4>
+                <button on:click={refreshNetworks} class="bg-gray-500 hover:bg-gray-600 group duration-200 py-0.5 pr-1.5 pl-2 rounded-md text-sm text-white">
+                    {$_('settings.network.refresh_available_networks')}
+                    <Icon src={ArrowPath} class="h-4 w-4 inline ml-2 mb-0.5 group-hover:rotate-180 duration-500"/>
+                </button>
             </Flex>
 
             <Grid cols={1} gap={4}>
@@ -130,9 +142,9 @@
                             <div class="text-left">
                                 <h5 class="-mb-1">{ap.ssid}</h5>
                                 {#if !ap.active}
-                                    <span class="text-xs text-zinc-700 dark:text-zinc-300">Qualité: {ap.strength} %</span>
+                                    <span class="text-xs text-zinc-700 dark:text-zinc-300">{$_('settings.network.network_quality')}: {ap.strength} %</span>
                                 {:else}
-                                    <span class="text-xs text-zinc-700 dark:text-zinc-300">Connecté</span>
+                                    <span class="text-xs text-zinc-700 dark:text-zinc-300">{$_('settings.network.connected.true')}</span>
                                 {/if}
                             </div>
     
@@ -146,11 +158,14 @@
                         {#if showPasswordField === ap.ssid}
                             <div class="flex justify-between items-center w-full">
                                 <PasswordField bind:value={password} />
-                                <Button size="small">Connect</Button>
+                                <Button size="small">{$_('settings.network.connect')}</Button>
                             </div>
                         {/if}
 
-                        </div>
+                        {#if showDisconnect === ap.ssid}
+                            <Button size="small" ringColor="ring-red-500" color="hover:bg-red-500">{$_('settings.network.disconnect')}</Button>
+                        {/if}
+                    </div>
                 {/each}
             </Grid>
         </Wrapper2>

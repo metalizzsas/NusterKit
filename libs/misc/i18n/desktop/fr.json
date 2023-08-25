@@ -176,7 +176,26 @@
       "wifi": {
         "label": "Réglages WiFi",
         "button": "Modifier les réglages"
-      }
+      },
+      "connect": "Se connecter",
+      "disconnect": "Se déconnecter",
+      "connected": {
+        "true": "Connecté"
+      },
+      "network_quality": "Qualité du réseau",
+      "refresh_available_networks": "Rechercher",
+      "interface": {
+        "gateway_4": "Passerelle IPv4",
+        "subnet_mask": "Masque de sous-réseau",
+        "ip_4": "Addresse IPv4",
+        "wireless": "Réseau sans-fil",
+        "wired": "Réseau câblé"
+      },
+      "edit": "Modifier les paramètre réseau",
+      "available_networks": "Réseaux disponibles",
+      "wireless_connected": "Connecté au réseau sans-fil",
+      "wired_connected": "Connecté au réseau câblé",
+      "edit_button": "Aller au paramètres réseau"
     },
     "advanced": {
       "lead": "Réglages avancés",
@@ -190,7 +209,7 @@
       "uscleaner": "USCleaner"
     },
     "power": {
-      "lead": "Gestion de l'alimentation",  
+      "lead": "Gestion de l'alimentation",
       "reboot": "Redémarrer",
       "shutdown": "Éteindre",
       "modal": {

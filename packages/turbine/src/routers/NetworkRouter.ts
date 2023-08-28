@@ -2,7 +2,7 @@ import { Router } from "./Router";
 
 import type { NetworkDevice, AccessPoint } from "@metalizzsas/nuster-typings/build/hydrated/balena";
 import type { BodyEntry } from "dbus-native";
-import { computeSubnet } from "../dbus/network-utils";
+import { computeSubnet, stringToArrayOfBytes } from "../dbus/network-utils";
 import { dbusInvoker, getProperty } from "../dbus/dbus";
 import { NetworkManagerTypes } from "../dbus/networkManagerTypes";
 import { TurbineEventLoop } from "../events";
@@ -201,12 +201,17 @@ export class NetworkRouter extends Router
             const connectionParams = [
                 ['connection', [
                     ['id', ['s', ssid]],
-                    ['type', ['s', '802-11-wireless']],
-                    ['autoconnect', ['b', true]]
+                    ['type', ['s', '802-11-wireless']]
                 ]],
                 ['802-11-wireless', [
-                    ['ssid', ['ay', [Buffer.from(ssid)]]],
+                    ['ssid', ['ay', stringToArrayOfBytes(ssid)]],
                     ['mode', ['s', 'infrastructure']],
+                ]],
+                ['ipv4', [
+                    ['method', ['s', 'auto']],
+                ]],
+                ['ipv6', [
+                    ['method', ['s', 'auto']],
                 ]]
             ] satisfies BodyEntry[];
 
@@ -219,6 +224,9 @@ export class NetworkRouter extends Router
                     ['psk', ['s', password]],
                 ]]);
             }
+
+            // eslint-disable-next-line no-console
+            console.log("here-1", connectionParams);
 
             const connection = await dbusInvoker<string>({
                 destination: 'org.freedesktop.NetworkManager',

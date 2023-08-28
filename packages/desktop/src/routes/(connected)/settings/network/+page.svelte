@@ -17,18 +17,24 @@
         await fetch("/api/network/wifi/list");
     }
 
-    const disconnect = async () => {
+    const disconnect = async (ap: AccessPoint) => {
+        processing = ap.ssid
         await fetch("/api/network/wifi/disconnect");
+        processing = undefined;
     }
 
     /** Connect the desired AP using the given password */
-    const connect = (ap: AccessPoint) => {
-        void fetch('/api/network/wifi/connect', { method: 'POST', body: JSON.stringify({ ssid: ap.ssid, password }) });
+    const connect = async (ap: AccessPoint) => {
         showDetails = undefined;
+        password = "";
+        processing = ap.ssid;
+        await fetch('/api/network/wifi/connect', { method: 'POST', body: JSON.stringify({ ssid: ap.ssid, password }) });
+        processing = undefined;
     }
 
     let password = "";
 
+    let processing: string | undefined = undefined;
     let showDetails: string | undefined = undefined;
 
     $: wired_device = $realtime.network.devices.find(d => d.iface == "enp1s0u1");
@@ -127,17 +133,22 @@
                                     <span class="text-xs text-zinc-700 dark:text-zinc-300">{$_('settings.network.connected.true')}</span>
                                 {/if}
                             </div>
-    
-                            {#if ap.active}
-                                <Icon src={CheckCircle} class="h-6 w-6 text-indigo-400" />
+
+                            {#if processing !== ap.ssid}
+                                {#if ap.active}
+                                    <Icon src={CheckCircle} class="h-6 w-6 text-indigo-400" />
+                                {:else}
+                                    <Icon src={ArrowRightCircle} class="h-6 w-6 text-white-500" />
+                                {/if}
                             {:else}
-                                <Icon src={ArrowRightCircle} class="h-6 w-6 text-white-500" />
+                                <Icon src={ArrowPath} class="h-6 w-6 text-amber-500 animate-spin" />
                             {/if}
+    
                         </button>
 
                         {#if showDetails === ap.ssid}
                             {#if ap.active}
-                                <Button size="small" ringColor="ring-red-500" color="hover:bg-red-500" class="mb-1" on:click={() => disconnect()}>{$_('settings.network.disconnect')}</Button>
+                                <Button size="small" ringColor="ring-red-500" color="hover:bg-red-500" class="mb-1" on:click={() => disconnect(ap)}>{$_('settings.network.disconnect')}</Button>
                             {:else}
                                 <div class="flex justify-between items-center w-full gap-4 mb-1">
                                     <PasswordField bind:value={password} class="grow" />

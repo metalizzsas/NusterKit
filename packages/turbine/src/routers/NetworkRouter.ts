@@ -213,16 +213,23 @@ export class NetworkRouter extends Router
                 ]]
             ] satisfies BodyEntry[];
 
-            await dbusInvoker({
+            const connection = await dbusInvoker<string>({
+                destination: 'org.freedesktop.NetworkManager',
+                path: '/org/freedesktop/NetworkManager/Settings',
+                interface: 'org.freedesktop.NetworkManager.Settings',
+                member: 'AddConnection',
+                signature: 'a{sa{sv}}',
+                body: [connectionParams]
+            });
+
+            return await dbusInvoker({
                 destination: 'org.freedesktop.NetworkManager',
                 path: '/org/freedesktop/NetworkManager',
                 interface: 'org.freedesktop.NetworkManager',
-                member: 'AddAndActivateConnection',
-                signature: 'a{sa{sv}}oo',
-                body: [connectionParams, wlan0.path, ap.path]
+                member: 'ActivateConnection',
+                signature: 'ooo',
+                body: [connection, wlan0.path, '/']
             });
-
-            return true;
         }
         catch (error)
         {

@@ -45,6 +45,10 @@ jobs:
       - name: 🧱 Build libraries
         run: pnpm run build:libs
 
+      - name: ❔ Get short commit ID
+        id: get_commit_id
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
       - name: ❔ Get Nuster BalenaCloud version from package.json
         id: get_nuster_version
         run: cat ./packages/nuster/package.json | echo version=$(jq -r '.version') >> $GITHUB_OUTPUT
@@ -54,6 +58,7 @@ jobs:
         env:
           NODE_ENV: production
           VITE_NUSTER_VERSION: ${{ steps.get_nuster_version.outputs.version }}
+          VITE_NUSTER_COMMIT: ${{ github.sha }}
 
       - name: ↔ Replace prod turbine dockerfile by draft dockerfile
         run: mv -f ./packages/turbine/Dockerfile.draft.template ./packages/turbine/Dockerfile.template
@@ -78,11 +83,11 @@ jobs:
           --url "https://api.balena-cloud.com/v6/release($RELEASE_ID)"
           --header "Authorization: Bearer $BALENA_TOKEN"
           --header "Content-Type: application/json" 
-          --data "{\"is_final\": false, \"note\": \"Pull request: $PR_NAME ($PR_ID)\", \"version\": \"$VERSION-$COMMIT\"}"
+          --data "{\"is_final\": false, \"note\": \"Pull request: $PR_NAME ($PR_ID)\", \"release_version\": \"$VERSION-$COMMIT\"}"
         env:
           BALENA_TOKEN: ${{ secrets.BALENA_TOKEN }}
           RELEASE_ID: ${{ steps.balena_release.outputs.release_id }}
           PR_ID: ${{ github.event.pull_request.number }}
           PR_NAME: ${{ github.event.pull_request.title }}
-          COMMIT: ${{ github.sha }}
+          COMMIT: ${{ steps.get_commit_id.outputs.sha_short }}
           VERSION: ${{ steps.get_nuster_version.outputs.version }}

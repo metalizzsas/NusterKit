@@ -27,6 +27,7 @@
 	import type { MachineData } from "@metalizzsas/nuster-typings/build/hydrated/machine";
 	import { fade } from "svelte/transition";
 	import type { Unsubscriber } from "svelte/store";
+	import { version } from "$lib/version";
 
     type Toast_popup = Popup & { date: number };
 
@@ -125,8 +126,8 @@
                             { iface: "wlan0", path: "", address: "192.168.49.193", gateway: "192.168.49.254", subnet: "255.255.255.0"  }
                         ],
                         accessPoints: [
-                            { ssid: "Test", active: true, strength: 75, frenquency: 2500, encryption: 2 },
-                            { ssid: "Test2", active: false, strength: 75, frenquency: 2500, encryption: 2 }
+                            { ssid: "Test", active: true, strength: 75, frenquency: 2500, encryption: 2, path: "" },
+                            { ssid: "Test2", active: false, strength: 75, frenquency: 2500, encryption: 2, path: "" }
                         ]
                     }}
                 }
@@ -140,7 +141,7 @@
                     {
                         if(key === "version")
                         {
-                            data.message.payload[key] = import.meta.env.VITE_NUSTER_VERSION;
+                            data.message.payload[key] = version;
                             continue;
                         }
                         

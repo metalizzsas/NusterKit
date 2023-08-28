@@ -9,7 +9,7 @@
 	import Grid from "$lib/components/layout/grid.svelte";
 	import { realtime } from "$lib/utils/stores/nuster";
 	import type { AccessPoint } from "@metalizzsas/nuster-typings/build/hydrated/balena";
-	import { ArrowLeft, ArrowPath, ArrowRightCircle, CheckCircle } from "@steeze-ui/heroicons";
+	import { ArrowLeft, ArrowPath, ArrowRightCircle, CheckCircle, XMark } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";
 	import { _ } from "svelte-i18n";
 
@@ -21,6 +21,8 @@
         processing = ap.ssid
         await fetch("/api/network/wifi/disconnect");
         processing = undefined;
+        showDetails = undefined;
+        refreshNetworks();
     }
 
     /** Connect the desired AP using the given password */
@@ -28,17 +30,25 @@
         showDetails = undefined;
         password = "";
         processing = ap.ssid;
-        await fetch('/api/network/wifi/connect', { method: 'POST', body: JSON.stringify({ ssid: ap.ssid, password }) });
+        const result = await fetch('/api/network/wifi/connect', { method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ssid: ap.ssid, password: password }) });
+
+        if(!result.ok || result.status !== 200)
+            wifiConnectError = ap.ssid;
+
         processing = undefined;
+        refreshNetworks();
     }
 
     let password = "";
 
     let processing: string | undefined = undefined;
     let showDetails: string | undefined = undefined;
+    let wifiConnectError: string | undefined = undefined;
 
     $: wired_device = $realtime.network.devices.find(d => d.iface == "enp1s0u1");
     $: wifi_device = $realtime.network.devices.find(d => d.iface == "wlan0");
+
+    $: if(wifiConnectError) { setTimeout(() => wifiConnectError = undefined, 10000) }
 
 </script>
 
@@ -134,14 +144,18 @@
                                 {/if}
                             </div>
 
-                            {#if processing !== ap.ssid}
-                                {#if ap.active}
-                                    <Icon src={CheckCircle} class="h-6 w-6 text-indigo-400" />
-                                {:else}
-                                    <Icon src={ArrowRightCircle} class="h-6 w-6 text-white-500" />
-                                {/if}
+                            {#if wifiConnectError === ap.ssid}
+                                <Icon src={XMark} class="h-6 w-6 text-red-500" />
                             {:else}
-                                <Icon src={ArrowPath} class="h-6 w-6 text-amber-500 animate-spin" />
+                                {#if processing !== ap.ssid}
+                                    {#if ap.active}
+                                        <Icon src={CheckCircle} class="h-6 w-6 text-indigo-400" />
+                                    {:else}
+                                        <Icon src={ArrowRightCircle} class="h-6 w-6 text-white-500" />
+                                    {/if}
+                                {:else}
+                                    <Icon src={ArrowPath} class="h-6 w-6 text-amber-500 animate-spin" />
+                                {/if}
                             {/if}
     
                         </button>

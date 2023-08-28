@@ -38,9 +38,7 @@ export class NetworkRouter extends Router
         this.router.post("/wifi/connect", async (req, res) => {
             try
             {
-                TurbineEventLoop.emit('log', 'info', `Connecting to wifi network. (${JSON.stringify(req.body)})`);
                 const result = await this.connectToWifi(req.body.ssid, req.body.password);
-                TurbineEventLoop.emit('log', 'info', `Connected to wifi network. (${result})`);
                 res.status(result ? 200 : 500).end();
             }
             catch(e)
@@ -226,8 +224,6 @@ export class NetworkRouter extends Router
                 ]]);
             }
 
-            TurbineEventLoop.emit('log', 'info', JSON.stringify(connectionParams));
-
             const connection = await dbusInvoker<string>({
                 destination: 'org.freedesktop.NetworkManager',
                 path: '/org/freedesktop/NetworkManager/Settings',
@@ -236,8 +232,6 @@ export class NetworkRouter extends Router
                 signature: 'a{sa{sv}}',
                 body: [connectionParams]
             });
-
-            TurbineEventLoop.emit('log', 'info', connection)
 
             const result = await dbusInvoker<string>({
                 destination: 'org.freedesktop.NetworkManager',
@@ -248,7 +242,8 @@ export class NetworkRouter extends Router
                 body: [connection, wlan0.path, '/']
             });
 
-            TurbineEventLoop.emit('log', 'info', JSON.stringify(result));
+            await this.getDevices();
+            await this.listWifiNetworks();
 
             return result !== undefined;
         }

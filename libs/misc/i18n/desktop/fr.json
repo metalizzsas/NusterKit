@@ -182,7 +182,8 @@
       "connect": "Se connecter",
       "disconnect": "Se déconnecter",
       "connected": {
-        "true": "Connecté"
+        "true": "Connecté",
+        "false": "Déconnecté"
       },
       "network_quality": "Qualité du réseau",
       "refresh_available_networks": "Rechercher",

@@ -18,41 +18,21 @@
     }
 
     const disconnect = async () => {
-
         await fetch("/api/network/wifi/disconnect");
     }
 
-    const clickAp = (ap: AccessPoint) => {
-
-        if(ap.active)
-        {
-            if(showDisconnect === ap.ssid)
-                disconnect
-            else
-                showDisconnect = ap.ssid;
-
-            return;
-        }
-
-        if(showPasswordField !== ap.ssid)
-        {
-            showPasswordField = ap.ssid;
-            return;
-        }
-
+    /** Connect the desired AP using the given password */
+    const connect = (ap: AccessPoint) => {
         void fetch('/api/network/wifi/connect', { method: 'POST', body: JSON.stringify({ ssid: ap.ssid, password }) });
-        showPasswordField = "";
+        showDetails = undefined;
     }
 
     let password = "";
-    let showPasswordField = "";
 
-    let showDisconnect = "";
+    let showDetails: string | undefined = undefined;
 
     $: wired_device = $realtime.network.devices.find(d => d.iface == "enp1s0u1");
     $: wifi_device = $realtime.network.devices.find(d => d.iface == "wlan0");
-
-    $: if(showDisconnect === "") { setTimeout(() => showDisconnect = "", 10000); }
 
 </script>
 
@@ -135,10 +115,10 @@
             </Flex>
 
             <Grid cols={1} gap={4}>
-                {#each $realtime.network.accessPoints.sort((a, b) => Number(b.active) - Number(a.active)) as ap}
+                {#each $realtime.network.accessPoints.sort((a, b) => Number(b.active) - Number(a.active)) as ap (ap.ssid)}
                     <div class="flex flex-col gap-4 bg-zinc-200 dark:bg-zinc-800 px-3 py-2 rounded-xl">
 
-                        <button class="flex justify-between items-center w-full" on:click={() => clickAp(ap)}>
+                        <button class="flex justify-between items-center w-full" on:click={() => showDetails = (showDetails === ap.ssid) ? undefined : ap.ssid}>
                             <div class="text-left">
                                 <h5 class="-mb-1">{ap.ssid}</h5>
                                 {#if !ap.active}
@@ -155,15 +135,15 @@
                             {/if}
                         </button>
 
-                        {#if showPasswordField === ap.ssid}
-                            <div class="flex justify-between items-center w-full">
-                                <PasswordField bind:value={password} />
-                                <Button size="small">{$_('settings.network.connect')}</Button>
-                            </div>
-                        {/if}
-
-                        {#if showDisconnect === ap.ssid}
-                            <Button size="small" ringColor="ring-red-500" color="hover:bg-red-500">{$_('settings.network.disconnect')}</Button>
+                        {#if showDetails === ap.ssid}
+                            {#if ap.active}
+                                <Button size="small" ringColor="ring-red-500" color="hover:bg-red-500" class="mb-1" on:click={() => disconnect()}>{$_('settings.network.disconnect')}</Button>
+                            {:else}
+                                <div class="flex justify-between items-center w-full gap-4 mb-1">
+                                    <PasswordField bind:value={password} class="grow" />
+                                    <Button on:click={() => connect(ap)}>{$_('settings.network.connect')}</Button>
+                                </div>
+                            {/if}
                         {/if}
                     </div>
                 {/each}

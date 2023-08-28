@@ -10,18 +10,22 @@ import { TurbineEventLoop } from "../events";
 
 const productionEnabled = process.env.NODE_ENV === 'production';
 
+/** Websocket manager */
 export class WebsocketDispatcher
 {
-    private static _instance: WebsocketDispatcher;
-
-    wsServer: WebSocketServer;
+    /** Underlying Websocket server */
+    private wsServer: WebSocketServer;
     
     /** Connect popup data */
-    connectPopup?: Popup;
+    private connectPopups: Array<Popup> = [];
     /** Wheter the connect popup has been displayed or not */
-    connectPopupDisplayed = false;
+    private connectPopupDisplayed = false;
 
-    private constructor(httpServer: Server)
+    /**
+     * Creates a websocket dispatcher bound to the given http server
+     * @param httpServer Http server to bind the websocket server to
+     */
+    constructor(httpServer: Server)
     {        
         this.wsServer = new WebSocketServer({server: httpServer, path: productionEnabled ? '' : '/ws/'});
         
@@ -30,19 +34,16 @@ export class WebsocketDispatcher
         });
         
         this.wsServer.on('connection', this.onConnect.bind(this));
-
         TurbineEventLoop.on("nuster.modal", this.togglePopup.bind(this));
     }
 
-    static getInstance(httpServer?: Server)
+    /**
+     * Add a popup to be displayed on all NusterDesktop clients
+     * @param popup Popup data to be displayed on all NusterDesktop clients
+     */
+    addConnectPopup(popup: Popup)
     {
-        if(!this._instance)
-            if(httpServer !== undefined)
-                this._instance = new WebsocketDispatcher(httpServer);
-            else
-                throw new Error("Websocket: Failed to instantiate, missing data");
-
-        return this._instance;
+        this.connectPopups = [...this.connectPopups, popup];
     }
 
     /** 
@@ -81,16 +82,16 @@ export class WebsocketDispatcher
     private onConnect(ws: WebSocket)
     {
         this.wsServer.clients.add(ws);
-
+        
         LoggerInstance.trace("Websocket: New client");
 
-        if(this.connectPopup !== undefined && this.connectPopupDisplayed == false)
+        if(this.connectPopups !== undefined && this.connectPopupDisplayed == false)
         {
             setTimeout(() => {
-                if(this.connectPopup)
+                if(this.connectPopups)
                 {
                     LoggerInstance.info("Websocket: Displaying connect popup.");
-                    this.togglePopup(this.connectPopup);
+                    this.connectPopups.forEach(popup => this.togglePopup(popup));
                     this.connectPopupDisplayed = true;
                 }
             }, 2000);

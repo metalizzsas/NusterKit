@@ -78,9 +78,11 @@ jobs:
           --url "https://api.balena-cloud.com/v6/release($RELEASE_ID)"
           --header "Authorization: Bearer $BALENA_TOKEN"
           --header "Content-Type: application/json" 
-          --data "{\"is_final\": false, \"note\": \"Pull request: $PR_NAME ($PR_ID)\"}"
+          --data "{\"is_final\": false, \"note\": \"Pull request: $PR_NAME ($PR_ID)\", \"version\": \"$VERSION-$COMMIT\"}"
         env:
           BALENA_TOKEN: ${{ secrets.BALENA_TOKEN }}
           RELEASE_ID: ${{ steps.balena_release.outputs.release_id }}
           PR_ID: ${{ github.event.pull_request.number }}
           PR_NAME: ${{ github.event.pull_request.title }}
+          COMMIT: ${{ github.sha }}
+          VERSION: ${{ steps.get_nuster_version.outputs.version }}

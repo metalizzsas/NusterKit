@@ -14,7 +14,9 @@
   "proceed": "Continuer",
   "nuster": {
     "lead": "Nuster",
-    "logo": "Logo nuster"
+    "logo": "Logo nuster",
+    "toast-update": "Mise à jour installée",
+    "toast-update-body": "Nuster a été mis a jour vers la version {version}."
   },
   "error": {
     "render": {

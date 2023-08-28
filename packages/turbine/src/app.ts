@@ -27,6 +27,9 @@ let httpServer: Server | undefined = undefined;
 /** Machine instance holding all the controllers */
 let machine: Machine | undefined = undefined;
 
+/** Websocket manager */
+let websocketDispatcher: WebsocketDispatcher | undefined = undefined;
+
 /** File / Folders paths */
 const basePath = productionEnabled ? "/data" : "data";
 const infoPath = path.resolve(basePath, "info.json");
@@ -329,10 +332,16 @@ async function SoftExit()
 /** Setup Websocket server */
 function SetupWebsocketServer()
 {
-    WebsocketDispatcher.getInstance(httpServer);
+    if(httpServer === undefined)
+    {
+        LoggerInstance.error("Websocket: Cannot setup websocket server, httpServer is undefined.");
+        throw Error("Cannot setup websocket server, httpServer is undefined.");
+    }
+
+    websocketDispatcher = new WebsocketDispatcher(httpServer);
 
     setInterval(async () => {
-        WebsocketDispatcher.getInstance().broadcastData(await machine?.socketData(), "status");
+        websocketDispatcher?.broadcastData(await machine?.socketData(), "status");
     }, 500);
 }
 
@@ -357,7 +366,16 @@ function SetupMachine()
 {
     if(machine)
     {
-        WebsocketDispatcher.getInstance().connectPopup = machine.specs.nuster?.connectPopup;
+        if(machine.specs.nuster?.connectPopup)
+            websocketDispatcher?.addConnectPopup(machine.specs.nuster?.connectPopup);
+
+        if(wasUpdated)
+            websocketDispatcher?.addConnectPopup({
+                title: "nuster.toast-update",
+                message: "nuster.toast-update-body",
+                level: "info",
+        });
+        
         LoggerInstance.info("Machine: Setting up connect popup.");
 
         ExpressApp.use('/v1/io', machine.ioRouter.router);
@@ -381,4 +399,4 @@ function SetupMachine()
 /** NodeJS process events */
 process.on("uncaughtException", (error: Error) => LoggerInstance.error("unCaughtException: " + error.stack));
 process.on('unhandledRejection', (error: Error) => LoggerInstance.error("unhandledPromiseRejection: " + error.stack));
-process.on("SIGTERM", () => { LoggerInstance.info("Shutdown: SIGTERM detected."); TurbineEventLoop.emit("io.resetAll"); });
+process.on("SIGTERM", () => { LoggerInstance.info("Shutdown: SIGTERM detected."); SoftExit(); });

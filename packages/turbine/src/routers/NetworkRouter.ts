@@ -187,8 +187,7 @@ export class NetworkRouter extends Router
     private async connectToWifi(ssid: string, password?: string | undefined): Promise<boolean> {
         try
         {
-            const wifiDevices = await this.getDevices();
-            const wlan0 = wifiDevices.find(device => device.iface === "wlan0");
+            const wlan0 = this.devices.find(device => device.iface === "wlan0");
         
             if(wlan0 === undefined)
                 throw new Error("Main physical wifi device not found.");
@@ -225,8 +224,7 @@ export class NetworkRouter extends Router
                 ]]);
             }
 
-            // eslint-disable-next-line no-console
-            console.log("here-1", connectionParams);
+            TurbineEventLoop.emit('log', 'info', JSON.stringify(connectionParams));
 
             const connection = await dbusInvoker<string>({
                 destination: 'org.freedesktop.NetworkManager',
@@ -237,8 +235,7 @@ export class NetworkRouter extends Router
                 body: [connectionParams]
             });
 
-            // eslint-disable-next-line no-console
-            console.log("here", connection);
+            TurbineEventLoop.emit('log', 'info', connection)
 
             const result = await dbusInvoker<string>({
                 destination: 'org.freedesktop.NetworkManager',
@@ -249,8 +246,7 @@ export class NetworkRouter extends Router
                 body: [connection, wlan0.path, '/']
             });
 
-            // eslint-disable-next-line no-console
-            console.log("here2", result);
+            TurbineEventLoop.emit('log', 'info', JSON.stringify(result));
 
             return result !== undefined;
         }

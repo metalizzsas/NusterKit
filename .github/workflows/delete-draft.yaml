@@ -1,0 +1,43 @@
+name: 🚀 Draft release
+
+on:
+  pull_request:
+    types:
+        - closed
+    branches:
+      - main
+
+env:
+  NODE_ENV: development
+
+jobs:
+  draft:
+    permissions:
+      contents: read
+      packages: read
+
+    name: Delete draft releases
+    runs-on: ubuntu-latest
+    if: github.repository == 'metalizzsas/nusterkit' && github.head_ref != 'changeset-release/main'
+    steps:
+
+      - name: Get all draft releases used by this PR on balenaCloud
+        id: get_draft_releases
+        run: >
+            curl --request GET
+            --url 'https://api.balena-cloud.com/v6/release_tag?%24filter=tag_key%20eq%20'\''pull_request_id'\''%20and%20value%20eq%20$PR_ID'
+            --header 'Authorization: Bearer $BALENA_TOKEN' | jq -r '.d | map(.release.__id)' >> $GITHUB_OUTPUT
+        env:
+            BALENA_TOKEN: ${{ secrets.BALENA_TOKEN }}
+            PR_ID: ${{ github.event.pull_request.number }}
+
+      - name: Delete draft releases
+        if: 1 == 0
+        run: >
+            releases=$(echo $RELEASES | jr -c -r '.[]')
+            for release in ${releases[@]}; do
+                curl --request DELETE --url 'https://ap.balena-cloud.com/v6/release($release)' --header 'Authorization: Bearer $BALENA_TOKEN'
+            done
+        env:
+            BALENA_TOKEN: ${{ secrets.BALENA_TOKEN }}
+            RELEASES: ${{ steps.get_draft_releases.outputs.release_ids }}

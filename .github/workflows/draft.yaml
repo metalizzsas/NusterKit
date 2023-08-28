@@ -83,7 +83,7 @@ jobs:
           --url "https://api.balena-cloud.com/v6/release($RELEASE_ID)"
           --header "Authorization: Bearer $BALENA_TOKEN"
           --header "Content-Type: application/json" 
-          --data "{\"is_final\": false, \"note\": \"Pull request: $PR_NAME ($PR_ID)\", \"release_version\": \"$VERSION-$COMMIT\"}"
+          --data "{\"is_final\": false, \"note\": \"Pull request: $PR_NAME ($PR_ID)\", \"semver\": \"$VERSION-$COMMIT\"}"
         env:
           BALENA_TOKEN: ${{ secrets.BALENA_TOKEN }}
           RELEASE_ID: ${{ steps.balena_release.outputs.release_id }}
@@ -91,3 +91,15 @@ jobs:
           PR_NAME: ${{ github.event.pull_request.title }}
           COMMIT: ${{ steps.get_commit_id.outputs.sha_short }}
           VERSION: ${{ steps.get_nuster_version.outputs.version }}
+        
+      - name: 🐳 Add BalenaCloud Draft Release Tag
+        run: >
+          curl --request POST
+          --url "https://api.balena-cloud.com/v6/release_tag"
+          --header "Content-Type: application/json"
+          --header "Authorization: Bearer $BALENA_TOKEN"
+          --data "{\"release\": \"$RELEASE_ID\",\"tag_key\": \"pull_request_id\",\"value\": \"$PR_ID\"}"
+        env:
+          BALENA_TOKEN: ${{ secrets.BALENA_TOKEN }}
+          RELEASE_ID: ${{ steps.balena_release.outputs.release_id }}
+          PR_ID: ${{ github.event.pull_request.number }}

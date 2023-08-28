@@ -6,13 +6,10 @@
     onMount(() => {
         const interval = setInterval(() => {
 
-            while(time < 4)
-            {
-                time++;
-                return;
-            }
-
-            window.location.reload();
+            if(time >= 5)
+                window.location.reload();
+            
+            time++;
         }, 1000);
 
         return clearInterval(interval);

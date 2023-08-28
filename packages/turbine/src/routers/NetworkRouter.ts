@@ -33,7 +33,6 @@ export class NetworkRouter extends Router
         });
 
         this.router.post("/wifi/connect", async (req, res) => {
-
             try
             {
                 const result = await this.connectToWifi(req.body.ssid, req.body.password)

@@ -4,6 +4,7 @@ export type AccessPoint = {
     frenquency: number;
     encryption: number;
     active: boolean;
+    path: string;
 }
 
 export type NetworkDevice = {

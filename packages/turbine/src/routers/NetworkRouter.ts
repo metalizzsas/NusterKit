@@ -164,7 +164,8 @@ export class NetworkRouter extends Router
                 strength: accessPointStrengh[1][0],
                 frenquency: accessPointFrenquency[1][0],
                 encryption: accessPointEncryption[1][0],
-                active: accessPointPath === activeAccessPointPath
+                active: accessPointPath === activeAccessPointPath,
+                path: accessPointPath
             } satisfies AccessPoint);
         }
 
@@ -188,6 +189,11 @@ export class NetworkRouter extends Router
         
             if(wlan0 === undefined)
                 throw new Error("Main physical wifi device not found.");
+
+            const ap = this.accessPoints.find(ap => ap.ssid === ssid);
+            
+            if(ap === undefined)
+                throw new Error("Access point used not found.");
     
             const connectionParams = [
                 ['connection', [
@@ -210,14 +216,13 @@ export class NetworkRouter extends Router
                 ]],
             ] satisfies BodyEntry[];
 
-
             await dbusInvoker({
                 destination: 'org.freedesktop.NetworkManager',
                 path: '/org/freedesktop/NetworkManager',
                 interface: 'org.freedesktop.NetworkManager',
                 member: 'AddAndActivateConnection',
                 signature: 'a{sa{sv}}oo',
-                body: [connectionParams, wlan0.path, '/']
+                body: [connectionParams, wlan0.path, ap.path]
             });
 
             return true;

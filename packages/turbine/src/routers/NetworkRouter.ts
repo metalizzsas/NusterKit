@@ -2,7 +2,7 @@ import { Router } from "./Router";
 
 import type { NetworkDevice, AccessPoint } from "@metalizzsas/nuster-typings/build/hydrated/balena";
 import type { BodyEntry } from "dbus-native";
-import { computeSubnet, stringToArrayOfBytes } from "../dbus/network-utils";
+import { computeSubnet } from "../dbus/network-utils";
 import { dbusInvoker, getProperty } from "../dbus/dbus";
 import { NetworkManagerTypes } from "../dbus/networkManagerTypes";
 import { TurbineEventLoop } from "../events";
@@ -16,6 +16,8 @@ export class NetworkRouter extends Router
     {
         super();
         this.configureRouter();
+        this.getDevices();
+        this.listWifiNetworks();
     }
 
     async configureRouter()
@@ -41,7 +43,6 @@ export class NetworkRouter extends Router
             }
             catch(e)
             {
-                TurbineEventLoop.emit('log', 'error', JSON.stringify(e));
                 res.status(500).json(e);
             }
         });
@@ -183,7 +184,7 @@ export class NetworkRouter extends Router
      * @returns True if the connection was successful
      * @async
      */
-    private async connectToWifi(ssid: string, password: string): Promise<boolean> {
+    private async connectToWifi(ssid: string, password?: string | undefined): Promise<boolean> {
         try
         {
             const wifiDevices = await this.getDevices();
@@ -204,14 +205,20 @@ export class NetworkRouter extends Router
                     ['autoconnect', ['b', true]]
                 ]],
                 ['802-11-wireless', [
-                    ['ssid', ['ay', stringToArrayOfBytes(ssid)]],
+                    ['ssid', ['ay', [Buffer.from(ssid)]]],
                     ['mode', ['s', 'infrastructure']],
-                ]],
-                ['802-11-wireless-security', [
-                    ['key-mgmt', ['s', 'wpa-psk']],
-                    ['psk', ['s', password]],
                 ]]
             ] satisfies BodyEntry[];
+
+            if(password !== undefined)
+            {
+                const keyMgmt: 'wep' | 'ieee8021x' |  'wpa-psk' | 'sae' | 'owe' | 'wpa-aep' | 'wpa-eap-suite-b-192' = 'wpa-psk';
+
+                connectionParams.push(['802-11-wireless-security', [
+                    ['key-mgmt', ['s', keyMgmt]],
+                    ['psk', ['s', password]],
+                ]]);
+            }
 
             const connection = await dbusInvoker<string>({
                 destination: 'org.freedesktop.NetworkManager',
@@ -222,7 +229,10 @@ export class NetworkRouter extends Router
                 body: [connectionParams]
             });
 
-            return await dbusInvoker({
+            // eslint-disable-next-line no-console
+            console.log("here", connection);
+
+            const result = await dbusInvoker<string>({
                 destination: 'org.freedesktop.NetworkManager',
                 path: '/org/freedesktop/NetworkManager',
                 interface: 'org.freedesktop.NetworkManager',
@@ -230,6 +240,11 @@ export class NetworkRouter extends Router
                 signature: 'ooo',
                 body: [connection, wlan0.path, '/']
             });
+
+            // eslint-disable-next-line no-console
+            console.log("here2", result);
+
+            return result !== undefined;
         }
         catch (error)
         {

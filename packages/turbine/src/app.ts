@@ -41,6 +41,8 @@ const updateFile = path.resolve(basePath, "updated");
 /** Do NusterKit has been updated */
 const wasUpdated = fs.existsSync(updateFile);
 
+if(wasUpdated) fs.rmSync(updateFile);
+
 if(!fs.existsSync(logsFolderPath)) fs.mkdirSync(logsFolderPath);
 if(!fs.existsSync(settingsPath)) fs.writeFileSync(settingsPath, JSON.stringify({ dark: 1, lang: "en" }), { encoding: "utf-8" });
 
@@ -114,7 +116,6 @@ if(wasUpdated && productionEnabled)
         )
     ]).then(() => {
         LoggerInstance.info("Update: Restarted proxy & wpe services.");
-        fs.rmSync(updateFile);
     });
 }
 

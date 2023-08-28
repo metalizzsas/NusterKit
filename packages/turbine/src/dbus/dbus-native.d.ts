@@ -14,7 +14,7 @@ declare module "dbus-native" {
 	}
 
 	/** Data sent */
-	export type BodyEntry = string | number | Buffer | null | Array<BodyEntry> | { [x: string]: BodyEntry };
+	export type BodyEntry = string | number | boolean | Buffer | null | Array<BodyEntry> | { [x: string]: BodyEntry };
 
 	/** Messages sent using `invoke()` */
 	export type DBusMessage = {

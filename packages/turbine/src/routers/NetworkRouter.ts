@@ -23,6 +23,7 @@ export class NetworkRouter extends Router
         this.router.get("/wifi/list", async (req, res) => {
             try
             {
+                this.accessPoints = [];
                 const list = await this.listWifiNetworks();
                 res.json(list);
             }
@@ -40,6 +41,7 @@ export class NetworkRouter extends Router
             }
             catch(e)
             {
+                TurbineEventLoop.emit('log', 'error', JSON.stringify(e));
                 res.status(500).json(e);
             }
         });
@@ -199,6 +201,7 @@ export class NetworkRouter extends Router
                 ['connection', [
                     ['id', ['s', ssid]],
                     ['type', ['s', '802-11-wireless']],
+                    ['autoconnect', ['b', true]]
                 ]],
                 ['802-11-wireless', [
                     ['ssid', ['ay', stringToArrayOfBytes(ssid)]],
@@ -207,13 +210,7 @@ export class NetworkRouter extends Router
                 ['802-11-wireless-security', [
                     ['key-mgmt', ['s', 'wpa-psk']],
                     ['psk', ['s', password]],
-                ]],
-                ['ipv4', [
-                    ['method', ['s', 'auto']],
-                ]],
-                ['ipv6', [
-                    ['method', ['s', 'auto']],
-                ]],
+                ]]
             ] satisfies BodyEntry[];
 
             await dbusInvoker({

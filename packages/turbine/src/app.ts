@@ -33,6 +33,10 @@ const infoPath = path.resolve(basePath, "info.json");
 const settingsPath = path.resolve(basePath, "settings.json");
 const logsFolderPath = path.resolve(basePath, "logs");
 const logFilePath = path.resolve(basePath, "logs", `log-${new Date().toISOString()}.log`);
+const updateFile = path.resolve(basePath, "updated");
+
+/** Do NusterKit has been updated */
+const wasUpdated = fs.existsSync(updateFile);
 
 if(!fs.existsSync(logsFolderPath)) fs.mkdirSync(logsFolderPath);
 if(!fs.existsSync(settingsPath)) fs.writeFileSync(settingsPath, JSON.stringify({ dark: 1, lang: "en" }), { encoding: "utf-8" });
@@ -89,6 +93,28 @@ else
 lockFile.lock("/tmp/balena/updates.lock", (err) => {
     (err) ? LoggerInstance.error("Lock: Updates locking failed.", err) : LoggerInstance.info("Lock: Updates are now locked.");                
 });
+
+if(wasUpdated)
+{
+    LoggerInstance.info("Update: NusterTurbine has been updated, restarting proxy & wpe services.");
+
+    Promise.all([
+        fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/applications/${process.env.BALENA_APP_ID}/restart-service?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { 
+            headers: { "Content-Type": "application/json" }, 
+            body: JSON.stringify({ serviceName: "proxy", force: true }), 
+            method: 'POST'}
+        ),
+    
+        fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/applications/${process.env.BALENA_APP_ID}/restart-service?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { 
+            headers: { "Content-Type": "application/json" }, 
+            body: JSON.stringify({ serviceName: "wpe", force: true }), 
+            method: 'POST'}
+        )
+    ]).then(() => {
+        LoggerInstance.info("Update: Restarted proxy & wpe services.");
+        fs.rmSync(updateFile);
+    });
+}
 
 /** Setup Express running server */
 function SetupExpress()
@@ -158,6 +184,7 @@ function SetupExpress()
         try
         {
             await SoftExit();
+            fs.writeFileSync(updateFile, "");
         }
         catch(ex)
         {

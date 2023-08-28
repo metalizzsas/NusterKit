@@ -185,21 +185,6 @@ export class NetworkRouter extends Router
         {
             const wifiDevices = await this.getDevices();
             const wlan0 = wifiDevices.find(device => device.iface === "wlan0");
-
-            const connections = await dbusInvoker<string[]>({
-                destination: 'org.freedesktop.NetworkManager',
-                path: '/org/freedesktop/NetworkManager/Settings',
-                interface: 'org.freedesktop.NetworkManager.Settings',
-                member: 'ListConnections'
-            });
-
-            TurbineEventLoop.emit('log', 'info', `Connection: found ${JSON.stringify(connections)}.`);
-
-            for(const connection of connections)
-            {
-                const [, [connectionSettings]] = await getProperty<[BodyEntry, [Array<Record<string, Array<Record<string, string | number | Buffer>>>>]]>('org.freedesktop.NetworkManager', connection, 'org.freedesktop.NetworkManager.Settings.Connection', 'GetSettings');
-                TurbineEventLoop.emit('log', 'info', `Connection: ${JSON.stringify(connectionSettings)}`);
-            }
         
             if(wlan0 === undefined)
                 throw new Error("Main physical wifi device not found.");

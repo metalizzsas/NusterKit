@@ -138,6 +138,12 @@
                 {
                     for(const key in data.message.payload)
                     {
+                        if(key === "version")
+                        {
+                            data.message.payload[key] = import.meta.env.VITE_NUSTER_VERSION;
+                            continue;
+                        }
+                        
                         data.message.payload[key] = $_(data.message.payload[key]);
                     }
                 }

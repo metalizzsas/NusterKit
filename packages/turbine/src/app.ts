@@ -87,7 +87,7 @@ if(fs.existsSync(infoPath))
 
     machine = new Machine(parsedConfiguration);
 
-    SetupMachine(); //Expose machine routers to Express
+    SetupMachine();
 }
 else
     LoggerInstance.warn("Machine: Info file not found");
@@ -97,10 +97,9 @@ lockFile.lock("/tmp/balena/updates.lock", (err) => {
     (err) ? LoggerInstance.error("Lock: Updates locking failed.", err) : LoggerInstance.info("Lock: Updates are now locked.");                
 });
 
-if(wasUpdated)
+if(wasUpdated && productionEnabled)
 {
     LoggerInstance.info("Update: NusterTurbine has been updated, restarting proxy & wpe services.");
-
     Promise.all([
         fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/applications/${process.env.BALENA_APP_ID}/restart-service?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { 
             headers: { "Content-Type": "application/json" }, 
@@ -374,6 +373,9 @@ function SetupMachine()
                 title: "nuster.toast-update",
                 message: "nuster.toast-update-body",
                 level: "info",
+                payload: {
+                    version: "missigno"
+                }
         });
         
         LoggerInstance.info("Machine: Setting up connect popup.");

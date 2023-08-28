@@ -38,7 +38,9 @@ export class NetworkRouter extends Router
         this.router.post("/wifi/connect", async (req, res) => {
             try
             {
-                const result = await this.connectToWifi(req.body.ssid, req.body.password)
+                TurbineEventLoop.emit('log', 'info', `Connecting to wifi network. (${JSON.stringify(req.body)})`);
+                const result = await this.connectToWifi(req.body.ssid, req.body.password);
+                TurbineEventLoop.emit('log', 'info', `Connected to wifi network. (${result})`);
                 res.status(result ? 200 : 500).end();
             }
             catch(e)

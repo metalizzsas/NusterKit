@@ -324,25 +324,31 @@ export class NetworkRouter extends Router
 
             TurbineEventLoop.emit('log', 'info', `Network: Disconnecting from wifi network.`);
 
-            const [, [appliedConnection]] = await getProperty<[[BodyEntry], [string]]>("org.freedesktop.NetworkManager", wlan0.path, "org.freedesktop.NetworkManager.Device", "ActiveConnection");
+            const [, [appliedConnection]] = await getProperty<[[BodyEntry], [string]]>("org.freedesktop.NetworkManager", wlan0.path, "org.freedesktop.NetworkManager.Device", "ActiveConnection"); 
 
+            if(appliedConnection !== undefined)
+            {
+                const [, [rootConnection]] = await getProperty<[BodyEntry, [string]]>('org.freedesktop.NetworkManager', appliedConnection, 'org.freedesktop.NetworkManager.Connection.Active', 'Connection');
+
+                if(rootConnection !== undefined)
+                {
+                    //active connection
+                    TurbineEventLoop.emit('log', 'info', `Network: Deleting connection ${appliedConnection}.`);
+                    await dbusInvoker({
+                        destination: 'org.freedesktop.NetworkManager',
+                        path: rootConnection,
+                        interface: 'org.freedesktop.NetworkManager.Connection.Active',
+                        member: 'Delete'
+                    });
+                }
+            }
+            
             await dbusInvoker({
                 destination: 'org.freedesktop.NetworkManager',
                 path: wlan0.path,
                 interface: 'org.freedesktop.NetworkManager.Device',
                 member: 'Disconnect'
             });
-
-            if(appliedConnection)
-            {
-                TurbineEventLoop.emit('log', 'info', `Network: Deleting connection ${appliedConnection}.`);
-                await dbusInvoker({
-                    destination: 'org.freedesktop.NetworkManager',
-                    path: appliedConnection,
-                    interface: 'org.freedesktop.NetworkManager.Connection.Active',
-                    member: 'Delete'
-                });
-            }            
         }
         catch (error)
         {

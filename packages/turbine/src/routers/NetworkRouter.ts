@@ -25,7 +25,6 @@ export class NetworkRouter extends Router
         this.router.get("/wifi/list", async (req, res) => {
             try
             {
-                this.accessPoints = [];
                 const list = await this.listWifiNetworks();
                 res.json(list);
             }

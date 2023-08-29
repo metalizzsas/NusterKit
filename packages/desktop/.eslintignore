@@ -12,3 +12,4 @@ package-lock.json
 yarn.lock
 tailwind.config.cjs
 svelte.config.js
+postcss.config.cjs

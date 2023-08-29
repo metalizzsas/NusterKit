@@ -1,5 +1,19 @@
 # @metalizzsas/nuster
 
+## 1.12.0
+
+### Minor Changes
+
+- [#478](https://github.com/metalizzsas/NusterKit/pull/478) [`875fb150`](https://github.com/metalizzsas/NusterKit/commit/875fb150a91c442d67e48e07696b982dccd6a0bf) Thanks [@Kworz](https://github.com/Kworz)! - chore(deps): updated dependencies to latest versions
+
+### Patch Changes
+
+- Updated dependencies [[`eec96cbe`](https://github.com/metalizzsas/NusterKit/commit/eec96cbe028455748f5cd7952199f302249e051f), [`875fb150`](https://github.com/metalizzsas/NusterKit/commit/875fb150a91c442d67e48e07696b982dccd6a0bf), [`a8bae300`](https://github.com/metalizzsas/NusterKit/commit/a8bae300d31820052a926d927b4e792984da7898)]:
+  - @metalizzsas/nuster-turbine-machines@1.7.0
+  - @metalizzsas/nuster-desktop@1.13.0
+  - @metalizzsas/nuster-turbine@1.11.0
+  - @metalizzsas/nuster-typings@1.6.0
+
 ## 1.11.12
 
 ### Patch Changes

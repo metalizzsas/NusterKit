@@ -71,6 +71,11 @@ TurbineEventLoop.on("log", (level, message) => {
 
 LoggerInstance.info("Starting NusterTurbine");
 
+/** Update locking the Balena Supervisor */
+lockFile.lock("/tmp/balena/updates.lock", (err) => {
+    (err) ? LoggerInstance.error("Lock: Updates locking failed.", err) : LoggerInstance.info("Lock: Updates are now locked.");                
+});
+
 SetupExpress();
 
 if(fs.existsSync(infoPath))
@@ -111,6 +116,11 @@ if(wasUpdated && productionEnabled)
         )
     ]).then(() => {
         LoggerInstance.info("Update: Restarted proxy & wpe services.");
+
+        /** ReUpdate locking the Balena Supervisor after restarting both services */
+        lockFile.lock("/tmp/balena/updates.lock", (err) => {
+            (err) ? LoggerInstance.error("Lock: Updates locking failed.", err) : LoggerInstance.info("Lock: Updates are now re-locked.");                
+        });
     });
 }
 
@@ -392,11 +402,6 @@ function SetupMachine()
     }
     else
         LoggerInstance.fatal("Express: No machine defined, cannot add routes.");
-
-    /** Update locking the Balena Supervisor */
-    lockFile.lock("/tmp/balena/updates.lock", (err) => {
-        (err) ? LoggerInstance.error("Lock: Updates locking failed.", err) : LoggerInstance.info("Lock: Updates are now locked.");                
-    });
 }
 
 /** NodeJS process events */

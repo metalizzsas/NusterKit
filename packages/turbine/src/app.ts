@@ -102,19 +102,18 @@ else
 if(wasUpdated && productionEnabled)
 {
     LoggerInstance.info("Update: NusterTurbine has been updated, restarting proxy & wpe services.");
-    Promise.all([
-        fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/applications/${process.env.BALENA_APP_ID}/restart-service?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { 
-            headers: { "Content-Type": "application/json" }, 
-            body: JSON.stringify({ serviceName: "proxy", force: true }), 
-            method: 'POST'}
-        ),
-    
+
+    fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/applications/${process.env.BALENA_APP_ID}/restart-service?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { 
+        headers: { "Content-Type": "application/json" }, 
+        body: JSON.stringify({ serviceName: "proxy", force: true }), 
+        method: 'POST'}
+    ).then(() => {
         fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/applications/${process.env.BALENA_APP_ID}/restart-service?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { 
             headers: { "Content-Type": "application/json" }, 
             body: JSON.stringify({ serviceName: "wpe", force: true }), 
             method: 'POST'}
         )
-    ]).then(() => {
+    }).then(() => {
         LoggerInstance.info("Update: Restarted proxy & wpe services.");
 
         /** ReUpdate locking the Balena Supervisor after restarting both services */

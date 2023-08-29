@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-typings
 
+## 1.6.1
+
+### Patch Changes
+
+- [#480](https://github.com/metalizzsas/NusterKit/pull/480) [`b87da52a`](https://github.com/metalizzsas/NusterKit/commit/b87da52ac89122aa9e3780136c7c34ca77f9460e) Thanks [@Kworz](https://github.com/Kworz)! - feat: added dbus typings for network connectivity
+
 ## 1.6.0
 
 ### Minor Changes

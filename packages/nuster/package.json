@@ -1,6 +1,6 @@
 {
     "name": "@metalizzsas/nuster",
-    "version": "1.12.0",
+    "version": "1.12.1",
     "description": "Nuster package to keep versionig and dependencies on BalenaOS Releases",
     "private": true,
     "repository": {
@@ -15,10 +15,10 @@
     },
     "homepage": "https://github.com/metalizzsas/NusterKit/tree/main/packages/nuster",
     "dependencies": {
-        "@metalizzsas/nuster-turbine-machines": "1.7.0",
-        "@metalizzsas/nuster-typings": "1.6.0",
-        "@metalizzsas/nuster-turbine": "1.11.0",
-        "@metalizzsas/nuster-desktop": "1.13.0",
-        "@metalizzsas/nuster-misc": "1.5.4"
+        "@metalizzsas/nuster-turbine-machines": "1.7.1",
+        "@metalizzsas/nuster-typings": "1.6.1",
+        "@metalizzsas/nuster-turbine": "1.11.1",
+        "@metalizzsas/nuster-desktop": "1.13.1",
+        "@metalizzsas/nuster-misc": "1.5.5"
     }
 }

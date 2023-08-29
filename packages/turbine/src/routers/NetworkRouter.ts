@@ -36,6 +36,13 @@ export class NetworkRouter extends Router
         });
 
         this.router.post("/wifi/connect", async (req, res) => {
+
+            if(req.body.ssid === undefined || req.body.password === undefined)
+            {
+                res.status(400).end("settings.network.errors.wifi_missing_parameters");
+                return;
+            }
+
             try
             {
                 const result = await this.connectToWifi(req.body.ssid, req.body.password);
@@ -43,7 +50,10 @@ export class NetworkRouter extends Router
             }
             catch(e)
             {
-                res.status(500).json(e);
+                if(e instanceof Array && e.at(0).contains('802-11-wireless-security.psk'))
+                    res.status(400).end("settings.network.errors.wifi_invalid_password");
+                else
+                    res.status(500).json(e);
             }
         });
 

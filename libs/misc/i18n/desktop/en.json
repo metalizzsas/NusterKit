@@ -192,6 +192,10 @@
                 "label": "Wifi settings",
                 "button": "Update wifi settings"
             },
+            "errors": {
+                "wifi_missing_parameters": "Not enough parameters to connect",
+                "wifi_invalid_password": "Invalid password"
+            },
             "available_networks": "Available networks",
             "refresh_available_networks": "Seek networks",
             "connect": "Connect",

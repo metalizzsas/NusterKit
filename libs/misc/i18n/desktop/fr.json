@@ -1,322 +1,326 @@
 {
-  "ok": "Ok",
-  "yes": "Oui",
-  "true": "Oui",
-  "no": "Non",
-  "false": "Non",
-  "back": "Retour",
-  "cancel": "Annuler",
-  "exit": "Retour",
-  "locked": "Vérouillé",
-  "close-keyboard": "Fermer le clavier",
-  "close-modal": "Fermer",
-  "connect": "Connexion",
-  "proceed": "Continuer",
-  "nuster": {
-    "lead": "Nuster",
-    "logo": "Logo nuster",
-    "toast-update": "Mise à jour installée",
-    "toast-update-body": "Nuster a été mis a jour vers la version {version}."
-  },
-  "error": {
-    "render": {
-      "lead": "Erreur de rendu dans la page",
-      "sub": "C'est dommage...",
-      "button": "Rechargement"
-    }
-  },
-  "date": {
-    "days": "Jours",
-    "day": "jour",
-    "hours": "Heures",
-    "hour": "Heure",
-    "minutes": "Minutes",
-    "minute": "Minute",
-    "seconds": "Secondes",
-    "second": "Seconde",
-    "milliseconds": "Millisecondes",
-    "millisecond": "Milliseconde"
-  },
-  "container": {
-    "lead": "Conteneurs",
-    "unselected": {
-      "lead": "Aucune conteneur sélectionné",
-      "sub": "Sélectionnez un conteneur dans la liste de gauche pour voir ou éditer ses propriétés."
+    "ok": "Ok",
+    "yes": "Oui",
+    "true": "Oui",
+    "no": "Non",
+    "false": "Non",
+    "back": "Retour",
+    "cancel": "Annuler",
+    "exit": "Retour",
+    "locked": "Vérouillé",
+    "close-keyboard": "Fermer le clavier",
+    "close-modal": "Fermer",
+    "connect": "Connexion",
+    "proceed": "Continuer",
+    "nuster": {
+        "lead": "Nuster",
+        "logo": "Logo nuster",
+        "toast-update": "Mise à jour installée",
+        "toast-update-body": "Nuster a été mis a jour vers la version {version}."
     },
-    "category": {
-      "products": "Produits",
-      "sensors": "Capteurs",
-      "regulation": "Régulation"
-    },
-    "state": {
-      "lead": {
-        "error": "Avertissements du conteneur:",
-        "good": "L'état du conteneur est ok."
-      },
-      "issues": {
-        "product_unloaded": "Produit non chargé",
-        "product_lifespan": "Produit périmé",
-        "product_lifespan_unknown": "Durée de vie du produit inconnue",
-        "sensor": "Erreur capteur"
-      },
-      "infos": {
-        "regulation_active": "Régulation activée"
-      }
-    },
-    "product": {
-      "informations": {
-        "lead": "Information produit",
-        "loaded_product": "Type de produit:",
-        "lifetime_remaining": "Durée de vie restante:",
-        "load_date": "Date de chargement:",
-        "unknownLifespan": "Durée de vie non définie",
-        "done": "Produit périmé",
-        "product_series": {
-          "usl_act": "USL Activant",
-          "usl_ox": "USL Oxydant",
-          "usl_rd": "USL Réducteur",
-          "llc_ox": "LLC Oxydant",
-          "llc_rd": "LLC Réducteur",
-          "cv-01": "Crystal varnish 01",
-          "sv-01": "Shiny varnish 01",
-          "mv-01": "Matte varnish 01",
-          "cr-01": "CR-1",
-          "water": "Eau",
-          "any": "Inconnu"
+    "error": {
+        "render": {
+            "lead": "Erreur de rendu dans la page",
+            "sub": "C'est dommage...",
+            "button": "Rechargement"
         }
-      },
-      "action": {
-        "lead": "Actions",
-        "product_choose": "Choisissez un produit à charger:",
-        "default": {
-          "load": "Charger un produit",
-          "unload": "Décharger un produit"
-        }
-      }
     },
-    "regulation": {
-      "enabled": "État de la régulation",
-      "current": "Valeur actuelle",
-      "target": "Valeur recherchée",
-      "modal": {
-        "security_disable": {
-          "title": "Érreur de sécurité",
-          "message": "{gate} a désactivé la régulation de {container} → {regulation}."
+    "date": {
+        "days": "Jours",
+        "day": "jour",
+        "hours": "Heures",
+        "hour": "Heure",
+        "minutes": "Minutes",
+        "minute": "Minute",
+        "seconds": "Secondes",
+        "second": "Seconde",
+        "milliseconds": "Millisecondes",
+        "millisecond": "Milliseconde"
+    },
+    "container": {
+        "lead": "Conteneurs",
+        "unselected": {
+            "lead": "Aucune conteneur sélectionné",
+            "sub": "Sélectionnez un conteneur dans la liste de gauche pour voir ou éditer ses propriétés."
         },
-        "over_security_max": {
-          "title": "Érreur de sécurité",
-          "message": "La régulation {container} → {regulation} est allé au dela de {securityMax}, elle a donc été désactivée."
-        }
-      }
-    }
-  },
-  "profile": {
-    "lead": "Profils",
-    "name": "Nom du profil",
-    "settings": "Réglages du profil",
-    "defaultName": "Nom de profil par défaut",
-    "unselected": {
-      "lead": "Pas de profil sélectionné.",
-      "sub": "Choisir un profil pour consulter ou modifier ses paramètres."
-    },
-    "copy": {
-      "label": "Copier",
-      "suffix": "Copie",
-      "button": "Copier le profil",
-      "message": "Le profil a été copié avec le nom {name}."
-    },
-    "save": {
-      "button": "Sauvegarder le profil",
-      "message": "Le profil a été sauvegardé."
-    },
-    "delete": {
-      "button": "Supprimer le profil",
-      "button_confirm": "Confirmer la suppression du profil"
-    },
-    "premades": {
-      "true": "Profils constructeur",
-      "false": "Profils utilisateur"
-    },
-    "rows": {
-      "enabled": "Activé",
-      "speed": "Vitesse",
-      "duration": "Durée",
-      "count": "Nombre d'itérations",
-      "timeOn": "Temps activé",
-      "timeOff": "Temps désactivé"
-    }
-  },
-  "settings": {
-    "lead": "Réglages",
-    "ui": {
-      "lead": "Réglages interface",
-      "dark_mode": "Mode sombre",
-      "language": "Langue"
-    },
-    "machine": {
-      "lead": "Informations machine",
-      "model": "Modèle",
-      "variant": "Variante",
-      "revision": "Révision",
-      "serial": "Numéro de série",
-      "addons": "Options",
-      "cycle_count": "Nombre de cycles"
-    },
-    "software": {
-      "lead": "Informations logiciel",
-      "nuster": "Version de Nuster",
-      "balena": "Version de balenaOS",
-      "update": "Mise a jour disponible",
-      "update_install": "Installer",
-      "update_installing": "En cours d'installation"
-    },
-    "network": {
-      "lead": "Informations réseau",
-      "ip": "Liste des addresse IP",
-      "mac": "Liste des addresses mac",
-      "vpn": "Connexion au VPN",
-      "wifi": {
-        "label": "Réglages WiFi",
-        "button": "Modifier les réglages"
-      },
-      "connect": "Se connecter",
-      "disconnect": "Se déconnecter",
-      "connected": {
-        "true": "Connecté",
-        "false": "Déconnecté"
-      },
-      "network_quality": "Qualité du réseau",
-      "refresh_available_networks": "Rechercher",
-      "interface": {
-        "gateway_4": "Passerelle IPv4",
-        "subnet_mask": "Masque de sous-réseau",
-        "ip_4": "Addresse IPv4",
-        "wireless": "Réseau sans-fil",
-        "wired": "Réseau câblé"
-      },
-      "edit": "Modifier les paramètre réseau",
-      "available_networks": "Réseaux disponibles",
-      "wireless_connected": "Connecté au réseau sans-fil",
-      "wired_connected": "Connecté au réseau câblé",
-      "edit_button": "Aller au paramètres réseau"
-    },
-    "advanced": {
-      "lead": "Réglages avancés",
-      "sub": "Cette fonctionalité n'est pas destinée a etre utilisé par l'utilisateur final.",
-      "password": "Mot de passe",
-      "edit": "Modifier la configuration machine"
-    },
-    "machines": {
-      "metalfog": "Metalfog",
-      "smoothit": "Smoothit",
-      "uscleaner": "USCleaner"
-    },
-    "power": {
-      "lead": "Gestion de l'alimentation",
-      "reboot": "Redémarrer",
-      "shutdown": "Éteindre",
-      "modal": {
-        "shutdown": {
-          "title": "Arrêt en cours",
-          "message": "La machine est en cours d'ârret, lorsque l'écran s'éteindra vous pourrez débrancher la machine."
+        "category": {
+            "products": "Produits",
+            "sensors": "Capteurs",
+            "regulation": "Régulation"
         },
-        "reboot": {
-          "title": "Redémarrage en cours",
-          "message": "La machine est en train de redémarrer, veuillez patienter."
+        "state": {
+            "lead": {
+                "error": "Avertissements du conteneur:",
+                "good": "L'état du conteneur est ok."
+            },
+            "issues": {
+                "product_unloaded": "Produit non chargé",
+                "product_lifespan": "Produit périmé",
+                "product_lifespan_unknown": "Durée de vie du produit inconnue",
+                "sensor": "Erreur capteur"
+            },
+            "infos": {
+                "regulation_active": "Régulation activée"
+            }
+        },
+        "product": {
+            "informations": {
+                "lead": "Information produit",
+                "loaded_product": "Type de produit:",
+                "lifetime_remaining": "Durée de vie restante:",
+                "load_date": "Date de chargement:",
+                "unknownLifespan": "Durée de vie non définie",
+                "done": "Produit périmé",
+                "product_series": {
+                    "usl_act": "USL Activant",
+                    "usl_ox": "USL Oxydant",
+                    "usl_rd": "USL Réducteur",
+                    "llc_ox": "LLC Oxydant",
+                    "llc_rd": "LLC Réducteur",
+                    "cv-01": "Crystal varnish 01",
+                    "sv-01": "Shiny varnish 01",
+                    "mv-01": "Matte varnish 01",
+                    "cr-01": "CR-1",
+                    "water": "Eau",
+                    "any": "Inconnu"
+                }
+            },
+            "action": {
+                "lead": "Actions",
+                "product_choose": "Choisissez un produit à charger:",
+                "default": {
+                    "load": "Charger un produit",
+                    "unload": "Décharger un produit"
+                }
+            }
+        },
+        "regulation": {
+            "enabled": "État de la régulation",
+            "current": "Valeur actuelle",
+            "target": "Valeur recherchée",
+            "modal": {
+                "security_disable": {
+                    "title": "Érreur de sécurité",
+                    "message": "{gate} a désactivé la régulation de {container} → {regulation}."
+                },
+                "over_security_max": {
+                    "title": "Érreur de sécurité",
+                    "message": "La régulation {container} → {regulation} est allé au dela de {securityMax}, elle a donc été désactivée."
+                }
+            }
         }
-      }
+    },
+    "profile": {
+        "lead": "Profils",
+        "name": "Nom du profil",
+        "settings": "Réglages du profil",
+        "defaultName": "Nom de profil par défaut",
+        "unselected": {
+            "lead": "Pas de profil sélectionné.",
+            "sub": "Choisir un profil pour consulter ou modifier ses paramètres."
+        },
+        "copy": {
+            "label": "Copier",
+            "suffix": "Copie",
+            "button": "Copier le profil",
+            "message": "Le profil a été copié avec le nom {name}."
+        },
+        "save": {
+            "button": "Sauvegarder le profil",
+            "message": "Le profil a été sauvegardé."
+        },
+        "delete": {
+            "button": "Supprimer le profil",
+            "button_confirm": "Confirmer la suppression du profil"
+        },
+        "premades": {
+            "true": "Profils constructeur",
+            "false": "Profils utilisateur"
+        },
+        "rows": {
+            "enabled": "Activé",
+            "speed": "Vitesse",
+            "duration": "Durée",
+            "count": "Nombre d'itérations",
+            "timeOn": "Temps activé",
+            "timeOff": "Temps désactivé"
+        }
+    },
+    "settings": {
+        "lead": "Réglages",
+        "ui": {
+            "lead": "Réglages interface",
+            "dark_mode": "Mode sombre",
+            "language": "Langue"
+        },
+        "machine": {
+            "lead": "Informations machine",
+            "model": "Modèle",
+            "variant": "Variante",
+            "revision": "Révision",
+            "serial": "Numéro de série",
+            "addons": "Options",
+            "cycle_count": "Nombre de cycles"
+        },
+        "software": {
+            "lead": "Informations logiciel",
+            "nuster": "Version de Nuster",
+            "balena": "Version de balenaOS",
+            "update": "Mise a jour disponible",
+            "update_install": "Installer",
+            "update_installing": "En cours d'installation"
+        },
+        "network": {
+            "lead": "Informations réseau",
+            "ip": "Liste des addresse IP",
+            "mac": "Liste des addresses mac",
+            "vpn": "Connexion au VPN",
+            "wifi": {
+                "label": "Réglages WiFi",
+                "button": "Modifier les réglages"
+            },
+            "connect": "Se connecter",
+            "disconnect": "Se déconnecter",
+            "connected": {
+                "true": "Connecté",
+                "false": "Déconnecté"
+            },
+            "network_quality": "Qualité du réseau",
+            "refresh_available_networks": "Rechercher",
+            "interface": {
+                "gateway_4": "Passerelle IPv4",
+                "subnet_mask": "Masque de sous-réseau",
+                "ip_4": "Addresse IPv4",
+                "wireless": "Réseau sans-fil",
+                "wired": "Réseau câblé"
+            },
+            "errors": {
+                "wifi_missing_parameters": "Paramètres manquants",
+                "wifi_invalid_password": "Mot de passe invalide"
+            },
+            "edit": "Modifier les paramètre réseau",
+            "available_networks": "Réseaux disponibles",
+            "wireless_connected": "Connecté au réseau sans-fil",
+            "wired_connected": "Connecté au réseau câblé",
+            "edit_button": "Aller au paramètres réseau"
+        },
+        "advanced": {
+            "lead": "Réglages avancés",
+            "sub": "Cette fonctionalité n'est pas destinée a etre utilisé par l'utilisateur final.",
+            "password": "Mot de passe",
+            "edit": "Modifier la configuration machine"
+        },
+        "machines": {
+            "metalfog": "Metalfog",
+            "smoothit": "Smoothit",
+            "uscleaner": "USCleaner"
+        },
+        "power": {
+            "lead": "Gestion de l'alimentation",
+            "reboot": "Redémarrer",
+            "shutdown": "Éteindre",
+            "modal": {
+                "shutdown": {
+                    "title": "Arrêt en cours",
+                    "message": "La machine est en cours d'ârret, lorsque l'écran s'éteindra vous pourrez débrancher la machine."
+                },
+                "reboot": {
+                    "title": "Redémarrage en cours",
+                    "message": "La machine est en train de redémarrer, veuillez patienter."
+                }
+            }
+        }
+    },
+    "cycle": {
+        "lead": "Cycle",
+        "run_conditions_warning": "Une des condition de sécurité présente un avertissement, vous pouvez lancer le cycle mais le résultat n'est pas garanti.",
+        "categories": {
+            "steps": "Étapes du cycle",
+            "status": "État du cycle",
+            "additional_info": "Information additionelles",
+            "security_conditions": "Conditions de sécurité"
+        },
+        "unselected": {
+            "lead": "Pas de cycle sélectionné",
+            "sub": "Selectionnez un cycle dans la liste de gauche pour commencer à utiliser votre machine. Si c'est votre première utilisation, lisez le guide fourni avec votre machine.",
+            "help": "Cliquez ici pour lire la documentation"
+        },
+        "unselected_informations": {
+            "lead": "Informations machine",
+            "sub": "Les informations affichées ici ne sont pas modifiables, rendez vous dans les sections correspondantes pour les modifier."
+        },
+        "eta": {
+            "null": "Inconnu",
+            "remaining": "Temps restant:",
+            "estimated": "Temps estimé:",
+            "paused": "Temps de pause:"
+        },
+        "end": {
+            "lead": "Le cycle est terminé.",
+            "duration": "Durée du cycle:"
+        },
+        "end_reasons": {
+            "user": "Fin utilisateur",
+            "finished": "Terminé avec succès",
+            "error": "Cycle terminé prématurément à cause d'une erreur",
+            "controllerTimeout": "Delai connection controlleur IO expiré",
+            "controllerError": "Erreur connection controlleur IO",
+            "controllerUnreachable": "Controlleur IO indisponible",
+            "stepOvertime": "Une etape du cycle as mis trop de temps a se terminer. Un comportement étrange de la machine peu etre observé. Nous vous recommandons de la redémarrer."
+        },
+        "buttons": {
+            "start": "Démarrer le cycle",
+            "pause": "Pause",
+            "resume": "Reprendre le cycle",
+            "nextStep": "Sauter l'étape",
+            "stop": "Arrêter le cycle",
+            "complete": "Terminer le cycle"
+        }
+    },
+    "gates": {
+        "lead": "E / S",
+        "reset": "Remise a zéro",
+        "bus": {
+            "in": "Entrées",
+            "out": "Sorties"
+        },
+        "categories": {
+            "generic": "Générique"
+        }
+    },
+    "maintenance": {
+        "lead": "Maintenance",
+        "duration": "Durée",
+        "unselected": {
+            "lead": "Pas de maintenance selectionnée",
+            "sub": "Choisissez une tache de maintenance dans la liste de gauche pour consulter la procédure et voir les details de cette tache."
+        },
+        "sensor": {
+            "label": "Avertissement tache",
+            "warning": "Cette tache de maintenance necessite un mode manuel lié pour calculer son statut."
+        },
+        "procedure": {
+            "lead": "Procédure de maintenance",
+            "clear": "Valider la tache de maintenance",
+            "lang_unavailable": "La procédure n'est pas disponible en français."
+        },
+        "unity": {
+            "cycle": "Cycles",
+            "hours": "Heures",
+            "time": "Durée",
+            "duration": "Heures"
+        }
+    },
+    "help": {
+        "lead": "Aide",
+        "unavailable": "Aucune aide disponible dans votre langue.",
+        "unselected": {
+            "lead": "Centre d'aide",
+            "sub": "Naviguez dans le centre d'aide a l'aide des éléments ci dessous."
+        },
+        "category": {
+            "software": "Nuster",
+            "machine": "Machine"
+        }
     }
-  },
-  "cycle": {
-    "lead": "Cycle",
-    "run_conditions_warning": "Une des condition de sécurité présente un avertissement, vous pouvez lancer le cycle mais le résultat n'est pas garanti.",
-    "categories": {
-      "steps": "Étapes du cycle",
-      "status": "État du cycle",
-      "additional_info": "Information additionelles",
-      "security_conditions": "Conditions de sécurité"
-    },
-    "unselected": {
-      "lead": "Pas de cycle sélectionné",
-      "sub": "Selectionnez un cycle dans la liste de gauche pour commencer à utiliser votre machine. Si c'est votre première utilisation, lisez le guide fourni avec votre machine.",
-      "help": "Cliquez ici pour lire la documentation"
-    },
-    "unselected_informations": {
-      "lead": "Informations machine",
-      "sub": "Les informations affichées ici ne sont pas modifiables, rendez vous dans les sections correspondantes pour les modifier."
-    },
-    "eta": {
-      "null": "Inconnu",
-      "remaining": "Temps restant:",
-      "estimated": "Temps estimé:",
-      "paused": "Temps de pause:"
-    },
-    "end": {
-      "lead": "Le cycle est terminé.",
-      "duration": "Durée du cycle:"
-    },
-    "end_reasons": {
-      "user": "Fin utilisateur",
-      "finished": "Terminé avec succès",
-      "error": "Cycle terminé prématurément à cause d'une erreur",
-      "controllerTimeout": "Delai connection controlleur IO expiré",
-      "controllerError": "Erreur connection controlleur IO",
-      "controllerUnreachable": "Controlleur IO indisponible",
-      "stepOvertime": "Une etape du cycle as mis trop de temps a se terminer. Un comportement étrange de la machine peu etre observé. Nous vous recommandons de la redémarrer."
-    },
-    "buttons": {
-      "start": "Démarrer le cycle",
-      "pause": "Pause",
-      "resume": "Reprendre le cycle",
-      "nextStep": "Sauter l'étape",
-      "stop": "Arrêter le cycle",
-      "complete": "Terminer le cycle"
-    }
-  },
-  "gates": {
-    "lead": "E / S",
-    "reset": "Remise a zéro",
-    "bus": {
-      "in": "Entrées",
-      "out": "Sorties"
-    },
-    "categories": {
-      "generic": "Générique"
-    }
-  },
-  "maintenance": {
-    "lead": "Maintenance",
-    "duration": "Durée",
-    "unselected": {
-      "lead": "Pas de maintenance selectionnée",
-      "sub": "Choisissez une tache de maintenance dans la liste de gauche pour consulter la procédure et voir les details de cette tache."
-    },
-    "sensor": {
-      "label": "Avertissement tache",
-      "warning": "Cette tache de maintenance necessite un mode manuel lié pour calculer son statut."
-    },
-    "procedure": {
-      "lead": "Procédure de maintenance",
-      "clear": "Valider la tache de maintenance",
-      "lang_unavailable": "La procédure n'est pas disponible en français."
-    },
-    "unity": {
-      "cycle": "Cycles",
-      "hours": "Heures",
-      "time": "Durée",
-      "duration": "Heures"
-    }
-  },
-  "help": {
-    "lead": "Aide",
-    "unavailable": "Aucune aide disponible dans votre langue.",
-    "unselected": {
-      "lead": "Centre d'aide",
-      "sub": "Naviguez dans le centre d'aide a l'aide des éléments ci dessous."
-    },
-    "category": {
-      "software": "Nuster",
-      "machine": "Machine"
-    }
-  }
 }

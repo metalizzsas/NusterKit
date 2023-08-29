@@ -332,12 +332,11 @@ export class NetworkRouter extends Router
 
                 if(rootConnection !== undefined)
                 {
-                    //active connection
                     TurbineEventLoop.emit('log', 'info', `Network: Deleting connection ${appliedConnection}.`);
                     await dbusInvoker({
                         destination: 'org.freedesktop.NetworkManager',
                         path: rootConnection,
-                        interface: 'org.freedesktop.NetworkManager.Connection.Active',
+                        interface: 'org.freedesktop.NetworkManager.Settings.Connection',
                         member: 'Delete'
                     });
                 }

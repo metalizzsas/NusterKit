@@ -210,6 +210,9 @@ export class NetworkRouter extends Router
      * @async
      */
     private async connectToWifi(ssid: string, password?: string | undefined): Promise<boolean> {
+
+        let createdConnection: string | undefined = undefined;
+
         try
         {
             const wlan0 = this.devices.find(device => device.iface === "wlan0");
@@ -225,7 +228,10 @@ export class NetworkRouter extends Router
             const connectionParams = [
                 ['connection', [
                     ['id', ['s', ssid]],
-                    ['type', ['s', '802-11-wireless']]
+                    ['type', ['s', '802-11-wireless']],
+                    ['autoconnect', ['b', true]],
+                    ['autoconnect-priority', ['i', 10]],
+                    ['interface-name', ['s', wlan0.iface]]
                 ]],
                 ['802-11-wireless', [
                     ['ssid', ['ay', stringToArrayOfBytes(ssid)]],
@@ -260,7 +266,7 @@ export class NetworkRouter extends Router
                 ]]);
             }
 
-            const connection = await dbusInvoker<string>({
+            createdConnection = await dbusInvoker<string>({
                 destination: 'org.freedesktop.NetworkManager',
                 path: '/org/freedesktop/NetworkManager/Settings',
                 interface: 'org.freedesktop.NetworkManager.Settings',
@@ -275,7 +281,7 @@ export class NetworkRouter extends Router
                 interface: 'org.freedesktop.NetworkManager',
                 member: 'ActivateConnection',
                 signature: 'ooo',
-                body: [connection, wlan0.path, '/']
+                body: [createdConnection, wlan0.path, '/']
             });
 
             await this.getDevices();
@@ -285,8 +291,21 @@ export class NetworkRouter extends Router
         }
         catch (error)
         {
+            if(createdConnection)
+            {
+                TurbineEventLoop.emit('log', 'info', `Network: Deleting wrong connection ${createdConnection}.`);
+                await dbusInvoker({
+                    destination: 'org.freedesktop.NetworkManager',
+                    path: '/org/freedesktop/NetworkManager/Settings',
+                    interface: 'org.freedesktop.NetworkManager.Settings.Connection',
+                    member: 'Delete',
+                    signature: 'o',
+                    body: [createdConnection]
+                });
+            }
+
             TurbineEventLoop.emit('log', 'error', JSON.stringify(error));
-            throw new Error(`Failed to connect to the wifi network (${error}).`);
+            return false;
         }
     }
 
@@ -295,14 +314,17 @@ export class NetworkRouter extends Router
      * @throws
      */
     private async disconnectFromWifi(): Promise<void> {
-        try {
+        try
+        {
             const wifiDevices = await this.getDevices();
             const wlan0 = wifiDevices.find(device => device.iface === "wlan0");
         
             if(wlan0 === undefined)
                 throw new Error("Main physical wifi device not found.");
 
-            TurbineEventLoop.emit('log', 'info', `Disconnecting from wifi network.`);
+            TurbineEventLoop.emit('log', 'info', `Network: Disconnecting from wifi network.`);
+
+            const [, [appliedConnection]] = await getProperty<[[BodyEntry], [string]]>("org.freedesktop.NetworkManager", wlan0.path, "org.freedesktop.NetworkManager.Device", "ActiveConnection");
 
             await dbusInvoker({
                 destination: 'org.freedesktop.NetworkManager',
@@ -310,6 +332,17 @@ export class NetworkRouter extends Router
                 interface: 'org.freedesktop.NetworkManager.Device',
                 member: 'Disconnect'
             });
+
+            if(appliedConnection)
+            {
+                TurbineEventLoop.emit('log', 'info', `Network: Deleting connection ${appliedConnection}.`);
+                await dbusInvoker({
+                    destination: 'org.freedesktop.NetworkManager',
+                    path: appliedConnection,
+                    interface: 'org.freedesktop.NetworkManager.Connection.Active',
+                    member: 'Delete'
+                });
+            }            
         }
         catch (error)
         {

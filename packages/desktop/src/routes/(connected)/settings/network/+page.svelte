@@ -14,7 +14,8 @@
 	import { _ } from "svelte-i18n";
 
     const refreshNetworks = async () => {
-        await fetch("/api/network/wifi/list");
+        void fetch("/api/network/wifi/list");
+        void fetch("/api/network/devices");
     }
 
     const disconnect = async (ap: AccessPoint) => {
@@ -28,13 +29,16 @@
     /** Connect the desired AP using the given password */
     const connect = async (ap: AccessPoint) => {
         showDetails = undefined;
-        password = "";
         processing = ap.ssid;
         const result = await fetch('/api/network/wifi/connect', { method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ssid: ap.ssid, password: password }) });
 
         if(!result.ok || result.status !== 200)
+        {
             wifiConnectError = ap.ssid;
+            result.text().then(text => wifiConnectErrorMessage = text);
+        }
 
+        password = "";
         processing = undefined;
         refreshNetworks();
     }
@@ -44,6 +48,7 @@
     let processing: string | undefined = undefined;
     let showDetails: string | undefined = undefined;
     let wifiConnectError: string | undefined = undefined;
+    let wifiConnectErrorMessage: string | undefined = undefined;
 
     $: wired_device = $realtime.network.devices.find(d => d.iface == "enp1s0u1");
     $: wifi_device = $realtime.network.devices.find(d => d.iface == "wlan0");
@@ -144,8 +149,11 @@
                                 {/if}
                             </div>
 
-                            {#if wifiConnectError === ap.ssid}
-                                <Icon src={XMark} class="h-6 w-6 text-red-500" />
+                            {#if wifiConnectError === ap.ssid && wifiConnectErrorMessage}
+                                <Label>
+                                    <span>{$_(wifiConnectErrorMessage)}</span>
+                                    <Icon src={XMark} class="h-4 w-4 text-red-500 inline-block" />
+                                </Label>
                             {:else}
                                 {#if processing !== ap.ssid}
                                     {#if ap.active}

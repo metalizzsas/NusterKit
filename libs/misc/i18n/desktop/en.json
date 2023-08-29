@@ -202,6 +202,7 @@
             "refresh_available_networks": "Seek networks",
             "connect": "Connect",
             "disconnect": "Disconnect",
+            "disconnect_first": "Already connected a to a network, disconnect first.",
             "network_quality": "Network qualtity",
             "wireless_connected": "Connected with WiFi",
             "wired_connected": "Connected with Ethernet"

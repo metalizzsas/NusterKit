@@ -9,7 +9,7 @@
 	import Grid from "$lib/components/layout/grid.svelte";
 	import { realtime } from "$lib/utils/stores/nuster";
 	import type { AccessPoint } from "@metalizzsas/nuster-typings/build/hydrated/balena";
-	import { ArrowLeft, ArrowPath, ArrowRightCircle, CheckCircle, XMark } from "@steeze-ui/heroicons";
+	import { ArrowLeft, ArrowPath, ArrowRightCircle, CheckCircle, ExclamationTriangle, XMark } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";
 	import { onMount } from "svelte";
 	import { _ } from "svelte-i18n";
@@ -178,14 +178,21 @@
                         </button>
 
                         {#if showDetails === ap.ssid}
+                        
                             {#if ap.active}
                                 <Button size="small" ringColor="ring-red-500" color="hover:bg-red-500" class="mb-1" on:click={() => disconnect(ap)}>{$_('settings.network.disconnect')}</Button>
                             {:else}
+                                {@const alreadyConnected = $realtime.network.accessPoints.some(ap => ap.active)}
+
+                                {#if alreadyConnected}
+                                    <p class="text-amber-500"><Icon src={ExclamationTriangle} class="h-6 w-6 inline mr-2 mb-0.5" />{$_('settings.network.disconnect_first')}</p>
+                                {/if}
+
                                 <div class="flex justify-between items-center w-full gap-4 mb-1">
                                     {#if ap.encryption > 0}
-                                        <PasswordField placeholder={$_('password')} bind:value={password} class="grow" />
+                                        <PasswordField placeholder={$_('password')} bind:value={password} disabled={alreadyConnected} class="grow" />
                                     {/if}
-                                    <Button on:click={() => connect(ap)} disabled={(ap.encryption > 0) ? !(password.length > 7) : false}>{$_('settings.network.connect')}</Button>
+                                    <Button on:click={() => connect(ap)} disabled={alreadyConnected || (ap.encryption > 0) ? !(password.length > 7) : false}>{$_('settings.network.connect')}</Button>
                                 </div>
                             {/if}
                         {/if}

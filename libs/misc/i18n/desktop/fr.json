@@ -183,6 +183,7 @@
             },
             "connect": "Se connecter",
             "disconnect": "Se déconnecter",
+            "disconnect_first": "Déjà connecté a un réseau sans fil, déconnectez vous avant de vous connecter a un autre réseau.",
             "connected": {
                 "true": "Connecté",
                 "false": "Déconnecté"

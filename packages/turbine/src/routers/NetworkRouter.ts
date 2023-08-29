@@ -220,10 +220,16 @@ export class NetworkRouter extends Router
             if(wlan0 === undefined)
                 throw new Error("Main physical wifi device not found.");
 
+            if(this.accessPoints.some(ap => ap.active))
+                throw new Error("Already connected to a wifi network.");
+
             const ap = this.accessPoints.find(ap => ap.ssid === ssid);
             
             if(ap === undefined)
                 throw new Error("Access point used not found.");
+
+            if(ap.ssid === ssid)
+                throw new Error("Already connected to this wifi network.");
     
             const connectionParams = [
                 ['connection', [

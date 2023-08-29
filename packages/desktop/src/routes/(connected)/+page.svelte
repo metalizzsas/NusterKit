@@ -65,7 +65,7 @@
 
 <Flex direction="row" gap={listShrinked ? 0 : 6}>
 	<div 
-        class="shrink-0 drop-shadow-xl"
+        class="shrink-0 max-w-[40%] drop-shadow-xl"
         class:max-w-0={listShrinked}
         class:max-h-0={listShrinked}
         class:overflow-hidden={listShrinked}
@@ -89,25 +89,24 @@
                             }
                         }}
                     >
-
                         <Flex gap={4} items="center">
                             {#if premade.profile}
                                 <Icon
                                     src={premade.profile?.isPremade === true ? Square3Stack3d: UserCircle}
                                     theme="solid"
-                                    class="{isPrimaryPremade ? "text-indigo-500" : "text-pink-500"} h-6 w-6"
+                                    class="{isPrimaryPremade ? "text-indigo-500" : "text-pink-500"} h-6 w-6 shrink-0"
                                 />
                             {:else}
                                 <Icon
                                     src={Square3Stack3d}
                                     theme="solid"
-                                    class="{isPrimaryPremade ? "text-indigo-500" : "text-pink-500"} h-6 w-6"
+                                    class="{isPrimaryPremade ? "text-indigo-500" : "text-pink-500"} h-6 w-6 shrink-0"
                                 />
                             {/if}
                             <Flex direction="col" gap={0} items="start" justify="items-start">
 
                                 {#if premade.profile !== undefined}
-                                    <h2>{translateProfileName($_, premade.profile)}</h2>
+                                    <h2 class="text-ellipsis text-left">{translateProfileName($_, premade.profile)}</h2>
                                     <p class="text-sm text-zinc-600 dark:text-zinc-300">
                                         {$_("cycle.names." + premade.cycle)}
                                     </p>
@@ -117,9 +116,7 @@
 
                             </Flex>
                         </Flex>
-
                     </SelectableButton>
-
                 {/each}
             </Flex>
         </Wrapper>

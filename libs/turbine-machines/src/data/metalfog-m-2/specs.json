@@ -206,6 +206,15 @@
          "size": "bit"
       },
       {
+         "name": "regulators#power",
+         "type": "default",
+         "bus": "out",
+         "controllerId": 0,
+         "address": 3,
+         "default": 0,
+         "size": "bit"
+      },
+      {
          "name": "hybrid#act-res",
          "type": "default",
          "bus": "out",
@@ -1161,6 +1170,8 @@
                "startBlocks": [
                   {"io_write": ["met#ox-res", 1]},
                   {"io_write": ["met#rd-res", 1]},
+                  {"io_write": ["regulators#power", 1]},
+                  {"sleep": 3},
                   {"io_write": ["regulators#rd-pressure", {"read_machine_var": "rd-pressure"}]},
                   {"io_write": ["regulators#ox-pressure", {"read_machine_var": "ox-pressure"}]}
                ],
@@ -1168,7 +1179,9 @@
                   {"io_write": ["met#ox-res", 0]},
                   {"io_write": ["met#rd-res", 0]},
                   {"io_write": ["regulators#rd-pressure", 0]},
-                  {"io_write": ["regulators#ox-pressure", 0]}
+                  {"io_write": ["regulators#ox-pressure", 0]},
+                  {"sleep": 3},
+                  {"io_write": ["regulators#power", 0]}
                ],
                "blocks": [
                   {"sleep": 0.25 },

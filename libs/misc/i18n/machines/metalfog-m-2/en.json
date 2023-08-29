@@ -212,6 +212,7 @@
 
             "met#air-cleaning": "Oxydiser & reducer nozzle air cleaning",
 
+            "regulators#power": "Regulators power",
             "regulators#rd-pressure": "Reducer pressure",
             "regulators#ox-pressure": "Oxydiser pressure"
         }

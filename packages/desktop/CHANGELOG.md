@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-desktop
 
+## 1.13.2
+
+### Patch Changes
+
+- [#482](https://github.com/metalizzsas/NusterKit/pull/482) [`d8f22b8d`](https://github.com/metalizzsas/NusterKit/commit/d8f22b8dfc2462e71032b3eff1ab1f4fa7221e21) Thanks [@Kworz](https://github.com/Kworz)! - feat: added a blue dot if an update is available
+
+- [#482](https://github.com/metalizzsas/NusterKit/pull/482) [`7e25317b`](https://github.com/metalizzsas/NusterKit/commit/7e25317b5418411ace9e5bf7e13bede5ae85dbef) Thanks [@Kworz](https://github.com/Kworz)! - fix: version was not good
+
 ## 1.13.1
 
 ### Patch Changes

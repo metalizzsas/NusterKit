@@ -11,6 +11,7 @@
 	import type { AccessPoint } from "@metalizzsas/nuster-typings/build/hydrated/balena";
 	import { ArrowLeft, ArrowPath, ArrowRightCircle, CheckCircle, XMark } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";
+	import { onMount } from "svelte";
 	import { _ } from "svelte-i18n";
 
     const refreshNetworks = async () => {
@@ -42,6 +43,14 @@
         processing = undefined;
         refreshNetworks();
     }
+
+    onMount(() => {
+        const interval = setInterval(() => {
+            void refreshNetworks();
+        }, 15000);
+
+        return () => clearInterval(interval);
+    });
 
     let password = "";
 

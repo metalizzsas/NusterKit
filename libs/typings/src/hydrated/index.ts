@@ -1,4 +1,5 @@
 import type { Popup } from "../spec/nuster";
+import { AccessPoint, NetworkDevice } from "./balena";
 import type { ContainerHydrated } from "./containers";
 import type { ProgramBlockRunnerHydrated } from "./cycle/ProgramBlockRunnerHydrated";
 import type { IOGatesHydrated } from "./io";
@@ -20,16 +21,22 @@ type PopupMessage = {
 
 /** Realtime data */
 export interface Status {
-    cycle?: ProgramBlockRunnerHydrated,
+    cycle?: ProgramBlockRunnerHydrated;
 
     /** Containers */
-    containers: ContainerHydrated[],
+    containers: ContainerHydrated[];
 
     /** IO hydrated */
-    io: IOGatesHydrated[],
+    io: IOGatesHydrated[];
 
     /** Maintenance tasks */
     maintenance: MaintenanceHydrated[];
+
+    /** Network data */
+    network: {
+        accessPoints: AccessPoint[];
+        devices: NetworkDevice[];
+    }
 
 }
 

@@ -212,6 +212,7 @@
 
             "met#air-cleaning": "Nettoyage buse oxydant & réducteur",
 
+            "regulators#power": "Activation régulateurs",
             "regulators#rd-pressure": "Pression réducteur",
             "regulators#ox-pressure": "Pression oxydant"
         }

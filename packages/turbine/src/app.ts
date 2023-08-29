@@ -14,7 +14,6 @@ import { pinoHttp } from "pino-http";
 import { Machine } from "./Machine";
 import { TurbineEventLoop } from "./events";
 import { WebsocketDispatcher } from "./websocket/WebsocketDispatcher";
-import { WiFiRouter } from "./routers";
 
 /** Http express & ws port */
 const HTTP_PORT = 4080;
@@ -28,12 +27,21 @@ let httpServer: Server | undefined = undefined;
 /** Machine instance holding all the controllers */
 let machine: Machine | undefined = undefined;
 
+/** Websocket manager */
+let websocketDispatcher: WebsocketDispatcher | undefined = undefined;
+
 /** File / Folders paths */
 const basePath = productionEnabled ? "/data" : "data";
 const infoPath = path.resolve(basePath, "info.json");
 const settingsPath = path.resolve(basePath, "settings.json");
 const logsFolderPath = path.resolve(basePath, "logs");
 const logFilePath = path.resolve(basePath, "logs", `log-${new Date().toISOString()}.log`);
+const updateFile = path.resolve(basePath, "updated");
+
+/** Do NusterKit has been updated */
+const wasUpdated = fs.existsSync(updateFile);
+
+if(wasUpdated) fs.rmSync(updateFile);
 
 if(!fs.existsSync(logsFolderPath)) fs.mkdirSync(logsFolderPath);
 if(!fs.existsSync(settingsPath)) fs.writeFileSync(settingsPath, JSON.stringify({ dark: 1, lang: "en" }), { encoding: "utf-8" });
@@ -63,6 +71,11 @@ TurbineEventLoop.on("log", (level, message) => {
 
 LoggerInstance.info("Starting NusterTurbine");
 
+/** Update locking the Balena Supervisor */
+lockFile.lock("/tmp/balena/updates.lock", (err) => {
+    (err) ? LoggerInstance.error("Lock: Updates locking failed.", err) : LoggerInstance.info("Lock: Updates are now locked.");                
+});
+
 SetupExpress();
 
 if(fs.existsSync(infoPath))
@@ -81,15 +94,34 @@ if(fs.existsSync(infoPath))
 
     machine = new Machine(parsedConfiguration);
 
-    SetupMachine(); //Expose machine routers to Express
+    SetupMachine();
 }
 else
     LoggerInstance.warn("Machine: Info file not found");
 
-/** Update locking the Balena Supervisor */
-lockFile.lock("/tmp/balena/updates.lock", (err) => {
-    (err) ? LoggerInstance.error("Lock: Updates locking failed.", err) : LoggerInstance.info("Lock: Updates are now locked.");                
-});
+if(wasUpdated && productionEnabled)
+{
+    LoggerInstance.info("Update: NusterTurbine has been updated, restarting proxy & wpe services.");
+
+    fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/applications/${process.env.BALENA_APP_ID}/restart-service?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { 
+        headers: { "Content-Type": "application/json" }, 
+        body: JSON.stringify({ serviceName: "proxy", force: true }), 
+        method: 'POST'}
+    ).then(() => {
+        fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/applications/${process.env.BALENA_APP_ID}/restart-service?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { 
+            headers: { "Content-Type": "application/json" }, 
+            body: JSON.stringify({ serviceName: "wpe", force: true }), 
+            method: 'POST'}
+        )
+    }).then(() => {
+        LoggerInstance.info("Update: Restarted proxy & wpe services.");
+
+        /** ReUpdate locking the Balena Supervisor after restarting both services */
+        lockFile.lock("/tmp/balena/updates.lock", (err) => {
+            (err) ? LoggerInstance.error("Lock: Updates locking failed.", err) : LoggerInstance.info("Lock: Updates are now re-locked.");                
+        });
+    });
+}
 
 /** Setup Express running server */
 function SetupExpress()
@@ -159,6 +191,7 @@ function SetupExpress()
         try
         {
             await SoftExit();
+            fs.writeFileSync(updateFile, "");
         }
         catch(ex)
         {
@@ -275,8 +308,6 @@ function SetupExpress()
             res.status(500).end();
         }
     });
-
-    ExpressApp.use('/wifi', new WiFiRouter().router);
 }
 
 /**
@@ -305,10 +336,16 @@ async function SoftExit()
 /** Setup Websocket server */
 function SetupWebsocketServer()
 {
-    WebsocketDispatcher.getInstance(httpServer);
+    if(httpServer === undefined)
+    {
+        LoggerInstance.error("Websocket: Cannot setup websocket server, httpServer is undefined.");
+        throw Error("Cannot setup websocket server, httpServer is undefined.");
+    }
+
+    websocketDispatcher = new WebsocketDispatcher(httpServer);
 
     setInterval(async () => {
-        WebsocketDispatcher.getInstance().broadcastData(await machine?.socketData(), "status");
+        websocketDispatcher?.broadcastData(await machine?.socketData(), "status");
     }, 500);
 }
 
@@ -333,7 +370,19 @@ function SetupMachine()
 {
     if(machine)
     {
-        WebsocketDispatcher.getInstance().connectPopup = machine.specs.nuster?.connectPopup;
+        if(machine.specs.nuster?.connectPopup)
+            websocketDispatcher?.addConnectPopup(machine.specs.nuster?.connectPopup);
+
+        if(wasUpdated)
+            websocketDispatcher?.addConnectPopup({
+                title: "nuster.toast-update",
+                message: "nuster.toast-update-body",
+                level: "info",
+                payload: {
+                    version: "missigno"
+                }
+        });
+        
         LoggerInstance.info("Machine: Setting up connect popup.");
 
         ExpressApp.use('/v1/io', machine.ioRouter.router);
@@ -341,6 +390,8 @@ function SetupMachine()
         ExpressApp.use('/v1/maintenances', machine.maintenanceRouter.router);
         ExpressApp.use('/v1/containers', machine.containerRouter.router);
         ExpressApp.use('/v1/cycle', machine.cycleRouter.router);
+        ExpressApp.use('/network', machine.networkRouter.router);
+        
         LoggerInstance.info("Express: Registered routers");
 
         ExpressApp.get("/machine", (_, res: Response) => { res.json(machine?.toJSON()); });
@@ -355,4 +406,4 @@ function SetupMachine()
 /** NodeJS process events */
 process.on("uncaughtException", (error: Error) => LoggerInstance.error("unCaughtException: " + error.stack));
 process.on('unhandledRejection', (error: Error) => LoggerInstance.error("unhandledPromiseRejection: " + error.stack));
-process.on("SIGTERM", () => { LoggerInstance.info("Shutdown: SIGTERM detected."); TurbineEventLoop.emit("io.resetAll"); });
+process.on("SIGTERM", () => { LoggerInstance.info("Shutdown: SIGTERM detected."); SoftExit(); });

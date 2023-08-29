@@ -27,6 +27,7 @@
 	import type { MachineData } from "@metalizzsas/nuster-typings/build/hydrated/machine";
 	import { fade } from "svelte/transition";
 	import type { Unsubscriber } from "svelte/store";
+	import { version } from "$lib/version";
 
     type Toast_popup = Popup & { date: number };
 
@@ -70,7 +71,7 @@
         const reqSettings = await fetch('/api/settings');
         if(reqSettings.ok && reqSettings.status === 200)
         {
-            const s = await reqSettings.json() as { dark: boolean, lang: string };
+            const s = await reqSettings.json() as { dark: 1 | 0, lang: string };
             $settings = s;
 
             settingsSubscribe = settings.subscribe(value => {
@@ -116,13 +117,34 @@
             const data = JSON.parse(ev.data as string) as WebsocketData;
 
             if(data.type == "status" && $realtimeLock === false)
+            {
+                if(import.meta.env.DEV)
+                {
+                    data.message = {...data.message, network: {
+                        devices: [
+                            { iface: "enp1s0u1", path: "", gateway: "192.168.49.254", subnet: "255.255.255.0"  },
+                            { iface: "wlan0", path: "", address: "192.168.49.193", gateway: "192.168.49.254", subnet: "255.255.255.0"  }
+                        ],
+                        accessPoints: [
+                            { ssid: "Test", active: true, strength: 75, frenquency: 2500, encryption: 2, path: "" },
+                            { ssid: "Test2", active: false, strength: 75, frenquency: 2500, encryption: 2, path: "" }
+                        ]
+                    }}
+                }
                 $realtime = data.message;
+            }
             else if(data.type === "popup")
             {
                 if(data.message.payload !== undefined)
                 {
                     for(const key in data.message.payload)
                     {
+                        if(key === "version")
+                        {
+                            data.message.payload[key] = version;
+                            continue;
+                        }
+                        
                         data.message.payload[key] = $_(data.message.payload[key]);
                     }
                 }

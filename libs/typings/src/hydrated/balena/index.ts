@@ -33,20 +33,5 @@ interface VPNData {
     }
 }
 
-/** Device data given by balenaOS Hypervisor at `GET:/v1/device` api endpoint */
-interface DeviceData {
-    api_port: number;
-    ip_address: string;
-    mac_address: string;
-    commit: string;
-    status: string;
-    download_progress: number;
-    os_version: string;
-    supervisor_version: string;
-    update_pending: boolean;
-    update_downloaded: boolean;
-    update_failed: boolean;
-}
-
-export { VPNData, HypervisorData, DeviceData };
+export { VPNData, HypervisorData };
 export { AccessPoint, NetworkDevice } from './dbus';

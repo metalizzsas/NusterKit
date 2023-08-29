@@ -1,9 +1,5 @@
 import type WebSocket from "ws";
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import pkg from "../package.json";
-
 import { CycleRouter } from "./routers/CycleRouter";
 import { IORouter } from "./routers/IORouter";
 import { MaintenanceRouter } from "./routers/MaintenancesRouter";
@@ -13,7 +9,7 @@ import { parseAddon } from "./addons/AddonLoader";
 import { LoggerInstance } from "./app";
 
 import type { Configuration, Status, MachineSpecs } from "@metalizzsas/nuster-typings";
-import type { HypervisorData, DeviceData, VPNData } from "@metalizzsas/nuster-typings/build/hydrated/balena";
+import type { HypervisorData, VPNData } from "@metalizzsas/nuster-typings/build/hydrated/balena";
 import type { MachineData } from "@metalizzsas/nuster-typings/build/hydrated/machine"; 
 
 import { TurbineEventLoop } from "./events";
@@ -38,7 +34,6 @@ export class Machine
     //Balena given data
     private hypervisorData?: HypervisorData;
     private vpnData?: VPNData;
-    private deviceData?: DeviceData;
 
     constructor(obj: Configuration) {
         //Store machine data informations
@@ -71,17 +66,13 @@ export class Machine
             }
         }
 
-        // Machine Specific addon parsing @beta
+        // Machine Specific addon parsing
         if (this.data.machineAddons.length > 0)
         {
-            LoggerInstance.warn(`Machine: Configuration has ${this.data.machineAddons.length} machine specific addon(s). SHOULD BE USED AS LESS AS POSSIBLE!`);
+            LoggerInstance.warn(`Machine: Configuration has ${this.data.machineAddons.length} machine specific addon(s).`);
             for (const add of this.data.machineAddons)
                 this.specs = parseAddon(this.specs, add, LoggerInstance);
         }
-
-        //if config file has settings let them is the settings var
-        if (this.data.settings !== undefined)
-            LoggerInstance.info("Machine: Custom settings detected.");
 
         LoggerInstance.info("Machine: Instantiating controllers");
 
@@ -102,27 +93,32 @@ export class Machine
             });
         }
 
-        if (process.env.NODE_ENV === 'production') {
-            //Polling the balenaOS Data if device is not in dev mode
+        //Polling the balenaOS Hypervisor data if device is not in dev mode
+        if (process.env.NODE_ENV === 'production')
+        {
             setInterval(async () => {
-                try {
+                    fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/state/status?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" } }).then(res => {
+                        if (res.status !== 200)
+                            return;
 
-                    const hyperv = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/state/status?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" } });
-                    const vpn = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/device/vpn?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" } });
-                    const device = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v1/device?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" } });
+                        res.json().then(data => {
+                            this.hypervisorData = data;
+                        });
+                    }).catch(() => {
+                        LoggerInstance.warn("Hypervisor: Failed to get Device Hypervisor data.");
+                    });
 
-                    if (hyperv.status == 200)
-                        this.hypervisorData = await hyperv.json();
+                    fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/device/vpn?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" } }).then(res => {
 
-                    if (vpn.status == 200)
-                        this.vpnData = await vpn.json();
+                        if(res.status !== 200)
+                            return;
 
-                    if (device.status == 200)
-                        this.deviceData = await device.json();
-                }
-                catch (ex) {
-                    LoggerInstance.warn("Hypervisor: Failed to get Hypervisor data.");
-                }
+                        res.json().then(data => {
+                            this.vpnData = data;
+                        });
+                    }).catch(() => {
+                        LoggerInstance.warn("Hypervisor: Failed to get Device Hypervisor data.");
+                    });
             }, 10000);
         }
     }
@@ -131,15 +127,15 @@ export class Machine
      * Data send to the socket as a Status message in socket connection
      * @returns Data hydrated for socket connection
      */
-    public async socketData(): Promise<Status> {
+    public async socketData(): Promise<Status>
+    {
         const containers = await this.containerRouter.socketData();
-        const maintenances = await this.maintenanceRouter.socketData();
 
         return {
             cycle: this.cycleRouter.socketData,
             containers: containers,
             io: this.ioRouter.socketData,
-            maintenance: maintenances,
+            maintenance: this.maintenanceRouter.socketData(),
             network: this.networkRouter.socketData,
         } satisfies Status;
     }
@@ -150,10 +146,8 @@ export class Machine
 
             nuster: this.specs.nuster,
             
-            nusterVersion: pkg.version,
             hypervisorData: this.hypervisorData,
             vpnData: this.vpnData,
-            deviceData: this.deviceData
         };
     }
 }

@@ -1,5 +1,16 @@
 # @metalizzsas/nuster-turbine
 
+## 1.11.1
+
+### Patch Changes
+
+- [#480](https://github.com/metalizzsas/NusterKit/pull/480) [`0c84d925`](https://github.com/metalizzsas/NusterKit/commit/0c84d9257f243d91817fd8a7365c968417fba77f) Thanks [@Kworz](https://github.com/Kworz)! - feat: will restart `wpe` & `proxy` services after an update has been installed
+
+- [#480](https://github.com/metalizzsas/NusterKit/pull/480) [`4d2af584`](https://github.com/metalizzsas/NusterKit/commit/4d2af584d37a99148e9049412dac8ed00775433a) Thanks [@Kworz](https://github.com/Kworz)! - fix: increased EventLoop max listeners
+
+- Updated dependencies [[`7c5f76bc`](https://github.com/metalizzsas/NusterKit/commit/7c5f76bc8c764cdf58638f571ff25bf731343f24)]:
+  - @metalizzsas/nuster-turbine-machines@1.7.1
+
 ## 1.11.0
 
 ### Minor Changes

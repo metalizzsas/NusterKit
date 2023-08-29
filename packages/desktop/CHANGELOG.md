@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.13.1
+
+### Patch Changes
+
+- [#480](https://github.com/metalizzsas/NusterKit/pull/480) [`c3ccafbd`](https://github.com/metalizzsas/NusterKit/commit/c3ccafbd5f41baffd8ff0263df5ccae075fe0a2b) Thanks [@Kworz](https://github.com/Kworz)! - feat: added network configuration page
+
 ## 1.13.0
 
 ### Minor Changes

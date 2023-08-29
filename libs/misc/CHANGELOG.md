@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-misc
 
+## 1.5.5
+
+### Patch Changes
+
+- [#480](https://github.com/metalizzsas/NusterKit/pull/480) [`22fb78b2`](https://github.com/metalizzsas/NusterKit/commit/22fb78b2b9755cbbbaeb0aa6af347dc18dd99085) Thanks [@Kworz](https://github.com/Kworz)! - chore: updated network translations
+
+- [#480](https://github.com/metalizzsas/NusterKit/pull/480) [`bc6459ad`](https://github.com/metalizzsas/NusterKit/commit/bc6459add6c61295233d80c58d022787aac0ad52) Thanks [@Kworz](https://github.com/Kworz)! - chore: added update toast names
+
 ## 1.5.4
 
 ### Patch Changes

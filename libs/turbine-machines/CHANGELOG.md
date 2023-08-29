@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.7.1
+
+### Patch Changes
+
+- [#480](https://github.com/metalizzsas/NusterKit/pull/480) [`7c5f76bc`](https://github.com/metalizzsas/NusterKit/commit/7c5f76bc8c764cdf58638f571ff25bf731343f24) Thanks [@Kworz](https://github.com/Kworz)! - feat(metalfog-m-2): added regulators power I/O gate
+
 ## 1.7.0
 
 ### Minor Changes

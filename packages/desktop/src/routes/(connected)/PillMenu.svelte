@@ -6,25 +6,26 @@
 	import { onMount } from "svelte";
 	import { realtime } from "$lib/utils/stores/nuster";
 	import { _ } from "svelte-i18n";
-	import type { Configuration } from "@metalizzsas/nuster-typings";
 	import PillMenuButton from "./PillMenuButton.svelte";
+	import type { MachineData } from "@metalizzsas/nuster-typings/build/hydrated/machine";
 
     let containersState: "good" | "warn" | "error" | "info" = "error";
 
     let maintenancesState: "good" | "warn" | "error" = "error";
 
-    let machine: Configuration | undefined;
+    let machine: MachineData | undefined;
 
     onMount(async () => {
 
         const machineRequest = await fetch(`/api/machine`);
-        machine = await machineRequest.json() as Configuration;
+        machine = await machineRequest.json() as MachineData;
 
     });
 
     /// Reactive statements
     $: maintenancesState = computeMaintenancesState($realtime.maintenance);
     $: containersState = computeContainersState($realtime.containers, $realtime.io).result;
+    $: $realtime, fetch(`/api/machine`).then(req => req.json()).then(data => machine = data as MachineData);
 
 </script>
 
@@ -85,6 +86,17 @@
         <PillMenuButton href="/io" activeUrl={"/(connected)/io"}>{$_('gates.lead')}</PillMenuButton>
     {/if}
 
-    <PillMenuButton href="/settings" activeUrl={"/(connected)/settings"}>{$_('settings.lead')}</PillMenuButton>
+    <PillMenuButton href="/settings" activeUrl={"/(connected)/settings"}>
+        {@const updateAvailable = machine?.hypervisorData?.appState !== 'applied' && machine?.hypervisorData?.overallDownloadProgress === null}
+        {$_('settings.lead')}
+
+        {#if updateAvailable}
+            <div 
+                class="h-2.5 aspect-square rounded-full"
+                class:bg-blue-500={updateAvailable}
+                class:animate-pulse={updateAvailable}
+            />
+        {/if}
+    </PillMenuButton>
 
 </Flex>

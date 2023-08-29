@@ -36,7 +36,7 @@
         if(!result.ok || result.status !== 200)
         {
             wifiConnectError = ap.ssid;
-            result.text().then(text => (text === "{}") ? "settings.network.errors.wifi_invalid_password" : wifiConnectErrorMessage = text);
+            result.text().then(text => (text === "{}" || text === "") ? "settings.network.errors.wifi_invalid_password" : wifiConnectErrorMessage = text);
         }
 
         password = "";

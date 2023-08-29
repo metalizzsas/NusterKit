@@ -228,7 +228,7 @@ export class NetworkRouter extends Router
             if(ap === undefined)
                 throw new Error("Access point used not found.");
 
-            if(ap.ssid === ssid)
+            if(ap.active)
                 throw new Error("Already connected to this wifi network.");
     
             const connectionParams = [

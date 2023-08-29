@@ -71,6 +71,11 @@ TurbineEventLoop.on("log", (level, message) => {
 
 LoggerInstance.info("Starting NusterTurbine");
 
+/** Update locking the Balena Supervisor */
+lockFile.lock("/tmp/balena/updates.lock", (err) => {
+    (err) ? LoggerInstance.error("Lock: Updates locking failed.", err) : LoggerInstance.info("Lock: Updates are now locked.");                
+});
+
 SetupExpress();
 
 if(fs.existsSync(infoPath))
@@ -93,11 +98,6 @@ if(fs.existsSync(infoPath))
 }
 else
     LoggerInstance.warn("Machine: Info file not found");
-
-/** Update locking the Balena Supervisor */
-lockFile.lock("/tmp/balena/updates.lock", (err) => {
-    (err) ? LoggerInstance.error("Lock: Updates locking failed.", err) : LoggerInstance.info("Lock: Updates are now locked.");                
-});
 
 if(wasUpdated && productionEnabled)
 {

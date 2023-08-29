@@ -37,7 +37,22 @@ export class NetworkRouter extends Router
 
         this.router.post("/wifi/connect", async (req, res) => {
 
-            if(req.body.ssid === undefined || req.body.password === undefined)
+            if(req.body.ssid === undefined)
+            {
+                res.status(400).end("settings.network.errors.wifi_missing_parameters");
+                return;
+            }
+
+            const ap = this.accessPoints.find(ap => ap.ssid === req.body.ssid);
+
+            if(ap === undefined)
+            {
+                //Should not happen
+                res.status(400).end("settings.network.errors.wifi_invalid_ssid");
+                return;
+            }
+
+            if(ap.encryption > 0 && req.body.password === undefined)
             {
                 res.status(400).end("settings.network.errors.wifi_missing_parameters");
                 return;
@@ -170,7 +185,7 @@ export class NetworkRouter extends Router
             const accessPointSsid = await getProperty<[[BodyEntry], [Buffer]]>('org.freedesktop.NetworkManager', accessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Ssid');
             const accessPointStrengh = await getProperty<[[BodyEntry], [number]]>('org.freedesktop.NetworkManager', accessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Strength');
             const accessPointFrenquency = await getProperty<[[BodyEntry], [number]]>('org.freedesktop.NetworkManager', accessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Frequency');
-            const accessPointEncryption = await getProperty<[[BodyEntry], [number]]>('org.freedesktop.NetworkManager', accessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Flags');
+            const accessPointEncryption = await getProperty<[[BodyEntry], [number]]>('org.freedesktop.NetworkManager', accessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'RsnFlags');
         
             accessPoints.push({
                 ssid: accessPointSsid[1][0].toString(),
@@ -224,9 +239,20 @@ export class NetworkRouter extends Router
                 ]]
             ] satisfies BodyEntry[];
 
-            if(password !== undefined)
+            if(password !== undefined && ap.encryption > 0)
             {
-                const keyMgmt: 'wep' | 'ieee8021x' |  'wpa-psk' | 'sae' | 'owe' | 'wpa-aep' | 'wpa-eap-suite-b-192' = 'wpa-psk';
+                let keyMgmt: 'wep' | 'ieee8021x' |  'wpa-psk' | 'sae' | 'owe' | 'wpa-aep' | 'wpa-eap-suite-b-192' = 'wpa-psk';
+
+                switch (ap.encryption)
+                {
+                    case NetworkManagerTypes.AP_802_11_SEC.PAIR_WEP104:
+                    case NetworkManagerTypes.AP_802_11_SEC.PAIR_WEP40:
+                    case NetworkManagerTypes.AP_802_11_SEC.GROUP_WEP40:
+                    case NetworkManagerTypes.AP_802_11_SEC.GROUP_WEP104:
+                        keyMgmt = 'wep'; break;
+                    default:
+                        keyMgmt = 'wpa-psk'; break;
+                }
 
                 connectionParams.push(['802-11-wireless-security', [
                     ['key-mgmt', ['s', keyMgmt]],

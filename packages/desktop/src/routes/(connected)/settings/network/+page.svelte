@@ -30,12 +30,12 @@
     const connect = async (ap: AccessPoint) => {
         showDetails = undefined;
         processing = ap.ssid;
-        const result = await fetch('/api/network/wifi/connect', { method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ssid: ap.ssid, password: password }) });
+        const result = await fetch('/api/network/wifi/connect', { method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ssid: ap.ssid, password }) });
 
         if(!result.ok || result.status !== 200)
         {
             wifiConnectError = ap.ssid;
-            result.text().then(text => wifiConnectErrorMessage = text);
+            result.text().then(text => (text === "{}") ? "settings.network.errors.wifi_invalid_password" : wifiConnectErrorMessage = text);
         }
 
         password = "";
@@ -173,8 +173,10 @@
                                 <Button size="small" ringColor="ring-red-500" color="hover:bg-red-500" class="mb-1" on:click={() => disconnect(ap)}>{$_('settings.network.disconnect')}</Button>
                             {:else}
                                 <div class="flex justify-between items-center w-full gap-4 mb-1">
-                                    <PasswordField bind:value={password} class="grow" />
-                                    <Button on:click={() => connect(ap)}>{$_('settings.network.connect')}</Button>
+                                    {#if ap.encryption > 0}
+                                        <PasswordField placeholder={$_('password')} bind:value={password} class="grow" />
+                                    {/if}
+                                    <Button on:click={() => connect(ap)} disabled={(ap.encryption > 0) ? !(password.length > 7) : false}>{$_('settings.network.connect')}</Button>
                                 </div>
                             {/if}
                         {/if}

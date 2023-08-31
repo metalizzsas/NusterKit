@@ -65,9 +65,10 @@
 
 <Flex direction="row" gap={listShrinked ? 0 : 6}>
 	<div 
-        class="shrink-0 max-w-[40%] drop-shadow-xl"
+        class="shrink-0 drop-shadow-xl"
         class:max-w-0={listShrinked}
         class:max-h-0={listShrinked}
+        class:max-w-[40%]={!listShrinked}
         class:overflow-hidden={listShrinked}
     >
         <Wrapper>

@@ -1041,9 +1041,11 @@
                "isEnabled": 1,
                "startBlocks": [
                   {"io_write": ["ventilation", 1]},
-                  {"io_write": ["air-heater", 1]}
+                  {"io_write": ["air-heater", 1]},
+                  {"io_write": ["met#air-cleaning", 1]}
                ],
                "endBlocks": [
+                  {"io_write": ["met#air-cleaning", 0]},
                   {"io_write": ["motor#speed", {"multiply": [{"profile": "motor#speed"}, {"profile": "motor#enabled"}]}]},
                   {"if": {
                      "statement": {
@@ -1063,7 +1065,7 @@
                   }}
                ],
                "blocks": [
-                  {"sleep": 90}
+                  {"sleep": 15}
                ]
             },
             {

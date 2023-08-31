@@ -1516,6 +1516,7 @@
                      },
                      "true_blocks": [
                         {"io_write": ["met#ox-res", 1]},
+                        {"io_write": ["regulators#power", 1]},
                         {"io_write": ["regulators#ox-pressure", 0.4]},
                         {"io_write": ["met#met-lq-high", 1]},
                         {"io_write": ["met#met-lq-mid", 1]},
@@ -1531,6 +1532,7 @@
                      },
                      "true_blocks": [
                         {"io_write": ["met#rd-res", 1]},
+                        {"io_write": ["regulators#power", 1]},
                         {"io_write": ["regulators#rd-pressure", 0.4]},
                         {"io_write": ["met#met-lq-high", 1]},
                         {"io_write": ["met#met-lq-mid", 1]},
@@ -1564,6 +1566,7 @@
                ],
                "endBlocks": [
                   {"io_write": ["ventilation", 0]},
+                  {"io_write": ["regulators#power", 0]},
 
                   {"if": {
                      "statement": {

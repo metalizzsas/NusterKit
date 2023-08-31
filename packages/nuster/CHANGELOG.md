@@ -1,5 +1,12 @@
 # @metalizzsas/nuster
 
+## 1.12.3
+
+### Patch Changes
+
+- Updated dependencies [[`402e3292`](https://github.com/metalizzsas/NusterKit/commit/402e3292756383c2458a8e4f85ec5e3e5b755eda)]:
+  - @metalizzsas/nuster-desktop@1.13.3
+
 ## 1.12.2
 
 ### Patch Changes

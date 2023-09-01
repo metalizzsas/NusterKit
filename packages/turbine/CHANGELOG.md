@@ -1,5 +1,14 @@
 # @metalizzsas/nuster-turbine
 
+## 1.11.2
+
+### Patch Changes
+
+- [#488](https://github.com/metalizzsas/NusterKit/pull/488) [`a99b88fc`](https://github.com/metalizzsas/NusterKit/commit/a99b88fc8049c6643bda6822e5929a4f5ec7e3c2) Thanks [@Kworz](https://github.com/Kworz)! - fix: avoid ghost starting run conditions being used on the end of the cycle
+
+- Updated dependencies [[`49af68d7`](https://github.com/metalizzsas/NusterKit/commit/49af68d7ab0ce5ab2d91d42927a5a2d31b8ec985), [`f36b2c2e`](https://github.com/metalizzsas/NusterKit/commit/f36b2c2e98c589d6021e01f651a87ef565eca8b5)]:
+  - @metalizzsas/nuster-turbine-machines@1.7.2
+
 ## 1.11.1
 
 ### Patch Changes

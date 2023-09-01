@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-misc
 
+## 1.5.6
+
+### Patch Changes
+
+- [#489](https://github.com/metalizzsas/NusterKit/pull/489) [`f6f1cf31`](https://github.com/metalizzsas/NusterKit/commit/f6f1cf31adb1eb71dbae385a26c648a253da9b88) Thanks [@Kworz](https://github.com/Kworz)! - feat: updated networking guidelines
+
+- [#492](https://github.com/metalizzsas/NusterKit/pull/492) [`e5e13c77`](https://github.com/metalizzsas/NusterKit/commit/e5e13c779665d508ea733a5f2f252f23996e622c) Thanks [@0auriane](https://github.com/0auriane)! - fix: network translation updated
+
 ## 1.5.5
 
 ### Patch Changes

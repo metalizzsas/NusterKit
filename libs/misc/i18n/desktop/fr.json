@@ -174,8 +174,6 @@
         },
         "network": {
             "lead": "Informations réseau",
-            "ip": "Liste des addresse IP",
-            "mac": "Liste des addresses mac",
             "vpn": "Connexion au VPN",
             "wifi": {
                 "label": "Réglages WiFi",
@@ -193,7 +191,7 @@
             "interface": {
                 "gateway_4": "Passerelle IPv4",
                 "subnet_mask": "Masque de sous-réseau",
-                "ip_4": "Addresse IPv4",
+                "ip_4": "Adresse IPv4",
                 "wireless": "Réseau sans-fil",
                 "wired": "Réseau câblé"
             },
@@ -201,11 +199,11 @@
                 "wifi_missing_parameters": "Paramètres manquants",
                 "wifi_invalid_password": "Mot de passe invalide"
             },
-            "edit": "Modifier les paramètre réseau",
+            "edit": "Modifier les paramètres réseau",
             "available_networks": "Réseaux disponibles",
             "wireless_connected": "Connecté au réseau sans-fil",
             "wired_connected": "Connecté au réseau câblé",
-            "edit_button": "Aller au paramètres réseau"
+            "edit_button": "Aller aux paramètres réseau"
         },
         "advanced": {
             "lead": "Réglages avancés",

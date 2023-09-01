@@ -1,13 +1,13 @@
 ## Informations réseau
 
-Pour permettre la télémaintenance de votre machine, il suffit de la connecter à votre réseau via soit:
+Pour permettre la télémaintenance de votre machine, il faut la connecter à votre réseau. Plusieurs méthodes sont possibles :
 
-- Le port RJ45, situé sous le coffret électrique.
-- Un réseau wifi.
+- Via le port RJ45, situé sous le coffret électrique,
+- Via un réseau wifi.
 
-> Attention: Pour l'instant, il n'est pas possible d'assigner une addresse IPv4 Fixe a la machine.
+> Attention: Il n'est pas encore possible d'assigner une adresse IPv4 fixe à la machine.
 
-Cette connexion réseau nécessite l'accès aux ports sortants suivants :
+La connexion réseau nécessite l'accès aux ports sortants suivants :
 
 | Port | Description |
 | --- | --- |
@@ -23,17 +23,17 @@ Aucune connexion directe entre la machine et nos services n'est possible. Toutes
 
 ### Connexion en WiFi
 
-Depuis Nuster 1.12.1, votre machine peux se connecter à des réseaux WiFi. Rendez vous dans l'onglet `Réglages`.
+Depuis Nuster 1.12.1, votre machine peut se connecter aux réseaux WiFi. Pour ce faire, rendez vous dans l'onglet `Réglages`.
 
 ![Onglet de réglages](settings-wifi.png)
 
-Cliquez sur `Aller au paramètres réseau`.
+Puis cliquez sur `Aller aux paramètres réseau`.
 
 ![Détail des interfaces](settings-wifi-details.png)
 
-Vous trouverez ainsi les deux interface réseau de votre machine. L'interface RJ45, affiche uniquement des informations sur sa connectivité.
+Vous trouverez dans les paramètres réseau les deux interfaces réseau de votre machine. L'interface RJ45 affiche uniquement des informations sur sa connectivité.
 
-Pour l'interface Wifi, elle affiche une liste des réseaux disponibles a proximité. La liste se recharge automatiquement, pour vous pouvez la recharger manuellement en cliquant sur `Rechercher`.
+L'interface wifi affiche une liste des réseaux disponibles à proximité. La liste se recharge automatiquement mais vous pouvez aussi la recharger manuellement en cliquant sur `Rechercher`.
 
 Cliquez sur le réseau auquel vous souhaitez vous connecter. Si le réseau est sécurisé, un mot de passe vous sera demandé.
 

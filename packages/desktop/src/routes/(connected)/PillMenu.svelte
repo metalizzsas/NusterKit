@@ -15,18 +15,17 @@
 
     let machine: MachineData | undefined;
 
-    onMount(() => {
-        const interval = setInterval(async () => {
-            const machineRequest = await fetch(`/api/machine`);
-            machine = await machineRequest.json() as MachineData;
-        }, 5000);
+    onMount(async () => {
 
-        return () => clearInterval(interval);
+        const machineRequest = await fetch(`/api/machine`);
+        machine = await machineRequest.json() as MachineData;
+
     });
 
     /// Reactive statements
     $: maintenancesState = computeMaintenancesState($realtime.maintenance);
     $: containersState = computeContainersState($realtime.containers, $realtime.io).result;
+    $: $realtime, fetch(`/api/machine`).then(req => req.json()).then(data => machine = data as MachineData);
 
 </script>
 

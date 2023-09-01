@@ -547,6 +547,7 @@
          "steps": [
             {
                "name": "start",
+               "crashStepFallback": 5,
                "isEnabled": 1,
                "blocks": [{"sleep": 10}],
                "startBlocks": [
@@ -558,6 +559,7 @@
             },
             {
                "name": "pulverization",
+               "crashStepFallback": 5,
                "isEnabled": {"profile": "pulverization#enabled"},
                "runAmount": {"conditional": {
                   "comparator": "==",
@@ -642,6 +644,7 @@
             },
             {
                "name": "uv-curing-interlayer",
+               "crashStepFallback": 5,
                "isEnabled": {"profile": "multilayer#enabled"},
                "runAmount": {"profile": "multilayer#count"},
                "partialStepFallback": 1,
@@ -702,6 +705,7 @@
             },
             {
                "name": "inerting",
+               "crashStepFallback": 5,
                "isEnabled": {"profile": "inerting#enabled"},
                "blocks": [
                   {"sleep": {"profile": "inerting#duration"}}
@@ -717,6 +721,7 @@
             {
                "name": "uv-curing",
                "isEnabled": {"profile": "uv-curing#enabled"},
+               "crashStepFallback": 5,
                "blocks": [
                   {"sleep": 3},
 

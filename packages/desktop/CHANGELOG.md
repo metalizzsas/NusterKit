@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.13.4
+
+### Patch Changes
+
+- [#494](https://github.com/metalizzsas/NusterKit/pull/494) [`294c0edd`](https://github.com/metalizzsas/NusterKit/commit/294c0edd3b9559100e24efc2138be85b86bd98eb) Thanks [@Kworz](https://github.com/Kworz)! - fix: PillMenu was overusing the /machine endpoint
+
 ## 1.13.3
 
 ### Patch Changes

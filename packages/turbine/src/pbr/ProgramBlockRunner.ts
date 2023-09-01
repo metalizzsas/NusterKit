@@ -229,14 +229,12 @@ export class ProgramBlockRunner
         LoggerInstance.info("PBRSC: Start conditions are valid.");
         LoggerInstance.info("PBRSC: Removing start conditions only used at start.");
 
-        this.runConditions = this.runConditions.filter(sc => {
-            if(sc.startOnly == true)
+        this.runConditions.forEach(sc => {
+            if(sc.startOnly === true)
             {
                 sc.dispose();
                 LoggerInstance.info(` ↳ Removed ${sc.name}`);
-                return false;
             }
-            return true;
         });
 
         LoggerInstance.info(`PBR: Started cycle ${this.name}.`);
@@ -315,6 +313,14 @@ export class ProgramBlockRunner
         if(this.status.mode !== "started")
         {
             TurbineEventLoop.emit("log", "warning", "PBR: Cannot end a cycle that has not started.");
+            return;
+        }
+
+        /** Avoid ending cycle with a ghost startonly run condition */
+        const possibleRcEnding = this.runConditions.find(rc => rc.name === reason);
+        if(possibleRcEnding !== undefined && possibleRcEnding.startOnly === true)
+        {
+            TurbineEventLoop.emit("log", "warning", "PBR: Cannot end a cycle with a start only run condition.");
             return;
         }
 

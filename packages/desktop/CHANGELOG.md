@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.13.4
+
+### Patch Changes
+
+- [`987a7f1e`](https://github.com/metalizzsas/NusterKit/commit/987a7f1e382b39be19fde0acba3231e0c5866d38) Thanks [@Kworz](https://github.com/Kworz)! - fix: Pillmenu was requesting /machine endpoint every 500ms
+
 ## 1.13.3
 
 ### Patch Changes

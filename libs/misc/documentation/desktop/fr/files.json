@@ -8,7 +8,7 @@
         { "name": "Profils", "path": "/desktop/fr/sections/10-profiles/index.md", "folder": "Sections" },
         { "name": "Conteneurs", "path": "/desktop/fr/sections/20-containers/index.md", "folder": "Sections" },
         { "name": "Maintenance", "path": "/desktop/fr/sections/30-maintenances/index.md", "folder": "Sections" },
-        { "name": "Réglages", "path": "/desktop/fr/sections/40-settings/index.md", "folder": "Informations" },
-        { "name": "Réseau", "path": "/desktop/fr/section/50-network/index.md", "folder": "Informations" }
+        { "name": "Réglages", "path": "/desktop/fr/informations/40-settings/index.md", "folder": "Informations" },
+        { "name": "Réseau", "path": "/desktop/fr/informations/50-network/index.md", "folder": "Informations" }
     ]
 }

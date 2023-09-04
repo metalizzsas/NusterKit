@@ -44,7 +44,7 @@
   },
   "homepage": "https://github.com/metalizzsas/NusterKit/libs/turbine-machines#readme",
   "devDependencies": {
-    "@metalizzsas/nuster-misc": "1.5.7",
+    "@metalizzsas/nuster-misc": "1.5.8",
     "@metalizzsas/nuster-typings": "1.6.1",
     "@types/jest": "^29.5.4",
     "@types/jest-json-schema": "^6.1.1",

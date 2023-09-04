@@ -1,4 +1,4 @@
-declare module "dbus-native" {
+declare module "@homebridge/dbus-native" {
 
 	import { EventEmitter } from "events";
 	import type { Socket } from "net";

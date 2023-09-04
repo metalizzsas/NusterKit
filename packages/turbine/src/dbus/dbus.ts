@@ -1,4 +1,4 @@
-import { systemBus, type DBusMessage, type BodyEntry } from 'dbus-native';
+import { systemBus, type DBusMessage, type BodyEntry } from '@homebridge/dbus-native';
 
 export const dbus = systemBus();
 

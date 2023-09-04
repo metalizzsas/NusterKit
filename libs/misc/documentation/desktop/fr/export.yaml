@@ -15,7 +15,9 @@ input-files:
   - libs/misc/documentation/utils/newpage.md
   - libs/misc/documentation/desktop/fr/sections/30-maintenances/index.md
   - libs/misc/documentation/utils/newpage.md
-  - libs/misc/documentation/desktop/fr/sections/40-settings/index.md
+  - libs/misc/documentation/desktop/fr/informations/40-settings/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/desktop/fr/informations/50-network/index.md
 
 resource-path: 
   - libs/misc/documentation/desktop/fr/
@@ -23,7 +25,8 @@ resource-path:
   - libs/misc/documentation/desktop/fr/sections/10-profiles/
   - libs/misc/documentation/desktop/fr/sections/20-containers/
   - libs/misc/documentation/desktop/fr/sections/30-maintenances/
-  - libs/misc/documentation/desktop/fr/sections/40-settings/
+  - libs/misc/documentation/desktop/fr/informations/40-settings/
+  - libs/misc/documentation/desktop/fr/informations/50-network/
 
 output-file: libs/misc/documentation/output/FR_nuster.pdf
 pdf-engine: xelatex

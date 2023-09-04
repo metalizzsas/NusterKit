@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-misc
 
+## 1.5.8
+
+### Patch Changes
+
+- [#499](https://github.com/metalizzsas/NusterKit/pull/499) [`4966b4a4`](https://github.com/metalizzsas/NusterKit/commit/4966b4a4ca49e01c6646cfeceba0bc9182af21d7) Thanks [@Kworz](https://github.com/Kworz)! - fix(docs): pdf docs had wrong path for pdf generation
+
 ## 1.5.7
 
 ### Patch Changes

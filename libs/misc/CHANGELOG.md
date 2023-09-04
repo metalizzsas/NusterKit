@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-misc
 
+## 1.5.7
+
+### Patch Changes
+
+- [#497](https://github.com/metalizzsas/NusterKit/pull/497) [`f216dff4`](https://github.com/metalizzsas/NusterKit/commit/f216dff4974d778e80f20fc54aa5b939787d1dc7) Thanks [@Kworz](https://github.com/Kworz)! - fix(docs): moved settings & networking desktop pages in a dedicated folder
+
 ## 1.5.6
 
 ### Patch Changes

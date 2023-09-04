@@ -38,7 +38,7 @@ input-files:
   - libs/misc/documentation/utils/newpage.md
   - libs/misc/documentation/machines/metalfog-m-2/maintenance-sensor-cleaning/fr.md
   - libs/misc/documentation/utils/newpage.md
-  - libs/misc/documentation/desktop/fr/sections/50-network/index.md
+  - libs/misc/documentation/desktop/fr/informations/50-network/index.md
   - libs/misc/documentation/utils/newpage.md
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/90-storing/index.md
 
@@ -57,7 +57,7 @@ resource-path:
   - libs/misc/documentation/machines/metalfog-m-2/maintenance-mfm-filter/
   - libs/misc/documentation/machines/metalfog-m-2/maintenance-nozzle-cleaning/
   - libs/misc/documentation/machines/metalfog-m-2/maintenance-sensor-cleaning/
-  - libs/misc/documentation/desktop/fr/sections/50-network/
+  - libs/misc/documentation/desktop/fr/informations/50-network/
   - libs/misc/documentation/machines/metalfog-m-2/manual/fr/sections/90-storing/
 
 output-file: libs/misc/documentation/output/FR_metalfog-m-r2.pdf

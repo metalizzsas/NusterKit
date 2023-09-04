@@ -11,35 +11,32 @@ datasource db {
 }
 
 model Container {
-    name     String     @id @unique
-    loadDate    DateTime      @default(now())
+    name                String     @id @unique
+    loadDate            DateTime   @default(now())
     loadedProductType   String
 }
 
 model Maintenance {
-    name     String     @id @unique
-    duration    Int?
-    operationDate   DateTime?
+    name                String     @id @unique
+    duration            Int?
+    operationDate       DateTime?
 }
 
 model Profile {
-    id       Int        @id @unique @default(autoincrement())
+    id                  Int         @id @unique @default(autoincrement())
+    skeleton            String
+    modificationDate    DateTime    @default(now())
+    isPremade           Boolean     @default(false)
 
-    skeleton    String
-
-    modificationDate    DateTime      @default(now())
-
-    isPremade   Boolean      @default(false)
-
-    values  ProfileValue[]
+    values              ProfileValue[]
 }
 
 model ProfileValue {
     
-    profile   Profile   @relation(fields: [profileId], references: [id])
-    profileId   Int
+    profile             Profile     @relation(fields: [profileId], references: [id])
+    profileId           Int
 
-    key     String      @id @unique
-    value    String
+    key                 String      @id @unique
+    value               String
     
 }

@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.7.3
+
+### Patch Changes
+
+- [#495](https://github.com/metalizzsas/NusterKit/pull/495) [`04fb4f10`](https://github.com/metalizzsas/NusterKit/commit/04fb4f10fcb2aa34b5dcac96884e4ed72f764e02) Thanks [@Kworz](https://github.com/Kworz)! - feat(smoothit-m-3): on cycle crash, all steps should go to ventilation step
+
 ## 1.7.2
 
 ### Patch Changes

@@ -18,12 +18,14 @@ model Container {
 
 model Maintenance {
     name                String     @id @unique
-    duration            Int?
+    duration            Int
     operationDate       DateTime?
 }
 
 model Profile {
     id                  Int         @id @unique @default(autoincrement())
+    name                String
+
     skeleton            String
     modificationDate    DateTime    @default(now())
     isPremade           Boolean     @default(false)
@@ -37,6 +39,6 @@ model ProfileValue {
     profileId           Int
 
     key                 String      @id @unique
-    value               String
+    value               Int
     
 }

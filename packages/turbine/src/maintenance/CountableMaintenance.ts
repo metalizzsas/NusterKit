@@ -82,7 +82,8 @@ export class CountableMaintenance extends Maintenance implements CountableMainte
             durationType: this.durationType,
             duration: Math.floor(this.duration * 100) / 100,
             durationMax: this.durationLimit,
-            durationProgress: this.computeDurationProgress
+            durationProgress: this.computeDurationProgress,
+            operationDate: this.operationDate,
         }
     }
 }

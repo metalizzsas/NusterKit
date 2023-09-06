@@ -921,7 +921,8 @@
                         },
                         "operationDate": {
                             "description": "Last operation date",
-                            "type": "number"
+                            "format": "date-time",
+                            "type": "string"
                         }
                     },
                     "required": [
@@ -949,7 +950,8 @@
                         },
                         "operationDate": {
                             "description": "Last operation date",
-                            "type": "number"
+                            "format": "date-time",
+                            "type": "string"
                         },
                         "requireEnableGate": {
                             "description": "Gate needed to check maitnenance task",
@@ -1392,13 +1394,8 @@
             "additionalProperties": false,
             "description": "Profile schema from configuration",
             "properties": {
-                "_id": {
-                    "description": "Premade profile have id",
-                    "type": "string"
-                },
-                "isPremade": {
-                    "description": "Is the profile premade ?",
-                    "type": "boolean"
+                "id": {
+                    "type": "number"
                 },
                 "name": {
                     "description": "Name of the profile",
@@ -1409,14 +1406,28 @@
                     "type": "string"
                 },
                 "values": {
-                    "additionalProperties": {
-                        "type": "number"
-                    },
                     "description": "Values of the profile",
-                    "type": "object"
+                    "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "key": {
+                                "type": "string"
+                            },
+                            "value": {
+                                "type": "number"
+                            }
+                        },
+                        "required": [
+                            "key",
+                            "value"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
                 }
             },
             "required": [
+                "id",
                 "name",
                 "skeleton",
                 "values"
@@ -1433,6 +1444,9 @@
                     },
                     "type": "array"
                 },
+                "id": {
+                    "type": "number"
+                },
                 "name": {
                     "description": "Identifier name of the skeleton",
                     "type": "string"
@@ -1440,6 +1454,7 @@
             },
             "required": [
                 "fields",
+                "id",
                 "name"
             ],
             "type": "object"

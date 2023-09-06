@@ -65,7 +65,8 @@ export class SensorMaintenance extends Maintenance implements Omit<SensorMainten
             duration: (this.#requireEnabledGate?.value === 1 ? this.#sensorGate?.value ?? -1 : -1),
             durationMax: this.sensorLimitValue,
             durationProgress: this.computeDurationProgress,
-            sensorUnit: this.#sensorGate?.unity
+            sensorUnit: this.#sensorGate?.unity,
+            operationDate: this.operationDate
         }
     }
 }

@@ -35,10 +35,11 @@ model Profile {
 
 model ProfileValue {
     
-    profile             Profile     @relation(fields: [profileId], references: [id])
+    profile             Profile     @relation(fields: [profileId], references: [id], onDelete: Cascade)
     profileId           Int
 
-    key                 String      @id @unique
+    key                 String
     value               Int
-    
+
+    @@unique([profileId, key])
 }

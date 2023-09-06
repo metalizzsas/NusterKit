@@ -24,9 +24,9 @@ CREATE TABLE "Profile" (
 -- CreateTable
 CREATE TABLE "ProfileValue" (
     "profileId" INTEGER NOT NULL,
-    "key" TEXT NOT NULL PRIMARY KEY,
+    "key" TEXT NOT NULL,
     "value" INTEGER NOT NULL,
-    CONSTRAINT "ProfileValue_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "ProfileValue_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateIndex
@@ -39,4 +39,4 @@ CREATE UNIQUE INDEX "Maintenance_name_key" ON "Maintenance"("name");
 CREATE UNIQUE INDEX "Profile_id_key" ON "Profile"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "ProfileValue_key_key" ON "ProfileValue"("key");
+CREATE UNIQUE INDEX "ProfileValue_profileId_key_key" ON "ProfileValue"("profileId", "key");

@@ -25,12 +25,13 @@ export class ProfilesRouter extends Router {
             this.profileSkeletons.set(skeleton.name, structuredClone(skeleton));
         }
 
-        TurbineEventLoop.emit('log', 'info', 'ProfilesRoutes: Updating premade profiles.');
+        TurbineEventLoop.emit('log', 'info', 'ProfilesRouter: Updating premade profiles.');
         prisma.profile.deleteMany({ where: { isPremade: true } }).then(async () => {
 
             for(const p of profilePremades)
             {
                 const profileBase = await prisma.profile.create({ data: { 
+                    id: p.id,
                     name: p.name, 
                     skeleton: p.skeleton, 
                     isPremade: true,
@@ -75,7 +76,7 @@ export class ProfilesRouter extends Router {
                 isPremade: false, 
                 modificationDate: new Date(), 
                 values: { 
-                    create: copied.values 
+                    create: copied.values.map(v => { return { key: v.key, value: v.value } })
                 }
             }});
 
@@ -100,16 +101,16 @@ export class ProfilesRouter extends Router {
             (profile) ? res.json(this.hydrateProfile(profile)) : res.end(`Could not find profile with id ${req.params.id}.`);
         });
 
-        /** Route to delete a profil with its `id` */
+        /** Route to delete a profile with its `id` */
         this.router.delete('/:id', this.premadeProtect, async (req: Request, res: Response) => {
             try
             {
-                await prisma.profile.delete({ where: { id: Number(req.params.id) } });
+                await prisma.profile.delete({ where: { id: Number(req.params.id) }});
                 res.status(200).end();
             }
             catch(ex)
             {
-                res.status(404).end(ex);
+                res.status(404).json(ex);
             }
         });
         
@@ -127,10 +128,8 @@ export class ProfilesRouter extends Router {
                     skeleton: profile.skeleton,
                     modificationDate: undefined,
                     values: {
-                        updateMany: { 
-                            where: { profileId: Number(req.params.id) },
-                            data: profile.values 
-                        }
+                        deleteMany: { profileId: Number(req.params.id) },
+                        create: profile.values.map(v => { return { key: v.key, value: v.value } })
                     }
                 }
             }).then(() => {
@@ -223,7 +222,7 @@ export class ProfilesRouter extends Router {
      */
     public prepareToStore(profileHydrated: ProfileHydrated): ProfileStored
     {
-        const mappedValues = profileHydrated.values.map(v => { return { key: v.name, value: v.value, profileId: profileHydrated.id } });
+        const mappedValues = profileHydrated.values.map(v => { return { key: v.name, value: v.value, profileId: profileHydrated.id, id: undefined } });
 
         const returnProfile: ProfileStored = {...profileHydrated, values: mappedValues};
 
@@ -232,6 +231,6 @@ export class ProfilesRouter extends Router {
 
     public async profileList(): Promise<ProfileHydrated[]>
     {
-        return (await prisma.profile.findMany({ include: { values: true }})).map(d => this.hydrateProfile(d));
+        return (await prisma.profile.findMany({ include: { values: true }, orderBy: [{ isPremade: "asc"}, { modificationDate: "desc"}] })).map(d => this.hydrateProfile(d));
     }
 }

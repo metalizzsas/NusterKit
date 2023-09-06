@@ -1,6 +1,8 @@
 /** Profile schema from configuration */
 interface Profile {
 
+    id: number;
+
     /** Name of the profile */
     name: string;
 
@@ -12,6 +14,7 @@ interface Profile {
 }
 
 interface ProfileSkeleton {
+    
     /** Identifier name of the skeleton */
     name: string;
     /** Fields definitions contained by this skeleton */

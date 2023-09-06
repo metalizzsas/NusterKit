@@ -1,5 +1,14 @@
 # @metalizzsas/nuster
 
+## 1.12.8
+
+### Patch Changes
+
+- [#503](https://github.com/metalizzsas/NusterKit/pull/503) [`df258cbf`](https://github.com/metalizzsas/NusterKit/commit/df258cbff6c898882e119ecbbb54950e60b413a7) Thanks [@Kworz](https://github.com/Kworz)! - fix(docker): added run dependencies for wpe service
+
+- Updated dependencies [[`d0f9f2e9`](https://github.com/metalizzsas/NusterKit/commit/d0f9f2e916b0529acf3d27ae1db32c4a96e1463f)]:
+  - @metalizzsas/nuster-misc@1.5.9
+
 ## 1.12.7
 
 ### Patch Changes

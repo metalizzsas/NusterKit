@@ -1,7 +1,11 @@
 /** Profile schema from configuration */
 interface Profile {
 
-    id: number;
+    /**
+     * Profile UUID
+     * @pattern ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$
+     */
+    id: string;
 
     /** Name of the profile */
     name: string;

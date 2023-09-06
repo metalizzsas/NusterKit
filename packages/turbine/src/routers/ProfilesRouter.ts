@@ -94,7 +94,7 @@ export class ProfilesRouter extends Router {
 
         /** Route to get a profile by its `id` */
         this.router.get('/:id', async (req: Request, res: Response) => {
-            const profile = await prisma.profile.findUnique({ where: { id: Number(req.params.id) }, include: { values: true } });
+            const profile = await prisma.profile.findUnique({ where: { id: req.params.id }, include: { values: true } });
 
             res.status(profile ? 200 : 404);
 
@@ -105,7 +105,7 @@ export class ProfilesRouter extends Router {
         this.router.delete('/:id', this.premadeProtect, async (req: Request, res: Response) => {
             try
             {
-                await prisma.profile.delete({ where: { id: Number(req.params.id) }});
+                await prisma.profile.delete({ where: { id: req.params.id }});
                 res.status(200).end();
             }
             catch(ex)
@@ -122,13 +122,13 @@ export class ProfilesRouter extends Router {
             const profile = this.prepareToStore(req.body);
 
             prisma.profile.update({
-                where: { id: Number(req.params.id) },
+                where: { id: req.params.id },
                 data: {
                     name: profile.name,
                     skeleton: profile.skeleton,
                     modificationDate: undefined,
                     values: {
-                        deleteMany: { profileId: Number(req.params.id) },
+                        deleteMany: { profileId: req.params.id },
                         create: profile.values.map(v => { return { key: v.key, value: v.value } })
                     }
                 }
@@ -145,7 +145,7 @@ export class ProfilesRouter extends Router {
      */
     private async premadeProtect(req: Request, res: Response, next: NextFunction)
     {
-        const profile = await prisma.profile.findUnique({ where: { id: Number(req.params.id) } });
+        const profile = await prisma.profile.findUnique({ where: { id: req.params.id } });
 
         if(profile !== null && profile.isPremade)
         {
@@ -206,7 +206,7 @@ export class ProfilesRouter extends Router {
      */
     public async findProfile(id: string): Promise<ProfileHydrated | undefined>
     {
-        const profile = await prisma.profile.findUnique({ where: { id: Number(id) }, include: { values: true } });
+        const profile = await prisma.profile.findUnique({ where: { id: id }, include: { values: true } });
 
         if(profile)
             return this.hydrateProfile(profile);

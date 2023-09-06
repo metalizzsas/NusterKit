@@ -14,7 +14,7 @@ CREATE TABLE "Maintenance" (
 
 -- CreateTable
 CREATE TABLE "Profile" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id" TEXT NOT NULL PRIMARY KEY,
     "name" TEXT NOT NULL,
     "skeleton" TEXT NOT NULL,
     "modificationDate" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -23,7 +23,7 @@ CREATE TABLE "Profile" (
 
 -- CreateTable
 CREATE TABLE "ProfileValue" (
-    "profileId" INTEGER NOT NULL,
+    "profileId" TEXT NOT NULL,
     "key" TEXT NOT NULL,
     "value" INTEGER NOT NULL,
     CONSTRAINT "ProfileValue_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile" ("id") ON DELETE CASCADE ON UPDATE CASCADE

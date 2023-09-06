@@ -23,7 +23,7 @@ model Maintenance {
 }
 
 model Profile {
-    id                  Int         @id @unique @default(autoincrement())
+    id                  String         @id @unique @default(uuid())
     name                String
 
     skeleton            String
@@ -36,7 +36,7 @@ model Profile {
 model ProfileValue {
     
     profile             Profile     @relation(fields: [profileId], references: [id], onDelete: Cascade)
-    profileId           Int
+    profileId           String
 
     key                 String
     value               Int

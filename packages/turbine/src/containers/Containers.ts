@@ -1,5 +1,4 @@
 import { LoggerInstance } from "../app";
-import { ContainerModel } from "../models";
 import { ContainerRegulation } from "./ContainerRegulation";
 import { TurbineEventLoop } from "../events";
 
@@ -154,8 +153,8 @@ export class Container implements ContainerConfig
 
     async isProductLoaded(): Promise<boolean>
     {
-        const doc = await ContainerModel.findOne({ name: this.name });
-        return doc != null;
+        const container = await prisma.container.findUnique({ where: { name: this.name }});
+        return container !== null;
     }
 
     get isProductable(): boolean

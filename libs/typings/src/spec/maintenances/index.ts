@@ -8,7 +8,7 @@ interface BaseMaintenance
     durationType: "cycle" | "duration" | "sensor";
 
     /** Last operation date */
-    operationDate?: number;
+    operationDate?: Date;
 }
 
 /** Maintenance Task that is incremental */

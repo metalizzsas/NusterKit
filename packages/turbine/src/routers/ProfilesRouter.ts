@@ -2,16 +2,19 @@ import { Router } from "./Router";
 
 import type { ProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profiles";
 import type { Profile, ProfileSkeleton, ProfileSkeletonFields } from "@metalizzsas/nuster-typings/build/spec/profiles";
-import type { ProfileStored } from "@metalizzsas/nuster-typings/build/stored";
 import type { NextFunction, Request, Response } from "express";
-import { ProfileModel } from "../models";
 import { TurbineEventLoop } from "../events";
 import type { Modify } from "@metalizzsas/nuster-typings/build/utils/Modify";
+import { prisma } from "../db";
+import type { Profile as ProfilePrisma, ProfileValue as ProfileValuePrisma } from "@prisma/client";
+
+type ProfileStored = ProfilePrisma & { 
+    values: ProfileValuePrisma[]
+}
 
 export class ProfilesRouter extends Router {
 
     private profileSkeletons: Map<string, ProfileSkeleton> = new Map<string, ProfileSkeleton>();
-    private profilePremades: ProfileHydrated[] = [];
     
     constructor(profileSkeletons: ProfileSkeleton[], profilePremades: Profile[])
     {
@@ -21,23 +24,33 @@ export class ProfilesRouter extends Router {
         {
             this.profileSkeletons.set(skeleton.name, structuredClone(skeleton));
         }
-        
-        for(const p of profilePremades)
-        {
-            const hydrated = this.hydrateProfile(p);
 
-            if(hydrated !== undefined)
-                this.profilePremades.push(hydrated);
-        }
+        TurbineEventLoop.emit('log', 'info', 'ProfilesRoutes: Updating premade profiles.');
+        prisma.profile.deleteMany({ where: { isPremade: true } }).then(async () => {
 
-        TurbineEventLoop.on('profile.read', async ({ profileID, callback }) => {
-            if(profileID.startsWith("premade_"))
-                callback?.(this.getPremade(profileID.split("_")[1]))
-            else
+            for(const p of profilePremades)
             {
-                const profile = await this.findProfile(profileID);
-                callback?.(profile);
+                const profileBase = await prisma.profile.create({ data: { 
+                    name: p.name, 
+                    skeleton: p.skeleton, 
+                    isPremade: true,
+                    modificationDate: new Date()  
+                }});
+
+                for(const value of p.values)
+                {
+                    await prisma.profileValue.create({ data: { 
+                        key: value.key, 
+                        value: value.value, 
+                        profileId: profileBase.id 
+                    }});
+                }
             }
+        });
+        
+        TurbineEventLoop.on('profile.read', async ({ profileID, callback }) => {
+            const profile = await this.findProfile(profileID);
+            callback?.(profile);
         })
 
         this._configureRouter();
@@ -52,47 +65,46 @@ export class ProfilesRouter extends Router {
 
         /** Route to copy a profile */
         this.router.post('/', async (req: Modify<Request, { body: ProfileHydrated }>, res: Response) => {
-            if(req.body._id === "copied")
-            {
-                delete req.body._id;
-                delete req.body.isPremade;
-                
-                const copied = this.prepareToStore(req.body);
-                const stored = (await ProfileModel.create(copied));
+            
+            const copied = this.prepareToStore(req.body);
 
-                res.status(200).json(this.hydrateProfile(stored.toJSON()));
-                return;
-            }
-            else
+            const created = await prisma.profile.create({ data: { 
+                id: undefined, 
+                name: copied.name, 
+                skeleton: copied.skeleton, 
+                isPremade: false, 
+                modificationDate: new Date(), 
+                values: { 
+                    create: copied.values 
+                }
+            }});
+
+            const stored = await prisma.profile.findUnique({ where: { id: created.id }, include: { values: true } });
+
+            if(stored === null)
             {
-                res.status(400).end();
+                res.status(500).end("Failed to find copied profile in database");
                 return;
             }
+
+            res.status(200).json(this.hydrateProfile(stored));
+            return;
         });
 
         /** Route to get a profile by its `id` */
         this.router.get('/:id', async (req: Request, res: Response) => {
-            if(req.params.id.startsWith("premade_"))
-            {
-                const profile = this.getPremade(req.params.id.split("_")[1]);
-                res.status(profile ? 200 : 404);
+            const profile = await prisma.profile.findUnique({ where: { id: Number(req.params.id) }, include: { values: true } });
 
-                (profile) ? res.json(profile) : res.end(`Could not find profile with id ${req.params.id}.`);
-            }
-            else
-            {
-                const profile = await ProfileModel.findById(req.params.id).lean();
-                res.status(profile ? 200 : 404);
-    
-                (profile) ? res.json(this.hydrateProfile(profile)) : res.end(`Could not find profile with id ${req.params.id}.`);
-            }
+            res.status(profile ? 200 : 404);
+
+            (profile) ? res.json(this.hydrateProfile(profile)) : res.end(`Could not find profile with id ${req.params.id}.`);
         });
 
         /** Route to delete a profil with its `id` */
         this.router.delete('/:id', this.premadeProtect, async (req: Request, res: Response) => {
             try
             {
-                await ProfileModel.findByIdAndDelete(req.params.id);
+                await prisma.profile.delete({ where: { id: Number(req.params.id) } });
                 res.status(200).end();
             }
             catch(ex)
@@ -104,13 +116,24 @@ export class ProfilesRouter extends Router {
         /** Route to Update a profile */
         this.router.patch('/:id', this.premadeProtect, async (req: Modify<Request, { body: ProfileHydrated }> , res: Response) => {
 
-            const p: ProfileHydrated = req.body;
-            p.modificationDate = Date.now();
+            req.body.modificationDate = new Date();
 
-            const profile = this.prepareToStore(p);
-            
-            ProfileModel.findByIdAndUpdate(profile._id, profile)
-            .then(() => {
+            const profile = this.prepareToStore(req.body);
+
+            prisma.profile.update({
+                where: { id: Number(req.params.id) },
+                data: {
+                    name: profile.name,
+                    skeleton: profile.skeleton,
+                    modificationDate: undefined,
+                    values: {
+                        updateMany: { 
+                            where: { profileId: Number(req.params.id) },
+                            data: profile.values 
+                        }
+                    }
+                }
+            }).then(() => {
                 res.status(200).end("ok");
             }).catch(() => {
                 res.status(404).end("failed to save profile");
@@ -118,10 +141,14 @@ export class ProfilesRouter extends Router {
         });
     }
 
-    /** Premade protection for `DELETE` & `PATCH` */
-    private premadeProtect(req: Request, res: Response, next: NextFunction)
+    /** 
+     * Premade protection for `DELETE` & `PATCH`
+     */
+    private async premadeProtect(req: Request, res: Response, next: NextFunction)
     {
-        if(req.params.id.startsWith("premade_"))
+        const profile = await prisma.profile.findUnique({ where: { id: Number(req.params.id) } });
+
+        if(profile !== null && profile.isPremade)
         {
             res.status(403).end("Cannot edit or remove premade profiles.");
             return;
@@ -135,7 +162,7 @@ export class ProfilesRouter extends Router {
      * @param profileStored Profile to hydrate from
      * @returns The profile hydrated
      */
-    public hydrateProfile(profileStored: ProfileStored | Profile): ProfileHydrated | undefined {
+    public hydrateProfile(profileStored: ProfileStored): ProfileHydrated {
 
         // Find the skeleton assignated to this profile
         const profileSkeleton = structuredClone(this.profileSkeletons.get(profileStored.skeleton));
@@ -143,12 +170,7 @@ export class ProfilesRouter extends Router {
         // Make sure that we have the skeleton for this profile
         if(profileSkeleton !== undefined)
         {
-            // Force the creation of a `modificationDate`,
-            // because premade profiles dont have a modification date
-            if(!("modificationDate" in profileStored))
-                (profileStored as ProfileStored).modificationDate = Date.now();
-
-            const clonedProfileValues = Object.entries(structuredClone(profileStored.values)).map(v => profileSkeleton.fields.find(n => {if(n.name == v[0]) { n.value = v[1]; return true; }})).filter(f => f !== undefined) as ProfileSkeletonFields[];
+            const clonedProfileValues = structuredClone(profileStored.values).map(v => profileSkeleton.fields.find(n => {if(n.name == v.key) { n.value = v.value; return true; }})).filter(f => f !== undefined) as ProfileSkeletonFields[];
 
             // Check if all skeleton fields are applied to the profile.
             // If not check all fields and add the missing ones.
@@ -163,16 +185,19 @@ export class ProfilesRouter extends Router {
                     const fieldToAdd = profileSkeleton.fields.find(f => f.name == sfn);
                     
                     if(fieldToAdd === undefined)
-                        return;
+                        throw new Error(`Could not find field ${sfn} in skeleton ${profileSkeleton.name}`);
                     
                     clonedProfileValues.push(fieldToAdd);
                 }
             }
 
-            const returnProfile: ProfileHydrated = {...profileStored as ProfileStored, values: clonedProfileValues};
-            return returnProfile;
+            return {
+                ...profileStored, 
+                values: clonedProfileValues
+            };
         }
-        return;
+
+        throw new Error(`Could not find skeleton for profile ${profileStored.name}`);
     }
 
     /**
@@ -182,10 +207,10 @@ export class ProfilesRouter extends Router {
      */
     public async findProfile(id: string): Promise<ProfileHydrated | undefined>
     {
-        const profile = await ProfileModel.findById(id);
+        const profile = await prisma.profile.findUnique({ where: { id: Number(id) }, include: { values: true } });
 
         if(profile)
-            return this.hydrateProfile(profile.toJSON());
+            return this.hydrateProfile(profile);
 
         return;
     }
@@ -196,27 +221,17 @@ export class ProfilesRouter extends Router {
      * @param removeID Removes the profile id to store
      * @returns Profile transformed ready to be stored
      */
-    public prepareToStore(profileHydrated: ProfileHydrated, removeID = false): ProfileStored
+    public prepareToStore(profileHydrated: ProfileHydrated): ProfileStored
     {
-        const values: Record<string, number> = {};
-        profileHydrated.values.forEach(v => values[v.name] = v.value);
+        const mappedValues = profileHydrated.values.map(v => { return { key: v.name, value: v.value, profileId: profileHydrated.id } });
 
-        const returnProfile: ProfileStored = {...profileHydrated, values: values};
-        
-        if(removeID)
-            delete returnProfile._id;
+        const returnProfile: ProfileStored = {...profileHydrated, values: mappedValues};
 
         return returnProfile;
     }
 
-    public getPremade(id: string): ProfileHydrated | undefined
-    {
-        return this.profilePremades.find(p => p.name === id);
-    }
-
     public async profileList(): Promise<ProfileHydrated[]>
     {
-        const list = (await ProfileModel.find({})).map(d => this.hydrateProfile(d.toJSON()));
-        return [...list, ...this.profilePremades] as ProfileHydrated[]
+        return (await prisma.profile.findMany({ include: { values: true }})).map(d => this.hydrateProfile(d));
     }
 }

@@ -4,17 +4,11 @@ interface Profile {
     /** Name of the profile */
     name: string;
 
-    /** Premade profile have id */
-    _id?: string;
-
     /** Name of the referencing skeleton profile */
     skeleton: string;
 
-    /** Is the profile premade ? */
-    isPremade?: boolean;
-
     /** Values of the profile */
-    values: {[key: string]: number};
+    values: { key: string, value: number }[];
 }
 
 interface ProfileSkeleton {

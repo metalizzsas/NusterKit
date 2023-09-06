@@ -32,11 +32,12 @@ jobs:
             PR_ID: ${{ github.event.pull_request.number }}
 
       - name: Delete draft releases
+        if: steps.get_draft_releases.outputs.release_ids != '[]'
         run: >
-            releases=$(echo $RELEASES | jq -c -r '.[]')
-            for release in ${releases[@]}; do
-                curl --request DELETE --url "https://ap.balena-cloud.com/v6/release($release)" --header "Authorization: Bearer $BALENA_TOKEN"
-            done
+          releases=$(echo "$RELEASES" | jq -c -r '.[]')
+          for release in "${releases[@]}"; do
+              curl --request DELETE --url "https://api.balena-cloud.com/v6/release($release)" --header "Authorization: Bearer $BALENA_TOKEN"
+          done
         env:
             BALENA_TOKEN: ${{ secrets.BALENA_TOKEN }}
             RELEASES: ${{ steps.get_draft_releases.outputs.release_ids }}

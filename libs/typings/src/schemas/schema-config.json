@@ -10,6 +10,69 @@
             ],
             "type": "string"
         },
+        "ProductSeries": {
+            "description": "Product series available with machines",
+            "enum": [
+                "any",
+                "cr-01",
+                "cv-01",
+                "llc_ox",
+                "llc_rd",
+                "mv-01",
+                "sv-01",
+                "usl_act",
+                "usl_ox",
+                "usl_rd",
+                "water"
+            ],
+            "type": "string"
+        },
+        "Profile": {
+            "additionalProperties": false,
+            "description": "Profile schema from configuration",
+            "properties": {
+                "id": {
+                    "description": "Profile UUID",
+                    "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Name of the profile",
+                    "type": "string"
+                },
+                "skeleton": {
+                    "description": "Name of the referencing skeleton profile",
+                    "type": "string"
+                },
+                "values": {
+                    "description": "Values of the profile",
+                    "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "key": {
+                                "type": "string"
+                            },
+                            "value": {
+                                "type": "number"
+                            }
+                        },
+                        "required": [
+                            "key",
+                            "value"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "id",
+                "name",
+                "skeleton",
+                "values"
+            ],
+            "type": "object"
+        },
         "Settings": {
             "additionalProperties": false,
             "description": "Machine additional settings",
@@ -87,31 +150,192 @@
                     "content": {
                         "description": "Addon content Array",
                         "items": {
-                            "additionalProperties": false,
-                            "properties": {
-                                "content": {
-                                    "description": "Content replaced or inserted to this category"
-                                },
-                                "mode": {
-                                    "description": "Insertion mode",
-                                    "enum": [
-                                        "merge",
-                                        "replace",
-                                        "set"
+                            "anyOf": [
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "content": {
+                                            "items": {
+                                                "$ref": "#/definitions/Profile"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "mode": {
+                                            "const": "merge",
+                                            "type": "string"
+                                        },
+                                        "path": {
+                                            "const": "profilePremades",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "content",
+                                        "mode",
+                                        "path"
                                     ],
-                                    "type": "string"
+                                    "type": "object"
                                 },
-                                "path": {
-                                    "description": "Path were the content is added",
-                                    "type": "string"
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "content": {
+                                            "items": {
+                                                "additionalProperties": false,
+                                                "properties": {
+                                                    "cycle": {
+                                                        "type": "string"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "profile": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "cycle",
+                                                    "name"
+                                                ],
+                                                "type": "object"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "mode": {
+                                            "const": "merge",
+                                            "type": "string"
+                                        },
+                                        "path": {
+                                            "const": "cyclePremades",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "content",
+                                        "mode",
+                                        "path"
+                                    ],
+                                    "type": "object"
+                                },
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "content": {
+                                            "items": {
+                                                "$ref": "#/definitions/ProductSeries"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "mode": {
+                                            "const": "merge",
+                                            "type": "string"
+                                        },
+                                        "path": {
+                                            "description": "Container product series path",
+                                            "pattern": "^containers\\.[0-9]+\\.supportedProductSeries$",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "content",
+                                        "mode",
+                                        "path"
+                                    ],
+                                    "type": "object"
+                                },
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "content": {
+                                            "type": "number"
+                                        },
+                                        "mode": {
+                                            "const": "set",
+                                            "type": "string"
+                                        },
+                                        "path": {
+                                            "description": "Container regulation max target path",
+                                            "pattern": "^containers\\.[0-9]+\\.regulation\\.[0-9]+\\.maxTarget$",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "content",
+                                        "mode",
+                                        "path"
+                                    ],
+                                    "type": "object"
+                                },
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "content": {
+                                            "type": "number"
+                                        },
+                                        "mode": {
+                                            "const": "set",
+                                            "type": "string"
+                                        },
+                                        "path": {
+                                            "description": "Container regulation security max path",
+                                            "pattern": "^containers\\.[0-9]+\\.regulation\\.[0-9]+\\.securityMax$",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "content",
+                                        "mode",
+                                        "path"
+                                    ],
+                                    "type": "object"
+                                },
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "content": {
+                                            "type": "number"
+                                        },
+                                        "mode": {
+                                            "const": "set",
+                                            "type": "string"
+                                        },
+                                        "path": {
+                                            "description": "Maintenance sensor limit value path",
+                                            "pattern": "^maintenance\\.[0-9]+\\.sensorLimitValue$",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "content",
+                                        "mode",
+                                        "path"
+                                    ],
+                                    "type": "object"
+                                },
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "content": {
+                                            "type": "number"
+                                        },
+                                        "mode": {
+                                            "const": "set",
+                                            "type": "string"
+                                        },
+                                        "path": {
+                                            "description": "Maintenance sensor base value path",
+                                            "pattern": "^maintenance\\.[0-9]+\\.sensorBaseValue$",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "content",
+                                        "mode",
+                                        "path"
+                                    ],
+                                    "type": "object"
                                 }
-                            },
-                            "required": [
-                                "content",
-                                "mode",
-                                "path"
-                            ],
-                            "type": "object"
+                            ]
                         },
                         "type": "array"
                     }

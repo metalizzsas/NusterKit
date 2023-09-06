@@ -47,7 +47,7 @@ for(const machine of Object.keys(Machines))
     const cyclesNames = machineSpecs.cycleTypes.map(c => c.name);
     const cycleSteps = new Set(machineSpecs.cycleTypes.flatMap(c => c.steps.map(s => s.name)));
 
-    const cyclePremadeProfiles = new Set(machineSpecs.cyclePremades.map(c => c.profile).filter((k): k is string => k !== undefined).map(c => c.replace("premade_", "")));
+    const cyclePremadeProfiles = new Set(machineSpecs.cyclePremades.map(c => c.name));
 
     const maintenancesNames = machineSpecs.maintenance.map(m => m.name);
 

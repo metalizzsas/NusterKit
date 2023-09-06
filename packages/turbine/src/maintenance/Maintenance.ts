@@ -1,6 +1,7 @@
 import type { BaseMaintenance } from "@metalizzsas/nuster-typings/build/spec/maintenances";
 import { LoggerInstance } from "../app";
-import { MaintenanceModel } from "../models/MaintenanceModel";
+import { prisma } from "../db";
+import type { Maintenance as MaintenancePrisma } from "@prisma/client";
 
 export class Maintenance implements BaseMaintenance
 {
@@ -8,7 +9,7 @@ export class Maintenance implements BaseMaintenance
 
     durationType: "cycle" | "duration" | "sensor";
 
-    operationDate?: number;
+    operationDate?: Date;
 
     constructor(obj: BaseMaintenance)
     {
@@ -18,21 +19,36 @@ export class Maintenance implements BaseMaintenance
 
     async checkTracker(): Promise<number | void>
     {
-        const doc = await MaintenanceModel.findOne({ name: this.name });
+        const maintenance = await prisma.maintenance.findUnique({ where: { name: this.name } });
 
-        if(doc)
+        if(maintenance !== null)
         {
-            this.operationDate = doc.operationDate;
-            return doc.duration;
+            this.operationDate = maintenance.operationDate ?? undefined;
+            return maintenance.duration;
         }
         
         LoggerInstance.warn(`Maintenance-${this.name}: Maintenance tracker not found, creating it...`);
-        await MaintenanceModel.create({
-            name: this.name
-        });
+        await prisma.maintenance.create({ data: {
+            name: this.name,
+            duration: 0
+        }});
     }
 
-    reset(): void {
-        throw Error("Not implemented");
+    /** Reset maintenance task */
+    async resetTracker(): Promise<MaintenancePrisma>
+    {
+        const document = await prisma.maintenance.update({ where: { name: this.name }, data: { duration: 0, operationDate: new Date() } });
+
+        if(document)
+        {
+            this.operationDate = document.operationDate ?? undefined;
+            LoggerInstance.info(`Maintenance: Cleared maintenance task ${this.name}.`);
+            return document;
+        }
+        else
+        {
+            LoggerInstance.error(`Maintenance: Failed to update ${this.name} document.`);
+            throw new Error("Failed to update document.");
+        }
     }
 }

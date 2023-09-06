@@ -1,10 +1,10 @@
 import { LoggerInstance } from "../app";
 import { Maintenance } from "./Maintenance";
-import { MaintenanceModel } from "../models/MaintenanceModel";
 
 import type { CountableMaintenance as CountableMaintenanceConfig } from "@metalizzsas/nuster-typings/build/spec/maintenances";
 import type { MaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydrated/maintenance";
 import { TurbineEventLoop } from "../events";
+import { prisma } from "../db";
 
 export class CountableMaintenance extends Maintenance implements CountableMaintenanceConfig {
 
@@ -34,26 +34,26 @@ export class CountableMaintenance extends Maintenance implements CountableMainte
 
     async loadTrackerData()
     {
-        const doc = await MaintenanceModel.findOne({ name: this.name });
+        const maintenance = await prisma.maintenance.findUnique({ where: { name: this.name } });
 
-        if(!doc)
+        if(maintenance === null)
         {
             LoggerInstance.error(`Maintenance-${this.name}: Tracker does not exists.`);
             return;
         }
-        else if(doc.duration === undefined)
+        else if(maintenance.duration === undefined)
         {
-            doc.duration = 0;
-            doc.save();
+            maintenance.duration = 0;
+            await prisma.maintenance.update({ where: { name: this.name }, data: { duration: 0 } });
         }
 
-        this.duration = doc.duration;
+        this.duration = maintenance.duration ?? 0;
     }
 
     /** Append duration to this task */
     async append(appendValue: number)
     {
-        const document = await MaintenanceModel.findOneAndUpdate({ name: this.name }, {$inc: {"duration": appendValue }});
+        const document = await prisma.maintenance.update({ where: { name: this.name }, data: { duration: { increment: appendValue } }});
 
         if(document)
             this.duration += appendValue;
@@ -61,26 +61,18 @@ export class CountableMaintenance extends Maintenance implements CountableMainte
             LoggerInstance.warn("Maintenance: Failed to append data to " + this.name + " tracker.");
     }
 
-    /** Reset maintenance task */
-    async reset()
-    {
-        const document = await MaintenanceModel.findOneAndUpdate({ name: this.name }, { duration: 0, operationDate: Date.now() });
-
-        if(document)
-        {
-            this.duration = document.duration;
-            this.operationDate = document.operationDate;
-            LoggerInstance.info(`Maintenance: Cleared maintenance task ${this.name}.`);
-            await this.loadTrackerData();
-        }
-        else
-            LoggerInstance.error(`Maintenance: Failed to update ${this.name} document.`);
-    }
-
     /** Compute the task actual progress */
     get computeDurationProgress(): number
     {
         return Math.floor((this.duration / this.durationLimit) * 10) / 10;
+    }
+
+    /** Reset maintenance task */
+    async reset()
+    {
+        const document = await super.resetTracker();
+        this.operationDate = document.operationDate ?? undefined;
+        this.duration = 0;
     }
 
     toJSON(): MaintenanceHydrated

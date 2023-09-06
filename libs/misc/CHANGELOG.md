@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-misc
 
+## 1.5.9
+
+### Patch Changes
+
+- [#501](https://github.com/metalizzsas/NusterKit/pull/501) [`d0f9f2e9`](https://github.com/metalizzsas/NusterKit/commit/d0f9f2e916b0529acf3d27ae1db32c4a96e1463f) Thanks [@Kworz](https://github.com/Kworz)! - fix(metalfog-m-2): 2nd wash typo in desc
+
 ## 1.5.8
 
 ### Patch Changes

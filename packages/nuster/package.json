@@ -1,6 +1,6 @@
 {
     "name": "@metalizzsas/nuster",
-    "version": "1.12.7",
+    "version": "1.12.8",
     "description": "Nuster package to keep versionig and dependencies on BalenaOS Releases",
     "private": true,
     "repository": {
@@ -19,6 +19,6 @@
         "@metalizzsas/nuster-typings": "1.6.1",
         "@metalizzsas/nuster-turbine": "1.11.3",
         "@metalizzsas/nuster-desktop": "1.13.4",
-        "@metalizzsas/nuster-misc": "1.5.8"
+        "@metalizzsas/nuster-misc": "1.5.9"
     }
 }

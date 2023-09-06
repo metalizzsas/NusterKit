@@ -23,7 +23,7 @@
 			{#each data.profiles as profile}
 
 				<SelectableButton 
-					on:click={() => void goto(`/profiles/${profile._id}`)}
+					on:click={() => void goto(`/profiles/${profile.id}`)}
 				>
 					<Flex gap={4} items="center">
 						<Icon

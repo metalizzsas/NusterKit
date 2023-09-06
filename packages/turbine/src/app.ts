@@ -2,7 +2,6 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import fs from "fs";
 import lockFile from "lockfile";
-import mongoose from "mongoose";
 import path from "path";
 
 import type { Configuration } from "@metalizzsas/nuster-typings";
@@ -84,7 +83,6 @@ if(fs.existsSync(infoPath))
     const parsedConfiguration = JSON.parse(rawConfiguration) as Configuration;
 
     SetupWebsocketServer();
-    SetupMongoDB();
 
     if(productionEnabled == false)
     {
@@ -347,22 +345,6 @@ function SetupWebsocketServer()
     setInterval(async () => {
         websocketDispatcher?.broadcastData(await machine?.socketData(), "status");
     }, 500);
-}
-
-/** Connect and configure mongoose */
-function SetupMongoDB()
-{
-    try
-    {
-        mongoose.connect(`mongodb://${process.env.MONGO_DB_URL ?? "127.0.0.1"}:27017/nuster2`);
-        LoggerInstance.info("Mongo: Connected to database");
-    }
-    catch(err)
-    {
-        LoggerInstance.fatal("Mongo: Failed to connect to database");
-        LoggerInstance.fatal(err);
-        throw Error("Failed to connect to mongoDB.");
-    }
 }
 
 /**  Add all machines routes to express */

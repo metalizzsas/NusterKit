@@ -1865,12 +1865,15 @@
                                                 "additionalProperties": false,
                                                 "properties": {
                                                     "cycle": {
+                                                        "description": "Cycle type name",
                                                         "type": "string"
                                                     },
                                                     "name": {
+                                                        "description": "Name is only for description purposes, not used",
                                                         "type": "string"
                                                     },
                                                     "profile": {
+                                                        "description": "Profile UUID used by this premade",
                                                         "type": "string"
                                                     }
                                                 },
@@ -2072,12 +2075,15 @@
                 "additionalProperties": false,
                 "properties": {
                     "cycle": {
+                        "description": "Cycle type name",
                         "type": "string"
                     },
                     "name": {
+                        "description": "Name is only for description purposes, not used",
                         "type": "string"
                     },
                     "profile": {
+                        "description": "Profile UUID used by this premade",
                         "type": "string"
                     }
                 },

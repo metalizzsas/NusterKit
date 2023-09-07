@@ -8,6 +8,7 @@ import path from "path";
 export type MigratedProfile = {
 
     name: string;
+    skeleton: string;
     modificationDate: Date;
 
     values: Array<{ key: string, value: number }>;
@@ -60,6 +61,7 @@ export const migrate = async (basePath: string) => {
         
         exportedFile.migratedProfiles.push({
             name: profile.name,
+            skeleton: profile.skeleton,
             modificationDate: new Date(profile.modificationDate),
             values: [...profile2.values.keys()].map(k => ({ key: k, value: profile2.values.get(k) as number }))
         });

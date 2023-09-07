@@ -6,15 +6,6 @@ volumes:
   weston:
   
 services:
-  mongodb:
-    container_name: mongodb
-    image: mongo:4.2.21
-    restart: always
-    volumes: 
-      - mongodb:/data/db
-    ports:
-      - 27017:27017
-
   nuster-turbine:
     container_name: nuster-turbine
     build: 
@@ -26,7 +17,7 @@ services:
     volumes:
       - nuster-data:/data
     environment:
-      MONGO_DB_URL: 'mongodb'
+      DATABASE_URL: '/data/database.db'
       DBUS_SYSTEM_BUS_ADDRESS: "unix:path=/host/run/dbus/system_bus_socket"
     labels:
       io.balena.features.supervisor-api: '1'

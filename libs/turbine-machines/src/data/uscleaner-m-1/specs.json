@@ -148,13 +148,12 @@
     "profilePremades": [
         {
             "skeleton": "default",
-            "_id": "premade_15min",
+            "id": "6ed73087-0d00-4369-b7da-858847a36c83",
             "name": "15min",
-            "isPremade": true,
-            "values": {
-                "principal#duration": 900,
-                "principal#motor-speed": 25
-            }
+            "values": [
+                {"key": "principal#duration", "value": 900},
+                {"key": "principal#motor-speed", "value": 25}
+            ]
         }
     ],
     "maintenance": [
@@ -171,7 +170,7 @@
         {
             "cycle": "default",
             "name": "15min",
-            "profile": "premade_15min"
+            "profile": "6ed73087-0d00-4369-b7da-858847a36c83"
         }
     ],
     "cycleTypes": [
@@ -286,8 +285,8 @@
                     ]
                 },
                 {
-                    "mode": "set",
                     "path": "containers.0.regulations",
+                    "mode": "set",
                     "content": [{
                         "name": "temperature",
                         "target": 20,

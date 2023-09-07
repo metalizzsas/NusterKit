@@ -14,6 +14,7 @@ import { pinoHttp } from "pino-http";
 import { Machine } from "./Machine";
 import { TurbineEventLoop } from "./events";
 import { WebsocketDispatcher } from "./websocket/WebsocketDispatcher";
+import { migrate } from "./migrate";
 
 /** Http express & ws port */
 const HTTP_PORT = 4080;
@@ -356,6 +357,8 @@ function SetupMongoDB()
     {
         mongoose.connect(`mongodb://${process.env.MONGO_DB_URL ?? "127.0.0.1"}:27017/nuster2`);
         LoggerInstance.info("Mongo: Connected to database");
+
+        void migrate(basePath);
     }
     catch(err)
     {

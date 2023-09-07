@@ -1,5 +1,8 @@
+import { ContainerRegulation } from "../containers";
 import { ProductSeries } from "../containers/products";
 import { CyclePremade } from "../cycle";
+import { IOGates } from "../iogates";
+import { HomeInfo } from "../nuster";
 import { Profile } from "../profiles";
 
 /** Addon */
@@ -7,16 +10,33 @@ type Addon = {
     /** Addon name, should be the same as the Json file holding him */
     addonName: string,
     /** Addon content Array  */
-    content: Array<ProfilePremadeAddon | 
+    content: Array<NusterHomeInformationsAddon |
+        IOGatesAddon |
+        ProfilePremadeAddon | 
         CyclePremadeAddon | 
         ContainerProductSeriesAddon | 
-        ContainerRegulationMaxTarget | 
-        ContainerRegulationSecurityMax | 
+        ContainerRegulationAddon | 
+        ContainerRegulationsMaxTarget | 
+        ContainerRegulationsSecurityMax | 
         MaintenanceSensorLimitValue | 
         MaintenanceSensorBaseValue>;
 }
 
 export { Addon };
+
+type NusterHomeInformationsAddon = {
+
+    path: "nuster.homeInformations";
+    mode: "merge";
+    content: Array<HomeInfo>;
+}
+
+type IOGatesAddon = {
+
+    path: "iogates";
+    mode: "merge";
+    content: Array<IOGates>;
+}
 
 type ProfilePremadeAddon = {
     path: "profilePremades";
@@ -41,24 +61,36 @@ type ContainerProductSeriesAddon = {
     content: Array<ProductSeries>;
 }
 
-type ContainerRegulationMaxTarget = {
+type ContainerRegulationsMaxTarget = {
     /**
      * Container regulation max target path
-     * @pattern ^containers\.[0-9]+\.regulation\.[0-9]+\.maxTarget$
+     * @pattern ^containers\.[0-9]+\.regulations\.[0-9]+\.maxTarget$
      */
     path: string;
     mode: "set";
     content: number
 }
 
-type ContainerRegulationSecurityMax = {
+type ContainerRegulationsSecurityMax = {
     /**
      * Container regulation security max path
-     * @pattern ^containers\.[0-9]+\.regulation\.[0-9]+\.securityMax$
+     * @pattern ^containers\.[0-9]+\.regulations\.[0-9]+\.securityMax$
      */
     path: string;
     mode: "set";
     content: number
+}
+
+type ContainerRegulationAddon = {
+    /**
+     * Container regulation path
+     * @pattern ^containers\.[0-9]+\.regulations$
+     */
+    path: string;
+
+    mode: "set";
+
+    content: [ContainerRegulation];
 }
 
 type MaintenanceSensorLimitValue = {

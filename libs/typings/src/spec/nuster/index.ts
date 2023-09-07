@@ -57,4 +57,4 @@ type HomeInfoContainerRegulationTarget = {
 
 type HomeInfo = HomeInfoIO | HomeInfoContainerRegulationState | HomeInfoContainerRegulationTarget;
 
-export { Nuster, CallToAction, Popup };
+export { Nuster, HomeInfo, CallToAction, Popup };

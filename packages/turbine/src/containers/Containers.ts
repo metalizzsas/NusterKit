@@ -1,4 +1,3 @@
-import { LoggerInstance } from "../app";
 import { ContainerRegulation } from "./ContainerRegulation";
 import { TurbineEventLoop } from "../events";
 
@@ -61,7 +60,7 @@ export class Container implements ContainerConfig
     {
         if(this.supportedProductSeries === undefined)
         {
-            LoggerInstance.error(`Container: ${this.name} is not loadable.`);
+             TurbineEventLoop.emit('log', 'error', `Container: ${this.name} is not loadable.`);
             return false;
         }
 
@@ -69,7 +68,7 @@ export class Container implements ContainerConfig
 
         if(container === null)
         {
-            LoggerInstance.info(`Container: ${this.name} was not found in database.`);
+             TurbineEventLoop.emit('log', 'info', `Container: ${this.name} was not found in database.`);
 
             await prisma.container.create({
                 data: {
@@ -116,7 +115,7 @@ export class Container implements ContainerConfig
             }
             catch(ex)
             {
-                LoggerInstance.error(`Container: ${this.name} was not found in database and then not deleted.`);
+                 TurbineEventLoop.emit('log', 'error', `Container: ${this.name} was not found in database and then not deleted.`);
             }
         }
 

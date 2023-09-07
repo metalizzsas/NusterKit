@@ -1,4 +1,3 @@
-import { LoggerInstance } from "../app";
 import { Maintenance } from "./Maintenance";
 
 import type { CountableMaintenance as CountableMaintenanceConfig } from "@metalizzsas/nuster-typings/build/spec/maintenances";
@@ -38,7 +37,7 @@ export class CountableMaintenance extends Maintenance implements CountableMainte
 
         if(maintenance === null)
         {
-            LoggerInstance.error(`Maintenance-${this.name}: Tracker does not exists.`);
+             TurbineEventLoop.emit('log', 'error', `Maintenance-${this.name}: Tracker does not exists.`);
             return;
         }
         else if(maintenance.duration === undefined)
@@ -58,7 +57,7 @@ export class CountableMaintenance extends Maintenance implements CountableMainte
         if(document)
             this.duration += appendValue;
         else
-            LoggerInstance.warn("Maintenance: Failed to append data to " + this.name + " tracker.");
+             TurbineEventLoop.emit('log', 'warning', "Maintenance: Failed to append data to " + this.name + " tracker.");
     }
 
     /** Compute the task actual progress */

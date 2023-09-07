@@ -1,7 +1,7 @@
 import type { BaseMaintenance } from "@metalizzsas/nuster-typings/build/spec/maintenances";
-import { LoggerInstance } from "../app";
 import { prisma } from "../db";
 import type { Maintenance as MaintenancePrisma } from "@prisma/client";
+import { TurbineEventLoop } from "../events";
 
 export class Maintenance implements BaseMaintenance
 {
@@ -27,7 +27,7 @@ export class Maintenance implements BaseMaintenance
             return maintenance.duration;
         }
         
-        LoggerInstance.warn(`Maintenance-${this.name}: Maintenance tracker not found, creating it...`);
+        TurbineEventLoop.emit('log', 'warning', `Maintenance-${this.name}: Maintenance tracker not found, creating it...`);
         await prisma.maintenance.create({ data: {
             name: this.name,
             duration: 0
@@ -42,12 +42,12 @@ export class Maintenance implements BaseMaintenance
         if(document)
         {
             this.operationDate = document.operationDate ?? undefined;
-            LoggerInstance.info(`Maintenance: Cleared maintenance task ${this.name}.`);
+            TurbineEventLoop.emit('log', 'info', `Maintenance: Cleared maintenance task ${this.name}.`);
             return document;
         }
         else
         {
-            LoggerInstance.error(`Maintenance: Failed to update ${this.name} document.`);
+             TurbineEventLoop.emit('log', 'error', `Maintenance: Failed to update ${this.name} document.`);
             throw new Error("Failed to update document.");
         }
     }

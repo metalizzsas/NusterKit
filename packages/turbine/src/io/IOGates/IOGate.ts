@@ -1,5 +1,4 @@
 import type { IOGateBase, IOGates } from "@metalizzsas/nuster-typings/build/spec/iogates";
-import { LoggerInstance } from "../../app";
 import { TurbineEventLoop } from "../../events";
 import type { IOBase } from "@metalizzsas/nuster-typings/build/spec/iohandlers";
 import type { IOGateJSON } from "@metalizzsas/nuster-typings/build/hydrated/io";
@@ -75,7 +74,7 @@ export class IOGate implements IOGateBase
         if(this.bus == 'in')
             return true;
 
-        LoggerInstance.info("IOG-" + this.name + ": Writing (" + data + ") to fieldbus.");
+         TurbineEventLoop.emit('log', 'info', "IOG-" + this.name + ": Writing (" + data + ") to fieldbus.");
         
         const word = this.size == "word" ? true : undefined;
         await this.writetoController(data, word);

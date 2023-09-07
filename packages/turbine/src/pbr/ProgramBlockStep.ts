@@ -1,6 +1,5 @@
 import type { NumericParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
 import type { ProgramBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ProgramBlockHydrated";
-import { LoggerInstance } from "../app";
 import { ParameterBlockRegistry } from "./ParameterBlocks/ParameterBlockRegistry";
 import type { ProgramBlockRunner } from "./ProgramBlockRunner";
 import { ProgramBlockRegistry } from "./ProgramBlocks/ProgramBlockRegistry";
@@ -77,7 +76,7 @@ export class ProgramBlockStep
         TurbineEventLoop.addListener(`pbr.step.${this.name}.stop`, (reason?: string) => {
             if(this.state == "started")
             {
-                LoggerInstance.warn(`PBS-${this.name}: Step has been stopped by the user. Reason: ${reason ?? "No reason given."}`);
+                 TurbineEventLoop.emit('log', 'warning', `PBS-${this.name}: Step has been stopped by the user. Reason: ${reason ?? "No reason given."}`);
                 this.state = "ending";
 
                 this.stepRuncontroller.abort();
@@ -105,13 +104,13 @@ export class ProgramBlockStep
         // End step if disabled
         if(this.isEnabled.data == 0)
         {
-            LoggerInstance.warn(`PBS-${this.name}: Step is disabled.`);
+             TurbineEventLoop.emit('log', 'warning', `PBS-${this.name}: Step is disabled.`);
             return "next";
         }
 
         if(this.pbrInstance.status.mode == "ended")
         {
-            LoggerInstance.warn(`PBS-${this.name}: Tried to execute step while cycle ended.`);
+             TurbineEventLoop.emit('log', 'warning', `PBS-${this.name}: Tried to execute step while cycle ended.`);
             return "next";
         }
 
@@ -122,7 +121,7 @@ export class ProgramBlockStep
             this.endReason = undefined;
         }
 
-        LoggerInstance.info(`PBS-${this.name}: Started step.`);
+         TurbineEventLoop.emit('log', 'info', `PBS-${this.name}: Started step.`);
         this.pbrInstance.addEvent(`PBS: Started ${this.name} step.`);
         this.state = "started";
 
@@ -132,29 +131,29 @@ export class ProgramBlockStep
 
                 if(this.state == "started")
                 {
-                    LoggerInstance.error(`PBS-${this.name}: Step has been too long. Triggering stepOvertime.`); 
+                     TurbineEventLoop.emit('log', 'error', `PBS-${this.name}: Step has been too long. Triggering stepOvertime.`); 
                     this.pbrInstance.end("stepOvertime"); 
                 }
                 else
-                    LoggerInstance.warn(`PBS-${this.name}: Step overtime has been canceled because step was not running.`);
+                     TurbineEventLoop.emit('log', 'warning', `PBS-${this.name}: Step overtime has been canceled because step was not running.`);
             }, this.duration * 2000 + this.overallPausedTime * 1000);
 
         this.startTime = Date.now();
 
-        LoggerInstance.info(`PBS-${this.name}: Executing io starter blocks.`);
+         TurbineEventLoop.emit('log', 'info', `PBS-${this.name}: Executing io starter blocks.`);
 
         for(const io of this.startBlocks)
         {
             await io.execute();
         }
 
-        LoggerInstance.info(`PBS-${this.name}: Executing step main blocks.`);
+         TurbineEventLoop.emit('log', 'info', `PBS-${this.name}: Executing step main blocks.`);
         for(const b of this.blocks)
         {
             await b.execute(this.stepRuncontroller.signal);
         }
 
-        LoggerInstance.info(`${this.name}: Executing io ending blocks.`);
+         TurbineEventLoop.emit('log', 'info', `${this.name}: Executing io ending blocks.`);
         for(const io of this.endBlocks)
         {
             await io.execute();
@@ -172,7 +171,7 @@ export class ProgramBlockStep
         if(this.state === "crashed")
         {
             this.state = "crashed";
-            LoggerInstance.info(`PBS-${this.name}: Ended step with state ${this.state}`);
+             TurbineEventLoop.emit('log', 'info', `PBS-${this.name}: Ended step with state ${this.state}`);
             this.endTime = Date.now();
 
             return this.crashStepFallback ?? "next";
@@ -183,7 +182,7 @@ export class ProgramBlockStep
             if(this.runCount >= (this.runAmount?.data ?? 1))
             {
                 this.state = "ended";
-                LoggerInstance.info(`PBS-${this.name}: Ended step with state ${this.state}`);
+                 TurbineEventLoop.emit('log', 'info', `PBS-${this.name}: Ended step with state ${this.state}`);
                 this.endTime = Date.now();
 
                 return "next";
@@ -191,7 +190,7 @@ export class ProgramBlockStep
             else
             {
                 this.state = "partial";
-                LoggerInstance.info(`PBS-${this.name}: Ended step partialy with state ${this.state}`);
+                 TurbineEventLoop.emit('log', 'info', `PBS-${this.name}: Ended step partialy with state ${this.state}`);
                 this.endTime = Date.now();
 
                 return this.partialStepFallback ?? "next";
@@ -200,7 +199,7 @@ export class ProgramBlockStep
         else
         {
             this.state = "ended";
-            LoggerInstance.info(`PBS-${this.name}: Ended step with state ${this.state}`);
+             TurbineEventLoop.emit('log', 'info', `PBS-${this.name}: Ended step with state ${this.state}`);
             this.endTime = Date.now();
 
             return "next";
@@ -216,7 +215,7 @@ export class ProgramBlockStep
             return;
         
         this.endReason = reason;
-        LoggerInstance.info(`PBS: Crashing ${this.name} with reason: ${this.endReason}.`);
+         TurbineEventLoop.emit('log', 'info', `PBS: Crashing ${this.name} with reason: ${this.endReason}.`);
         this.stepRuncontroller.abort();
         this.state = "crashed";
 
@@ -230,7 +229,7 @@ export class ProgramBlockStep
             return;
         
         this.endReason = reason;
-        LoggerInstance.info(`PBS: Ending ${this.name} with reason: ${this.endReason}.`)
+         TurbineEventLoop.emit('log', 'info', `PBS: Ending ${this.name} with reason: ${this.endReason}.`)
         this.stepRuncontroller.abort();
         this.state = "ended";
 

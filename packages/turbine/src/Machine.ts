@@ -6,7 +6,6 @@ import { MaintenanceRouter } from "./routers/MaintenancesRouter";
 import { ProfilesRouter } from "./routers/ProfilesRouter";
 import { ContainersRouter } from "./routers/ContainersRouters";
 import { parseAddon } from "./addons/AddonLoader";
-import { LoggerInstance } from "./app";
 
 import type { Configuration, Status, MachineSpecs } from "@metalizzsas/nuster-typings";
 import type { HypervisorData, VPNData } from "@metalizzsas/nuster-typings/build/hydrated/balena";
@@ -54,27 +53,27 @@ export class Machine
 
         // Addon Parsing
         if (this.data.addons !== undefined && this.data.addons.length > 0) {
-            LoggerInstance.warn("Machine: " + this.data.addons.length + " Addon(s) detected.");
+             TurbineEventLoop.emit('log', 'warning', "Machine: " + this.data.addons.length + " Addon(s) detected.");
             for (const add of this.data.addons)
             {
                 const addon = this.specs.addons?.find(a => a.addonName == add);
 
                 if(addon)
-                    this.specs = parseAddon(this.specs, addon, LoggerInstance);
+                    this.specs = parseAddon(this.specs, addon);
                 else
-                    LoggerInstance.error(`Addon: ${add} does not exists.`);
+                     TurbineEventLoop.emit('log', 'error', `Addon: ${add} does not exists.`);
             }
         }
 
         // Machine Specific addon parsing
         if (this.data.machineAddons.length > 0)
         {
-            LoggerInstance.warn(`Machine: Configuration has ${this.data.machineAddons.length} machine specific addon(s).`);
+             TurbineEventLoop.emit('log', 'warning', `Machine: Configuration has ${this.data.machineAddons.length} machine specific addon(s).`);
             for (const add of this.data.machineAddons)
-                this.specs = parseAddon(this.specs, add, LoggerInstance);
+                this.specs = parseAddon(this.specs, add);
         }
 
-        LoggerInstance.info("Machine: Instantiating controllers");
+         TurbineEventLoop.emit('log', 'info', "Machine: Instantiating controllers");
 
         this.ioRouter = new IORouter(this.specs.iohandlers, this.specs.iogates);
         this.profileRouter = new ProfilesRouter(this.specs.profileSkeletons, this.specs.profilePremades);
@@ -83,7 +82,7 @@ export class Machine
         this.cycleRouter = new CycleRouter(this.specs.cycleTypes, this.specs.cyclePremades);
         this.networkRouter = new NetworkRouter();
 
-        LoggerInstance.info("Machine: Finished Instantiating controllers");
+         TurbineEventLoop.emit('log', 'info', "Machine: Finished Instantiating controllers");
 
         // Add event listener for machine variable reads
         for(const variable of this.data.settings.variables)
@@ -105,7 +104,7 @@ export class Machine
                             this.hypervisorData = data;
                         });
                     }).catch(() => {
-                        LoggerInstance.warn("Hypervisor: Failed to get Device Hypervisor data.");
+                         TurbineEventLoop.emit('log', 'warning', "Hypervisor: Failed to get Device Hypervisor data.");
                     });
 
                     fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/device/vpn?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" } }).then(res => {
@@ -117,7 +116,7 @@ export class Machine
                             this.vpnData = data;
                         });
                     }).catch(() => {
-                        LoggerInstance.warn("Hypervisor: Failed to get Device Hypervisor data.");
+                         TurbineEventLoop.emit('log', 'warning', "Hypervisor: Failed to get Device Hypervisor data.");
                     });
             }, 10000);
         }

@@ -3,7 +3,6 @@ import type { ProgramBlockRunner as ProgramBlockRunnerConfig } from "@metalizzsa
 import type { ProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profiles";
 import type { PBRStepResult } from "@metalizzsas/nuster-typings/build/spec/cycle/PBRStep";
 
-import { LoggerInstance } from "../app";
 import { ProgramBlockStep } from "./ProgramBlockStep";
 import { PBRRunCondition } from "./PBRSecurityCondition";
 import { TurbineEventLoop } from "../events";
@@ -49,7 +48,7 @@ export class ProgramBlockRunner
 
     constructor(object: ProgramBlockRunnerConfig, profile?: ProfileHydrated)
     {
-        LoggerInstance.info("PBR: Building PBR...");
+         TurbineEventLoop.emit('log', 'info', "PBR: Building PBR...");
 
         this.name = object.name;
         this.profileRequired = object.profileRequired;
@@ -216,28 +215,28 @@ export class ProgramBlockRunner
      */
     public async run(): Promise<boolean>
     {
-        LoggerInstance.info("PBRSC: Checking Start conditions.");
+         TurbineEventLoop.emit('log', 'info', "PBRSC: Checking Start conditions.");
 
         const invalidStartConditionsCount = this.allRunConditions.filter((sc) => sc.canStart == false).length;
 
         if(invalidStartConditionsCount > 0)
         {
-            LoggerInstance.error("PBRSC: Start conditions are not valid.");
+             TurbineEventLoop.emit('log', 'error', "PBRSC: Start conditions are not valid.");
             return false;
         }
 
-        LoggerInstance.info("PBRSC: Start conditions are valid.");
-        LoggerInstance.info("PBRSC: Removing start conditions only used at start.");
+         TurbineEventLoop.emit('log', 'info', "PBRSC: Start conditions are valid.");
+         TurbineEventLoop.emit('log', 'info', "PBRSC: Removing start conditions only used at start.");
 
         this.runConditions.forEach(sc => {
             if(sc.startOnly === true)
             {
                 sc.dispose();
-                LoggerInstance.info(` ↳ Removed ${sc.name}`);
+                 TurbineEventLoop.emit('log', 'info', ` ↳ Removed ${sc.name}`);
             }
         });
 
-        LoggerInstance.info(`PBR: Started cycle ${this.name}.`);
+         TurbineEventLoop.emit('log', 'info', `PBR: Started cycle ${this.name}.`);
 
         this.addEvent(`PBR Started`);
 
@@ -255,12 +254,12 @@ export class ProgramBlockRunner
 
             if(result === "next")
             {
-                LoggerInstance.info("PBR: Step ended, going to next step.");
+                 TurbineEventLoop.emit('log', 'info', "PBR: Step ended, going to next step.");
                 this.currentStepIndex++;
             }
             else
             {
-                LoggerInstance.info(`PBR: Ended step asked to go to step: ${this.steps[result].name}.`);
+                 TurbineEventLoop.emit('log', 'info', `PBR: Ended step asked to go to step: ${this.steps[result].name}.`);
 
                 if(this.currentStepIndex < result)
                 {
@@ -284,7 +283,7 @@ export class ProgramBlockRunner
      */
     public nextStep()
     {
-        LoggerInstance.warn(`PBR: Next step triggered.`);
+         TurbineEventLoop.emit('log', 'warning', `PBR: Next step triggered.`);
         this.currentRunningStep.end("skipped");
     }
 
@@ -330,7 +329,7 @@ export class ProgramBlockRunner
         this.steps.forEach(s => s.crash("ending"));
 
         if(reason !== undefined)
-            LoggerInstance.warn("PBR: Triggered cycle end with reason: " + reason);
+             TurbineEventLoop.emit('log', 'warning', "PBR: Triggered cycle end with reason: " + reason);
 
         this.addEvent(`Cycle ended with reason ${reason}.`);
     }
@@ -341,10 +340,10 @@ export class ProgramBlockRunner
         if(this.status.endReason === undefined)
             this.status.endReason = "finished";
         
-        LoggerInstance.info("PBR: Disposing cycle.");
+         TurbineEventLoop.emit('log', 'info', "PBR: Disposing cycle.");
         if(this.currentStepIndex < this.steps.length)
         {
-            LoggerInstance.error(`PBR: Program ended before all steps were executed.`);
+             TurbineEventLoop.emit('log', 'error', `PBR: Program ended before all steps were executed.`);
 
             //Removing 1 to runCount because the step was stopped before its end
             const s = this.steps.at(this.currentStepIndex)
@@ -352,7 +351,7 @@ export class ProgramBlockRunner
             {
                 if(s.type == "multiple" && s.runCount !== undefined)
                 {
-                    LoggerInstance.error(`PBR: Last executed step was a multiple step. Removing 1 multiple step iteration.`);
+                     TurbineEventLoop.emit('log', 'error', `PBR: Last executed step was a multiple step. Removing 1 multiple step iteration.`);
                     s.runCount--;
                 }
             }
@@ -361,7 +360,7 @@ export class ProgramBlockRunner
         //Removing Start conditions timers
         if(this.runConditions.length > 0)
         {
-            LoggerInstance.info("PBR: Removing Start Conditions checks.");
+             TurbineEventLoop.emit('log', 'info', "PBR: Removing Start Conditions checks.");
             for(const sc of this.runConditions)
                 sc.dispose();
         }
@@ -369,10 +368,10 @@ export class ProgramBlockRunner
         //Clearing timer blocks
         if(this.timers.length > 0)
         {
-            LoggerInstance.info("PBR: Clearing timers.");
+             TurbineEventLoop.emit('log', 'info', "PBR: Clearing timers.");
             for(const timer of this.timers)
             {
-                LoggerInstance.info(" ↳ Clearing timer: " + timer.name);
+                 TurbineEventLoop.emit('log', 'info', " ↳ Clearing timer: " + timer.name);
                 clearInterval(timer.timer);
             }
         }
@@ -385,10 +384,10 @@ export class ProgramBlockRunner
         this.setState("ended");
         this.status.endDate = Date.now();
 
-        LoggerInstance.info("PBR: Resetting all io gates to default values.");
+         TurbineEventLoop.emit('log', 'info', "PBR: Resetting all io gates to default values.");
         TurbineEventLoop.emit("io.resetAll");
 
-        LoggerInstance.info(`PBR: Ended cycle ${this.name} with state: ${this.status.mode} & reason: ${this.status.endReason}.`);
+         TurbineEventLoop.emit('log', 'info', `PBR: Ended cycle ${this.name} with state: ${this.status.mode} & reason: ${this.status.endReason}.`);
 
         this.addEvent(`Cycle disposed.`);
     }

@@ -1,6 +1,6 @@
 import type { Addon, MachineSpecs } from "@metalizzsas/nuster-typings";
-import type pino from "pino";
 import { deepInsert } from "./deepInsert";
+import { TurbineEventLoop } from "../events";
 
 /**
  * Load addons on spec file
@@ -10,13 +10,13 @@ import { deepInsert } from "./deepInsert";
  * @param logger Logger
  * @returns IMachine specs
  */
-export function parseAddon(specs: MachineSpecs, addon: Addon, logger: pino.Logger): MachineSpecs
+export function parseAddon(specs: MachineSpecs, addon: Addon): MachineSpecs
 {
-    logger.info("AddonLoader: Adding " + addon.addonName + ".");
+    TurbineEventLoop.emit('log', 'info', "AddonLoader: Adding " + addon.addonName + ".");
 
     for(const content of addon.content)
     {
-        logger.info(" ↳ Adding content on " + content.path + " with " + content.mode + " mode.")
+        TurbineEventLoop.emit('log', 'info', " ↳ Adding content on " + content.path + " with " + content.mode + " mode.")
         specs = deepInsert(specs, content.content, content.path, content.mode);
     }
 

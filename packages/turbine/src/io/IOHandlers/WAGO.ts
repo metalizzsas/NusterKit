@@ -3,7 +3,6 @@ import type { IOBase, WAGO as WAGOConfig } from "@metalizzsas/nuster-typings/bui
 import ModbusTCP from "modbus-serial";
 import ping from "ping";
 
-import { LoggerInstance } from "../../app";
 import { TurbineEventLoop } from "../../events";
 
 export class WAGO implements IOBase, WAGOConfig
@@ -35,13 +34,13 @@ export class WAGO implements IOBase, WAGOConfig
         
         if(available === true)
         {
-            await this.client.connectTCP(this.ip, {port: 502}).catch(error => LoggerInstance.error(`WAGO: ${error}`));
+            await this.client.connectTCP(this.ip, {port: 502}).catch(error =>  TurbineEventLoop.emit('log', 'error', `WAGO: ${error}`));
 
             this.connected = this.client.isOpen;
 
             if(this.connected)
             {
-                LoggerInstance.info("WAGO: Connected");
+                 TurbineEventLoop.emit('log', 'info', "WAGO: Connected");
 
                 //check if the TCP tunnel is alive
                 if(this.connectTimer)
@@ -51,7 +50,7 @@ export class WAGO implements IOBase, WAGOConfig
                     this.connected = this.client.isOpen;
                     if(this.connected === false)
                     {
-                        LoggerInstance.info("WAGO: Disconnected");
+                         TurbineEventLoop.emit('log', 'info', "WAGO: Disconnected");
                         this.connect();
                     }
                         
@@ -67,7 +66,7 @@ export class WAGO implements IOBase, WAGOConfig
         else
         {
             this.unreachable = true;
-            LoggerInstance.error(`WAGO: Failed to ping, cancelling connection.`);
+             TurbineEventLoop.emit('log', 'error', `WAGO: Failed to ping, cancelling connection.`);
             return false;
         }
     }

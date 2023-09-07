@@ -68,6 +68,8 @@ export const migrate = async (basePath: string) => {
 
     TurbineEventLoop.emit('log', 'warning', `DB Migration: Migrated ${migrationData.migratedProfiles.length} profiles.`);
 
+    await prisma.container.deleteMany({});
+
     for(const container of migrationData.migratedContainers)
     {
         await prisma.container.create({
@@ -80,6 +82,8 @@ export const migrate = async (basePath: string) => {
     }
 
     TurbineEventLoop.emit('log', 'warning', `DB Migration: Migrated ${migrationData.migratedContainers.length} containers.`);
+
+    await prisma.maintenance.deleteMany({});
 
     for(const maintenance of migrationData.migratedMaintenances)
     {

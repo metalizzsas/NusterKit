@@ -3,4 +3,4 @@
 "@metalizzsas/nuster-misc": patch
 ---
 
-feat(desktop): maintenance now displayed the last task date
+feat(desktop): maintenance now displays the last task date

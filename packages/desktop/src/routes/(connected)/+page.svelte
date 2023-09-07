@@ -46,7 +46,7 @@
     $: cycleData = $realtime.cycle;
     $: if(cycleData !== undefined && selectedPremadeIndex === undefined)
     { 
-        const index = data.cyclePremades.findIndex(p => p.profile?._id == cycleData?.profile?._id);
+        const index = data.cyclePremades.findIndex(p => p.profile?.id == cycleData?.profile?.id);
         const cycleIndex = data.cyclePremades.findIndex(p => p.cycle === cycleData?.name);
 
         selectedPremadeIndex = index === -1 ? ((cycleIndex === -1) ? undefined : cycleIndex) : index;
@@ -86,7 +86,7 @@
 
                             } else {
                                 selectedPremadeIndex = index;
-                                void prepareCycle(premade.cycle, premade.profile?._id);
+                                void prepareCycle(premade.cycle, premade.profile?.id);
                             }
                         }}
                     >

@@ -21,6 +21,7 @@ COPY packages/turbine/CHANGELOG.md ./CHANGELOG.md
 COPY packages/turbine/entrypoint.sh ./entrypoint.sh
 
 COPY packages/turbine/build/ ./build
+COPY packages/turbine/prisma/ ./prisma
 
 # Install Prod npm packages
 RUN pnpm install --no-optional

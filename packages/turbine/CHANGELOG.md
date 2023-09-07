@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-turbine
 
+## 1.11.4
+
+### Patch Changes
+
+- [#505](https://github.com/metalizzsas/NusterKit/pull/505) [`a43fb538`](https://github.com/metalizzsas/NusterKit/commit/a43fb538536de280e6127cc48ebaac4a6022eefb) Thanks [@Kworz](https://github.com/Kworz)! - feat(migration): created the migration utility
+
+- [#508](https://github.com/metalizzsas/NusterKit/pull/508) [`ce94e1f3`](https://github.com/metalizzsas/NusterKit/commit/ce94e1f34628b7acb640e7cb728ded1289b242a3) Thanks [@Kworz](https://github.com/Kworz)! - fix(db): migrate script would not take skeleton into account
+
 ## 1.11.3
 
 ### Patch Changes

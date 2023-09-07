@@ -87,6 +87,18 @@ for(const machine of Object.keys(Machines))
         }
     });
 
+    test(`Validating ${machine} cycles premades`, () => {
+
+        for(const premadeCycle of machineSpec.cyclePremades)
+        {
+            if(premadeCycle.profile === undefined)
+                continue;
+
+            const profile = machineSpec.profilePremades.find(k => k.id === premadeCycle.profile);
+            expect(profile?.id).toBe(premadeCycle.profile);
+        }
+    });
+
     test(`Validating ${machine} Cycle blocks`, () => {
         for(const cycle of machineSpec.cycleTypes)
         {

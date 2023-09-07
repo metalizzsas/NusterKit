@@ -32,6 +32,8 @@ for(const machine of Object.keys(Machines))
     const profileCategories = new Set([...profileFields].map(f => f.name.split("#").length > 1 ? f.name.split("#")[0] : undefined).filter(s => s != undefined)) as Set<string>;
     const profileFieldNames = new Set([...profileFields].map(f => f.name.split("#").length > 1 ? f.name.split("#")[1] : undefined).filter(s => s != undefined)) as Set<string>;
 
+    const premadeProfileNames = new Set(machineSpecs.profilePremades.map(p => p.name));
+
     // Deleting fields that are translated by desktop
     profileFieldNames.delete("enabled");
     profileFieldNames.delete("timeOn");
@@ -47,7 +49,7 @@ for(const machine of Object.keys(Machines))
     const cyclesNames = machineSpecs.cycleTypes.map(c => c.name);
     const cycleSteps = new Set(machineSpecs.cycleTypes.flatMap(c => c.steps.map(s => s.name)));
 
-    const cyclePremadeProfiles = new Set(machineSpecs.cyclePremades.map(c => c.name));
+    const cycleNames = new Set(machineSpecs.cycleTypes.map(c => c.name));
 
     const maintenancesNames = machineSpecs.maintenance.map(m => m.name);
 
@@ -109,10 +111,16 @@ for(const machine of Object.keys(Machines))
                 expect(translation).toHaveProperty("cycle.steps." + step + ".name")
                 expect(translation).toHaveProperty("cycle.steps." + step + ".desc")
             }
-            //premades
-            for(const premade of cyclePremadeProfiles)
+            //premades profiles
+            for(const premadeProfile of premadeProfileNames)
             {
-                expect(translation).toHaveProperty("profile.premade." + premade);
+                expect(translation).toHaveProperty("profile.premade." + premadeProfile);
+            }
+
+            //premade cycles names
+            for(const cycleName of cycleNames)
+            {
+                expect(translation).toHaveProperty("cycle.names." + cycleName);
             }
 
             //startConditions

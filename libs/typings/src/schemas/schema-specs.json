@@ -1787,6 +1787,56 @@
                                     "properties": {
                                         "content": {
                                             "items": {
+                                                "$ref": "#/definitions/HomeInfo"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "mode": {
+                                            "const": "merge",
+                                            "type": "string"
+                                        },
+                                        "path": {
+                                            "const": "nuster.homeInformations",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "content",
+                                        "mode",
+                                        "path"
+                                    ],
+                                    "type": "object"
+                                },
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "content": {
+                                            "items": {
+                                                "$ref": "#/definitions/IOGates"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "mode": {
+                                            "const": "merge",
+                                            "type": "string"
+                                        },
+                                        "path": {
+                                            "const": "iogates",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "content",
+                                        "mode",
+                                        "path"
+                                    ],
+                                    "type": "object"
+                                },
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "content": {
+                                            "items": {
                                                 "$ref": "#/definitions/Profile"
                                             },
                                             "type": "array"
@@ -1878,6 +1928,36 @@
                                     "additionalProperties": false,
                                     "properties": {
                                         "content": {
+                                            "items": [
+                                                {
+                                                    "$ref": "#/definitions/ContainerRegulation"
+                                                }
+                                            ],
+                                            "maxItems": 1,
+                                            "minItems": 1,
+                                            "type": "array"
+                                        },
+                                        "mode": {
+                                            "const": "set",
+                                            "type": "string"
+                                        },
+                                        "path": {
+                                            "description": "Container regulation path",
+                                            "pattern": "^containers\\.[0-9]+\\.regulations$",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "content",
+                                        "mode",
+                                        "path"
+                                    ],
+                                    "type": "object"
+                                },
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "content": {
                                             "type": "number"
                                         },
                                         "mode": {
@@ -1886,7 +1966,7 @@
                                         },
                                         "path": {
                                             "description": "Container regulation max target path",
-                                            "pattern": "^containers\\.[0-9]+\\.regulation\\.[0-9]+\\.maxTarget$",
+                                            "pattern": "^containers\\.[0-9]+\\.regulations\\.[0-9]+\\.maxTarget$",
                                             "type": "string"
                                         }
                                     },
@@ -1909,7 +1989,7 @@
                                         },
                                         "path": {
                                             "description": "Container regulation security max path",
-                                            "pattern": "^containers\\.[0-9]+\\.regulation\\.[0-9]+\\.securityMax$",
+                                            "pattern": "^containers\\.[0-9]+\\.regulations\\.[0-9]+\\.securityMax$",
                                             "type": "string"
                                         }
                                     },

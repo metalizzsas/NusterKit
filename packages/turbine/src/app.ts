@@ -122,6 +122,8 @@ if(wasUpdated && productionEnabled)
     });
 }
 
+void migrate(basePath);
+
 /** Setup Express running server */
 function SetupExpress()
 {

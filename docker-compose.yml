@@ -12,8 +12,6 @@ services:
       dockerfile: ./packages/turbine/Dockerfile.template
       context: ./
     privileged: true
-    depends_on: 
-      - "mongodb"
     volumes:
       - nuster-data:/data
     environment:
@@ -34,7 +32,6 @@ services:
     restart: always
     depends_on: 
       - "nuster-turbine"
-      - "mongodb"
 
   weston:
     restart: always
@@ -71,7 +68,6 @@ services:
     depends_on: 
       - "nuster-desktop"
       - "nuster-turbine"
-      - "mongodb"
     ports:
       - 80:80
       

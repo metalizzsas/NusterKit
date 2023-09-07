@@ -28,7 +28,7 @@ RUN pnpm install --no-optional
 
 # Copy workspace libs
 COPY libs/typings/ ./node_modules/@metalizzsas/nuster-typings
-COPY libs/turbine-machines/ ./node_modules/@metalizzsas/nuster-typings
+COPY libs/turbine-machines/ ./node_modules/@metalizzsas/nuster-turbine-machines
 
 # Remove npmrc file
 RUN rm .npmrc

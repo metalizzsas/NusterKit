@@ -137,7 +137,7 @@
             },
             "wash2": {
                 "name": "Rinçage 2",
-                "desc": "Rinçage final avent le rinçage des pièces."
+                "desc": "Rinçage final avant le séchage des pièces."
             },
             "drying": {
                 "name": "Séchage",

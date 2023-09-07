@@ -136,7 +136,7 @@
             },
             "wash2": {
                 "name": "Washing 2",
-                "desc": "Final washing before part drying."
+                "desc": "Final washing before parts drying."
             },
             "drying": {
                 "name": "Drying",

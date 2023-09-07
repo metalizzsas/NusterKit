@@ -1,5 +1,23 @@
 # @metalizzsas/nuster-misc
 
+## 1.5.9
+
+### Patch Changes
+
+- [#501](https://github.com/metalizzsas/NusterKit/pull/501) [`d0f9f2e9`](https://github.com/metalizzsas/NusterKit/commit/d0f9f2e916b0529acf3d27ae1db32c4a96e1463f) Thanks [@Kworz](https://github.com/Kworz)! - fix(metalfog-m-2): 2nd wash typo in desc
+
+## 1.5.8
+
+### Patch Changes
+
+- [#499](https://github.com/metalizzsas/NusterKit/pull/499) [`4966b4a4`](https://github.com/metalizzsas/NusterKit/commit/4966b4a4ca49e01c6646cfeceba0bc9182af21d7) Thanks [@Kworz](https://github.com/Kworz)! - fix(docs): pdf docs had wrong path for pdf generation
+
+## 1.5.7
+
+### Patch Changes
+
+- [#497](https://github.com/metalizzsas/NusterKit/pull/497) [`f216dff4`](https://github.com/metalizzsas/NusterKit/commit/f216dff4974d778e80f20fc54aa5b939787d1dc7) Thanks [@Kworz](https://github.com/Kworz)! - fix(docs): moved settings & networking desktop pages in a dedicated folder
+
 ## 1.5.6
 
 ### Patch Changes

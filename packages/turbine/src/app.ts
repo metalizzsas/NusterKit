@@ -13,6 +13,7 @@ import { pinoHttp } from "pino-http";
 import { Machine } from "./Machine";
 import { TurbineEventLoop } from "./events";
 import { WebsocketDispatcher } from "./websocket/WebsocketDispatcher";
+import { migrate } from "./migrate";
 
 /** Http express & ws port */
 const HTTP_PORT = 4080;

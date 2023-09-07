@@ -21,15 +21,8 @@ export class CycleRouter extends Router
 
         this.cycleTypes = cycleTypes;
 
-        for (const cycle of cycleTypes)
-            this.supportedCycles.push({ name: cycle.name, profileRequired: cycle.profileRequired });
-
-        /// — Maintain cycle premade with type default first in list
-        for (const premade of cyclePremades.filter(k => k.cycle === "default"))
-            this.premadeCycles.push({ name: premade.name, profile: premade.profile, cycle: premade.cycle });
-
-        for(const premade of cyclePremades.filter(k => k.cycle !== "default"))
-            this.premadeCycles.push({ name: premade.name, profile: premade.profile, cycle: premade.cycle });
+        this.supportedCycles = this.cycleTypes.map((c) => { return { name: c.name, profileRequired: c.profileRequired }});
+        this.premadeCycles = cyclePremades;
 
         this._configureRouter();
     }

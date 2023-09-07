@@ -3,7 +3,7 @@ import { Router } from "./Router";
 import type { NetworkDevice, AccessPoint } from "@metalizzsas/nuster-typings/build/hydrated/balena";
 import type { BodyEntry } from "@homebridge/dbus-native";
 import { computeSubnet, stringToArrayOfBytes } from "../dbus/network-utils";
-import { dbusInvoker, getProperty } from "../dbus/dbus";
+import { DBusClient } from "../dbus/dbus";
 import { NetworkManagerTypes } from "../dbus/networkManagerTypes";
 import { TurbineEventLoop } from "../events";
 
@@ -11,10 +11,17 @@ export class NetworkRouter extends Router
 {
     private accessPoints: AccessPoint[] = [];
     private devices: NetworkDevice[] = [];
+    private dbusClient: DBusClient;
 
     constructor()
     {
         super();
+
+        if(process.env.NODE_ENV === 'development')
+            throw new Error("NetworkRouter should not be used in development mode.");
+
+        this.dbusClient = new DBusClient();
+        
         this.configureRouter();
         this.getDevices();
         this.listWifiNetworks();
@@ -103,7 +110,7 @@ export class NetworkRouter extends Router
      */
     private async getDevices(): Promise<NetworkDevice[]>
     {
-        const devicePaths: string[] = await dbusInvoker({
+        const devicePaths: string[] = await this.dbusClient.dbusInvoker({
             destination: 'org.freedesktop.NetworkManager',
             path: '/org/freedesktop/NetworkManager',
             interface: 'org.freedesktop.NetworkManager',
@@ -116,7 +123,7 @@ export class NetworkRouter extends Router
         {
             const device: Partial<NetworkDevice> = {};
 
-            const deviceIFace = await getProperty<[BodyEntry, [string]]>('org.freedesktop.NetworkManager', path, 'org.freedesktop.NetworkManager.Device', 'Interface');
+            const deviceIFace = await this.dbusClient.getProperty<[BodyEntry, [string]]>('org.freedesktop.NetworkManager', path, 'org.freedesktop.NetworkManager.Device', 'Interface');
             
             if(!['wlan0', 'enp1s0u1'].includes(deviceIFace[1][0]))
                 continue;
@@ -124,13 +131,13 @@ export class NetworkRouter extends Router
             device.iface = deviceIFace[1][0];
             device.path = path;
 
-            const deviceState = await getProperty<[BodyEntry, [number]]>('org.freedesktop.NetworkManager', path, 'org.freedesktop.NetworkManager.Device', 'State');
+            const deviceState = await this.dbusClient.getProperty<[BodyEntry, [number]]>('org.freedesktop.NetworkManager', path, 'org.freedesktop.NetworkManager.Device', 'State');
 
             if(deviceState[1][0] === NetworkManagerTypes.DEVICE_STATE.ACTIVATED)
             {
-                const IP4Config = await getProperty<[BodyEntry, [string]]>('org.freedesktop.NetworkManager', path, 'org.freedesktop.NetworkManager.Device', 'Ip4Config');
-                const addresses = await getProperty<[[BodyEntry], [Array<Array<Array<Array<Array<string | number | { type: string, child: []}>>>>>]]>('org.freedesktop.NetworkManager', IP4Config[1][0], 'org.freedesktop.NetworkManager.IP4Config', 'AddressData');
-                const gateway = await getProperty<[[BodyEntry], [string]]>('org.freedesktop.NetworkManager', IP4Config[1][0], 'org.freedesktop.NetworkManager.IP4Config', 'Gateway');
+                const IP4Config = await this.dbusClient.getProperty<[BodyEntry, [string]]>('org.freedesktop.NetworkManager', path, 'org.freedesktop.NetworkManager.Device', 'Ip4Config');
+                const addresses = await this.dbusClient.getProperty<[[BodyEntry], [Array<Array<Array<Array<Array<string | number | { type: string, child: []}>>>>>]]>('org.freedesktop.NetworkManager', IP4Config[1][0], 'org.freedesktop.NetworkManager.IP4Config', 'AddressData');
+                const gateway = await this.dbusClient.getProperty<[[BodyEntry], [string]]>('org.freedesktop.NetworkManager', IP4Config[1][0], 'org.freedesktop.NetworkManager.IP4Config', 'Gateway');
             
                 device.gateway = gateway[1][0];
                 device.address = addresses[1][0][0][0][1][1][0] as string;
@@ -161,7 +168,7 @@ export class NetworkRouter extends Router
             throw new Error("Main physical wifi device not found.");
     
         //Request a scan of the networks using dbus
-        await dbusInvoker({
+        await this.dbusClient.dbusInvoker({
             destination: 'org.freedesktop.NetworkManager',
             path: wlan0.path,
             interface: 'org.freedesktop.NetworkManager.Device.Wireless',
@@ -170,9 +177,9 @@ export class NetworkRouter extends Router
             body: [{ "ssids": [] }]
         });
 
-        const [, [activeAccessPointPath]] = await getProperty<[[BodyEntry], [string]]>('org.freedesktop.NetworkManager', wlan0.path, 'org.freedesktop.NetworkManager.Device.Wireless', 'ActiveAccessPoint');
+        const [, [activeAccessPointPath]] = await this.dbusClient.getProperty<[[BodyEntry], [string]]>('org.freedesktop.NetworkManager', wlan0.path, 'org.freedesktop.NetworkManager.Device.Wireless', 'ActiveAccessPoint');
     
-        const accessPointPaths: string[] = await dbusInvoker({
+        const accessPointPaths: string[] = await this.dbusClient.dbusInvoker({
             destination: 'org.freedesktop.NetworkManager',
             path: wlan0.path,
             interface: 'org.freedesktop.NetworkManager.Device.Wireless',
@@ -181,10 +188,10 @@ export class NetworkRouter extends Router
     
         for(const accessPointPath of accessPointPaths)
         {
-            const accessPointSsid = await getProperty<[[BodyEntry], [Buffer]]>('org.freedesktop.NetworkManager', accessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Ssid');
-            const accessPointStrengh = await getProperty<[[BodyEntry], [number]]>('org.freedesktop.NetworkManager', accessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Strength');
-            const accessPointFrenquency = await getProperty<[[BodyEntry], [number]]>('org.freedesktop.NetworkManager', accessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Frequency');
-            const accessPointEncryption = await getProperty<[[BodyEntry], [number]]>('org.freedesktop.NetworkManager', accessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'RsnFlags');
+            const accessPointSsid = await this.dbusClient.getProperty<[[BodyEntry], [Buffer]]>('org.freedesktop.NetworkManager', accessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Ssid');
+            const accessPointStrengh = await this.dbusClient.getProperty<[[BodyEntry], [number]]>('org.freedesktop.NetworkManager', accessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Strength');
+            const accessPointFrenquency = await this.dbusClient.getProperty<[[BodyEntry], [number]]>('org.freedesktop.NetworkManager', accessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'Frequency');
+            const accessPointEncryption = await this.dbusClient.getProperty<[[BodyEntry], [number]]>('org.freedesktop.NetworkManager', accessPointPath, 'org.freedesktop.NetworkManager.AccessPoint', 'RsnFlags');
         
             accessPoints.push({
                 ssid: accessPointSsid[1][0].toString(),
@@ -271,7 +278,7 @@ export class NetworkRouter extends Router
                 ]]);
             }
 
-            createdConnection = await dbusInvoker<string>({
+            createdConnection = await this.dbusClient.dbusInvoker<string>({
                 destination: 'org.freedesktop.NetworkManager',
                 path: '/org/freedesktop/NetworkManager/Settings',
                 interface: 'org.freedesktop.NetworkManager.Settings',
@@ -280,7 +287,7 @@ export class NetworkRouter extends Router
                 body: [connectionParams]
             });
 
-            const result = await dbusInvoker<string>({
+            const result = await this.dbusClient.dbusInvoker<string>({
                 destination: 'org.freedesktop.NetworkManager',
                 path: '/org/freedesktop/NetworkManager',
                 interface: 'org.freedesktop.NetworkManager',
@@ -299,7 +306,7 @@ export class NetworkRouter extends Router
             if(createdConnection)
             {
                 TurbineEventLoop.emit('log', 'info', `Network: Deleting wrong connection ${createdConnection}.`);
-                await dbusInvoker({
+                await this.dbusClient.dbusInvoker({
                     destination: 'org.freedesktop.NetworkManager',
                     path: '/org/freedesktop/NetworkManager/Settings',
                     interface: 'org.freedesktop.NetworkManager.Settings.Connection',
@@ -329,16 +336,16 @@ export class NetworkRouter extends Router
 
             TurbineEventLoop.emit('log', 'info', `Network: Disconnecting from wifi network.`);
 
-            const [, [appliedConnection]] = await getProperty<[[BodyEntry], [string]]>("org.freedesktop.NetworkManager", wlan0.path, "org.freedesktop.NetworkManager.Device", "ActiveConnection"); 
+            const [, [appliedConnection]] = await this.dbusClient.getProperty<[[BodyEntry], [string]]>("org.freedesktop.NetworkManager", wlan0.path, "org.freedesktop.NetworkManager.Device", "ActiveConnection"); 
 
             if(appliedConnection !== undefined)
             {
-                const [, [rootConnection]] = await getProperty<[BodyEntry, [string]]>('org.freedesktop.NetworkManager', appliedConnection, 'org.freedesktop.NetworkManager.Connection.Active', 'Connection');
+                const [, [rootConnection]] = await this.dbusClient.getProperty<[BodyEntry, [string]]>('org.freedesktop.NetworkManager', appliedConnection, 'org.freedesktop.NetworkManager.Connection.Active', 'Connection');
 
                 if(rootConnection !== undefined)
                 {
                     TurbineEventLoop.emit('log', 'info', `Network: Deleting connection ${appliedConnection}.`);
-                    await dbusInvoker({
+                    await this.dbusClient.dbusInvoker({
                         destination: 'org.freedesktop.NetworkManager',
                         path: rootConnection,
                         interface: 'org.freedesktop.NetworkManager.Settings.Connection',
@@ -347,7 +354,7 @@ export class NetworkRouter extends Router
                 }
             }
             
-            await dbusInvoker({
+            await this.dbusClient.dbusInvoker({
                 destination: 'org.freedesktop.NetworkManager',
                 path: wlan0.path,
                 interface: 'org.freedesktop.NetworkManager.Device',

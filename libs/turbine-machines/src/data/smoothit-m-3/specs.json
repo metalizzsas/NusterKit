@@ -393,60 +393,58 @@
    ],
    "profilePremades": [
       {
+         "id": "b7f54a87-6cb9-4fd5-b23c-2d155b2994b7",
          "skeleton": "default",
-         "_id": "premade_shiny",
          "name": "shiny",
-         "isPremade": true,
-         "values": {
-            "pulverization#enabled": 1,
-            "pulverization#timeOn": 2.3,
-            "pulverization#timeOff": 20,
-            "pulverization#count": 6,
-            "pulverization#high-enabled": 1,
-            "pulverization#low-enabled": 1,
-            "inerting#enabled": 1,
-            "inerting#duration": 2,
-            "uv-curing#enabled": 1,
-            "uv-curing#duration": 240,
-            "uv-curing#uv-power": 100,
-            "vapors-extraction#enabled": 1,
-            "vapors-extraction#duration": 90,
-            "multilayer#enabled": 1,
-            "multilayer#count": -2,
-            "multilayer#interlayer-uvduration": 7,
-            "motor#enabled": 1,
-            "motor#speed": 35,
-            "motor#reverseEnabled": 1,
-            "motor#reverseTime": 10
-         }
+         "values": [
+            {"key": "pulverization#enabled", "value": 1},
+            {"key": "pulverization#timeOn", "value": 2.3},
+            {"key": "pulverization#timeOff", "value": 20},
+            {"key": "pulverization#count", "value": 6},
+            {"key": "pulverization#high-enabled", "value": 1},
+            {"key": "pulverization#low-enabled", "value": 1},
+            {"key": "inerting#enabled", "value": 1},
+            {"key": "inerting#duration", "value": 2},
+            {"key": "uv-curing#enabled", "value": 1},
+            {"key": "uv-curing#duration", "value": 240},
+            {"key": "uv-curing#uv-power", "value": 100},
+            {"key": "vapors-extraction#enabled", "value": 1},
+            {"key": "vapors-extraction#duration", "value": 90},
+            {"key": "multilayer#enabled", "value": 1},
+            {"key": "multilayer#count", "value": -2},
+            {"key": "multilayer#interlayer-uvduration", "value": 7},
+            {"key": "motor#enabled", "value": 1},
+            {"key": "motor#speed", "value": 35},
+            {"key": "motor#reverseEnabled", "value": 1},
+            {"key": "motor#reverseTime", "value": 10}
+         ]
       },
       {
+         "id": "1720e9b2-efb6-452c-bf01-08296eac9091",
          "skeleton": "default",
-         "_id": "premade_translucent",
          "name": "translucent",
-         "isPremade": true,
-         "values": {
-            "pulverization#enabled": 1,
-            "pulverization#timeOn": 2.3,
-            "pulverization#timeOff": 20,
-            "pulverization#count": 6,
-            "pulverization#high-enabled": 1,
-            "pulverization#low-enabled": 1,
-            "inerting#enabled": 1,
-            "inerting#duration": 2,
-            "uv-curing#enabled": 1,
-            "uv-curing#duration": 240,
-            "uv-curing#uv-power": 100,
-            "vapors-extraction#enabled": 1,
-            "vapors-extraction#duration": 90,
-            "multilayer#enabled": 1,
-            "multilayer#count": -4,
-            "multilayer#interlayer-uvduration": 7,
-            "motor#enabled": 1,
-            "motor#speed": 35,
-            "motor#reverseEnabled": 1,
-            "motor#reverseTime": 10
-            }
+         "values": [
+            {"key": "pulverization#enabled", "value": 1},
+            {"key": "pulverization#timeOn", "value": 2.3},
+            {"key": "pulverization#timeOff", "value": 20},
+            {"key": "pulverization#count", "value": 6},
+            {"key": "pulverization#high-enabled", "value": 1},
+            {"key": "pulverization#low-enabled", "value": 1},
+            {"key": "inerting#enabled", "value": 1},
+            {"key": "inerting#duration", "value": 2},
+            {"key": "uv-curing#enabled", "value": 1},
+            {"key": "uv-curing#duration", "value": 240},
+            {"key": "uv-curing#uv-power", "value": 100},
+            {"key": "vapors-extraction#enabled", "value": 1},
+            {"key": "vapors-extraction#duration", "value": 90},
+            {"key": "multilayer#enabled", "value": 1},
+            {"key": "multilayer#count", "value": -4},
+            {"key": "multilayer#interlayer-uvduration", "value": 7},
+            {"key": "motor#enabled", "value": 1},
+            {"key": "motor#speed", "value": 35},
+            {"key": "motor#reverseEnabled", "value": 1},
+            {"key": "motor#reverseTime", "value": 10}
+         ]
       }
    ],
    "maintenance": [
@@ -479,12 +477,12 @@
    "cyclePremades": [
       {
          "name": "shiny",
-         "profile": "premade_shiny",
+         "profile": "b7f54a87-6cb9-4fd5-b23c-2d155b2994b7",
          "cycle": "default"
       },
       {
          "name": "translucent",
-         "profile": "premade_translucent",
+         "profile": "1720e9b2-efb6-452c-bf01-08296eac9091",
          "cycle": "default"
       }
    ],

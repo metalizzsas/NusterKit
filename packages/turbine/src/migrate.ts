@@ -1,9 +1,9 @@
-import type { ProductSeries } from "@metalizzsas/nuster-typings/build/spec/containers/products";
-import { ContainerModel, MaintenanceModel, ProfileModel } from "./models";
-
 import fs from "fs";
-import { TurbineEventLoop } from "./events";
 import path from "path";
+
+import type { ProductSeries } from "@metalizzsas/nuster-typings/build/spec/containers/products";
+import { TurbineEventLoop } from "./events";
+import { prisma } from "./db";
 
 export type MigratedProfile = {
 
@@ -34,64 +34,70 @@ export type MigratedContainer = {
 
 export const migrate = async (basePath: string) => {
 
-    const migrationFile = path.resolve(basePath, 'db-migration.json')
+    const migrationFile = path.resolve(basePath, 'db-migration.json');
 
-    if(fs.existsSync(migrationFile))
+    if(!fs.existsSync(migrationFile))
     {
-        TurbineEventLoop.emit('log', 'warning', 'DB Migration: Migration file already exists. deleting.');
-        fs.unlinkSync(migrationFile);
+        TurbineEventLoop.emit('log', 'warning', 'DB Migration: Migration file do not exists. Have you exported the database using Nuster 1.12.9?');
+        return;
     }
 
-    TurbineEventLoop.emit('log', 'warning', 'DB Migration: Starting migration process');
-    const exportedFile = {
-        migratedProfiles: [],
-        migratedMaintenances: [],
-        migratedContainers: []
-    } as {
+    TurbineEventLoop.emit('log', 'warning', 'DB Migration: Migration file exists. Starting migration process.');
+
+    const migrationFileContent = fs.readFileSync(migrationFile, { encoding: 'utf-8' });
+
+    const migrationData = JSON.parse(migrationFileContent) as {
         migratedProfiles: Array<MigratedProfile>,
         migratedMaintenances: Array<MigratedMaintenance>,
         migratedContainers: Array<MigratedContainer>
     };
 
-    const profiles = await ProfileModel.find({});
+    for(const profile of migrationData.migratedProfiles)
+    {
+        await prisma.profile.create({
+            data: {
+                name: profile.name,
+                skeleton: profile.skeleton,
+                modificationDate: profile.modificationDate,
+                values: {
+                    create: profile.values
+                }
+            }
+        });
+    }
+
+    TurbineEventLoop.emit('log', 'warning', `DB Migration: Migrated ${migrationData.migratedProfiles.length} profiles.`);
+
+    await prisma.container.deleteMany({});
+
+    for(const container of migrationData.migratedContainers)
+    {
+        await prisma.container.create({
+            data: {
+                name: container.name,
+                loadedProductType: container.loadedProductType,
+                loadDate: container.loadedProductDate
+            }
+        });
+    }
+
+    TurbineEventLoop.emit('log', 'warning', `DB Migration: Migrated ${migrationData.migratedContainers.length} containers.`);
+
+    await prisma.maintenance.deleteMany({});
+
+    for(const maintenance of migrationData.migratedMaintenances)
+    {
+        await prisma.maintenance.create({
+            data: {
+                name: maintenance.name,
+                duration: maintenance.duration,
+                operationDate: maintenance.operationDate
+            }
+        });
+    }
     
-    for(const profile of profiles)
-    {
-        const profile2 = profile as unknown as Omit<typeof profile, "values"> & { values: Map<string, number> };
-        
-        exportedFile.migratedProfiles.push({
-            name: profile.name,
-            skeleton: profile.skeleton,
-            modificationDate: new Date(profile.modificationDate),
-            values: [...profile2.values.keys()].map(k => ({ key: k, value: profile2.values.get(k) as number }))
-        });
-    }
+    TurbineEventLoop.emit('log', 'warning', `DB Migration: Migrated ${migrationData.migratedMaintenances.length} maintenances.`);
+    TurbineEventLoop.emit('log', 'warning', 'DB Migration: Migration process ended.');
 
-    const containers = await ContainerModel.find({});
-
-    for(const container of containers)
-    {
-        exportedFile.migratedContainers.push({
-            name: container.name,
-            loadedProductType: container.loadedProductType,
-            loadedProductDate: new Date(container.loadDate)
-        });
-    }
-
-    const maintenances = await MaintenanceModel.find({});
-
-    for(const maintenance of maintenances)
-    {
-        exportedFile.migratedMaintenances.push({
-            name: maintenance.name,
-            duration: maintenance.duration,
-            operationDate: maintenance.operationDate ? new Date(maintenance.operationDate) : undefined
-        });
-    }
-
-    TurbineEventLoop.emit('log', 'warning', 'DB Migration: Ended source database data extraction.');
-
-    fs.writeFileSync(path.resolve(basePath, 'db-migration.json'), JSON.stringify(exportedFile, null, 4));
-
-    TurbineEventLoop.emit('log', 'warning', 'DB Migration: Exported file to /data/db-migration.json');
+    fs.unlinkSync(migrationFile);
 }

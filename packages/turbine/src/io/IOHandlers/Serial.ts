@@ -1,7 +1,7 @@
 import type { IOBase, SerialCom } from "@metalizzsas/nuster-typings/build/spec/iohandlers";
 
-import { LoggerInstance } from "../../app";
 import { SerialPort } from "serialport";
+import { TurbineEventLoop } from "../../events";
 
 export class Serial implements IOBase, SerialCom
 {
@@ -30,16 +30,16 @@ export class Serial implements IOBase, SerialCom
             this.serialPort = new SerialPort({ path: this.port, baudRate: this.baudRate }, (err) => {
                 if(err)
                 {
-                    LoggerInstance.error("Serial " + err.message);
+                    TurbineEventLoop.emit('log', 'error', "Serial " + err.message);
                 }
                 else
                 {
                     this.connected = true;
 
-                    LoggerInstance.info("Serial: Connected");
+                    TurbineEventLoop.emit('log', 'info', "Serial: Connected");
                     this.serialPort?.addListener("close", () => { 
                         this.connected = false; 
-                        LoggerInstance.info("Serial: Disconnected")
+                        TurbineEventLoop.emit('log', 'info', "Serial: Disconnected")
                     });
                 }
                 resolve(err === null);

@@ -343,30 +343,29 @@
    ],
    "profilePremades": [
       {
+         "id": "12784a54-da7d-4f98-9bbf-a37855c686d2",
          "skeleton": "default",
-         "_id": "premade_sla",
          "name": "sla",
-         "isPremade": true,
-         "values": {
-            "pulverization#enabled": 1,
-            "pulverization#timeOn": 2.3,
-            "pulverization#timeOff": 10,
-            "pulverization#count": 3,
-            "inerting#enabled": 1,
-            "inerting#duration": 15,
-            "uv-curing#enabled": 1,
-            "uv-curing#duration": 180,
-            "uv-curing#uv-power": 100,
-            "vapors-extraction#enabled": 1,
-            "vapors-extraction#duration": 45,
-            "multilayer#enabled": 1,
-            "multilayer#count": 2,
-            "multilayer#interlayer-uvduration": 15,
-            "motor#enabled": 1,
-            "motor#speed": 80,
-            "motor#reverseEnabled": 1,
-            "motor#reverseTime": 10
-         }
+         "values": [
+            {"key": "pulverization#enabled", "value": 1},
+            {"key": "pulverization#timeOn", "value": 2.3},
+            {"key": "pulverization#timeOff", "value": 10},
+            {"key": "pulverization#count", "value": 3},
+            {"key": "inerting#enabled", "value": 1},
+            {"key": "inerting#duration", "value": 15},
+            {"key": "uv-curing#enabled", "value": 1},
+            {"key": "uv-curing#duration", "value": 180},
+            {"key": "uv-curing#uv-power", "value": 100},
+            {"key": "vapors-extraction#enabled", "value": 1},
+            {"key": "vapors-extraction#duration", "value": 45},
+            {"key": "multilayer#enabled", "value": 1},
+            {"key": "multilayer#count", "value": 2},
+            {"key": "multilayer#interlayer-uvduration", "value": 15},
+            {"key": "motor#enabled", "value": 1},
+            {"key": "motor#speed", "value": 80},
+            {"key": "motor#reverseEnabled", "value": 1},
+            {"key": "motor#reverseTime", "value": 10}
+         ]
       }
    ],
    "maintenance": [
@@ -389,7 +388,7 @@
    "cyclePremades": [
       {
          "name": "sla",
-         "profile": "premade_sla",
+         "profile": "12784a54-da7d-4f98-9bbf-a37855c686d2",
          "cycle": "default"
       }
    ],

@@ -1,23 +1,24 @@
 /** Profile schema from configuration */
 interface Profile {
 
+    /**
+     * Profile UUID
+     * @pattern ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$
+     */
+    id: string;
+
     /** Name of the profile */
     name: string;
-
-    /** Premade profile have id */
-    _id?: string;
 
     /** Name of the referencing skeleton profile */
     skeleton: string;
 
-    /** Is the profile premade ? */
-    isPremade?: boolean;
-
     /** Values of the profile */
-    values: {[key: string]: number};
+    values: { key: string, value: number }[];
 }
 
 interface ProfileSkeleton {
+    
     /** Identifier name of the skeleton */
     name: string;
     /** Fields definitions contained by this skeleton */

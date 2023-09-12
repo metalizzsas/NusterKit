@@ -24,24 +24,24 @@
 
     const saveProfile = async () => {
 
-        if(data.profile._id === undefined)
+        if(data.profile.id === undefined)
             return;
 
-        const req = await fetch(`/api/v1/profiles/${data.profile._id}`, { method: 'PATCH', headers: { "content-type": "application/json" }, body: JSON.stringify(data.profile) });
+        const req = await fetch(`/api/v1/profiles/${data.profile.id}`, { method: 'PATCH', headers: { "content-type": "application/json" }, body: JSON.stringify(data.profile) });
         if(req.ok && req.status === 200)
             profileSaved = true;
     };
 
     const copyProfile = async () => {
-        const copy: ProfileHydrated = {...data.profile, _id: "copied", name: `${translateProfileName($_, data.profile)} — ${$_('profile.copy.suffix')}`};
+        const copy: ProfileHydrated = {...data.profile, name: `${translateProfileName($_, data.profile)} — ${$_('profile.copy.suffix')}`};
 
         const req = await fetch(`/api/v1/profiles/`, { method: 'post', headers: { "content-type": "application/json" }, body: JSON.stringify(copy) });
 
         if(req.ok && req.status === 200)
         {
             const profileCopied = (await req.json() as ProfileHydrated);
-            if(profileCopied._id)
-                void goto(`/profiles/${profileCopied._id}`);
+            if(profileCopied.id)
+                void goto(`/profiles/${profileCopied.id}`);
         }
     };
 
@@ -53,9 +53,9 @@
             return;
         }
 
-        if(data.profile._id)
+        if(data.profile.id)
         {
-            const req = await fetch(`/api/v1/profiles/${data.profile._id}`, { method: 'delete'});
+            const req = await fetch(`/api/v1/profiles/${data.profile.id}`, { method: 'delete'});
             if(req.ok && req.status === 200)
                 void goto("/profiles");
         }

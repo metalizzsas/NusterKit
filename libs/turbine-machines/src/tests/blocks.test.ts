@@ -19,13 +19,13 @@ for(const machine of Object.keys(Machines))
             const profileSkeleton = machineSpec.profileSkeletons.find(k => k.name === premade.skeleton);
             expect(premade.skeleton).toBe(profileSkeleton?.name);
 
-            let profileSkeletonFieldNames = profileSkeleton?.fields.map(k => k.name);
+            let profileSkeletonFieldNames = profileSkeleton!.fields.map(k => k.name);
 
-            for(const profileField of Object.keys(premade.values))
+            for(const profileField of premade.values)
             {
-                const fieldSkeleton = profileSkeleton?.fields.find(k => k.name === profileField);
-                profileSkeletonFieldNames = profileSkeletonFieldNames?.filter(k => k !== profileField);
-                expect(profileField).toBe(fieldSkeleton?.name);
+                const fieldSkeleton = profileSkeleton?.fields.find(k => k.name === profileField.key);
+                profileSkeletonFieldNames = profileSkeletonFieldNames.filter(k => k !== profileField.key);
+                expect(profileField.key).toBe(fieldSkeleton?.name);
             }
 
             expect(profileSkeletonFieldNames?.length).toBe(0);
@@ -84,6 +84,18 @@ for(const machine of Object.keys(Machines))
                     validator.validateStatusParameterBlock(sc.checkchain.parameter);
                 }
             }
+        }
+    });
+
+    test(`Validating ${machine} cycles premades`, () => {
+
+        for(const premadeCycle of machineSpec.cyclePremades)
+        {
+            if(premadeCycle.profile === undefined)
+                continue;
+
+            const profile = machineSpec.profilePremades.find(k => k.id === premadeCycle.profile);
+            expect(profile?.id).toBe(premadeCycle.profile);
         }
     });
 

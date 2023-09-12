@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "sqlite"
+    url      = env("DATABASE_URL")
+}
+
+model Container {
+    name                String     @id @unique
+    loadDate            DateTime   @default(now())
+    loadedProductType   String
+}
+
+model Maintenance {
+    name                String     @id @unique
+    duration            Int
+    operationDate       DateTime?
+}
+
+model Profile {
+    id                  String         @id @unique @default(uuid())
+    name                String
+
+    skeleton            String
+    modificationDate    DateTime    @default(now())
+    isPremade           Boolean     @default(false)
+
+    values              ProfileValue[]
+}
+
+model ProfileValue {
+    
+    profile             Profile     @relation(fields: [profileId], references: [id], onDelete: Cascade)
+    profileId           String
+
+    key                 String
+    value               Int
+
+    @@unique([profileId, key])
+}

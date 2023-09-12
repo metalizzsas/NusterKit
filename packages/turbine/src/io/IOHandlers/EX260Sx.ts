@@ -3,7 +3,6 @@ import ping from "ping";
 import { ENIP } from "enip-ts";
 import { MessageRouter } from "enip-ts/dist/enip/cip/messageRouter";
 import type { Encapsulation } from "enip-ts/dist/enip/encapsulation";
-import { LoggerInstance } from "../../app";
 
 import type { IOBase, EX260Sx as EX260SxConfig } from "@metalizzsas/nuster-typings/build/spec/iohandlers";
 import { TurbineEventLoop } from "../../events";
@@ -32,7 +31,7 @@ export class EX260Sx implements IOBase, EX260SxConfig
 
         //change state if disconnected
         this.controller.events.on('close', () => { 
-            LoggerInstance.info("EX260Sx: Disconnected");
+             TurbineEventLoop.emit('log', 'info', "EX260Sx: Disconnected");
             this.connected = false;
 
             this.controller.close();
@@ -61,13 +60,13 @@ export class EX260Sx implements IOBase, EX260SxConfig
 
             if(sessionID !== undefined)
             {
-                LoggerInstance.info("EX260Sx: Connected");
+                 TurbineEventLoop.emit('log', 'info', "EX260Sx: Connected");
                 this.connected = true;
                 return true;
             }
             else
             {
-                LoggerInstance.error("EX260Sx: Failed to connect");
+                 TurbineEventLoop.emit('log', 'error', "EX260Sx: Failed to connect");
                 TurbineEventLoop.emit(`pbr.stop`, "controllerError");
                 this.connected = false;
                 return false;
@@ -76,7 +75,7 @@ export class EX260Sx implements IOBase, EX260SxConfig
         else
         {
             this.unreachable = true;
-            LoggerInstance.error(`EX260Sx: Failed to ping, cancelling connection.`);
+             TurbineEventLoop.emit('log', 'error', `EX260Sx: Failed to ping, cancelling connection.`);
             return false;
         }
     }
@@ -111,7 +110,7 @@ export class EX260Sx implements IOBase, EX260SxConfig
 
         if(!write)
         {
-            LoggerInstance.error("EX260Sx: Failed to write data");
+             TurbineEventLoop.emit('log', 'error', "EX260Sx: Failed to write data");
             TurbineEventLoop.emit(`pbr.stop`, "controllerError");
             return Buffer.alloc(0);
         }
@@ -192,7 +191,7 @@ export class EX260Sx implements IOBase, EX260SxConfig
 
         if(write === false)
         {
-            LoggerInstance.warn("EX260Sx: Failed to write data");
+             TurbineEventLoop.emit('log', 'warning', "EX260Sx: Failed to write data");
             TurbineEventLoop.emit(`pbr.stop`, "controllerError");
         }
     }

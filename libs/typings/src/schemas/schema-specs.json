@@ -921,7 +921,8 @@
                         },
                         "operationDate": {
                             "description": "Last operation date",
-                            "type": "number"
+                            "format": "date-time",
+                            "type": "string"
                         }
                     },
                     "required": [
@@ -949,7 +950,8 @@
                         },
                         "operationDate": {
                             "description": "Last operation date",
-                            "type": "number"
+                            "format": "date-time",
+                            "type": "string"
                         },
                         "requireEnableGate": {
                             "description": "Gate needed to check maitnenance task",
@@ -1392,13 +1394,10 @@
             "additionalProperties": false,
             "description": "Profile schema from configuration",
             "properties": {
-                "_id": {
-                    "description": "Premade profile have id",
+                "id": {
+                    "description": "Profile UUID",
+                    "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
                     "type": "string"
-                },
-                "isPremade": {
-                    "description": "Is the profile premade ?",
-                    "type": "boolean"
                 },
                 "name": {
                     "description": "Name of the profile",
@@ -1409,14 +1408,28 @@
                     "type": "string"
                 },
                 "values": {
-                    "additionalProperties": {
-                        "type": "number"
-                    },
                     "description": "Values of the profile",
-                    "type": "object"
+                    "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "key": {
+                                "type": "string"
+                            },
+                            "value": {
+                                "type": "number"
+                            }
+                        },
+                        "required": [
+                            "key",
+                            "value"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
                 }
             },
             "required": [
+                "id",
                 "name",
                 "skeleton",
                 "values"
@@ -1768,31 +1781,275 @@
                     "content": {
                         "description": "Addon content Array",
                         "items": {
-                            "additionalProperties": false,
-                            "properties": {
-                                "content": {
-                                    "description": "Content replaced or inserted to this category"
-                                },
-                                "mode": {
-                                    "description": "Insertion mode",
-                                    "enum": [
-                                        "merge",
-                                        "replace",
-                                        "set"
+                            "anyOf": [
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "content": {
+                                            "items": {
+                                                "$ref": "#/definitions/HomeInfo"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "mode": {
+                                            "const": "merge",
+                                            "type": "string"
+                                        },
+                                        "path": {
+                                            "const": "nuster.homeInformations",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "content",
+                                        "mode",
+                                        "path"
                                     ],
-                                    "type": "string"
+                                    "type": "object"
                                 },
-                                "path": {
-                                    "description": "Path were the content is added",
-                                    "type": "string"
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "content": {
+                                            "items": {
+                                                "$ref": "#/definitions/IOGates"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "mode": {
+                                            "const": "merge",
+                                            "type": "string"
+                                        },
+                                        "path": {
+                                            "const": "iogates",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "content",
+                                        "mode",
+                                        "path"
+                                    ],
+                                    "type": "object"
+                                },
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "content": {
+                                            "items": {
+                                                "$ref": "#/definitions/Profile"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "mode": {
+                                            "const": "merge",
+                                            "type": "string"
+                                        },
+                                        "path": {
+                                            "const": "profilePremades",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "content",
+                                        "mode",
+                                        "path"
+                                    ],
+                                    "type": "object"
+                                },
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "content": {
+                                            "items": {
+                                                "additionalProperties": false,
+                                                "properties": {
+                                                    "cycle": {
+                                                        "description": "Cycle type name",
+                                                        "type": "string"
+                                                    },
+                                                    "name": {
+                                                        "description": "Name is only for description purposes, not used",
+                                                        "type": "string"
+                                                    },
+                                                    "profile": {
+                                                        "description": "Profile UUID used by this premade",
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "cycle",
+                                                    "name"
+                                                ],
+                                                "type": "object"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "mode": {
+                                            "const": "merge",
+                                            "type": "string"
+                                        },
+                                        "path": {
+                                            "const": "cyclePremades",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "content",
+                                        "mode",
+                                        "path"
+                                    ],
+                                    "type": "object"
+                                },
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "content": {
+                                            "items": {
+                                                "$ref": "#/definitions/ProductSeries"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "mode": {
+                                            "const": "merge",
+                                            "type": "string"
+                                        },
+                                        "path": {
+                                            "description": "Container product series path",
+                                            "pattern": "^containers\\.[0-9]+\\.supportedProductSeries$",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "content",
+                                        "mode",
+                                        "path"
+                                    ],
+                                    "type": "object"
+                                },
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "content": {
+                                            "items": [
+                                                {
+                                                    "$ref": "#/definitions/ContainerRegulation"
+                                                }
+                                            ],
+                                            "maxItems": 1,
+                                            "minItems": 1,
+                                            "type": "array"
+                                        },
+                                        "mode": {
+                                            "const": "set",
+                                            "type": "string"
+                                        },
+                                        "path": {
+                                            "description": "Container regulation path",
+                                            "pattern": "^containers\\.[0-9]+\\.regulations$",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "content",
+                                        "mode",
+                                        "path"
+                                    ],
+                                    "type": "object"
+                                },
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "content": {
+                                            "type": "number"
+                                        },
+                                        "mode": {
+                                            "const": "set",
+                                            "type": "string"
+                                        },
+                                        "path": {
+                                            "description": "Container regulation max target path",
+                                            "pattern": "^containers\\.[0-9]+\\.regulations\\.[0-9]+\\.maxTarget$",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "content",
+                                        "mode",
+                                        "path"
+                                    ],
+                                    "type": "object"
+                                },
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "content": {
+                                            "type": "number"
+                                        },
+                                        "mode": {
+                                            "const": "set",
+                                            "type": "string"
+                                        },
+                                        "path": {
+                                            "description": "Container regulation security max path",
+                                            "pattern": "^containers\\.[0-9]+\\.regulations\\.[0-9]+\\.securityMax$",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "content",
+                                        "mode",
+                                        "path"
+                                    ],
+                                    "type": "object"
+                                },
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "content": {
+                                            "type": "number"
+                                        },
+                                        "mode": {
+                                            "const": "set",
+                                            "type": "string"
+                                        },
+                                        "path": {
+                                            "description": "Maintenance sensor limit value path",
+                                            "pattern": "^maintenance\\.[0-9]+\\.sensorLimitValue$",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "content",
+                                        "mode",
+                                        "path"
+                                    ],
+                                    "type": "object"
+                                },
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "content": {
+                                            "type": "number"
+                                        },
+                                        "mode": {
+                                            "const": "set",
+                                            "type": "string"
+                                        },
+                                        "path": {
+                                            "description": "Maintenance sensor base value path",
+                                            "pattern": "^maintenance\\.[0-9]+\\.sensorBaseValue$",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "content",
+                                        "mode",
+                                        "path"
+                                    ],
+                                    "type": "object"
                                 }
-                            },
-                            "required": [
-                                "content",
-                                "mode",
-                                "path"
-                            ],
-                            "type": "object"
+                            ]
                         },
                         "type": "array"
                     }
@@ -1818,12 +2075,15 @@
                 "additionalProperties": false,
                 "properties": {
                     "cycle": {
+                        "description": "Cycle type name",
                         "type": "string"
                     },
                     "name": {
+                        "description": "Name is only for description purposes, not used",
                         "type": "string"
                     },
                     "profile": {
+                        "description": "Profile UUID used by this premade",
                         "type": "string"
                     }
                 },

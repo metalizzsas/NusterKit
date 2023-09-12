@@ -2,7 +2,7 @@
 	import Flex from "$lib/components/layout/flex.svelte";
 
     import type { MaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydrated";
-	import { _ } from "svelte-i18n";
+	import { _, date, time } from "svelte-i18n";
 	import SvelteMarkdown from "svelte-markdown";
 	import { beforeUpdate } from "svelte";
 	import { Icon } from "@steeze-ui/svelte-icon";
@@ -35,6 +35,13 @@
 <Flex direction="col" gap={2}>
     <h1>{$_('maintenance.tasks.' + maintenance.name + '.name')}</h1>
     <p>{$_('maintenance.tasks.' + maintenance.name + '.desc')}</p>
+    
+    {#if maintenance.operationDate}
+        <p class="font-medium">
+            {$_('maintenance.last_operation')}: 
+            <span class="font-normal">{$date(new Date(maintenance.operationDate), { format: "medium"})} — {$time(new Date(maintenance.operationDate), { format: "medium"})}</span>
+        </p>
+    {/if}
 
     <h3 class="leading-10 font-medium"><Icon src={WrenchScrewdriver} class="h-5 w-5 mr-1 inline-block text-indigo-500"/>{$_('maintenance.procedure.lead')}</h3>
     

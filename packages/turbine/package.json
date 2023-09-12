@@ -11,12 +11,16 @@
   "scripts": {
     "dev": "nodemon src/app.ts",
     "preview": "node build/app.js",
-    "build": "tsc",
+
+    "build": "pnpm run build:prisma && pnpm run build:app",
+    "build:prisma": "prisma generate",
+    "build:app": "tsc",
+
     "start": "node build/app.js",
     "lint": "eslint ./src/** --ext .ts",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "docs": "npx typedoc --entryPointStrategy expand ./src --out docs"
+    "docs": "pnpx typedoc --entryPointStrategy expand ./src --out docs"
   },
   "repository": {
     "type": "git",
@@ -30,16 +34,16 @@
   },
   "homepage": "https://github.com/metalizzsas/NusterKit/tree/main/packages/turbine",
   "dependencies": {
+    "@homebridge/dbus-native": "^0.5.1",
     "@metalizzsas/nuster-turbine-machines": "1.7.3",
+    "@prisma/client": "5.2.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
-    "dbus-native": "^0.4.0",
     "deep-extend": "^0.6.0",
     "enip-ts": "1.2.2",
     "express": "^4.18.2",
     "lockfile": "^1.0.4",
     "modbus-serial": "^8.0.13",
-    "mongoose": "^7.4.5",
     "ping": "^0.4.4",
     "pino": "^8.15.0",
     "pino-http": "^8.4.0",
@@ -47,6 +51,7 @@
     "serialport": "^12.0.0",
     "serve-index": "^1.9.1",
     "typescript": "^5.2.2",
+    "prisma": "^5.2.0",
     "ws": "^8.13.0"
   },
   "devDependencies": {

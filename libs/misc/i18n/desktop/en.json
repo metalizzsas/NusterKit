@@ -294,6 +294,7 @@
     "maintenance": {
         "lead": "Maintenance",
         "duration": "Duration",
+        "last_operation": "Last task done",
         "unselected": {
             "lead": "No Maintenance selected.",
             "sub": "Select a maintenance task to view or edit its properties."

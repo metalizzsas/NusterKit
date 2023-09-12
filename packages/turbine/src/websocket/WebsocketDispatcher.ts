@@ -5,7 +5,6 @@ import type { Server } from "http";
 import type { WebSocket} from "ws";
 
 import { OPEN, WebSocketServer } from "ws";
-import { LoggerInstance } from "../app";
 import { TurbineEventLoop } from "../events";
 
 const productionEnabled = process.env.NODE_ENV === 'production';
@@ -30,7 +29,7 @@ export class WebsocketDispatcher
         this.wsServer = new WebSocketServer({server: httpServer, path: productionEnabled ? '' : '/ws/'});
         
         this.wsServer.on("listening", () => {
-            LoggerInstance.info("Websocket: Server listening..");
+            TurbineEventLoop.emit('log', 'info', 'Websocket: Server listening..');
         });
         
         this.wsServer.on('connection', this.onConnect.bind(this));
@@ -83,14 +82,14 @@ export class WebsocketDispatcher
     {
         this.wsServer.clients.add(ws);
         
-        LoggerInstance.trace("Websocket: New client");
+        TurbineEventLoop.emit('log', 'trace', "Websocket: New client");
 
         if(this.connectPopups !== undefined && this.connectPopupDisplayed == false)
         {
             setTimeout(() => {
                 if(this.connectPopups)
                 {
-                    LoggerInstance.info("Websocket: Displaying connect popup.");
+                    TurbineEventLoop.emit('log', 'info', "Websocket: Displaying connect popup.");
                     this.connectPopups.forEach(popup => this.togglePopup(popup));
                     this.connectPopupDisplayed = true;
                 }
@@ -98,7 +97,7 @@ export class WebsocketDispatcher
         }
 
         ws.on("close", () => {
-            LoggerInstance.trace("Websocket: Client disconnected");
+            TurbineEventLoop.emit('log', 'trace', "Websocket: Client disconnected");
         });
     }
 }

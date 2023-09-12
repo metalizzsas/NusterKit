@@ -1,5 +1,3 @@
-import { LoggerInstance } from "../app";
-import { ContainerModel } from "../models";
 import { ContainerRegulation } from "./ContainerRegulation";
 import { TurbineEventLoop } from "../events";
 
@@ -9,6 +7,7 @@ import type { Container as ContainerConfig } from "@metalizzsas/nuster-typings/b
 
 import type { ContainerHydrated, ContainerProductData, ContainerSensorHydrated } from "@metalizzsas/nuster-typings/build/hydrated/containers";
 import { Products } from "./Products";
+import { prisma } from "../db";
 
 export class Container implements ContainerConfig
 {
@@ -61,22 +60,23 @@ export class Container implements ContainerConfig
     {
         if(this.supportedProductSeries === undefined)
         {
-            LoggerInstance.error(`Container: ${this.name} is not loadable.`);
+             TurbineEventLoop.emit('log', 'error', `Container: ${this.name} is not loadable.`);
             return false;
         }
 
-        const slot = await ContainerModel.findOne({ name: this.name });
+        const container = await prisma.container.findUnique({ where: { name: this.name }});
 
-        if(slot === null)
+        if(container === null)
         {
-            LoggerInstance.info(`Container: ${this.name} was not found in database.`);
+             TurbineEventLoop.emit('log', 'info', `Container: ${this.name} was not found in database.`);
 
-            const newTrackedSlot = new ContainerModel({
-                name: this.name,
-                loadedProductType: productSeries,
+            await prisma.container.create({
+                data: {
+                    name: this.name,
+                    loadedProductType: productSeries,
+                    loadDate: new Date().toISOString()
+                }
             });
-            
-            await newTrackedSlot.save();
 
             this.socketData().then(data => {
                 TurbineEventLoop.emit(`container.updated.${this.name}`, data);
@@ -86,9 +86,13 @@ export class Container implements ContainerConfig
         }
         else
         {
-            slot.loadedProductType = productSeries;
-            slot.loadDate = new Date().toISOString();
-            await slot.save();
+            await prisma.container.update({ 
+                where: { name: this.name }, 
+                data: { 
+                    loadedProductType: productSeries,
+                    loadDate: new Date().toISOString()
+                } 
+            });
 
             this.socketData().then(data => {
                 TurbineEventLoop.emit(`container.updated.${this.name}`, data);
@@ -100,17 +104,18 @@ export class Container implements ContainerConfig
 
     async unloadProduct()
     {
-        const slot = await ContainerModel.findOne({ name: this.name });
 
-        if(slot)
+        const container = await prisma.container.findUnique({ where: { name: this.name }});
+
+        if(container)
         {
             try
             {
-                await ContainerModel.deleteOne({ name: this.name });
+                await prisma.container.delete({ where: { name: this.name }});
             }
             catch(ex)
             {
-                LoggerInstance.error(`Container: ${this.name} was not found in database and thus not deleted.`);
+                 TurbineEventLoop.emit('log', 'error', `Container: ${this.name} was not found in database and then not deleted.`);
             }
         }
 
@@ -123,19 +128,19 @@ export class Container implements ContainerConfig
     
     async fetchSlotData()
     {
-        const containerDocument = await ContainerModel.findOne({ name: this.name });
+        const containerDocument = await prisma.container.findUnique({ where: { name: this.name }});
 
         if(containerDocument && this.isProductable)
         {
-            const productLifeSpan = Products[containerDocument.loadedProductType]?.lifespan ?? -1;
+            const productLifeSpan = Products[containerDocument.loadedProductType as ProductSeries]?.lifespan ?? -1;
             const limitTime = new Date(containerDocument.loadDate).getTime() + 1000 * 60 * 60 * 24 * productLifeSpan;
 
             let lifetimeRemaining = (limitTime) - Date.now();
             lifetimeRemaining = lifetimeRemaining < 0 ? 0 : lifetimeRemaining;
 
             this.productData = { 
-                loadedProductType: containerDocument.loadedProductType, 
-                loadDate: containerDocument.loadDate, 
+                loadedProductType: containerDocument.loadedProductType as ProductSeries, 
+                loadDate: new Date(containerDocument.loadDate).toString(), 
                 lifetimeRemaining: productLifeSpan !== -1 ? lifetimeRemaining : -1
             };
         }
@@ -147,8 +152,8 @@ export class Container implements ContainerConfig
 
     async isProductLoaded(): Promise<boolean>
     {
-        const doc = await ContainerModel.findOne({ name: this.name });
-        return doc != null;
+        const container = await prisma.container.findUnique({ where: { name: this.name }});
+        return container !== null;
     }
 
     get isProductable(): boolean

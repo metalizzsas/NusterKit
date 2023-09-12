@@ -7,7 +7,6 @@ import { EX260Sx } from "../io/IOHandlers/EX260Sx";
 import { WAGO } from "../io/IOHandlers/WAGO";
 import { Serial } from "../io/IOHandlers/Serial";
 import type { IOGates } from "@metalizzsas/nuster-typings/build/spec/iogates";
-import { LoggerInstance } from "../app";
 import { PT100Gate } from "../io/IOGates/PT100Gate";
 import type { IOBase, IOHandlers } from "@metalizzsas/nuster-typings/build/spec/iohandlers";
 import type { IOGatesHydrated } from "@metalizzsas/nuster-typings/build/hydrated/io";
@@ -112,7 +111,7 @@ export class IORouter extends Router
     {
         if(!this.timer)
         {
-            LoggerInstance.info(`IOScanner: Started with interval ${this.ioScannerInterval}ms`);
+            TurbineEventLoop.emit('log', 'info', `IOScanner: Started with interval ${this.ioScannerInterval}ms`);
 
             this.timer = setInterval(async () => {
                 for(const g of this.gates.filter((g) => g.bus == "in"))

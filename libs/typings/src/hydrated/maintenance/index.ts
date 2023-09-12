@@ -18,4 +18,4 @@ type SensorMaintenance = {
     sensorUnit?: string;
 }
 
-export type MaintenanceHydrated = BaseMaintenanceHydrated & (CountableMaintenance | SensorMaintenance)
+export type MaintenanceHydrated = BaseMaintenanceHydrated & (CountableMaintenance | SensorMaintenance) & { operationDate?: Date }; 

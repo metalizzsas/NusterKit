@@ -1,5 +1,20 @@
 # @metalizzsas/nuster
 
+## 1.13.0
+
+### Minor Changes
+
+- [#506](https://github.com/metalizzsas/NusterKit/pull/506) [`7b7cc0f6`](https://github.com/metalizzsas/NusterKit/commit/7b7cc0f6180770fd8745669a0f5ac5b1c9db75c6) Thanks [@Kworz](https://github.com/Kworz)! - feat(db): switched from `mongoDB & mongoose` to `SQLite & Prisma`.
+
+### Patch Changes
+
+- Updated dependencies [[`7b7cc0f6`](https://github.com/metalizzsas/NusterKit/commit/7b7cc0f6180770fd8745669a0f5ac5b1c9db75c6), [`7b7cc0f6`](https://github.com/metalizzsas/NusterKit/commit/7b7cc0f6180770fd8745669a0f5ac5b1c9db75c6), [`7b7cc0f6`](https://github.com/metalizzsas/NusterKit/commit/7b7cc0f6180770fd8745669a0f5ac5b1c9db75c6), [`cb04ebe8`](https://github.com/metalizzsas/NusterKit/commit/cb04ebe8c4cc4c8d302a57c193a1b3c783f5b453), [`7b7cc0f6`](https://github.com/metalizzsas/NusterKit/commit/7b7cc0f6180770fd8745669a0f5ac5b1c9db75c6), [`72ccaa61`](https://github.com/metalizzsas/NusterKit/commit/72ccaa61adaac6a23d672c093431163e7304df39), [`7f7ad6df`](https://github.com/metalizzsas/NusterKit/commit/7f7ad6df3a2cfa371f99b281fce20d9f00fac9d2)]:
+  - @metalizzsas/nuster-typings@1.6.2
+  - @metalizzsas/nuster-turbine-machines@1.7.4
+  - @metalizzsas/nuster-turbine@1.12.0
+  - @metalizzsas/nuster-desktop@1.13.5
+  - @metalizzsas/nuster-misc@1.5.10
+
 ## 1.12.9
 
 ### Patch Changes

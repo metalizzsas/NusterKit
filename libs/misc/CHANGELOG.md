@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-misc
 
+## 1.5.10
+
+### Patch Changes
+
+- [#506](https://github.com/metalizzsas/NusterKit/pull/506) [`cb04ebe8`](https://github.com/metalizzsas/NusterKit/commit/cb04ebe8c4cc4c8d302a57c193a1b3c783f5b453) Thanks [@Kworz](https://github.com/Kworz)! - feat(desktop): maintenance now displays the last task date
+
 ## 1.5.9
 
 ### Patch Changes

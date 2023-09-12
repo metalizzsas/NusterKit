@@ -1,5 +1,22 @@
 # @metalizzsas/nuster-turbine
 
+## 1.12.0
+
+### Minor Changes
+
+- [#506](https://github.com/metalizzsas/NusterKit/pull/506) [`7b7cc0f6`](https://github.com/metalizzsas/NusterKit/commit/7b7cc0f6180770fd8745669a0f5ac5b1c9db75c6) Thanks [@Kworz](https://github.com/Kworz)! - feat(db): switched from `mongoDB & mongoose` to `SQLite & Prisma`.
+
+### Patch Changes
+
+- [#506](https://github.com/metalizzsas/NusterKit/pull/506) [`7b7cc0f6`](https://github.com/metalizzsas/NusterKit/commit/7b7cc0f6180770fd8745669a0f5ac5b1c9db75c6) Thanks [@Kworz](https://github.com/Kworz)! - feat: updated profile model
+
+- [#506](https://github.com/metalizzsas/NusterKit/pull/506) [`72ccaa61`](https://github.com/metalizzsas/NusterKit/commit/72ccaa61adaac6a23d672c093431163e7304df39) Thanks [@Kworz](https://github.com/Kworz)! - chore(deps): switched from dbus-native to @homebridge/dbus-native
+
+- [#506](https://github.com/metalizzsas/NusterKit/pull/506) [`7f7ad6df`](https://github.com/metalizzsas/NusterKit/commit/7f7ad6df3a2cfa371f99b281fce20d9f00fac9d2) Thanks [@Kworz](https://github.com/Kworz)! - feat(db): created migration receiver script
+
+- Updated dependencies [[`7b7cc0f6`](https://github.com/metalizzsas/NusterKit/commit/7b7cc0f6180770fd8745669a0f5ac5b1c9db75c6), [`7b7cc0f6`](https://github.com/metalizzsas/NusterKit/commit/7b7cc0f6180770fd8745669a0f5ac5b1c9db75c6)]:
+  - @metalizzsas/nuster-turbine-machines@1.7.4
+
 ## 1.11.4
 
 ### Patch Changes

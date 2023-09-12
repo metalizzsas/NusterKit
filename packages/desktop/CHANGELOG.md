@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-desktop
 
+## 1.13.5
+
+### Patch Changes
+
+- [#506](https://github.com/metalizzsas/NusterKit/pull/506) [`cb04ebe8`](https://github.com/metalizzsas/NusterKit/commit/cb04ebe8c4cc4c8d302a57c193a1b3c783f5b453) Thanks [@Kworz](https://github.com/Kworz)! - feat(desktop): maintenance now displays the last task date
+
+- [#506](https://github.com/metalizzsas/NusterKit/pull/506) [`7b7cc0f6`](https://github.com/metalizzsas/NusterKit/commit/7b7cc0f6180770fd8745669a0f5ac5b1c9db75c6) Thanks [@Kworz](https://github.com/Kworz)! - feat: updated profile model
+
 ## 1.13.4
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-typings
 
+## 1.6.2
+
+### Patch Changes
+
+- [#506](https://github.com/metalizzsas/NusterKit/pull/506) [`7b7cc0f6`](https://github.com/metalizzsas/NusterKit/commit/7b7cc0f6180770fd8745669a0f5ac5b1c9db75c6) Thanks [@Kworz](https://github.com/Kworz)! - feat: added typings for machine addons
+
+- [#506](https://github.com/metalizzsas/NusterKit/pull/506) [`7b7cc0f6`](https://github.com/metalizzsas/NusterKit/commit/7b7cc0f6180770fd8745669a0f5ac5b1c9db75c6) Thanks [@Kworz](https://github.com/Kworz)! - feat: updated profile model
+
 ## 1.6.1
 
 ### Patch Changes

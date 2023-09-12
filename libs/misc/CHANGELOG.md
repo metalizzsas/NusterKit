@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-misc
 
+## 1.5.11
+
+### Patch Changes
+
+- [#510](https://github.com/metalizzsas/NusterKit/pull/510) [`f1b24297`](https://github.com/metalizzsas/NusterKit/commit/f1b242977925f2ca3c1c01fc86fc7fce611b8f47) Thanks [@Kworz](https://github.com/Kworz)! - fix(docs): files were missing & wrong paths
+
 ## 1.5.10
 
 ### Patch Changes

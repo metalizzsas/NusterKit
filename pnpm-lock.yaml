@@ -41,7 +41,7 @@ importers:
         version: 5.2.2
     devDependencies:
       '@metalizzsas/nuster-misc':
-        specifier: 1.5.10
+        specifier: 1.5.11
         version: link:../misc
       '@metalizzsas/nuster-typings':
         specifier: 1.6.2
@@ -188,7 +188,7 @@ importers:
         version: 0.3.0(svelte@4.2.0)
     devDependencies:
       '@metalizzsas/nuster-misc':
-        specifier: 1.5.10
+        specifier: 1.5.11
         version: link:../../libs/misc
       '@metalizzsas/nuster-turbine-machines':
         specifier: 1.7.4
@@ -275,7 +275,7 @@ importers:
         specifier: 1.13.5
         version: link:../desktop
       '@metalizzsas/nuster-misc':
-        specifier: 1.5.10
+        specifier: 1.5.11
         version: link:../../libs/misc
       '@metalizzsas/nuster-turbine':
         specifier: 1.12.0

@@ -15,6 +15,6 @@
         { "name": "USL Simple", "path": "/machines/metalfog-m-2/manual/fr/sections/50-usl-base/index.md", "folder": "Fonctionnement" },
         { "name": "USL Complexe", "path": "/machines/metalfog-m-2/manual/fr/sections/60-usl-complex/index.md", "folder": "Fonctionnement" },
         { "name": "Nettoyage de la machine", "path": "/machines/metalfog-m-2/manual/fr/sections/70-cleaning/index.md", "folder": "Fonctionnement" },
-        { "name": "Remplacement charbon", "path": "/machines/metalfog-m-2/manual/fr/sections/80-coal-swap/index.md", "folder": "Fonctionnement" }
+        { "name": "Remplacement charbon", "path": "/machines/metalfog-m-2/manual/fr/sections/85-coal-swap/index.md", "folder": "Fonctionnement" }
     ]
 }

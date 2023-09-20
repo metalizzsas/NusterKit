@@ -26,7 +26,7 @@ Pour fermer la cuve, faites glisser le couvercle entre le joint d’étanchéit�
 
 Lorsque l’indicateur de sécurité « Capteur de couvercle » est rouge, cela signifie que le couvercle n’est pas mis ou qu’il est mal positionné.
 
-#### Conteneurs effluents
+#### Conteneur effluents
 
 Lorsque l’indicateur de sécurité « Capteur de présence du conteneur d’effluents » est rouge ; cela signifie que le conteneur n’est pas présent ou mal positionné.
 
@@ -44,7 +44,7 @@ Lorsque l’indicateur « Niveau minimal eau déionisée » est au rouge cela s
 
 Les consignes de remplissage du conteneur d’eau déionisée se trouvent au chapitre « Remplissage des conteneurs - Remplissage Eau déionisée ».
 
-#### Cartouche filtre à charbon actif
+#### Cartouche filtrante à charbon actif
 
 Si vous percevez une odeur d’ammoniaque, il faut rapidement procéder au changement de la cartouche de filtration à charbon actif.  Cette dernière est située sur le côté gauche de la Metalfog.
 

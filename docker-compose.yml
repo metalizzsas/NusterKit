@@ -55,6 +55,8 @@ services:
       - 'weston:/run/weston'
     environment:
       WPE_URL: 'http://proxy/'
+      WPE_COG_RELAUNCH: true
+      WPE_COG_RELAUNCH_DELAY: 10
       WPE_COG_PLATFORM_WL_VIEW_WIDTH: 1024
       WPE_COG_PLATFORM_WL_VIEW_HEIGHT: 600
     depends_on:

@@ -350,11 +350,8 @@
             },
             {
                "name": "multilayer#count",
-               "type": "incremental",
-               "baseValue": 8,
+               "type": "int",
                "value": 8,
-               "incrementalRangeMin": 2,
-               "incrementalRangeMax": 16,
                "detailsShown": true
             },
             {
@@ -411,7 +408,7 @@
             {"key": "vapors-extraction#enabled", "value": 1},
             {"key": "vapors-extraction#duration", "value": 90},
             {"key": "multilayer#enabled", "value": 1},
-            {"key": "multilayer#count", "value": -2},
+            {"key": "multilayer#count", "value": 6},
             {"key": "multilayer#interlayer-uvduration", "value": 7},
             {"key": "motor#enabled", "value": 1},
             {"key": "motor#speed", "value": 35},
@@ -438,7 +435,7 @@
             {"key": "vapors-extraction#enabled", "value": 1},
             {"key": "vapors-extraction#duration", "value": 90},
             {"key": "multilayer#enabled", "value": 1},
-            {"key": "multilayer#count", "value": -4},
+            {"key": "multilayer#count", "value": 4},
             {"key": "multilayer#interlayer-uvduration", "value": 7},
             {"key": "motor#enabled", "value": 1},
             {"key": "motor#speed", "value": 35},
@@ -773,6 +770,7 @@
                   {"sleep": {"profile": "vapors-extraction#duration"}}
                ],
                "startBlocks": [
+                  {"io_write": ["ventilation", 1]},
                   {"io_write": ["water-slide-pump", 0]},
                   {"stop_timer": "motorRotation"}
                ],

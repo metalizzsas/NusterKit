@@ -1,5 +1,13 @@
 # @metalizzsas/nuster-turbine-machines
 
+## 1.7.5
+
+### Patch Changes
+
+- [#513](https://github.com/metalizzsas/NusterKit/pull/513) [`f719660c`](https://github.com/metalizzsas/NusterKit/commit/f719660cc661528c6f0cc70fe61e29ded9c71cc6) Thanks [@Kworz](https://github.com/Kworz)! - chore(smoothit-m-r3): removed incremental field in profile skeleton
+
+- [#513](https://github.com/metalizzsas/NusterKit/pull/513) [`f06b01bd`](https://github.com/metalizzsas/NusterKit/commit/f06b01bdf49db29892be4c172e08a9cf285e5271) Thanks [@Kworz](https://github.com/Kworz)! - fix(smoothit-m-r3): ventilation was not started in vapors-extraction step, it was started in the previous step.
+
 ## 1.7.4
 
 ### Patch Changes

@@ -191,7 +191,7 @@ importers:
         specifier: 1.5.11
         version: link:../../libs/misc
       '@metalizzsas/nuster-turbine-machines':
-        specifier: 1.7.4
+        specifier: 1.7.5
         version: link:../../libs/turbine-machines
       '@metalizzsas/nuster-typings':
         specifier: 1.6.2
@@ -278,10 +278,10 @@ importers:
         specifier: 1.5.11
         version: link:../../libs/misc
       '@metalizzsas/nuster-turbine':
-        specifier: 1.12.0
+        specifier: 1.12.1
         version: link:../turbine
       '@metalizzsas/nuster-turbine-machines':
-        specifier: 1.7.4
+        specifier: 1.7.5
         version: link:../../libs/turbine-machines
       '@metalizzsas/nuster-typings':
         specifier: 1.6.2
@@ -293,7 +293,7 @@ importers:
         specifier: ^0.5.1
         version: 0.5.1
       '@metalizzsas/nuster-turbine-machines':
-        specifier: 1.7.4
+        specifier: 1.7.5
         version: link:../../libs/turbine-machines
       '@prisma/client':
         specifier: 5.2.0
@@ -405,7 +405,7 @@ importers:
   simulation/simulation-server:
     dependencies:
       '@metalizzsas/nuster-turbine-machines':
-        specifier: 1.7.4
+        specifier: 1.7.5
         version: link:../../libs/turbine-machines
       '@metalizzsas/nuster-typings':
         specifier: 1.6.2

@@ -1,6 +1,6 @@
 {
   "name": "@metalizzsas/nuster-turbine-machines",
-  "version": "1.7.4",
+  "version": "1.7.5",
   "description": "metalizz machines descriptions",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",

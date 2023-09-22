@@ -39,7 +39,8 @@
             "reverseEnabled": "Motor direction reverse",
             "reverseTime": "Motor reverser timer",
             "high-enabled": "High nozzle enabled",
-            "low-enabled": "Low nozzle enabled"
+            "low-enabled": "Low nozzle enabled",
+            "aerosol-cleanup-time": "Aerosol cleanup time"
         }
     },
     "cycle": {

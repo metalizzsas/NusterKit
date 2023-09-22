@@ -299,7 +299,11 @@
                "type": "bool",
                "value": 1
             },
-
+            {
+               "name": "pulverization#aerosol-cleanup-time",
+               "type": "time",
+               "value": 5
+            },
             {
                "name": "inerting#enabled",
                "type": "bool",
@@ -400,6 +404,7 @@
             {"key": "pulverization#count", "value": 6},
             {"key": "pulverization#high-enabled", "value": 1},
             {"key": "pulverization#low-enabled", "value": 1},
+            {"key": "pulverization#aerosol-cleanup-time", "value": 5},
             {"key": "inerting#enabled", "value": 1},
             {"key": "inerting#duration", "value": 2},
             {"key": "uv-curing#enabled", "value": 1},
@@ -427,6 +432,7 @@
             {"key": "pulverization#count", "value": 6},
             {"key": "pulverization#high-enabled", "value": 1},
             {"key": "pulverization#low-enabled", "value": 1},
+            {"key": "pulverization#aerosol-cleanup-time", "value": 5},
             {"key": "inerting#enabled", "value": 1},
             {"key": "inerting#duration", "value": 2},
             {"key": "uv-curing#enabled", "value": 1},
@@ -608,6 +614,22 @@
                               {"io_write": ["motor#direction", {"reverse": {"io_read": "motor#direction"}}]}
                            ]
                         }}
+                     ]
+                  }},
+                  {"if": {
+                     "statement": {
+                        "left_side": {"profile": "pulverization#aerosol-cleanup-time"},
+                        "comparator": ">",
+                        "right_side": 0
+                     },
+                     "true_blocks": [
+                        {"io_write": ["resin#pressure", 0]},
+                        {"sleep": 10},
+                        {"io_write": ["nozzle-high#pulverization", 1]},
+                        {"io_write": ["nozzle-low#pulverization", 1]},
+                        {"sleep": {"profile": "pulverization#aerosol-cleanup-time"}},
+                        {"io_write": ["nozzle-high#pulverization", 0]},
+                        {"io_write": ["nozzle-low#pulverization", 0]}
                      ]
                   }}
                ],

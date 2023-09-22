@@ -32,7 +32,6 @@ jobs:
             PR_ID: ${{ github.event.pull_request.number }}
 
       - name: Delete draft releases
-        if: steps.get_draft_releases.outputs.release_ids != '[]'
         run: >
           releases=$(echo "$RELEASES" | jq -c -r '.[]')
           for release in "${releases[@]}"; do

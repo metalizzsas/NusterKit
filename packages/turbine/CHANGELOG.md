@@ -1,5 +1,14 @@
 # @metalizzsas/nuster-turbine
 
+## 1.12.2
+
+### Patch Changes
+
+- [#517](https://github.com/metalizzsas/NusterKit/pull/517) [`476f0662`](https://github.com/metalizzsas/NusterKit/commit/476f06622f086675bb4a77d8885d1857cce1911a) Thanks [@Kworz](https://github.com/Kworz)! - fix(events): increased TurbineEventLoop max event listeners from 150 to 300
+
+- Updated dependencies [[`476f0662`](https://github.com/metalizzsas/NusterKit/commit/476f06622f086675bb4a77d8885d1857cce1911a)]:
+  - @metalizzsas/nuster-turbine-machines@1.7.6
+
 ## 1.12.1
 
 ### Patch Changes

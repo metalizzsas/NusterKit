@@ -1,5 +1,16 @@
 # @metalizzsas/nuster
 
+## 1.13.3
+
+### Patch Changes
+
+- [#515](https://github.com/metalizzsas/NusterKit/pull/515) [`47c2679b`](https://github.com/metalizzsas/NusterKit/commit/47c2679b9d8b107398eb367d57d0fa6a0da52a7f) Thanks [@Kworz](https://github.com/Kworz)! - fix(wpe): enabled relaunch timeout timer
+
+- Updated dependencies [[`476f0662`](https://github.com/metalizzsas/NusterKit/commit/476f06622f086675bb4a77d8885d1857cce1911a), [`476f0662`](https://github.com/metalizzsas/NusterKit/commit/476f06622f086675bb4a77d8885d1857cce1911a)]:
+  - @metalizzsas/nuster-turbine-machines@1.7.6
+  - @metalizzsas/nuster-misc@1.5.12
+  - @metalizzsas/nuster-turbine@1.12.2
+
 ## 1.13.2
 
 ### Patch Changes

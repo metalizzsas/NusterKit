@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-misc
 
+## 1.5.12
+
+### Patch Changes
+
+- [#517](https://github.com/metalizzsas/NusterKit/pull/517) [`476f0662`](https://github.com/metalizzsas/NusterKit/commit/476f06622f086675bb4a77d8885d1857cce1911a) Thanks [@Kworz](https://github.com/Kworz)! - feat(smoothit-m-r3): added new aerosol cleanup timer that pushes air from all nozzles to clean the machine tank from aerosols
+
 ## 1.5.11
 
 ### Patch Changes

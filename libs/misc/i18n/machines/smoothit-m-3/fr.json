@@ -39,7 +39,8 @@
             "reverseEnabled": "Invertion moteur",
             "reverseTime": "Motor reverser timer",
             "high-enabled": "Buse haut activée",
-            "low-enabled": "Buse bas activée"
+            "low-enabled": "Buse bas activée",
+            "aerosol-cleanup-time": "Temps d'évacuation des aerosols"
         }
     },
 

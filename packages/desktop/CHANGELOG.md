@@ -1,5 +1,11 @@
 # @metalizzsas/nuster-desktop
 
+## 1.13.6
+
+### Patch Changes
+
+- [#518](https://github.com/metalizzsas/NusterKit/pull/518) [`1bf54e6c`](https://github.com/metalizzsas/NusterKit/commit/1bf54e6c21e7241f13fe7e6e8c3374fd5c6de1bb) Thanks [@Kworz](https://github.com/Kworz)! - fix(profiles): time fields with undefined enabled times would make profil un-usable
+
 ## 1.13.5
 
 ### Patch Changes

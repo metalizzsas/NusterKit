@@ -34,6 +34,9 @@
             "translucent": "Translucent"
         },
         "rows": {
+            "sprayOn": "Spray time on",
+            "sprayOff": "Spray time off",
+            "sprayCount": "Spray count",
             "interlayer-uvduration": "UV Curing time between layers",
             "uv-power": "UV Power",
             "reverseEnabled": "Motor direction reverse",

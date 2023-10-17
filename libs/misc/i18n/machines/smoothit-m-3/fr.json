@@ -34,6 +34,9 @@
             "translucent": "Transparent"
         },
         "rows": {
+            "sprayOn": "Temps de spray (on)",
+            "sprayOff": "Temps de repos spray (off)",
+            "sprayCount": "Nombre de sprays",
             "interlayer-uvduration": "Durée cuisson uv entre les couches",
             "uv-power": "Puissance UV",
             "reverseEnabled": "Invertion moteur",

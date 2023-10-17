@@ -169,7 +169,7 @@ export class ProfilesRouter extends Router {
         // Make sure that we have the skeleton for this profile
         if(profileSkeleton !== undefined)
         {
-            const clonedProfileValues = structuredClone(profileStored.values).map(v => profileSkeleton.fields.find(n => {if(n.name == v.key) { n.value = v.value; return true; }})).filter(f => f !== undefined) as ProfileSkeletonFields[];
+            const clonedProfileValues = profileSkeleton.fields.map(f => { return {...f, value: profileStored.values.find(v => v.key == f.name)?.value }}).filter(f => f.value !== undefined) as ProfileSkeletonFields[];
 
             // Check if all skeleton fields are applied to the profile.
             // If not check all fields and add the missing ones.
@@ -192,7 +192,7 @@ export class ProfilesRouter extends Router {
 
             return {
                 ...profileStored, 
-                values: clonedProfileValues
+                values: clonedProfileValues.filter(f => skeletonFieldNames.includes(f.name))
             };
         }
 

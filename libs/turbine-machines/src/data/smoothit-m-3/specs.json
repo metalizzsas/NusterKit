@@ -273,10 +273,21 @@
                "value": 1
             },
             {
-               "name": "pulverization#timeOn",
+               "name": "pulverization#sprayOn",
                "type": "time",
                "units": ["seconds", "milliseconds"],
                "value": 2
+            },
+            {
+               "name": "pulverization#sprayOff",
+               "type": "time",
+               "units": ["seconds", "milliseconds"],
+               "value": 2
+            },
+            {
+               "name": "pulverization#sprayCount",
+               "type": "int",
+               "value": 4
             },
             {
                "name": "pulverization#timeOff",
@@ -399,7 +410,9 @@
          "name": "shiny",
          "values": [
             {"key": "pulverization#enabled", "value": 1},
-            {"key": "pulverization#timeOn", "value": 2.3},
+            {"key": "pulverization#sprayOn", "value": 0.7},
+            {"key": "pulverization#sprayOff", "value": 2},
+            {"key": "pulverization#sprayCount", "value": 4},
             {"key": "pulverization#timeOff", "value": 20},
             {"key": "pulverization#count", "value": 6},
             {"key": "pulverization#high-enabled", "value": 1},
@@ -427,7 +440,9 @@
          "name": "translucent",
          "values": [
             {"key": "pulverization#enabled", "value": 1},
-            {"key": "pulverization#timeOn", "value": 2.3},
+            {"key": "pulverization#sprayOn", "value": 0.7},
+            {"key": "pulverization#sprayOff", "value": 2},
+            {"key": "pulverization#sprayCount", "value": 4},
             {"key": "pulverization#timeOff", "value": 20},
             {"key": "pulverization#count", "value": 6},
             {"key": "pulverization#high-enabled", "value": 1},
@@ -597,11 +612,18 @@
                      "limit": {"profile": "pulverization#count"},
                      "blocks": [
 
-                        {"io_write": ["nozzle-high#pulverization", 1]},
-                        {"io_write": ["nozzle-low#pulverization", 1]},
-                        {"sleep": {"profile": "pulverization#timeOn"}},
-                        {"io_write": ["nozzle-high#pulverization", 0]},
-                        {"io_write": ["nozzle-low#pulverization", 0]},
+                        {"for": {
+                           "limit": {"profile": "pulverization#sprayCount"},
+                           "blocks": [
+                              {"io_write": ["nozzle-high#pulverization", 1]},
+                              {"io_write": ["nozzle-low#pulverization", 1]},
+                              {"sleep": {"profile": "pulverization#sprayOn"}},
+                              {"io_write": ["nozzle-high#pulverization", 0]},
+                              {"io_write": ["nozzle-low#pulverization", 0]},
+                              {"sleep": {"profile": "pulverization#sprayOff"}}
+                           ]
+                        }},
+
                         {"sleep": {"profile": "pulverization#timeOff"}},
 
                         {"if": {

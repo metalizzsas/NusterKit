@@ -113,6 +113,7 @@
             "ventilation-valve": "3 Way ventilation valve",
             "water-slide-pump": "Water slide pump",
             "inerting": "Inerting",
+            "air-inlet": "Air inlet valve",
 
             "levels#eff-n": "Effluents limit",
             "resin#slot-sensor": "Varnish container sensor",

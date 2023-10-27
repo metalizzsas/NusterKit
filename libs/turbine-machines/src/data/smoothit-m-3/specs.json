@@ -148,6 +148,15 @@
          "default": 0
       },
       {
+         "name": "air-inlet",
+         "type": "default",
+         "size": "bit",
+         "bus": "out",
+         "controllerId": 0,
+         "address": 4,
+         "default": 0
+      },
+      {
          "name": "motor#speed",
          "type": "mapped",
          "size": "word",
@@ -645,13 +654,13 @@
                         "right_side": 0
                      },
                      "true_blocks": [
-                        {"io_write": ["resin#pressure", 0]},
-                        {"sleep": 10},
-                        {"io_write": ["nozzle-high#pulverization", 1]},
-                        {"io_write": ["nozzle-low#pulverization", 1]},
+                        {"io_write": ["air-inlet", 1]},
+                        {"io_write": ["ventilation", 1]},
+                        {"io_write": ["inerting", 1]},
                         {"sleep": {"profile": "pulverization#aerosol-cleanup-time"}},
-                        {"io_write": ["nozzle-high#pulverization", 0]},
-                        {"io_write": ["nozzle-low#pulverization", 0]}
+                        {"io_write": ["air-inlet", 0]},
+                        {"io_write": ["ventilation", 0]},
+                        {"io_write": ["inerting", 0]}
                      ]
                   }}
                ],
@@ -815,11 +824,13 @@
                ],
                "startBlocks": [
                   {"io_write": ["ventilation", 1]},
+                  {"io_write": ["air-inlet", 1]},
                   {"io_write": ["water-slide-pump", 0]},
                   {"stop_timer": "motorRotation"}
                ],
                "endBlocks": [
                   {"io_write": ["ventilation", 0]},
+                  {"io_write": ["air-inlet", 0]},
                   {"io_write": ["motor#speed", 0]},
                   {"io_write": ["nozzle-high#cache", 0]},
                   {"io_write": ["nozzle-low#cache", 0]},

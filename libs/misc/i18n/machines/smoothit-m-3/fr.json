@@ -113,6 +113,7 @@
             "ventilation-valve": "Vanne 3 voies ventilation",
             "water-slide-pump": "Pompe rideau d'eau",
             "inerting": "Inertage",
+            "air-inlet": "Vanne d'entrée d'air",
 
             "resin#slot-sensor": "Présence du pot de vernis",
             "resin#pressure": "Pression pot de vernis",

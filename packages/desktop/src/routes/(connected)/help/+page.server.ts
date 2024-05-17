@@ -22,7 +22,7 @@ export const load = (async () => {
 
     const documents: Array<HelpDocument> = [];
 
-    const filesIndexes = import.meta.glob("../../../../static/documentation/**/files.json", { as: "json" });
+    const filesIndexes = import.meta.glob("../../../../static/documentation/**/files.json", { query: "?json" });
 
     for(const file in filesIndexes)
     {

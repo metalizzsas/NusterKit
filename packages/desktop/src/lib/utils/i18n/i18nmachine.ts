@@ -3,7 +3,7 @@ import { addMessages } from 'svelte-i18n';
 
 export async function initI18nMachine(machine: Configuration)
 {
-    const langs = import.meta.glob("../../../../node_modules/@metalizzsas/nuster-misc/i18n/machines/**/*.json", {as: "raw"});
+    const langs = import.meta.glob("../../../../node_modules/@metalizzsas/nuster-misc/i18n/machines/**/*.json", { query: "?json" });
 
     for(const lang of Object.keys(langs).filter(k => k.includes(`${machine.model}-${machine.variant}-${machine.revision}`)))
     {
@@ -12,8 +12,7 @@ export async function initI18nMachine(machine: Configuration)
 
         if(langName !== undefined && langFile !== undefined)
         {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-            addMessages(langName, JSON.parse(langFile));
+            addMessages(langName, langFile as any);
         }
     }
 }

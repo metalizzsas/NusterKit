@@ -12,6 +12,7 @@ export async function initI18nMachine(machine: Configuration)
 
         if(langName !== undefined && langFile !== undefined)
         {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             addMessages(langName, langFile as any);
         }
     }

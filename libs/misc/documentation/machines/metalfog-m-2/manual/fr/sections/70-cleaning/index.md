@@ -23,7 +23,7 @@ Nous conseillons de nettoyer la cuve une fois par mois, ou plus si utilisation i
 
 Nettoyez la grille et le fond de cuve en aspirant les pellicules à l'aspirateur avec un embout brosse souple. Pour détacher les parties les plus résistantes, utilisez une brosse à poils plastiques souples et aspirez à nouveau.
 
-### Conteneurs réactifs
+### Conteneurs des réactifs
 
 Afin de garantir la qualité de la métallisation chimique, nous préconisons le nettoyage des conteneurs des réactifs (Activant, Oxydant et Réducteur) tous les 50 cycles, plus si utilisation intense.
 

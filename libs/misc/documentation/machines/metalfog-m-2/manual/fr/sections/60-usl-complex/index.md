@@ -1,9 +1,8 @@
 ## Cycle de métallisation « Activation pièces poreuses USL »  +  « Renforcement USL »
 
-Pour lancer le cycle de métallisation « Activation pièces poreuses USL » + « Renforcement USL », procédez ainsi :
-
 ### Cycle « Activation pièces poreuses USL »
 
+Pour lancer le cycle de métallisation « Activation pièces poreuses USL » + « Renforcement USL », procédez ainsi :
 - Depuis l’écran d’accueil de l’interface digitale, appuyez sur « Cycle »,
 - Puis appuyez sur « Activation pièces poreuses USL ».
 
@@ -14,7 +13,7 @@ Pour lancer le cycle de métallisation « Activation pièces poreuses USL » + �
 - Au terme du cycle, une nouvelle page s'affiche spécifiant que le cycle est terminé. La mention « Cycle terminé avec succès » indique que la métallisation chimique s'est déroulée correctement.
 - Appuyer sur « Terminer le cycle » pour revenir à la page d’accueil.
 
-> En cas d'arrêt, suivez les même recommandations que pour un Cycle de métallisation « Utility Silver Layer - USL »
+> En cas d'arrêt en cours de cycle, suivez les même recommandations que pour l'activation d'un cycle « Utility Silver Layer - USL » détaillées au chapitre précédent.
 
 ### Rinçage
 
@@ -35,4 +34,4 @@ Pour lancer le cycle de métallisation « Activation pièces poreuses USL » + �
 
 ![Affichage de fin de cycle normal](cycletermineavecsucces.png)
 
-> En cas d'arrêt, suivez les même recommandations que pour un Cycle de métallisation « Utility Silver Layer - USL »
+> En cas d'arrêt en cours de cycle, suivez les même recommandations que pour la métallisation d'un cycle « Utility Silver Layer - USL » détaillées au chapitre précédent.

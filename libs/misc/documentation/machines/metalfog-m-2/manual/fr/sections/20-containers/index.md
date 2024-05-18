@@ -70,6 +70,7 @@ Si vous choisissez plutôt d'étaler l'utilisation sur plusieurs jours, la dilut
 
   → Dilution automatique
 
+
 **II)** 1 cycle/jour prévu sur 4 jours différents
 
 |       | Lundi | Mardi | Mercredi | Jeudi | Vendredi | Samedi | Dimanche| 
@@ -77,6 +78,7 @@ Si vous choisissez plutôt d'étaler l'utilisation sur plusieurs jours, la dilut
 | Nbr de cycles | 1 | 1 |  | 1 | 1 |  |  |
 
 → Dilution manuelle
+
 
 **III)** 3 cycles/jour puis 1 cycle plus tard
 

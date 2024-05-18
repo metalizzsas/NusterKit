@@ -26,7 +26,7 @@ jobs:
       - name: ⛏️ Setup node
         uses: actions/setup-node@v3.4.1
         with:
-          node-version: '18.x'
+          node-version: '20.x'
           cache: 'pnpm'
 
       - name: ⛭ Setup Pnpm github registry
@@ -38,7 +38,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 📚 Install Node dependencies
-        run: pnpm install --frozen-lockfile --no-optional
+        run: pnpm install --frozen-lockfile 
         working-directory: ./packages/dashboard
 
       - name: 📝 Run Svelte-kit sync

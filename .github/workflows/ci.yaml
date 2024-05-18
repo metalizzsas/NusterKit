@@ -27,11 +27,11 @@ jobs:
       - name: ⛏️ Setup node
         uses: actions/setup-node@v3.4.1
         with:
-          node-version: '18.x'
+          node-version: '20.x'
           cache: 'pnpm'
 
       - name: 🗂️ Install packages 
-        run: pnpm install --frozen-lockfile --no-optional
+        run: pnpm install --frozen-lockfile 
 
       - name: 🔄 Sync packages
         run: pnpm run sync

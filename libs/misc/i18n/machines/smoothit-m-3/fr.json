@@ -34,6 +34,9 @@
             "translucent": "Transparent"
         },
         "rows": {
+            "sprayOn": "Temps de spray (on)",
+            "sprayOff": "Temps de repos spray (off)",
+            "sprayCount": "Nombre de sprays",
             "interlayer-uvduration": "Durée cuisson uv entre les couches",
             "uv-power": "Puissance UV",
             "reverseEnabled": "Invertion moteur",
@@ -110,6 +113,7 @@
             "ventilation-valve": "Vanne 3 voies ventilation",
             "water-slide-pump": "Pompe rideau d'eau",
             "inerting": "Inertage",
+            "air-inlet": "Vanne d'entrée d'air",
 
             "resin#slot-sensor": "Présence du pot de vernis",
             "resin#pressure": "Pression pot de vernis",

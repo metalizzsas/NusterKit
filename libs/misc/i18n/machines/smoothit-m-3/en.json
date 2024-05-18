@@ -34,6 +34,9 @@
             "translucent": "Translucent"
         },
         "rows": {
+            "sprayOn": "Spray time on",
+            "sprayOff": "Spray time off",
+            "sprayCount": "Spray count",
             "interlayer-uvduration": "UV Curing time between layers",
             "uv-power": "UV Power",
             "reverseEnabled": "Motor direction reverse",
@@ -110,6 +113,7 @@
             "ventilation-valve": "3 Way ventilation valve",
             "water-slide-pump": "Water slide pump",
             "inerting": "Inerting",
+            "air-inlet": "Air inlet valve",
 
             "levels#eff-n": "Effluents limit",
             "resin#slot-sensor": "Varnish container sensor",

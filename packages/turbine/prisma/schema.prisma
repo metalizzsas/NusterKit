@@ -39,7 +39,7 @@ model ProfileValue {
     profileId           String
 
     key                 String
-    value               Int
+    value               Float
 
     @@unique([profileId, key])
 }

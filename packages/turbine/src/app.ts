@@ -102,7 +102,6 @@ import { migrate } from "./migrate";
     else
     {
         TurbineEventLoop.emit('log', 'warning', "Machine: Info file not found");
-        throw Error("Machine: Info file not found");
     }
 
     if(wasUpdated && productionEnabled)

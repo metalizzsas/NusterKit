@@ -65,9 +65,7 @@
 
         <h2>{$_('settings.machine.lead')}</h2>
 
-        <SettingField label={$_('settings.machine.model')} value={$_(`settings.machines.${data.machine.model}`)} />
-        <SettingField label={$_('settings.machine.variant')} value={data.machine.variant.toLocaleUpperCase()} />
-        <SettingField label={$_('settings.machine.revision')} value={`${data.machine.revision}`} />
+        <SettingField label={$_('settings.machine.model')} value={$_(`machineModelName`)} />
         <SettingField label={$_('settings.machine.serial')} value={data.machine.serial.toLocaleUpperCase()} />
         
         {#if data.machine.addons !== undefined && data.machine.addons.length > 0}
@@ -79,6 +77,7 @@
                 </Flex>
             </SettingField>
         {/if}
+        
         {#if data.cycleCount !== undefined } <SettingField label={$_('settings.machine.cycle_count')} value={`${data.cycleCount.duration}`} /> {/if}
 
         <h2>{$_('settings.software.lead')}</h2>

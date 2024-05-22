@@ -1,6 +1,6 @@
-import type { ContainerRegulationHydrated } from "@metalizzsas/nuster-typings/build/hydrated/containers";
-import type { ContainerRegulation as ContainerRegulationConfig } from "@metalizzsas/nuster-typings/build/spec/containers";
-import type { IOGateJSON } from "@metalizzsas/nuster-typings/build/hydrated/io";
+import type { ContainerRegulationHydrated } from "$types/hydrated/containers";
+import type { ContainerRegulation as ContainerRegulationConfig } from "$types/spec/containers";
+import type { IOGateJSON } from "$types/hydrated/io";
 
 import type { Container } from "./Containers";
 import { TurbineEventLoop } from "../events";

@@ -1,5 +1,5 @@
-import type { WebsocketData } from "@metalizzsas/nuster-typings/build/hydrated";
-import type { Popup } from "@metalizzsas/nuster-typings/build/spec/nuster";
+import type { WebsocketData } from "../types/hydrated";
+import type { Popup } from "../types/spec/nuster";
 
 import type { Server } from "http";
 import type { WebSocket} from "ws";

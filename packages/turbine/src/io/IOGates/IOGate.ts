@@ -1,7 +1,7 @@
-import type { IOGateBase, IOGates } from "@metalizzsas/nuster-typings/build/spec/iogates";
+import type { IOGateBase, IOGates } from "$types/spec/iogates";
 import { TurbineEventLoop } from "../../events";
-import type { IOBase } from "@metalizzsas/nuster-typings/build/spec/iohandlers";
-import type { IOGateJSON } from "@metalizzsas/nuster-typings/build/hydrated/io";
+import type { IOBase } from "$types/spec/iohandlers";
+import type { IOGateJSON } from "$types/hydrated/io";
 
 export class IOGate implements IOGateBase
 {

@@ -1,6 +1,6 @@
 import { Router } from "./Router";
 
-import type { NetworkDevice, AccessPoint } from "@metalizzsas/nuster-typings/build/hydrated/balena";
+import type { NetworkDevice, AccessPoint } from "../types/hydrated/balena";
 import type { BodyEntry } from "@homebridge/dbus-native";
 import { computeSubnet, stringToArrayOfBytes } from "../dbus/network-utils";
 import { DBusClient } from "../dbus/dbus";

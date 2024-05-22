@@ -1,7 +1,7 @@
 import { Maintenance } from "./Maintenance";
 
-import type { CountableMaintenance as CountableMaintenanceConfig } from "@metalizzsas/nuster-typings/build/spec/maintenances";
-import type { MaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydrated/maintenance";
+import type { CountableMaintenance as CountableMaintenanceConfig } from "$types/spec/maintenances";
+import type { MaintenanceHydrated } from "$types/hydrated/maintenance";
 import { TurbineEventLoop } from "../events";
 import { prisma } from "../db";
 

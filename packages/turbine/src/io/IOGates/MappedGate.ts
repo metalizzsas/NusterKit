@@ -1,8 +1,8 @@
 import { map } from "../../utils/map";
 import { IOGate } from "./IOGate";
 import { TurbineEventLoop } from "../../events";
-import type { MappedGate as MappedGateConfig } from "@metalizzsas/nuster-typings/build/spec/iogates";
-import type { IOBase } from "@metalizzsas/nuster-typings/build/spec/iohandlers";
+import type { MappedGate as MappedGateConfig } from "$types/spec/iogates";
+import type { IOBase } from "$types/spec/iohandlers";
 
 export class MappedGate extends IOGate implements MappedGate
 {

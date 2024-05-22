@@ -6,10 +6,10 @@ import { MappedGate } from "../io/IOGates/MappedGate";
 import { EX260Sx } from "../io/IOHandlers/EX260Sx";
 import { WAGO } from "../io/IOHandlers/WAGO";
 import { Serial } from "../io/IOHandlers/Serial";
-import type { IOGates } from "@metalizzsas/nuster-typings/build/spec/iogates";
+import type { IOGates } from "../types/spec/iogates";
 import { PT100Gate } from "../io/IOGates/PT100Gate";
-import type { IOBase, IOHandlers } from "@metalizzsas/nuster-typings/build/spec/iohandlers";
-import type { IOGatesHydrated } from "@metalizzsas/nuster-typings/build/hydrated/io";
+import type { IOBase, IOHandlers } from "../types/spec/iohandlers";
+import type { IOGatesHydrated } from "../types/hydrated/io";
 import { TurbineEventLoop } from "../events";
 
 export class IORouter extends Router

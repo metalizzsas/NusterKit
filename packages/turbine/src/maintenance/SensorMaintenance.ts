@@ -1,9 +1,9 @@
 import { map } from "../utils/map";
 import { Maintenance } from "./Maintenance";
-import type { SensorMaintenance as SensorMaintenanceConfig } from "@metalizzsas/nuster-typings/build/spec/maintenances";
-import type { MaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydrated/maintenance";
+import type { SensorMaintenance as SensorMaintenanceConfig } from "$types/spec/maintenances";
+import type { MaintenanceHydrated } from "$types/hydrated/maintenance";
 import { TurbineEventLoop } from "../events";
-import type { IOGateJSON } from "@metalizzsas/nuster-typings/build/hydrated/io";
+import type { IOGateJSON } from "$types/hydrated/io";
 import { prisma } from "../db";
 
 export class SensorMaintenance extends Maintenance implements Omit<SensorMaintenanceConfig, "sensorGate" | "requireEnabledGate">

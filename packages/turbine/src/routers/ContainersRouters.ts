@@ -1,8 +1,7 @@
 import type { Request, Response } from "express";
 
-import type { ContainerHydrated } from "@metalizzsas/nuster-typings/build/hydrated/containers";
-import type { Container as ContainerConfig } from "@metalizzsas/nuster-typings/build/spec/containers";
-import type { ProductSeries } from "@metalizzsas/nuster-typings/build/spec/containers/products";
+import type { ContainerHydrated } from "../types/hydrated/containers";
+import type { Container as ContainerConfig } from "../types/spec/containers";
 import { Container } from "../containers/Containers";
 import { Router } from "./Router";
 import { TurbineEventLoop } from "../events";
@@ -26,7 +25,7 @@ export class ContainersRouter extends Router
 
             if(container)
             {
-                await container.loadProduct(req.params.series as ProductSeries);
+                await container.loadProduct(req.params.series);
                 res.end("ok");
             }
             else

@@ -1,7 +1,7 @@
-import type { PBRMode, PBRStatus, PBRTimer, PBRVariable } from "@metalizzsas/nuster-typings/build/hydrated/cycle/ProgramBlockRunnerHydrated";
-import type { ProgramBlockRunner as ProgramBlockRunnerConfig } from "@metalizzsas/nuster-typings/build/spec/cycle/ProgramBlockRunner";
-import type { ProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profiles";
-import type { PBRStepResult } from "@metalizzsas/nuster-typings/build/spec/cycle/PBRStep";
+import type { PBRMode, PBRStatus, PBRTimer, PBRVariable } from "$types/hydrated/cycle/ProgramBlockRunnerHydrated";
+import type { ProgramBlockRunner as ProgramBlockRunnerConfig } from "$types/spec/cycle/ProgramBlockRunner";
+import type { ProfileHydrated } from "$types/hydrated/profiles";
+import type { PBRStepResult } from "$types/spec/cycle/PBRStep";
 
 import { ProgramBlockStep } from "./ProgramBlockStep";
 import { PBRRunCondition } from "./PBRSecurityCondition";

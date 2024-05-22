@@ -1,4 +1,4 @@
-import type { Addon, MachineSpecs } from "@metalizzsas/nuster-typings";
+import type { Addon, MachineSpecs } from "$types/index";
 import { deepInsert } from "./deepInsert";
 import { TurbineEventLoop } from "../events";
 

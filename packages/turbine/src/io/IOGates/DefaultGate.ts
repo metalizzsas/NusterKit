@@ -1,6 +1,6 @@
-import type { DefaultGate as DefaultGateConfig } from "@metalizzsas/nuster-typings/build/spec/iogates";
+import type { DefaultGate as DefaultGateConfig } from "$types/spec/iogates";
 import { IOGate } from "./IOGate";
-import type { IOBase } from "@metalizzsas/nuster-typings/build/spec/iohandlers";
+import type { IOBase } from "$types/spec/iohandlers";
 
 export class DefaultGate extends IOGate implements DefaultGateConfig
 {

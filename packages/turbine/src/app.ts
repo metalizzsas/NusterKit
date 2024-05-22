@@ -4,7 +4,7 @@ import fs from "fs";
 import lockFile from "lockfile";
 import path from "path";
 
-import type { Configuration } from "@metalizzsas/nuster-typings";
+import type { Configuration, MachineSpecs, MachineSpecsList } from "./types";
 import type { Request, Response } from "express";
 import express from "express";
 import type { Server } from "http";
@@ -35,6 +35,7 @@ import { migrate } from "./migrate";
     /** File / Folders paths */
     const basePath = productionEnabled ? "/data" : "data";
     const infoPath = path.resolve(basePath, "info.json");
+    const machinesPath = path.resolve(basePath, "machines");
     const settingsPath = path.resolve(basePath, "settings.json");
     const logsFolderPath = path.resolve(basePath, "logs");
     const logFilePath = path.resolve(basePath, "logs", `log-${new Date().toISOString()}.log`);
@@ -82,21 +83,31 @@ import { migrate } from "./migrate";
 
     SetupExpress();
 
-    if(fs.existsSync(infoPath))
+    if(fs.existsSync(infoPath) && fs.existsSync(machinesPath))
     {
         const rawConfiguration = fs.readFileSync(infoPath, {encoding: "utf-8"});
         const parsedConfiguration = JSON.parse(rawConfiguration) as Configuration;
 
-        SetupWebsocketServer();
+        const machines = fs.readdirSync(machinesPath);
+
+        if(!machines.includes(parsedConfiguration.model) && !fs.existsSync(path.resolve(machinesPath, parsedConfiguration.model, 'specs.json')))
+        {
+            TurbineEventLoop.emit('log', 'fatal', "Machine: Model not found in machines folder.");    
+            throw Error("Machine: Model not found in machines folder.");
+        }
+
+        const rawSpecs = fs.readFileSync(path.resolve(machinesPath, parsedConfiguration.model, 'specs.json'), { encoding: "utf-8" });
+        const parsedSpecs = JSON.parse(rawSpecs) as MachineSpecs;
 
         if(productionEnabled == false)
         {
             TurbineEventLoop.emit('log', 'warning', "DEV: Sending configuration to simulation server.");
-            fetch("http://localhost:4082/config", { method: "post", headers: {"Content-Type": "application/json"}, body: JSON.stringify(parsedConfiguration)});
+            fetch("http://localhost:4082/config", { method: "post", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ configuration: parsedConfiguration, specs: parsedSpecs })});
         }
 
-        machine = new Machine(parsedConfiguration);
+        machine = new Machine(parsedConfiguration, parsedSpecs);
 
+        SetupWebsocketServer();
         SetupMachine();
     }
     else
@@ -150,6 +161,22 @@ import { migrate } from "./migrate";
                 }
             }));
         }
+
+        ExpressApp.get("/configs", (req: Request, res: Response) => {
+
+            const machineSpecsList: MachineSpecsList = {};
+
+            // Filter folders that start with a dot as it might be an hidden folder
+            for(const modelFolder of fs.readdirSync(machinesPath).filter(mf => !mf.startsWith(".")))
+            {
+                const rawSpecs = fs.readFileSync(path.resolve(machinesPath, modelFolder, 'specs.json'), { encoding: "utf-8" });
+                const parsedSpecs = JSON.parse(rawSpecs) as MachineSpecs;
+                
+                machineSpecsList[modelFolder] = parsedSpecs;
+            }
+            
+            res.json(machineSpecsList);
+        });
 
         ExpressApp.get("/config/actual", (req: Request, res: Response) => {
             try
@@ -300,7 +327,7 @@ import { migrate } from "./migrate";
             }
         });
 
-        ExpressApp.get("/settings",async (_req, res) => {
+        ExpressApp.get("/settings", async (_req, res) => {
             try
             {
                 const data = fs.readFileSync(settingsPath, { encoding: "utf-8" });
@@ -379,13 +406,13 @@ import { migrate } from "./migrate";
             ExpressApp.use('/v1/containers', machine.containerRouter.router);
             ExpressApp.use('/v1/cycle', machine.cycleRouter.router);
             ExpressApp.use('/network', machine.networkRouter.router);
+
+            ExpressApp.use('/static', express.static(path.resolve(machinesPath, machine.data.model, 'static')))
             
             TurbineEventLoop.emit('log', 'info', "Express: Registered routers");
 
             ExpressApp.get("/machine", (_, res: Response) => { res.json(machine?.toJSON()); });
             
-            /** Route for debug purposes */
-            ExpressApp.get("/ws", async (_req, res: Response) => res.json(await machine?.socketData()));
         }
         else
             TurbineEventLoop.emit('log', 'fatal', "Express: No machine defined, cannot add routes.");

@@ -1,5 +1,5 @@
-import type { ParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
-import type { AllParameterBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
+import type { ParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
+import type { AllParameterBlocks } from "$types/spec/cycle/parameter";
 
 export class ParameterBlock<T> implements ParameterBlockHydrated<T>
 {

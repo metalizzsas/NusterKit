@@ -2,10 +2,10 @@ import { Router } from "./Router";
 
 import { type Request, type Response } from "express";
 
-import type { CyclePremade, ProgramBlockRunner as ProgramBlockRunnerConfig } from "@metalizzsas/nuster-typings/build/spec/cycle";
-import type { ProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profiles";
+import type { CyclePremade, ProgramBlockRunner as ProgramBlockRunnerConfig } from "../types/spec/cycle";
+import type { ProfileHydrated } from "../types/hydrated/profiles";
 import { ProgramBlockRunner } from "../pbr/ProgramBlockRunner";
-import type { ProgramBlockRunnerHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/ProgramBlockRunnerHydrated";
+import type { ProgramBlockRunnerHydrated } from "../types/hydrated/cycle/ProgramBlockRunnerHydrated";
 import { TurbineEventLoop } from "../events";
 
 export class CycleRouter extends Router

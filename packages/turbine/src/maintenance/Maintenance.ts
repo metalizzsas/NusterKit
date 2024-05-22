@@ -1,4 +1,4 @@
-import type { BaseMaintenance } from "@metalizzsas/nuster-typings/build/spec/maintenances";
+import type { BaseMaintenance } from "$types/spec/maintenances";
 import { prisma } from "../db";
 import type { Maintenance as MaintenancePrisma } from "@prisma/client";
 import { TurbineEventLoop } from "../events";

@@ -1,4 +1,4 @@
-import type { Comparators } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
+import type { Comparators } from "../../types/spec/cycle/parameter";
 
 export default {
     ">": (x: number, y: number) => x > y,

@@ -1,10 +1,10 @@
 import { Router } from "./Router";
 
-import type { ProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profiles";
-import type { Profile, ProfileSkeleton, ProfileSkeletonFields } from "@metalizzsas/nuster-typings/build/spec/profiles";
+import type { ProfileHydrated } from "../types/hydrated/profiles";
+import type { Profile, ProfileSkeleton, ProfileSkeletonFields } from "../types/spec/profiles";
 import type { NextFunction, Request, Response } from "express";
 import { TurbineEventLoop } from "../events";
-import type { Modify } from "@metalizzsas/nuster-typings/build/utils/Modify";
+import type { Modify } from "../types/utils";
 import { prisma } from "../db";
 import type { Profile as ProfilePrisma, ProfileValue as ProfileValuePrisma } from "@prisma/client";
 

@@ -1,11 +1,11 @@
-import type { StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
-import type { AllParameterBlocks, ProfileParameterBlock as ProfileParameterBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
+import type { StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
+import type { AllParameterBlocks, ProfileParameterBlock as ProfileParameterBlockSpec } from "$types/spec/cycle/parameter";
+import type { ProfileHydrated } from "$types/hydrated/profiles";
+import type { ProfileSkeleton } from "$types/spec/profiles";
+import type { MachineSpecs } from "$types/index";
 import { ParameterBlockRegistry } from "../ParameterBlockRegistry";
 import { TurbineEventLoop } from "../../../events";
-import type { ProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profiles";
 import { NumericParameterBlock } from "../NumericParameterBlock";
-import type { ProfileSkeleton } from "@metalizzsas/nuster-typings/build/spec/profiles";
-import type { MachineSpecs } from "@metalizzsas/nuster-typings";
 
 export class ProfileParameterBlock extends NumericParameterBlock
 {

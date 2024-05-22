@@ -1,5 +1,5 @@
-import type { ProgramBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ProgramBlockHydrated";
-import type { AllProgramBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
+import type { ProgramBlockHydrated } from "../../types/hydrated/cycle/blocks/ProgramBlockHydrated";
+import type { AllProgramBlocks } from "../../types/spec/cycle/program";
 import { TurbineEventLoop } from "../../events";
 
 export class ProgramBlock implements ProgramBlockHydrated

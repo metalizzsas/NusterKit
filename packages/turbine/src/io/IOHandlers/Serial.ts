@@ -1,4 +1,4 @@
-import type { IOBase, SerialCom } from "@metalizzsas/nuster-typings/build/spec/iohandlers";
+import type { IOBase, SerialCom } from "$types/spec/iohandlers";
 
 import { SerialPort } from "serialport";
 import { TurbineEventLoop } from "../../events";

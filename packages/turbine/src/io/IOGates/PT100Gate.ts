@@ -1,6 +1,6 @@
-import type { PT100Gate as PT100GateConfig } from "@metalizzsas/nuster-typings/build/spec/iogates/";
+import type { PT100Gate as PT100GateConfig } from "$types/spec/iogates/";
 import { IOGate } from "./IOGate";
-import type { IOBase } from "@metalizzsas/nuster-typings/build/spec/iohandlers";
+import type { IOBase } from "$types/spec/iohandlers";
 import { TurbineEventLoop } from "../../events";
 
 export class PT100Gate extends IOGate implements PT100GateConfig

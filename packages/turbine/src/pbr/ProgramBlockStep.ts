@@ -1,9 +1,9 @@
-import type { NumericParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
-import type { ProgramBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ProgramBlockHydrated";
-import { ParameterBlockRegistry } from "./ParameterBlocks/ParameterBlockRegistry";
+import type { PBRStep, PBRStepResult, PBRStepState, PBRStepType } from "../types/spec/cycle/PBRStep";
+import type { NumericParameterBlockHydrated } from "../types/hydrated/cycle/blocks/ParameterBlockHydrated";
+import type { ProgramBlockHydrated } from "../types/hydrated/cycle/blocks/ProgramBlockHydrated";
 import type { ProgramBlockRunner } from "./ProgramBlockRunner";
+import { ParameterBlockRegistry } from "./ParameterBlocks/ParameterBlockRegistry";
 import { ProgramBlockRegistry } from "./ProgramBlocks/ProgramBlockRegistry";
-import type { PBRStep, PBRStepResult, PBRStepState, PBRStepType } from "@metalizzsas/nuster-typings/build/spec/cycle/PBRStep";
 import { TurbineEventLoop } from "../events";
 import { PBRRunCondition } from "./PBRSecurityCondition";
 

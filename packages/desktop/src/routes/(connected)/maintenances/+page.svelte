@@ -6,7 +6,7 @@
 
 	import { _ } from "svelte-i18n";
 	import { setContext } from "svelte";
-	import type { MaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydrated";
+	import type { MaintenanceHydrated } from "@metalizzsas/nuster-turbine/types/hydrated";
 	import { writable, type Writable } from "svelte/store";
 	import { realtime } from "$lib/utils/stores/nuster";
 

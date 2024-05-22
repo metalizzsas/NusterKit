@@ -4,7 +4,7 @@
 	import TimeField from "$lib/components/inputs/TimeField.svelte";
 	import Toggle from "$lib/components/inputs/Toggle.svelte";
 
-    import type { ProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated";
+    import type { ProfileHydrated } from "@metalizzsas/nuster-turbine/types/hydrated";
 	import { _ } from "svelte-i18n";
 	import Label from "$lib/components/Label.svelte";
 	import Button from "$lib/components/buttons/Button.svelte";

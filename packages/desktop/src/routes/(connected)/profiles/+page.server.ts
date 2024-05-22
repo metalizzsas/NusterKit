@@ -1,4 +1,4 @@
-import type { ProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated";
+import type { ProfileHydrated } from "@metalizzsas/nuster-turbine/types/hydrated";
 import type { PageServerLoad } from "./$types";
 
 export const load = (async ({ fetch }) => {

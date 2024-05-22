@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { ContainerHydrated } from "@metalizzsas/nuster-typings/build/hydrated";
-    import type { Modify } from "@metalizzsas/nuster-typings/build/utils/Modify";
+	import type { ContainerHydrated } from "@metalizzsas/nuster-turbine/types/hydrated";
+    import type { Modify } from "@metalizzsas/nuster-turbine/types/utils";
 
 	import Flex from "$lib/components/layout/flex.svelte";
 	import { _ } from "svelte-i18n";
-	import type { ContainerRegulationHydrated } from "@metalizzsas/nuster-typings/build/hydrated/containers";
+	import type { ContainerRegulationHydrated } from "@metalizzsas/nuster-turbine/types/hydrated/containers";
 	import Toggle from "$lib/components/inputs/Toggle.svelte";
 	import Label from "$lib/components/Label.svelte";
 	import NumField from "$lib/components/inputs/NumField.svelte";

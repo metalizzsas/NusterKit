@@ -1,6 +1,6 @@
-import type { MaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydrated";
+import type { MaintenanceHydrated } from "@metalizzsas/nuster-turbine/types/hydrated";
+import type { MachineData } from "@metalizzsas/nuster-turbine/types/hydrated/machine";
 import type { PageServerLoad } from "./$types";
-import type { MachineData } from "@metalizzsas/nuster-typings/build/hydrated/machine";
 import { version } from "$lib/version";
 
 export const load = ( async ({ fetch }) => {

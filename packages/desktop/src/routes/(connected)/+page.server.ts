@@ -1,5 +1,5 @@
-import type { CyclePremade } from "@metalizzsas/nuster-typings/build/spec/cycle";
-import type { ProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated";
+import type { ProfileHydrated } from "@metalizzsas/nuster-turbine/types/hydrated";
+import type { CyclePremade } from "@metalizzsas/nuster-turbine/types/spec/cycle";
 import type { PageServerLoad } from "./$types";
 
 export const load = (async ({ fetch }) => {

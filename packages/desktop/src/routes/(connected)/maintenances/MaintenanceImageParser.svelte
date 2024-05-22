@@ -1,11 +1,10 @@
 <script lang="ts">
+	import type { MaintenanceHydrated } from "@metalizzsas/nuster-turbine/types/hydrated";
+	import type { Writable } from "svelte/store";
 	import Flex from "$lib/components/layout/flex.svelte";
-	import { machine } from "$lib/utils/stores/nuster";
-	import type { MaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydrated";
 	import { ArrowsPointingIn, ArrowsPointingOut } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";
 	import { getContext } from "svelte";
-	import type { Writable } from "svelte/store";
 
     export let href = '';
     export let title: string | undefined = undefined;
@@ -20,7 +19,7 @@
 <Flex direction="row" items="center" justify="center">
     <div style:max-width={expanded ? '100%' : '66%'} class="relative duration-300">
         <img 
-            src={`/documentation/machines/${$machine.model}-${$machine.variant}-${$machine.revision}/maintenance-${$selectedMaintenance?.name}/${href}`}  
+            src={`/api/static/docs/maintenance-${$selectedMaintenance?.name}/${href}`}  
             {title} 
             alt={text} 
             class="my-1 border-[1px] border-indigo-500/50 rounded-md mx-auto duration-300"

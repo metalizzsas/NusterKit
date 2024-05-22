@@ -1,6 +1,6 @@
 import { writable } from "svelte/store";
-import type { Status } from "@metalizzsas/nuster-typings";
-import type { MachineData } from "@metalizzsas/nuster-typings/build/hydrated/machine";
+import type { Status } from "@metalizzsas/nuster-turbine/types";
+import type { MachineData } from "@metalizzsas/nuster-turbine/types/hydrated/machine";
 
 export const realtime = writable<Status>();
 export const realtimeLock = writable<boolean>(false);

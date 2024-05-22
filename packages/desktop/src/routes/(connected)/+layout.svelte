@@ -14,17 +14,17 @@
 
 	import PillMenu from "./PillMenu.svelte";
 
+	import type { MachineData } from "@metalizzsas/nuster-turbine/types/hydrated/machine";
+	import type { WebsocketData } from "@metalizzsas/nuster-turbine/types";
+	import type { Popup } from "@metalizzsas/nuster-turbine/types/spec/nuster";
     import { machine, realtime, realtimeLock } from "$lib/utils/stores/nuster";
-	import type { WebsocketData } from "@metalizzsas/nuster-typings";
 	import Loadindicator from "$lib/components/LoadIndicator.svelte";
 	import { settings } from "$lib/utils/stores/settings";
 	import { _, locale } from "svelte-i18n";
 	import { initi18nLocal } from "$lib/utils/i18n/i18nlocal";
 	import Toast from "$lib/components/Toast.svelte";
-	import type { Popup } from "@metalizzsas/nuster-typings/build/spec/nuster";
 	import { flip } from "svelte/animate";
 	import Button from "$lib/components/buttons/Button.svelte";
-	import type { MachineData } from "@metalizzsas/nuster-typings/build/hydrated/machine";
 	import { fade } from "svelte/transition";
 	import type { Unsubscriber } from "svelte/store";
 	import { version } from "$lib/version";
@@ -66,7 +66,7 @@
         if(req.ok && req.status === 200)
             $machine = (await req.json()) as MachineData;
         
-        await initI18nMachine($machine);
+        await initI18nMachine();
 
         const reqSettings = await fetch('/api/settings');
         if(reqSettings.ok && reqSettings.status === 200)

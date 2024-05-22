@@ -1,19 +1,26 @@
-import type { Configuration } from '@metalizzsas/nuster-typings';
 import { addMessages } from 'svelte-i18n';
 
-export async function initI18nMachine(machine: Configuration)
+export async function initI18nMachine()
 {
-    const langs = import.meta.glob("../../../../node_modules/@metalizzsas/nuster-misc/i18n/machines/**/*.json", { query: "?json" });
+    const frRequest = await fetch('/api/static/i18n/fr.json');
+    const enRequest = await fetch('/api/static/i18n/en.json');
+    const itRequest = await fetch('/api/static/i18n/it.json');
 
-    for(const lang of Object.keys(langs).filter(k => k.includes(`${machine.model}-${machine.variant}-${machine.revision}`)))
+    if(frRequest.status === 200 && frRequest.ok)
     {
-        const langName = lang.split("/").at(-1)?.split(".").at(0);
-        const langFile = await langs[lang]();
+        const fr = await frRequest.json();
+        addMessages('fr', fr);
+    }
+    
+    if(enRequest.status === 200 && enRequest.ok)
+    {
+        const en = await enRequest.json();
+        addMessages('en', en);
+    }
 
-        if(langName !== undefined && langFile !== undefined)
-        {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            addMessages(langName, langFile as any);
-        }
+    if(itRequest.status === 200 && itRequest.ok)
+    {
+        const it = await itRequest.json();
+        addMessages('it', it);
     }
 }

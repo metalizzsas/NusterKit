@@ -1,6 +1,6 @@
 <script lang="ts">
 
-	import type { Popup } from "@metalizzsas/nuster-typings/build/spec/nuster";
+	import type { Popup } from "@metalizzsas/nuster-turbine/types/spec/nuster";
 	import { ExclamationCircle, ExclamationTriangle, InformationCircle, XMark } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";
 	import { createEventDispatcher } from "svelte";

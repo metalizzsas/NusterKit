@@ -1,5 +1,5 @@
 import type { PageServerLoad } from "./$types";
-import type { ProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profiles";
+import type { ProfileHydrated } from "@metalizzsas/nuster-turbine/types/hydrated";
 
 export const load = (async ({ fetch, params }) => {
 

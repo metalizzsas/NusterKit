@@ -1,45 +1,38 @@
 import type { PageServerLoad } from "../$types";
+import type { DocFile } from "@metalizzsas/nuster-turbine/types/docs";
 
-type HelpRootFile = {
-    lang: "fr" | "en" | "it";
-    category: "machine" | "software";
-    files: {
-            name: string;
-            path: string;
-            folder: string | undefined;
-    }[];
-};
+export const load = (async ({ fetch }) => {
 
-export type HelpDocument = {
-    category: "machine" | "software";
-    lang: "fr" | "en" | "it";
-    name: string;
-    folder: string | undefined;
-    path: string;
-}
+    const docFiles: DocFile[] = [];
 
-export const load = (async () => {
-
-    const documents: Array<HelpDocument> = [];
-
-    const filesIndexes = import.meta.glob("../../../../static/documentation/**/files.json", { query: "?json" });
-
-    for(const file in filesIndexes)
+    try
     {
-        const files = await filesIndexes[file]() as HelpRootFile;
-
-        for(const file of files.files)
+        const nusterDocsFileRequest = await fetch('/docs/files.json');
+        if(nusterDocsFileRequest.status === 200 && nusterDocsFileRequest.ok)
         {
-            documents.push({
-                category: files.category,
-                lang: files.lang,
-                name: file.name,
-                folder: file.folder,
-                path: file.path
-            });
+            const nusterDocsFiles = await nusterDocsFileRequest.json();
+            docFiles.push(...nusterDocsFiles);
         }
     }
+    catch(ex)
+    {
+        console.error("Failed to Load nuster docs from server");
+    }
 
-    return { documents };
+    try
+    {
+        const machineDocsFileRequest = await fetch('/api/static/docs/files.json');
+        if(machineDocsFileRequest.status === 200 && machineDocsFileRequest.ok)
+        {
+            const machineDocsFiles = await machineDocsFileRequest.json();
+            docFiles.push(...machineDocsFiles);
+        }
+    }
+    catch(ex)
+    {
+        console.error("Failed to load machine docs from turbine server");
+    }
+
+    return { docFiles };
 
 }) satisfies PageServerLoad;

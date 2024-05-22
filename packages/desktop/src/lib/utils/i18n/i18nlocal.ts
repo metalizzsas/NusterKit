@@ -1,8 +1,8 @@
 import { init, addMessages } from 'svelte-i18n';
 
-import en from "@metalizzsas/nuster-misc/i18n/desktop/en.json";
-import fr from "@metalizzsas/nuster-misc/i18n/desktop/fr.json";
-import it from "@metalizzsas/nuster-misc/i18n/desktop/it.json";
+import en from "$lib/utils/i18n/translations/en.json";
+import fr from "$lib/utils/i18n/translations/fr.json";
+import it from "$lib/utils/i18n/translations/it.json";
 
 export function initi18nLocal()
 {

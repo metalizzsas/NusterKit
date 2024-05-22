@@ -1,12 +1,13 @@
 <script lang="ts">
+	import type { ContainerHydrated } from "@metalizzsas/nuster-turbine/types/hydrated";
+
 	import Button from "$lib/components/buttons/Button.svelte";
 	import Select from "$lib/components/inputs/Select.svelte";
 	import Flex from "$lib/components/layout/flex.svelte";
 	import Grid from "$lib/components/layout/grid.svelte";
+    
 	import { executeCallToAction } from "$lib/utils/callToAction";
 	import { transformDate } from "$lib/utils/dateparser";
-	import type { ContainerHydrated } from "@metalizzsas/nuster-typings/build/hydrated";
-	import type { ProductSeries } from "@metalizzsas/nuster-typings/build/spec/containers/products";
 	import { ArrowDownTray, ArrowRight, ArrowUpTray } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";
 	import { date, time, _ } from "svelte-i18n";
@@ -15,7 +16,7 @@
 
     /// - Product loading states
     let compatibleProductListShown = false;
-    let selectedProduct: ProductSeries | undefined = undefined;
+    let selectedProduct: string | undefined = undefined;
     let preselectedMethod: string | undefined = undefined;
 
     const productEdit = async (name: string) => {

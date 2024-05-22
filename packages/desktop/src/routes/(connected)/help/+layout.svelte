@@ -1,14 +1,11 @@
 <script lang="ts">
 	import { page } from "$app/stores";
-
-
 	import Wrapper from "$lib/components/Wrapper.svelte";
 	import Button from "$lib/components/buttons/Button.svelte";
 	import Flex from "$lib/components/layout/flex.svelte";
 	import { ArrowLeft } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";
-import { _ } from "svelte-i18n";
-
+    import { _ } from "svelte-i18n";
 </script>
 
 <Wrapper class="mb-6" padding="p-4">

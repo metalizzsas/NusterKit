@@ -1,4 +1,4 @@
-import type { CallToAction } from "@metalizzsas/nuster-typings/build/spec/nuster";
+import type { CallToAction } from "@metalizzsas/nuster-turbine/types/spec/nuster";
 import { goto } from "$app/navigation";
 
 /**

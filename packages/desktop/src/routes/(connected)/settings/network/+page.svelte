@@ -8,7 +8,7 @@
 	import Flex from "$lib/components/layout/flex.svelte";
 	import Grid from "$lib/components/layout/grid.svelte";
 	import { realtime } from "$lib/utils/stores/nuster";
-	import type { AccessPoint } from "@metalizzsas/nuster-typings/build/hydrated/balena";
+	import type { AccessPoint } from "@metalizzsas/nuster-turbine/types/hydrated/balena";
 	import { ArrowLeft, ArrowPath, ArrowRightCircle, CheckCircle, ExclamationTriangle, XMark } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";
 	import { onMount } from "svelte";

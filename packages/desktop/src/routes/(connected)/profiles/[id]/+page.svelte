@@ -8,7 +8,7 @@
 
 	import { translateProfileName } from "$lib/utils/i18n/i18nprofile";
 
-    import type { ProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated";
+    import type { ProfileHydrated } from "@metalizzsas/nuster-turbine/types/hydrated";
 	import Wrapper from "$lib/components/Wrapper.svelte";
 	import ProfileField from "./ProfileField.svelte";
 	import Button from "$lib/components/buttons/Button.svelte";

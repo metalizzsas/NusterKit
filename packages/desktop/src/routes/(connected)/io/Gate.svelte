@@ -1,6 +1,6 @@
 <script lang="ts">
 
-    import type { IOGatesHydrated } from "@metalizzsas/nuster-typings/build/hydrated";
+    import type { IOGatesHydrated } from "@metalizzsas/nuster-turbine/types/hydrated";
 	import Flex from "$lib/components/layout/flex.svelte";
 	import Toggle from "$lib/components/inputs/Toggle.svelte";
 	import { _ } from "svelte-i18n";

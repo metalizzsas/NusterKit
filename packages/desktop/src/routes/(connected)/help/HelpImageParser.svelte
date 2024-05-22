@@ -9,8 +9,9 @@
     export let text = '';
 
     let expanded = false;
-    
-    $: completeHref = `/documentation/${$page.params.helpFile.replace("index.md", href)}`;
+
+    $: isNusterDocs = $page.params.helpFile.includes("nuster-docs");
+    $: completeHref = isNusterDocs ? `/docs/${$page.params.helpFile.replace("index.md", href)}` : `/api/static/${$page.params.helpFile.replace("index.md", href)}`;
 
 </script>
 

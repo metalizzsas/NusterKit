@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Label from "$lib/components/Label.svelte";
 	import Flex from "$lib/components/layout/flex.svelte";
-	import type { PBRStepHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/PBRStepHydrated";
+	import type { PBRStepHydrated } from "@metalizzsas/nuster-turbine/types/hydrated/cycle";
 	import { ArrowPath, Check, XMark, type IconSource, ArrowDown } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";
 

@@ -7,7 +7,7 @@
 	import { realtime } from "$lib/utils/stores/nuster";
 	import { _ } from "svelte-i18n";
 	import PillMenuButton from "./PillMenuButton.svelte";
-	import type { MachineData } from "@metalizzsas/nuster-typings/build/hydrated/machine";
+	import type { MachineData } from "@metalizzsas/nuster-turbine/types/hydrated/machine";
 
     let containersState: "good" | "warn" | "error" | "info" = "error";
 

@@ -4,7 +4,7 @@
 	import { computeContainersState } from "$lib/utils/state";
 	import Wrapper from "$lib/components/Wrapper.svelte";
 	import { realtime } from "$lib/utils/stores/nuster";
-	import type { ContainerHydrated } from "@metalizzsas/nuster-typings/build/hydrated/containers";
+	import type { ContainerHydrated } from "@metalizzsas/nuster-turbine/types/hydrated/containers";
 	import { _ } from "svelte-i18n";
 	import Container from "./Container.svelte";
 	import { onMount } from "svelte";

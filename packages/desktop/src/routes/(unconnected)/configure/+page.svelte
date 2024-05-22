@@ -20,6 +20,7 @@
 
     import type { PageData } from "./$types";
 	import ToggleGroup from "$lib/components/inputs/ToggleGroup.svelte";
+
     export let data: PageData;
 
     async function save() {
@@ -37,7 +38,7 @@
     }
 
     /// — Reactive statements
-    $: specs = data.configurations[`${data.configuration.model}-${data.configuration.variant}-${data.configuration.revision}`];
+    $: specs = data.configurations[`${data.configuration.model}`];
 
 </script>
 
@@ -53,19 +54,8 @@
         <SettingField label={"Model"}>
             <Select 
                 bind:value={data.configuration.model}
-                selectableValues={Array.from(new Set(Object.keys(data.configurations).map(k => k.split("-")[0]))).map(k => { return { name: k, value: k}})}
+                selectableValues={Object.keys(data.configurations).map(k => { return { name: k, value: k}})}
             />
-        </SettingField>
-
-        <SettingField label={"Variant"}>
-            <Select 
-                bind:value={data.configuration.variant} 
-                selectableValues={Array.from(new Set(Object.keys(data.configurations).filter(k => k.startsWith(data.configuration.model)).map(k => k.split("-")[1]))).map(k => { return { name: k, value: k}})} 
-            />
-        </SettingField>
-
-        <SettingField label={"Revision"}>
-            <Select bind:value={data.configuration.revision} selectableValues={Array.from(new Set(Object.keys(data.configurations).filter(k => k.startsWith(data.configuration.model + '-' + data.configuration.variant)).map(k => k.split("-")[2]))).map(k => { return { name: parseInt(k), value: parseInt(k)}})} />
         </SettingField>
 
         {#if specs !== undefined}
@@ -92,6 +82,9 @@
             
             <SettingField label={"Dev Mode"}><Toggle bind:value={data.configuration.settings.devMode} /></SettingField>
             <SettingField label={"Profiles shown"}><Toggle bind:value={data.configuration.settings.profilesShown} /></SettingField>
+
+            <SettingField label={"Only show selected profile fileds"}><Toggle bind:value={data.configuration.settings.onlyShowSelectedProfileFields} /></SettingField>
+            <SettingField label={"Hide multilayer informations"}><Toggle bind:value={data.configuration.settings.hideMultilayerIndications} /></SettingField>
 
             {#if specs.variables.length > 0}
                 <h2>Machine Variables</h2>

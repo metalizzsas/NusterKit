@@ -1,0 +1,56 @@
+toc: true
+toc-depth: 3
+file-scope: true
+shift-heading-level-by: -1
+number-sections: true
+
+input-files:
+  - libs/misc/documentation/desktop/fr/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/desktop/fr/sections/00-cycles/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/desktop/fr/sections/10-profiles/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/desktop/fr/sections/20-containers/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/desktop/fr/sections/30-maintenances/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/desktop/fr/informations/40-settings/index.md
+  - libs/misc/documentation/utils/newpage.md
+  - libs/misc/documentation/desktop/fr/informations/50-network/index.md
+
+resource-path: 
+  - libs/misc/documentation/desktop/fr/
+  - libs/misc/documentation/desktop/fr/sections/00-cycles/
+  - libs/misc/documentation/desktop/fr/sections/10-profiles/
+  - libs/misc/documentation/desktop/fr/sections/20-containers/
+  - libs/misc/documentation/desktop/fr/sections/30-maintenances/
+  - libs/misc/documentation/desktop/fr/informations/40-settings/
+  - libs/misc/documentation/desktop/fr/informations/50-network/
+
+output-file: libs/misc/documentation/output/FR_nuster.pdf
+pdf-engine: xelatex
+
+variables:
+  titlepage: true
+  titlepage-background: libs/misc/documentation/utils/FR-nuster.pdf
+  titlepage-rule-height: 0
+
+  fontfamily: sourcesanspro
+  fontfamilyoptions: default
+  
+  toc-own-page: true
+  lang: fr-FR
+
+  caption-justification: centering
+
+  footer-left: Notice d'utilisation de Nuster © Metalizz 2023
+
+  table-use-row-colors: true
+
+  colorlinks: true
+  urlcolor: blue
+
+  metadata: 
+    author: Metalizz
+    title: Notice d'utilisation de Nuster

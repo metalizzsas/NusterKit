@@ -1,11 +1,9 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import type { UserConfig } from 'vite';
-import { documentationCopy } from "./documentation";
 
 export default {
     plugins: [
-        sveltekit(),
-        documentationCopy()
+        sveltekit()
     ],
     server: {
         port: 4081,

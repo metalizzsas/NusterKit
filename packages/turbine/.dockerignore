@@ -1,9 +1,7 @@
 node_modules/
-docs/
 data/
 dev/
 .git/
-nuster-turbine-machines/.git
 .vscode/
 .yarn/
 yarn.lock

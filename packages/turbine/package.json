@@ -6,19 +6,100 @@
   "version": "1.12.2",
   "description": "Typescript project running on BalenaOS and RPi4.",
   "private": true,
-  "types": "build/app.d.ts",
   "main": "build/app.js",
+  "files": [
+    "build"
+  ],
+  "exports": {
+    "./schemas": "./build/schemas/index.js",
+    "./types": "./build/types/index.js",
+    "./types/hydrated": "./build/types/hydrated/index.js",
+    "./types/hydrated/machine": "./build/types/hydrated/machine/index.js",
+    "./types/hydrated/cycle": "./build/types/hydrated/cycle/index.js",
+    "./types/hydrated/containers": "./build/types/hydrated/containers/index.js",
+    "./types/hydrated/balena": "./build/types/hydrated/balena/index.js",
+    "./types/spec": "./build/types/spec/index.js",
+    "./types/spec/nuster": "./build/types/spec/nuster/index.js",
+    "./types/spec/cycle": "./build/types/spec/cycle/index.js",
+    "./types/spec/cycle/parameter": "./build/types/spec/cycle/parameter/index.js",
+    "./types/spec/cycle/program": "./build/types/spec/cycle/program/index.js",
+    "./types/spec/containers": "./build/types/spec/containers/index.js",
+    "./types/spec/iogates": "./build/types/spec/iogates/index.js",
+    "./types/spec/iohandlers": "./build/types/spec/iohandlers/index.js",
+    "./types/utils": "./build/types/utils/index.js",
+    "./types/docs": "./build/types/docs/index.js"
+  },
+  "typesVersions": {
+    "*": {
+      "./schemas": [
+        "./build/schemas/index.d.ts"
+      ],
+      "./types": [
+        "./build/types/index.d.ts"
+      ],
+      "./types/hydrated": [
+        "./build/types/hydrated/index.d.ts"
+      ],
+      "./types/hydrated/machine": [
+        "./build/types/hydrated/machine/index.d.ts"
+      ],
+      "./types/hydrated/cycle": [
+        "./build/types/spec/hydrated/cycle/index.d.ts"
+      ],
+      "./types/hydrated/containers": [
+        "./build/types/hydrated/containers/index.d.ts"
+      ],
+      "./types/hydrated/balena": [
+        "./build/types/hydrated/balena/index.d.ts"
+      ],
+      "./types/spec": [
+        "./build/types/spec/index.d.ts"
+      ],
+      "./types/spec/nuster": [
+        "./build/types/spec/nuster/index.d.ts"
+      ],
+      "./types/spec/cycle": [
+        "./build/types/spec/cycle/index.d.ts"
+      ],
+      "./types/spec/cycle/program": [
+        "./build/types/spec/cycle/program/index.d.ts"
+      ],
+      "./types/spec/cycle/parameter": [
+        "./build/types/spec/cycle/parameter/index.d.ts"
+      ],
+      "./types/spec/containers": [
+        "./build/types/spec/containers/index.d.ts"
+      ],
+      "./types/spec/iogates": [
+        "./build/types/spec/iogates/index.d.ts"
+      ],
+      "./types/spec/iohandlers": [
+        "./build/types/spec/iohandlers/index.d.ts"
+      ],
+      "./types/utils": [
+        "./build/types/utils/index.d.ts"
+      ],
+      "./types/docs": [
+        "./build/types/docs/index.d.ts"
+      ]
+    }
+  },
   "scripts": {
     "dev": "nodemon src/app.ts",
     "preview": "node build/app.js",
-    "build": "pnpm run build:prisma && pnpm run build:app",
+    "build": "pnpm run build:prisma && pnpm run build:schemas && pnpm run build:app",
     "build:prisma": "prisma generate",
     "build:app": "tsc",
+    "build:schemas": "pnpm run schemas",
     "start": "node build/app.js",
     "lint": "eslint ./src/** --ext .ts",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "docs": "pnpx typedoc --entryPointStrategy expand ./src --out docs"
+    "docs": "pnpx typedoc --entryPointStrategy expand ./src --out docs",
+    "schemas": "npm run schemas:config && npm run schemas:spec && npm run schemas:translations",
+    "schemas:config": "typescript-json-schema src/types/configuration/index.ts Configuration --noExtraProps --required -o src/types/schemas/schema-config.json",
+    "schemas:spec": "typescript-json-schema src/types/spec/index.ts MachineSpecs --noExtraProps --required -o src/types/schemas/schema-specs.json",
+    "schemas:translations": "typescript-json-schema src/types/translations/index.ts Translations --noExtraProps --required -o src/types/schemas/schema-translations.json"
   },
   "repository": {
     "type": "git",
@@ -34,7 +115,6 @@
   "dependencies": {
     "@eslint/js": "^9.2.0",
     "@homebridge/dbus-native": "^0.6.0",
-    "@metalizzsas/nuster-turbine-machines": "1.7.6",
     "@prisma/client": "5.14.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -55,7 +135,6 @@
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
-    "@metalizzsas/nuster-typings": "1.6.2",
     "@types/cookie-parser": "^1.4.7",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
@@ -71,6 +150,7 @@
     "jest": "^29.7.0",
     "nodemon": "^3.1.0",
     "ts-jest": "^29.1.2",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "typescript-json-schema": "0.63.0"
   }
 }

@@ -2,7 +2,7 @@
 	"extends": "./.svelte-kit/tsconfig.json",
 	"compilerOptions": {
 		"strict": true,
-		"types": ["vite/client"],
+		"types": [],
 		"typeRoots": ["node_modules/@types"],
 		"target": "ES2016",
 		"lib": ["DOM", "ES2022"],
@@ -22,6 +22,6 @@
 		"forceConsistentCasingInFileNames": true,
 		"sourceRoot": "./",
 		"allowJs": true,
-		"checkJs": false
+		"checkJs": false,
 	},
 }

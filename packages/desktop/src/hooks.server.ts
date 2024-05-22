@@ -30,16 +30,24 @@ export const handle = (async ({ event, resolve }) => {
 }) satisfies Handle;
 
 /**
- * Handle API Route request from sveltekit internal SSR, using this we bypass NGINX Proxy
+ * Handle API Route request from sveltekit internal SSR, using this we bypass NGINX Proxy on dev
  */
+
+// TODO: THIS SHOULD NOT REROUTE FETCH CALLS, IT IS A BEHAVIOR USED DUE TO THE CONTEXT USED BEFORE
+
 export const handleFetch = ( async ({ request }) => {
 
     if(request.url.includes("/api/"))
     {
+        //Reroute api call to nuster-turbine service
         const newURL = request.url.replace(/(.*)\/api\//, `http://${import.meta.env.DEV ? "localhost" : "nuster-turbine"}:4080/`);
         return fetch(newURL, request);
     }
-
-    return fetch(request);
+    else
+    {
+        //Reroute /static calls to use correct port as it is behind a nginx proxy
+        const newURL = request.url.replace("localhost", `localhost:4081`);
+        return fetch(newURL, request);
+    }
     
 }) satisfies HandleFetch;

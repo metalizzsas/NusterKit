@@ -124,7 +124,7 @@
 </script>
 
 <Portal target="body">
-    <button bind:this={keyboardWrapper} class="p-2 bg-white dark:bg-zinc-800 ring-2 ring-inset dark:ring-white rounded-md absolute min-w-[65%]" style:left={`${$keyboardLeft}px`} style:top={`${$keyboardTop}px`} on:mousedown={mouseDown}>
+    <button bind:this={keyboardWrapper} class="p-2 bg-white dark:bg-zinc-800 ring-4 ring-inset cursor-move dark:ring-white rounded-md absolute min-w-[65%]" style:left={`${$keyboardLeft}px`} style:top={`${$keyboardTop}px`} on:mousedown={mouseDown}>
         <Flex justify="between" class="mb-2" gap={2}>
             {#if typeof value === "string" && isPassword === false}
                 <TextField bind:value={value} disabled keyboardEmbedded class="grow"/>

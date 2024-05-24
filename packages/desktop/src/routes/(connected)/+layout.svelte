@@ -18,8 +18,7 @@
 	import type { Popup } from "@metalizzsas/nuster-turbine/types/spec/nuster";
     import { realtime, realtimeConnected, realtimeLock } from "$lib/utils/stores/nuster";
 	import Loadindicator from "$lib/components/LoadIndicator.svelte";
-	import { _, locale } from "svelte-i18n";
-	import { initi18nLocal } from "$lib/utils/i18n/i18nlocal";
+	import { _ } from "svelte-i18n";
 	import Toast from "$lib/components/Toast.svelte";
 	import { flip } from "svelte/animate";
 	import { version } from "$lib/version";
@@ -36,11 +35,8 @@
     let websocketState: "connecting" | "connected" | "disconnected" = "connecting";
     let websocket: WebSocket | undefined = undefined;
 
-    $realtime = data.machine_status;
-    $locale = data.settings.lang;
-
     onMount(async () => {
-        initi18nLocal();
+        await initI18nMachine();
         await realtimeConnect();
     });
 
@@ -52,8 +48,6 @@
     {
         websocketState = "connecting";
         
-        await initI18nMachine();
-
         const isSecure = window.location.protocol === "https:";
 
         websocket = new WebSocket(`${isSecure ? "wss": "ws"}://${env.PUBLIC_TURBINE_ADDRESS}/ws/`);
@@ -125,6 +119,7 @@
         }
     }
 
+    $: $realtime = data.machine_status;
     $: if(websocketState === "disconnected") { toasts = []; }
     $: if(browser) { document.querySelector("html")?.classList.toggle("dark", data.settings.dark === 1); }
 

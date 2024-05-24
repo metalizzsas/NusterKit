@@ -1,6 +1,8 @@
 <script lang="ts">
 
-	import Label from "$lib/components/Label.svelte";
+	import { enhance } from "$app/forms";
+	import { invalidateAll } from "$app/navigation";
+    import Label from "$lib/components/Label.svelte";
     import Wrapper from "$lib/components/Wrapper.svelte";
 	import Wrapper2 from "$lib/components/Wrapper2.svelte";
 	import Button from "$lib/components/buttons/Button.svelte";
@@ -8,45 +10,14 @@
 	import Flex from "$lib/components/layout/flex.svelte";
 	import Grid from "$lib/components/layout/grid.svelte";
 	import { realtime } from "$lib/utils/stores/nuster";
-	import type { AccessPoint } from "@metalizzsas/nuster-turbine/types/hydrated/balena";
 	import { ArrowLeft, ArrowPath, ArrowRightCircle, CheckCircle, ExclamationTriangle, XMark } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";
 	import { onMount } from "svelte";
 	import { _ } from "svelte-i18n";
 
-    const refreshNetworks = async () => {
-        void fetch("/api/network/wifi/list");
-        void fetch("/api/network/devices");
-    }
-
-    const disconnect = async (ap: AccessPoint) => {
-        processing = ap.ssid
-        await fetch("/api/network/wifi/disconnect");
-        processing = undefined;
-        showDetails = undefined;
-        refreshNetworks();
-    }
-
-    /** Connect the desired AP using the given password */
-    const connect = async (ap: AccessPoint) => {
-        showDetails = undefined;
-        processing = ap.ssid;
-        const result = await fetch('/api/network/wifi/connect', { method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ssid: ap.ssid, password }) });
-
-        if(!result.ok || result.status !== 200)
-        {
-            wifiConnectError = ap.ssid;
-            result.text().then(text => (text === "{}" || text === "") ? "settings.network.errors.wifi_invalid_password" : wifiConnectErrorMessage = text);
-        }
-
-        password = "";
-        processing = undefined;
-        refreshNetworks();
-    }
-
     onMount(() => {
         const interval = setInterval(() => {
-            void refreshNetworks();
+            invalidateAll();
         }, 15000);
 
         return () => clearInterval(interval);
@@ -138,7 +109,7 @@
 
             <Flex align="middle" justify="between" class="mb-4 mt-2">
                 <h4 class="leading-6">{$_('settings.network.available_networks')}</h4>
-                <button on:click={refreshNetworks} class="bg-gray-500 hover:bg-gray-600 group duration-200 py-0.5 pr-1.5 pl-2 rounded-md text-sm text-white">
+                <button on:click={() => invalidateAll()} class="bg-gray-500 hover:bg-gray-600 group duration-200 py-0.5 pr-1.5 pl-2 rounded-md text-sm text-white">
                     {$_('settings.network.refresh_available_networks')}
                     <Icon src={ArrowPath} class="h-4 w-4 inline ml-2 mb-0.5 group-hover:rotate-180 duration-500"/>
                 </button>
@@ -178,9 +149,10 @@
                         </button>
 
                         {#if showDetails === ap.ssid}
-                        
                             {#if ap.active}
-                                <Button size="small" ringColor="ring-red-500" color="hover:bg-red-500" class="mb-1" on:click={() => disconnect(ap)}>{$_('settings.network.disconnect')}</Button>
+                                <form action="?/disconectWifi" method="post" use:enhance>
+                                    <Button size="small" ringColor="ring-red-500" color="hover:bg-red-500" class="mb-1">{$_('settings.network.disconnect')}</Button>
+                                </form>
                             {:else}
                                 {@const alreadyConnected = $realtime.network.accessPoints.some(ap => ap.active)}
 
@@ -188,12 +160,13 @@
                                     <p class="text-amber-500"><Icon src={ExclamationTriangle} class="h-6 w-6 inline mr-2 mb-0.5" />{$_('settings.network.disconnect_first')}</p>
                                 {/if}
 
-                                <div class="flex justify-between items-center w-full gap-4 mb-1">
+                                <form action="?/connectWifi" method="post" use:enhance class="flex justify-between items-center w-full gap-4 mb-1">
+                                    <input type="hidden" name="ssid" value={ap.ssid} />
                                     {#if ap.encryption > 0}
-                                        <PasswordField placeholder={$_('password')} bind:value={password} disabled={alreadyConnected} class="grow" />
+                                        <PasswordField placeholder={$_('password')} bind:value={password} disabled={alreadyConnected} class="grow" name="password" />
                                     {/if}
-                                    <Button on:click={() => connect(ap)} disabled={alreadyConnected || (ap.encryption > 0) ? !(password.length > 7) : false}>{$_('settings.network.connect')}</Button>
-                                </div>
+                                    <Button disabled={alreadyConnected || (ap.encryption > 0) ? !(password.length > 7) : false}>{$_('settings.network.connect')}</Button>
+                                </form>
                             {/if}
                         {/if}
                     </div>

@@ -11,41 +11,9 @@
 	import { _ } from "svelte-i18n";
 	import { translateProfileName } from "$lib/utils/i18n/i18nprofile";
 	import { realtime } from "$lib/utils/stores/nuster";
-	import { createEventDispatcher } from "svelte";
 	import { page } from "$app/stores";
+	import { enhance } from "$app/forms";
     
-    const dispatch = createEventDispatcher<{ patched: void }>();
-
-    export let patched = () => { dispatch("patched"); }
-    
-    const startCycle = async () => {
-
-        if(cycleData === undefined)
-            return;
-        
-        if(cycleData.runConditions.some(c => c.result === "error"))
-            return;
-
-        await fetch(`/api/v1/cycle`, { method: "POST" });
-    }
-
-    const stopCycle = async () => {
-        await fetch(`/api/v1/cycle`, { method: "DELETE" });
-    }
-
-    const nextStepCycle = async () => {
-        await fetch(`/api/v1/cycle`, { method: "PUT"});
-    }
-
-    const pauseCycle = async () => {
-        await fetch(`/api/v1/cycle/pause`, { method: "PUT" });
-    }
-
-    const patchCycle = () => {
-        patched();
-        void fetch(`/api/v1/cycle`, { method: "PATCH" });
-    }
-
     /// — Reactive statements
     $: cycleData = $realtime.cycle;
 
@@ -82,19 +50,20 @@
         </p>
     {/if}
 
-    <Button 
-        class="group self-start mb-2" 
-        color={ready ? (readyWarn ? "hover:bg-amber-500" : "hover:bg-emerald-500") : "hover:bg-red-500"}
-        ringColor={ready ? (readyWarn ? "ring-amber-500" : "ring-emerald-500") : "ring-red-500"}
-        on:click={startCycle}
-    >
-        <Flex>
-            {#if ready}
-                <Icon src={ArrowRight} class="h-6 w-6 group-hover:translate-x-1 duration-300" theme="mini"/>
-            {/if}
-            {$_('cycle.buttons.start')}
-        </Flex>
-    </Button>
+    <form action="?/startCycle" method="post" use:enhance>
+        <Button 
+            class="group self-start mb-2" 
+            color={ready ? (readyWarn ? "hover:bg-amber-500" : "hover:bg-emerald-500") : "hover:bg-red-500"}
+            ringColor={ready ? (readyWarn ? "ring-amber-500" : "ring-emerald-500") : "ring-red-500"}
+        >
+            <Flex>
+                {#if ready}
+                    <Icon src={ArrowRight} class="h-6 w-6 group-hover:translate-x-1 duration-300" theme="mini"/>
+                {/if}
+                {$_('cycle.buttons.start')}
+            </Flex>
+        </Button>
+    </form>
 
     <div class="h-0.5 bg-zinc-300/50 rounded-full mx-auto w-2/3 my-2" />
 
@@ -167,40 +136,43 @@
 
         <Flex gap={4} class="ml-auto self-start">
             {#if $page.data.machine_configuration.settings.devMode}
-                <Button 
-                    class="group self-start" 
-                    color="hover:bg-amber-500"
-                    ringColor={"ring-amber-500"}
-                    on:click={nextStepCycle}
-                    disabled={cycleData.status.mode === "paused"}
-                >
-                    <Icon src={Forward} class="h-5 w-5 mb-0.5 mr-1 inline" />
-                    {$_('cycle.buttons.nextStep')}
-                </Button>
+                <form action="?/nextStepCycle" method="post" use:enhance>
+                    <Button 
+                        class="group self-start" 
+                        color="hover:bg-amber-500"
+                        ringColor={"ring-amber-500"}
+                        disabled={cycleData.status.mode === "paused"}
+                    >
+                        <Icon src={Forward} class="h-5 w-5 mb-0.5 mr-1 inline" />
+                        {$_('cycle.buttons.nextStep')}
+                    </Button>
+                </form>
             {/if}
 
             {#if cycleData.status.pausable}
+                <form action="?/pauseCycle" method="post" use:enhance>
+                    <Button 
+                        class="group self-start" 
+                        color="hover:bg-yellow-500"
+                        ringColor={"ring-yellow-500"}
+                    >
+                        <Icon src={cycleData.status.mode === "paused" ? Play : Pause} class="h-5 w-5 mr-1 mb-0.5 inline" />
+                        {$_(`cycle.buttons.${cycleData.status.mode === "paused" ? "resume" : "pause"}`)}
+                    </Button>
+                </form>
+            {/if}
+
+            <form action="?/stopCycle" method="post" use:enhance>
                 <Button 
                     class="group self-start" 
-                    color="hover:bg-yellow-500"
-                    ringColor={"ring-yellow-500"}
-                    on:click={pauseCycle}
+                    color="hover:bg-red-500"
+                    ringColor={"ring-red-500"}
+                    disabled={cycleData.status.mode === "paused"}
                 >
-                    <Icon src={cycleData.status.mode === "paused" ? Play : Pause} class="h-5 w-5 mr-1 mb-0.5 inline" />
-                    {$_(`cycle.buttons.${cycleData.status.mode === "paused" ? "resume" : "pause"}`)}
+                    <Icon src={Stop} class="h-5 w-5 mr-1 mb-0.5 inline" />
+                    {$_('cycle.buttons.stop')}
                 </Button>
-            {/if}
-    
-            <Button 
-                class="group self-start" 
-                color="hover:bg-red-500"
-                ringColor={"ring-red-500"}
-                on:click={stopCycle}
-                disabled={cycleData.status.mode === "paused"}
-            >
-                <Icon src={Stop} class="h-5 w-5 mr-1 mb-0.5 inline" />
-                {$_('cycle.buttons.stop')}
-            </Button>
+            </form>
         </Flex>
     </Flex>
 
@@ -261,7 +233,9 @@
         <Icon src={isSuccess && !hasOneStepErrored ? Check : XMark} class="h-10 w-10 self-start {isSuccess && !hasOneStepErrored ? "text-emerald-500" : "text-red-500"}" />
     </Flex>
 
-    <Button on:click={patchCycle} class="mt-4 mb-6">{$_('cycle.buttons.complete')}</Button>
+    <form action="?/patchCycle" method="post" use:enhance>
+        <Button class="mt-4 mb-6">{$_('cycle.buttons.complete')}</Button>
+    </form>
 
     <div class="h-0.5 bg-zinc-300/50 rounded-full mx-auto w-2/3 my-2" />
 

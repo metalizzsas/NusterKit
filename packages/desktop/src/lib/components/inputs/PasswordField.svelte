@@ -5,10 +5,12 @@
 	import { Eye, EyeSlash } from "@steeze-ui/heroicons";
 
     export let value: string;
-    export let placeholder: string | undefined = undefined;
+
+    /// — Optional values
     export let disabled = false;
     export let secretShown = false;
-
+    export let placeholder: string | undefined = undefined;
+    export let name: string | undefined = undefined;
     export let keyboardEmbedded = false;
 
     let passwordElement: HTMLInputElement | undefined;
@@ -23,6 +25,7 @@
 <div class="ring-gray-500/50 ring-1 rounded-md p-2 bg-transparent dark:text-white text-zinc-800 flex flex-row items-center {$$props.class}">
     <input
         bind:this={passwordElement}
+        {name}
         type="password"
         {placeholder}
         class="bg-transparent dark:text-white text-zinc-800 grow"

@@ -11,39 +11,22 @@
 	import type { ProgramBlockRunnerHydrated } from "@metalizzsas/nuster-turbine/types/hydrated";
 	import { translateProfileName } from "$lib/utils/i18n/i18nprofile";
 	import SelectableButton from "$lib/components/buttons/SelectableButton.svelte";
-	import type { PageData } from "./$types";
+	import type { ActionData, PageData } from "./$types";
 	import Gate from "./io/Gate.svelte";
 	import Toggle from "$lib/components/inputs/Toggle.svelte";
 	import Label from "$lib/components/Label.svelte";
 	import { page } from "$app/stores";
+	import { enhance } from "$app/forms";
 
     export let data: PageData;
+    export let form: ActionData;
 
     let selectedPremadeIndex: number | undefined = undefined;
     let cycleData: ProgramBlockRunnerHydrated | undefined;
     let listShrinked = false;
 
-    const prepareCycle = async (cycleType: string, profileID?: string) => {
-
-        // Patch cycle if cycle data is not undefined
-        if(cycleData !== undefined)
-            await patchCycle();  
-
-        await fetch(`/api/v1/cycle/${cycleType}/${profileID != undefined ? profileID : ''}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-    }
-
-    /** End a prepared cycle if one is defined */
-    const patchCycle = async () => {
-        cycleData = undefined;
-        await fetch(`/api/v1/cycle`, { method: "PATCH" });
-    }
-
     /// — Reactives statements 
+    $: if(form !== undefined && form?.patchCycle?.success === true) { cycleData =  undefined; selectedPremadeIndex = undefined; }
     $: cycleData = $realtime.cycle;
     $: if(cycleData !== undefined && selectedPremadeIndex === undefined)
     { 
@@ -78,47 +61,43 @@
                 {#each data.cyclePremades as premade, index}
                     {@const isPrimaryPremade = premade.cycle === "default"}
 
-                    <SelectableButton 
-                        selected={selectedPremadeIndex === index}
-                        on:click={() => {
-                            if (selectedPremadeIndex == index) {
-                                selectedPremadeIndex = undefined;
-                                void patchCycle();
+                    <form action="?/prepareCycle" method="post" use:enhance>
+                        <input type="hidden" name="cycle_type" value={premade.cycle} />
+                        <input type="hidden" name="profile_id" value={premade.profile?.id} />
 
-                            } else {
-                                selectedPremadeIndex = index;
-                                void prepareCycle(premade.cycle, premade.profile?.id);
-                            }
-                        }}
-                    >
-                        <Flex gap={4} items="center">
-                            {#if premade.profile}
-                                <Icon
-                                    src={premade.profile?.isPremade === true ? Square3Stack3d: UserCircle}
-                                    theme="solid"
-                                    class="{isPrimaryPremade ? "text-indigo-500" : "text-pink-500"} h-6 w-6 shrink-0"
-                                />
-                            {:else}
-                                <Icon
-                                    src={Square3Stack3d}
-                                    theme="solid"
-                                    class="{isPrimaryPremade ? "text-indigo-500" : "text-pink-500"} h-6 w-6 shrink-0"
-                                />
-                            {/if}
-                            <Flex direction="col" gap={0} items="start" justify="items-start">
-
-                                {#if premade.profile !== undefined}
-                                    <h2 class="text-ellipsis text-left">{translateProfileName($_, premade.profile)}</h2>
-                                    <p class="text-sm text-zinc-600 dark:text-zinc-300">
-                                        {$_("cycle.names." + premade.cycle)}
-                                    </p>
+                        <SelectableButton 
+                            selected={selectedPremadeIndex === index}
+                            on:click={() => { selectedPremadeIndex = selectedPremadeIndex == index ? undefined : index; }}
+                        >
+                            <Flex gap={4} items="center">
+                                {#if premade.profile}
+                                    <Icon
+                                        src={premade.profile?.isPremade === true ? Square3Stack3d: UserCircle}
+                                        theme="solid"
+                                        class="{isPrimaryPremade ? "text-indigo-500" : "text-pink-500"} h-6 w-6 shrink-0"
+                                    />
                                 {:else}
-                                    <h2>{$_("cycle.names." + premade.cycle)}</h2>
+                                    <Icon
+                                        src={Square3Stack3d}
+                                        theme="solid"
+                                        class="{isPrimaryPremade ? "text-indigo-500" : "text-pink-500"} h-6 w-6 shrink-0"
+                                    />
                                 {/if}
+                                <Flex direction="col" gap={0} items="start" justify="items-start">
 
+                                    {#if premade.profile !== undefined}
+                                        <h2 class="text-ellipsis text-left">{translateProfileName($_, premade.profile)}</h2>
+                                        <p class="text-sm text-zinc-600 dark:text-zinc-300">
+                                            {$_("cycle.names." + premade.cycle)}
+                                        </p>
+                                    {:else}
+                                        <h2>{$_("cycle.names." + premade.cycle)}</h2>
+                                    {/if}
+
+                                </Flex>
                             </Flex>
-                        </Flex>
-                    </SelectableButton>
+                        </SelectableButton>
+                    </form>
                 {/each}
             </Flex>
         </Wrapper>
@@ -128,10 +107,7 @@
         <Flex gap={6} direction="col">
             <Wrapper>
                 {#if selectedPremadeIndex !== undefined && cycleData !== undefined}
-                    <Cycle on:patched={() => {
-                        cycleData = undefined;
-                        selectedPremadeIndex = undefined;
-                    }}/>
+                    <Cycle />
                 {:else}
                     <h3>{$_('cycle.unselected.lead')}</h3>
                     <p class="mt-2">

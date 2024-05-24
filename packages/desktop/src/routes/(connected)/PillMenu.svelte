@@ -26,6 +26,7 @@
             <div 
                 class="h-2.5 aspect-square rounded-full"
                 class:bg-orange-500={$realtimeConnected === false}
+                class:animate-pulse={$realtimeConnected === false}
                 class:bg-green-500={$realtimeConnected === true}
             />
         </Flex>

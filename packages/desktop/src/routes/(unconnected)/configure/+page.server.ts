@@ -1,10 +1,11 @@
+import { env } from "$env/dynamic/private";
 import type { Configuration, MachineSpecsList } from "@metalizzsas/nuster-turbine/types";
 
 export const load = (async ({ fetch }) => {
 
     //TODO: fetch available configurations from server
 
-    const configurationsRequest = await fetch("/api/configs");
+    const configurationsRequest = await fetch(`http://${env.TURBINE_ADDRESS}/configs`);
 
     const machineSpecsList = await configurationsRequest.json() as MachineSpecsList;
 
@@ -13,7 +14,7 @@ export const load = (async ({ fetch }) => {
     if(machineModelNames.length === 0)
         throw Error("Failed to get machines list")
 
-    const configurationRequest = await fetch(`/api/config/actual`);
+    const configurationRequest = await fetch(`http://${env.TURBINE_ADDRESS}/config/actual`);
     const configuration = await configurationRequest.json().catch(() => { return {
         model: machineModelNames.at(0),
         

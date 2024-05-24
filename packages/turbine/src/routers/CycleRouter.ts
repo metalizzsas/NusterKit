@@ -115,7 +115,7 @@ export class CycleRouter extends Router
                 res.status(200).end();
             }
             else
-                res.status(403).end("Cant dispose a cycle that has not ended call DELETE:/api/v1/ first.");
+                res.status(403).end("Cant dispose a cycle that has not ended call DELETE:http://${env.TURBINE_ADDRESS}/v1/ first.");
         });
 
         /** Route to stop the cycle */

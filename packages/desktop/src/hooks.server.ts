@@ -1,4 +1,4 @@
-import type { Handle, HandleFetch } from "@sveltejs/kit";
+import type { Handle } from "@sveltejs/kit";
 import { env } from "$env/dynamic/private";
 import type { MachineData } from "@metalizzsas/nuster-turbine/types/hydrated/machine";
 
@@ -30,15 +30,7 @@ export const handle = (async ({ event, resolve }) => {
     if(machineData !== undefined && event.url.pathname.startsWith("/configure"))
         return new Response(null, { headers: { "Location": "/" }, status: 302 });
 
-    if(machineData !== undefined)
-    {
-        event.locals.machine_configuration = machineData;
-
-        const machineRealtimeData = await fetch(`http://${env.TURBINE_ADDRESS}/realtime`);
-
-        if(machineRealtimeData.status === 200 && machineRealtimeData.ok)
-            event.locals.machine_status = await machineRealtimeData.json();
-    }
+    if(machineData !== undefined) event.locals.machine_configuration = machineData;
 
     return await resolve(event);
 
@@ -50,12 +42,13 @@ export const handle = (async ({ event, resolve }) => {
 
 // WARNING: THIS SHOULD NOT REROUTE FETCH CALLS, IT IS A BEHAVIOR USED DUE TO THE CONTEXT USED BEFORE
 // TODO: REMOVE THIS
+/*
 export const handleFetch = ( async ({ request }) => {
 
-    if(request.url.includes("/api/"))
+    if(request.url.includes("http://${env.TURBINE_ADDRESS}/"))
     {
         //Reroute api call to nuster-turbine service
-        const newURL = request.url.replace(/(.*)\/api\//, `http://${import.meta.env.DEV ? "localhost" : "nuster-turbine"}:4080/`);
+        const newURL = request.url.replace(/(.*)\http://${env.TURBINE_ADDRESS}\//, `http://${import.meta.env.DEV ? "localhost" : "nuster-turbine"}:4080/`);
         return fetch(newURL, request);
     }
 
@@ -66,6 +59,7 @@ export const handleFetch = ( async ({ request }) => {
         //Reroute /static calls to use correct port as it is behind a nginx proxy
         const newURL = request.url.replace("localhost", `localhost:4081`);
         return fetch(newURL, request);
-    } */
+    } *
     
 }) satisfies HandleFetch;
+*/

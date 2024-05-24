@@ -1,5 +1,6 @@
 import type { PageServerLoad } from "../$types";
 import type { DocFile } from "@metalizzsas/nuster-turbine/types/docs";
+import { env } from "$env/dynamic/private";
 
 export const load = (async ({ fetch }) => {
 
@@ -21,7 +22,7 @@ export const load = (async ({ fetch }) => {
 
     try
     {
-        const machineDocsFileRequest = await fetch('/api/static/docs/files.json');
+        const machineDocsFileRequest = await fetch(`http://${env.TURBINE_ADDRESS}/static/docs/files.json`);
         if(machineDocsFileRequest.status === 200 && machineDocsFileRequest.ok)
         {
             const machineDocsFiles = await machineDocsFileRequest.json();

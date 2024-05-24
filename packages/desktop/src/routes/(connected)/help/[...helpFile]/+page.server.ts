@@ -1,6 +1,6 @@
 export const load = async ({ fetch, params }) => {
 
-    const remoteDocRequest = await fetch(`/api/static/${params.helpFile}`);
+    const remoteDocRequest = await fetch(`http://${env.TURBINE_ADDRESS}/static/${params.helpFile}`);
     const localDocRequest = await fetch(`/docs/${params.helpFile}`);
 
     if(remoteDocRequest.status === 200 && remoteDocRequest.ok)

@@ -3,7 +3,7 @@
 	import { computeContainersState, computeMaintenancesState } from "$lib/utils/state";
 
 	import Flex from "$lib/components/layout/flex.svelte";
-	import { realtime } from "$lib/utils/stores/nuster";
+	import { realtime, realtimeConnected } from "$lib/utils/stores/nuster";
 	import { _ } from "svelte-i18n";
 	import PillMenuButton from "./PillMenuButton.svelte";
 	import { page } from "$app/stores";
@@ -23,6 +23,11 @@
         <Flex gap={4} items="center" class="ml-2">
             <img src="/icons/icon-t-192.png" class="h-12 -m-2 -ml-1 aspect-square" alt={$_('nuster.logo')}/>
             <h1 class="text-xl">{$_('nuster.lead')}</h1>
+            <div 
+                class="h-2.5 aspect-square rounded-full"
+                class:bg-orange-500={$realtimeConnected === false}
+                class:bg-green-500={$realtimeConnected === true}
+            />
         </Flex>
     </a>
 

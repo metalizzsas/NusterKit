@@ -4,6 +4,10 @@ import type { MachineData } from "@metalizzsas/nuster-turbine/types/hydrated/mac
 declare namespace App
 {
     interface Locals {
+
+        /** Machine settings stored in turbine */
+        settings: { dark: 1 | 0, lang: string }
+
         /** Is machine screen, in dev mode, will always be true */
         is_machine_screen: boolean;
         
@@ -15,6 +19,10 @@ declare namespace App
     }
     
     interface PageData {
+
+        /** Machine settings stored in turbine */
+        settings: { dark: 1 | 0, lang: string }
+
         /** Is machine screen, in dev mode, will always be true */
         is_machine_screen: boolean;
 

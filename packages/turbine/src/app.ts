@@ -412,6 +412,7 @@ import { migrate } from "./migrate";
             TurbineEventLoop.emit('log', 'info', "Express: Registered routers");
 
             ExpressApp.get("/machine", (_, res: Response) => { res.json(machine?.toJSON()); });
+            ExpressApp.get("/realtime", async (_, res: Response) => { res.json(await machine?.socketData());})
             
         }
         else

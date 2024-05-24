@@ -20,6 +20,11 @@
     export let max: number | undefined = undefined;
     export let step: number | undefined = undefined;
 
+    export let name: string | undefined = undefined;
+    export let validateOnChange: boolean = false;
+
+    let validateOnChangeButton: HTMLButtonElement | undefined;
+
     const increment = () => {
 
         if(max !== undefined && value >= max)
@@ -33,6 +38,7 @@
         }
 
         change();
+        if(validateOnChange && validateOnChangeButton) validateOnChangeButton.click();
     };
 
     const decrement = () => {
@@ -48,6 +54,7 @@
         }
 
         change();
+        if(validateOnChange && validateOnChangeButton) validateOnChangeButton.click();
     }
 
 </script>
@@ -60,13 +67,18 @@
         bind:value={value}
         {disabled}
         on:focus={() => focused = true}
-        on:input={change}
+        on:input={() => { change(); if(validateOnChange && validateOnChangeButton) validateOnChangeButton.click(); }}
         {min}
         {max}
+        {name}
     />
     <button on:click={decrement}><Icon src={MinusCircle} class="h-6 w-6 text-zinc-600 dark:text-white" {disabled}></Icon></button>
     <button on:click={increment}><Icon src={PlusCircle} class="h-6 w-6 text-zinc-600 dark:text-white" {disabled}></Icon></button>
 </Flex>
+
+{#if validateOnChange}
+    <button type="submit" class="hidden" bind:this={validateOnChangeButton} />
+{/if}
 
 {#if !keyboardEmbedded && focused && $page.data.is_machine_screen}
     <Keyboard bind:value on:close={() => { focused = false; change(); }} />

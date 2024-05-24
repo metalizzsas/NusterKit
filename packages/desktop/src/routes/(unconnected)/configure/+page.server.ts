@@ -1,13 +1,11 @@
 import { env } from "$env/dynamic/private";
 import type { Configuration, MachineSpecsList } from "@metalizzsas/nuster-turbine/types";
+import { fail, redirect } from "@sveltejs/kit";
 
 export const load = (async ({ fetch }) => {
 
-    //TODO: fetch available configurations from server
-
-    const configurationsRequest = await fetch(`http://${env.TURBINE_ADDRESS}/configs`);
-
-    const machineSpecsList = await configurationsRequest.json() as MachineSpecsList;
+    const machineSpecsListRequest = await fetch(`http://${env.TURBINE_ADDRESS}/configs`);
+    const machineSpecsList = await machineSpecsListRequest.json() as MachineSpecsList;
 
     const machineModelNames = Object.keys(machineSpecsList);
 
@@ -16,7 +14,7 @@ export const load = (async ({ fetch }) => {
 
     const configurationRequest = await fetch(`http://${env.TURBINE_ADDRESS}/config/actual`);
     const configuration = await configurationRequest.json().catch(() => { return {
-        model: machineModelNames.at(0),
+        model: machineModelNames[0],
         
         name: "Nuster Machine",
         serial: "",
@@ -30,10 +28,34 @@ export const load = (async ({ fetch }) => {
 
         addons: [],
         machineAddons: []
-    } satisfies Configuration; }) as Configuration;
+    } satisfies Omit<Configuration, "$schema">; }) as Configuration;
 
     return {
         configuration,
         configurations: machineSpecsList
     }
 });
+
+export const actions = {
+    saveConfiguration: async ({ fetch, request }) => {
+
+        const form = await request.formData();
+        const configuration = form.get('configuration')?.toString();
+
+        if(configuration === undefined)
+            return fail(400, { saveConfiguration: { error: "Configuration is required" }});
+
+        const saveRequest = await fetch(`http://${env.TURBINE_ADDRESS}/config/`, {
+            method: 'post',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: configuration
+        });
+
+        if(saveRequest.ok && saveRequest.status === 200)
+            return redirect(303, "/");
+        else
+            return fail(400, { saveConfiguration: { error: "Failed to save configuration" }});
+    }
+}

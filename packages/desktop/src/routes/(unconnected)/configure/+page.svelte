@@ -20,22 +20,9 @@
 
     import type { PageData } from "./$types";
 	import ToggleGroup from "$lib/components/inputs/ToggleGroup.svelte";
+	import { enhance } from "$app/forms";
 
     export let data: PageData;
-
-    async function save() {
-
-        const saveRequest = await fetch(`/api/config/`, {
-            method: 'post',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(data.configuration)
-        });
-
-        if(saveRequest.ok && saveRequest.status === 200)
-            window.location.href = "/";
-    }
 
     /// — Reactive statements
     $: specs = data.configurations[`${data.configuration.model}`];
@@ -126,7 +113,10 @@
                 <pre class="break-words whitespace-pre-wrap">{JSON.stringify({...data.configuration, $schema: undefined }, undefined, 4)}</pre>
             </div>
             <Grid cols={2}>
-                <Button on:click={save}>Save</Button>
+                <form action="?/saveConfiguration" use:enhance method="post">
+                    <input type="hidden" name="configuration" value={JSON.stringify(data.configuration)} />
+                    <Button class="w-full">Save</Button>
+                </form>
                 <a href="/settings">
                     <Button color="hover:bg-red-500" ringColor="ring-red-500" class="w-full">Exit</Button>
                 </a>

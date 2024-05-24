@@ -1,6 +1,8 @@
 import type { Handle } from "@sveltejs/kit";
 import { env } from "$env/dynamic/private";
 import type { MachineData } from "@metalizzsas/nuster-turbine/types/hydrated/machine";
+import type { Status } from "@metalizzsas/nuster-turbine/types";
+import { locale } from "svelte-i18n";
 
 /**
  * Handle hook use to populate locals
@@ -30,7 +32,24 @@ export const handle = (async ({ event, resolve }) => {
     if(machineData !== undefined && event.url.pathname.startsWith("/configure"))
         return new Response(null, { headers: { "Location": "/" }, status: 302 });
 
-    if(machineData !== undefined) event.locals.machine_configuration = machineData;
+    /// — Fill locals if machine data is available
+    if(machineData !== undefined)
+    {
+        const settingsRequest = await fetch(`http://${env.TURBINE_ADDRESS}/settings`);
+        const realtimeDataRequest = await fetch(`http://${env.TURBINE_ADDRESS}/realtime`);
+
+        const { dark, lang } = await settingsRequest.json() as { dark: "1" | "0", lang: string };
+        
+        const realtimeData = await realtimeDataRequest.json() as Status;
+
+        event.locals.machine_configuration = machineData;
+        event.locals.settings = {
+            dark: parseInt(dark) as 1 | 0,
+            lang
+        };
+        locale.set(lang);
+        event.locals.machine_status = realtimeData;
+    } 
 
     return await resolve(event);
 

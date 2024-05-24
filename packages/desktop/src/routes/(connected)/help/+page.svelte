@@ -21,7 +21,7 @@
                     {#if page.type === "nuster"}
                         <img src="icons/icon-192.png" class="h-6 w-6 rounded-md" alt={$_('nuster.logo')} />
                     {:else}
-                        <img src="/api/static/icon.png" class="h-6 dark:bg-white rounded-md" alt={"Logo machine"} />
+                        <img src={`/files/icon.png`} class="h-6 dark:bg-white rounded-md" alt={"Logo machine"} />
                     {/if}
                     <p>
                         {#if page.type === "nuster"}

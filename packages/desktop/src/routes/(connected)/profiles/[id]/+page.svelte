@@ -15,7 +15,7 @@
 	import TextField from "$lib/components/inputs/TextField.svelte";
 	import { Icon } from "@steeze-ui/svelte-icon";
 	import { XMark } from "@steeze-ui/heroicons";
-	import { machine } from "$lib/utils/stores/nuster";
+	import { page } from "$app/stores";
 
     export let data: PageData;
 
@@ -105,7 +105,7 @@
     
             {@const fields = data.profile.values.filter(k => { 
                 const catReturn = k.name.split("#").at(0) == category;
-                const shouldHideFields = $machine.settings.onlyShowSelectedProfileFields ?? false;
+                const shouldHideFields = $page.data.machine_configuration.settings.onlyShowSelectedProfileFields ?? false;
     
                 if(shouldHideFields)
                     return catReturn && k.detailsShown

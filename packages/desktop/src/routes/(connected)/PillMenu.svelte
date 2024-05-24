@@ -3,28 +3,13 @@
 	import { computeContainersState, computeMaintenancesState } from "$lib/utils/state";
 
 	import Flex from "$lib/components/layout/flex.svelte";
-	import { onMount } from "svelte";
 	import { realtime } from "$lib/utils/stores/nuster";
 	import { _ } from "svelte-i18n";
 	import PillMenuButton from "./PillMenuButton.svelte";
-	import type { MachineData } from "@metalizzsas/nuster-turbine/types/hydrated/machine";
+	import { page } from "$app/stores";
 
     let containersState: "good" | "warn" | "error" | "info" = "error";
-
     let maintenancesState: "good" | "warn" | "error" = "error";
-
-    let machine: MachineData | undefined;
-
-    onMount(() => {
-
-        const interval = setInterval(async () => {
-            const machineRequest = await fetch(`/api/machine`);
-            machine = await machineRequest.json() as MachineData;
-        }, 5000);
-
-        return () => clearInterval(interval);
-
-    });
 
     /// Reactive statements
     $: maintenancesState = computeMaintenancesState($realtime.maintenance);
@@ -56,7 +41,7 @@
         {/if}
     </PillMenuButton>
 
-    {#if machine !== undefined && (machine?.settings.profilesShown === true || machine.settings.devMode === true)}
+    {#if $page.data.machine_configuration.settings.profilesShown === true || $page.data.machine_configuration.settings.devMode === true}
         <PillMenuButton href="/profiles" activeUrl="/(connected)/profiles">{$_('profile.lead')}</PillMenuButton>
     {/if}
 
@@ -85,12 +70,12 @@
 
     <PillMenuButton href="/help" activeUrl={"/(connected)/help"}>{$_('help.lead')}</PillMenuButton>
 
-    {#if machine?.settings.devMode === true}
+    {#if $page.data.machine_configuration.settings.devMode === true}
         <PillMenuButton href="/io" activeUrl={"/(connected)/io"}>{$_('gates.lead')}</PillMenuButton>
     {/if}
 
     <PillMenuButton href="/settings" activeUrl={"/(connected)/settings"}>
-        {@const updateAvailable = machine?.hypervisorData?.appState !== 'applied' && machine?.hypervisorData?.overallDownloadProgress === null}
+        {@const updateAvailable = $page.data.machine_configuration.hypervisorData?.appState !== 'applied' && $page.data.machine_configuration.hypervisorData?.overallDownloadProgress === null}
         {$_('settings.lead')}
 
         {#if updateAvailable}

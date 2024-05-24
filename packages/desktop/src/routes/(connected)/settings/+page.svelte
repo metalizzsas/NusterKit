@@ -11,14 +11,15 @@
 	import { ArrowPath, ExclamationTriangle, Power } from "@steeze-ui/heroicons";
     
 	import { locales, _ } from "svelte-i18n";
-	import type { PageData } from "./$types";
-	import { settings } from "$lib/utils/stores/settings";
+	import type { ActionData, PageData } from "./$types";
 	import Label from "$lib/components/Label.svelte";
 	import ProgressBar from "$lib/components/ProgressBar.svelte";
 	import Grid from "$lib/components/layout/grid.svelte";
 	import { realtime } from "$lib/utils/stores/nuster";
+	import { enhance } from "$app/forms";
 
     export let data: PageData;
+    export let form: ActionData;
 
     const langs: { [x: string]: string } = {
 		en: 'English',
@@ -26,22 +27,6 @@
 		it: 'Italiano'
 	};
 
-    const update = async () => {
-        const request = await fetch("/api/forceUpdate");
-
-        if(request.ok && request.status == 200)
-            isUpdating = true;
-    };
-
-    const reboot = () => {
-        void fetch("/api/reboot");
-    }
-
-    const shutdown = () => {
-        void fetch("/api/shutdown");
-    }
-
-    let isUpdating = false;
     let password = "";
 
 </script>
@@ -50,18 +35,21 @@
     <Flex direction="col" gap={2}>
     
         <h1>{$_('settings.lead')}</h1>
-    
         <h2>{$_('settings.ui.lead')}</h2>
         
         <SettingField label={$_('settings.ui.language')}>
-            <Select bind:value={$settings.lang} selectableValues={Object.keys(langs).map(k => { return { name: langs[k], value: k}})}>
-                {#each $locales as locale}
-                    <option value={locale}>{langs[locale]}</option>
-                {/each}
-            </Select>
+            <form action="?/updateSettings" method="post" id="settings" use:enhance>
+                <Select bind:value={data.settings.lang} selectableValues={Object.keys(langs).map(k => { return { name: langs[k], value: k}})} form={{ name: "lang", validateOn: "change" }}>
+                    {#each $locales as locale}
+                        <option value={locale}>{langs[locale]}</option>
+                    {/each}
+                </Select>
+            </form>
         </SettingField>
 
-        <SettingField label={$_('settings.ui.dark_mode')}><Toggle bind:value={$settings.dark} /></SettingField>
+        <SettingField label={$_('settings.ui.dark_mode')}>
+            <Toggle bind:value={data.settings.dark} form={{ formName: "settings", name: "dark", validateOn: "change" }} />
+        </SettingField>
 
         <h2>{$_('settings.machine.lead')}</h2>
 
@@ -86,11 +74,13 @@
         
         {#if data.machine.hypervisorData?.appState !== 'applied' && data.machine.hypervisorData?.overallDownloadProgress === null}
             <SettingField label={$_('settings.software.update')}>
-                {#if isUpdating}
+                {#if form?.update !== undefined && "success" in form.update}
                     {$_('settings.software.update_installing')}
                     <ProgressBar progress={-1} />
                 {:else}
-                    <Button color={"hover:bg-indigo-500"} ringColor={"ring-indigo-500"} size="small" on:click={update} disabled={$realtime.cycle !== undefined}>{$_('settings.software.update_install')}</Button>
+                    <form action="?/update" method="post">
+                        <Button color={"hover:bg-indigo-500"} ringColor={"ring-indigo-500"} size="small" disabled={$realtime.cycle !== undefined}>{$_('settings.software.update_install')}</Button>
+                    </form>
                 {/if}
             </SettingField>
         {/if}
@@ -122,14 +112,19 @@
         <h2 class="mt-8">{$_('settings.power.lead')}</h2>
 
         <Grid cols={2} gap={8}>
-            <Button color="hover:bg-amber-500" ringColor="ring-amber-500" on:click={reboot} disabled={$realtime.cycle !== undefined}>
-                <Icon src={ArrowPath} class="h-4 w-4 inline mr-2 mb-1" />
-                {$_('settings.power.reboot')}
-            </Button>
-            <Button color="hover:bg-red-500" ringColor="ring-red-500" on:click={shutdown} disabled={$realtime.cycle !== undefined}>
-                <Icon src={Power} class="h-4 w-4 inline mr-2 mb-1" />
-                {$_('settings.power.shutdown')}
-            </Button>
+            <form action="?/reboot" method="post">
+                <Button color="hover:bg-amber-500" ringColor="ring-amber-500" disabled={$realtime.cycle !== undefined}>
+                    <Icon src={ArrowPath} class="h-4 w-4 inline mr-2 mb-1" />
+                    {$_('settings.power.reboot')}
+                </Button>
+            </form>
+
+            <form action="?/shutdown" method="post">
+                <Button color="hover:bg-red-500" ringColor="ring-red-500" disabled={$realtime.cycle !== undefined}>
+                    <Icon src={Power} class="h-4 w-4 inline mr-2 mb-1" />
+                    {$_('settings.power.shutdown')}
+                </Button>
+            </form>
         </Grid>
 
         <h2 class="mt-8">{$_('settings.advanced.lead')}</h2>

@@ -7,7 +7,7 @@
     import { Icon } from '@steeze-ui/svelte-icon';
 	import Wrapper from "$lib/components/Wrapper.svelte";
 	import Cycle from "./Cycle.svelte";
-	import { machine, realtime } from "$lib/utils/stores/nuster";
+	import { realtime } from "$lib/utils/stores/nuster";
 	import type { ProgramBlockRunnerHydrated } from "@metalizzsas/nuster-turbine/types/hydrated";
 	import { translateProfileName } from "$lib/utils/i18n/i18nprofile";
 	import SelectableButton from "$lib/components/buttons/SelectableButton.svelte";
@@ -15,6 +15,7 @@
 	import Gate from "./io/Gate.svelte";
 	import Toggle from "$lib/components/inputs/Toggle.svelte";
 	import Label from "$lib/components/Label.svelte";
+	import { page } from "$app/stores";
 
     export let data: PageData;
 
@@ -140,13 +141,13 @@
                 {/if}
             </Wrapper>
 
-            {#if selectedPremadeIndex === undefined && cycleData === undefined && $machine.nuster?.homeInformations !== undefined}
+            {#if selectedPremadeIndex === undefined && cycleData === undefined && $page.data.machine_configuration.nuster?.homeInformations !== undefined}
                 <Wrapper>
                     <h3>{$_('cycle.unselected_informations.lead')}</h3>
                     <p class="mt-2 mb-6">{$_('cycle.unselected_informations.sub')}</p>
 
                     <Flex direction="col">
-                        {#each $machine.nuster.homeInformations as homeInfo}
+                        {#each $page.data.machine_configuration.nuster.homeInformations as homeInfo}
                             {#if homeInfo.type === "io"}
                                 {@const gate = $realtime.io.find(k => k.name === homeInfo.path)}
                                 {#if gate !== undefined}

@@ -4,16 +4,16 @@
 	import Wrapper from '$lib/components/Wrapper.svelte';
 	import { _ } from 'svelte-i18n';
 	import type { PageData } from './$types';
-	import { settings } from '$lib/utils/stores/settings';
 	import Grid from '$lib/components/layout/grid.svelte';
 	import Wrapper2 from '$lib/components/Wrapper2.svelte';
+	import { page } from '$app/stores';
 
 	export let data: PageData;
 
 </script>
 
 <Grid cols={3}>
-    {#each data.docFiles.filter(p => p.lang === $settings.lang) as page}
+    {#each data.docFiles.filter(p => p.lang === $page.data.settings.lang) as page}
         <a href="/help{page.href}">
             <Wrapper2>
                 <h3>{page.name}</h3>

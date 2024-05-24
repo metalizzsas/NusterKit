@@ -10,8 +10,9 @@
     import { Icon } from "@steeze-ui/svelte-icon";
 	import { _ } from "svelte-i18n";
 	import { translateProfileName } from "$lib/utils/i18n/i18nprofile";
-	import { machine, realtime } from "$lib/utils/stores/nuster";
+	import { realtime } from "$lib/utils/stores/nuster";
 	import { createEventDispatcher } from "svelte";
+	import { page } from "$app/stores";
     
     const dispatch = createEventDispatcher<{ patched: void }>();
 
@@ -37,9 +38,6 @@
     }
 
     const pauseCycle = async () => {
-        if($machine.model !== "uscleaner")
-            return;
-
         await fetch(`/api/v1/cycle/pause`, { method: "PUT" });
     }
 
@@ -168,7 +166,7 @@
         </Flex>
 
         <Flex gap={4} class="ml-auto self-start">
-            {#if $machine.settings.devMode}
+            {#if $page.data.machine_configuration.settings.devMode}
                 <Button 
                     class="group self-start" 
                     color="hover:bg-amber-500"
@@ -181,7 +179,7 @@
                 </Button>
             {/if}
 
-            {#if cycleData.status.pausable && $machine.model === "uscleaner"}
+            {#if cycleData.status.pausable}
                 <Button 
                     class="group self-start" 
                     color="hover:bg-yellow-500"

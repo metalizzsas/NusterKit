@@ -14,20 +14,22 @@
 
 	import PillMenu from "./PillMenu.svelte";
 
-	import type { MachineData } from "@metalizzsas/nuster-turbine/types/hydrated/machine";
 	import type { WebsocketData } from "@metalizzsas/nuster-turbine/types";
 	import type { Popup } from "@metalizzsas/nuster-turbine/types/spec/nuster";
-    import { machine, realtime, realtimeLock } from "$lib/utils/stores/nuster";
+    import { realtime, realtimeLock } from "$lib/utils/stores/nuster";
 	import Loadindicator from "$lib/components/LoadIndicator.svelte";
-	import { settings } from "$lib/utils/stores/settings";
 	import { _, locale } from "svelte-i18n";
 	import { initi18nLocal } from "$lib/utils/i18n/i18nlocal";
 	import Toast from "$lib/components/Toast.svelte";
 	import { flip } from "svelte/animate";
 	import Button from "$lib/components/buttons/Button.svelte";
 	import { fade } from "svelte/transition";
-	import type { Unsubscriber } from "svelte/store";
 	import { version } from "$lib/version";
+	import { env } from "$env/dynamic/public";
+	import type { PageData } from "./$types";
+	import { browser } from "$app/environment";
+
+    export let data: PageData;
 
     type Toast_popup = Popup & { date: number };
 
@@ -35,21 +37,9 @@
 
     let websocketState: "connecting" | "connected" | "disconnected" = "connecting";
     let websocket: WebSocket | undefined = undefined;
-    let settingsSubscribe: Unsubscriber | undefined = undefined;
 
     onMount(async () => {
-
         initi18nLocal();
-
-        settings.subscribe((value) => {
-            $locale = value.lang;
-
-            if(value.dark === 1)
-                document.getElementsByTagName('html')[0].classList.add("dark");
-            else
-                document.getElementsByTagName('html')[0].classList.remove("dark");
-        });
-
         await machineConnect();
     });
 
@@ -60,37 +50,16 @@
     const machineConnect = async () =>
     {
         websocketState = "connecting";
-
-        const req = await fetch(`/api/machine`);
-        
-        if(req.ok && req.status === 200)
-            $machine = (await req.json()) as MachineData;
         
         await initI18nMachine();
 
-        const reqSettings = await fetch('/api/settings');
-        if(reqSettings.ok && reqSettings.status === 200)
-        {
-            const s = await reqSettings.json() as { dark: 1 | 0, lang: string };
-            $settings = s;
-
-            settingsSubscribe = settings.subscribe(value => {
-
-                if(Object.keys(value).length !== 2)
-                    return;
-
-                void fetch("/api/settings", { method: "POST", headers: {"content-type": "application/json"}, body: JSON.stringify(value) });
-            });
-        }
-
         const isSecure = window.location.protocol === "https:";
 
-        websocket = new WebSocket(`${isSecure ? "wss": "ws"}://${window.location.host}/ws/`);
+        websocket = new WebSocket(`${isSecure ? "wss": "ws"}://${env.PUBLIC_TURBINE_ADDRESS}/ws/`);
 
         websocket.onerror = function() {
             websocketState = "disconnected";
             websocket = undefined;
-            settingsSubscribe?.();
         }
 
         setTimeout(() => {
@@ -98,14 +67,12 @@
             {
                 websocketState = "disconnected"
                 websocket?.close();
-                settingsSubscribe?.();
             }
         }, 5000);
 
         websocket.onclose = function() {
             websocketState = "disconnected";
             websocket = undefined;
-            settingsSubscribe?.();
         }
 
         websocket.onopen = function() {
@@ -154,6 +121,9 @@
         }
     }
     $: if(websocketState === "disconnected") { toasts = []; }
+
+    $: $locale = data.settings.lang;
+    $: if(browser) { document.querySelector("html")?.classList.toggle("dark", data.settings.dark === 1); }
 
 </script>
 

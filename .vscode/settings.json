@@ -1,5 +1,4 @@
 {
-    "eslint.packageManager": "pnpm",
     "eslint.workingDirectories": [
         "./packages/turbine",
         "./packages/desktop",
@@ -21,7 +20,7 @@
         "js",
         "ts"
     ],
-    "i18n-ally.localesPaths": ["libs/misc/i18n/**/*"],
+    "i18n-ally.localesPaths": ["packages/desktop/lib/util/i18n/**/*"],
     "i18n-ally.usage.scanningIgnore": ["packages/desktop/build/**/*.js"],
     "i18n-ally.keystyle": "nested",
     "i18n-ally.enabledFrameworks": ["svelte"],

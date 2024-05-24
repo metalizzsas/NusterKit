@@ -5,7 +5,6 @@
 
 	import { onMount, createEventDispatcher, onDestroy } from "svelte";
 	import Portal from "svelte-portal";
-	import { settings } from "$lib/utils/stores/settings";
 	import { _ } from "svelte-i18n";
 	import Flex from "./layout/flex.svelte";
 	import TextField from "./inputs/TextField.svelte";
@@ -16,6 +15,7 @@
 	import { browser } from "$app/environment";
 	import { realtimeLock } from "$lib/utils/stores/nuster";
 	import type { LayoutItem } from "simple-keyboard-layouts/build/interfaces";
+	import { page } from "$app/stores";
 
     const dispatch = createEventDispatcher<{ close: void }>();
 
@@ -82,7 +82,7 @@
                         }
                     }
                 },
-                ...layouts[$settings.lang as ("en" | "fr" | "it") ?? 'en'],
+                ...layouts[$page.data.settings.lang as ("en" | "fr" | "it") ?? 'en'],
                 inputPattern: typeof value === 'number' ? /^[0-9|,|.]*$/ : undefined,
             });
     

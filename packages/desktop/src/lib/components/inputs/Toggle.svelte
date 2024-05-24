@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { settings } from '$lib/utils/stores/settings';
 	import { createEventDispatcher, beforeUpdate } from 'svelte';
+	import type { FormInput } from './formInput';
+	import { page } from '$app/stores';
 
 	export let value: number | boolean;
 
@@ -14,6 +15,10 @@
 	export let locked = false;
 	export let enableGrayScale = false;
 
+	export let form: FormInput<"change"> | undefined = undefined;
+
+	let validateButton: HTMLButtonElement | undefined;
+
 	beforeUpdate(() => {
 		if (typeof value === 'boolean') checked = value;
 		else if(typeof value === "undefined") { value = false; checked = false }
@@ -22,7 +27,7 @@
 </script>
 
 <button
-	class="{!locked ? "dark:bg-white bg-black" : ($settings.dark) ? "toggle-bg-dark" : "toggle-bg"} relative block rounded-full h-6 w-12 min-h-fit min-w-fit toggle"
+	class="{!locked ? "dark:bg-white bg-black" : ($page.data.settings.dark) ? "toggle-bg-dark" : "toggle-bg"} relative block rounded-full h-6 w-12 min-h-fit min-w-fit toggle"
 	class:grayscale={locked && enableGrayScale}
 	class:checked={checked}
 	class:uncheked={!checked}
@@ -42,9 +47,17 @@
 			}
 			change();
 			changeNum();
+			if(form?.validateOn === "change" && validateButton !== undefined) { setTimeout(() => validateButton?.click(), 10); }
 		}
 	}}
 />
+
+{#if form !== undefined}
+	<input type="hidden" name={form.name} bind:value form={form.formName} />
+	{#if form.validateOn !== undefined}
+		<button type="submit" form={form.formName} class="hidden" bind:this={validateButton}/>
+	{/if}
+{/if}
 
 <style lang="postcss">
 	.toggle-bg-dark {

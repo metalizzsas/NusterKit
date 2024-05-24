@@ -5,9 +5,9 @@
 	import { ArrowPath, Check, XMark, type IconSource, ArrowDown } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";
 
-    import { machine } from "$lib/utils/stores/nuster";
 	import ProgressBar from "$lib/components/ProgressBar.svelte";
 	import { _ } from "svelte-i18n";
+	import { page } from "$app/stores";
 
     export let step: PBRStepHydrated;
     
@@ -66,7 +66,7 @@
         </Flex>
 
         <Flex gap={4}>
-            {#if step.runCount !== undefined && step.runAmount !== undefined && step.runAmount.data > 1 && !$machine.settings.hideMultilayerIndications}
+            {#if step.runCount !== undefined && step.runAmount !== undefined && step.runAmount.data > 1 && !$page.data.machine_configuration.settings.hideMultilayerIndications}
                 <Label>{step.runCount} / {step.runAmount.data}</Label>
             {/if}
 
@@ -83,6 +83,6 @@
     </Flex>
 
     {#if step.state === "started" || (step.endReason === "skipped" && step.progress > 0) || (step.state === "crashed" && step.endReason !== "ending")}
-        <ProgressBar dots={$machine.settings.hideMultilayerIndications ? undefined : step.runAmount?.data} bind:progress={step.progress} showNumbers />
+        <ProgressBar dots={$page.data.machine_configuration.settings.hideMultilayerIndications ? undefined : step.runAmount?.data} bind:progress={step.progress} showNumbers />
     {/if}
 </div>

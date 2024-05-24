@@ -16,54 +16,18 @@
 	import { Icon } from "@steeze-ui/svelte-icon";
 	import { XMark } from "@steeze-ui/heroicons";
 	import { page } from "$app/stores";
+	import { enhance } from "$app/forms";
+	import type { ActionData } from "../$types";
 
     export let data: PageData;
+    export let form: ActionData;
 
-    let profileSaved = false;
+    // TODO: Display a modal to validate the deletion
     let deleteConfirm = false;
-
-    const saveProfile = async () => {
-
-        if(data.profile.id === undefined)
-            return;
-
-        const req = await fetch(`/api/v1/profiles/${data.profile.id}`, { method: 'PATCH', headers: { "content-type": "application/json" }, body: JSON.stringify(data.profile) });
-        if(req.ok && req.status === 200)
-            profileSaved = true;
-    };
-
-    const copyProfile = async () => {
-        const copy: ProfileHydrated = {...data.profile, name: `${translateProfileName($_, data.profile)} — ${$_('profile.copy.suffix')}`};
-
-        const req = await fetch(`/api/v1/profiles/`, { method: 'post', headers: { "content-type": "application/json" }, body: JSON.stringify(copy) });
-
-        if(req.ok && req.status === 200)
-        {
-            const profileCopied = (await req.json() as ProfileHydrated);
-            if(profileCopied.id)
-                void goto(`/profiles/${profileCopied.id}`);
-        }
-    };
-
-    const deleteProfile = async () => {
-
-        if(deleteConfirm === false)
-        {
-            deleteConfirm = true;
-            return;
-        }
-
-        if(data.profile.id)
-        {
-            const req = await fetch(`/api/v1/profiles/${data.profile.id}`, { method: 'delete'});
-            if(req.ok && req.status === 200)
-                void goto("/profiles");
-        }
-    }
 
     /// - Reactive statements
 
-    $: if(profileSaved === true) { setTimeout(() => profileSaved = false, 3000)}
+    $: if(form !== null && form?.saveProfile?.success) { setTimeout(() => form = null, 3000)}
     $: if(deleteConfirm === true) { setTimeout(() => deleteConfirm = false, 10000)}
 
 </script>
@@ -72,24 +36,39 @@
     <Flex direction="col" gap={2}>
         <Flex justify="between">
             <div>
-                {#if profileSaved}<p class="text-sm text-emerald-700 font-medium duration-300">{$_('profile.save.message')}</p>{/if}
+                {#if form !== null && form?.saveProfile?.success}<p class="text-sm text-emerald-700 font-medium duration-300">{$_('profile.save.message')}</p>{/if}
                 <h1>{translateProfileName($_, data.profile)}</h1>
             </div>
             <Flex items="start">
                 <Button on:click={() => void goto("/profiles")} size="small" color="hover:bg-gray-500" ringColor="ring-gray-500">{$_('exit')}</Button>
                 {#if data.profile.isPremade !== true}
-                    <Button on:click={deleteProfile} size="small" color="hover:bg-red-500" ringColor="ring-red-500">
-                        {#if deleteConfirm}
-                            <Icon src={XMark} class="h-5 w-5 mr-1 mb-0.5 inline" />
-                            {$_('profile.delete.button_confirm')}
-                        {:else}
+                    {#if deleteConfirm}
+                        <form action="?/deleteProfile" method="post" use:enhance>
+                            <input type="hidden" name="profile_id" value={data.profile.id} />
+                            <Button size="small" color="hover:bg-red-500" ringColor="ring-red-500">
+                                <Icon src={XMark} class="h-5 w-5 mr-1 mb-0.5 inline" />
+                                {$_('profile.delete.button_confirm')}
+                            </Button>
+                        </form>
+                    {:else}
+                        <Button on:click={() => deleteConfirm = true} size="small" color="hover:bg-red-500" ringColor="ring-red-500">
                             {$_('profile.delete.button')}
-                        {/if}
-                    </Button>
+                        </Button>
+                    {/if}
                 {/if}
-                <Button on:click={copyProfile} size="small" color="hover:bg-amber-500" ringColor="ring-amber-500">{$_('profile.copy.button')}</Button>
+
+                <form action="?/copyProfile" method="post" use:enhance>
+                    <input type="hidden" name="profile_id" value={data.profile.id} />
+                    <input type="hidden" name="profile" value={JSON.stringify({...data.profile, name: data.profile.name + " — " + $_('profile.copy.suffix') })} />
+                    <Button size="small" color="hover:bg-amber-500" ringColor="ring-amber-500">{$_('profile.copy.button')}</Button>
+                </form>
+                
                 {#if data.profile.isPremade !== true}
-                    <Button on:click={saveProfile} size="small" color="hover:bg-emerald-500" ringColor="ring-emerald-500">{$_('profile.save.button')}</Button>
+                    <form action="?/saveProfile" method="post" use:enhance>
+                        <input type="hidden" name="profile_id" value={data.profile.id} />
+                        <input type="hidden" name="profile" value={JSON.stringify(data.profile)} />
+                        <Button size="small" color="hover:bg-emerald-500" ringColor="ring-emerald-500">{$_('profile.save.button')}</Button>
+                    </form>
                 {/if}
             </Flex>
         </Flex>

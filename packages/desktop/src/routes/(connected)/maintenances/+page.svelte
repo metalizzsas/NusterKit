@@ -8,13 +8,14 @@
 	import { setContext } from "svelte";
 	import type { MaintenanceHydrated } from "@metalizzsas/nuster-turbine/types/hydrated";
 	import { writable, type Writable } from "svelte/store";
-	import { realtime } from "$lib/utils/stores/nuster";
+	import type { PageData } from "./$types";
+
+	export let data: PageData;
 
 	let selectedMaintenanceName: string | undefined = undefined;
 	let selectedMaintenance = setContext<Writable<MaintenanceHydrated | undefined>>("task", writable<MaintenanceHydrated | undefined>(undefined));
 		
-	$: maintenances = $realtime.maintenance.filter(k => k.name !== "cycleCount");
-	$: selectedMaintenance, selectedMaintenance.set(maintenances.find(m => m.name === selectedMaintenanceName));
+	$: selectedMaintenance, selectedMaintenance.set(data.maintenances.find(m => m.name === selectedMaintenanceName));
 
 </script>
 
@@ -23,7 +24,7 @@
 		<Wrapper>
 			<Flex direction="col" gap={2}>
 				<h1>{$_(`maintenance.lead`)}</h1>
-				{#each maintenances as maintenance (maintenance.name)}
+				{#each data.maintenances as maintenance (maintenance.name)}
 					<SelectableButton 
 						selected={selectedMaintenanceName === maintenance.name} 
 						on:click={() => {

@@ -9,7 +9,8 @@
 	import MaintenanceImageParser from "./MaintenanceImageParser.svelte";
 	import Button from "$lib/components/buttons/Button.svelte";
 	import { invalidateAll } from "$app/navigation";
-	import { settings } from "$lib/utils/stores/settings";
+	import { page } from "$app/stores";
+	import { enhance } from "$app/forms";
 
     export let maintenance: MaintenanceHydrated;
 
@@ -17,16 +18,11 @@
 
     beforeUpdate(async () => {
 
-        const req = await fetch(`/api/static/docs/maintenance-${maintenance.name}/${$settings.lang}.md`);
+        const req = await fetch(`/files/docs/maintenance-${maintenance.name}/${$page.data.settings.lang}.md`);
 
         if(req.status !== 404)
             procedureMarkdown = await req.text();
     });
-
-    const clearMaintenance = async () => {
-        await fetch(`/api/v1/maintenances/${maintenance.name}`, { method: "delete"} );
-        void invalidateAll();
-    }
 
 </script>
 
@@ -47,7 +43,10 @@
         <div class="markdown">
             <SvelteMarkdown source={procedureMarkdown} renderers={{ image: MaintenanceImageParser }}/>
         </div>
-        <Button on:click={clearMaintenance}>{$_('maintenance.procedure.clear')}</Button>
+        <form action="?/clearMaintenance" method="post" use:enhance>
+            <input type="hidden" name="maintenance_name" value={maintenance.name} />
+            <Button>{$_('maintenance.procedure.clear')}</Button>
+        </form>
     {:else}
         <p class="text-amber-500">{$_('maintenance.procedure.lang_unavailable')}</p>
     {/if}

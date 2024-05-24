@@ -1,17 +1,15 @@
-import type { MaintenanceHydrated } from "@metalizzsas/nuster-turbine/types/hydrated";
-import { fail } from "@sveltejs/kit";
-import { env } from "$env/dynamic/private";
+import { env } from '$env/dynamic/private';
+import { fail, redirect } from '@sveltejs/kit';
 
-export const load = async ({ fetch }) => {
+export const load = async ({ locals, params }) => {
 
-    const req = await fetch(`http://${env.TURBINE_ADDRESS}/v1/maintenances/`);
-    
-    const maintenances = (await req.json() as Array<MaintenanceHydrated>).filter(m => m.name !== "cycleCount"); // Apply filter to hide cycle count
+    const maintenance = locals.machine_status.maintenance.find(m => m.name === params.id);
 
-    return {
-        maintenances
-    }
-};
+    if(maintenance === undefined)
+        return redirect(302, "/maintenances?not_found=true");
+
+    return { maintenance };
+}
 
 export const actions = {
     clearMaintenance: async ({ fetch, request }) => {

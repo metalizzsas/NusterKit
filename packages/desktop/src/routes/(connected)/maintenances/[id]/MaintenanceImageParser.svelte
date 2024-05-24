@@ -1,25 +1,20 @@
 <script lang="ts">
-	import type { MaintenanceHydrated } from "@metalizzsas/nuster-turbine/types/hydrated";
-	import type { Writable } from "svelte/store";
 	import Flex from "$lib/components/layout/flex.svelte";
 	import { ArrowsPointingIn, ArrowsPointingOut } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";
-	import { getContext } from "svelte";
+	import { page } from "$app/stores";
 
     export let href = '';
     export let title: string | undefined = undefined;
     export let text = '';
 
-    const selectedMaintenance = getContext<Writable<MaintenanceHydrated | undefined>>("task");
-
     let expanded = false;
-
 </script>
 
 <Flex direction="row" items="center" justify="center">
     <div style:max-width={expanded ? '100%' : '66%'} class="relative duration-300">
         <img 
-            src={`/files/docs/maintenance-${$selectedMaintenance?.name}/${href}`}  
+            src={`/files/docs/maintenance-${$page.params.id}/${href}`}  
             {title} 
             alt={text} 
             class="my-1 border-[1px] border-indigo-500/50 rounded-md mx-auto duration-300"

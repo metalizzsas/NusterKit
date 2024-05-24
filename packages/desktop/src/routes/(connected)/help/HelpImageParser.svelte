@@ -10,15 +10,12 @@
 
     let expanded = false;
 
-    $: isNusterDocs = $page.params.helpFile.includes("nuster-docs");
-    $: completeHref = isNusterDocs ? `/docs/${$page.params.helpFile.replace("index.md", href)}` : `/api/static/${$page.params.helpFile.replace("index.md", href)}`;
-
 </script>
 
 <Flex direction="row" items="center" justify="center">
     <div style:max-width={expanded ? '100%' : '66%'} class="relative duration-300 group">
         <img 
-            src={completeHref}
+            src={`/${$page.params.helpFile.includes("nuster-docs") ? "docs" : "files"}/${$page.params.helpFile.replace("index.md", href)}`}
             {title} 
             alt={text} 
             class="my-1 border-[1px] border-indigo-500/50 rounded-md mx-auto duration-300"

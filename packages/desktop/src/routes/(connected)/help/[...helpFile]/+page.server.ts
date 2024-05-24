@@ -1,3 +1,5 @@
+import { env } from '$env/dynamic/private';
+
 export const load = async ({ fetch, params }) => {
 
     const remoteDocRequest = await fetch(`http://${env.TURBINE_ADDRESS}/static/${params.helpFile}`);

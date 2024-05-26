@@ -67,7 +67,7 @@
         bind:value={value}
         {disabled}
         on:focus={() => focused = true}
-        on:input={() => { change(); if(validateOnChange && validateOnChangeButton) validateOnChangeButton.click(); }}
+        on:input={() => { if(max !== undefined && value> max) { value = max } change(); if(validateOnChange && validateOnChangeButton) validateOnChangeButton.click(); }}
         {min}
         {max}
         {name}

@@ -11,9 +11,9 @@ export async function executeCallToAction(cta: CallToAction): Promise<ReturnType
 {
     if(cta.APIEndpoint)
     {
-        const ctaRequest = await fetch(`${cta.APIEndpoint.url}`,{ 
+        const ctaRequest = await fetch(`${cta.APIEndpoint.url}`, { 
             method: cta.APIEndpoint.method, 
-            headers: { 'content-type': 'application/json'}, 
+            headers: { 'content-type': 'application/json' }, 
             body: (cta.APIEndpoint.body) ? JSON.stringify(cta.APIEndpoint.body) : undefined
         });
 

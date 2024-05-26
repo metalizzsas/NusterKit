@@ -1,4 +1,5 @@
-import type { Container, ContainerSensor } from "../../spec/containers";
+import type { Container, ContainerSensor } from "$types/spec/containers";
+import type { CallToAction } from "$types/spec/nuster";
 import type { Modify } from "$types/utils";
 
 /** Slot data for productable slots */
@@ -19,6 +20,7 @@ type ContainerHydrated = Modify<Container, {
 
     sensors?: Array<ContainerSensorHydrated>;
     regulations?: Array<ContainerRegulationHydrated>;
+    callToAction?: Array<CallToAction>
 }>;
 
 type ContainerRegulationHydrated = {

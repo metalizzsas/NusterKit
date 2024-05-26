@@ -8,19 +8,9 @@
 	import Toggle from "$lib/components/inputs/Toggle.svelte";
 	import Label from "$lib/components/Label.svelte";
 	import NumField from "$lib/components/inputs/NumField.svelte";
+	import { enhance } from "$app/forms";
 
     export let container: Modify<ContainerHydrated, { regulations: Array<ContainerRegulationHydrated> }>;
-
-    const toggleRegulation = async (sensor: string, state: boolean) => {
-        await fetch(`/api/v1/containers/${container.name}/regulation/${sensor.replace("#", "_")}/state/${state === true ? "true" : "false"}`, { method: 'post' });
-    }
-
-    const setRegulation = async (sensor: string, target: number, maxTarget: number) => {
-
-        if(target > maxTarget) target = maxTarget;
-
-        await fetch(`/api/v1/containers/${container.name}/regulation/${sensor.replace("#", "_")}/target/${target}`, { method: 'post' });
-    }
 
 </script>
 
@@ -31,9 +21,10 @@
         <Flex items="center">
             <span>{$_('container.regulation.enabled')}</span>
             <div class="h-[1px] grow bg-zinc-500/50" />
-            <Toggle bind:value={regulation.state} on:change={(e) => {
-                void toggleRegulation(regulation.name, e.detail.value);
-            }}/>
+            <form action="?/updateContainerState" method="post" use:enhance>
+                <input type="hidden" name="sensor" value={regulation.name} />
+                <Toggle bind:value={regulation.state} form={{ name: "state", validateOn: "change" }}/>
+            </form>
         </Flex>
 
         <Flex items="center">
@@ -50,9 +41,10 @@
         <Flex items="center">
             <span>{$_('container.regulation.target')}</span>
             <div class="h-[1px] grow bg-zinc-500/50" />
-            <NumField bind:value={regulation.target} max={regulation.maxTarget} on:change={(e) => {
-                void setRegulation(regulation.name, e.detail.value, regulation.maxTarget)
-            }}/>
+            <form action="?/updateContainerTarget" method="post" use:enhance>
+                <input type="hidden" name="sensor" value={regulation.name} />
+                <NumField bind:value={regulation.target} max={regulation.maxTarget} name="target" validateOnChange />
+            </form>
         </Flex>
     </Flex>
 {/each}

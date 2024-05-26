@@ -9,7 +9,6 @@
 	import { goto } from "$app/navigation";
 
 	export let data: LayoutData;
-
 </script>
 
 <Flex direction="row" gap={6}>

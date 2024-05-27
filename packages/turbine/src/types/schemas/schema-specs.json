@@ -1,2211 +1,2551 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "additionalProperties": false,
-    "definitions": {
-        "AllProgramBlocks": {
-            "anyOf": [
-                {
-                    "additionalProperties": false,
-                    "description": "**For Loop** Runs blocks util *limit* is reached.",
-                    "properties": {
-                        "for": {
-                            "additionalProperties": false,
-                            "properties": {
-                                "blocks": {
-                                    "items": {
-                                        "$ref": "#/definitions/AllProgramBlocks"
-                                    },
-                                    "type": "array"
-                                },
-                                "limit": {
-                                    "$ref": "#/definitions/NumericParameterBlocks"
-                                }
-                            },
-                            "required": [
-                                "blocks",
-                                "limit"
-                            ],
-                            "type": "object"
-                        }
-                    },
-                    "required": [
-                        "for"
-                    ],
-                    "type": "object"
+  "$ref": "#/definitions/MachineSpecs",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "AddParameterBlock": {
+      "additionalProperties": false,
+      "description": "here are all the Parameter blocks definitions, they can be used in the machine specs.json file to define cycles.",
+      "properties": {
+        "add": {
+          "items": {
+            "$ref": "#/definitions/NumericParameterBlocks"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "add"
+      ],
+      "type": "object"
+    },
+    "AllProgramBlocks": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ForProgramBlock"
+        },
+        {
+          "$ref": "#/definitions/IfProgramBlock"
+        },
+        {
+          "$ref": "#/definitions/WhileProgramBlock"
+        },
+        {
+          "$ref": "#/definitions/SleepProgramBlock"
+        },
+        {
+          "$ref": "#/definitions/StopProgramBlock"
+        },
+        {
+          "$ref": "#/definitions/SetVariableProgramBlock"
+        },
+        {
+          "$ref": "#/definitions/StartTimerProgramBlock"
+        },
+        {
+          "$ref": "#/definitions/StopTimerProgramBlock"
+        },
+        {
+          "$ref": "#/definitions/ContainerProductLoadProgramBlock"
+        },
+        {
+          "$ref": "#/definitions/ContainerProductUnloadProgramBlock"
+        },
+        {
+          "$ref": "#/definitions/IOWriteProgramBlock"
+        },
+        {
+          "$ref": "#/definitions/AppendMaintenanceProgramBlock"
+        }
+      ],
+      "description": "All Program blocks"
+    },
+    "AppendMaintenanceProgramBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "append_maintenance": {
+          "items": [
+            {
+              "$ref": "#/definitions/StringParameterBlocks"
+            },
+            {
+              "$ref": "#/definitions/NumericParameterBlocks"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        }
+      },
+      "required": [
+        "append_maintenance"
+      ],
+      "type": "object"
+    },
+    "Comparators": {
+      "enum": [
+        "==",
+        "===",
+        "!=",
+        "!==",
+        ">",
+        "<",
+        ">=",
+        "<="
+      ],
+      "type": "string"
+    },
+    "ConditionalParameterBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "conditional": {
+          "additionalProperties": false,
+          "properties": {
+            "comparator": {
+              "$ref": "#/definitions/Comparators"
+            },
+            "left_side": {
+              "items": {
+                "$ref": "#/definitions/NumericParameterBlocks"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "right_side": {
+              "items": {
+                "$ref": "#/definitions/NumericParameterBlocks"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            }
+          },
+          "required": [
+            "comparator",
+            "left_side",
+            "right_side"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "conditional"
+      ],
+      "type": "object"
+    },
+    "ContainerProductLoadProgramBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "load_container": {
+          "items": {
+            "$ref": "#/definitions/StringParameterBlocks"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        }
+      },
+      "required": [
+        "load_container"
+      ],
+      "type": "object"
+    },
+    "ContainerProductUnloadProgramBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "unload_container": {
+          "$ref": "#/definitions/StringParameterBlocks"
+        }
+      },
+      "required": [
+        "unload_container"
+      ],
+      "type": "object"
+    },
+    "DivideParameterBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "divide": {
+          "items": {
+            "$ref": "#/definitions/NumericParameterBlocks"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        }
+      },
+      "required": [
+        "divide"
+      ],
+      "type": "object"
+    },
+    "ForProgramBlock": {
+      "additionalProperties": false,
+      "description": "**For Loop** Runs blocks util *limit* is reached.",
+      "properties": {
+        "for": {
+          "additionalProperties": false,
+          "properties": {
+            "blocks": {
+              "items": {
+                "$ref": "#/definitions/AllProgramBlocks"
+              },
+              "type": "array"
+            },
+            "limit": {
+              "$ref": "#/definitions/NumericParameterBlocks"
+            }
+          },
+          "required": [
+            "limit",
+            "blocks"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "for"
+      ],
+      "type": "object"
+    },
+    "IOReadParameterBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "io_read": {
+          "$ref": "#/definitions/StringParameterBlocks"
+        }
+      },
+      "required": [
+        "io_read"
+      ],
+      "type": "object"
+    },
+    "IOWriteProgramBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "io_write": {
+          "items": [
+            {
+              "$ref": "#/definitions/StringParameterBlocks"
+            },
+            {
+              "$ref": "#/definitions/NumericParameterBlocks"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        }
+      },
+      "required": [
+        "io_write"
+      ],
+      "type": "object"
+    },
+    "IfProgramBlock": {
+      "additionalProperties": false,
+      "description": "**If Statement** Runs *true_blocks* if *left_side* compared to *right_side* by *comparator* is true otherwise runs *false_blocks*.",
+      "properties": {
+        "if": {
+          "additionalProperties": false,
+          "properties": {
+            "false_blocks": {
+              "items": {
+                "$ref": "#/definitions/AllProgramBlocks"
+              },
+              "type": "array"
+            },
+            "statement": {
+              "additionalProperties": false,
+              "properties": {
+                "comparator": {
+                  "$ref": "#/definitions/Comparators"
                 },
-                {
-                    "additionalProperties": false,
-                    "description": "**If Statement** Runs *true_blocks* if *left_side* compared to *right_side* by *comparator* is true otherwise runs *false_blocks*.",
-                    "properties": {
-                        "if": {
-                            "additionalProperties": false,
-                            "properties": {
-                                "false_blocks": {
-                                    "items": {
-                                        "$ref": "#/definitions/AllProgramBlocks"
-                                    },
-                                    "type": "array"
-                                },
-                                "statement": {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "comparator": {
-                                            "$ref": "#/definitions/Comparators"
-                                        },
-                                        "left_side": {
-                                            "$ref": "#/definitions/NumericParameterBlocks"
-                                        },
-                                        "right_side": {
-                                            "$ref": "#/definitions/NumericParameterBlocks"
-                                        }
-                                    },
-                                    "required": [
-                                        "comparator",
-                                        "left_side",
-                                        "right_side"
-                                    ],
-                                    "type": "object"
-                                },
-                                "true_blocks": {
-                                    "items": {
-                                        "$ref": "#/definitions/AllProgramBlocks"
-                                    },
-                                    "type": "array"
-                                }
-                            },
-                            "required": [
-                                "statement",
-                                "true_blocks"
-                            ],
-                            "type": "object"
-                        }
-                    },
-                    "required": [
-                        "if"
-                    ],
-                    "type": "object"
+                "left_side": {
+                  "$ref": "#/definitions/NumericParameterBlocks"
                 },
-                {
-                    "additionalProperties": false,
-                    "description": "**While Loop** Runs *blocks* until *left_side* compared to *right_side* by *comparator* is false.",
-                    "properties": {
-                        "while": {
-                            "additionalProperties": false,
-                            "properties": {
-                                "blocks": {
-                                    "items": {
-                                        "$ref": "#/definitions/AllProgramBlocks"
-                                    },
-                                    "type": "array"
-                                },
-                                "statement": {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "comparator": {
-                                            "$ref": "#/definitions/Comparators"
-                                        },
-                                        "left_side": {
-                                            "$ref": "#/definitions/NumericParameterBlocks"
-                                        },
-                                        "right_side": {
-                                            "$ref": "#/definitions/NumericParameterBlocks"
-                                        }
-                                    },
-                                    "required": [
-                                        "comparator",
-                                        "left_side",
-                                        "right_side"
-                                    ],
-                                    "type": "object"
-                                }
-                            },
-                            "required": [
-                                "blocks",
-                                "statement"
-                            ],
-                            "type": "object"
-                        }
-                    },
-                    "required": [
-                        "while"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "description": "**Sleep** Will wait the amount of time supplied.",
-                    "properties": {
-                        "sleep": {
-                            "$ref": "#/definitions/NumericParameterBlocks"
-                        }
-                    },
-                    "required": [
-                        "sleep"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "description": "**Stop** Will stop the cycle with the reason supplied.",
-                    "properties": {
-                        "stop": {
-                            "$ref": "#/definitions/StringParameterBlocks"
-                        }
-                    },
-                    "required": [
-                        "stop"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "description": "**Variable** Will set the *[0] Variable name* to *[1] Variable value*.",
-                    "properties": {
-                        "set_var": {
-                            "items": [
-                                {
-                                    "$ref": "#/definitions/StringParameterBlocks"
-                                },
-                                {
-                                    "$ref": "#/definitions/NumericParameterBlocks"
-                                }
-                            ],
-                            "maxItems": 2,
-                            "minItems": 2,
-                            "type": "array"
-                        }
-                    },
-                    "required": [
-                        "set_var"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "start_timer": {
-                            "additionalProperties": false,
-                            "properties": {
-                                "blocks": {
-                                    "items": {
-                                        "$ref": "#/definitions/AllProgramBlocks"
-                                    },
-                                    "type": "array"
-                                },
-                                "timer_interval": {
-                                    "$ref": "#/definitions/NumericParameterBlocks"
-                                },
-                                "timer_name": {
-                                    "$ref": "#/definitions/StringParameterBlocks"
-                                }
-                            },
-                            "required": [
-                                "blocks",
-                                "timer_interval",
-                                "timer_name"
-                            ],
-                            "type": "object"
-                        }
-                    },
-                    "required": [
-                        "start_timer"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "stop_timer": {
-                            "$ref": "#/definitions/StringParameterBlocks"
-                        }
-                    },
-                    "required": [
-                        "stop_timer"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "load_container": {
-                            "items": [
-                                {
-                                    "$ref": "#/definitions/StringParameterBlocks"
-                                },
-                                {
-                                    "$ref": "#/definitions/StringParameterBlocks"
-                                }
-                            ],
-                            "maxItems": 2,
-                            "minItems": 2,
-                            "type": "array"
-                        }
-                    },
-                    "required": [
-                        "load_container"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "unload_container": {
-                            "$ref": "#/definitions/StringParameterBlocks"
-                        }
-                    },
-                    "required": [
-                        "unload_container"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "io_write": {
-                            "items": [
-                                {
-                                    "$ref": "#/definitions/StringParameterBlocks"
-                                },
-                                {
-                                    "$ref": "#/definitions/NumericParameterBlocks"
-                                }
-                            ],
-                            "maxItems": 2,
-                            "minItems": 2,
-                            "type": "array"
-                        }
-                    },
-                    "required": [
-                        "io_write"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "append_maintenance": {
-                            "items": [
-                                {
-                                    "$ref": "#/definitions/StringParameterBlocks"
-                                },
-                                {
-                                    "$ref": "#/definitions/NumericParameterBlocks"
-                                }
-                            ],
-                            "maxItems": 2,
-                            "minItems": 2,
-                            "type": "array"
-                        }
-                    },
-                    "required": [
-                        "append_maintenance"
-                    ],
-                    "type": "object"
+                "right_side": {
+                  "$ref": "#/definitions/NumericParameterBlocks"
                 }
-            ],
-            "description": "All Program blocks"
+              },
+              "required": [
+                "comparator",
+                "left_side",
+                "right_side"
+              ],
+              "type": "object"
+            },
+            "true_blocks": {
+              "items": {
+                "$ref": "#/definitions/AllProgramBlocks"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "statement",
+            "true_blocks"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "if"
+      ],
+      "type": "object"
+    },
+    "MachineSpecs": {
+      "additionalProperties": false,
+      "description": "Machine JSON Specifications",
+      "properties": {
+        "$schema": {
+          "description": "Schema used by the configuration file",
+          "type": "string"
         },
-        "Comparators": {
-            "enum": [
-                "!=",
-                "!==",
-                "<",
-                "<=",
-                "==",
-                "===",
-                ">",
-                ">="
+        "addons": {
+          "description": "Addons available on this machine",
+          "items": {
+            "additionalProperties": false,
+            "description": "Addon",
+            "properties": {
+              "addonName": {
+                "description": "Addon name, should be the same as the Json file holding him",
+                "type": "string"
+              },
+              "content": {
+                "description": "Addon content Array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "content": {
+                          "items": {
+                            "anyOf": [
+                              {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "path": {
+                                    "type": "string"
+                                  },
+                                  "type": {
+                                    "const": "io",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "type",
+                                  "path"
+                                ],
+                                "type": "object"
+                              },
+                              {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "path": {
+                                    "items": {
+                                      "type": "string"
+                                    },
+                                    "maxItems": 2,
+                                    "minItems": 2,
+                                    "type": "array"
+                                  },
+                                  "type": {
+                                    "const": "container.regulation.state",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "type",
+                                  "path"
+                                ],
+                                "type": "object"
+                              },
+                              {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "path": {
+                                    "items": {
+                                      "type": "string"
+                                    },
+                                    "maxItems": 2,
+                                    "minItems": 2,
+                                    "type": "array"
+                                  },
+                                  "type": {
+                                    "const": "container.regulation.target",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "type",
+                                  "path"
+                                ],
+                                "type": "object"
+                              }
+                            ]
+                          },
+                          "type": "array"
+                        },
+                        "mode": {
+                          "const": "merge",
+                          "type": "string"
+                        },
+                        "path": {
+                          "const": "nuster.homeInformations",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "path",
+                        "mode",
+                        "content"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "content": {
+                          "items": {
+                            "anyOf": [
+                              {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "address": {
+                                    "description": "Address on the automaton address range",
+                                    "type": "number"
+                                  },
+                                  "bus": {
+                                    "description": "Gate bus",
+                                    "enum": [
+                                      "in",
+                                      "out"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  "controllerId": {
+                                    "description": "Automaton where this gate is available",
+                                    "type": "number"
+                                  },
+                                  "default": {
+                                    "description": "Default value of this gate",
+                                    "type": "number"
+                                  },
+                                  "name": {
+                                    "description": "Gate name",
+                                    "type": "string"
+                                  },
+                                  "size": {
+                                    "description": "Gate controller data size",
+                                    "enum": [
+                                      "bit",
+                                      "word"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  "type": {
+                                    "const": "default",
+                                    "description": "Gate type",
+                                    "type": "string"
+                                  },
+                                  "unity": {
+                                    "description": "Unity used by this gate",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "address",
+                                  "bus",
+                                  "controllerId",
+                                  "default",
+                                  "name",
+                                  "size",
+                                  "type"
+                                ],
+                                "type": "object"
+                              },
+                              {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "address": {
+                                    "description": "Address on the automaton address range",
+                                    "type": "number"
+                                  },
+                                  "bus": {
+                                    "description": "Gate bus",
+                                    "enum": [
+                                      "in",
+                                      "out"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  "controllerId": {
+                                    "description": "Automaton where this gate is available",
+                                    "type": "number"
+                                  },
+                                  "default": {
+                                    "description": "Default value of this gate",
+                                    "type": "number"
+                                  },
+                                  "mapInMax": {
+                                    "description": "Mapped input max data, from IOController",
+                                    "type": "number"
+                                  },
+                                  "mapInMin": {
+                                    "description": "Mapped input min data, from IO Controller",
+                                    "type": "number"
+                                  },
+                                  "mapOutMax": {
+                                    "description": "Mapped output max data, to Human",
+                                    "type": "number"
+                                  },
+                                  "mapOutMin": {
+                                    "description": "Mapped output min data, to Human",
+                                    "type": "number"
+                                  },
+                                  "name": {
+                                    "description": "Gate name",
+                                    "type": "string"
+                                  },
+                                  "size": {
+                                    "const": "word",
+                                    "description": "Size is always a word for this typoe of Gate",
+                                    "type": "string"
+                                  },
+                                  "type": {
+                                    "const": "mapped",
+                                    "description": "Gate type",
+                                    "type": "string"
+                                  },
+                                  "unity": {
+                                    "description": "Unity used by this gate",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "address",
+                                  "bus",
+                                  "controllerId",
+                                  "default",
+                                  "mapOutMax",
+                                  "mapOutMin",
+                                  "name",
+                                  "size",
+                                  "type"
+                                ],
+                                "type": "object"
+                              },
+                              {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "address": {
+                                    "description": "Address on the automaton address range",
+                                    "type": "number"
+                                  },
+                                  "bus": {
+                                    "const": "in",
+                                    "description": "Gate bus",
+                                    "type": "string"
+                                  },
+                                  "controllerId": {
+                                    "description": "Automaton where this gate is available",
+                                    "type": "number"
+                                  },
+                                  "default": {
+                                    "description": "Default value of this gate",
+                                    "type": "number"
+                                  },
+                                  "name": {
+                                    "description": "Gate name",
+                                    "type": "string"
+                                  },
+                                  "size": {
+                                    "const": "word",
+                                    "description": "Gate controller data size",
+                                    "type": "string"
+                                  },
+                                  "type": {
+                                    "const": "pt100",
+                                    "description": "Gate type",
+                                    "type": "string"
+                                  },
+                                  "unity": {
+                                    "const": "°C",
+                                    "description": "Unity used by this gate",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "address",
+                                  "bus",
+                                  "controllerId",
+                                  "default",
+                                  "name",
+                                  "size",
+                                  "type",
+                                  "unity"
+                                ],
+                                "type": "object"
+                              }
+                            ],
+                            "description": "Available Spec gates"
+                          },
+                          "type": "array"
+                        },
+                        "mode": {
+                          "const": "merge",
+                          "type": "string"
+                        },
+                        "path": {
+                          "const": "iogates",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "path",
+                        "mode",
+                        "content"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "content": {
+                          "items": {
+                            "additionalProperties": false,
+                            "description": "Profile schema from configuration",
+                            "properties": {
+                              "id": {
+                                "description": "Profile UUID",
+                                "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
+                                "type": "string"
+                              },
+                              "name": {
+                                "description": "Name of the profile",
+                                "type": "string"
+                              },
+                              "skeleton": {
+                                "description": "Name of the referencing skeleton profile",
+                                "type": "string"
+                              },
+                              "values": {
+                                "description": "Values of the profile",
+                                "items": {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "key": {
+                                      "type": "string"
+                                    },
+                                    "value": {
+                                      "type": "number"
+                                    }
+                                  },
+                                  "required": [
+                                    "key",
+                                    "value"
+                                  ],
+                                  "type": "object"
+                                },
+                                "type": "array"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "skeleton",
+                              "values"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "mode": {
+                          "const": "merge",
+                          "type": "string"
+                        },
+                        "path": {
+                          "const": "profilePremades",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "path",
+                        "mode",
+                        "content"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "content": {
+                          "items": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "cycle": {
+                                "description": "Cycle type name",
+                                "type": "string"
+                              },
+                              "name": {
+                                "description": "Name is only for description purposes, not used",
+                                "type": "string"
+                              },
+                              "profile": {
+                                "description": "Profile UUID used by this premade",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "name",
+                              "cycle"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "mode": {
+                          "const": "merge",
+                          "type": "string"
+                        },
+                        "path": {
+                          "const": "cyclePremades",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "path",
+                        "mode",
+                        "content"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "content": {
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "mode": {
+                          "const": "merge",
+                          "type": "string"
+                        },
+                        "path": {
+                          "description": "Container product series path",
+                          "pattern": "^containers\\.[0-9]+\\.supportedProductSeries$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "path",
+                        "mode",
+                        "content"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "content": {
+                          "items": {
+                            "additionalProperties": false,
+                            "description": "Container regulation",
+                            "properties": {
+                              "active": {
+                                "description": "Actuators always active (ex: `pump` for `uscleaner/m/0 - temperature-control`)",
+                                "items": {
+                                  "type": "string"
+                                },
+                                "type": "array"
+                              },
+                              "maxTarget": {
+                                "description": "Max target is the maximum setable value for this regulation",
+                                "type": "number"
+                              },
+                              "minus": {
+                                "description": "Actuators used to reach target when we are over target",
+                                "items": {
+                                  "type": "string"
+                                },
+                                "type": "array"
+                              },
+                              "name": {
+                                "description": "Regulation name",
+                                "type": "string"
+                              },
+                              "plus": {
+                                "description": "Actuators used to reach target when we are under target",
+                                "items": {
+                                  "type": "string"
+                                },
+                                "type": "array"
+                              },
+                              "security": {
+                                "description": "Regulation Security thats stops it",
+                                "items": {
+                                  "anyOf": [
+                                    {
+                                      "additionalProperties": false,
+                                      "properties": {
+                                        "name": {
+                                          "type": "string"
+                                        },
+                                        "value": {
+                                          "type": "number"
+                                        }
+                                      },
+                                      "required": [
+                                        "name",
+                                        "value"
+                                      ],
+                                      "type": "object"
+                                    },
+                                    {
+                                      "additionalProperties": false,
+                                      "properties": {
+                                        "name": {
+                                          "type": "string"
+                                        },
+                                        "valueDiff": {
+                                          "type": "number"
+                                        }
+                                      },
+                                      "required": [
+                                        "name",
+                                        "valueDiff"
+                                      ],
+                                      "type": "object"
+                                    }
+                                  ]
+                                },
+                                "type": "array"
+                              },
+                              "securityMax": {
+                                "description": "Security max is the maximum admissible value from the sensor read, will disable regulation if went over",
+                                "type": "number"
+                              },
+                              "sensor": {
+                                "description": "Sensor used by this regulation",
+                                "type": "string"
+                              },
+                              "target": {
+                                "description": "Base target",
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "name",
+                              "target",
+                              "maxTarget",
+                              "securityMax",
+                              "security",
+                              "sensor",
+                              "active",
+                              "plus",
+                              "minus"
+                            ],
+                            "type": "object"
+                          },
+                          "maxItems": 1,
+                          "minItems": 1,
+                          "type": "array"
+                        },
+                        "mode": {
+                          "const": "set",
+                          "type": "string"
+                        },
+                        "path": {
+                          "description": "Container regulation path",
+                          "pattern": "^containers\\.[0-9]+\\.regulations$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "path",
+                        "mode",
+                        "content"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "content": {
+                          "type": "number"
+                        },
+                        "mode": {
+                          "const": "set",
+                          "type": "string"
+                        },
+                        "path": {
+                          "description": "Container regulation max target path",
+                          "pattern": "^containers\\.[0-9]+\\.regulations\\.[0-9]+\\.maxTarget$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "path",
+                        "mode",
+                        "content"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "content": {
+                          "type": "number"
+                        },
+                        "mode": {
+                          "const": "set",
+                          "type": "string"
+                        },
+                        "path": {
+                          "description": "Container regulation security max path",
+                          "pattern": "^containers\\.[0-9]+\\.regulations\\.[0-9]+\\.securityMax$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "path",
+                        "mode",
+                        "content"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "content": {
+                          "type": "number"
+                        },
+                        "mode": {
+                          "const": "set",
+                          "type": "string"
+                        },
+                        "path": {
+                          "description": "Maintenance sensor limit value path",
+                          "pattern": "^maintenance\\.[0-9]+\\.sensorLimitValue$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "path",
+                        "mode",
+                        "content"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "content": {
+                          "type": "number"
+                        },
+                        "mode": {
+                          "const": "set",
+                          "type": "string"
+                        },
+                        "path": {
+                          "description": "Maintenance sensor base value path",
+                          "pattern": "^maintenance\\.[0-9]+\\.sensorBaseValue$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "path",
+                        "mode",
+                        "content"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "type": "array"
+              }
+            },
+            "required": [
+              "addonName",
+              "content"
             ],
-            "type": "string"
+            "type": "object"
+          },
+          "type": "array"
         },
-        "Container": {
+        "containers": {
+          "description": "Product slots definition",
+          "items": {
             "additionalProperties": false,
             "description": "Slot definition used in config",
             "properties": {
-                "callToAction": {
-                    "description": "Call to action, For UI Purposes only",
-                    "items": {
-                        "additionalProperties": false,
-                        "description": "Call to action inteface",
-                        "properties": {
-                            "APIEndpoint": {
-                                "additionalProperties": false,
-                                "description": "API Endpoint to be reached by the CTA (NusterTurbine Endpoints)",
-                                "properties": {
-                                    "body": {},
-                                    "method": {
-                                        "description": "HTTP Request Method",
-                                        "enum": [
-                                            "delete",
-                                            "get",
-                                            "post",
-                                            "put"
-                                        ],
-                                        "type": "string"
-                                    },
-                                    "url": {
-                                        "description": "URL Reached",
-                                        "type": "string"
-                                    }
-                                },
-                                "required": [
-                                    "method",
-                                    "url"
-                                ],
-                                "type": "object"
-                            },
-                            "UIEndpoint": {
-                                "description": "UIEndpoint reached by the CTA (NusterDesktop Endpoints)",
-                                "type": "string"
-                            },
-                            "name": {
-                                "description": "Name of this CTA",
-                                "type": "string"
-                            }
+              "callToAction": {
+                "description": "Call to action, For UI Purposes only",
+                "items": {
+                  "additionalProperties": false,
+                  "description": "Call to action inteface",
+                  "properties": {
+                    "APIEndpoint": {
+                      "additionalProperties": false,
+                      "description": "API Endpoint to be reached by the CTA (NusterTurbine Endpoints)",
+                      "properties": {
+                        "body": {},
+                        "method": {
+                          "description": "HTTP Request Method",
+                          "enum": [
+                            "get",
+                            "put",
+                            "post",
+                            "delete"
+                          ],
+                          "type": "string"
                         },
-                        "required": [
-                            "name"
-                        ],
-                        "type": "object"
+                        "url": {
+                          "description": "URL Reached",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "url",
+                        "method"
+                      ],
+                      "type": "object"
                     },
-                    "type": "array"
-                },
-                "name": {
-                    "description": "Slots name",
-                    "type": "string"
-                },
-                "regulations": {
-                    "description": "Regulation attached to this container",
-                    "items": {
-                        "$ref": "#/definitions/ContainerRegulation"
+                    "UIEndpoint": {
+                      "description": "UIEndpoint reached by the CTA (NusterDesktop Endpoints)",
+                      "type": "string"
                     },
-                    "type": "array"
+                    "name": {
+                      "description": "Name of this CTA",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ],
+                  "type": "object"
                 },
-                "sensors": {
-                    "description": "Sensors available for this Slots",
-                    "items": {
-                        "$ref": "#/definitions/ContainerSensor"
-                    },
-                    "type": "array"
-                },
-                "supportedProductSeries": {
-                    "description": "Supported product series. If defined slot is `Productable`",
-                    "items": {
+                "type": "array"
+              },
+              "name": {
+                "description": "Slots name",
+                "type": "string"
+              },
+              "regulations": {
+                "description": "Regulation attached to this container",
+                "items": {
+                  "additionalProperties": false,
+                  "description": "Container regulation",
+                  "properties": {
+                    "active": {
+                      "description": "Actuators always active (ex: `pump` for `uscleaner/m/0 - temperature-control`)",
+                      "items": {
                         "type": "string"
+                      },
+                      "type": "array"
                     },
-                    "type": "array"
-                },
-                "type": {
-                    "description": "Slot type",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "name",
-                "type"
-            ],
-            "type": "object"
-        },
-        "ContainerRegulation": {
-            "additionalProperties": false,
-            "description": "Container regulation",
-            "properties": {
-                "active": {
-                    "description": "Actuators always active (ex: `pump` for `uscleaner/m/0 - temperature-control`)",
-                    "items": {
+                    "maxTarget": {
+                      "description": "Max target is the maximum setable value for this regulation",
+                      "type": "number"
+                    },
+                    "minus": {
+                      "description": "Actuators used to reach target when we are over target",
+                      "items": {
                         "type": "string"
+                      },
+                      "type": "array"
                     },
-                    "type": "array"
-                },
-                "maxTarget": {
-                    "description": "Max target is the maximum setable value for this regulation",
-                    "type": "number"
-                },
-                "minus": {
-                    "description": "Actuators used to reach target when we are over target",
-                    "items": {
+                    "name": {
+                      "description": "Regulation name",
+                      "type": "string"
+                    },
+                    "plus": {
+                      "description": "Actuators used to reach target when we are under target",
+                      "items": {
                         "type": "string"
+                      },
+                      "type": "array"
                     },
-                    "type": "array"
-                },
-                "name": {
-                    "description": "Regulation name",
-                    "type": "string"
-                },
-                "plus": {
-                    "description": "Actuators used to reach target when we are under target",
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "security": {
-                    "description": "Regulation Security thats stops it",
-                    "items": {
+                    "security": {
+                      "description": "Regulation Security thats stops it",
+                      "items": {
                         "anyOf": [
-                            {
-                                "additionalProperties": false,
-                                "properties": {
-                                    "name": {
-                                        "type": "string"
-                                    },
-                                    "value": {
-                                        "type": "number"
-                                    }
-                                },
-                                "required": [
-                                    "name",
-                                    "value"
-                                ],
-                                "type": "object"
-                            },
-                            {
-                                "additionalProperties": false,
-                                "properties": {
-                                    "name": {
-                                        "type": "string"
-                                    },
-                                    "valueDiff": {
-                                        "type": "number"
-                                    }
-                                },
-                                "required": [
-                                    "name",
-                                    "valueDiff"
-                                ],
-                                "type": "object"
-                            }
-                        ]
-                    },
-                    "type": "array"
-                },
-                "securityMax": {
-                    "description": "Security max is the maximum admissible value from the sensor read, will disable regulation if went over",
-                    "type": "number"
-                },
-                "sensor": {
-                    "description": "Sensor used by this regulation",
-                    "type": "string"
-                },
-                "target": {
-                    "description": "Base target",
-                    "type": "number"
-                }
-            },
-            "required": [
-                "active",
-                "maxTarget",
-                "minus",
-                "name",
-                "plus",
-                "security",
-                "securityMax",
-                "sensor",
-                "target"
-            ],
-            "type": "object"
-        },
-        "ContainerSensor": {
-            "additionalProperties": false,
-            "description": "Slot Sensor interface",
-            "properties": {
-                "io": {
-                    "description": "IO gate name of this sensor",
-                    "type": "string"
-                },
-                "logic": {
-                    "description": "Attached Logic",
-                    "enum": [
-                        "level-limit-max",
-                        "level-max",
-                        "level-min",
-                        "presence"
-                    ],
-                    "type": "string"
-                }
-            },
-            "required": [
-                "io"
-            ],
-            "type": "object"
-        },
-        "HomeInfo": {
-            "anyOf": [
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "path": {
-                            "type": "string"
-                        },
-                        "type": {
-                            "const": "io",
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "path",
-                        "type"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "path": {
-                            "items": [
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "type": "string"
-                                }
-                            ],
-                            "maxItems": 2,
-                            "minItems": 2,
-                            "type": "array"
-                        },
-                        "type": {
-                            "const": "container.regulation.state",
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "path",
-                        "type"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "path": {
-                            "items": [
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "type": "string"
-                                }
-                            ],
-                            "maxItems": 2,
-                            "minItems": 2,
-                            "type": "array"
-                        },
-                        "type": {
-                            "const": "container.regulation.target",
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "path",
-                        "type"
-                    ],
-                    "type": "object"
-                }
-            ]
-        },
-        "IOGates": {
-            "anyOf": [
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "address": {
-                            "description": "Address on the automaton address range",
-                            "type": "number"
-                        },
-                        "bus": {
-                            "description": "Gate bus",
-                            "enum": [
-                                "in",
-                                "out"
-                            ],
-                            "type": "string"
-                        },
-                        "controllerId": {
-                            "description": "Automaton where this gate is available",
-                            "type": "number"
-                        },
-                        "default": {
-                            "description": "Default value of this gate",
-                            "type": "number"
-                        },
-                        "name": {
-                            "description": "Gate name",
-                            "type": "string"
-                        },
-                        "size": {
-                            "description": "Gate controller data size",
-                            "enum": [
-                                "bit",
-                                "word"
-                            ],
-                            "type": "string"
-                        },
-                        "type": {
-                            "description": "Gate type",
-                            "enum": [
-                                "default",
-                                "mapped",
-                                "pt100"
-                            ],
-                            "type": "string"
-                        },
-                        "unity": {
-                            "description": "Unity used by this gate",
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "address",
-                        "bus",
-                        "controllerId",
-                        "default",
-                        "name",
-                        "size",
-                        "type"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "address": {
-                            "description": "Address on the automaton address range",
-                            "type": "number"
-                        },
-                        "bus": {
-                            "description": "Gate bus",
-                            "enum": [
-                                "in",
-                                "out"
-                            ],
-                            "type": "string"
-                        },
-                        "controllerId": {
-                            "description": "Automaton where this gate is available",
-                            "type": "number"
-                        },
-                        "default": {
-                            "description": "Default value of this gate",
-                            "type": "number"
-                        },
-                        "mapInMax": {
-                            "description": "Mapped input max data, from IOController",
-                            "type": "number"
-                        },
-                        "mapInMin": {
-                            "description": "Mapped input min data, from IO Controller",
-                            "type": "number"
-                        },
-                        "mapOutMax": {
-                            "description": "Mapped output max data, to Human",
-                            "type": "number"
-                        },
-                        "mapOutMin": {
-                            "description": "Mapped output min data, to Human",
-                            "type": "number"
-                        },
-                        "name": {
-                            "description": "Gate name",
-                            "type": "string"
-                        },
-                        "size": {
-                            "description": "Gate controller data size",
-                            "enum": [
-                                "bit",
-                                "word"
-                            ],
-                            "type": "string"
-                        },
-                        "type": {
-                            "description": "Gate type",
-                            "enum": [
-                                "default",
-                                "mapped",
-                                "pt100"
-                            ],
-                            "type": "string"
-                        },
-                        "unity": {
-                            "description": "Unity used by this gate",
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "address",
-                        "bus",
-                        "controllerId",
-                        "default",
-                        "mapOutMax",
-                        "mapOutMin",
-                        "name",
-                        "size",
-                        "type"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "address": {
-                            "description": "Address on the automaton address range",
-                            "type": "number"
-                        },
-                        "bus": {
-                            "description": "Gate bus",
-                            "enum": [
-                                "in",
-                                "out"
-                            ],
-                            "type": "string"
-                        },
-                        "controllerId": {
-                            "description": "Automaton where this gate is available",
-                            "type": "number"
-                        },
-                        "default": {
-                            "description": "Default value of this gate",
-                            "type": "number"
-                        },
-                        "name": {
-                            "description": "Gate name",
-                            "type": "string"
-                        },
-                        "size": {
-                            "description": "Gate controller data size",
-                            "enum": [
-                                "bit",
-                                "word"
-                            ],
-                            "type": "string"
-                        },
-                        "type": {
-                            "description": "Gate type",
-                            "enum": [
-                                "default",
-                                "mapped",
-                                "pt100"
-                            ],
-                            "type": "string"
-                        },
-                        "unity": {
-                            "description": "Unity used by this gate",
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "address",
-                        "bus",
-                        "controllerId",
-                        "default",
-                        "name",
-                        "size",
-                        "type",
-                        "unity"
-                    ],
-                    "type": "object"
-                }
-            ],
-            "description": "Available Spec gates"
-        },
-        "IOHandlers": {
-            "anyOf": [
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "ioScannerInterval": {
-                            "description": "IOScannerInterval",
-                            "type": "number"
-                        },
-                        "ip": {
-                            "description": "IP Address on the local network",
-                            "type": "string"
-                        },
-                        "size": {
-                            "description": "Corresponding size of the EX260 (either 16 outputs or 32 outputs)",
-                            "enum": [
-                                16,
-                                32
-                            ],
-                            "type": "number"
-                        },
-                        "type": {
-                            "description": "Type of the IO Handler",
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "ip",
-                        "size",
-                        "type"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "ioScannerInterval": {
-                            "description": "IOScannerInterval",
-                            "type": "number"
-                        },
-                        "ip": {
-                            "description": "IP Address on the local network",
-                            "type": "string"
-                        },
-                        "type": {
-                            "description": "Type of the IO Handler",
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "ip",
-                        "type"
-                    ],
-                    "type": "object"
-                }
-            ]
-        },
-        "Maintenances": {
-            "anyOf": [
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "durationLimit": {
-                            "description": "When this duration is reached maitnenance is due",
-                            "type": "number"
-                        },
-                        "durationType": {
-                            "description": "Duration type of this maintenance task",
-                            "enum": [
-                                "cycle",
-                                "duration",
-                                "sensor"
-                            ],
-                            "type": "string"
-                        },
-                        "name": {
-                            "description": "Maintenance task name",
-                            "type": "string"
-                        },
-                        "operationDate": {
-                            "description": "Last operation date",
-                            "format": "date-time",
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "durationLimit",
-                        "durationType",
-                        "name"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "durationType": {
-                            "description": "Duration type of this maintenance task",
-                            "enum": [
-                                "cycle",
-                                "duration",
-                                "sensor"
-                            ],
-                            "type": "string"
-                        },
-                        "name": {
-                            "description": "Maintenance task name",
-                            "type": "string"
-                        },
-                        "operationDate": {
-                            "description": "Last operation date",
-                            "format": "date-time",
-                            "type": "string"
-                        },
-                        "requireEnableGate": {
-                            "description": "Gate needed to check maitnenance task",
-                            "type": "string"
-                        },
-                        "sensorBaseValue": {
-                            "description": "When this value is reached on sensor means that maintenance task has been done",
-                            "type": "number"
-                        },
-                        "sensorGate": {
-                            "description": "Sensor gate to check",
-                            "type": "string"
-                        },
-                        "sensorLimitValue": {
-                            "description": "When this value is reached on sensor maintenance is due",
-                            "type": "number"
-                        }
-                    },
-                    "required": [
-                        "durationType",
-                        "name",
-                        "sensorBaseValue",
-                        "sensorGate",
-                        "sensorLimitValue"
-                    ],
-                    "type": "object"
-                }
-            ],
-            "description": "All Maintenances types"
-        },
-        "NumericParameterBlocks": {
-            "anyOf": [
-                {
-                    "additionalProperties": false,
-                    "description": "here are all the Parameter blocks definitions, they can be used in the machine specs.json file to define cycles.",
-                    "properties": {
-                        "add": {
-                            "items": {
-                                "$ref": "#/definitions/NumericParameterBlocks"
-                            },
-                            "type": "array"
-                        }
-                    },
-                    "required": [
-                        "add"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "sub": {
-                            "items": [
-                                {
-                                    "$ref": "#/definitions/NumericParameterBlocks"
-                                },
-                                {
-                                    "$ref": "#/definitions/NumericParameterBlocks"
-                                }
-                            ],
-                            "maxItems": 2,
-                            "minItems": 2,
-                            "type": "array"
-                        }
-                    },
-                    "required": [
-                        "sub"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "multiply": {
-                            "items": {
-                                "$ref": "#/definitions/NumericParameterBlocks"
-                            },
-                            "type": "array"
-                        }
-                    },
-                    "required": [
-                        "multiply"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "divide": {
-                            "items": [
-                                {
-                                    "$ref": "#/definitions/NumericParameterBlocks"
-                                },
-                                {
-                                    "$ref": "#/definitions/NumericParameterBlocks"
-                                }
-                            ],
-                            "maxItems": 2,
-                            "minItems": 2,
-                            "type": "array"
-                        }
-                    },
-                    "required": [
-                        "divide"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "reverse": {
-                            "$ref": "#/definitions/NumericParameterBlocks"
-                        }
-                    },
-                    "required": [
-                        "reverse"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "conditional": {
+                          {
                             "additionalProperties": false,
                             "properties": {
-                                "comparator": {
-                                    "$ref": "#/definitions/Comparators"
-                                },
-                                "left_side": {
-                                    "items": [
-                                        {
-                                            "$ref": "#/definitions/NumericParameterBlocks"
-                                        },
-                                        {
-                                            "$ref": "#/definitions/NumericParameterBlocks"
-                                        }
-                                    ],
-                                    "maxItems": 2,
-                                    "minItems": 2,
-                                    "type": "array"
-                                },
-                                "right_side": {
-                                    "items": [
-                                        {
-                                            "$ref": "#/definitions/NumericParameterBlocks"
-                                        },
-                                        {
-                                            "$ref": "#/definitions/NumericParameterBlocks"
-                                        }
-                                    ],
-                                    "maxItems": 2,
-                                    "minItems": 2,
-                                    "type": "array"
-                                }
+                              "name": {
+                                "type": "string"
+                              },
+                              "value": {
+                                "type": "number"
+                              }
                             },
                             "required": [
-                                "comparator",
-                                "left_side",
-                                "right_side"
+                              "name",
+                              "value"
                             ],
                             "type": "object"
-                        }
-                    },
-                    "required": [
-                        "conditional"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "number": {
-                            "type": "number"
-                        }
-                    },
-                    "required": [
-                        "number"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "io_read": {
-                            "$ref": "#/definitions/StringParameterBlocks"
-                        }
-                    },
-                    "required": [
-                        "io_read"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "profile": {
-                            "$ref": "#/definitions/StringParameterBlocks"
-                        }
-                    },
-                    "required": [
-                        "profile"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "read_var": {
-                            "$ref": "#/definitions/StringParameterBlocks"
-                        }
-                    },
-                    "required": [
-                        "read_var"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "read_machine_var": {
-                            "$ref": "#/definitions/StringParameterBlocks"
-                        }
-                    },
-                    "required": [
-                        "read_machine_var"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "type": "number"
-                }
-            ]
-        },
-        "PBRStep": {
-            "additionalProperties": false,
-            "properties": {
-                "blocks": {
-                    "description": "Program blocks Array that is executed by this step",
-                    "items": {
-                        "$ref": "#/definitions/AllProgramBlocks"
-                    },
-                    "type": "array"
-                },
-                "crashStepFallback": {
-                    "description": "Step to goto on soft end",
-                    "type": "number"
-                },
-                "endBlocks": {
-                    "description": "Program Blocks array that are executed at the end of a step",
-                    "items": {
-                        "$ref": "#/definitions/AllProgramBlocks"
-                    },
-                    "type": "array"
-                },
-                "isEnabled": {
-                    "$ref": "#/definitions/NumericParameterBlocks",
-                    "description": "Parameter block that indicates if this step is enabled in the PBR flow"
-                },
-                "name": {
-                    "description": "Program Step name",
-                    "type": "string"
-                },
-                "partialStepFallback": {
-                    "description": "Partial end step fallback",
-                    "type": "number"
-                },
-                "runAmount": {
-                    "$ref": "#/definitions/NumericParameterBlocks",
-                    "description": "Optional Parameter block that tells the PBR if this steps must be runt multiple times"
-                },
-                "runConditions": {
-                    "description": "Step run conditions, theeses runConditions triggers Soft End Strategy if defined, otherwise, runs hard end strategy",
-                    "items": {
-                        "additionalProperties": false,
-                        "properties": {
-                            "checkchain": {
-                                "additionalProperties": false,
-                                "description": "Checkchain used to validate status",
-                                "properties": {
-                                    "io": {
-                                        "additionalProperties": false,
-                                        "properties": {
-                                            "gateName": {
-                                                "type": "string"
-                                            },
-                                            "gateValue": {
-                                                "type": "number"
-                                            }
-                                        },
-                                        "required": [
-                                            "gateName",
-                                            "gateValue"
-                                        ],
-                                        "type": "object"
-                                    },
-                                    "parameter": {
-                                        "$ref": "#/definitions/StatusParameterBlocks"
-                                    }
-                                },
-                                "type": "object"
-                            },
-                            "disabled": {
-                                "$ref": "#/definitions/NumericParameterBlocks",
-                                "description": "Parameter that disables this runCondition"
-                            },
-                            "name": {
-                                "description": "Name of the run condition, used for reference",
+                          },
+                          {
+                            "additionalProperties": false,
+                            "properties": {
+                              "name": {
                                 "type": "string"
+                              },
+                              "valueDiff": {
+                                "type": "number"
+                              }
                             },
-                            "startOnly": {
-                                "description": "Is the condition only used at start",
-                                "type": "boolean"
-                            }
-                        },
-                        "required": [
-                            "checkchain",
-                            "name",
-                            "startOnly"
-                        ],
-                        "type": "object"
+                            "required": [
+                              "name",
+                              "valueDiff"
+                            ],
+                            "type": "object"
+                          }
+                        ]
+                      },
+                      "type": "array"
                     },
-                    "type": "array"
+                    "securityMax": {
+                      "description": "Security max is the maximum admissible value from the sensor read, will disable regulation if went over",
+                      "type": "number"
+                    },
+                    "sensor": {
+                      "description": "Sensor used by this regulation",
+                      "type": "string"
+                    },
+                    "target": {
+                      "description": "Base target",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "target",
+                    "maxTarget",
+                    "securityMax",
+                    "security",
+                    "sensor",
+                    "active",
+                    "plus",
+                    "minus"
+                  ],
+                  "type": "object"
                 },
-                "startBlocks": {
-                    "description": "Program Blocks array that are executed at the start of a step",
-                    "items": {
-                        "$ref": "#/definitions/AllProgramBlocks"
+                "type": "array"
+              },
+              "sensors": {
+                "description": "Sensors available for this Slots",
+                "items": {
+                  "additionalProperties": false,
+                  "description": "Slot Sensor interface",
+                  "properties": {
+                    "io": {
+                      "description": "IO gate name of this sensor",
+                      "type": "string"
                     },
-                    "type": "array"
-                }
+                    "logic": {
+                      "description": "Attached Logic",
+                      "enum": [
+                        "level-min",
+                        "level-max",
+                        "level-limit-max",
+                        "presence"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "io"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "supportedProductSeries": {
+                "description": "Supported product series. If defined slot is `Productable`",
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "type": {
+                "description": "Slot type",
+                "type": "string"
+              }
             },
             "required": [
-                "blocks",
-                "endBlocks",
-                "isEnabled",
-                "name",
-                "startBlocks"
+              "name",
+              "type"
             ],
             "type": "object"
+          },
+          "type": "array"
         },
-        "Popup": {
+        "cyclePremades": {
+          "description": "Cycle premades definition",
+          "items": {
             "additionalProperties": false,
-            "description": "Popup message",
             "properties": {
+              "cycle": {
+                "description": "Cycle type name",
+                "type": "string"
+              },
+              "name": {
+                "description": "Name is only for description purposes, not used",
+                "type": "string"
+              },
+              "profile": {
+                "description": "Profile UUID used by this premade",
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "cycle"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "cycleTypes": {
+          "description": "Cycle types definition",
+          "items": {
+            "$ref": "#/definitions/ProgramBlockRunner"
+          },
+          "type": "array"
+        },
+        "iogates": {
+          "description": "IOGates definition",
+          "items": {
+            "anyOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "address": {
+                    "description": "Address on the automaton address range",
+                    "type": "number"
+                  },
+                  "bus": {
+                    "description": "Gate bus",
+                    "enum": [
+                      "in",
+                      "out"
+                    ],
+                    "type": "string"
+                  },
+                  "controllerId": {
+                    "description": "Automaton where this gate is available",
+                    "type": "number"
+                  },
+                  "default": {
+                    "description": "Default value of this gate",
+                    "type": "number"
+                  },
+                  "name": {
+                    "description": "Gate name",
+                    "type": "string"
+                  },
+                  "size": {
+                    "description": "Gate controller data size",
+                    "enum": [
+                      "bit",
+                      "word"
+                    ],
+                    "type": "string"
+                  },
+                  "type": {
+                    "const": "default",
+                    "description": "Gate type",
+                    "type": "string"
+                  },
+                  "unity": {
+                    "description": "Unity used by this gate",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "address",
+                  "bus",
+                  "controllerId",
+                  "default",
+                  "name",
+                  "size",
+                  "type"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "address": {
+                    "description": "Address on the automaton address range",
+                    "type": "number"
+                  },
+                  "bus": {
+                    "description": "Gate bus",
+                    "enum": [
+                      "in",
+                      "out"
+                    ],
+                    "type": "string"
+                  },
+                  "controllerId": {
+                    "description": "Automaton where this gate is available",
+                    "type": "number"
+                  },
+                  "default": {
+                    "description": "Default value of this gate",
+                    "type": "number"
+                  },
+                  "mapInMax": {
+                    "description": "Mapped input max data, from IOController",
+                    "type": "number"
+                  },
+                  "mapInMin": {
+                    "description": "Mapped input min data, from IO Controller",
+                    "type": "number"
+                  },
+                  "mapOutMax": {
+                    "description": "Mapped output max data, to Human",
+                    "type": "number"
+                  },
+                  "mapOutMin": {
+                    "description": "Mapped output min data, to Human",
+                    "type": "number"
+                  },
+                  "name": {
+                    "description": "Gate name",
+                    "type": "string"
+                  },
+                  "size": {
+                    "const": "word",
+                    "description": "Size is always a word for this typoe of Gate",
+                    "type": "string"
+                  },
+                  "type": {
+                    "const": "mapped",
+                    "description": "Gate type",
+                    "type": "string"
+                  },
+                  "unity": {
+                    "description": "Unity used by this gate",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "address",
+                  "bus",
+                  "controllerId",
+                  "default",
+                  "mapOutMax",
+                  "mapOutMin",
+                  "name",
+                  "size",
+                  "type"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "address": {
+                    "description": "Address on the automaton address range",
+                    "type": "number"
+                  },
+                  "bus": {
+                    "const": "in",
+                    "description": "Gate bus",
+                    "type": "string"
+                  },
+                  "controllerId": {
+                    "description": "Automaton where this gate is available",
+                    "type": "number"
+                  },
+                  "default": {
+                    "description": "Default value of this gate",
+                    "type": "number"
+                  },
+                  "name": {
+                    "description": "Gate name",
+                    "type": "string"
+                  },
+                  "size": {
+                    "const": "word",
+                    "description": "Gate controller data size",
+                    "type": "string"
+                  },
+                  "type": {
+                    "const": "pt100",
+                    "description": "Gate type",
+                    "type": "string"
+                  },
+                  "unity": {
+                    "const": "°C",
+                    "description": "Unity used by this gate",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "address",
+                  "bus",
+                  "controllerId",
+                  "default",
+                  "name",
+                  "size",
+                  "type",
+                  "unity"
+                ],
+                "type": "object"
+              }
+            ],
+            "description": "Available Spec gates"
+          },
+          "type": "array"
+        },
+        "iohandlers": {
+          "description": "IOHandler definitions",
+          "items": {
+            "anyOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "ioScannerInterval": {
+                    "description": "IOScannerInterval",
+                    "type": "number"
+                  },
+                  "ip": {
+                    "description": "IP Address on the local network",
+                    "type": "string"
+                  },
+                  "type": {
+                    "const": "wago",
+                    "description": "Type of the IO Handler",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ip",
+                  "type"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "ioScannerInterval": {
+                    "description": "IOScannerInterval",
+                    "type": "number"
+                  },
+                  "ip": {
+                    "description": "IP Address on the local network",
+                    "type": "string"
+                  },
+                  "size": {
+                    "description": "Corresponding size of the EX260 (either 16 outputs or 32 outputs)",
+                    "enum": [
+                      16,
+                      32
+                    ],
+                    "type": "number"
+                  },
+                  "type": {
+                    "const": "ex260sx",
+                    "description": "Type of the IO Handler",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ip",
+                  "size",
+                  "type"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "type": "array"
+        },
+        "maintenance": {
+          "description": "Maintenance tasks definition",
+          "items": {
+            "anyOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "durationType": {
+                    "const": "sensor",
+                    "description": "Duration type of this maintenance task",
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "Maintenance task name",
+                    "type": "string"
+                  },
+                  "operationDate": {
+                    "description": "Last operation date",
+                    "format": "date-time",
+                    "type": "string"
+                  },
+                  "requireEnableGate": {
+                    "description": "Gate needed to check maitnenance task",
+                    "type": "string"
+                  },
+                  "sensorBaseValue": {
+                    "description": "When this value is reached on sensor means that maintenance task has been done",
+                    "type": "number"
+                  },
+                  "sensorGate": {
+                    "description": "Sensor gate to check",
+                    "type": "string"
+                  },
+                  "sensorLimitValue": {
+                    "description": "When this value is reached on sensor maintenance is due",
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "durationType",
+                  "name",
+                  "sensorBaseValue",
+                  "sensorGate",
+                  "sensorLimitValue"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "durationLimit": {
+                    "description": "When this duration is reached maitnenance is due",
+                    "type": "number"
+                  },
+                  "durationType": {
+                    "description": "Duration type of this maintenance task",
+                    "enum": [
+                      "cycle",
+                      "duration"
+                    ],
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "Maintenance task name",
+                    "type": "string"
+                  },
+                  "operationDate": {
+                    "description": "Last operation date",
+                    "format": "date-time",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "durationLimit",
+                  "durationType",
+                  "name"
+                ],
+                "type": "object"
+              }
+            ],
+            "description": "All Maintenances types"
+          },
+          "type": "array"
+        },
+        "nuster": {
+          "additionalProperties": false,
+          "description": "Nuster Additional data",
+          "properties": {
+            "connectPopup": {
+              "additionalProperties": false,
+              "description": "Connect popup is triggered when the user logs on for the first time",
+              "properties": {
                 "callToActions": {
-                    "description": "Call to actions of this popup.",
-                    "items": {
+                  "description": "Call to actions of this popup.",
+                  "items": {
+                    "additionalProperties": false,
+                    "description": "Call to action inteface",
+                    "properties": {
+                      "APIEndpoint": {
                         "additionalProperties": false,
-                        "description": "Call to action inteface",
+                        "description": "API Endpoint to be reached by the CTA (NusterTurbine Endpoints)",
                         "properties": {
-                            "APIEndpoint": {
-                                "additionalProperties": false,
-                                "description": "API Endpoint to be reached by the CTA (NusterTurbine Endpoints)",
-                                "properties": {
-                                    "body": {},
-                                    "method": {
-                                        "description": "HTTP Request Method",
-                                        "enum": [
-                                            "delete",
-                                            "get",
-                                            "post",
-                                            "put"
-                                        ],
-                                        "type": "string"
-                                    },
-                                    "url": {
-                                        "description": "URL Reached",
-                                        "type": "string"
-                                    }
-                                },
-                                "required": [
-                                    "method",
-                                    "url"
-                                ],
-                                "type": "object"
-                            },
-                            "UIEndpoint": {
-                                "description": "UIEndpoint reached by the CTA (NusterDesktop Endpoints)",
-                                "type": "string"
-                            },
-                            "name": {
-                                "description": "Name of this CTA",
-                                "type": "string"
-                            }
+                          "body": {},
+                          "method": {
+                            "description": "HTTP Request Method",
+                            "enum": [
+                              "get",
+                              "put",
+                              "post",
+                              "delete"
+                            ],
+                            "type": "string"
+                          },
+                          "url": {
+                            "description": "URL Reached",
+                            "type": "string"
+                          }
                         },
                         "required": [
-                            "name"
+                          "url",
+                          "method"
                         ],
                         "type": "object"
+                      },
+                      "UIEndpoint": {
+                        "description": "UIEndpoint reached by the CTA (NusterDesktop Endpoints)",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "Name of this CTA",
+                        "type": "string"
+                      }
                     },
-                    "type": "array"
+                    "required": [
+                      "name"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
                 },
                 "level": {
-                    "description": "Level of this popup",
-                    "enum": [
-                        "error",
-                        "info",
-                        "warn"
-                    ],
-                    "type": "string"
+                  "description": "Level of this popup",
+                  "enum": [
+                    "info",
+                    "warn",
+                    "error"
+                  ],
+                  "type": "string"
                 },
                 "message": {
-                    "description": "i18n message, body of this popup",
-                    "type": "string"
+                  "description": "i18n message, body of this popup",
+                  "type": "string"
                 },
                 "payload": {
-                    "$ref": "#/definitions/Record<string,string>",
-                    "description": "Translation payloads"
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "description": "Translation payloads",
+                  "type": "object"
                 },
                 "title": {
-                    "description": "i18n text, title of this pop up",
-                    "type": "string"
+                  "description": "i18n text, title of this pop up",
+                  "type": "string"
                 }
-            },
-            "required": [
-                "level",
+              },
+              "required": [
+                "title",
                 "message",
-                "title"
-            ],
-            "type": "object"
+                "level"
+              ],
+              "type": "object"
+            },
+            "homeInformations": {
+              "description": "Home screen informations, path of the data to be fetched, should only be reactive data such as io or containers",
+              "items": {
+                "anyOf": [
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "path": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "const": "io",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "path"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "path": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "maxItems": 2,
+                        "minItems": 2,
+                        "type": "array"
+                      },
+                      "type": {
+                        "const": "container.regulation.state",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "path"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "path": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "maxItems": 2,
+                        "minItems": 2,
+                        "type": "array"
+                      },
+                      "type": {
+                        "const": "container.regulation.target",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "path"
+                    ],
+                    "type": "object"
+                  }
+                ]
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
         },
-        "Profile": {
+        "profilePremades": {
+          "description": "Premade profile definition",
+          "items": {
             "additionalProperties": false,
             "description": "Profile schema from configuration",
             "properties": {
-                "id": {
-                    "description": "Profile UUID",
-                    "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
-                    "type": "string"
-                },
-                "name": {
-                    "description": "Name of the profile",
-                    "type": "string"
-                },
-                "skeleton": {
-                    "description": "Name of the referencing skeleton profile",
-                    "type": "string"
-                },
-                "values": {
-                    "description": "Values of the profile",
-                    "items": {
-                        "additionalProperties": false,
-                        "properties": {
-                            "key": {
-                                "type": "string"
-                            },
-                            "value": {
-                                "type": "number"
-                            }
-                        },
-                        "required": [
-                            "key",
-                            "value"
-                        ],
-                        "type": "object"
+              "id": {
+                "description": "Profile UUID",
+                "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
+                "type": "string"
+              },
+              "name": {
+                "description": "Name of the profile",
+                "type": "string"
+              },
+              "skeleton": {
+                "description": "Name of the referencing skeleton profile",
+                "type": "string"
+              },
+              "values": {
+                "description": "Values of the profile",
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "key": {
+                      "type": "string"
                     },
-                    "type": "array"
-                }
+                    "value": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "key",
+                    "value"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              }
             },
             "required": [
-                "id",
-                "name",
-                "skeleton",
-                "values"
+              "id",
+              "name",
+              "skeleton",
+              "values"
             ],
             "type": "object"
+          },
+          "type": "array"
         },
-        "ProfileSkeleton": {
+        "profileSkeletons": {
+          "description": "Profile skeletons definition",
+          "items": {
             "additionalProperties": false,
             "properties": {
-                "fields": {
-                    "description": "Fields definitions contained by this skeleton",
-                    "items": {
-                        "$ref": "#/definitions/ProfileSkeletonFields"
-                    },
-                    "type": "array"
-                },
-                "name": {
-                    "description": "Identifier name of the skeleton",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "fields",
-                "name"
-            ],
-            "type": "object"
-        },
-        "ProfileSkeletonFields": {
-            "anyOf": [
-                {
-                    "additionalProperties": false,
-                    "properties": {
+              "fields": {
+                "description": "Fields definitions contained by this skeleton",
+                "items": {
+                  "anyOf": [
+                    {
+                      "additionalProperties": false,
+                      "properties": {
                         "detailsShown": {
-                            "description": "Is Profile Field hidden",
-                            "type": "boolean"
+                          "description": "Is Profile Field hidden",
+                          "type": "boolean"
                         },
                         "floatMax": {
-                            "type": "number"
+                          "type": "number"
                         },
                         "floatMin": {
-                            "type": "number"
+                          "type": "number"
                         },
                         "floatStep": {
-                            "type": "number"
+                          "type": "number"
                         },
                         "name": {
-                            "description": "Name of the profile field can be splitted by category using a #. `ex: temperature#target`",
-                            "type": "string"
+                          "description": "Name of the profile field can be splitted by category using a #. `ex: temperature#target`",
+                          "type": "string"
                         },
                         "type": {
-                            "description": "Type of the profile field",
-                            "enum": [
-                                "bool",
-                                "float",
-                                "incremental",
-                                "int",
-                                "time"
-                            ],
-                            "type": "string"
+                          "const": "float",
+                          "description": "Type of the profile field",
+                          "type": "string"
                         },
                         "unity": {
-                            "description": "Unity of the profile field, it used for UI purposes only",
-                            "type": "string"
+                          "description": "Unity of the profile field, it used for UI purposes only",
+                          "type": "string"
                         },
                         "value": {
-                            "description": "Value contained byt the profile field",
-                            "type": "number"
+                          "description": "Value contained byt the profile field",
+                          "type": "number"
                         }
-                    },
-                    "required": [
+                      },
+                      "required": [
                         "floatMax",
                         "floatMin",
                         "floatStep",
                         "name",
                         "type",
                         "value"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
                         "detailsShown": {
-                            "description": "Is Profile Field hidden",
-                            "type": "boolean"
+                          "description": "Is Profile Field hidden",
+                          "type": "boolean"
                         },
                         "name": {
-                            "description": "Name of the profile field can be splitted by category using a #. `ex: temperature#target`",
-                            "type": "string"
+                          "description": "Name of the profile field can be splitted by category using a #. `ex: temperature#target`",
+                          "type": "string"
                         },
                         "type": {
-                            "description": "Type of the profile field",
-                            "enum": [
-                                "bool",
-                                "float",
-                                "incremental",
-                                "int",
-                                "time"
-                            ],
-                            "type": "string"
+                          "const": "bool",
+                          "description": "Type of the profile field",
+                          "type": "string"
                         },
                         "unity": {
-                            "description": "Unity of the profile field, it used for UI purposes only",
-                            "type": "string"
+                          "description": "Unity of the profile field, it used for UI purposes only",
+                          "type": "string"
                         },
                         "value": {
-                            "description": "Value contained byt the profile field",
-                            "type": "number"
+                          "description": "Value contained byt the profile field",
+                          "enum": [
+                            1,
+                            0
+                          ],
+                          "type": "number"
                         }
-                    },
-                    "required": [
+                      },
+                      "required": [
                         "name",
                         "type",
                         "value"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
                         "detailsShown": {
-                            "description": "Is Profile Field hidden",
-                            "type": "boolean"
+                          "description": "Is Profile Field hidden",
+                          "type": "boolean"
                         },
                         "name": {
-                            "description": "Name of the profile field can be splitted by category using a #. `ex: temperature#target`",
-                            "type": "string"
+                          "description": "Name of the profile field can be splitted by category using a #. `ex: temperature#target`",
+                          "type": "string"
                         },
                         "type": {
-                            "description": "Type of the profile field",
-                            "enum": [
-                                "bool",
-                                "float",
-                                "incremental",
-                                "int",
-                                "time"
-                            ],
-                            "type": "string"
+                          "const": "int",
+                          "description": "Type of the profile field",
+                          "type": "string"
                         },
                         "unity": {
-                            "description": "Unity of the profile field, it used for UI purposes only",
-                            "type": "string"
+                          "description": "Unity of the profile field, it used for UI purposes only",
+                          "type": "string"
                         },
                         "value": {
-                            "description": "Value contained byt the profile field",
-                            "type": "number"
+                          "description": "Value contained byt the profile field",
+                          "type": "number"
                         }
-                    },
-                    "required": [
+                      },
+                      "required": [
                         "name",
                         "type",
                         "value"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
                         "detailsShown": {
-                            "description": "Is Profile Field hidden",
-                            "type": "boolean"
+                          "description": "Is Profile Field hidden",
+                          "type": "boolean"
                         },
                         "name": {
-                            "description": "Name of the profile field can be splitted by category using a #. `ex: temperature#target`",
-                            "type": "string"
+                          "description": "Name of the profile field can be splitted by category using a #. `ex: temperature#target`",
+                          "type": "string"
                         },
                         "type": {
-                            "description": "Type of the profile field",
-                            "enum": [
-                                "bool",
-                                "float",
-                                "incremental",
-                                "int",
-                                "time"
-                            ],
-                            "type": "string"
+                          "const": "time",
+                          "description": "Type of the profile field",
+                          "type": "string"
                         },
                         "units": {
-                            "items": {
-                                "enum": [
-                                    "hours",
-                                    "milliseconds",
-                                    "minutes",
-                                    "seconds"
-                                ],
-                                "type": "string"
-                            },
-                            "type": "array"
+                          "items": {
+                            "enum": [
+                              "hours",
+                              "minutes",
+                              "seconds",
+                              "milliseconds"
+                            ],
+                            "type": "string"
+                          },
+                          "type": "array"
                         },
                         "unity": {
-                            "description": "Unity of the profile field, it used for UI purposes only",
-                            "type": "string"
+                          "description": "Unity of the profile field, it used for UI purposes only",
+                          "type": "string"
                         },
                         "value": {
-                            "description": "Value contained byt the profile field",
-                            "type": "number"
+                          "description": "Value contained byt the profile field",
+                          "type": "number"
                         }
-                    },
-                    "required": [
+                      },
+                      "required": [
                         "name",
                         "type",
                         "units",
                         "value"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
                         "baseValue": {
-                            "type": "number"
+                          "type": "number"
                         },
                         "detailsShown": {
-                            "description": "Is Profile Field hidden",
-                            "type": "boolean"
+                          "description": "Is Profile Field hidden",
+                          "type": "boolean"
                         },
                         "incrementalRangeMax": {
-                            "type": "number"
+                          "type": "number"
                         },
                         "incrementalRangeMin": {
-                            "type": "number"
+                          "type": "number"
                         },
                         "name": {
-                            "description": "Name of the profile field can be splitted by category using a #. `ex: temperature#target`",
-                            "type": "string"
+                          "description": "Name of the profile field can be splitted by category using a #. `ex: temperature#target`",
+                          "type": "string"
                         },
                         "type": {
-                            "const": "incremental",
-                            "type": "string"
+                          "const": "incremental",
+                          "description": "Type of the profile field",
+                          "type": "string"
                         },
                         "unity": {
-                            "description": "Unity of the profile field, it used for UI purposes only",
-                            "type": "string"
+                          "description": "Unity of the profile field, it used for UI purposes only",
+                          "type": "string"
                         },
                         "value": {
-                            "type": "number"
+                          "description": "Value contained byt the profile field",
+                          "type": "number"
                         }
-                    },
-                    "required": [
+                      },
+                      "required": [
                         "baseValue",
                         "incrementalRangeMax",
                         "incrementalRangeMin",
                         "name",
                         "type",
                         "value"
-                    ],
-                    "type": "object"
-                }
+                      ],
+                      "type": "object"
+                    }
+                  ],
+                  "description": "Base profile skeletons fields types"
+                },
+                "type": "array"
+              },
+              "name": {
+                "description": "Identifier name of the skeleton",
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "fields"
             ],
-            "description": "Base profile skeletons fields types"
-        },
-        "Record<string,string>": {
-            "additionalProperties": false,
             "type": "object"
-        },
-        "StatusParameterBlocks": {
-            "anyOf": [
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "maintenance_status": {
-                            "anyOf": [
-                                {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "string": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "string"
-                                    ],
-                                    "type": "object"
-                                },
-                                {
-                                    "items": [
-                                        {
-                                            "$ref": "#/definitions/StringParameterBlocks"
-                                        },
-                                        {
-                                            "$ref": "#/definitions/NumericParameterBlocks"
-                                        }
-                                    ],
-                                    "maxItems": 2,
-                                    "minItems": 2,
-                                    "type": "array"
-                                },
-                                {
-                                    "type": "string"
-                                }
-                            ]
-                        }
-                    },
-                    "required": [
-                        "maintenance_status"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "product_status": {
-                            "$ref": "#/definitions/StringParameterBlocks"
-                        }
-                    },
-                    "required": [
-                        "product_status"
-                    ],
-                    "type": "object"
-                }
-            ]
-        },
-        "StringParameterBlocks": {
-            "anyOf": [
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "string": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "string"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "type": "string"
-                }
-            ]
-        }
-    },
-    "description": "Machine JSON Specifications",
-    "properties": {
-        "$schema": {
-            "description": "Schema used by the configuration file",
-            "type": "string"
-        },
-        "addons": {
-            "description": "Addons available on this machine",
-            "items": {
-                "additionalProperties": false,
-                "description": "Addon",
-                "properties": {
-                    "addonName": {
-                        "description": "Addon name, should be the same as the Json file holding him",
-                        "type": "string"
-                    },
-                    "content": {
-                        "description": "Addon content Array",
-                        "items": {
-                            "anyOf": [
-                                {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "content": {
-                                            "items": {
-                                                "$ref": "#/definitions/HomeInfo"
-                                            },
-                                            "type": "array"
-                                        },
-                                        "mode": {
-                                            "const": "merge",
-                                            "type": "string"
-                                        },
-                                        "path": {
-                                            "const": "nuster.homeInformations",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "content",
-                                        "mode",
-                                        "path"
-                                    ],
-                                    "type": "object"
-                                },
-                                {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "content": {
-                                            "items": {
-                                                "$ref": "#/definitions/IOGates"
-                                            },
-                                            "type": "array"
-                                        },
-                                        "mode": {
-                                            "const": "merge",
-                                            "type": "string"
-                                        },
-                                        "path": {
-                                            "const": "iogates",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "content",
-                                        "mode",
-                                        "path"
-                                    ],
-                                    "type": "object"
-                                },
-                                {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "content": {
-                                            "items": {
-                                                "$ref": "#/definitions/Profile"
-                                            },
-                                            "type": "array"
-                                        },
-                                        "mode": {
-                                            "const": "merge",
-                                            "type": "string"
-                                        },
-                                        "path": {
-                                            "const": "profilePremades",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "content",
-                                        "mode",
-                                        "path"
-                                    ],
-                                    "type": "object"
-                                },
-                                {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "content": {
-                                            "items": {
-                                                "additionalProperties": false,
-                                                "properties": {
-                                                    "cycle": {
-                                                        "description": "Cycle type name",
-                                                        "type": "string"
-                                                    },
-                                                    "name": {
-                                                        "description": "Name is only for description purposes, not used",
-                                                        "type": "string"
-                                                    },
-                                                    "profile": {
-                                                        "description": "Profile UUID used by this premade",
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "required": [
-                                                    "cycle",
-                                                    "name"
-                                                ],
-                                                "type": "object"
-                                            },
-                                            "type": "array"
-                                        },
-                                        "mode": {
-                                            "const": "merge",
-                                            "type": "string"
-                                        },
-                                        "path": {
-                                            "const": "cyclePremades",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "content",
-                                        "mode",
-                                        "path"
-                                    ],
-                                    "type": "object"
-                                },
-                                {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "content": {
-                                            "items": {
-                                                "type": "string"
-                                            },
-                                            "type": "array"
-                                        },
-                                        "mode": {
-                                            "const": "merge",
-                                            "type": "string"
-                                        },
-                                        "path": {
-                                            "description": "Container product series path",
-                                            "pattern": "^containers\\.[0-9]+\\.supportedProductSeries$",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "content",
-                                        "mode",
-                                        "path"
-                                    ],
-                                    "type": "object"
-                                },
-                                {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "content": {
-                                            "items": [
-                                                {
-                                                    "$ref": "#/definitions/ContainerRegulation"
-                                                }
-                                            ],
-                                            "maxItems": 1,
-                                            "minItems": 1,
-                                            "type": "array"
-                                        },
-                                        "mode": {
-                                            "const": "set",
-                                            "type": "string"
-                                        },
-                                        "path": {
-                                            "description": "Container regulation path",
-                                            "pattern": "^containers\\.[0-9]+\\.regulations$",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "content",
-                                        "mode",
-                                        "path"
-                                    ],
-                                    "type": "object"
-                                },
-                                {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "content": {
-                                            "type": "number"
-                                        },
-                                        "mode": {
-                                            "const": "set",
-                                            "type": "string"
-                                        },
-                                        "path": {
-                                            "description": "Container regulation max target path",
-                                            "pattern": "^containers\\.[0-9]+\\.regulations\\.[0-9]+\\.maxTarget$",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "content",
-                                        "mode",
-                                        "path"
-                                    ],
-                                    "type": "object"
-                                },
-                                {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "content": {
-                                            "type": "number"
-                                        },
-                                        "mode": {
-                                            "const": "set",
-                                            "type": "string"
-                                        },
-                                        "path": {
-                                            "description": "Container regulation security max path",
-                                            "pattern": "^containers\\.[0-9]+\\.regulations\\.[0-9]+\\.securityMax$",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "content",
-                                        "mode",
-                                        "path"
-                                    ],
-                                    "type": "object"
-                                },
-                                {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "content": {
-                                            "type": "number"
-                                        },
-                                        "mode": {
-                                            "const": "set",
-                                            "type": "string"
-                                        },
-                                        "path": {
-                                            "description": "Maintenance sensor limit value path",
-                                            "pattern": "^maintenance\\.[0-9]+\\.sensorLimitValue$",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "content",
-                                        "mode",
-                                        "path"
-                                    ],
-                                    "type": "object"
-                                },
-                                {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "content": {
-                                            "type": "number"
-                                        },
-                                        "mode": {
-                                            "const": "set",
-                                            "type": "string"
-                                        },
-                                        "path": {
-                                            "description": "Maintenance sensor base value path",
-                                            "pattern": "^maintenance\\.[0-9]+\\.sensorBaseValue$",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "content",
-                                        "mode",
-                                        "path"
-                                    ],
-                                    "type": "object"
-                                }
-                            ]
-                        },
-                        "type": "array"
-                    }
-                },
-                "required": [
-                    "addonName",
-                    "content"
-                ],
-                "type": "object"
-            },
-            "type": "array"
-        },
-        "containers": {
-            "description": "Product slots definition",
-            "items": {
-                "$ref": "#/definitions/Container"
-            },
-            "type": "array"
-        },
-        "cyclePremades": {
-            "description": "Cycle premades definition",
-            "items": {
-                "additionalProperties": false,
-                "properties": {
-                    "cycle": {
-                        "description": "Cycle type name",
-                        "type": "string"
-                    },
-                    "name": {
-                        "description": "Name is only for description purposes, not used",
-                        "type": "string"
-                    },
-                    "profile": {
-                        "description": "Profile UUID used by this premade",
-                        "type": "string"
-                    }
-                },
-                "required": [
-                    "cycle",
-                    "name"
-                ],
-                "type": "object"
-            },
-            "type": "array"
-        },
-        "cycleTypes": {
-            "description": "Cycle types definition",
-            "items": {
-                "additionalProperties": false,
-                "properties": {
-                    "additionalInfo": {
-                        "description": "AddtionalInfo is an array of Gate names that are displayed when the cycle is running",
-                        "items": {
-                            "type": "string"
-                        },
-                        "type": "array"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "profileRequired": {
-                        "type": "boolean"
-                    },
-                    "runConditions": {
-                        "items": {
-                            "additionalProperties": false,
-                            "properties": {
-                                "checkchain": {
-                                    "additionalProperties": false,
-                                    "description": "Checkchain used to validate status",
-                                    "properties": {
-                                        "io": {
-                                            "additionalProperties": false,
-                                            "properties": {
-                                                "gateName": {
-                                                    "type": "string"
-                                                },
-                                                "gateValue": {
-                                                    "type": "number"
-                                                }
-                                            },
-                                            "required": [
-                                                "gateName",
-                                                "gateValue"
-                                            ],
-                                            "type": "object"
-                                        },
-                                        "parameter": {
-                                            "$ref": "#/definitions/StatusParameterBlocks"
-                                        }
-                                    },
-                                    "type": "object"
-                                },
-                                "disabled": {
-                                    "$ref": "#/definitions/NumericParameterBlocks",
-                                    "description": "Parameter that disables this runCondition"
-                                },
-                                "name": {
-                                    "description": "Name of the run condition, used for reference",
-                                    "type": "string"
-                                },
-                                "startOnly": {
-                                    "description": "Is the condition only used at start",
-                                    "type": "boolean"
-                                }
-                            },
-                            "required": [
-                                "checkchain",
-                                "name",
-                                "startOnly"
-                            ],
-                            "type": "object"
-                        },
-                        "type": "array"
-                    },
-                    "steps": {
-                        "items": {
-                            "$ref": "#/definitions/PBRStep"
-                        },
-                        "type": "array"
-                    }
-                },
-                "required": [
-                    "name",
-                    "profileRequired",
-                    "runConditions",
-                    "steps"
-                ],
-                "type": "object"
-            },
-            "type": "array"
-        },
-        "iogates": {
-            "description": "IOGates definition",
-            "items": {
-                "$ref": "#/definitions/IOGates"
-            },
-            "type": "array"
-        },
-        "iohandlers": {
-            "description": "IOHandler definitions",
-            "items": {
-                "$ref": "#/definitions/IOHandlers"
-            },
-            "type": "array"
-        },
-        "maintenance": {
-            "description": "Maintenance tasks definition",
-            "items": {
-                "$ref": "#/definitions/Maintenances"
-            },
-            "type": "array"
-        },
-        "nuster": {
-            "additionalProperties": false,
-            "description": "Nuster Additional data",
-            "properties": {
-                "connectPopup": {
-                    "$ref": "#/definitions/Popup",
-                    "description": "Connect popup is triggered when the user logs on for the first time"
-                },
-                "homeInformations": {
-                    "description": "Home screen informations, path of the data to be fetched, should only be reactive data such as io or containers",
-                    "items": {
-                        "$ref": "#/definitions/HomeInfo"
-                    },
-                    "type": "array"
-                }
-            },
-            "type": "object"
-        },
-        "profilePremades": {
-            "description": "Premade profile definition",
-            "items": {
-                "$ref": "#/definitions/Profile"
-            },
-            "type": "array"
-        },
-        "profileSkeletons": {
-            "description": "Profile skeletons definition",
-            "items": {
-                "$ref": "#/definitions/ProfileSkeleton"
-            },
-            "type": "array"
+          },
+          "type": "array"
         },
         "variables": {
-            "description": "Supported machine variables",
-            "items": {
-                "type": "string"
-            },
-            "type": "array"
+          "description": "Supported machine variables",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         }
-    },
-    "required": [
+      },
+      "required": [
         "$schema",
-        "containers",
-        "cyclePremades",
         "cycleTypes",
-        "iogates",
+        "cyclePremades",
         "iohandlers",
+        "iogates",
         "maintenance",
-        "profilePremades",
         "profileSkeletons",
+        "profilePremades",
+        "containers",
         "variables"
-    ],
-    "type": "object"
+      ],
+      "type": "object"
+    },
+    "MaintenanceStatusParameterBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "maintenance_status": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/StringParameterBlocks"
+            },
+            {
+              "items": [
+                {
+                  "$ref": "#/definitions/StringParameterBlocks"
+                },
+                {
+                  "$ref": "#/definitions/NumericParameterBlocks"
+                }
+              ],
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            }
+          ]
+        }
+      },
+      "required": [
+        "maintenance_status"
+      ],
+      "type": "object"
+    },
+    "MultiplyParameterBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "multiply": {
+          "items": {
+            "$ref": "#/definitions/NumericParameterBlocks"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "multiply"
+      ],
+      "type": "object"
+    },
+    "NumberParameterBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "number": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "number"
+      ],
+      "type": "object"
+    },
+    "NumericParameterBlocks": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/AddParameterBlock"
+        },
+        {
+          "$ref": "#/definitions/SubParameterBlock"
+        },
+        {
+          "$ref": "#/definitions/MultiplyParameterBlock"
+        },
+        {
+          "$ref": "#/definitions/DivideParameterBlock"
+        },
+        {
+          "$ref": "#/definitions/ReverseParameterBlock"
+        },
+        {
+          "$ref": "#/definitions/ConditionalParameterBlock"
+        },
+        {
+          "$ref": "#/definitions/NumberParameterBlock"
+        },
+        {
+          "$ref": "#/definitions/IOReadParameterBlock"
+        },
+        {
+          "$ref": "#/definitions/ProfileParameterBlock"
+        },
+        {
+          "$ref": "#/definitions/ReadVariableParameterBlock"
+        },
+        {
+          "$ref": "#/definitions/ReadMachineVariableParameterBlock"
+        },
+        {
+          "type": "number"
+        }
+      ]
+    },
+    "PBRStep": {
+      "additionalProperties": false,
+      "properties": {
+        "blocks": {
+          "description": "Program blocks Array that is executed by this step",
+          "items": {
+            "$ref": "#/definitions/AllProgramBlocks"
+          },
+          "type": "array"
+        },
+        "crashStepFallback": {
+          "description": "Step to goto on soft end",
+          "type": "number"
+        },
+        "endBlocks": {
+          "description": "Program Blocks array that are executed at the end of a step",
+          "items": {
+            "$ref": "#/definitions/AllProgramBlocks"
+          },
+          "type": "array"
+        },
+        "isEnabled": {
+          "$ref": "#/definitions/NumericParameterBlocks",
+          "description": "Parameter block that indicates if this step is enabled in the PBR flow"
+        },
+        "name": {
+          "description": "Program Step name",
+          "type": "string"
+        },
+        "partialStepFallback": {
+          "description": "Partial end step fallback",
+          "type": "number"
+        },
+        "runAmount": {
+          "$ref": "#/definitions/NumericParameterBlocks",
+          "description": "Optional Parameter block that tells the PBR if this steps must be runt multiple times"
+        },
+        "runConditions": {
+          "description": "Step run conditions, theeses runConditions triggers Soft End Strategy if defined, otherwise, runs hard end strategy",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "checkchain": {
+                "additionalProperties": false,
+                "description": "Checkchain used to validate status",
+                "properties": {
+                  "io": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "gateName": {
+                        "type": "string"
+                      },
+                      "gateValue": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "gateName",
+                      "gateValue"
+                    ],
+                    "type": "object"
+                  },
+                  "parameter": {
+                    "$ref": "#/definitions/StatusParameterBlocks"
+                  }
+                },
+                "type": "object"
+              },
+              "disabled": {
+                "$ref": "#/definitions/NumericParameterBlocks",
+                "description": "Parameter that disables this runCondition"
+              },
+              "name": {
+                "description": "Name of the run condition, used for reference",
+                "type": "string"
+              },
+              "startOnly": {
+                "description": "Is the condition only used at start",
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "name",
+              "startOnly",
+              "checkchain"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "startBlocks": {
+          "description": "Program Blocks array that are executed at the start of a step",
+          "items": {
+            "$ref": "#/definitions/AllProgramBlocks"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "isEnabled",
+        "startBlocks",
+        "endBlocks",
+        "blocks"
+      ],
+      "type": "object"
+    },
+    "ProductStatusParameterBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "product_status": {
+          "$ref": "#/definitions/StringParameterBlocks"
+        }
+      },
+      "required": [
+        "product_status"
+      ],
+      "type": "object"
+    },
+    "ProfileParameterBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "profile": {
+          "$ref": "#/definitions/StringParameterBlocks"
+        }
+      },
+      "required": [
+        "profile"
+      ],
+      "type": "object"
+    },
+    "ProgramBlockRunner": {
+      "additionalProperties": false,
+      "properties": {
+        "additionalInfo": {
+          "description": "AddtionalInfo is an array of Gate names that are displayed when the cycle is running",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "name": {
+          "type": "string"
+        },
+        "profileRequired": {
+          "type": "boolean"
+        },
+        "runConditions": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "checkchain": {
+                "additionalProperties": false,
+                "description": "Checkchain used to validate status",
+                "properties": {
+                  "io": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "gateName": {
+                        "type": "string"
+                      },
+                      "gateValue": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "gateName",
+                      "gateValue"
+                    ],
+                    "type": "object"
+                  },
+                  "parameter": {
+                    "$ref": "#/definitions/StatusParameterBlocks"
+                  }
+                },
+                "type": "object"
+              },
+              "disabled": {
+                "$ref": "#/definitions/NumericParameterBlocks",
+                "description": "Parameter that disables this runCondition"
+              },
+              "name": {
+                "description": "Name of the run condition, used for reference",
+                "type": "string"
+              },
+              "startOnly": {
+                "description": "Is the condition only used at start",
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "name",
+              "startOnly",
+              "checkchain"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "steps": {
+          "items": {
+            "$ref": "#/definitions/PBRStep"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "profileRequired",
+        "runConditions",
+        "steps"
+      ],
+      "type": "object"
+    },
+    "ReadMachineVariableParameterBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "read_machine_var": {
+          "$ref": "#/definitions/StringParameterBlocks"
+        }
+      },
+      "required": [
+        "read_machine_var"
+      ],
+      "type": "object"
+    },
+    "ReadVariableParameterBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "read_var": {
+          "$ref": "#/definitions/StringParameterBlocks"
+        }
+      },
+      "required": [
+        "read_var"
+      ],
+      "type": "object"
+    },
+    "ReverseParameterBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "reverse": {
+          "$ref": "#/definitions/NumericParameterBlocks"
+        }
+      },
+      "required": [
+        "reverse"
+      ],
+      "type": "object"
+    },
+    "SetVariableProgramBlock": {
+      "additionalProperties": false,
+      "description": "**Variable** Will set the *[0] Variable name* to *[1] Variable value*.",
+      "properties": {
+        "set_var": {
+          "items": [
+            {
+              "$ref": "#/definitions/StringParameterBlocks"
+            },
+            {
+              "$ref": "#/definitions/NumericParameterBlocks"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        }
+      },
+      "required": [
+        "set_var"
+      ],
+      "type": "object"
+    },
+    "SleepProgramBlock": {
+      "additionalProperties": false,
+      "description": "**Sleep** Will wait the amount of time supplied.",
+      "properties": {
+        "sleep": {
+          "$ref": "#/definitions/NumericParameterBlocks"
+        }
+      },
+      "required": [
+        "sleep"
+      ],
+      "type": "object"
+    },
+    "StartTimerProgramBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "start_timer": {
+          "additionalProperties": false,
+          "properties": {
+            "blocks": {
+              "items": {
+                "$ref": "#/definitions/AllProgramBlocks"
+              },
+              "type": "array"
+            },
+            "timer_interval": {
+              "$ref": "#/definitions/NumericParameterBlocks"
+            },
+            "timer_name": {
+              "$ref": "#/definitions/StringParameterBlocks"
+            }
+          },
+          "required": [
+            "timer_name",
+            "timer_interval",
+            "blocks"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "start_timer"
+      ],
+      "type": "object"
+    },
+    "StatusParameterBlocks": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/MaintenanceStatusParameterBlock"
+        },
+        {
+          "$ref": "#/definitions/ProductStatusParameterBlock"
+        }
+      ]
+    },
+    "StopProgramBlock": {
+      "additionalProperties": false,
+      "description": "**Stop** Will stop the cycle with the reason supplied.",
+      "properties": {
+        "stop": {
+          "$ref": "#/definitions/StringParameterBlocks"
+        }
+      },
+      "required": [
+        "stop"
+      ],
+      "type": "object"
+    },
+    "StopTimerProgramBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "stop_timer": {
+          "$ref": "#/definitions/StringParameterBlocks"
+        }
+      },
+      "required": [
+        "stop_timer"
+      ],
+      "type": "object"
+    },
+    "StringParameterBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "string": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "string"
+      ],
+      "type": "object"
+    },
+    "StringParameterBlocks": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/StringParameterBlock"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "SubParameterBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "sub": {
+          "items": {
+            "$ref": "#/definitions/NumericParameterBlocks"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        }
+      },
+      "required": [
+        "sub"
+      ],
+      "type": "object"
+    },
+    "WhileProgramBlock": {
+      "additionalProperties": false,
+      "description": "**While Loop** Runs *blocks* until *left_side* compared to *right_side* by *comparator* is false.",
+      "properties": {
+        "while": {
+          "additionalProperties": false,
+          "properties": {
+            "blocks": {
+              "items": {
+                "$ref": "#/definitions/AllProgramBlocks"
+              },
+              "type": "array"
+            },
+            "statement": {
+              "additionalProperties": false,
+              "properties": {
+                "comparator": {
+                  "$ref": "#/definitions/Comparators"
+                },
+                "left_side": {
+                  "$ref": "#/definitions/NumericParameterBlocks"
+                },
+                "right_side": {
+                  "$ref": "#/definitions/NumericParameterBlocks"
+                }
+              },
+              "required": [
+                "comparator",
+                "left_side",
+                "right_side"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "statement",
+            "blocks"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "while"
+      ],
+      "type": "object"
+    }
+  }
 }
-

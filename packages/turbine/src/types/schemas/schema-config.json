@@ -1,815 +1,773 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "additionalProperties": false,
-    "definitions": {
-        "ContainerRegulation": {
-            "additionalProperties": false,
-            "description": "Container regulation",
-            "properties": {
-                "active": {
-                    "description": "Actuators always active (ex: `pump` for `uscleaner/m/0 - temperature-control`)",
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "maxTarget": {
-                    "description": "Max target is the maximum setable value for this regulation",
-                    "type": "number"
-                },
-                "minus": {
-                    "description": "Actuators used to reach target when we are over target",
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "name": {
-                    "description": "Regulation name",
-                    "type": "string"
-                },
-                "plus": {
-                    "description": "Actuators used to reach target when we are under target",
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "security": {
-                    "description": "Regulation Security thats stops it",
-                    "items": {
-                        "anyOf": [
-                            {
-                                "additionalProperties": false,
-                                "properties": {
-                                    "name": {
-                                        "type": "string"
-                                    },
-                                    "value": {
-                                        "type": "number"
-                                    }
-                                },
-                                "required": [
-                                    "name",
-                                    "value"
-                                ],
-                                "type": "object"
-                            },
-                            {
-                                "additionalProperties": false,
-                                "properties": {
-                                    "name": {
-                                        "type": "string"
-                                    },
-                                    "valueDiff": {
-                                        "type": "number"
-                                    }
-                                },
-                                "required": [
-                                    "name",
-                                    "valueDiff"
-                                ],
-                                "type": "object"
-                            }
-                        ]
-                    },
-                    "type": "array"
-                },
-                "securityMax": {
-                    "description": "Security max is the maximum admissible value from the sensor read, will disable regulation if went over",
-                    "type": "number"
-                },
-                "sensor": {
-                    "description": "Sensor used by this regulation",
-                    "type": "string"
-                },
-                "target": {
-                    "description": "Base target",
-                    "type": "number"
-                }
-            },
-            "required": [
-                "active",
-                "maxTarget",
-                "minus",
-                "name",
-                "plus",
-                "security",
-                "securityMax",
-                "sensor",
-                "target"
-            ],
-            "type": "object"
-        },
-        "HomeInfo": {
-            "anyOf": [
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "path": {
-                            "type": "string"
-                        },
-                        "type": {
-                            "const": "io",
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "path",
-                        "type"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "path": {
-                            "items": [
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "type": "string"
-                                }
-                            ],
-                            "maxItems": 2,
-                            "minItems": 2,
-                            "type": "array"
-                        },
-                        "type": {
-                            "const": "container.regulation.state",
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "path",
-                        "type"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "path": {
-                            "items": [
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "type": "string"
-                                }
-                            ],
-                            "maxItems": 2,
-                            "minItems": 2,
-                            "type": "array"
-                        },
-                        "type": {
-                            "const": "container.regulation.target",
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "path",
-                        "type"
-                    ],
-                    "type": "object"
-                }
-            ]
-        },
-        "IOGates": {
-            "anyOf": [
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "address": {
-                            "description": "Address on the automaton address range",
-                            "type": "number"
-                        },
-                        "bus": {
-                            "description": "Gate bus",
-                            "enum": [
-                                "in",
-                                "out"
-                            ],
-                            "type": "string"
-                        },
-                        "controllerId": {
-                            "description": "Automaton where this gate is available",
-                            "type": "number"
-                        },
-                        "default": {
-                            "description": "Default value of this gate",
-                            "type": "number"
-                        },
-                        "name": {
-                            "description": "Gate name",
-                            "type": "string"
-                        },
-                        "size": {
-                            "description": "Gate controller data size",
-                            "enum": [
-                                "bit",
-                                "word"
-                            ],
-                            "type": "string"
-                        },
-                        "type": {
-                            "description": "Gate type",
-                            "enum": [
-                                "default",
-                                "mapped",
-                                "pt100"
-                            ],
-                            "type": "string"
-                        },
-                        "unity": {
-                            "description": "Unity used by this gate",
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "address",
-                        "bus",
-                        "controllerId",
-                        "default",
-                        "name",
-                        "size",
-                        "type"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "address": {
-                            "description": "Address on the automaton address range",
-                            "type": "number"
-                        },
-                        "bus": {
-                            "description": "Gate bus",
-                            "enum": [
-                                "in",
-                                "out"
-                            ],
-                            "type": "string"
-                        },
-                        "controllerId": {
-                            "description": "Automaton where this gate is available",
-                            "type": "number"
-                        },
-                        "default": {
-                            "description": "Default value of this gate",
-                            "type": "number"
-                        },
-                        "mapInMax": {
-                            "description": "Mapped input max data, from IOController",
-                            "type": "number"
-                        },
-                        "mapInMin": {
-                            "description": "Mapped input min data, from IO Controller",
-                            "type": "number"
-                        },
-                        "mapOutMax": {
-                            "description": "Mapped output max data, to Human",
-                            "type": "number"
-                        },
-                        "mapOutMin": {
-                            "description": "Mapped output min data, to Human",
-                            "type": "number"
-                        },
-                        "name": {
-                            "description": "Gate name",
-                            "type": "string"
-                        },
-                        "size": {
-                            "description": "Gate controller data size",
-                            "enum": [
-                                "bit",
-                                "word"
-                            ],
-                            "type": "string"
-                        },
-                        "type": {
-                            "description": "Gate type",
-                            "enum": [
-                                "default",
-                                "mapped",
-                                "pt100"
-                            ],
-                            "type": "string"
-                        },
-                        "unity": {
-                            "description": "Unity used by this gate",
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "address",
-                        "bus",
-                        "controllerId",
-                        "default",
-                        "mapOutMax",
-                        "mapOutMin",
-                        "name",
-                        "size",
-                        "type"
-                    ],
-                    "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "address": {
-                            "description": "Address on the automaton address range",
-                            "type": "number"
-                        },
-                        "bus": {
-                            "description": "Gate bus",
-                            "enum": [
-                                "in",
-                                "out"
-                            ],
-                            "type": "string"
-                        },
-                        "controllerId": {
-                            "description": "Automaton where this gate is available",
-                            "type": "number"
-                        },
-                        "default": {
-                            "description": "Default value of this gate",
-                            "type": "number"
-                        },
-                        "name": {
-                            "description": "Gate name",
-                            "type": "string"
-                        },
-                        "size": {
-                            "description": "Gate controller data size",
-                            "enum": [
-                                "bit",
-                                "word"
-                            ],
-                            "type": "string"
-                        },
-                        "type": {
-                            "description": "Gate type",
-                            "enum": [
-                                "default",
-                                "mapped",
-                                "pt100"
-                            ],
-                            "type": "string"
-                        },
-                        "unity": {
-                            "description": "Unity used by this gate",
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "address",
-                        "bus",
-                        "controllerId",
-                        "default",
-                        "name",
-                        "size",
-                        "type",
-                        "unity"
-                    ],
-                    "type": "object"
-                }
-            ],
-            "description": "Available Spec gates"
-        },
-        "Profile": {
-            "additionalProperties": false,
-            "description": "Profile schema from configuration",
-            "properties": {
-                "id": {
-                    "description": "Profile UUID",
-                    "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
-                    "type": "string"
-                },
-                "name": {
-                    "description": "Name of the profile",
-                    "type": "string"
-                },
-                "skeleton": {
-                    "description": "Name of the referencing skeleton profile",
-                    "type": "string"
-                },
-                "values": {
-                    "description": "Values of the profile",
-                    "items": {
-                        "additionalProperties": false,
-                        "properties": {
-                            "key": {
-                                "type": "string"
-                            },
-                            "value": {
-                                "type": "number"
-                            }
-                        },
-                        "required": [
-                            "key",
-                            "value"
-                        ],
-                        "type": "object"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "id",
-                "name",
-                "skeleton",
-                "values"
-            ],
-            "type": "object"
-        },
-        "Settings": {
-            "additionalProperties": false,
-            "description": "Machine additional settings",
-            "properties": {
-                "devMode": {
-                    "description": "Dev mode enabled on this machine.\n\nEnables:\n - NextStep button on cycle\n - IO Controls\n - profilesShown is overriden to `true`.",
-                    "type": "boolean"
-                },
-                "hideMultilayerIndications": {
-                    "description": "Hides multilayer indications in cycle",
-                    "type": "boolean"
-                },
-                "onlyShowSelectedProfileFields": {
-                    "description": "Only show picked profile fields",
-                    "type": "boolean"
-                },
-                "profilesShown": {
-                    "description": "Do profiles list is shown",
-                    "type": "boolean"
-                },
-                "variables": {
-                    "description": "Additional variables.\nCan be retreived by a `ParameterBlock` in `ProgramBlockRunner`.",
-                    "items": {
-                        "additionalProperties": false,
-                        "properties": {
-                            "name": {
-                                "type": "string"
-                            },
-                            "value": {
-                                "type": "number"
-                            }
-                        },
-                        "required": [
-                            "name",
-                            "value"
-                        ],
-                        "type": "object"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "devMode",
-                "hideMultilayerIndications",
-                "onlyShowSelectedProfileFields",
-                "profilesShown",
-                "variables"
-            ],
-            "type": "object"
-        }
-    },
-    "description": "Configuration info.json driving NusterTurbine",
-    "properties": {
+  "$ref": "#/definitions/Configuration",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "Configuration": {
+      "additionalProperties": false,
+      "description": "Configuration info.json driving NusterTurbine",
+      "properties": {
         "$schema": {
-            "description": "JSON Schema for json validation",
-            "type": "string"
+          "description": "JSON Schema for json validation",
+          "type": "string"
         },
         "addons": {
-            "description": "Machine Addons",
-            "items": {
-                "type": "string"
-            },
-            "type": "array"
+          "description": "Machine Addons",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         },
         "machineAddons": {
-            "description": "Machine Specific addon, should be used as less as possible",
-            "items": {
-                "additionalProperties": false,
-                "description": "Addon",
-                "properties": {
-                    "addonName": {
-                        "description": "Addon name, should be the same as the Json file holding him",
-                        "type": "string"
-                    },
-                    "content": {
-                        "description": "Addon content Array",
-                        "items": {
+          "description": "Machine Specific addon, should be used as less as possible",
+          "items": {
+            "additionalProperties": false,
+            "description": "Addon",
+            "properties": {
+              "addonName": {
+                "description": "Addon name, should be the same as the Json file holding him",
+                "type": "string"
+              },
+              "content": {
+                "description": "Addon content Array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "content": {
+                          "items": {
                             "anyOf": [
-                                {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "content": {
-                                            "items": {
-                                                "$ref": "#/definitions/HomeInfo"
-                                            },
-                                            "type": "array"
-                                        },
-                                        "mode": {
-                                            "const": "merge",
-                                            "type": "string"
-                                        },
-                                        "path": {
-                                            "const": "nuster.homeInformations",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "content",
-                                        "mode",
-                                        "path"
-                                    ],
-                                    "type": "object"
+                              {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "path": {
+                                    "type": "string"
+                                  },
+                                  "type": {
+                                    "const": "io",
+                                    "type": "string"
+                                  }
                                 },
-                                {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "content": {
-                                            "items": {
-                                                "$ref": "#/definitions/IOGates"
-                                            },
-                                            "type": "array"
-                                        },
-                                        "mode": {
-                                            "const": "merge",
-                                            "type": "string"
-                                        },
-                                        "path": {
-                                            "const": "iogates",
-                                            "type": "string"
-                                        }
+                                "required": [
+                                  "type",
+                                  "path"
+                                ],
+                                "type": "object"
+                              },
+                              {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "path": {
+                                    "items": {
+                                      "type": "string"
                                     },
-                                    "required": [
-                                        "content",
-                                        "mode",
-                                        "path"
-                                    ],
-                                    "type": "object"
+                                    "maxItems": 2,
+                                    "minItems": 2,
+                                    "type": "array"
+                                  },
+                                  "type": {
+                                    "const": "container.regulation.state",
+                                    "type": "string"
+                                  }
                                 },
-                                {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "content": {
-                                            "items": {
-                                                "$ref": "#/definitions/Profile"
-                                            },
-                                            "type": "array"
-                                        },
-                                        "mode": {
-                                            "const": "merge",
-                                            "type": "string"
-                                        },
-                                        "path": {
-                                            "const": "profilePremades",
-                                            "type": "string"
-                                        }
+                                "required": [
+                                  "type",
+                                  "path"
+                                ],
+                                "type": "object"
+                              },
+                              {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "path": {
+                                    "items": {
+                                      "type": "string"
                                     },
-                                    "required": [
-                                        "content",
-                                        "mode",
-                                        "path"
-                                    ],
-                                    "type": "object"
+                                    "maxItems": 2,
+                                    "minItems": 2,
+                                    "type": "array"
+                                  },
+                                  "type": {
+                                    "const": "container.regulation.target",
+                                    "type": "string"
+                                  }
                                 },
-                                {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "content": {
-                                            "items": {
-                                                "additionalProperties": false,
-                                                "properties": {
-                                                    "cycle": {
-                                                        "description": "Cycle type name",
-                                                        "type": "string"
-                                                    },
-                                                    "name": {
-                                                        "description": "Name is only for description purposes, not used",
-                                                        "type": "string"
-                                                    },
-                                                    "profile": {
-                                                        "description": "Profile UUID used by this premade",
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "required": [
-                                                    "cycle",
-                                                    "name"
-                                                ],
-                                                "type": "object"
-                                            },
-                                            "type": "array"
-                                        },
-                                        "mode": {
-                                            "const": "merge",
-                                            "type": "string"
-                                        },
-                                        "path": {
-                                            "const": "cyclePremades",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "content",
-                                        "mode",
-                                        "path"
-                                    ],
-                                    "type": "object"
-                                },
-                                {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "content": {
-                                            "items": {
-                                                "type": "string"
-                                            },
-                                            "type": "array"
-                                        },
-                                        "mode": {
-                                            "const": "merge",
-                                            "type": "string"
-                                        },
-                                        "path": {
-                                            "description": "Container product series path",
-                                            "pattern": "^containers\\.[0-9]+\\.supportedProductSeries$",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "content",
-                                        "mode",
-                                        "path"
-                                    ],
-                                    "type": "object"
-                                },
-                                {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "content": {
-                                            "items": [
-                                                {
-                                                    "$ref": "#/definitions/ContainerRegulation"
-                                                }
-                                            ],
-                                            "maxItems": 1,
-                                            "minItems": 1,
-                                            "type": "array"
-                                        },
-                                        "mode": {
-                                            "const": "set",
-                                            "type": "string"
-                                        },
-                                        "path": {
-                                            "description": "Container regulation path",
-                                            "pattern": "^containers\\.[0-9]+\\.regulations$",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "content",
-                                        "mode",
-                                        "path"
-                                    ],
-                                    "type": "object"
-                                },
-                                {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "content": {
-                                            "type": "number"
-                                        },
-                                        "mode": {
-                                            "const": "set",
-                                            "type": "string"
-                                        },
-                                        "path": {
-                                            "description": "Container regulation max target path",
-                                            "pattern": "^containers\\.[0-9]+\\.regulations\\.[0-9]+\\.maxTarget$",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "content",
-                                        "mode",
-                                        "path"
-                                    ],
-                                    "type": "object"
-                                },
-                                {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "content": {
-                                            "type": "number"
-                                        },
-                                        "mode": {
-                                            "const": "set",
-                                            "type": "string"
-                                        },
-                                        "path": {
-                                            "description": "Container regulation security max path",
-                                            "pattern": "^containers\\.[0-9]+\\.regulations\\.[0-9]+\\.securityMax$",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "content",
-                                        "mode",
-                                        "path"
-                                    ],
-                                    "type": "object"
-                                },
-                                {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "content": {
-                                            "type": "number"
-                                        },
-                                        "mode": {
-                                            "const": "set",
-                                            "type": "string"
-                                        },
-                                        "path": {
-                                            "description": "Maintenance sensor limit value path",
-                                            "pattern": "^maintenance\\.[0-9]+\\.sensorLimitValue$",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "content",
-                                        "mode",
-                                        "path"
-                                    ],
-                                    "type": "object"
-                                },
-                                {
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "content": {
-                                            "type": "number"
-                                        },
-                                        "mode": {
-                                            "const": "set",
-                                            "type": "string"
-                                        },
-                                        "path": {
-                                            "description": "Maintenance sensor base value path",
-                                            "pattern": "^maintenance\\.[0-9]+\\.sensorBaseValue$",
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "content",
-                                        "mode",
-                                        "path"
-                                    ],
-                                    "type": "object"
-                                }
+                                "required": [
+                                  "type",
+                                  "path"
+                                ],
+                                "type": "object"
+                              }
                             ]
+                          },
+                          "type": "array"
                         },
-                        "type": "array"
+                        "mode": {
+                          "const": "merge",
+                          "type": "string"
+                        },
+                        "path": {
+                          "const": "nuster.homeInformations",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "path",
+                        "mode",
+                        "content"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "content": {
+                          "items": {
+                            "anyOf": [
+                              {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "address": {
+                                    "description": "Address on the automaton address range",
+                                    "type": "number"
+                                  },
+                                  "bus": {
+                                    "description": "Gate bus",
+                                    "enum": [
+                                      "in",
+                                      "out"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  "controllerId": {
+                                    "description": "Automaton where this gate is available",
+                                    "type": "number"
+                                  },
+                                  "default": {
+                                    "description": "Default value of this gate",
+                                    "type": "number"
+                                  },
+                                  "name": {
+                                    "description": "Gate name",
+                                    "type": "string"
+                                  },
+                                  "size": {
+                                    "description": "Gate controller data size",
+                                    "enum": [
+                                      "bit",
+                                      "word"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  "type": {
+                                    "const": "default",
+                                    "description": "Gate type",
+                                    "type": "string"
+                                  },
+                                  "unity": {
+                                    "description": "Unity used by this gate",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "address",
+                                  "bus",
+                                  "controllerId",
+                                  "default",
+                                  "name",
+                                  "size",
+                                  "type"
+                                ],
+                                "type": "object"
+                              },
+                              {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "address": {
+                                    "description": "Address on the automaton address range",
+                                    "type": "number"
+                                  },
+                                  "bus": {
+                                    "description": "Gate bus",
+                                    "enum": [
+                                      "in",
+                                      "out"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  "controllerId": {
+                                    "description": "Automaton where this gate is available",
+                                    "type": "number"
+                                  },
+                                  "default": {
+                                    "description": "Default value of this gate",
+                                    "type": "number"
+                                  },
+                                  "mapInMax": {
+                                    "description": "Mapped input max data, from IOController",
+                                    "type": "number"
+                                  },
+                                  "mapInMin": {
+                                    "description": "Mapped input min data, from IO Controller",
+                                    "type": "number"
+                                  },
+                                  "mapOutMax": {
+                                    "description": "Mapped output max data, to Human",
+                                    "type": "number"
+                                  },
+                                  "mapOutMin": {
+                                    "description": "Mapped output min data, to Human",
+                                    "type": "number"
+                                  },
+                                  "name": {
+                                    "description": "Gate name",
+                                    "type": "string"
+                                  },
+                                  "size": {
+                                    "const": "word",
+                                    "description": "Size is always a word for this typoe of Gate",
+                                    "type": "string"
+                                  },
+                                  "type": {
+                                    "const": "mapped",
+                                    "description": "Gate type",
+                                    "type": "string"
+                                  },
+                                  "unity": {
+                                    "description": "Unity used by this gate",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "address",
+                                  "bus",
+                                  "controllerId",
+                                  "default",
+                                  "mapOutMax",
+                                  "mapOutMin",
+                                  "name",
+                                  "size",
+                                  "type"
+                                ],
+                                "type": "object"
+                              },
+                              {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "address": {
+                                    "description": "Address on the automaton address range",
+                                    "type": "number"
+                                  },
+                                  "bus": {
+                                    "const": "in",
+                                    "description": "Gate bus",
+                                    "type": "string"
+                                  },
+                                  "controllerId": {
+                                    "description": "Automaton where this gate is available",
+                                    "type": "number"
+                                  },
+                                  "default": {
+                                    "description": "Default value of this gate",
+                                    "type": "number"
+                                  },
+                                  "name": {
+                                    "description": "Gate name",
+                                    "type": "string"
+                                  },
+                                  "size": {
+                                    "const": "word",
+                                    "description": "Gate controller data size",
+                                    "type": "string"
+                                  },
+                                  "type": {
+                                    "const": "pt100",
+                                    "description": "Gate type",
+                                    "type": "string"
+                                  },
+                                  "unity": {
+                                    "const": "°C",
+                                    "description": "Unity used by this gate",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "address",
+                                  "bus",
+                                  "controllerId",
+                                  "default",
+                                  "name",
+                                  "size",
+                                  "type",
+                                  "unity"
+                                ],
+                                "type": "object"
+                              }
+                            ],
+                            "description": "Available Spec gates"
+                          },
+                          "type": "array"
+                        },
+                        "mode": {
+                          "const": "merge",
+                          "type": "string"
+                        },
+                        "path": {
+                          "const": "iogates",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "path",
+                        "mode",
+                        "content"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "content": {
+                          "items": {
+                            "additionalProperties": false,
+                            "description": "Profile schema from configuration",
+                            "properties": {
+                              "id": {
+                                "description": "Profile UUID",
+                                "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
+                                "type": "string"
+                              },
+                              "name": {
+                                "description": "Name of the profile",
+                                "type": "string"
+                              },
+                              "skeleton": {
+                                "description": "Name of the referencing skeleton profile",
+                                "type": "string"
+                              },
+                              "values": {
+                                "description": "Values of the profile",
+                                "items": {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "key": {
+                                      "type": "string"
+                                    },
+                                    "value": {
+                                      "type": "number"
+                                    }
+                                  },
+                                  "required": [
+                                    "key",
+                                    "value"
+                                  ],
+                                  "type": "object"
+                                },
+                                "type": "array"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "skeleton",
+                              "values"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "mode": {
+                          "const": "merge",
+                          "type": "string"
+                        },
+                        "path": {
+                          "const": "profilePremades",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "path",
+                        "mode",
+                        "content"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "content": {
+                          "items": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "cycle": {
+                                "description": "Cycle type name",
+                                "type": "string"
+                              },
+                              "name": {
+                                "description": "Name is only for description purposes, not used",
+                                "type": "string"
+                              },
+                              "profile": {
+                                "description": "Profile UUID used by this premade",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "name",
+                              "cycle"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "mode": {
+                          "const": "merge",
+                          "type": "string"
+                        },
+                        "path": {
+                          "const": "cyclePremades",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "path",
+                        "mode",
+                        "content"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "content": {
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "mode": {
+                          "const": "merge",
+                          "type": "string"
+                        },
+                        "path": {
+                          "description": "Container product series path",
+                          "pattern": "^containers\\.[0-9]+\\.supportedProductSeries$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "path",
+                        "mode",
+                        "content"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "content": {
+                          "items": {
+                            "additionalProperties": false,
+                            "description": "Container regulation",
+                            "properties": {
+                              "active": {
+                                "description": "Actuators always active (ex: `pump` for `uscleaner/m/0 - temperature-control`)",
+                                "items": {
+                                  "type": "string"
+                                },
+                                "type": "array"
+                              },
+                              "maxTarget": {
+                                "description": "Max target is the maximum setable value for this regulation",
+                                "type": "number"
+                              },
+                              "minus": {
+                                "description": "Actuators used to reach target when we are over target",
+                                "items": {
+                                  "type": "string"
+                                },
+                                "type": "array"
+                              },
+                              "name": {
+                                "description": "Regulation name",
+                                "type": "string"
+                              },
+                              "plus": {
+                                "description": "Actuators used to reach target when we are under target",
+                                "items": {
+                                  "type": "string"
+                                },
+                                "type": "array"
+                              },
+                              "security": {
+                                "description": "Regulation Security thats stops it",
+                                "items": {
+                                  "anyOf": [
+                                    {
+                                      "additionalProperties": false,
+                                      "properties": {
+                                        "name": {
+                                          "type": "string"
+                                        },
+                                        "value": {
+                                          "type": "number"
+                                        }
+                                      },
+                                      "required": [
+                                        "name",
+                                        "value"
+                                      ],
+                                      "type": "object"
+                                    },
+                                    {
+                                      "additionalProperties": false,
+                                      "properties": {
+                                        "name": {
+                                          "type": "string"
+                                        },
+                                        "valueDiff": {
+                                          "type": "number"
+                                        }
+                                      },
+                                      "required": [
+                                        "name",
+                                        "valueDiff"
+                                      ],
+                                      "type": "object"
+                                    }
+                                  ]
+                                },
+                                "type": "array"
+                              },
+                              "securityMax": {
+                                "description": "Security max is the maximum admissible value from the sensor read, will disable regulation if went over",
+                                "type": "number"
+                              },
+                              "sensor": {
+                                "description": "Sensor used by this regulation",
+                                "type": "string"
+                              },
+                              "target": {
+                                "description": "Base target",
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "name",
+                              "target",
+                              "maxTarget",
+                              "securityMax",
+                              "security",
+                              "sensor",
+                              "active",
+                              "plus",
+                              "minus"
+                            ],
+                            "type": "object"
+                          },
+                          "maxItems": 1,
+                          "minItems": 1,
+                          "type": "array"
+                        },
+                        "mode": {
+                          "const": "set",
+                          "type": "string"
+                        },
+                        "path": {
+                          "description": "Container regulation path",
+                          "pattern": "^containers\\.[0-9]+\\.regulations$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "path",
+                        "mode",
+                        "content"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "content": {
+                          "type": "number"
+                        },
+                        "mode": {
+                          "const": "set",
+                          "type": "string"
+                        },
+                        "path": {
+                          "description": "Container regulation max target path",
+                          "pattern": "^containers\\.[0-9]+\\.regulations\\.[0-9]+\\.maxTarget$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "path",
+                        "mode",
+                        "content"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "content": {
+                          "type": "number"
+                        },
+                        "mode": {
+                          "const": "set",
+                          "type": "string"
+                        },
+                        "path": {
+                          "description": "Container regulation security max path",
+                          "pattern": "^containers\\.[0-9]+\\.regulations\\.[0-9]+\\.securityMax$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "path",
+                        "mode",
+                        "content"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "content": {
+                          "type": "number"
+                        },
+                        "mode": {
+                          "const": "set",
+                          "type": "string"
+                        },
+                        "path": {
+                          "description": "Maintenance sensor limit value path",
+                          "pattern": "^maintenance\\.[0-9]+\\.sensorLimitValue$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "path",
+                        "mode",
+                        "content"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "content": {
+                          "type": "number"
+                        },
+                        "mode": {
+                          "const": "set",
+                          "type": "string"
+                        },
+                        "path": {
+                          "description": "Maintenance sensor base value path",
+                          "pattern": "^maintenance\\.[0-9]+\\.sensorBaseValue$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "path",
+                        "mode",
+                        "content"
+                      ],
+                      "type": "object"
                     }
+                  ]
                 },
-                "required": [
-                    "addonName",
-                    "content"
-                ],
-                "type": "object"
+                "type": "array"
+              }
             },
-            "type": "array"
+            "required": [
+              "addonName",
+              "content"
+            ],
+            "type": "object"
+          },
+          "type": "array"
         },
         "model": {
-            "description": "Machine model",
-            "type": "string"
+          "description": "Machine model",
+          "type": "string"
         },
         "name": {
-            "description": "Machine Name",
-            "type": "string"
+          "description": "Machine Name",
+          "type": "string"
         },
         "serial": {
-            "description": "Machine Serial number",
-            "type": "string"
+          "description": "Machine Serial number",
+          "type": "string"
         },
         "settings": {
-            "$ref": "#/definitions/Settings",
-            "description": "Machine Settings"
+          "$ref": "#/definitions/Settings",
+          "description": "Machine Settings"
         }
-    },
-    "required": [
+      },
+      "required": [
         "$schema",
-        "addons",
-        "machineAddons",
-        "model",
         "name",
         "serial",
+        "model",
+        "addons",
+        "machineAddons",
         "settings"
-    ],
-    "type": "object"
+      ],
+      "type": "object"
+    },
+    "Settings": {
+      "additionalProperties": false,
+      "description": "Machine additional settings",
+      "properties": {
+        "devMode": {
+          "description": "Dev mode enabled on this machine.\n\nEnables:  - NextStep button on cycle  - IO Controls  - profilesShown is overriden to `true`.",
+          "type": "boolean"
+        },
+        "hideMultilayerIndications": {
+          "description": "Hides multilayer indications in cycle",
+          "type": "boolean"
+        },
+        "onlyShowSelectedProfileFields": {
+          "description": "Only show picked profile fields",
+          "type": "boolean"
+        },
+        "profilesShown": {
+          "description": "Do profiles list is shown",
+          "type": "boolean"
+        },
+        "variables": {
+          "description": "Additional variables. Can be retreived by a `ParameterBlock` in `ProgramBlockRunner`.",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "name",
+              "value"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "devMode",
+        "profilesShown",
+        "onlyShowSelectedProfileFields",
+        "hideMultilayerIndications",
+        "variables"
+      ],
+      "type": "object"
+    }
+  }
 }
-

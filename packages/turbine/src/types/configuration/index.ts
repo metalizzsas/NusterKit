@@ -1,8 +1,5 @@
 import type { Addon } from "../spec/addons";
 
-export type ConfigModel = "metalfog" | "smoothit" | "uscleaner";
-export type ConfigVariant = "m";
-
 /** Configuration info.json driving NusterTurbine */
 export declare interface Configuration
 {

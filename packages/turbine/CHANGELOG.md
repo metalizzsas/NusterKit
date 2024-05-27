@@ -1,5 +1,11 @@
 # @nuster/turbine
 
+## 2.0.1
+
+### Patch Changes
+
+- [`4267bce`](https://github.com/metalizzsas/NusterKit/commit/4267bceb8387bb4b2a0ddc1d470d49dd06944f68) Thanks [@Kworz](https://github.com/Kworz)! - fix(ci): could not build docker images due to configuration issue
+
 ## 2.0.0
 
 ### Major Changes

@@ -1,5 +1,11 @@
 # @nuster/ui
 
+## 2.0.2
+
+### Patch Changes
+
+-   [`307a2a9`](https://github.com/metalizzsas/NusterKit/commit/307a2a96a832c36ed640a0835e2822f8b8a4bf29) Thanks [@Kworz](https://github.com/Kworz)! - fix(ci): dockerfile was not copying from absolute folder
+
 ## 2.0.1
 
 ### Patch Changes

@@ -22,16 +22,7 @@ interface WAGO extends IOHandler
     type: "wago";
 }
 
-interface SerialCom extends IOHandler
-{
-    type: "serial",
-    /** Port of serial device ex: `/dev/tty1` */
-    port: string;
-    /** BaudRate used to communicate */
-    baudRate: number;
-}
-
-type IOHandlers = (WAGO | EX260Sx | SerialCom) & IOHandler;
+type IOHandlers = (WAGO | EX260Sx) & IOHandler;
 
 /** IOPhysicalController Boilerplate */
 interface IOBase extends IOHandler
@@ -61,4 +52,4 @@ interface IOBase extends IOHandler
     readData(address: number, word?: boolean): Promise<number>
 }
 
-export { IOHandlers, IOBase, WAGO, SerialCom, EX260Sx };
+export { IOHandlers, IOBase, WAGO, EX260Sx };

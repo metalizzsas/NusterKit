@@ -11,9 +11,9 @@
     "sync": "pnpm -r --parallel run sync",
     "lint": "pnpm -r --parallel run lint",
     "test": "pnpm -r --parallel run test",
-    "build": "pnpm build:turbine && pnpm build:desktop && pnpm build:simulation",
+    "build": "pnpm build:turbine && pnpm build:ui && pnpm build:simulation",
     "build:turbine": "pnpm -r --filter='./packages/turbine' run build",
-    "build:desktop": "pnpm -r --filter='./packages/ui' run build",
+    "build:ui": "pnpm -r --filter='./packages/ui' run build",
     "build:simulation": "pnpm -r --filter='./simulation/*' run build",
     "release": "changeset publish",
     "version": "changeset version && pnpm install --lockfile-only"

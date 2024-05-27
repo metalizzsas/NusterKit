@@ -4,8 +4,7 @@
     "node": "20.x"
   },
   "version": "1.12.2",
-  "description": "Typescript project running on BalenaOS and RPi4.",
-  "private": true,
+  "description": "Handle complex machines cycles with ease using turbine.",
   "main": "build/app.js",
   "files": [
     "build"

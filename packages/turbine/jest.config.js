@@ -4,6 +4,6 @@ module.exports = {
   testEnvironment: 'node',
   verbose: true,
   moduleNameMapper: {
-    "$types/*": ["<rootDir>/src/types/*"],
+    '^$types/(.*)$': '<rootDir>/src/types/$1',
   }
 };

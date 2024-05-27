@@ -1,5 +1,7 @@
 import type WebSocket from "ws";
 
+import * as pack from '../package.json';
+
 import { CycleRouter } from "./routers/CycleRouter";
 import { IORouter } from "./routers/IORouter";
 import { MaintenanceRouter } from "./routers/MaintenancesRouter";
@@ -133,6 +135,8 @@ export class Machine
     toJSON(): MachineData {
         return {
             ...this.data,
+
+            turbineVersion: pack.version,
 
             nuster: this.specs.nuster,
             

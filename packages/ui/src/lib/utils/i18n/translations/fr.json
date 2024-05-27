@@ -166,7 +166,8 @@
         },
         "software": {
             "lead": "Informations logiciel",
-            "nuster": "Version de Nuster",
+            "ui_version": "Version de l'interface",
+            "turbine_version": "Version de Turbine",
             "balena": "Version de balenaOS",
             "update": "Mise a jour disponible",
             "update_install": "Installer",

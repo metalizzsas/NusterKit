@@ -1,7 +1,7 @@
 import type { Handle } from "@sveltejs/kit";
 import { env } from "$env/dynamic/private";
-import type { MachineData } from "@metalizzsas/nuster-turbine/types/hydrated/machine";
-import type { Status } from "@metalizzsas/nuster-turbine/types";
+import type { MachineData } from "@nuster/turbine/types/hydrated/machine";
+import type { Status } from "@nuster/turbine/types";
 import { locale } from "svelte-i18n";
 
 /**

@@ -14,8 +14,8 @@
 
 	import PillMenu from "./PillMenu.svelte";
 
-	import type { WebsocketData } from "@metalizzsas/nuster-turbine/types";
-	import type { Popup } from "@metalizzsas/nuster-turbine/types/spec/nuster";
+	import type { WebsocketData } from "@nuster/turbine/types";
+	import type { Popup } from "@nuster/turbine/types/spec/nuster";
     import { realtime, realtimeConnected, realtimeLock } from "$lib/utils/stores/nuster";
 	import Loadindicator from "$lib/components/LoadIndicator.svelte";
 	import { _ } from "svelte-i18n";

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { IOGatesHydrated } from "@metalizzsas/nuster-turbine/types/hydrated";
+	import type { IOGatesHydrated } from "@nuster/turbine/types/hydrated";
 
 	import Flex from "$lib/components/layout/flex.svelte";
 	import Gate from "../../io/Gate.svelte";

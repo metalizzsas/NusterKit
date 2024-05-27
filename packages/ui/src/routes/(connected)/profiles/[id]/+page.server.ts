@@ -1,5 +1,5 @@
 import type { PageServerLoad } from "./$types";
-import type { ProfileHydrated } from "@metalizzsas/nuster-turbine/types/hydrated";
+import type { ProfileHydrated } from "@nuster/turbine/types/hydrated";
 
 import { env } from "$env/dynamic/private";
 import { fail, redirect } from '@sveltejs/kit';

@@ -1,5 +1,5 @@
-import type { ProfileHydrated } from "@metalizzsas/nuster-turbine/types/hydrated";
-import type { CyclePremade } from "@metalizzsas/nuster-turbine/types/spec/cycle";
+import type { ProfileHydrated } from "@nuster/turbine/types/hydrated";
+import type { CyclePremade } from "@nuster/turbine/types/spec/cycle";
 import type { Actions, PageServerLoad } from "./$types";
 import { env } from "$env/dynamic/private";
 import { fail } from "@sveltejs/kit";

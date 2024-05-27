@@ -1,4 +1,4 @@
-import type { MaintenanceHydrated } from "@metalizzsas/nuster-turbine/types/hydrated";
+import type { MaintenanceHydrated } from "@nuster/turbine/types/hydrated";
 import { env } from "$env/dynamic/private";
 
 export const load = async ({ fetch }) => {

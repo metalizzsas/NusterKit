@@ -1,7 +1,7 @@
 /// <reference types="@sveltejs/kit" />
 
-import type { Status } from "@metalizzsas/nuster-turbine/types";
-import type { MachineData } from "@metalizzsas/nuster-turbine/types/hydrated/machine";
+import type { Status } from "@nuster/turbine/types";
+import type { MachineData } from "@nuster/turbine/types/hydrated/machine";
 
 declare global {
     namespace App

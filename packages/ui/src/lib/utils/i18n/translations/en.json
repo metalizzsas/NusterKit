@@ -166,7 +166,8 @@
         },
         "software": {
             "lead": "Software informations",
-            "nuster": "Nuster version",
+            "ui_version": "UI version",
+            "turbine_version": "Turbine version",
             "balena": "BalenaOS version",
             "update": "Update available",
             "update_install": "Install",

@@ -8,7 +8,7 @@
 	import Wrapper from "$lib/components/Wrapper.svelte";
 	import Cycle from "./Cycle.svelte";
 	import { realtime } from "$lib/utils/stores/nuster";
-	import type { ProgramBlockRunnerHydrated } from "@metalizzsas/nuster-turbine/types/hydrated";
+	import type { ProgramBlockRunnerHydrated } from "@nuster/turbine/types/hydrated";
 	import { translateProfileName } from "$lib/utils/i18n/i18nprofile";
 	import SelectableButton from "$lib/components/buttons/SelectableButton.svelte";
 	import type { ActionData, PageData } from "./$types";

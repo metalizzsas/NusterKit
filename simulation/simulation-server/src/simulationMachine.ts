@@ -1,6 +1,6 @@
-import type { IOGates } from "@metalizzsas/nuster-turbine/types/spec/iogates";
-import type { IOHandlers } from "@metalizzsas/nuster-turbine/types/spec/iohandlers";
-import type { Configuration, MachineSpecs, Addon } from "@metalizzsas/nuster-turbine/types";
+import type { IOGates } from "@nuster/turbine/types/spec/iogates";
+import type { IOHandlers } from "@nuster/turbine/types/spec/iohandlers";
+import type { Configuration, MachineSpecs, Addon } from "@nuster/turbine/types";
 import { ModbusController } from "./controllers/modbus";
 
 import { app } from "./server";

@@ -18,6 +18,8 @@
 	import { realtime } from "$lib/utils/stores/nuster";
 	import { enhance } from "$app/forms";
 
+    import { version } from "$app/environment";
+
     export let data: PageData;
     export let form: ActionData;
 
@@ -70,7 +72,8 @@
 
         <h2>{$_('settings.software.lead')}</h2>
         
-        <SettingField label={$_('settings.software.nuster')} value={data.version} />
+        <SettingField label={$_('settings.software.ui_version')} value={version} />
+        <SettingField label={$_('settings.software.turbine_version')} value={data.machine.turbineVersion} />
         
         {#if data.machine.hypervisorData?.appState !== 'applied' && data.machine.hypervisorData?.overallDownloadProgress === null}
             <SettingField label={$_('settings.software.update')}>

@@ -1,4 +1,4 @@
-import type { Configuration, MachineSpecsList } from "@metalizzsas/nuster-turbine/types";
+import type { Configuration, MachineSpecsList } from "@nuster/turbine/types";
 import type { PageServerLoad } from "./$types";
 import { env } from "$env/dynamic/private";
 import { fail, redirect } from "@sveltejs/kit";

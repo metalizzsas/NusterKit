@@ -1,4 +1,4 @@
-import type { ProfileHydrated } from "@metalizzsas/nuster-turbine/types/hydrated";
+import type { ProfileHydrated } from "@nuster/turbine/types/hydrated";
 
 export const translateProfileName = (translatorKey: (arg0: string) => string, profile: ProfileHydrated): string => {
     if(profile.isPremade === true)

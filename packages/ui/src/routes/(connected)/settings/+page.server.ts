@@ -1,11 +1,9 @@
-import type { MaintenanceHydrated } from "@metalizzsas/nuster-turbine/types/hydrated";
-import type { MachineData } from "@metalizzsas/nuster-turbine/types/hydrated/machine";
-import type { PageServerLoad } from "./$types";
-import { version } from "$lib/version";
+import type { MaintenanceHydrated } from "@nuster/turbine/types/hydrated";
+import type { MachineData } from "@nuster/turbine/types/hydrated/machine";
 import { env } from "$env/dynamic/private";
 import { fail } from "@sveltejs/kit";
 
-export const load = ( async ({ fetch }) => {
+export const load = async ({ fetch }) => {
 
     const req = await fetch(`http://${env.TURBINE_ADDRESS}/machine`);
     const machine = (await req.json()) as MachineData;
@@ -15,11 +13,9 @@ export const load = ( async ({ fetch }) => {
 
     return {
         machine,
-        cycleCount,
-        version,
+        cycleCount
     }
-
-}) satisfies PageServerLoad;
+}
 
 export const actions = {
     updateSettings: async ({ fetch, request }) => {

@@ -1,4 +1,4 @@
-import type { Configuration, MachineSpecs } from "@metalizzsas/nuster-turbine/types";
+import type { Configuration, MachineSpecs } from "@nuster/turbine/types";
 import { SimulationMachine } from "./simulationMachine";
 import express, { Request, Response } from "express";
 import cors from "cors";

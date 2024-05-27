@@ -1,4 +1,4 @@
-import type { DocFile } from "@metalizzsas/nuster-turbine/types/docs";
+import type { DocFile } from "@nuster/turbine/types/docs";
 import { env } from "$env/dynamic/private";
 
 export const load = async ({ fetch, locals }) => {

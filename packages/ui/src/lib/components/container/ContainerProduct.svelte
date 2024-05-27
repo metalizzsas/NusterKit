@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ContainerHydrated } from "@metalizzsas/nuster-turbine/types/hydrated";
+	import type { ContainerHydrated } from "@nuster/turbine/types/hydrated";
 
 	import Button from "$lib/components/buttons/Button.svelte";
 	import Select from "$lib/components/inputs/Select.svelte";

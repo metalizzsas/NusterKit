@@ -1,5 +1,5 @@
 import { env } from "$env/dynamic/private";
-import type { Configuration, MachineSpecsList } from "@metalizzsas/nuster-turbine/types";
+import type { Configuration, MachineSpecsList } from "@nuster/turbine/types";
 import { fail, redirect } from "@sveltejs/kit";
 
 export const load = (async ({ fetch }) => {

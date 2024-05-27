@@ -1,4 +1,4 @@
-import type { ContainerHydrated, IOGatesHydrated, MaintenanceHydrated } from "@metalizzsas/nuster-turbine/types/hydrated";
+import type { ContainerHydrated, IOGatesHydrated, MaintenanceHydrated } from "@nuster/turbine/types/hydrated";
 
 export type State<I, S> = {
     result: "good" | "warn" | "error" | "info";

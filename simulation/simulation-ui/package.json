@@ -1,5 +1,5 @@
 {
-	"name": "@metalizzsas/simulation-ui",
+	"name": "@nuster/simulation-ui",
 	"description": "Simulation tool interface",
 	"version": "1.1.0",
 	"private": true,

@@ -1,4 +1,4 @@
-# @metalizzsas/nuster-desktop
+# @nuster/ui
 
 ## 1.13.6
 

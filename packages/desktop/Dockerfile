@@ -1,4 +1,4 @@
-FROM balenalib/raspberrypi4-64-node:20-buster
+FROM node:20-alpine
 
 RUN corepack enable
 
@@ -6,17 +6,12 @@ ENV NODE_ENV=production
 
 WORKDIR /usr/src/app
 
-COPY .npmrc ./.npmrc
-
 COPY packages/desktop/package*.json ./
 COPY packages/desktop/CHANGELOG.md ./CHANGELOG.md
 COPY packages/desktop/build/ ./build
 
 # Install Prod npm packages
 RUN pnpm install --no-optional
-
-# Remove npmrc file
-RUN rm .npmrc
 
 # Run args
 CMD [ "node", "build" ]

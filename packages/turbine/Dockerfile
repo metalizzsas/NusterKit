@@ -1,18 +1,10 @@
-## Runner image from base with npm tools installed properly
-FROM balenalib/raspberrypi4-64-node:20-buster
-
-RUN install_packages build-essential python3 git openssh-client
+FROM node:20-alpine
 
 RUN corepack enable
 
-ENV UDEV=1
 ENV NODE_ENV=production
 
 WORKDIR /usr/src/app
-
-COPY packages/turbine/arduino.rules /etc/udev/rules.d/arduino.rules
-
-COPY .npmrc ./.npmrc
 
 # Copying Package & Package lock json
 COPY packages/turbine/package*.json ./
@@ -26,9 +18,6 @@ COPY packages/turbine/prisma/ ./prisma
 # Install Prod npm packages
 RUN pnpm install --no-optional
 
-# Remove npmrc file
-RUN rm .npmrc
-
 # Run args
-CMD ["bash", "entrypoint.sh"]
+CMD ["/bin/sh", "entrypoint.sh"]
 EXPOSE 4080 

@@ -1,4 +1,4 @@
-# @metalizzsas/nuster-turbine
+# @nuster/turbine
 
 ## 1.12.2
 

@@ -1,8 +1,8 @@
-import type { ContainerRegulation } from "$types/spec/containers";
-import type { CyclePremade } from "$types/spec/cycle";
-import type { IOGates } from "$types/spec/iogates";
-import type { HomeInfo } from "$types/spec/nuster";
-import type { Profile } from "$types/spec/profiles";
+import type { ContainerRegulation } from "../containers/index";
+import type { CyclePremade } from "../cycle/index";
+import type { IOGates } from "../iogates/index";
+import type { HomeInfo } from "../nuster/index";
+import type { Profile } from "../profiles/index";
 
 /** Addon */
 type Addon = {

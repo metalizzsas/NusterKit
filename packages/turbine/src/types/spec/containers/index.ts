@@ -1,4 +1,4 @@
-import type { CallToAction } from "$types/spec/nuster";
+import type { CallToAction } from "../nuster";
 
 /**
  * Product details.

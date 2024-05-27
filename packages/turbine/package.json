@@ -86,7 +86,7 @@
   "scripts": {
     "dev": "tsx watch src/app.ts",
     "preview": "node build/app.js",
-    "build": "pnpm run build:prisma && pnpm run build:schemas && pnpm run build:app",
+    "build": "pnpm run build:prisma && pnpm run build:app && pnpm run build:schemas",
     "build:prisma": "prisma generate",
     "build:app": "tsc",
     "build:schemas": "pnpm run schemas",

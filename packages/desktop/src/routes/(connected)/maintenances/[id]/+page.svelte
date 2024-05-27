@@ -2,27 +2,15 @@
 	import Flex from "$lib/components/layout/flex.svelte";
 	import { _, date, time } from "svelte-i18n";
 	import SvelteMarkdown from "svelte-markdown";
-	import { beforeUpdate } from "svelte";
 	import { Icon } from "@steeze-ui/svelte-icon";
 	import { WrenchScrewdriver } from "@steeze-ui/heroicons";
 	import MaintenanceImageParser from "./MaintenanceImageParser.svelte";
 	import Button from "$lib/components/buttons/Button.svelte";
-	import { page } from "$app/stores";
 	import { enhance } from "$app/forms";
 	import type { PageData } from "./$types";
 	import Wrapper from "$lib/components/Wrapper.svelte";
 
     export let data: PageData;
-
-    let procedureMarkdown: string | undefined;
-
-    beforeUpdate(async () => {
-
-        const req = await fetch(`/files/docs/maintenance-${data.maintenance.name}/${$page.data.settings.lang}.md`);
-
-        if(req.status !== 404)
-            procedureMarkdown = await req.text();
-    });
 </script>
 
 <Wrapper>
@@ -39,9 +27,9 @@
     
         <h3 class="leading-10 font-medium"><Icon src={WrenchScrewdriver} class="h-5 w-5 mr-1 inline-block text-indigo-500"/>{$_('maintenance.procedure.lead')}</h3>
         
-        {#if procedureMarkdown}
+        {#if data.maintenanceContent}
             <div class="markdown">
-                <SvelteMarkdown source={procedureMarkdown} renderers={{ image: MaintenanceImageParser }}/>
+                <SvelteMarkdown source={data.maintenanceContent} renderers={{ image: MaintenanceImageParser }}/>
             </div>
             <form action="?/clearMaintenance" method="post" use:enhance>
                 <input type="hidden" name="maintenance_name" value={data.maintenance.name} />

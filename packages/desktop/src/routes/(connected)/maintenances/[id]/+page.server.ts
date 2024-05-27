@@ -8,7 +8,10 @@ export const load = async ({ locals, params }) => {
     if(maintenance === undefined)
         return redirect(302, "/maintenances?not_found=true");
 
-    return { maintenance };
+    const maintenanceContentRequest = await fetch(`http://${env.TURBINE_ADDRESS}/static/docs/maintenance-${params.id}/${locals.settings.lang}.md`);
+    const maintenanceContent = await maintenanceContentRequest.text();
+
+    return { maintenance, maintenanceContent };
 }
 
 export const actions = {

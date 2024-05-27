@@ -19,16 +19,16 @@ jobs:
         run: echo version=$(cat ./packages/${{ matrix.packages }}/package.json | jq -r '.version') >> $GITHUB_OUTPUT
 
       - name: ⛏️ Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v3
       
       - name: ⛏️ Setup Docker
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v3
         with:
           driver-opts: network=host
           use: multi-platform
 
       - name: 📦 Cache Docker layers
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}

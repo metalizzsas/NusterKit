@@ -1,5 +1,5 @@
-import type { IOGates } from "@metalizzsas/nuster-typings/build/spec/iogates";
-import type { EX260Sx } from "@metalizzsas/nuster-typings/build/spec/iohandlers";
+import type { IOGates } from "@nuster/turbine/types/spec/iogates";
+import type { EX260Sx } from "@nuster/turbine/types/spec/iohandlers";
 import { ENIPServer } from "enip-ts/dist/enipServer";
 import { ENIPDataVector } from "enip-ts/dist/enipServer/enipClient";
 

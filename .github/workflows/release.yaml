@@ -10,7 +10,6 @@ jobs:
     permissions:
       id-token: write
       contents: write
-      packages: write
       pull-requests: write
       issues: read
 
@@ -18,7 +17,7 @@ jobs:
       published: ${{ steps.changesets.outputs.published }}
       publishedPackages: ${{ steps.changesets.outputs.publishedPackages }}
 
-    name: 📝 Changeset checking
+    name: 📝 Changeset
     runs-on: ubuntu-latest
     if: github.repository == 'metalizzsas/nusterkit'
     steps:
@@ -45,11 +44,9 @@ jobs:
         run: pnpm run build:libs
 
       - name: ⛭ Setup Pnpm github registry
-        run: |
-          echo "@metalizzsas:registry=https://npm.pkg.github.com" >> .npmrc
-          echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> .npmrc
+        run: pnpm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           
       - name: 📝 Create Release Pull Request or Publish to npm
         id: changesets
@@ -62,31 +59,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  balena-release:
+  docker-builds:
 
     needs: release
     if: needs.release.outputs.published == 'true'
 
     name: 🚀 Trigger Balena-cloud release deployment
-    uses: metalizzsas/nusterkit/.github/workflows/release-balena.yaml@main
+    uses: metalizzsas/nusterkit/.github/workflows/docker-release.yaml@main
     secrets: inherit
-
-  dashboard-release:
-
-    needs: release
-    if: contains(fromJSON(needs.release.outputs.publishedPackages).*.name, '@metalizzsas/nuster-dashboard')
-
-    name: 🚀 Trigger Nuster Dashboard Deployment
-    uses: metalizzsas/nusterkit/.github/workflows/release-dashboard.yaml@main
-    secrets: inherit
-
-  docs-release:
-
-    needs: release
-    if: contains(fromJSON(needs.release.outputs.publishedPackages).*.name, '@metalizzsas/nuster-misc')
-
-    name: 🚀 Trigger Nuster Docs Generation
-    uses: metalizzsas/nusterkit/.github/workflows/release-docs.yaml@main
-    secrets: inherit
-
   

@@ -1,0 +1,22 @@
+[
+    { "lang": "en", "type": "nuster", "name": "Welcome", "href": "/nuster-docs/en/index.md" },
+    { "lang": "fr", "type": "nuster", "name": "Bienvenue", "href": "/nuster-docs/fr/index.md"},
+
+    { "lang": "en", "type": "nuster", "name": "Cycles", "href": "/nuster-docs/en/sections/00-cycles/index.md", "folder": "Sections" },
+    { "lang": "fr", "type": "nuster", "name": "Cycles", "href": "/nuster-docs/fr/sections/00-cycles/index.md", "folder": "Sections" },
+
+    { "lang": "en", "type": "nuster", "name": "Profiles", "href": "/nuster-docs/en/sections/10-profiles/index.md", "folder": "Sections" },
+    { "lang": "fr", "type": "nuster", "name": "Profils", "href": "/nuster-docs/fr/sections/10-profiles/index.md", "folder": "Sections" },
+
+    { "lang": "en", "type": "nuster", "name": "Containers", "href": "/nuster-docs/en/sections/20-containers/index.md", "folder": "Sections" },
+    { "lang": "fr", "type": "nuster", "name": "Conteneurs", "href": "/nuster-docs/fr/sections/20-containers/index.md", "folder": "Sections" },
+
+    { "lang": "en", "type": "nuster", "name": "Maintenance", "href": "/nuster-docs/en/sections/30-maintenances/index.md", "folder": "Sections" },
+    { "lang": "fr", "type": "nuster", "name": "Maintenance", "href": "/nuster-docs/fr/sections/30-maintenances/index.md", "folder": "Sections" },
+
+    { "lang": "en", "type": "nuster", "name": "Settings", "href": "/nuster-docs/en/informations/40-settings/index.md", "folder": "Informations" },
+    { "lang": "fr", "type": "nuster", "name": "Réglages", "href": "/nuster-docs/fr/informations/40-settings/index.md", "folder": "Informations" },
+
+    { "lang": "en", "type": "nuster", "name": "Network", "href": "/nuster-docs/en/informations/50-network/index.md", "folder": "Informations" },
+    { "lang": "fr", "type": "nuster", "name": "Réseau", "href": "/nuster-docs/fr/informations/50-network/index.md", "folder": "Informations" }
+]

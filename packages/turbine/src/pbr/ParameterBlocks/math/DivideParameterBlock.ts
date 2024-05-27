@@ -1,5 +1,5 @@
-import type { NumericParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
-import type { AllParameterBlocks, DivideParameterBlock as DivideParameterBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
+import type { NumericParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
+import type { AllParameterBlocks, DivideParameterBlock as DivideParameterBlockSpec } from "$types/spec/cycle/parameter";
 import { ParameterBlockRegistry } from "../ParameterBlockRegistry";
 import { NumericParameterBlock } from "../NumericParameterBlock";
 

@@ -1,5 +1,5 @@
 {
-	"name": "@metalizzsas/simulation-ui",
+	"name": "@nuster/simulation-ui",
 	"description": "Simulation tool interface",
 	"version": "1.1.0",
 	"private": true,
@@ -16,7 +16,7 @@
 		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"devDependencies": {
-		"@metalizzsas/nuster-typings": "1.6.2",
+		"@nuster/turbine": "1.12.2",
 		"@sveltejs/adapter-node": "^5.0.1",
 		"@sveltejs/kit": "2.5.8",
 		"@typescript-eslint/eslint-plugin": "^7.9.0",

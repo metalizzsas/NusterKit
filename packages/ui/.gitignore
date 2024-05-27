@@ -1,0 +1,10 @@
+node_modules/
+.svelte-kit/
+svelte-build/
+.DS_Store
+.svelte/
+*.local
+dist/
+build/
+static/documentation/
+static/CHANGELOG.md

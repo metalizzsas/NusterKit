@@ -1,7 +1,6 @@
 import fs from "fs";
 import path from "path";
 
-import type { ProductSeries } from "@metalizzsas/nuster-typings/build/spec/containers/products";
 import { TurbineEventLoop } from "./events";
 import { prisma } from "./db";
 
@@ -27,7 +26,7 @@ export type MigratedContainer = {
 
     name: string;
 
-    loadedProductType: ProductSeries;
+    loadedProductType: string;
     loadedProductDate: Date;
 
 }

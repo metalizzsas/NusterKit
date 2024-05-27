@@ -1,4 +1,4 @@
-import type { MachineSpecs } from "@metalizzsas/nuster-typings";
+import type { MachineSpecs } from "$types/index";
 
 /**
  * Insert deeply on nested sub objects for the IMachineSpecs interface

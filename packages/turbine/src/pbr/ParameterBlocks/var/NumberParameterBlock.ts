@@ -1,4 +1,4 @@
-import type { AllParameterBlocks, NumberParameterBlock as NumberParameterBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
+import type { AllParameterBlocks, NumberParameterBlock as NumberParameterBlockSpec } from "$types/spec/cycle/parameter";
 import { NumericParameterBlock } from "../NumericParameterBlock";
 
 export class NumberParameterBlock extends NumericParameterBlock

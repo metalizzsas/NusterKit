@@ -1,4 +1,4 @@
-# @metalizzsas/simulation-server
+# @nuster/simulation-server
 
 ## 1.1.6
 

@@ -1,5 +1,5 @@
-import type { AllParameterBlocks, NumericParameterBlocks, StatusParameterBlocks, StringParameterBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
-import type { NumericParameterBlockHydrated, StatusParameterBlockHydrated, StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
+import type { AllParameterBlocks, NumericParameterBlocks, StatusParameterBlocks, StringParameterBlocks } from "$types/spec/cycle/parameter";
+import type { NumericParameterBlockHydrated, StatusParameterBlockHydrated, StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
 
 import { SubParameterBlock } from "./math/SubParameterBlock";
 import { StringParameterBlock } from "./var/StringParameterBlock";

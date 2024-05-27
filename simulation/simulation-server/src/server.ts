@@ -1,7 +1,7 @@
-import express, { Request, Response } from "express";
+import type { Configuration, MachineSpecs } from "@nuster/turbine/types";
 import { SimulationMachine } from "./simulationMachine";
+import express, { Request, Response } from "express";
 import cors from "cors";
-import type { Configuration } from "@metalizzsas/nuster-typings";
 
 export const app = express();
 app.use(cors());
@@ -13,7 +13,7 @@ app.listen(4082, () => {
     console.log("express started up"); 
 });
 
-app.post("/config", (req: Request<any, any, Configuration>, res: Response) => {
+app.post("/config", (req: Request<any, any, { configuration: Configuration, specs: MachineSpecs }>, res: Response) => {
 
     if(machine)
     {
@@ -23,9 +23,7 @@ app.post("/config", (req: Request<any, any, Configuration>, res: Response) => {
 
     console.log("Received configuration.");
 
-    const { model, variant, revision, addons } = req.body;
-
-    machine = new SimulationMachine(model, variant, revision, addons);
+    machine = new SimulationMachine(req.body.configuration, req.body.specs);
 
     res.end("machine defined");
 });

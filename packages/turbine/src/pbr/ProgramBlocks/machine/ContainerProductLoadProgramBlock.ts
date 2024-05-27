@@ -1,8 +1,7 @@
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
-import type { AllProgramBlocks, ContainerProductLoadProgramBlock as ContainerProductLoadProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
-import type { StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
+import type { AllProgramBlocks, ContainerProductLoadProgramBlock as ContainerProductLoadProgramBlockSpec } from "$types/spec/cycle/program";
+import type { StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
 import { TurbineEventLoop } from "../../../events";
-import type { ProductSeries } from "@metalizzsas/nuster-typings/build/spec/containers/products";
 import { ProgramBlock } from "../ProgramBlock";
 
 export class ContainerProductLoadProgramBlock extends ProgramBlock
@@ -21,7 +20,7 @@ export class ContainerProductLoadProgramBlock extends ProgramBlock
 
     public async execute(): Promise<void> {
         const containerName = this.containerName.data;
-        const containerProductSeries = this.containerProductSeries.data as ProductSeries;
+        const containerProductSeries = this.containerProductSeries.data;
 
         TurbineEventLoop.emit("log", "info", `ContainerLoadBlock: Will load ${containerName} with: ${containerProductSeries}.`)
         TurbineEventLoop.emit(`container.load.${containerName}`, containerProductSeries);

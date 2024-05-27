@@ -1,6 +1,6 @@
-import type { NumericParameterBlockHydrated, StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
-import type { Comparators } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
-import type { AllProgramBlocks, WhileProgramBlock as WhileProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
+import type { NumericParameterBlockHydrated, StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
+import type { Comparators } from "$types/spec/cycle/parameter";
+import type { AllProgramBlocks, WhileProgramBlock as WhileProgramBlockSpec } from "$types/spec/cycle/program";
 import ComparativeFunctions from "../../utils/ComparativeFunctions";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
 import { ProgramBlockRegistry } from "../ProgramBlockRegistry";

@@ -1,8 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
 import { Router } from "./Router";
 
-import type { MaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydrated/maintenance";
-import type { Maintenances } from "@metalizzsas/nuster-typings/build/spec/maintenances";
+import type { MaintenanceHydrated } from "../types/hydrated/maintenance";
+import type { Maintenances } from "../types/spec/maintenances";
 
 import { CountableMaintenance } from "../maintenance/CountableMaintenance";
 import { SensorMaintenance } from "../maintenance/SensorMaintenance";

@@ -1,0 +1,237 @@
+{
+  "$ref": "#/definitions/Translations",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "Translations": {
+      "additionalProperties": false,
+      "properties": {
+        "$schema": {
+          "description": "Schema used by translation file",
+          "type": "string"
+        },
+        "addons": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Addons",
+          "type": "object"
+        },
+        "containers": {
+          "additionalProperties": {
+            "additionalProperties": false,
+            "properties": {
+              "actions": {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Containers actions",
+                "type": "object"
+              },
+              "name": {
+                "description": "Container name",
+                "type": "string"
+              },
+              "regulations": {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "String keyed Translations group",
+                "type": "object"
+              }
+            },
+            "required": [
+              "name"
+            ],
+            "type": "object"
+          },
+          "description": "Containers translations",
+          "type": "object"
+        },
+        "cycle": {
+          "additionalProperties": false,
+          "description": "Cycle translations",
+          "properties": {
+            "end_reasons": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "Cycle end reasons",
+              "type": "object"
+            },
+            "names": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "Cycle names",
+              "type": "object"
+            },
+            "run_conditions": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "Cycle start conditions",
+              "type": "object"
+            },
+            "steps": {
+              "additionalProperties": {
+                "additionalProperties": false,
+                "properties": {
+                  "desc": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "desc"
+                ],
+                "type": "object"
+              },
+              "description": "Cycle steps",
+              "type": "object"
+            }
+          },
+          "required": [
+            "names",
+            "end_reasons",
+            "run_conditions",
+            "steps"
+          ],
+          "type": "object"
+        },
+        "gates": {
+          "additionalProperties": false,
+          "description": "IO Gates translations",
+          "properties": {
+            "categories": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "IO Gates categories",
+              "type": "object"
+            },
+            "names": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "IO Gates names (Includes full gate name with category such as `levels#act-min-n`)",
+              "type": "object"
+            }
+          },
+          "required": [
+            "categories",
+            "names"
+          ],
+          "type": "object"
+        },
+        "machineModelName": {
+          "type": "string"
+        },
+        "maintenance": {
+          "additionalProperties": false,
+          "description": "Maintenances translations",
+          "properties": {
+            "tasks": {
+              "additionalProperties": {
+                "additionalProperties": false,
+                "properties": {
+                  "desc": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "desc"
+                ],
+                "type": "object"
+              },
+              "description": "Task specific translation",
+              "type": "object"
+            }
+          },
+          "required": [
+            "tasks"
+          ],
+          "type": "object"
+        },
+        "profile": {
+          "additionalProperties": false,
+          "description": "Profiles translations",
+          "properties": {
+            "categories": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "Profile categories translations",
+              "type": "object"
+            },
+            "premade": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "Premade profiles translations",
+              "type": "object"
+            },
+            "rows": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "Profile Rows translations",
+              "type": "object"
+            }
+          },
+          "required": [
+            "premade",
+            "categories",
+            "rows"
+          ],
+          "type": "object"
+        },
+        "toasts": {
+          "additionalProperties": {
+            "additionalProperties": false,
+            "description": "Toast translation",
+            "properties": {
+              "actions": {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              "message": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "title",
+              "message"
+            ],
+            "type": "object"
+          },
+          "description": "Toasts",
+          "type": "object"
+        }
+      },
+      "required": [
+        "$schema",
+        "machineModelName",
+        "containers",
+        "cycle",
+        "gates",
+        "maintenance",
+        "profile",
+        "toasts",
+        "addons"
+      ],
+      "type": "object"
+    }
+  }
+}

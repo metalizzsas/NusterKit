@@ -1,4 +1,4 @@
-# @metalizzsas/simulation-ui
+# @nuster/simulation-ui
 
 ## 1.1.0
 

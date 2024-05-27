@@ -1,4 +1,4 @@
-import type { AllProgramBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
+import type { AllProgramBlocks } from "../../types/spec/cycle/program";
 
 import { ForProgramBlock } from "./flow/ForProgramBlock";
 import { IfProgramBlock } from "./flow/IfProgramBlock";

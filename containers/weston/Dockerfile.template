@@ -1,9 +1,0 @@
-FROM igalia/balena-weston:raspberrypi4-64-3188f34
-
-COPY containers/weston/data/ /data/
-
-COPY containers/weston/weston-init /weston-init
-RUN chmod +x /weston-init
-
-CMD [ "/weston-init" ]
-

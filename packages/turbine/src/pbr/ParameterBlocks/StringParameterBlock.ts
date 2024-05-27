@@ -1,4 +1,4 @@
-import type { StringParameterBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
+import type { StringParameterBlocks } from "$types/spec/cycle/parameter";
 import { ParameterBlock } from "./ParameterBlock";
 
 export class StringParameterBlock extends ParameterBlock<string>

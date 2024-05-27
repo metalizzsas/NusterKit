@@ -1,5 +1,5 @@
-import type { NumericParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
-import type { AllProgramBlocks, ForProgramBlock as ForProgramBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ProgramBlocks";
+import type { NumericParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
+import type { AllProgramBlocks, ForProgramBlock as ForProgramBlockSpec } from "$types/spec/cycle/program";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
 import { ProgramBlockRegistry } from "../ProgramBlockRegistry";
 import { TurbineEventLoop } from "../../../events";

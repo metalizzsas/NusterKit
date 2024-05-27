@@ -1,4 +1,4 @@
-import type { StatusParameterBlocks } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
+import type { StatusParameterBlocks } from "$types/spec/cycle/parameter";
 import { ParameterBlock } from "./ParameterBlock";
 
 export class StatusParameterBlock extends ParameterBlock<"error" | "warning" | "good">

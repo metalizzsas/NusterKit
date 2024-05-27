@@ -1,5 +1,7 @@
 import type WebSocket from "ws";
 
+import * as pack from '../package.json';
+
 import { CycleRouter } from "./routers/CycleRouter";
 import { IORouter } from "./routers/IORouter";
 import { MaintenanceRouter } from "./routers/MaintenancesRouter";
@@ -7,13 +9,12 @@ import { ProfilesRouter } from "./routers/ProfilesRouter";
 import { ContainersRouter } from "./routers/ContainersRouters";
 import { parseAddon } from "./addons/AddonLoader";
 
-import type { Configuration, Status, MachineSpecs } from "@metalizzsas/nuster-typings";
-import type { HypervisorData, VPNData } from "@metalizzsas/nuster-typings/build/hydrated/balena";
-import type { MachineData } from "@metalizzsas/nuster-typings/build/hydrated/machine"; 
+import type { Configuration, Status, MachineSpecs } from "./types";
+import type { HypervisorData, VPNData } from "./types/hydrated/balena";
+import type { MachineData } from "./types/hydrated/machine"; 
 
 import { TurbineEventLoop } from "./events";
 
-import { Machines } from "@metalizzsas/nuster-turbine-machines";
 import { NetworkRouter } from "./routers";
 
 export class Machine
@@ -34,18 +35,10 @@ export class Machine
     private hypervisorData?: HypervisorData;
     private vpnData?: VPNData;
 
-    constructor(obj: Configuration) {
-        //Store machine data informations
-        this.data = obj;
-
-        // Retreive machine base specs to build all the controllers
-        const specs = Machines[`${this.data.model}-${this.data.variant}-${this.data.revision}`];
-
-        if(specs === undefined)
-            throw new Error("Machine failed to load specs.json");
-
-        // Assign specs to this instance
-        this.specs = specs as MachineSpecs;
+    constructor(data: Configuration, specs: MachineSpecs)
+    {
+        this.data = data;
+        this.specs = specs;
 
         TurbineEventLoop.on("machine.config", (callback) => {
             callback(this.specs);
@@ -142,6 +135,8 @@ export class Machine
     toJSON(): MachineData {
         return {
             ...this.data,
+
+            turbineVersion: pack.version,
 
             nuster: this.specs.nuster,
             

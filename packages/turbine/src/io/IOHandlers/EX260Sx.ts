@@ -4,7 +4,7 @@ import { ENIP } from "enip-ts";
 import { MessageRouter } from "enip-ts/dist/enip/cip/messageRouter";
 import type { Encapsulation } from "enip-ts/dist/enip/encapsulation";
 
-import type { IOBase, EX260Sx as EX260SxConfig } from "@metalizzsas/nuster-typings/build/spec/iohandlers";
+import type { IOBase, EX260Sx as EX260SxConfig } from "$types/spec/iohandlers";
 import { TurbineEventLoop } from "../../events";
 
 export class EX260Sx implements IOBase, EX260SxConfig

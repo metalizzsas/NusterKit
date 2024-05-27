@@ -1,7 +1,7 @@
-import type { ProductSeries, ContainerProduct } from "@metalizzsas/nuster-typings/build/spec/containers/products";
+import type { ContainerProduct } from "$types/spec/containers";
 
 /** Hardcoded product data details */
-export const Products: Record<ProductSeries, ContainerProduct> = {
+export const Products: Record<string, ContainerProduct> = {
     "llc_ox": { lifespan: 7 },
     "usl_ox": { lifespan: 7 },
     "llc_rd": { lifespan: 7 },

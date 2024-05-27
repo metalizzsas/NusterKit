@@ -1,11 +1,10 @@
 import { ContainerRegulation } from "./ContainerRegulation";
 import { TurbineEventLoop } from "../events";
 
-import type { CallToAction } from "@metalizzsas/nuster-typings/build/spec/nuster";
-import type { ProductSeries } from "@metalizzsas/nuster-typings/build/spec/containers/products";
-import type { Container as ContainerConfig } from "@metalizzsas/nuster-typings/build/spec/containers";
+import type { CallToAction } from "$types/spec/nuster";
+import type { Container as ContainerConfig } from "$types/spec/containers";
 
-import type { ContainerHydrated, ContainerProductData, ContainerSensorHydrated } from "@metalizzsas/nuster-typings/build/hydrated/containers";
+import type { ContainerHydrated, ContainerProductData, ContainerSensorHydrated } from "$types/hydrated/containers";
 import { Products } from "./Products";
 import { prisma } from "../db";
 
@@ -21,7 +20,7 @@ export class Container implements ContainerConfig
 
     productData?: ContainerProductData;
 
-    supportedProductSeries?: ProductSeries[];
+    supportedProductSeries?: string[];
 
     constructor(container: ContainerConfig)
     {        
@@ -56,7 +55,7 @@ export class Container implements ContainerConfig
      * @param productSeries 
      * @returns 
      */
-    async loadProduct(productSeries: ProductSeries): Promise<boolean>
+    async loadProduct(productSeries: string): Promise<boolean>
     {
         if(this.supportedProductSeries === undefined)
         {
@@ -132,14 +131,14 @@ export class Container implements ContainerConfig
 
         if(containerDocument && this.isProductable)
         {
-            const productLifeSpan = Products[containerDocument.loadedProductType as ProductSeries]?.lifespan ?? -1;
+            const productLifeSpan = Products[containerDocument.loadedProductType]?.lifespan ?? -1;
             const limitTime = new Date(containerDocument.loadDate).getTime() + 1000 * 60 * 60 * 24 * productLifeSpan;
 
             let lifetimeRemaining = (limitTime) - Date.now();
             lifetimeRemaining = lifetimeRemaining < 0 ? 0 : lifetimeRemaining;
 
             this.productData = { 
-                loadedProductType: containerDocument.loadedProductType as ProductSeries, 
+                loadedProductType: containerDocument.loadedProductType, 
                 loadDate: new Date(containerDocument.loadDate).toString(), 
                 lifetimeRemaining: productLifeSpan !== -1 ? lifetimeRemaining : -1
             };

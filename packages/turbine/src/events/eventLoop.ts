@@ -1,13 +1,12 @@
 import { EventEmitter } from "node:events";
-import type { ProductSeries } from "@metalizzsas/nuster-typings/build/spec/containers/products";
-import type { ProfileHydrated } from "@metalizzsas/nuster-typings/build/hydrated/profiles";
-import type { PBRMode } from "@metalizzsas/nuster-typings/build/hydrated/cycle/ProgramBlockRunnerHydrated";
-import type { PBRStepState } from "@metalizzsas/nuster-typings/build/spec/cycle/PBRStep";
-import type { ContainerHydrated } from "@metalizzsas/nuster-typings/build/hydrated/containers";
-import type { MaintenanceHydrated } from "@metalizzsas/nuster-typings/build/hydrated/maintenance";
-import type { IOGateJSON } from "@metalizzsas/nuster-typings/build/hydrated/io";
-import type { Popup } from "@metalizzsas/nuster-typings/build/spec/nuster";
-import type { MachineSpecs } from "@metalizzsas/nuster-typings";
+import type { ProfileHydrated } from "$types/hydrated/profiles";
+import type { PBRMode } from "$types/hydrated/cycle/ProgramBlockRunnerHydrated";
+import type { PBRStepState } from "$types/spec/cycle/PBRStep";
+import type { ContainerHydrated } from "$types/hydrated/containers";
+import type { MaintenanceHydrated } from "$types/hydrated/maintenance";
+import type { IOGateJSON } from "$types/hydrated/io";
+import type { Popup } from "$types/spec/nuster";
+import type { MachineSpecs } from "$types/index";
 
 export class EventLoop extends EventEmitter implements EventLoopEmitter
 {
@@ -59,7 +58,7 @@ interface EventLoopEvents
     /** Container events */
     [key: `container.read.${string}`]: (options: { callback?: (container: ContainerHydrated) => void | Promise<void> }) => void;
     
-    [key: `container.load.${string}`]: (productSerie: ProductSeries) => void;
+    [key: `container.load.${string}`]: (productSerie: string) => void;
     [key: `container.unload.${string}`]: () => void;
     [key: `container.updated.${string}`]: (container: ContainerHydrated) => void;
 

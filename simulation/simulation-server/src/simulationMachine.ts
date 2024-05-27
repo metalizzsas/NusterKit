@@ -1,13 +1,12 @@
-import type { IOGates } from "@metalizzsas/nuster-typings/build/spec/iogates";
-import type { IOHandlers } from "@metalizzsas/nuster-typings/build/spec/iohandlers";
+import type { IOGates } from "@nuster/turbine/types/spec/iogates";
+import type { IOHandlers } from "@nuster/turbine/types/spec/iohandlers";
+import type { Configuration, MachineSpecs, Addon } from "@nuster/turbine/types";
 import { ModbusController } from "./controllers/modbus";
 
-import type { Addon, MachineSpecs } from "@metalizzsas/nuster-typings";
 import { app } from "./server";
 import type { Request, Response } from "express";
 import { ENIPController } from "./controllers/enip";
 import { deepInsert } from "./deepInsert";
-import { Machines } from "@metalizzsas/nuster-turbine-machines";
 
 function map(source: number, inMin: number, inMax: number, outMin: number, outMax: number)
 {
@@ -19,16 +18,11 @@ export class SimulationMachine
     config: MachineSpecs;
     controllers: (ModbusController | ENIPController)[] = [];
 
-    constructor(model: string, variant: string, revision: number, addons: string[] = [])
+    constructor(configuration: Configuration, specs: MachineSpecs)
     {
-        const cfg = Machines[`${model}-${variant}-${revision}`];
+        this.config = structuredClone(specs);
 
-        if(cfg === undefined)
-            throw "Failed to find machine configuration";
-
-        this.config = structuredClone(cfg);
-
-        for(const addon of addons)
+        for(const addon of configuration.addons)
         {
             const addonConfig = this.config.addons.find(k => k.addonName === addon);
             if(addonConfig === undefined)

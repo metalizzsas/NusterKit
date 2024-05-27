@@ -1,10 +1,10 @@
-import type { NumericParameterBlockHydrated, StatusParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
-import type { PBRStartConditionResult, PBRRunCondition as PBRRunConditionConfig } from "@metalizzsas/nuster-typings/build/spec/cycle/PBRRunCondition";
-import type { PBRMode } from "@metalizzsas/nuster-typings/build/hydrated/cycle/ProgramBlockRunnerHydrated";
+import type { NumericParameterBlockHydrated, StatusParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
+import type { PBRStartConditionResult, PBRRunCondition as PBRRunConditionConfig } from "$types/spec/cycle/PBRRunCondition";
+import type { PBRMode } from "$types/hydrated/cycle/ProgramBlockRunnerHydrated";
 
 import { ParameterBlockRegistry } from "./ParameterBlocks/ParameterBlockRegistry";
 import { TurbineEventLoop } from "../events";
-import type { IOGateJSON } from "@metalizzsas/nuster-typings/build/hydrated/io";
+import type { IOGateJSON } from "$types/hydrated/io";
 
 export class PBRRunCondition
 {

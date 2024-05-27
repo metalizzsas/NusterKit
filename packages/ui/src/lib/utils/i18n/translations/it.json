@@ -1,0 +1,273 @@
+{
+  "ok": "Ok",
+  "yes": "Sì",
+  "true": "Sì",
+  "no": "No",
+  "false": "No",
+  "back": "Indietro",
+  "cancel": "Annullare",
+  "exit": "",
+  "locked": "Bloccato",
+  "close-keyboard": "Chiudere la tastiera",
+  "close-modal": "Chiudere",
+  "connect": "Connessione",
+  "proceed": "Proseguire",
+  "nuster": {
+    "lead": "Nuster",
+    "logo": "Logo di Nuster"
+  },
+  "error": {
+    "render": {
+      "lead": "Errore visualizzazione pagina",
+      "sub": "Un errore si è verificato, sarete reindirizzati tra poco",
+      "button": "Ricaricare"
+    }
+  },
+  "date": {
+    "days": "Giorni",
+    "day": "Giorno",
+    "hours": "Ore",
+    "hour": "Ora",
+    "minutes": "Minuti",
+    "minute": "Minuto",
+    "seconds": "Secondi",
+    "second": "Secondo",
+    "milliseconds": "Millisecondi",
+    "millisecond": "Millisecondo"
+  },
+  "container": {
+    "lead": "Contenitori",
+    "unselected": {
+      "lead": "",
+      "sub": ""
+    },
+    "category": {
+      "products": "Prodotto",
+      "sensors": "Sensori",
+      "regulation": "Regolazione"
+    },
+    "state": {
+      "lead": {
+        "error": "",
+        "good": ""
+      },
+      "issues": {
+        "product_unloaded": "",
+        "product_lifespan": "",
+        "product_lifespan_unknown": "",
+        "sensor": ""
+      },
+      "infos": {
+        "regulation_active": ""
+      }
+    },
+    "product": {
+      "informations": {
+        "lead": "Prodotto informazioni",
+        "loaded_product": "Serie del prodotto:",
+        "lifetime_remaining": "Durata di vita",
+        "load_date": "",
+        "unknownLifespan": "Scadenza non definita",
+        "done": "Scaduto",
+        "product_series": {
+          "usl_act": "USL Attivattore",
+          "usl_ox": "USL Ossidante",
+          "usl_rd": "USL Riduttore",
+          "llc_ox": "LLC Ossidante",
+          "llc_rd": "LLC Riduttore",
+          "cv-01": "Crystal varnish 01",
+          "sv-01": "Shiny varnish 01",
+          "mv-01": "Matte varnish 01",
+          "cr-01": "CR-1",
+          "water": "Acqua",
+          "any": "Sconosciuto"
+        }
+      },
+      "action": {
+        "lead": "Operazioni",
+        "product_choose": "Scegliete il prodoto da caricare in questo contenitore",
+        "default": {
+          "load": "Caricare un prodotto",
+          "unload": "Svuotare il prodotto"
+        }
+      }
+    },
+    "regulation": {
+      "enabled": "Stato della regolazione",
+      "current": "Valore attuale",
+      "target": "Valore ricercato"
+    }
+  },
+  "profile": {
+    "lead": "Profili",
+    "name": "Nome del profilo",
+    "settings": "Parametri del profilo",
+    "defaultName": "Nome profilo predefinito",
+    "unselected": {
+      "lead": "",
+      "sub": ""
+    },
+    "copy": {
+      "label": "",
+      "button": "Copiare",
+      "message": "Il profilo è stato copiato in {name}.",
+      "suffix": ""
+    },
+    "save": {
+      "button": "Salvaguardare",
+      "message": "Il profilo è stato salvato."
+    },
+    "delete": {
+      "button": "Eliminare",
+      "button_confirm": "Conferma eliminare"
+    },
+    "premades": {
+      "true": "Profili costruttore",
+      "false": "Profili utente"
+    },
+    "rows": {
+      "enabled": "Attivato",
+      "speed": "Velocità",
+      "duration": "Durata",
+      "count": "Numero di ripetizioni",
+      "timeOn": "Tempo attivato",
+      "timeOff": "Tempo disattivato"
+    }
+  },
+  "settings": {
+    "lead": "Parametri",
+    "ui": {
+      "lead": "",
+      "dark_mode": "Modalità scuro",
+      "language": "Lingua"
+    },
+    "machine": {
+      "lead": "Informazioni macchina",
+      "model": "Modello",
+      "variant": "Variante",
+      "revision": "Revisione",
+      "serial": "Numero di serie",
+      "addons": "Opzioni",
+      "cycle_count": "Quantità di cicli"
+    },
+    "software": {
+      "lead": "",
+      "ui_version": "Versione di UI",
+      "turbine_version": "Versione di Turbine",
+      "machine_specs_version": "Versione di macchina",
+      "show_changelog": "Mostrare il changelog",
+      "balena": "Versione di balenaOS",
+      "update": "",
+      "update_install": "Installare l'aggiornamento",
+      "update_installing": ""
+    },
+    "network": {
+      "lead": "Informazioni rete",
+      "ip": "Indirizzo IP macchina",
+      "mac": "Liste degli indirizzi Mac",
+      "vpn": "Connessione VPN",
+      "wifi": {
+        "label": "Impostazioni Wi-Fi",
+        "button": "Aggiorna le impostazioni Wi-Fi"
+      }
+    },
+    "advanced": {
+      "lead": "",
+      "sub": "",
+      "password": "",
+      "edit": ""
+    },
+    "machines": {
+      "metalfog": "Metalfog",
+      "smoothit": "Smoothit",
+      "uscleaner": "USCleaner"
+    }
+  },
+  "cycle": {
+    "lead": "Ciclo",
+    "categories": {
+      "steps": "Tappe del ciclo",
+      "status": "Statuto del ciclo",
+      "additional_info": "Informazioni aggiuntive",
+      "security_conditions": "Condizioni di sicurezza"
+    },
+    "unselected": {
+      "lead": "",
+      "sub": "",
+      "help": ""
+    },
+    "unselected_informations": {
+      "lead": "",
+      "sub": ""
+    },
+    "eta": {
+      "null": "Sconosciuto",
+      "remaining": "Tempo rimanente:",
+      "estimated": "Tempo stimato:"
+    },
+    "end": {
+      "lead": "Ciclo completato",
+      "duration": "Durata del ciclo:"
+    },
+    "end_reasons": {
+      "user": "Fine utente",
+      "finished": "Realizzato con successo",
+      "controllerTimeout": "Tempo scaduto per la connessione controlleur IO",
+      "controllerError": "Errore connessione controlleur IO",
+      "controllerUnreachable": "Controllore IO indisponibile",
+      "stepOvertime": "Una tappa del ciclo ha impiegato troppo tempo. Per evitare operazioni errate, si raccomanda di riavviare la macchina."
+    },
+    "buttons": {
+      "start": "Iniziare il ciclo",
+      "nextStep": "Passare questa tappa",
+      "stop": "Interrompere il ciclo",
+      "complete": "Terminare il ciclo"
+    }
+  },
+  "gates": {
+    "lead": "I / U",
+    "reset": "",
+    "bus": {
+      "in": "Ingressi",
+      "out": "Uscite"
+    },
+    "categories": {
+      "generic": "Generico"
+    }
+  },
+  "maintenance": {
+    "lead": "Manutenzione",
+    "duration": "Durata",
+    "unselected": {
+      "lead": "",
+      "sub": ""
+    },
+    "sensor": {
+      "label": "",
+      "warning": ""
+    },
+    "procedure": {
+      "lead": "Procedura di manutenzione",
+      "clear": "Validare l'operazione di manutenzione",
+      "lang_unavailable": ""
+    },
+    "unity": {
+      "cycle": "Cicli",
+      "hours": "Ore",
+      "time": "Durata",
+      "duration": "Ore"
+    }
+  },
+  "help": {
+    "lead": "",
+    "unavailable": "",
+    "unselected": {
+      "lead": "",
+      "sub": ""
+    },
+    "category": {
+      "software": "Nuster",
+      "machine": "Machina"
+    }
+  }
+}

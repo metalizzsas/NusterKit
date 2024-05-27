@@ -1,6 +1,6 @@
-import type { ContainerHydrated } from "@metalizzsas/nuster-typings/build/hydrated/containers";
-import type { StringParameterBlockHydrated } from "@metalizzsas/nuster-typings/build/hydrated/cycle/blocks/ParameterBlockHydrated";
-import type { AllParameterBlocks, ProductStatusParameterBlock as ProductStatusParameterBlockSpec } from "@metalizzsas/nuster-typings/build/spec/cycle/blocks/ParameterBlocks";
+import type { ContainerHydrated } from "$types/hydrated/containers";
+import type { StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
+import type { AllParameterBlocks, ProductStatusParameterBlock as ProductStatusParameterBlockSpec } from "$types/spec/cycle/parameter";
 import { TurbineEventLoop } from "../../../events";
 import { ParameterBlockRegistry } from "../ParameterBlockRegistry";
 import { StatusParameterBlock } from "../StatusParameterBlock";

@@ -1,24 +1,36 @@
-# **NusterTurbine 💨**
+# @nuster/turbine 💨
 
-[![Packing Nuster Turbine for balena](https://github.com/metalizzsas/NusterTurbine/actions/workflows/package.yaml/badge.svg)](https://github.com/metalizzsas/NusterTurbine/actions/workflows/package.yaml)
+Handle complex machines cycles with ease using turbine.
 
-Nuster Turbine is the core of our machines. It runs on NodeJS. Written in TypeScript. Tested using Jest.
-The goal of this project is to manage user inputs from NusterDesktop and handle IO Controllers such as Modbus or EthernetIP IO Controllers.
-
-This project also manage:
+this project manages:
 
 * Profiles
-* Cycles, and histories
+* Cycles
 * Passives regulations
 * Preventive maintenances tasks
 * Manual & Advanced IO Management
 
-## **Data management 🗂️**
+## Data management 🗂️
 
-To handle machine specifications and `info.json` file is required at the `/data` folder (local to project when NODE_ENV is set to development or empty).
-This info file, helps NusterTurbine to find the accurate `specs.json` file in [NusterTurbineMachines repo](https://github.com/metalizzsas/NusterTurbineMachines).
+To handle machine specifications and `info.json` file is required at the `/data` folder (local to project when `NODE_ENV` is not set to production).
 
-## **Environment Vars 🏠**
+### Machine configurations
 
-* `DISABLE_AUTH` when set to anything disable Auth module to access any route without being authentified.
-* `NODE_ENV` when set to 'production' it enables Cycle watchdog and EthernetIP controller tests.
+You can create as many machine configuration you want. They will all be available in the configuration screen available in `@nuster/ui` at `/configure` for unconfigured machines and `/settings/edit` for already configured machines.
+
+Each machine configuration must be in `/data/machine` in it's own folder such as `my-machine-1`.
+
+The folder structure must be set like this:
+
+* `specs.json` a JSON file which conforms to the `@nuster/turbine/build/types/schemas/schema-specs.json` schema.
+  * `static` a folder that will be served by `turbine`
+    * `i18n` a folder that contains all translation files which conforms to the `@nuster/turbine/build/types/schemas/schema-translations.json` schema.
+    * `docs` a folder that contains docs served by the `Help` page in `@nuster/ui` and preventive maintenance tasks in `Maintenance` page.
+      * `files.json` describes help files, conforms to `DocFile[]` from `@nuster/turbine/types/docs`.
+    * `icon.png` a png file which will be displayed in the `Help` page as the machine icon.
+
+![Machine file structure example](readme_file_structure.png)
+
+## Logging 📑
+
+Turbine logs are stored in `/data/logs` folder, on each turbine startup logs older than 30 days are deleted.

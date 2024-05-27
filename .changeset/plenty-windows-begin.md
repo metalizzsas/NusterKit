@@ -1,5 +1,4 @@
 ---
-"@metalizzsas/nuster-turbine-machines": patch
 "@metalizzsas/nuster-misc": patch
 ---
 

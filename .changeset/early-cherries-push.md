@@ -1,11 +1,8 @@
 ---
-"@metalizzsas/simulation-server": patch
-"@metalizzsas/simulation-ui": patch
-"@metalizzsas/nuster-turbine-machines": patch
-"@metalizzsas/nuster-dashboard": patch
-"@metalizzsas/nuster-desktop": patch
-"@metalizzsas/nuster-turbine": patch
-"@metalizzsas/nuster-typings": patch
+"@nuster/simulation-server": patch
+"@nuster/simulation-ui": patch
+"@nuster/ui": patch
+"@nuster/turbine": patch
 ---
 
 chore(deps): updated to latest dependencies

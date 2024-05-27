@@ -5,7 +5,6 @@
   "engines": {
     "node": "20.x"
   },
-  "packageManager": "pnpm@9.x.x",
   "scripts": {
     "dev": "pnpm -r --parallel run dev",
     "sync": "pnpm -r --parallel run sync",

@@ -1,5 +1,5 @@
 {
-  "name": "@metalizzsas/nuster-turbine",
+  "name": "@nuster/turbine",
   "engines": {
     "node": "20.x"
   },

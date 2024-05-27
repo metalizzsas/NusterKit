@@ -1,5 +1,5 @@
 {
-  "name": "@metalizzsas/nuster-kit",
+  "name": "@nuster/kit",
   "version": "1.0.0",
   "description": "Mono repository that holds the nuster project",
   "engines": {
@@ -13,7 +13,7 @@
     "test": "pnpm -r --parallel run test",
     "build": "pnpm build:turbine && pnpm build:desktop && pnpm build:simulation",
     "build:turbine": "pnpm -r --filter='./packages/turbine' run build",
-    "build:desktop": "pnpm -r --filter='./packages/desktop' run build",
+    "build:desktop": "pnpm -r --filter='./packages/ui' run build",
     "build:simulation": "pnpm -r --filter='./simulation/*' run build",
     "release": "changeset publish",
     "version": "changeset version && pnpm install --lockfile-only"

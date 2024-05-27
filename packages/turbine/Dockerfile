@@ -1,23 +1,37 @@
-FROM node:20-alpine
+# base image used by builder and production
+FROM node:20-alpine as base
 
 RUN corepack enable
 
-ENV NODE_ENV=production
-
 WORKDIR /usr/src/app
 
-# Copying Package & Package lock json
-COPY packages/turbine/package*.json ./
+COPY package.json .
+COPY pnpm-lock.yaml .
 
-COPY packages/turbine/CHANGELOG.md ./CHANGELOG.md
-COPY packages/turbine/entrypoint.sh ./entrypoint.sh
+RUN pnpm install --frozen-lockfile
 
-COPY packages/turbine/build/ ./build
-COPY packages/turbine/prisma/ ./prisma
+# Builder image step
+FROM base as build
 
-# Install Prod npm packages
-RUN pnpm install --no-optional
+COPY tsconfig.json .
+COPY prisma/ ./prisma
+COPY src/ ./src
+
+RUN pnpm build
+
+# Production final image
+FROM base as production
 
 # Run args
+ENV NODE_ENV=production
+ENV DATABASE_URL=file:/data/database.db
+EXPOSE 4080
 CMD ["/bin/sh", "entrypoint.sh"]
-EXPOSE 4080 
+
+COPY entrypoint.sh ./entrypoint.sh
+COPY prisma/ ./prisma
+COPY --from=build /usr/src/app/build/ ./build
+
+# Install dependencies
+RUN pnpm install --no-optional
+RUN pnpm build:prisma

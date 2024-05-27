@@ -167,7 +167,9 @@
         "software": {
             "lead": "Informations logiciel",
             "ui_version": "Version de l'interface",
-            "turbine_version": "Version de Turbine",
+            "turbine_version": "Version de Turbine",            
+            "machine_specs_version": "Version des reglages machine",
+            "show_changelog": "Afficher les notes de changement",
             "balena": "Version de balenaOS",
             "update": "Mise a jour disponible",
             "update_install": "Installer",

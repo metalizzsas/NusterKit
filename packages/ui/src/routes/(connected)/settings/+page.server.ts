@@ -11,9 +11,13 @@ export const load = async ({ fetch }) => {
     const reqCycleCount = await fetch(`http://${env.TURBINE_ADDRESS}/v1/maintenances/cycleCount`);
     const cycleCount = await reqCycleCount.json() as MaintenanceHydrated;
 
+    const changelogRequest = await fetch(`http://${env.TURBINE_ADDRESS}/static/CHANGELOG.md`);
+    const changelog = await changelogRequest.text();
+
     return {
         machine,
-        cycleCount
+        cycleCount,
+        changelog
     }
 }
 

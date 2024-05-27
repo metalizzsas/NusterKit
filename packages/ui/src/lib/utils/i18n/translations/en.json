@@ -168,6 +168,8 @@
             "lead": "Software informations",
             "ui_version": "UI version",
             "turbine_version": "Turbine version",
+            "machine_specs_version": "Machine specs version",
+            "show_changelog": "Show changelog",
             "balena": "BalenaOS version",
             "update": "Update available",
             "update_install": "Install",

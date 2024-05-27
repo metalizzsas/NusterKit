@@ -154,6 +154,8 @@
       "lead": "",
       "ui_version": "Versione di UI",
       "turbine_version": "Versione di Turbine",
+      "machine_specs_version": "Versione di macchina",
+      "show_changelog": "Mostrare il changelog",
       "balena": "Versione di balenaOS",
       "update": "",
       "update_install": "Installare l'aggiornamento",

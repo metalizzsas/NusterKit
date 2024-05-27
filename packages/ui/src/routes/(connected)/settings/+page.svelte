@@ -19,6 +19,8 @@
 	import { enhance } from "$app/forms";
 
     import { version } from "$app/environment";
+	import Modal from "$lib/components/Modal.svelte";
+	import SvelteMarkdown from "svelte-markdown";
 
     export let data: PageData;
     export let form: ActionData;
@@ -31,7 +33,17 @@
 
     let password = "";
 
+    let showChangelog = false;
+
 </script>
+
+{#if showChangelog}
+    <Modal title="Changelog" on:close={() => showChangelog = false}>
+        <SvelteMarkdown source={data.changelog} />
+    </Modal>
+{/if}
+
+
 
 <Wrapper>
     <Flex direction="col" gap={2}>
@@ -74,6 +86,9 @@
         
         <SettingField label={$_('settings.software.ui_version')} value={version} />
         <SettingField label={$_('settings.software.turbine_version')} value={data.machine.turbineVersion} />
+        <SettingField label={$_('settings.software.machine_specs_version')}>
+            <Button size="small" color="hover:bg-indigo-500" ringColor="ring-indigo-500" on:click={() => showChangelog = true}>{$_('settings.software.show_changelog')}</Button>
+        </SettingField>
         
         {#if data.machine.hypervisorData?.appState !== 'applied' && data.machine.hypervisorData?.overallDownloadProgress === null}
             <SettingField label={$_('settings.software.update')}>

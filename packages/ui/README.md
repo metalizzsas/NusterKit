@@ -1,4 +1,4 @@
-# **@nuster/desktop**
+# @nuster/desktop
 
 Interact with `@nuster/turbine`.
 

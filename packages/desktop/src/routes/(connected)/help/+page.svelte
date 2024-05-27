@@ -1,5 +1,4 @@
 <script lang="ts">
-	
 	import Flex from '$lib/components/layout/flex.svelte';
 	import Wrapper from '$lib/components/Wrapper.svelte';
 	import { _ } from 'svelte-i18n';
@@ -9,7 +8,6 @@
 	import { page } from '$app/stores';
 
 	export let data: PageData;
-
 </script>
 
 <Grid cols={3}>

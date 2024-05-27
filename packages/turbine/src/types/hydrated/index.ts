@@ -1,5 +1,5 @@
 import type { Popup } from "../spec/nuster";
-import { AccessPoint, NetworkDevice } from "./balena";
+import type { AccessPoint, NetworkDevice } from "./balena";
 import type { ContainerHydrated } from "./containers";
 import type { ProgramBlockRunnerHydrated } from "./cycle/ProgramBlockRunnerHydrated";
 import type { IOGatesHydrated } from "./io";

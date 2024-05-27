@@ -94,10 +94,10 @@
     "lint": "eslint ./src/** --ext .ts",
     "test": "vitest",
     "docs": "pnpx typedoc --entryPointStrategy expand ./src --out docs",
-    "schemas": "npm run schemas:config && npm run schemas:spec && npm run schemas:translations",
-    "schemas:config": "typescript-json-schema src/types/configuration/index.ts Configuration --noExtraProps --required -o src/types/schemas/schema-config.json",
-    "schemas:spec": "typescript-json-schema src/types/spec/index.ts MachineSpecs --noExtraProps --required -o src/types/schemas/schema-specs.json",
-    "schemas:translations": "typescript-json-schema src/types/translations/index.ts Translations --noExtraProps --required -o src/types/schemas/schema-translations.json"
+    "schemas": "pnpm run schemas:config & pnpm run schemas:spec & pnpm run schemas:translations",
+    "schemas:config": "ts-json-schema-generator --path src/types/configuration/index.ts --type 'Configuration' -o src/types/schemas/schema-config.json",
+    "schemas:spec": "ts-json-schema-generator --path src/types/spec/index.ts --type 'MachineSpecs' -o src/types/schemas/schema-specs.json",
+    "schemas:translations": "ts-json-schema-generator --path src/types/translations/index.ts --type 'Translations' -o src/types/schemas/schema-translations.json"
   },
   "repository": {
     "type": "git",
@@ -129,7 +129,6 @@
     "serialport": "^12.0.0",
     "serve-index": "^1.9.1",
     "typescript": "^5.4.5",
-    "vite-tsconfig-paths": "^4.3.2",
     "ws": "^8.17.0"
   },
   "devDependencies": {
@@ -145,8 +144,9 @@
     "@typescript-eslint/parser": "^7.9.0",
     "eslint": "^8.57.0",
     "nodemon": "^3.1.0",
+    "ts-json-schema-generator": "^2.2.0",
     "tsx": "^4.11.0",
-    "typescript-json-schema": "0.63.0",
+    "vite-tsconfig-paths": "^4.3.2",
     "vitest": "^1.6.0"
   }
 }

@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@nuster/turbine':
-        specifier: 1.12.2
+        specifier: 2.0.0
         version: link:../../packages/turbine
       '@types/cors':
         specifier: ^2.8.17

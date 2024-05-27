@@ -1,5 +1,18 @@
 # @nuster/simulation-server
 
+## 1.2.0
+
+### Minor Changes
+
+- [#524](https://github.com/metalizzsas/NusterKit/pull/524) [`1a74b6e`](https://github.com/metalizzsas/NusterKit/commit/1a74b6eb81af68665fd9229f454617a7d3bde9de) Thanks [@Kworz](https://github.com/Kworz)! - feat(breaking): updated all packages to be machine agnostic
+
+### Patch Changes
+
+- [#522](https://github.com/metalizzsas/NusterKit/pull/522) [`5f7a0f6`](https://github.com/metalizzsas/NusterKit/commit/5f7a0f612f9d11dfa172cfbfda0f2b32ddbad3e1) Thanks [@Kworz](https://github.com/Kworz)! - chore(deps): updated to latest dependencies
+
+- Updated dependencies [[`5f7a0f6`](https://github.com/metalizzsas/NusterKit/commit/5f7a0f612f9d11dfa172cfbfda0f2b32ddbad3e1), [`54a7087`](https://github.com/metalizzsas/NusterKit/commit/54a7087e71be7d7eeb679247e02c9e4adbfaa83f), [`2eb9b6b`](https://github.com/metalizzsas/NusterKit/commit/2eb9b6b48558e8f1b171304d2e882dbf9babaa37), [`1a74b6e`](https://github.com/metalizzsas/NusterKit/commit/1a74b6eb81af68665fd9229f454617a7d3bde9de), [`d4955a9`](https://github.com/metalizzsas/NusterKit/commit/d4955a90d61ba8348b917a86301be1f10bd7cacd)]:
+  - @nuster/turbine@2.0.0
+
 ## 1.1.6
 
 ### Patch Changes

@@ -1,7 +1,4 @@
 {
-  "ts-node": {
-    "files": true
-  },
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
@@ -27,9 +24,9 @@
     // "useDefineForClassFields": true,                  /* Emit ECMAScript-standard-compliant class fields. */
 
     /* Modules */
-    "module": "node16",                                /* Specify what module code is generated. */
+    "module": "NodeNext",                                /* Specify what module code is generated. */
     "rootDir": "src",                                    /* Specify the root folder within your source files. */
-    "moduleResolution": "node16",                          /* Specify how TypeScript looks up a file from a given module specifier. */
+    "moduleResolution": "NodeNext",                          /* Specify how TypeScript looks up a file from a given module specifier. */
     // "baseUrl": "./",                                  /* Specify the base directory to resolve non-relative module names. */
     "paths": {
       "$types/*": ["./src/types/*"]
@@ -101,17 +98,13 @@
 
     /* Completeness */
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
-    "skipLibCheck": false,                                 /* Skip type checking all .d.ts files. */
-    "sourceRoot": "./src"
+    "skipLibCheck": false                                 /* Skip type checking all .d.ts files. */
   },
-  "files": [
-    "src/app.ts",
-    "src/dbus/dbus-native.d.ts"
-  ],
   "include": [
     "./src/**/*.ts"
   ],
   "exclude": [
-    "./src/**/*.unit.test.ts"
+    "./src/**/*.unit.test.ts",
+    "./build"
   ]
 }

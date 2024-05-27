@@ -862,38 +862,6 @@
                         "type"
                     ],
                     "type": "object"
-                },
-                {
-                    "additionalProperties": false,
-                    "properties": {
-                        "baudRate": {
-                            "description": "BaudRate used to communicate",
-                            "type": "number"
-                        },
-                        "ioScannerInterval": {
-                            "description": "IOScannerInterval",
-                            "type": "number"
-                        },
-                        "ip": {
-                            "description": "IP Address on the local network",
-                            "type": "string"
-                        },
-                        "port": {
-                            "description": "Port of serial device ex: `/dev/tty1`",
-                            "type": "string"
-                        },
-                        "type": {
-                            "description": "Type of the IO Handler",
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "baudRate",
-                        "ip",
-                        "port",
-                        "type"
-                    ],
-                    "type": "object"
                 }
             ]
         },

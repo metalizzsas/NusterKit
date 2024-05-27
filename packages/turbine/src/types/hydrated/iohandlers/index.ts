@@ -1,3 +1,3 @@
-import type { WAGO, EX260Sx, SerialCom, IOBase } from "../../spec/iohandlers";
+import type { WAGO, EX260Sx, IOBase } from "../../spec/iohandlers";
 
-export type IOHandlersHydrated = (WAGO | EX260Sx | SerialCom) & IOBase;
+export type IOHandlersHydrated = (WAGO | EX260Sx) & IOBase;

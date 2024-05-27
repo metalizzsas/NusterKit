@@ -49,7 +49,7 @@
         
         const isSecure = window.location.protocol === "https:";
 
-        websocket = new WebSocket(`${isSecure ? "wss": "ws"}://${env.PUBLIC_TURBINE_ADDRESS}/ws/`);
+        websocket = new WebSocket(`${isSecure ? "wss": "ws"}://${data.turbineAddress}/ws/`);
 
         websocket.onerror = function() {
             websocketState = "disconnected";

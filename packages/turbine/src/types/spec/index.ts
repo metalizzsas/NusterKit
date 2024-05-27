@@ -10,10 +10,7 @@ import type { Profile, ProfileSkeleton } from "./profiles";
 /** Machine JSON Specifications */
 export declare interface MachineSpecs
 {
-    /** 
-     * Schema used by the configuration file
-     * @defaultValue ../../../../node_modules/$types/schemas/schema-specs.json
-     */
+    /** Schema used by the configuration file */
     $schema: string;
 
     /** Nuster Additional data */

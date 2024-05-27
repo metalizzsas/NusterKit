@@ -1,6 +1,6 @@
-import type { Container, ContainerSensor } from "$types/spec/containers";
-import type { CallToAction } from "$types/spec/nuster";
-import type { Modify } from "$types/utils";
+import type { Container, ContainerSensor } from "../../spec/containers";
+import type { CallToAction } from "../../spec/nuster";
+import type { Modify } from "../../utils";
 
 /** Slot data for productable slots */
 type ContainerProductData = {

@@ -5,18 +5,18 @@ RUN corepack enable
 
 WORKDIR /usr/src/app
 
-COPY package.json ./
-COPY pnpm-lock.yaml ./
+COPY package.json .
+COPY pnpm-lock.yaml .
 
 RUN pnpm install --frozen-lockfile
 
 # Builder image step
 FROM base as build
 
-COPY svelte.config.js ./
-COPY vite.config.ts ./
-COPY tsconfig.json ./
-COPY postcss.config.cjs ./
+COPY svelte.config.js .
+COPY vite.config.ts .
+COPY tsconfig.json .
+COPY postcss.config.cjs .
 COPY static/ ./static
 COPY src/ ./src
 
@@ -34,4 +34,4 @@ CMD [ "node", "build" ]
 COPY --from=build build/ ./build
 
 # Install Prod npm packages
-RUN pnpm install --no-optional
+RUN pnpm install --frozen-lockfile --no-optional

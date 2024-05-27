@@ -7,6 +7,7 @@ WORKDIR /usr/src/app
 
 COPY package.json .
 COPY pnpm-lock.yaml .
+COPY prisma/ ./prisma
 
 RUN pnpm install --frozen-lockfile
 
@@ -14,7 +15,6 @@ RUN pnpm install --frozen-lockfile
 FROM base as build
 
 COPY tsconfig.json .
-COPY prisma/ ./prisma
 COPY src/ ./src
 
 RUN pnpm build
@@ -29,9 +29,9 @@ EXPOSE 4080
 CMD ["/bin/sh", "entrypoint.sh"]
 
 COPY entrypoint.sh ./entrypoint.sh
-COPY prisma/ ./prisma
-COPY --from=build /usr/src/app/build/ ./build
 
 # Install dependencies
-RUN pnpm install --no-optional
+RUN pnpm install --frozen-lockfile --no-optional
 RUN pnpm build:prisma
+
+COPY --from=build /usr/src/app/build/ ./build

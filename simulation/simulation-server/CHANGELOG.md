@@ -1,5 +1,12 @@
 # @nuster/simulation-server
 
+## 1.2.1
+
+### Patch Changes
+
+- Updated dependencies [[`4267bce`](https://github.com/metalizzsas/NusterKit/commit/4267bceb8387bb4b2a0ddc1d470d49dd06944f68)]:
+  - @nuster/turbine@2.0.1
+
 ## 1.2.0
 
 ### Minor Changes

@@ -40,8 +40,8 @@ jobs:
       - name: 📚 Install workspace packages
         run: pnpm install --frozen-lockfile 
 
-      - name: 🧱 Build libraries
-        run: pnpm run build:libs
+      - name: 🧱 Build all packages
+        run: pnpm build
 
       - name: ⛭ Setup Pnpm github registry
         run: pnpm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN

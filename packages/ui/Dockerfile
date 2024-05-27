@@ -31,7 +31,7 @@ ENV PORT=4081
 EXPOSE 4081
 CMD [ "node", "build" ]
 
-COPY --from=build build/ ./build
+COPY --from=build /usr/src/app/build/ ./build
 
 # Install Prod npm packages
 RUN pnpm install --frozen-lockfile --no-optional

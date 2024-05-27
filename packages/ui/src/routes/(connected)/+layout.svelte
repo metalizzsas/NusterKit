@@ -21,7 +21,6 @@
 	import { _ } from "svelte-i18n";
 	import Toast from "$lib/components/Toast.svelte";
 	import { flip } from "svelte/animate";
-	import { env } from "$env/dynamic/public";
 	import type { PageData } from "./$types";
 	import { browser, version } from "$app/environment";
 

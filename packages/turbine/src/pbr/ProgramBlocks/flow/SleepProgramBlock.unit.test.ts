@@ -1,4 +1,4 @@
-import { test, expect } from "@jest/globals";
+import { test, expect, describe } from "vitest";
 import { TurbineEventLoop } from "../../../events";
 import { SleepProgramBlock } from "./SleepProgramBlock";
 

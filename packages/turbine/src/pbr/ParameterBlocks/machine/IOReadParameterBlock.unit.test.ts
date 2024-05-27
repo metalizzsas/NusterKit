@@ -1,4 +1,4 @@
-import { test, expect } from "@jest/globals";
+import { test, expect } from "vitest";
 import { IOReadParameterBlock } from "./IOReadParameterBlock";
 import { TurbineEventLoop } from "../../../events";
 import type { IOGateJSON } from "$types/hydrated/io";

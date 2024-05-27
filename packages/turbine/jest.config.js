@@ -1,9 +1,16 @@
-/** @type {import('ts-jest/dist/types').JestConfigWithTsJest} */
-module.exports = {
-  preset: 'ts-jest',
+const { pathsToModuleNameMapper } = require('ts-jest');
+
+/** @type {import('ts-jest').JestConfigWithTsJest} */
+const jestConfig = {
+  preset: "ts-jest",
   testEnvironment: 'node',
   verbose: true,
-  moduleNameMapper: {
-    '^$types/(.*)$': '<rootDir>/src/types/$1',
-  }
+  moduleDirectories: ["node_modules", "<rootDir>"],
+  moduleNameMapper: pathsToModuleNameMapper({
+    "$types/*": [
+      "./src/types/*"
+    ]
+  })
 };
+
+module.exports = jestConfig;

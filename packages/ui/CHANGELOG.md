@@ -1,5 +1,11 @@
 # @nuster/ui
 
+## 2.0.6
+
+### Patch Changes
+
+-   [`a9ba09e`](https://github.com/metalizzsas/NusterKit/commit/a9ba09e0b73989b4b353e0245f2304d49ced9062) Thanks [@Kworz](https://github.com/Kworz)! - fix(css): wrong config name
+
 ## 2.0.5
 
 ### Patch Changes

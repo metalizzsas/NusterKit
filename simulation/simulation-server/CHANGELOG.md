@@ -1,5 +1,12 @@
 # @nuster/simulation-server
 
+## 1.2.4
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @nuster/turbine@2.0.5
+
 ## 1.2.3
 
 ### Patch Changes

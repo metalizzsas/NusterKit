@@ -1,5 +1,11 @@
 # @nuster/ui
 
+## 2.0.3
+
+### Patch Changes
+
+-   [#527](https://github.com/metalizzsas/NusterKit/pull/527) [`24fa5a6`](https://github.com/metalizzsas/NusterKit/commit/24fa5a6f8dd0d9afd0575cdd19c4b2eecf52d0a4) Thanks [@Kworz](https://github.com/Kworz)! - fix(ui): hook would not find machine settings in /configure route as they are not available
+
 ## 2.0.2
 
 ### Patch Changes

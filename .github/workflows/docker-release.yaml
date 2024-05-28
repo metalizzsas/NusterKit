@@ -4,12 +4,12 @@ on:
   workflow_call:
 
 jobs:
-  build:
+  a:
     name: Build and push docker images
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        packages: ["turbine", "ui"]
+        packages: ["turbine", "ui", "simulation-ui", "simulation-server"]
     steps:
       - name: 📚 Checkout repository
         uses: actions/checkout@v3

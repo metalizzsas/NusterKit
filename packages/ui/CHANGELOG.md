@@ -1,5 +1,11 @@
 # @nuster/ui
 
+## 2.0.5
+
+### Patch Changes
+
+-   [`ad63f94`](https://github.com/metalizzsas/NusterKit/commit/ad63f94f2d8bac9162322d3c987f915bc2d075ba) Thanks [@Kworz](https://github.com/Kworz)! - fix(css): tailwindcss config was missing on the docker image, leading to missing css styles
+
 ## 2.0.4
 
 ### Patch Changes

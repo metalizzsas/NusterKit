@@ -4,7 +4,7 @@
 	import SvelteMarkdown from "svelte-markdown";
 	import { Icon } from "@steeze-ui/svelte-icon";
 	import { WrenchScrewdriver } from "@steeze-ui/heroicons";
-	import MaintenanceImageParser from "./MaintenanceImageParser.svelte";
+	import MaintenanceImageParser from "$lib/components/markdown/MaintenanceImageParser.svelte";
 	import Button from "$lib/components/buttons/Button.svelte";
 	import { enhance } from "$app/forms";
 	import type { PageData } from "./$types";

@@ -33,7 +33,7 @@ export class ENIPController
         }
     };
 
-    constructor(controller: EX260Sx, gates: IOGates[], index)
+    constructor(controller: EX260Sx, gates: IOGates[], index: number)
     {
         this.enip = new ENIPServer(this.vector);
         this.enip.listen();

@@ -5,7 +5,7 @@ export const load = async ({ fetch, locals }) => {
 
     const docFiles: DocFile[] = [];
 
-    const nusterDocsFileRequest = await fetch('/docs/files.json');
+    const nusterDocsFileRequest = await fetch(`http://localhost:${env.PORT || 4080}/docs/files.json`);
     if(nusterDocsFileRequest.status === 200 && nusterDocsFileRequest.ok)
     {
         const nusterDocsFiles = await nusterDocsFileRequest.json();

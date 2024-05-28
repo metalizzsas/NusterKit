@@ -1,5 +1,11 @@
 # @nuster/ui
 
+## 2.0.7
+
+### Patch Changes
+
+-   [`d3e3be6`](https://github.com/metalizzsas/NusterKit/commit/d3e3be664054d3bf76e6d6e71f1e7d0c16163a7a) Thanks [@Kworz](https://github.com/Kworz)! - fix(docs): help page could not find help docs served staticly by sveltekit
+
 ## 2.0.6
 
 ### Patch Changes

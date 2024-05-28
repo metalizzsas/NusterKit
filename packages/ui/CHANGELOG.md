@@ -1,5 +1,11 @@
 # @nuster/ui
 
+## 2.0.10
+
+### Patch Changes
+
+-   [#539](https://github.com/metalizzsas/NusterKit/pull/539) [`d5d5fe1`](https://github.com/metalizzsas/NusterKit/commit/d5d5fe18668c43b194e56516ee89efbbecd73e76) Thanks [@Kworz](https://github.com/Kworz)! - feat(ui): can now give TURBINE_WS_ADDRESS to tell the client the websocket address to connect to
+
 ## 2.0.9
 
 ## 2.0.8

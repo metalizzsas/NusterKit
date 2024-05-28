@@ -1,6 +1,6 @@
 import type { IOGates } from "@nuster/turbine/types/spec/iogates";
 import type { IOHandlers } from "@nuster/turbine/types/spec/iohandlers";
-import { type IServiceVector } from "modbus-serial/ServerTCP";
+import type { IServiceVector } from "modbus-serial/ServerTCP";
 import { ServerTCP } from "modbus-serial";
 
 export class ModbusController
@@ -36,24 +36,28 @@ export class ModbusController
 
     private getCoil(address: number): boolean {
         const gate = this.gates.find(k => k.address == address && k.size == "bit" && k.bus == "in");
-        return (gate.value ?? 0) === 1;
+        return (gate?.value ?? 0) === 1;
     }
 
     private getRegister(address: number): number {
         const gate = this.gates.find(k => k.address == address && k.size == "word" && k.bus == "in");
-        return gate.value ?? 0;
+        return gate?.value ?? 0;
     }
 
     private setCoil(address: number, value: boolean)
     {
         const gate = this.gates.find(k => k.address == address && k.size == "bit" && k.bus == "out");
-        gate.value = value == true ? 1 : 0;
+        
+        if(gate)
+            gate.value = value == true ? 1 : 0;
     }
 
     private setRegister(address: number, value: number)
     {
         const gate = this.gates.find(k => k.address == address && k.size == "word" && k.bus == "out");
-        gate.value = value;
+        
+        if(gate)
+            gate.value = value;
     }
 
     close()

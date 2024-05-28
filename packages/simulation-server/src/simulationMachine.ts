@@ -3,8 +3,7 @@ import type { IOHandlers } from "@nuster/turbine/types/spec/iohandlers";
 import type { Configuration, MachineSpecs, Addon } from "@nuster/turbine/types";
 import { ModbusController } from "./controllers/modbus";
 
-import { app } from "./server";
-import type { Request, Response } from "express";
+import { Request, Response, Router as ExpressRouter } from "express";
 import { ENIPController } from "./controllers/enip";
 import { deepInsert } from "./deepInsert";
 
@@ -18,13 +17,16 @@ export class SimulationMachine
     config: MachineSpecs;
     controllers: (ModbusController | ENIPController)[] = [];
 
+    router: ExpressRouter;
+
     constructor(configuration: Configuration, specs: MachineSpecs)
     {
+        this.router = ExpressRouter();
         this.config = structuredClone(specs);
 
         for(const addon of configuration.addons)
         {
-            const addonConfig = this.config.addons.find(k => k.addonName === addon);
+            const addonConfig = this.config.addons?.find(k => k.addonName === addon);
             if(addonConfig === undefined)
             {
                 console.log("Failed to add", addon);
@@ -36,11 +38,11 @@ export class SimulationMachine
         
         this.setupAutomatons(this.config.iohandlers, this.config.iogates);
 
-        app.get("/", (_, res: Response) => {
+        this.router.get("/", (_, res: Response) => {
             res.json(this.config);
         });
 
-        app.get("/io", (_, res: Response) => {
+        this.router.get("/io", (_, res: Response) => {
 
             for(const o of this.controllers.filter(k => k instanceof ENIPController))
             {
@@ -51,7 +53,7 @@ export class SimulationMachine
             res.json(this.config.iogates);
         });
 
-        app.get(`/io/:name`, (req: Request, res: Response) => {
+        this.router.get(`/io/:name`, (req: Request, res: Response) => {
             req.params.name = req.params.name.replace("_", "#");
 
             const gate = this.config.iogates.find(k => k.name == req.params.name);
@@ -60,7 +62,7 @@ export class SimulationMachine
 
         });
 
-        app.post(`/io/:name/:value`, (req: Request, res: Response) => {
+        this.router.post(`/io/:name/:value`, (req: Request, res: Response) => {
 
             req.params.name = req.params.name.replace("_", "#");
             const gate = this.config.iogates.find(k => k.name == req.params.name);
@@ -117,6 +119,11 @@ export class SimulationMachine
         {
             handler.close();
         }
+    }
+
+    get expressRouter()
+    {
+        return this.router;
     }
 }
 

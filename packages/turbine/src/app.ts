@@ -99,10 +99,11 @@ import { migrate } from "./migrate";
         const rawSpecs = fs.readFileSync(path.resolve(machinesPath, parsedConfiguration.model, 'specs.json'), { encoding: "utf-8" });
         const parsedSpecs = JSON.parse(rawSpecs) as MachineSpecs;
 
-        if(productionEnabled == false)
+        // Send the configuration to the simulation server
+        if(process.env.SIMULATION_ADDRESS !== undefined && process.env.SIMULATION_PORT !== undefined)
         {
-            TurbineEventLoop.emit('log', 'warning', "DEV: Sending configuration to simulation server.");
-            fetch("http://localhost:4082/config", { method: "post", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ configuration: parsedConfiguration, specs: parsedSpecs })});
+            TurbineEventLoop.emit('log', 'warning', `DEV: Sending configuration to ${process.env.SIMULATION_ADDRESS}:${process.env.SIMULATION_PORT} simulation server.`);
+            fetch(`http://${process.env.SIMULATION_ADDRESS}:${process.env.SIMULATION_PORT}/config`, { method: "post", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ configuration: parsedConfiguration, specs: parsedSpecs })});
         }
 
         machine = new Machine(parsedConfiguration, parsedSpecs);

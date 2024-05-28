@@ -34,6 +34,9 @@ export class IORouter extends Router
             if(process.env.NODE_ENV != "production")
                 handler.ip = "127.0.0.1";
 
+            if(process.env.SIMULATION_ADDRESS !== undefined)
+                handler.ip = process.env.SIMULATION_ADDRESS;
+
             if(handler.ioScannerInterval !== undefined)
                 this.ioScannerInterval = handler.ioScannerInterval;
 

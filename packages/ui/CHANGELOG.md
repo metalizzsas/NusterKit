@@ -1,5 +1,15 @@
 # @nuster/ui
 
+## 2.0.11
+
+### Patch Changes
+
+-   [#543](https://github.com/metalizzsas/NusterKit/pull/543) [`4c5f2a5`](https://github.com/metalizzsas/NusterKit/commit/4c5f2a5784c5c2dd79c2021b4d7701d88dd7395a) Thanks [@Kworz](https://github.com/Kworz)! - feat: when maintenance is cleared, scroll is send to top
+
+-   [#543](https://github.com/metalizzsas/NusterKit/pull/543) [`8eff282`](https://github.com/metalizzsas/NusterKit/commit/8eff2823b776864535f474f62c92d26f562697fa) Thanks [@Kworz](https://github.com/Kworz)! - fix: cycle is now patched if you click back on the same cycle
+
+-   [#543](https://github.com/metalizzsas/NusterKit/pull/543) [`c0fc300`](https://github.com/metalizzsas/NusterKit/commit/c0fc300bee5817537641c87c03ba7b5a881ea5e4) Thanks [@Kworz](https://github.com/Kworz)! - feat: websocket default url is current page Origin
+
 ## 2.0.10
 
 ### Patch Changes

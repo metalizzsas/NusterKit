@@ -1,6 +1,6 @@
 {
   "name": "@nuster/simulation-server",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "Simulation tool server.",
   "main": "src/server.ts",
   "private": true,
@@ -10,7 +10,7 @@
   "author": "",
   "license": "UNLICENSED",
   "dependencies": {
-    "@nuster/turbine": "2.0.6",
+    "@nuster/turbine": "2.0.7",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/node": "^20.12.12",

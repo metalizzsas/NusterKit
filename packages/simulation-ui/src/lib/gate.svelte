@@ -1,32 +1,30 @@
 <script lang="ts">
-	import type { IOGatesHydrated } from "@metalizzsas/nuster-typings/build/hydrated/io";
+	import type { IOGatesHydrated } from "@nuster/turbine/types/hydrated/io";
+	import { enhance } from "$app/forms";
 
 	export let gate: IOGatesHydrated;
-
-	const updateGate = (name: string, value: number) => {
-		name = name.replace('#', '_');
-
-		void fetch(`http://localhost:4082/io/${name}/${value}`, { method: 'post' });
-	};
+	let submitButton: HTMLButtonElement;
 
 	export function map(source: number, inMin: number, inMax: number, outMin: number, outMax: number)
 	{
-	return (source - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+		return (source - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
 	}
-
 </script>
 
-<div style="display:flex; flex-direction: column; align-items: start; gap: 0.25em; padding: 0.5em; border-radius: 0.25em; background-color: #ccc;">
+<form action="?/updateGateValue" method="post" use:enhance style="display:flex; flex-direction: column; align-items: start; gap: 0.25em; padding: 0.5em; border-radius: 0.25em; background-color: #ccc;">
 	<span style="font-weight:600;">{gate.name}</span>
+	<input type="hidden" name="gate" value={gate.name} />
+
+	<button bind:this={submitButton} style:visibility={"hidden"} />
+
 	{#if gate.bus == 'in'}
 		{#if gate.size == 'bit'}
 			<span style="display:flex; gap:0.25em; align-items: center; font-size: 0.9rem;">
 				<input
 					type="checkbox"
-					checked={gate.value}
-					on:change={(e) => {
-						updateGate(gate.name, e.target.checked ? 1 : 0);
-					}}
+					checked={gate.value === 1}
+					name="value_checked"
+					on:change={() => { submitButton.click(); }}
 				/>
 				Change value
 			</span>
@@ -39,9 +37,8 @@
 				max={gate.mapOutMax}
 				step={0.1}
 				value={v}
-				on:change={(e) => {
-					updateGate(gate.name, e.target.value);
-				}}
+				name="value"
+				on:change={() => { submitButton.click(); }}
 			/>
 		{:else if gate.type == "pt100"}
 			Value: {gate.value / 10} °C
@@ -50,10 +47,9 @@
 				min={0}
 				max={100}
 				value={gate.value / 10}
-				on:change={(e) => {
-					updateGate(gate.name, e.target.value);
-				}}
+				name="value"
+				on:change={() => { submitButton.click(); }}
 			/>
 		{/if}
 	{/if}
-</div>
+</form>

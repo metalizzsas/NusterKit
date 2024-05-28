@@ -1,5 +1,11 @@
 # @nuster/simulation-server
 
+## 1.2.7
+
+### Patch Changes
+
+- [#533](https://github.com/metalizzsas/NusterKit/pull/533) [`0248ac7`](https://github.com/metalizzsas/NusterKit/commit/0248ac77074397ad9b17e70b225b0c59959b6699) Thanks [@Kworz](https://github.com/Kworz)! - docker: created images for simulation packages
+
 ## 1.2.6
 
 ### Patch Changes

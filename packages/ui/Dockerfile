@@ -16,6 +16,7 @@ FROM base as build
 COPY svelte.config.js .
 COPY vite.config.ts .
 COPY tsconfig.json .
+COPY tailwindcss.config.cjs .
 COPY postcss.config.cjs .
 COPY static/ ./static
 COPY src/ ./src

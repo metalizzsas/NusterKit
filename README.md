@@ -36,11 +36,7 @@ This monorepo uses `pnpm` workspaces. Start developing using:
 pnpm run dev
 ```
 
-This should start all the development servers. To be able to use the Machine simulation Interface use
-
-```bash
-pnpm run dev-sim
-```
+This will start a `simulation-server` instance that will wait a configuration from `turbine`.
 
 ## 🗂️ Packages
 

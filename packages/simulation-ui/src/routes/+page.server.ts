@@ -31,7 +31,10 @@ export const actions = {
 		else
 			final_value = Number(value);
 
-		const updateGateRequest = await fetch(`http://${env.SIMULATION_ADDRESS}:${env.SIMULATION_PORT}/io/${gate}/${final_value}`, { method: "post" });
+		if(gate === undefined)
+			return fail(400, { message: "Gate not found" });
+
+		const updateGateRequest = await fetch(`http://${env.SIMULATION_ADDRESS}:${env.SIMULATION_PORT}/io/${gate.replace("#", "_")}/${final_value}`, { method: "post" });
 
 		if(updateGateRequest.status !== 200 || !updateGateRequest.ok)
 			return fail(400, { message: "Failed to update gate value" });

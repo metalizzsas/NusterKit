@@ -1,5 +1,14 @@
 # @nuster/simulation-server
 
+## 1.2.3
+
+### Patch Changes
+
+- [`24c7f3b`](https://github.com/metalizzsas/NusterKit/commit/24c7f3b8f26df6c8b50472a20417794543de9f66) Thanks [@Kworz](https://github.com/Kworz)! - chore: swapped nodemon for tsx
+
+- Updated dependencies []:
+  - @nuster/turbine@2.0.4
+
 ## 1.2.2
 
 ### Patch Changes

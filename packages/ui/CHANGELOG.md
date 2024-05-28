@@ -1,5 +1,11 @@
 # @nuster/ui
 
+## 2.0.4
+
+### Patch Changes
+
+-   [`78de468`](https://github.com/metalizzsas/NusterKit/commit/78de4688f82ff6251ac1442c0cd964e13a8332be) Thanks [@Kworz](https://github.com/Kworz)! - fix(ssr): do not replace %lang% and %dark% when machine is unconfigured
+
 ## 2.0.3
 
 ### Patch Changes

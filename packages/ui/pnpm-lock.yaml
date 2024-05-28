@@ -40,7 +40,7 @@ importers:
         version: 0.4.1(svelte@4.2.17)
     devDependencies:
       '@nuster/turbine':
-        specifier: 2.0.6
+        specifier: 2.0.7
         version: link:../turbine
       '@sveltejs/adapter-node':
         specifier: ^5.0.1

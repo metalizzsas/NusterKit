@@ -7,10 +7,14 @@
 	import MaintenanceImageParser from "$lib/components/markdown/MaintenanceImageParser.svelte";
 	import Button from "$lib/components/buttons/Button.svelte";
 	import { enhance } from "$app/forms";
-	import type { PageData } from "./$types";
+	import type { ActionData, PageData } from "./$types";
 	import Wrapper from "$lib/components/Wrapper.svelte";
 
     export let data: PageData;
+    export let form: ActionData;
+
+    $: if(form?.clearMaintenance.success === true) { document.getElementsByTagName("main").item(0)?.scrollTo({ top: 0, behavior: "smooth" }); form = null; }
+
 </script>
 
 <Wrapper>
@@ -19,7 +23,7 @@
         <p>{$_('maintenance.tasks.' + data.maintenance.name + '.desc')}</p>
         
         {#if data.maintenance.operationDate}
-            <p class="font-medium">
+            <p class="font-semibold text-amber-500">
                 {$_('maintenance.last_operation')}: 
                 <span class="font-normal">{$date(new Date(data.maintenance.operationDate), { format: "medium"})} — {$time(new Date(data.maintenance.operationDate), { format: "medium"})}</span>
             </p>

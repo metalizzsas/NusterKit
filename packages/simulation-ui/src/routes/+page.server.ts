@@ -1,10 +1,10 @@
 import type { IOGates } from "@nuster/turbine/types/spec/iogates";
 
-import { SIMULATION_ADDRESS, SIMULATION_PORT } from "$env/static/private";
+import { env } from "$env/dynamic/private";
 import { fail } from '@sveltejs/kit';
 
 export const load = async ({ fetch }) => {
-	const req = await fetch(`http://${SIMULATION_ADDRESS}:${SIMULATION_PORT}/io`);
+	const req = await fetch(`http://${env.SIMULATION_ADDRESS}:${env.SIMULATION_PORT}/io`);
 	const gates = (await req.json()) as IOGates[];
 
 	return {
@@ -31,7 +31,7 @@ export const actions = {
 		else
 			final_value = Number(value);
 
-		const updateGateRequest = await fetch(`http://${SIMULATION_ADDRESS}:${SIMULATION_PORT}/io/${gate}/${final_value}`, { method: "post" });
+		const updateGateRequest = await fetch(`http://${env.SIMULATION_ADDRESS}:${env.SIMULATION_PORT}/io/${gate}/${final_value}`, { method: "post" });
 
 		if(updateGateRequest.status !== 200 || !updateGateRequest.ok)
 			return fail(400, { message: "Failed to update gate value" });

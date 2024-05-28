@@ -25,7 +25,7 @@ export const actions = {
 
         const clearRequest = await fetch(`http://${env.TURBINE_ADDRESS}/v1/maintenances/${maintenanceName}`, { method: "DELETE" });
 
-        if(clearRequest.status !== 200 || clearRequest.ok)
+        if(clearRequest.status !== 200 || !clearRequest.ok)
             return fail(500, { clearMaintenance: { error: "Failed to clear maintenance" }});
 
         return { clearMaintenance: { success: true }};

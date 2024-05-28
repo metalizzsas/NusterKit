@@ -24,6 +24,7 @@
     let selectedPremadeIndex: number | undefined = undefined;
     let cycleData: ProgramBlockRunnerHydrated | undefined;
     let listShrinked = false;
+    let pathCycleButton: HTMLButtonElement;
 
     /// — Reactives statements 
     $: if(form !== undefined && form?.patchCycle?.success === true) { cycleData =  undefined; selectedPremadeIndex = undefined; }
@@ -61,13 +62,17 @@
                 {#each data.cyclePremades as premade, index}
                     {@const isPrimaryPremade = premade.cycle === "default"}
 
+                    <form action="?/patchCycle" method="post" use:enhance>
+                        <button class="hidden" bind:this={pathCycleButton} />
+                    </form>
+
                     <form action="?/prepareCycle" method="post" use:enhance>
                         <input type="hidden" name="cycle_type" value={premade.cycle} />
                         <input type="hidden" name="profile_id" value={premade.profile?.id} />
 
                         <SelectableButton 
                             selected={selectedPremadeIndex === index}
-                            on:click={() => { selectedPremadeIndex = selectedPremadeIndex == index ? undefined : index; }}
+                            on:click={(e) => { if(selectedPremadeIndex == index) { e.preventDefault(); pathCycleButton.click(); } else { selectedPremadeIndex = index; }}}
                         >
                             <Flex gap={4} items="center">
                                 {#if premade.profile}

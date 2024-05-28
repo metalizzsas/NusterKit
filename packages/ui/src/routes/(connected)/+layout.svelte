@@ -44,11 +44,13 @@
 
     const realtimeConnect = async () =>
     {
+        if(!browser) return;
+
         websocketState = "connecting";
         
         const isSecure = window.location.protocol === "https:";
 
-        websocket = new WebSocket(`${isSecure ? "wss": "ws"}://${data.websocketAddress || 'localhost:4080'}/ws/`);
+        websocket = new WebSocket(`${isSecure ? "wss": "ws"}://${data.websocketAddress || new URL(window.origin).host}/ws/`);
 
         websocket.onerror = function() {
             websocketState = "disconnected";

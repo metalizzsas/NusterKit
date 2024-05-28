@@ -8,9 +8,11 @@ Interact with `@nuster/turbine`.
 
 Use the environment variables to connect to turbine.
 
-| Environement variable name | value expected |
-| -------------------------- | -------------- |
-| TURBINE_ADDRESS            | `host:port`    |
+| Environement variable name | value expected | Default value    | Description                        |
+| -------------------------- | -------------- | ---------------- | ---------------------------------- |
+| TURBINE_ADDRESS            | `host:port`    | `localhost:4080` | Turbine api address                |
+| TURBINE_WS_ADDRESS         | `host:port`    | `localhost:4080` | Turbine realtime websocket address |
+| PORT                       | `number`       | `4081`           | Port on which app is served        |
 
 ## Getting Started
 

@@ -31,6 +31,13 @@ The folder structure must be set like this:
 
 ![Machine file structure example](readme_file_structure.png)
 
+## Environment variables
+
+| Environement variable name | value expected | Default value            | Description                        |
+| -------------------------- | -------------- | ------------------------ | ---------------------------------- |
+| DATABASE_URL               | `string`       | `file:/data/database.db` | Database file                      |
+| PORT                       | `number`       | `4080`                   | Port on which app is served        |
+
 ## Logging 📑
 
 Turbine logs are stored in `/data/logs` folder, on each turbine startup logs older than 30 days are deleted.

@@ -17,6 +17,7 @@
     "./types/hydrated/cycle": "./build/types/hydrated/cycle/index.js",
     "./types/hydrated/containers": "./build/types/hydrated/containers/index.js",
     "./types/hydrated/balena": "./build/types/hydrated/balena/index.js",
+    "./types/hydrated/io": "./build/types/hydrated/io/index.js",
     "./types/spec": "./build/types/spec/index.js",
     "./types/spec/nuster": "./build/types/spec/nuster/index.js",
     "./types/spec/cycle": "./build/types/spec/cycle/index.js",
@@ -50,6 +51,9 @@
       ],
       "./types/hydrated/balena": [
         "./build/types/hydrated/balena/index.d.ts"
+      ],
+      "./types/hydrated/io": [
+        "./build/types/hydrated/io/index.d.ts"
       ],
       "./types/spec": [
         "./build/types/spec/index.d.ts"

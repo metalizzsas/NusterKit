@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { IOGates } from '@metalizzsas/nuster-typings/build/spec/iogates';
+	import type { IOGatesHydrated } from '@nuster/turbine/types/hydrated/io';
 	import { draw, fade } from 'svelte/transition';
 
-	export let gateHistory: IOGates[];
+	export let gateHistory: IOGatesHydrated[];
 
 	let size = 20;
 </script>

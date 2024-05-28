@@ -52,7 +52,7 @@ export const handle = (async ({ event, resolve }) => {
     } 
 
     return await resolve(event, {
-        transformPageChunk: ({ html }) => html.replace("%lang%", event.locals.settings.lang).replace("%dark%", event.locals.settings.dark === 1 ? "dark" : "")
+        transformPageChunk: ({ html }) => html.replace("%lang%", event.locals.settings?.lang || "en").replace("%dark%", (event.locals.settings?.dark || 1) === 1 ? "dark" : "")
     });
 
 }) satisfies Handle;

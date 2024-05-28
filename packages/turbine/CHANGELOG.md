@@ -1,5 +1,11 @@
 # @nuster/turbine
 
+## 2.0.9
+
+### Patch Changes
+
+- [#535](https://github.com/metalizzsas/NusterKit/pull/535) [`1c795f8`](https://github.com/metalizzsas/NusterKit/commit/1c795f835b6427f2609da8f2a480f5adfa9b8f5b) Thanks [@Kworz](https://github.com/Kworz)! - types: updated exports
+
 ## 2.0.8
 
 ### Patch Changes

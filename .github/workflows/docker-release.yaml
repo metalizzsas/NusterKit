@@ -4,7 +4,7 @@ on:
   workflow_call:
 
 jobs:
-  a:
+  build:
     name: Build and push docker images
     runs-on: ubuntu-latest
     strategy:

@@ -48,7 +48,7 @@
         
         const isSecure = window.location.protocol === "https:";
 
-        websocket = new WebSocket(`${isSecure ? "wss": "ws"}://${data.turbineAddress}/ws/`);
+        websocket = new WebSocket(`${isSecure ? "wss": "ws"}://${data.websocketAddress || 'localhost:4080'}/ws/`);
 
         websocket.onerror = function() {
             websocketState = "disconnected";

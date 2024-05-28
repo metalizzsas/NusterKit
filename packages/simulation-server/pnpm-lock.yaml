@@ -22,8 +22,8 @@ importers:
         version: 8.0.16
     devDependencies:
       '@nuster/turbine':
-        specifier: 2.0.6
-        version: link:../../packages/turbine
+        specifier: 2.0.8
+        version: link:../turbine
       '@types/cors':
         specifier: ^2.8.17
         version: 2.8.17

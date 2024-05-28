@@ -1,5 +1,11 @@
 # @nuster/turbine
 
+## 2.0.8
+
+### Patch Changes
+
+- [#533](https://github.com/metalizzsas/NusterKit/pull/533) [`57c3edf`](https://github.com/metalizzsas/NusterKit/commit/57c3edf89ac8805cb40f517e8b317e29f4be2066) Thanks [@Kworz](https://github.com/Kworz)! - feat(simulation): turbine can now send configuration to a simulation server on production mode
+
 ## 2.0.7
 
 ## 2.0.6

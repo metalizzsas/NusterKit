@@ -20,7 +20,7 @@ import Ajv from "ajv";
 (async () => {
 
     /** Http express & ws port */
-    const HTTP_PORT = 4080;
+    const HTTP_PORT = process.env.PORT ?? 4080;
     /** Is NusterTurbine running in production mode */
     const productionEnabled = (process.env.NODE_ENV === "production");
 

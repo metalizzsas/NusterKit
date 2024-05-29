@@ -49,8 +49,6 @@
     </Modal>
 {/if}
 
-
-
 <Wrapper>
     <Flex direction="col" gap={2}>
     
@@ -159,19 +157,15 @@
         </p>
 
         <form action="?/advancedLogin" method="post" use:enhance class="flex flex-row items-end gap-4">
-            <Flex direction="col" gap={0.5} class="grow">
-                <PasswordField placeholder={$_('password')} bind:value={password} class="grow" name="password" />
-            </Flex>
-    
-            <a href={password === "NusterMetalizz" ? "/settings/edit" : "#"}>
-                <Button 
-                    color={"hover:bg-amber-500"} 
-                    ringColor={"ring-amber-500"}
-                    disabled={$realtime.cycle !== undefined}
-                >
-                    {$_('settings.advanced.edit')}
-                </Button>
-            </a>
+            <PasswordField placeholder={$_('password')} value="" class="grow" name="password" />
+
+            <Button 
+                color={"hover:bg-amber-500"} 
+                ringColor={"ring-amber-500"}
+                disabled={$realtime.cycle !== undefined}
+            >
+                {$_('settings.advanced.edit')}
+            </Button>
         </form>
     </Flex>
 </Wrapper>

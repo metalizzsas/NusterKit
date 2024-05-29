@@ -1,5 +1,13 @@
 # @nuster/ui
 
+## 2.1.2
+
+### Patch Changes
+
+-   [#549](https://github.com/metalizzsas/NusterKit/pull/549) [`813940a`](https://github.com/metalizzsas/NusterKit/commit/813940abe3adce39756c813a35f453f9edf13dd0) Thanks [@Kworz](https://github.com/Kworz)! - fix: power management button were not full-length
+
+-   [#549](https://github.com/metalizzsas/NusterKit/pull/549) [`813940a`](https://github.com/metalizzsas/NusterKit/commit/813940abe3adce39756c813a35f453f9edf13dd0) Thanks [@Kworz](https://github.com/Kworz)! - feat: the settings/edit password is now checked on server side, you can provide the `PASSWORD` env var to manipulate its value otherwise its set to `Nuster` by default
+
 ## 2.1.1
 
 ## 2.1.0

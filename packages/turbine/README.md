@@ -18,7 +18,7 @@ To handle machine specifications and `info.json` file is required at the `/data`
 
 You can create as many machine configuration you want. They will all be available in the configuration screen available in `@nuster/ui` at `/configure` for unconfigured machines and `/settings/edit` for already configured machines.
 
-Each machine configuration must be in `/data/machine` in it's own folder such as `my-machine-1`.
+Each machine configuration must be in `/machines` in it's own folder such as `my-machine-1`.
 
 The folder structure must be set like this:
 

@@ -40,8 +40,9 @@ import Ajv from "ajv";
 
     /** File / Folders paths */
     const basePath = productionEnabled ? "/data" : "data";
+    const machinesPath = productionEnabled ? "/machines" : path.resolve("machines");
+
     const infoPath = path.resolve(basePath, "info.json");
-    const machinesPath = path.resolve(basePath, "machines");
     const settingsPath = path.resolve(basePath, "settings.json");
     const logsFolderPath = path.resolve(basePath, "logs");
     const logFilePath = path.resolve(basePath, "logs", `log-${new Date().toISOString()}.log`);

@@ -13,7 +13,7 @@ import { pinoHttp } from "pino-http";
 import { Machine } from "./Machine";
 import { TurbineEventLoop } from "./events";
 import { WebsocketDispatcher } from "./websocket/WebsocketDispatcher";
-import * as SpecsSchema from "$types/schemas/schema-specs.json";
+import * as SpecsSchema from "./types/schemas/schema-specs.json";
 import { migrate } from "./migrate";
 import Ajv from "ajv";
 

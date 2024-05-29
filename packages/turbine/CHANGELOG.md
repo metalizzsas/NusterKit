@@ -1,5 +1,11 @@
 # @nuster/turbine
 
+## 2.1.1
+
+### Patch Changes
+
+- [#547](https://github.com/metalizzsas/NusterKit/pull/547) [`b0f8832`](https://github.com/metalizzsas/NusterKit/commit/b0f88325b1828c4bcfa5dcb2729d51e054c781be) Thanks [@Kworz](https://github.com/Kworz)! - fix: $types alias on app is not working on production
+
 ## 2.1.0
 
 ### Minor Changes

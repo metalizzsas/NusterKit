@@ -59,7 +59,9 @@ export class ContainerRegulation implements ContainerRegulationConfig
 
             options.callback?.(this.state);
 
+            TurbineEventLoop.emit(`container.${parent.name}.regulation.${this.name}.state_updated`, this.state);
         });
+
         TurbineEventLoop.on(`container.${parent.name}.regulation.${this.name}.set_target`, (options) => { 
 
             if(options.target > this.maxTarget)
@@ -68,6 +70,8 @@ export class ContainerRegulation implements ContainerRegulationConfig
                 this.target = options.target;
             
             options.callback?.(this.target);
+
+            TurbineEventLoop.emit(`container.${parent.name}.regulation.${this.name}.target_updated`, this.target);
         });
 
         TurbineEventLoop.on(`io.updated.${this.sensor}`, (gate) => { this.#sensorGate = gate });

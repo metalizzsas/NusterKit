@@ -29,7 +29,7 @@ The folder structure must be set like this:
       * `files.json` describes help files, conforms to `DocFile[]` from `@nuster/turbine/types/docs`.
     * `icon.png` a png file which will be displayed in the `Help` page as the machine icon.
 
-![Machine file structure example](readme_file_structure.png)
+![Machine file structure example](./readme_file_structure.png)
 
 ## Environment variables
 

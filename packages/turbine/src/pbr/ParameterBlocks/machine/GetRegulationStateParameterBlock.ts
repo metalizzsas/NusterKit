@@ -18,9 +18,15 @@ export class GetRegulationStateParameterBlock extends NumericParameterBlock
         this.container = ParameterBlockRegistry.String(obj.get_regulation_state.container);
         this.regulation = ParameterBlockRegistry.String(obj.get_regulation_state.regulation);
 
+        //first read
         TurbineEventLoop.emit(`container.${this.container.data}.regulation.${this.regulation.data}.get_state`, ({ callback: (state) => {
             this.#state = state;
         }}));
+
+        // keep updated for state changes
+        TurbineEventLoop.on(`container.${this.container.data}.regulation.${this.regulation.data}.state_updated`, (state) => {
+            this.#state = state;
+        });
     }
 
     public get data(): number

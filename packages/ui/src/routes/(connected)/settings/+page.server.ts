@@ -1,7 +1,7 @@
 import type { MaintenanceHydrated } from "@nuster/turbine/types/hydrated";
 import type { MachineData } from "@nuster/turbine/types/hydrated/machine";
 import { env } from "$env/dynamic/private";
-import { fail } from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
 
 export const load = async ({ fetch }) => {
 
@@ -22,6 +22,22 @@ export const load = async ({ fetch }) => {
 }
 
 export const actions = {
+
+    advancedLogin: async ({ request }) => {
+
+        const form = await request.formData();
+        const password = form.get("password")?.toString();
+
+        if(password === undefined)
+            return fail(400, { advancedLogin: { error: "Missing password" }});
+
+        if(password !== (env.PASSWORD ?? 'Nuster'))
+            return fail(403, { advancedLogin: { error: "Invalid password" }});
+
+        return redirect(302, `/settings/edit?password=${password}`);
+
+    },
+
     updateSettings: async ({ fetch, request }) => {
 
         const form = await request.formData();

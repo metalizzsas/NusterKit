@@ -3,7 +3,12 @@ import type { PageServerLoad } from "./$types";
 import { env } from "$env/dynamic/private";
 import { fail, redirect } from "@sveltejs/kit";
 
-export const load = (async ({ fetch}) => {
+export const load = (async ({ fetch, url }) => {
+
+    // Prevent access on restricted pages
+    const password = url.searchParams.get('password');
+    if(password === undefined || password !== (env.PASSWORD ?? 'Nuster'))
+        return redirect(302, '/settings');
 
     const configurationRequest = await fetch(`http://${env.TURBINE_ADDRESS}/config/actual`);
     const configuration = await configurationRequest.json() as Configuration;

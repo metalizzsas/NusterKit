@@ -92,7 +92,7 @@
     "preview": "node build/app.js",
     "build": "pnpm run build:prisma && pnpm run build:app && pnpm run build:schemas",
     "build:prisma": "prisma generate",
-    "build:app": "tsc",
+    "build:app": "tsc --project tsconfig.build.json",
     "build:schemas": "pnpm run schemas",
     "start": "node build/app.js",
     "lint": "eslint ./src/** --ext .ts",

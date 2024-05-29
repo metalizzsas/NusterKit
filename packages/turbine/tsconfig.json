@@ -101,10 +101,10 @@
     "skipLibCheck": false                                 /* Skip type checking all .d.ts files. */
   },
   "include": [
-    "./src/**/*.ts"
+    "./src/**/*.ts",
+    "./src/**/*.unit.test.ts",
   ],
   "exclude": [
-    "./src/**/*.unit.test.ts",
     "./build"
   ]
 }

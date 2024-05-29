@@ -8,24 +8,16 @@ export type ForProgramBlock = {"for": {
     "blocks": Array<AllProgramBlocks>
 }};
 
-/** **If Statement** Runs *true_blocks* if *left_side* compared to *right_side* by *comparator* is true otherwise runs *false_blocks*. */
+/** **If Statement** Runs *true_blocks* if *[0]* compared to *[2]* by *[1]* is true otherwise runs *false_blocks*. */
 export type IfProgramBlock = {"if": {
-    "statement": {
-        "comparator": Comparators,
-        "left_side": NumericParameterBlocks,
-        "right_side": NumericParameterBlocks
-    },
+    "comparison":  [NumericParameterBlocks, Comparators, NumericParameterBlocks]
     "true_blocks": Array<AllProgramBlocks>,
     "false_blocks"?: Array<AllProgramBlocks>
 }};
 
-/** **While Loop** Runs *blocks* until *left_side* compared to *right_side* by *comparator* is false. */
+/** **While Loop** Runs *blocks* until *[0]* compared to *[2]* by *[1]* is false. */
 export type WhileProgramBlock = {"while": {
-    "statement": {
-        "comparator": Comparators,
-        "left_side": NumericParameterBlocks,
-        "right_side": NumericParameterBlocks
-    },
+    "comparison": [NumericParameterBlocks, Comparators, NumericParameterBlocks]
     "blocks": Array<AllProgramBlocks>
 }};
 

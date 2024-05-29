@@ -20,9 +20,10 @@ export class IfProgramBlock extends ProgramBlock
     constructor(obj: IfProgramBlockSpec)
     {
         super(obj);
-        this.comparator = ParameterBlockRegistry.String(obj.if.statement.comparator);
-        this.leftSide = ParameterBlockRegistry.Numeric(obj.if.statement.left_side);
-        this.rightSide =  ParameterBlockRegistry.Numeric(obj.if.statement.right_side);
+        this.comparator = ParameterBlockRegistry.String(obj.if.comparison[1]);
+        
+        this.leftSide = ParameterBlockRegistry.Numeric(obj.if.comparison[0]);
+        this.rightSide =  ParameterBlockRegistry.Numeric(obj.if.comparison[2]);
 
         this.trueBlocks = obj.if.true_blocks.map(k => ProgramBlockRegistry(k));
 

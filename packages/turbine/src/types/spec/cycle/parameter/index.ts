@@ -25,9 +25,10 @@ export type StringParameterBlock = {"string": string};
 export type Comparators = "==" | "===" | "!=" | "!==" | ">" | "<" | ">=" | "<=";
 
 export type ConditionalParameterBlock = {"conditional": {
-        "comparator": Comparators,
-        "left_side": [NumericParameterBlocks, NumericParameterBlocks],
-        "right_side": [NumericParameterBlocks, NumericParameterBlocks]
+        "comparison": [NumericParameterBlocks, Comparators, NumericParameterBlocks],
+        
+        "value_if_true": NumericParameterBlocks,
+        "value_if_false": NumericParameterBlocks
     }
 };
 export type IOReadParameterBlock = {"io_read": StringParameterBlocks};

@@ -19,6 +19,7 @@ import { ReadMachineVariableParameterBlock } from "./var/ReadMachineVariableBloc
 import type { NumericParameterBlock } from "./NumericParameterBlock";
 import type { StringParameterBlock as StringParameterBlockType } from "./StringParameterBlock";
 import type { StatusParameterBlock } from "./StatusParameterBlock";
+import { GetRegulationStateParameterBlock } from "./machine/GetRegulationStateParameterBlock";
 
 /**
  * Parameter Block Registry
@@ -52,6 +53,8 @@ export class ParameterBlockRegistry
         if(ConditionalParameterBlock.isConditionalPB(obj)) return new ConditionalParameterBlock(obj);
 
         if(ReadMachineVariableParameterBlock.isReadMachineVariablePB(obj)) return new ReadMachineVariableParameterBlock(obj);
+
+        if(GetRegulationStateParameterBlock.isGetRegulationStatePB(obj)) return new GetRegulationStateParameterBlock(obj);
 
         throw Error("ParameterBlock data is not compatible with Numeric ParameterBlock");
     }

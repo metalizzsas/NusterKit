@@ -25,15 +25,20 @@ export type StringParameterBlock = {"string": string};
 export type Comparators = "==" | "===" | "!=" | "!==" | ">" | "<" | ">=" | "<=";
 
 export type ConditionalParameterBlock = {"conditional": {
-        "comparator": Comparators,
-        "left_side": [NumericParameterBlocks, NumericParameterBlocks],
-        "right_side": [NumericParameterBlocks, NumericParameterBlocks]
+        "comparison": [NumericParameterBlocks, Comparators, NumericParameterBlocks],
+
+        "value_if_true": NumericParameterBlocks,
+        "value_if_false": NumericParameterBlocks
     }
 };
 export type IOReadParameterBlock = {"io_read": StringParameterBlocks};
 export type ProfileParameterBlock = {"profile": StringParameterBlocks};
 export type ReadVariableParameterBlock = {"read_var": StringParameterBlocks};
 export type ReadMachineVariableParameterBlock = {"read_machine_var": StringParameterBlocks};
+
+// Container
+
+export type GetRegulationStateParameterBlock = { "get_regulation_state": { "container": StringParameterBlocks, "regulation": StringParameterBlocks }};
 
 // Status parameter blocks
 
@@ -44,6 +49,6 @@ export type ProductStatusParameterBlock = {"product_status": StringParameterBloc
 
 export type StatusParameterBlocks = MaintenanceStatusParameterBlock | ProductStatusParameterBlock;
 export type StringParameterBlocks = StringParameterBlock | string;
-export type NumericParameterBlocks = AddParameterBlock | SubParameterBlock | MultiplyParameterBlock | DivideParameterBlock | ReverseParameterBlock | ConditionalParameterBlock | NumberParameterBlock | IOReadParameterBlock | ProfileParameterBlock | ReadVariableParameterBlock | ReadMachineVariableParameterBlock | number ;
+export type NumericParameterBlocks = AddParameterBlock | SubParameterBlock | MultiplyParameterBlock | DivideParameterBlock | ReverseParameterBlock | ConditionalParameterBlock | NumberParameterBlock | IOReadParameterBlock | ProfileParameterBlock | ReadVariableParameterBlock | ReadMachineVariableParameterBlock | GetRegulationStateParameterBlock | number ;
 
 export type AllParameterBlocks = StatusParameterBlocks | StringParameterBlocks | NumericParameterBlocks;

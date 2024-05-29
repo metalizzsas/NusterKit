@@ -17,10 +17,10 @@ export class WhileProgramBlock extends ProgramBlock
     constructor(obj: WhileProgramBlockSpec)
     {
         super(obj);
-        this.comparator = ParameterBlockRegistry.String(obj.while.statement.comparator);
+        this.comparator = ParameterBlockRegistry.String(obj.while.comparison[1]);
 
-        this.leftSide = ParameterBlockRegistry.Numeric(obj.while.statement.left_side);
-        this.rightSide = ParameterBlockRegistry.Numeric(obj.while.statement.right_side);
+        this.leftSide = ParameterBlockRegistry.Numeric(obj.while.comparison[0]);
+        this.rightSide = ParameterBlockRegistry.Numeric(obj.while.comparison[2]);
 
         this.blocks = obj.while.blocks.map(k => ProgramBlockRegistry(k));
 

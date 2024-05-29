@@ -6,9 +6,6 @@ interface BaseMaintenance
 
     /** Duration type of this maintenance task */
     durationType: "cycle" | "duration" | "sensor";
-
-    /** Last operation date */
-    operationDate?: Date;
 }
 
 /** Maintenance Task that is incremental */

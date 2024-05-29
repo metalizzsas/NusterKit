@@ -1,7 +1,7 @@
 import { test, expect } from "vitest";
 import { IOReadParameterBlock } from "./IOReadParameterBlock";
 import { TurbineEventLoop } from "../../../events";
-import type { IOGateJSON } from "$types/hydrated/io";
+import type { IOGateJSON } from '$types/hydrated/io/index';
 
 const gate: IOGateJSON = {
     name: "test-gate",

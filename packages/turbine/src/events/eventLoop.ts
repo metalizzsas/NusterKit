@@ -63,7 +63,12 @@ interface EventLoopEvents
     [key: `container.updated.${string}`]: (container: ContainerHydrated) => void;
 
     /** Regulation container events */
+    [key: `container.${string}.regulation.${string}.get_state`]: (options: {callback?: (state: boolean) => void | Promise<void> }) => void;
+    [key: `container.${string}.regulation.${string}.state_updated`]: (state: boolean) => void;
     [key: `container.${string}.regulation.${string}.set_state`]: (options: {state: boolean, callback?: (state: boolean) => void | Promise<void>} ) => void;
+
+    [key: `container.${string}.regulation.${string}.get_target`]: (options: {callback?: (target: number) => void | Promise<void> }) => void;
+    [key: `container.${string}.regulation.${string}.target_updated`]: (target: number) => void;
     [key: `container.${string}.regulation.${string}.set_target`]: (options: {target: number, callback?: (target: number) => void | Promise<void>} ) => void;
 
     /** Maintenance events */

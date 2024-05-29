@@ -55,6 +55,9 @@
         },
         {
           "$ref": "#/definitions/AppendMaintenanceProgramBlock"
+        },
+        {
+          "$ref": "#/definitions/SetRegulationStateProgramBlock"
         }
       ],
       "description": "All Program blocks"
@@ -100,30 +103,33 @@
         "conditional": {
           "additionalProperties": false,
           "properties": {
-            "comparator": {
-              "$ref": "#/definitions/Comparators"
-            },
-            "left_side": {
-              "items": {
-                "$ref": "#/definitions/NumericParameterBlocks"
-              },
-              "maxItems": 2,
-              "minItems": 2,
+            "comparison": {
+              "items": [
+                {
+                  "$ref": "#/definitions/NumericParameterBlocks"
+                },
+                {
+                  "$ref": "#/definitions/Comparators"
+                },
+                {
+                  "$ref": "#/definitions/NumericParameterBlocks"
+                }
+              ],
+              "maxItems": 3,
+              "minItems": 3,
               "type": "array"
             },
-            "right_side": {
-              "items": {
-                "$ref": "#/definitions/NumericParameterBlocks"
-              },
-              "maxItems": 2,
-              "minItems": 2,
-              "type": "array"
+            "value_if_false": {
+              "$ref": "#/definitions/NumericParameterBlocks"
+            },
+            "value_if_true": {
+              "$ref": "#/definitions/NumericParameterBlocks"
             }
           },
           "required": [
-            "comparator",
-            "left_side",
-            "right_side"
+            "comparison",
+            "value_if_true",
+            "value_if_false"
           ],
           "type": "object"
         }
@@ -208,6 +214,31 @@
       ],
       "type": "object"
     },
+    "GetRegulationStateParameterBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "get_regulation_state": {
+          "additionalProperties": false,
+          "properties": {
+            "container": {
+              "$ref": "#/definitions/StringParameterBlocks"
+            },
+            "regulation": {
+              "$ref": "#/definitions/StringParameterBlocks"
+            }
+          },
+          "required": [
+            "container",
+            "regulation"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "get_regulation_state"
+      ],
+      "type": "object"
+    },
     "IOReadParameterBlock": {
       "additionalProperties": false,
       "properties": {
@@ -244,36 +275,32 @@
     },
     "IfProgramBlock": {
       "additionalProperties": false,
-      "description": "**If Statement** Runs *true_blocks* if *left_side* compared to *right_side* by *comparator* is true otherwise runs *false_blocks*.",
+      "description": "**If Statement** Runs *true_blocks* if *[0]* compared to *[2]* by *[1]* is true otherwise runs *false_blocks*.",
       "properties": {
         "if": {
           "additionalProperties": false,
           "properties": {
+            "comparison": {
+              "items": [
+                {
+                  "$ref": "#/definitions/NumericParameterBlocks"
+                },
+                {
+                  "$ref": "#/definitions/Comparators"
+                },
+                {
+                  "$ref": "#/definitions/NumericParameterBlocks"
+                }
+              ],
+              "maxItems": 3,
+              "minItems": 3,
+              "type": "array"
+            },
             "false_blocks": {
               "items": {
                 "$ref": "#/definitions/AllProgramBlocks"
               },
               "type": "array"
-            },
-            "statement": {
-              "additionalProperties": false,
-              "properties": {
-                "comparator": {
-                  "$ref": "#/definitions/Comparators"
-                },
-                "left_side": {
-                  "$ref": "#/definitions/NumericParameterBlocks"
-                },
-                "right_side": {
-                  "$ref": "#/definitions/NumericParameterBlocks"
-                }
-              },
-              "required": [
-                "comparator",
-                "left_side",
-                "right_side"
-              ],
-              "type": "object"
             },
             "true_blocks": {
               "items": {
@@ -283,7 +310,7 @@
             }
           },
           "required": [
-            "statement",
+            "comparison",
             "true_blocks"
           ],
           "type": "object"
@@ -1485,11 +1512,6 @@
                     "description": "Maintenance task name",
                     "type": "string"
                   },
-                  "operationDate": {
-                    "description": "Last operation date",
-                    "format": "date-time",
-                    "type": "string"
-                  },
                   "requireEnableGate": {
                     "description": "Gate needed to check maitnenance task",
                     "type": "string"
@@ -1533,11 +1555,6 @@
                   },
                   "name": {
                     "description": "Maintenance task name",
-                    "type": "string"
-                  },
-                  "operationDate": {
-                    "description": "Last operation date",
-                    "format": "date-time",
                     "type": "string"
                   }
                 },
@@ -2105,6 +2122,9 @@
           "$ref": "#/definitions/ReadMachineVariableParameterBlock"
         },
         {
+          "$ref": "#/definitions/GetRegulationStateParameterBlock"
+        },
+        {
           "type": "number"
         }
       ]
@@ -2359,6 +2379,35 @@
       ],
       "type": "object"
     },
+    "SetRegulationStateProgramBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "set_regulation_state": {
+          "additionalProperties": false,
+          "properties": {
+            "container": {
+              "$ref": "#/definitions/StringParameterBlocks"
+            },
+            "regulation": {
+              "$ref": "#/definitions/StringParameterBlocks"
+            },
+            "state": {
+              "$ref": "#/definitions/NumericParameterBlocks"
+            }
+          },
+          "required": [
+            "container",
+            "regulation",
+            "state"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "set_regulation_state"
+      ],
+      "type": "object"
+    },
     "SetVariableProgramBlock": {
       "additionalProperties": false,
       "description": "**Variable** Will set the *[0] Variable name* to *[1] Variable value*.",
@@ -2503,7 +2552,7 @@
     },
     "WhileProgramBlock": {
       "additionalProperties": false,
-      "description": "**While Loop** Runs *blocks* until *left_side* compared to *right_side* by *comparator* is false.",
+      "description": "**While Loop** Runs *blocks* until *[0]* compared to *[2]* by *[1]* is false.",
       "properties": {
         "while": {
           "additionalProperties": false,
@@ -2514,29 +2563,25 @@
               },
               "type": "array"
             },
-            "statement": {
-              "additionalProperties": false,
-              "properties": {
-                "comparator": {
+            "comparison": {
+              "items": [
+                {
+                  "$ref": "#/definitions/NumericParameterBlocks"
+                },
+                {
                   "$ref": "#/definitions/Comparators"
                 },
-                "left_side": {
-                  "$ref": "#/definitions/NumericParameterBlocks"
-                },
-                "right_side": {
+                {
                   "$ref": "#/definitions/NumericParameterBlocks"
                 }
-              },
-              "required": [
-                "comparator",
-                "left_side",
-                "right_side"
               ],
-              "type": "object"
+              "maxItems": 3,
+              "minItems": 3,
+              "type": "array"
             }
           },
           "required": [
-            "statement",
+            "comparison",
             "blocks"
           ],
           "type": "object"

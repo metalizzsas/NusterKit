@@ -15,6 +15,7 @@ RUN pnpm install --frozen-lockfile
 FROM base as build
 
 COPY tsconfig.json .
+COPY tsconfig.build.json .
 COPY src/ ./src
 
 RUN pnpm build

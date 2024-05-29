@@ -12,6 +12,7 @@ import { AppendMaintenanceProgramBlock } from "./machine/AppendMaintenanceProgra
 import { ContainerProductLoadProgramBlock } from "./machine/ContainerProductLoadProgramBlock";
 import { ContainerProductUnloadProgramBlock } from "./machine/ContainerUnloadProgramBlock";
 import { IOWriteProgramBlock } from "./machine/IOWriteProgramBlock";
+import { SetRegulationStateProgramBlock } from "./machine/SetRegulationStateProgramBlock";
 import type { ProgramBlock } from "./ProgramBlock";
 
 export function ProgramBlockRegistry(obj: AllProgramBlocks): ProgramBlock {
@@ -35,6 +36,7 @@ export function ProgramBlockRegistry(obj: AllProgramBlocks): ProgramBlock {
     if(AppendMaintenanceProgramBlock.isAppendMaintenancePgB(obj)) return new AppendMaintenanceProgramBlock(obj);
     if(ContainerProductUnloadProgramBlock.isContainerProductUnloadPgB(obj)) return new ContainerProductUnloadProgramBlock(obj);
     if(ContainerProductLoadProgramBlock.isContainterProductLoadPgB(obj)) return new ContainerProductLoadProgramBlock(obj);
+    if(SetRegulationStateProgramBlock.isSetRegulationStatePB(obj)) return new SetRegulationStateProgramBlock(obj);
 
     throw new Error("Program Block is not assignable");
 }

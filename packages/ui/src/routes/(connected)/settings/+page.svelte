@@ -31,8 +31,6 @@
 		it: 'Italiano'
 	};
 
-    let password = "";
-
     let showChangelog = false;
 
 </script>

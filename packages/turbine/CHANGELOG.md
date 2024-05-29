@@ -1,5 +1,17 @@
 # @nuster/turbine
 
+## 2.1.0
+
+### Minor Changes
+
+- [#545](https://github.com/metalizzsas/NusterKit/pull/545) [`c0964f2`](https://github.com/metalizzsas/NusterKit/commit/c0964f2f8dcc2d5b8befb15f6f91c8a5904e2605) Thanks [@Kworz](https://github.com/Kworz)! - breaking(pbr): Conditional parameter block, If program block & While program block reformated for lisibility
+
+### Patch Changes
+
+- [#545](https://github.com/metalizzsas/NusterKit/pull/545) [`6f7605c`](https://github.com/metalizzsas/NusterKit/commit/6f7605c3a945b0cbec6df11ac0159b8601c7f6e5) Thanks [@Kworz](https://github.com/Kworz)! - feat: added `ajv` to test the given specs.json file on turbine start
+
+- [#545](https://github.com/metalizzsas/NusterKit/pull/545) [`3df5b6f`](https://github.com/metalizzsas/NusterKit/commit/3df5b6fb1943a0147fcde05821616ccddeddfdaf) Thanks [@Kworz](https://github.com/Kworz)! - feat: added Get/Set Regulation state to set regulation state from pbr
+
 ## 2.0.11
 
 ## 2.0.10

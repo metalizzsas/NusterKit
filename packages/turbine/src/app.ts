@@ -13,7 +13,9 @@ import { pinoHttp } from "pino-http";
 import { Machine } from "./Machine";
 import { TurbineEventLoop } from "./events";
 import { WebsocketDispatcher } from "./websocket/WebsocketDispatcher";
+import * as SpecsSchema from "$types/schemas/schema-specs.json";
 import { migrate } from "./migrate";
+import Ajv from "ajv";
 
 (async () => {
 
@@ -21,6 +23,10 @@ import { migrate } from "./migrate";
     const HTTP_PORT = 4080;
     /** Is NusterTurbine running in production mode */
     const productionEnabled = (process.env.NODE_ENV === "production");
+
+    /** AJV */
+    const ajv = new Ajv();
+    const validateMachineSpecs = ajv.compile(SpecsSchema)
 
     /** Express app */
     const ExpressApp = express();
@@ -99,17 +105,25 @@ import { migrate } from "./migrate";
         const rawSpecs = fs.readFileSync(path.resolve(machinesPath, parsedConfiguration.model, 'specs.json'), { encoding: "utf-8" });
         const parsedSpecs = JSON.parse(rawSpecs) as MachineSpecs;
 
-        // Send the configuration to the simulation server
-        if(process.env.SIMULATION_ADDRESS !== undefined && process.env.SIMULATION_PORT !== undefined)
+        if(!validateMachineSpecs(parsedSpecs))
         {
-            TurbineEventLoop.emit('log', 'warning', `DEV: Sending configuration to ${process.env.SIMULATION_ADDRESS}:${process.env.SIMULATION_PORT} simulation server.`);
-            fetch(`http://${process.env.SIMULATION_ADDRESS}:${process.env.SIMULATION_PORT}/config`, { method: "post", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ configuration: parsedConfiguration, specs: parsedSpecs })});
+            TurbineEventLoop.emit('log', 'fatal', "Machine: Specs.json is not valid.");
+            throw Error("Machine: specs.json is not valid.");
         }
+        else
+        {
+            // Send the configuration to the simulation server
+            if(process.env.SIMULATION_ADDRESS !== undefined && process.env.SIMULATION_PORT !== undefined)
+            {
+                TurbineEventLoop.emit('log', 'warning', `DEV: Sending configuration to ${process.env.SIMULATION_ADDRESS}:${process.env.SIMULATION_PORT} simulation server.`);
+                fetch(`http://${process.env.SIMULATION_ADDRESS}:${process.env.SIMULATION_PORT}/config`, { method: "post", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ configuration: parsedConfiguration, specs: parsedSpecs })});
+            }
 
-        machine = new Machine(parsedConfiguration, parsedSpecs);
+            machine = new Machine(parsedConfiguration, parsedSpecs);
 
-        SetupWebsocketServer();
-        SetupMachine();
+            SetupWebsocketServer();
+            SetupMachine();
+        }
     }
     else
     {

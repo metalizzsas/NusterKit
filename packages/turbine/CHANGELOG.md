@@ -1,5 +1,13 @@
 # @nuster/turbine
 
+## 2.1.2
+
+### Patch Changes
+
+- [#549](https://github.com/metalizzsas/NusterKit/pull/549) [`6875e94`](https://github.com/metalizzsas/NusterKit/commit/6875e9462a24f22a686d27037d2a458ef8f87e15) Thanks [@Kworz](https://github.com/Kworz)! - fix(env): PORT was not considered
+
+- [#549](https://github.com/metalizzsas/NusterKit/pull/549) [`9fc7060`](https://github.com/metalizzsas/NusterKit/commit/9fc706057875efe1e58cbf183ea2f9caa9e849c0) Thanks [@Kworz](https://github.com/Kworz)! - fix: machine mounting point is now set /machines instead of /data/machines due to docker volumes mounting conflicts
+
 ## 2.1.1
 
 ### Patch Changes

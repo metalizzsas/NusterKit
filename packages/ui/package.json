@@ -1,6 +1,6 @@
 {
 	"name": "@nuster/ui",
-	"version": "2.0.11",
+	"version": "2.1.0",
 	"private": true,
 	"description": "User interface for Turbine",
 	"main": "build/index.js",
@@ -31,7 +31,7 @@
 		"svelte-markdown": "^0.4.1"
 	},
 	"devDependencies": {
-		"@nuster/turbine": "2.0.11",
+		"@nuster/turbine": "2.1.0",
 		"@sveltejs/adapter-node": "^5.0.1",
 		"@sveltejs/kit": "^2.5.8",
 		"@tailwindcss/typography": "^0.5.13",

@@ -31,8 +31,6 @@
 		it: 'Italiano'
 	};
 
-    let password = "";
-
     let showChangelog = false;
 
 </script>
@@ -43,7 +41,11 @@
     </Modal>
 {/if}
 
-
+{#if form?.advancedLogin?.error !== undefined}
+    <Modal title="Error" on:close={() => form = null}>
+        <p class="text-red-500 font-semibold">{form.advancedLogin.error}</p>
+    </Modal>
+{/if}
 
 <Wrapper>
     <Flex direction="col" gap={2}>
@@ -129,16 +131,16 @@
 
         <h2 class="mt-8">{$_('settings.power.lead')}</h2>
 
-        <Grid cols={2} gap={8}>
+        <Grid cols={2} gap={4}>
             <form action="?/reboot" method="post">
-                <Button color="hover:bg-amber-500" ringColor="ring-amber-500" disabled={$realtime.cycle !== undefined}>
+                <Button class="w-full" color="hover:bg-amber-500" ringColor="ring-amber-500" disabled={$realtime.cycle !== undefined}>
                     <Icon src={ArrowPath} class="h-4 w-4 inline mr-2 mb-1" />
                     {$_('settings.power.reboot')}
                 </Button>
             </form>
 
             <form action="?/shutdown" method="post">
-                <Button color="hover:bg-red-500" ringColor="ring-red-500" disabled={$realtime.cycle !== undefined}>
+                <Button class="w-full" color="hover:bg-red-500" ringColor="ring-red-500" disabled={$realtime.cycle !== undefined}>
                     <Icon src={Power} class="h-4 w-4 inline mr-2 mb-1" />
                     {$_('settings.power.shutdown')}
                 </Button>
@@ -152,20 +154,16 @@
             {$_('settings.advanced.sub')}
         </p>
 
-        <Flex items="end">
-            <Flex direction="col" gap={0.5} class="grow">
-                <PasswordField placeholder={$_('password')} bind:value={password} class="grow" />
-            </Flex>
-    
-            <a href={password === "NusterMetalizz" ? "/settings/edit" : "#"}>
-                <Button 
-                    color={password === "NusterMetalizz" ?  "hover:bg-amber-500" : "hover:bg-zinc-500"} 
-                    ringColor={password === "NusterMetalizz" ? "ring-amber-500" : "ring-zinc-500"}
-                    disabled={$realtime.cycle !== undefined}
-                >
-                    {$_('settings.advanced.edit')}
-                </Button>
-            </a>
-        </Flex>
+        <form action="?/advancedLogin" method="post" use:enhance class="flex flex-row items-end gap-4">
+            <PasswordField placeholder={$_('password')} value="" class="grow" name="password" />
+
+            <Button 
+                color={"hover:bg-amber-500"} 
+                ringColor={"ring-amber-500"}
+                disabled={$realtime.cycle !== undefined}
+            >
+                {$_('settings.advanced.edit')}
+            </Button>
+        </form>
     </Flex>
 </Wrapper>

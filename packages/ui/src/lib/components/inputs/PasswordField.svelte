@@ -32,8 +32,9 @@
         bind:value={value}
         on:focus={() => focused = true}
         {disabled}
+        autocomplete="off"
     />
-    <button on:click={() => { secretShown = !secretShown; if(focused) { passwordElement?.focus(); } if(passwordElement) { console.log(passwordElement.selectionStart); passwordElement.selectionStart = value.length }}}>
+    <button on:click|preventDefault={() => { secretShown = !secretShown; if(focused) { passwordElement?.focus(); } if(passwordElement) { console.log(passwordElement.selectionStart); passwordElement.selectionStart = value.length }}}>
         <Icon src={secretShown ? Eye : EyeSlash} class="h-4 w-4 mr-1.5" />
     </button>
 </div>

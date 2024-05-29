@@ -43,6 +43,8 @@ export type StopTimerProgramBlock = {"stop_timer": StringParameterBlocks}
 export type ContainerProductLoadProgramBlock = {"load_container": [StringParameterBlocks, StringParameterBlocks]};
 export type ContainerProductUnloadProgramBlock = {"unload_container": StringParameterBlocks};
 
+export type SetRegulationStateProgramBlock = { "set_regulation_state": { "container": StringParameterBlocks, "regulation": StringParameterBlocks, "state": NumericParameterBlocks }};
+
 // Other program blocks
 
 export type IOWriteProgramBlock = {"io_write": [StringParameterBlocks, NumericParameterBlocks]};
@@ -61,4 +63,5 @@ StopTimerProgramBlock |
 ContainerProductLoadProgramBlock | 
 ContainerProductUnloadProgramBlock |
 IOWriteProgramBlock | 
-AppendMaintenanceProgramBlock;
+AppendMaintenanceProgramBlock | 
+SetRegulationStateProgramBlock;

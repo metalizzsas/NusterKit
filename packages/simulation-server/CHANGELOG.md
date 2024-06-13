@@ -1,5 +1,11 @@
 # @nuster/simulation-server
 
+## 1.2.8
+
+### Patch Changes
+
+- [#551](https://github.com/metalizzsas/NusterKit/pull/551) [`704ea3d`](https://github.com/metalizzsas/NusterKit/commit/704ea3dd51a90b8a2e8d0e8b65881e6f2b986b1c) Thanks [@Kworz](https://github.com/Kworz)! - chore(deps): updated enip-ts to 2.0.0
+
 ## 1.2.7
 
 ### Patch Changes

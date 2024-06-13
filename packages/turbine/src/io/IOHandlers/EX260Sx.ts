@@ -1,8 +1,8 @@
 import { Buffer } from "buffer";
 import ping from "ping";
-import { ENIP } from "enip-ts";
-import { MessageRouter } from "enip-ts/dist/enip/cip/messageRouter";
-import type { Encapsulation } from "enip-ts/dist/enip/encapsulation";
+import { ENIPClient } from "enip-ts";
+import { MessageRouter } from "enip-ts/CIP/MessageRouter";
+import type { dataItem } from "enip-ts/Encapsulation/CPF";
 
 import type { IOBase, EX260Sx as EX260SxConfig } from "$types/spec/iohandlers";
 import { TurbineEventLoop } from "../../events";
@@ -17,7 +17,7 @@ export class EX260Sx implements IOBase, EX260SxConfig
     
     size: 16 | 32;
     
-    private controller: ENIP.SocketController;
+    private controller: ENIPClient;
     /**
      * Builds an EX260Sx object
      * @param ip Ip address of the controller
@@ -27,7 +27,7 @@ export class EX260Sx implements IOBase, EX260SxConfig
         this.ip = ip;
         this.size = size;
         
-        this.controller = new ENIP.SocketController(120000);
+        this.controller = new ENIPClient(120000);
 
         //change state if disconnected
         this.controller.events.on('close', () => { 
@@ -110,13 +110,13 @@ export class EX260Sx implements IOBase, EX260SxConfig
 
         if(!write)
         {
-             TurbineEventLoop.emit('log', 'error', "EX260Sx: Failed to write data");
+            TurbineEventLoop.emit('log', 'error', "EX260Sx: Failed to write data");
             TurbineEventLoop.emit(`pbr.stop`, "controllerError");
             return Buffer.alloc(0);
         }
 
         return new Promise<Buffer>((resolve) => {
-            this.controller.events.once("SendRRData Received", (result: Encapsulation.CPF.dataItem[]) => {
+            this.controller.events.once("SendRRData Received", (result: dataItem[]) => {
                 for(const packet of result)
                 {
                     if(packet.TypeID == 178 && packet.data.length == (4 + (this.size / 8)) && packet.data.readUIntLE(0, 1) == 0x8E)
@@ -144,6 +144,9 @@ export class EX260Sx implements IOBase, EX260SxConfig
         const idPath = Buffer.from([0x20, 0x04, 0x24, 0x96, 0x30, 0x03]);
 
         const res = await this.readData2(0x96);
+
+        if(res.length === 0)
+            throw "EX260Sx: Empty Data returned";
 
         //Data to read deprends on size of the EX260
         const result = res.readUIntLE(4, this.size / 8);
@@ -191,7 +194,7 @@ export class EX260Sx implements IOBase, EX260SxConfig
 
         if(write === false)
         {
-             TurbineEventLoop.emit('log', 'warning', "EX260Sx: Failed to write data");
+            TurbineEventLoop.emit('log', 'warning', "EX260Sx: Failed to write data");
             TurbineEventLoop.emit(`pbr.stop`, "controllerError");
         }
     }

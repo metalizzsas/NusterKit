@@ -5,6 +5,9 @@
 	"private": true,
 	"type": "module",
 	"license": "UNLICENSED",
+	"engines": {
+		"node": "18.x"
+	},
 	"scripts": {
 		"dev": "vite dev --port 5174",
 		"build": "vite build",

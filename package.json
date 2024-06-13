@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Mono repository that holds the nuster project",
   "engines": {
-    "node": "20.x"
+    "node": "18.x"
   },
   "scripts": {
     "dev": "pnpm run dev:simulation & pnpm run dev:packages",

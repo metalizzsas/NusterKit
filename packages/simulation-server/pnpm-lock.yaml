@@ -12,8 +12,8 @@ importers:
         specifier: ^2.8.5
         version: 2.8.5
       enip-ts:
-        specifier: 1.2.2
-        version: 1.2.2
+        specifier: 2.0.0
+        version: 2.0.0
       express:
         specifier: ^4.19.2
         version: 4.19.2
@@ -354,8 +354,9 @@ packages:
     resolution: {integrity: sha512-TPJXq8JqFaVYm2CWmPvnP2Iyo4ZSM7/QKcSmuMLDObfpH5fi7RUGmd/rTDf+rut/saiDiQEeVTNgAmJEdAOx0w==}
     engines: {node: '>= 0.8'}
 
-  enip-ts@1.2.2:
-    resolution: {integrity: sha512-IzHyHpz8jr/tIkOz18OTOcUP/0Pd7wuTVFHghcb7iR8I/bwH/A69wB8i4zy1NoctuuqEEEnbInDuJohSevyLNQ==}
+  enip-ts@2.0.0:
+    resolution: {integrity: sha512-gVmt4iMSAMV7Nx4AO7dWpNAazQCI9GFXD+em21GouKIpNYkMy9wBA9oP6RiSliA+QBT/rACHHeV7O3F+I6iTsg==}
+    engines: {node: ^20.x}
 
   es-define-property@1.0.0:
     resolution: {integrity: sha512-jxayLKShrEqqzJ0eumQbVhTYQM27CfT1T35+gCgDFoL82JLsXqTJ76zv6A0YLOgEnLUMvLzsDsGIrl8NFpT2gQ==}
@@ -837,7 +838,7 @@ snapshots:
 
   encodeurl@1.0.2: {}
 
-  enip-ts@1.2.2: {}
+  enip-ts@2.0.0: {}
 
   es-define-property@1.0.0:
     dependencies:

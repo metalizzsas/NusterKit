@@ -30,8 +30,8 @@ importers:
         specifier: ^0.6.0
         version: 0.6.0
       enip-ts:
-        specifier: 1.2.2
-        version: 1.2.2
+        specifier: 2.0.0
+        version: 2.0.0
       express:
         specifier: ^4.19.2
         version: 4.19.2
@@ -895,8 +895,9 @@ packages:
   end-of-stream@1.4.4:
     resolution: {integrity: sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==}
 
-  enip-ts@1.2.2:
-    resolution: {integrity: sha512-IzHyHpz8jr/tIkOz18OTOcUP/0Pd7wuTVFHghcb7iR8I/bwH/A69wB8i4zy1NoctuuqEEEnbInDuJohSevyLNQ==}
+  enip-ts@2.0.0:
+    resolution: {integrity: sha512-gVmt4iMSAMV7Nx4AO7dWpNAazQCI9GFXD+em21GouKIpNYkMy9wBA9oP6RiSliA+QBT/rACHHeV7O3F+I6iTsg==}
+    engines: {node: ^20.x}
 
   es-define-property@1.0.0:
     resolution: {integrity: sha512-jxayLKShrEqqzJ0eumQbVhTYQM27CfT1T35+gCgDFoL82JLsXqTJ76zv6A0YLOgEnLUMvLzsDsGIrl8NFpT2gQ==}
@@ -2672,7 +2673,7 @@ snapshots:
     dependencies:
       once: 1.4.0
 
-  enip-ts@1.2.2: {}
+  enip-ts@2.0.0: {}
 
   es-define-property@1.0.0:
     dependencies:

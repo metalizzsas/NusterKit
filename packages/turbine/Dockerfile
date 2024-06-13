@@ -1,5 +1,5 @@
 # base image used by builder and production
-FROM node:20-alpine as base
+FROM node:18-alpine as base
 
 RUN corepack enable
 

@@ -1,5 +1,5 @@
 # base image used by builder and production
-FROM node:20-alpine as base
+FROM node:18-alpine as base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"

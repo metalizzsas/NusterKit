@@ -2262,6 +2262,7 @@
     },
     "ProgramBlockRunner": {
       "additionalProperties": false,
+      "description": "ProgramBlockRunner is the definitions of a cycle runt by turbine",
       "properties": {
         "additionalInfo": {
           "description": "AddtionalInfo is an array of Gate names that are displayed when the cycle is running",
@@ -2271,12 +2272,20 @@
           "type": "array"
         },
         "name": {
+          "description": "Cycle name",
           "type": "string"
         },
+        "pausable": {
+          "const": true,
+          "description": "Is this cycle pausable, if set to true the cycle can be paused",
+          "type": "boolean"
+        },
         "profileRequired": {
+          "description": "Does this profile always require a profile",
           "type": "boolean"
         },
         "runConditions": {
+          "description": "Cycle run conditions",
           "items": {
             "additionalProperties": false,
             "properties": {
@@ -2329,6 +2338,7 @@
           "type": "array"
         },
         "steps": {
+          "description": "Cycle steps",
           "items": {
             "$ref": "#/definitions/PBRStep"
           },

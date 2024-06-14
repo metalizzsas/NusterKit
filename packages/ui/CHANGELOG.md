@@ -1,5 +1,11 @@
 # @nuster/ui
 
+## 2.2.0
+
+### Patch Changes
+
+-   [#556](https://github.com/metalizzsas/NusterKit/pull/556) [`aa9e5f1`](https://github.com/metalizzsas/NusterKit/commit/aa9e5f1f1966e86814439cde57dd7dc41af1f07a) Thanks [@Kworz](https://github.com/Kworz)! - fix(cycle): preparing a cycle with a premade profile with no uuid was not working
+
 ## 2.1.4
 
 ### Patch Changes

@@ -13,6 +13,8 @@ import { TurbineEventLoop } from "../events";
  */
 export class ProgramBlockRunner
 {
+    pausable: boolean;
+
     status: PBRStatus = { mode: "creating", pausable: false };
 
     name: string;
@@ -54,6 +56,8 @@ export class ProgramBlockRunner
         this.profileRequired = object.profileRequired;
         this.profile = profile;
         this.additionalInfo = object.additionalInfo;
+
+        this.pausable = false;
 
         if(this.profile === undefined)
             TurbineEventLoop.emit("log", "info", "PBR: This PBR is build without any profile.");
@@ -98,6 +102,12 @@ export class ProgramBlockRunner
 
         TurbineEventLoop.on('pbr.pause', () => {
 
+            if(this.pausable === false)
+            {
+                TurbineEventLoop.emit("log", "warning", "PBR: Tried to pause a cycle that is not pausable.");
+                return;
+            }
+
             if(this.status.mode === "paused")
             {
                 TurbineEventLoop.emit("log", "warning", "PBR: Tried to pause a cycle that is already paused.");
@@ -124,6 +134,12 @@ export class ProgramBlockRunner
         });
 
         TurbineEventLoop.on("pbr.resume", async () => {
+
+            if(this.pausable === false)
+            {
+                TurbineEventLoop.emit("log", "warning", "PBR: Tried to resume a cycle that is not pausable.");
+                return;
+            }
 
             if(this.status.mode === "started")
             {
@@ -153,6 +169,13 @@ export class ProgramBlockRunner
         });
 
         TurbineEventLoop.on('pbr.setPausable', (pausable: boolean) => {
+
+            if(this.pausable === false)
+            {
+                TurbineEventLoop.emit("log", "trace", "PBR: Tried to set a cycle pausable when it's not.");
+                return;
+            }
+
             this.status.pausable = pausable;
         });
 

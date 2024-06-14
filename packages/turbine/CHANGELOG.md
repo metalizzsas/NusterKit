@@ -1,5 +1,11 @@
 # @nuster/turbine
 
+## 2.2.0
+
+### Minor Changes
+
+- [#556](https://github.com/metalizzsas/NusterKit/pull/556) [`7e58518`](https://github.com/metalizzsas/NusterKit/commit/7e58518486c91e0f47ac07d0f5d12eee4b85b93d) Thanks [@Kworz](https://github.com/Kworz)! - feat: Cycle must be declared as pausable in order to be paused.
+
 ## 2.1.4
 
 ## 2.1.3

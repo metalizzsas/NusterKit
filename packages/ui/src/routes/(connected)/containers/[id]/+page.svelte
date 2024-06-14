@@ -2,7 +2,7 @@
 	import type { IOGatesHydrated } from "@nuster/turbine/types/hydrated";
 
 	import Flex from "$lib/components/layout/flex.svelte";
-	import Gate from "../../io/Gate.svelte";
+	import Gate from "$lib/components/io/Gate.svelte";
 
 	import { ChevronDown, ChevronUp } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";

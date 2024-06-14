@@ -12,7 +12,7 @@
 	import { translateProfileName } from "$lib/utils/i18n/i18nprofile";
 	import SelectableButton from "$lib/components/buttons/SelectableButton.svelte";
 	import type { ActionData, PageData } from "./$types";
-	import Gate from "./io/Gate.svelte";
+	import Gate from "$lib/components/io/Gate.svelte";
 	import Toggle from "$lib/components/inputs/Toggle.svelte";
 	import Label from "$lib/components/Label.svelte";
 	import { page } from "$app/stores";

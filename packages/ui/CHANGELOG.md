@@ -1,5 +1,13 @@
 # @nuster/ui
 
+## 2.1.4
+
+### Patch Changes
+
+-   [#554](https://github.com/metalizzsas/NusterKit/pull/554) [`f0d3916`](https://github.com/metalizzsas/NusterKit/commit/f0d3916fefead369c0e1369215fe237de07d0892) Thanks [@Kworz](https://github.com/Kworz)! - feat: io page is now using url navigation instead of variable navigation
+
+-   [#554](https://github.com/metalizzsas/NusterKit/pull/554) [`41a83c0`](https://github.com/metalizzsas/NusterKit/commit/41a83c0b733c4668f34c979406c07b80f128d011) Thanks [@Kworz](https://github.com/Kworz)! - feat: users can now trigger a full page reload in settings
+
 ## 2.1.3
 
 ## 2.1.2

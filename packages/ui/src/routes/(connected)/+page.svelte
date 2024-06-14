@@ -68,7 +68,9 @@
 
                     <form action="?/prepareCycle" method="post" use:enhance>
                         <input type="hidden" name="cycle_type" value={premade.cycle} />
-                        <input type="hidden" name="profile_id" value={premade.profile?.id} />
+                        {#if premade.profile !== undefined}
+                            <input type="hidden" name="profile_id" value={premade.profile?.id} /> 
+                        {/if}
 
                         <SelectableButton 
                             selected={selectedPremadeIndex === index}

@@ -48,7 +48,7 @@ export const actions: Actions = {
             }
         }
         
-        const prepareRequest = await fetch(`http://${env.TURBINE_ADDRESS}/v1/cycle/${cycleType}/${profileId || ''}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }});
+        const prepareRequest = await fetch(`http://${env.TURBINE_ADDRESS}/v1/cycle/${cycleType}/${profileId ?? ''}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }});
 
         if(prepareRequest.status !== 200 || !prepareRequest.ok)
         {

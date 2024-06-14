@@ -5,7 +5,7 @@ import type { PBRStartConditionHydrated } from "./PBRStartConditionHydrated";
 import type { PBRStepHydrated } from "./PBRStepHydrated";
 
 export type ProgramBlockRunnerHydrated = Modify<ProgramBlockRunner, {
-
+    
     status: PBRStatus;
 
     timers: Array<PBRTimer & { timer?: NodeJS.Timer }>;

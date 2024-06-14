@@ -225,6 +225,7 @@
             "lead": "Power management",
             "reboot": "Restart",
             "shutdown": "Shutdown",
+            "reload": "Reload UI",
             "modal": {
                 "shutdown": {
                     "title": "Shutting down",

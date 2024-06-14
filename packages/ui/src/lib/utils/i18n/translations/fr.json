@@ -223,6 +223,7 @@
             "lead": "Gestion de l'alimentation",
             "reboot": "Redémarrer",
             "shutdown": "Éteindre",
+            "reload": "Recharger l'interface",
             "modal": {
                 "shutdown": {
                     "title": "Arrêt en cours",

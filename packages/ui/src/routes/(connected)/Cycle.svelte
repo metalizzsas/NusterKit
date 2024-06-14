@@ -2,7 +2,7 @@
     
     import Button from "$lib/components/buttons/Button.svelte";
     import Flex from "$lib/components/layout/flex.svelte";
-	import Gate from "./io/Gate.svelte";
+	import Gate from "$lib/components/io/Gate.svelte";
 	import CycleStep from "./CycleStep.svelte";
 
     import { parseDurationToString } from "$lib/utils/dateparser";

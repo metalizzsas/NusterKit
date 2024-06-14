@@ -131,7 +131,12 @@
 
         <h2 class="mt-8">{$_('settings.power.lead')}</h2>
 
-        <Grid cols={2} gap={4}>
+        <Grid cols={3} gap={4}>
+            <Button color="hover:bg-indigo-500" ringColor="ring-indigo-500" on:click={() => window.location.reload()}>
+                <Icon src={ArrowPath} class="h-4 w-4 inline mr-2 mb-1" />
+                {$_('settings.power.reload')}
+            </Button>
+            
             <form action="?/reboot" method="post">
                 <Button class="w-full" color="hover:bg-amber-500" ringColor="ring-amber-500" disabled={$realtime.cycle !== undefined}>
                     <Icon src={ArrowPath} class="h-4 w-4 inline mr-2 mb-1" />

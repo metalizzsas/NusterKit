@@ -1,5 +1,11 @@
 # @nuster/ui
 
+## 2.2.1
+
+### Patch Changes
+
+-   [#560](https://github.com/metalizzsas/NusterKit/pull/560) [`9b91f02`](https://github.com/metalizzsas/NusterKit/commit/9b91f02fc59a767e057069c1248dd911339b2273) Thanks [@Kworz](https://github.com/Kworz)! - fix(comp): progress bar would show a progress that is equal to -1
+
 ## 2.2.0
 
 ### Patch Changes

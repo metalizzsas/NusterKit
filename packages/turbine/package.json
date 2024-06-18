@@ -3,7 +3,7 @@
   "engines": {
     "node": "18.x"
   },
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "Handle complex machines cycles with ease using turbine.",
   "main": "build/app.js",
   "files": [

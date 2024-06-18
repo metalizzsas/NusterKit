@@ -21,14 +21,11 @@
 
     $: if (progress === -1) {
         setInterval(() => {
-            void indefiniteProgress.set(0.5);
-        }, 1500);
-        setInterval(() => {
             void indefiniteProgress.set(1);
+            setTimeout(() => {
+                void indefiniteProgress.set(0);
+            }, 1400);
         }, 3000);
-        setInterval(() => {
-            void indefiniteProgress.set(0);
-        }, 4500);
     }
     
     $: void springProgress.set(progress);
@@ -37,7 +34,7 @@
 
 <div class="bg-zinc-600/50 h-1.5 rounded-full grow relative" class:mt-4={showNumbers}>
 
-    {#if showNumbers}
+    {#if showNumbers && progress !== -1}
         <span class="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-indigo-500 rounded-full py-0.5 px-3 text-xs text-white font-medium">{Math.floor(progress * 100)} %</span>
     {/if}
 
@@ -58,10 +55,8 @@
         />
     {:else}
         <div
-            class="h-1.5 rounded-full z-20 bg-violet-500 animate-pulse"
-            style:max-width="{($indefiniteProgress + 1) * 5}%"
+            class="h-1.5 rounded-full z-20 bg-violet-500 animate-pulse w-32"
             style:margin-left="{$indefiniteProgress * 90}%"
-            style:margin-right="{-$indefiniteProgress * 90}%"
         />
     {/if}
 </div>

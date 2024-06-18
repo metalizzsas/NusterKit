@@ -2,10 +2,9 @@ import { ContainerRegulation } from "./ContainerRegulation";
 import { TurbineEventLoop } from "../events";
 
 import type { CallToAction } from "$types/spec/nuster";
-import type { Container as ContainerConfig } from "$types/spec/containers";
-
+import type { Container as ContainerConfig, ContainerProduct } from "$types/spec/containers";
 import type { ContainerHydrated, ContainerProductData, ContainerSensorHydrated } from "$types/hydrated/containers";
-import { Products } from "./Products";
+
 import { prisma } from "../db";
 
 export class Container implements ContainerConfig
@@ -22,8 +21,13 @@ export class Container implements ContainerConfig
 
     supportedProductSeries?: string[];
 
-    constructor(container: ContainerConfig)
+    #products: Record<string, ContainerProduct>;
+
+    constructor(container: ContainerConfig, products: Record<string, ContainerProduct>)
     {        
+        // Load products
+        this.#products = products;
+
         this.name = container.name;
         this.type = container.type;
         
@@ -33,6 +37,8 @@ export class Container implements ContainerConfig
         this.regulations = container.regulations?.map(r => new ContainerRegulation(this, r));
 
         this.callToAction = container.callToAction ?? [];
+
+        
 
         TurbineEventLoop.on(`container.unload.${this.name}`, this.unloadProduct.bind(this));
         TurbineEventLoop.on(`container.load.${this.name}`, (producSeries) => { this.loadProduct(producSeries) });
@@ -59,7 +65,7 @@ export class Container implements ContainerConfig
     {
         if(this.supportedProductSeries === undefined)
         {
-             TurbineEventLoop.emit('log', 'error', `Container: ${this.name} is not loadable.`);
+            TurbineEventLoop.emit('log', 'error', `Container: ${this.name} is not loadable.`);
             return false;
         }
 
@@ -131,7 +137,7 @@ export class Container implements ContainerConfig
 
         if(containerDocument && this.isProductable)
         {
-            const productLifeSpan = Products[containerDocument.loadedProductType]?.lifespan ?? -1;
+            const productLifeSpan = this.#products[containerDocument.loadedProductType]?.lifespan ?? -1;
             const limitTime = new Date(containerDocument.loadDate).getTime() + 1000 * 60 * 60 * 24 * productLifeSpan;
 
             let lifetimeRemaining = (limitTime) - Date.now();

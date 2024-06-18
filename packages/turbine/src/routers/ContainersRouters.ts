@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 
 import type { ContainerHydrated } from "../types/hydrated/containers";
-import type { Container as ContainerConfig } from "../types/spec/containers";
+import type { Container as ContainerConfig, ContainerProduct } from "../types/spec/containers";
 import { Container } from "../containers/Containers";
 import { Router } from "./Router";
 import { TurbineEventLoop } from "../events";
@@ -10,11 +10,11 @@ export class ContainersRouter extends Router
 {
     containers: Container[] = [];
 
-    constructor(containers: ContainerConfig[])
+    constructor(containers: ContainerConfig[], products: Record<string, ContainerProduct>)
     {
         super();
         this._configureRouter();
-        this.containers = containers.map(c => new Container(c));
+        this.containers = containers.map(c => new Container(c, products));
     }
 
     private _configureRouter()

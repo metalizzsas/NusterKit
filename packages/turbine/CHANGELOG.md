@@ -1,5 +1,11 @@
 # @nuster/turbine
 
+## 2.2.2
+
+### Patch Changes
+
+- [#559](https://github.com/metalizzsas/NusterKit/pull/559) [`9e6dedc`](https://github.com/metalizzsas/NusterKit/commit/9e6dedce211152990ef5de7fe1bfde4ff58191ae) Thanks [@Kworz](https://github.com/Kworz)! - feat(containers): declare container products in specs.json
+
 ## 2.2.1
 
 ## 2.2.0

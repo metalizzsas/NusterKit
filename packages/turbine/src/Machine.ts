@@ -71,7 +71,7 @@ export class Machine
         this.ioRouter = new IORouter(this.specs.iohandlers, this.specs.iogates);
         this.profileRouter = new ProfilesRouter(this.specs.profileSkeletons, this.specs.profilePremades);
         this.maintenanceRouter = new MaintenanceRouter(this.specs.maintenance);
-        this.containerRouter = new ContainersRouter(this.specs.containers);
+        this.containerRouter = new ContainersRouter(this.specs.containers, this.specs.containerProducts);
         this.cycleRouter = new CycleRouter(this.specs.cycleTypes, this.specs.cyclePremades);
         this.networkRouter = new NetworkRouter();
 

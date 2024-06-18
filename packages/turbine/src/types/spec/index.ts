@@ -1,5 +1,5 @@
 import type { Addon } from "./addons";
-import type { Container } from "./containers";
+import type { Container, ContainerProduct } from "./containers";
 import type { CyclePremade, ProgramBlockRunner } from "./cycle";
 import type { IOGates } from "./iogates";
 import type { IOHandlers } from "./iohandlers";
@@ -34,6 +34,8 @@ export declare interface MachineSpecs
     /** Premade profile definition */
     profilePremades: Profile[],
 
+    /** Containers products */
+    containerProducts: Record<string, ContainerProduct>,
     /** Product slots definition */
     containers: Container[],
 

@@ -1003,6 +1003,21 @@
           },
           "type": "array"
         },
+        "containerProducts": {
+          "additionalProperties": {
+            "additionalProperties": false,
+            "description": "Product details.",
+            "properties": {
+              "lifespan": {
+                "description": "Lifespan of the product in days. If lifespan is not defined, do not apply deprecation to this product",
+                "type": "number"
+              }
+            },
+            "type": "object"
+          },
+          "description": "Containers products",
+          "type": "object"
+        },
         "containers": {
           "description": "Product slots definition",
           "items": {
@@ -2025,6 +2040,7 @@
         "maintenance",
         "profileSkeletons",
         "profilePremades",
+        "containerProducts",
         "containers",
         "variables"
       ],

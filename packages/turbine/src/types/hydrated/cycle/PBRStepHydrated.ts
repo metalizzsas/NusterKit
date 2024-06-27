@@ -26,6 +26,7 @@ export type PBRStepHydrated = Modify<PBRStep, {
     state: PBRStepState;
     type: PBRStepType;
 
-    progress: number
+    progress: number;
+    duration: number | null;
 
 }>;

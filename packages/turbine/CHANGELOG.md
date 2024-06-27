@@ -1,5 +1,13 @@
 # @nuster/turbine
 
+## 2.2.3
+
+### Patch Changes
+
+- [#565](https://github.com/metalizzsas/NusterKit/pull/565) [`0d851d7`](https://github.com/metalizzsas/NusterKit/commit/0d851d7773095dba7aab77153e8a912a9f3e0a77) Thanks [@Kworz](https://github.com/Kworz)! - fix: pausable was not set with the specs.json value
+
+- [#565](https://github.com/metalizzsas/NusterKit/pull/565) [`9cfe323`](https://github.com/metalizzsas/NusterKit/commit/9cfe3230fa551f21c905857ea704b0ded465a618) Thanks [@Kworz](https://github.com/Kworz)! - fix: duration was not computed correctly when a multiple task had a unknown estimated duration
+
 ## 2.2.2
 
 ### Patch Changes

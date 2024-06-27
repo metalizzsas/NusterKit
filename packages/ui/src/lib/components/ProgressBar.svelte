@@ -1,7 +1,7 @@
 <script lang="ts">
 
     import { tweened } from "svelte/motion";
-    import { cubicInOut, cubicOut} from 'svelte/easing';
+    import { cubicOut} from 'svelte/easing';
 
     export let progress: number;
 

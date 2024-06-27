@@ -260,6 +260,7 @@
             "null": "Unknown",
             "remaining": "Remaining time:",
             "estimated": "Estimated duration:",
+            "current": "Current duration:",
             "paused": "Paused time:"
         },
         "end": {

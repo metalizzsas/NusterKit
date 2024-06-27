@@ -253,6 +253,10 @@ export class ProgramBlockStep
 
         let realDuration = this.duration;
 
+        // Special case where a multiple step has unknown duration
+        if(this.type === "multiple" && realDuration === Infinity && (this.runAmount?.data ?? 1) > 1)
+            return this.runCount / (this.runAmount?.data ?? 1)
+        
         // Divide the duration by the runAmount if the step is multiple, in order to make progressbars splitable
         if(this.type === "multiple" && (this.runAmount?.data ?? 1 > 1))
         {

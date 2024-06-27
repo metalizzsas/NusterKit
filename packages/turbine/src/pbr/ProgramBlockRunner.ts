@@ -57,7 +57,7 @@ export class ProgramBlockRunner
         this.profile = profile;
         this.additionalInfo = object.additionalInfo;
 
-        this.pausable = false;
+        this.pausable = object.pausable ?? false;
 
         if(this.profile === undefined)
             TurbineEventLoop.emit("log", "info", "PBR: This PBR is build without any profile.");

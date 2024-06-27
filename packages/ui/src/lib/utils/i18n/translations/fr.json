@@ -258,6 +258,7 @@
             "null": "Inconnu",
             "remaining": "Temps restant:",
             "estimated": "Temps estimé:",
+            "current": "Temps passé:",
             "paused": "Temps de pause:"
         },
         "end": {

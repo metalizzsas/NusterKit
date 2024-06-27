@@ -1,5 +1,11 @@
 # @nuster/ui
 
+## 2.2.3
+
+### Patch Changes
+
+-   [#565](https://github.com/metalizzsas/NusterKit/pull/565) [`b49c876`](https://github.com/metalizzsas/NusterKit/commit/b49c876a7ba24b5a777e566fa92dbd67611fc783) Thanks [@Kworz](https://github.com/Kworz)! - feat: if a cycle has an indefinite duration, display current run time
+
 ## 2.2.2
 
 ## 2.2.1

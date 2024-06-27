@@ -14,20 +14,6 @@
 		easing: cubicOut
 	});
 
-    let indefiniteProgress = tweened(0, {
-		duration: 1500,
-		easing: cubicInOut
-	});
-
-    $: if (progress === -1) {
-        setInterval(() => {
-            void indefiniteProgress.set(1);
-            setTimeout(() => {
-                void indefiniteProgress.set(0);
-            }, 1400);
-        }, 3000);
-    }
-    
     $: void springProgress.set(progress);
 
 </script>
@@ -55,8 +41,7 @@
         />
     {:else}
         <div
-            class="h-1.5 rounded-full z-20 bg-violet-500 animate-pulse w-32"
-            style:margin-left="{$indefiniteProgress * 90}%"
+            class="h-1.5 rounded-full z-20 bg-violet-500 animate-pulse w-full"
         />
     {/if}
 </div>

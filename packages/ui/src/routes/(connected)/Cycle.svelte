@@ -108,20 +108,25 @@
                 <h2 class="leading-4 mb-2 text-amber-500 animate-pulse"><Icon src={ExclamationCircle} class="inline h-5 w-5 mr-2 mb-0.5" />Cycle en pause</h2>
             {/if}
 
-            {#if cycleData.status.estimatedRunTime}
-                <p>
-                    <Icon src={Clock} class="h-4 w-4 mb-0.5 inline-block text-indigo-500" />
-                    <span class="text-sm font-semibold">{$_('cycle.eta.estimated')}</span>
-                    <span>{parseDurationToString(cycleData.status.estimatedRunTime)}</span>
-                </p>
-            {/if}
-
-            {#if cycleData.status.startDate && cycleData.status.estimatedRunTime}
-                <p>
-                    <Icon src={Clock} class="h-4 w-4 mb-0.5 inline-block text-indigo-500" />
-                    <span class="text-sm font-semibold">{$_('cycle.eta.remaining')}</span>
-                    <span>{parseDurationToString((cycleData.status.estimatedRunTime + (cycleData.status.overallPausedTime ?? 0)) - (Date.now() - cycleData.status.startDate) / 1000)}</span>
-                </p>
+            {#if cycleData.status.startDate}
+                {#if cycleData.status.estimatedRunTime}
+                    <p>
+                        <Icon src={Clock} class="h-4 w-4 mb-0.5 inline-block text-indigo-500" />
+                        <span class="text-sm font-semibold">{$_('cycle.eta.remaining')}</span>
+                        <span>{parseDurationToString((cycleData.status.estimatedRunTime + (cycleData.status.overallPausedTime ?? 0)) - (Date.now() - cycleData.status.startDate) / 1000)}</span>
+                    </p>
+                    <p>
+                        <Icon src={Clock} class="h-4 w-4 mb-0.5 inline-block text-indigo-500" />
+                        <span class="text-sm font-semibold">{$_('cycle.eta.estimated')}</span>
+                        <span>{parseDurationToString(cycleData.status.estimatedRunTime)}</span>
+                    </p>
+                {:else}
+                    <p>
+                        <Icon src={Clock} class="h-4 w-4 mb-0.5 inline-block text-indigo-500" />
+                        <span class="text-sm font-semibold">{$_('cycle.eta.current')}</span>
+                        <span>{parseDurationToString((Date.now() - cycleData.status.startDate) / 1000)}</span>
+                    </p>
+                {/if}
             {/if}
 
             {#if cycleData.status.overallPausedTime !== undefined && cycleData.status.overallPausedTime > 0}

@@ -83,6 +83,6 @@
     </Flex>
 
     {#if step.state === "started" || (step.endReason === "skipped" && step.progress > 0) || (step.state === "crashed" && step.endReason !== "ending")}
-        <ProgressBar dots={$page.data.machine_configuration.settings.hideMultilayerIndications ? undefined : step.runAmount?.data} bind:progress={step.progress} showNumbers />
+        <ProgressBar dots={$page.data.machine_configuration.settings.hideMultilayerIndications ? undefined : step.runAmount?.data} bind:progress={step.progress} showNumbers={step.duration !== null} />
     {/if}
 </div>

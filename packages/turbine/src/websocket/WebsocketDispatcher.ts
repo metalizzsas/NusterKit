@@ -1,11 +1,12 @@
 import type { WebsocketData } from "../types/hydrated";
-import type { Popup } from "../types/spec/nuster";
+import type { Popup, CallToAction, CallToActionFront } from "../types/spec/nuster";
 
 import type { Server } from "http";
-import type { WebSocket} from "ws";
+import type { WebSocket } from "ws";
 
 import { OPEN, WebSocketServer } from "ws";
 import { TurbineEventLoop } from "../events";
+import { CalltoActionRouter } from "../routers/CallToAction";
 
 const productionEnabled = process.env.NODE_ENV === 'production';
 
@@ -16,7 +17,7 @@ export class WebsocketDispatcher
     private wsServer: WebSocketServer;
     
     /** Connect popup data */
-    private connectPopups: Array<Popup> = [];
+    private connectPopups: Array<Popup<CallToAction>> = [];
     /** Wheter the connect popup has been displayed or not */
     private connectPopupDisplayed = false;
 
@@ -40,7 +41,7 @@ export class WebsocketDispatcher
      * Add a popup to be displayed on all NusterDesktop clients
      * @param popup Popup data to be displayed on all NusterDesktop clients
      */
-    addConnectPopup(popup: Popup)
+    addConnectPopup(popup: Popup<CallToAction>)
     {
         this.connectPopups = [...this.connectPopups, popup];
     }
@@ -49,9 +50,11 @@ export class WebsocketDispatcher
      * toggle a popup on all NusterDesktop clients
      * @param popup Popup data send to all clients
      */
-    togglePopup(popup: Popup)
+    togglePopup(popup: Popup<CallToAction>)
     {
-        this.broadcastData(popup, "popup");
+        Promise.all<CallToActionFront>((popup.callToActions ?? []).map(cta => CalltoActionRouter.generateCallToAction(cta))).then(v => {
+            this.broadcastData({...popup, callToActions: v }, "popup");
+        });
     }
 
     /**
@@ -59,7 +62,7 @@ export class WebsocketDispatcher
      * @param data data to be sent over Websocket
      * @param channel channel used to send data
      */
-    broadcastData(data: unknown, channel: WebsocketData["type"] = "status")
+    broadcastData<T extends WebsocketData>(data: T["message"], channel: T["type"] = "status")
     {
         for(const client of this.wsServer.clients)
         {

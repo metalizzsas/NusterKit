@@ -5,7 +5,7 @@ import type { PBRStepState } from "$types/spec/cycle/PBRStep";
 import type { ContainerHydrated } from "$types/hydrated/containers";
 import type { MaintenanceHydrated } from "$types/hydrated/maintenance";
 import type { IOGateJSON } from "$types/hydrated/io";
-import type { Popup } from "$types/spec/nuster";
+import type { CallToAction, Popup } from "$types/spec/nuster";
 import type { MachineSpecs } from "$types/index";
 
 export class EventLoop extends EventEmitter implements EventLoopEmitter
@@ -104,7 +104,7 @@ interface EventLoopEvents
 
     "log": (level: "trace" | "info" | "warning" | "error" | "fatal", message: string) => void;
 
-    "nuster.modal": (popup: Popup) => void;
+    "nuster.modal": (popup: Popup<CallToAction>) => void;
 
     "close": () => void;
 

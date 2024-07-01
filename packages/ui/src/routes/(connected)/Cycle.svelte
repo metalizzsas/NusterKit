@@ -202,7 +202,7 @@
     </h3>
 
     <Flex gap={2} direction={"col"}>
-        {#each cycleData.steps.filter(s => s.isEnabled.data == 1) as step}
+        {#each cycleData.steps.filter(s => s.isEnabled) as step}
             <CycleStep {step} />
         {/each}
     </Flex>
@@ -251,7 +251,7 @@
         </h3>
         
         <Flex gap={2} direction={"col"}>
-            {#each cycleData.steps.filter(s => s.isEnabled.data == 1) as step (step.name)}
+            {#each cycleData.steps.filter(s => s.isEnabled) as step (step.name)}
                 <CycleStep {step} />
             {/each}
         </Flex>

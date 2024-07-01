@@ -96,7 +96,7 @@
             <SettingField label={$_('settings.software.update')}>
                 {#if form?.update !== undefined && "success" in form.update}
                     {$_('settings.software.update_installing')}
-                    <ProgressBar progress={-1} />
+                    <ProgressBar progress={null} />
                 {:else}
                     <form action="?/update" method="post">
                         <Button color={"hover:bg-indigo-500"} ringColor={"ring-indigo-500"} size="small" disabled={$realtime.cycle !== undefined}>{$_('settings.software.update_install')}</Button>

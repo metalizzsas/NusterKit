@@ -392,7 +392,8 @@ import Ajv from "ajv";
         websocketDispatcher = new WebsocketDispatcher(httpServer);
 
         setInterval(async () => {
-            websocketDispatcher?.broadcastData(await machine?.socketData(), "status");
+            if(machine !== undefined && websocketDispatcher !== undefined)
+                websocketDispatcher.broadcastData(await machine.socketData(), "status");
         }, 500);
     }
 
@@ -422,6 +423,7 @@ import Ajv from "ajv";
             ExpressApp.use('/v1/containers', machine.containerRouter.router);
             ExpressApp.use('/v1/cycle', machine.cycleRouter.router);
             ExpressApp.use('/network', machine.networkRouter.router);
+            ExpressApp.use('/v1/calltoaction', machine.callToActionRouter.router);
 
             ExpressApp.use('/static', express.static(path.resolve(machinesPath, machine.data.model, 'static')))
             

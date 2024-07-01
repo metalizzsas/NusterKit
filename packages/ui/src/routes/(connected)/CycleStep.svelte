@@ -5,9 +5,9 @@
 	import { ArrowPath, Check, XMark, type IconSource, ArrowDown } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";
 
-	import ProgressBar from "$lib/components/ProgressBar.svelte";
 	import { _ } from "svelte-i18n";
 	import { page } from "$app/stores";
+	import ProgressBarGroup from "$lib/components/ProgressBarGroup.svelte";
 
     export let step: PBRStepHydrated;
     
@@ -50,7 +50,7 @@
 </script>
 
 <div class="p-4 rounded-md border-[1px] border-zinc-400">
-    <Flex items="center" justify="between" class={(step.state === "started" || (step.endReason === "skipped" && step.progress > 0) || (step.state === "crashed" && step.endReason != "ending")) ? "mb-2" : ""}>
+    <Flex items="center" justify="between" class={(step.state === "started" || (step.endReason === "skipped" && (step.progress ?? 0) > 0) || (step.state === "crashed" && step.endReason != "ending")) ? "mb-2" : ""}>
         <Flex 
             gap={1} 
             items={step.state === "started" ? "start" : "center"} 
@@ -66,8 +66,8 @@
         </Flex>
 
         <Flex gap={4}>
-            {#if step.runCount !== undefined && step.runAmount !== undefined && step.runAmount.data > 1 && !$page.data.machine_configuration.settings.hideMultilayerIndications}
-                <Label>{step.runCount} / {step.runAmount.data}</Label>
+            {#if step.runCount !== undefined && step.runAmount !== undefined && step.runAmount > 1 && !$page.data.machine_configuration.settings.hideMultilayerIndications}
+                <Label>{step.runCount} / {step.runAmount}</Label>
             {/if}
 
             {#if step.state === "crashed" && step.endReason !== "ending"}
@@ -82,7 +82,7 @@
 
     </Flex>
 
-    {#if step.state === "started" || (step.endReason === "skipped" && step.progress > 0) || (step.state === "crashed" && step.endReason !== "ending")}
-        <ProgressBar dots={$page.data.machine_configuration.settings.hideMultilayerIndications ? undefined : step.runAmount?.data} bind:progress={step.progress} showNumbers={step.duration !== null} />
+    {#if step.state === "started" || (step.state === "crashed" && step.endReason !== "ending")}
+        <ProgressBarGroup showProgressLabelForIndex={step.runCount} progresses={step.progresses} />
     {/if}
 </div>

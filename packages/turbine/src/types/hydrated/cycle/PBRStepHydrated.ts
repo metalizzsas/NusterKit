@@ -1,32 +1,23 @@
 import type { PBRStep, PBRStepState, PBRStepType } from "../../spec/cycle/PBRStep";
 import type { Modify } from "../../utils";
 import type { PBRStartConditionHydrated } from "./PBRStartConditionHydrated";
-import type { NumericParameterBlockHydrated } from "./blocks/ParameterBlockHydrated";
-import type { ProgramBlockHydrated } from "./blocks/ProgramBlockHydrated";
 
-export type PBRStepHydrated = Modify<PBRStep, {
+export type PBRStepHydrated = Omit<Modify<PBRStep, {
+   
+    type: PBRStepType;
+    state: PBRStepState;
     
-    startTime?: number;
-    endTime?: number;
-
-    endReason?: string;
-
-    runCount?: number;
-    
-    isEnabled: NumericParameterBlockHydrated,
-
-    runAmount?: NumericParameterBlockHydrated,
+    isEnabled: boolean,
+    runAmount: number,
+    runCount: number;
 
     runConditions: PBRStartConditionHydrated[],
-
-    startBlocks: ProgramBlockHydrated[],
-    blocks: ProgramBlockHydrated[],
-    endBlocks: ProgramBlockHydrated[],
-
-    state: PBRStepState;
-    type: PBRStepType;
-
-    progress: number;
+    
     duration: number | null;
+    progress: number | null;
+    progresses: Array<number | null>;
 
-}>;
+    startTime?: number;
+    endTime?: number;
+    endReason?: string;
+}>, "startBlocks" | "endBlocks" | "blocks" | "runConditions">;

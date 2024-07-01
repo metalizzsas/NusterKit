@@ -2,6 +2,7 @@ import type { PBRStep, PBRStepResult, PBRStepState, PBRStepType } from "../types
 import type { NumericParameterBlockHydrated } from "../types/hydrated/cycle/blocks/ParameterBlockHydrated";
 import type { ProgramBlockHydrated } from "../types/hydrated/cycle/blocks/ProgramBlockHydrated";
 import type { ProgramBlockRunner } from "./ProgramBlockRunner";
+import type { PBRStepHydrated } from "$types/hydrated/cycle";
 import { ParameterBlockRegistry } from "./ParameterBlocks/ParameterBlockRegistry";
 import { ProgramBlockRegistry } from "./ProgramBlocks/ProgramBlockRegistry";
 import { TurbineEventLoop } from "../events";
@@ -44,6 +45,8 @@ export class ProgramBlockStep
 
     totalPauseTime = 0;
     currentPauseStartDate?: number;
+
+    progresses: Array<number | null>;
     
     constructor(pbrInstance: ProgramBlockRunner, obj: PBRStep)
     {
@@ -59,6 +62,8 @@ export class ProgramBlockStep
             this.runAmount = ParameterBlockRegistry.Numeric(obj.runAmount);
             this.type = (this.runAmount?.data ?? 0) > 1 ? "multiple" : "single";
         }
+
+        this.progresses = new Array(this.runAmount?.data ?? 1).fill(0);
 
         // Build blocks
         obj.startBlocks.forEach(b => this.startBlocks.push(ProgramBlockRegistry(b)));
@@ -174,24 +179,30 @@ export class ProgramBlockStep
              TurbineEventLoop.emit('log', 'info', `PBS-${this.name}: Ended step with state ${this.state}`);
             this.endTime = Date.now();
 
+            this.progresses[this.runCount - 1] = this.progress;
+
             return this.crashStepFallback ?? "next";
         }
+
+        this.endTime = Date.now();
 
         if(this.type === "multiple")
         {
             if(this.runCount >= (this.runAmount?.data ?? 1))
             {
                 this.state = "ended";
-                 TurbineEventLoop.emit('log', 'info', `PBS-${this.name}: Ended step with state ${this.state}`);
-                this.endTime = Date.now();
+                TurbineEventLoop.emit('log', 'info', `PBS-${this.name}: Ended step with state ${this.state}`);
+
+                this.progresses[this.runCount - 1] = 1;
 
                 return "next";
             }
             else
             {
                 this.state = "partial";
-                 TurbineEventLoop.emit('log', 'info', `PBS-${this.name}: Ended step partialy with state ${this.state}`);
-                this.endTime = Date.now();
+                TurbineEventLoop.emit('log', 'info', `PBS-${this.name}: Ended step partialy with state ${this.state}`);
+
+                this.progresses[this.runCount - 1] = 1;
 
                 return this.partialStepFallback ?? "next";
             }
@@ -199,8 +210,9 @@ export class ProgramBlockStep
         else
         {
             this.state = "ended";
-             TurbineEventLoop.emit('log', 'info', `PBS-${this.name}: Ended step with state ${this.state}`);
-            this.endTime = Date.now();
+            TurbineEventLoop.emit('log', 'info', `PBS-${this.name}: Ended step with state ${this.state}`);
+
+            this.progresses[this.runCount - 1] = 1;
 
             return "next";
         }
@@ -239,52 +251,38 @@ export class ProgramBlockStep
     /** Estimate the run time of this step */
     private estimateRunTime(): number
     {
-        let stepRunTime = [...this.endBlocks, ...this.startBlocks, ...this.blocks].reduce((p, c) => p + c.estimatedRunTime, 0);
-
-        if(this.runAmount !== undefined)
-            stepRunTime = this.runAmount?.data * stepRunTime;
-
-        return stepRunTime;
+        return [...this.endBlocks, ...this.startBlocks, ...this.blocks].reduce((p, c) => p + c.estimatedRunTime, 0);;
     }
 
+    /**
+     * This returns the step progress, if the step can be runt multiple times, returns the current iteration progress.
+     * @returns The progress of the step, if null, the current step progress cannot be computed.
+     */
     get progress()
     {
         let progress = 0;
 
-        let realDuration = this.duration;
-
-        // Special case where a multiple step has unknown duration
-        if(this.type === "multiple" && realDuration === Infinity && (this.runAmount?.data ?? 1) > 1)
-            return this.runCount / (this.runAmount?.data ?? 1)
-        
-        // Divide the duration by the runAmount if the step is multiple, in order to make progressbars splitable
-        if(this.type === "multiple" && (this.runAmount?.data ?? 1 > 1))
+        if(this.duration === Infinity)
         {
-            realDuration = realDuration / (this.runAmount?.data ?? 1);
+            this.progresses[this.runCount] = null;
+            return null;
         }
 
         if(this.state === "started")
         {
-            if(realDuration != Infinity)
-            {
-                progress = (((Date.now() - (this.startTime ?? 1)) / 1000) - this.overallPausedTime) / realDuration;
-                progress = progress >= 1 ? 1 : progress;
-            }
-            else
-                progress = -1;
+            progress = (((Date.now() - (this.startTime ?? 1)) / 1000) - this.overallPausedTime) / this.duration;
+            this.progresses[this.runCount] = structuredClone(progress >= 1 ? 1 : progress);
         }
-        else if(["ended", "partial", "crashed"].includes(this.state))
+
+        return progress >= 1 ? 1 : progress;
+
+       /*  else if(["ended", "partial", "crashed"].includes(this.state))
         {
             if(this.endReason === "skipped" || this.endReason?.includes("security"))
-                progress = (((this.endTime ?? 1) - (this.startTime ?? 1)) / 1000) / realDuration;
+                progress = (((this.endTime ?? 1) - (this.startTime ?? 1)) / 1000) / this.duration;
             else
                 progress = 1;
-        }
-        
-        if((this.type == "multiple") && this.runAmount !== undefined)
-            return (this.runCount / this.runAmount.data) + (progress / this.runAmount.data)
-
-        return progress;
+        } */
     }
 
     public resetTimes()
@@ -299,27 +297,23 @@ export class ProgramBlockStep
         return this.totalPauseTime + (currentPauseTime / 1000);
     }
 
-    toJSON()
+    toJSON(): PBRStepHydrated
     {
         return {
+
             name: this.name,
             state: this.state,
             type: this.type,
 
-            endReason: this.endReason,
-    
-            isEnabled: this.isEnabled,
-            duration: this.duration + this.overallPausedTime,
-
-            progress: this.progress,
-        
-            runAmount: this.runAmount,
+            isEnabled: this.isEnabled.data === 1,
+            runAmount: this.runAmount?.data ?? 1,
             runCount: this.runCount,
-
-            startBlocks: this.startBlocks,
-            endBlocks: this.endBlocks,
             
-            blocks: this.blocks
+            duration: this.duration + this.overallPausedTime,
+            progress: this.progress,
+            progresses: this.progresses,
+
+            endReason: this.endReason,
         }
     }
 }

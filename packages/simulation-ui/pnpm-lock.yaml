@@ -13,7 +13,7 @@ importers:
         version: 3.1.0(svelte@4.2.17)(vite@5.2.11)
     devDependencies:
       '@nuster/turbine':
-        specifier: 2.2.3
+        specifier: 2.3.0
         version: link:../turbine
       '@sveltejs/adapter-node':
         specifier: ^5.0.1

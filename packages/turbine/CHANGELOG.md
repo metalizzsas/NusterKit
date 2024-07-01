@@ -1,5 +1,15 @@
 # @nuster/turbine
 
+## 2.3.0
+
+### Minor Changes
+
+- [#568](https://github.com/metalizzsas/NusterKit/pull/568) [`1d45dfa`](https://github.com/metalizzsas/NusterKit/commit/1d45dfab5e8796a353fad826e9b4b0acb84e8f52) Thanks [@Kworz](https://github.com/Kworz)! - feat: duration computation is now step iteration based, you now have the detailed progress with step.progresses json array
+
+### Patch Changes
+
+- [#568](https://github.com/metalizzsas/NusterKit/pull/568) [`52bda7c`](https://github.com/metalizzsas/NusterKit/commit/52bda7cf9e2a72f8fb9a7d6f745f3a553e9f5eae) Thanks [@Kworz](https://github.com/Kworz)! - fix: toasts call to actions are now executed, no api endpoint data is leaked to the user now.
+
 ## 2.2.3
 
 ### Patch Changes

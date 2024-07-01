@@ -30,7 +30,7 @@
         <TimeField bind:value={field.value} enabledTimes={field.units} {disabled} />
     {:else if field.type == 'float'}
         <Flex gap={2} items="center">
-            <NumField bind:value={field.value} min={field.floatMin} max={field.floatMax} step={field.floatStep} />
+            <NumField bind:value={field.value} min={field.floatMin} max={field.floatMax} step={field.floatStep} {disabled} />
             <Label>{field.value} <span class="font-semibold">{field.unity}</span></Label>
         </Flex>
     {:else if field.type == "incremental"}
@@ -39,7 +39,7 @@
                 if(disabled) return;
                 if(field.baseValue + field.value >= field.incrementalRangeMax) return;
                 field.value = field.value + 1
-            }} disabled={disabled}>
+            }} {disabled}>
                 <Icon src={Plus} class="h-4 w-4" />
             </Button>
             
@@ -49,7 +49,7 @@
                 if(disabled) return;
                 if(field.baseValue + field.value <= field.incrementalRangeMin) return;
                 field.value = field.value - 1
-            }} disabled={disabled}>
+            }} {disabled}>
                 <Icon src={Minus} class="h-4 w-4" />
             </Button>
         </Flex>

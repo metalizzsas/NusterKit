@@ -72,8 +72,10 @@
         {max}
         {name}
     />
-    <button on:click={decrement}><Icon src={MinusCircle} class="h-6 w-6 text-zinc-600 dark:text-white" {disabled}></Icon></button>
-    <button on:click={increment}><Icon src={PlusCircle} class="h-6 w-6 text-zinc-600 dark:text-white" {disabled}></Icon></button>
+    {#if !disabled}
+        <button on:click={decrement}><Icon src={MinusCircle} class="h-6 w-6 text-zinc-600 dark:text-white" {disabled}></Icon></button>
+        <button on:click={increment}><Icon src={PlusCircle} class="h-6 w-6 text-zinc-600 dark:text-white" {disabled}></Icon></button>
+    {/if}
 </Flex>
 
 {#if validateOnChange}

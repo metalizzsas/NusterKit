@@ -16,6 +16,7 @@ import type { MachineData } from "./types/hydrated/machine";
 import { TurbineEventLoop } from "./events";
 
 import { NetworkRouter } from "./routers";
+import { CalltoActionRouter } from "./routers/CallToAction";
 
 export class Machine
 {
@@ -28,6 +29,7 @@ export class Machine
     containerRouter: ContainersRouter;
     cycleRouter: CycleRouter;
     networkRouter: NetworkRouter;
+    callToActionRouter: CalltoActionRouter;
 
     WebSocketServer?: WebSocket.Server = undefined;
 
@@ -68,6 +70,7 @@ export class Machine
 
          TurbineEventLoop.emit('log', 'info', "Machine: Instantiating controllers");
 
+        this.callToActionRouter = new CalltoActionRouter();
         this.ioRouter = new IORouter(this.specs.iohandlers, this.specs.iogates);
         this.profileRouter = new ProfilesRouter(this.specs.profileSkeletons, this.specs.profilePremades);
         this.maintenanceRouter = new MaintenanceRouter(this.specs.maintenance);

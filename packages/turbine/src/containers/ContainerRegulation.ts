@@ -47,6 +47,14 @@ export class ContainerRegulation implements ContainerRegulationConfig
         this.minus = regulation.minus ?? [];
         this.plus = regulation.plus;
 
+        TurbineEventLoop.on(`container.${parent.name}.regulation.${this.name}.get_state`, ({ callback }) => {
+            callback?.(this.state);
+        });
+
+        TurbineEventLoop.on(`container.${parent.name}.regulation.${this.name}.get_target`, ({ callback }) => {
+            callback?.(this.target);
+        });
+
         TurbineEventLoop.on(`container.${parent.name}.regulation.${this.name}.set_state`, (options) => { 
             this.state = options.state;
 

@@ -57,7 +57,7 @@
 
                 <form action="?/copyProfile" method="post" use:enhance>
                     <input type="hidden" name="profile_id" value={data.profile.id} />
-                    <input type="hidden" name="profile" value={JSON.stringify({...data.profile, name: data.profile.name + " — " + $_('profile.copy.suffix') })} />
+                    <input type="hidden" name="profile" value={JSON.stringify({...data.profile, name: $_('profile.premade.' + data.profile.name) + " — " + $_('profile.copy.suffix') })} />
                     <Button size="small" color="hover:bg-amber-500" ringColor="ring-amber-500">{$_('profile.copy.button')}</Button>
                 </form>
                 

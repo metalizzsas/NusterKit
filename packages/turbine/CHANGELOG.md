@@ -1,5 +1,11 @@
 # @nuster/turbine
 
+## 2.3.1
+
+### Patch Changes
+
+- [`a84bfea`](https://github.com/metalizzsas/NusterKit/commit/a84bfea423662db6df80aab314037d25b346a049) Thanks [@Kworz](https://github.com/Kworz)! - fix: Container regulation were not replying to `get_state` and `get_target` events
+
 ## 2.3.0
 
 ### Minor Changes

@@ -1,5 +1,15 @@
 # @nuster/ui
 
+## 2.3.1
+
+### Patch Changes
+
+-   [`9f2093d`](https://github.com/metalizzsas/NusterKit/commit/9f2093da42e714add91f61635ddd47e1e97ef8dd) Thanks [@Kworz](https://github.com/Kworz)! - fix: copied profile now has his name translated
+
+-   [`679be28`](https://github.com/metalizzsas/NusterKit/commit/679be2899785e117dc20f6ccf45101b517cbda15) Thanks [@Kworz](https://github.com/Kworz)! - fix: premade profile could be edited
+
+-   [`ef16681`](https://github.com/metalizzsas/NusterKit/commit/ef1668188ed3bfeb68e8176c7866b3e54af0ee2b) Thanks [@Kworz](https://github.com/Kworz)! - fix: container regulation were not sending forms to correct endpoint
+
 ## 2.3.0
 
 ### Minor Changes

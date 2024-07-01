@@ -176,7 +176,7 @@ export class ProgramBlockStep
         if(this.state === "crashed")
         {
             this.state = "crashed";
-             TurbineEventLoop.emit('log', 'info', `PBS-${this.name}: Ended step with state ${this.state}`);
+            TurbineEventLoop.emit('log', 'info', `PBS-${this.name}: Ended step with state ${this.state}`);
             this.endTime = Date.now();
 
             this.progresses[this.runCount - 1] = this.progress;
@@ -251,7 +251,7 @@ export class ProgramBlockStep
     /** Estimate the run time of this step */
     private estimateRunTime(): number
     {
-        return [...this.endBlocks, ...this.startBlocks, ...this.blocks].reduce((p, c) => p + c.estimatedRunTime, 0);;
+        return [...this.endBlocks, ...this.startBlocks, ...this.blocks].reduce((p, c) => p + c.estimatedRunTime, 0);
     }
 
     /**

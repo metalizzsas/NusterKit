@@ -1,6 +1,6 @@
 <script lang="ts">
 
-	import type { Popup } from "@nuster/turbine/types/spec/nuster";
+	import type { Popup, CallToActionFront } from "@nuster/turbine/types/spec/nuster";
 	import { ExclamationCircle, ExclamationTriangle, InformationCircle, XMark } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";
 	import { createEventDispatcher } from "svelte";
@@ -8,12 +8,12 @@
 	import Flex from "./layout/flex.svelte";
     import { fly } from "svelte/transition";
 	import Button from "./buttons/Button.svelte";
-	import { executeCallToAction } from "$lib/utils/callToAction";
+	import { enhance } from "$app/forms";
 
     const dispatch = createEventDispatcher<{ exit: void }>();
 
     export let exit = () => dispatch("exit");
-    export let toast: Popup;
+    export let toast: Popup<CallToActionFront>;
 
     const icons = {
         "info": {
@@ -49,7 +49,10 @@
     {#if toast.callToActions}
         <Flex items="center" justify="center">
             {#each toast.callToActions as cta}
-                <Button on:click={() => { executeCallToAction(cta).then(() => { exit(); })}} textColor="dark:text-zinc-800 text-white">{$_(cta.name)}</Button>
+                <form action="?/callToAction" method="post" use:enhance on:submit={() => exit() }>
+                    <input type="hidden" name="cta_id" value={cta.id} />
+                    <Button textColor="dark:text-zinc-800 text-white">{$_(cta.name)}</Button>
+                </form>
             {/each}
         </Flex>
     {/if}

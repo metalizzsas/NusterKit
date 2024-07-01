@@ -1,10 +1,10 @@
 import type { ProfileHydrated } from "@nuster/turbine/types/hydrated";
 import type { CyclePremade } from "@nuster/turbine/types/spec/cycle";
-import type { Actions, PageServerLoad } from "./$types";
+import type { Actions } from "./$types";
 import { env } from "$env/dynamic/private";
-import { fail } from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
 
-export const load = (async ({ fetch }) => {
+export const load = async ({ fetch }) => {
 
     let cyclePremades: Array<Omit<CyclePremade, "profile"> & { profile?: ProfileHydrated}> = [];
 
@@ -27,7 +27,7 @@ export const load = (async ({ fetch }) => {
         cyclePremades
     };
 
-}) satisfies PageServerLoad;
+};
 
 export const actions: Actions = {
 
@@ -120,5 +120,20 @@ export const actions: Actions = {
         return { stopCycle: { success: true }};
     },
 
+    /** Execute a call to action, this is unsafe, should be moved to turbine as endpoints should not be exposed like this. */
+    callToAction: async ({ request, fetch }) => {
 
+        const form = await request.formData();
+
+        const callToActionId = form.get('cta_id')?.toString();
+        const ctaRequest = await fetch(`http://${env.TURBINE_ADDRESS}/v1/calltoaction/${callToActionId}`);
+
+        if(ctaRequest.ok === false || ctaRequest.status !== 200)  return fail(500, { callToAction: { error: "Failed to execute call to action" }});
+
+        const UIEndpoint = await ctaRequest.text();
+
+        if(UIEndpoint.length > 0)
+            return redirect(302, UIEndpoint);
+
+    }
 }

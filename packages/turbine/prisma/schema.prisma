@@ -10,6 +10,16 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+model CallToAction {
+
+    id                  String         @id @unique @default(uuid())
+
+    api_endpoint        String?
+    api_method          String?
+    api_body            String?
+    ui_endpoint         String?
+}
+
 model Container {
     name                String     @id @unique
     loadDate            DateTime   @default(now())

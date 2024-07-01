@@ -1,6 +1,6 @@
 type Nuster = {
     /** Connect popup is triggered when the user logs on for the first time */
-    connectPopup?: Popup,
+    connectPopup?: Popup<CallToAction>,
 
     /** Home screen informations, path of the data to be fetched, should only be reactive data such as io or containers */
     homeInformations?: Array<HomeInfo>
@@ -23,8 +23,17 @@ type CallToAction = {
     UIEndpoint?: string;
 }
 
+type CallToActionFront = {
+
+    /** Name of the call to action */
+    name: string;
+
+    /** Id of the call to action to be executed on the frontend */
+    id: string;
+}
+
 /** Popup message */
-interface Popup {
+interface Popup<T extends CallToAction | CallToActionFront> {
     /** i18n text, title of this pop up */
     title: string;
     /** i18n message, body of this popup */
@@ -34,7 +43,7 @@ interface Popup {
     level: "info" | "warn" | "error";
 
     /** Call to actions of this popup. */
-    callToActions?: CallToAction[],
+    callToActions?: T[],
 
     /** Translation payloads */
     payload?: Record<string, string>
@@ -57,4 +66,4 @@ type HomeInfoContainerRegulationTarget = {
 
 type HomeInfo = HomeInfoIO | HomeInfoContainerRegulationState | HomeInfoContainerRegulationTarget;
 
-export { Nuster, HomeInfo, CallToAction, Popup };
+export { Nuster, HomeInfo, CallToAction, CallToActionFront, Popup };

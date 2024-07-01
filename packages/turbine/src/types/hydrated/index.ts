@@ -1,4 +1,4 @@
-import type { Popup } from "../spec/nuster";
+import type { CallToActionFront, Popup } from "../spec/nuster";
 import type { AccessPoint, NetworkDevice } from "./balena";
 import type { ContainerHydrated } from "./containers";
 import type { ProgramBlockRunnerHydrated } from "./cycle/ProgramBlockRunnerHydrated";
@@ -16,7 +16,7 @@ type StatusMessage = {
 
 type PopupMessage = {
     type: "popup",
-    message: Popup
+    message: Popup<CallToActionFront>
 }
 
 /** Realtime data */

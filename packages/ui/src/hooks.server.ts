@@ -13,18 +13,24 @@ export const handle = (async ({ event, resolve }) => {
     // We should take care of this User agent as it might change if we update balena-block/browser
     // In dev mode, this will always be true
     event.locals.is_machine_screen = import.meta.env.DEV ? true : (event.request.headers.get("user-agent") == "Mozilla/5.0 (X11; Linux aarch64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Safari/605.1.15");
-    
-    const machineData = await new Promise<MachineData | undefined>((resolve) => {
-        fetch(`http://${env.TURBINE_ADDRESS}/machine`)
-                .then(async res => {
-                    if(res.status === 200 && res.ok)
-                        resolve(await res.json() as MachineData);
-                    resolve(undefined);
-                })
-                .catch(() => resolve(undefined));
 
-        setTimeout(() => resolve(undefined), 2000);
-    });
+    let machineData: MachineData | undefined = undefined;
+
+    try {
+        const machineDataRequest = await fetch(`http://${env.TURBINE_ADDRESS}/machine`);
+        machineData = await machineDataRequest.json() as MachineData;
+    } catch (error) {
+
+        if(event.url.pathname.startsWith("/loading")) {
+            return resolve(event);
+        }
+        
+        return new Response(null, { headers: { "Location": "/loading" }, status: 302 });
+    }
+
+    if(machineData === undefined && event.url.pathname.startsWith("/loading")) {
+        return resolve(event);
+    }
 
     if(!machineData && !event.url.pathname.startsWith("/configure"))
         return new Response(null, { headers: { "Location": "/configure" }, status: 302 });

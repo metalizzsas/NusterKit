@@ -10,7 +10,7 @@
 	import { onMount } from "svelte";
 
     onMount(async () => {
-        loadLocals();
+        await loadLocals();
     });
 </script>
 

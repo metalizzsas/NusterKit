@@ -4,16 +4,18 @@ FROM node:18-alpine AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
+RUN corepack prepare pnpm@9.13.0 --activate
 
 WORKDIR /app
 
 COPY ./package.json .
+COPY ./pnpm-lock.yaml .
 
-FROM base as prod-deps
+FROM base AS prod-deps
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod
 
 # Build the app
-FROM base as build
+FROM base AS build
 
 COPY tsconfig.json .
 COPY src/ ./src
@@ -22,7 +24,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install
 RUN pnpm build
 
 # Final image
-FROM base as production
+FROM base AS production
 
 ENV NODE_ENV=production
 ENV PORT=4082

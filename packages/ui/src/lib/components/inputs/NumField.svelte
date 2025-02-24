@@ -70,6 +70,7 @@
         on:input={() => { if(max !== undefined && value> max) { value = max } change(); if(validateOnChange && validateOnChangeButton) validateOnChangeButton.click(); }}
         {min}
         {max}
+        {step}
         {name}
     />
     {#if !disabled}

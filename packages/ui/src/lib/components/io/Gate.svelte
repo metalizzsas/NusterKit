@@ -46,6 +46,7 @@
                         bind:value={io.value} 
                         min={io.type == "mapped" ? io.mapOutMin : 0}
                         max={io.type == "mapped" ? io.mapOutMax : 100}
+                        step={io.type == "mapped" ? 0.01 : 1}
                         name="value"
                         validateOnChange
                     />

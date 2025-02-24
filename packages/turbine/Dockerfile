@@ -1,7 +1,8 @@
 # base image used by builder and production
-FROM node:18-alpine as base
+FROM node:18-alpine AS base
 
 RUN corepack enable
+RUN corepack prepare pnpm@9.13.0 --activate
 
 WORKDIR /usr/src/app
 
@@ -12,7 +13,7 @@ COPY prisma/ ./prisma
 RUN pnpm install --frozen-lockfile
 
 # Builder image step
-FROM base as build
+FROM base AS build
 
 COPY tsconfig.json .
 COPY tsconfig.build.json .
@@ -21,7 +22,7 @@ COPY src/ ./src
 RUN pnpm build
 
 # Production final image
-FROM base as production
+FROM base AS production
 
 # Run args
 ENV NODE_ENV=production

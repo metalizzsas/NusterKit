@@ -9,6 +9,7 @@ RUN corepack prepare pnpm@9.13.0 --activate
 WORKDIR /app
 
 COPY ./package.json .
+COPY ./pnpm-lock.yaml .
 
 FROM base AS prod-deps
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod

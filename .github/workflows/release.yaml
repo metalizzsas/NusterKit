@@ -38,7 +38,7 @@ jobs:
           cache: 'pnpm'
 
       - name: 📚 Install workspace packages
-        run: pnpm install --frozen-lockfile 
+        run: pnpm install 
 
       - name: 🧱 Build all packages
         run: pnpm build

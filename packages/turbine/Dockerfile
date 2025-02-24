@@ -10,7 +10,7 @@ COPY package.json .
 COPY pnpm-lock.yaml .
 COPY prisma/ ./prisma
 
-RUN pnpm install --frozen-lockfile
+RUN pnpm install
 
 # Builder image step
 FROM base AS build
@@ -33,7 +33,7 @@ CMD ["/bin/sh", "entrypoint.sh"]
 COPY entrypoint.sh ./entrypoint.sh
 
 # Install dependencies
-RUN pnpm install --frozen-lockfile --no-optional
+RUN pnpm install --no-optional
 RUN pnpm build:prisma
 
 COPY --from=build /usr/src/app/build/ ./build

@@ -25,6 +25,10 @@
             "lead": "Erreur de rendu dans la page",
             "sub": "C'est dommage...",
             "button": "Rechargement"
+        },
+        "loading": {
+            "lead": "Chargement en cours",
+            "sub": "Nuster sera disponible dans quelques instants"
         }
     },
     "date": {

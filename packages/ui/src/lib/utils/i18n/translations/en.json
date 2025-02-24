@@ -25,6 +25,10 @@
             "lead": "Failed to render this page",
             "sub": "This is unfortunate...",
             "button": "Reload"
+        },
+        "loading": {
+            "lead": "Loading",
+            "sub": "Nuster will be ready in a few seconds."
         }
     },
     "date": {

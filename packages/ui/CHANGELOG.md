@@ -1,5 +1,13 @@
 # @nuster/ui
 
+## 2.3.2
+
+### Patch Changes
+
+-   [#572](https://github.com/metalizzsas/NusterKit/pull/572) [`1b11999`](https://github.com/metalizzsas/NusterKit/commit/1b1199962a1890ac0832ef81f363913895222ba5) Thanks [@Kworz](https://github.com/Kworz)! - fix: mapped gates would always have the same step
+
+-   [#572](https://github.com/metalizzsas/NusterKit/pull/572) [`56bb002`](https://github.com/metalizzsas/NusterKit/commit/56bb002a68aad98ca4f20e5558aaf9d9834ac89a) Thanks [@Kworz](https://github.com/Kworz)! - feat: display loading screen when turbine is not available
+
 ## 2.3.1
 
 ### Patch Changes

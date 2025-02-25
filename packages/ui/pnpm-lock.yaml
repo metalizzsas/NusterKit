@@ -15,8 +15,8 @@ importers:
         specifier: ^2.3.0
         version: 2.4.2
       '@steeze-ui/svelte-icon':
-        specifier: ^1.5.0
-        version: 1.6.2(svelte@4.2.19)
+        specifier: 1.5.0
+        version: 1.5.0(svelte@4.2.19)
       '@sveltejs/vite-plugin-svelte':
         specifier: ^3.1.0
         version: 3.1.2(svelte@4.2.19)(vite@5.4.14(@types/node@20.12.12)(sass@1.85.0))
@@ -704,10 +704,10 @@ packages:
   '@steeze-ui/heroicons@2.4.2':
     resolution: {integrity: sha512-66luL+uaxyC6mcZigewH4phfDxNWj4sH+n6qK2VnY3zcgpMmNAgVQbMGfZYfKhLqrUo13BlqpmhWuHqAUpehlA==}
 
-  '@steeze-ui/svelte-icon@1.6.2':
-    resolution: {integrity: sha512-Q2WP/RkM1JhMueX0FJogSj4J1bncSHaAiiPCqjcseRcHKqfpjYFPJa8bA50I+4KbyOVJ9fdUvTQ3ww9X0ITRxQ==}
+  '@steeze-ui/svelte-icon@1.5.0':
+    resolution: {integrity: sha512-Y0S7Qk2kO6byzOlD5SQGbOF2ZaKXJgfTkH78QUPcq579wiWMQJ5H14zL4XwtsPJ0DfkoL5qa3WaIdYkWb9A6AA==}
     peerDependencies:
-      svelte: ^5.0.0
+      svelte: ^4.0.0
 
   '@sveltejs/adapter-node@5.2.12':
     resolution: {integrity: sha512-0bp4Yb3jKIEcZWVcJC/L1xXp9zzJS4hDwfb4VITAkfT4OVdkspSHsx7YhqJDbb2hgLl6R9Vs7VQR+fqIVOxPUQ==}
@@ -2873,7 +2873,7 @@ snapshots:
 
   '@steeze-ui/heroicons@2.4.2': {}
 
-  '@steeze-ui/svelte-icon@1.6.2(svelte@4.2.19)':
+  '@steeze-ui/svelte-icon@1.5.0(svelte@4.2.19)':
     dependencies:
       svelte: 4.2.19
 

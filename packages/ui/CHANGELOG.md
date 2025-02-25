@@ -1,5 +1,11 @@
 # @nuster/ui
 
+## 2.3.4
+
+### Patch Changes
+
+-   [`4e5aaed`](https://github.com/metalizzsas/NusterKit/commit/4e5aaed1caf1eeffb46a6d79709ea898dea73edc) Thanks [@Kworz](https://github.com/Kworz)! - chore(deps): stick @steeze-ui/svelte-icons to 1.5.0
+
 ## 2.3.3
 
 ## 2.3.2

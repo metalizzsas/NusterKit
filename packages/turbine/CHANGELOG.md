@@ -1,5 +1,11 @@
 # @nuster/turbine
 
+## 2.3.3
+
+### Patch Changes
+
+- [`fc66e4a`](https://github.com/metalizzsas/NusterKit/commit/fc66e4a935eef3e9f0ca2c3e47c70b0d463b6206) Thanks [@Kworz](https://github.com/Kworz)! - fix(dockerfile): prisma could not find openssl & musl libraries
+
 ## 2.3.2
 
 ## 2.3.1

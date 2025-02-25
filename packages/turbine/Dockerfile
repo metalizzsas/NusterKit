@@ -1,6 +1,8 @@
 # base image used by builder and production
 FROM node:18-alpine AS base
 
+RUN apk add openssl
+
 RUN corepack enable
 RUN corepack prepare pnpm@9.13.0 --activate
 
@@ -35,5 +37,7 @@ COPY entrypoint.sh ./entrypoint.sh
 # Install dependencies
 RUN pnpm install --no-optional
 RUN pnpm build:prisma
+
+RUN pnpm rebuild
 
 COPY --from=build /usr/src/app/build/ ./build

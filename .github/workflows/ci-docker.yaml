@@ -3,8 +3,32 @@ name: 🐳 CI Docker build
 on:
   pull_request:
 
+permissions:
+  issues: write
+  pull-requests: write
+
 jobs:
+  build-comment:
+    name: Add the publish comment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add the publish comment
+        id: add_comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.number }}
+          body: |
+            # Creating draft docker images for this pull request.
+            
+            Target commit: ${{ github.sha }}
+
+            ## The following packages have been published:
+    outputs:
+      comment-id: ${{ steps.add_comment.outputs.comment-id }}
+
   build:
+    needs: 
+      - build-comment
     name: Build and push docker images
     runs-on: ubuntu-latest
     strategy:
@@ -29,6 +53,10 @@ jobs:
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
+
+      - name: ❓ Get current package version
+        id: get_version
+        run: echo version=$(cat ./packages/${{ matrix.packages }}/package.json | jq -r '.version') >> $GITHUB_OUTPUT
         
       - name: 🧱 Build Docker image
         uses: docker/build-push-action@v5
@@ -36,8 +64,17 @@ jobs:
           context: ./packages/${{ matrix.packages }}
           file: ./packages/${{ matrix.packages }}/Dockerfile
           platforms: linux/amd64,linux/arm64
-          push: false
+          push: true
           tags: | 
-            nusterkit/${{ matrix.packages }}:draft
+            nusterkit/${{ matrix.packages }}:${{ steps.get_version.outputs.version }}-${{ github.sha }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
+
+      - name: Add the published tags to the pull request comments using the github api
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.number }}
+          comment-id: ${{ needs.build-comment.outputs.comment-id }}
+          body: |
+            - nusterkit/${{ matrix.packages }}:${{ steps.get_version.outputs.version }}-${{ github.sha }}
+          token: ${{ secrets.GITHUB_TOKEN }}

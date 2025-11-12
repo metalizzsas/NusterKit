@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import type { PageData } from "./$types";
 	import { invalidateAll } from "$app/navigation";
 	import { Icon } from "@steeze-ui/svelte-icon";
 	import { ArrowPath } from "@steeze-ui/heroicons";
 	import { _ } from "svelte-i18n";
 
-    let refreshTimer: NodeJS.Timeout | undefined = undefined;
+    let refreshTimer: ReturnType<typeof setInterval> | undefined = undefined;
 
     onMount(() => {
 

@@ -1,4 +1,4 @@
-import type { Handle, RequestEvent } from "@sveltejs/kit";
+import type { Handle } from "@sveltejs/kit";
 import { env } from "$env/dynamic/private";
 import type { MachineData } from "@nuster/turbine/types/hydrated/machine";
 import type { Status } from "@nuster/turbine/types";

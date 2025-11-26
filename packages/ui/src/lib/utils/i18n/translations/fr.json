@@ -23,8 +23,8 @@
     "error": {
         "render": {
             "lead": "Erreur de rendu dans la page",
-            "sub": "C'est dommage...",
-            "button": "Rechargement"
+            "sub": "Vous allez etre redirigé dans quelques secondes...",
+            "button": "Retourner a l'accueil"
         },
         "loading": {
             "lead": "Chargement en cours",

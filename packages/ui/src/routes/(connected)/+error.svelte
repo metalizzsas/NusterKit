@@ -2,12 +2,24 @@
 	import { page } from '$app/stores';
 	import Button from '$lib/components/buttons/Button.svelte';
 	import Wrapper from '$lib/components/Wrapper.svelte';
+	import { onMount } from 'svelte';
 
 	import { _ } from 'svelte-i18n';
 
 	const redirect = () => {
 		window.location.href = '/';
 	};
+
+	onMount(() => {
+		const timer = setTimeout(() => {
+			redirect();
+		}, 3000);
+
+		return () => {
+			clearTimeout(timer);
+		}
+	});
+
 </script>
 
 <div class="w-screen flex flex-row justify-center">

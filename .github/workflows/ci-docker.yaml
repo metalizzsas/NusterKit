@@ -26,6 +26,7 @@ jobs:
         with:
           issue-number: ${{ github.event.number }}
           comment-id: ${{ steps.fc.outputs.comment-id }}
+          edit-mode: replace
           body: |
             ### 🐳 Creating draft docker images for this pull request.
             

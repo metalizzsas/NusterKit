@@ -4,6 +4,7 @@ import type { IOGateJSON } from "$types/hydrated/io";
 
 import type { Container } from "./Containers";
 import { TurbineEventLoop } from "../events";
+import { callbackWithTimeout } from "../utils/callbackWithTimeout";
 
 export class ContainerRegulation implements ContainerRegulationConfig
 {
@@ -207,10 +208,16 @@ export class ContainerRegulation implements ContainerRegulationConfig
         const actuatorsElement = actuators === "minus" ? this.minus : actuators === "plus" ? this.plus : this.active;
 
         for (const actuator of actuatorsElement) {
-            await new Promise<void>(resolve => {
-                TurbineEventLoop.emit(`io.update.${actuator}`, { value: state === true ? 1 : 0, lock, callback: () => {
-                    resolve();
-                }});
+            await callbackWithTimeout<void>(
+                (resolve) => {
+                    TurbineEventLoop.emit(`io.update.${actuator}`, { value: state === true ? 1 : 0, lock, callback: () => {
+                        resolve();
+                    }});
+                },
+                5000,
+                `ContainerRegulation.setActuators(${actuator})`
+            ).catch(err => {
+                TurbineEventLoop.emit("log", "error", `ContainerRegulation: setActuators failed: ${(err as Error).message}`);
             });
         }
     }

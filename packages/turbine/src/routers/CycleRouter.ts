@@ -7,6 +7,7 @@ import type { ProfileHydrated } from "../types/hydrated/profiles";
 import { ProgramBlockRunner } from "../pbr/ProgramBlockRunner";
 import type { ProgramBlockRunnerHydrated } from "../types/hydrated/cycle/ProgramBlockRunnerHydrated";
 import { TurbineEventLoop } from "../events";
+import { callbackWithTimeout } from "../utils/callbackWithTimeout";
 
 export class CycleRouter extends Router
 {
@@ -41,10 +42,17 @@ export class CycleRouter extends Router
 
             if (req.params.id)
             {
-                profile = await new Promise<ProfileHydrated | undefined>(resolve => {
-                    TurbineEventLoop.emit(`profile.read`, { profileID: req.params.id, callback: (profile) => {
-                        resolve(profile);
-                    }});
+                profile = await callbackWithTimeout<ProfileHydrated | undefined>(
+                    (resolve) => {
+                        TurbineEventLoop.emit(`profile.read`, { profileID: req.params.id, callback: (profile) => {
+                            resolve(profile);
+                        }});
+                    },
+                    5000,
+                    `CycleRouter.profile.read(${req.params.id})`
+                ).catch(err => {
+                    TurbineEventLoop.emit("log", "error", `CycleRouter: ${(err as Error).message}`);
+                    return undefined;
                 });
 
                 if (profile === undefined)

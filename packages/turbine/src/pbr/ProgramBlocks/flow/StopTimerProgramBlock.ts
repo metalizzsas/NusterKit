@@ -2,6 +2,7 @@ import type { StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/
 import type { AllProgramBlocks, StopTimerProgramBlock as StopTimerProgramBlockSpec } from "$types/spec/cycle/program";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
 import { TurbineEventLoop } from "../../../events";
+import { callbackWithTimeout } from "../../../utils/callbackWithTimeout";
 import { ProgramBlock } from "../ProgramBlock";
 
 export class StopTimerProgramBlock extends ProgramBlock
@@ -21,13 +22,18 @@ export class StopTimerProgramBlock extends ProgramBlock
 
         TurbineEventLoop.emit("log", "info", `StopTimerBlock: Will stop timer with name: ${timerName}`);
 
-        await new Promise<void>(resolve => {
-
-            TurbineEventLoop.emit('pbr.timer.stop', { timerName, callback: (stopped) => {
-                if(stopped == false)
-                    TurbineEventLoop.emit("log", "warning", `StopTimerBlock: Timer ${timerName} has not been found, ignoring.`)
-                resolve();
-            }});
+        await callbackWithTimeout<void>(
+            (resolve) => {
+                TurbineEventLoop.emit('pbr.timer.stop', { timerName, callback: (stopped) => {
+                    if(stopped == false)
+                        TurbineEventLoop.emit("log", "warning", `StopTimerBlock: Timer ${timerName} has not been found, ignoring.`);
+                    resolve();
+                }});
+            },
+            5000,
+            `StopTimerBlock(${timerName})`
+        ).catch(err => {
+            TurbineEventLoop.emit("log", "error", `StopTimerBlock: ${(err as Error).message}`);
         });
 
         super.execute();

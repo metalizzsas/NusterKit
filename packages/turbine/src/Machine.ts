@@ -17,6 +17,8 @@ import { TurbineEventLoop } from "./events";
 
 import { NetworkRouter } from "./routers";
 import { CalltoActionRouter } from "./routers/CallToAction";
+import { IOBusAdapter } from "./services/IOBusAdapter";
+import type { IOBus } from "./services/interfaces";
 
 export class Machine
 {
@@ -30,6 +32,8 @@ export class Machine
     cycleRouter: CycleRouter;
     networkRouter: NetworkRouter;
     callToActionRouter: CalltoActionRouter;
+
+    ioBus: IOBus;
 
     WebSocketServer?: WebSocket.Server = undefined;
 
@@ -73,6 +77,7 @@ export class Machine
 
         this.callToActionRouter = new CalltoActionRouter();
         this.ioRouter = new IORouter(this.specs.iohandlers, this.specs.iogates);
+        this.ioBus = new IOBusAdapter(this.ioRouter.gates);
         this.profileRouter = new ProfilesRouter(this.specs.profileSkeletons, this.specs.profilePremades);
         this.maintenanceRouter = new MaintenanceRouter(this.specs.maintenance);
         this.containerRouter = new ContainersRouter(this.specs.containers, this.specs.containerProducts);

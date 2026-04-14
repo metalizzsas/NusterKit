@@ -419,6 +419,12 @@ export class ProgramBlockRunner
             }
         }
 
+        // Dispose steps (removes listeners from all blocks, steps, and step run conditions)
+        TurbineEventLoop.emit('log', 'info', "PBR: Disposing steps and blocks.");
+        for (const step of this.steps) {
+            step.dispose();
+        }
+
         this.disposeEvents();
         
         //Append 1 to cycle count

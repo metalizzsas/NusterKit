@@ -54,6 +54,11 @@ export class StartTimerProgramBlock extends ProgramBlock
         super.execute();
     }
 
+    dispose(): void {
+        super.dispose();
+        for (const b of this.blocks) b.dispose();
+    }
+
     static isStartTimerPgB(obj: AllProgramBlocks): obj is StartTimerProgramBlockSpec
     {
         return (obj as StartTimerProgramBlockSpec).start_timer !== undefined;

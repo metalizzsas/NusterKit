@@ -49,7 +49,11 @@ export class ProgramBlockStep
     currentPauseStartDate?: number;
 
     progresses: Array<number | null>;
-    
+
+    private _onStepStop: (reason?: string) => void;
+    private _onPause: () => void;
+    private _onResume: () => void;
+
     constructor(pbrInstance: ProgramBlockRunner, obj: PBRStep)
     {
         this.pbrInstance = pbrInstance;
@@ -80,17 +84,17 @@ export class ProgramBlockStep
         this.duration = this.estimateRunTime();
 
         /** Listen for step end events */
-        TurbineEventLoop.addListener(`pbr.step.${this.name}.stop`, (reason?: string) => {
+        this._onStepStop = (reason?: string) => {
             if(this.state == "started")
             {
-                 TurbineEventLoop.emit('log', 'warning', `PBS-${this.name}: Step has been stopped by the user. Reason: ${reason ?? "No reason given."}`);
+                TurbineEventLoop.emit('log', 'warning', `PBS-${this.name}: Step has been stopped by the user. Reason: ${reason ?? "No reason given."}`);
                 this.state = "ending";
-
                 this.stepRuncontroller.abort();
             }
-        });
+        };
+        TurbineEventLoop.addListener(`pbr.step.${this.name}.stop`, this._onStepStop);
 
-        TurbineEventLoop.on('pbr.pause', () => {
+        this._onPause = () => {
             if(this.state === "started")
             {
                 this.currentPauseStartDate = Date.now();
@@ -102,9 +106,10 @@ export class ProgramBlockStep
                     this.cancelOvertimeTimer();
                 }
             }
-        });
+        };
+        TurbineEventLoop.on('pbr.pause', this._onPause);
 
-        TurbineEventLoop.on('pbr.resume', () => {
+        this._onResume = () => {
             if(this.state === "started")
             {
                 this.totalPauseTime += (Date.now() - (this.currentPauseStartDate ?? 0)) / 1000;
@@ -113,7 +118,8 @@ export class ProgramBlockStep
                 // Restart overtime timer with remaining time
                 this.startOvertimeTimer();
             }
-        });
+        };
+        TurbineEventLoop.on('pbr.resume', this._onResume);
     }
 
     public async execute(): Promise<PBRStepResult>
@@ -315,6 +321,22 @@ export class ProgramBlockStep
         if (this.stepOvertimeTimer) {
             clearTimeout(this.stepOvertimeTimer);
             this.stepOvertimeTimer = undefined;
+        }
+    }
+
+    /** Remove event listeners and dispose all child blocks and run conditions */
+    public dispose(): void {
+        this.cancelOvertimeTimer();
+        TurbineEventLoop.removeListener(`pbr.step.${this.name}.stop`, this._onStepStop);
+        TurbineEventLoop.removeListener('pbr.pause', this._onPause);
+        TurbineEventLoop.removeListener('pbr.resume', this._onResume);
+
+        for (const b of [...this.startBlocks, ...this.blocks, ...this.endBlocks]) {
+            b.dispose();
+        }
+
+        for (const rc of this.runConditions) {
+            rc.dispose();
         }
     }
 

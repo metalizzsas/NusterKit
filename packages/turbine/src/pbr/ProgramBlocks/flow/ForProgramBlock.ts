@@ -54,6 +54,11 @@ export class ForProgramBlock extends ProgramBlock {
         this.executed = true;
     }
     
+    dispose(): void {
+        super.dispose();
+        for (const b of this.blocks) b.dispose();
+    }
+
     static isForPgB(obj: AllProgramBlocks): obj is ForProgramBlockSpec
     {
         return (obj as ForProgramBlockSpec).for !== undefined;

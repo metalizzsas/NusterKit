@@ -66,6 +66,12 @@ export class IfProgramBlock extends ProgramBlock
         super.execute();
     }
 
+    dispose(): void {
+        super.dispose();
+        for (const b of this.trueBlocks) b.dispose();
+        for (const b of this.falseBlocks ?? []) b.dispose();
+    }
+
     static isIfPgB(obj: AllProgramBlocks): obj is IfProgramBlockSpec
     {
         return (obj as IfProgramBlockSpec).if !== undefined;

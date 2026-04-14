@@ -5,13 +5,16 @@ import { TurbineEventLoop } from "../../../events";
 import { ProgramBlock } from "../ProgramBlock";
 
 export class SleepProgramBlock extends ProgramBlock
-{    
+{
     sleepTime: NumericParameterBlockHydrated;
 
     iterationsSkippedByPause = 0;
     currentSleepTime = 0;
 
     sleepStarted = false;
+
+    private _onStatusUpdateSleep: (state: string) => void;
+    private _onResumeSleep: () => void;
 
     constructor(obj: SleepProgramBlockSpec)
     {
@@ -20,14 +23,22 @@ export class SleepProgramBlock extends ProgramBlock
         this.sleepTime = ParameterBlockRegistry.Numeric(obj.sleep);
         this.estimatedRunTime = this.sleepTime.data;
 
-        TurbineEventLoop.on(`pbr.status.update`, (state) => { if (state === "ended" || state === "ending") { this.earlyExit = true }});
+        this._onStatusUpdateSleep = (state) => { if (state === "ended" || state === "ending") { this.earlyExit = true; } };
+        TurbineEventLoop.on('pbr.status.update', this._onStatusUpdateSleep);
 
-        TurbineEventLoop.on('pbr.resume', () => {
+        this._onResumeSleep = () => {
             if(this.sleepStarted && !this.executed)
             {
                 TurbineEventLoop.emit("log", "info", `SleepBlock: Resuming, paused during ${this.iterationsSkippedByPause * 10} ms. Slept ${this.currentSleepTime * 10} / ${this.sleepTime.data * 1000 + this.iterationsSkippedByPause * 10} ms.`);
             }
-        });
+        };
+        TurbineEventLoop.on('pbr.resume', this._onResumeSleep);
+    }
+
+    dispose(): void {
+        super.dispose();
+        TurbineEventLoop.removeListener('pbr.status.update', this._onStatusUpdateSleep);
+        TurbineEventLoop.removeListener('pbr.resume', this._onResumeSleep);
     }
 
     async execute(signal?: AbortSignal): Promise<void>

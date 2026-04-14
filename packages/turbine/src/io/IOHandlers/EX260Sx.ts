@@ -6,6 +6,7 @@ import type { dataItem } from "enip-ts/Encapsulation/CPF";
 
 import type { IOBase, EX260Sx as EX260SxConfig } from "$types/spec/iohandlers";
 import { TurbineEventLoop } from "../../events";
+import { AsyncMutex } from "../../utils/AsyncMutex";
 
 export class EX260Sx implements IOBase, EX260SxConfig
 {
@@ -18,6 +19,7 @@ export class EX260Sx implements IOBase, EX260SxConfig
     size: 16 | 32;
     
     private controller: ENIPClient;
+    private writeMutex = new AsyncMutex();
     /**
      * Builds an EX260Sx object
      * @param ip Ip address of the controller
@@ -95,10 +97,10 @@ export class EX260Sx implements IOBase, EX260SxConfig
     async readData2(address: number): Promise<Buffer>
     {
         if(this.unreachable)
-            throw "EX260Sx: Unreachable";
+            throw new Error("EX260Sx: Unreachable");
 
         await this.connect();
-        
+
         //Path for ethernet ip protocol
         const idPath = Buffer.from([0x20, 0x04, 0x24, address, 0x30, 0x03]);
 
@@ -131,71 +133,76 @@ export class EX260Sx implements IOBase, EX260SxConfig
     async writeData(address: number, value: number): Promise<void>
     {
         if(this.unreachable)
-            throw "EX260Sx: Unreachable";
+            throw new Error("EX260Sx: Unreachable");
 
-        await this.connect();
+        await this.writeMutex.acquire();
+        try {
+            await this.connect();
 
-        //patch to prevent writing too early
-        await new Promise((resolve) => {
-            setTimeout(resolve, 50);
-        });
+            //patch to prevent writing too early
+            await new Promise((resolve) => {
+                setTimeout(resolve, 50);
+            });
 
-        //Path for ethernet ip protocol
-        const idPath = Buffer.from([0x20, 0x04, 0x24, 0x96, 0x30, 0x03]);
+            //Path for ethernet ip protocol
+            const idPath = Buffer.from([0x20, 0x04, 0x24, 0x96, 0x30, 0x03]);
 
-        const res = await this.readData2(0x96);
+            const res = await this.readData2(0x96);
 
-        if(res.length === 0)
-            throw "EX260Sx: Empty Data returned";
+            if(res.length === 0)
+                throw new Error("EX260Sx: Empty Data returned");
 
-        //Data to read deprends on size of the EX260
-        const result = res.readUIntLE(4, this.size / 8);
+            //Data to read deprends on size of the EX260
+            const result = res.readUIntLE(4, this.size / 8);
 
-        //Str binary array result depends on size of the EX260
-        const strBinaryArray = (this.size == 32) ? ("00000000000000000000000000000000" + result.toString(2)).slice(-32) : ("0000000000000000" + result.toString(2)).slice(-16);
+            //Str binary array result depends on size of the EX260
+            const strBinaryArray = (this.size == 32) ? ("00000000000000000000000000000000" + result.toString(2)).slice(-32) : ("0000000000000000" + result.toString(2)).slice(-16);
 
-        //spliting string
-        const binaryArray = strBinaryArray.split("");
+            //spliting string
+            const binaryArray = strBinaryArray.split("");
 
-        const intArray: number[] = [];
+            const intArray: number[] = [];
 
-        //replcing String to Int
-        binaryArray.forEach((part, index, array) => {
-            array[index] = part;
-            intArray[index] = parseInt(part);
-        });
+            //replcing String to Int
+            binaryArray.forEach((part, index, array) => {
+                array[index] = part;
+                intArray[index] = parseInt(part);
+            });
 
-        //Setting the written data
-        for(let i = 0; i < binaryArray.length; i++)
-        {                        
-            //if the address is the same as the one we want to write    
-            if(i == address)
-                binaryArray[i] = value ? "1" : "0";
-        }
+            //Setting the written data
+            for(let i = 0; i < binaryArray.length; i++)
+            {
+                //if the address is the same as the one we want to write
+                if(i == address)
+                    binaryArray[i] = value ? "1" : "0";
+            }
 
-        //converting array of bit to long bit
-        const newOutputsStates = binaryArray.join("");
+            //converting array of bit to long bit
+            const newOutputsStates = binaryArray.join("");
 
-        //convert bin array to int
-        const newDecimalOutputState = parseInt(newOutputsStates, 2);
+            //convert bin array to int
+            const newDecimalOutputState = parseInt(newOutputsStates, 2);
 
-        const buf = Buffer.alloc(this.size / 8);
+            const buf = Buffer.alloc(this.size / 8);
 
-        if(this.size == 32)
-            buf.writeUInt32LE(newDecimalOutputState);
-        else
-            buf.writeUInt16LE(newDecimalOutputState);
+            if(this.size == 32)
+                buf.writeUInt32LE(newDecimalOutputState);
+            else
+                buf.writeUInt16LE(newDecimalOutputState);
 
-        //Message router packet
-        const MR = MessageRouter.build(0x10, idPath, buf);
-        
-        //write data to the controller
-        const write = await this.controller.write(MR, false, 10);
+            //Message router packet
+            const MR = MessageRouter.build(0x10, idPath, buf);
 
-        if(write === false)
-        {
-            TurbineEventLoop.emit('log', 'warning', "EX260Sx: Failed to write data");
-            TurbineEventLoop.emit(`pbr.stop`, "controllerError");
+            //write data to the controller
+            const write = await this.controller.write(MR, false, 10);
+
+            if(write === false)
+            {
+                TurbineEventLoop.emit('log', 'warning', "EX260Sx: Failed to write data");
+                TurbineEventLoop.emit(`pbr.stop`, "controllerError");
+            }
+        } finally {
+            this.writeMutex.release();
         }
     }
     

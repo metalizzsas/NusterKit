@@ -93,28 +93,23 @@ export class Machine
         if (process.env.NODE_ENV === 'production')
         {
             this.hypervisorInterval = setInterval(async () => {
-                    fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/state/status?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" } }).then(res => {
-                        if (res.status !== 200)
-                            return;
+                try {
+                    const statusRes = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/state/status?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" } });
+                    if (statusRes.status === 200) {
+                        this.hypervisorData = await statusRes.json();
+                    }
+                } catch {
+                    TurbineEventLoop.emit('log', 'warning', "Hypervisor: Failed to get Device Hypervisor data.");
+                }
 
-                        res.json().then(data => {
-                            this.hypervisorData = data;
-                        });
-                    }).catch(() => {
-                         TurbineEventLoop.emit('log', 'warning', "Hypervisor: Failed to get Device Hypervisor data.");
-                    });
-
-                    fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/device/vpn?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" } }).then(res => {
-
-                        if(res.status !== 200)
-                            return;
-
-                        res.json().then(data => {
-                            this.vpnData = data;
-                        });
-                    }).catch(() => {
-                         TurbineEventLoop.emit('log', 'warning', "Hypervisor: Failed to get Device Hypervisor data.");
-                    });
+                try {
+                    const vpnRes = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/device/vpn?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" } });
+                    if (vpnRes.status === 200) {
+                        this.vpnData = await vpnRes.json();
+                    }
+                } catch {
+                    TurbineEventLoop.emit('log', 'warning', "Hypervisor: Failed to get Device VPN data.");
+                }
             }, 10000);
         }
     }

@@ -34,7 +34,9 @@ export class SensorMaintenance extends Maintenance implements Omit<SensorMainten
             options.callback?.(this.toJSON());
         });
 
-        super.checkTracker().then(k => this.#lastKnownDurationProgress = k ?? -1);
+        super.checkTracker().then(k => this.#lastKnownDurationProgress = k ?? -1).catch(err => {
+            TurbineEventLoop.emit('log', 'error', `Maintenance-${this.name}: checkTracker failed: ${(err as Error).message}`);
+        });
     }
 
     get computeDurationProgress(): number
@@ -46,7 +48,9 @@ export class SensorMaintenance extends Maintenance implements Omit<SensorMainten
             return this.#lastKnownDurationProgress;
 
         this.#lastKnownDurationProgress = map(this.#sensorGate.value, this.sensorBaseValue, this.sensorLimitValue, 0, 100) / 100;
-        void prisma.maintenance.update({ where: { name: this.name }, data: { duration: this.#lastKnownDurationProgress } });
+        prisma.maintenance.update({ where: { name: this.name }, data: { duration: this.#lastKnownDurationProgress } }).catch(err => {
+            TurbineEventLoop.emit('log', 'error', `Maintenance-${this.name}: duration update failed: ${(err as Error).message}`);
+        });
         
         return this.#lastKnownDurationProgress;
     }

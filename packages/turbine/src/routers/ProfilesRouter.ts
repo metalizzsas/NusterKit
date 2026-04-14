@@ -47,8 +47,10 @@ export class ProfilesRouter extends Router {
                     }});
                 }
             }
+        }).catch(err => {
+            TurbineEventLoop.emit('log', 'error', `ProfilesRouter: premade sync failed: ${(err as Error).message}`);
         });
-        
+
         TurbineEventLoop.on('profile.read', async ({ profileID, callback }) => {
             const profile = await this.findProfile(profileID);
             callback?.(profile);

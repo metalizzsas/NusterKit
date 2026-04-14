@@ -54,6 +54,8 @@ export class WebsocketDispatcher
     {
         Promise.all<CallToActionFront>((popup.callToActions ?? []).map(cta => CalltoActionRouter.generateCallToAction(cta))).then(v => {
             this.broadcastData({...popup, callToActions: v }, "popup");
+        }).catch(err => {
+            TurbineEventLoop.emit('log', 'error', `WebsocketDispatcher: popup generation failed: ${(err as Error).message}`);
         });
     }
 

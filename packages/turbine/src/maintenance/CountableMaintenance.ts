@@ -20,7 +20,9 @@ export class CountableMaintenance extends Maintenance implements CountableMainte
         this.durationLimit = obj.durationLimit;
         this.duration = 0;
 
-        super.checkTracker().then(() => this.loadTrackerData());
+        super.checkTracker().then(() => this.loadTrackerData()).catch(err => {
+            TurbineEventLoop.emit('log', 'error', `Maintenance-${this.name}: checkTracker failed: ${(err as Error).message}`);
+        });
 
         TurbineEventLoop.on(`maintenance.read.${this.name}`, (options) => {
             options.callback?.(this.toJSON());

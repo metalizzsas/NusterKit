@@ -85,6 +85,8 @@ export class Container implements ContainerConfig
 
             this.socketData().then(data => {
                 TurbineEventLoop.emit(`container.updated.${this.name}`, data);
+            }).catch(err => {
+                TurbineEventLoop.emit('log', 'error', `Container-${this.name}: socketData failed: ${(err as Error).message}`);
             });
 
             return true;
@@ -101,6 +103,8 @@ export class Container implements ContainerConfig
 
             this.socketData().then(data => {
                 TurbineEventLoop.emit(`container.updated.${this.name}`, data);
+            }).catch(err => {
+                TurbineEventLoop.emit('log', 'error', `Container-${this.name}: socketData failed: ${(err as Error).message}`);
             });            
             return true;
         }

@@ -6,6 +6,7 @@ import type { Maintenances } from "../types/spec/maintenances";
 
 import { CountableMaintenance } from "../maintenance/CountableMaintenance";
 import { SensorMaintenance } from "../maintenance/SensorMaintenance";
+import { asyncHandler } from "../utils/asyncHandler";
 
 export class MaintenanceRouter extends Router
 {
@@ -40,22 +41,22 @@ export class MaintenanceRouter extends Router
 
     private _configureRouter()
     {
-        this.router.get("/", async (_req: Request, res: Response) => {
+        this.router.get("/", asyncHandler(async (_req: Request, res: Response) => {
             res.json(this.tasks);
-        });
+        }));
 
         this.router.get("/:name", this.maintenanceTaskExists, (req: Request, res: Response) => {
             const maintenance = this.tasks.find(task => task.name == req.params.name);
             res.json(maintenance);
         });
 
-        this.router.delete("/:name", this.maintenanceTaskExists, async (req: Request, res: Response) => {
+        this.router.delete("/:name", this.maintenanceTaskExists, asyncHandler(async (req: Request, res: Response) => {
 
             const maintenance = this.tasks.find(t => t.name == req.params.name);
             maintenance?.reset();
 
             res.status(200).end()
-        });
+        }));
     }
 
     public socketData(): MaintenanceHydrated[]

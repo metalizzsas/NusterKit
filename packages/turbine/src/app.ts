@@ -5,8 +5,9 @@ import lockFile from "lockfile";
 import path from "path";
 
 import type { Configuration, MachineSpecs, MachineSpecsList } from "./types";
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import express from "express";
+import { asyncHandler } from "./utils/asyncHandler";
 import type { Server } from "http";
 import { pino } from "pino";
 import { pinoHttp } from "pino-http";
@@ -233,7 +234,7 @@ import Ajv from "ajv";
         });
 
         //Tell the balena Hypervisor to force the pending update.
-        ExpressApp.get("/forceUpdate", async (_req, res: Response) => {
+        ExpressApp.get("/forceUpdate", asyncHandler(async (_req, res: Response) => {
 
             /** On update, reset all io gates */
             try
@@ -254,14 +255,14 @@ import Ajv from "ajv";
             else
                 res.status(req.status).end();
 
-        }); 
+        })); 
 
-        ExpressApp.get("/reboot", async (_req, res: Response) => {
+        ExpressApp.get("/reboot", asyncHandler(async (_req, res: Response) => {
 
             try
             {
                 const req = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v1/reboot?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" }, body: JSON.stringify({force: true}), method: 'POST'});
-        
+
                 if(req.status == 202)
                 {
                     /** On reboot, reset all io gates */
@@ -291,9 +292,9 @@ import Ajv from "ajv";
                 res.status(500).end();
             }
 
-        });
+        }));
 
-        ExpressApp.get("/shutdown", async (_req, res: Response) => {
+        ExpressApp.get("/shutdown", asyncHandler(async (_req, res: Response) => {
 
             try
             {
@@ -327,14 +328,14 @@ import Ajv from "ajv";
             {
                 res.status(500).end();
             }
-        });
+        }));
 
-        ExpressApp.post("/settings", async (req, res) => {
+        ExpressApp.post("/settings", asyncHandler(async (req, res) => {
             try
             {
                 if(req.body.theme !== undefined && req.body.lang !== undefined)
                     throw Error("Settings not complete");
-                
+
                 fs.writeFileSync(settingsPath, JSON.stringify(req.body));
                 res.status(200).end();
             }
@@ -342,9 +343,9 @@ import Ajv from "ajv";
             {
                 res.status(500).end(String(ex));
             }
-        });
+        }));
 
-        ExpressApp.get("/settings", async (_req, res) => {
+        ExpressApp.get("/settings", asyncHandler(async (_req, res) => {
             try
             {
                 const data = fs.readFileSync(settingsPath, { encoding: "utf-8" });
@@ -355,7 +356,7 @@ import Ajv from "ajv";
             {
                 res.status(500).end();
             }
-        });
+        }));
     }
 
     /**
@@ -452,8 +453,12 @@ import Ajv from "ajv";
             TurbineEventLoop.emit('log', 'info', "Express: Registered routers");
 
             ExpressApp.get("/machine", (_, res: Response) => { res.json(machine?.toJSON()); });
-            ExpressApp.get("/realtime", async (_, res: Response) => { res.json(await machine?.socketData());})
-            
+            ExpressApp.get("/realtime", asyncHandler(async (_, res: Response) => { res.json(await machine?.socketData());}))
+
+            ExpressApp.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+                TurbineEventLoop.emit('log', 'error', `Express: ${err.stack ?? err.message}`);
+                if (!res.headersSent) res.status(500).json({ error: "Internal server error" });
+            });
         }
         else
             TurbineEventLoop.emit('log', 'fatal', "Express: No machine defined, cannot add routes.");

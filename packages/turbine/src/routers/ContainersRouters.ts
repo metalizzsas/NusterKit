@@ -5,6 +5,7 @@ import type { Container as ContainerConfig, ContainerProduct } from "../types/sp
 import { Container } from "../containers/Containers";
 import { Router } from "./Router";
 import { TurbineEventLoop } from "../events";
+import { asyncHandler } from "../utils/asyncHandler";
 
 export class ContainersRouter extends Router
 {
@@ -20,7 +21,7 @@ export class ContainersRouter extends Router
     private _configureRouter()
     {
         /** Route used to load a product inside the container */
-        this.router.post("/:container/load/:series", async (req: Request, res: Response) => {
+        this.router.post("/:container/load/:series", asyncHandler(async (req: Request, res: Response) => {
             const container = this.containers.find(s => s.name == req.params.container);
 
             if(container)
@@ -32,10 +33,10 @@ export class ContainersRouter extends Router
             {
                 res.status(404).end("container not found");
             }
-        });
+        }));
 
         /** Route used to unload a product from a container */
-        this.router.post("/:container/unload/", async (req: Request, res: Response) => {
+        this.router.post("/:container/unload/", asyncHandler(async (req: Request, res: Response) => {
             const container = this.containers.find(s => s.name == req.params.container);
 
             if(container)
@@ -47,27 +48,27 @@ export class ContainersRouter extends Router
             {
                 res.status(404).end("container not found");
             }
-        });
+        }));
 
         /** Route used to set the state of a container's regulation */
-        this.router.post("/:container/regulation/:regulation/state/:state", async (req: Request, res: Response) => {
+        this.router.post("/:container/regulation/:regulation/state/:state", asyncHandler(async (req: Request, res: Response) => {
 
             const state = req.params.state == "true" ? true : false
 
             TurbineEventLoop.emit(`container.${req.params.container}.regulation.${req.params.regulation}.set_state`, {state, callback: (stateSet) => {
                 res.status(state === stateSet ? 200 : 500).end();
             }});
-        });
+        }));
 
         /** Route used to set the target of a container's regulation */
-        this.router.post("/:container/regulation/:regulation/target/:target", async (req: Request, res: Response) => {
+        this.router.post("/:container/regulation/:regulation/target/:target", asyncHandler(async (req: Request, res: Response) => {
 
             const target = parseInt(req.params.target)
 
             TurbineEventLoop.emit(`container.${req.params.container}.regulation.${req.params.regulation}.set_target`, {target, callback: (targetSet) => {
                 res.status(target === targetSet ? 200 : 500).end();
             }});
-        });
+        }));
     }
     
     async socketData(): Promise<ContainerHydrated[]>

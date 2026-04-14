@@ -3,6 +3,7 @@
 import type { CallToAction, CallToActionFront } from "$types/spec/nuster";
 import { prisma } from "../db";
 import { Router } from "./Router";
+import { asyncHandler } from "../utils/asyncHandler";
 
 export class CalltoActionRouter extends Router
 {
@@ -17,7 +18,7 @@ export class CalltoActionRouter extends Router
     private _configureRouter() 
     {
 
-        this.router.get("/:id", async (req, res) => {
+        this.router.get("/:id", asyncHandler(async (req, res) => {
 
             const cta = await prisma.callToAction.findUnique({
                 where: {
@@ -44,11 +45,11 @@ export class CalltoActionRouter extends Router
                     return;
                 }
             }
-            
+
             await prisma.callToAction.delete({ where: { id: req.params.id }});
             res.status(200).end(cta.ui_endpoint);
-            
-        });
+
+        }));
     }
 
     /**

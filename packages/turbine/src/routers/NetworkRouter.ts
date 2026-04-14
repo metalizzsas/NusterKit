@@ -6,6 +6,7 @@ import { computeSubnet, stringToArrayOfBytes } from "../dbus/network-utils";
 import { DBusClient } from "../dbus/dbus";
 import { NetworkManagerTypes } from "../dbus/networkManagerTypes";
 import { TurbineEventLoop } from "../events";
+import { asyncHandler } from "../utils/asyncHandler";
 
 export class NetworkRouter extends Router
 {
@@ -29,7 +30,7 @@ export class NetworkRouter extends Router
 
     async configureRouter()
     {
-        this.router.get("/wifi/list", async (req, res) => {
+        this.router.get("/wifi/list", asyncHandler(async (req, res) => {
             try
             {
                 const list = await this.listWifiNetworks();
@@ -39,9 +40,9 @@ export class NetworkRouter extends Router
             {
                 res.status(500).json(ex);
             }
-        });
+        }));
 
-        this.router.post("/wifi/connect", async (req, res) => {
+        this.router.post("/wifi/connect", asyncHandler(async (req, res) => {
 
             if(req.body.ssid === undefined)
             {
@@ -76,9 +77,9 @@ export class NetworkRouter extends Router
                 else
                     res.status(500).json(e);
             }
-        });
+        }));
 
-        this.router.get("/wifi/disconnect", async (req, res) => {
+        this.router.get("/wifi/disconnect", asyncHandler(async (req, res) => {
             try
             {
                 await this.disconnectFromWifi()
@@ -88,9 +89,9 @@ export class NetworkRouter extends Router
             {
                 res.status(500).json(e);
             }
-        });
+        }));
 
-        this.router.get("/devices", async (req, res) => {
+        this.router.get("/devices", asyncHandler(async (req, res) => {
             try
             {
                 const list = await this.getDevices();
@@ -100,7 +101,7 @@ export class NetworkRouter extends Router
             {
                 res.status(500).json(ex);
             }
-        });
+        }));
     }
 
     /**

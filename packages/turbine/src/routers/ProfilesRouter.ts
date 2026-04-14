@@ -6,6 +6,7 @@ import type { NextFunction, Request, Response } from "express";
 import { TurbineEventLoop } from "../events";
 import type { Modify } from "../types/utils";
 import { prisma } from "../db";
+import { asyncHandler } from "../utils/asyncHandler";
 import type { Profile as ProfilePrisma, ProfileValue as ProfileValuePrisma } from "@prisma/client";
 
 type ProfileStored = ProfilePrisma & { 
@@ -62,22 +63,22 @@ export class ProfilesRouter extends Router {
     private _configureRouter()
     {
         /** Route to List profiles */
-        this.router.get('/', async (_req: Request, res: Response) => {
+        this.router.get('/', asyncHandler(async (_req: Request, res: Response) => {
             res.json(await this.profileList());
-        });
+        }));
 
         /** Route to copy a profile */
-        this.router.post('/', async (req: Modify<Request, { body: ProfileHydrated }>, res: Response) => {
-            
+        this.router.post('/', asyncHandler(async (req: Modify<Request, { body: ProfileHydrated }>, res: Response) => {
+
             const copied = this.prepareToStore(req.body);
 
-            const created = await prisma.profile.create({ data: { 
-                id: undefined, 
-                name: copied.name, 
-                skeleton: copied.skeleton, 
-                isPremade: false, 
-                modificationDate: new Date(), 
-                values: { 
+            const created = await prisma.profile.create({ data: {
+                id: undefined,
+                name: copied.name,
+                skeleton: copied.skeleton,
+                isPremade: false,
+                modificationDate: new Date(),
+                values: {
                     create: copied.values.map(v => { return { key: v.key, value: v.value } })
                 }
             }});
@@ -92,19 +93,19 @@ export class ProfilesRouter extends Router {
 
             res.status(200).json(this.hydrateProfile(stored));
             return;
-        });
+        }));
 
         /** Route to get a profile by its `id` */
-        this.router.get('/:id', async (req: Request, res: Response) => {
+        this.router.get('/:id', asyncHandler(async (req: Request, res: Response) => {
             const profile = await prisma.profile.findUnique({ where: { id: req.params.id }, include: { values: true } });
 
             res.status(profile ? 200 : 404);
 
             (profile) ? res.json(this.hydrateProfile(profile)) : res.end(`Could not find profile with id ${req.params.id}.`);
-        });
+        }));
 
         /** Route to delete a profile with its `id` */
-        this.router.delete('/:id', this.premadeProtect, async (req: Request, res: Response) => {
+        this.router.delete('/:id', this.premadeProtect, asyncHandler(async (req: Request, res: Response) => {
             try
             {
                 await prisma.profile.delete({ where: { id: req.params.id }});
@@ -114,10 +115,10 @@ export class ProfilesRouter extends Router {
             {
                 res.status(404).json(ex);
             }
-        });
+        }));
         
         /** Route to Update a profile */
-        this.router.patch('/:id', this.premadeProtect, async (req: Modify<Request, { body: ProfileHydrated }> , res: Response) => {
+        this.router.patch('/:id', this.premadeProtect, asyncHandler(async (req: Modify<Request, { body: ProfileHydrated }> , res: Response) => {
 
             req.body.modificationDate = new Date();
 
@@ -139,7 +140,7 @@ export class ProfilesRouter extends Router {
             }).catch(() => {
                 res.status(404).end("failed to save profile");
             });
-        });
+        }));
     }
 
     /** 

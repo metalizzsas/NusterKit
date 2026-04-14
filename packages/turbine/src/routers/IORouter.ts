@@ -2,6 +2,7 @@ import { Router } from "./Router";
 import { DefaultGate } from "../io/IOGates/DefaultGate";
 
 import type { Request, Response } from "express";
+import { asyncHandler } from "../utils/asyncHandler";
 import { MappedGate } from "../io/IOGates/MappedGate";
 import { EX260Sx } from "../io/IOHandlers/EX260Sx";
 import { WAGO } from "../io/IOHandlers/WAGO";
@@ -80,7 +81,7 @@ export class IORouter extends Router
 
     private _configureRouter()
     {
-        this.router.post("/:name/:value", async (req: Request, res: Response) => {
+        this.router.post("/:name/:value", asyncHandler(async (req: Request, res: Response) => {
 
             const name = req.params.name.replace("_", "#");
             const gate = this.gates.find((g) => g.name == name);
@@ -107,8 +108,8 @@ export class IORouter extends Router
             const value = (gate.size === "word") ? (parseFloat(req.params.value) || 0) : (req.params.value === "1" ? 1 : 0);
 
             await gate.write(value);
-            res.status(200).end();  
-        });
+            res.status(200).end();
+        }));
     }
 
     /**

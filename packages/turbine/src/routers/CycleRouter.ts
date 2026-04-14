@@ -8,6 +8,7 @@ import { ProgramBlockRunner } from "../pbr/ProgramBlockRunner";
 import type { ProgramBlockRunnerHydrated } from "../types/hydrated/cycle/ProgramBlockRunnerHydrated";
 import { TurbineEventLoop } from "../events";
 import { callbackWithTimeout } from "../utils/callbackWithTimeout";
+import { asyncHandler } from "../utils/asyncHandler";
 
 export class CycleRouter extends Router
 {
@@ -36,7 +37,7 @@ export class CycleRouter extends Router
         });
 
         //prepare the cycle
-        this.router.post("/:name/:id?", async (req: Request, res: Response) => {
+        this.router.post("/:name/:id?", asyncHandler(async (req: Request, res: Response) => {
 
             let profile: ProfileHydrated | undefined = undefined;
 
@@ -88,7 +89,7 @@ export class CycleRouter extends Router
             }
 
             res.status(200).end("ready");
-        });
+        }));
 
         this.router.all("/", (_req, res, next) => {
             if(this.program === undefined)
@@ -98,24 +99,24 @@ export class CycleRouter extends Router
         });
         
         /** Route to start a cycle */
-        this.router.post("/", async (_req, res: Response) => {
+        this.router.post("/", asyncHandler(async (_req, res: Response) => {
             this.program?.run();
             res.status(200).end();
-        });
+        }));
 
         /** Route to trigger next step for the cycle */
-        this.router.put("/", async (_req, res: Response) => {
+        this.router.put("/", asyncHandler(async (_req, res: Response) => {
             this.program?.nextStep();
             res.status(200).end();
-        });
+        }));
 
-        this.router.put("/pause", async (_req, res: Response) => {
+        this.router.put("/pause", asyncHandler(async (_req, res: Response) => {
             TurbineEventLoop.emit(`pbr.${(this.program?.status.mode === "paused") ? "resume" : "pause"}`);
             res.status(200).end((this.program?.status.mode === "paused") ? "resuming" : "pausing");
-        });
+        }));
 
         /** Dispose the cycle and delete it */
-        this.router.patch("/", async (_req, res: Response) => {
+        this.router.patch("/", asyncHandler(async (_req, res: Response) => {
             if (["ended", "created"].includes(this.program?.status.mode ?? ""))
             {
                 this.program = undefined;
@@ -124,13 +125,13 @@ export class CycleRouter extends Router
             }
             else
                 res.status(403).end("Cant dispose a cycle that has not ended call DELETE:http://${env.TURBINE_ADDRESS}/v1/ first.");
-        });
+        }));
 
         /** Route to stop the cycle */
-        this.router.delete("/", async (_req, res: Response) => {
+        this.router.delete("/", asyncHandler(async (_req, res: Response) => {
             this.program?.end("user");
             res.status(200).end();
-        });
+        }));
     }
 
     public get socketData(): ProgramBlockRunnerHydrated | undefined {

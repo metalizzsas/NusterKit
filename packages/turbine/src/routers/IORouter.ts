@@ -97,6 +97,13 @@ export class IORouter extends Router
                 return;
             }
 
+            const force = req.query.force === "true";
+
+            if (gate.locked && !force) {
+                res.status(409).end(`Gate ${name} is locked by a running regulation or cycle. Use ?force=true to override.`);
+                return;
+            }
+
             const value = (gate.size === "word") ? (parseFloat(req.params.value) || 0) : (req.params.value === "1" ? 1 : 0);
 
             await gate.write(value);

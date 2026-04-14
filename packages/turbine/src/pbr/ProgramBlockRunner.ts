@@ -50,7 +50,7 @@ export class ProgramBlockRunner
     private _onProfileRead!: (options: { callback?: (profile?: ProfileHydrated) => void | Promise<void> }) => void;
     private _onTimerStart!: (timer: PBRTimer & { timer?: ReturnType<typeof setInterval> }) => void;
     private _onTimerExists!: (options: { timerName: string; callback?: (exists: boolean) => void | Promise<void> }) => void;
-    private _onPause!: () => void;
+    private _onPause!: () => void | Promise<void>;
     private _onResume!: () => Promise<void>;
     private _onSetPausable!: (pausable: boolean) => void;
     private _onTimerStop!: (options: { timerName: string; callback?: (stopped: boolean) => void | Promise<void> }) => void;
@@ -141,7 +141,7 @@ export class ProgramBlockRunner
         };
         TurbineEventLoop.on("pbr.timer.exists", this._onTimerExists);
 
-        this._onPause = () => {
+        this._onPause = async () => {
 
             if(this.pausable === false)
             {
@@ -164,12 +164,17 @@ export class ProgramBlockRunner
             this.pauseStartDate = Date.now();
             this.setState("paused");
 
-            TurbineEventLoop.emit("io.snapshot", ({ callback: (snapshot: Record<string, number>) => {
-                this.ioPauseSnapshot = structuredClone(snapshot);
-                TurbineEventLoop.emit("io.resetAll");
-            }}));
-
-            TurbineEventLoop.emit("log", "warning", "PBR: Paused cycle.");
+            if (this.ctx) {
+                this.ioPauseSnapshot = structuredClone(this.ctx.io.snapshot());
+                await this.ctx.io.resetAll();
+                this.ctx.logger.log("warning", "PBR: Paused cycle.");
+            } else {
+                TurbineEventLoop.emit("io.snapshot", ({ callback: (snapshot: Record<string, number>) => {
+                    this.ioPauseSnapshot = structuredClone(snapshot);
+                    TurbineEventLoop.emit("io.resetAll");
+                }}));
+                TurbineEventLoop.emit("log", "warning", "PBR: Paused cycle.");
+            }
 
         };
         TurbineEventLoop.on("pbr.pause", this._onPause);
@@ -196,23 +201,36 @@ export class ProgramBlockRunner
 
             this.setState("started");
 
-            for(const io in this.ioPauseSnapshot)
-            {
-                await callbackWithTimeout<void>(
-                    (resolve) => {
-                        TurbineEventLoop.emit(`io.update.${io}`, { value: this.ioPauseSnapshot[io], callback: () => resolve() });
-                    },
-                    5000,
-                    `PBR.resume io.update.${io}`
-                ).catch(err => {
-                    TurbineEventLoop.emit("log", "error", `PBR: Resume IO restore failed: ${(err as Error).message}`);
-                });
+            if (this.ctx) {
+                for (const io in this.ioPauseSnapshot) {
+                    try {
+                        await this.ctx.io.write(io, this.ioPauseSnapshot[io]);
+                    } catch (err) {
+                        this.ctx.logger.log("error", `PBR: Resume IO restore failed for ${io}: ${(err as Error).message}`);
+                    }
+                }
+            } else {
+                for (const io in this.ioPauseSnapshot) {
+                    await callbackWithTimeout<void>(
+                        (resolve) => {
+                            TurbineEventLoop.emit(`io.update.${io}`, { value: this.ioPauseSnapshot[io], callback: () => resolve() });
+                        },
+                        5000,
+                        `PBR.resume io.update.${io}`
+                    ).catch(err => {
+                        TurbineEventLoop.emit("log", "error", `PBR: Resume IO restore failed: ${(err as Error).message}`);
+                    });
+                }
             }
 
             this.totalPausedTime += (Date.now() - (this.pauseStartDate ?? 0)) / 1000;
             this.pauseStartDate = undefined;
 
-            TurbineEventLoop.emit("log", "warning", "PBR: Resumed cycle.");
+            if (this.ctx) {
+                this.ctx.logger.log("warning", "PBR: Resumed cycle.");
+            } else {
+                TurbineEventLoop.emit("log", "warning", "PBR: Resumed cycle.");
+            }
         };
         TurbineEventLoop.on("pbr.resume", this._onResume);
 
@@ -459,13 +477,22 @@ export class ProgramBlockRunner
         this.disposeEvents();
         
         //Append 1 to cycle count
-        TurbineEventLoop.emit(`maintenance.append.cycleCount`, 1);
+        if (this.ctx) {
+            this.ctx.maintenance.append("cycleCount", 1);
+        } else {
+            TurbineEventLoop.emit(`maintenance.append.cycleCount`, 1);
+        }
 
         this.setState("ended");
         this.status.endDate = Date.now();
 
-         TurbineEventLoop.emit('log', 'info', "PBR: Resetting all io gates to default values.");
-        TurbineEventLoop.emit("io.resetAll");
+        if (this.ctx) {
+            this.ctx.logger.log("info", "PBR: Resetting all io gates to default values.");
+            this.ctx.io.resetAll();
+        } else {
+            TurbineEventLoop.emit('log', 'info', "PBR: Resetting all io gates to default values.");
+            TurbineEventLoop.emit("io.resetAll");
+        }
 
          TurbineEventLoop.emit('log', 'info', `PBR: Ended cycle ${this.name} with state: ${this.status.mode} & reason: ${this.status.endReason}.`);
 

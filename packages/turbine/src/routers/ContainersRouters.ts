@@ -6,10 +6,12 @@ import { Container } from "../containers/Containers";
 import { Router } from "./Router";
 import { TurbineEventLoop } from "../events";
 import { asyncHandler } from "../utils/asyncHandler";
+import type { ServiceRegistry } from "../services/interfaces";
 
 export class ContainersRouter extends Router
 {
     containers: Container[] = [];
+    public services?: ServiceRegistry;
 
     constructor(containers: ContainerConfig[], products: Record<string, ContainerProduct>)
     {
@@ -53,21 +55,31 @@ export class ContainersRouter extends Router
         /** Route used to set the state of a container's regulation */
         this.router.post("/:container/regulation/:regulation/state/:state", asyncHandler(async (req: Request, res: Response) => {
 
-            const state = req.params.state == "true" ? true : false
+            const state = req.params.state == "true" ? true : false;
 
-            TurbineEventLoop.emit(`container.${req.params.container}.regulation.${req.params.regulation}.set_state`, {state, callback: (stateSet) => {
+            if (this.services) {
+                const stateSet = await this.services.containers.setRegulationState(req.params.container, req.params.regulation, state);
                 res.status(state === stateSet ? 200 : 500).end();
-            }});
+            } else {
+                TurbineEventLoop.emit(`container.${req.params.container}.regulation.${req.params.regulation}.set_state`, {state, callback: (stateSet: boolean) => {
+                    res.status(state === stateSet ? 200 : 500).end();
+                }});
+            }
         }));
 
         /** Route used to set the target of a container's regulation */
         this.router.post("/:container/regulation/:regulation/target/:target", asyncHandler(async (req: Request, res: Response) => {
 
-            const target = parseInt(req.params.target)
+            const target = parseInt(req.params.target);
 
-            TurbineEventLoop.emit(`container.${req.params.container}.regulation.${req.params.regulation}.set_target`, {target, callback: (targetSet) => {
+            if (this.services) {
+                const targetSet = await this.services.containers.setRegulationTarget(req.params.container, req.params.regulation, target);
                 res.status(target === targetSet ? 200 : 500).end();
-            }});
+            } else {
+                TurbineEventLoop.emit(`container.${req.params.container}.regulation.${req.params.regulation}.set_target`, {target, callback: (targetSet: number) => {
+                    res.status(target === targetSet ? 200 : 500).end();
+                }});
+            }
         }));
     }
     

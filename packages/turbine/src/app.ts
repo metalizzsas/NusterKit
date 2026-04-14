@@ -374,14 +374,22 @@ import Ajv from "ajv";
             for(const regulation of container.regulations ?? [])
             {
                 regulation.dispose();
-                await new Promise<void>((resolve) => {
-                    TurbineEventLoop.emit(`container.${container.name}.regulation.${regulation.name}.set_state`, { state: false, callback: () => resolve()});
-                });
+                if (machine?.services) {
+                    await machine.services.containers.setRegulationState(container.name, regulation.name, false);
+                } else {
+                    await new Promise<void>((resolve) => {
+                        TurbineEventLoop.emit(`container.${container.name}.regulation.${regulation.name}.set_state`, { state: false, callback: () => resolve()});
+                    });
+                }
             }
         }
 
         // Reset IO
-        TurbineEventLoop.emit('io.resetAll');
+        if (machine?.services) {
+            await machine.services.io.resetAll();
+        } else {
+            TurbineEventLoop.emit('io.resetAll');
+        }
 
         // Stop IO scanner
         machine?.ioRouter.stopIOScanner();

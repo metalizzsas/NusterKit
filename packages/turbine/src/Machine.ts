@@ -100,8 +100,9 @@ export class Machine
             logger: new LoggerAdapter(),
         };
 
-        // Pass services to CycleRouter so it can inject them into PBR instances
+        // Pass services to routers that need them
         this.cycleRouter.serviceRegistry = this.services;
+        this.containerRouter.services = this.services;
 
         // Add event listener for machine variable reads
         for(const variable of this.data.settings.variables)

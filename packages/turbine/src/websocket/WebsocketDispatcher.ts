@@ -103,4 +103,8 @@ export class WebsocketDispatcher
             TurbineEventLoop.emit('log', 'trace', "Websocket: Client disconnected");
         });
     }
+
+    dispose(): void {
+        this.wsServer.close();
+    }
 }

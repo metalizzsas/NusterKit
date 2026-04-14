@@ -37,6 +37,7 @@ import Ajv from "ajv";
 
     /** Websocket manager */
     let websocketDispatcher: WebsocketDispatcher | undefined = undefined;
+    let wsBroadcastInterval: ReturnType<typeof setInterval> | undefined = undefined;
 
     /** File / Folders paths */
     const basePath = productionEnabled ? "/data" : "data";
@@ -363,21 +364,42 @@ import Ajv from "ajv";
      */
     async function SoftExit()
     {
-
         if(machine?.cycleRouter.program !== undefined)
             throw Error("Cannot exit NusterTurbine while a program is running.");
 
-        for(const container of machine?.containerRouter.containers.filter(c => (c.regulations?.length  ?? 0 )> 0) ?? [])
+        // Disable regulations and clear their intervals
+        for(const container of machine?.containerRouter.containers.filter(c => (c.regulations?.length ?? 0) > 0) ?? [])
         {
             for(const regulation of container.regulations ?? [])
             {
+                regulation.dispose();
                 await new Promise<void>((resolve) => {
-                    TurbineEventLoop.emit(`container.${container.name}.regulation.${regulation.name}.set_state`, { state: false, callback: () => resolve()})
+                    TurbineEventLoop.emit(`container.${container.name}.regulation.${regulation.name}.set_state`, { state: false, callback: () => resolve()});
                 });
             }
         }
 
+        // Reset IO
         TurbineEventLoop.emit('io.resetAll');
+
+        // Stop IO scanner
+        machine?.ioRouter.stopIOScanner();
+
+        // Clear hypervisor polling
+        machine?.dispose();
+
+        // Clear WS broadcast interval
+        if (wsBroadcastInterval) {
+            clearInterval(wsBroadcastInterval);
+            wsBroadcastInterval = undefined;
+        }
+
+        // Close WebSocket server
+        websocketDispatcher?.dispose();
+
+        // Close Prisma
+        const { prisma } = await import("./db.js");
+        await prisma.$disconnect();
     }
 
     /** Setup Websocket server */
@@ -391,7 +413,7 @@ import Ajv from "ajv";
 
         websocketDispatcher = new WebsocketDispatcher(httpServer);
 
-        setInterval(async () => {
+        wsBroadcastInterval = setInterval(async () => {
             if(machine !== undefined && websocketDispatcher !== undefined)
                 websocketDispatcher.broadcastData(await machine.socketData(), "status");
         }, 500);
@@ -440,6 +462,14 @@ import Ajv from "ajv";
     /** NodeJS process events */
     process.on("uncaughtException", (error: Error) =>  TurbineEventLoop.emit('log', 'error', "unCaughtException: " + error.stack));
     process.on('unhandledRejection', (error: Error) =>  TurbineEventLoop.emit('log', 'error', "unhandledPromiseRejection: " + error.stack));
-    process.on("SIGTERM", () => {  TurbineEventLoop.emit('log', 'info', "Shutdown: SIGTERM detected."); SoftExit(); });
+    process.on("SIGTERM", async () => {
+        TurbineEventLoop.emit('log', 'info', "Shutdown: SIGTERM detected.");
+        try {
+            await SoftExit();
+        } catch (err) {
+            TurbineEventLoop.emit('log', 'error', `Shutdown: SoftExit failed: ${(err as Error).message}`);
+        }
+        process.exit(0);
+    });
 
 })();

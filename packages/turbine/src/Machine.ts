@@ -36,6 +36,7 @@ export class Machine
     //Balena given data
     private hypervisorData?: HypervisorData;
     private vpnData?: VPNData;
+    private hypervisorInterval?: ReturnType<typeof setInterval>;
 
     constructor(data: Configuration, specs: MachineSpecs)
     {
@@ -91,7 +92,7 @@ export class Machine
         //Polling the balenaOS Hypervisor data if device is not in dev mode
         if (process.env.NODE_ENV === 'production')
         {
-            setInterval(async () => {
+            this.hypervisorInterval = setInterval(async () => {
                     fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/state/status?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" } }).then(res => {
                         if (res.status !== 200)
                             return;
@@ -146,5 +147,12 @@ export class Machine
             hypervisorData: this.hypervisorData,
             vpnData: this.vpnData,
         };
+    }
+
+    dispose(): void {
+        if (this.hypervisorInterval) {
+            clearInterval(this.hypervisorInterval);
+            this.hypervisorInterval = undefined;
+        }
     }
 }

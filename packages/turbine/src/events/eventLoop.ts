@@ -13,7 +13,11 @@ export class EventLoop extends EventEmitter implements EventLoopEmitter
     constructor()
     {
         super();
-        this.setMaxListeners(50);
+        // Reduced from 50 after Phase 2 migration to direct service calls.
+        // Most events now go through PBRContext/ServiceRegistry. Remaining events:
+        // - log, nuster.modal, close (system-level, kept on TurbineEventLoop)
+        // - io.*, container.*, pbr.*, maintenance.*, machine.*, profile.read (fallback paths during transition)
+        this.setMaxListeners(30);
     }
 
     on<U extends keyof EventLoopEvents>(event: U, listener: EventLoopEvents[U]): this

@@ -1,11 +1,7 @@
-import type { Request, Response } from "express";
-
 import type { ContainerHydrated } from "../types/hydrated/containers";
 import type { Container as ContainerConfig, ContainerProduct } from "../types/spec/containers";
 import { Container } from "../containers/Containers";
 import { Router } from "./Router";
-import { TurbineEventLoop } from "../events";
-import { asyncHandler } from "../utils/asyncHandler";
 import type { ServiceRegistry } from "../services/interfaces";
 
 export class ContainersRouter extends Router
@@ -16,73 +12,9 @@ export class ContainersRouter extends Router
     constructor(containers: ContainerConfig[], products: Record<string, ContainerProduct>)
     {
         super();
-        this._configureRouter();
         this.containers = containers.map(c => new Container(c, products));
     }
 
-    private _configureRouter()
-    {
-        /** Route used to load a product inside the container */
-        this.router.post("/:container/load/:series", asyncHandler(async (req: Request, res: Response) => {
-            const container = this.containers.find(s => s.name == req.params.container);
-
-            if(container)
-            {
-                await container.loadProduct(req.params.series);
-                res.end("ok");
-            }
-            else
-            {
-                res.status(404).end("container not found");
-            }
-        }));
-
-        /** Route used to unload a product from a container */
-        this.router.post("/:container/unload/", asyncHandler(async (req: Request, res: Response) => {
-            const container = this.containers.find(s => s.name == req.params.container);
-
-            if(container)
-            {
-                await container.unloadProduct();
-                res.end("ok");
-            }
-            else
-            {
-                res.status(404).end("container not found");
-            }
-        }));
-
-        /** Route used to set the state of a container's regulation */
-        this.router.post("/:container/regulation/:regulation/state/:state", asyncHandler(async (req: Request, res: Response) => {
-
-            const state = req.params.state == "true" ? true : false;
-
-            if (this.services) {
-                const stateSet = await this.services.containers.setRegulationState(req.params.container, req.params.regulation, state);
-                res.status(state === stateSet ? 200 : 500).end();
-            } else {
-                TurbineEventLoop.emit(`container.${req.params.container}.regulation.${req.params.regulation}.set_state`, {state, callback: (stateSet: boolean) => {
-                    res.status(state === stateSet ? 200 : 500).end();
-                }});
-            }
-        }));
-
-        /** Route used to set the target of a container's regulation */
-        this.router.post("/:container/regulation/:regulation/target/:target", asyncHandler(async (req: Request, res: Response) => {
-
-            const target = parseInt(req.params.target);
-
-            if (this.services) {
-                const targetSet = await this.services.containers.setRegulationTarget(req.params.container, req.params.regulation, target);
-                res.status(target === targetSet ? 200 : 500).end();
-            } else {
-                TurbineEventLoop.emit(`container.${req.params.container}.regulation.${req.params.regulation}.set_target`, {target, callback: (targetSet: number) => {
-                    res.status(target === targetSet ? 200 : 500).end();
-                }});
-            }
-        }));
-    }
-    
     async socketData(): Promise<ContainerHydrated[]>
     {
         return await Promise.all(this.containers.map(async k => await k.socketData()));

@@ -23,6 +23,7 @@
 </a>
 
 <style lang="css">
+    @reference "tailwindcss";
 
     .pillActive
     {

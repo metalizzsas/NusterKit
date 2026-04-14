@@ -6,7 +6,6 @@ import { computeSubnet, stringToArrayOfBytes } from "../dbus/network-utils";
 import { DBusClient } from "../dbus/dbus";
 import { NetworkManagerTypes } from "../dbus/networkManagerTypes";
 import { TurbineEventLoop } from "../events";
-import { asyncHandler } from "../utils/asyncHandler";
 
 export class NetworkRouter extends Router
 {
@@ -22,86 +21,9 @@ export class NetworkRouter extends Router
             throw new Error("NetworkRouter should not be used in development mode.");
 
         this.dbusClient = new DBusClient();
-        
-        this.configureRouter();
+
         this.getDevices();
         this.listWifiNetworks();
-    }
-
-    async configureRouter()
-    {
-        this.router.get("/wifi/list", asyncHandler(async (req, res) => {
-            try
-            {
-                const list = await this.listWifiNetworks();
-                res.json(list);
-            }
-            catch (ex)
-            {
-                res.status(500).json(ex);
-            }
-        }));
-
-        this.router.post("/wifi/connect", asyncHandler(async (req, res) => {
-
-            if(req.body.ssid === undefined)
-            {
-                res.status(400).end("settings.network.errors.wifi_missing_parameters");
-                return;
-            }
-
-            const ap = this.accessPoints.find(ap => ap.ssid === req.body.ssid);
-
-            if(ap === undefined)
-            {
-                //Should not happen
-                res.status(400).end("settings.network.errors.wifi_invalid_ssid");
-                return;
-            }
-
-            if(ap.encryption > 0 && req.body.password === undefined)
-            {
-                res.status(400).end("settings.network.errors.wifi_missing_parameters");
-                return;
-            }
-
-            try
-            {
-                const result = await this.connectToWifi(req.body.ssid, req.body.password);
-                res.status(result ? 200 : 500).end();
-            }
-            catch(e)
-            {
-                if(e instanceof Array && e.at(0).contains('802-11-wireless-security.psk'))
-                    res.status(400).end("settings.network.errors.wifi_invalid_password");
-                else
-                    res.status(500).json(e);
-            }
-        }));
-
-        this.router.get("/wifi/disconnect", asyncHandler(async (req, res) => {
-            try
-            {
-                await this.disconnectFromWifi()
-                res.status(200).end();
-            }
-            catch(e)
-            {
-                res.status(500).json(e);
-            }
-        }));
-
-        this.router.get("/devices", asyncHandler(async (req, res) => {
-            try
-            {
-                const list = await this.getDevices();
-                res.json(list);
-            }
-            catch (ex)
-            {
-                res.status(500).json(ex);
-            }
-        }));
     }
 
     /**

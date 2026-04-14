@@ -1,8 +1,5 @@
 import { Router } from "./Router";
 import { DefaultGate } from "../io/IOGates/DefaultGate";
-
-import type { Request, Response } from "express";
-import { asyncHandler } from "../utils/asyncHandler";
 import { MappedGate } from "../io/IOGates/MappedGate";
 import { EX260Sx } from "../io/IOHandlers/EX260Sx";
 import { WAGO } from "../io/IOHandlers/WAGO";
@@ -27,7 +24,6 @@ export class IORouter extends Router
     constructor(handlers: IOHandlers[], gates: IOGates[])
     {
         super();
-        this._configureRouter();
 
         // Register IO Handlers from their types
         for(const handler of handlers)
@@ -77,39 +73,6 @@ export class IORouter extends Router
 
             options.callback(snapshot);
         })
-    }
-
-    private _configureRouter()
-    {
-        this.router.post("/:name/:value", asyncHandler(async (req: Request, res: Response) => {
-
-            const name = req.params.name.replace("_", "#");
-            const gate = this.gates.find((g) => g.name == name);
-            
-            if(gate === undefined)
-            {
-                res.status(404).end(`Gate with name ${name} not found.`);
-                return;
-            }
-
-            if(gate.bus === "in")
-            {
-                res.status(403).end("Cannot write to an input gate.");
-                return;
-            }
-
-            const force = req.query.force === "true";
-
-            if (gate.locked && !force) {
-                res.status(409).end(`Gate ${name} is locked by a running regulation or cycle. Use ?force=true to override.`);
-                return;
-            }
-
-            const value = (gate.size === "word") ? (parseFloat(req.params.value) || 0) : (req.params.value === "1" ? 1 : 0);
-
-            await gate.write(value);
-            res.status(200).end();
-        }));
     }
 
     /**

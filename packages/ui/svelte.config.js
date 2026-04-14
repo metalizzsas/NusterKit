@@ -1,5 +1,4 @@
 import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
-import { default as sveltePreprocess } from "svelte-preprocess";
 import adapter from "@sveltejs/adapter-node"
 import { fileURLToPath } from "url";
 import { readFileSync } from "fs";
@@ -10,10 +9,7 @@ const pkg = JSON.parse(json);
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-    preprocess: [
-        vitePreprocess(),
-        sveltePreprocess({ postcss: true })
-    ],
+    preprocess: [vitePreprocess()],
     kit: {
         adapter: adapter(),
         version: {

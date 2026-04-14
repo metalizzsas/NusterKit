@@ -1,8 +1,9 @@
 /* app.css */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+/* Class-based dark mode (Tailwind 4 defaults to prefers-color-scheme) */
+@custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
 

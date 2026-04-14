@@ -54,9 +54,9 @@ export class SimulationMachine
         });
 
         this.router.get(`/io/:name`, (req: Request, res: Response) => {
-            req.params.name = req.params.name.replace("_", "#");
+            const name = (req.params.name as string).replace("_", "#");
 
-            const gate = this.config.iogates.find(k => k.name == req.params.name);
+            const gate = this.config.iogates.find(k => k.name == name);
 
             res.status(gate !== undefined ? 200 : 404).json(gate);
 
@@ -64,8 +64,8 @@ export class SimulationMachine
 
         this.router.post(`/io/:name/:value`, (req: Request, res: Response) => {
 
-            req.params.name = req.params.name.replace("_", "#");
-            const gate = this.config.iogates.find(k => k.name == req.params.name);
+            const name = (req.params.name as string).replace("_", "#");
+            const gate = this.config.iogates.find(k => k.name == name);
 
             if(gate === undefined)
             {

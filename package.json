@@ -3,14 +3,15 @@
   "version": "1.0.0",
   "description": "Mono repository that holds the nuster project",
   "engines": {
-    "node": "18.x"
+    "node": "22.x"
   },
   "scripts": {
     "dev": "pnpm run dev:simulation & pnpm run dev:packages",
     "dev:simulation": "pnpm -r --parallel --filter='@nuster/simulation-*' run dev",
     "dev:packages": "pnpm -r --parallel --filter=!'@nuster/simulation-*' run dev",
     "sync": "pnpm -r --parallel run sync",
-    "lint": "pnpm -r --parallel run lint",
+    "lint": "biome check packages/",
+    "format": "biome format --write packages/",
     "test": "pnpm -r --parallel run test",
     "build": "pnpm build:turbine && pnpm build:ui && pnpm build:simulation",
     "build:turbine": "pnpm -r --filter='@nuster/turbine' run build",
@@ -27,11 +28,12 @@
     "url": "git@github.com:metalizzsas/NusterKit.git"
   },
   "devDependencies": {
-    "@changesets/changelog-github": "^0.5.0",
-    "@changesets/cli": "^2.27.2"
+    "@biomejs/biome": "^2.4.0",
+    "@changesets/changelog-github": "^0.6.0",
+    "@changesets/cli": "^2.30.0"
   },
   "peerDependencies": {
-    "vitest": "^1.6.0",
+    "vitest": "^4.1.0",
     "ts-node": "10.9.1"
   },
   "dependencies": {

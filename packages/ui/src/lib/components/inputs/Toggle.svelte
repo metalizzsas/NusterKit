@@ -60,6 +60,8 @@
 {/if}
 
 <style lang="postcss">
+	@reference "tailwindcss";
+
 	.toggle-bg-dark {
 		background: repeating-linear-gradient(
 			135deg,

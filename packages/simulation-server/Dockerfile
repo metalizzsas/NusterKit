@@ -1,5 +1,5 @@
 # Base image used by both steps
-FROM node:18-alpine AS base
+FROM node:18-alpine@sha256:8d6421d663b4c28fd3ebc498332f249011d118945588d0a35cb9bc4b8ca09d9e AS base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -29,8 +29,16 @@ FROM base AS production
 ENV NODE_ENV=production
 ENV PORT=4082
 EXPOSE 4082
-CMD ["pnpm", "run", "start"]
 
 COPY --from=prod-deps /app/node_modules /app/node_modules
 COPY --from=build /app/build /app/build
 
+# Non-root user
+RUN addgroup -g 1001 -S nodejs && adduser -S nodejs -u 1001
+RUN chown -R nodejs:nodejs /app
+USER nodejs
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD wget -qO- http://localhost:4082/ || exit 1
+
+CMD ["pnpm", "run", "start"]

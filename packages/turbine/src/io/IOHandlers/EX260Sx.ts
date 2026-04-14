@@ -206,6 +206,14 @@ export class EX260Sx implements IOBase, EX260SxConfig
         }
     }
     
+    dispose(): void {
+        try {
+            this.controller.close();
+        } catch {
+            // best-effort close
+        }
+    }
+
     toJSON()
     {
         return {

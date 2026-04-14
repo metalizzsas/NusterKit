@@ -62,6 +62,8 @@ export class ModbusController
 
     close()
     {
-        this.modbus.close(() => {});
+        this.modbus.close((err) => {
+            if (err) console.error(`ModbusController: close error on port ${502 + this.index}:`, err);
+        });
     }
 }

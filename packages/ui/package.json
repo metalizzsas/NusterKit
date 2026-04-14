@@ -15,7 +15,9 @@
 		"sync": "svelte-kit sync",
 		"dev": "vite dev",
 		"build": "svelte-kit sync && vite build",
+		"start": "node build",
 		"preview": "vite preview --port 4081",
+		"test": "svelte-check --tsconfig ./tsconfig.json",
 		"lint": "eslint ./src"
 	},
 	"dependencies": {

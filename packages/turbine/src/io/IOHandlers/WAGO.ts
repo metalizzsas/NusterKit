@@ -5,6 +5,9 @@ import ping from "ping";
 
 import { TurbineEventLoop } from "../../events";
 
+const MAX_RECONNECT_DELAY = 30_000; // 30s cap
+const BASE_RECONNECT_DELAY = 2_000; // 2s initial
+
 export class WAGO implements IOBase, WAGOConfig
 {
     type = "wago" as const;
@@ -15,59 +18,82 @@ export class WAGO implements IOBase, WAGOConfig
 
     public client: ModbusTCP;
     private connectTimer?: ReturnType<typeof setInterval>;
+    private reconnectAttempts = 0;
+    private connecting = false;
 
     constructor(ip: string)
     {
         this.ip = ip;
         this.client = new ModbusTCP();
-        this.connect(); 
+        this.connect();
     }
-    
+
     async connect(): Promise<boolean>
     {
-        if(this.unreachable)
-            return false;
-        
-        const available = await new Promise<boolean>((resolve) => {
-            ping.sys.probe(this.ip, (isAlive) => resolve(isAlive ?? false));
-        });
-        
-        if(available === true)
-        {
-            await this.client.connectTCP(this.ip, {port: 502}).catch(error =>  TurbineEventLoop.emit('log', 'error', `WAGO: ${error}`));
+        // Prevent overlapping connect attempts
+        if (this.connecting) return false;
+        if (this.unreachable) return false;
+
+        this.connecting = true;
+
+        try {
+            const available = await new Promise<boolean>((resolve) => {
+                ping.sys.probe(this.ip, (isAlive) => resolve(isAlive ?? false));
+            });
+
+            if (!available) {
+                this.unreachable = true;
+                TurbineEventLoop.emit('log', 'error', `WAGO: Failed to ping, cancelling connection.`);
+                return false;
+            }
+
+            await this.client.connectTCP(this.ip, { port: 502 }).catch(error => TurbineEventLoop.emit('log', 'error', `WAGO: ${error}`));
 
             this.connected = this.client.isOpen;
 
-            if(this.connected)
-            {
-                 TurbineEventLoop.emit('log', 'info', "WAGO: Connected");
-
-                //check if the TCP tunnel is alive
-                if(this.connectTimer)
-                    clearInterval(this.connectTimer);
-    
-                this.connectTimer = setInterval(() => {
-                    this.connected = this.client.isOpen;
-                    if(this.connected === false)
-                    {
-                         TurbineEventLoop.emit('log', 'info', "WAGO: Disconnected");
-                        this.connect();
-                    }
-                        
-                }, 2000);
-    
+            if (this.connected) {
+                TurbineEventLoop.emit('log', 'info', "WAGO: Connected");
+                this.reconnectAttempts = 0;
+                this.startKeepAlive();
                 return true;
             }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            this.unreachable = true;
-             TurbineEventLoop.emit('log', 'error', `WAGO: Failed to ping, cancelling connection.`);
+
             return false;
+        } finally {
+            this.connecting = false;
+        }
+    }
+
+    private startKeepAlive(): void {
+        if (this.connectTimer) clearInterval(this.connectTimer);
+
+        this.connectTimer = setInterval(() => {
+            this.connected = this.client.isOpen;
+            if (!this.connected) {
+                TurbineEventLoop.emit('log', 'info', "WAGO: Disconnected, scheduling reconnect");
+                this.clearKeepAlive();
+                this.scheduleReconnect();
+            }
+        }, 2000);
+    }
+
+    private scheduleReconnect(): void {
+        this.reconnectAttempts++;
+        const delay = Math.min(BASE_RECONNECT_DELAY * Math.pow(2, this.reconnectAttempts - 1), MAX_RECONNECT_DELAY);
+        TurbineEventLoop.emit('log', 'info', `WAGO: Reconnect attempt #${this.reconnectAttempts} in ${delay}ms`);
+
+        setTimeout(async () => {
+            const success = await this.connect();
+            if (!success && !this.unreachable) {
+                this.scheduleReconnect();
+            }
+        }, delay);
+    }
+
+    private clearKeepAlive(): void {
+        if (this.connectTimer) {
+            clearInterval(this.connectTimer);
+            this.connectTimer = undefined;
         }
     }
 
@@ -78,7 +104,7 @@ export class WAGO implements IOBase, WAGOConfig
             TurbineEventLoop.emit(`pbr.stop`, "controllerUnreachable");
             return;
         }
-        
+
         if(!this.client.isOpen)
         {
             const connected = await this.connect();
@@ -124,6 +150,15 @@ export class WAGO implements IOBase, WAGOConfig
         {
             result = await this.client.readCoils(address, 1);
             return result.data[0] ? 1 : 0;
+        }
+    }
+
+    dispose(): void {
+        this.clearKeepAlive();
+        try {
+            this.client.close(() => {});
+        } catch {
+            // best-effort close
         }
     }
 

@@ -82,6 +82,9 @@ export class ENIPController
 
     close()
     {
-        //this.enip.close();
+        // ENIPServer doesn't expose close() — access underlying net.Server directly
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const server = (this.enip as any).server as import("net").Server;
+        server.close();
     }
 }

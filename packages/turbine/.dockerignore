@@ -3,11 +3,8 @@ data/
 dev/
 .git/
 .vscode/
-.yarn/
-yarn.lock
-package-lock.json
-jest.config.ts
 .DS_Store
-.yarnrc.yml
 README.md
 nodemon.json
+jest.config.ts
+vitest.config.ts

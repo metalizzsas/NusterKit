@@ -20,8 +20,13 @@ import Ajv from "ajv";
 import { SettingsSchema, ConfigurationSchema } from "./schemas";
 import { maintenanceRoutes, callToActionRoutes, ioRoutes, profileRoutes, containerRoutes, cycleRoutes, networkRoutes } from "./routes";
 import type { Server } from "http";
+import { validateEnv } from "./utils/validateEnv";
+import { GracefulShutdown } from "./utils/GracefulShutdown";
 
 (async () => {
+
+    // Fail fast if required env vars are missing
+    validateEnv();
 
     /** Http port */
     const HTTP_PORT = Number(process.env.PORT ?? 4080);
@@ -34,6 +39,9 @@ import type { Server } from "http";
 
     /** Machine instance holding all the controllers */
     let machine: Machine | undefined = undefined;
+
+    /** Graceful shutdown orchestrator */
+    const shutdown = new GracefulShutdown();
 
     /** Websocket manager */
     let websocketDispatcher: WebsocketDispatcher | undefined = undefined;
@@ -287,7 +295,7 @@ import type { Server } from "http";
     });
 
     // ============================================================
-    // SoftExit
+    // SoftExit — delegates to GracefulShutdown orchestrator
     // ============================================================
 
     async function SoftExit()
@@ -295,48 +303,19 @@ import type { Server } from "http";
         if(machine?.cycleRouter.program !== undefined)
             throw Error("Cannot exit NusterTurbine while a program is running.");
 
-        // Disable regulations and clear their intervals
-        for(const container of machine?.containerRouter.containers.filter(c => (c.regulations?.length ?? 0) > 0) ?? [])
-        {
-            for(const regulation of container.regulations ?? [])
-            {
-                regulation.dispose();
-                if (machine?.services) {
-                    await machine.services.containers.setRegulationState(container.name, regulation.name, false);
-                } else {
-                    await new Promise<void>((resolve) => {
-                        TurbineEventLoop.emit(`container.${container.name}.regulation.${regulation.name}.set_state`, { state: false, callback: () => resolve()});
-                    });
-                }
-            }
-        }
+        await shutdown.shutdown();
+    }
 
-        // Reset IO
-        if (machine?.services) {
-            await machine.services.io.resetAll();
-        } else {
-            TurbineEventLoop.emit('io.resetAll');
-        }
+    // Register resources in creation order — they will be disposed in REVERSE order.
+    // Resources registered later (closer to "ready") are disposed first.
 
-        // Stop IO scanner
-        machine?.ioRouter.stopIOScanner();
-
-        // Clear hypervisor polling
-        machine?.dispose();
-
-        // Clear WS broadcast interval
-        if (wsBroadcastInterval) {
-            clearInterval(wsBroadcastInterval);
-            wsBroadcastInterval = undefined;
-        }
-
-        // Close WebSocket server
-        websocketDispatcher?.dispose();
-
-        // Close Prisma
+    // 1. Prisma (registered early — disposed last)
+    shutdown.register("prisma", async () => {
         const { prisma } = await import("./db.js");
         await prisma.$disconnect();
-    }
+    });
+
+    // Machine-dependent resources are registered after machine creation (see below)
 
     // ============================================================
     // WebSocket setup
@@ -442,6 +421,43 @@ import type { Server } from "http";
 
             machine = new Machine(parsedConfiguration, parsedSpecs);
 
+            // Register machine resources for graceful shutdown (reverse order of disposal)
+            // 2. IO handlers (WAGO Modbus connections) — disposed after IO scanner stops
+            shutdown.register("io-handlers", () => {
+                for (const handler of machine!.ioRouter.handlers) {
+                    if ("dispose" in handler && typeof handler.dispose === "function") {
+                        handler.dispose();
+                    }
+                }
+            });
+
+            // 3. Machine hypervisor polling
+            shutdown.register("machine-hypervisor", () => machine!.dispose());
+
+            // 4. IO scanner
+            shutdown.register("io-scanner", () => machine!.ioRouter.stopIOScanner());
+
+            // 5. Regulations — disable and dispose
+            shutdown.register("regulations", async () => {
+                for (const container of machine!.containerRouter.containers.filter(c => (c.regulations?.length ?? 0) > 0)) {
+                    for (const regulation of container.regulations ?? []) {
+                        regulation.dispose();
+                        if (machine!.services) {
+                            await machine!.services.containers.setRegulationState(container.name, regulation.name, false);
+                        }
+                    }
+                }
+            });
+
+            // 6. IO reset — set all outputs to safe state
+            shutdown.register("io-reset", async () => {
+                if (machine!.services) {
+                    await machine!.services.io.resetAll();
+                } else {
+                    TurbineEventLoop.emit("io.resetAll");
+                }
+            });
+
             SetupMachine();
         }
     }
@@ -457,7 +473,21 @@ import type { Server } from "http";
     // Setup WebSocket after server is listening (app.server is available)
     if (machine) {
         SetupWebsocketServer();
+
+        // 7. WS broadcast interval (disposed first — closest to "ready")
+        shutdown.register("ws-broadcast", () => {
+            if (wsBroadcastInterval) {
+                clearInterval(wsBroadcastInterval);
+                wsBroadcastInterval = undefined;
+            }
+        });
+
+        // 8. WebSocket server
+        shutdown.register("websocket", () => websocketDispatcher?.dispose());
     }
+
+    // 9. Fastify HTTP server (disposed last among runtime resources, before Prisma)
+    shutdown.register("fastify", () => app.close());
 
     // Post-update service restart
     if(wasUpdated && productionEnabled)
@@ -485,15 +515,18 @@ import type { Server } from "http";
     /** NodeJS process events */
     process.on("uncaughtException", (error: Error) =>  TurbineEventLoop.emit('log', 'error', "unCaughtException: " + error.stack));
     process.on('unhandledRejection', (error: Error) =>  TurbineEventLoop.emit('log', 'error', "unhandledPromiseRejection: " + error.stack));
-    process.on("SIGTERM", async () => {
-        TurbineEventLoop.emit('log', 'info', "Shutdown: SIGTERM detected.");
+
+    const handleShutdownSignal = async (signal: string) => {
+        TurbineEventLoop.emit('log', 'info', `Shutdown: ${signal} detected.`);
         try {
             await SoftExit();
-            await app.close();
         } catch (err) {
-            TurbineEventLoop.emit('log', 'error', `Shutdown: SoftExit failed: ${(err as Error).message}`);
+            TurbineEventLoop.emit('log', 'error', `Shutdown: Failed: ${(err as Error).message}`);
         }
         process.exit(0);
-    });
+    };
+
+    process.on("SIGTERM", () => handleShutdownSignal("SIGTERM"));
+    process.on("SIGINT", () => handleShutdownSignal("SIGINT"));
 
 })();

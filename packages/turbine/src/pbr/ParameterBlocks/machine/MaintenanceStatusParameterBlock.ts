@@ -1,5 +1,6 @@
 import type { NumericParameterBlockHydrated, StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
 import type { AllParameterBlocks, MaintenanceStatusParameterBlock as MaintenanceStatusParameterBlockSpec } from "$types/spec/cycle/parameter";
+import type { PBRContext } from "../../../services/PBRContext";
 import { ParameterBlockRegistry } from "../ParameterBlockRegistry";
 import { TurbineEventLoop } from "../../../events";
 import type { MaintenanceHydrated } from "$types/hydrated/maintenance";
@@ -9,12 +10,14 @@ export class MaintenanceStatusParameterBlock extends StatusParameterBlock
 {
     private taskName: StringParameterBlockHydrated;
     private optional: NumericParameterBlockHydrated;
+    private ctx?: PBRContext;
 
     #maintenanceTask?: MaintenanceHydrated;
 
-    constructor(obj: MaintenanceStatusParameterBlockSpec)
+    constructor(obj: MaintenanceStatusParameterBlockSpec, ctx?: PBRContext)
     {
         super(obj);
+        this.ctx = ctx;
 
         if(obj.maintenance_status instanceof Array)
         {
@@ -27,15 +30,32 @@ export class MaintenanceStatusParameterBlock extends StatusParameterBlock
             this.optional = ParameterBlockRegistry.Numeric(0);
         }
 
-        TurbineEventLoop.on(`maintenance.updated.${this.taskName.data}`, (maintenance) => { 
-            this.#maintenanceTask = maintenance;
-            this.subscriber?.(this.data);
-        });
-        
-        TurbineEventLoop.emit(`maintenance.read.${this.taskName.data}`, {callback: (maintenance) => {
-            this.#maintenanceTask = maintenance;
-            this.subscriber?.(this.data);
-        }});
+        if(this.ctx)
+        {
+            this.ctx.maintenance.on(`updated.${this.taskName.data}`, (maintenance) => {
+                this.#maintenanceTask = maintenance;
+                this.subscriber?.(this.data);
+            });
+
+            const task = this.ctx.maintenance.read(this.taskName.data);
+            if(task)
+            {
+                this.#maintenanceTask = task;
+                this.subscriber?.(this.data);
+            }
+        }
+        else
+        {
+            TurbineEventLoop.on(`maintenance.updated.${this.taskName.data}`, (maintenance) => {
+                this.#maintenanceTask = maintenance;
+                this.subscriber?.(this.data);
+            });
+
+            TurbineEventLoop.emit(`maintenance.read.${this.taskName.data}`, {callback: (maintenance) => {
+                this.#maintenanceTask = maintenance;
+                this.subscriber?.(this.data);
+            }});
+        }
     }
 
     public get data(): "error" | "warning" | "good"

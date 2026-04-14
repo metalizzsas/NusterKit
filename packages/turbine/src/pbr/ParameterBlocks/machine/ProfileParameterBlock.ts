@@ -3,6 +3,7 @@ import type { AllParameterBlocks, ProfileParameterBlock as ProfileParameterBlock
 import type { ProfileHydrated } from "$types/hydrated/profiles";
 import type { ProfileSkeleton } from "$types/spec/profiles";
 import type { MachineSpecs } from "$types/index";
+import type { PBRContext } from "../../../services/PBRContext";
 import { ParameterBlockRegistry } from "../ParameterBlockRegistry";
 import { TurbineEventLoop } from "../../../events";
 import { NumericParameterBlock } from "../NumericParameterBlock";
@@ -10,22 +11,32 @@ import { NumericParameterBlock } from "../NumericParameterBlock";
 export class ProfileParameterBlock extends NumericParameterBlock
 {
     private profileRow: StringParameterBlockHydrated;
+    private ctx?: PBRContext;
 
     #profile?: ProfileHydrated;
     #profileSkeleton?: ProfileSkeleton;
 
-    constructor(obj: ProfileParameterBlockSpec)
+    constructor(obj: ProfileParameterBlockSpec, ctx?: PBRContext)
     {
         super(obj);
+        this.ctx = ctx;
         this.profileRow = ParameterBlockRegistry.String(obj.profile);
 
-        TurbineEventLoop.emit("pbr.profile.read", ({ callback: (profile) => {
-            this.#profile = profile;
+        if(this.ctx)
+        {
+            this.#profile = this.ctx.readProfile();
+            this.#profileSkeleton = this.ctx.machine.getConfig().profileSkeletons.find(p => p.name === this.#profile?.skeleton);
+        }
+        else
+        {
+            TurbineEventLoop.emit("pbr.profile.read", ({ callback: (profile) => {
+                this.#profile = profile;
 
-            TurbineEventLoop.emit("machine.config", (config: MachineSpecs) => {
-                this.#profileSkeleton = config.profileSkeletons.find(p => p.name === this.#profile?.skeleton);
-            });
-        }}));
+                TurbineEventLoop.emit("machine.config", (config: MachineSpecs) => {
+                    this.#profileSkeleton = config.profileSkeletons.find(p => p.name === this.#profile?.skeleton);
+                });
+            }}));
+        }
     }
 
     public get data(): number
@@ -34,7 +45,10 @@ export class ProfileParameterBlock extends NumericParameterBlock
 
         if(this.#profile === undefined || this.#profileSkeleton === undefined)
         {
-            TurbineEventLoop.emit("log", "warning", "Profile: profile not defined, returning 0");
+            if(this.ctx)
+                this.ctx.logger.log("warning", "Profile: profile not defined, returning 0");
+            else
+                TurbineEventLoop.emit("log", "warning", "Profile: profile not defined, returning 0");
             return 0;
         }
 
@@ -43,7 +57,10 @@ export class ProfileParameterBlock extends NumericParameterBlock
 
         if(val === undefined || profileSkeletonRow === undefined)
         {
-            TurbineEventLoop.emit("log", "warning", `Profile: profile row ${profileRowData} not defined returning 0`);
+            if(this.ctx)
+                this.ctx.logger.log("warning", `Profile: profile row ${profileRowData} not defined returning 0`);
+            else
+                TurbineEventLoop.emit("log", "warning", `Profile: profile row ${profileRowData} not defined returning 0`);
             return 0;
         }
 

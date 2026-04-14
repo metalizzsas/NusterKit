@@ -1,6 +1,7 @@
 import type { ContainerHydrated } from "$types/hydrated/containers";
 import type { StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
 import type { AllParameterBlocks, ProductStatusParameterBlock as ProductStatusParameterBlockSpec } from "$types/spec/cycle/parameter";
+import type { PBRContext } from "../../../services/PBRContext";
 import { TurbineEventLoop } from "../../../events";
 import { ParameterBlockRegistry } from "../ParameterBlockRegistry";
 import { StatusParameterBlock } from "../StatusParameterBlock";
@@ -9,21 +10,37 @@ import { StatusParameterBlock } from "../StatusParameterBlock";
 export class ProductStatusParameterBlock extends StatusParameterBlock
 {
     private containerName: StringParameterBlockHydrated;
+    private ctx?: PBRContext;
     #container?: ContainerHydrated;
-    
-    constructor(obj: ProductStatusParameterBlockSpec)
+
+    constructor(obj: ProductStatusParameterBlockSpec, ctx?: PBRContext)
     {
         super(obj);
+        this.ctx = ctx;
         this.containerName = ParameterBlockRegistry.String(obj.product_status);
 
-        TurbineEventLoop.on(`container.updated.${this.containerName.data}`, (container) => {
-            this.#container = container;
-            this.subscriber?.(this.data);
-        });
-        TurbineEventLoop.emit(`container.read.${this.containerName.data}`, { callback: (container) => {
-            this.#container = container;
-            this.subscriber?.(this.data);
-        }});
+        if(this.ctx)
+        {
+            this.ctx.containers.on(`updated.${this.containerName.data}`, (container) => {
+                this.#container = container;
+                this.subscriber?.(this.data);
+            });
+            this.ctx.containers.read(this.containerName.data).then((container) => {
+                this.#container = container;
+                this.subscriber?.(this.data);
+            });
+        }
+        else
+        {
+            TurbineEventLoop.on(`container.updated.${this.containerName.data}`, (container) => {
+                this.#container = container;
+                this.subscriber?.(this.data);
+            });
+            TurbineEventLoop.emit(`container.read.${this.containerName.data}`, { callback: (container) => {
+                this.#container = container;
+                this.subscriber?.(this.data);
+            }});
+        }
     }
 
     public get data(): "error" | "warning" | "good"

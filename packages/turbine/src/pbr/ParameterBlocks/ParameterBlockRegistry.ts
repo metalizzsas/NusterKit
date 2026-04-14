@@ -33,13 +33,12 @@ export class ParameterBlockRegistry
      * @param obj non hydrated source object
      * @returns Numeric parameter block hydrated
      */
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     static Numeric(obj: NumericParameterBlocks, ctx?: PBRContext): NumericParameterBlock
     {
         if(typeof obj === "number") return new NumberParameterBlock({"number": obj});
         if(NumberParameterBlock.isNumberPB(obj)) return new NumberParameterBlock(obj);
 
-        if(ReadVariableParameterBlock.isReadVariablePB(obj)) return new ReadVariableParameterBlock(obj);
+        if(ReadVariableParameterBlock.isReadVariablePB(obj)) return new ReadVariableParameterBlock(obj, ctx);
 
         if(AddParameterBlock.isAddPB(obj)) return new AddParameterBlock(obj);
         if(MultiplyParameterBlock.isMultiplyPB(obj)) return new MultiplyParameterBlock(obj);
@@ -48,15 +47,15 @@ export class ParameterBlockRegistry
         if(DivideParameterBlock.isDividePB(obj)) return new DivideParameterBlock(obj);
         if(ReverseParameterBlock.isReversePB(obj)) return new ReverseParameterBlock(obj);
 
-        if(ProfileParameterBlock.isProfilePB(obj)) return new ProfileParameterBlock(obj);
+        if(ProfileParameterBlock.isProfilePB(obj)) return new ProfileParameterBlock(obj, ctx);
 
-        if(IOReadParameterBlock.isIOReadPB(obj)) return new IOReadParameterBlock(obj);
+        if(IOReadParameterBlock.isIOReadPB(obj)) return new IOReadParameterBlock(obj, ctx);
 
         if(ConditionalParameterBlock.isConditionalPB(obj)) return new ConditionalParameterBlock(obj);
 
-        if(ReadMachineVariableParameterBlock.isReadMachineVariablePB(obj)) return new ReadMachineVariableParameterBlock(obj);
+        if(ReadMachineVariableParameterBlock.isReadMachineVariablePB(obj)) return new ReadMachineVariableParameterBlock(obj, ctx);
 
-        if(GetRegulationStateParameterBlock.isGetRegulationStatePB(obj)) return new GetRegulationStateParameterBlock(obj);
+        if(GetRegulationStateParameterBlock.isGetRegulationStatePB(obj)) return new GetRegulationStateParameterBlock(obj, ctx);
 
         throw Error("ParameterBlock data is not compatible with Numeric ParameterBlock");
     }
@@ -80,11 +79,10 @@ export class ParameterBlockRegistry
      * @param obj Non hydrated source objects
      * @returns Status parameter block hydrated
      */
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     static Status(obj: StatusParameterBlocks, ctx?: PBRContext): StatusParameterBlock
     {
-        if(MaintenanceStatusParameterBlock.isMaintenanceStatusPB(obj)) return new MaintenanceStatusParameterBlock(obj);
-        if(ProductStatusParameterBlock.isProductStatusPB(obj)) return new ProductStatusParameterBlock(obj);
+        if(MaintenanceStatusParameterBlock.isMaintenanceStatusPB(obj)) return new MaintenanceStatusParameterBlock(obj, ctx);
+        if(ProductStatusParameterBlock.isProductStatusPB(obj)) return new ProductStatusParameterBlock(obj, ctx);
 
         throw Error("ParameterBlock data is not compatible with Status ParameterBlock");
     }

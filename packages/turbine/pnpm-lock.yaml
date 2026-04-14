@@ -17,6 +17,9 @@ importers:
       '@fastify/cors':
         specifier: ^11.2.0
         version: 11.2.0
+      '@fastify/express':
+        specifier: ^4.0.4
+        version: 4.0.4
       '@fastify/static':
         specifier: ^9.1.0
         version: 9.1.0
@@ -471,6 +474,9 @@ packages:
 
   '@fastify/error@4.2.0':
     resolution: {integrity: sha512-RSo3sVDXfHskiBZKBPRgnQTtIqpi/7zhJOEmAxCiBcM7d0uwdGdxLlsCaLzGs8v8NnxIRlfG0N51p5yFaOentQ==}
+
+  '@fastify/express@4.0.4':
+    resolution: {integrity: sha512-3D4sNT+s66T2yb3ILwv2lU5TB+1sG5gq37Zn1ucCxSk+8P4Bi8QH5Lb6eQ/3tUdg4+W9upWaU+1z0Mt9dTA7hw==}
 
   '@fastify/fast-json-stringify-compiler@5.0.3':
     resolution: {integrity: sha512-uik7yYHkLr6fxd8hJSZ8c+xF4WafPK+XzneQDPU+D10r5X19GW8lJcom2YijX2+qtFF1ENJlHXKFM9ouXNJYgQ==}
@@ -2598,6 +2604,13 @@ snapshots:
       toad-cache: 3.7.0
 
   '@fastify/error@4.2.0': {}
+
+  '@fastify/express@4.0.4':
+    dependencies:
+      express: 4.21.2
+      fastify-plugin: 5.1.0
+    transitivePeerDependencies:
+      - supports-color
 
   '@fastify/fast-json-stringify-compiler@5.0.3':
     dependencies:

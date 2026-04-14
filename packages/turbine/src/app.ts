@@ -1,38 +1,34 @@
-import cookieParser from "cookie-parser";
-import cors from "cors";
 import fs from "fs";
 import lockFile from "lockfile";
 import path from "path";
 
 import type { Configuration, MachineSpecs, MachineSpecsList } from "./types";
-import type { NextFunction, Request, Response } from "express";
-import express from "express";
-import { asyncHandler } from "./utils/asyncHandler";
-import type { Server } from "http";
+import Fastify from "fastify";
+import fastifyCors from "@fastify/cors";
+import fastifyCookie from "@fastify/cookie";
+import fastifyStatic from "@fastify/static";
+import fastifyExpress from "@fastify/express";
 import { pino } from "pino";
-import { pinoHttp } from "pino-http";
 import { Machine } from "./Machine";
 import { TurbineEventLoop } from "./events";
 import { WebsocketDispatcher } from "./websocket/WebsocketDispatcher";
 import * as SpecsSchema from "./types/schemas/schema-specs.json";
 import { migrate } from "./migrate";
 import Ajv from "ajv";
+import { SettingsSchema, ConfigurationSchema } from "./schemas";
+import type { Server } from "http";
 
 (async () => {
 
-    /** Http express & ws port */
-    const HTTP_PORT = process.env.PORT ?? 4080;
+    /** Http port */
+    const HTTP_PORT = Number(process.env.PORT ?? 4080);
     /** Is NusterTurbine running in production mode */
     const productionEnabled = (process.env.NODE_ENV === "production");
 
-    /** AJV */
+    /** AJV for machine specs validation */
     const ajv = new Ajv();
-    const validateMachineSpecs = ajv.compile(SpecsSchema)
+    const validateMachineSpecs = ajv.compile(SpecsSchema);
 
-    /** Express app */
-    const ExpressApp = express();
-    /** Base http Server used by WebSocketServer */
-    let httpServer: Server | undefined = undefined;
     /** Machine instance holding all the controllers */
     let machine: Machine | undefined = undefined;
 
@@ -85,284 +81,198 @@ import Ajv from "ajv";
 
     /** Update locking the Balena Supervisor */
     lockFile.lock("/tmp/balena/updates.lock", (err) => {
-        (err) ?  TurbineEventLoop.emit('log', 'error', `Lock: Updates locking failed. ${err}`) :  TurbineEventLoop.emit('log', 'info', "Lock: Updates are now locked.");                
+        (err) ?  TurbineEventLoop.emit('log', 'error', `Lock: Updates locking failed. ${err}`) :  TurbineEventLoop.emit('log', 'info', "Lock: Updates are now locked.");
     });
 
     await migrate(basePath);
 
-    SetupExpress();
+    // ============================================================
+    // Fastify app setup
+    // ============================================================
 
-    if(fs.existsSync(infoPath) && fs.existsSync(machinesPath))
-    {
-        const rawConfiguration = fs.readFileSync(infoPath, {encoding: "utf-8"});
-        const parsedConfiguration = JSON.parse(rawConfiguration) as Configuration;
+    const app = Fastify({
+        // Fastify has built-in pino; we use our own logger instance via TurbineEventLoop
+        logger: false,
+    });
 
-        const machines = fs.readdirSync(machinesPath);
+    await app.register(fastifyCors);
+    await app.register(fastifyCookie);
 
-        if(!machines.includes(parsedConfiguration.model) && !fs.existsSync(path.resolve(machinesPath, parsedConfiguration.model, 'specs.json')))
+    // Bridge for Express routers during migration (Phase 3.2 will remove this)
+    await app.register(fastifyExpress);
+
+    // Global error handler
+    app.setErrorHandler((error, _request, reply) => {
+        const err = error instanceof Error ? error : new Error(String(error));
+        TurbineEventLoop.emit('log', 'error', `Fastify: ${err.stack ?? err.message}`);
+        if (!reply.sent) {
+            reply.status(500).send({ error: "Internal server error" });
+        }
+    });
+
+    // ============================================================
+    // Standalone routes (not in routers)
+    // ============================================================
+
+    app.get("/configs", async (_request, reply) => {
+        const machineSpecsList: MachineSpecsList = {};
+
+        for(const modelFolder of fs.readdirSync(machinesPath).filter(mf => !mf.startsWith(".")))
         {
-            TurbineEventLoop.emit('log', 'fatal', "Machine: Model not found in machines folder.");    
-            throw Error("Machine: Model not found in machines folder.");
+            const rawSpecs = fs.readFileSync(path.resolve(machinesPath, modelFolder, 'specs.json'), { encoding: "utf-8" });
+            const parsedSpecs = JSON.parse(rawSpecs) as MachineSpecs;
+            machineSpecsList[modelFolder] = parsedSpecs;
         }
 
-        const rawSpecs = fs.readFileSync(path.resolve(machinesPath, parsedConfiguration.model, 'specs.json'), { encoding: "utf-8" });
-        const parsedSpecs = JSON.parse(rawSpecs) as MachineSpecs;
+        return machineSpecsList;
+    });
 
-        if(!validateMachineSpecs(parsedSpecs))
+    app.get("/config/actual", async (_request, reply) => {
+        try
         {
-            TurbineEventLoop.emit('log', 'fatal', "Machine: Specs.json is not valid.");
-            throw Error("Machine: specs.json is not valid.");
+            const configPath = productionEnabled ? "/data/info.json" : path.resolve("data", "info.json");
+            const result = fs.readFileSync(configPath, { encoding: "utf8" });
+            return JSON.parse(result);
         }
-        else
+        catch
         {
-            // Send the configuration to the simulation server
-            if(process.env.SIMULATION_ADDRESS !== undefined && process.env.SIMULATION_PORT !== undefined)
-            {
-                TurbineEventLoop.emit('log', 'warning', `DEV: Sending configuration to ${process.env.SIMULATION_ADDRESS}:${process.env.SIMULATION_PORT} simulation server.`);
-                fetch(`http://${process.env.SIMULATION_ADDRESS}:${process.env.SIMULATION_PORT}/config`, { method: "post", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ configuration: parsedConfiguration, specs: parsedSpecs })});
-            }
-
-            machine = new Machine(parsedConfiguration, parsedSpecs);
-
-            SetupWebsocketServer();
-            SetupMachine();
+            reply.status(404).send();
         }
-    }
-    else
-    {
-        TurbineEventLoop.emit('log', 'warning', "Machine: Info file not found");
-    }
+    });
 
-    if(wasUpdated && productionEnabled)
-    {
-        TurbineEventLoop.emit('log', 'info', "Update: NusterTurbine has been updated, restarting proxy & wpe services.");
-
-        await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/applications/${process.env.BALENA_APP_ID}/restart-service?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { 
-            headers: { "Content-Type": "application/json" }, 
-            body: JSON.stringify({ serviceName: "proxy", force: true }), 
-            method: 'POST'}
-        );
-        await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/applications/${process.env.BALENA_APP_ID}/restart-service?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { 
-            headers: { "Content-Type": "application/json" }, 
-            body: JSON.stringify({ serviceName: "wpe", force: true }), 
-            method: 'POST'}
-        );
-
-        TurbineEventLoop.emit('log', 'info', "Update: Restarted proxy & wpe services.");
-
-        /** ReUpdate locking the Balena Supervisor after restarting both services */
-        lockFile.lock("/tmp/balena/updates.lock", (err) => {
-            (err) ?  TurbineEventLoop.emit('log', 'error', `Lock: Updates locking failed. ${err}`) :  TurbineEventLoop.emit('log', 'info', "Lock: Updates are now re-locked.");                
-        });
-    }
-
-    /** Setup Express running server */
-    function SetupExpress()
-    {
-        httpServer = ExpressApp.listen(HTTP_PORT, () => { 
-            TurbineEventLoop.emit('log', 'info', "Express: HTTP server listening on port " + HTTP_PORT); 
-        });
-
-        ExpressApp.use(express.json());
-        ExpressApp.use(cors());
-        ExpressApp.use(cookieParser());
-
-        if(productionEnabled)
+    app.post("/config", async (request, reply) => {
+        const body = request.body;
+        if(body)
         {
-            //logging middleware
-            ExpressApp.use(pinoHttp({
-                logger: LoggerInstance,
-                serializers: {
-                    err: pino.stdSerializers.err,
-                    req: pino.stdSerializers.req,
-                    res: pino.stdSerializers.res
-                }
-            }));
-        }
-
-        ExpressApp.get("/configs", (req: Request, res: Response) => {
-
-            const machineSpecsList: MachineSpecsList = {};
-
-            // Filter folders that start with a dot as it might be an hidden folder
-            for(const modelFolder of fs.readdirSync(machinesPath).filter(mf => !mf.startsWith(".")))
-            {
-                const rawSpecs = fs.readFileSync(path.resolve(machinesPath, modelFolder, 'specs.json'), { encoding: "utf-8" });
-                const parsedSpecs = JSON.parse(rawSpecs) as MachineSpecs;
-                
-                machineSpecsList[modelFolder] = parsedSpecs;
-            }
-            
-            res.json(machineSpecsList);
-        });
-
-        ExpressApp.get("/config/actual", (req: Request, res: Response) => {
-            try
-            {
-                let result = "";
-                if(!productionEnabled)
-                    result = fs.readFileSync(path.resolve("data", "info.json"), { encoding: "utf8"});
-                else
-                    result = fs.readFileSync("/data/info.json", {encoding: "utf8"});
-
-                res.json(JSON.parse(result));
-            }
-            catch(ex)
-            {
-                res.status(404).end()
-            }
-        });
-
-        ExpressApp.post("/config", (req: Request, res: Response) => {
-            if(req.body)
-            {
-                if(!productionEnabled)
-                {
-                    fs.mkdirSync(path.resolve("data"), { recursive: true });
-                    fs.writeFileSync(path.resolve("data", "info.json"), JSON.stringify(req.body, null, 4));
-                }
-                else
-                {
-                    //do not create /data folder, it should already be there because of context
-                    fs.writeFileSync("/data/info.json", JSON.stringify(req.body, null, 4));
-                }
-
-                TurbineEventLoop.emit('log', 'info', "Config written, restarting NusterTurbine.");
-                res.end();
-                process.exit(1);
-            }
-        });
-
-        //Tell the balena Hypervisor to force the pending update.
-        ExpressApp.get("/forceUpdate", asyncHandler(async (_req, res: Response) => {
-
-            /** On update, reset all io gates */
-            try
-            {
-                await SoftExit();
-                fs.writeFileSync(updateFile, "");
-            }
-            catch(ex)
-            {
-                TurbineEventLoop.emit('log', 'error', (ex as Error).message);
-                return;
+            const parsed = ConfigurationSchema.safeParse(body);
+            if (!parsed.success) {
+                return reply.status(400).send({ error: "Invalid configuration", details: parsed.error.flatten() });
             }
 
-            const req = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v1/update?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" }, body: JSON.stringify({force: true}), method: 'POST'});
-
-            if(req.status == 204)
-                res.status(200).end();
+            if(!productionEnabled)
+            {
+                fs.mkdirSync(path.resolve("data"), { recursive: true });
+                fs.writeFileSync(path.resolve("data", "info.json"), JSON.stringify(parsed.data, null, 4));
+            }
             else
-                res.status(req.status).end();
-
-        })); 
-
-        ExpressApp.get("/reboot", asyncHandler(async (_req, res: Response) => {
-
-            try
             {
-                const req = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v1/reboot?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" }, body: JSON.stringify({force: true}), method: 'POST'});
+                fs.writeFileSync("/data/info.json", JSON.stringify(parsed.data, null, 4));
+            }
 
-                if(req.status == 202)
-                {
-                    /** On reboot, reset all io gates */
-                    try
-                    {
-                        await SoftExit();
-                    }
-                    catch(ex)
-                    {
-                        TurbineEventLoop.emit('log', 'error', (ex as Error).message);
-                        return;
-                    }
+            TurbineEventLoop.emit('log', 'info', "Config written, restarting NusterTurbine.");
+            reply.send();
+            process.exit(1);
+        }
+    });
 
-                    TurbineEventLoop.emit(`nuster.modal`, {
-                        title: "settings.power.modal.reboot.title",
-                        message: "settings.power.modal.reboot.message",
-                        level: "info"
-                    });
-                    res.status(200).end();
+    app.get("/forceUpdate", async (_request, reply) => {
+        try
+        {
+            await SoftExit();
+            fs.writeFileSync(updateFile, "");
+        }
+        catch(ex)
+        {
+            TurbineEventLoop.emit('log', 'error', (ex as Error).message);
+            return reply.status(500).send({ error: (ex as Error).message });
+        }
+
+        const req = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v1/update?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" }, body: JSON.stringify({force: true}), method: 'POST'});
+
+        return reply.status(req.status === 204 ? 200 : req.status).send();
+    });
+
+    app.get("/reboot", async (_request, reply) => {
+        try
+        {
+            const req = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v1/reboot?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" }, body: JSON.stringify({force: true}), method: 'POST'});
+
+            if(req.status === 202)
+            {
+                try { await SoftExit(); }
+                catch(ex) {
+                    TurbineEventLoop.emit('log', 'error', (ex as Error).message);
+                    return reply.status(500).send({ error: (ex as Error).message });
                 }
-                else
-                    res.status(req.status).end();
 
+                TurbineEventLoop.emit(`nuster.modal`, {
+                    title: "settings.power.modal.reboot.title",
+                    message: "settings.power.modal.reboot.message",
+                    level: "info"
+                });
+                return reply.status(200).send();
             }
-            catch(ex)
+            else
+                return reply.status(req.status).send();
+        }
+        catch
+        {
+            return reply.status(500).send();
+        }
+    });
+
+    app.get("/shutdown", async (_request, reply) => {
+        try
+        {
+            const req = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v1/shutdown?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" }, body: JSON.stringify({force: true}), method: 'POST'});
+
+            if(req.status === 202)
             {
-                res.status(500).end();
-            }
-
-        }));
-
-        ExpressApp.get("/shutdown", asyncHandler(async (_req, res: Response) => {
-
-            try
-            {
-                const req = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v1/shutdown?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" }, body: JSON.stringify({force: true}), method: 'POST'});
-
-                if(req.status == 202)
-                {
-                    /** On shutdown, reset all io gates */
-
-                    try
-                    {
-                        await SoftExit();
-                    }
-                    catch(ex)
-                    {
-                        TurbineEventLoop.emit('log', 'error', (ex as Error).message);
-                        return;
-                    }
-
-                    TurbineEventLoop.emit(`nuster.modal`, {
-                        title: "settings.power.modal.shutdown.title",
-                        message: "settings.power.modal.shutdown.message",
-                        level: "info"
-                    });
-                    res.status(200).end();
+                try { await SoftExit(); }
+                catch(ex) {
+                    TurbineEventLoop.emit('log', 'error', (ex as Error).message);
+                    return reply.status(500).send({ error: (ex as Error).message });
                 }
-                else
-                    res.status(req.status).end();
-            }
-            catch(ex)
-            {
-                res.status(500).end();
-            }
-        }));
 
-        ExpressApp.post("/settings", asyncHandler(async (req, res) => {
-            try
-            {
-                if(req.body.theme !== undefined && req.body.lang !== undefined)
-                    throw Error("Settings not complete");
+                TurbineEventLoop.emit(`nuster.modal`, {
+                    title: "settings.power.modal.shutdown.title",
+                    message: "settings.power.modal.shutdown.message",
+                    level: "info"
+                });
+                return reply.status(200).send();
+            }
+            else
+                return reply.status(req.status).send();
+        }
+        catch
+        {
+            return reply.status(500).send();
+        }
+    });
 
-                fs.writeFileSync(settingsPath, JSON.stringify(req.body));
-                res.status(200).end();
+    app.post("/settings", async (request, reply) => {
+        try
+        {
+            const parsed = SettingsSchema.safeParse(request.body);
+            if (!parsed.success) {
+                return reply.status(400).send({ error: "Invalid settings", details: parsed.error.flatten() });
             }
-            catch(ex)
-            {
-                res.status(500).end(String(ex));
-            }
-        }));
 
-        ExpressApp.get("/settings", asyncHandler(async (_req, res) => {
-            try
-            {
-                const data = fs.readFileSync(settingsPath, { encoding: "utf-8" });
-                const settings = JSON.parse(data);
-                res.status(200).json(settings);
-            }
-            catch(ex)
-            {
-                res.status(500).end();
-            }
-        }));
-    }
+            fs.writeFileSync(settingsPath, JSON.stringify(parsed.data));
+            return reply.status(200).send();
+        }
+        catch(ex)
+        {
+            return reply.status(500).send({ error: String(ex) });
+        }
+    });
 
-    /**
-     * Gently exit the nuster turbine program
-     * @throws
-     */
+    app.get("/settings", async (_request, reply) => {
+        try
+        {
+            const data = fs.readFileSync(settingsPath, { encoding: "utf-8" });
+            return JSON.parse(data);
+        }
+        catch
+        {
+            return reply.status(500).send();
+        }
+    });
+
+    // ============================================================
+    // SoftExit
+    // ============================================================
+
     async function SoftExit()
     {
         if(machine?.cycleRouter.program !== undefined)
@@ -411,14 +321,13 @@ import Ajv from "ajv";
         await prisma.$disconnect();
     }
 
-    /** Setup Websocket server */
+    // ============================================================
+    // WebSocket setup
+    // ============================================================
+
     function SetupWebsocketServer()
     {
-        if(httpServer === undefined)
-        {
-            TurbineEventLoop.emit('log', 'error', "Websocket: Cannot setup websocket server, httpServer is undefined.");
-            throw Error("Cannot setup websocket server, httpServer is undefined.");
-        }
+        const httpServer = app.server as Server;
 
         websocketDispatcher = new WebsocketDispatcher(httpServer);
 
@@ -428,7 +337,10 @@ import Ajv from "ajv";
         }, 500);
     }
 
-    /**  Add all machines routes to express */
+    // ============================================================
+    // Machine routes setup
+    // ============================================================
+
     function SetupMachine()
     {
         if(machine)
@@ -445,31 +357,108 @@ import Ajv from "ajv";
                         version: "missigno"
                     }
             });
-            
+
             TurbineEventLoop.emit('log', 'info', "Machine: Setting up connect popup.");
 
-            ExpressApp.use('/v1/io', machine.ioRouter.router);
-            ExpressApp.use('/v1/profiles', machine.profileRouter.router);
-            ExpressApp.use('/v1/maintenances', machine.maintenanceRouter.router);
-            ExpressApp.use('/v1/containers', machine.containerRouter.router);
-            ExpressApp.use('/v1/cycle', machine.cycleRouter.router);
-            ExpressApp.use('/network', machine.networkRouter.router);
-            ExpressApp.use('/v1/calltoaction', machine.callToActionRouter.router);
+            // Mount Express routers via @fastify/express bridge (Phase 3.2 will convert these)
+            app.use('/v1/io', machine.ioRouter.router);
+            app.use('/v1/profiles', machine.profileRouter.router);
+            app.use('/v1/maintenances', machine.maintenanceRouter.router);
+            app.use('/v1/containers', machine.containerRouter.router);
+            app.use('/v1/cycle', machine.cycleRouter.router);
+            app.use('/network', machine.networkRouter.router);
+            app.use('/v1/calltoaction', machine.callToActionRouter.router);
 
-            ExpressApp.use('/static', express.static(path.resolve(machinesPath, machine.data.model, 'static')))
-            
-            TurbineEventLoop.emit('log', 'info', "Express: Registered routers");
-
-            ExpressApp.get("/machine", (_, res: Response) => { res.json(machine?.toJSON()); });
-            ExpressApp.get("/realtime", asyncHandler(async (_, res: Response) => { res.json(await machine?.socketData());}))
-
-            ExpressApp.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
-                TurbineEventLoop.emit('log', 'error', `Express: ${err.stack ?? err.message}`);
-                if (!res.headersSent) res.status(500).json({ error: "Internal server error" });
+            // Static files
+            app.register(fastifyStatic, {
+                root: path.resolve(machinesPath, machine.data.model, 'static'),
+                prefix: '/static/',
             });
+
+            TurbineEventLoop.emit('log', 'info', "Fastify: Registered routers");
+
+            // Machine data routes
+            app.get("/machine", async () => machine?.toJSON());
+            app.get("/realtime", async () => await machine?.socketData());
         }
         else
-            TurbineEventLoop.emit('log', 'fatal', "Express: No machine defined, cannot add routes.");
+            TurbineEventLoop.emit('log', 'fatal', "Fastify: No machine defined, cannot add routes.");
+    }
+
+    // ============================================================
+    // Initialize machine and start server
+    // ============================================================
+
+    if(fs.existsSync(infoPath) && fs.existsSync(machinesPath))
+    {
+        const rawConfiguration = fs.readFileSync(infoPath, {encoding: "utf-8"});
+        const parsedConfiguration = JSON.parse(rawConfiguration) as Configuration;
+
+        const machines = fs.readdirSync(machinesPath);
+
+        if(!machines.includes(parsedConfiguration.model) && !fs.existsSync(path.resolve(machinesPath, parsedConfiguration.model, 'specs.json')))
+        {
+            TurbineEventLoop.emit('log', 'fatal', "Machine: Model not found in machines folder.");
+            throw Error("Machine: Model not found in machines folder.");
+        }
+
+        const rawSpecs = fs.readFileSync(path.resolve(machinesPath, parsedConfiguration.model, 'specs.json'), { encoding: "utf-8" });
+        const parsedSpecs = JSON.parse(rawSpecs) as MachineSpecs;
+
+        if(!validateMachineSpecs(parsedSpecs))
+        {
+            TurbineEventLoop.emit('log', 'fatal', "Machine: Specs.json is not valid.");
+            throw Error("Machine: specs.json is not valid.");
+        }
+        else
+        {
+            // Send the configuration to the simulation server
+            if(process.env.SIMULATION_ADDRESS !== undefined && process.env.SIMULATION_PORT !== undefined)
+            {
+                TurbineEventLoop.emit('log', 'warning', `DEV: Sending configuration to ${process.env.SIMULATION_ADDRESS}:${process.env.SIMULATION_PORT} simulation server.`);
+                fetch(`http://${process.env.SIMULATION_ADDRESS}:${process.env.SIMULATION_PORT}/config`, { method: "post", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ configuration: parsedConfiguration, specs: parsedSpecs })});
+            }
+
+            machine = new Machine(parsedConfiguration, parsedSpecs);
+
+            SetupMachine();
+        }
+    }
+    else
+    {
+        TurbineEventLoop.emit('log', 'warning', "Machine: Info file not found");
+    }
+
+    // Start the Fastify server
+    await app.listen({ port: HTTP_PORT, host: "0.0.0.0" });
+    TurbineEventLoop.emit('log', 'info', `Fastify: HTTP server listening on port ${HTTP_PORT}`);
+
+    // Setup WebSocket after server is listening (app.server is available)
+    if (machine) {
+        SetupWebsocketServer();
+    }
+
+    // Post-update service restart
+    if(wasUpdated && productionEnabled)
+    {
+        TurbineEventLoop.emit('log', 'info', "Update: NusterTurbine has been updated, restarting proxy & wpe services.");
+
+        await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/applications/${process.env.BALENA_APP_ID}/restart-service?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, {
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ serviceName: "proxy", force: true }),
+            method: 'POST'}
+        );
+        await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/applications/${process.env.BALENA_APP_ID}/restart-service?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, {
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ serviceName: "wpe", force: true }),
+            method: 'POST'}
+        );
+
+        TurbineEventLoop.emit('log', 'info', "Update: Restarted proxy & wpe services.");
+
+        lockFile.lock("/tmp/balena/updates.lock", (err) => {
+            (err) ?  TurbineEventLoop.emit('log', 'error', `Lock: Updates locking failed. ${err}`) :  TurbineEventLoop.emit('log', 'info', "Lock: Updates are now re-locked.");
+        });
     }
 
     /** NodeJS process events */
@@ -479,6 +468,7 @@ import Ajv from "ajv";
         TurbineEventLoop.emit('log', 'info', "Shutdown: SIGTERM detected.");
         try {
             await SoftExit();
+            await app.close();
         } catch (err) {
             TurbineEventLoop.emit('log', 'error', `Shutdown: SoftExit failed: ${(err as Error).message}`);
         }

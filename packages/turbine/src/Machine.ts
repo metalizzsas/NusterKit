@@ -18,7 +18,12 @@ import { TurbineEventLoop } from "./events";
 import { NetworkRouter } from "./routers";
 import { CalltoActionRouter } from "./routers/CallToAction";
 import { IOBusAdapter } from "./services/IOBusAdapter";
-import type { IOBus } from "./services/interfaces";
+import { ContainerBusAdapter } from "./services/ContainerBusAdapter";
+import { MaintenanceBusAdapter } from "./services/MaintenanceBusAdapter";
+import { ProfileServiceAdapter } from "./services/ProfileServiceAdapter";
+import { MachineServiceAdapter } from "./services/MachineServiceAdapter";
+import { LoggerAdapter } from "./services/LoggerAdapter";
+import type { ServiceRegistry } from "./services/interfaces";
 
 export class Machine
 {
@@ -33,7 +38,7 @@ export class Machine
     networkRouter: NetworkRouter;
     callToActionRouter: CalltoActionRouter;
 
-    ioBus: IOBus;
+    services!: ServiceRegistry;
 
     WebSocketServer?: WebSocket.Server = undefined;
 
@@ -77,7 +82,6 @@ export class Machine
 
         this.callToActionRouter = new CalltoActionRouter();
         this.ioRouter = new IORouter(this.specs.iohandlers, this.specs.iogates);
-        this.ioBus = new IOBusAdapter(this.ioRouter.gates);
         this.profileRouter = new ProfilesRouter(this.specs.profileSkeletons, this.specs.profilePremades);
         this.maintenanceRouter = new MaintenanceRouter(this.specs.maintenance);
         this.containerRouter = new ContainersRouter(this.specs.containers, this.specs.containerProducts);
@@ -85,6 +89,16 @@ export class Machine
         this.networkRouter = new NetworkRouter();
 
          TurbineEventLoop.emit('log', 'info', "Machine: Finished Instantiating controllers");
+
+        // Assemble ServiceRegistry for dependency injection into PBR
+        this.services = {
+            io: new IOBusAdapter(this.ioRouter.gates),
+            containers: new ContainerBusAdapter(this.containerRouter.containers),
+            maintenance: new MaintenanceBusAdapter(this.maintenanceRouter.tasks),
+            profiles: new ProfileServiceAdapter(this.profileRouter),
+            machine: new MachineServiceAdapter(this.specs, this.data.settings.variables),
+            logger: new LoggerAdapter(),
+        };
 
         // Add event listener for machine variable reads
         for(const variable of this.data.settings.variables)

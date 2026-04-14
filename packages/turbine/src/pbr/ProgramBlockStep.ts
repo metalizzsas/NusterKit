@@ -38,6 +38,8 @@ export class ProgramBlockStep
     runConditions: Array<PBRRunCondition> = [];
 
     stepOvertimeTimer?: NodeJS.Timeout;
+    private overtimeRemainingMs?: number;
+    private overtimeStartedAt?: number;
 
     duration: number;
 
@@ -92,6 +94,13 @@ export class ProgramBlockStep
             if(this.state === "started")
             {
                 this.currentPauseStartDate = Date.now();
+
+                // Cancel overtime timer and record how much time was left
+                if (this.stepOvertimeTimer && this.overtimeStartedAt !== undefined && this.overtimeRemainingMs !== undefined) {
+                    const elapsed = Date.now() - this.overtimeStartedAt;
+                    this.overtimeRemainingMs = Math.max(0, this.overtimeRemainingMs - elapsed);
+                    this.cancelOvertimeTimer();
+                }
             }
         });
 
@@ -100,6 +109,9 @@ export class ProgramBlockStep
             {
                 this.totalPauseTime += (Date.now() - (this.currentPauseStartDate ?? 0)) / 1000;
                 this.currentPauseStartDate = undefined;
+
+                // Restart overtime timer with remaining time
+                this.startOvertimeTimer();
             }
         });
     }
@@ -130,18 +142,10 @@ export class ProgramBlockStep
         this.pbrInstance.addEvent(`PBS: Started ${this.name} step.`);
         this.state = "started";
 
-        //Disable step overtime timeout if the step duration is equal to -1
-        if(this.duration != Infinity)
-            this.stepOvertimeTimer = setTimeout(() => {
-
-                if(this.state == "started")
-                {
-                     TurbineEventLoop.emit('log', 'error', `PBS-${this.name}: Step has been too long. Triggering stepOvertime.`); 
-                    this.pbrInstance.end("stepOvertime"); 
-                }
-                else
-                     TurbineEventLoop.emit('log', 'warning', `PBS-${this.name}: Step overtime has been canceled because step was not running.`);
-            }, this.duration * 2000 + this.overallPausedTime * 1000);
+        // Reset overtime tracking for fresh start (or new iteration of multiple step)
+        this.overtimeRemainingMs = undefined;
+        this.overtimeStartedAt = undefined;
+        this.startOvertimeTimer();
 
         this.startTime = Date.now();
 
@@ -164,8 +168,7 @@ export class ProgramBlockStep
             await io.execute();
         }
 
-        if(this.stepOvertimeTimer)
-            clearTimeout(this.stepOvertimeTimer);
+        this.cancelOvertimeTimer();
 
         this.runCount++;
         
@@ -289,6 +292,30 @@ export class ProgramBlockStep
     {
         this.startTime = undefined;
         this.endTime = undefined;
+    }
+
+    private startOvertimeTimer(): void {
+        if (this.duration === Infinity) return;
+
+        const remaining = this.overtimeRemainingMs ?? (this.duration * 2000);
+        this.overtimeRemainingMs = remaining;
+        this.overtimeStartedAt = Date.now();
+
+        this.stepOvertimeTimer = setTimeout(() => {
+            if (this.state === "started") {
+                TurbineEventLoop.emit('log', 'error', `PBS-${this.name}: Step has been too long. Triggering stepOvertime.`);
+                this.pbrInstance.end("stepOvertime");
+            } else {
+                TurbineEventLoop.emit('log', 'warning', `PBS-${this.name}: Step overtime has been canceled because step was not running.`);
+            }
+        }, remaining);
+    }
+
+    private cancelOvertimeTimer(): void {
+        if (this.stepOvertimeTimer) {
+            clearTimeout(this.stepOvertimeTimer);
+            this.stepOvertimeTimer = undefined;
+        }
     }
 
     get overallPausedTime(): number

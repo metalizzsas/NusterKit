@@ -18,7 +18,7 @@ export async function containerRoutes(fastify: FastifyInstance, opts: ContainerR
 		schema: {
 			params: ContainerLoadParamsSchema,
 			response: {
-				200: z.null(),
+				200: z.string(),
 				404: ErrorResponseSchema,
 			},
 		},
@@ -28,14 +28,14 @@ export async function containerRoutes(fastify: FastifyInstance, opts: ContainerR
 			return reply.status(404).send({ error: "Container not found" });
 		}
 		await container.loadProduct(request.params.series);
-		return reply.status(200).send();
+		return reply.status(200).send("");
 	});
 
 	app.post("/:container/unload", {
 		schema: {
 			params: ContainerUnloadParamsSchema,
 			response: {
-				200: z.null(),
+				200: z.string(),
 				404: ErrorResponseSchema,
 			},
 		},
@@ -45,14 +45,14 @@ export async function containerRoutes(fastify: FastifyInstance, opts: ContainerR
 			return reply.status(404).send({ error: "Container not found" });
 		}
 		await container.unloadProduct();
-		return reply.status(200).send();
+		return reply.status(200).send("");
 	});
 
 	app.post("/:container/regulation/:regulation/state/:state", {
 		schema: {
 			params: RegulationStateParamsSchema,
 			response: {
-				200: z.null(),
+				200: z.string(),
 				500: ErrorResponseSchema,
 			},
 		},
@@ -61,7 +61,7 @@ export async function containerRoutes(fastify: FastifyInstance, opts: ContainerR
 
 		if (services) {
 			const stateSet = await services.containers.setRegulationState(request.params.container, request.params.regulation, state);
-			return reply.status(state === stateSet ? 200 : 500).send();
+			return reply.status(state === stateSet ? 200 : 500).send("");
 		}
 
 		return reply.status(500).send({ error: "Services not available" });
@@ -71,7 +71,7 @@ export async function containerRoutes(fastify: FastifyInstance, opts: ContainerR
 		schema: {
 			params: RegulationTargetParamsSchema,
 			response: {
-				200: z.null(),
+				200: z.string(),
 				500: ErrorResponseSchema,
 			},
 		},
@@ -80,7 +80,7 @@ export async function containerRoutes(fastify: FastifyInstance, opts: ContainerR
 
 		if (services) {
 			const targetSet = await services.containers.setRegulationTarget(request.params.container, request.params.regulation, target);
-			return reply.status(target === targetSet ? 200 : 500).send();
+			return reply.status(target === targetSet ? 200 : 500).send("");
 		}
 
 		return reply.status(500).send({ error: "Services not available" });

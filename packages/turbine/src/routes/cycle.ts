@@ -82,19 +82,19 @@ export async function cycleRoutes(fastify: FastifyInstance, opts: CycleRoutesOpt
 	};
 
 	app.post("/", {
-		schema: { response: { 200: z.null(), 404: ErrorResponseSchema } },
+		schema: { response: { 200: z.string(), 404: ErrorResponseSchema } },
 		preHandler: requireProgram as never,
 	}, async (_request, reply) => {
 		state.program?.run();
-		return reply.status(200).send();
+		return reply.status(200).send("");
 	});
 
 	app.put("/", {
-		schema: { response: { 200: z.null(), 404: ErrorResponseSchema } },
+		schema: { response: { 200: z.string(), 404: ErrorResponseSchema } },
 		preHandler: requireProgram as never,
 	}, async (_request, reply) => {
 		state.program?.nextStep();
-		return reply.status(200).send();
+		return reply.status(200).send("");
 	});
 
 	app.put("/pause", {
@@ -106,21 +106,21 @@ export async function cycleRoutes(fastify: FastifyInstance, opts: CycleRoutesOpt
 	});
 
 	app.patch("/", {
-		schema: { response: { 200: z.null(), 403: ErrorResponseSchema, 404: ErrorResponseSchema } },
+		schema: { response: { 200: z.string(), 403: ErrorResponseSchema, 404: ErrorResponseSchema } },
 		preHandler: requireProgram as never,
 	}, async (_request, reply) => {
 		if (["ended", "created"].includes(state.program?.status.mode ?? "")) {
 			state.program = undefined;
-			return reply.status(200).send();
+			return reply.status(200).send("");
 		}
 		return reply.status(403).send({ error: "Cannot dispose a cycle that has not ended." });
 	});
 
 	app.delete("/", {
-		schema: { response: { 200: z.null(), 404: ErrorResponseSchema } },
+		schema: { response: { 200: z.string(), 404: ErrorResponseSchema } },
 		preHandler: requireProgram as never,
 	}, async (_request, reply) => {
 		state.program?.end("user");
-		return reply.status(200).send();
+		return reply.status(200).send("");
 	});
 }

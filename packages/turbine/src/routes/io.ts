@@ -17,7 +17,7 @@ export async function ioRoutes(fastify: FastifyInstance, opts: IORoutesOpts) {
 			params: IOWriteParamsSchema,
 			querystring: IOWriteQuerySchema,
 			response: {
-				200: z.null(),
+				200: z.string(),
 				403: ErrorResponseSchema,
 				404: ErrorResponseSchema,
 				409: ErrorResponseSchema,
@@ -44,6 +44,6 @@ export async function ioRoutes(fastify: FastifyInstance, opts: IORoutesOpts) {
 		const value = (gate.size === "word") ? (parseFloat(request.params.value) || 0) : (request.params.value === "1" ? 1 : 0);
 
 		await gate.write(value);
-		return reply.status(200).send();
+		return reply.status(200).send("");
 	});
 }

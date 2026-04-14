@@ -31,7 +31,7 @@ export async function networkRoutes(fastify: FastifyInstance, opts: NetworkRoute
 		schema: {
 			body: WifiConnectBodySchema,
 			response: {
-				200: z.null(),
+				200: z.string(),
 				400: ErrorResponseSchema,
 				500: ErrorResponseSchema,
 			},
@@ -39,7 +39,7 @@ export async function networkRoutes(fastify: FastifyInstance, opts: NetworkRoute
 	}, async (request, reply) => {
 		try {
 			const result = await networkRouter.connectToWifi(request.body.ssid, request.body.password);
-			return reply.status(result ? 200 : 500).send();
+			return reply.status(result ? 200 : 500).send("");
 		} catch (e) {
 			if (e instanceof Array && String(e.at(0)).includes('802-11-wireless-security.psk')) {
 				return reply.status(400).send({ error: "settings.network.errors.wifi_invalid_password" });
@@ -51,14 +51,14 @@ export async function networkRoutes(fastify: FastifyInstance, opts: NetworkRoute
 	app.get("/wifi/disconnect", {
 		schema: {
 			response: {
-				200: z.null(),
+				200: z.string(),
 				500: ErrorResponseSchema,
 			},
 		},
 	}, async (_request, reply) => {
 		try {
 			await networkRouter.disconnectFromWifi();
-			return reply.status(200).send();
+			return reply.status(200).send("");
 		} catch (e) {
 			return reply.status(500).send({ error: String(e) });
 		}

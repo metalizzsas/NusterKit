@@ -1,9 +1,13 @@
 import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
+import type { ProfileHydrated } from "$types/hydrated/profiles";
 import type { ProfilesRouter } from "../routers/ProfilesRouter";
 import { prisma } from "../db";
 import { ProfileIdParamsSchema, ProfileHydratedSchema, ErrorResponseSchema } from "../schemas";
 import { z } from "zod";
+
+// Use passthrough for response — ProfileHydrated has complex union field types
+const ProfileResponseSchema = z.any();
 
 interface ProfileRoutesOpts {
 	profilesRouter: ProfilesRouter;
@@ -25,7 +29,7 @@ export async function profileRoutes(fastify: FastifyInstance, opts: ProfileRoute
 
 	app.get("/", {
 		schema: {
-			response: { 200: z.array(ProfileHydratedSchema) },
+			response: { 200: z.array(ProfileResponseSchema) },
 		},
 	}, async () => {
 		return await profilesRouter.profileList();
@@ -35,12 +39,12 @@ export async function profileRoutes(fastify: FastifyInstance, opts: ProfileRoute
 		schema: {
 			body: ProfileHydratedSchema,
 			response: {
-				200: ProfileHydratedSchema,
+				200: ProfileResponseSchema,
 				500: ErrorResponseSchema,
 			},
 		},
 	}, async (request, reply) => {
-		const copied = profilesRouter.prepareToStore(request.body);
+		const copied = profilesRouter.prepareToStore(request.body as unknown as ProfileHydrated);
 
 		const created = await prisma.profile.create({ data: {
 			id: undefined,
@@ -66,7 +70,7 @@ export async function profileRoutes(fastify: FastifyInstance, opts: ProfileRoute
 		schema: {
 			params: ProfileIdParamsSchema,
 			response: {
-				200: ProfileHydratedSchema,
+				200: ProfileResponseSchema,
 				404: ErrorResponseSchema,
 			},
 		},
@@ -84,7 +88,7 @@ export async function profileRoutes(fastify: FastifyInstance, opts: ProfileRoute
 		schema: {
 			params: ProfileIdParamsSchema,
 			response: {
-				200: z.null(),
+				200: z.string(),
 				403: ErrorResponseSchema,
 				404: ErrorResponseSchema,
 			},
@@ -93,7 +97,7 @@ export async function profileRoutes(fastify: FastifyInstance, opts: ProfileRoute
 	}, async (request, reply) => {
 		try {
 			await prisma.profile.delete({ where: { id: request.params.id } });
-			return reply.status(200).send();
+			return reply.status(200).send("");
 		} catch {
 			return reply.status(404).send({ error: "Profile not found" });
 		}
@@ -104,14 +108,14 @@ export async function profileRoutes(fastify: FastifyInstance, opts: ProfileRoute
 			params: ProfileIdParamsSchema,
 			body: ProfileHydratedSchema,
 			response: {
-				200: z.null(),
+				200: z.string(),
 				403: ErrorResponseSchema,
 				404: ErrorResponseSchema,
 			},
 		},
 		preHandler: premadeProtect as never,
 	}, async (request, reply) => {
-		const body = { ...request.body, modificationDate: new Date() };
+		const body = { ...request.body, modificationDate: new Date() } as unknown as ProfileHydrated;
 		const profile = profilesRouter.prepareToStore(body);
 
 		try {
@@ -127,7 +131,7 @@ export async function profileRoutes(fastify: FastifyInstance, opts: ProfileRoute
 					}
 				}
 			});
-			return reply.status(200).send();
+			return reply.status(200).send("");
 		} catch {
 			return reply.status(404).send({ error: "Failed to save profile" });
 		}

@@ -47,7 +47,7 @@ export async function maintenanceRoutes(fastify: FastifyInstance, opts: Maintena
 		schema: {
 			params: MaintenanceNameParamsSchema,
 			response: {
-				200: z.null(),
+				200: z.string(),
 				404: ErrorResponseSchema,
 			},
 		},
@@ -61,6 +61,6 @@ export async function maintenanceRoutes(fastify: FastifyInstance, opts: Maintena
 		const { name } = request.params as { name: string };
 		const task = tasks.find(t => t.name === name);
 		task?.reset();
-		return reply.status(200).send();
+		return reply.status(200).send("");
 	});
 }

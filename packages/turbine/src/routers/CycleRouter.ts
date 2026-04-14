@@ -9,12 +9,14 @@ import type { ProgramBlockRunnerHydrated } from "../types/hydrated/cycle/Program
 import { TurbineEventLoop } from "../events";
 import { callbackWithTimeout } from "../utils/callbackWithTimeout";
 import { asyncHandler } from "../utils/asyncHandler";
+import type { ServiceRegistry } from "../services/interfaces";
 
 export class CycleRouter extends Router
 {
     private supportedCycles: { name: string, profileRequired: boolean }[] = [];
     private premadeCycles: CyclePremade[] = [];
     private cycleTypes: ProgramBlockRunnerConfig[];
+    public serviceRegistry?: ServiceRegistry;
 
     public program?: ProgramBlockRunner;
 
@@ -79,7 +81,7 @@ export class CycleRouter extends Router
             }
 
             TurbineEventLoop.emit("log", "info", "CR: Config PBR found.")
-            this.program = new ProgramBlockRunner(cycle, profile);
+            this.program = new ProgramBlockRunner(cycle, profile, this.serviceRegistry);
 
             if (this.program.profileRequired && profile !== undefined && this.program.name !== profile.skeleton)
             {

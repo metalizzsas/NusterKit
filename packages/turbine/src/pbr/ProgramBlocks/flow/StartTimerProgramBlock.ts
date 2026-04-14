@@ -1,5 +1,6 @@
 import type { NumericParameterBlockHydrated, StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
 import type { AllProgramBlocks, StartTimerProgramBlock as StartTimerProgramBlockSpec } from "$types/spec/cycle/program";
+import type { PBRContext } from "../../../services/PBRContext";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
 import { ProgramBlockRegistry } from "../ProgramBlockRegistry";
 import { TurbineEventLoop } from "../../../events";
@@ -13,13 +14,13 @@ export class StartTimerProgramBlock extends ProgramBlock
     timerInterval: NumericParameterBlockHydrated;
     blocks: Array<ProgramBlock>;
 
-    constructor(obj: StartTimerProgramBlockSpec)
+    constructor(obj: StartTimerProgramBlockSpec, ctx?: PBRContext)
     {
-        super(obj);
+        super(obj, ctx);
         this.timerName = ParameterBlockRegistry.String(obj.start_timer.timer_name);
         this.timerInterval = ParameterBlockRegistry.Numeric(obj.start_timer.timer_interval);
 
-        this.blocks = obj.start_timer.blocks.map(k => ProgramBlockRegistry(k));
+        this.blocks = obj.start_timer.blocks.map(k => ProgramBlockRegistry(k, ctx));
     }
 
     public async execute(): Promise<void> {

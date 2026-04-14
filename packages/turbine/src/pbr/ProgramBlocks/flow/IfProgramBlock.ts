@@ -3,6 +3,7 @@ import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegi
 import type { AllProgramBlocks, IfProgramBlock as IfProgramBlockSpec } from "$types/spec/cycle/program";
 import type { Comparators } from "$types/spec/cycle/parameter";
 import type { NumericParameterBlockHydrated, StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
+import type { PBRContext } from "../../../services/PBRContext";
 import ComparativeFunctions from "../../utils/ComparativeFunctions";
 import { TurbineEventLoop } from "../../../events";
 import { ProgramBlock } from "../ProgramBlock";
@@ -17,18 +18,18 @@ export class IfProgramBlock extends ProgramBlock
     trueBlocks: Array<ProgramBlock>
     falseBlocks: Array<ProgramBlock> | undefined;
 
-    constructor(obj: IfProgramBlockSpec)
+    constructor(obj: IfProgramBlockSpec, ctx?: PBRContext)
     {
-        super(obj);
+        super(obj, ctx);
         this.comparator = ParameterBlockRegistry.String(obj.if.comparison[1]);
-        
+
         this.leftSide = ParameterBlockRegistry.Numeric(obj.if.comparison[0]);
         this.rightSide =  ParameterBlockRegistry.Numeric(obj.if.comparison[2]);
 
-        this.trueBlocks = obj.if.true_blocks.map(k => ProgramBlockRegistry(k));
+        this.trueBlocks = obj.if.true_blocks.map(k => ProgramBlockRegistry(k, ctx));
 
         if(obj.if.false_blocks)
-            this.falseBlocks = obj.if.false_blocks?.map(k => ProgramBlockRegistry(k));
+            this.falseBlocks = obj.if.false_blocks?.map(k => ProgramBlockRegistry(k, ctx));
         else
             this.falseBlocks = [];
 

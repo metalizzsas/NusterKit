@@ -1,5 +1,6 @@
 import type { NumericParameterBlockHydrated, StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
 import type { AllProgramBlocks, IOWriteProgramBlock as IOWriteProgramBlockSpec } from "$types/spec/cycle/program";
+import type { PBRContext } from "../../../services/PBRContext";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
 import { TurbineEventLoop } from "../../../events";
 import { ProgramBlock } from "../ProgramBlock";
@@ -11,9 +12,9 @@ export class IOWriteProgramBlock extends ProgramBlock
 
     estimatedRunTime = 0.01; // 10ms io write read time
 
-    constructor(obj: IOWriteProgramBlockSpec) {
+    constructor(obj: IOWriteProgramBlockSpec, ctx?: PBRContext) {
 
-        super(obj);
+        super(obj, ctx);
 
         this.gateName = ParameterBlockRegistry.String(obj.io_write[0]);
         this.gateValue = ParameterBlockRegistry.Numeric(obj.io_write[1]);

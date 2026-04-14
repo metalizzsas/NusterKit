@@ -7,6 +7,7 @@ import { ParameterBlockRegistry } from "./ParameterBlocks/ParameterBlockRegistry
 import { ProgramBlockRegistry } from "./ProgramBlocks/ProgramBlockRegistry";
 import { TurbineEventLoop } from "../events";
 import { PBRRunCondition } from "./PBRSecurityCondition";
+import type { PBRContext } from "../services/PBRContext";
 
 export class ProgramBlockStep
 {
@@ -54,11 +55,11 @@ export class ProgramBlockStep
     private _onPause: () => void;
     private _onResume: () => void;
 
-    constructor(pbrInstance: ProgramBlockRunner, obj: PBRStep)
+    constructor(pbrInstance: ProgramBlockRunner, obj: PBRStep, ctx?: PBRContext)
     {
         this.pbrInstance = pbrInstance;
         this.name = obj.name;
-        this.isEnabled = ParameterBlockRegistry.Numeric(obj.isEnabled);
+        this.isEnabled = ParameterBlockRegistry.Numeric(obj.isEnabled, ctx);
 
         this.partialStepFallback = obj.partialStepFallback;
         this.crashStepFallback = obj.crashStepFallback;
@@ -72,9 +73,9 @@ export class ProgramBlockStep
         this.progresses = new Array(this.runAmount?.data ?? 1).fill(0);
 
         // Build blocks
-        obj.startBlocks.forEach(b => this.startBlocks.push(ProgramBlockRegistry(b)));
-        obj.endBlocks.forEach(b => this.endBlocks.push(ProgramBlockRegistry(b)));
-        obj.blocks.forEach(b => this.blocks.push(ProgramBlockRegistry(b)));
+        obj.startBlocks.forEach(b => this.startBlocks.push(ProgramBlockRegistry(b, ctx)));
+        obj.endBlocks.forEach(b => this.endBlocks.push(ProgramBlockRegistry(b, ctx)));
+        obj.blocks.forEach(b => this.blocks.push(ProgramBlockRegistry(b, ctx)));
 
         // Build run conditions
         obj.runConditions?.forEach(rc => this.runConditions.push(new PBRRunCondition(rc, (data) => {

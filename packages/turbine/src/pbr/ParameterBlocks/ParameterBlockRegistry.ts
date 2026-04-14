@@ -1,5 +1,6 @@
 import type { AllParameterBlocks, NumericParameterBlocks, StatusParameterBlocks, StringParameterBlocks } from "$types/spec/cycle/parameter";
 import type { NumericParameterBlockHydrated, StatusParameterBlockHydrated, StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
+import type { PBRContext } from "../../services/PBRContext";
 
 import { SubParameterBlock } from "./math/SubParameterBlock";
 import { StringParameterBlock } from "./var/StringParameterBlock";
@@ -32,7 +33,8 @@ export class ParameterBlockRegistry
      * @param obj non hydrated source object
      * @returns Numeric parameter block hydrated
      */
-    static Numeric(obj: NumericParameterBlocks): NumericParameterBlock
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    static Numeric(obj: NumericParameterBlocks, ctx?: PBRContext): NumericParameterBlock
     {
         if(typeof obj === "number") return new NumberParameterBlock({"number": obj});
         if(NumberParameterBlock.isNumberPB(obj)) return new NumberParameterBlock(obj);
@@ -64,7 +66,8 @@ export class ParameterBlockRegistry
      * @param obj Non hydrated source object
      * @returns String parameter block hydrated
      */
-    static String(obj: StringParameterBlocks): StringParameterBlockType
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    static String(obj: StringParameterBlocks, ctx?: PBRContext): StringParameterBlockType
     {
         if(typeof obj === "string") return new StringParameterBlock({"string": obj});
         if(StringParameterBlock.isStringPB(obj)) return new StringParameterBlock(obj);
@@ -77,7 +80,8 @@ export class ParameterBlockRegistry
      * @param obj Non hydrated source objects
      * @returns Status parameter block hydrated
      */
-    static Status(obj: StatusParameterBlocks): StatusParameterBlock
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    static Status(obj: StatusParameterBlocks, ctx?: PBRContext): StatusParameterBlock
     {
         if(MaintenanceStatusParameterBlock.isMaintenanceStatusPB(obj)) return new MaintenanceStatusParameterBlock(obj);
         if(ProductStatusParameterBlock.isProductStatusPB(obj)) return new ProductStatusParameterBlock(obj);

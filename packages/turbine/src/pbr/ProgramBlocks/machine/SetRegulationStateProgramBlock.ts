@@ -1,5 +1,6 @@
 import type { NumericParameterBlockHydrated, StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
 import type { AllProgramBlocks, SetRegulationStateProgramBlock as SetRegulationStateProgramBlockSpec } from "$types/spec/cycle/program";
+import type { PBRContext } from "../../../services/PBRContext";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
 import { TurbineEventLoop } from "../../../events";
 import { ProgramBlock } from "../ProgramBlock";
@@ -10,9 +11,9 @@ export class SetRegulationStateProgramBlock extends ProgramBlock
     regulation: StringParameterBlockHydrated;
     state: NumericParameterBlockHydrated
 
-    constructor(obj: SetRegulationStateProgramBlockSpec)
+    constructor(obj: SetRegulationStateProgramBlockSpec, ctx?: PBRContext)
     {
-        super(obj);
+        super(obj, ctx);
         this.container = ParameterBlockRegistry.String(obj.set_regulation_state.container);
         this.regulation = ParameterBlockRegistry.String(obj.set_regulation_state.regulation);
         this.state = ParameterBlockRegistry.Numeric(obj.set_regulation_state.state);

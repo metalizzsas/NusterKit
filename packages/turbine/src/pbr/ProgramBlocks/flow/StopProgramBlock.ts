@@ -1,6 +1,7 @@
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
 import type { AllProgramBlocks, StopProgramBlock as StopProgramBlockSpec } from "$types/spec/cycle/program";
 import type { StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
+import type { PBRContext } from "../../../services/PBRContext";
 import { TurbineEventLoop } from "../../../events";
 import { ProgramBlock } from "../ProgramBlock";
 
@@ -8,9 +9,9 @@ export class StopProgramBlock extends ProgramBlock
 {
     stopReason: StringParameterBlockHydrated;
 
-    constructor(obj: StopProgramBlockSpec)
+    constructor(obj: StopProgramBlockSpec, ctx?: PBRContext)
     {
-        super(obj);
+        super(obj, ctx);
         this.stopReason = ParameterBlockRegistry.String(obj.stop)
     }
 

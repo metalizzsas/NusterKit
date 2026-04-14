@@ -1,5 +1,6 @@
 import type { NumericParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
 import type { AllProgramBlocks, ForProgramBlock as ForProgramBlockSpec } from "$types/spec/cycle/program";
+import type { PBRContext } from "../../../services/PBRContext";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
 import { ProgramBlockRegistry } from "../ProgramBlockRegistry";
 import { TurbineEventLoop } from "../../../events";
@@ -13,12 +14,12 @@ export class ForProgramBlock extends ProgramBlock {
     currentIteration = 0;
     executed = false;
 
-    constructor(obj: ForProgramBlockSpec)
+    constructor(obj: ForProgramBlockSpec, ctx?: PBRContext)
     {
-        super(obj);
+        super(obj, ctx);
 
         this.limit = ParameterBlockRegistry.Numeric(obj.for.limit);
-        this.blocks = obj.for.blocks.map(k => ProgramBlockRegistry(k));
+        this.blocks = obj.for.blocks.map(k => ProgramBlockRegistry(k, ctx));
 
         // Compute estimated run time
         for(let i = 0; i < this.limit.data; i++)

@@ -1,5 +1,6 @@
 import type { NumericParameterBlockHydrated, StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
 import type { AllProgramBlocks, AppendMaintenanceProgramBlock as AppendMaintenanceProgramBlockSpec } from "$types/spec/cycle/program";
+import type { PBRContext } from "../../../services/PBRContext";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
 import { TurbineEventLoop } from "../../../events";
 import { ProgramBlock } from "../ProgramBlock";
@@ -9,9 +10,9 @@ export class AppendMaintenanceProgramBlock extends ProgramBlock
     taskName: StringParameterBlockHydrated;
     taskValue: NumericParameterBlockHydrated;
 
-    constructor(obj: AppendMaintenanceProgramBlockSpec)
+    constructor(obj: AppendMaintenanceProgramBlockSpec, ctx?: PBRContext)
     {
-        super(obj);
+        super(obj, ctx);
         this.taskName = ParameterBlockRegistry.String(obj.append_maintenance[0]);
         this.taskValue = ParameterBlockRegistry.Numeric(obj.append_maintenance[1]);
     }

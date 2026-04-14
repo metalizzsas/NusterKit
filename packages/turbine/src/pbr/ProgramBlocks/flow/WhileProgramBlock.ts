@@ -1,6 +1,7 @@
 import type { NumericParameterBlockHydrated, StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
 import type { Comparators } from "$types/spec/cycle/parameter";
 import type { AllProgramBlocks, WhileProgramBlock as WhileProgramBlockSpec } from "$types/spec/cycle/program";
+import type { PBRContext } from "../../../services/PBRContext";
 import ComparativeFunctions from "../../utils/ComparativeFunctions";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
 import { ProgramBlockRegistry } from "../ProgramBlockRegistry";
@@ -14,15 +15,15 @@ export class WhileProgramBlock extends ProgramBlock
 
     blocks: Array<ProgramBlock>;
 
-    constructor(obj: WhileProgramBlockSpec)
+    constructor(obj: WhileProgramBlockSpec, ctx?: PBRContext)
     {
-        super(obj);
+        super(obj, ctx);
         this.comparator = ParameterBlockRegistry.String(obj.while.comparison[1]);
 
         this.leftSide = ParameterBlockRegistry.Numeric(obj.while.comparison[0]);
         this.rightSide = ParameterBlockRegistry.Numeric(obj.while.comparison[2]);
 
-        this.blocks = obj.while.blocks.map(k => ProgramBlockRegistry(k));
+        this.blocks = obj.while.blocks.map(k => ProgramBlockRegistry(k, ctx));
 
         // While loop has an infinity runTime because it cannot be determined
         this.estimatedRunTime = Infinity;

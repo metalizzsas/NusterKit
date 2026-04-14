@@ -1,6 +1,7 @@
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
 import type { AllProgramBlocks, ContainerProductLoadProgramBlock as ContainerProductLoadProgramBlockSpec } from "$types/spec/cycle/program";
 import type { StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
+import type { PBRContext } from "../../../services/PBRContext";
 import { TurbineEventLoop } from "../../../events";
 import { ProgramBlock } from "../ProgramBlock";
 
@@ -11,9 +12,9 @@ export class ContainerProductLoadProgramBlock extends ProgramBlock
     containerName: StringParameterBlockHydrated;
     containerProductSeries: StringParameterBlockHydrated;
 
-    constructor(obj: ContainerProductLoadProgramBlockSpec) 
+    constructor(obj: ContainerProductLoadProgramBlockSpec, ctx?: PBRContext)
     {
-        super(obj);
+        super(obj, ctx);
         this.containerName = ParameterBlockRegistry.String(obj.load_container[0]);
         this.containerProductSeries = ParameterBlockRegistry.String(obj.load_container[1]);
     }

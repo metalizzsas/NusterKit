@@ -7,6 +7,9 @@ import { ProgramBlockStep } from "./ProgramBlockStep";
 import { PBRRunCondition } from "./PBRSecurityCondition";
 import { TurbineEventLoop } from "../events";
 import { callbackWithTimeout } from "../utils/callbackWithTimeout";
+import type { ServiceRegistry } from "../services/interfaces";
+import type { PBRContext } from "../services/PBRContext";
+import { PBRContextImpl } from "../services/PBRContextImpl";
 
 /**
  * Program Block Runner
@@ -55,15 +58,23 @@ export class ProgramBlockRunner
     private _onVariableWrite!: (options: { name: string; value: number }) => void;
     private _onStop!: (reason: string) => void;
 
+    /** PBR Context for dependency injection into blocks */
+    ctx?: PBRContext;
+
     /** Pause utils */
     ioPauseSnapshot: Record<string, number> = {};
 
     totalPausedTime = 0;
     pauseStartDate?: number;
 
-    constructor(object: ProgramBlockRunnerConfig, profile?: ProfileHydrated)
+    constructor(object: ProgramBlockRunnerConfig, profile?: ProfileHydrated, serviceRegistry?: ServiceRegistry)
     {
          TurbineEventLoop.emit('log', 'info', "PBR: Building PBR...");
+
+        // Create PBRContext if services are available
+        if (serviceRegistry) {
+            this.ctx = new PBRContextImpl(serviceRegistry);
+        }
 
         this.name = object.name;
         this.profileRequired = object.profileRequired;
@@ -76,6 +87,20 @@ export class ProgramBlockRunner
             TurbineEventLoop.emit("log", "info", "PBR: This PBR is build without any profile.");
 
         this.registerEvents();
+
+        // Bind PBR state to context (must be after registerEvents so end() is available)
+        if (this.ctx instanceof PBRContextImpl) {
+            (this.ctx as PBRContextImpl).bindPBR({
+                variables: this.variables,
+                timers: this.timers,
+                profile: this.profile,
+                setPausable: (pausable) => {
+                    if (this.pausable === false) return;
+                    this.status.pausable = pausable;
+                },
+                stop: (reason) => this.end(reason),
+            });
+        }
             
         for(const sc of object.runConditions)
             this.runConditions.push(new PBRRunCondition(sc, (data) => {
@@ -83,7 +108,7 @@ export class ProgramBlockRunner
             }));
 
         for(const step of object.steps)
-            this.steps.push(new ProgramBlockStep(this, step));
+            this.steps.push(new ProgramBlockStep(this, step, this.ctx));
         
         this.setState("created");
         TurbineEventLoop.emit("log", "info", "PBR: Finished building PBR.");

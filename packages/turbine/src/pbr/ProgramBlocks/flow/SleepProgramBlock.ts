@@ -1,5 +1,6 @@
 import type { NumericParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
 import type { AllProgramBlocks, SleepProgramBlock as SleepProgramBlockSpec } from "$types/spec/cycle/program";
+import type { PBRContext } from "../../../services/PBRContext";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
 import { TurbineEventLoop } from "../../../events";
 import { ProgramBlock } from "../ProgramBlock";
@@ -16,9 +17,9 @@ export class SleepProgramBlock extends ProgramBlock
     private _onStatusUpdateSleep: (state: string) => void;
     private _onResumeSleep: () => void;
 
-    constructor(obj: SleepProgramBlockSpec)
+    constructor(obj: SleepProgramBlockSpec, ctx?: PBRContext)
     {
-        super(obj);
+        super(obj, ctx);
 
         this.sleepTime = ParameterBlockRegistry.Numeric(obj.sleep);
         this.estimatedRunTime = this.sleepTime.data;

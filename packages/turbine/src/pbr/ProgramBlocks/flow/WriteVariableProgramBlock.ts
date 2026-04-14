@@ -1,5 +1,6 @@
 import type { NumericParameterBlockHydrated, StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
 import type { AllProgramBlocks, SetVariableProgramBlock as SetVariableProgramBlockSpec } from "$types/spec/cycle/program";
+import type { PBRContext } from "../../../services/PBRContext";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
 import { TurbineEventLoop } from "../../../events";
 import { ProgramBlock } from "../ProgramBlock";
@@ -9,9 +10,9 @@ export class SetVariableProgramBlock extends ProgramBlock
     variableName: StringParameterBlockHydrated;
     variableValue: NumericParameterBlockHydrated;
 
-    constructor(obj: SetVariableProgramBlockSpec) 
+    constructor(obj: SetVariableProgramBlockSpec, ctx?: PBRContext)
     {
-        super(obj);
+        super(obj, ctx);
 
         this.variableName = ParameterBlockRegistry.String(obj.set_var[0]);
         this.variableValue = ParameterBlockRegistry.Numeric(obj.set_var[1]);

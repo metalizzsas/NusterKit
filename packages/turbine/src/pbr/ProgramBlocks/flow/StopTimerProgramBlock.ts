@@ -1,5 +1,6 @@
 import type { StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
 import type { AllProgramBlocks, StopTimerProgramBlock as StopTimerProgramBlockSpec } from "$types/spec/cycle/program";
+import type { PBRContext } from "../../../services/PBRContext";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
 import { TurbineEventLoop } from "../../../events";
 import { callbackWithTimeout } from "../../../utils/callbackWithTimeout";
@@ -9,9 +10,9 @@ export class StopTimerProgramBlock extends ProgramBlock
 {
     timerName: StringParameterBlockHydrated;
 
-    constructor(obj: StopTimerProgramBlockSpec)
+    constructor(obj: StopTimerProgramBlockSpec, ctx?: PBRContext)
     {
-        super(obj);
+        super(obj, ctx);
 
         this.timerName = ParameterBlockRegistry.String(obj.stop_timer);
     }

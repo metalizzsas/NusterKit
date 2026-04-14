@@ -40,7 +40,19 @@ export class ProgramBlockRunner
     /** Estimated duration */
     duration: number;
 
-    events: Array<{ data: string, time: number }> = []; 
+    events: Array<{ data: string, time: number }> = [];
+
+    /** Stored listener references for targeted removal in disposeEvents() */
+    private _onProfileRead!: (options: { callback?: (profile?: ProfileHydrated) => void | Promise<void> }) => void;
+    private _onTimerStart!: (timer: PBRTimer & { timer?: ReturnType<typeof setInterval> }) => void;
+    private _onTimerExists!: (options: { timerName: string; callback?: (exists: boolean) => void | Promise<void> }) => void;
+    private _onPause!: () => void;
+    private _onResume!: () => Promise<void>;
+    private _onSetPausable!: (pausable: boolean) => void;
+    private _onTimerStop!: (options: { timerName: string; callback?: (stopped: boolean) => void | Promise<void> }) => void;
+    private _onVariableRead!: (options: { name: string; callback?: (value: number) => void | Promise<void> }) => void;
+    private _onVariableWrite!: (options: { name: string; value: number }) => void;
+    private _onStop!: (reason: string) => void;
 
     /** Pause utils */
     ioPauseSnapshot: Record<string, number> = {};
@@ -83,24 +95,27 @@ export class ProgramBlockRunner
     /** Register events of this `PBR` */
     private registerEvents()
     {
-        TurbineEventLoop.on("pbr.profile.read", ({callback}) => {
+        this._onProfileRead = ({callback}) => {
             callback?.(this.profile);
-        });
+        };
+        TurbineEventLoop.on("pbr.profile.read", this._onProfileRead);
 
-        TurbineEventLoop.on(`pbr.timer.start`, (timer) => {
+        this._onTimerStart = (timer) => {
             if(this.timers.find(k => k.name === timer.name)?.enabled === true)
             {
                 TurbineEventLoop.emit("log", "warning", `PBR: Found a timer with ${timer.name} already active, ignoring.`);
                 return;
             }
-            this.timers.push(timer) 
-        });
+            this.timers.push(timer);
+        };
+        TurbineEventLoop.on("pbr.timer.start", this._onTimerStart);
 
-        TurbineEventLoop.on(`pbr.timer.exists`, (options) => {
+        this._onTimerExists = (options) => {
             options.callback?.(this.timers.find(k => k.name === options.timerName) !== undefined);
-        });
+        };
+        TurbineEventLoop.on("pbr.timer.exists", this._onTimerExists);
 
-        TurbineEventLoop.on('pbr.pause', () => {
+        this._onPause = () => {
 
             if(this.pausable === false)
             {
@@ -131,9 +146,10 @@ export class ProgramBlockRunner
 
             TurbineEventLoop.emit("log", "warning", "PBR: Paused cycle.");
 
-        });
+        };
+        TurbineEventLoop.on("pbr.pause", this._onPause);
 
-        TurbineEventLoop.on("pbr.resume", async () => {
+        this._onResume = async () => {
 
             if(this.pausable === false)
             {
@@ -166,9 +182,10 @@ export class ProgramBlockRunner
             this.pauseStartDate = undefined;
 
             TurbineEventLoop.emit("log", "warning", "PBR: Resumed cycle.");
-        });
+        };
+        TurbineEventLoop.on("pbr.resume", this._onResume);
 
-        TurbineEventLoop.on('pbr.setPausable', (pausable: boolean) => {
+        this._onSetPausable = (pausable: boolean) => {
 
             if(this.pausable === false)
             {
@@ -177,11 +194,12 @@ export class ProgramBlockRunner
             }
 
             this.status.pausable = pausable;
-        });
+        };
+        TurbineEventLoop.on("pbr.setPausable", this._onSetPausable);
 
-        TurbineEventLoop.on("pbr.timer.stop", (options) => {
-            const timer = this.timers.find(t => options.timerName === t.name)
-            
+        this._onTimerStop = (options) => {
+            const timer = this.timers.find(t => options.timerName === t.name);
+
             if(timer === undefined)
             {
                 options.callback?.(false);
@@ -190,45 +208,47 @@ export class ProgramBlockRunner
             }
 
             clearInterval(timer.timer);
-            this.timers = this.timers.filter(k => k.name !== timer.name); 
+            this.timers = this.timers.filter(k => k.name !== timer.name);
 
             options.callback?.(true);
-        });
+        };
+        TurbineEventLoop.on("pbr.timer.stop", this._onTimerStop);
 
-        TurbineEventLoop.on(`pbr.variable.read`, ({ name, callback }) => {
+        this._onVariableRead = ({ name, callback }) => {
             if(name === "currentStepCount")
                 callback?.(this.currentRunningStep.runCount);
             else
-                callback?.(this.variables.find(v => v.name === name)?.value ?? 0)
-        });
+                callback?.(this.variables.find(v => v.name === name)?.value ?? 0);
+        };
+        TurbineEventLoop.on("pbr.variable.read", this._onVariableRead);
 
-        TurbineEventLoop.on("pbr.variable.write", ({ name, value }) => {
+        this._onVariableWrite = ({ name, value }) => {
             const pbrVar = this.variables.find(k => k.name === name);
 
             if(pbrVar)
                 pbrVar.value = value;
             else
                 this.variables.push({ name, value });
+        };
+        TurbineEventLoop.on("pbr.variable.write", this._onVariableWrite);
 
-        });
-
-        /** Listen for Stop events */
-        TurbineEventLoop.on('pbr.stop', (reason) => this.end(reason));
+        this._onStop = (reason) => this.end(reason);
+        TurbineEventLoop.on("pbr.stop", this._onStop);
     }
 
-    /** Removes all events listeners namespaced with `pbr`. */
+    /** Removes this PBR instance's event listeners (not all listeners globally). */
     private disposeEvents()
     {
-        TurbineEventLoop.removeAllListeners('pbr.profile.read');
-        TurbineEventLoop.removeAllListeners('pbr.timer.exists');
-        TurbineEventLoop.removeAllListeners('pbr.timer.stop');
-        TurbineEventLoop.removeAllListeners('pbr.timer.start');
-        TurbineEventLoop.removeAllListeners('pbr.variable.write');
-        TurbineEventLoop.removeAllListeners('pbr.variable.read');
-        TurbineEventLoop.removeAllListeners('pbr.stop');
-        TurbineEventLoop.removeAllListeners('pbr.status.update');
-        TurbineEventLoop.removeAllListeners('pbr.pause');
-        TurbineEventLoop.removeAllListeners('pbr.resume');
+        TurbineEventLoop.removeListener("pbr.profile.read", this._onProfileRead);
+        TurbineEventLoop.removeListener("pbr.timer.exists", this._onTimerExists);
+        TurbineEventLoop.removeListener("pbr.timer.stop", this._onTimerStop);
+        TurbineEventLoop.removeListener("pbr.timer.start", this._onTimerStart);
+        TurbineEventLoop.removeListener("pbr.variable.write", this._onVariableWrite);
+        TurbineEventLoop.removeListener("pbr.variable.read", this._onVariableRead);
+        TurbineEventLoop.removeListener("pbr.stop", this._onStop);
+        TurbineEventLoop.removeListener("pbr.pause", this._onPause);
+        TurbineEventLoop.removeListener("pbr.resume", this._onResume);
+        TurbineEventLoop.removeListener("pbr.setPausable", this._onSetPausable);
     }
 
     /**

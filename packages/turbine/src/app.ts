@@ -7,7 +7,9 @@ import Fastify from "fastify";
 import fastifyCors from "@fastify/cors";
 import fastifyCookie from "@fastify/cookie";
 import fastifyStatic from "@fastify/static";
-// @fastify/express bridge removed — all routers are now native Fastify plugins
+import fastifySwagger from "@fastify/swagger";
+import fastifySwaggerUi from "@fastify/swagger-ui";
+import { serializerCompiler, validatorCompiler, jsonSchemaTransform } from "fastify-type-provider-zod";
 import { pino } from "pino";
 import { Machine } from "./Machine";
 import { TurbineEventLoop } from "./events";
@@ -96,8 +98,25 @@ import type { Server } from "http";
         logger: false,
     });
 
+    // Zod validation compiler for typed route schemas
+    app.setValidatorCompiler(validatorCompiler);
+    app.setSerializerCompiler(serializerCompiler);
+
     await app.register(fastifyCors);
     await app.register(fastifyCookie);
+
+    // OpenAPI / Swagger
+    await app.register(fastifySwagger, {
+        openapi: {
+            info: {
+                title: "NusterKit Turbine API",
+                description: "Machine control API for NusterKit industrial systems",
+                version: "3.0.0",
+            },
+        },
+        transform: jsonSchemaTransform,
+    });
+    await app.register(fastifySwaggerUi, { routePrefix: "/api-docs" });
 
     // Global error handler
     app.setErrorHandler((error, _request, reply) => {

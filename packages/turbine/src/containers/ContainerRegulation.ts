@@ -9,6 +9,7 @@ import { callbackWithTimeout } from "../utils/callbackWithTimeout";
 export class ContainerRegulation implements ContainerRegulationConfig
 {
     #parentName: string;
+    private regulationTimer?: ReturnType<typeof setInterval>;
     name: string;
     current: number;
     state = false;
@@ -110,7 +111,7 @@ export class ContainerRegulation implements ContainerRegulationConfig
             });
         }
 
-        setInterval(this.regulationLoop.bind(this), 10000);
+        this.regulationTimer = setInterval(this.regulationLoop.bind(this), 10000);
     }
 
     get value(): number
@@ -219,6 +220,13 @@ export class ContainerRegulation implements ContainerRegulationConfig
             ).catch(err => {
                 TurbineEventLoop.emit("log", "error", `ContainerRegulation: setActuators failed: ${(err as Error).message}`);
             });
+        }
+    }
+
+    dispose(): void {
+        if (this.regulationTimer) {
+            clearInterval(this.regulationTimer);
+            this.regulationTimer = undefined;
         }
     }
 

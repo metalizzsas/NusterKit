@@ -7,7 +7,7 @@ import Fastify from "fastify";
 import fastifyCors from "@fastify/cors";
 import fastifyCookie from "@fastify/cookie";
 import fastifyStatic from "@fastify/static";
-import fastifyExpress from "@fastify/express";
+// @fastify/express bridge removed — all routers are now native Fastify plugins
 import { pino } from "pino";
 import { Machine } from "./Machine";
 import { TurbineEventLoop } from "./events";
@@ -16,6 +16,7 @@ import * as SpecsSchema from "./types/schemas/schema-specs.json";
 import { migrate } from "./migrate";
 import Ajv from "ajv";
 import { SettingsSchema, ConfigurationSchema } from "./schemas";
+import { maintenanceRoutes, callToActionRoutes, ioRoutes, profileRoutes, containerRoutes, cycleRoutes, networkRoutes } from "./routes";
 import type { Server } from "http";
 
 (async () => {
@@ -97,9 +98,6 @@ import type { Server } from "http";
 
     await app.register(fastifyCors);
     await app.register(fastifyCookie);
-
-    // Bridge for Express routers during migration (Phase 3.2 will remove this)
-    await app.register(fastifyExpress);
 
     // Global error handler
     app.setErrorHandler((error, _request, reply) => {
@@ -360,14 +358,18 @@ import type { Server } from "http";
 
             TurbineEventLoop.emit('log', 'info', "Machine: Setting up connect popup.");
 
-            // Mount Express routers via @fastify/express bridge (Phase 3.2 will convert these)
-            app.use('/v1/io', machine.ioRouter.router);
-            app.use('/v1/profiles', machine.profileRouter.router);
-            app.use('/v1/maintenances', machine.maintenanceRouter.router);
-            app.use('/v1/containers', machine.containerRouter.router);
-            app.use('/v1/cycle', machine.cycleRouter.router);
-            app.use('/network', machine.networkRouter.router);
-            app.use('/v1/calltoaction', machine.callToActionRouter.router);
+            // Register Fastify route plugins
+            app.register(ioRoutes, { prefix: '/v1/io', gates: machine.ioRouter.gates });
+            app.register(profileRoutes, { prefix: '/v1/profiles', profilesRouter: machine.profileRouter });
+            app.register(maintenanceRoutes, { prefix: '/v1/maintenances', tasks: machine.maintenanceRouter.tasks });
+            app.register(containerRoutes, { prefix: '/v1/containers', containers: machine.containerRouter.containers, services: machine.services });
+            app.register(cycleRoutes, { prefix: '/v1/cycle', cycleTypes: machine.specs.cycleTypes, cyclePremades: machine.specs.cyclePremades, serviceRegistry: machine.services, state: { get program() { return machine?.cycleRouter.program; }, set program(v) { if (machine) machine.cycleRouter.program = v; } } });
+            app.register(callToActionRoutes, { prefix: '/v1/calltoaction' });
+
+            // Network routes only in production (D-Bus not available in dev)
+            if (productionEnabled) {
+                app.register(networkRoutes, { prefix: '/network', networkRouter: machine.networkRouter });
+            }
 
             // Static files
             app.register(fastifyStatic, {

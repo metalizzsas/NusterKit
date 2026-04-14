@@ -1,0 +1,81 @@
+import type { FastifyInstance } from "fastify";
+import type { ZodTypeProvider } from "fastify-type-provider-zod";
+import type { NetworkRouter } from "../routers/NetworkRouter";
+import { AccessPointSchema, NetworkDeviceSchema, WifiConnectBodySchema, ErrorResponseSchema } from "../schemas";
+import { z } from "zod";
+
+interface NetworkRoutesOpts {
+	networkRouter: NetworkRouter;
+}
+
+export async function networkRoutes(fastify: FastifyInstance, opts: NetworkRoutesOpts) {
+	const { networkRouter } = opts;
+	const app = fastify.withTypeProvider<ZodTypeProvider>();
+
+	app.get("/wifi/list", {
+		schema: {
+			response: {
+				200: z.array(AccessPointSchema),
+				500: ErrorResponseSchema,
+			},
+		},
+	}, async (_request, reply) => {
+		try {
+			return await networkRouter.listWifiNetworks();
+		} catch (ex) {
+			return reply.status(500).send({ error: String(ex) });
+		}
+	});
+
+	app.post("/wifi/connect", {
+		schema: {
+			body: WifiConnectBodySchema,
+			response: {
+				200: z.null(),
+				400: ErrorResponseSchema,
+				500: ErrorResponseSchema,
+			},
+		},
+	}, async (request, reply) => {
+		try {
+			const result = await networkRouter.connectToWifi(request.body.ssid, request.body.password);
+			return reply.status(result ? 200 : 500).send();
+		} catch (e) {
+			if (e instanceof Array && String(e.at(0)).includes('802-11-wireless-security.psk')) {
+				return reply.status(400).send({ error: "settings.network.errors.wifi_invalid_password" });
+			}
+			return reply.status(500).send({ error: String(e) });
+		}
+	});
+
+	app.get("/wifi/disconnect", {
+		schema: {
+			response: {
+				200: z.null(),
+				500: ErrorResponseSchema,
+			},
+		},
+	}, async (_request, reply) => {
+		try {
+			await networkRouter.disconnectFromWifi();
+			return reply.status(200).send();
+		} catch (e) {
+			return reply.status(500).send({ error: String(e) });
+		}
+	});
+
+	app.get("/devices", {
+		schema: {
+			response: {
+				200: z.array(NetworkDeviceSchema),
+				500: ErrorResponseSchema,
+			},
+		},
+	}, async (_request, reply) => {
+		try {
+			return await networkRouter.getDevices();
+		} catch (ex) {
+			return reply.status(500).send({ error: String(ex) });
+		}
+	});
+}

@@ -109,7 +109,7 @@ export class NetworkRouter extends Router
      * @async
      * @returns Array of network devices
      */
-    private async getDevices(): Promise<NetworkDevice[]>
+    public async getDevices(): Promise<NetworkDevice[]>
     {
         const devicePaths: string[] = await this.dbusClient.dbusInvoker({
             destination: 'org.freedesktop.NetworkManager',
@@ -158,7 +158,7 @@ export class NetworkRouter extends Router
      * @async
      * @returns List of wifi networks
      */
-    private async listWifiNetworks(): Promise<AccessPoint[]> {
+    public async listWifiNetworks(): Promise<AccessPoint[]> {
 
         const devices = await this.getDevices();
         const accessPoints: AccessPoint[] = [];
@@ -216,7 +216,7 @@ export class NetworkRouter extends Router
      * @returns True if the connection was successful
      * @async
      */
-    private async connectToWifi(ssid: string, password?: string | undefined): Promise<boolean> {
+    public async connectToWifi(ssid: string, password?: string | undefined): Promise<boolean> {
 
         let createdConnection: string | undefined = undefined;
 
@@ -326,7 +326,7 @@ export class NetworkRouter extends Router
      * Disconnect from the current wifi network
      * @throws
      */
-    private async disconnectFromWifi(): Promise<void> {
+    public async disconnectFromWifi(): Promise<void> {
         try
         {
             const wifiDevices = await this.getDevices();

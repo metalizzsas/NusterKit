@@ -23,8 +23,13 @@ export class ContainerProductLoadProgramBlock extends ProgramBlock
         const containerName = this.containerName.data;
         const containerProductSeries = this.containerProductSeries.data;
 
-        TurbineEventLoop.emit("log", "info", `ContainerLoadBlock: Will load ${containerName} with: ${containerProductSeries}.`)
-        TurbineEventLoop.emit(`container.load.${containerName}`, containerProductSeries);
+        if (this.ctx) {
+            this.ctx.logger.log("info", `ContainerLoadBlock: Will load ${containerName} with: ${containerProductSeries}.`);
+            await this.ctx.containers.load(containerName, containerProductSeries);
+        } else {
+            TurbineEventLoop.emit("log", "info", `ContainerLoadBlock: Will load ${containerName} with: ${containerProductSeries}.`);
+            TurbineEventLoop.emit(`container.load.${containerName}`, containerProductSeries);
+        }
 
         super.execute();
     }

@@ -21,11 +21,20 @@ export class SetRegulationStateProgramBlock extends ProgramBlock
 
     public async execute(): Promise<void>
     {
-        TurbineEventLoop.emit("log", "info", `RegulationSetStateProgramBlock: Will set ${this.container.data} regulation ${this.regulation.data} to ${this.state.data}.`);
-        
-        TurbineEventLoop.emit(`container.${this.container.data}.regulation.${this.regulation.data}.set_state`, { state: this.state.data === 1, callback: (state) => {
-            TurbineEventLoop.emit("log", "info", `RegulationSetStateProgramBlock: Set ${this.container.data} regulation ${this.regulation.data} to ${state}.`);
-        }})
+        const containerName = this.container.data;
+        const regulationName = this.regulation.data;
+        const targetState = this.state.data === 1;
+
+        if (this.ctx) {
+            this.ctx.logger.log("info", `RegulationSetStateProgramBlock: Will set ${containerName} regulation ${regulationName} to ${targetState}.`);
+            const result = await this.ctx.containers.setRegulationState(containerName, regulationName, targetState);
+            this.ctx.logger.log("info", `RegulationSetStateProgramBlock: Set ${containerName} regulation ${regulationName} to ${result}.`);
+        } else {
+            TurbineEventLoop.emit("log", "info", `RegulationSetStateProgramBlock: Will set ${containerName} regulation ${regulationName} to ${targetState}.`);
+            TurbineEventLoop.emit(`container.${containerName}.regulation.${regulationName}.set_state`, { state: targetState, callback: (state: boolean) => {
+                TurbineEventLoop.emit("log", "info", `RegulationSetStateProgramBlock: Set ${containerName} regulation ${regulationName} to ${state}.`);
+            }});
+        }
 
         super.execute();
     }

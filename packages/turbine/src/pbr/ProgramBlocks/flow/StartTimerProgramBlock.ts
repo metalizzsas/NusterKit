@@ -24,33 +24,48 @@ export class StartTimerProgramBlock extends ProgramBlock
     }
 
     public async execute(): Promise<void> {
-        
+
         if (this.earlyExit === true)
             return;
 
         const timerName = this.timerName.data;
         const timerInterval = this.timerInterval.data;
+        const log = this.ctx ? (msg: string) => this.ctx!.logger.log("info", msg) : (msg: string) => TurbineEventLoop.emit("log", "info", msg);
 
-        TurbineEventLoop.emit("pbr.timer.exists", { timerName, callback: (exists: boolean) => {
-            if (exists === true)
-            {
-                TurbineEventLoop.emit("log", "info", `StartTimerBlock: Will not start timer with name: ${timerName} because it already exists.`)
-                return;
-            }
-            
-            const timer = setInterval(async () => {
-                if(!this.paused)
-                {
-                    for (const b of this.blocks) {
-                        await b.execute();
+        if (this.ctx) {
+            if (this.ctx.timerExists(timerName)) {
+                log(`StartTimerBlock: Will not start timer with name: ${timerName} because it already exists.`);
+            } else {
+                const timer = setInterval(async () => {
+                    if (!this.paused) {
+                        for (const b of this.blocks) {
+                            await b.execute();
+                        }
                     }
+                }, timerInterval * 1000);
+
+                log(`StartTimerBlock: Will start timer with name: ${timerName} and interval: ${timerInterval * 1000} ms.`);
+                this.ctx.timerStart({ name: timerName, timer, enabled: true });
+            }
+        } else {
+            TurbineEventLoop.emit("pbr.timer.exists", { timerName, callback: (exists: boolean) => {
+                if (exists === true) {
+                    log(`StartTimerBlock: Will not start timer with name: ${timerName} because it already exists.`);
+                    return;
                 }
-            }, timerInterval * 1000);
-    
-            TurbineEventLoop.emit("log", "info", `StartTimerBlock: Will start timer with name: ${timerName} and interval: ${timerInterval * 1000} ms.`)
-            TurbineEventLoop.emit("pbr.timer.start", { name: timerName, timer: timer, enabled: true });
-    
-        }});
+
+                const timer = setInterval(async () => {
+                    if (!this.paused) {
+                        for (const b of this.blocks) {
+                            await b.execute();
+                        }
+                    }
+                }, timerInterval * 1000);
+
+                log(`StartTimerBlock: Will start timer with name: ${timerName} and interval: ${timerInterval * 1000} ms.`);
+                TurbineEventLoop.emit("pbr.timer.start", { name: timerName, timer, enabled: true });
+            }});
+        }
 
         super.execute();
     }

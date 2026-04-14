@@ -19,7 +19,11 @@ export class AppendMaintenanceProgramBlock extends ProgramBlock
 
     public async execute(): Promise<void> {
 
-        TurbineEventLoop.emit(`maintenance.append.${this.taskName.data}`, this.taskValue.data);
+        if (this.ctx) {
+            this.ctx.maintenance.append(this.taskName.data, this.taskValue.data);
+        } else {
+            TurbineEventLoop.emit(`maintenance.append.${this.taskName.data}`, this.taskValue.data);
+        }
 
         super.execute();
     }

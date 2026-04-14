@@ -18,11 +18,19 @@ export class StopProgramBlock extends ProgramBlock
     public async execute(): Promise<void>
     {
         if (process.env.NODE_ENV != "production") {
-            TurbineEventLoop.emit("log", "warning", "StopBlock: Debug mode will not stop the machine.")
+            if (this.ctx) {
+                this.ctx.logger.log("warning", "StopBlock: Debug mode will not stop the machine.");
+            } else {
+                TurbineEventLoop.emit("log", "warning", "StopBlock: Debug mode will not stop the machine.");
+            }
             return;
         }
 
-        TurbineEventLoop.emit(`pbr.stop`, this.stopReason.data);
+        if (this.ctx) {
+            this.ctx.stop(this.stopReason.data);
+        } else {
+            TurbineEventLoop.emit(`pbr.stop`, this.stopReason.data);
+        }
 
         super.execute();
     }

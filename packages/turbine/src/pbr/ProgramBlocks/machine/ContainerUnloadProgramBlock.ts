@@ -19,8 +19,13 @@ export class ContainerProductUnloadProgramBlock extends ProgramBlock
     {
         const containerName = this.containterName.data;
 
-        TurbineEventLoop.emit("log", "info", `SlotUnloadBlock: Will unload slot with name: ${containerName}.`);
-        TurbineEventLoop.emit(`container.unload.${containerName}`);
+        if (this.ctx) {
+            this.ctx.logger.log("info", `SlotUnloadBlock: Will unload slot with name: ${containerName}.`);
+            await this.ctx.containers.unload(containerName);
+        } else {
+            TurbineEventLoop.emit("log", "info", `SlotUnloadBlock: Will unload slot with name: ${containerName}.`);
+            TurbineEventLoop.emit(`container.unload.${containerName}`);
+        }
 
         super.execute();
     }

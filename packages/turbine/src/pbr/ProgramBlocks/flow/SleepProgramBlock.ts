@@ -50,8 +50,13 @@ export class SleepProgramBlock extends ProgramBlock
         const timeStart = performance.now();
         const sleepTime = this.sleepTime.data * 1000;
         
-        TurbineEventLoop.emit("log", "info", `SleepBlock: Will sleep for ${sleepTime} ms.`);
-        TurbineEventLoop.emit("pbr.setPausable", true);
+        if (this.ctx) {
+            this.ctx.logger.log("info", `SleepBlock: Will sleep for ${sleepTime} ms.`);
+            this.ctx.setPausable(true);
+        } else {
+            TurbineEventLoop.emit("log", "info", `SleepBlock: Will sleep for ${sleepTime} ms.`);
+            TurbineEventLoop.emit("pbr.setPausable", true);
+        }
 
         for (this.currentSleepTime = 0; this.currentSleepTime < ((sleepTime) / 10) + this.iterationsSkippedByPause; this.currentSleepTime++)
         {
@@ -69,7 +74,11 @@ export class SleepProgramBlock extends ProgramBlock
             await new Promise(resolve => { setTimeout(resolve, 10); });
         }
 
-        TurbineEventLoop.emit("pbr.setPausable", false);
+        if (this.ctx) {
+            this.ctx.setPausable(false);
+        } else {
+            TurbineEventLoop.emit("pbr.setPausable", false);
+        }
         this.executed = true;
     }
 

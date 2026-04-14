@@ -21,21 +21,29 @@ export class StopTimerProgramBlock extends ProgramBlock
 
         const timerName = this.timerName.data;
 
-        TurbineEventLoop.emit("log", "info", `StopTimerBlock: Will stop timer with name: ${timerName}`);
+        if (this.ctx) {
+            this.ctx.logger.log("info", `StopTimerBlock: Will stop timer with name: ${timerName}`);
+            const stopped = this.ctx.timerStop(timerName);
+            if (!stopped) {
+                this.ctx.logger.log("warning", `StopTimerBlock: Timer ${timerName} has not been found, ignoring.`);
+            }
+        } else {
+            TurbineEventLoop.emit("log", "info", `StopTimerBlock: Will stop timer with name: ${timerName}`);
 
-        await callbackWithTimeout<void>(
-            (resolve) => {
-                TurbineEventLoop.emit('pbr.timer.stop', { timerName, callback: (stopped) => {
-                    if(stopped == false)
-                        TurbineEventLoop.emit("log", "warning", `StopTimerBlock: Timer ${timerName} has not been found, ignoring.`);
-                    resolve();
-                }});
-            },
-            5000,
-            `StopTimerBlock(${timerName})`
-        ).catch(err => {
-            TurbineEventLoop.emit("log", "error", `StopTimerBlock: ${(err as Error).message}`);
-        });
+            await callbackWithTimeout<void>(
+                (resolve) => {
+                    TurbineEventLoop.emit('pbr.timer.stop', { timerName, callback: (stopped) => {
+                        if(stopped == false)
+                            TurbineEventLoop.emit("log", "warning", `StopTimerBlock: Timer ${timerName} has not been found, ignoring.`);
+                        resolve();
+                    }});
+                },
+                5000,
+                `StopTimerBlock(${timerName})`
+            ).catch(err => {
+                TurbineEventLoop.emit("log", "error", `StopTimerBlock: ${(err as Error).message}`);
+            });
+        }
 
         super.execute();
     }

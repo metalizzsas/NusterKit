@@ -20,9 +20,13 @@ export class SetVariableProgramBlock extends ProgramBlock
 
     public async execute(): Promise<void> {
 
-        TurbineEventLoop.emit(`pbr.variable.write`, { name: this.variableName.data, value: this.variableValue.data });
+        if (this.ctx) {
+            this.ctx.writeVariable(this.variableName.data, this.variableValue.data);
+        } else {
+            TurbineEventLoop.emit(`pbr.variable.write`, { name: this.variableName.data, value: this.variableValue.data });
+        }
 
-        super.execute();           
+        super.execute();
     }
 
     static isSetVariablePgB(obj: AllProgramBlocks): obj is SetVariableProgramBlockSpec

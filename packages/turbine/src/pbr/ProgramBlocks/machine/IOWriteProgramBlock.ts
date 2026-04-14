@@ -25,51 +25,63 @@ export class IOWriteProgramBlock extends ProgramBlock
         const gateName = this.gateName.data;
         const gateValue = this.gateValue.data;
 
-        TurbineEventLoop.emit("log", "info", `IOWriteBlock: Will access ${gateName} to write ${gateValue}.`);
+        if (this.ctx) {
+            // Direct path — no events, no callbacks, no timers
+            this.ctx.logger.log("info", `IOWriteBlock: Will access ${gateName} to write ${gateValue}.`);
 
-        await new Promise<void>(resolve => {
-            let settled = false;
+            try {
+                await this.ctx.io.write(gateName, gateValue);
+            } catch (err) {
+                this.ctx.logger.log("warning", `IOWriteBlock: ${gateName} write failed: ${(err as Error).message}`);
+                this.ctx.stop("controllerError");
+            }
+        } else {
+            // Legacy event-based path with retry/timeout
+            TurbineEventLoop.emit("log", "info", `IOWriteBlock: Will access ${gateName} to write ${gateValue}.`);
 
-            const retryTimer: ReturnType<typeof setTimeout> = setTimeout(() => {
-                if (!settled && this.executed !== true) {
-                    TurbineEventLoop.emit("log", "warning", `IOWriteBlock: ${gateName} write retry.`);
-                    TurbineEventLoop.emit(`io.update.${this.gateName.data}`, {
-                        value: gateValue,
-                        callback: () => settle()
-                    });
-                }
-            }, 1000);
+            await new Promise<void>(resolve => {
+                let settled = false;
 
-            const timeoutTimer: ReturnType<typeof setTimeout> = setTimeout(() => {
-                if (!settled && this.executed !== true) {
-                    TurbineEventLoop.emit("log", "warning", `IOWriteBlock: ${gateName} write timeout.`);
-                    TurbineEventLoop.emit("pbr.stop", "controllerError");
-                    settle();
-                }
-            }, 2000);
+                const retryTimer: ReturnType<typeof setTimeout> = setTimeout(() => {
+                    if (!settled && this.executed !== true) {
+                        TurbineEventLoop.emit("log", "warning", `IOWriteBlock: ${gateName} write retry.`);
+                        TurbineEventLoop.emit(`io.update.${this.gateName.data}`, {
+                            value: gateValue,
+                            callback: () => settle()
+                        });
+                    }
+                }, 1000);
 
-            const abortCheckTimer: ReturnType<typeof setInterval> = setInterval(() => {
-                if (signal?.aborted === true && this.executed === false) {
-                    settle();
-                }
-            }, 250);
+                const timeoutTimer: ReturnType<typeof setTimeout> = setTimeout(() => {
+                    if (!settled && this.executed !== true) {
+                        TurbineEventLoop.emit("log", "warning", `IOWriteBlock: ${gateName} write timeout.`);
+                        TurbineEventLoop.emit("pbr.stop", "controllerError");
+                        settle();
+                    }
+                }, 2000);
 
-            const settle = () => {
-                if (!settled) {
-                    settled = true;
-                    clearTimeout(retryTimer);
-                    clearTimeout(timeoutTimer);
-                    clearInterval(abortCheckTimer);
-                    resolve();
-                }
-            };
+                const abortCheckTimer: ReturnType<typeof setInterval> = setInterval(() => {
+                    if (signal?.aborted === true && this.executed === false) {
+                        settle();
+                    }
+                }, 250);
 
-            // Primary write attempt
-            TurbineEventLoop.emit(`io.update.${this.gateName.data}`, {
-                value: gateValue,
-                callback: () => settle()
+                const settle = () => {
+                    if (!settled) {
+                        settled = true;
+                        clearTimeout(retryTimer);
+                        clearTimeout(timeoutTimer);
+                        clearInterval(abortCheckTimer);
+                        resolve();
+                    }
+                };
+
+                TurbineEventLoop.emit(`io.update.${this.gateName.data}`, {
+                    value: gateValue,
+                    callback: () => settle()
+                });
             });
-        });
+        }
 
         super.execute();
     }

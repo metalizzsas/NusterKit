@@ -105,7 +105,7 @@ export class ProgramBlockRunner
         for(const sc of object.runConditions)
             this.runConditions.push(new PBRRunCondition(sc, (data) => {
                 TurbineEventLoop.emit(`pbr.stop`, `security-${data.name}`)
-            }));
+            }, this.ctx));
 
         for(const step of object.steps)
             this.steps.push(new ProgramBlockStep(this, step, this.ctx));

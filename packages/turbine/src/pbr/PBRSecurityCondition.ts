@@ -5,6 +5,7 @@ import type { PBRMode } from "$types/hydrated/cycle/ProgramBlockRunnerHydrated";
 import { ParameterBlockRegistry } from "./ParameterBlocks/ParameterBlockRegistry";
 import { TurbineEventLoop } from "../events";
 import type { IOGateJSON } from "$types/hydrated/io";
+import type { PBRContext } from "../services/PBRContext";
 
 export class PBRRunCondition
 {
@@ -26,19 +27,27 @@ export class PBRRunCondition
 
     subscriber: ((data: { name: string, startOnly: boolean, result: PBRStartConditionResult }) => void) | undefined = undefined;
 
-    constructor(pbrsc: PBRRunConditionConfig, subscribeCallback?: (data: { name: string, startOnly: boolean, result: PBRStartConditionResult }) => void)
+    private ctx?: PBRContext;
+
+    constructor(pbrsc: PBRRunConditionConfig, subscribeCallback?: (data: { name: string, startOnly: boolean, result: PBRStartConditionResult }) => void, ctx?: PBRContext)
     {
         this.name = pbrsc.name;
         this.startOnly = pbrsc.startOnly;
         this.scc = pbrsc;
+        this.ctx = ctx;
 
         this.subscriber = subscribeCallback;
 
         if(pbrsc.disabled)
-            this.disabled = ParameterBlockRegistry.Numeric(pbrsc.disabled);
+            this.disabled = ParameterBlockRegistry.Numeric(pbrsc.disabled, ctx);
 
-        this.#pbrStateListenerReference = (state) => { this.#pbrState = state; };
-        TurbineEventLoop.on('pbr.status.update', this.#pbrStateListenerReference);
+        this.#pbrStateListenerReference = (state: PBRMode) => { this.#pbrState = state; };
+
+        if (this.ctx) {
+            this.ctx.pbrEmitter.on("status.update", this.#pbrStateListenerReference);
+        } else {
+            TurbineEventLoop.on('pbr.status.update', this.#pbrStateListenerReference);
+        }
 
         if(this.disabled?.data === 1)
         {
@@ -49,18 +58,22 @@ export class PBRRunCondition
         if(pbrsc.checkchain.io !== undefined)
         {
             this.#gateListenerReference = this.gateListener.bind(this);
-            TurbineEventLoop.on(`io.updated.${pbrsc.checkchain.io.gateName}`, this.#gateListenerReference);
+            if (this.ctx) {
+                this.ctx.io.on(`updated.${pbrsc.checkchain.io.gateName}`, this.#gateListenerReference);
+            } else {
+                TurbineEventLoop.on(`io.updated.${pbrsc.checkchain.io.gateName}`, this.#gateListenerReference);
+            }
         }
 
         if(pbrsc.checkchain.parameter !== undefined)
         {
-            this.#statusBlock = ParameterBlockRegistry.Status(pbrsc.checkchain.parameter);
+            this.#statusBlock = ParameterBlockRegistry.Status(pbrsc.checkchain.parameter, ctx);
             this.state = this.#statusBlock.data;
 
             /** Subscribe to status block data change */
             this.#statusBlock.subscribe((data) => {
                 if(this.disabledFlag === true) return;
-        
+
                 this.state = data;
 
                 if(this.state === "error" && this.#pbrState === "started")
@@ -81,8 +94,17 @@ export class PBRRunCondition
     /** Dispose Security Condition */
     public dispose()
     {
-        if(this.#gateListenerReference) { TurbineEventLoop.removeListener(`io.updated.${this.scc.checkchain.io?.gateName}`, this.#gateListenerReference); }
-        if(this.#pbrStateListenerReference) { TurbineEventLoop.removeListener('pbr.status.update', this.#pbrStateListenerReference); }
+        if (this.ctx) {
+            if (this.#gateListenerReference && this.scc.checkchain.io) {
+                this.ctx.io.off(`updated.${this.scc.checkchain.io.gateName}`, this.#gateListenerReference);
+            }
+            if (this.#pbrStateListenerReference) {
+                this.ctx.pbrEmitter.off("status.update", this.#pbrStateListenerReference);
+            }
+        } else {
+            if (this.#gateListenerReference) { TurbineEventLoop.removeListener(`io.updated.${this.scc.checkchain.io?.gateName}`, this.#gateListenerReference); }
+            if (this.#pbrStateListenerReference) { TurbineEventLoop.removeListener('pbr.status.update', this.#pbrStateListenerReference); }
+        }
         this.disabledFlag = true;
     }
 

@@ -80,7 +80,7 @@ export class ProgramBlockStep
         // Build run conditions
         obj.runConditions?.forEach(rc => this.runConditions.push(new PBRRunCondition(rc, (data) => {
             this.crash(`security-${data.name}`);
-        })));
+        }, ctx)));
 
         this.duration = this.estimateRunTime();
 

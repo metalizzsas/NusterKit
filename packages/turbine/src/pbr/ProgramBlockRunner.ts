@@ -6,6 +6,7 @@ import type { PBRStepResult } from "$types/spec/cycle/PBRStep";
 import { ProgramBlockStep } from "./ProgramBlockStep";
 import { PBRRunCondition } from "./PBRSecurityCondition";
 import { TurbineEventLoop } from "../events";
+import { callbackWithTimeout } from "../utils/callbackWithTimeout";
 
 /**
  * Program Block Runner
@@ -135,14 +136,13 @@ export class ProgramBlockRunner
                 return;
             }
 
+            this.pauseStartDate = Date.now();
             this.setState("paused");
 
             TurbineEventLoop.emit("io.snapshot", ({ callback: (snapshot: Record<string, number>) => {
                 this.ioPauseSnapshot = structuredClone(snapshot);
                 TurbineEventLoop.emit("io.resetAll");
             }}));
-
-            this.pauseStartDate = Date.now();
 
             TurbineEventLoop.emit("log", "warning", "PBR: Paused cycle.");
 
@@ -173,8 +173,14 @@ export class ProgramBlockRunner
 
             for(const io in this.ioPauseSnapshot)
             {
-                await new Promise<void>(resolve => {
-                    TurbineEventLoop.emit(`io.update.${io}`, { value: this.ioPauseSnapshot[io], callback: () => resolve() });
+                await callbackWithTimeout<void>(
+                    (resolve) => {
+                        TurbineEventLoop.emit(`io.update.${io}`, { value: this.ioPauseSnapshot[io], callback: () => resolve() });
+                    },
+                    5000,
+                    `PBR.resume io.update.${io}`
+                ).catch(err => {
+                    TurbineEventLoop.emit("log", "error", `PBR: Resume IO restore failed: ${(err as Error).message}`);
                 });
             }
 

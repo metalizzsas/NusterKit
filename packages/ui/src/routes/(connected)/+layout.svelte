@@ -50,7 +50,10 @@
         
         const isSecure = window.location.protocol === "https:";
 
-        websocket = new WebSocket(`${isSecure ? "wss": "ws"}://${data.websocketAddress || new URL(window.origin).host}/ws/`);
+        const wsHost = data.websocketAddress
+            ? new URL(data.websocketAddress).host
+            : new URL(window.origin).host;
+        websocket = new WebSocket(`${isSecure ? "wss": "ws"}://${wsHost}/ws/`);
 
         websocket.onerror = function() {
             websocketState = "disconnected";

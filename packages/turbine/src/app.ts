@@ -413,10 +413,10 @@ import { GracefulShutdown } from "./utils/GracefulShutdown";
         else
         {
             // Send the configuration to the simulation server
-            if(process.env.SIMULATION_ADDRESS !== undefined && process.env.SIMULATION_PORT !== undefined)
+            if(process.env.SIMULATION_URL)
             {
-                TurbineEventLoop.emit('log', 'warning', `DEV: Sending configuration to ${process.env.SIMULATION_ADDRESS}:${process.env.SIMULATION_PORT} simulation server.`);
-                fetch(`http://${process.env.SIMULATION_ADDRESS}:${process.env.SIMULATION_PORT}/config`, { method: "post", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ configuration: parsedConfiguration, specs: parsedSpecs })});
+                TurbineEventLoop.emit('log', 'warning', `DEV: Sending configuration to ${process.env.SIMULATION_URL} simulation server.`);
+                fetch(`${process.env.SIMULATION_URL}/config`, { method: "post", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ configuration: parsedConfiguration, specs: parsedSpecs })});
             }
 
             machine = new Machine(parsedConfiguration, parsedSpecs);

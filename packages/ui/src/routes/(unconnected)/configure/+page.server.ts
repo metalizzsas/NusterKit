@@ -4,7 +4,7 @@ import { fail, redirect } from "@sveltejs/kit";
 
 export const load = (async ({ fetch }) => {
 
-    const machineSpecsListRequest = await fetch(`http://${env.TURBINE_ADDRESS}/configs`);
+    const machineSpecsListRequest = await fetch(`${env.TURBINE_URL}/configs`);
     const machineSpecsList = await machineSpecsListRequest.json() as MachineSpecsList;
 
     const machineModelNames = Object.keys(machineSpecsList);
@@ -12,7 +12,7 @@ export const load = (async ({ fetch }) => {
     if(machineModelNames.length === 0)
         throw Error("Failed to get machines list")
 
-    const configurationRequest = await fetch(`http://${env.TURBINE_ADDRESS}/config/actual`);
+    const configurationRequest = await fetch(`${env.TURBINE_URL}/config/actual`);
     const configuration = await configurationRequest.json().catch(() => { return {
         model: machineModelNames[0],
         
@@ -45,7 +45,7 @@ export const actions = {
         if(configuration === undefined)
             return fail(400, { saveConfiguration: { error: "Configuration is required" }});
 
-        const saveRequest = await fetch(`http://${env.TURBINE_ADDRESS}/config/`, {
+        const saveRequest = await fetch(`${env.TURBINE_URL}/config/`, {
             method: 'post',
             headers: {
                 'content-type': 'application/json'

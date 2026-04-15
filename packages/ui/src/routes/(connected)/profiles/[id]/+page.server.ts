@@ -6,7 +6,7 @@ import { fail, redirect } from '@sveltejs/kit';
 
 export const load = (async ({ fetch, params }) => {
 
-    const req = await fetch(`http://${env.TURBINE_ADDRESS}/v1/profiles/${params.id}`);
+    const req = await fetch(`${env.TURBINE_URL}/v1/profiles/${params.id}`);
     const profile = (await req.json()) as ProfileHydrated
 
     return {
@@ -28,7 +28,7 @@ export const actions = {
         if(profile === undefined || profileId === undefined)
             return fail(400, { saveProfile: { error: "Missing profile id or profile body" }});
 
-        const profileSaveRequest = await fetch(`http://${env.TURBINE_ADDRESS}/v1/profiles/${profileId}`, {
+        const profileSaveRequest = await fetch(`${env.TURBINE_URL}/v1/profiles/${profileId}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: profile
@@ -51,7 +51,7 @@ export const actions = {
         if(profileId === undefined || profile === undefined)
             return fail(400, { copyProfile: { error: "Missing profile id or copied profile body" }});
 
-        const profileCopyRequest = await fetch(`http://${env.TURBINE_ADDRESS}/v1/profiles/`, {
+        const profileCopyRequest = await fetch(`${env.TURBINE_URL}/v1/profiles/`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: profile
@@ -75,7 +75,7 @@ export const actions = {
         if(profileId === undefined)
             return fail(400, { deleteProfile: { error: "Missing profile id" }});
 
-        const profileDeleteRequest = await fetch(`http://${env.TURBINE_ADDRESS}/v1/profiles/${profileId}`, {
+        const profileDeleteRequest = await fetch(`${env.TURBINE_URL}/v1/profiles/${profileId}`, {
             method: "DELETE"
         });
 

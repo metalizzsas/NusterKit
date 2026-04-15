@@ -13,7 +13,7 @@
 	"scripts": {
 		"check": "svelte-check",
 		"sync": "svelte-kit sync",
-		"dev": "vite dev",
+		"dev": "portless ui.nuster vite dev",
 		"build": "svelte-kit sync && vite build",
 		"start": "node build",
 		"preview": "vite preview --port 4081",

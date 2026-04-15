@@ -9,7 +9,7 @@
 		"node": "22.x"
 	},
 	"scripts": {
-		"dev": "vite dev --port 5174",
+		"dev": "portless sim-ui.nuster vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",

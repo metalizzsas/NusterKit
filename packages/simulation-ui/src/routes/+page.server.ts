@@ -4,7 +4,7 @@ import { env } from "$env/dynamic/private";
 import { fail } from '@sveltejs/kit';
 
 export const load = async ({ fetch }) => {
-	const req = await fetch(`http://${env.SIMULATION_ADDRESS}:${env.SIMULATION_PORT}/io`);
+	const req = await fetch(`${env.SIMULATION_URL}/io`);
 	const gates = (await req.json()) as IOGates[];
 
 	return {
@@ -34,7 +34,7 @@ export const actions = {
 		if(gate === undefined)
 			return fail(400, { message: "Gate not found" });
 
-		const updateGateRequest = await fetch(`http://${env.SIMULATION_ADDRESS}:${env.SIMULATION_PORT}/io/${gate.replace("#", "_")}/${final_value}`, { method: "post" });
+		const updateGateRequest = await fetch(`${env.SIMULATION_URL}/io/${gate.replace("#", "_")}/${final_value}`, { method: "post" });
 
 		if(updateGateRequest.status !== 200 || !updateGateRequest.ok)
 			return fail(400, { message: "Failed to update gate value" });

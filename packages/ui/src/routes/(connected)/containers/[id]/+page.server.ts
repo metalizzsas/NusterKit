@@ -23,7 +23,7 @@ export const actions = {
         if(sensor === undefined || state === undefined)
             return fail(400, { updateRegulationState: { error: "Invalid request" }});
 
-        const updateRegulationStateRequest = await fetch(`http://${env.TURBINE_ADDRESS}/v1/containers/${params.id}/regulation/${sensor.replace("#", "_")}/state/${state}`, { method: "post" });
+        const updateRegulationStateRequest = await fetch(`${env.TURBINE_URL}/v1/containers/${params.id}/regulation/${sensor.replace("#", "_")}/state/${state}`, { method: "post" });
 
         if(updateRegulationStateRequest.status !== 200 || !updateRegulationStateRequest.ok)
             return fail(500, { updateRegulationState: { error: "Failed to update regulation state" }});
@@ -42,7 +42,7 @@ export const actions = {
         if(sensor === undefined || target === undefined)
             return fail(400, { updateRegulationTarget: { error: "Invalid request" }});
 
-        const updateRegulationTargetRequest = await fetch(`http://${env.TURBINE_ADDRESS}/v1/containers/${params.id}/regulation/${sensor.replace("#", "_")}/target/${target}`, { method: "post" });
+        const updateRegulationTargetRequest = await fetch(`${env.TURBINE_URL}/v1/containers/${params.id}/regulation/${sensor.replace("#", "_")}/target/${target}`, { method: "post" });
 
         if(updateRegulationTargetRequest.status !== 200 || !updateRegulationTargetRequest.ok)
             return fail(500, { updateRegulationTarget: { error: "Failed to update regulation target" }});
@@ -65,7 +65,7 @@ export const actions = {
 
         if(callToAction === undefined)
         {
-            const updateContainerProductRequest = await fetch(`http://${env.TURBINE_ADDRESS}/v1/containers/${params.id}/${actionType}/${product}`, { method: "post" });
+            const updateContainerProductRequest = await fetch(`${env.TURBINE_URL}/v1/containers/${params.id}/${actionType}/${product}`, { method: "post" });
 
             if(updateContainerProductRequest.status !== 200 || !updateContainerProductRequest.ok)
                 return fail(500, { updateContainerProduct: { error: "Failed to update container product" }});
@@ -76,7 +76,7 @@ export const actions = {
         {
             if(callToAction.APIEndpoint)
             {
-                const callToActionRequest = await fetch(`http://${env.TURBINE_ADDRESS}${callToAction.APIEndpoint.url}`, { 
+                const callToActionRequest = await fetch(`${env.TURBINE_URL}${callToAction.APIEndpoint.url}`, { 
                     method: callToAction.APIEndpoint.method, 
                     headers: { 'content-type': 'application/json' }, 
                     body: (callToAction.APIEndpoint.body) ? JSON.stringify(callToAction.APIEndpoint.body) : undefined

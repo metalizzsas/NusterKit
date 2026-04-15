@@ -5,12 +5,9 @@
 export function validateEnv(): void {
 	const isProduction = process.env.NODE_ENV === "production";
 
-	// Always required
-	const required: string[] = [
-		"PORT",
-	];
-
 	// Required in production only (Balena environment provides these)
+	const required: string[] = [];
+
 	if (isProduction) {
 		required.push(
 			"DATABASE_URL",
@@ -27,18 +24,9 @@ export function validateEnv(): void {
 			"Missing required environment variables:",
 			...missing.map(key => `  - ${key}`),
 			"",
-			isProduction
-				? "These must be set in the Balena device environment."
-				: "Set them in a .env file or export them before starting.",
+			"These must be set in the Balena device environment.",
 		].join("\n");
 
 		throw new Error(message);
-	}
-
-	// Warn for optional but recommended variables
-	const optional = isProduction ? [] : ["SIMULATION_ADDRESS", "SIMULATION_PORT"];
-	const missingOptional = optional.filter(key => !process.env[key]);
-	if (missingOptional.length > 0) {
-		console.warn(`[env] Optional variables not set: ${missingOptional.join(", ")}`);
 	}
 }

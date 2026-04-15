@@ -19,12 +19,12 @@ export const handle = (async ({ event, resolve }) => {
     // Try to fetch machine data
     let machineData: MachineData | undefined;
     try {
-        const response = await fetch(`http://${env.TURBINE_ADDRESS}/machine`);
+        const response = await fetch(`${env.TURBINE_URL}/machine`);
         machineData = await response.json() as MachineData;
     } catch (error) {
         // Machine endpoint failed - check if turbine is reachable
         try {
-            const configResponse = await fetch(`http://${env.TURBINE_ADDRESS}/config/actual`);
+            const configResponse = await fetch(`${env.TURBINE_URL}/config/actual`);
             // Turbine is reachable - check if configured
             if (configResponse.status === 404) {
                 // Not configured - redirect to /configure
@@ -45,8 +45,8 @@ export const handle = (async ({ event, resolve }) => {
 
     // Populate locals with machine data
     const [settingsResponse, realtimeResponse] = await Promise.all([
-        fetch(`http://${env.TURBINE_ADDRESS}/settings`),
-        fetch(`http://${env.TURBINE_ADDRESS}/realtime`)
+        fetch(`${env.TURBINE_URL}/settings`),
+        fetch(`${env.TURBINE_URL}/realtime`)
     ]);
 
     const { dark, lang } = await settingsResponse.json() as { dark: "1" | "0", lang: string };

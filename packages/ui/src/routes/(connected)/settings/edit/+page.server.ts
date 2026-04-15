@@ -10,10 +10,10 @@ export const load = (async ({ fetch, url }) => {
     if(password === undefined || password !== (env.PASSWORD ?? 'Nuster'))
         return redirect(302, '/settings');
 
-    const configurationRequest = await fetch(`http://${env.TURBINE_ADDRESS}/config/actual`);
+    const configurationRequest = await fetch(`${env.TURBINE_URL}/config/actual`);
     const configuration = await configurationRequest.json() as Configuration;
 
-    const configurationsRequest = await fetch(`http://${env.TURBINE_ADDRESS}/configs`);
+    const configurationsRequest = await fetch(`${env.TURBINE_URL}/configs`);
     const configurations = await configurationsRequest.json() as MachineSpecsList;
 
     return {
@@ -32,7 +32,7 @@ export const actions = {
         if(configuration === undefined)
             return fail(400, { saveConfiguration: { error: "Configuration is required" }});
 
-        const saveRequest = await fetch(`http://${env.TURBINE_ADDRESS}/config/`, {
+        const saveRequest = await fetch(`${env.TURBINE_URL}/config/`, {
             method: 'post',
             headers: {
                 'content-type': 'application/json'

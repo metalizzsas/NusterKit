@@ -5,13 +5,13 @@ import { fail, redirect } from "@sveltejs/kit";
 
 export const load = async ({ fetch }) => {
 
-    const req = await fetch(`http://${env.TURBINE_ADDRESS}/machine`);
+    const req = await fetch(`${env.TURBINE_URL}/machine`);
     const machine = (await req.json()) as MachineData;
 
-    const reqCycleCount = await fetch(`http://${env.TURBINE_ADDRESS}/v1/maintenances/cycleCount`);
+    const reqCycleCount = await fetch(`${env.TURBINE_URL}/v1/maintenances/cycleCount`);
     const cycleCount = await reqCycleCount.json() as MaintenanceHydrated;
 
-    const changelogRequest = await fetch(`http://${env.TURBINE_ADDRESS}/static/CHANGELOG.md`);
+    const changelogRequest = await fetch(`${env.TURBINE_URL}/static/CHANGELOG.md`);
     const changelog = await changelogRequest.text();
 
     return {
@@ -49,7 +49,7 @@ export const actions = {
             return fail(400, { updateSettings: { error: "Missing parameters" }});
         else
         {
-            const req = await fetch(`http://${env.TURBINE_ADDRESS}/settings`, {
+            const req = await fetch(`${env.TURBINE_URL}/settings`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ lang, dark })
@@ -63,7 +63,7 @@ export const actions = {
     },
 
     update: async ({ fetch }) => {
-        const request = await fetch(`http://${env.TURBINE_ADDRESS}/forceUpdate`);
+        const request = await fetch(`${env.TURBINE_URL}/forceUpdate`);
 
         if(request.ok && request.status == 200)
             return { update: { success: true }};
@@ -73,7 +73,7 @@ export const actions = {
 
     /** TODO: Check if realtime data permits reboot */
     reboot: async ({ fetch }) => {
-        const rebootRequest = await fetch(`http://${env.TURBINE_ADDRESS}/reboot`);
+        const rebootRequest = await fetch(`${env.TURBINE_URL}/reboot`);
 
         if(rebootRequest.ok && rebootRequest.status === 200)
             return { reboot: { success: true }};
@@ -83,7 +83,7 @@ export const actions = {
 
     /** TODO Check if realtime data permits shutdown */
     shutdown: async ({ fetch }) => {
-        const shutdownRequest = await fetch(`http://${env.TURBINE_ADDRESS}/shutdown`);
+        const shutdownRequest = await fetch(`${env.TURBINE_URL}/shutdown`);
 
         if(shutdownRequest.ok && shutdownRequest.status === 200)
             return { shutdown: { success: true }};

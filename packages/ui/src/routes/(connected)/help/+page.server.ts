@@ -12,7 +12,7 @@ export const load = async ({ fetch, locals }) => {
         docFiles.push(...nusterDocsFiles);
     }
 
-    const machineDocsFileRequest = await fetch(`http://${env.TURBINE_ADDRESS}/static/docs/files.json`);
+    const machineDocsFileRequest = await fetch(`${env.TURBINE_URL}/static/docs/files.json`);
     if(machineDocsFileRequest.status === 200 && machineDocsFileRequest.ok)
     {
         const machineDocsFiles = await machineDocsFileRequest.json();

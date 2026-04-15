@@ -15,7 +15,7 @@ export const actions = {
         if(gate === undefined || value === undefined)
             return fail(400, { editGateValue: { error: "Invalid gate update parameters" }});
 
-        const gateUpdateRequest = await fetch(`http://${env.TURBINE_ADDRESS}/v1/io/${gate.replace("#", "_")}/${value}`, { method: "POST" });
+        const gateUpdateRequest = await fetch(`${env.TURBINE_URL}/v1/io/${gate.replace("#", "_")}/${value}`, { method: "POST" });
 
         if(gateUpdateRequest.status !== 200 || !gateUpdateRequest.ok)
             return fail(500, { editGateValue: { error: "Failed to update gate value" }});

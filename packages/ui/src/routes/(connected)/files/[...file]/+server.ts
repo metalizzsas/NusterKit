@@ -4,7 +4,7 @@ export const GET = async ({ params, fetch }) => {
 
     const fileURL = params.file;
 
-    const file = await fetch(`http://${env.TURBINE_ADDRESS}/static/${fileURL}`);
+    const file = await fetch(`${env.TURBINE_URL}/static/${fileURL}`);
 
     if(file.status === 200 && file.ok)
         return new Response(file.body, { headers: file.headers });

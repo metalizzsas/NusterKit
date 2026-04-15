@@ -3,7 +3,7 @@ import { env } from "$env/dynamic/private";
 
 export const load = async () => {
 
-    const result = await fetch(`http://${env.TURBINE_ADDRESS}/machine`).then((res) => {
+    const result = await fetch(`${env.TURBINE_URL}/machine`).then((res) => {
 
         return res.ok;
     }).catch(() => {

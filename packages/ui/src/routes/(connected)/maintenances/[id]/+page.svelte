@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Flex from "$lib/components/layout/flex.svelte";
 	import { _, date, time } from "svelte-i18n";
-	import SvelteMarkdown from "svelte-markdown";
+	import SvelteMarkdown from "@humanspeak/svelte-markdown";
 	import { Icon } from "@steeze-ui/svelte-icon";
 	import { WrenchScrewdriver } from "@steeze-ui/heroicons";
 	import MaintenanceImageParser from "$lib/components/markdown/MaintenanceImageParser.svelte";

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Wrapper from "$lib/components/Wrapper.svelte";
-	import SvelteMarkdown from "svelte-markdown";
+	import SvelteMarkdown from "@humanspeak/svelte-markdown";
 	import HelpImageParser from "$lib/components/markdown/HelpImageParser.svelte";
 	import HelpLinkParser from "$lib/components/markdown/HelpLinkParser.svelte";
 	import type { PageData } from "./$types";

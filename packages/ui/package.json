@@ -23,14 +23,14 @@
 	"dependencies": {
 		"@fontsource/inter": "^5.1.0",
 		"@steeze-ui/heroicons": "^2.4.0",
-		"@steeze-ui/svelte-icon": "^1.5.0",
+		"@steeze-ui/svelte-icon": "^1.6.0",
 		"@sveltejs/vite-plugin-svelte": "^5.0.0",
 		"cookie": "^1.0.0",
 		"simple-keyboard": "^3.8.0",
 		"simple-keyboard-input-mask": "^3.0.526",
 		"simple-keyboard-layouts": "^3.4.0",
 		"svelte-i18n": "^4.0.0",
-		"svelte-markdown": "^0.4.1"
+		"@humanspeak/svelte-markdown": "^1.4.0"
 	},
 	"devDependencies": {
 		"@nuster/turbine": "2.3.4",

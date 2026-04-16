@@ -20,7 +20,7 @@
 
     import { version } from "$app/environment";
 	import Modal from "$lib/components/Modal.svelte";
-	import SvelteMarkdown from "svelte-markdown";
+	import SvelteMarkdown from "@humanspeak/svelte-markdown";
 
     export let data: PageData;
     export let form: ActionData;

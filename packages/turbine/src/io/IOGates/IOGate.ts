@@ -62,9 +62,14 @@ export class IOGate implements IOGateBase
         if(this.bus == 'out') return true;
 
         const word = this.size == "word" ? true : undefined;
-        const controllerData = await this.readFromController(word);
-        this.value = controllerData;
-        TurbineEventLoop.emit(`io.updated.${this.name}`, this.toJSON());
+        try {
+            const controllerData = await this.readFromController(word);
+            this.value = controllerData;
+            TurbineEventLoop.emit(`io.updated.${this.name}`, this.toJSON());
+        } catch (err) {
+            TurbineEventLoop.emit('log', 'error', `IOG-${this.name}: Read failed: ${(err as Error).message}`);
+            return false;
+        }
 
         return true;
     }
@@ -75,9 +80,14 @@ export class IOGate implements IOGateBase
             return true;
 
          TurbineEventLoop.emit('log', 'info', "IOG-" + this.name + ": Writing (" + data + ") to fieldbus.");
-        
+
         const word = this.size == "word" ? true : undefined;
-        await this.writetoController(data, word);
+        try {
+            await this.writetoController(data, word);
+        } catch (err) {
+            TurbineEventLoop.emit('log', 'error', `IOG-${this.name}: Write failed: ${(err as Error).message}`);
+            return false;
+        }
         this.value = data;
 
         TurbineEventLoop.emit(`io.updated.${this.name}`, this.toJSON());

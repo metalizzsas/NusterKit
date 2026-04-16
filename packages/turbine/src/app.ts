@@ -2,7 +2,7 @@ import fs from "fs";
 import lockFile from "lockfile";
 import path from "path";
 
-import type { Configuration, MachineSpecs, MachineSpecsList } from "./types";
+import type { Configuration, MachineSpecs } from "./types";
 import Fastify from "fastify";
 import fastifyCors from "@fastify/cors";
 import fastifyCookie from "@fastify/cookie";
@@ -17,8 +17,7 @@ import { WebsocketDispatcher } from "./websocket/WebsocketDispatcher";
 import * as SpecsSchema from "./types/schemas/schema-specs.json";
 import { migrate } from "./migrate";
 import Ajv from "ajv";
-import { SettingsSchema, ConfigurationSchema } from "./schemas";
-import { maintenanceRoutes, callToActionRoutes, ioRoutes, profileRoutes, containerRoutes, cycleRoutes, networkRoutes } from "./routes";
+import { maintenanceRoutes, callToActionRoutes, ioRoutes, profileRoutes, containerRoutes, cycleRoutes, networkRoutes, machineRoutes, systemRoutes } from "./routes";
 import type { Server } from "http";
 import { validateEnv } from "./utils/validateEnv";
 import { GracefulShutdown } from "./utils/GracefulShutdown";
@@ -143,174 +142,11 @@ import { GracefulShutdown } from "./utils/GracefulShutdown";
     });
 
     // ============================================================
-    // Standalone routes (not in routers)
+    // Route plugins
     // ============================================================
 
-    app.get("/configs", async (_request, reply) => {
-        const machineSpecsList: MachineSpecsList = {};
-
-        for(const modelFolder of fs.readdirSync(machinesPath).filter(mf => !mf.startsWith(".")))
-        {
-            try {
-                const rawSpecs = fs.readFileSync(path.resolve(machinesPath, modelFolder, 'specs.json'), { encoding: "utf-8" });
-                const parsedSpecs = JSON.parse(rawSpecs) as MachineSpecs;
-                machineSpecsList[modelFolder] = parsedSpecs;
-            } catch (ex) {
-                TurbineEventLoop.emit('log', 'warning', `Configs: Failed to load specs for "${modelFolder}": ${(ex as Error).message}`);
-            }
-        }
-
-        return machineSpecsList;
-    });
-
-    app.get("/config/actual", async (_request, reply) => {
-        try
-        {
-            const configPath = productionEnabled ? "/data/info.json" : path.resolve("data", "info.json");
-            const result = fs.readFileSync(configPath, { encoding: "utf8" });
-            return JSON.parse(result);
-        }
-        catch
-        {
-            reply.status(404).send();
-        }
-    });
-
-    app.post("/config", async (request, reply) => {
-        const body = request.body;
-        if(body)
-        {
-            const parsed = ConfigurationSchema.safeParse(body);
-            if (!parsed.success) {
-                return reply.status(400).send({ error: "Invalid configuration", details: parsed.error.flatten() });
-            }
-
-            if(!productionEnabled)
-            {
-                fs.mkdirSync(path.resolve("data"), { recursive: true });
-                fs.writeFileSync(path.resolve("data", "info.json"), JSON.stringify(parsed.data, null, 4));
-            }
-            else
-            {
-                fs.writeFileSync("/data/info.json", JSON.stringify(parsed.data, null, 4));
-            }
-
-            TurbineEventLoop.emit('log', 'info', "Config written, restarting NusterTurbine.");
-            reply.send();
-            setTimeout(async () => {
-                try { await SoftExit(); }
-                catch (ex) { TurbineEventLoop.emit('log', 'error', `Config restart: ${(ex as Error).message}`); }
-                process.exit(0);
-            }, 500);
-        }
-    });
-
-    app.get("/forceUpdate", async (_request, reply) => {
-        try
-        {
-            await SoftExit();
-            fs.writeFileSync(updateFile, "");
-
-            const req = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v1/update?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" }, body: JSON.stringify({force: true}), method: 'POST'});
-
-            return reply.status(req.status === 204 ? 200 : req.status).send();
-        }
-        catch(ex)
-        {
-            TurbineEventLoop.emit('log', 'error', `ForceUpdate: ${(ex as Error).message}`);
-            return reply.status(500).send({ error: "Internal server error" });
-        }
-    });
-
-    app.get("/reboot", async (_request, reply) => {
-        try
-        {
-            const req = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v1/reboot?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" }, body: JSON.stringify({force: true}), method: 'POST'});
-
-            if(req.status === 202)
-            {
-                try { await SoftExit(); }
-                catch(ex) {
-                    TurbineEventLoop.emit('log', 'error', (ex as Error).message);
-                    return reply.status(500).send({ error: (ex as Error).message });
-                }
-
-                TurbineEventLoop.emit(`nuster.modal`, {
-                    title: "settings.power.modal.reboot.title",
-                    message: "settings.power.modal.reboot.message",
-                    level: "info"
-                });
-                return reply.status(200).send();
-            }
-            else
-                return reply.status(req.status).send();
-        }
-        catch (ex)
-        {
-            TurbineEventLoop.emit('log', 'error', `Reboot: ${(ex as Error).message}`);
-            return reply.status(500).send({ error: "Internal server error" });
-        }
-    });
-
-    app.get("/shutdown", async (_request, reply) => {
-        try
-        {
-            const req = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v1/shutdown?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" }, body: JSON.stringify({force: true}), method: 'POST'});
-
-            if(req.status === 202)
-            {
-                try { await SoftExit(); }
-                catch(ex) {
-                    TurbineEventLoop.emit('log', 'error', (ex as Error).message);
-                    return reply.status(500).send({ error: (ex as Error).message });
-                }
-
-                TurbineEventLoop.emit(`nuster.modal`, {
-                    title: "settings.power.modal.shutdown.title",
-                    message: "settings.power.modal.shutdown.message",
-                    level: "info"
-                });
-                return reply.status(200).send();
-            }
-            else
-                return reply.status(req.status).send();
-        }
-        catch (ex)
-        {
-            TurbineEventLoop.emit('log', 'error', `Shutdown: ${(ex as Error).message}`);
-            return reply.status(500).send({ error: "Internal server error" });
-        }
-    });
-
-    app.post("/settings", async (request, reply) => {
-        try
-        {
-            const parsed = SettingsSchema.safeParse(request.body);
-            if (!parsed.success) {
-                return reply.status(400).send({ error: "Invalid settings", details: parsed.error.flatten() });
-            }
-
-            fs.writeFileSync(settingsPath, JSON.stringify(parsed.data));
-            return reply.status(200).send();
-        }
-        catch(ex)
-        {
-            TurbineEventLoop.emit('log', 'error', `Settings: ${(ex as Error).message}`);
-            return reply.status(500).send({ error: "Internal server error" });
-        }
-    });
-
-    app.get("/settings", async (_request, reply) => {
-        try
-        {
-            const data = fs.readFileSync(settingsPath, { encoding: "utf-8" });
-            return JSON.parse(data);
-        }
-        catch
-        {
-            return reply.status(500).send();
-        }
-    });
+    app.register(machineRoutes, { machinesPath, productionEnabled, softExit: SoftExit });
+    app.register(systemRoutes, { updateFile, settingsPath, softExit: SoftExit });
 
     // ============================================================
     // SoftExit — delegates to GracefulShutdown orchestrator

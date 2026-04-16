@@ -36,7 +36,7 @@
   },
   "peerDependencies": {
     "vitest": "^4.1.0",
-    "ts-node": "10.9.1"
+    "ts-node": "10.9.2"
   },
   "dependencies": {
     "ts-node": "10.9.2"

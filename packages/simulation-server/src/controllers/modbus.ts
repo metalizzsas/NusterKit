@@ -15,8 +15,7 @@ export class ModbusController
     {
         this.index = index;
         
-        //@ts-ignore
-        this.gates = gates.map(k => { k.value = k.default; return k;});
+        this.gates = gates.map(k => ({ ...k, value: k.default }));
 
         const vector: IServiceVector = {
             getCoil: this.getCoil.bind(this),

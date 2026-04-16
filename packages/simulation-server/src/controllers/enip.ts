@@ -41,8 +41,7 @@ export class ENIPController
 
         this.instanceData = Buffer.alloc(controller.size / 8);
 
-        //@ts-ignore
-        this.gates = gates.map(k => { k.value = k.default; return k;});
+        this.gates = gates.map(k => ({ ...k, value: k.default }));
     }
 
     readGates()

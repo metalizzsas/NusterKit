@@ -5,3 +5,5 @@ export { profileRoutes } from "./profiles";
 export { containerRoutes } from "./containers";
 export { cycleRoutes } from "./cycle";
 export { networkRoutes } from "./network";
+export { machineRoutes } from "./machine";
+export { systemRoutes } from "./system";

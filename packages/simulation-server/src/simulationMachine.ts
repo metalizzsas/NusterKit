@@ -7,6 +7,9 @@ import { Request, Response, Router as ExpressRouter } from "express";
 import { ENIPController } from "./controllers/enip";
 import { deepInsert } from "./deepInsert";
 
+/** IOGates extended with a runtime `value` field for simulation */
+type SimulationGate = IOGates & { value: number };
+
 function map(source: number, inMin: number, inMax: number, outMin: number, outMax: number)
 {
   return (source - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
@@ -14,7 +17,7 @@ function map(source: number, inMin: number, inMax: number, outMin: number, outMa
 
 export class SimulationMachine
 {
-    config: MachineSpecs;
+    config: MachineSpecs & { iogates: SimulationGate[] };
     controllers: (ModbusController | ENIPController)[] = [];
 
     router: ExpressRouter;
@@ -22,20 +25,22 @@ export class SimulationMachine
     constructor(configuration: Configuration, specs: MachineSpecs)
     {
         this.router = ExpressRouter();
-        this.config = structuredClone(specs);
+        let base = structuredClone(specs);
 
         for(const addon of configuration.addons)
         {
-            const addonConfig = this.config.addons?.find(k => k.addonName === addon);
+            const addonConfig = base.addons?.find(k => k.addonName === addon);
             if(addonConfig === undefined)
             {
                 console.log("Failed to add", addon);
                 continue;
             }
 
-            this.config = parseAddon(this.config, addonConfig);
+            base = parseAddon(base, addonConfig);
         }
-        
+
+        this.config = { ...base, iogates: base.iogates.map(g => ({ ...g, value: g.default })) };
+
         this.setupAutomatons(this.config.iohandlers, this.config.iogates);
 
         this.router.get("/", (_, res: Response) => {
@@ -44,10 +49,10 @@ export class SimulationMachine
 
         this.router.get("/io", (_, res: Response) => {
 
-            for(const o of this.controllers.filter(k => k instanceof ENIPController))
+            for(const o of this.controllers)
             {
-                //@ts-ignore
-                o.readGates();
+                if(o instanceof ENIPController)
+                    o.readGates();
             }
 
             res.json(this.config.iogates);
@@ -65,6 +70,7 @@ export class SimulationMachine
         this.router.post(`/io/:name/:value`, (req: Request, res: Response) => {
 
             const name = (req.params.name as string).replace("_", "#");
+            const rawValue = req.params.value as string;
             const gate = this.config.iogates.find(k => k.name == name);
 
             if(gate === undefined)
@@ -74,18 +80,15 @@ export class SimulationMachine
             }
 
             if(gate.type === "pt100"){
-                //@ts-ignore
-                gate.value = parseInt(req.params.value) * 10;
+                (gate as SimulationGate).value = parseInt(rawValue) * 10;
             }
             else if(gate.type === "mapped")
             {
-                //@ts-ignore
-                gate.value = map(parseFloat(req.params.value), gate.mapOutMin, gate.mapOutMax, gate.mapInMin, gate.mapInMax);
+                (gate as SimulationGate).value = map(parseFloat(rawValue), gate.mapOutMin, gate.mapOutMax, gate.mapInMin ?? 0, gate.mapInMax ?? 32767);
             }
             else
             {
-                //@ts-ignore
-                gate.value = parseInt(req.params.value);
+                (gate as SimulationGate).value = parseInt(rawValue);
             }
             
 

@@ -110,6 +110,13 @@ import { GracefulShutdown } from "./utils/GracefulShutdown";
     app.setValidatorCompiler(validatorCompiler);
     app.setSerializerCompiler(serializerCompiler);
 
+    // Allow empty body with application/json content-type (e.g. cycle prepare without profile)
+    app.addContentTypeParser("application/json", { parseAs: "string" }, (_req, body, done) => {
+        if (!body || (body as string).length === 0) return done(null, undefined);
+        try { done(null, JSON.parse(body as string)); }
+        catch (err) { done(err as Error, undefined); }
+    });
+
     await app.register(fastifyCors);
     await app.register(fastifyCookie);
 

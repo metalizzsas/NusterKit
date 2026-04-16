@@ -7,9 +7,10 @@
   },
   "scripts": {
     "portless": "portless proxy start",
-    "dev": "pnpm run dev:simulation & pnpm run dev:packages",
-    "dev:simulation": "pnpm -r --parallel --filter='@nuster/simulation-*' run dev",
-    "dev:packages": "pnpm -r --parallel --filter=!'@nuster/simulation-*' run dev",
+    "dev": "pnpm run dev:turbine & pnpm run dev:ui & pnpm run dev:simulation",
+    "dev:turbine": "pnpm --filter @nuster/turbine run dev",
+    "dev:ui": "pnpm --filter @nuster/ui run dev",
+    "dev:simulation": "pnpm -r --parallel --filter '@nuster/simulation-*' run dev",
     "sync": "pnpm -r --parallel run sync",
     "lint": "biome check packages/",
     "format": "biome format --write packages/",

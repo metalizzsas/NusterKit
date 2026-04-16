@@ -5,7 +5,7 @@ FROM node:24-alpine@sha256:8510330d3eb72c804231a834b1a8ebb55cb3796c3e4431297a24d
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
-RUN corepack prepare pnpm@9.13.0 --activate
+RUN corepack prepare pnpm@10.33.0 --activate
 
 WORKDIR /app
 

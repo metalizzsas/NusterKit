@@ -17,9 +17,6 @@ export class NetworkRouter extends Router
     {
         super();
 
-        if(process.env.NODE_ENV === 'development')
-            throw new Error("NetworkRouter should not be used in development mode.");
-
         this.dbusClient = new DBusClient();
 
         this.getDevices();

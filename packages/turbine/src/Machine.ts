@@ -35,7 +35,7 @@ export class Machine
     profileRouter: ProfilesRouter;
     containerRouter: ContainersRouter;
     cycleRouter: CycleRouter;
-    networkRouter: NetworkRouter;
+    networkRouter?: NetworkRouter;
     callToActionRouter: CalltoActionRouter;
 
     services!: ServiceRegistry;
@@ -86,7 +86,9 @@ export class Machine
         this.maintenanceRouter = new MaintenanceRouter(this.specs.maintenance);
         this.containerRouter = new ContainersRouter(this.specs.containers, this.specs.containerProducts);
         this.cycleRouter = new CycleRouter(this.specs.cycleTypes, this.specs.cyclePremades);
-        this.networkRouter = new NetworkRouter();
+        if (process.env.NODE_ENV === "production") {
+            this.networkRouter = new NetworkRouter();
+        }
 
          TurbineEventLoop.emit('log', 'info', "Machine: Finished Instantiating controllers");
 
@@ -150,7 +152,7 @@ export class Machine
             containers: containers,
             io: this.ioRouter.socketData,
             maintenance: this.maintenanceRouter.socketData(),
-            network: this.networkRouter.socketData,
+            network: this.networkRouter?.socketData ?? { devices: [], accessPoints: [] },
         } satisfies Status;
     }
 

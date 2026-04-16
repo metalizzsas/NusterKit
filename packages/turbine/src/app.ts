@@ -366,7 +366,7 @@ import { GracefulShutdown } from "./utils/GracefulShutdown";
 
             // Network routes only in production (D-Bus not available in dev)
             if (productionEnabled) {
-                app.register(networkRoutes, { prefix: '/network', networkRouter: machine.networkRouter });
+                app.register(networkRoutes, { prefix: '/network', networkRouter: machine.networkRouter! });
             }
 
             // Static files

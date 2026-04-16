@@ -31,7 +31,7 @@ export async function cycleRoutes(fastify: FastifyInstance, opts: CycleRoutesOpt
 	app.post("/:name/:id?", {
 		schema: {
 			params: CycleStartParamsSchema,
-			body: ProfileHydratedSchema.optional(),
+			body: ProfileHydratedSchema.nullable().optional(),
 			response: {
 				200: z.string(),
 				400: ErrorResponseSchema,

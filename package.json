@@ -6,6 +6,7 @@
     "node": "24.x"
   },
   "scripts": {
+    "portless": "portless proxy start",
     "dev": "pnpm run dev:simulation & pnpm run dev:packages",
     "dev:simulation": "pnpm -r --parallel --filter='@nuster/simulation-*' run dev",
     "dev:packages": "pnpm -r --parallel --filter=!'@nuster/simulation-*' run dev",

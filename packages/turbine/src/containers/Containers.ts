@@ -4,6 +4,7 @@ import { TurbineEventLoop } from "../events";
 import type { CallToAction } from "$types/spec/nuster";
 import type { Container as ContainerConfig, ContainerProduct } from "$types/spec/containers";
 import type { ContainerHydrated, ContainerProductData, ContainerSensorHydrated } from "$types/hydrated/containers";
+import type { IOGateJSON } from "$types/hydrated/io";
 
 import { prisma } from "../db";
 
@@ -23,6 +24,12 @@ export class Container implements ContainerConfig
 
     #products: Record<string, ContainerProduct>;
 
+    // Stored listener references for cleanup in dispose()
+    private _onUnload!: () => void;
+    private _onLoad!: (productSeries: string) => void;
+    private _onRead!: (options: { callback?: (container: ContainerHydrated) => void | Promise<void> }) => void;
+    private _sensorHandlers: Array<{ event: string, handler: (gate: IOGateJSON) => void }> = [];
+
     constructor(container: ContainerConfig, products: Record<string, ContainerProduct>)
     {        
         // Load products
@@ -40,19 +47,25 @@ export class Container implements ContainerConfig
 
         
 
-        TurbineEventLoop.on(`container.unload.${this.name}`, this.unloadProduct.bind(this));
-        TurbineEventLoop.on(`container.load.${this.name}`, (producSeries) => { this.loadProduct(producSeries) });
+        this._onUnload = this.unloadProduct.bind(this);
+        TurbineEventLoop.on(`container.unload.${this.name}`, this._onUnload);
 
-        TurbineEventLoop.on(`container.read.${this.name}`, async (options) => {
+        this._onLoad = (productSeries) => { this.loadProduct(productSeries); };
+        TurbineEventLoop.on(`container.load.${this.name}`, this._onLoad);
+
+        this._onRead = async (options) => {
             options.callback?.(await this.socketData());
-        });
+        };
+        TurbineEventLoop.on(`container.read.${this.name}`, this._onRead);
 
         for(const sensor of this.sensors ?? [])
         {
-            TurbineEventLoop.on(`io.updated.${sensor.io}`, async (gate) => {
+            const handler = async (gate: IOGateJSON) => {
                 if(sensor.logic == "level-min" && gate.value == 0 && await this.isProductLoaded() == true)
                     this.unloadProduct();
-            });
+            };
+            this._sensorHandlers.push({ event: `io.updated.${sensor.io}`, handler });
+            TurbineEventLoop.on(`io.updated.${sensor.io}`, handler);
         }
     }
 
@@ -130,6 +143,8 @@ export class Container implements ContainerConfig
 
         this.socketData().then(data => {
             TurbineEventLoop.emit(`container.updated.${this.name}`, data);
+        }).catch(err => {
+            TurbineEventLoop.emit('log', 'error', `Container-${this.name}: socketData failed: ${(err as Error).message}`);
         });
 
         return true;
@@ -174,5 +189,20 @@ export class Container implements ContainerConfig
     {
         await this.fetchSlotData();
         return { ...this, isProductable: this.isProductable } as ContainerHydrated;
+    }
+
+    dispose(): void {
+        TurbineEventLoop.removeListener(`container.unload.${this.name}`, this._onUnload);
+        TurbineEventLoop.removeListener(`container.load.${this.name}`, this._onLoad);
+        TurbineEventLoop.removeListener(`container.read.${this.name}`, this._onRead);
+
+        for (const { event, handler } of this._sensorHandlers) {
+            TurbineEventLoop.removeListener(event, handler);
+        }
+        this._sensorHandlers = [];
+
+        for (const regulation of this.regulations ?? []) {
+            regulation.dispose();
+        }
     }
 }

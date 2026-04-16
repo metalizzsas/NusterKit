@@ -15,11 +15,15 @@ export class WebsocketDispatcher
 {
     /** Underlying Websocket server */
     private wsServer: WebSocketServer;
-    
+
     /** Connect popup data */
     private connectPopups: Array<Popup<CallToAction>> = [];
     /** Wheter the connect popup has been displayed or not */
     private connectPopupDisplayed = false;
+    /** Pending popup display timer */
+    private popupTimer?: ReturnType<typeof setTimeout>;
+    /** Stored modal listener reference for cleanup */
+    private _onModal: (popup: Popup<CallToAction>) => void;
 
     /**
      * Creates a websocket dispatcher bound to the given http server
@@ -34,7 +38,8 @@ export class WebsocketDispatcher
         });
         
         this.wsServer.on('connection', this.onConnect.bind(this));
-        TurbineEventLoop.on("nuster.modal", this.togglePopup.bind(this));
+        this._onModal = this.togglePopup.bind(this);
+        TurbineEventLoop.on("nuster.modal", this._onModal);
     }
 
     /**
@@ -91,7 +96,8 @@ export class WebsocketDispatcher
 
         if(this.connectPopups !== undefined && this.connectPopupDisplayed == false)
         {
-            setTimeout(() => {
+            this.popupTimer = setTimeout(() => {
+                this.popupTimer = undefined;
                 if(this.connectPopups)
                 {
                     TurbineEventLoop.emit('log', 'info', "Websocket: Displaying connect popup.");
@@ -107,6 +113,11 @@ export class WebsocketDispatcher
     }
 
     dispose(): void {
+        if (this.popupTimer) {
+            clearTimeout(this.popupTimer);
+            this.popupTimer = undefined;
+        }
+        TurbineEventLoop.removeListener("nuster.modal", this._onModal);
         this.wsServer.close();
     }
 }

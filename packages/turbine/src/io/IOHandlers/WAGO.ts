@@ -4,6 +4,7 @@ import ModbusTCP from "modbus-serial";
 import ping from "ping";
 
 import { TurbineEventLoop } from "../../events";
+import { AsyncMutex } from "../../utils/AsyncMutex";
 
 const MAX_RECONNECT_DELAY = 30_000; // 30s cap
 const BASE_RECONNECT_DELAY = 2_000; // 2s initial
@@ -18,8 +19,10 @@ export class WAGO implements IOBase, WAGOConfig
 
     public client: ModbusTCP;
     private connectTimer?: ReturnType<typeof setInterval>;
+    private reconnectTimer?: ReturnType<typeof setTimeout>;
     private reconnectAttempts = 0;
     private connecting = false;
+    private ioMutex = new AsyncMutex();
 
     constructor(ip: string)
     {
@@ -54,6 +57,7 @@ export class WAGO implements IOBase, WAGOConfig
             if (this.connected) {
                 TurbineEventLoop.emit('log', 'info', "WAGO: Connected");
                 this.reconnectAttempts = 0;
+                this.clearReconnectTimer();
                 this.startKeepAlive();
                 return true;
             }
@@ -82,12 +86,20 @@ export class WAGO implements IOBase, WAGOConfig
         const delay = Math.min(BASE_RECONNECT_DELAY * Math.pow(2, this.reconnectAttempts - 1), MAX_RECONNECT_DELAY);
         TurbineEventLoop.emit('log', 'info', `WAGO: Reconnect attempt #${this.reconnectAttempts} in ${delay}ms`);
 
-        setTimeout(async () => {
+        this.reconnectTimer = setTimeout(async () => {
+            this.reconnectTimer = undefined;
             const success = await this.connect();
             if (!success && !this.unreachable) {
                 this.scheduleReconnect();
             }
         }, delay);
+    }
+
+    private clearReconnectTimer(): void {
+        if (this.reconnectTimer) {
+            clearTimeout(this.reconnectTimer);
+            this.reconnectTimer = undefined;
+        }
     }
 
     private clearKeepAlive(): void {
@@ -105,21 +117,26 @@ export class WAGO implements IOBase, WAGOConfig
             return;
         }
 
-        if(!this.client.isOpen)
-        {
-            const connected = await this.connect();
+        await this.ioMutex.acquire();
+        try {
+            if(!this.client.isOpen)
+            {
+                const connected = await this.connect();
 
-            if(!connected)
-                return;
-        }
+                if(!connected)
+                    return;
+            }
 
-        if(word && word == true)
-        {
-            await this.client.writeRegister(address, data);
-        }
-        else
-        {
-            await this.client.writeCoil(address, data == 1);
+            if(word && word == true)
+            {
+                await this.client.writeRegister(address, data);
+            }
+            else
+            {
+                await this.client.writeCoil(address, data == 1);
+            }
+        } finally {
+            this.ioMutex.release();
         }
     }
 
@@ -131,30 +148,36 @@ export class WAGO implements IOBase, WAGOConfig
             return 0;
         }
 
-        if(!this.client.isOpen)
-        {
-            const connected = await this.connect();
+        await this.ioMutex.acquire();
+        try {
+            if(!this.client.isOpen)
+            {
+                const connected = await this.connect();
 
-            if(!connected)
-                return 0;
-        }
+                if(!connected)
+                    return 0;
+            }
 
-        let result = null;
+            let result = null;
 
-        if(word && word == true)
-        {
-            result = await this.client.readHoldingRegisters(address, 1);
-            return result.data[0];
-        }
-        else
-        {
-            result = await this.client.readCoils(address, 1);
-            return result.data[0] ? 1 : 0;
+            if(word && word == true)
+            {
+                result = await this.client.readHoldingRegisters(address, 1);
+                return result.data[0];
+            }
+            else
+            {
+                result = await this.client.readCoils(address, 1);
+                return result.data[0] ? 1 : 0;
+            }
+        } finally {
+            this.ioMutex.release();
         }
     }
 
     dispose(): void {
         this.clearKeepAlive();
+        this.clearReconnectTimer();
         try {
             this.client.close(() => {});
         } catch {

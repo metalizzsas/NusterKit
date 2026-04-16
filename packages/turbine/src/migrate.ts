@@ -45,11 +45,18 @@ export const migrate = async (basePath: string) => {
 
     const migrationFileContent = fs.readFileSync(migrationFile, { encoding: 'utf-8' });
 
-    const migrationData = JSON.parse(migrationFileContent) as {
+    let migrationData: {
         migratedProfiles: Array<MigratedProfile>,
         migratedMaintenances: Array<MigratedMaintenance>,
         migratedContainers: Array<MigratedContainer>
     };
+
+    try {
+        migrationData = JSON.parse(migrationFileContent);
+    } catch (ex) {
+        TurbineEventLoop.emit('log', 'error', `DB Migration: Failed to parse ${migrationFile}: ${(ex as Error).message}. Skipping migration.`);
+        return;
+    }
 
     for(const profile of migrationData.migratedProfiles)
     {

@@ -7,6 +7,7 @@ import type { dataItem } from "enip-ts/Encapsulation/CPF";
 import type { IOBase, EX260Sx as EX260SxConfig } from "$types/spec/iohandlers";
 import { TurbineEventLoop } from "../../events";
 import { AsyncMutex } from "../../utils/AsyncMutex";
+import { callbackWithTimeout } from "../../utils/callbackWithTimeout";
 
 export class EX260Sx implements IOBase, EX260SxConfig
 {
@@ -117,7 +118,7 @@ export class EX260Sx implements IOBase, EX260SxConfig
             return Buffer.alloc(0);
         }
 
-        return new Promise<Buffer>((resolve) => {
+        return callbackWithTimeout<Buffer>((resolve) => {
             this.controller.events.once("SendRRData Received", (result: dataItem[]) => {
                 for(const packet of result)
                 {
@@ -127,7 +128,7 @@ export class EX260Sx implements IOBase, EX260SxConfig
                     }
                 }
             });
-        })
+        }, 5000, "EX260Sx.readData2")
     }
 
     async writeData(address: number, value: number): Promise<void>

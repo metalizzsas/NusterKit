@@ -28,6 +28,8 @@ export class ProductStatusParameterBlock extends StatusParameterBlock
             this.ctx.containers.read(this.containerName.data).then((container) => {
                 this.#container = container;
                 this.subscriber?.(this.data);
+            }).catch(err => {
+                TurbineEventLoop.emit('log', 'error', `ProductStatusPB: Failed to read container "${this.containerName.data}": ${(err as Error).message}`);
             });
         }
         else

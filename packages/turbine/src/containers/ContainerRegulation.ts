@@ -27,6 +27,14 @@ export class ContainerRegulation implements ContainerRegulationConfig
     #sensorGate?: IOGateJSON;
 
     #securityGates: Array<({ name: string, value: number } | { name: string, valueDiff: number }) & {gate?: IOGateJSON}> = [];
+
+    // Stored listener references for cleanup in dispose()
+    private _onGetState!: (options: { callback?: (state: boolean) => void }) => void;
+    private _onGetTarget!: (options: { callback?: (target: number) => void }) => void;
+    private _onSetState!: (options: { state: boolean, callback?: (state: boolean) => void }) => void;
+    private _onSetTarget!: (options: { target: number, callback?: (target: number) => void }) => void;
+    private _onSensorUpdate!: (gate: IOGateJSON) => void;
+    private _securityGateHandlers: Array<{ event: string, handler: (gate: IOGateJSON) => void }> = [];
     
     constructor(parent: Container, regulation: ContainerRegulationConfig)
     {
@@ -49,15 +57,17 @@ export class ContainerRegulation implements ContainerRegulationConfig
         this.minus = regulation.minus ?? [];
         this.plus = regulation.plus;
 
-        TurbineEventLoop.on(`container.${parent.name}.regulation.${this.name}.get_state`, ({ callback }) => {
+        this._onGetState = ({ callback }) => {
             callback?.(this.state);
-        });
+        };
+        TurbineEventLoop.on(`container.${parent.name}.regulation.${this.name}.get_state`, this._onGetState);
 
-        TurbineEventLoop.on(`container.${parent.name}.regulation.${this.name}.get_target`, ({ callback }) => {
+        this._onGetTarget = ({ callback }) => {
             callback?.(this.target);
-        });
+        };
+        TurbineEventLoop.on(`container.${parent.name}.regulation.${this.name}.get_target`, this._onGetTarget);
 
-        TurbineEventLoop.on(`container.${parent.name}.regulation.${this.name}.set_state`, (options) => { 
+        this._onSetState = (options) => {
             this.state = options.state;
 
             if(options.state === false)
@@ -70,21 +80,24 @@ export class ContainerRegulation implements ContainerRegulationConfig
             options.callback?.(this.state);
 
             TurbineEventLoop.emit(`container.${parent.name}.regulation.${this.name}.state_updated`, this.state);
-        });
+        };
+        TurbineEventLoop.on(`container.${parent.name}.regulation.${this.name}.set_state`, this._onSetState);
 
-        TurbineEventLoop.on(`container.${parent.name}.regulation.${this.name}.set_target`, (options) => { 
+        this._onSetTarget = (options) => {
 
             if(options.target > this.maxTarget)
                 this.target = this.maxTarget;
             else
                 this.target = options.target;
-            
+
             options.callback?.(this.target);
 
             TurbineEventLoop.emit(`container.${parent.name}.regulation.${this.name}.target_updated`, this.target);
-        });
+        };
+        TurbineEventLoop.on(`container.${parent.name}.regulation.${this.name}.set_target`, this._onSetTarget);
 
-        TurbineEventLoop.on(`io.updated.${this.sensor}`, (gate) => { this.#sensorGate = gate });
+        this._onSensorUpdate = (gate) => { this.#sensorGate = gate; };
+        TurbineEventLoop.on(`io.updated.${this.sensor}`, this._onSensorUpdate);
 
         for(const s of this.security)
         {
@@ -103,12 +116,14 @@ export class ContainerRegulation implements ContainerRegulationConfig
                 });
             }
 
-            TurbineEventLoop.on(`io.updated.${s.name}`, (gate) => { 
-                const g = this.#securityGates?.find(sg => sg.name == gate.name ); 
-                if(g !== undefined) { 
+            const handler = (gate: IOGateJSON) => {
+                const g = this.#securityGates?.find(sg => sg.name == gate.name );
+                if(g !== undefined) {
                     g.gate = gate;
                 }
-            });
+            };
+            this._securityGateHandlers.push({ event: `io.updated.${s.name}`, handler });
+            TurbineEventLoop.on(`io.updated.${s.name}`, handler);
         }
 
         this.regulationTimer = setInterval(this.regulationLoop.bind(this), 10000);
@@ -228,6 +243,18 @@ export class ContainerRegulation implements ContainerRegulationConfig
             clearInterval(this.regulationTimer);
             this.regulationTimer = undefined;
         }
+
+        const parentName = this.#parentName;
+        TurbineEventLoop.removeListener(`container.${parentName}.regulation.${this.name}.get_state`, this._onGetState);
+        TurbineEventLoop.removeListener(`container.${parentName}.regulation.${this.name}.get_target`, this._onGetTarget);
+        TurbineEventLoop.removeListener(`container.${parentName}.regulation.${this.name}.set_state`, this._onSetState);
+        TurbineEventLoop.removeListener(`container.${parentName}.regulation.${this.name}.set_target`, this._onSetTarget);
+        TurbineEventLoop.removeListener(`io.updated.${this.sensor}`, this._onSensorUpdate);
+
+        for (const { event, handler } of this._securityGateHandlers) {
+            TurbineEventLoop.removeListener(event, handler);
+        }
+        this._securityGateHandlers = [];
     }
 
     toJSON(): ContainerRegulationHydrated

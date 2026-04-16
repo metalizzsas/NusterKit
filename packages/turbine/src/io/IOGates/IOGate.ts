@@ -9,6 +9,7 @@ export class IOGate implements IOGateBase
     category: string;
 
     locked = false;
+    private _onUpdate: (options: { value: number, lock?: boolean, callback?: () => void | Promise<void> }) => Promise<void>;
 
     size: "word" | "bit";
     bus: "out" | "in";
@@ -42,7 +43,7 @@ export class IOGate implements IOGateBase
         // Initialize the gate with its default value
         this.value = obj.default;
 
-        TurbineEventLoop.on(`io.update.${this.name}`, async (options) => {
+        this._onUpdate = async (options) => {
 
             if(options.lock !== undefined)
             {
@@ -54,9 +55,15 @@ export class IOGate implements IOGateBase
 
             await this.write(options.value);
             await options.callback?.();
-        });
+        };
+
+        TurbineEventLoop.on(`io.update.${this.name}`, this._onUpdate);
     }
     
+    dispose(): void {
+        TurbineEventLoop.removeListener(`io.update.${this.name}`, this._onUpdate);
+    }
+
     async read(): Promise<boolean>
     {
         if(this.bus == 'out') return true;

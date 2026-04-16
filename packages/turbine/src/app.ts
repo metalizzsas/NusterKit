@@ -151,9 +151,13 @@ import { GracefulShutdown } from "./utils/GracefulShutdown";
 
         for(const modelFolder of fs.readdirSync(machinesPath).filter(mf => !mf.startsWith(".")))
         {
-            const rawSpecs = fs.readFileSync(path.resolve(machinesPath, modelFolder, 'specs.json'), { encoding: "utf-8" });
-            const parsedSpecs = JSON.parse(rawSpecs) as MachineSpecs;
-            machineSpecsList[modelFolder] = parsedSpecs;
+            try {
+                const rawSpecs = fs.readFileSync(path.resolve(machinesPath, modelFolder, 'specs.json'), { encoding: "utf-8" });
+                const parsedSpecs = JSON.parse(rawSpecs) as MachineSpecs;
+                machineSpecsList[modelFolder] = parsedSpecs;
+            } catch (ex) {
+                TurbineEventLoop.emit('log', 'warning', `Configs: Failed to load specs for "${modelFolder}": ${(ex as Error).message}`);
+            }
         }
 
         return machineSpecsList;
@@ -193,7 +197,11 @@ import { GracefulShutdown } from "./utils/GracefulShutdown";
 
             TurbineEventLoop.emit('log', 'info', "Config written, restarting NusterTurbine.");
             reply.send();
-            process.exit(1);
+            setTimeout(async () => {
+                try { await SoftExit(); }
+                catch (ex) { TurbineEventLoop.emit('log', 'error', `Config restart: ${(ex as Error).message}`); }
+                process.exit(0);
+            }, 500);
         }
     });
 
@@ -202,16 +210,16 @@ import { GracefulShutdown } from "./utils/GracefulShutdown";
         {
             await SoftExit();
             fs.writeFileSync(updateFile, "");
+
+            const req = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v1/update?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" }, body: JSON.stringify({force: true}), method: 'POST'});
+
+            return reply.status(req.status === 204 ? 200 : req.status).send();
         }
         catch(ex)
         {
-            TurbineEventLoop.emit('log', 'error', (ex as Error).message);
-            return reply.status(500).send({ error: (ex as Error).message });
+            TurbineEventLoop.emit('log', 'error', `ForceUpdate: ${(ex as Error).message}`);
+            return reply.status(500).send({ error: "Internal server error" });
         }
-
-        const req = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v1/update?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" }, body: JSON.stringify({force: true}), method: 'POST'});
-
-        return reply.status(req.status === 204 ? 200 : req.status).send();
     });
 
     app.get("/reboot", async (_request, reply) => {
@@ -237,9 +245,10 @@ import { GracefulShutdown } from "./utils/GracefulShutdown";
             else
                 return reply.status(req.status).send();
         }
-        catch
+        catch (ex)
         {
-            return reply.status(500).send();
+            TurbineEventLoop.emit('log', 'error', `Reboot: ${(ex as Error).message}`);
+            return reply.status(500).send({ error: "Internal server error" });
         }
     });
 
@@ -266,9 +275,10 @@ import { GracefulShutdown } from "./utils/GracefulShutdown";
             else
                 return reply.status(req.status).send();
         }
-        catch
+        catch (ex)
         {
-            return reply.status(500).send();
+            TurbineEventLoop.emit('log', 'error', `Shutdown: ${(ex as Error).message}`);
+            return reply.status(500).send({ error: "Internal server error" });
         }
     });
 
@@ -285,7 +295,8 @@ import { GracefulShutdown } from "./utils/GracefulShutdown";
         }
         catch(ex)
         {
-            return reply.status(500).send({ error: String(ex) });
+            TurbineEventLoop.emit('log', 'error', `Settings: ${(ex as Error).message}`);
+            return reply.status(500).send({ error: "Internal server error" });
         }
     });
 
@@ -398,8 +409,15 @@ import { GracefulShutdown } from "./utils/GracefulShutdown";
 
     if(fs.existsSync(infoPath) && fs.existsSync(machinesPath))
     {
-        const rawConfiguration = fs.readFileSync(infoPath, {encoding: "utf-8"});
-        const parsedConfiguration = JSON.parse(rawConfiguration) as Configuration;
+        let parsedConfiguration: Configuration;
+        try {
+            const rawConfiguration = fs.readFileSync(infoPath, {encoding: "utf-8"});
+            parsedConfiguration = JSON.parse(rawConfiguration) as Configuration;
+        } catch (ex) {
+            const msg = `Startup: Failed to parse ${infoPath}: ${(ex as Error).message}`;
+            TurbineEventLoop.emit('log', 'fatal', msg);
+            throw new Error(msg);
+        }
 
         const machines = fs.readdirSync(machinesPath);
 
@@ -409,8 +427,15 @@ import { GracefulShutdown } from "./utils/GracefulShutdown";
             throw Error("Machine: Model not found in machines folder.");
         }
 
-        const rawSpecs = fs.readFileSync(path.resolve(machinesPath, parsedConfiguration.model, 'specs.json'), { encoding: "utf-8" });
-        const parsedSpecs = JSON.parse(rawSpecs) as MachineSpecs;
+        let parsedSpecs: MachineSpecs;
+        try {
+            const rawSpecs = fs.readFileSync(path.resolve(machinesPath, parsedConfiguration.model, 'specs.json'), { encoding: "utf-8" });
+            parsedSpecs = JSON.parse(rawSpecs) as MachineSpecs;
+        } catch (ex) {
+            const msg = `Startup: Failed to parse specs.json for model "${parsedConfiguration.model}": ${(ex as Error).message}`;
+            TurbineEventLoop.emit('log', 'fatal', msg);
+            throw new Error(msg);
+        }
 
         if(!validateMachineSpecs(parsedSpecs))
         {
@@ -429,8 +454,13 @@ import { GracefulShutdown } from "./utils/GracefulShutdown";
             machine = new Machine(parsedConfiguration, parsedSpecs);
 
             // Register machine resources for graceful shutdown (reverse order of disposal)
-            // 2. IO handlers (WAGO Modbus connections) — disposed after IO scanner stops
+            // 2. IO gates and handlers — disposed after IO scanner stops
             shutdown.register("io-handlers", () => {
+                for (const gate of machine!.ioRouter.gates) {
+                    if ("dispose" in gate && typeof gate.dispose === "function") {
+                        gate.dispose();
+                    }
+                }
                 for (const handler of machine!.ioRouter.handlers) {
                     if ("dispose" in handler && typeof handler.dispose === "function") {
                         handler.dispose();
@@ -444,15 +474,15 @@ import { GracefulShutdown } from "./utils/GracefulShutdown";
             // 4. IO scanner
             shutdown.register("io-scanner", () => machine!.ioRouter.stopIOScanner());
 
-            // 5. Regulations — disable and dispose
-            shutdown.register("regulations", async () => {
-                for (const container of machine!.containerRouter.containers.filter(c => (c.regulations?.length ?? 0) > 0)) {
+            // 5. Containers & regulations — disable regulations and dispose all listeners
+            shutdown.register("containers", async () => {
+                for (const container of machine!.containerRouter.containers) {
                     for (const regulation of container.regulations ?? []) {
-                        regulation.dispose();
                         if (machine!.services) {
                             await machine!.services.containers.setRegulationState(container.name, regulation.name, false);
                         }
                     }
+                    container.dispose();
                 }
             });
 
@@ -501,16 +531,25 @@ import { GracefulShutdown } from "./utils/GracefulShutdown";
     {
         TurbineEventLoop.emit('log', 'info', "Update: NusterTurbine has been updated, restarting proxy & wpe services.");
 
-        await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/applications/${process.env.BALENA_APP_ID}/restart-service?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, {
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ serviceName: "proxy", force: true }),
-            method: 'POST'}
-        );
-        await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/applications/${process.env.BALENA_APP_ID}/restart-service?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, {
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ serviceName: "wpe", force: true }),
-            method: 'POST'}
-        );
+        try {
+            await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/applications/${process.env.BALENA_APP_ID}/restart-service?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, {
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ serviceName: "proxy", force: true }),
+                method: 'POST'}
+            );
+        } catch (ex) {
+            TurbineEventLoop.emit('log', 'error', `Update: Failed to restart proxy service: ${(ex as Error).message}`);
+        }
+
+        try {
+            await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v2/applications/${process.env.BALENA_APP_ID}/restart-service?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, {
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ serviceName: "wpe", force: true }),
+                method: 'POST'}
+            );
+        } catch (ex) {
+            TurbineEventLoop.emit('log', 'error', `Update: Failed to restart wpe service: ${(ex as Error).message}`);
+        }
 
         TurbineEventLoop.emit('log', 'info', "Update: Restarted proxy & wpe services.");
 

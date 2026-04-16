@@ -10,6 +10,7 @@ export class IOReadParameterBlock extends NumericParameterBlock
     private gateName: StringParameterBlockHydrated;
     private ctx?: PBRContext;
     #gateValue = 0;
+    private _onGateUpdate!: (gate: { value: number }) => void;
 
     constructor(obj: IOReadParameterBlockSpec, ctx?: PBRContext)
     {
@@ -17,23 +18,31 @@ export class IOReadParameterBlock extends NumericParameterBlock
         this.ctx = ctx;
         this.gateName = ParameterBlockRegistry.String(obj.io_read);
 
+        this._onGateUpdate = (gate: { value: number }) => {
+            this.#gateValue = gate.value;
+        };
+
         if(this.ctx)
         {
-            this.ctx.io.on(`updated.${this.gateName.data}`, (gate) => {
-                this.#gateValue = gate.value;
-            });
+            this.ctx.io.on(`updated.${this.gateName.data}`, this._onGateUpdate);
         }
         else
         {
-            TurbineEventLoop.on(`io.updated.${this.gateName.data}`, (gate) => {
-                this.#gateValue = gate.value;
-            });
+            TurbineEventLoop.on(`io.updated.${this.gateName.data}`, this._onGateUpdate);
         }
     }
 
     public get data(): number
     {
         return this.#gateValue;
+    }
+
+    dispose(): void {
+        if (this.ctx) {
+            this.ctx.io.off(`updated.${this.gateName.data}`, this._onGateUpdate);
+        } else {
+            TurbineEventLoop.removeListener(`io.updated.${this.gateName.data}`, this._onGateUpdate);
+        }
     }
 
     static isIOReadPB(obj: AllParameterBlocks): obj is IOReadParameterBlockSpec

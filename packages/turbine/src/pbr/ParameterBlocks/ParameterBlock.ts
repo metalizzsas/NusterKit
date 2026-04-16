@@ -15,6 +15,9 @@ export class ParameterBlock<T> implements ParameterBlockHydrated<T>
         throw Error("Not implemented");
     }
 
+    /** Override in subclasses to remove event listeners */
+    dispose(): void {}
+
     toJSON()
     {
         return {...this, pbrInstance: undefined, data: this.data }

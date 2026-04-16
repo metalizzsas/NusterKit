@@ -66,4 +66,27 @@ describe("AsyncMutex", () => {
 		await mutex.acquire();
 		mutex.release();
 	});
+
+	test("acquire(timeoutMs) rejects when timeout expires before release", async () => {
+		const mutex = new AsyncMutex();
+		await mutex.acquire();
+
+		await expect(mutex.acquire(50)).rejects.toThrow("AsyncMutex: acquire timed out after 50ms");
+
+		// Mutex should still be usable after timeout
+		mutex.release();
+		await mutex.acquire();
+		mutex.release();
+	});
+
+	test("acquire(timeoutMs) resolves when released before timeout", async () => {
+		const mutex = new AsyncMutex();
+		await mutex.acquire();
+
+		const promise = mutex.acquire(5000);
+		mutex.release();
+		await promise; // should resolve, not reject
+
+		mutex.release();
+	});
 });

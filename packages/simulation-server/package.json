@@ -5,7 +5,7 @@
   "main": "src/server.js",
   "private": true,
   "engines": {
-    "node": "22.x"
+    "node": "24.x"
   },
   "scripts": {
     "build": "tsc",
@@ -26,7 +26,7 @@
     "@nuster/turbine": "2.3.4",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
-    "@types/node": "^22.0.0",
+    "@types/node": "^24.0.0",
     "typescript": "^5.9.0",
     "tsx": "^4.21.0"
   }

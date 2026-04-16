@@ -1,7 +1,7 @@
 {
   "name": "@nuster/turbine",
   "engines": {
-    "node": "22.x"
+    "node": "24.x"
   },
   "version": "2.3.4",
   "description": "Handle complex machines cycles with ease using turbine.",
@@ -141,7 +141,7 @@
   },
   "devDependencies": {
     "@types/lockfile": "^1.0.4",
-    "@types/node": "^22.0.0",
+    "@types/node": "^24.0.0",
     "@types/ping": "^0.4.4",
     "@types/ws": "^8.18.0",
     "nodemon": "^3.1.14",

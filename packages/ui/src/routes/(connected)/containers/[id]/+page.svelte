@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { IOGatesHydrated } from "@nuster/turbine/types/hydrated";
+	import type { IOGateJSON } from "$lib/types/turbine";
 
 	import Flex from "$lib/components/layout/flex.svelte";
 	import Gate from "$lib/components/io/Gate.svelte";
@@ -24,9 +24,9 @@
     let categories: Array<categoriesTypes> = [];
     let expandedCategory: categoriesTypes | undefined  = undefined;
 
-    let sensorIO: Array<IOGatesHydrated> = [];
+    let sensorIO: Array<IOGateJSON> = [];
 
-    const sensorIOFilter = (k: IOGatesHydrated | undefined): k is IOGatesHydrated => { return k !== undefined }; 
+    const sensorIOFilter = (k: IOGateJSON | undefined): k is IOGateJSON => { return k !== undefined }; 
         
     afterUpdate(() => {
 

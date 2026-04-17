@@ -1,20 +1,20 @@
-import type { Configuration, MachineSpecsList } from "@nuster/turbine/types";
+import type { Configuration } from "$lib/api/types";
 import type { PageServerLoad } from "./$types";
 import { env } from "$env/dynamic/private";
 import { fail, redirect } from "@sveltejs/kit";
 
-export const load = (async ({ fetch, url }) => {
+export const load = (async ({ locals, url }) => {
 
     // Prevent access on restricted pages
     const password = url.searchParams.get('password');
     if(password === undefined || password !== (env.PASSWORD ?? 'Nuster'))
         return redirect(302, '/settings');
 
-    const configurationRequest = await fetch(`${env.TURBINE_URL}/config/actual`);
-    const configuration = await configurationRequest.json() as Configuration;
+    const { data: configData } = await locals.api.GET("/config/actual");
+    const configuration = configData as Configuration;
 
-    const configurationsRequest = await fetch(`${env.TURBINE_URL}/configs`);
-    const configurations = await configurationsRequest.json() as MachineSpecsList;
+    const { data: configsData } = await locals.api.GET("/configs");
+    const configurations = configsData as Record<string, unknown>;
 
     return {
         configuration,
@@ -24,7 +24,7 @@ export const load = (async ({ fetch, url }) => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-    saveConfiguration: async ({ fetch, request }) => {
+    saveConfiguration: async ({ locals, request }) => {
 
         const form = await request.formData();
         const configuration = form.get('configuration')?.toString();
@@ -32,15 +32,11 @@ export const actions = {
         if(configuration === undefined)
             return fail(400, { saveConfiguration: { error: "Configuration is required" }});
 
-        const saveRequest = await fetch(`${env.TURBINE_URL}/config/`, {
-            method: 'post',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: configuration
+        const { error } = await locals.api.POST("/config", {
+            body: JSON.parse(configuration),
         });
 
-        if(saveRequest.ok && saveRequest.status === 200)
+        if(!error)
             return redirect(303, "/");
         else
             return fail(400, { saveConfiguration: { error: "Failed to save configuration" }});

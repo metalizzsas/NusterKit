@@ -1,7 +1,9 @@
 import fs from "fs";
 import type { FastifyInstance } from "fastify";
-import { SettingsSchema } from "../schemas";
+import type { ZodTypeProvider } from "fastify-type-provider-zod";
+import { SettingsSchema, ErrorResponseSchema } from "../schemas";
 import { TurbineEventLoop } from "../events";
+import { z } from "zod";
 
 interface SystemRoutesOpts {
 	updateFile: string;
@@ -11,8 +13,16 @@ interface SystemRoutesOpts {
 
 export async function systemRoutes(fastify: FastifyInstance, opts: SystemRoutesOpts) {
 	const { updateFile, settingsPath, softExit } = opts;
+	const app = fastify.withTypeProvider<ZodTypeProvider>();
 
-	fastify.get("/forceUpdate", async (_request, reply) => {
+	app.get("/forceUpdate", {
+		schema: {
+			response: {
+				200: z.void(),
+				500: ErrorResponseSchema,
+			},
+		},
+	}, async (_request, reply) => {
 		try
 		{
 			await softExit();
@@ -20,7 +30,7 @@ export async function systemRoutes(fastify: FastifyInstance, opts: SystemRoutesO
 
 			const req = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v1/update?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" }, body: JSON.stringify({force: true}), method: 'POST'});
 
-			return reply.status(req.status === 204 ? 200 : req.status).send();
+			return reply.status(req.status === 204 ? 200 : 500).send();
 		}
 		catch(ex)
 		{
@@ -29,7 +39,14 @@ export async function systemRoutes(fastify: FastifyInstance, opts: SystemRoutesO
 		}
 	});
 
-	fastify.get("/reboot", async (_request, reply) => {
+	app.get("/reboot", {
+		schema: {
+			response: {
+				200: z.void(),
+				500: ErrorResponseSchema,
+			},
+		},
+	}, async (_request, reply) => {
 		try
 		{
 			const req = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v1/reboot?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" }, body: JSON.stringify({force: true}), method: 'POST'});
@@ -50,7 +67,7 @@ export async function systemRoutes(fastify: FastifyInstance, opts: SystemRoutesO
 				return reply.status(200).send();
 			}
 			else
-				return reply.status(req.status).send();
+				return reply.status(500).send({ error: "Reboot request rejected by supervisor" });
 		}
 		catch (ex)
 		{
@@ -59,7 +76,14 @@ export async function systemRoutes(fastify: FastifyInstance, opts: SystemRoutesO
 		}
 	});
 
-	fastify.get("/shutdown", async (_request, reply) => {
+	app.get("/shutdown", {
+		schema: {
+			response: {
+				200: z.void(),
+				500: ErrorResponseSchema,
+			},
+		},
+	}, async (_request, reply) => {
 		try
 		{
 			const req = await fetch(`${process.env.BALENA_SUPERVISOR_ADDRESS}/v1/shutdown?apikey=${process.env.BALENA_SUPERVISOR_API_KEY}`, { headers: { "Content-Type": "application/json" }, body: JSON.stringify({force: true}), method: 'POST'});
@@ -80,7 +104,7 @@ export async function systemRoutes(fastify: FastifyInstance, opts: SystemRoutesO
 				return reply.status(200).send();
 			}
 			else
-				return reply.status(req.status).send();
+				return reply.status(500).send({ error: "Shutdown request rejected by supervisor" });
 		}
 		catch (ex)
 		{
@@ -89,12 +113,21 @@ export async function systemRoutes(fastify: FastifyInstance, opts: SystemRoutesO
 		}
 	});
 
-	fastify.post("/settings", async (request, reply) => {
+	app.post("/settings", {
+		schema: {
+			body: SettingsSchema,
+			response: {
+				200: z.void(),
+				400: ErrorResponseSchema,
+				500: ErrorResponseSchema,
+			},
+		},
+	}, async (request, reply) => {
 		try
 		{
 			const parsed = SettingsSchema.safeParse(request.body);
 			if (!parsed.success) {
-				return reply.status(400).send({ error: "Invalid settings", details: parsed.error.flatten() });
+				return reply.status(400).send({ error: "Invalid settings", details: parsed.error.flatten() } as never);
 			}
 
 			fs.writeFileSync(settingsPath, JSON.stringify(parsed.data));
@@ -107,7 +140,14 @@ export async function systemRoutes(fastify: FastifyInstance, opts: SystemRoutesO
 		}
 	});
 
-	fastify.get("/settings", async (_request, reply) => {
+	app.get("/settings", {
+		schema: {
+			response: {
+				200: SettingsSchema,
+				500: z.void(),
+			},
+		},
+	}, async (_request, reply) => {
 		try
 		{
 			const data = fs.readFileSync(settingsPath, { encoding: "utf-8" });

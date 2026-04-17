@@ -1,12 +1,11 @@
-import { env } from '$env/dynamic/private';
 import { fail } from '@sveltejs/kit';
 
-export const load = async ({ fetch }) => {
+export const load = async ({ locals }) => {
 
     /** Trigger network scanning */
-    await fetch(`${env.TURBINE_URL}/network/wifi/list`);
+    await locals.api.GET("/network/wifi/list");
     /** Trigger network devices scanning */
-    await fetch(`${env.TURBINE_URL}/network/devices`);
+    await locals.api.GET("/network/devices");
 
     return {};
 };
@@ -14,7 +13,7 @@ export const load = async ({ fetch }) => {
 export const actions = {
 
     /** Connect to a wifi network */
-    connectWifi: async ({ fetch, request }) => {
+    connectWifi: async ({ locals, request }) => {
         const form = await request.formData();
 
         const ssid = form.get('ssid')?.toString();
@@ -23,20 +22,22 @@ export const actions = {
         if(ssid === undefined)
             return fail(400, { connectWifi: { error: "SSID is required" }});
 
-        const connectRequest = await fetch(`${env.TURBINE_URL}/network/wifi/connect`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ssid, password }) });
+        const { error } = await locals.api.POST("/network/wifi/connect", {
+            body: { ssid, password },
+        });
 
-        if(connectRequest.status !== 200 || !connectRequest.ok)
+        if(error)
             return fail(403, { connectWifi: { error: "Failed to connect to wifi" }});
 
         return { connectWifi: { success: true }};
 
     },
-    /** 
+    /**
      * Disconnect from a wifi network
      * @warn do not checks if the request is successful
      */
-    disconnectWifi: async ({ fetch }) => {
-        await fetch(`${env.TURBINE_URL}/network/wifi/disconnect`);
+    disconnectWifi: async ({ locals }) => {
+        await locals.api.GET("/network/wifi/disconnect");
         return { disconnectWifi: { success: true }};
     }
 }

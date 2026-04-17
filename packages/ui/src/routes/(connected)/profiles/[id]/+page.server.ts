@@ -1,23 +1,23 @@
 import type { PageServerLoad } from "./$types";
-import type { ProfileHydrated } from "@nuster/turbine/types/hydrated";
+import type { ProfileHydrated } from "$lib/api/types";
 
-import { env } from "$env/dynamic/private";
 import { fail, redirect } from '@sveltejs/kit';
 
-export const load = (async ({ fetch, params }) => {
+export const load = (async ({ locals, params }) => {
 
-    const req = await fetch(`${env.TURBINE_URL}/v1/profiles/${params.id}`);
-    const profile = (await req.json()) as ProfileHydrated
+    const { data } = await locals.api.GET("/v1/profiles/{id}", {
+        params: { path: { id: params.id } }
+    });
 
     return {
-        profile
+        profile: data as ProfileHydrated
     }
 
 }) satisfies PageServerLoad;
 
 export const actions = {
 
-    saveProfile: async ({ fetch, request }) => {
+    saveProfile: async ({ locals, request }) => {
 
         const form = await request.formData();
 
@@ -28,20 +28,19 @@ export const actions = {
         if(profile === undefined || profileId === undefined)
             return fail(400, { saveProfile: { error: "Missing profile id or profile body" }});
 
-        const profileSaveRequest = await fetch(`${env.TURBINE_URL}/v1/profiles/${profileId}`, {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: profile
+        const { error } = await locals.api.PATCH("/v1/profiles/{id}", {
+            params: { path: { id: profileId } },
+            body: JSON.parse(profile),
         });
 
-        if(profileSaveRequest.status !== 200 || !profileSaveRequest.ok)
+        if(error)
             return fail(400, { saveProfile: { error: "Failed to save profile" }});
 
         return { saveProfile: { success: true }}
 
     },
 
-    copyProfile: async ({ fetch, request }) => {
+    copyProfile: async ({ locals, request }) => {
 
         const form = await request.formData();
 
@@ -51,22 +50,20 @@ export const actions = {
         if(profileId === undefined || profile === undefined)
             return fail(400, { copyProfile: { error: "Missing profile id or copied profile body" }});
 
-        const profileCopyRequest = await fetch(`${env.TURBINE_URL}/v1/profiles/`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: profile
+        const { data, error } = await locals.api.POST("/v1/profiles/", {
+            body: JSON.parse(profile),
         });
 
-        if(profileCopyRequest.status !== 200 || !profileCopyRequest.ok)
+        if(error)
             return fail(400, { copyProfile: { error: "Failed to copy profile" }});
 
-        const copiedProfileBody = await profileCopyRequest.json() as ProfileHydrated;
+        const copiedProfile = data as ProfileHydrated;
 
-        return redirect(302, `/profiles/${copiedProfileBody.id}`)
+        return redirect(302, `/profiles/${copiedProfile.id}`)
 
     },
 
-    deleteProfile: async ({ fetch, request }) => {
+    deleteProfile: async ({ locals, request }) => {
 
         const form = await request.formData();
 
@@ -75,11 +72,11 @@ export const actions = {
         if(profileId === undefined)
             return fail(400, { deleteProfile: { error: "Missing profile id" }});
 
-        const profileDeleteRequest = await fetch(`${env.TURBINE_URL}/v1/profiles/${profileId}`, {
-            method: "DELETE"
+        const { error } = await locals.api.DELETE("/v1/profiles/{id}", {
+            params: { path: { id: profileId } }
         });
 
-        if(profileDeleteRequest.status !== 200 || !profileDeleteRequest.ok)
+        if(error)
             return fail(400, { deleteProfile: { error: "Failed to delete profile" }});
 
         return redirect(302, "/profiles")

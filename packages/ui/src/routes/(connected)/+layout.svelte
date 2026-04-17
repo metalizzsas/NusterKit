@@ -14,8 +14,7 @@
 
 	import PillMenu from "./PillMenu.svelte";
 
-	import type { WebsocketData } from "@nuster/turbine/types";
-	import type { Popup } from "@nuster/turbine/types/spec/nuster";
+	import type { WebsocketData, Popup } from "$lib/types/turbine";
     import { realtime, realtimeConnected, realtimeLock } from "$lib/utils/stores/nuster";
 	import Loadindicator from "$lib/components/LoadIndicator.svelte";
 	import { _ } from "svelte-i18n";
@@ -26,7 +25,7 @@
 
     export let data: PageData;
 
-    type Toast_popup = Popup & { date: number };
+    type Toast_popup = Popup<import("$lib/types/turbine").CallToActionFront> & { date: number };
 
     let toasts: Array<Toast_popup> = [];
 

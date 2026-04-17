@@ -90,11 +90,12 @@
   "scripts": {
     "dev": "portless turbine.nuster tsx watch src/app.ts",
     "preview": "node build/app.js",
-    "build": "pnpm run build:prisma && pnpm run build:app && pnpm run build:schemas",
+    "build": "pnpm run build:prisma && pnpm run build:app && pnpm run build:schemas && pnpm run openapi:extract",
     "build:prisma": "prisma generate",
     "build:app": "tsc --project tsconfig.build.json",
     "build:schemas": "pnpm run schemas",
     "start": "node build/app.js",
+    "openapi:extract": "tsx scripts/extract-openapi.ts",
     "lint": "biome check src/",
     "test": "vitest",
     "docs": "pnpx typedoc --entryPointStrategy expand ./src --out docs",

@@ -1,16 +1,19 @@
-import type { MaintenanceHydrated } from "@nuster/turbine/types/hydrated";
-import type { MachineData } from "@nuster/turbine/types/hydrated/machine";
+import type { MaintenanceHydrated } from "$lib/types/turbine";
+import type { MachineData } from "$lib/types/turbine";
 import { env } from "$env/dynamic/private";
 import { fail, redirect } from "@sveltejs/kit";
 
-export const load = async ({ fetch }) => {
+export const load = async ({ locals, fetch }) => {
 
-    const req = await fetch(`${env.TURBINE_URL}/machine`);
-    const machine = (await req.json()) as MachineData;
+    const { data: machineData } = await locals.api.GET("/machine");
+    const machine = machineData as MachineData;
 
-    const reqCycleCount = await fetch(`${env.TURBINE_URL}/v1/maintenances/cycleCount`);
-    const cycleCount = await reqCycleCount.json() as MaintenanceHydrated;
+    const { data: cycleCountData } = await locals.api.GET("/v1/maintenances/{name}", {
+        params: { path: { name: "cycleCount" } }
+    });
+    const cycleCount = cycleCountData as MaintenanceHydrated;
 
+    // Static file fetch — stays as raw fetch
     const changelogRequest = await fetch(`${env.TURBINE_URL}/static/CHANGELOG.md`);
     const changelog = await changelogRequest.text();
 
@@ -38,7 +41,7 @@ export const actions = {
 
     },
 
-    updateSettings: async ({ fetch, request }) => {
+    updateSettings: async ({ locals, request }) => {
 
         const form = await request.formData();
 
@@ -49,43 +52,41 @@ export const actions = {
             return fail(400, { updateSettings: { error: "Missing parameters" }});
         else
         {
-            const req = await fetch(`${env.TURBINE_URL}/settings`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ lang, dark })
+            const { error } = await locals.api.POST("/settings", {
+                body: { lang, theme: dark },
             });
 
-            if(req.ok && req.status === 200)
+            if(!error)
                 return { updateSettings: { success: true }};
             else
                 return fail(403, { updateSettings: { error: "Failed to update settings" }});
         }
     },
 
-    update: async ({ fetch }) => {
-        const request = await fetch(`${env.TURBINE_URL}/forceUpdate`);
+    update: async ({ locals }) => {
+        const { error } = await locals.api.GET("/forceUpdate");
 
-        if(request.ok && request.status == 200)
+        if(!error)
             return { update: { success: true }};
         else
             return fail(403, { update: { error: "Failed to start update process" }});
     },
 
     /** TODO: Check if realtime data permits reboot */
-    reboot: async ({ fetch }) => {
-        const rebootRequest = await fetch(`${env.TURBINE_URL}/reboot`);
+    reboot: async ({ locals }) => {
+        const { error } = await locals.api.GET("/reboot");
 
-        if(rebootRequest.ok && rebootRequest.status === 200)
+        if(!error)
             return { reboot: { success: true }};
         else
             return fail(403, { reboot: { error: "Failed to reboot the machine" }});
     },
 
     /** TODO Check if realtime data permits shutdown */
-    shutdown: async ({ fetch }) => {
-        const shutdownRequest = await fetch(`${env.TURBINE_URL}/shutdown`);
+    shutdown: async ({ locals }) => {
+        const { error } = await locals.api.GET("/shutdown");
 
-        if(shutdownRequest.ok && shutdownRequest.status === 200)
+        if(!error)
             return { shutdown: { success: true }};
         else
             return fail(403, { shutdown: { error: "Failed to shutdown the machine" }});

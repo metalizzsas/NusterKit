@@ -19,6 +19,7 @@
     "build:turbine": "pnpm -r --filter='@nuster/turbine' run build",
     "build:ui": "pnpm -r --filter='@nuster/ui' run build",
     "build:simulation": "pnpm -r --filter='@nuster/simulation-*' run build",
+    "openapi": "pnpm --filter @nuster/turbine run openapi:extract && pnpm --filter @nuster/ui run openapi:generate",
     "release": "changeset publish",
     "version": "changeset version && pnpm install --lockfile-only"
   },

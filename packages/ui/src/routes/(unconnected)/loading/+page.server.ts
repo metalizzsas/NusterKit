@@ -14,5 +14,5 @@ export const load = async () => {
         redirect(302, "/");
     }
 
-    return {};    
+    return {};
 }

@@ -1,6 +1,6 @@
 <script lang="ts">
 
-	import type { Popup, CallToActionFront } from "@nuster/turbine/types/spec/nuster";
+	import type { Popup, CallToActionFront } from "$lib/types/turbine";
 	import { ExclamationCircle, ExclamationTriangle, InformationCircle, XMark } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";
 	import { createEventDispatcher } from "svelte";

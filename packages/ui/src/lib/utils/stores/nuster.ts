@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-import type { Status } from "@nuster/turbine/types";
+import type { Status } from "$lib/types/turbine";
 
 export const realtime = writable<Status>();
 export const realtimeLock = writable<boolean>(false);

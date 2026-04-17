@@ -1,4 +1,4 @@
-import type { CallToAction } from "@nuster/turbine/types/spec/nuster";
+import type { CallToAction } from "$lib/types/turbine";
 import { goto } from "$app/navigation";
 
 /**

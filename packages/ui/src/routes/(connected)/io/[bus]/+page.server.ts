@@ -1,9 +1,8 @@
-import { env } from '$env/dynamic/private';
 import { fail } from '@sveltejs/kit';
 
 export const actions = {
 
-    editGateValue: async ({ request, fetch }) => {
+    editGateValue: async ({ request, locals }) => {
 
         // TODO: This could be replaced by an async send via websocket
 
@@ -15,11 +14,13 @@ export const actions = {
         if(gate === undefined || value === undefined)
             return fail(400, { editGateValue: { error: "Invalid gate update parameters" }});
 
-        const gateUpdateRequest = await fetch(`${env.TURBINE_URL}/v1/io/${gate.replace("#", "_")}/${value}`, { method: "POST" });
+        const { error } = await locals.api.POST("/v1/io/{name}/{value}", {
+            params: { path: { name: gate.replace("#", "_"), value } }
+        });
 
-        if(gateUpdateRequest.status !== 200 || !gateUpdateRequest.ok)
+        if(error)
             return fail(500, { editGateValue: { error: "Failed to update gate value" }});
-        
+
         return { editGateValue: { success: true }};
 
     }

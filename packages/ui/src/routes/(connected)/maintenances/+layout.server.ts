@@ -1,14 +1,12 @@
-import type { MaintenanceHydrated } from "@nuster/turbine/types/hydrated";
-import { env } from "$env/dynamic/private";
+import type { MaintenanceHydrated } from "$lib/types/turbine";
 
-export const load = async ({ fetch }) => {
+export const load = async ({ locals }) => {
 
-    const req = await fetch(`${env.TURBINE_URL}/v1/maintenances/`);
-    
-    const maintenances = (await req.json() as Array<MaintenanceHydrated>).filter(m => m.name !== "cycleCount"); // Apply filter to hide cycle count
+    const { data } = await locals.api.GET("/v1/maintenances/");
+
+    const maintenances = (data as MaintenanceHydrated[]).filter(m => m.name !== "cycleCount"); // Apply filter to hide cycle count
 
     return {
         maintenances
     }
 };
-

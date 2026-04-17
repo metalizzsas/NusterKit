@@ -1,20 +1,43 @@
 import fs from "fs";
 import path from "path";
 import type { FastifyInstance } from "fastify";
+import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import type { MachineSpecs, MachineSpecsList } from "../types";
-import { ConfigurationSchema } from "../schemas";
+import type { Machine } from "../Machine";
+import { ConfigurationSchema, MachineSpecsListSchema, MachineDataSchema, StatusSchema, ErrorResponseSchema } from "../schemas";
 import { TurbineEventLoop } from "../events";
+import { z } from "zod";
 
 interface MachineRoutesOpts {
 	machinesPath: string;
 	productionEnabled: boolean;
 	softExit: () => Promise<void>;
+	getMachine: () => Machine | undefined;
 }
 
 export async function machineRoutes(fastify: FastifyInstance, opts: MachineRoutesOpts) {
-	const { machinesPath, productionEnabled, softExit } = opts;
+	const { machinesPath, productionEnabled, softExit, getMachine } = opts;
+	const app = fastify.withTypeProvider<ZodTypeProvider>();
 
-	fastify.get("/configs", async () => {
+	app.get("/machine", {
+		schema: {
+			response: { 200: MachineDataSchema },
+		},
+	}, async () => getMachine()?.toJSON());
+
+	app.get("/realtime", {
+		schema: {
+			response: { 200: StatusSchema },
+		},
+	}, async () => await getMachine()?.socketData() as never);
+
+	app.get("/configs", {
+		schema: {
+			response: {
+				200: MachineSpecsListSchema,
+			},
+		},
+	}, async () => {
 		const machineSpecsList: MachineSpecsList = {};
 
 		for(const modelFolder of fs.readdirSync(machinesPath).filter(mf => !mf.startsWith(".")))
@@ -31,7 +54,14 @@ export async function machineRoutes(fastify: FastifyInstance, opts: MachineRoute
 		return machineSpecsList;
 	});
 
-	fastify.get("/config/actual", async (_request, reply) => {
+	app.get("/config/actual", {
+		schema: {
+			response: {
+				200: ConfigurationSchema,
+				404: z.void(),
+			},
+		},
+	}, async (_request, reply) => {
 		try
 		{
 			const configPath = productionEnabled ? "/data/info.json" : path.resolve("data", "info.json");
@@ -44,13 +74,21 @@ export async function machineRoutes(fastify: FastifyInstance, opts: MachineRoute
 		}
 	});
 
-	fastify.post("/config", async (request, reply) => {
+	app.post("/config", {
+		schema: {
+			body: ConfigurationSchema,
+			response: {
+				200: z.void(),
+				400: ErrorResponseSchema,
+			},
+		},
+	}, async (request, reply) => {
 		const body = request.body;
 		if(body)
 		{
 			const parsed = ConfigurationSchema.safeParse(body);
 			if (!parsed.success) {
-				return reply.status(400).send({ error: "Invalid configuration", details: parsed.error.flatten() });
+				return reply.status(400).send({ error: "Invalid configuration", details: parsed.error.flatten() } as never);
 			}
 
 			if(!productionEnabled)

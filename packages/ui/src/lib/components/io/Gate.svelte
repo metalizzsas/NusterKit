@@ -1,6 +1,6 @@
 <script lang="ts">
 
-    import type { IOGatesHydrated } from "@nuster/turbine/types/hydrated";
+    import type { IOGateJSON } from "$lib/types/turbine";
 	import Flex from "$lib/components/layout/flex.svelte";
 	import Toggle from "$lib/components/inputs/Toggle.svelte";
 	import { _ } from "svelte-i18n";
@@ -9,7 +9,7 @@
 	import Button from "$lib/components/buttons/Button.svelte";
 	import { enhance } from "$app/forms";
 
-    export let io: IOGatesHydrated;
+    export let io: IOGateJSON;
     export let editable = true;
 
     // TODO: Check why it sends the order twice

@@ -1,7 +1,7 @@
 import type { Handle } from "@sveltejs/kit";
 import { env } from "$env/dynamic/private";
-import type { MachineData } from "@nuster/turbine/types/hydrated/machine";
-import type { Status } from "@nuster/turbine/types";
+import { createTurbineClient } from "$lib/api/client";
+import type { MachineData, Status } from "$lib/types/turbine";
 import { locale } from "svelte-i18n";
 
 /**
@@ -13,20 +13,24 @@ export const handle = (async ({ event, resolve }) => {
     // In dev mode, this will always be true
     event.locals.is_machine_screen = import.meta.env.DEV ? true : (event.request.headers.get("user-agent") == "Mozilla/5.0 (X11; Linux aarch64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Safari/605.1.15");
 
+    // Create typed API client and store in locals
+    const api = createTurbineClient(env.TURBINE_URL);
+    event.locals.api = api;
+
     const currentPath = event.url.pathname;
     const redirect = (path: string) => new Response(null, { headers: { "Location": path }, status: 302 });
 
     // Try to fetch machine data
     let machineData: MachineData | undefined;
     try {
-        const response = await fetch(`${env.TURBINE_URL}/machine`);
-        machineData = await response.json() as MachineData;
+        const { data } = await api.GET("/machine");
+        machineData = data as MachineData | undefined;
     } catch (error) {
         // Machine endpoint failed - check if turbine is reachable
         try {
-            const configResponse = await fetch(`${env.TURBINE_URL}/config/actual`);
+            const { response } = await api.GET("/config/actual");
             // Turbine is reachable - check if configured
-            if (configResponse.status === 404) {
+            if (response.status === 404) {
                 // Not configured - redirect to /configure
                 return currentPath.startsWith("/configure") ? resolve(event) : redirect("/configure");
             }
@@ -44,15 +48,15 @@ export const handle = (async ({ event, resolve }) => {
     }
 
     // Populate locals with machine data
-    const [settingsResponse, realtimeResponse] = await Promise.all([
-        fetch(`${env.TURBINE_URL}/settings`),
-        fetch(`${env.TURBINE_URL}/realtime`)
+    const [settingsResult, realtimeResult] = await Promise.all([
+        api.GET("/settings"),
+        api.GET("/realtime")
     ]);
 
-    const { dark, lang } = await settingsResponse.json() as { dark: "1" | "0", lang: string };
-    const realtimeData = await realtimeResponse.json() as Status;
+    const { dark, lang } = settingsResult.data as { dark: "1" | "0", lang: string };
+    const realtimeData = realtimeResult.data as Status;
 
-    event.locals.machine_configuration = machineData;
+    event.locals.machine_configuration = machineData!;
     event.locals.settings = {
         dark: parseInt(dark) as 1 | 0,
         lang

@@ -145,7 +145,7 @@ import { GracefulShutdown } from "./utils/GracefulShutdown";
     // Route plugins
     // ============================================================
 
-    app.register(machineRoutes, { machinesPath, productionEnabled, softExit: SoftExit });
+    app.register(machineRoutes, { machinesPath, productionEnabled, softExit: SoftExit, getMachine: () => machine });
     app.register(systemRoutes, { updateFile, settingsPath, softExit: SoftExit });
 
     // ============================================================
@@ -218,10 +218,9 @@ import { GracefulShutdown } from "./utils/GracefulShutdown";
             app.register(cycleRoutes, { prefix: '/v1/cycle', cycleTypes: machine.specs.cycleTypes, cyclePremades: machine.specs.cyclePremades, serviceRegistry: machine.services, state: { get program() { return machine?.cycleRouter.program; }, set program(v) { if (machine) machine.cycleRouter.program = v; } } });
             app.register(callToActionRoutes, { prefix: '/v1/calltoaction' });
 
-            // Network routes only in production (D-Bus not available in dev)
-            if (productionEnabled) {
-                app.register(networkRoutes, { prefix: '/network', networkRouter: machine.networkRouter! });
-            }
+            // Network routes — always registered for OpenAPI spec completeness.
+            // In dev mode networkRouter is undefined; handlers will return errors.
+            app.register(networkRoutes, { prefix: '/network', networkRouter: (machine.networkRouter ?? {}) as never });
 
             // Static files
             app.register(fastifyStatic, {
@@ -231,9 +230,7 @@ import { GracefulShutdown } from "./utils/GracefulShutdown";
 
             TurbineEventLoop.emit('log', 'info', "Fastify: Registered routers");
 
-            // Machine data routes
-            app.get("/machine", async () => machine?.toJSON());
-            app.get("/realtime", async () => await machine?.socketData());
+            // /machine and /realtime are registered via machineRoutes plugin
         }
         else
             TurbineEventLoop.emit('log', 'fatal', "Fastify: No machine defined, cannot add routes.");

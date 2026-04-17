@@ -6,8 +6,7 @@ import { prisma } from "../db";
 import { ProfileIdParamsSchema, ProfileHydratedSchema, ErrorResponseSchema } from "../schemas";
 import { z } from "zod";
 
-// Use passthrough for response — ProfileHydrated has complex union field types
-const ProfileResponseSchema = z.any();
+const ProfileResponseSchema = ProfileHydratedSchema;
 
 interface ProfileRoutesOpts {
 	profilesRouter: ProfilesRouter;

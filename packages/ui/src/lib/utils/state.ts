@@ -1,4 +1,4 @@
-import type { ContainerHydrated, IOGatesHydrated, MaintenanceHydrated } from "@nuster/turbine/types/hydrated";
+import type { ContainerHydrated, IOGateJSON, MaintenanceHydrated } from "$lib/types/turbine";
 
 export type State<I, S> = {
     result: "good" | "warn" | "error" | "info";
@@ -6,7 +6,7 @@ export type State<I, S> = {
     infos: Array<S>
 };
 
-export const computeContainersState = (containers: Array<ContainerHydrated> | ContainerHydrated, ioGates: Array<IOGatesHydrated>): State<"sensor" | "product_unloaded" | "product_lifespan" |  "product_lifespan_unknown", "regulation_active"> => {
+export const computeContainersState = (containers: Array<ContainerHydrated> | ContainerHydrated, ioGates: Array<IOGateJSON>): State<"sensor" | "product_unloaded" | "product_lifespan" |  "product_lifespan_unknown", "regulation_active"> => {
 
     if(!Array.isArray(containers))
         containers = [containers] as Array<ContainerHydrated>;
@@ -40,7 +40,7 @@ export const computeContainersState = (containers: Array<ContainerHydrated> | Co
 
         for(const sensor of container.sensors?.filter(k => k.logic !== undefined) ?? [])
         {
-            const gate = ioGates.find(k => k.name == sensor.io) as IOGatesHydrated;
+            const gate = ioGates.find(k => k.name == sensor.io) as IOGateJSON;
 
             if(sensor.logic === undefined)
                 continue;

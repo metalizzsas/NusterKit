@@ -1,4 +1,4 @@
-import type { DocFile } from "@nuster/turbine/types/docs";
+import type { DocFile } from "$lib/types/turbine";
 import { env } from "$env/dynamic/private";
 
 export const load = async ({ fetch, locals }) => {

@@ -1,10 +1,9 @@
-import type { ProfileHydrated } from "@nuster/turbine/types/hydrated";
-import { env } from "$env/dynamic/private";
+import type { ProfileHydrated } from "$lib/api/types";
 
-export const load = async ({ fetch }) => {
+export const load = async ({ locals }) => {
 
-    const req = await fetch(`${env.TURBINE_URL}/v1/profiles`);
-    const profiles = ((await req.json()) as Array<ProfileHydrated>).filter(p => p.skeleton === "default");
+    const { data } = await locals.api.GET("/v1/profiles/");
+    const profiles = (data as ProfileHydrated[]).filter(p => p.skeleton === "default");
 
     return {
         profiles

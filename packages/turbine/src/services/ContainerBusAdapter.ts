@@ -55,6 +55,7 @@ export class ContainerBusAdapter implements ContainerBus {
 			reg["setActuators"]("active", false);
 		}
 		TurbineEventLoop.emit(`container.${containerName}.regulation.${regulationName}.state_updated`, reg.state);
+		TurbineEventLoop.emit("ws.dirty", "containers");
 		return reg.state;
 	}
 
@@ -66,6 +67,7 @@ export class ContainerBusAdapter implements ContainerBus {
 		const reg = this.findRegulation(containerName, regulationName);
 		reg.target = Math.min(target, reg.maxTarget);
 		TurbineEventLoop.emit(`container.${containerName}.regulation.${regulationName}.target_updated`, reg.target);
+		TurbineEventLoop.emit("ws.dirty", "containers");
 		return reg.target;
 	}
 

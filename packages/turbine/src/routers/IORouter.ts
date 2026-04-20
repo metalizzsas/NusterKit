@@ -21,6 +21,9 @@ export class IORouter extends Router
 
     private ioScannerInterval = 500;
 
+    /** Previous gate values for change detection */
+    private previousValues = new Map<string, number>();
+
     constructor(handlers: IOHandlers[], gates: IOGates[])
     {
         super();
@@ -89,6 +92,18 @@ export class IORouter extends Router
                 for(const g of this.gates.filter((g) => g.bus == "in"))
                 {
                     await g.read();
+                }
+
+                // Change detection: only emit ws.dirty if any input gate value changed
+                let changed = false;
+                for (const g of this.gates.filter((g) => g.bus === "in")) {
+                    if (this.previousValues.get(g.name) !== g.value) {
+                        changed = true;
+                        this.previousValues.set(g.name, g.value);
+                    }
+                }
+                if (changed) {
+                    TurbineEventLoop.emit("ws.dirty", "io");
                 }
 
             }, this.ioScannerInterval);

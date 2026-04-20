@@ -17,6 +17,7 @@ export class SensorMaintenance extends Maintenance implements Omit<SensorMainten
     #sensorGate?: IOGateJSON;
 
     #lastKnownDurationProgress = -1;
+    #lastEmittedProgress = -1;
 
     constructor(obj: SensorMaintenanceConfig)
     {
@@ -25,7 +26,14 @@ export class SensorMaintenance extends Maintenance implements Omit<SensorMainten
         this.sensorBaseValue = obj.sensorBaseValue;
         this.sensorLimitValue = obj.sensorLimitValue;
 
-        TurbineEventLoop.on(`io.updated.${obj.sensorGate}`, (gate) => { this.#sensorGate = gate});
+        TurbineEventLoop.on(`io.updated.${obj.sensorGate}`, (gate) => {
+            this.#sensorGate = gate;
+            const newProgress = Math.round(this.computeDurationProgress * 10) / 10;
+            if (newProgress !== this.#lastEmittedProgress) {
+                this.#lastEmittedProgress = newProgress;
+                TurbineEventLoop.emit("ws.dirty", "maintenance");
+            }
+        });
 
         if(obj.requireEnableGate)
             TurbineEventLoop.on(`io.updated.${obj.requireEnableGate}`, (gate) => this.#requireEnabledGate = gate);
@@ -60,6 +68,7 @@ export class SensorMaintenance extends Maintenance implements Omit<SensorMainten
     {
         const document = await super.resetTracker();
         this.operationDate = document.operationDate ?? undefined;
+        TurbineEventLoop.emit("ws.dirty", "maintenance");
     }
 
     toJSON(): MaintenanceHydrated {

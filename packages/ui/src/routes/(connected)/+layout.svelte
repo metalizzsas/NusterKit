@@ -100,6 +100,17 @@
                 }
                 $realtime = data.message;
             }
+            else if(data.type == "patch" && $realtimeLock === false)
+            {
+                const patch = data.message;
+                const merged = { ...$realtime };
+                if ('io' in patch) merged.io = patch.io!;
+                if ('containers' in patch) merged.containers = patch.containers!;
+                if ('cycle' in patch) merged.cycle = patch.cycle === null ? undefined : patch.cycle;
+                if ('maintenance' in patch) merged.maintenance = patch.maintenance!;
+                if ('network' in patch && !import.meta.env.DEV) merged.network = patch.network!;
+                $realtime = merged;
+            }
             else if(data.type === "popup")
             {
                 if(data.message.payload !== undefined)
@@ -111,11 +122,11 @@
                             data.message.payload[key] = version;
                             continue;
                         }
-                        
+
                         data.message.payload[key] = $_(data.message.payload[key]);
                     }
                 }
-                
+
                 toasts = [{...data.message, date: Date.now() }, ...toasts];
             }
         }

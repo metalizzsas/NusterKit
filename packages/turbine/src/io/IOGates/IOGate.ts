@@ -98,6 +98,7 @@ export class IOGate implements IOGateBase
         this.value = data;
 
         TurbineEventLoop.emit(`io.updated.${this.name}`, this.toJSON());
+        TurbineEventLoop.emit("ws.dirty", "io");
 
         return true;
     }

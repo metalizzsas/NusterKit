@@ -57,7 +57,10 @@ export class CountableMaintenance extends Maintenance implements CountableMainte
         const document = await prisma.maintenance.update({ where: { name: this.name }, data: { duration: { increment: appendValue } }});
 
         if(document)
+        {
             this.duration += appendValue;
+            TurbineEventLoop.emit("ws.dirty", "maintenance");
+        }
         else
              TurbineEventLoop.emit('log', 'warning', "Maintenance: Failed to append data to " + this.name + " tracker.");
     }
@@ -74,6 +77,7 @@ export class CountableMaintenance extends Maintenance implements CountableMainte
         const document = await super.resetTracker();
         this.operationDate = document.operationDate ?? undefined;
         this.duration = 0;
+        TurbineEventLoop.emit("ws.dirty", "maintenance");
     }
 
     toJSON(): MaintenanceHydrated

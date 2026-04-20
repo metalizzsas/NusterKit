@@ -133,6 +133,7 @@ export class ProgramBlockRunner
                 return;
             }
             this.timers.push(timer);
+            TurbineEventLoop.emit("ws.dirty", "cycle");
         };
         TurbineEventLoop.on("pbr.timer.start", this._onTimerStart);
 
@@ -258,6 +259,7 @@ export class ProgramBlockRunner
 
             clearInterval(timer.timer);
             this.timers = this.timers.filter(k => k.name !== timer.name);
+            TurbineEventLoop.emit("ws.dirty", "cycle");
 
             options.callback?.(true);
         };
@@ -278,6 +280,8 @@ export class ProgramBlockRunner
                 pbrVar.value = value;
             else
                 this.variables.push({ name, value });
+
+            TurbineEventLoop.emit("ws.dirty", "cycle");
         };
         TurbineEventLoop.on("pbr.variable.write", this._onVariableWrite);
 
@@ -393,6 +397,7 @@ export class ProgramBlockRunner
     {
         this.status.mode = state;
         TurbineEventLoop.emit('pbr.status.update', state);
+        TurbineEventLoop.emit("ws.dirty", "cycle");
     }
 
     /**

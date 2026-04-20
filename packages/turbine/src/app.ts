@@ -44,7 +44,6 @@ import { GracefulShutdown } from "./utils/GracefulShutdown";
 
     /** Websocket manager */
     let websocketDispatcher: WebsocketDispatcher | undefined = undefined;
-    let wsBroadcastInterval: ReturnType<typeof setInterval> | undefined = undefined;
 
     /** File / Folders paths */
     const basePath = productionEnabled ? "/data" : "data";
@@ -181,10 +180,9 @@ import { GracefulShutdown } from "./utils/GracefulShutdown";
 
         websocketDispatcher = new WebsocketDispatcher(httpServer);
 
-        wsBroadcastInterval = setInterval(async () => {
-            if(machine !== undefined && websocketDispatcher !== undefined)
-                websocketDispatcher.broadcastData(await machine.socketData(), "status");
-        }, 500);
+        if (machine) {
+            websocketDispatcher.setMachine(machine);
+        }
     }
 
     // ============================================================
@@ -344,15 +342,7 @@ import { GracefulShutdown } from "./utils/GracefulShutdown";
     if (machine) {
         SetupWebsocketServer();
 
-        // 7. WS broadcast interval (disposed first — closest to "ready")
-        shutdown.register("ws-broadcast", () => {
-            if (wsBroadcastInterval) {
-                clearInterval(wsBroadcastInterval);
-                wsBroadcastInterval = undefined;
-            }
-        });
-
-        // 8. WebSocket server
+        // 7. WebSocket server
         shutdown.register("websocket", () => websocketDispatcher?.dispose());
     }
 

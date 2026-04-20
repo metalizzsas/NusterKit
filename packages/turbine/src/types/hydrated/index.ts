@@ -7,11 +7,16 @@ import type { IOGatesHydrated } from "./io";
 import type { MaintenanceHydrated } from "./maintenance";
 import type { ProfileHydrated } from "./profiles";
 
-export type WebsocketData = StatusMessage | PopupMessage;
+export type WebsocketData = StatusMessage | PatchMessage | PopupMessage;
 
 type StatusMessage = {
     type: "status",
     message: Status
+}
+
+type PatchMessage = {
+    type: "patch",
+    message: Partial<Status> & { cycle?: ProgramBlockRunnerHydrated | null }
 }
 
 type PopupMessage = {

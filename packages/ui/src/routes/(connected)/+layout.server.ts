@@ -1,7 +1,6 @@
-import { env } from '$env/dynamic/private';
+import { env } from "$env/dynamic/private";
 
 export const load = async ({ locals }) => {
-
-    /// - Tranfer locals from hook to pages
-    return { ...locals, websocketAddress: env.TURBINE_WS_URL };
+	/// - Tranfer locals from hook to pages
+	return { ...locals, websocketAddress: env.TURBINE_WS_UR, api: undefined };
 };

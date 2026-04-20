@@ -98,6 +98,7 @@ export class Container implements ContainerConfig
 
             this.socketData().then(data => {
                 TurbineEventLoop.emit(`container.updated.${this.name}`, data);
+                TurbineEventLoop.emit("ws.dirty", "containers");
             }).catch(err => {
                 TurbineEventLoop.emit('log', 'error', `Container-${this.name}: socketData failed: ${(err as Error).message}`);
             });
@@ -106,19 +107,20 @@ export class Container implements ContainerConfig
         }
         else
         {
-            await prisma.container.update({ 
-                where: { name: this.name }, 
-                data: { 
+            await prisma.container.update({
+                where: { name: this.name },
+                data: {
                     loadedProductType: productSeries,
                     loadDate: new Date().toISOString()
-                } 
+                }
             });
 
             this.socketData().then(data => {
                 TurbineEventLoop.emit(`container.updated.${this.name}`, data);
+                TurbineEventLoop.emit("ws.dirty", "containers");
             }).catch(err => {
                 TurbineEventLoop.emit('log', 'error', `Container-${this.name}: socketData failed: ${(err as Error).message}`);
-            });            
+            });
             return true;
         }
 
@@ -143,6 +145,7 @@ export class Container implements ContainerConfig
 
         this.socketData().then(data => {
             TurbineEventLoop.emit(`container.updated.${this.name}`, data);
+            TurbineEventLoop.emit("ws.dirty", "containers");
         }).catch(err => {
             TurbineEventLoop.emit('log', 'error', `Container-${this.name}: socketData failed: ${(err as Error).message}`);
         });

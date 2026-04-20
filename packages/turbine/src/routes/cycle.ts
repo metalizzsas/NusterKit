@@ -64,10 +64,12 @@ export async function cycleRoutes(fastify: FastifyInstance, opts: CycleRoutesOpt
 
 		TurbineEventLoop.emit("log", "info", "CR: Config PBR found.");
 		state.program = new ProgramBlockRunner(cycle, profile, serviceRegistry);
+		TurbineEventLoop.emit("ws.dirty", "cycle");
 
 		if (state.program.profileRequired && profile !== undefined && state.program.name !== profile.skeleton) {
 			const error = `Profile ${state.program.name} is not compatible with cycle profile ${profile.skeleton}.`;
 			state.program = undefined;
+			TurbineEventLoop.emit("ws.dirty", "cycle");
 			return reply.status(400).send({ error });
 		}
 
@@ -111,6 +113,7 @@ export async function cycleRoutes(fastify: FastifyInstance, opts: CycleRoutesOpt
 	}, async (_request, reply) => {
 		if (["ended", "created"].includes(state.program?.status.mode ?? "")) {
 			state.program = undefined;
+			TurbineEventLoop.emit("ws.dirty", "cycle");
 			return reply.status(200).send("");
 		}
 		return reply.status(403).send({ error: "Cannot dispose a cycle that has not ended." });

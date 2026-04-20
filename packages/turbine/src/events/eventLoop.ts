@@ -113,4 +113,7 @@ interface EventLoopEvents
     "close": () => void;
 
     "machine.config": (callback: (config: MachineSpecs) => void) => void;
+
+    /** WebSocket dirty signal — marks a domain for broadcast */
+    "ws.dirty": (domain: "io" | "containers" | "cycle" | "maintenance" | "network") => void;
 }

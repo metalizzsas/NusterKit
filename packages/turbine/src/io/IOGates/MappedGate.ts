@@ -46,6 +46,7 @@ export class MappedGate extends IOGate implements MappedGate
         v = (v < 0) ? 0 : v;
         
         TurbineEventLoop.emit(`io.updated.${this.name}`, this.toJSON());
+        TurbineEventLoop.emit("ws.dirty", "io");
         TurbineEventLoop.emit("log", "info", "IOMG-" + this.name + ": Writing (" + data + ") to fieldbus.");
 
         return super.writetoController(v, true);

@@ -68,6 +68,7 @@ export class NetworkRouter extends Router
         }
 
         this.devices = devices;
+        TurbineEventLoop.emit("ws.dirty", "network");
 
         return devices;
     }
@@ -124,7 +125,8 @@ export class NetworkRouter extends Router
         }
 
         this.accessPoints = accessPoints;
-    
+        TurbineEventLoop.emit("ws.dirty", "network");
+
         return accessPoints;
     }
 

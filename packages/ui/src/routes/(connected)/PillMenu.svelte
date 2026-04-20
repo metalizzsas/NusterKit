@@ -1,20 +1,17 @@
 <script lang="ts">
+import { _ } from "svelte-i18n";
+import { page } from "$app/stores";
+import Flex from "$lib/components/layout/flex.svelte";
+import { computeContainersState, computeMaintenancesState } from "$lib/utils/state";
+import { realtime, realtimeConnected } from "$lib/utils/stores/nuster";
+import PillMenuButton from "./PillMenuButton.svelte";
 
-	import { computeContainersState, computeMaintenancesState } from "$lib/utils/state";
+let containersState: "good" | "warn" | "error" | "info" = "error";
+let maintenancesState: "good" | "warn" | "error" = "error";
 
-	import Flex from "$lib/components/layout/flex.svelte";
-	import { realtime, realtimeConnected } from "$lib/utils/stores/nuster";
-	import { _ } from "svelte-i18n";
-	import PillMenuButton from "./PillMenuButton.svelte";
-	import { page } from "$app/stores";
-
-    let containersState: "good" | "warn" | "error" | "info" = "error";
-    let maintenancesState: "good" | "warn" | "error" = "error";
-
-    /// Reactive statements
-    $: maintenancesState = computeMaintenancesState($realtime.maintenance);
-    $: containersState = computeContainersState($realtime.containers, $realtime.io).result;
-
+/// Reactive statements
+$: maintenancesState = computeMaintenancesState($realtime.maintenance);
+$: containersState = computeContainersState($realtime.containers, $realtime.io).result;
 </script>
 
 <Flex justify="between" gap={2} items="center" class="text-zinc-800 dark:text-white">
@@ -23,27 +20,27 @@
         <Flex gap={4} items="center" class="ml-2">
             <img src="/icons/icon-t-192.png" class="h-12 -m-2 -ml-1 aspect-square" alt={$_('nuster.logo')}/>
             <h1 class="text-xl">{$_('nuster.lead')}</h1>
-            <div 
+            <div
                 class="h-2.5 aspect-square rounded-full"
                 class:bg-orange-500={$realtimeConnected === false}
                 class:animate-pulse={$realtimeConnected === false}
                 class:bg-green-500={$realtimeConnected === true}
-            />
+            ></div>
         </Flex>
     </a>
 
-    <div class="h-[1px] bg-zinc-500/50 grow mx-2" />
+    <div class="h-[1px] bg-zinc-500/50 grow mx-2"></div>
 
     <PillMenuButton href="/" activeUrl="/(connected)" exclusiveURL>
         {$_('cycle.lead')}
         {#if $realtime.cycle}
-            <div 
+            <div
                 class="h-2.5 aspect-square rounded-full"
                 class:bg-blue-500={$realtime.cycle?.status.mode !== "started" && $realtime.cycle?.status.mode !== "paused"}
                 class:bg-amber-500={$realtime.cycle?.status.mode === "paused"}
                 class:bg-green-500={$realtime.cycle?.status.mode === "started"}
                 class:animate-pulse={$realtime.cycle?.status.mode === "started"}
-            />
+            ></div>
         {/if}
     </PillMenuButton>
 
@@ -53,25 +50,25 @@
 
     <PillMenuButton href="/containers" activeUrl="/(connected)/containers">
         {$_('container.lead')}
-        <div 
+        <div
             class="h-2.5 aspect-square rounded-full"
             class:bg-red-500={containersState === "error"}
             class:bg-amber-500={containersState === "warn"}
             class:bg-emerald-500={containersState === "good"}
             class:bg-blue-500={containersState === "info"}
             class:animate-pulse={containersState !== "good"}
-        />
+        ></div>
     </PillMenuButton>
 
     <PillMenuButton href="/maintenances" activeUrl={"/(connected)/maintenances"}>
         {$_('maintenance.lead')}
-        <div 
+        <div
             class="h-2.5 aspect-square rounded-full"
             class:bg-red-500={maintenancesState === "error"}
             class:bg-amber-500={maintenancesState === "warn"}
             class:bg-emerald-500={maintenancesState === "good"}
             class:animate-pulse={maintenancesState !== "good"}
-        />
+        ></div>
     </PillMenuButton>
 
     <PillMenuButton href="/help" activeUrl={"/(connected)/help"}>{$_('help.lead')}</PillMenuButton>
@@ -85,11 +82,11 @@
         {$_('settings.lead')}
 
         {#if updateAvailable}
-            <div 
+            <div
                 class="h-2.5 aspect-square rounded-full"
                 class:bg-blue-500={updateAvailable}
                 class:animate-pulse={updateAvailable}
-            />
+            ></div>
         {/if}
     </PillMenuButton>
 

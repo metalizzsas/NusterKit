@@ -1,7 +1,6 @@
 import { EventEmitter } from "node:events";
 import type { ProfileHydrated } from "$types/hydrated/profiles";
 import type { PBRMode } from "$types/hydrated/cycle/ProgramBlockRunnerHydrated";
-import type { PBRStepState } from "$types/spec/cycle/PBRStep";
 import type { ContainerHydrated } from "$types/hydrated/containers";
 import type { MaintenanceHydrated } from "$types/hydrated/maintenance";
 import type { IOGateJSON } from "$types/hydrated/io";
@@ -46,18 +45,10 @@ export declare interface EventLoopEmitter extends EventEmitter
 /** Events Used in the `TurbineEventLoop` */
 interface EventLoopEvents
 {
-    /** IO Controller events */
-    "iocontroller.error": (error: string) => void;
-
     /** IO Events */
-    [key: `io.read.${string}`]: (options: { callback?: (gate: IOGateJSON) => void | Promise<void> }) => void;
-
     [key: `io.updated.${string}`]: (gate: IOGateJSON) => void;
 
     [key: `io.update.${string}`]: (options: { value: number, lock?: boolean, callback?: () => void | Promise<void> }) => void;
-
-    "io.resetAll": () => Promise<void>;
-    "io.snapshot": (options: { callback: (snapshot: Record<string, number>) => void }) => void;
 
     /** Container events */
     [key: `container.read.${string}`]: (options: { callback?: (container: ContainerHydrated) => void | Promise<void> }) => void;
@@ -81,13 +72,10 @@ interface EventLoopEvents
     [key: `maintenance.append.${string}`]: (value: number) => void;
     [key: `maintenance.updated.${string}`]: (maintenance: MaintenanceHydrated) => void;
 
-    "profile.read": (options: {profileID: string, callback?: (profile?: ProfileHydrated) => void | Promise<void> }) => void;
-    
     /** PBR Events */
     "pbr.profile.read": (options: { callback?: (profile?: ProfileHydrated ) => void | Promise<void> }) => void;
 
     "pbr.status.update": (status: PBRMode) => void;
-    "pbr.step.status.update": (status: PBRStepState) => void;
 
     "pbr.timer.start": (timer: {name: string; timer: ReturnType<typeof setInterval>, enabled: boolean}) => void;
     "pbr.timer.stop": (options: { timerName: string, callback?: (stopped: boolean) => void | Promise<void>}) => void;
@@ -97,7 +85,6 @@ interface EventLoopEvents
     "pbr.variable.read": (options: { name: string, callback?: (value: number) => void | Promise<void> }) => void;
 
     "pbr.stop": (reason: string) => void;
-    "pbr.nextStep": () => void;
     "pbr.pause": () => void;
     "pbr.resume": () => void;
     "pbr.setPausable": (pausable: boolean) => void;

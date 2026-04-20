@@ -3,31 +3,21 @@ import { IOGate } from "./IOGate";
 import type { IOBase } from "$types/spec/iohandlers";
 import { TurbineEventLoop } from "../../events";
 
-export class PT100Gate extends IOGate implements PT100GateConfig
-{
-    // ** Automatic infered types for PT100 Gate **
+export class PT100Gate extends IOGate implements PT100GateConfig {
     type = "pt100" as const;
     unity = "°C" as const;
     size = "word" as const;
     bus = "in" as const;
 
-    constructor(obj: PT100GateConfig, controllerInstance: IOBase)
-    {
-        super(obj, controllerInstance);
-    }
-
-    public async read()
-    {
+    public async read() {
         const temp = await this.controllerInstance.readData(this.address, true);
         this.value = temp / 10;
-        TurbineEventLoop.emit(`io.updated.${this.name}`, this);
-        
+        TurbineEventLoop.emit(`io.updated.${this.name}`, this.toJSON());
         return true;
     }
 
-    public async write()
-    {
-        TurbineEventLoop.emit("log", "warning", "PT100Gate- " + this.name + ": Unable to write data to this gate.");
+    public async write() {
+        TurbineEventLoop.emit("log", "warning", `PT100Gate-${this.name}: Cannot write to read-only gate.`);
         return true;
     }
 }

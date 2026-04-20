@@ -2,14 +2,10 @@
 
 import type { CallToAction, CallToActionFront } from "$types/spec/nuster";
 import { prisma } from "../db";
-import { Router } from "./Router";
 
-export class CalltoActionRouter extends Router
-{
+export class CalltoActionRouter {
 
-    constructor()
-    {
-        super();
+    constructor() {
         this.clearCallToActions();
     }
 

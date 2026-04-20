@@ -16,7 +16,7 @@ import { IOWriteProgramBlock } from "./machine/IOWriteProgramBlock";
 import { SetRegulationStateProgramBlock } from "./machine/SetRegulationStateProgramBlock";
 import type { ProgramBlock } from "./ProgramBlock";
 
-export function ProgramBlockRegistry(obj: AllProgramBlocks, ctx?: PBRContext): ProgramBlock {
+export function ProgramBlockRegistry(obj: AllProgramBlocks, ctx: PBRContext): ProgramBlock {
 
     // Flow control blocks
 

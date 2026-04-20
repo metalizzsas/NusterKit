@@ -1,5 +1,3 @@
-import { Router } from "./Router";
-
 import type { NetworkDevice, AccessPoint } from "../types/hydrated/balena";
 import type { BodyEntry } from "@homebridge/dbus-native";
 import { computeSubnet, stringToArrayOfBytes } from "../dbus/network-utils";
@@ -7,16 +5,13 @@ import { DBusClient } from "../dbus/dbus";
 import { NetworkManagerTypes } from "../dbus/networkManagerTypes";
 import { TurbineEventLoop } from "../events";
 
-export class NetworkRouter extends Router
-{
+export class NetworkRouter {
     private accessPoints: AccessPoint[] = [];
     private devices: NetworkDevice[] = [];
     private dbusClient: DBusClient;
 
     constructor()
     {
-        super();
-
         this.dbusClient = new DBusClient();
 
         this.getDevices();

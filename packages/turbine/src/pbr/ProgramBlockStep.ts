@@ -55,7 +55,7 @@ export class ProgramBlockStep
     private _onPause: () => void;
     private _onResume: () => void;
 
-    constructor(pbrInstance: ProgramBlockRunner, obj: PBRStep, ctx?: PBRContext)
+    constructor(pbrInstance: ProgramBlockRunner, obj: PBRStep, ctx: PBRContext)
     {
         this.pbrInstance = pbrInstance;
         this.name = obj.name;

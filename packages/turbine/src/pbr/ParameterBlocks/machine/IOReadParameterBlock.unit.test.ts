@@ -1,29 +1,44 @@
 import { test, expect } from "vitest";
 import { IOReadParameterBlock } from "./IOReadParameterBlock";
-import { TurbineEventLoop } from "../../../events";
-import type { IOGateJSON } from '$types/hydrated/io/index';
+import { createMockPBRContext } from "../../test-utils";
+import type { IOGateJSON } from "$types/hydrated/io/index";
 
-const gate: IOGateJSON = {
-    name: "test-gate",
-    category: "generic",
-    locked: false,
-    unity: undefined,
-    type: "default",
-    value: 1,
-    size: "bit",
-    bus: "in",
-};
+test("IOReadParameterBlock gets correct value from io.on listener", () => {
+	let registeredListener: ((gate: IOGateJSON) => void) | undefined;
 
-const ioReadParameterBlock = new IOReadParameterBlock({"io_read": "test-gate"});
+	const ctx = createMockPBRContext({
+		io: {
+			write: async () => {},
+			snapshot: () => ({}),
+			resetAll: async () => {},
+			getGateValue: () => 0,
+			on: (_event: string, listener: (gate: IOGateJSON) => void) => {
+				registeredListener = listener;
+			},
+			off: () => {},
+		},
+	});
 
-test("IOReadParameterBlocks listens for events.", () => {
+	const ioReadParameterBlock = new IOReadParameterBlock({ io_read: "test-gate" }, ctx);
 
-    const hasListener = TurbineEventLoop.emit(`io.updated.test-gate`, gate);
-    expect(hasListener).toBe(true);
+	// Simulate gate update
+	const gate: IOGateJSON = {
+		name: "test-gate",
+		category: "generic",
+		locked: false,
+		unity: undefined,
+		type: "default",
+		value: 1,
+		size: "bit",
+		bus: "in",
+	};
+
+	registeredListener!(gate);
+	expect(ioReadParameterBlock.data).toBe(1);
 });
 
-test("IOReadParameterBlocks gets correct value.", () => {
-
-    expect(ioReadParameterBlock.data).toBe(1);
+test("IOReadParameterBlock starts at 0 before any update", () => {
+	const ctx = createMockPBRContext();
+	const ioReadParameterBlock = new IOReadParameterBlock({ io_read: "test-gate" }, ctx);
+	expect(ioReadParameterBlock.data).toBe(0);
 });
-

@@ -2,37 +2,24 @@ import type { NumericParameterBlockHydrated, StringParameterBlockHydrated } from
 import type { AllProgramBlocks, SetVariableProgramBlock as SetVariableProgramBlockSpec } from "$types/spec/cycle/program";
 import type { PBRContext } from "../../../services/PBRContext";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
-import { TurbineEventLoop } from "../../../events";
 import { ProgramBlock } from "../ProgramBlock";
 
-export class SetVariableProgramBlock extends ProgramBlock
-{
-    variableName: StringParameterBlockHydrated;
-    variableValue: NumericParameterBlockHydrated;
+export class SetVariableProgramBlock extends ProgramBlock {
+	variableName: StringParameterBlockHydrated;
+	variableValue: NumericParameterBlockHydrated;
 
-    constructor(obj: SetVariableProgramBlockSpec, ctx?: PBRContext)
-    {
-        super(obj, ctx);
+	constructor(obj: SetVariableProgramBlockSpec, ctx: PBRContext) {
+		super(obj, ctx);
+		this.variableName = ParameterBlockRegistry.String(obj.set_var[0]);
+		this.variableValue = ParameterBlockRegistry.Numeric(obj.set_var[1]);
+	}
 
-        this.variableName = ParameterBlockRegistry.String(obj.set_var[0]);
-        this.variableValue = ParameterBlockRegistry.Numeric(obj.set_var[1]);
-    }
+	public async execute(): Promise<void> {
+		this.ctx.writeVariable(this.variableName.data, this.variableValue.data);
+		super.execute();
+	}
 
-    public async execute(): Promise<void> {
-
-        if (this.ctx) {
-            this.ctx.writeVariable(this.variableName.data, this.variableValue.data);
-        } else {
-            TurbineEventLoop.emit(`pbr.variable.write`, { name: this.variableName.data, value: this.variableValue.data });
-        }
-
-        super.execute();
-    }
-
-    static isSetVariablePgB(obj: AllProgramBlocks): obj is SetVariableProgramBlockSpec
-    {
-        return (obj as SetVariableProgramBlockSpec).set_var !== undefined;
-    }
+	static isSetVariablePgB(obj: AllProgramBlocks): obj is SetVariableProgramBlockSpec {
+		return (obj as SetVariableProgramBlockSpec).set_var !== undefined;
+	}
 }
-
-

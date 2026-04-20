@@ -1,25 +1,60 @@
 import { test, expect } from "vitest";
-import { TurbineEventLoop } from "../../../events";
 import { GetRegulationStateParameterBlock } from "./GetRegulationStateParameterBlock";
+import { createMockPBRContext } from "../../test-utils";
 
-const state = true;
+test("GetRegulationStateParameterBlock gets initial state from containers", () => {
+	const ctx = createMockPBRContext({
+		containers: {
+			load: async () => {},
+			unload: async () => {},
+			read: async () => undefined as never,
+			setRegulationState: async () => false,
+			getRegulationState: () => true,
+			getRegulationTarget: () => 0,
+			setRegulationTarget: async () => 0,
+			on: () => {},
+			off: () => {},
+		},
+	});
 
-const getRegulationStateParameterBlock = new GetRegulationStateParameterBlock({
-    "get_regulation_state": {
-        "container": "test-container",
-        "regulation": "test-regulation"
-    }
+	const block = new GetRegulationStateParameterBlock({
+		get_regulation_state: {
+			container: "test-container",
+			regulation: "test-regulation",
+		},
+	}, ctx);
+
+	expect(block.data).toBe(1);
 });
 
-test("GetRegulationStateParameterBlock listens for events.", () => {
+test("GetRegulationStateParameterBlock updates via containers.on listener", () => {
+	let registeredListener: ((state: boolean) => void) | undefined;
 
-    const hasListener = TurbineEventLoop.emit(`container.test-container.regulation.test-regulation.state_updated`, state);
-    expect(hasListener).toBe(true);
+	const ctx = createMockPBRContext({
+		containers: {
+			load: async () => {},
+			unload: async () => {},
+			read: async () => undefined as never,
+			setRegulationState: async () => false,
+			getRegulationState: () => false,
+			getRegulationTarget: () => 0,
+			setRegulationTarget: async () => 0,
+			on: (_event: string, listener: (state: boolean) => void) => {
+				registeredListener = listener;
+			},
+			off: () => {},
+		},
+	});
 
-});
+	const block = new GetRegulationStateParameterBlock({
+		get_regulation_state: {
+			container: "test-container",
+			regulation: "test-regulation",
+		},
+	}, ctx);
 
-test("GetRegulationStateParameterBlock gets correct value.", () => {
+	expect(block.data).toBe(0); // initially false
 
-    expect(getRegulationStateParameterBlock.data).toBe(1);
-
+	registeredListener!(true);
+	expect(block.data).toBe(1);
 });

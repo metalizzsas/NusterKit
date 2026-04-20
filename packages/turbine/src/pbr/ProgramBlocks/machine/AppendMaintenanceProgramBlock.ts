@@ -2,34 +2,24 @@ import type { NumericParameterBlockHydrated, StringParameterBlockHydrated } from
 import type { AllProgramBlocks, AppendMaintenanceProgramBlock as AppendMaintenanceProgramBlockSpec } from "$types/spec/cycle/program";
 import type { PBRContext } from "../../../services/PBRContext";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
-import { TurbineEventLoop } from "../../../events";
 import { ProgramBlock } from "../ProgramBlock";
 
-export class AppendMaintenanceProgramBlock extends ProgramBlock
-{
-    taskName: StringParameterBlockHydrated;
-    taskValue: NumericParameterBlockHydrated;
+export class AppendMaintenanceProgramBlock extends ProgramBlock {
+	taskName: StringParameterBlockHydrated;
+	taskValue: NumericParameterBlockHydrated;
 
-    constructor(obj: AppendMaintenanceProgramBlockSpec, ctx?: PBRContext)
-    {
-        super(obj, ctx);
-        this.taskName = ParameterBlockRegistry.String(obj.append_maintenance[0]);
-        this.taskValue = ParameterBlockRegistry.Numeric(obj.append_maintenance[1]);
-    }
+	constructor(obj: AppendMaintenanceProgramBlockSpec, ctx: PBRContext) {
+		super(obj, ctx);
+		this.taskName = ParameterBlockRegistry.String(obj.append_maintenance[0]);
+		this.taskValue = ParameterBlockRegistry.Numeric(obj.append_maintenance[1]);
+	}
 
-    public async execute(): Promise<void> {
+	public async execute(): Promise<void> {
+		this.ctx.maintenance.append(this.taskName.data, this.taskValue.data);
+		super.execute();
+	}
 
-        if (this.ctx) {
-            this.ctx.maintenance.append(this.taskName.data, this.taskValue.data);
-        } else {
-            TurbineEventLoop.emit(`maintenance.append.${this.taskName.data}`, this.taskValue.data);
-        }
-
-        super.execute();
-    }
-
-    static isAppendMaintenancePgB(obj: AllProgramBlocks): obj is AppendMaintenanceProgramBlockSpec
-    {
-        return (obj as AppendMaintenanceProgramBlockSpec).append_maintenance !== undefined;
-    }
+	static isAppendMaintenancePgB(obj: AllProgramBlocks): obj is AppendMaintenanceProgramBlockSpec {
+		return (obj as AppendMaintenanceProgramBlockSpec).append_maintenance !== undefined;
+	}
 }

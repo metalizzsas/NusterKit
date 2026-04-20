@@ -15,7 +15,7 @@ export class WhileProgramBlock extends ProgramBlock
 
     blocks: Array<ProgramBlock>;
 
-    constructor(obj: WhileProgramBlockSpec, ctx?: PBRContext)
+    constructor(obj: WhileProgramBlockSpec, ctx: PBRContext)
     {
         super(obj, ctx);
         this.comparator = ParameterBlockRegistry.String(obj.while.comparison[1]);

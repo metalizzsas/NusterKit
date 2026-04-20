@@ -2,54 +2,29 @@ import type { StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/
 import type { AllProgramBlocks, StopTimerProgramBlock as StopTimerProgramBlockSpec } from "$types/spec/cycle/program";
 import type { PBRContext } from "../../../services/PBRContext";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
-import { TurbineEventLoop } from "../../../events";
-import { callbackWithTimeout } from "../../../utils/callbackWithTimeout";
 import { ProgramBlock } from "../ProgramBlock";
 
-export class StopTimerProgramBlock extends ProgramBlock
-{
-    timerName: StringParameterBlockHydrated;
+export class StopTimerProgramBlock extends ProgramBlock {
+	timerName: StringParameterBlockHydrated;
 
-    constructor(obj: StopTimerProgramBlockSpec, ctx?: PBRContext)
-    {
-        super(obj, ctx);
+	constructor(obj: StopTimerProgramBlockSpec, ctx: PBRContext) {
+		super(obj, ctx);
+		this.timerName = ParameterBlockRegistry.String(obj.stop_timer);
+	}
 
-        this.timerName = ParameterBlockRegistry.String(obj.stop_timer);
-    }
+	public async execute(): Promise<void> {
+		const timerName = this.timerName.data;
 
-    public async execute(): Promise<void> {
+		this.ctx.logger.log("info", `StopTimerBlock: Will stop timer with name: ${timerName}`);
+		const stopped = this.ctx.timerStop(timerName);
+		if (!stopped) {
+			this.ctx.logger.log("warning", `StopTimerBlock: Timer ${timerName} has not been found, ignoring.`);
+		}
 
-        const timerName = this.timerName.data;
+		super.execute();
+	}
 
-        if (this.ctx) {
-            this.ctx.logger.log("info", `StopTimerBlock: Will stop timer with name: ${timerName}`);
-            const stopped = this.ctx.timerStop(timerName);
-            if (!stopped) {
-                this.ctx.logger.log("warning", `StopTimerBlock: Timer ${timerName} has not been found, ignoring.`);
-            }
-        } else {
-            TurbineEventLoop.emit("log", "info", `StopTimerBlock: Will stop timer with name: ${timerName}`);
-
-            await callbackWithTimeout<void>(
-                (resolve) => {
-                    TurbineEventLoop.emit('pbr.timer.stop', { timerName, callback: (stopped) => {
-                        if(stopped == false)
-                            TurbineEventLoop.emit("log", "warning", `StopTimerBlock: Timer ${timerName} has not been found, ignoring.`);
-                        resolve();
-                    }});
-                },
-                5000,
-                `StopTimerBlock(${timerName})`
-            ).catch(err => {
-                TurbineEventLoop.emit("log", "error", `StopTimerBlock: ${(err as Error).message}`);
-            });
-        }
-
-        super.execute();
-    }
-
-    static isStopTimerPgB(obj: AllProgramBlocks): obj is StopTimerProgramBlockSpec
-    {
-        return (obj as StopTimerProgramBlockSpec).stop_timer !== undefined;
-    }
+	static isStopTimerPgB(obj: AllProgramBlocks): obj is StopTimerProgramBlockSpec {
+		return (obj as StopTimerProgramBlockSpec).stop_timer !== undefined;
+	}
 }

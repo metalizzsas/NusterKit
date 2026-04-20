@@ -62,7 +62,6 @@
                             expand = false;
                             change();
                             if(form?.validateOn === "change" && validateButton !== undefined) { setTimeout(() => validateButton?.click(), 10); }
-                            console.log(value);
                         }}
                     >
                         {sValue.name}

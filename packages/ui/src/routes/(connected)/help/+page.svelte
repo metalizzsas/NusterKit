@@ -4,7 +4,6 @@
 	import { _ } from 'svelte-i18n';
 	import type { PageData } from './$types';
 	import Grid from '$lib/components/layout/grid.svelte';
-	import Wrapper2 from '$lib/components/Wrapper2.svelte';
 	import { page } from '$app/stores';
 
 	export let data: PageData;
@@ -13,7 +12,7 @@
 <Grid cols={3}>
     {#each data.docFiles.filter(p => p.lang === $page.data.settings.lang) as page}
         <a href="/help{page.href}">
-            <Wrapper2>
+            <Wrapper variant="muted" padding="p-4">
                 <h3>{page.name}</h3>
                 <Flex gap={2} class="my-2">
                     {#if page.type === "nuster"}
@@ -33,7 +32,7 @@
                     </p>
 
                 </Flex>
-            </Wrapper2>
+            </Wrapper>
         </a>
     {:else}
         <Wrapper class="col-span-3"><h3 class="text-amber-500">{$_('help.unavailable')}</h3></Wrapper>

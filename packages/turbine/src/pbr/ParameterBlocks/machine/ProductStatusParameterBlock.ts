@@ -2,72 +2,49 @@ import type { ContainerHydrated } from "$types/hydrated/containers";
 import type { StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
 import type { AllParameterBlocks, ProductStatusParameterBlock as ProductStatusParameterBlockSpec } from "$types/spec/cycle/parameter";
 import type { PBRContext } from "../../../services/PBRContext";
-import { TurbineEventLoop } from "../../../events";
 import { ParameterBlockRegistry } from "../ParameterBlockRegistry";
 import { StatusParameterBlock } from "../StatusParameterBlock";
 
 /** Slot status should be only used for security conditions */
-export class ProductStatusParameterBlock extends StatusParameterBlock
-{
-    private containerName: StringParameterBlockHydrated;
-    private ctx?: PBRContext;
-    #container?: ContainerHydrated;
+export class ProductStatusParameterBlock extends StatusParameterBlock {
+	private containerName: StringParameterBlockHydrated;
+	private ctx: PBRContext;
+	#container?: ContainerHydrated;
 
-    constructor(obj: ProductStatusParameterBlockSpec, ctx?: PBRContext)
-    {
-        super(obj);
-        this.ctx = ctx;
-        this.containerName = ParameterBlockRegistry.String(obj.product_status);
+	constructor(obj: ProductStatusParameterBlockSpec, ctx: PBRContext) {
+		super(obj);
+		this.ctx = ctx;
+		this.containerName = ParameterBlockRegistry.String(obj.product_status);
 
-        if(this.ctx)
-        {
-            this.ctx.containers.on(`updated.${this.containerName.data}`, (container) => {
-                this.#container = container;
-                this.subscriber?.(this.data);
-            });
-            this.ctx.containers.read(this.containerName.data).then((container) => {
-                this.#container = container;
-                this.subscriber?.(this.data);
-            }).catch(err => {
-                TurbineEventLoop.emit('log', 'error', `ProductStatusPB: Failed to read container "${this.containerName.data}": ${(err as Error).message}`);
-            });
-        }
-        else
-        {
-            TurbineEventLoop.on(`container.updated.${this.containerName.data}`, (container) => {
-                this.#container = container;
-                this.subscriber?.(this.data);
-            });
-            TurbineEventLoop.emit(`container.read.${this.containerName.data}`, { callback: (container) => {
-                this.#container = container;
-                this.subscriber?.(this.data);
-            }});
-        }
-    }
+		this.ctx.containers.on(`updated.${this.containerName.data}`, (container) => {
+			this.#container = container;
+			this.subscriber?.(this.data);
+		});
+		this.ctx.containers.read(this.containerName.data).then((container) => {
+			this.#container = container;
+			this.subscriber?.(this.data);
+		}).catch(err => {
+			this.ctx.logger.log("error", `ProductStatusPB: Failed to read container "${this.containerName.data}": ${(err as Error).message}`);
+		});
+	}
 
-    public get data(): "error" | "warning" | "good"
-    {
-        // Slot is not defined
-        if(this.#container === undefined)
-            return "error";
+	public get data(): "error" | "warning" | "good" {
+		if (this.#container === undefined)
+			return "error";
 
-        // Slot has not product loaded
-        if(this.#container.productData === undefined)
-            return "error";
+		if (this.#container.productData === undefined)
+			return "error";
 
-        // Slot lifetime remaining is undefined
-        if(this.#container.productData?.lifetimeRemaining === undefined)
-            return "error";
+		if (this.#container.productData?.lifetimeRemaining === undefined)
+			return "error";
 
-        // slot lifespan remaining is under 1 second
-        if(this.#container.productData?.lifetimeRemaining < 1)
-            return "warning";
-        
-        return "good";
-    }
+		if (this.#container.productData?.lifetimeRemaining < 1)
+			return "warning";
 
-    static isProductStatusPB(obj: AllParameterBlocks): obj is ProductStatusParameterBlockSpec
-    {
-        return (obj as ProductStatusParameterBlockSpec).product_status !== undefined;
-    }
+		return "good";
+	}
+
+	static isProductStatusPB(obj: AllParameterBlocks): obj is ProductStatusParameterBlockSpec {
+		return (obj as ProductStatusParameterBlockSpec).product_status !== undefined;
+	}
 }

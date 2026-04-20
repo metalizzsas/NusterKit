@@ -2,80 +2,52 @@ import type { StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/
 import type { AllParameterBlocks, ProfileParameterBlock as ProfileParameterBlockSpec } from "$types/spec/cycle/parameter";
 import type { ProfileHydrated } from "$types/hydrated/profiles";
 import type { ProfileSkeleton } from "$types/spec/profiles";
-import type { MachineSpecs } from "$types/index";
 import type { PBRContext } from "../../../services/PBRContext";
 import { ParameterBlockRegistry } from "../ParameterBlockRegistry";
-import { TurbineEventLoop } from "../../../events";
 import { NumericParameterBlock } from "../NumericParameterBlock";
 
-export class ProfileParameterBlock extends NumericParameterBlock
-{
-    private profileRow: StringParameterBlockHydrated;
-    private ctx?: PBRContext;
+export class ProfileParameterBlock extends NumericParameterBlock {
+	private profileRow: StringParameterBlockHydrated;
+	private ctx: PBRContext;
 
-    #profile?: ProfileHydrated;
-    #profileSkeleton?: ProfileSkeleton;
+	#profile?: ProfileHydrated;
+	#profileSkeleton?: ProfileSkeleton;
 
-    constructor(obj: ProfileParameterBlockSpec, ctx?: PBRContext)
-    {
-        super(obj);
-        this.ctx = ctx;
-        this.profileRow = ParameterBlockRegistry.String(obj.profile);
+	constructor(obj: ProfileParameterBlockSpec, ctx: PBRContext) {
+		super(obj);
+		this.ctx = ctx;
+		this.profileRow = ParameterBlockRegistry.String(obj.profile);
 
-        if(this.ctx)
-        {
-            this.#profile = this.ctx.readProfile();
-            this.#profileSkeleton = this.ctx.machine.getConfig().profileSkeletons.find(p => p.name === this.#profile?.skeleton);
-        }
-        else
-        {
-            TurbineEventLoop.emit("pbr.profile.read", ({ callback: (profile) => {
-                this.#profile = profile;
+		this.#profile = this.ctx.readProfile();
+		this.#profileSkeleton = this.ctx.machine.getConfig().profileSkeletons.find(p => p.name === this.#profile?.skeleton);
+	}
 
-                TurbineEventLoop.emit("machine.config", (config: MachineSpecs) => {
-                    this.#profileSkeleton = config.profileSkeletons.find(p => p.name === this.#profile?.skeleton);
-                });
-            }}));
-        }
-    }
+	public get data(): number {
+		const profileRowData = this.profileRow.data;
 
-    public get data(): number
-    {
-        const profileRowData = this.profileRow.data;
+		if (this.#profile === undefined || this.#profileSkeleton === undefined) {
+			this.ctx.logger.log("warning", "Profile: profile not defined, returning 0");
+			return 0;
+		}
 
-        if(this.#profile === undefined || this.#profileSkeleton === undefined)
-        {
-            if(this.ctx)
-                this.ctx.logger.log("warning", "Profile: profile not defined, returning 0");
-            else
-                TurbineEventLoop.emit("log", "warning", "Profile: profile not defined, returning 0");
-            return 0;
-        }
+		const val = this.#profile.values.find(v => v.name == profileRowData);
+		const profileSkeletonRow = this.#profileSkeleton.fields.find(r => r.name === profileRowData);
 
-        const val = this.#profile.values.find(v => v.name == profileRowData);
-        const profileSkeletonRow = this.#profileSkeleton.fields.find(r => r.name === profileRowData);
+		if (val === undefined || profileSkeletonRow === undefined) {
+			this.ctx.logger.log("warning", `Profile: profile row ${profileRowData} not defined returning 0`);
+			return 0;
+		}
 
-        if(val === undefined || profileSkeletonRow === undefined)
-        {
-            if(this.ctx)
-                this.ctx.logger.log("warning", `Profile: profile row ${profileRowData} not defined returning 0`);
-            else
-                TurbineEventLoop.emit("log", "warning", `Profile: profile row ${profileRowData} not defined returning 0`);
-            return 0;
-        }
+		if (profileSkeletonRow.type === "incremental")
+			return profileSkeletonRow.baseValue + val.value;
 
-        if(profileSkeletonRow.type === "incremental")
-            return profileSkeletonRow.baseValue + val.value;
+		if (typeof val === "boolean")
+			return val ? 1 : 0;
 
-        if(typeof val === "boolean")
-            return val ? 1 : 0;
-            
-        return val.value;
-    } 
+		return val.value;
+	}
 
-    static isProfilePB(obj: AllParameterBlocks): obj is ProfileParameterBlockSpec
-    {
-        return (obj as ProfileParameterBlockSpec).profile !== undefined;
-    }
+	static isProfilePB(obj: AllParameterBlocks): obj is ProfileParameterBlockSpec {
+		return (obj as ProfileParameterBlockSpec).profile !== undefined;
+	}
 }
-

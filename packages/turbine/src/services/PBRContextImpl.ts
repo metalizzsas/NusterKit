@@ -5,18 +5,20 @@ import type { ProfileHydrated } from "$types/hydrated/profiles";
 import type { PBRTimer } from "$types/hydrated/cycle/ProgramBlockRunnerHydrated";
 import { ScopedEmitter } from "./ScopedEmitter";
 
+export interface PBRContextOptions {
+	services: ServiceRegistry;
+	variables: Array<{ name: string; value: number }>;
+	timers: (PBRTimer & { timer?: ReturnType<typeof setInterval> })[];
+	profile?: ProfileHydrated;
+	setPausable: (pausable: boolean) => void;
+	stop: (reason: string) => void;
+}
+
 /**
  * Concrete PBRContext implementation.
- *
- * Created per PBR run. Holds references to all service adapters plus
- * PBR-scoped state (variables, timers, profile). The pbrEmitter is
- * disposed when the PBR ends, automatically cleaning up all fan-out listeners.
- *
- * The PBR instance calls `bindPBR()` after construction to wire up
- * the PBR-specific methods (readVariable, timerExists, etc.).
+ * Created per PBR run. All state is passed at construction time.
  */
 export class PBRContextImpl implements PBRContext {
-	// Service adapters (from ServiceRegistry)
 	io: IOBus;
 	containers: ContainerBus;
 	maintenance: MaintenanceBus;
@@ -24,39 +26,24 @@ export class PBRContextImpl implements PBRContext {
 	machine: MachineService;
 	logger: Logger;
 
-	// Per-PBR scoped emitter
 	pbrEmitter: PBREmitter;
 
-	// PBR state — bound lazily via bindPBR()
-	private _variables!: Array<{ name: string; value: number }>;
-	private _timers!: (PBRTimer & { timer?: ReturnType<typeof setInterval> })[];
+	private _variables: Array<{ name: string; value: number }>;
+	private _timers: (PBRTimer & { timer?: ReturnType<typeof setInterval> })[];
 	private _profile?: ProfileHydrated;
-	private _setPausable!: (pausable: boolean) => void;
-	private _stop!: (reason: string) => void;
+	private _setPausable: (pausable: boolean) => void;
+	private _stop: (reason: string) => void;
 
-	constructor(services: ServiceRegistry) {
-		this.io = services.io;
-		this.containers = services.containers;
-		this.maintenance = services.maintenance;
-		this.profiles = services.profiles;
-		this.machine = services.machine;
-		this.logger = services.logger;
+	constructor(options: PBRContextOptions) {
+		this.io = options.services.io;
+		this.containers = options.services.containers;
+		this.maintenance = options.services.maintenance;
+		this.profiles = options.services.profiles;
+		this.machine = options.services.machine;
+		this.logger = options.services.logger;
 
 		this.pbrEmitter = new ScopedEmitter<PBREmitterEvents>();
-	}
 
-	/**
-	 * Bind PBR-specific state after the PBR instance is constructed.
-	 * This avoids circular dependency: PBRContext is created first,
-	 * then PBR calls bindPBR() to wire up its internal state.
-	 */
-	bindPBR(options: {
-		variables: Array<{ name: string; value: number }>;
-		timers: (PBRTimer & { timer?: ReturnType<typeof setInterval> })[];
-		profile?: ProfileHydrated;
-		setPausable: (pausable: boolean) => void;
-		stop: (reason: string) => void;
-	}): void {
 		this._variables = options.variables;
 		this._timers = options.timers;
 		this._profile = options.profile;

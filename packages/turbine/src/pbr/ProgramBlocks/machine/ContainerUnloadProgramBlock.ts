@@ -2,37 +2,26 @@ import type { StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/
 import type { AllProgramBlocks, ContainerProductUnloadProgramBlock as ContainerProductUnloadProgramBlockSpec } from "$types/spec/cycle/program";
 import type { PBRContext } from "../../../services/PBRContext";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
-import { TurbineEventLoop } from "../../../events";
 import { ProgramBlock } from "../ProgramBlock";
 
-export class ContainerProductUnloadProgramBlock extends ProgramBlock 
-{
-    containterName: StringParameterBlockHydrated;
+export class ContainerProductUnloadProgramBlock extends ProgramBlock {
+	containterName: StringParameterBlockHydrated;
 
-    constructor(obj: ContainerProductUnloadProgramBlockSpec, ctx?: PBRContext)
-    {
-        super(obj, ctx);
-        this.containterName = ParameterBlockRegistry.String(obj.unload_container);
-    }
+	constructor(obj: ContainerProductUnloadProgramBlockSpec, ctx: PBRContext) {
+		super(obj, ctx);
+		this.containterName = ParameterBlockRegistry.String(obj.unload_container);
+	}
 
-    public async execute(): Promise<void>
-    {
-        const containerName = this.containterName.data;
+	public async execute(): Promise<void> {
+		const containerName = this.containterName.data;
 
-        if (this.ctx) {
-            this.ctx.logger.log("info", `SlotUnloadBlock: Will unload slot with name: ${containerName}.`);
-            await this.ctx.containers.unload(containerName);
-        } else {
-            TurbineEventLoop.emit("log", "info", `SlotUnloadBlock: Will unload slot with name: ${containerName}.`);
-            TurbineEventLoop.emit(`container.unload.${containerName}`);
-        }
+		this.ctx.logger.log("info", `SlotUnloadBlock: Will unload slot with name: ${containerName}.`);
+		await this.ctx.containers.unload(containerName);
 
-        super.execute();
-    }
+		super.execute();
+	}
 
-    static isContainerProductUnloadPgB(obj: AllProgramBlocks): obj is ContainerProductUnloadProgramBlockSpec
-    {
-        return (obj as ContainerProductUnloadProgramBlockSpec).unload_container!== undefined; 
-    }
+	static isContainerProductUnloadPgB(obj: AllProgramBlocks): obj is ContainerProductUnloadProgramBlockSpec {
+		return (obj as ContainerProductUnloadProgramBlockSpec).unload_container !== undefined;
+	}
 }
-

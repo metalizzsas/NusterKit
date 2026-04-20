@@ -1,17 +1,17 @@
 import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import type { Container } from "../containers/Containers";
-import type { ServiceRegistry } from "../services/interfaces";
+import type { ContainersRouter } from "../routers/ContainersRouters";
 import { ContainerLoadParamsSchema, ContainerUnloadParamsSchema, RegulationStateParamsSchema, RegulationTargetParamsSchema, ErrorResponseSchema } from "../schemas";
 import { z } from "zod";
 
 interface ContainerRoutesOpts {
 	containers: Container[];
-	services?: ServiceRegistry;
+	containerRouter: ContainersRouter;
 }
 
 export async function containerRoutes(fastify: FastifyInstance, opts: ContainerRoutesOpts) {
-	const { containers, services } = opts;
+	const { containers, containerRouter } = opts;
 	const app = fastify.withTypeProvider<ZodTypeProvider>();
 
 	app.post("/:container/load/:series", {
@@ -58,13 +58,8 @@ export async function containerRoutes(fastify: FastifyInstance, opts: ContainerR
 		},
 	}, async (request, reply) => {
 		const state = request.params.state === "true";
-
-		if (services) {
-			const stateSet = await services.containers.setRegulationState(request.params.container, request.params.regulation, state);
-			return reply.status(state === stateSet ? 200 : 500).send("");
-		}
-
-		return reply.status(500).send({ error: "Services not available" });
+		const stateSet = await containerRouter.setRegulationState(request.params.container, request.params.regulation, state);
+		return reply.status(state === stateSet ? 200 : 500).send("");
 	});
 
 	app.post("/:container/regulation/:regulation/target/:target", {
@@ -77,12 +72,7 @@ export async function containerRoutes(fastify: FastifyInstance, opts: ContainerR
 		},
 	}, async (request, reply) => {
 		const target = parseInt(request.params.target);
-
-		if (services) {
-			const targetSet = await services.containers.setRegulationTarget(request.params.container, request.params.regulation, target);
-			return reply.status(target === targetSet ? 200 : 500).send("");
-		}
-
-		return reply.status(500).send({ error: "Services not available" });
+		const targetSet = await containerRouter.setRegulationTarget(request.params.container, request.params.regulation, target);
+		return reply.status(target === targetSet ? 200 : 500).send("");
 	});
 }

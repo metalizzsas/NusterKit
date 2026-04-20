@@ -1,26 +1,17 @@
 import { addMessages } from 'svelte-i18n';
 
+const LANGUAGES = ['fr', 'en', 'it'] as const;
+
 export async function initI18nMachine()
 {
-    const frRequest = await fetch(`/files/i18n/fr.json`);
-    const enRequest = await fetch(`/files/i18n/en.json`);
-    const itRequest = await fetch(`/files/i18n/it.json`);
+    for (const lang of LANGUAGES)
+    {
+        const response = await fetch(`/files/i18n/${lang}.json`);
 
-    if(frRequest.status === 200 && frRequest.ok)
-    {
-        const fr = await frRequest.json();
-        addMessages('fr', fr);
-    }
-    
-    if(enRequest.status === 200 && enRequest.ok)
-    {
-        const en = await enRequest.json();
-        addMessages('en', en);
-    }
-
-    if(itRequest.status === 200 && itRequest.ok)
-    {
-        const it = await itRequest.json();
-        addMessages('it', it);
+        if(response.ok)
+        {
+            const messages = await response.json();
+            addMessages(lang, messages);
+        }
     }
 }

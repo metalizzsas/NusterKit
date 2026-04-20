@@ -212,7 +212,7 @@ import { GracefulShutdown } from "./utils/GracefulShutdown";
             app.register(ioRoutes, { prefix: '/v1/io', gates: machine.ioRouter.gates });
             app.register(profileRoutes, { prefix: '/v1/profiles', profilesRouter: machine.profileRouter });
             app.register(maintenanceRoutes, { prefix: '/v1/maintenances', tasks: machine.maintenanceRouter.tasks });
-            app.register(containerRoutes, { prefix: '/v1/containers', containers: machine.containerRouter.containers, services: machine.services });
+            app.register(containerRoutes, { prefix: '/v1/containers', containers: machine.containerRouter.containers, containerRouter: machine.containerRouter });
             app.register(cycleRoutes, { prefix: '/v1/cycle', cycleTypes: machine.specs.cycleTypes, cyclePremades: machine.specs.cyclePremades, serviceRegistry: machine.services, state: { get program() { return machine?.cycleRouter.program; }, set program(v) { if (machine) machine.cycleRouter.program = v; } } });
             app.register(callToActionRoutes, { prefix: '/v1/calltoaction' });
 
@@ -309,9 +309,7 @@ import { GracefulShutdown } from "./utils/GracefulShutdown";
             shutdown.register("containers", async () => {
                 for (const container of machine!.containerRouter.containers) {
                     for (const regulation of container.regulations ?? []) {
-                        if (machine!.services) {
-                            await machine!.services.containers.setRegulationState(container.name, regulation.name, false);
-                        }
+                        await machine!.containerRouter.setRegulationState(container.name, regulation.name, false);
                     }
                     container.dispose();
                 }
@@ -319,11 +317,7 @@ import { GracefulShutdown } from "./utils/GracefulShutdown";
 
             // 6. IO reset — set all outputs to safe state
             shutdown.register("io-reset", async () => {
-                if (machine!.services) {
-                    await machine!.services.io.resetAll();
-                } else {
-                    TurbineEventLoop.emit("io.resetAll");
-                }
+                await machine!.ioRouter.resetAll();
             });
 
             SetupMachine();

@@ -1,49 +1,69 @@
-import { test, expect, describe, afterEach } from "vitest";
-import { TurbineEventLoop } from "../../events";
+import { test, expect, describe } from "vitest";
 import { ProgramBlock } from "./ProgramBlock";
-
-afterEach(() => {
-	// Safety cleanup in case a test fails mid-way
-	TurbineEventLoop.removeAllListeners("pbr.stop");
-	TurbineEventLoop.removeAllListeners("pbr.status.update");
-	TurbineEventLoop.removeAllListeners("pbr.pause");
-	TurbineEventLoop.removeAllListeners("pbr.resume");
-});
+import { createMockPBRContext } from "../test-utils";
 
 describe("ProgramBlock dispose()", () => {
 	test("listener count returns to baseline after dispose", () => {
-		const baseline = TurbineEventLoop.listenerCount("pbr.stop");
+		const ctx = createMockPBRContext();
 
-		const block = new ProgramBlock({ test: true } as never);
-		expect(TurbineEventLoop.listenerCount("pbr.stop")).toBe(baseline + 1);
-		expect(TurbineEventLoop.listenerCount("pbr.status.update")).toBeGreaterThanOrEqual(1);
-		expect(TurbineEventLoop.listenerCount("pbr.pause")).toBeGreaterThanOrEqual(1);
-		expect(TurbineEventLoop.listenerCount("pbr.resume")).toBeGreaterThanOrEqual(1);
+		const block = new ProgramBlock({ test: true } as never, ctx);
+		expect(ctx.pbrEmitter.listenerCount("stop")).toBe(1);
+		expect(ctx.pbrEmitter.listenerCount("status.update")).toBe(1);
+		expect(ctx.pbrEmitter.listenerCount("pause")).toBe(1);
+		expect(ctx.pbrEmitter.listenerCount("resume")).toBe(1);
 
 		block.dispose();
-		expect(TurbineEventLoop.listenerCount("pbr.stop")).toBe(baseline);
+		expect(ctx.pbrEmitter.listenerCount("stop")).toBe(0);
+		expect(ctx.pbrEmitter.listenerCount("status.update")).toBe(0);
+		expect(ctx.pbrEmitter.listenerCount("pause")).toBe(0);
+		expect(ctx.pbrEmitter.listenerCount("resume")).toBe(0);
 	});
 
 	test("listener count stays correct across multiple instances", () => {
-		const baseline = TurbineEventLoop.listenerCount("pbr.stop");
+		const ctx = createMockPBRContext();
 
-		const blocks = Array.from({ length: 5 }, () => new ProgramBlock({ test: true } as never));
-		expect(TurbineEventLoop.listenerCount("pbr.stop")).toBe(baseline + 5);
+		const blocks = Array.from({ length: 5 }, () => new ProgramBlock({ test: true } as never, ctx));
+		expect(ctx.pbrEmitter.listenerCount("stop")).toBe(5);
 
 		for (const b of blocks) b.dispose();
-		expect(TurbineEventLoop.listenerCount("pbr.stop")).toBe(baseline);
+		expect(ctx.pbrEmitter.listenerCount("stop")).toBe(0);
 	});
 
 	test("dispose does not remove other listeners on same events", () => {
+		const ctx = createMockPBRContext();
 		const externalListener = () => {};
-		TurbineEventLoop.on("pbr.stop", externalListener);
+		ctx.pbrEmitter.on("stop", externalListener);
 
-		const block = new ProgramBlock({ test: true } as never);
-		expect(TurbineEventLoop.listenerCount("pbr.stop")).toBe(2); // external + block
+		const block = new ProgramBlock({ test: true } as never, ctx);
+		expect(ctx.pbrEmitter.listenerCount("stop")).toBe(2); // external + block
 
 		block.dispose();
-		expect(TurbineEventLoop.listenerCount("pbr.stop")).toBe(1); // only external remains
+		expect(ctx.pbrEmitter.listenerCount("stop")).toBe(1); // only external remains
 
-		TurbineEventLoop.removeListener("pbr.stop", externalListener);
+		ctx.pbrEmitter.off("stop", externalListener);
+	});
+
+	test("earlyExit is set to true when stop is emitted", () => {
+		const ctx = createMockPBRContext();
+		const block = new ProgramBlock({ test: true } as never, ctx);
+
+		expect(block.earlyExit).toBe(false);
+		ctx.pbrEmitter.emit("stop", "test-reason");
+		expect(block.earlyExit).toBe(true);
+
+		block.dispose();
+	});
+
+	test("paused flag toggles on pause/resume", () => {
+		const ctx = createMockPBRContext();
+		const block = new ProgramBlock({ test: true } as never, ctx);
+
+		expect(block.paused).toBe(false);
+		ctx.pbrEmitter.emit("pause");
+		expect(block.paused).toBe(true);
+		ctx.pbrEmitter.emit("resume");
+		expect(block.paused).toBe(false);
+
+		block.dispose();
 	});
 });

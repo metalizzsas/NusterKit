@@ -4,7 +4,6 @@
 	import { invalidateAll } from "$app/navigation";
     import Label from "$lib/components/Label.svelte";
     import Wrapper from "$lib/components/Wrapper.svelte";
-	import Wrapper2 from "$lib/components/Wrapper2.svelte";
 	import Button from "$lib/components/buttons/Button.svelte";
 	import PasswordField from "$lib/components/inputs/PasswordField.svelte";
 	import Flex from "$lib/components/layout/flex.svelte";
@@ -53,7 +52,7 @@
 <Grid cols={2}>
     {#if wired_device}
         {@const connected = wired_device.address !== undefined}
-        <Wrapper2 class="self-start">
+        <Wrapper variant="muted" padding="p-4" class="self-start">
             <p 
                 class="-mb-1 text-sm"
                 class:text-amber-500={!connected}
@@ -77,12 +76,12 @@
                     <Label>{wired_device.gateway}</Label>
                 </Flex>
             {/if}
-        </Wrapper2>
+        </Wrapper>
     {/if}
 
     {#if wifi_device}
         {@const connected = wifi_device.address !== undefined}
-        <Wrapper2 class="self-start">
+        <Wrapper variant="muted" padding="p-4" class="self-start">
             <p 
                 class="-mb-1 text-sm"
                 class:text-amber-500={!connected}
@@ -172,6 +171,6 @@
                     </div>
                 {/each}
             </Grid>
-        </Wrapper2>
+        </Wrapper>
     {/if}
 </Grid>

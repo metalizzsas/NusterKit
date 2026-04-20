@@ -2,88 +2,77 @@ import type { NumericParameterBlockHydrated } from "$types/hydrated/cycle/blocks
 import type { AllProgramBlocks, SleepProgramBlock as SleepProgramBlockSpec } from "$types/spec/cycle/program";
 import type { PBRContext } from "../../../services/PBRContext";
 import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegistry";
-import { TurbineEventLoop } from "../../../events";
 import { ProgramBlock } from "../ProgramBlock";
 
-export class SleepProgramBlock extends ProgramBlock
-{
-    sleepTime: NumericParameterBlockHydrated;
+export class SleepProgramBlock extends ProgramBlock {
+	sleepTime: NumericParameterBlockHydrated;
 
-    iterationsSkippedByPause = 0;
-    currentSleepTime = 0;
+	private sleepResolve?: () => void;
+	private sleepTimer?: ReturnType<typeof setTimeout>;
+	private timerStartTime?: number;
+	private remaining = 0;
 
-    sleepStarted = false;
+	constructor(obj: SleepProgramBlockSpec, ctx: PBRContext) {
+		super(obj, ctx);
+		this.sleepTime = ParameterBlockRegistry.Numeric(obj.sleep);
+		this.estimatedRunTime = this.sleepTime.data;
+	}
 
-    private _onStatusUpdateSleep: (state: string) => void;
-    private _onResumeSleep: () => void;
+	dispose(): void {
+		super.dispose();
+		if (this.sleepTimer) clearTimeout(this.sleepTimer);
+	}
 
-    constructor(obj: SleepProgramBlockSpec, ctx?: PBRContext)
-    {
-        super(obj, ctx);
+	async execute(signal?: AbortSignal): Promise<void> {
+		const sleepTime = this.sleepTime.data * 1000;
+		this.remaining = sleepTime;
 
-        this.sleepTime = ParameterBlockRegistry.Numeric(obj.sleep);
-        this.estimatedRunTime = this.sleepTime.data;
+		this.ctx.logger.log("info", `SleepBlock: Will sleep for ${sleepTime} ms.`);
+		this.ctx.setPausable(true);
 
-        this._onStatusUpdateSleep = (state) => { if (state === "ended" || state === "ending") { this.earlyExit = true; } };
-        TurbineEventLoop.on('pbr.status.update', this._onStatusUpdateSleep);
+		const onAbort = () => this.sleepResolve?.();
+		signal?.addEventListener("abort", onAbort, { once: true });
 
-        this._onResumeSleep = () => {
-            if(this.sleepStarted && !this.executed)
-            {
-                TurbineEventLoop.emit("log", "info", `SleepBlock: Resuming, paused during ${this.iterationsSkippedByPause * 10} ms. Slept ${this.currentSleepTime * 10} / ${this.sleepTime.data * 1000 + this.iterationsSkippedByPause * 10} ms.`);
-            }
-        };
-        TurbineEventLoop.on('pbr.resume', this._onResumeSleep);
-    }
+		const onPause = () => {
+			if (this.sleepTimer) {
+				clearTimeout(this.sleepTimer);
+				this.sleepTimer = undefined;
+			}
+			if (this.timerStartTime) {
+				this.remaining = Math.max(0, this.remaining - (Date.now() - this.timerStartTime));
+				this.timerStartTime = undefined;
+			}
+		};
 
-    dispose(): void {
-        super.dispose();
-        TurbineEventLoop.removeListener('pbr.status.update', this._onStatusUpdateSleep);
-        TurbineEventLoop.removeListener('pbr.resume', this._onResumeSleep);
-    }
+		const onResume = () => {
+			this.timerStartTime = Date.now();
+			this.sleepTimer = setTimeout(() => this.sleepResolve?.(), this.remaining);
+		};
 
-    async execute(signal?: AbortSignal): Promise<void>
-    {
-        this.sleepStarted = true;
-        this.iterationsSkippedByPause = 0;
+		this.ctx.pbrEmitter.on("pause", onPause);
+		this.ctx.pbrEmitter.on("resume", onResume);
 
-        const timeStart = performance.now();
-        const sleepTime = this.sleepTime.data * 1000;
-        
-        if (this.ctx) {
-            this.ctx.logger.log("info", `SleepBlock: Will sleep for ${sleepTime} ms.`);
-            this.ctx.setPausable(true);
-        } else {
-            TurbineEventLoop.emit("log", "info", `SleepBlock: Will sleep for ${sleepTime} ms.`);
-            TurbineEventLoop.emit("pbr.setPausable", true);
-        }
+		try {
+			if (!this.earlyExit && !signal?.aborted) {
+				await new Promise<void>((resolve) => {
+					this.sleepResolve = resolve;
+					this.timerStartTime = Date.now();
+					this.sleepTimer = setTimeout(resolve, this.remaining);
+				});
+			}
+		} finally {
+			signal?.removeEventListener("abort", onAbort);
+			this.ctx.pbrEmitter.off("pause", onPause);
+			this.ctx.pbrEmitter.off("resume", onResume);
+			if (this.sleepTimer) clearTimeout(this.sleepTimer);
+			this.sleepResolve = undefined;
+			this.ctx.setPausable(false);
+		}
 
-        for (this.currentSleepTime = 0; this.currentSleepTime < ((sleepTime) / 10) + this.iterationsSkippedByPause; this.currentSleepTime++)
-        {
-            const timeLoop = performance.now();
+		this.executed = true;
+	}
 
-            if(this.paused)
-                this.iterationsSkippedByPause++;
-
-            if (this.earlyExit === true || signal?.aborted === true)
-                break;
-            
-            if((timeLoop - timeStart) >= (sleepTime + (this.iterationsSkippedByPause * 10)))
-                break;
-
-            await new Promise(resolve => { setTimeout(resolve, 10); });
-        }
-
-        if (this.ctx) {
-            this.ctx.setPausable(false);
-        } else {
-            TurbineEventLoop.emit("pbr.setPausable", false);
-        }
-        this.executed = true;
-    }
-
-    static isSleepPgB(obj: AllProgramBlocks): obj is SleepProgramBlockSpec
-    {
-        return (obj as SleepProgramBlockSpec).sleep !== undefined;
-    }
+	static isSleepPgB(obj: AllProgramBlocks): obj is SleepProgramBlockSpec {
+		return (obj as SleepProgramBlockSpec).sleep !== undefined;
+	}
 }

@@ -1,12 +1,9 @@
-import { Router } from "./Router";
-
 import type { CyclePremade, ProgramBlockRunner as ProgramBlockRunnerConfig } from "../types/spec/cycle";
 import { ProgramBlockRunner } from "../pbr/ProgramBlockRunner";
 import type { ProgramBlockRunnerHydrated } from "../types/hydrated/cycle/ProgramBlockRunnerHydrated";
 import type { ServiceRegistry } from "../services/interfaces";
 
-export class CycleRouter extends Router
-{
+export class CycleRouter {
     private supportedCycles: { name: string, profileRequired: boolean }[] = [];
     private premadeCycles: CyclePremade[] = [];
     private cycleTypes: ProgramBlockRunnerConfig[];
@@ -15,8 +12,6 @@ export class CycleRouter extends Router
     public program?: ProgramBlockRunner;
 
     constructor(cycleTypes: ProgramBlockRunnerConfig[], cyclePremades: CyclePremade[]) {
-        super();
-
         this.cycleTypes = cycleTypes;
 
         this.supportedCycles = this.cycleTypes.map((c) => { return { name: c.name, profileRequired: c.profileRequired }});

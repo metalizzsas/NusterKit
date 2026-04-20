@@ -1,5 +1,5 @@
 import { test, expect, describe, vi } from "vitest";
-import { IOBusAdapter } from "./IOBusAdapter";
+import { IORouter } from "../routers/IORouter";
 import type { IOGatesHydrated } from "$types/hydrated/io";
 
 function createMockGate(overrides: Partial<IOGatesHydrated> = {}): IOGatesHydrated {
@@ -21,30 +21,37 @@ function createMockGate(overrides: Partial<IOGatesHydrated> = {}): IOGatesHydrat
 	} as unknown as IOGatesHydrated;
 }
 
-describe("IOBusAdapter", () => {
+/** Creates an IORouter with pre-populated gates (bypasses hardware init) */
+function createRouterWithGates(gates: IOGatesHydrated[]): IORouter {
+	const router = new IORouter([], []);
+	router.gates = gates;
+	return router;
+}
+
+describe("IORouter (IOBus implementation)", () => {
 	test("write finds gate and calls gate.write()", async () => {
 		const gate = createMockGate({ name: "Pump#1" });
-		const bus = new IOBusAdapter([gate]);
+		const router = createRouterWithGates([gate]);
 
-		await bus.write("Pump#1", 1);
+		await router.write("Pump#1", 1);
 
 		expect(gate.write).toHaveBeenCalledWith(1);
 	});
 
 	test("write with lock=true sets gate.locked", async () => {
 		const gate = createMockGate({ name: "Heater", locked: false });
-		const bus = new IOBusAdapter([gate]);
+		const router = createRouterWithGates([gate]);
 
-		await bus.write("Heater", 1, true);
+		await router.write("Heater", 1, true);
 
 		expect(gate.locked).toBe(true);
 		expect(gate.write).toHaveBeenCalledWith(1);
 	});
 
 	test("write throws on unknown gate name", async () => {
-		const bus = new IOBusAdapter([]);
+		const router = createRouterWithGates([]);
 
-		await expect(bus.write("NonExistent", 1)).rejects.toThrow('IOBus: Gate "NonExistent" not found');
+		await expect(router.write("NonExistent", 1)).rejects.toThrow('IOBus: Gate "NonExistent" not found');
 	});
 
 	test("snapshot returns only unlocked output gates", () => {
@@ -54,9 +61,9 @@ describe("IOBusAdapter", () => {
 			createMockGate({ name: "In1", bus: "in", locked: false, value: 3 }),
 			createMockGate({ name: "Out3", bus: "out", locked: false, value: 7 }),
 		];
-		const bus = new IOBusAdapter(gates);
+		const router = createRouterWithGates(gates);
 
-		const snap = bus.snapshot();
+		const snap = router.snapshot();
 
 		expect(snap).toEqual({ Out1: 5, Out3: 7 });
 		expect(snap).not.toHaveProperty("Out2"); // locked
@@ -69,9 +76,9 @@ describe("IOBusAdapter", () => {
 			createMockGate({ name: "Out2", bus: "out", default: 1, value: 0 }),
 			createMockGate({ name: "In1", bus: "in", default: 0, value: 3 }),
 		];
-		const bus = new IOBusAdapter(gates);
+		const router = createRouterWithGates(gates);
 
-		await bus.resetAll();
+		await router.resetAll();
 
 		expect(gates[0].write).toHaveBeenCalledWith(0);
 		expect(gates[1].write).toHaveBeenCalledWith(1);
@@ -80,9 +87,9 @@ describe("IOBusAdapter", () => {
 
 	test("getGateValue returns current value", () => {
 		const gate = createMockGate({ name: "Sensor1", value: 42 });
-		const bus = new IOBusAdapter([gate]);
+		const router = createRouterWithGates([gate]);
 
-		expect(bus.getGateValue("Sensor1")).toBe(42);
-		expect(bus.getGateValue("Unknown")).toBeUndefined();
+		expect(router.getGateValue("Sensor1")).toBe(42);
+		expect(router.getGateValue("Unknown")).toBeUndefined();
 	});
 });

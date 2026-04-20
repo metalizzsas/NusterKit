@@ -10,7 +10,6 @@
 	import TextField from "./inputs/TextField.svelte";
 	import NumField from "./inputs/NumField.svelte";
 	import Button from "./buttons/Button.svelte";
-	import { keyboardLeft, keyboardTop } from "$lib/utils/stores/keyboard";
 	import PasswordField from "./inputs/PasswordField.svelte";
 	import { browser } from "$app/environment";
 	import { realtimeLock } from "$lib/utils/stores/nuster";
@@ -28,6 +27,8 @@
     let keyboardWrapper: HTMLButtonElement;
     let layout: "shift" | "shiftOnce" | "default" = "default";
 
+    let keyboardLeft = 0;
+    let keyboardTop = 0;
     let moving = false;
 
     onMount(async () => {
@@ -88,10 +89,10 @@
     
             keyboard.setInput(`${value}`);
     
-            if($keyboardLeft === 0 && $keyboardTop === 0)
+            if(keyboardLeft === 0 && keyboardTop === 0)
             {
-                $keyboardLeft = window.innerWidth / 2 - (keyboardWrapper.clientWidth / 2);
-                $keyboardTop = window.innerHeight / 2 - (keyboardWrapper.clientHeight / 2);
+                keyboardLeft = window.innerWidth / 2 - (keyboardWrapper.clientWidth / 2);
+                keyboardTop = window.innerHeight / 2 - (keyboardWrapper.clientHeight / 2);
             }
 
             $realtimeLock = true;
@@ -110,21 +111,21 @@
     function mouseMove(e: MouseEvent) {
         if(moving)
         {
-            $keyboardTop += e.movementY;
-            $keyboardLeft += e.movementX;
+            keyboardTop += e.movementY;
+            keyboardLeft += e.movementX;
 
-            if($keyboardTop < 0) $keyboardTop = 0;
-            if($keyboardLeft < 0) $keyboardLeft = 0;
+            if(keyboardTop < 0) keyboardTop = 0;
+            if(keyboardLeft < 0) keyboardLeft = 0;
 
-            if($keyboardTop > (window.innerHeight - keyboardWrapper.clientHeight)) $keyboardTop = window.innerHeight - keyboardWrapper.clientHeight;
-            if($keyboardLeft > (window.innerWidth - keyboardWrapper.clientWidth)) $keyboardLeft = window.innerWidth - keyboardWrapper.clientWidth;
+            if(keyboardTop > (window.innerHeight - keyboardWrapper.clientHeight)) keyboardTop = window.innerHeight - keyboardWrapper.clientHeight;
+            if(keyboardLeft > (window.innerWidth - keyboardWrapper.clientWidth)) keyboardLeft = window.innerWidth - keyboardWrapper.clientWidth;
         }
     }
 
 </script>
 
 <Portal target="body">
-    <button bind:this={keyboardWrapper} class="p-2 bg-white dark:bg-zinc-800 ring-4 ring-inset cursor-move dark:ring-white rounded-md absolute min-w-[65%]" style:left={`${$keyboardLeft}px`} style:top={`${$keyboardTop}px`} on:mousedown={mouseDown}>
+    <button bind:this={keyboardWrapper} class="p-2 bg-white dark:bg-zinc-800 ring-4 ring-inset cursor-move dark:ring-white rounded-md absolute min-w-[65%]" style:left={`${keyboardLeft}px`} style:top={`${keyboardTop}px`} on:mousedown={mouseDown}>
         <Flex justify="between" class="mb-2" gap={2}>
             {#if typeof value === "string" && isPassword === false}
                 <TextField bind:value={value} disabled keyboardEmbedded class="grow"/>

@@ -2,40 +2,31 @@ import { ParameterBlockRegistry } from "../../ParameterBlocks/ParameterBlockRegi
 import type { AllProgramBlocks, ContainerProductLoadProgramBlock as ContainerProductLoadProgramBlockSpec } from "$types/spec/cycle/program";
 import type { StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/ParameterBlockHydrated";
 import type { PBRContext } from "../../../services/PBRContext";
-import { TurbineEventLoop } from "../../../events";
 import { ProgramBlock } from "../ProgramBlock";
 
-export class ContainerProductLoadProgramBlock extends ProgramBlock
-{
-    executed = false;
+export class ContainerProductLoadProgramBlock extends ProgramBlock {
+	executed = false;
 
-    containerName: StringParameterBlockHydrated;
-    containerProductSeries: StringParameterBlockHydrated;
+	containerName: StringParameterBlockHydrated;
+	containerProductSeries: StringParameterBlockHydrated;
 
-    constructor(obj: ContainerProductLoadProgramBlockSpec, ctx?: PBRContext)
-    {
-        super(obj, ctx);
-        this.containerName = ParameterBlockRegistry.String(obj.load_container[0]);
-        this.containerProductSeries = ParameterBlockRegistry.String(obj.load_container[1]);
-    }
+	constructor(obj: ContainerProductLoadProgramBlockSpec, ctx: PBRContext) {
+		super(obj, ctx);
+		this.containerName = ParameterBlockRegistry.String(obj.load_container[0]);
+		this.containerProductSeries = ParameterBlockRegistry.String(obj.load_container[1]);
+	}
 
-    public async execute(): Promise<void> {
-        const containerName = this.containerName.data;
-        const containerProductSeries = this.containerProductSeries.data;
+	public async execute(): Promise<void> {
+		const containerName = this.containerName.data;
+		const containerProductSeries = this.containerProductSeries.data;
 
-        if (this.ctx) {
-            this.ctx.logger.log("info", `ContainerLoadBlock: Will load ${containerName} with: ${containerProductSeries}.`);
-            await this.ctx.containers.load(containerName, containerProductSeries);
-        } else {
-            TurbineEventLoop.emit("log", "info", `ContainerLoadBlock: Will load ${containerName} with: ${containerProductSeries}.`);
-            TurbineEventLoop.emit(`container.load.${containerName}`, containerProductSeries);
-        }
+		this.ctx.logger.log("info", `ContainerLoadBlock: Will load ${containerName} with: ${containerProductSeries}.`);
+		await this.ctx.containers.load(containerName, containerProductSeries);
 
-        super.execute();
-    }
+		super.execute();
+	}
 
-    static isContainterProductLoadPgB(obj: AllProgramBlocks): obj is ContainerProductLoadProgramBlockSpec
-    {
-        return (obj as ContainerProductLoadProgramBlockSpec).load_container !== undefined;
-    }
+	static isContainterProductLoadPgB(obj: AllProgramBlocks): obj is ContainerProductLoadProgramBlockSpec {
+		return (obj as ContainerProductLoadProgramBlockSpec).load_container !== undefined;
+	}
 }

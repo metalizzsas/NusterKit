@@ -1,17 +1,17 @@
-import { describe, test, expect, afterEach } from "vitest";
-import { validateEnv } from "./validate-env";
+import { afterEach, describe, expect, test } from "vitest";
+import { validate_env } from "./validate-env";
 
-const originalEnv = { ...process.env };
+const original_env = { ...process.env };
 
 afterEach(() => {
-	process.env = { ...originalEnv };
+	process.env = { ...original_env };
 });
 
-describe("validateEnv", () => {
+describe("validate_env", () => {
 	test("passes in development (no required vars)", () => {
 		process.env.NODE_ENV = "development";
 
-		expect(() => validateEnv()).not.toThrow();
+		expect(() => validate_env()).not.toThrow();
 	});
 
 	test("throws when production vars are missing", () => {
@@ -21,7 +21,7 @@ describe("validateEnv", () => {
 		delete process.env.BALENA_SUPERVISOR_API_KEY;
 		delete process.env.BALENA_APP_ID;
 
-		expect(() => validateEnv()).toThrow("DATABASE_URL");
+		expect(() => validate_env()).toThrow("DATABASE_URL");
 	});
 
 	test("passes in production when all vars are set", () => {
@@ -31,6 +31,6 @@ describe("validateEnv", () => {
 		process.env.BALENA_SUPERVISOR_API_KEY = "key123";
 		process.env.BALENA_APP_ID = "123";
 
-		expect(() => validateEnv()).not.toThrow();
+		expect(() => validate_env()).not.toThrow();
 	});
 });

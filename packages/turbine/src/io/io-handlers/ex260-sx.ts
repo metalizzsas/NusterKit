@@ -1,225 +1,204 @@
 import { Buffer } from "buffer";
-import ping from "ping";
 import { ENIPClient } from "enip-ts";
 import { MessageRouter } from "enip-ts/CIP/MessageRouter";
 import type { dataItem } from "enip-ts/Encapsulation/CPF";
-
-import type { IOBase, EX260Sx as EX260SxConfig } from "$types/spec/iohandlers";
+import ping from "ping";
+import type { EX260Sx as EX260SxConfig, IOBase } from "$types/spec/iohandlers";
 import { TurbineEventLoop } from "../../events";
 import { AsyncMutex } from "../../utils/async-mutex";
-import { callbackWithTimeout } from "../../utils/callback-with-timeout";
+import { callback_with_timeout } from "../../utils/callback-with-timeout";
 
-export class EX260Sx implements IOBase, EX260SxConfig
-{
-    type = "ex260sx" as const;
-    
-    connected = false;
-    unreachable = false;
-    ip: string;
-    
-    size: 16 | 32;
-    
-    private controller: ENIPClient;
-    private writeMutex = new AsyncMutex();
-    /**
-     * Builds an EX260Sx object
-     * @param ip Ip address of the controller
-     */
-    constructor(ip: string, size: 16 | 32)
-    {
-        this.ip = ip;
-        this.size = size;
-        
-        this.controller = new ENIPClient(120000);
+export class EX260Sx implements IOBase, EX260SxConfig {
+	type = "ex260sx" as const;
 
-        //change state if disconnected
-        this.controller.events.on('close', () => { 
-             TurbineEventLoop.emit('log', 'info', "EX260Sx: Disconnected");
-            this.connected = false;
+	connected = false;
+	unreachable = false;
+	ip: string;
 
-            this.controller.close();
-        });
+	size: 16 | 32;
 
-        this.connect();
-    }
-    
-    async connect(): Promise<boolean>
-    {
-        if(this.connected)
-            return true;
+	private controller: ENIPClient;
+	private write_mutex = new AsyncMutex();
+	/**
+	 * Builds an EX260Sx object
+	 * @param ip Ip address of the controller
+	 */
+	constructor(ip: string, size: 16 | 32) {
+		this.ip = ip;
+		this.size = size;
 
-        if(this.unreachable)
-            return false;
-        
-        const available = await new Promise<boolean>((resolve) => {
-            ping.sys.probe(this.ip, (isAlive) => {
-                resolve(isAlive || false);
-            });
-        });
+		this.controller = new ENIPClient(120000);
 
-        if(available)
-        {
-            const sessionID = await this.controller.connect(this.ip);
+		//change state if disconnected
+		this.controller.events.on("close", () => {
+			TurbineEventLoop.emit("log", "info", "EX260Sx: Disconnected");
+			this.connected = false;
 
-            if(sessionID !== undefined)
-            {
-                 TurbineEventLoop.emit('log', 'info', "EX260Sx: Connected");
-                this.connected = true;
-                return true;
-            }
-            else
-            {
-                 TurbineEventLoop.emit('log', 'error', "EX260Sx: Failed to connect");
-                TurbineEventLoop.emit(`pbr.stop`, "controllerError");
-                this.connected = false;
-                return false;
-            } 
-        }
-        else
-        {
-            this.unreachable = true;
-             TurbineEventLoop.emit('log', 'error', `EX260Sx: Failed to ping, cancelling connection.`);
-            return false;
-        }
-    }
+			this.controller.close();
+		});
 
-    /**
-     * Unused read data function
-     * @unused
-     * @param _address 
-     * @param _word 
-     */
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    readData(_address: number, _word?: boolean | undefined): Promise<number> {
-        throw new Error("Method not implemented.");
-    }
+		this.connect();
+	}
 
-    //Shall only be used for local applications
-    async readData2(address: number): Promise<Buffer>
-    {
-        if(this.unreachable)
-            throw new Error("EX260Sx: Unreachable");
+	async connect(): Promise<boolean> {
+		if (this.connected) return true;
 
-        await this.connect();
+		if (this.unreachable) return false;
 
-        //Path for ethernet ip protocol
-        const idPath = Buffer.from([0x20, 0x04, 0x24, address, 0x30, 0x03]);
+		const available = await new Promise<boolean>((resolve) => {
+			ping.sys.probe(this.ip, (is_alive) => {
+				resolve(is_alive || false);
+			});
+		});
 
-        //Message router packet
-        const MR = MessageRouter.build(0x0E, idPath, Buffer.alloc(0));
+		if (available) {
+			const session_id = await this.controller.connect(this.ip);
 
-        //write data to the controller
-        const write = await this.controller.write(MR, false, 10);
+			if (session_id !== undefined) {
+				TurbineEventLoop.emit("log", "info", "EX260Sx: Connected");
+				this.connected = true;
+				return true;
+			} else {
+				TurbineEventLoop.emit("log", "error", "EX260Sx: Failed to connect");
+				TurbineEventLoop.emit(`pbr.stop`, "controllerError");
+				this.connected = false;
+				return false;
+			}
+		} else {
+			this.unreachable = true;
+			TurbineEventLoop.emit("log", "error", `EX260Sx: Failed to ping, cancelling connection.`);
+			return false;
+		}
+	}
 
-        if(!write)
-        {
-            TurbineEventLoop.emit('log', 'error', "EX260Sx: Failed to write data");
-            TurbineEventLoop.emit(`pbr.stop`, "controllerError");
-            return Buffer.alloc(0);
-        }
+	/**
+	 * Unused read data function
+	 * @unused
+	 * @param _address
+	 * @param _word
+	 */
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	readData(_address: number, _word?: boolean | undefined): Promise<number> {
+		throw new Error("Method not implemented.");
+	}
 
-        return callbackWithTimeout<Buffer>((resolve) => {
-            this.controller.events.once("SendRRData Received", (result: dataItem[]) => {
-                for(const packet of result)
-                {
-                    if(packet.TypeID == 178 && packet.data.length == (4 + (this.size / 8)) && packet.data.readUIntLE(0, 1) == 0x8E)
-                    {
-                        resolve(packet.data);
-                    }
-                }
-            });
-        }, 5000, "EX260Sx.readData2")
-    }
+	//Shall only be used for local applications
+	async read_data2(address: number): Promise<Buffer> {
+		if (this.unreachable) throw new Error("EX260Sx: Unreachable");
 
-    async writeData(address: number, value: number): Promise<void>
-    {
-        if(this.unreachable)
-            throw new Error("EX260Sx: Unreachable");
+		await this.connect();
 
-        await this.writeMutex.acquire();
-        try {
-            await this.connect();
+		//Path for ethernet ip protocol
+		const id_path = Buffer.from([0x20, 0x04, 0x24, address, 0x30, 0x03]);
 
-            //patch to prevent writing too early
-            await new Promise((resolve) => {
-                setTimeout(resolve, 50);
-            });
+		//Message router packet
+		const MR = MessageRouter.build(0x0e, id_path, Buffer.alloc(0));
 
-            //Path for ethernet ip protocol
-            const idPath = Buffer.from([0x20, 0x04, 0x24, 0x96, 0x30, 0x03]);
+		//write data to the controller
+		const write = await this.controller.write(MR, false, 10);
 
-            const res = await this.readData2(0x96);
+		if (!write) {
+			TurbineEventLoop.emit("log", "error", "EX260Sx: Failed to write data");
+			TurbineEventLoop.emit(`pbr.stop`, "controllerError");
+			return Buffer.alloc(0);
+		}
 
-            if(res.length === 0)
-                throw new Error("EX260Sx: Empty Data returned");
+		return callback_with_timeout<Buffer>(
+			(resolve) => {
+				this.controller.events.once("SendRRData Received", (result: dataItem[]) => {
+					for (const packet of result) {
+						if (packet.TypeID == 178 && packet.data.length == 4 + this.size / 8 && packet.data.readUIntLE(0, 1) == 0x8e) {
+							resolve(packet.data);
+						}
+					}
+				});
+			},
+			5000,
+			"EX260Sx.read_data2",
+		);
+	}
 
-            //Data to read deprends on size of the EX260
-            const result = res.readUIntLE(4, this.size / 8);
+	async writeData(address: number, value: number): Promise<void> {
+		if (this.unreachable) throw new Error("EX260Sx: Unreachable");
 
-            //Str binary array result depends on size of the EX260
-            const strBinaryArray = (this.size == 32) ? ("00000000000000000000000000000000" + result.toString(2)).slice(-32) : ("0000000000000000" + result.toString(2)).slice(-16);
+		await this.write_mutex.acquire();
+		try {
+			await this.connect();
 
-            //spliting string
-            const binaryArray = strBinaryArray.split("");
+			//patch to prevent writing too early
+			await new Promise((resolve) => {
+				setTimeout(resolve, 50);
+			});
 
-            const intArray: number[] = [];
+			//Path for ethernet ip protocol
+			const id_path = Buffer.from([0x20, 0x04, 0x24, 0x96, 0x30, 0x03]);
 
-            //replcing String to Int
-            binaryArray.forEach((part, index, array) => {
-                array[index] = part;
-                intArray[index] = parseInt(part);
-            });
+			const res = await this.read_data2(0x96);
 
-            //Setting the written data
-            for(let i = 0; i < binaryArray.length; i++)
-            {
-                //if the address is the same as the one we want to write
-                if(i == address)
-                    binaryArray[i] = value ? "1" : "0";
-            }
+			if (res.length === 0) throw new Error("EX260Sx: Empty Data returned");
 
-            //converting array of bit to long bit
-            const newOutputsStates = binaryArray.join("");
+			//Data to read deprends on size of the EX260
+			const result = res.readUIntLE(4, this.size / 8);
 
-            //convert bin array to int
-            const newDecimalOutputState = parseInt(newOutputsStates, 2);
+			//Str binary array result depends on size of the EX260
+			const str_binary_array =
+				this.size == 32 ? ("00000000000000000000000000000000" + result.toString(2)).slice(-32) : ("0000000000000000" + result.toString(2)).slice(-16);
 
-            const buf = Buffer.alloc(this.size / 8);
+			//spliting string
+			const binary_array = str_binary_array.split("");
 
-            if(this.size == 32)
-                buf.writeUInt32LE(newDecimalOutputState);
-            else
-                buf.writeUInt16LE(newDecimalOutputState);
+			const int_array: number[] = [];
 
-            //Message router packet
-            const MR = MessageRouter.build(0x10, idPath, buf);
+			//replcing String to Int
+			binary_array.forEach((part, index, array) => {
+				array[index] = part;
+				int_array[index] = parseInt(part);
+			});
 
-            //write data to the controller
-            const write = await this.controller.write(MR, false, 10);
+			//Setting the written data
+			for (let i = 0; i < binary_array.length; i++) {
+				//if the address is the same as the one we want to write
+				if (i == address) binary_array[i] = value ? "1" : "0";
+			}
 
-            if(write === false)
-            {
-                TurbineEventLoop.emit('log', 'warning', "EX260Sx: Failed to write data");
-                TurbineEventLoop.emit(`pbr.stop`, "controllerError");
-            }
-        } finally {
-            this.writeMutex.release();
-        }
-    }
-    
-    dispose(): void {
-        try {
-            this.controller.close();
-        } catch {
-            // best-effort close
-        }
-    }
+			//converting array of bit to long bit
+			const new_outputs_states = binary_array.join("");
 
-    toJSON()
-    {
-        return {
-            type: this.type,
-            ip: this.ip
-        }
-    }
+			//convert bin array to int
+			const new_decimal_output_state = parseInt(new_outputs_states, 2);
+
+			const buf = Buffer.alloc(this.size / 8);
+
+			if (this.size == 32) buf.writeUInt32LE(new_decimal_output_state);
+			else buf.writeUInt16LE(new_decimal_output_state);
+
+			//Message router packet
+			const MR = MessageRouter.build(0x10, id_path, buf);
+
+			//write data to the controller
+			const write = await this.controller.write(MR, false, 10);
+
+			if (write === false) {
+				TurbineEventLoop.emit("log", "warning", "EX260Sx: Failed to write data");
+				TurbineEventLoop.emit(`pbr.stop`, "controllerError");
+			}
+		} finally {
+			this.write_mutex.release();
+		}
+	}
+
+	dispose(): void {
+		try {
+			this.controller.close();
+		} catch {
+			// best-effort close
+		}
+	}
+
+	toJSON() {
+		return {
+			type: this.type,
+			ip: this.ip,
+		};
+	}
 }

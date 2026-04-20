@@ -21,7 +21,7 @@ export class IORouter implements IOBus {
 	private ioScannerInterval = 500;
 
 	/** Previous gate values for change detection */
-	private previousValues = new Map<string, number>();
+	private previous_values = new Map<string, number>();
 
 	constructor(handlers: IOHandlers[], gates: IOGates[]) {
 		// Register IO Handlers from their types
@@ -57,14 +57,14 @@ export class IORouter implements IOBus {
 			}
 		}
 
-		this.startIOScanner();
+		this.start_io_scanner();
 	}
 
 	/**
 	 * Starts The IO Scanner,
 	 * Scans the inputs to find their data from the Physical controllers
 	 */
-	public startIOScanner() {
+	public start_io_scanner() {
 		if (!this.timer) {
 			TurbineEventLoop.emit("log", "info", `IOScanner: Started with interval ${this.ioScannerInterval}ms`);
 
@@ -76,9 +76,9 @@ export class IORouter implements IOBus {
 				// Change detection: only emit ws.dirty if any input gate value changed
 				let changed = false;
 				for (const g of this.gates.filter((g) => g.bus === "in")) {
-					if (this.previousValues.get(g.name) !== g.value) {
+					if (this.previous_values.get(g.name) !== g.value) {
 						changed = true;
-						this.previousValues.set(g.name, g.value);
+						this.previous_values.set(g.name, g.value);
 					}
 				}
 				if (changed) {
@@ -88,7 +88,7 @@ export class IORouter implements IOBus {
 		}
 	}
 
-	public stopIOScanner() {
+	public stop_io_scanner() {
 		if (this.timer) clearInterval(this.timer);
 	}
 
@@ -117,30 +117,30 @@ export class IORouter implements IOBus {
 			);
 	}
 
-	async resetAll(): Promise<void> {
+	async reset_all(): Promise<void> {
 		for (const gate of this.gates.filter((g) => g.bus === "out")) {
 			await gate.write(gate.default);
 		}
 	}
 
-	getGateValue(gateName: string): number | undefined {
+	get_gate_value(gateName: string): number | undefined {
 		return this.gates.find((g) => g.name === gateName)?.value;
 	}
 
 	on(event: `updated.${string}`, listener: (gate: IOGateJSON) => void): void {
-		const ioEvent = event.replace("updated.", "io.updated.") as `io.updated.${string}`;
-		TurbineEventLoop.on(ioEvent, listener);
+		const io_event = event.replace("updated.", "io.updated.") as `io.updated.${string}`;
+		TurbineEventLoop.on(io_event, listener);
 	}
 
 	off(event: `updated.${string}`, listener: (gate: IOGateJSON) => void): void {
-		const ioEvent = event.replace("updated.", "io.updated.") as `io.updated.${string}`;
-		TurbineEventLoop.removeListener(ioEvent, listener);
+		const io_event = event.replace("updated.", "io.updated.") as `io.updated.${string}`;
+		TurbineEventLoop.removeListener(io_event, listener);
 	}
 
 	/**
 	 * Return the data towards the socket
 	 */
-	public get socketData(): IOGatesHydrated[] {
+	public get socket_data(): IOGatesHydrated[] {
 		return this.gates;
 	}
 }

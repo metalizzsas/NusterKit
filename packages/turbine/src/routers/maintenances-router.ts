@@ -8,8 +8,8 @@ import type { Maintenances } from "../types/spec/maintenances";
 export class MaintenanceRouter implements MaintenanceBus {
 	public tasks: (CountableMaintenance | SensorMaintenance)[] = [];
 
-	constructor(maintenanceTasks: Maintenances[]) {
-		const tasks: Array<Maintenances> = [...maintenanceTasks, { name: "cycleCount", durationType: "cycle", durationLimit: Number.MAX_VALUE }];
+	constructor(maintenance_tasks: Maintenances[]) {
+		const tasks: Array<Maintenances> = [...maintenance_tasks, { name: "cycleCount", durationType: "cycle", durationLimit: Number.MAX_VALUE }];
 
 		for (const task of tasks) {
 			switch (task.durationType) {
@@ -23,31 +23,31 @@ export class MaintenanceRouter implements MaintenanceBus {
 		}
 	}
 
-	public socketData(): MaintenanceHydrated[] {
+	public socket_data(): MaintenanceHydrated[] {
 		return this.tasks.map((k) => k.toJSON());
 	}
 
 	// --- MaintenanceBus interface implementation ---
 
-	read(taskName: string): MaintenanceHydrated | undefined {
-		const task = this.tasks.find((t) => t.name === taskName);
+	read(task_name: string): MaintenanceHydrated | undefined {
+		const task = this.tasks.find((t) => t.name === task_name);
 		return task?.toJSON();
 	}
 
-	append(taskName: string, value: number): void {
-		const task = this.tasks.find((t) => t.name === taskName);
+	append(task_name: string, value: number): void {
+		const task = this.tasks.find((t) => t.name === task_name);
 		if (task && "append" in task) {
 			(task as CountableMaintenance).append(value);
 		}
 	}
 
 	on(event: `updated.${string}`, listener: (m: MaintenanceHydrated) => void): void {
-		const taskName = event.replace("updated.", "");
-		TurbineEventLoop.on(`maintenance.updated.${taskName}`, listener);
+		const task_name = event.replace("updated.", "");
+		TurbineEventLoop.on(`maintenance.updated.${task_name}`, listener);
 	}
 
 	off(event: `updated.${string}`, listener: (m: MaintenanceHydrated) => void): void {
-		const taskName = event.replace("updated.", "");
-		TurbineEventLoop.removeListener(`maintenance.updated.${taskName}`, listener);
+		const task_name = event.replace("updated.", "");
+		TurbineEventLoop.removeListener(`maintenance.updated.${task_name}`, listener);
 	}
 }

@@ -1,18 +1,15 @@
 import type { StatusParameterBlocks } from "$types/spec/cycle/parameter";
 import { ParameterBlock } from "./parameter-block";
 
-export class StatusParameterBlock extends ParameterBlock<"error" | "warning" | "good">
-{
-    subscriber: ((data: "error" | "warning" | "good") => void) | undefined;
+export class StatusParameterBlock extends ParameterBlock<"error" | "warning" | "good"> {
+	subscriber: ((data: "error" | "warning" | "good") => void) | undefined;
 
-    constructor(obj: StatusParameterBlocks)
-    {
-        super(obj);
-    }
+	constructor(obj: StatusParameterBlocks) {
+		super(obj);
+	}
 
-    /** Subscribe to block data change */
-    subscribe(callback: (data: "error" | "warning" | "good") => void)
-    {
-        this.subscriber = callback;
-    }
+	/** Subscribe to block data change */
+	subscribe(callback: (data: "error" | "warning" | "good") => void) {
+		this.subscriber = callback;
+	}
 }

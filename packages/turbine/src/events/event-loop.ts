@@ -1,106 +1,105 @@
 import { EventEmitter } from "node:events";
-import type { ProfileHydrated } from "$types/hydrated/profiles";
-import type { PBRMode } from "$types/hydrated/cycle/program-block-runner-hydrated";
 import type { ContainerHydrated } from "$types/hydrated/containers";
-import type { MaintenanceHydrated } from "$types/hydrated/maintenance";
+import type { PBRMode } from "$types/hydrated/cycle/program-block-runner-hydrated";
 import type { IOGateJSON } from "$types/hydrated/io";
-import type { CallToAction, Popup } from "$types/spec/nuster";
+import type { MaintenanceHydrated } from "$types/hydrated/maintenance";
+import type { ProfileHydrated } from "$types/hydrated/profiles";
 import type { MachineSpecs } from "$types/index";
+import type { CallToAction, Popup } from "$types/spec/nuster";
 
-export class EventLoop extends EventEmitter implements EventLoopEmitter
-{
-    constructor()
-    {
-        super();
-        // Reduced from 50 after Phase 2 migration to direct service calls.
-        // Most events now go through PBRContext/ServiceRegistry. Remaining events:
-        // - log, nuster.modal, close (system-level, kept on TurbineEventLoop)
-        // - io.*, container.*, pbr.*, maintenance.*, machine.*, profile.read (fallback paths during transition)
-        this.setMaxListeners(30);
-    }
+export class EventLoop extends EventEmitter implements EventLoopEmitter {
+	constructor() {
+		super();
+		// Reduced from 50 after Phase 2 migration to direct service calls.
+		// Most events now go through PBRContext/ServiceRegistry. Remaining events:
+		// - log, nuster.modal, close (system-level, kept on TurbineEventLoop)
+		// - io.*, container.*, pbr.*, maintenance.*, machine.*, profile.read (fallback paths during transition)
+		this.setMaxListeners(30);
+	}
 
-    on<U extends keyof EventLoopEvents>(event: U, listener: EventLoopEvents[U]): this
-    {
-        return super.on(event, listener);
-    }
+	on<U extends keyof EventLoopEvents>(event: U, listener: EventLoopEvents[U]): this {
+		return super.on(event, listener);
+	}
 
-    once<U extends keyof EventLoopEvents>(event: U, listener: EventLoopEvents[U]): this
-    {
-        return super.once(event, listener);
-    }
+	once<U extends keyof EventLoopEvents>(event: U, listener: EventLoopEvents[U]): this {
+		return super.once(event, listener);
+	}
 
-    emit<U extends keyof EventLoopEvents>(event: U, ...args: Parameters<EventLoopEvents[U]>): boolean
-    {
-        return super.emit(event, ...args);
-    }
+	emit<U extends keyof EventLoopEvents>(event: U, ...args: Parameters<EventLoopEvents[U]>): boolean {
+		return super.emit(event, ...args);
+	}
 }
 
-export declare interface EventLoopEmitter extends EventEmitter
-{
-    on<U extends keyof EventLoopEvents>(event: U, listener: EventLoopEvents[U]): this;
-    once<U extends keyof EventLoopEvents>(event: U, listener: EventLoopEvents[U]): this;
+export declare interface EventLoopEmitter extends EventEmitter {
+	on<U extends keyof EventLoopEvents>(event: U, listener: EventLoopEvents[U]): this;
+	once<U extends keyof EventLoopEvents>(event: U, listener: EventLoopEvents[U]): this;
 
-    emit<U extends keyof EventLoopEvents>(event: U, ...args: Parameters<EventLoopEvents[U]>): boolean
+	emit<U extends keyof EventLoopEvents>(event: U, ...args: Parameters<EventLoopEvents[U]>): boolean;
 }
 /** Events Used in the `TurbineEventLoop` */
-interface EventLoopEvents
-{
-    /** IO Events */
-    [key: `io.updated.${string}`]: (gate: IOGateJSON) => void;
+interface EventLoopEvents {
+	/** IO Events */
+	[key: `io.updated.${string}`]: (gate: IOGateJSON) => void;
 
-    [key: `io.update.${string}`]: (options: { value: number, lock?: boolean, callback?: () => void | Promise<void> }) => void;
+	[key: `io.update.${string}`]: (options: { value: number; lock?: boolean; callback?: () => void | Promise<void> }) => void;
 
-    /** Container events */
-    [key: `container.read.${string}`]: (options: { callback?: (container: ContainerHydrated) => void | Promise<void> }) => void;
-    
-    [key: `container.load.${string}`]: (productSerie: string) => void;
-    [key: `container.unload.${string}`]: () => void;
-    [key: `container.updated.${string}`]: (container: ContainerHydrated) => void;
+	/** Container events */
+	[key: `container.read.${string}`]: (options: { callback?: (container: ContainerHydrated) => void | Promise<void> }) => void;
 
-    /** Regulation container events */
-    [key: `container.${string}.regulation.${string}.get_state`]: (options: {callback?: (state: boolean) => void | Promise<void> }) => void;
-    [key: `container.${string}.regulation.${string}.state_updated`]: (state: boolean) => void;
-    [key: `container.${string}.regulation.${string}.set_state`]: (options: {state: boolean, callback?: (state: boolean) => void | Promise<void>} ) => void;
+	[key: `container.load.${string}`]: (product_serie: string) => void;
+	[key: `container.unload.${string}`]: () => void;
+	[key: `container.updated.${string}`]: (container: ContainerHydrated) => void;
 
-    [key: `container.${string}.regulation.${string}.get_target`]: (options: {callback?: (target: number) => void | Promise<void> }) => void;
-    [key: `container.${string}.regulation.${string}.target_updated`]: (target: number) => void;
-    [key: `container.${string}.regulation.${string}.set_target`]: (options: {target: number, callback?: (target: number) => void | Promise<void>} ) => void;
+	/** Regulation container events */
+	[key: `container.${string}.regulation.${string}.get_state`]: (options: { callback?: (state: boolean) => void | Promise<void> }) => void;
+	[key: `container.${string}.regulation.${string}.state_updated`]: (state: boolean) => void;
+	[key: `container.${string}.regulation.${string}.set_state`]: (options: {
+		state: boolean;
+		callback?: (state: boolean) => void | Promise<void>;
+	}) => void;
 
-    /** Maintenance events */
-    [key: `maintenance.read.${string}`]: (options: {callback?: (maintenance: MaintenanceHydrated) => void | Promise<void> }) => void;
+	[key: `container.${string}.regulation.${string}.get_target`]: (options: { callback?: (target: number) => void | Promise<void> }) => void;
+	[key: `container.${string}.regulation.${string}.target_updated`]: (target: number) => void;
+	[key: `container.${string}.regulation.${string}.set_target`]: (options: {
+		target: number;
+		callback?: (target: number) => void | Promise<void>;
+	}) => void;
 
-    [key: `maintenance.append.${string}`]: (value: number) => void;
-    [key: `maintenance.updated.${string}`]: (maintenance: MaintenanceHydrated) => void;
+	/** Maintenance events */
+	[key: `maintenance.read.${string}`]: (options: { callback?: (maintenance: MaintenanceHydrated) => void | Promise<void> }) => void;
 
-    /** PBR Events */
-    "pbr.profile.read": (options: { callback?: (profile?: ProfileHydrated ) => void | Promise<void> }) => void;
+	[key: `maintenance.append.${string}`]: (value: number) => void;
+	[key: `maintenance.updated.${string}`]: (maintenance: MaintenanceHydrated) => void;
 
-    "pbr.status.update": (status: PBRMode) => void;
+	/** PBR Events */
+	"pbr.profile.read": (options: { callback?: (profile?: ProfileHydrated) => void | Promise<void> }) => void;
 
-    "pbr.timer.start": (timer: {name: string; timer: ReturnType<typeof setInterval>, enabled: boolean}) => void;
-    "pbr.timer.stop": (options: { timerName: string, callback?: (stopped: boolean) => void | Promise<void>}) => void;
-    "pbr.timer.exists": (options: { timerName: string, callback?: (exists: boolean) => void | Promise<void>}) => void;
+	"pbr.status.update": (status: PBRMode) => void;
 
-    "pbr.variable.write": (options: { name: string, value: number }) => void;
-    "pbr.variable.read": (options: { name: string, callback?: (value: number) => void | Promise<void> }) => void;
+	"pbr.timer.start": (timer: { name: string; timer: ReturnType<typeof setInterval>; enabled: boolean }) => void;
+	"pbr.timer.stop": (options: { timer_name: string; callback?: (stopped: boolean) => void | Promise<void> }) => void;
+	"pbr.timer.exists": (options: { timer_name: string; callback?: (exists: boolean) => void | Promise<void> }) => void;
 
-    "pbr.stop": (reason: string) => void;
-    "pbr.pause": () => void;
-    "pbr.resume": () => void;
-    "pbr.setPausable": (pausable: boolean) => void;
+	"pbr.variable.write": (options: { name: string; value: number }) => void;
+	"pbr.variable.read": (options: { name: string; callback?: (value: number) => void | Promise<void> }) => void;
 
-    [key: `pbr.step.${string}.stop`]: (reason?: string) => void;    
+	"pbr.stop": (reason: string) => void;
+	"pbr.pause": () => void;
+	"pbr.resume": () => void;
+	"pbr.set_pausable": (pausable: boolean) => void;
 
-    [key: `machine.read_variable.${string}`]: (options: { callback?: (value: number) => void | Promise<void> }) => void;
+	[key: `pbr.step.${string}.stop`]: (reason?: string) => void;
 
-    "log": (level: "trace" | "info" | "warning" | "error" | "fatal", message: string) => void;
+	[key: `machine.read_variable.${string}`]: (options: { callback?: (value: number) => void | Promise<void> }) => void;
 
-    "nuster.modal": (popup: Popup<CallToAction>) => void;
+	log: (level: "trace" | "info" | "warning" | "error" | "fatal", message: string) => void;
 
-    "close": () => void;
+	"nuster.modal": (popup: Popup<CallToAction>) => void;
 
-    "machine.config": (callback: (config: MachineSpecs) => void) => void;
+	close: () => void;
 
-    /** WebSocket dirty signal — marks a domain for broadcast */
-    "ws.dirty": (domain: "io" | "containers" | "cycle" | "maintenance" | "network") => void;
+	"machine.config": (callback: (config: MachineSpecs) => void) => void;
+
+	/** WebSocket dirty signal — marks a domain for broadcast */
+	"ws.dirty": (domain: "io" | "containers" | "cycle" | "maintenance" | "network") => void;
 }

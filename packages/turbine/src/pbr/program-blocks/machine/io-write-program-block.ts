@@ -32,7 +32,7 @@ export class IOWriteProgramBlock extends ProgramBlock {
 		super.execute();
 	}
 
-	static isIOWritePgB(obj: AllProgramBlocks): obj is IOWriteProgramBlockSpec {
+	static is_io_write_pg_b(obj: AllProgramBlocks): obj is IOWriteProgramBlockSpec {
 		return (obj as IOWriteProgramBlockSpec).io_write !== undefined;
 	}
 }

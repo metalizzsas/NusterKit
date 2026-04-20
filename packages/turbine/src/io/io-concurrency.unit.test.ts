@@ -1,14 +1,14 @@
-import { describe, test, expect, vi, afterEach } from "vitest";
-import { AsyncMutex } from "../utils/async-mutex";
-import { IOGate } from "./io-gates/io-gate";
+import { afterEach, describe, expect, test, vi } from "vitest";
 import type { IOBase } from "$types/spec/iohandlers";
 import { TurbineEventLoop } from "../events";
+import { AsyncMutex } from "../utils/async-mutex";
+import { IOGate } from "./io-gates/io-gate";
 
 afterEach(() => {
 	TurbineEventLoop.removeAllListeners();
 });
 
-function createMockController(): IOBase {
+function create_mock_controller(): IOBase {
 	return {
 		type: "wago" as const,
 		connected: true,
@@ -20,7 +20,7 @@ function createMockController(): IOBase {
 	};
 }
 
-function createTestGate(name: string, controller: IOBase): IOGate {
+function create_test_gate(name: string, controller: IOBase): IOGate {
 	return new IOGate(
 		{
 			name,
@@ -37,15 +37,11 @@ function createTestGate(name: string, controller: IOBase): IOGate {
 
 describe("IO concurrency", () => {
 	test("parallel writes on same gate are serialized by the gate (last write wins)", async () => {
-		const controller = createMockController();
-		const gate = createTestGate("valve#1", controller);
+		const controller = create_mock_controller();
+		const gate = create_test_gate("valve#1", controller);
 
 		// Fire multiple concurrent writes
-		const writes = Promise.all([
-			gate.write(1),
-			gate.write(0),
-			gate.write(1),
-		]);
+		const writes = Promise.all([gate.write(1), gate.write(0), gate.write(1)]);
 
 		await writes;
 
@@ -61,24 +57,20 @@ describe("IO concurrency", () => {
 
 		const task = async (id: number, delay: number) => {
 			await mutex.acquire();
-			await new Promise(resolve => setTimeout(resolve, delay));
+			await new Promise((resolve) => setTimeout(resolve, delay));
 			order.push(id);
 			mutex.release();
 		};
 
 		// Start 3 tasks concurrently — they should execute in order due to mutex
-		await Promise.all([
-			task(1, 30),
-			task(2, 10),
-			task(3, 10),
-		]);
+		await Promise.all([task(1, 30), task(2, 10), task(3, 10)]);
 
 		expect(order).toEqual([1, 2, 3]);
 	});
 
 	test("locked gate rejects non-forced writes via event", async () => {
-		const controller = createMockController();
-		const gate = createTestGate("heater#1", controller);
+		const controller = create_mock_controller();
+		const gate = create_test_gate("heater#1", controller);
 
 		gate.locked = true;
 
@@ -92,13 +84,13 @@ describe("IO concurrency", () => {
 	});
 
 	test("gate lock can be set and cleared via io.update event", async () => {
-		const controller = createMockController();
-		const gate = createTestGate("pump#1", controller);
+		const controller = create_mock_controller();
+		const gate = create_test_gate("pump#1", controller);
 
 		expect(gate.locked).toBe(false);
 
 		// Lock via event
-		await new Promise<void>(resolve => {
+		await new Promise<void>((resolve) => {
 			TurbineEventLoop.emit(`io.update.pump#1`, { value: 1, lock: true, callback: () => resolve() });
 		});
 
@@ -106,7 +98,7 @@ describe("IO concurrency", () => {
 		expect(gate.value).toBe(1);
 
 		// Unlock via event
-		await new Promise<void>(resolve => {
+		await new Promise<void>((resolve) => {
 			TurbineEventLoop.emit(`io.update.pump#1`, { value: 0, lock: false, callback: () => resolve() });
 		});
 
@@ -115,12 +107,12 @@ describe("IO concurrency", () => {
 	});
 
 	test("concurrent reads do not interfere with each other", async () => {
-		const controller = createMockController();
-		let callCount = 0;
+		const controller = create_mock_controller();
+		let call_count = 0;
 		(controller.readData as ReturnType<typeof vi.fn>).mockImplementation(async () => {
-			callCount++;
-			await new Promise(resolve => setTimeout(resolve, 10));
-			return callCount;
+			call_count++;
+			await new Promise((resolve) => setTimeout(resolve, 10));
+			return call_count;
 		});
 
 		const gate = new IOGate(
@@ -144,7 +136,7 @@ describe("IO concurrency", () => {
 	});
 
 	test("write to input gate is a no-op", async () => {
-		const controller = createMockController();
+		const controller = create_mock_controller();
 		const gate = new IOGate(
 			{
 				name: "sensor#2",

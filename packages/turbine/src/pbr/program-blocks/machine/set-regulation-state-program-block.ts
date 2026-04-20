@@ -17,18 +17,18 @@ export class SetRegulationStateProgramBlock extends ProgramBlock {
 	}
 
 	public async execute(): Promise<void> {
-		const containerName = this.container.data;
-		const regulationName = this.regulation.data;
-		const targetState = this.state.data === 1;
+		const container_name = this.container.data;
+		const regulation_name = this.regulation.data;
+		const target_state = this.state.data === 1;
 
-		this.ctx.logger.log("info", `RegulationSetStateProgramBlock: Will set ${containerName} regulation ${regulationName} to ${targetState}.`);
-		const result = await this.ctx.containers.setRegulationState(containerName, regulationName, targetState);
-		this.ctx.logger.log("info", `RegulationSetStateProgramBlock: Set ${containerName} regulation ${regulationName} to ${result}.`);
+		this.ctx.logger.log("info", `RegulationSetStateProgramBlock: Will set ${container_name} regulation ${regulation_name} to ${target_state}.`);
+		const result = await this.ctx.containers.set_regulation_state(container_name, regulation_name, target_state);
+		this.ctx.logger.log("info", `RegulationSetStateProgramBlock: Set ${container_name} regulation ${regulation_name} to ${result}.`);
 
 		super.execute();
 	}
 
-	static isSetRegulationStatePB(obj: AllProgramBlocks): obj is SetRegulationStateProgramBlockSpec {
+	static is_set_regulation_state_pb(obj: AllProgramBlocks): obj is SetRegulationStateProgramBlockSpec {
 		return (obj as SetRegulationStateProgramBlockSpec).set_regulation_state !== undefined;
 	}
 }

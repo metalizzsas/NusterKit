@@ -1,15 +1,15 @@
-import { ParameterBlockRegistry } from "../../parameter-blocks/parameter-block-registry";
-import type { AllProgramBlocks, StopProgramBlock as StopProgramBlockSpec } from "$types/spec/cycle/program";
 import type { StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/parameter-block-hydrated";
+import type { AllProgramBlocks, StopProgramBlock as StopProgramBlockSpec } from "$types/spec/cycle/program";
 import type { PBRContext } from "../../../services/pbr-context";
+import { ParameterBlockRegistry } from "../../parameter-blocks/parameter-block-registry";
 import { ProgramBlock } from "../program-block";
 
 export class StopProgramBlock extends ProgramBlock {
-	stopReason: StringParameterBlockHydrated;
+	stop_reason: StringParameterBlockHydrated;
 
 	constructor(obj: StopProgramBlockSpec, ctx: PBRContext) {
 		super(obj, ctx);
-		this.stopReason = ParameterBlockRegistry.String(obj.stop);
+		this.stop_reason = ParameterBlockRegistry.String(obj.stop);
 	}
 
 	public async execute(): Promise<void> {
@@ -18,11 +18,11 @@ export class StopProgramBlock extends ProgramBlock {
 			return;
 		}
 
-		this.ctx.stop(this.stopReason.data);
+		this.ctx.stop(this.stop_reason.data);
 		super.execute();
 	}
 
-	static isStopPgB(obj: AllProgramBlocks): obj is StopProgramBlockSpec {
+	static is_stop_pg_b(obj: AllProgramBlocks): obj is StopProgramBlockSpec {
 		return (obj as StopProgramBlockSpec).stop !== undefined;
 	}
 }

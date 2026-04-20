@@ -1,18 +1,18 @@
-import type { IOGateJSON } from "$types/hydrated/io";
 import type { ContainerHydrated } from "$types/hydrated/containers";
+import type { IOGateJSON } from "$types/hydrated/io";
 import type { MaintenanceHydrated } from "$types/hydrated/maintenance";
 import type { ProfileHydrated } from "$types/hydrated/profiles";
 import type { MachineSpecs } from "$types/index";
 
 /**
- * IOBus — replaces io.update.*, io.snapshot, io.resetAll events.
+ * IOBus — replaces io.update.*, io.snapshot, io.reset_all events.
  * Owns all IO gates, provides direct write/read methods + scoped fan-out for io.updated.*.
  */
 export interface IOBus {
 	write(gateName: string, value: number, lock?: boolean): Promise<void>;
 	snapshot(): Record<string, number>;
-	resetAll(): Promise<void>;
-	getGateValue(gateName: string): number | undefined;
+	reset_all(): Promise<void>;
+	get_gate_value(gateName: string): number | undefined;
 
 	on(event: `updated.${string}`, listener: (gate: IOGateJSON) => void): void;
 	off(event: `updated.${string}`, listener: (gate: IOGateJSON) => void): void;
@@ -22,14 +22,14 @@ export interface IOBus {
  * ContainerBus — replaces container.load/unload/read.* and regulation.* events.
  */
 export interface ContainerBus {
-	load(containerName: string, productSeries: string): Promise<void>;
-	unload(containerName: string): Promise<void>;
-	read(containerName: string): Promise<ContainerHydrated>;
+	load(container_name: string, product_series: string): Promise<void>;
+	unload(container_name: string): Promise<void>;
+	read(container_name: string): Promise<ContainerHydrated>;
 
-	getRegulationState(container: string, regulation: string): boolean;
-	setRegulationState(container: string, regulation: string, state: boolean): Promise<boolean>;
-	getRegulationTarget(container: string, regulation: string): number;
-	setRegulationTarget(container: string, regulation: string, target: number): Promise<number>;
+	get_regulation_state(container: string, regulation: string): boolean;
+	set_regulation_state(container: string, regulation: string, state: boolean): Promise<boolean>;
+	get_regulation_target(container: string, regulation: string): number;
+	set_regulation_target(container: string, regulation: string, target: number): Promise<number>;
 
 	on(event: `updated.${string}`, listener: (container: ContainerHydrated) => void): void;
 	off(event: `updated.${string}`, listener: (container: ContainerHydrated) => void): void;
@@ -43,8 +43,8 @@ export interface ContainerBus {
  * MaintenanceBus — replaces maintenance.read/append.* events.
  */
 export interface MaintenanceBus {
-	read(taskName: string): MaintenanceHydrated | undefined;
-	append(taskName: string, value: number): void;
+	read(task_name: string): MaintenanceHydrated | undefined;
+	append(task_name: string, value: number): void;
 
 	on(event: `updated.${string}`, listener: (m: MaintenanceHydrated) => void): void;
 	off(event: `updated.${string}`, listener: (m: MaintenanceHydrated) => void): void;
@@ -54,15 +54,15 @@ export interface MaintenanceBus {
  * ProfileService — replaces profile.read event.
  */
 export interface ProfileService {
-	findProfile(id: string): Promise<ProfileHydrated | undefined>;
+	find_profile(id: string): Promise<ProfileHydrated | undefined>;
 }
 
 /**
  * MachineService — replaces machine.read_variable.* and machine.config events.
  */
 export interface MachineService {
-	readVariable(name: string): number;
-	getConfig(): MachineSpecs;
+	read_variable(name: string): number;
+	get_config(): MachineSpecs;
 }
 
 /**

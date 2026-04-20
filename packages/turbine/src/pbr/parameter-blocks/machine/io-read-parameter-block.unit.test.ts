@@ -1,25 +1,25 @@
-import { test, expect } from "vitest";
-import { IOReadParameterBlock } from "./io-read-parameter-block";
-import { createMockPBRContext } from "../../test-utils";
+import { expect, test } from "vitest";
 import type { IOGateJSON } from "$types/hydrated/io/index";
+import { create_mock_pbr_context } from "../../test-utils";
+import { IOReadParameterBlock } from "./io-read-parameter-block";
 
 test("IOReadParameterBlock gets correct value from io.on listener", () => {
-	let registeredListener: ((gate: IOGateJSON) => void) | undefined;
+	let registered_listener: ((gate: IOGateJSON) => void) | undefined;
 
-	const ctx = createMockPBRContext({
+	const ctx = create_mock_pbr_context({
 		io: {
 			write: async () => {},
 			snapshot: () => ({}),
-			resetAll: async () => {},
-			getGateValue: () => 0,
+			reset_all: async () => {},
+			get_gate_value: () => 0,
 			on: (_event: string, listener: (gate: IOGateJSON) => void) => {
-				registeredListener = listener;
+				registered_listener = listener;
 			},
 			off: () => {},
 		},
 	});
 
-	const ioReadParameterBlock = new IOReadParameterBlock({ io_read: "test-gate" }, ctx);
+	const io_read_parameter_block = new IOReadParameterBlock({ io_read: "test-gate" }, ctx);
 
 	// Simulate gate update
 	const gate: IOGateJSON = {
@@ -33,12 +33,12 @@ test("IOReadParameterBlock gets correct value from io.on listener", () => {
 		bus: "in",
 	};
 
-	registeredListener!(gate);
-	expect(ioReadParameterBlock.data).toBe(1);
+	registered_listener!(gate);
+	expect(io_read_parameter_block.data).toBe(1);
 });
 
 test("IOReadParameterBlock starts at 0 before any update", () => {
-	const ctx = createMockPBRContext();
-	const ioReadParameterBlock = new IOReadParameterBlock({ io_read: "test-gate" }, ctx);
-	expect(ioReadParameterBlock.data).toBe(0);
+	const ctx = create_mock_pbr_context();
+	const io_read_parameter_block = new IOReadParameterBlock({ io_read: "test-gate" }, ctx);
+	expect(io_read_parameter_block.data).toBe(0);
 });

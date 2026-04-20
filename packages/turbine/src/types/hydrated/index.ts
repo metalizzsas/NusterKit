@@ -10,39 +10,38 @@ import type { ProfileHydrated } from "./profiles";
 export type WebsocketData = StatusMessage | PatchMessage | PopupMessage;
 
 type StatusMessage = {
-    type: "status",
-    message: Status
-}
+	type: "status";
+	message: Status;
+};
 
 type PatchMessage = {
-    type: "patch",
-    message: Partial<Status> & { cycle?: ProgramBlockRunnerHydrated | null }
-}
+	type: "patch";
+	message: Partial<Status> & { cycle?: ProgramBlockRunnerHydrated | null };
+};
 
 type PopupMessage = {
-    type: "popup",
-    message: Popup<CallToActionFront>
-}
+	type: "popup";
+	message: Popup<CallToActionFront>;
+};
 
 /** Realtime data */
 export interface Status {
-    cycle?: ProgramBlockRunnerHydrated;
+	cycle?: ProgramBlockRunnerHydrated;
 
-    /** Containers */
-    containers: ContainerHydrated[];
+	/** Containers */
+	containers: ContainerHydrated[];
 
-    /** IO hydrated */
-    io: IOGatesHydrated[];
+	/** IO hydrated */
+	io: IOGatesHydrated[];
 
-    /** Maintenance tasks */
-    maintenance: MaintenanceHydrated[];
+	/** Maintenance tasks */
+	maintenance: MaintenanceHydrated[];
 
-    /** Network data */
-    network: {
-        accessPoints: AccessPoint[];
-        devices: NetworkDevice[];
-    }
-
+	/** Network data */
+	network: {
+		accessPoints: AccessPoint[];
+		devices: NetworkDevice[];
+	};
 }
 
-export { MaintenanceHydrated, ContainerHydrated, IOGatesHydrated, ProgramBlockRunnerHydrated, ProfileHydrated };
+export type { ContainerHydrated, IOGatesHydrated, MaintenanceHydrated, ProfileHydrated, ProgramBlockRunnerHydrated };

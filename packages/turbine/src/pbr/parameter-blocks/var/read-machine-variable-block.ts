@@ -1,27 +1,27 @@
 import type { StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/parameter-block-hydrated";
 import type { AllParameterBlocks, ReadMachineVariableParameterBlock as ReadMachineVariableParameterBlockConfig } from "$types/spec/cycle/parameter";
 import type { PBRContext } from "../../../services/pbr-context";
-import { ParameterBlockRegistry } from "../parameter-block-registry";
 import { NumericParameterBlock } from "../numeric-parameter-block";
+import { ParameterBlockRegistry } from "../parameter-block-registry";
 
 export class ReadMachineVariableParameterBlock extends NumericParameterBlock {
-	private machineVariableName: StringParameterBlockHydrated;
+	private machine_variable_name: StringParameterBlockHydrated;
 	private ctx: PBRContext;
 
-	#variableValue = 0;
+	#variable_value = 0;
 
 	constructor(obj: ReadMachineVariableParameterBlockConfig, ctx: PBRContext) {
 		super(obj);
 		this.ctx = ctx;
-		this.machineVariableName = ParameterBlockRegistry.String(obj.read_machine_var);
-		this.#variableValue = this.ctx.machine.readVariable(this.machineVariableName.data);
+		this.machine_variable_name = ParameterBlockRegistry.String(obj.read_machine_var);
+		this.#variable_value = this.ctx.machine.read_variable(this.machine_variable_name.data);
 	}
 
 	public get data(): number {
-		return this.#variableValue;
+		return this.#variable_value;
 	}
 
-	static isReadMachineVariablePB(obj: AllParameterBlocks): obj is ReadMachineVariableParameterBlockConfig {
+	static is_read_machine_variable_pb(obj: AllParameterBlocks): obj is ReadMachineVariableParameterBlockConfig {
 		return (obj as ReadMachineVariableParameterBlockConfig).read_machine_var !== undefined;
 	}
 }

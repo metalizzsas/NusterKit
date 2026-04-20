@@ -1,5 +1,5 @@
-import { describe, test, expect, vi, afterEach } from "vitest";
-import { OPEN, CLOSED } from "ws";
+import { afterEach, describe, expect, test, vi } from "vitest";
+import { CLOSED, OPEN } from "ws";
 import { TurbineEventLoop } from "../events";
 
 afterEach(() => {
@@ -11,7 +11,7 @@ afterEach(() => {
  * The WebsocketDispatcher wraps ws.WebSocketServer — we mock its `clients` set.
  */
 
-function createMockSocket(readyState: number = OPEN) {
+function create_mock_socket(readyState: number = OPEN) {
 	return {
 		readyState,
 		send: vi.fn(),
@@ -21,10 +21,7 @@ function createMockSocket(readyState: number = OPEN) {
 
 describe("WebSocket broadcast logic", () => {
 	test("broadcastData sends to all OPEN clients", () => {
-		const clients = new Set([
-			createMockSocket(OPEN),
-			createMockSocket(OPEN),
-		]);
+		const clients = new Set([create_mock_socket(OPEN), create_mock_socket(OPEN)]);
 
 		const payload = JSON.stringify({ type: "status", message: { running: true } });
 
@@ -40,24 +37,24 @@ describe("WebSocket broadcast logic", () => {
 	});
 
 	test("broadcastData skips non-OPEN clients", () => {
-		const openClient = createMockSocket(OPEN);
-		const closedClient = createMockSocket(3); // ws.CLOSED = 3
+		const open_client = create_mock_socket(OPEN);
+		const closed_client = create_mock_socket(3); // ws.CLOSED = 3
 
 		const payload = JSON.stringify({ type: "status", message: { running: true } });
 
 		// Simulate broadcast filtering (same logic as WebsocketDispatcher.broadcastData)
-		for (const client of [openClient, closedClient]) {
+		for (const client of [open_client, closed_client]) {
 			if (client.readyState === OPEN) {
 				client.send(payload);
 			}
 		}
 
-		expect(openClient.send).toHaveBeenCalledWith(payload);
-		expect(closedClient.send).not.toHaveBeenCalled();
+		expect(open_client.send).toHaveBeenCalledWith(payload);
+		expect(closed_client.send).not.toHaveBeenCalled();
 	});
 
 	test("broadcast with empty client set does not throw", () => {
-		const clients = new Set<ReturnType<typeof createMockSocket>>();
+		const clients = new Set<ReturnType<typeof create_mock_socket>>();
 
 		expect(() => {
 			for (const client of clients) {
@@ -69,7 +66,7 @@ describe("WebSocket broadcast logic", () => {
 	});
 
 	test("broadcast serializes data as JSON with type and message", () => {
-		const client = createMockSocket(OPEN);
+		const client = create_mock_socket(OPEN);
 
 		const data = { status: "running", step: 3 };
 		const channel = "status";
@@ -83,7 +80,7 @@ describe("WebSocket broadcast logic", () => {
 	});
 
 	test("popup channel uses 'popup' type", () => {
-		const client = createMockSocket(OPEN);
+		const client = create_mock_socket(OPEN);
 
 		const popup = { title: "Update", message: "New version", level: "info" };
 

@@ -5,21 +5,21 @@ import { ParameterBlockRegistry } from "../../parameter-blocks/parameter-block-r
 import { ProgramBlock } from "../program-block";
 
 export class SetVariableProgramBlock extends ProgramBlock {
-	variableName: StringParameterBlockHydrated;
-	variableValue: NumericParameterBlockHydrated;
+	variable_name: StringParameterBlockHydrated;
+	variable_value: NumericParameterBlockHydrated;
 
 	constructor(obj: SetVariableProgramBlockSpec, ctx: PBRContext) {
 		super(obj, ctx);
-		this.variableName = ParameterBlockRegistry.String(obj.set_var[0]);
-		this.variableValue = ParameterBlockRegistry.Numeric(obj.set_var[1]);
+		this.variable_name = ParameterBlockRegistry.String(obj.set_var[0]);
+		this.variable_value = ParameterBlockRegistry.Numeric(obj.set_var[1]);
 	}
 
 	public async execute(): Promise<void> {
-		this.ctx.writeVariable(this.variableName.data, this.variableValue.data);
+		this.ctx.write_variable(this.variable_name.data, this.variable_value.data);
 		super.execute();
 	}
 
-	static isSetVariablePgB(obj: AllProgramBlocks): obj is SetVariableProgramBlockSpec {
+	static is_set_variable_pg_b(obj: AllProgramBlocks): obj is SetVariableProgramBlockSpec {
 		return (obj as SetVariableProgramBlockSpec).set_var !== undefined;
 	}
 }

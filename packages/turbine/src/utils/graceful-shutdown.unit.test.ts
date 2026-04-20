@@ -1,4 +1,4 @@
-import { describe, test, expect, vi, afterEach } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vitest";
 import { GracefulShutdown } from "./graceful-shutdown";
 
 afterEach(() => {
@@ -10,9 +10,15 @@ describe("GracefulShutdown", () => {
 		const order: string[] = [];
 		const shutdown = new GracefulShutdown();
 
-		shutdown.register("first", () => { order.push("first"); });
-		shutdown.register("second", () => { order.push("second"); });
-		shutdown.register("third", () => { order.push("third"); });
+		shutdown.register("first", () => {
+			order.push("first");
+		});
+		shutdown.register("second", () => {
+			order.push("second");
+		});
+		shutdown.register("third", () => {
+			order.push("third");
+		});
 
 		await shutdown.shutdown();
 
@@ -23,9 +29,15 @@ describe("GracefulShutdown", () => {
 		const order: string[] = [];
 		const shutdown = new GracefulShutdown();
 
-		shutdown.register("a", () => { order.push("a"); });
-		shutdown.register("b", () => { throw new Error("b failed"); });
-		shutdown.register("c", () => { order.push("c"); });
+		shutdown.register("a", () => {
+			order.push("a");
+		});
+		shutdown.register("b", () => {
+			throw new Error("b failed");
+		});
+		shutdown.register("c", () => {
+			order.push("c");
+		});
 
 		await shutdown.shutdown();
 
@@ -36,7 +48,9 @@ describe("GracefulShutdown", () => {
 		let count = 0;
 		const shutdown = new GracefulShutdown();
 
-		shutdown.register("resource", () => { count++; });
+		shutdown.register("resource", () => {
+			count++;
+		});
 
 		await shutdown.shutdown();
 		await shutdown.shutdown();
@@ -48,8 +62,12 @@ describe("GracefulShutdown", () => {
 		const order: string[] = [];
 		const shutdown = new GracefulShutdown();
 
-		shutdown.register("keep", () => { order.push("keep"); });
-		shutdown.register("remove", () => { order.push("remove"); });
+		shutdown.register("keep", () => {
+			order.push("keep");
+		});
+		shutdown.register("remove", () => {
+			order.push("remove");
+		});
 
 		shutdown.unregister("remove");
 
@@ -63,7 +81,7 @@ describe("GracefulShutdown", () => {
 		const shutdown = new GracefulShutdown();
 
 		shutdown.register("async-resource", async () => {
-			await new Promise(resolve => setTimeout(resolve, 10));
+			await new Promise((resolve) => setTimeout(resolve, 10));
 			order.push("async-done");
 		});
 
@@ -76,16 +94,20 @@ describe("GracefulShutdown", () => {
 		vi.useFakeTimers();
 		const shutdown = new GracefulShutdown();
 
-		shutdown.register("hanging", () => new Promise(() => {
-			// never resolves
-		}));
+		shutdown.register(
+			"hanging",
+			() =>
+				new Promise(() => {
+					// never resolves
+				}),
+		);
 
-		const shutdownPromise = shutdown.shutdown();
+		const shutdown_promise = shutdown.shutdown();
 
 		// Advance past the 10s timeout
 		vi.advanceTimersByTime(11_000);
 
-		await shutdownPromise;
+		await shutdown_promise;
 		// Should complete without hanging (timeout catches it)
 
 		vi.useRealTimers();

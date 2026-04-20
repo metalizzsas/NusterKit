@@ -1,10 +1,10 @@
-import { describe, test, expect, vi, afterEach, beforeEach } from "vitest";
-import { ProgramBlockRunner } from "./program-block-runner";
-import { TurbineEventLoop } from "../events";
-import { createMockServiceRegistry } from "./test-utils";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import type { ProgramBlockRunner as PBRConfig } from "$types/spec/cycle/program-block-runner";
+import { TurbineEventLoop } from "../events";
+import { ProgramBlockRunner } from "./program-block-runner";
+import { create_mock_service_registry } from "./test-utils";
 
-const serviceRegistry = createMockServiceRegistry();
+const service_registry = create_mock_service_registry();
 
 // Suppress log noise during tests
 beforeEach(() => {
@@ -17,7 +17,7 @@ afterEach(() => {
 });
 
 /** Minimal PBR config with a single step containing a short sleep block */
-function createMinimalConfig(overrides?: Partial<PBRConfig>): PBRConfig {
+function create_minimal_config(overrides?: Partial<PBRConfig>): PBRConfig {
 	return {
 		name: "test-cycle",
 		profileRequired: false,
@@ -29,9 +29,7 @@ function createMinimalConfig(overrides?: Partial<PBRConfig>): PBRConfig {
 				isEnabled: 1,
 				startBlocks: [],
 				endBlocks: [],
-				blocks: [
-					{ sleep: 0.05 },
-				],
+				blocks: [{ sleep: 0.05 }],
 			},
 		],
 		...overrides,
@@ -39,26 +37,22 @@ function createMinimalConfig(overrides?: Partial<PBRConfig>): PBRConfig {
 }
 
 /** Config with 2 steps for step-sequencing tests */
-function createMultiStepConfig(): PBRConfig {
-	return createMinimalConfig({
+function create_multi_step_config(): PBRConfig {
+	return create_minimal_config({
 		steps: [
 			{
 				name: "step-1",
 				isEnabled: 1,
 				startBlocks: [],
 				endBlocks: [],
-				blocks: [
-					{ sleep: 0.05 },
-				],
+				blocks: [{ sleep: 0.05 }],
 			},
 			{
 				name: "step-2",
 				isEnabled: 1,
 				startBlocks: [],
 				endBlocks: [],
-				blocks: [
-					{ sleep: 0.05 },
-				],
+				blocks: [{ sleep: 0.05 }],
 			},
 		],
 	});
@@ -66,7 +60,7 @@ function createMultiStepConfig(): PBRConfig {
 
 describe("ProgramBlockRunner lifecycle", () => {
 	test("constructor sets status to 'created'", () => {
-		const pbr = new ProgramBlockRunner(createMinimalConfig(), undefined, serviceRegistry);
+		const pbr = new ProgramBlockRunner(create_minimal_config(), undefined, service_registry);
 		expect(pbr.status.mode).toBe("created");
 		pbr.dispose();
 	});
@@ -75,7 +69,7 @@ describe("ProgramBlockRunner lifecycle", () => {
 		const modes: string[] = [];
 		TurbineEventLoop.on("pbr.status.update", (mode: string) => modes.push(mode));
 
-		const pbr = new ProgramBlockRunner(createMinimalConfig(), undefined, serviceRegistry);
+		const pbr = new ProgramBlockRunner(create_minimal_config(), undefined, service_registry);
 		await pbr.run();
 
 		expect(modes).toContain("created");
@@ -86,7 +80,7 @@ describe("ProgramBlockRunner lifecycle", () => {
 	});
 
 	test("run() executes steps in sequence", async () => {
-		const pbr = new ProgramBlockRunner(createMultiStepConfig(), undefined, serviceRegistry);
+		const pbr = new ProgramBlockRunner(create_multi_step_config(), undefined, service_registry);
 		await pbr.run();
 
 		expect(pbr.status.mode).toBe("ended");
@@ -96,57 +90,61 @@ describe("ProgramBlockRunner lifecycle", () => {
 
 	test("end() with reason transitions to ending → ended after dispose", async () => {
 		// Use a longer sleep so we have time to end it
-		const config = createMinimalConfig({
-			steps: [{
-				name: "step-1",
-				isEnabled: 1,
-				startBlocks: [],
-				endBlocks: [],
-				blocks: [{ sleep: 1 }],
-			}],
+		const config = create_minimal_config({
+			steps: [
+				{
+					name: "step-1",
+					isEnabled: 1,
+					startBlocks: [],
+					endBlocks: [],
+					blocks: [{ sleep: 1 }],
+				},
+			],
 		});
-		const pbr = new ProgramBlockRunner(config, undefined, serviceRegistry);
+		const pbr = new ProgramBlockRunner(config, undefined, service_registry);
 
 		// Register listener BEFORE run() to avoid race
-		const startedPromise = new Promise<void>(resolve => {
+		const started_promise = new Promise<void>((resolve) => {
 			TurbineEventLoop.on("pbr.status.update", (mode: string) => {
 				if (mode === "started") resolve();
 			});
 		});
 
-		const runPromise = pbr.run();
-		await startedPromise;
+		const run_promise = pbr.run();
+		await started_promise;
 
 		pbr.end("user");
-		await runPromise;
+		await run_promise;
 
 		expect(pbr.status.mode).toBe("ended");
 		expect(pbr.status.endReason).toBe("user");
 	}, 10000);
 
 	test("end() via pbr.stop event works", async () => {
-		const config = createMinimalConfig({
-			steps: [{
-				name: "step-1",
-				isEnabled: 1,
-				startBlocks: [],
-				endBlocks: [],
-				blocks: [{ sleep: 1 }],
-			}],
+		const config = create_minimal_config({
+			steps: [
+				{
+					name: "step-1",
+					isEnabled: 1,
+					startBlocks: [],
+					endBlocks: [],
+					blocks: [{ sleep: 1 }],
+				},
+			],
 		});
-		const pbr = new ProgramBlockRunner(config, undefined, serviceRegistry);
+		const pbr = new ProgramBlockRunner(config, undefined, service_registry);
 
-		const startedPromise = new Promise<void>(resolve => {
+		const started_promise = new Promise<void>((resolve) => {
 			TurbineEventLoop.on("pbr.status.update", (mode: string) => {
 				if (mode === "started") resolve();
 			});
 		});
 
-		const runPromise = pbr.run();
-		await startedPromise;
+		const run_promise = pbr.run();
+		await started_promise;
 
 		TurbineEventLoop.emit("pbr.stop", "emergency");
-		await runPromise;
+		await run_promise;
 
 		expect(pbr.status.mode).toBe("ended");
 		expect(pbr.status.endReason).toBe("emergency");
@@ -154,102 +152,106 @@ describe("ProgramBlockRunner lifecycle", () => {
 
 	test("pause → resume cycle works on a pausable PBR", async () => {
 		const pbr = new ProgramBlockRunner(
-			createMinimalConfig({
-				steps: [{
-					name: "long-step",
-					isEnabled: 1,
-					startBlocks: [],
-					endBlocks: [],
-					blocks: [{ sleep: 3 }],
-				}],
+			create_minimal_config({
+				steps: [
+					{
+						name: "long-step",
+						isEnabled: 1,
+						startBlocks: [],
+						endBlocks: [],
+						blocks: [{ sleep: 3 }],
+					},
+				],
 			}),
 			undefined,
-			serviceRegistry,
+			service_registry,
 		);
 
-		const startedPromise = new Promise<void>(resolve => {
+		const started_promise = new Promise<void>((resolve) => {
 			TurbineEventLoop.on("pbr.status.update", (mode: string) => {
 				if (mode === "started") resolve();
 			});
 		});
 
-		const runPromise = pbr.run();
-		await startedPromise;
+		const run_promise = pbr.run();
+		await started_promise;
 
 		expect(pbr.status.mode).toBe("started");
 
 		// Pause
 		TurbineEventLoop.emit("pbr.pause");
-		await new Promise(r => setTimeout(r, 100));
+		await new Promise((r) => setTimeout(r, 100));
 		expect(pbr.status.mode).toBe("paused");
 
 		// Resume
 		TurbineEventLoop.emit("pbr.resume");
-		await new Promise(r => setTimeout(r, 100));
+		await new Promise((r) => setTimeout(r, 100));
 		expect(pbr.status.mode).toBe("started");
 
 		// End the cycle
 		pbr.end("test-done");
-		await runPromise;
+		await run_promise;
 
 		expect(pbr.status.mode).toBe("ended");
-		expect(pbr.totalPausedTime).toBeGreaterThan(0);
+		expect(pbr.total_paused_time).toBeGreaterThan(0);
 	}, 15000);
 
 	test("pause on non-pausable PBR is ignored", async () => {
-		const config = createMinimalConfig({
+		const config = create_minimal_config({
 			pausable: undefined,
-			steps: [{
-				name: "step-1",
-				isEnabled: 1,
-				startBlocks: [],
-				endBlocks: [],
-				blocks: [{ sleep: 1 }],
-			}],
+			steps: [
+				{
+					name: "step-1",
+					isEnabled: 1,
+					startBlocks: [],
+					endBlocks: [],
+					blocks: [{ sleep: 1 }],
+				},
+			],
 		});
-		const pbr = new ProgramBlockRunner(config, undefined, serviceRegistry);
+		const pbr = new ProgramBlockRunner(config, undefined, service_registry);
 
-		const startedPromise = new Promise<void>(resolve => {
+		const started_promise = new Promise<void>((resolve) => {
 			TurbineEventLoop.on("pbr.status.update", (mode: string) => {
 				if (mode === "started") resolve();
 			});
 		});
 
-		const runPromise = pbr.run();
-		await startedPromise;
+		const run_promise = pbr.run();
+		await started_promise;
 
 		TurbineEventLoop.emit("pbr.pause");
-		await new Promise(r => setTimeout(r, 50));
+		await new Promise((r) => setTimeout(r, 50));
 		expect(pbr.status.mode).toBe("started"); // still started, not paused
 
 		pbr.end("done");
-		await runPromise;
+		await run_promise;
 	}, 10000);
 
 	test("dispose removes PBR event listeners from TurbineEventLoop", () => {
-		const pbrEvents = ["pbr.pause", "pbr.resume", "pbr.setPausable", "pbr.stop"] as const;
+		const pbr_events = ["pbr.pause", "pbr.resume", "pbr.set_pausable", "pbr.stop"] as const;
 
-		const beforeCounts = pbrEvents.map(e => TurbineEventLoop.listenerCount(e));
+		const before_counts = pbr_events.map((e) => TurbineEventLoop.listenerCount(e));
 
-		const pbr = new ProgramBlockRunner(createMinimalConfig(), undefined, serviceRegistry);
+		const pbr = new ProgramBlockRunner(create_minimal_config(), undefined, service_registry);
 
 		// Each event should have at least 1 more listener
-		const duringCounts = pbrEvents.map(e => TurbineEventLoop.listenerCount(e));
-		for (let i = 0; i < pbrEvents.length; i++) {
-			expect(duringCounts[i]).toBeGreaterThan(beforeCounts[i]);
+		const during_counts = pbr_events.map((e) => TurbineEventLoop.listenerCount(e));
+		for (let i = 0; i < pbr_events.length; i++) {
+			expect(during_counts[i]).toBeGreaterThan(before_counts[i]);
 		}
 
 		pbr.dispose();
 
 		// All listeners should be back to pre-PBR counts
-		const afterCounts = pbrEvents.map(e => TurbineEventLoop.listenerCount(e));
-		for (let i = 0; i < pbrEvents.length; i++) {
-			expect(afterCounts[i]).toBe(beforeCounts[i]);
+		const after_counts = pbr_events.map((e) => TurbineEventLoop.listenerCount(e));
+		for (let i = 0; i < pbr_events.length; i++) {
+			expect(after_counts[i]).toBe(before_counts[i]);
 		}
 	});
 
 	test("dispose clears all PBR timers", async () => {
-		const pbr = new ProgramBlockRunner(createMinimalConfig(), undefined, serviceRegistry);
+		const pbr = new ProgramBlockRunner(create_minimal_config(), undefined, service_registry);
 
 		// Simulate a timer being registered
 		const timer = { name: "test-timer", enabled: true, value: 0, timer: setInterval(() => {}, 1000) };
@@ -262,20 +264,20 @@ describe("ProgramBlockRunner lifecycle", () => {
 	});
 
 	test("variables can be read and written via ctx", () => {
-		const pbr = new ProgramBlockRunner(createMinimalConfig(), undefined, serviceRegistry);
+		const pbr = new ProgramBlockRunner(create_minimal_config(), undefined, service_registry);
 
 		// Write
-		pbr.ctx!.writeVariable("myVar", 42);
+		pbr.ctx!.write_variable("myVar", 42);
 
 		// Read
-		const value = pbr.ctx!.readVariable("myVar");
+		const value = pbr.ctx!.read_variable("myVar");
 		expect(value).toBe(42);
 
 		pbr.dispose();
 	});
 
 	test("startDate and endDate are set during lifecycle", async () => {
-		const pbr = new ProgramBlockRunner(createMinimalConfig(), undefined, serviceRegistry);
+		const pbr = new ProgramBlockRunner(create_minimal_config(), undefined, service_registry);
 		expect(pbr.status.startDate).toBeUndefined();
 
 		await pbr.run();

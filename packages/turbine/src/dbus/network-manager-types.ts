@@ -940,5 +940,5 @@ export const NetworkManagerTypes = {
 		 * @type {Number}
 		 */
 		BLOCK_AUTOCONNECT: null, // (1LL
-	}
-}
+	},
+};

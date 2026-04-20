@@ -1,6 +1,6 @@
+import type { PBRContext } from "../../services/pbr-context";
 import type { ProgramBlockHydrated } from "../../types/hydrated/cycle/blocks/program-block-hydrated";
 import type { AllProgramBlocks } from "../../types/spec/cycle/program";
-import type { PBRContext } from "../../services/pbr-context";
 
 export class ProgramBlock implements ProgramBlockHydrated {
 	readonly name: string;
@@ -12,24 +12,34 @@ export class ProgramBlock implements ProgramBlockHydrated {
 
 	protected ctx: PBRContext;
 
-	private _onStop: () => void;
-	private _onStatusUpdate: (state: string) => void;
-	private _onPause: () => void;
-	private _onResume: () => void;
+	private _on_stop: () => void;
+	private _on_status_update: (state: string) => void;
+	private _on_pause: () => void;
+	private _on_resume: () => void;
 
 	constructor(obj: AllProgramBlocks, ctx: PBRContext) {
 		this.name = Object.keys(obj)[0];
 		this.ctx = ctx;
 
-		this._onStop = () => { this.earlyExit = true; };
-		this._onStatusUpdate = (state) => { if (state === "ended" || state === "ending") { this.earlyExit = true; } };
-		this._onPause = () => { this.paused = true; };
-		this._onResume = () => { this.paused = false; };
+		this._on_stop = () => {
+			this.earlyExit = true;
+		};
+		this._on_status_update = (state) => {
+			if (state === "ended" || state === "ending") {
+				this.earlyExit = true;
+			}
+		};
+		this._on_pause = () => {
+			this.paused = true;
+		};
+		this._on_resume = () => {
+			this.paused = false;
+		};
 
-		this.ctx.pbrEmitter.on("stop", this._onStop);
-		this.ctx.pbrEmitter.on("status.update", this._onStatusUpdate);
-		this.ctx.pbrEmitter.on("pause", this._onPause);
-		this.ctx.pbrEmitter.on("resume", this._onResume);
+		this.ctx.pbr_emitter.on("stop", this._on_stop);
+		this.ctx.pbr_emitter.on("status.update", this._on_status_update);
+		this.ctx.pbr_emitter.on("pause", this._on_pause);
+		this.ctx.pbr_emitter.on("resume", this._on_resume);
 	}
 
 	/** Execute function */
@@ -40,13 +50,13 @@ export class ProgramBlock implements ProgramBlockHydrated {
 
 	/** Remove event listeners registered by this block */
 	dispose(): void {
-		this.ctx.pbrEmitter.off("stop", this._onStop);
-		this.ctx.pbrEmitter.off("status.update", this._onStatusUpdate);
-		this.ctx.pbrEmitter.off("pause", this._onPause);
-		this.ctx.pbrEmitter.off("resume", this._onResume);
+		this.ctx.pbr_emitter.off("stop", this._on_stop);
+		this.ctx.pbr_emitter.off("status.update", this._on_status_update);
+		this.ctx.pbr_emitter.off("pause", this._on_pause);
+		this.ctx.pbr_emitter.off("resume", this._on_resume);
 	}
 
 	toJSON() {
-		return { ...this, pbrInstance: undefined };
+		return { ...this, pbr_instance: undefined };
 	}
 }

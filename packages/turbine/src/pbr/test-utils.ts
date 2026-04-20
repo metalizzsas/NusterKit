@@ -1,19 +1,19 @@
-import type { PBRContext, PBREmitterEvents } from "../services/pbr-context";
 import type { ServiceRegistry } from "../services/interfaces";
+import type { PBRContext, PBREmitterEvents } from "../services/pbr-context";
 import { ScopedEmitter } from "../services/scoped-emitter";
 
 /**
  * Creates a minimal mock PBRContext for unit tests.
  */
-export function createMockPBRContext(overrides?: Partial<PBRContext>): PBRContext {
-	const pbrEmitter = new ScopedEmitter<PBREmitterEvents>();
+export function create_mock_pbr_context(overrides?: Partial<PBRContext>): PBRContext {
+	const pbr_emitter = new ScopedEmitter<PBREmitterEvents>();
 
 	return {
 		io: {
 			write: async () => {},
 			snapshot: () => ({}),
-			resetAll: async () => {},
-			getGateValue: () => 0,
+			reset_all: async () => {},
+			get_gate_value: () => 0,
 			on: () => {},
 			off: () => {},
 		},
@@ -21,10 +21,10 @@ export function createMockPBRContext(overrides?: Partial<PBRContext>): PBRContex
 			load: async () => {},
 			unload: async () => {},
 			read: async () => undefined as never,
-			setRegulationState: async () => false,
-			getRegulationState: () => false,
-			getRegulationTarget: () => 0,
-			setRegulationTarget: async () => 0,
+			set_regulation_state: async () => false,
+			get_regulation_state: () => false,
+			get_regulation_target: () => 0,
+			set_regulation_target: async () => 0,
 			on: () => {},
 			off: () => {},
 		},
@@ -35,23 +35,23 @@ export function createMockPBRContext(overrides?: Partial<PBRContext>): PBRContex
 			off: () => {},
 		},
 		profiles: {
-			findProfile: async () => undefined,
+			find_profile: async () => undefined,
 		},
 		machine: {
-			getConfig: () => ({ profileSkeletons: [] }) as never,
-			readVariable: () => 0,
+			get_config: () => ({ profileSkeletons: [] }) as never,
+			read_variable: () => 0,
 		},
 		logger: {
 			log: () => {},
 		},
-		pbrEmitter,
-		readVariable: () => 0,
-		writeVariable: () => {},
-		readProfile: () => undefined,
-		timerExists: () => false,
-		timerStart: () => {},
-		timerStop: () => false,
-		setPausable: () => {},
+		pbr_emitter,
+		read_variable: () => 0,
+		write_variable: () => {},
+		read_profile: () => undefined,
+		timer_exists: () => false,
+		timer_start: () => {},
+		timer_stop: () => false,
+		set_pausable: () => {},
 		stop: () => {},
 		...overrides,
 	} as PBRContext;
@@ -60,13 +60,13 @@ export function createMockPBRContext(overrides?: Partial<PBRContext>): PBRContex
 /**
  * Creates a minimal mock ServiceRegistry for ProgramBlockRunner tests.
  */
-export function createMockServiceRegistry(overrides?: Partial<ServiceRegistry>): ServiceRegistry {
+export function create_mock_service_registry(overrides?: Partial<ServiceRegistry>): ServiceRegistry {
 	return {
 		io: {
 			write: async () => {},
 			snapshot: () => ({}),
-			resetAll: async () => {},
-			getGateValue: () => 0,
+			reset_all: async () => {},
+			get_gate_value: () => 0,
 			on: () => {},
 			off: () => {},
 		},
@@ -74,10 +74,10 @@ export function createMockServiceRegistry(overrides?: Partial<ServiceRegistry>):
 			load: async () => {},
 			unload: async () => {},
 			read: async () => undefined as never,
-			setRegulationState: async () => false,
-			getRegulationState: () => false,
-			getRegulationTarget: () => 0,
-			setRegulationTarget: async () => 0,
+			set_regulation_state: async () => false,
+			get_regulation_state: () => false,
+			get_regulation_target: () => 0,
+			set_regulation_target: async () => 0,
 			on: () => {},
 			off: () => {},
 		},
@@ -88,11 +88,11 @@ export function createMockServiceRegistry(overrides?: Partial<ServiceRegistry>):
 			off: () => {},
 		},
 		profiles: {
-			findProfile: async () => undefined,
+			find_profile: async () => undefined,
 		},
 		machine: {
-			getConfig: () => ({ profileSkeletons: [] }) as never,
-			readVariable: () => 0,
+			get_config: () => ({ profileSkeletons: [] }) as never,
+			read_variable: () => 0,
 		},
 		logger: {
 			log: () => {},

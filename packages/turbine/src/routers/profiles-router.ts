@@ -22,7 +22,7 @@ export class ProfilesRouter implements ProfileService {
 			.deleteMany({ where: { isPremade: true } })
 			.then(async () => {
 				for (const p of profilePremades) {
-					const profileBase = await prisma.profile.create({
+					const profile_base = await prisma.profile.create({
 						data: {
 							id: p.id,
 							name: p.name,
@@ -37,7 +37,7 @@ export class ProfilesRouter implements ProfileService {
 							data: {
 								key: value.key,
 								value: value.value,
-								profileId: profileBase.id,
+								profileId: profile_base.id,
 							},
 						});
 					}
@@ -50,18 +50,18 @@ export class ProfilesRouter implements ProfileService {
 
 	/**
 	 * Hydrate the profile with its skeleton
-	 * @param profileStored Profile to hydrate from
+	 * @param profile_stored Profile to hydrate from
 	 * @returns The profile hydrated
 	 */
-	public hydrateProfile(profileStored: ProfileStored): ProfileHydrated {
+	public hydrate_profile(profile_stored: ProfileStored): ProfileHydrated {
 		// Find the skeleton assignated to this profile
-		const profileSkeleton = structuredClone(this.profileSkeletons.get(profileStored.skeleton));
+		const profile_skeleton = structuredClone(this.profileSkeletons.get(profile_stored.skeleton));
 
 		// Make sure that we have the skeleton for this profile
-		if (profileSkeleton !== undefined) {
-			const clonedProfileValues = profileSkeleton.fields
+		if (profile_skeleton !== undefined) {
+			const cloned_profile_values = profile_skeleton.fields
 				.map((f) => {
-					return { ...f, value: profileStored.values.find((v) => v.key == f.name)?.value };
+					return { ...f, value: profile_stored.values.find((v) => v.key == f.name)?.value };
 				})
 				.filter((f) => f.value !== undefined) as ProfileSkeletonFields[];
 
@@ -69,25 +69,25 @@ export class ProfilesRouter implements ProfileService {
 			// If not check all fields and add the missing ones.
 			// This is usefull when profile are updated to newer skeleton with addtional fields
 
-			const skeletonFieldNames = profileSkeleton.fields.flatMap((f) => f.name);
+			const skeleton_field_names = profile_skeleton.fields.flatMap((f) => f.name);
 
-			for (const sfn of skeletonFieldNames) {
-				if (clonedProfileValues.find((v) => v.name == sfn) === undefined) {
-					const fieldToAdd = profileSkeleton.fields.find((f) => f.name == sfn);
+			for (const sfn of skeleton_field_names) {
+				if (cloned_profile_values.find((v) => v.name == sfn) === undefined) {
+					const field_to_add = profile_skeleton.fields.find((f) => f.name == sfn);
 
-					if (fieldToAdd === undefined) throw new Error(`Could not find field ${sfn} in skeleton ${profileSkeleton.name}`);
+					if (field_to_add === undefined) throw new Error(`Could not find field ${sfn} in skeleton ${profile_skeleton.name}`);
 
-					clonedProfileValues.push(fieldToAdd);
+					cloned_profile_values.push(field_to_add);
 				}
 			}
 
 			return {
-				...profileStored,
-				values: clonedProfileValues.filter((f) => skeletonFieldNames.includes(f.name)),
+				...profile_stored,
+				values: cloned_profile_values.filter((f) => skeleton_field_names.includes(f.name)),
 			};
 		}
 
-		throw new Error(`Could not find skeleton for profile ${profileStored.name}`);
+		throw new Error(`Could not find skeleton for profile ${profile_stored.name}`);
 	}
 
 	/**
@@ -95,33 +95,33 @@ export class ProfilesRouter implements ProfileService {
 	 * @param id ID of the profile to find and hydrate from db
 	 * @returns Profile hydrated if it was found
 	 */
-	public async findProfile(id: string): Promise<ProfileHydrated | undefined> {
+	public async find_profile(id: string): Promise<ProfileHydrated | undefined> {
 		const profile = await prisma.profile.findUnique({ where: { id: id }, include: { values: true } });
 
-		if (profile) return this.hydrateProfile(profile);
+		if (profile) return this.hydrate_profile(profile);
 
 		return;
 	}
 
 	/**
 	 * Prepare the profile to be ready to store on mongodb
-	 * @param profileHydrated Profile to be transformed
+	 * @param profile_hydrated Profile to be transformed
 	 * @param removeID Removes the profile id to store
 	 * @returns Profile transformed ready to be stored
 	 */
-	public prepareToStore(profileHydrated: ProfileHydrated): ProfileStored {
-		const mappedValues = profileHydrated.values.map((v) => {
-			return { key: v.name, value: v.value, profileId: profileHydrated.id, id: undefined };
+	public prepare_to_store(profile_hydrated: ProfileHydrated): ProfileStored {
+		const mapped_values = profile_hydrated.values.map((v) => {
+			return { key: v.name, value: v.value, profileId: profile_hydrated.id, id: undefined };
 		});
 
-		const returnProfile: ProfileStored = { ...profileHydrated, values: mappedValues };
+		const return_profile: ProfileStored = { ...profile_hydrated, values: mapped_values };
 
-		return returnProfile;
+		return return_profile;
 	}
 
 	public async profileList(): Promise<ProfileHydrated[]> {
-		return (await prisma.profile.findMany({ include: { values: true }, orderBy: [{ isPremade: "asc" }, { modificationDate: "desc" }] })).map((d) =>
-			this.hydrateProfile(d),
+		return (await prisma.profile.findMany({ include: { values: true }, order_by: [{ isPremade: "asc" }, { modificationDate: "desc" }] })).map((d) =>
+			this.hydrate_profile(d),
 		);
 	}
 }

@@ -1,94 +1,83 @@
+import type { MaintenanceHydrated } from "$types/hydrated/maintenance";
+import type { CountableMaintenance as CountableMaintenanceConfig } from "$types/spec/maintenances";
+import { prisma } from "../db";
+import { TurbineEventLoop } from "../events";
 import { Maintenance } from "./maintenance";
 
-import type { CountableMaintenance as CountableMaintenanceConfig } from "$types/spec/maintenances";
-import type { MaintenanceHydrated } from "$types/hydrated/maintenance";
-import { TurbineEventLoop } from "../events";
-import { prisma } from "../db";
-
 export class CountableMaintenance extends Maintenance implements CountableMaintenanceConfig {
+	durationType: "duration" | "cycle";
+	durationLimit: number;
 
-    durationType: "duration" | "cycle";
-    durationLimit: number;
+	private duration: number;
 
-    private duration: number;
+	constructor(obj: CountableMaintenanceConfig) {
+		super(obj);
 
-    constructor(obj: CountableMaintenanceConfig)
-    {
-        super(obj);
+		this.durationType = obj.durationType;
+		this.durationLimit = obj.durationLimit;
+		this.duration = 0;
 
-        this.durationType = obj.durationType;
-        this.durationLimit = obj.durationLimit;
-        this.duration = 0;
+		super
+			.check_tracker()
+			.then(() => this.load_tracker_data())
+			.catch((err) => {
+				TurbineEventLoop.emit("log", "error", `Maintenance-${this.name}: check_tracker failed: ${(err as Error).message}`);
+			});
 
-        super.checkTracker().then(() => this.loadTrackerData()).catch(err => {
-            TurbineEventLoop.emit('log', 'error', `Maintenance-${this.name}: checkTracker failed: ${(err as Error).message}`);
-        });
+		TurbineEventLoop.on(`maintenance.read.${this.name}`, (options) => {
+			options.callback?.(this.toJSON());
+		});
 
-        TurbineEventLoop.on(`maintenance.read.${this.name}`, (options) => {
-            options.callback?.(this.toJSON());
-        });
+		TurbineEventLoop.on(`maintenance.append.${this.name}`, (value) => {
+			this.append(value);
+		});
+	}
 
-        TurbineEventLoop.on(`maintenance.append.${this.name}`, (value) => {
-            this.append(value);
-        });
-    }
+	async load_tracker_data() {
+		const maintenance = await prisma.maintenance.findUnique({ where: { name: this.name } });
 
-    async loadTrackerData()
-    {
-        const maintenance = await prisma.maintenance.findUnique({ where: { name: this.name } });
+		if (maintenance === null) {
+			TurbineEventLoop.emit("log", "error", `Maintenance-${this.name}: Tracker does not exists.`);
+			return;
+		} else if (maintenance.duration === undefined) {
+			maintenance.duration = 0;
+			await prisma.maintenance.update({ where: { name: this.name }, data: { duration: 0 } });
+		}
 
-        if(maintenance === null)
-        {
-             TurbineEventLoop.emit('log', 'error', `Maintenance-${this.name}: Tracker does not exists.`);
-            return;
-        }
-        else if(maintenance.duration === undefined)
-        {
-            maintenance.duration = 0;
-            await prisma.maintenance.update({ where: { name: this.name }, data: { duration: 0 } });
-        }
+		this.duration = maintenance.duration ?? 0;
+	}
 
-        this.duration = maintenance.duration ?? 0;
-    }
+	/** Append duration to this task */
+	async append(append_value: number) {
+		const document = await prisma.maintenance.update({ where: { name: this.name }, data: { duration: { increment: append_value } } });
 
-    /** Append duration to this task */
-    async append(appendValue: number)
-    {
-        const document = await prisma.maintenance.update({ where: { name: this.name }, data: { duration: { increment: appendValue } }});
+		if (document) {
+			this.duration += append_value;
+			TurbineEventLoop.emit("ws.dirty", "maintenance");
+		} else TurbineEventLoop.emit("log", "warning", "Maintenance: Failed to append data to " + this.name + " tracker.");
+	}
 
-        if(document)
-        {
-            this.duration += appendValue;
-            TurbineEventLoop.emit("ws.dirty", "maintenance");
-        }
-        else
-             TurbineEventLoop.emit('log', 'warning', "Maintenance: Failed to append data to " + this.name + " tracker.");
-    }
+	/** Compute the task actual progress */
+	get computeDurationProgress(): number {
+		return Math.floor((this.duration / this.durationLimit) * 10) / 10;
+	}
 
-    /** Compute the task actual progress */
-    get computeDurationProgress(): number
-    {
-        return Math.floor((this.duration / this.durationLimit) * 10) / 10;
-    }
+	/** Reset maintenance task */
+	async reset() {
+		const document = await super.reset_tracker();
+		this.operationDate = document.operationDate ?? undefined;
+		this.duration = 0;
+		TurbineEventLoop.emit("ws.dirty", "maintenance");
+	}
 
-    /** Reset maintenance task */
-    async reset()
-    {
-        const document = await super.resetTracker();
-        this.operationDate = document.operationDate ?? undefined;
-        this.duration = 0;
-        TurbineEventLoop.emit("ws.dirty", "maintenance");
-    }
-
-    toJSON(): MaintenanceHydrated
-    {
-        return { 
-            name: this.name,
-            durationType: this.durationType,
-            duration: Math.floor(this.duration * 100) / 100,
-            durationMax: this.durationLimit,
-            durationProgress: this.computeDurationProgress,
-            operationDate: this.operationDate,
-        }
-    }
+	toJSON(): MaintenanceHydrated {
+		return {
+			name: this.name,
+			durationType: this.durationType,
+			duration: Math.floor(this.duration * 100) / 100,
+			durationMax: this.durationLimit,
+			durationProgress: this.computeDurationProgress,
+			operationDate: this.operationDate,
+		};
+	}
 }

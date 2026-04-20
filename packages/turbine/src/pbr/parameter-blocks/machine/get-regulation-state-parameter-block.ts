@@ -1,8 +1,8 @@
 import type { StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/parameter-block-hydrated";
 import type { AllParameterBlocks, GetRegulationStateParameterBlock as GetRegulationStateParameterBlockSpec } from "$types/spec/cycle/parameter";
 import type { PBRContext } from "../../../services/pbr-context";
-import { ParameterBlockRegistry } from "../parameter-block-registry";
 import { NumericParameterBlock } from "../numeric-parameter-block";
+import { ParameterBlockRegistry } from "../parameter-block-registry";
 
 export class GetRegulationStateParameterBlock extends NumericParameterBlock {
 	private container: StringParameterBlockHydrated;
@@ -18,7 +18,7 @@ export class GetRegulationStateParameterBlock extends NumericParameterBlock {
 		this.container = ParameterBlockRegistry.String(obj.get_regulation_state.container);
 		this.regulation = ParameterBlockRegistry.String(obj.get_regulation_state.regulation);
 
-		this.#state = this.ctx.containers.getRegulationState(this.container.data, this.regulation.data);
+		this.#state = this.ctx.containers.get_regulation_state(this.container.data, this.regulation.data);
 
 		this.ctx.containers.on(`regulation.${this.container.data}.${this.regulation.data}.state_updated`, (state) => {
 			this.#state = state;
@@ -29,7 +29,7 @@ export class GetRegulationStateParameterBlock extends NumericParameterBlock {
 		return this.#state ? 1 : 0;
 	}
 
-	static isGetRegulationStatePB(obj: AllParameterBlocks): obj is GetRegulationStateParameterBlockSpec {
+	static is_get_regulation_state_pb(obj: AllParameterBlocks): obj is GetRegulationStateParameterBlockSpec {
 		return (obj as GetRegulationStateParameterBlockSpec).get_regulation_state !== undefined;
 	}
 }

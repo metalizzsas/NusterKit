@@ -11,73 +11,73 @@ export class ContainersRouter implements ContainerBus {
 		this.containers = containers.map((c) => new Container(c, products));
 	}
 
-	async socketData(): Promise<ContainerHydrated[]> {
-		return await Promise.all(this.containers.map(async (k) => await k.socketData()));
+	async socket_data(): Promise<ContainerHydrated[]> {
+		return await Promise.all(this.containers.map(async (k) => await k.socket_data()));
 	}
 
 	// --- ContainerBus interface implementation ---
 
-	private findContainer(name: string): Container {
+	private find_container(name: string): Container {
 		const c = this.containers.find((c) => c.name === name);
 		if (!c) throw new Error(`ContainerBus: Container "${name}" not found`);
 		return c;
 	}
 
-	private findRegulation(containerName: string, regulationName: string) {
-		const container = this.findContainer(containerName);
-		const reg = container.regulations?.find((r) => r.name === regulationName);
-		if (!reg) throw new Error(`ContainerBus: Regulation "${regulationName}" not found in container "${containerName}"`);
+	private find_regulation(container_name: string, regulation_name: string) {
+		const container = this.find_container(container_name);
+		const reg = container.regulations?.find((r) => r.name === regulation_name);
+		if (!reg) throw new Error(`ContainerBus: Regulation "${regulation_name}" not found in container "${container_name}"`);
 		return reg;
 	}
 
-	async load(containerName: string, productSeries: string): Promise<void> {
-		const container = this.findContainer(containerName);
-		await container.loadProduct(productSeries);
+	async load(container_name: string, product_series: string): Promise<void> {
+		const container = this.find_container(container_name);
+		await container.load_product(product_series);
 	}
 
-	async unload(containerName: string): Promise<void> {
-		const container = this.findContainer(containerName);
-		await container.unloadProduct();
+	async unload(container_name: string): Promise<void> {
+		const container = this.find_container(container_name);
+		await container.unload_product();
 	}
 
-	async read(containerName: string): Promise<ContainerHydrated> {
-		const container = this.findContainer(containerName);
-		return await container.socketData();
+	async read(container_name: string): Promise<ContainerHydrated> {
+		const container = this.find_container(container_name);
+		return await container.socket_data();
 	}
 
-	getRegulationState(containerName: string, regulationName: string): boolean {
-		return this.findRegulation(containerName, regulationName).state;
+	get_regulation_state(container_name: string, regulation_name: string): boolean {
+		return this.find_regulation(container_name, regulation_name).state;
 	}
 
-	async setRegulationState(containerName: string, regulationName: string, state: boolean): Promise<boolean> {
-		const reg = this.findRegulation(containerName, regulationName);
+	async set_regulation_state(container_name: string, regulation_name: string, state: boolean): Promise<boolean> {
+		const reg = this.find_regulation(container_name, regulation_name);
 		reg.state = state;
 		if (!state) {
 			reg["setActuators"]("plus", false);
 			reg["setActuators"]("minus", false);
 			reg["setActuators"]("active", false);
 		}
-		TurbineEventLoop.emit(`container.${containerName}.regulation.${regulationName}.state_updated`, reg.state);
+		TurbineEventLoop.emit(`container.${container_name}.regulation.${regulation_name}.state_updated`, reg.state);
 		TurbineEventLoop.emit("ws.dirty", "containers");
 		return reg.state;
 	}
 
-	getRegulationTarget(containerName: string, regulationName: string): number {
-		return this.findRegulation(containerName, regulationName).target;
+	get_regulation_target(container_name: string, regulation_name: string): number {
+		return this.find_regulation(container_name, regulation_name).target;
 	}
 
-	async setRegulationTarget(containerName: string, regulationName: string, target: number): Promise<number> {
-		const reg = this.findRegulation(containerName, regulationName);
+	async set_regulation_target(container_name: string, regulation_name: string, target: number): Promise<number> {
+		const reg = this.find_regulation(container_name, regulation_name);
 		reg.target = Math.min(target, reg.maxTarget);
-		TurbineEventLoop.emit(`container.${containerName}.regulation.${regulationName}.target_updated`, reg.target);
+		TurbineEventLoop.emit(`container.${container_name}.regulation.${regulation_name}.target_updated`, reg.target);
 		TurbineEventLoop.emit("ws.dirty", "containers");
 		return reg.target;
 	}
 
 	on(event: string, listener: (...args: never[]) => void): void {
 		if (event.startsWith("updated.")) {
-			const containerName = event.replace("updated.", "");
-			TurbineEventLoop.on(`container.updated.${containerName}`, listener as (c: ContainerHydrated) => void);
+			const container_name = event.replace("updated.", "");
+			TurbineEventLoop.on(`container.updated.${container_name}`, listener as (c: ContainerHydrated) => void);
 		} else if (event.includes(".state_updated")) {
 			const key = event.replace(".state_updated", "");
 			TurbineEventLoop.on(
@@ -95,8 +95,8 @@ export class ContainersRouter implements ContainerBus {
 
 	off(event: string, listener: (...args: never[]) => void): void {
 		if (event.startsWith("updated.")) {
-			const containerName = event.replace("updated.", "");
-			TurbineEventLoop.removeListener(`container.updated.${containerName}`, listener as (c: ContainerHydrated) => void);
+			const container_name = event.replace("updated.", "");
+			TurbineEventLoop.removeListener(`container.updated.${container_name}`, listener as (c: ContainerHydrated) => void);
 		} else if (event.includes(".state_updated")) {
 			const key = event.replace(".state_updated", "");
 			TurbineEventLoop.removeListener(

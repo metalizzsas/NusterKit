@@ -43,22 +43,22 @@ export class ProgramBlockRunner {
 
 	events: Array<{ data: string; time: number }> = [];
 
-	/** Stored listener references for targeted removal in disposeEvents() */
-	private _onPause!: () => void | Promise<void>;
-	private _onResume!: () => Promise<void>;
-	private _onSetPausable!: (pausable: boolean) => void;
-	private _onStop!: (reason: string) => void;
+	/** Stored listener references for targeted removal in dispose_events() */
+	private _on_pause!: () => void | Promise<void>;
+	private _on_resume!: () => Promise<void>;
+	private _on_set_pausable!: (pausable: boolean) => void;
+	private _on_stop!: (reason: string) => void;
 
 	/** PBR Context for dependency injection into blocks */
 	ctx?: PBRContext;
 
 	/** Pause utils */
-	ioPauseSnapshot: Record<string, number> = {};
+	io_pause_snapshot: Record<string, number> = {};
 
-	totalPausedTime = 0;
-	pauseStartDate?: number;
+	total_paused_time = 0;
+	pause_start_date?: number;
 
-	constructor(object: ProgramBlockRunnerConfig, profile?: ProfileHydrated, serviceRegistry?: ServiceRegistry) {
+	constructor(object: ProgramBlockRunnerConfig, profile?: ProfileHydrated, service_registry?: ServiceRegistry) {
 		TurbineEventLoop.emit("log", "info", "PBR: Building PBR...");
 
 		this.name = object.name;
@@ -70,16 +70,16 @@ export class ProgramBlockRunner {
 
 		if (this.profile === undefined) TurbineEventLoop.emit("log", "info", "PBR: This PBR is build without any profile.");
 
-		this.registerEvents();
+		this.register_events();
 
 		// Create PBRContext with all state wired up
-		if (serviceRegistry) {
+		if (service_registry) {
 			this.ctx = new PBRContextImpl({
-				services: serviceRegistry,
+				services: service_registry,
 				variables: this.variables,
 				timers: this.timers,
 				profile: this.profile,
-				setPausable: (pausable) => {
+				set_pausable: (pausable) => {
 					if (this.pausable === false) return;
 					this.status.pausable = pausable;
 				},
@@ -100,17 +100,17 @@ export class ProgramBlockRunner {
 
 		for (const step of object.steps) this.steps.push(new ProgramBlockStep(this, step, this.ctx!));
 
-		this.setState("created");
+		this.set_state("created");
 		TurbineEventLoop.emit("log", "info", "PBR: Finished building PBR.");
 
 		this.duration = this.steps.filter((s) => s.isEnabled.data == 1).reduce((p, c) => (p += c.duration), 0);
 
-		this.addEvent(`PBR Created, estimated duration ${this.duration}s`);
+		this.add_event(`PBR Created, estimated duration ${this.duration}s`);
 	}
 
 	/** Register events of this `PBR` */
-	private registerEvents() {
-		this._onPause = async () => {
+	private register_events() {
+		this._on_pause = async () => {
 			if (this.pausable === false) {
 				TurbineEventLoop.emit("log", "warning", "PBR: Tried to pause a cycle that is not pausable.");
 				return;
@@ -124,16 +124,16 @@ export class ProgramBlockRunner {
 				return;
 			}
 
-			this.pauseStartDate = Date.now();
-			this.setState("paused");
+			this.pause_start_date = Date.now();
+			this.set_state("paused");
 
-			this.ioPauseSnapshot = structuredClone(this.ctx!.io.snapshot());
-			await this.ctx!.io.resetAll();
+			this.io_pause_snapshot = structuredClone(this.ctx!.io.snapshot());
+			await this.ctx!.io.reset_all();
 			this.ctx!.logger.log("warning", "PBR: Paused cycle.");
 		};
-		TurbineEventLoop.on("pbr.pause", this._onPause);
+		TurbineEventLoop.on("pbr.pause", this._on_pause);
 
-		this._onResume = async () => {
+		this._on_resume = async () => {
 			if (this.pausable === false) {
 				TurbineEventLoop.emit("log", "warning", "PBR: Tried to resume a cycle that is not pausable.");
 				return;
@@ -147,38 +147,38 @@ export class ProgramBlockRunner {
 				return;
 			}
 
-			this.setState("started");
+			this.set_state("started");
 
-			for (const io in this.ioPauseSnapshot) {
+			for (const io in this.io_pause_snapshot) {
 				try {
-					await this.ctx!.io.write(io, this.ioPauseSnapshot[io]);
+					await this.ctx!.io.write(io, this.io_pause_snapshot[io]);
 				} catch (err) {
 					this.ctx!.logger.log("error", `PBR: Resume IO restore failed for ${io}: ${(err as Error).message}`);
 				}
 			}
 
-			this.totalPausedTime += (Date.now() - (this.pauseStartDate ?? 0)) / 1000;
-			this.pauseStartDate = undefined;
+			this.total_paused_time += (Date.now() - (this.pause_start_date ?? 0)) / 1000;
+			this.pause_start_date = undefined;
 			this.ctx!.logger.log("warning", "PBR: Resumed cycle.");
 		};
-		TurbineEventLoop.on("pbr.resume", this._onResume);
+		TurbineEventLoop.on("pbr.resume", this._on_resume);
 
-		this._onSetPausable = (pausable: boolean) => {
+		this._on_set_pausable = (pausable: boolean) => {
 			if (this.pausable === false) return;
 			this.status.pausable = pausable;
 		};
-		TurbineEventLoop.on("pbr.setPausable", this._onSetPausable);
+		TurbineEventLoop.on("pbr.set_pausable", this._on_set_pausable);
 
-		this._onStop = (reason) => this.end(reason);
-		TurbineEventLoop.on("pbr.stop", this._onStop);
+		this._on_stop = (reason) => this.end(reason);
+		TurbineEventLoop.on("pbr.stop", this._on_stop);
 	}
 
 	/** Removes this PBR instance's event listeners */
-	private disposeEvents() {
-		TurbineEventLoop.removeListener("pbr.stop", this._onStop);
-		TurbineEventLoop.removeListener("pbr.pause", this._onPause);
-		TurbineEventLoop.removeListener("pbr.resume", this._onResume);
-		TurbineEventLoop.removeListener("pbr.setPausable", this._onSetPausable);
+	private dispose_events() {
+		TurbineEventLoop.removeListener("pbr.stop", this._on_stop);
+		TurbineEventLoop.removeListener("pbr.pause", this._on_pause);
+		TurbineEventLoop.removeListener("pbr.resume", this._on_resume);
+		TurbineEventLoop.removeListener("pbr.set_pausable", this._on_set_pausable);
 	}
 
 	/**
@@ -189,9 +189,9 @@ export class ProgramBlockRunner {
 	public async run(): Promise<boolean> {
 		TurbineEventLoop.emit("log", "info", "PBRSC: Checking Start conditions.");
 
-		const invalidStartConditionsCount = this.allRunConditions.filter((sc) => sc.canStart == false).length;
+		const invalid_start_conditions_count = this.allRunConditions.filter((sc) => sc.canStart == false).length;
 
-		if (invalidStartConditionsCount > 0) {
+		if (invalid_start_conditions_count > 0) {
 			TurbineEventLoop.emit("log", "error", "PBRSC: Start conditions are not valid.");
 			return false;
 		}
@@ -208,9 +208,9 @@ export class ProgramBlockRunner {
 
 		TurbineEventLoop.emit("log", "info", `PBR: Started cycle ${this.name}.`);
 
-		this.addEvent(`PBR Started`);
+		this.add_event(`PBR Started`);
 
-		this.setState("started");
+		this.set_state("started");
 		this.status.startDate = Date.now();
 
 		while (this.currentStepIndex < this.steps.length) {
@@ -243,13 +243,13 @@ export class ProgramBlockRunner {
 	 * @alpha
 	 * @testing
 	 */
-	public nextStep() {
+	public next_step() {
 		TurbineEventLoop.emit("log", "warning", `PBR: Next step triggered.`);
 		this.currentRunningStep.end("skipped");
 	}
 
 	/** Add Events to the PBR history */
-	public addEvent(event: string) {
+	public add_event(event: string) {
 		this.events.push({ data: event, time: Date.now() });
 	}
 
@@ -257,7 +257,7 @@ export class ProgramBlockRunner {
 	 * Set the PBR State
 	 * @param state State to set
 	 */
-	private setState(state: PBRMode) {
+	private set_state(state: PBRMode) {
 		this.status.mode = state;
 		TurbineEventLoop.emit("pbr.status.update", state);
 		TurbineEventLoop.emit("ws.dirty", "cycle");
@@ -274,20 +274,20 @@ export class ProgramBlockRunner {
 		}
 
 		/** Avoid ending cycle with a ghost startonly run condition */
-		const possibleRcEnding = this.runConditions.find((rc) => rc.name === reason);
-		if (possibleRcEnding !== undefined && possibleRcEnding.startOnly === true) {
+		const possible_rc_ending = this.runConditions.find((rc) => rc.name === reason);
+		if (possible_rc_ending !== undefined && possible_rc_ending.startOnly === true) {
 			TurbineEventLoop.emit("log", "warning", "PBR: Cannot end a cycle with a start only run condition.");
 			return;
 		}
 
-		this.setState("ending");
+		this.set_state("ending");
 		this.status.endReason = reason;
 
 		this.steps.forEach((s) => s.crash("ending"));
 
 		if (reason !== undefined) TurbineEventLoop.emit("log", "warning", "PBR: Triggered cycle end with reason: " + reason);
 
-		this.addEvent(`Cycle ended with reason ${reason}.`);
+		this.add_event(`Cycle ended with reason ${reason}.`);
 	}
 
 	/** Dispose the cycle before its deletion */
@@ -329,20 +329,20 @@ export class ProgramBlockRunner {
 			step.dispose();
 		}
 
-		this.disposeEvents();
+		this.dispose_events();
 
 		//Append 1 to cycle count
 		this.ctx!.maintenance.append("cycleCount", 1);
 
-		this.setState("ended");
+		this.set_state("ended");
 		this.status.endDate = Date.now();
 
 		this.ctx!.logger.log("info", "PBR: Resetting all io gates to default values.");
-		this.ctx!.io.resetAll();
+		this.ctx!.io.reset_all();
 
 		TurbineEventLoop.emit("log", "info", `PBR: Ended cycle ${this.name} with state: ${this.status.mode} & reason: ${this.status.endReason}.`);
 
-		this.addEvent(`Cycle disposed.`);
+		this.add_event(`Cycle disposed.`);
 	}
 
 	/** Compute progress of the cycle */
@@ -360,9 +360,9 @@ export class ProgramBlockRunner {
 	}
 
 	get overallPausedTime(): number {
-		const currentPauseTime = this.pauseStartDate !== undefined ? Date.now() - this.pauseStartDate : 0;
+		const current_pause_time = this.pause_start_date !== undefined ? Date.now() - this.pause_start_date : 0;
 
-		return this.totalPausedTime + currentPauseTime / 1000;
+		return this.total_paused_time + current_pause_time / 1000;
 	}
 
 	toJSON() {

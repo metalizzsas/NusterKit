@@ -4,54 +4,53 @@ import type { ProfileHydrated } from "../profiles";
 import type { PBRStartConditionHydrated } from "./pbr-start-condition-hydrated";
 import type { PBRStepHydrated } from "./pbr-step-hydrated";
 
-export type ProgramBlockRunnerHydrated = Modify<ProgramBlockRunner, {
-    
-    status: PBRStatus;
+export type ProgramBlockRunnerHydrated = Modify<
+	ProgramBlockRunner,
+	{
+		status: PBRStatus;
 
-    timers: Array<PBRTimer & { timer?: NodeJS.Timer }>;
-    variables: Array<PBRVariable>;
+		timers: Array<PBRTimer & { timer?: NodeJS.Timer }>;
+		variables: Array<PBRVariable>;
 
-    currentStepIndex: number;
+		currentStepIndex: number;
 
-    runConditions: Array<PBRStartConditionHydrated>,
-    steps: Array<PBRStepHydrated>;
-    profile?: ProfileHydrated,
+		runConditions: Array<PBRStartConditionHydrated>;
+		steps: Array<PBRStepHydrated>;
+		profile?: ProfileHydrated;
 
-    additionalInfo?: Array<string>;
+		additionalInfo?: Array<string>;
 
-    events: Array<{ data: string, time: number}>;
+		events: Array<{ data: string; time: number }>;
 
-    get currentRunningStep(): PBRStepHydrated
+		get currentRunningStep(): PBRStepHydrated;
 
-    dispose(): void
-    end(reason: string): void
-}>;
+		dispose(): void;
+		end(reason: string): void;
+	}
+>;
 
 export type PBRMode = "creating" | "created" | "started" | "paused" | "ending" | "ended";
 
-export interface PBRVariable
-{
-    name: string;
-    value: number;
+export interface PBRVariable {
+	name: string;
+	value: number;
 }
 
-export interface PBRTimer
-{
-    name: string;
-    enabled: boolean;
+export interface PBRTimer {
+	name: string;
+	enabled: boolean;
 }
 
 export type PBRStatus = {
-    
-    mode: PBRMode;
+	mode: PBRMode;
 
-    estimatedRunTime?: number;
-    overallPausedTime?: number;
-    pausable: boolean;
-    
-    startDate?: number;
-    endDate?: number;
-    endReason?: string;
+	estimatedRunTime?: number;
+	overallPausedTime?: number;
+	pausable: boolean;
 
-    progress?: number;
-}
+	startDate?: number;
+	endDate?: number;
+	endReason?: string;
+
+	progress?: number;
+};

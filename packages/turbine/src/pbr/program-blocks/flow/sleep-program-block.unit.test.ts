@@ -1,51 +1,55 @@
-import { test, expect, describe } from "vitest";
+import { describe, expect, test } from "vitest";
+import { create_mock_pbr_context } from "../../test-utils";
 import { SleepProgramBlock } from "./sleep-program-block";
-import { createMockPBRContext } from "../../test-utils";
 
 describe("SleepProgramBlock parameters validation", () => {
-	const sleepTime = 2;
+	const sleep_time = 2;
 
-	test("SleepProgramBlock sleeps for the correct amount of time.", async () => {
-		const ctx = createMockPBRContext();
-		const sleepProgramBlock = new SleepProgramBlock({ sleep: sleepTime }, ctx);
+	test(
+		"SleepProgramBlock sleeps for the correct amount of time.",
+		async () => {
+			const ctx = create_mock_pbr_context();
+			const sleep_program_block = new SleepProgramBlock({ sleep: sleep_time }, ctx);
 
-		const timeStart = performance.now();
-		await sleepProgramBlock.execute();
-		const timeEnd = performance.now();
+			const time_start = performance.now();
+			await sleep_program_block.execute();
+			const time_end = performance.now();
 
-		expect(timeEnd - timeStart).toBeGreaterThanOrEqual(sleepTime * 1000);
+			expect(time_end - time_start).toBeGreaterThanOrEqual(sleep_time * 1000);
 
-		sleepProgramBlock.dispose();
-	}, sleepTime * 1500);
+			sleep_program_block.dispose();
+		},
+		sleep_time * 1500,
+	);
 
 	test("SleepProgramBlock sleeps for the correct time even with a pause", async () => {
-		const ctx = createMockPBRContext();
-		const sleepProgramBlock = new SleepProgramBlock({ sleep: sleepTime }, ctx);
-		const pauseTime = 1;
+		const ctx = create_mock_pbr_context();
+		const sleep_program_block = new SleepProgramBlock({ sleep: sleep_time }, ctx);
+		const pause_time = 1;
 
-		setTimeout(() => ctx.pbrEmitter.emit("pause"), 500);
-		setTimeout(() => ctx.pbrEmitter.emit("resume"), 1000 + pauseTime * 1000);
+		setTimeout(() => ctx.pbr_emitter.emit("pause"), 500);
+		setTimeout(() => ctx.pbr_emitter.emit("resume"), 1000 + pause_time * 1000);
 
-		const timeStart = performance.now();
-		await sleepProgramBlock.execute();
-		const timeEnd = performance.now();
+		const time_start = performance.now();
+		await sleep_program_block.execute();
+		const time_end = performance.now();
 
-		expect(timeEnd - timeStart).toBeGreaterThanOrEqual(sleepTime * 1000 + pauseTime * 1000);
+		expect(time_end - time_start).toBeGreaterThanOrEqual(sleep_time * 1000 + pause_time * 1000);
 
-		sleepProgramBlock.dispose();
+		sleep_program_block.dispose();
 	});
 });
 
 describe("SleepProgramBlock Events", () => {
-	test("SleepProgramBlock registers listeners on pbrEmitter", () => {
-		const ctx = createMockPBRContext();
+	test("SleepProgramBlock registers listeners on pbr_emitter", () => {
+		const ctx = create_mock_pbr_context();
 		const block = new SleepProgramBlock({ sleep: 1 }, ctx);
 
 		// ProgramBlock base registers: stop, status.update, pause, resume
-		expect(ctx.pbrEmitter.listenerCount("stop")).toBeGreaterThanOrEqual(1);
-		expect(ctx.pbrEmitter.listenerCount("pause")).toBeGreaterThanOrEqual(1);
-		expect(ctx.pbrEmitter.listenerCount("resume")).toBeGreaterThanOrEqual(1);
-		expect(ctx.pbrEmitter.listenerCount("status.update")).toBeGreaterThanOrEqual(1);
+		expect(ctx.pbr_emitter.listenerCount("stop")).toBeGreaterThanOrEqual(1);
+		expect(ctx.pbr_emitter.listenerCount("pause")).toBeGreaterThanOrEqual(1);
+		expect(ctx.pbr_emitter.listenerCount("resume")).toBeGreaterThanOrEqual(1);
+		expect(ctx.pbr_emitter.listenerCount("status.update")).toBeGreaterThanOrEqual(1);
 
 		block.dispose();
 	});

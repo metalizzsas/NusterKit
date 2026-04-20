@@ -1,54 +1,48 @@
+import type { Maintenance as MaintenancePrisma } from "@prisma/client";
 import type { BaseMaintenance } from "$types/spec/maintenances";
 import { prisma } from "../db";
-import type { Maintenance as MaintenancePrisma } from "@prisma/client";
 import { TurbineEventLoop } from "../events";
 
-export class Maintenance implements BaseMaintenance
-{
-    name: string;
+export class Maintenance implements BaseMaintenance {
+	name: string;
 
-    durationType: "cycle" | "duration" | "sensor";
+	durationType: "cycle" | "duration" | "sensor";
 
-    operationDate?: Date;
+	operationDate?: Date;
 
-    constructor(obj: BaseMaintenance)
-    {
-        this.name = obj.name
-        this.durationType = obj.durationType;
-    }
+	constructor(obj: BaseMaintenance) {
+		this.name = obj.name;
+		this.durationType = obj.durationType;
+	}
 
-    async checkTracker(): Promise<number | void>
-    {
-        const maintenance = await prisma.maintenance.findUnique({ where: { name: this.name } });
+	async check_tracker(): Promise<number | void> {
+		const maintenance = await prisma.maintenance.findUnique({ where: { name: this.name } });
 
-        if(maintenance !== null)
-        {
-            this.operationDate = maintenance.operationDate ?? undefined;
-            return maintenance.duration;
-        }
-        
-        TurbineEventLoop.emit('log', 'warning', `Maintenance-${this.name}: Maintenance tracker not found, creating it...`);
-        await prisma.maintenance.create({ data: {
-            name: this.name,
-            duration: 0
-        }});
-    }
+		if (maintenance !== null) {
+			this.operationDate = maintenance.operationDate ?? undefined;
+			return maintenance.duration;
+		}
 
-    /** Reset maintenance task */
-    async resetTracker(): Promise<MaintenancePrisma>
-    {
-        const document = await prisma.maintenance.update({ where: { name: this.name }, data: { duration: 0, operationDate: new Date() } });
+		TurbineEventLoop.emit("log", "warning", `Maintenance-${this.name}: Maintenance tracker not found, creating it...`);
+		await prisma.maintenance.create({
+			data: {
+				name: this.name,
+				duration: 0,
+			},
+		});
+	}
 
-        if(document)
-        {
-            this.operationDate = document.operationDate ?? undefined;
-            TurbineEventLoop.emit('log', 'info', `Maintenance: Cleared maintenance task ${this.name}.`);
-            return document;
-        }
-        else
-        {
-             TurbineEventLoop.emit('log', 'error', `Maintenance: Failed to update ${this.name} document.`);
-            throw new Error("Failed to update document.");
-        }
-    }
+	/** Reset maintenance task */
+	async reset_tracker(): Promise<MaintenancePrisma> {
+		const document = await prisma.maintenance.update({ where: { name: this.name }, data: { duration: 0, operationDate: new Date() } });
+
+		if (document) {
+			this.operationDate = document.operationDate ?? undefined;
+			TurbineEventLoop.emit("log", "info", `Maintenance: Cleared maintenance task ${this.name}.`);
+			return document;
+		} else {
+			TurbineEventLoop.emit("log", "error", `Maintenance: Failed to update ${this.name} document.`);
+			throw new Error("Failed to update document.");
+		}
+	}
 }

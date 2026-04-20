@@ -15,7 +15,7 @@ const SHUTDOWN_TIMEOUT = 10_000; // 10s max for entire shutdown
  */
 export class GracefulShutdown {
 	private resources: ShutdownResource[] = [];
-	private shutdownStarted = false;
+	private shutdown_started = false;
 
 	/** Register a resource for cleanup. Last registered = first disposed. */
 	register(name: string, cleanup: CleanupFn): void {
@@ -24,25 +24,25 @@ export class GracefulShutdown {
 
 	/** Remove a registered resource by name (e.g. when it's already disposed). */
 	unregister(name: string): void {
-		this.resources = this.resources.filter(r => r.name !== name);
+		this.resources = this.resources.filter((r) => r.name !== name);
 	}
 
 	/** Execute all cleanup functions in reverse order with a global timeout. */
 	async shutdown(): Promise<void> {
-		if (this.shutdownStarted) {
+		if (this.shutdown_started) {
 			TurbineEventLoop.emit("log", "warning", "Shutdown: Already in progress, skipping duplicate call.");
 			return;
 		}
-		this.shutdownStarted = true;
+		this.shutdown_started = true;
 
 		TurbineEventLoop.emit("log", "info", `Shutdown: Disposing ${this.resources.length} resources...`);
 
-		const timeoutPromise = new Promise<never>((_, reject) => {
+		const timeout_promise = new Promise<never>((_, reject) => {
 			setTimeout(() => reject(new Error("Shutdown timed out")), SHUTDOWN_TIMEOUT);
 		});
 
 		try {
-			await Promise.race([this.disposeAll(), timeoutPromise]);
+			await Promise.race([this.disposeAll(), timeout_promise]);
 			TurbineEventLoop.emit("log", "info", "Shutdown: All resources disposed.");
 		} catch (err) {
 			TurbineEventLoop.emit("log", "error", `Shutdown: ${(err as Error).message}`);

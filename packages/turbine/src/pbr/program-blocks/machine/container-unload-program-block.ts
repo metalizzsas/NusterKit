@@ -5,23 +5,23 @@ import { ParameterBlockRegistry } from "../../parameter-blocks/parameter-block-r
 import { ProgramBlock } from "../program-block";
 
 export class ContainerProductUnloadProgramBlock extends ProgramBlock {
-	containterName: StringParameterBlockHydrated;
+	containter_name: StringParameterBlockHydrated;
 
 	constructor(obj: ContainerProductUnloadProgramBlockSpec, ctx: PBRContext) {
 		super(obj, ctx);
-		this.containterName = ParameterBlockRegistry.String(obj.unload_container);
+		this.containter_name = ParameterBlockRegistry.String(obj.unload_container);
 	}
 
 	public async execute(): Promise<void> {
-		const containerName = this.containterName.data;
+		const container_name = this.containter_name.data;
 
-		this.ctx.logger.log("info", `SlotUnloadBlock: Will unload slot with name: ${containerName}.`);
-		await this.ctx.containers.unload(containerName);
+		this.ctx.logger.log("info", `SlotUnloadBlock: Will unload slot with name: ${container_name}.`);
+		await this.ctx.containers.unload(container_name);
 
 		super.execute();
 	}
 
-	static isContainerProductUnloadPgB(obj: AllProgramBlocks): obj is ContainerProductUnloadProgramBlockSpec {
+	static is_container_product_unload_pg_b(obj: AllProgramBlocks): obj is ContainerProductUnloadProgramBlockSpec {
 		return (obj as ContainerProductUnloadProgramBlockSpec).unload_container !== undefined;
 	}
 }

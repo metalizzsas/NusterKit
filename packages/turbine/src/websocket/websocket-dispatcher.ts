@@ -1,110 +1,104 @@
-import type { WebsocketData } from "../types/hydrated";
-import type { Popup, CallToAction, CallToActionFront } from "../types/spec/nuster";
-import type { Machine } from "../machine";
-
 import type { Server } from "http";
 import type { WebSocket } from "ws";
-
 import { OPEN, WebSocketServer } from "ws";
 import { TurbineEventLoop } from "../events";
+import type { Machine } from "../machine";
 import { CalltoActionRouter } from "../routers/call-to-action";
+import type { WebsocketData } from "../types/hydrated";
+import type { CallToAction, CallToActionFront, Popup } from "../types/spec/nuster";
 
-const productionEnabled = process.env.NODE_ENV === 'production';
+const production_enabled = process.env.NODE_ENV === "production";
 
 type DirtyDomain = "io" | "containers" | "cycle" | "maintenance" | "network";
 
 /** Websocket manager */
-export class WebsocketDispatcher
-{
+export class WebsocketDispatcher {
 	/** Underlying Websocket server */
-	private wsServer: WebSocketServer;
+	private ws_server: WebSocketServer;
 
 	/** Machine reference for data collection */
 	private machine?: Machine;
 
 	/** Dirty flags per domain */
-	private dirtyFlags: Record<DirtyDomain, boolean> = { io: false, containers: false, cycle: false, maintenance: false, network: false };
+	private dirty_flags: Record<DirtyDomain, boolean> = { io: false, containers: false, cycle: false, maintenance: false, network: false };
 	/** Debounce timer for batching dirty signals */
-	private debounceTimer?: ReturnType<typeof setTimeout>;
+	private debounce_timer?: ReturnType<typeof setTimeout>;
 	/** Debounce window in milliseconds */
 	private readonly DEBOUNCE_MS = 50;
 
 	/** Connect popup data */
-	private connectPopups: Array<Popup<CallToAction>> = [];
+	private connect_popups: Array<Popup<CallToAction>> = [];
 	/** Wheter the connect popup has been displayed or not */
-	private connectPopupDisplayed = false;
+	private connect_popup_displayed = false;
 	/** Pending popup display timer */
-	private popupTimer?: ReturnType<typeof setTimeout>;
+	private popup_timer?: ReturnType<typeof setTimeout>;
 	/** Stored modal listener reference for cleanup */
-	private _onModal: (popup: Popup<CallToAction>) => void;
+	private _on_modal: (popup: Popup<CallToAction>) => void;
 	/** Stored dirty listener reference for cleanup */
-	private _onDirty: (domain: DirtyDomain) => void;
+	private _on_dirty: (domain: DirtyDomain) => void;
 
 	/**
 	 * Creates a websocket dispatcher bound to the given http server
-	 * @param httpServer Http server to bind the websocket server to
+	 * @param http_server Http server to bind the websocket server to
 	 */
-	constructor(httpServer: Server)
-	{
-		this.wsServer = new WebSocketServer({server: httpServer, path: productionEnabled ? '' : '/ws/'});
+	constructor(http_server: Server) {
+		this.ws_server = new WebSocketServer({ server: http_server, path: production_enabled ? "" : "/ws/" });
 
-		this.wsServer.on("listening", () => {
-			TurbineEventLoop.emit('log', 'info', 'Websocket: Server listening..');
+		this.ws_server.on("listening", () => {
+			TurbineEventLoop.emit("log", "info", "Websocket: Server listening..");
 		});
 
-		this.wsServer.on('connection', this.onConnect.bind(this));
-		this._onModal = this.togglePopup.bind(this);
-		TurbineEventLoop.on("nuster.modal", this._onModal);
+		this.ws_server.on("connection", this.on_connect.bind(this));
+		this._on_modal = this.toggle_popup.bind(this);
+		TurbineEventLoop.on("nuster.modal", this._on_modal);
 
-		this._onDirty = (domain) => {
-			this.dirtyFlags[domain] = true;
-			if (!this.debounceTimer) {
-				this.debounceTimer = setTimeout(() => this.flush(), this.DEBOUNCE_MS);
+		this._on_dirty = (domain) => {
+			this.dirty_flags[domain] = true;
+			if (!this.debounce_timer) {
+				this.debounce_timer = setTimeout(() => this.flush(), this.DEBOUNCE_MS);
 			}
 		};
-		TurbineEventLoop.on("ws.dirty", this._onDirty);
+		TurbineEventLoop.on("ws.dirty", this._on_dirty);
 	}
 
 	/**
 	 * Set the machine reference for data collection
 	 * @param machine Machine instance
 	 */
-	setMachine(machine: Machine): void
-	{
+	set_machine(machine: Machine): void {
 		this.machine = machine;
 	}
 
 	/**
 	 * Flush dirty domains: build partial status and broadcast as "patch"
 	 */
-	private async flush(): Promise<void>
-	{
-		this.debounceTimer = undefined;
+	private async flush(): Promise<void> {
+		this.debounce_timer = undefined;
 
 		if (!this.machine) return;
 
 		// Snapshot and reset dirty flags
-		const snapshot = { ...this.dirtyFlags };
-		this.dirtyFlags = { io: false, containers: false, cycle: false, maintenance: false, network: false };
+		const snapshot = { ...this.dirty_flags };
+		this.dirty_flags = { io: false, containers: false, cycle: false, maintenance: false, network: false };
 
 		const patch: Record<string, unknown> = {};
 
 		if (snapshot.io) {
-			patch.io = this.machine.ioRouter.socketData;
+			patch.io = this.machine.io_router.socket_data;
 		}
 		if (snapshot.containers) {
-			patch.containers = await this.machine.containerRouter.socketData();
+			patch.containers = await this.machine.container_router.socket_data();
 		}
 		if (snapshot.cycle) {
 			// Use null instead of undefined so JSON.stringify preserves the key
-			const cycleData = this.machine.cycleRouter.socketData;
-			patch.cycle = cycleData === undefined ? null : cycleData;
+			const cycle_data = this.machine.cycle_router.socket_data;
+			patch.cycle = cycle_data === undefined ? null : cycle_data;
 		}
 		if (snapshot.maintenance) {
-			patch.maintenance = this.machine.maintenanceRouter.socketData();
+			patch.maintenance = this.machine.maintenance_router.socket_data();
 		}
 		if (snapshot.network) {
-			patch.network = this.machine.networkRouter?.socketData ?? { devices: [], accessPoints: [] };
+			patch.network = this.machine.network_router?.socket_data ?? { devices: [], accessPoints: [] };
 		}
 
 		if (Object.keys(patch).length > 0) {
@@ -116,22 +110,22 @@ export class WebsocketDispatcher
 	 * Add a popup to be displayed on all NusterDesktop clients
 	 * @param popup Popup data to be displayed on all NusterDesktop clients
 	 */
-	addConnectPopup(popup: Popup<CallToAction>)
-	{
-		this.connectPopups = [...this.connectPopups, popup];
+	add_connect_popup(popup: Popup<CallToAction>) {
+		this.connect_popups = [...this.connect_popups, popup];
 	}
 
 	/**
 	 * toggle a popup on all NusterDesktop clients
 	 * @param popup Popup data send to all clients
 	 */
-	togglePopup(popup: Popup<CallToAction>)
-	{
-		Promise.all<CallToActionFront>((popup.callToActions ?? []).map(cta => CalltoActionRouter.generateCallToAction(cta))).then(v => {
-			this.broadcastData({...popup, callToActions: v }, "popup");
-		}).catch(err => {
-			TurbineEventLoop.emit('log', 'error', `WebsocketDispatcher: popup generation failed: ${(err as Error).message}`);
-		});
+	toggle_popup(popup: Popup<CallToAction>) {
+		Promise.all<CallToActionFront>((popup.callToActions ?? []).map((cta) => CalltoActionRouter.generateCallToAction(cta)))
+			.then((v) => {
+				this.broadcastData({ ...popup, callToActions: v }, "popup");
+			})
+			.catch((err) => {
+				TurbineEventLoop.emit("log", "error", `WebsocketDispatcher: popup generation failed: ${(err as Error).message}`);
+			});
 	}
 
 	/**
@@ -139,17 +133,16 @@ export class WebsocketDispatcher
 	 * @param data data to be sent over Websocket
 	 * @param channel channel used to send data
 	 */
-	broadcastData<T extends WebsocketData>(data: T["message"], channel: T["type"] = "status")
-	{
-		for(const client of this.wsServer.clients)
-		{
+	broadcastData<T extends WebsocketData>(data: T["message"], channel: T["type"] = "status") {
+		for (const client of this.ws_server.clients) {
 			//Check that the client socket is still open
-			if(client.readyState == OPEN)
-			{
-				client.send(JSON.stringify({
-					type: channel,
-					message: data
-				}));
+			if (client.readyState == OPEN) {
+				client.send(
+					JSON.stringify({
+						type: channel,
+						message: data,
+					}),
+				);
 			}
 		}
 	}
@@ -160,8 +153,7 @@ export class WebsocketDispatcher
 	 * @param data data to be sent
 	 * @param channel channel used to send data
 	 */
-	private sendToClient(ws: WebSocket, data: unknown, channel: string): void
-	{
+	private send_to_client(ws: WebSocket, data: unknown, channel: string): void {
 		if (ws.readyState === OPEN) {
 			ws.send(JSON.stringify({ type: channel, message: data }));
 		}
@@ -171,50 +163,50 @@ export class WebsocketDispatcher
 	 * Event handler used by the websocket server
 	 * @param ws Websocket connected
 	 */
-	private onConnect(ws: WebSocket)
-	{
-		this.wsServer.clients.add(ws);
+	private on_connect(ws: WebSocket) {
+		this.ws_server.clients.add(ws);
 
-		TurbineEventLoop.emit('log', 'trace', "Websocket: New client");
+		TurbineEventLoop.emit("log", "trace", "Websocket: New client");
 
 		// Send full status to newly connected client
 		if (this.machine) {
-			this.machine.socketData().then(status => {
-				this.sendToClient(ws, status, "status");
-			}).catch(err => {
-				TurbineEventLoop.emit('log', 'error', `WebsocketDispatcher: initial status failed: ${(err as Error).message}`);
-			});
+			this.machine
+				.socket_data()
+				.then((status) => {
+					this.send_to_client(ws, status, "status");
+				})
+				.catch((err) => {
+					TurbineEventLoop.emit("log", "error", `WebsocketDispatcher: initial status failed: ${(err as Error).message}`);
+				});
 		}
 
-		if(this.connectPopups !== undefined && this.connectPopupDisplayed == false)
-		{
-			this.popupTimer = setTimeout(() => {
-				this.popupTimer = undefined;
-				if(this.connectPopups)
-				{
-					TurbineEventLoop.emit('log', 'info', "Websocket: Displaying connect popup.");
-					this.connectPopups.forEach(popup => this.togglePopup(popup));
-					this.connectPopupDisplayed = true;
+		if (this.connect_popups !== undefined && this.connect_popup_displayed == false) {
+			this.popup_timer = setTimeout(() => {
+				this.popup_timer = undefined;
+				if (this.connect_popups) {
+					TurbineEventLoop.emit("log", "info", "Websocket: Displaying connect popup.");
+					this.connect_popups.forEach((popup) => this.toggle_popup(popup));
+					this.connect_popup_displayed = true;
 				}
 			}, 2000);
 		}
 
 		ws.on("close", () => {
-			TurbineEventLoop.emit('log', 'trace', "Websocket: Client disconnected");
+			TurbineEventLoop.emit("log", "trace", "Websocket: Client disconnected");
 		});
 	}
 
 	dispose(): void {
-		if (this.popupTimer) {
-			clearTimeout(this.popupTimer);
-			this.popupTimer = undefined;
+		if (this.popup_timer) {
+			clearTimeout(this.popup_timer);
+			this.popup_timer = undefined;
 		}
-		if (this.debounceTimer) {
-			clearTimeout(this.debounceTimer);
-			this.debounceTimer = undefined;
+		if (this.debounce_timer) {
+			clearTimeout(this.debounce_timer);
+			this.debounce_timer = undefined;
 		}
-		TurbineEventLoop.removeListener("nuster.modal", this._onModal);
-		TurbineEventLoop.removeListener("ws.dirty", this._onDirty);
-		this.wsServer.close();
+		TurbineEventLoop.removeListener("nuster.modal", this._on_modal);
+		TurbineEventLoop.removeListener("ws.dirty", this._on_dirty);
+		this.ws_server.close();
 	}
 }

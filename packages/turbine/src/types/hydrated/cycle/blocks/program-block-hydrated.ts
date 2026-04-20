@@ -1,11 +1,10 @@
-
 export type ProgramBlockHydrated = {
-    readonly name: string;
-    estimatedRunTime: number;
-    executed: boolean;
-    earlyExit: boolean;
+	readonly name: string;
+	estimatedRunTime: number;
+	executed: boolean;
+	earlyExit: boolean;
 
-    execute(signal?: AbortSignal): void | Promise<void>
-    dispose(): void
-    toJSON(): ProgramBlockHydrated
-}
+	execute(signal?: AbortSignal): void | Promise<void>;
+	dispose(): void;
+	toJSON(): ProgramBlockHydrated;
+};

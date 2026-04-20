@@ -10,10 +10,7 @@ export const ComparatorSchema = z.enum(["==", "===", "!=", "!==", ">", "<", ">="
 // Parameter block schemas (recursive via z.lazy)
 // ============================================================
 
-export const StringParameterBlocksSchema = z.union([
-	z.string(),
-	z.object({ string: z.string() }),
-]);
+export const StringParameterBlocksSchema = z.union([z.string(), z.object({ string: z.string() })]);
 
 // NumericParameterBlocks is recursive (e.g. add: NumericParameterBlocks[]).
 // We define the shape one level deep; inner items use z.unknown() to avoid
@@ -49,10 +46,7 @@ export const NumericParameterBlocksSchema = z.union([
 
 export const StatusParameterBlocksSchema = z.union([
 	z.object({
-		maintenance_status: z.union([
-			StringParameterBlocksSchema,
-			z.tuple([StringParameterBlocksSchema, NumericParameterBlocksSchema]),
-		]),
+		maintenance_status: z.union([StringParameterBlocksSchema, z.tuple([StringParameterBlocksSchema, NumericParameterBlocksSchema])]),
 	}),
 	z.object({ product_status: StringParameterBlocksSchema }),
 ]);
@@ -110,11 +104,13 @@ export const AllProgramBlocksSchema = z.union([
 
 export const CallToActionSchema = z.object({
 	name: z.string(),
-	APIEndpoint: z.object({
-		url: z.string(),
-		method: z.enum(["get", "put", "post", "delete"]),
-		body: z.unknown().optional(),
-	}).optional(),
+	APIEndpoint: z
+		.object({
+			url: z.string(),
+			method: z.enum(["get", "put", "post", "delete"]),
+			body: z.unknown().optional(),
+		})
+		.optional(),
 	UIEndpoint: z.string().optional(),
 });
 
@@ -542,24 +538,28 @@ export const HypervisorDataSchema = z.object({
 	status: z.string(),
 	appState: z.string(),
 	overallDownloadProgress: z.number().optional(),
-	containers: z.array(z.object({
-		status: z.string(),
-		serviceName: z.string(),
-		appId: z.number(),
-		imageId: z.number(),
-		serviceId: z.number(),
-		containerId: z.string(),
-		createdAt: z.string(),
-	})),
-	images: z.array(z.object({
-		name: z.string(),
-		appId: z.number(),
-		serviceName: z.string(),
-		imageId: z.number(),
-		dockerImageId: z.string(),
-		status: z.string(),
-		downloadProgress: z.number().optional(),
-	})),
+	containers: z.array(
+		z.object({
+			status: z.string(),
+			serviceName: z.string(),
+			appId: z.number(),
+			imageId: z.number(),
+			serviceId: z.number(),
+			containerId: z.string(),
+			createdAt: z.string(),
+		}),
+	),
+	images: z.array(
+		z.object({
+			name: z.string(),
+			appId: z.number(),
+			serviceName: z.string(),
+			imageId: z.number(),
+			dockerImageId: z.string(),
+			status: z.string(),
+			downloadProgress: z.number().optional(),
+		}),
+	),
 	release: z.string(),
 });
 

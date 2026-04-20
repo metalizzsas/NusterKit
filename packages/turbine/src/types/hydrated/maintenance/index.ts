@@ -1,21 +1,20 @@
 type BaseMaintenanceHydrated = {
+	name: string; //Maintenance task name
 
-    name: string; //Maintenance task name
+	duration: number; // Actual value
+	durationMax: number; // Maximum value
 
-    duration: number; // Actual value
-    durationMax: number; // Maximum value
-
-    durationProgress: number; // Float value 0-1
-}
+	durationProgress: number; // Float value 0-1
+};
 
 type CountableMaintenance = {
-    durationType: "cycle" | "duration"
-}
+	durationType: "cycle" | "duration";
+};
 
 type SensorMaintenance = {
-    durationType: "sensor";
+	durationType: "sensor";
 
-    sensorUnit?: string;
-}
+	sensorUnit?: string;
+};
 
-export type MaintenanceHydrated = BaseMaintenanceHydrated & (CountableMaintenance | SensorMaintenance) & { operationDate?: Date }; 
+export type MaintenanceHydrated = BaseMaintenanceHydrated & (CountableMaintenance | SensorMaintenance) & { operationDate?: Date };

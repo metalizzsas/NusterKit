@@ -1,4 +1,4 @@
-import { test, expect, describe } from "vitest";
+import { describe, expect, test } from "vitest";
 import { AsyncMutex } from "./async-mutex";
 
 describe("AsyncMutex", () => {
@@ -15,7 +15,7 @@ describe("AsyncMutex", () => {
 		await mutex.acquire();
 		order.push(1);
 
-		const secondAcquire = mutex.acquire().then(() => {
+		const second_acquire = mutex.acquire().then(() => {
 			order.push(2);
 		});
 
@@ -24,7 +24,7 @@ describe("AsyncMutex", () => {
 		expect(order).toEqual([1]);
 
 		mutex.release();
-		await secondAcquire;
+		await second_acquire;
 
 		expect(order).toEqual([1, 2]);
 		mutex.release();
@@ -67,7 +67,7 @@ describe("AsyncMutex", () => {
 		mutex.release();
 	});
 
-	test("acquire(timeoutMs) rejects when timeout expires before release", async () => {
+	test("acquire(timeout_ms) rejects when timeout expires before release", async () => {
 		const mutex = new AsyncMutex();
 		await mutex.acquire();
 
@@ -79,7 +79,7 @@ describe("AsyncMutex", () => {
 		mutex.release();
 	});
 
-	test("acquire(timeoutMs) resolves when released before timeout", async () => {
+	test("acquire(timeout_ms) resolves when released before timeout", async () => {
 		const mutex = new AsyncMutex();
 		await mutex.acquire();
 

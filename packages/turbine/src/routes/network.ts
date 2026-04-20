@@ -1,6 +1,6 @@
 import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
-import type { NetworkRouter } from "../routers/NetworkRouter";
+import type { NetworkRouter } from "../routers/network-router";
 import { AccessPointSchema, NetworkDeviceSchema, WifiConnectBodySchema, ErrorResponseSchema } from "../schemas";
 import { z } from "zod";
 

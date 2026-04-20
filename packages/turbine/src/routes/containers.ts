@@ -1,7 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
-import type { Container } from "../containers/Containers";
-import type { ContainersRouter } from "../routers/ContainersRouters";
+import type { Container } from "../containers/containers";
+import type { ContainersRouter } from "../routers/containers-routers";
 import { ContainerLoadParamsSchema, ContainerUnloadParamsSchema, RegulationStateParamsSchema, RegulationTargetParamsSchema, ErrorResponseSchema } from "../schemas";
 import { z } from "zod";
 

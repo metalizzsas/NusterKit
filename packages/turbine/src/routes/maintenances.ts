@@ -1,7 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
-import type { CountableMaintenance } from "../maintenance/CountableMaintenance";
-import type { SensorMaintenance } from "../maintenance/SensorMaintenance";
+import type { CountableMaintenance } from "../maintenance/countable-maintenance";
+import type { SensorMaintenance } from "../maintenance/sensor-maintenance";
 import { MaintenanceNameParamsSchema, MaintenanceHydratedSchema, ErrorResponseSchema } from "../schemas";
 import { z } from "zod";
 

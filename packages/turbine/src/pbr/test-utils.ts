@@ -1,6 +1,6 @@
-import type { PBRContext, PBREmitterEvents } from "../services/PBRContext";
+import type { PBRContext, PBREmitterEvents } from "../services/pbr-context";
 import type { ServiceRegistry } from "../services/interfaces";
-import { ScopedEmitter } from "../services/ScopedEmitter";
+import { ScopedEmitter } from "../services/scoped-emitter";
 
 /**
  * Creates a minimal mock PBRContext for unit tests.

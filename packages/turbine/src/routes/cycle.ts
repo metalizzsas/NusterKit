@@ -3,7 +3,7 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import type { ProgramBlockRunner as ProgramBlockRunnerConfig, CyclePremade } from "$types/spec/cycle";
 import type { ProfileHydrated } from "$types/hydrated/profiles";
 import type { ServiceRegistry } from "../services/interfaces";
-import { ProgramBlockRunner } from "../pbr/ProgramBlockRunner";
+import { ProgramBlockRunner } from "../pbr/program-block-runner";
 import { TurbineEventLoop } from "../events";
 import { CycleStartParamsSchema, CyclePremadeSchema, ProfileHydratedSchema, ErrorResponseSchema } from "../schemas";
 import { z } from "zod";

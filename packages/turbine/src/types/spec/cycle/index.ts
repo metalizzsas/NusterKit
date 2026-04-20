@@ -1,6 +1,6 @@
-import type { ProgramBlockRunner } from "./ProgramBlockRunner";
+import type { ProgramBlockRunner } from "./program-block-runner";
 import type { PBRStepHydrated } from "../../hydrated/cycle";
-import type { PBRRunCondition } from "./PBRRunCondition";
+import type { PBRRunCondition } from "./pbr-run-condition";
 
 type CyclePremade = {
     /** Name is only for description purposes, not used */

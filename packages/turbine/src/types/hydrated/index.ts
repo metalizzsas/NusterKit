@@ -1,7 +1,7 @@
 import type { CallToActionFront, Popup } from "../spec/nuster";
 import type { AccessPoint, NetworkDevice } from "./balena";
 import type { ContainerHydrated } from "./containers";
-import type { ProgramBlockRunnerHydrated } from "./cycle/ProgramBlockRunnerHydrated";
+import type { ProgramBlockRunnerHydrated } from "./cycle/program-block-runner-hydrated";
 import type { IOGatesHydrated } from "./io";
 
 import type { MaintenanceHydrated } from "./maintenance";

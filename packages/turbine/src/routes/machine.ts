@@ -3,7 +3,7 @@ import path from "path";
 import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import type { MachineSpecs, MachineSpecsList } from "../types";
-import type { Machine } from "../Machine";
+import type { Machine } from "../machine";
 import { ConfigurationSchema, MachineSpecsListSchema, MachineDataSchema, StatusSchema, ErrorResponseSchema } from "../schemas";
 import { TurbineEventLoop } from "../events";
 import { z } from "zod";

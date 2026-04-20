@@ -1,0 +1,32 @@
+import { ParameterBlockRegistry } from "../../parameter-blocks/parameter-block-registry";
+import type { AllProgramBlocks, ContainerProductLoadProgramBlock as ContainerProductLoadProgramBlockSpec } from "$types/spec/cycle/program";
+import type { StringParameterBlockHydrated } from "$types/hydrated/cycle/blocks/parameter-block-hydrated";
+import type { PBRContext } from "../../../services/pbr-context";
+import { ProgramBlock } from "../program-block";
+
+export class ContainerProductLoadProgramBlock extends ProgramBlock {
+	executed = false;
+
+	containerName: StringParameterBlockHydrated;
+	containerProductSeries: StringParameterBlockHydrated;
+
+	constructor(obj: ContainerProductLoadProgramBlockSpec, ctx: PBRContext) {
+		super(obj, ctx);
+		this.containerName = ParameterBlockRegistry.String(obj.load_container[0]);
+		this.containerProductSeries = ParameterBlockRegistry.String(obj.load_container[1]);
+	}
+
+	public async execute(): Promise<void> {
+		const containerName = this.containerName.data;
+		const containerProductSeries = this.containerProductSeries.data;
+
+		this.ctx.logger.log("info", `ContainerLoadBlock: Will load ${containerName} with: ${containerProductSeries}.`);
+		await this.ctx.containers.load(containerName, containerProductSeries);
+
+		super.execute();
+	}
+
+	static isContainterProductLoadPgB(obj: AllProgramBlocks): obj is ContainerProductLoadProgramBlockSpec {
+		return (obj as ContainerProductLoadProgramBlockSpec).load_container !== undefined;
+	}
+}

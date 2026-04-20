@@ -1,4 +1,4 @@
-import { EventLoop } from "./eventLoop";
+import { EventLoop } from "./event-loop";
 
 export const TurbineEventLoop = new EventLoop();
 

@@ -1,7 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import type { ProfileHydrated } from "$types/hydrated/profiles";
-import type { ProfilesRouter } from "../routers/ProfilesRouter";
+import type { ProfilesRouter } from "../routers/profiles-router";
 import { prisma } from "../db";
 import { ProfileIdParamsSchema, ProfileHydratedSchema, ErrorResponseSchema } from "../schemas";
 import { z } from "zod";

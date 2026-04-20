@@ -11,16 +11,16 @@ import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import { serializerCompiler, validatorCompiler, jsonSchemaTransform } from "fastify-type-provider-zod";
 import { pino } from "pino";
-import { Machine } from "./Machine";
+import { Machine } from "./machine";
 import { TurbineEventLoop } from "./events";
-import { WebsocketDispatcher } from "./websocket/WebsocketDispatcher";
+import { WebsocketDispatcher } from "./websocket/websocket-dispatcher";
 import * as SpecsSchema from "./types/schemas/schema-specs.json";
 import { migrate } from "./migrate";
 import Ajv from "ajv";
 import { maintenanceRoutes, callToActionRoutes, ioRoutes, profileRoutes, containerRoutes, cycleRoutes, networkRoutes, machineRoutes, systemRoutes } from "./routes";
 import type { Server } from "http";
-import { validateEnv } from "./utils/validateEnv";
-import { GracefulShutdown } from "./utils/GracefulShutdown";
+import { validateEnv } from "./utils/validate-env";
+import { GracefulShutdown } from "./utils/graceful-shutdown";
 
 (async () => {
 

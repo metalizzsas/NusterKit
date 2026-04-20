@@ -75,7 +75,7 @@ Single `Machine` instance per process holds all state. The Machine owns domain-s
 - `NetworkRouter` — Network status and Balena integration
 - `CalltoActionRouter` — Dynamic call-to-action buttons
 
-Service adapters (`services/`) mediate between routers and external concerns (IO bus, logging, etc.) via a `ServiceRegistry`.
+Routers directly implement service interfaces (`IOBus`, `ContainerBus`, `MaintenanceBus`, `ProfileService`) and are assembled into a `ServiceRegistry` for dependency injection into the PBR (Program Block Runner).
 
 All Fastify routes use Zod schemas via `fastify-type-provider-zod`. The OpenAPI spec is auto-extracted at build time and consumed by the UI.
 
@@ -120,6 +120,19 @@ Models: `Profile`, `ProfileValue`, `Container`, `Maintenance`, `CallToAction`.
 | Simulation UI | 4084 |
 
 Dev uses portless proxy (`*.nuster.localhost` domains).
+
+## Naming Conventions
+
+| Element | Convention | Example |
+|---------|-----------|---------|
+| File names | kebab-case | `program-block-runner.ts` |
+| Directory names | kebab-case | `parameter-blocks/` |
+| Function names | snake_case | `read_variable()` |
+| Variable names | snake_case | `current_step_index` |
+| Class names | PascalCase | `ProgramBlockRunner` |
+| Type/Interface names | PascalCase | `ServiceRegistry` |
+
+External library interfaces (Prisma, Fastify, Svelte) keep their own conventions at the boundary.
 
 ## Versioning
 

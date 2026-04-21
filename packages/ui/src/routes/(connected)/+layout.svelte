@@ -8,6 +8,7 @@
     import "@fontsource/inter/800.css";
     import "@fontsource/inter/900.css";
 
+	import type { Snippet } from "svelte";
 	import Flex from "$lib/components/layout/flex.svelte";
 	import { initI18nMachine } from "$lib/utils/i18n/i18nmachine";
 	import { onDestroy, onMount } from "svelte";
@@ -23,14 +24,14 @@
 	import type { PageData } from "./$types";
 	import { browser, version } from "$app/environment";
 
-    export let data: PageData;
+    let { data, children }: { data: PageData; children: Snippet } = $props();
 
     type Toast_popup = Popup<import("$lib/types/turbine").CallToActionFront> & { date: number };
 
-    let toasts: Array<Toast_popup> = [];
+    let toasts: Array<Toast_popup> = $state([]);
 
-    let websocketState: "connecting" | "connected" | "disconnected" = "connecting";
-    let websocket: WebSocket | undefined = undefined;
+    let websocketState: "connecting" | "connected" | "disconnected" = $state("connecting");
+    let websocket: WebSocket | undefined = $state(undefined);
 
     onMount(async () => {
         await initI18nMachine();
@@ -43,10 +44,10 @@
 
     const realtimeConnect = async () =>
     {
-        if(!browser) return;
+        if (!browser) return;
 
         websocketState = "connecting";
-        
+
         const isSecure = window.location.protocol === "https:";
 
         const wsHost = data.websocketAddress
@@ -61,7 +62,7 @@
 
         /** Do not try to connect for more than 5 secondes */
         setTimeout(() => {
-            if(websocketState === "connecting")
+            if (websocketState === "connecting")
             {
                 websocketState = "disconnected"
                 websocket?.close();
@@ -83,9 +84,9 @@
 
             const data = JSON.parse(ev.data as string) as WebsocketData;
 
-            if(data.type == "status" && $realtimeLock === false)
+            if (data.type == "status" && $realtimeLock === false)
             {
-                if(import.meta.env.DEV)
+                if (import.meta.env.DEV)
                 {
                     data.message = {...data.message, network: {
                         devices: [
@@ -100,7 +101,7 @@
                 }
                 $realtime = data.message;
             }
-            else if(data.type == "patch" && $realtimeLock === false)
+            else if (data.type == "patch" && $realtimeLock === false)
             {
                 const patch = data.message;
                 const merged = { ...$realtime };
@@ -111,13 +112,13 @@
                 if ('network' in patch && !import.meta.env.DEV) merged.network = patch.network!;
                 $realtime = merged;
             }
-            else if(data.type === "popup")
+            else if (data.type === "popup")
             {
-                if(data.message.payload !== undefined)
+                if (data.message.payload !== undefined)
                 {
-                    for(const key in data.message.payload)
+                    for (const key in data.message.payload)
                     {
-                        if(key === "version")
+                        if (key === "version")
                         {
                             data.message.payload[key] = version;
                             continue;
@@ -132,10 +133,15 @@
         }
     }
 
-    $: $realtime = data.machine_status;
-    $: if(websocketState === "disconnected") { toasts = []; }
-    $: if(browser) { document.querySelector("html")?.classList.toggle("dark", data.settings.dark === 1); }
-
+    $effect(() => {
+        $realtime = data.machine_status;
+    });
+    $effect(() => {
+        if (websocketState === "disconnected") { toasts = []; }
+    });
+    $effect(() => {
+        if (browser) { document.querySelector("html")?.classList.toggle("dark", data.settings.dark === 1); }
+    });
 </script>
 
 <Loadindicator />
@@ -143,22 +149,22 @@
 <div class="absolute inset-0 bg-indigo-300 dark:bg-zinc-900 bg-grid dark:bg-grid-dark -z-10"></div>
 
 <div class="absolute p-6 pl-0 right-0 top-0 bottom-0 h-screen overflow-y-scroll w-1/2 z-20 flex flex-col gap-6 pointer-events-none" id="toasts">
-    {#each toasts as toast (toast.date)}
+    {#each toasts as toast, i (toast.date)}
         <div animate:flip={{ duration: 300 }}>
-            <Toast bind:toast on:exit={() => { toasts = toasts.filter(t => t !== toast)}} />
+            <Toast bind:toast={toasts[i]} exit={() => { toasts = toasts.filter(t => t !== toast)}} />
         </div>
     {/each}
 </div>
 
 <div class="h-screen">
     <Flex direction="col" gap={6} class="h-full">
-        <header class="mt-6 mx-6">        
+        <header class="mt-6 mx-6">
             <nav class="bg-white dark:bg-zinc-800 p-2 rounded-full w-full drop-shadow-xl border border-indigo-400/50 dark:border-indigo-400/25">
                 <PillMenu />
             </nav>
         </header>
         <main class="pb-6 mx-6 rounded-t-xl grow overflow-y-scroll">
-            <slot />
+            {@render children()}
         </main>
     </Flex>
 </div>

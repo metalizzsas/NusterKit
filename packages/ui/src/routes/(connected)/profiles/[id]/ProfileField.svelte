@@ -10,11 +10,14 @@
 	import Button from "$lib/components/buttons/Button.svelte";
 	import { Minus, Plus } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";
-    
-    export let field: ProfileHydrated["values"][number];
 
-    export let disabled = false;
-
+    let {
+        field = $bindable(),
+        disabled = false,
+    }: {
+        field: ProfileHydrated["values"][number];
+        disabled?: boolean;
+    } = $props();
 </script>
 
 <Flex items="center">
@@ -23,7 +26,7 @@
     <div class="h-[1px] bg-zinc-500 grow" />
 
     {#if field.type == 'bool'}
-        <Toggle bind:value={field.value} on:changeNum={(e) => field.value = e.detail.value} locked={disabled} />
+        <Toggle bind:value={field.value} locked={disabled} />
     {:else if field.type == 'int'}
         <NumField bind:value={field.value} {disabled} />
     {:else if field.type == "time"}
@@ -35,19 +38,19 @@
         </Flex>
     {:else if field.type == "incremental"}
         <Flex items="center">
-            <Button on:click={() => {
-                if(disabled) return;
-                if(field.baseValue + field.value >= field.incrementalRangeMax) return;
+            <Button onclick={() => {
+                if (disabled) return;
+                if ((field.baseValue ?? 0) + field.value >= (field.incrementalRangeMax ?? Infinity)) return;
                 field.value = field.value + 1
             }} {disabled}>
                 <Icon src={Plus} class="h-4 w-4" />
             </Button>
-            
+
             <p>Offset: <span class="font-bold">{field.value}</span></p>
 
-            <Button on:click={() => {
-                if(disabled) return;
-                if(field.baseValue + field.value <= field.incrementalRangeMin) return;
+            <Button onclick={() => {
+                if (disabled) return;
+                if ((field.baseValue ?? 0) + field.value <= (field.incrementalRangeMin ?? -Infinity)) return;
                 field.value = field.value - 1
             }} {disabled}>
                 <Icon src={Minus} class="h-4 w-4" />

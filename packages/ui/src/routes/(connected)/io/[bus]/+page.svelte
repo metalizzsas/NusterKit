@@ -2,8 +2,10 @@
 	import Gate from "$lib/components/io/Gate.svelte";
 	import { realtime } from "$lib/utils/stores/nuster";
 	import { page } from "$app/stores";
+
+    let gates = $derived($realtime.io.filter(i => i.bus === $page.params.bus));
 </script>
 
-{#each $realtime.io.filter(i => i.bus === $page.params.bus) as iog}
-	<Gate bind:io={iog} editable={iog.bus === "out"}/>
+{#each gates as _, i}
+	<Gate bind:io={gates[i]} editable={gates[i].bus === "out"}/>
 {/each}

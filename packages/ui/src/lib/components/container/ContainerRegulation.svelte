@@ -8,8 +8,9 @@
 	import NumField from "$lib/components/inputs/NumField.svelte";
 	import { enhance } from "$app/forms";
 
-    export let container: Modify<ContainerHydrated, { regulations: Array<ContainerRegulationHydrated> }>;
-
+    let { container = $bindable() }: {
+        container: Modify<ContainerHydrated, { regulations: Array<ContainerRegulationHydrated> }>;
+    } = $props();
 </script>
 
 {#each container.regulations as regulation}

@@ -1,19 +1,20 @@
 <script lang="ts">
-
 	import type { Popup, CallToActionFront } from "$lib/types/turbine";
 	import { ExclamationCircle, ExclamationTriangle, InformationCircle, XMark } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";
-	import { createEventDispatcher } from "svelte";
 	import { _ } from "svelte-i18n";
 	import Flex from "./layout/flex.svelte";
     import { fly } from "svelte/transition";
 	import Button from "./buttons/Button.svelte";
 	import { enhance } from "$app/forms";
 
-    const dispatch = createEventDispatcher<{ exit: void }>();
-
-    export let exit = () => dispatch("exit");
-    export let toast: Popup<CallToActionFront>;
+    let {
+        exit = () => {},
+        toast = $bindable(),
+    }: {
+        exit?: () => void;
+        toast: Popup<CallToActionFront>;
+    } = $props();
 
     const icons = {
         "info": {
@@ -24,22 +25,21 @@
             icon: ExclamationTriangle,
             color: "text-orange-500"
         },
-        "error": { 
+        "error": {
             icon: ExclamationCircle,
             color: "text-red-500"
         }
     };
-
 </script>
 
 <div
     class="p-4 rounded-xl ring-2 ring-inset ring-indigo-500 dark:bg-white dark:text-zinc-800 bg-zinc-900 text-white shadow-2xl pointer-events-auto"
-    transition:fly|local={{x: 100, duration: 300}}
+    transition:fly={{x: 100, duration: 300}}
 >
     <Flex gap={2} items="center">
         <Icon src={icons[toast.level].icon} theme="solid" class="h-6 w-6 shrink-0 {icons[toast.level].color}"/>
         <h2 class="truncate">{$_(toast.title)}</h2>
-        <button on:click={exit} class="ml-auto">
+        <button onclick={exit} class="ml-auto">
             <Icon src={XMark} class="h-6 w-6" />
         </button>
     </Flex>
@@ -49,7 +49,7 @@
     {#if toast.callToActions}
         <Flex items="center" justify="center">
             {#each toast.callToActions as cta}
-                <form action="?/callToAction" method="post" use:enhance on:submit={() => exit() }>
+                <form action="?/callToAction" method="post" use:enhance onsubmit={() => exit()}>
                     <input type="hidden" name="cta_id" value={cta.id} />
                     <Button textColor="dark:text-zinc-800 text-white">{$_(cta.name)}</Button>
                 </form>

@@ -9,19 +9,19 @@
 	import { page } from "$app/stores";
 	import ProgressBarGroup from "$lib/components/ProgressBarGroup.svelte";
 
-    export let step: PBRStepHydrated;
-    
+    let { step }: { step: PBRStepHydrated } = $props();
+
     const computeStepIcon = (step: PBRStepHydrated): { icon: IconSource, color: string } => {
 
         const icon = step.endReason !== "skipped" ? (step.state === "started" ? ArrowPath : ["partial", "ended", "ending"].includes(step.state) ? Check : XMark) : ArrowDown;
 
         let color = "text-white";
 
-        if(step.endReason === "skipped")
+        if (step.endReason === "skipped")
             color = "text-orange-500"
         else
         {
-            switch(step.state)
+            switch (step.state)
             {
                 case "started":
                     color = "text-indigo-500";
@@ -45,19 +45,18 @@
         }
     }
 
-    $: iconData = computeStepIcon(step);
-
+    let iconData = $derived(computeStepIcon(step));
 </script>
 
 <div class="p-4 rounded-md border-[1px] border-zinc-400">
     <Flex items="center" justify="between" class={(step.state === "started" || (step.endReason === "skipped" && (step.progress ?? 0) > 0) || (step.state === "crashed" && step.endReason != "ending")) ? "mb-2" : ""}>
-        <Flex 
-            gap={1} 
-            items={step.state === "started" ? "start" : "center"} 
+        <Flex
+            gap={1}
+            items={step.state === "started" ? "start" : "center"}
             direction={step.state === "started" ? "col" : "row"}
         >
             <h4 class="leading-6">{$_(`cycle.steps.${step.name}.name`)}</h4>
-            
+
             {#if step.state !== "started"}
                 <div class="mx-1 -skew-x-12 h-4 w-0.5 dark:bg-white bg-zinc-800" />
             {/if}

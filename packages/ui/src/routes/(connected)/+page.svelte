@@ -18,38 +18,31 @@
 	import { page } from "$app/stores";
 	import { enhance } from "$app/forms";
 
-    export let data: PageData;
-    export let form: ActionData;
+    let { data, form }: { data: PageData; form: ActionData } = $props();
 
-    let selectedPremadeIndex: number | undefined = undefined;
-    let cycleData: ProgramBlockRunnerHydrated | undefined;
-    let listShrinked = false;
-    let pathCycleButton: HTMLButtonElement;
+    let selectedPremadeIndex: number | undefined = $state(undefined);
+    let pathCycleButton: HTMLButtonElement = $state(undefined!);
 
-    /// — Reactives statements 
-    $: if(form !== undefined && form?.patchCycle?.success === true) { cycleData =  undefined; selectedPremadeIndex = undefined; }
-    $: cycleData = $realtime.cycle;
-    $: if(cycleData !== undefined && selectedPremadeIndex === undefined)
-    { 
-        const index = data.cyclePremades.findIndex(p => p.profile?.id == cycleData?.profile?.id);
-        const cycleIndex = data.cyclePremades.findIndex(p => p.cycle === cycleData?.name);
+    let cycleData = $derived($realtime.cycle);
+    let listShrinked = $derived(cycleData !== undefined && !cycleData.status.mode.startsWith("creat"));
 
-        selectedPremadeIndex = index === -1 ? ((cycleIndex === -1) ? undefined : cycleIndex) : index;
+    $effect(() => {
+        if (form?.patchCycle && "success" in form.patchCycle && form.patchCycle.success === true) {
+            selectedPremadeIndex = undefined;
+        }
+    });
 
-        if(selectedPremadeIndex !== -1 && !["creat"].includes(cycleData.status.mode))
-            listShrinked = true;
-    }
-
-    $: if(cycleData !== undefined && !cycleData.status.mode.startsWith("creat"))
-        listShrinked = true;
-    else if (cycleData !== undefined)
-        listShrinked = false;
-    else
-        listShrinked = false;
+    $effect(() => {
+        if (cycleData !== undefined && selectedPremadeIndex === undefined) {
+            const index = data.cyclePremades.findIndex(p => p.profile?.id == cycleData?.profile?.id);
+            const cycleIndex = data.cyclePremades.findIndex(p => p.cycle === cycleData?.name);
+            selectedPremadeIndex = index === -1 ? ((cycleIndex === -1) ? undefined : cycleIndex) : index;
+        }
+    });
 </script>
 
 <Flex direction="row" gap={listShrinked ? 0 : 6}>
-	<div 
+	<div
         class="shrink-0 drop-shadow-xl"
         class:max-w-0={listShrinked}
         class:max-h-0={listShrinked}
@@ -69,12 +62,12 @@
                     <form action="?/prepareCycle" method="post" use:enhance>
                         <input type="hidden" name="cycle_type" value={premade.cycle} />
                         {#if premade.profile !== undefined}
-                            <input type="hidden" name="profile_id" value={premade.profile?.id} /> 
+                            <input type="hidden" name="profile_id" value={premade.profile?.id} />
                         {/if}
 
-                        <SelectableButton 
+                        <SelectableButton
                             selected={selectedPremadeIndex === index}
-                            on:click={(e) => { if(selectedPremadeIndex == index) { e.preventDefault(); pathCycleButton.click(); } else { selectedPremadeIndex = index; }}}
+                            onclick={(e) => { if (selectedPremadeIndex == index) { e.preventDefault(); pathCycleButton.click(); } else { selectedPremadeIndex = index; }}}
                         >
                             <Flex gap={4} items="center">
                                 {#if premade.profile}

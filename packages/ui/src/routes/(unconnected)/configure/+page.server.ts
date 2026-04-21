@@ -1,10 +1,10 @@
-import type { Configuration } from "$lib/api/types";
+import type { Configuration, MachineSpecs } from "$lib/api/types";
 import { fail, redirect } from "@sveltejs/kit";
 
 export const load = (async ({ locals }) => {
 
     const { data: configsData } = await locals.api.GET("/configs");
-    const machineSpecsList = configsData as Record<string, unknown>;
+    const machineSpecsList = configsData as Record<string, MachineSpecs>;
 
     const machineModelNames = Object.keys(machineSpecsList);
 

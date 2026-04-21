@@ -1,11 +1,17 @@
 <script lang="ts">
-
+	import type { Snippet } from "svelte";
     import Label from "$lib/components/Label.svelte";
     import Flex from "$lib/components/layout/flex.svelte";
 
-    export let label: string;
-    export let value: string | string[] | undefined = undefined;
-
+    let {
+        label,
+        value = undefined,
+        children,
+    }: {
+        label: string;
+        value?: string | string[];
+        children?: Snippet;
+    } = $props();
 </script>
 
 <Flex items="center">
@@ -22,6 +28,6 @@
             {value}
         {/if}
     {:else}
-        <slot />
+        {@render children?.()}
     {/if}
 </Flex>

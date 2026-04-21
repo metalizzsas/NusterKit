@@ -1,8 +1,5 @@
 <script lang="ts">
-	/**
-	 * Columns amount
-	 */
-	export let cols: null | keyof typeof colsData = 1;
+	import type { Snippet } from "svelte";
 
 	const colsData = {
 		1: 'grid-cols-1',
@@ -19,12 +16,7 @@
 		12: 'grid-cols-12',
 	};
 
-	/**
-	 * Gap between items
-	 */
-	export let gap: null | keyof typeof gaps = 4;
-
-	const gaps = {
+	const gapsData = {
 		0: 'gap-0',
 		0.5: 'gap-0.5',
 		1: 'gap-1',
@@ -58,13 +50,25 @@
 		80: 'gap-80',
 		96: 'gap-96',
 	};
+
+	let {
+		cols = 1,
+		gap = 4,
+		class: class_name = '',
+		children,
+	}: {
+		cols?: null | keyof typeof colsData;
+		gap?: null | keyof typeof gapsData;
+		class?: string;
+		children?: Snippet;
+	} = $props();
 </script>
 
 <div
-	class="grid 
+	class="grid
 	{cols != null ? colsData[cols] : ''}
-	{gap != null ? gaps[gap] : ''}
-	{$$props.class || ''}"
+	{gap != null ? gapsData[gap] : ''}
+	{class_name}"
 >
-	<slot />
+	{@render children?.()}
 </div>

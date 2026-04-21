@@ -6,7 +6,7 @@
 	import Grid from '$lib/components/layout/grid.svelte';
 	import { page } from '$app/stores';
 
-	export let data: PageData;
+	let { data }: { data: PageData } = $props();
 </script>
 
 <Grid cols={3}>
@@ -22,7 +22,7 @@
                     {/if}
                     <p>
                         {#if page.type === "nuster"}
-                            {$_('nuster.lead')} 
+                            {$_('nuster.lead')}
                         {/if}
 
                         {#if page.folder !== undefined}

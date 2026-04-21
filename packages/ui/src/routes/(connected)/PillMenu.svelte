@@ -6,12 +6,8 @@ import { computeContainersState, computeMaintenancesState } from "$lib/utils/sta
 import { realtime, realtimeConnected } from "$lib/utils/stores/nuster";
 import PillMenuButton from "./PillMenuButton.svelte";
 
-let containersState: "good" | "warn" | "error" | "info" = "error";
-let maintenancesState: "good" | "warn" | "error" = "error";
-
-/// Reactive statements
-$: maintenancesState = computeMaintenancesState($realtime.maintenance);
-$: containersState = computeContainersState($realtime.containers, $realtime.io).result;
+let containersState = $derived(computeContainersState($realtime.containers, $realtime.io).result);
+let maintenancesState = $derived(computeMaintenancesState($realtime.maintenance));
 </script>
 
 <Flex justify="between" gap={2} items="center" class="text-zinc-800 dark:text-white">

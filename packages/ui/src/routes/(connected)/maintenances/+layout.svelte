@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { Snippet } from "svelte";
 	import Flex from "$lib/components/layout/flex.svelte";
 	import SelectableButton from "$lib/components/buttons/SelectableButton.svelte";
 	import Wrapper from "$lib/components/Wrapper.svelte";
@@ -8,7 +9,7 @@
 	import { page } from "$app/stores";
 	import { goto } from "$app/navigation";
 
-	export let data: LayoutData;
+	let { data, children }: { data: LayoutData; children: Snippet } = $props();
 </script>
 
 <Flex direction="row" gap={6}>
@@ -17,19 +18,19 @@
 			<Flex direction="col" gap={2}>
 				<h1>{$_(`maintenance.lead`)}</h1>
 				{#each data.maintenances as maintenance (maintenance.name)}
-					<SelectableButton 
-						selected={$page.params.id === maintenance.name} 
-						on:click={() => {
-							if($page.params.id === maintenance.name) { 
+					<SelectableButton
+						selected={$page.params.id === maintenance.name}
+						onclick={() => {
+							if ($page.params.id === maintenance.name) {
 								goto("/maintenances");
-							} else { 
+							} else {
                                 goto(`/maintenances/${maintenance.name}`);
 							}
 						}}
 					>
 						<Flex gap={4} items="center">
-							<div 
-                                class="h-3 aspect-square rounded-full" 
+							<div
+                                class="h-3 aspect-square rounded-full"
                                 class:bg-emerald-500={maintenance.durationProgress < .75}
                                 class:bg-amber-500={maintenance.durationProgress >= .75 && maintenance.durationProgress < 1}
                                 class:bg-red-500={maintenance.durationProgress >= 1 || maintenance.durationProgress === -1}
@@ -53,6 +54,6 @@
 	</div>
 
 	<div class="grow drop-shadow-xl">
-		<slot />
+		{@render children()}
 	</div>
 </Flex>

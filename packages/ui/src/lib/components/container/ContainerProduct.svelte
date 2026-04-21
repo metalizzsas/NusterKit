@@ -5,25 +5,27 @@
 	import Select from "$lib/components/inputs/Select.svelte";
 	import Flex from "$lib/components/layout/flex.svelte";
 	import Grid from "$lib/components/layout/grid.svelte";
-    
+
 	import { ArrowDownTray, ArrowRight } from "@steeze-ui/heroicons";
 	import { transformDate } from "$lib/utils/dateparser";
 	import { Icon } from "@steeze-ui/svelte-icon";
 	import { date, time, _ } from "svelte-i18n";
 	import { enhance } from "$app/forms";
 
-    export let container: ContainerHydrated;
+    let { container = $bindable() }: { container: ContainerHydrated } = $props();
 
-    let methods: string[] = []; 
+    let methods: string[] = $state([]);
 
-    let selectedProduct: string | undefined = undefined;
-    let selectedMethod: string | undefined = undefined;
+    let selectedProduct: string | undefined = $state(undefined);
+    let selectedMethod: string | undefined = $state(undefined);
 
-    $: methods = [
-        container.isProductable ? "load" : undefined,
-        ...(container.callToAction ?? []).map(cta => cta.name),
-        container.isProductable ? "unload" : undefined
-    ].filter(k => k !== undefined).filter((k, i, a) => a.indexOf(k) === i);
+    $effect(() => {
+        methods = [
+            container.isProductable ? "load" : undefined,
+            ...(container.callToAction ?? []).map(cta => cta.name),
+            container.isProductable ? "unload" : undefined
+        ].filter(k => k !== undefined).filter((k, i, a) => a.indexOf(k) === i);
+    });
 </script>
 
 <Flex direction="col" gap={2}>
@@ -53,12 +55,12 @@
             <Grid cols={1} gap={4}>
                 {#each methods as method}
                     {@const needProduct = method !== "unload"}
-                    {@const cta = container.callToAction.find(c => c.name === method)}
+                    {@const cta = container.callToAction?.find(c => c.name === method)}
 
                     {#if cta !== undefined || needProduct === false}
                         <form action="?/updateContainerProduct" method="post" use:enhance>
                             <input type="hidden" name="action_type" value={cta?.name || method} />
-                            <Button 
+                            <Button
                                 class="w-full"
                                 ringColor={`${method === "unload" ? "ring-red-500" : (method === "load" ? "ring-emerald-500" : 'ring-amber-500')}`}
                                 color={`${method === "unload" ? "hover:bg-red-500" : (method === "load" ? "hover:bg-emerald-500" : 'hover:bg-amber-500')}`}
@@ -70,8 +72,8 @@
                             </Button>
                         </form>
                     {:else}
-                        <Button 
-                            on:click={() => selectedMethod = method }
+                        <Button
+                            onclick={() => selectedMethod = method }
                             ringColor={`${method === "unload" ? "ring-red-500" : (method === "load" ? "ring-emerald-500" : 'ring-amber-500')}`}
                             color={`${method === "unload" ? "hover:bg-red-500" : (method === "load" ? "hover:bg-emerald-500" : 'hover:bg-amber-500')}`}
                         >
@@ -88,17 +90,17 @@
 
             <form action="?/updateContainerProduct" method="post" use:enhance class="grid grid-cols-3 gap-4">
                 <input type="hidden" name="action_type" value={selectedMethod} />
-                <Select 
+                <Select
                     bind:value={selectedProduct}
-                    selectableValues={container.supportedProductSeries.map(k => { return { 
-                        name: $_(`container.product.informations.product_series.${k}`), 
+                    selectableValues={container.supportedProductSeries.map(k => { return {
+                        name: $_(`container.product.informations.product_series.${k}`),
                         value: k
                     }})}
                     class="w-full"
                     form={{ name: "product" }}
                 />
 
-                <Button 
+                <Button
                     class="w-full"
                     color="{selectedProduct === undefined ? 'hover:bg-gray-500' : 'hover:bg-amber-500'}"
                     ringColor="{selectedProduct === undefined ? 'ring-gray-500' : 'ring-amber-500'}"
@@ -109,15 +111,15 @@
                     </Flex>
                 </Button>
 
-                <Button 
+                <Button
                     class="w-full"
                     color="hover:bg-red-500"
                     ringColor="ring-red-500"
-                    on:click={() => selectedMethod = undefined}
+                    onclick={() => selectedMethod = undefined}
                 >
                     {$_('cancel')}
                 </Button>
-            </form> 
+            </form>
         {/if}
     </section>
 </Flex>

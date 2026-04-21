@@ -1,25 +1,28 @@
 <script lang="ts">
-
+	import type { Snippet } from "svelte";
     import { page } from "$app/stores";
 
-    /** page sent to */
-    export let href: string;
-    /** Active URL */
-    export let activeUrl: string;
+    let {
+        href,
+        activeUrl,
+        exclusiveURL = false,
+        children,
+    }: {
+        href: string;
+        activeUrl: string;
+        exclusiveURL?: boolean;
+        children?: Snippet;
+    } = $props();
 
-    /** Do the active URL should be equal to the current page route, default behavior is page route starts with activeURL */
-    export let exclusiveURL = false;
-
-    $: isRoute = exclusiveURL ? $page.route.id === activeUrl : $page.route.id?.startsWith(activeUrl);
-
+    let isRoute = $derived(exclusiveURL ? $page.route.id === activeUrl : $page.route.id?.startsWith(activeUrl));
 </script>
 
-<a 
-    {href} 
-    class:pillActive={isRoute} 
+<a
+    {href}
+    class:pillActive={isRoute}
     class:pillPassive={!isRoute}
 >
-    <slot />
+    {@render children?.()}
 </a>
 
 <style lang="css">
@@ -39,5 +42,4 @@
     {
         @apply ring-indigo-500/50;
     }
-
 </style>

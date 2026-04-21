@@ -1,13 +1,16 @@
 <script lang="ts">
+	import type { Snippet } from "svelte";
 
-    export let href = '';    
+    let { href = '', children }: {
+        href?: string;
+        children?: Snippet;
+    } = $props();
 
-    $: isInternal = href.endsWith(".md");
-
+    let isInternal = $derived(href.endsWith(".md"));
 </script>
 
 {#if !isInternal}
-    <span class="dark:text-indigo-300 text-indigo-700 font-medium"><slot /></span>
+    <span class="dark:text-indigo-300 text-indigo-700 font-medium">{@render children?.()}</span>
 {:else}
-    <a href={href} class="text-indigo-500 font-medium hover:text-indigo-600 duration-100" on:click={() => window.scrollTo({ top: 0 })}><slot /></a>
+    <a {href} class="text-indigo-500 font-medium hover:text-indigo-600 duration-100" onclick={() => window.scrollTo({ top: 0 })}>{@render children?.()}</a>
 {/if}

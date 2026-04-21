@@ -1,27 +1,29 @@
 <script lang="ts">
-	import { createEventDispatcher, beforeUpdate } from 'svelte';
 	import type { FormInput } from './formInput';
 	import { page } from '$app/stores';
 
-	export let value: number | boolean;
+	let {
+		value = $bindable(),
+		change = () => {},
+		changeNum = () => {},
+		locked = false,
+		enableGrayScale = false,
+		form = undefined,
+	}: {
+		value: number | boolean;
+		change?: () => void;
+		changeNum?: () => void;
+		locked?: boolean;
+		enableGrayScale?: boolean;
+		form?: FormInput<"change">;
+	} = $props();
 
-	let checked = false;
+	let checked = $state(false);
+	let validateButton: HTMLButtonElement | undefined = $state();
 
-	const dispatch = createEventDispatcher<{change: {value: boolean }, changeNum: { value: number }}>();
-
-	export let change = () => dispatch('change', { value: value == 1 });
-	export let changeNum = () => dispatch('changeNum', { value: value == 1 ? 1 : 0 });
-
-	export let locked = false;
-	export let enableGrayScale = false;
-
-	export let form: FormInput<"change"> | undefined = undefined;
-
-	let validateButton: HTMLButtonElement | undefined;
-
-	beforeUpdate(() => {
+	$effect.pre(() => {
 		if (typeof value === 'boolean') checked = value;
-		else if(typeof value === "undefined") { value = false; checked = false }
+		else if (typeof value === "undefined") { value = false; checked = false }
 		else value == 0 ? (checked = false) : (checked = true);
 	});
 </script>
@@ -31,15 +33,15 @@
 	class:grayscale={locked && enableGrayScale}
 	class:checked={checked}
 	class:uncheked={!checked}
-	class:cursor-default={locked}	
-	on:click={() => {
+	class:cursor-default={locked}
+	onclick={() => {
 		if (!locked)
 		{
 			if (typeof value === 'boolean')
 			{
 				value = !value;
 				checked = value;
-			} 
+			}
 			else
 			{
 				value == 0 ? (value = 1) : (value = 0);
@@ -47,7 +49,7 @@
 			}
 			change();
 			changeNum();
-			if(form?.validateOn === "change" && validateButton !== undefined) { setTimeout(() => validateButton?.click(), 10); }
+			if (form?.validateOn === "change" && validateButton !== undefined) { setTimeout(() => validateButton?.click(), 10); }
 		}
 	}}
 />
@@ -89,7 +91,7 @@
 		top: 0.25rem;
 		transition: all 0.1s ease-in-out;
 	}
-	
+
 	.uncheked::before
 	{
 		@apply bg-red-500;

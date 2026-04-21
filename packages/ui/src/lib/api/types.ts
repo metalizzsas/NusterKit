@@ -38,3 +38,6 @@ export type Settings = ResponseBody<"/settings", "get">;
 // --- Network types ---
 export type AccessPoint = ResponseItem<"/network/wifi/list", "get">;
 export type NetworkDevice = ResponseItem<"/network/devices", "get">;
+
+// --- Machine Specs types ---
+export type MachineSpecs = ResponseBody<"/configs", "get">[string];

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { Snippet } from "svelte";
 	import { goto } from "$app/navigation";
 	import { page } from "$app/stores";
 	import Wrapper from "$lib/components/Wrapper.svelte";
@@ -9,10 +10,9 @@
 	import { _ } from "svelte-i18n";
 	import type { LayoutData } from "./$types";
 
-    export let data: LayoutData;
+    let { data, children }: { data: LayoutData; children: Snippet } = $props();
 
-    $: data.containers = $realtime.containers;
-
+    let containers = $derived($realtime.containers);
 </script>
 
 <Flex direction="row" gap={6}>
@@ -20,16 +20,16 @@
 		<Wrapper>
 			<Flex direction="col" gap={2}>
 				<h1>{$_(`container.lead`)}</h1>
-				{#each data.containers as container (container.name)}
+				{#each containers as container (container.name)}
 
 					{@const containerState = computeContainersState(container, $realtime.io)}
 
-					<SelectableButton 
+					<SelectableButton
 						selected={$page.params.id === container.name}
-						on:click={() => {if($page.params.id === container.name) { goto("/containers") } else { goto(`/containers/${container.name}`) }}}
+						onclick={() => {if ($page.params.id === container.name) { goto("/containers") } else { goto(`/containers/${container.name}`) }}}
 					>
 						<Flex gap={4} items="center">
-							<div 
+							<div
 								class="h-3 aspect-square rounded-full"
 								class:bg-red-500={containerState.result == "error"}
 								class:bg-amber-500={containerState.result == "warn"}
@@ -57,6 +57,6 @@
 	</div>
 
 	<div class="grow drop-shadow-xl">
-        <slot />
+        {@render children()}
 	</div>
 </Flex>

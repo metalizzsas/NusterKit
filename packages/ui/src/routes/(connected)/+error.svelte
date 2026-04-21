@@ -19,7 +19,6 @@
 			clearTimeout(timer);
 		}
 	});
-
 </script>
 
 <div class="w-screen flex flex-row justify-center">
@@ -34,7 +33,7 @@
 				<h1 class="text-xl">{$_('error.render.lead')}</h1>
 				<h2 class="text-base">{$_('error.render.sub')}</h2>
 				<p class="mt-2 mb-4">{$page.status} - {$page.error?.message}</p>
-				<Button on:click={redirect}>{$_('error.render.button')}</Button>
+				<Button onclick={redirect}>{$_('error.render.button')}</Button>
 			</div>
 		</div>
 	</Wrapper>

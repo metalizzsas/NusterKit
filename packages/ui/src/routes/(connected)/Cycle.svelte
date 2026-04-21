@@ -1,5 +1,5 @@
 <script lang="ts">
-    
+
     import Button from "$lib/components/buttons/Button.svelte";
     import Flex from "$lib/components/layout/flex.svelte";
 	import Gate from "$lib/components/io/Gate.svelte";
@@ -13,10 +13,8 @@
 	import { realtime } from "$lib/utils/stores/nuster";
 	import { page } from "$app/stores";
 	import { enhance } from "$app/forms";
-    
-    /// — Reactive statements
-    $: cycleData = $realtime.cycle;
 
+    let cycleData = $derived($realtime.cycle);
 </script>
 
 {#if cycleData !== undefined && cycleData.status.mode === "created"}
@@ -51,8 +49,8 @@
     {/if}
 
     <form action="?/startCycle" method="post" use:enhance>
-        <Button 
-            class="group self-start mb-2" 
+        <Button
+            class="group self-start mb-2"
             color={ready ? (readyWarn ? "hover:bg-amber-500" : "hover:bg-emerald-500") : "hover:bg-red-500"}
             ringColor={ready ? (readyWarn ? "ring-amber-500" : "ring-emerald-500") : "ring-red-500"}
         >
@@ -71,7 +69,7 @@
 
         <h3 class="leading-10 font-semibold text-md">{$_('cycle.categories.security_conditions')}</h3>
         <div class="h-[1px] bg-zinc-600/50 grow" />
-        <div 
+        <div
             class:text-red-500={cycleData.runConditions.filter(k => k.result == "error").length > 0}
             class:text-amber-500={cycleData.runConditions.filter(k => k.result == "warning").length > 0}
             class:text-emerald-500={cycleData.runConditions.filter(k => k.result == "good").length > 0}
@@ -86,7 +84,7 @@
             <Flex direction="row" items="center">
                 <span>{$_(`cycle.run_conditions.${sc.name}`)}</span>
                 <div class="h-[1px] bg-zinc-600/50 grow" />
-                <div 
+                <div
                     class="rounded-full h-2.5 w-2.5"
                     class:bg-red-500={sc.result == "error"}
                     class:bg-amber-500={sc.result == "warning"}
@@ -142,8 +140,8 @@
         <Flex gap={4} class="ml-auto self-start">
             {#if $page.data.machine_configuration.settings.devMode}
                 <form action="?/nextStepCycle" method="post" use:enhance>
-                    <Button 
-                        class="group self-start" 
+                    <Button
+                        class="group self-start"
                         color="hover:bg-amber-500"
                         ringColor={"ring-amber-500"}
                         disabled={cycleData.status.mode === "paused"}
@@ -156,8 +154,8 @@
 
             {#if cycleData.status.pausable}
                 <form action="?/pauseCycle" method="post" use:enhance>
-                    <Button 
-                        class="group self-start" 
+                    <Button
+                        class="group self-start"
                         color="hover:bg-yellow-500"
                         ringColor={"ring-yellow-500"}
                     >
@@ -168,8 +166,8 @@
             {/if}
 
             <form action="?/stopCycle" method="post" use:enhance>
-                <Button 
-                    class="group self-start" 
+                <Button
+                    class="group self-start"
                     color="hover:bg-red-500"
                     ringColor={"ring-red-500"}
                     disabled={cycleData.status.mode === "paused"}
@@ -186,11 +184,11 @@
             <Icon src={InformationCircle} class="h-6 w-6 inline mr-1 text-indigo-500"/>
             {$_('cycle.categories.additional_info')}
         </h3>
-    
+
         <Flex gap={2} direction="col">
             {#each cycleData.additionalInfo.map(k => $realtime.io.find(j => j.name == k)) as item}
                 {#if item !== undefined}
-                    <Gate bind:io={item} editable={false}/>
+                    <Gate io={item} editable={false}/>
                 {/if}
             {/each}
         </Flex>
@@ -216,7 +214,7 @@
         <div>
             <p class="text-sm text-zinc-600 dark:text-zinc-300">{$_('cycle.end.lead')}</p>
             <h1 class="leading-6">{$_(`cycle.end_reasons.${(!hasOneStepErrored) ? ($realtime.cycle?.status.endReason ?? 'error') : 'error'}`)}</h1>
-        
+
             {#if cycleData.status.endDate && cycleData.status.startDate}
                 <p class="leading-10">
                     <Icon src={Clock} class="h-4 w-4 mb-0.5 inline-block text-indigo-500" />
@@ -249,7 +247,7 @@
             <Icon src={Square3Stack3d} class="h-6 w-6 inline mr-1 text-indigo-500"/>
             {$_('cycle.categories.steps')}
         </h3>
-        
+
         <Flex gap={2} direction={"col"}>
             {#each cycleData.steps.filter(s => s.isEnabled) as step (step.name)}
                 <CycleStep {step} />

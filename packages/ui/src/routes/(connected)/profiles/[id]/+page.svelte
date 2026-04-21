@@ -17,28 +17,28 @@
 	import { enhance } from "$app/forms";
 	import type { ActionData } from "../$types";
 
-    export let data: PageData;
-    export let form: ActionData;
+    let { data, form }: { data: PageData; form: ActionData } = $props();
 
     // TODO: Display a modal to validate the deletion
-    let deleteConfirm = false;
+    let deleteConfirm = $state(false);
 
-    /// - Reactive statements
-
-    $: if(form !== null && form?.saveProfile?.success) { setTimeout(() => form = null, 3000)}
-    $: if(deleteConfirm === true) { setTimeout(() => deleteConfirm = false, 10000)}
-
+    $effect(() => {
+        if (form?.saveProfile && "success" in form.saveProfile) { setTimeout(() => form = null, 3000) }
+    });
+    $effect(() => {
+        if (deleteConfirm === true) { setTimeout(() => deleteConfirm = false, 10000) }
+    });
 </script>
 
 <Wrapper>
     <Flex direction="col" gap={2}>
         <Flex justify="between">
             <div>
-                {#if form !== null && form?.saveProfile?.success}<p class="text-sm text-emerald-700 font-medium duration-300">{$_('profile.save.message')}</p>{/if}
+                {#if form?.saveProfile && "success" in form.saveProfile}<p class="text-sm text-emerald-700 font-medium duration-300">{$_('profile.save.message')}</p>{/if}
                 <h1>{translateProfileName($_, data.profile)}</h1>
             </div>
             <Flex items="start">
-                <Button on:click={() => void goto("/profiles")} size="small" color="hover:bg-gray-500" ringColor="ring-gray-500">{$_('exit')}</Button>
+                <Button onclick={() => void goto("/profiles")} size="small" color="hover:bg-gray-500" ringColor="ring-gray-500">{$_('exit')}</Button>
                 {#if data.profile.isPremade !== true}
                     {#if deleteConfirm}
                         <form action="?/deleteProfile" method="post" use:enhance>
@@ -49,7 +49,7 @@
                             </Button>
                         </form>
                     {:else}
-                        <Button on:click={() => deleteConfirm = true} size="small" color="hover:bg-red-500" ringColor="ring-red-500">
+                        <Button onclick={() => deleteConfirm = true} size="small" color="hover:bg-red-500" ringColor="ring-red-500">
                             {$_('profile.delete.button')}
                         </Button>
                     {/if}
@@ -60,7 +60,7 @@
                     <input type="hidden" name="profile" value={JSON.stringify({...data.profile, name: $_('profile.premade.' + data.profile.name) + " — " + $_('profile.copy.suffix') })} />
                     <Button size="small" color="hover:bg-amber-500" ringColor="ring-amber-500">{$_('profile.copy.button')}</Button>
                 </form>
-                
+
                 {#if data.profile.isPremade !== true}
                     <form action="?/saveProfile" method="post" use:enhance>
                         <input type="hidden" name="profile_id" value={data.profile.id} />
@@ -70,34 +70,35 @@
                 {/if}
             </Flex>
         </Flex>
-    
+
         {#if data.profile.isPremade !== true}
             <Flex direction="col" items="start" gap={0.5} class="my-2">
                 <span class="text-sm text-zinc-600 dark:text-zinc-300">{$_('profile.name')}</span>
                 <TextField bind:value={data.profile.name} class="w-1/3" />
             </Flex>
         {/if}
-    
+
         {#each [...new Set(data.profile.values.map(k => k.name.split("#")[0]))] as category}
-    
-            {@const fields = data.profile.values.filter(k => { 
+
+            {@const fields = data.profile.values.filter(k => {
                 const catReturn = k.name.split("#").at(0) == category;
                 const shouldHideFields = $page.data.machine_configuration.settings.onlyShowSelectedProfileFields ?? false;
-    
-                if(shouldHideFields)
+
+                if (shouldHideFields)
                     return catReturn && k.detailsShown
                 else
                     return catReturn;
             })}
-    
+
             {#if fields.length > 0}
                 <section class="mb-4">
-    
+
                     <h2 class="mb-2">{$_(`profile.categories.${category}`)}</h2>
-    
+
                     <Flex direction="col" gap={3}>
                         {#each fields as field}
-                            <ProfileField bind:field disabled={data.profile.isPremade === true} />
+                            {@const fieldIndex = data.profile.values.indexOf(field)}
+                            <ProfileField bind:field={data.profile.values[fieldIndex]} disabled={data.profile.isPremade === true} />
                         {/each}
                     </Flex>
                 </section>

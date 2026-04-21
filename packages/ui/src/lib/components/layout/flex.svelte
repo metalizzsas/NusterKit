@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { Snippet } from "svelte";
 	import {
 		aligns,
 		directions,
@@ -14,12 +15,25 @@
 		type GapSizes,
 	} from '$lib/components/layout/flexTypes';
 
-	export let direction: FlexDirection = 'row';
-	export let wrap: FlexWrap | null = null;
-	export let gap: null | GapSizes = 4;
-	export let items: null | FlexItemPosition = null;
-	export let justify: null | FlexJustify = null;
-	export let align: null | FlexAlign = null;
+	let {
+		direction = 'row',
+		wrap = null,
+		gap = 4,
+		items = null,
+		justify = null,
+		align = null,
+		class: class_name = '',
+		children,
+	}: {
+		direction?: FlexDirection;
+		wrap?: FlexWrap | null;
+		gap?: null | GapSizes;
+		items?: null | FlexItemPosition;
+		justify?: null | FlexJustify;
+		align?: null | FlexAlign;
+		class?: string;
+		children?: Snippet;
+	} = $props();
 </script>
 
 <div
@@ -30,7 +44,7 @@
 	{justify != null ? justifies[justify] : ''}
 	{wrap != null ? wraps[wrap] : ''}
 	{align != null ? aligns[align] : ''}
-	{$$props.class || ''}"
+	{class_name}"
 >
-	<slot />
+	{@render children?.()}
 </div>

@@ -4,41 +4,53 @@
 	import Keyboard from "../Keyboard.svelte";
 	import { Eye, EyeSlash } from "@steeze-ui/heroicons";
 
-    export let value: string;
+    let {
+        value = $bindable(),
+        disabled = false,
+        secretShown = $bindable(false),
+        placeholder = undefined,
+        name = undefined,
+        keyboardEmbedded = false,
+        class: class_name = '',
+    }: {
+        value: string;
+        disabled?: boolean;
+        secretShown?: boolean;
+        placeholder?: string;
+        name?: string;
+        keyboardEmbedded?: boolean;
+        class?: string;
+    } = $props();
 
-    /// — Optional values
-    export let disabled = false;
-    export let secretShown = false;
-    export let placeholder: string | undefined = undefined;
-    export let name: string | undefined = undefined;
-    export let keyboardEmbedded = false;
+    let passwordElement: HTMLInputElement | undefined = $state();
 
-    let passwordElement: HTMLInputElement | undefined;
+    let focused = $state(false);
 
-    let focused = false;
-
-    $: if(passwordElement) { passwordElement.type = secretShown ? "text" : "password"; }
-    $: if(secretShown) { setTimeout(() => secretShown = false, 3000); }
-
+    $effect(() => {
+        if (passwordElement) { passwordElement.type = secretShown ? "text" : "password"; }
+    });
+    $effect(() => {
+        if (secretShown) { setTimeout(() => secretShown = false, 3000); }
+    });
 </script>
 
-<div class="ring-gray-500/50 ring-1 rounded-md p-2 bg-transparent dark:text-white text-zinc-800 flex flex-row items-center {$$props.class}">
+<div class="ring-gray-500/50 ring-1 rounded-md p-2 bg-transparent dark:text-white text-zinc-800 flex flex-row items-center {class_name}">
     <input
         bind:this={passwordElement}
         {name}
         type="password"
         {placeholder}
         class="bg-transparent dark:text-white text-zinc-800 grow"
-        bind:value={value}
-        on:focus={() => focused = true}
+        bind:value
+        onfocus={() => focused = true}
         {disabled}
         autocomplete="off"
     />
-    <button on:click|preventDefault={() => { secretShown = !secretShown; if(focused) { passwordElement?.focus(); } if(passwordElement) { passwordElement.selectionStart = value.length }}}>
+    <button onclick={(e) => { e.preventDefault(); secretShown = !secretShown; if (focused) { passwordElement?.focus(); } if (passwordElement) { passwordElement.selectionStart = value.length }}}>
         <Icon src={secretShown ? Eye : EyeSlash} class="h-4 w-4 mr-1.5" />
     </button>
 </div>
 
 {#if !keyboardEmbedded && focused && $page.data.is_machine_screen}
-    <Keyboard bind:value isPassword={true} bind:isPasswordShown={secretShown} on:close={() => focused = false} />
+    <Keyboard bind:value isPassword={true} bind:isPasswordShown={secretShown} onclose={() => focused = false} />
 {/if}

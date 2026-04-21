@@ -10,27 +10,30 @@
 	import type { ActionData, PageData } from "./$types";
 	import Wrapper from "$lib/components/Wrapper.svelte";
 
-    export let data: PageData;
-    export let form: ActionData;
+    let { data, form }: { data: PageData; form: ActionData } = $props();
 
-    $: if(form?.clearMaintenance.success === true) { document.getElementsByTagName("main").item(0)?.scrollTo({ top: 0, behavior: "smooth" }); form = null; }
-
+    $effect(() => {
+        if (form?.clearMaintenance && "success" in form.clearMaintenance && form.clearMaintenance.success === true) {
+            document.getElementsByTagName("main").item(0)?.scrollTo({ top: 0, behavior: "smooth" });
+            form = null;
+        }
+    });
 </script>
 
 <Wrapper>
     <Flex direction="col" gap={2}>
         <h1>{$_('maintenance.tasks.' + data.maintenance.name + '.name')}</h1>
         <p>{$_('maintenance.tasks.' + data.maintenance.name + '.desc')}</p>
-        
+
         {#if data.maintenance.operationDate}
             <p class="font-semibold text-amber-500">
-                {$_('maintenance.last_operation')}: 
+                {$_('maintenance.last_operation')}:
                 <span class="font-normal">{$date(new Date(data.maintenance.operationDate), { format: "medium"})} — {$time(new Date(data.maintenance.operationDate), { format: "medium"})}</span>
             </p>
         {/if}
-    
+
         <h3 class="leading-10 font-medium"><Icon src={WrenchScrewdriver} class="h-5 w-5 mr-1 inline-block text-indigo-500"/>{$_('maintenance.procedure.lead')}</h3>
-        
+
         {#if data.maintenanceContent}
             <div class="markdown">
                 <SvelteMarkdown source={data.maintenanceContent} renderers={{ image: MaintenanceImageParser }}/>

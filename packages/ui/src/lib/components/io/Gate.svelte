@@ -1,5 +1,4 @@
 <script lang="ts">
-
     import type { IOGateJSON } from "$lib/types/turbine";
 	import Flex from "$lib/components/layout/flex.svelte";
 	import Toggle from "$lib/components/inputs/Toggle.svelte";
@@ -9,11 +8,15 @@
 	import Button from "$lib/components/buttons/Button.svelte";
 	import { enhance } from "$app/forms";
 
-    export let io: IOGateJSON;
-    export let editable = true;
+    let {
+        io = $bindable(),
+        editable = true,
+    }: {
+        io: IOGateJSON;
+        editable?: boolean;
+    } = $props();
 
     // TODO: Check why it sends the order twice
-
 </script>
 
 <Flex items="center">
@@ -41,9 +44,9 @@
                 </Label>
 
                 {#if editable === true}
-                    <Button ringColor={"ring-amber-500"} color={"hover:bg-amber-500"} size={"small"} on:click={() => { io.value = 0; }}>{$_('gates.reset')}</Button>
-                    <NumField 
-                        bind:value={io.value} 
+                    <Button ringColor={"ring-amber-500"} color={"hover:bg-amber-500"} size={"small"} onclick={() => { io.value = 0; }}>{$_('gates.reset')}</Button>
+                    <NumField
+                        bind:value={io.value}
                         min={io.type == "mapped" ? io.mapOutMin : 0}
                         max={io.type == "mapped" ? io.mapOutMax : 100}
                         step={io.type == "mapped" ? 0.01 : 1}

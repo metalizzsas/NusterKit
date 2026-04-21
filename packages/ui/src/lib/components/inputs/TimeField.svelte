@@ -4,15 +4,20 @@
 	import Flex from '../layout/flex.svelte';
 	import NumField from './NumField.svelte';
 
-	export let disabled = false;
+	let {
+		disabled = false,
+		value = $bindable(),
+		enabledTimes = undefined,
+	}: {
+		disabled?: boolean;
+		value: number;
+		enabledTimes?: ('hours' | 'minutes' | 'seconds' | 'milliseconds')[];
+	} = $props();
 
-	let milliseconds = 0;
-	let seconds = 0;
-	let minutes = 0;
-	let hours = 0;
-
-	export let value: number;
-	export let enabledTimes: ('hours' | 'minutes' | 'seconds' | 'milliseconds')[] | undefined;
+	let milliseconds = $state(0);
+	let seconds = $state(0);
+	let minutes = $state(0);
+	let hours = $state(0);
 
 	const computeTo = () => {
 		value = milliseconds / 1000 + seconds + minutes * 60 + hours * 3600;
@@ -32,7 +37,10 @@
 		computeTo();
 	});
 
-	$: value, computeFrom();
+	$effect(() => {
+		void value;
+		computeFrom();
+	});
 </script>
 
 <Flex items="center" gap={2}>
@@ -40,28 +48,28 @@
 	{#if enabledTimes?.includes('hours')}
 		<Flex direction={"col"} gap={0.5}>
 			<span class="text-sm font-medium">{$_('date.hours')}</span>
-			<NumField bind:value={milliseconds} on:change={computeTo} min={0} max={23} step={1} {disabled}/>
+			<NumField bind:value={milliseconds} change={computeTo} min={0} max={23} step={1} {disabled}/>
 		</Flex>
 	{/if}
 
 	{#if enabledTimes === undefined || enabledTimes?.includes('minutes')}
 		<Flex direction="col" gap={0.5}>
 			<span class="text-sm font-medium">{$_('date.minutes')}</span>
-			<NumField bind:value={minutes} on:change={computeTo} min={0} max={59} step={1} {disabled}/>
+			<NumField bind:value={minutes} change={computeTo} min={0} max={59} step={1} {disabled}/>
 		</Flex>
 	{/if}
 
 	{#if enabledTimes === undefined || enabledTimes?.includes('seconds')}
 		<Flex direction="col" gap={0.5}>
 			<span class="text-sm font-medium">{$_('date.seconds')}</span>
-			<NumField bind:value={seconds} on:change={computeTo} min={0} max={59} step={1} {disabled}/>
+			<NumField bind:value={seconds} change={computeTo} min={0} max={59} step={1} {disabled}/>
 		</Flex>
 	{/if}
 
 	{#if enabledTimes?.includes('milliseconds')}
 		<Flex direction={"col"} gap={0.5}>
 			<span class="text-sm font-medium">{$_('date.milliseconds')}</span>
-			<NumField bind:value={milliseconds} on:change={computeTo} min={0} max={990} step={10} {disabled}/>
+			<NumField bind:value={milliseconds} change={computeTo} min={0} max={990} step={10} {disabled}/>
 		</Flex>
 	{/if}
 </Flex>

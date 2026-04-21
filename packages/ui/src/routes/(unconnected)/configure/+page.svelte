@@ -22,31 +22,29 @@
 	import ToggleGroup from "$lib/components/inputs/ToggleGroup.svelte";
 	import { enhance } from "$app/forms";
 
-    export let data: PageData;
+    let { data }: { data: PageData } = $props();
 
-    /// — Reactive statements
-    $: specs = data.configurations[`${data.configuration.model}`];
-
+    let specs = $derived(data.configurations[`${data.configuration.model}`]);
 </script>
 
 <Wrapper>
-    
+
     <h1>Machine Configuration</h1>
-    
+
     <Flex direction="col" gap={2}>
 
         <h2>Model choice</h2>
         <p>Base model settings</p>
 
         <SettingField label={"Model"}>
-            <Select 
+            <Select
                 bind:value={data.configuration.model}
                 selectableValues={Object.keys(data.configurations).map(k => { return { name: k, value: k}})}
             />
         </SettingField>
 
         {#if specs !== undefined}
-            
+
             <h2>Informations data</h2>
 
             <SettingField label={"Name"}><TextField bind:value={data.configuration.name} /></SettingField>
@@ -55,7 +53,7 @@
             {#if specs.addons !== undefined}
                 <h2>Addons</h2>
                 <p>Addons are small specs parts that are added to base specs.</p>
-        
+
                 {#each specs.addons as item}
                     <SettingField label={item.addonName}>
                         <ToggleGroup bind:group={data.configuration.addons} value={item.addonName} />
@@ -66,7 +64,7 @@
             <h2>Settings</h2>
 
             <p>These settings mostly affects how UI reacts.</p>
-            
+
             <SettingField label={"Dev Mode"}><Toggle bind:value={data.configuration.settings.devMode} /></SettingField>
             <SettingField label={"Profiles shown"}><Toggle bind:value={data.configuration.settings.profilesShown} /></SettingField>
 
@@ -76,16 +74,16 @@
             {#if specs.variables.length > 0}
                 <h2>Machine Variables</h2>
                 <p>Machine variables are used by programs, these settings are nearly unique for each machine.</p>
-        
+
                 <Button
-                    on:click={() => {
+                    onclick={() => {
                         data.configuration.settings.variables = [...data.configuration.settings.variables, {name: "new var name", value: 0}];
                     }}
                     class="self-end"
                 >
                     Add a variable
                 </Button>
-        
+
                 {#each data.configuration.settings.variables as variable}
                     <Grid cols={6}>
                         <Flex direction="col" gap={0.5} class="col-span-3">
@@ -95,13 +93,13 @@
                                 selectableValues={specs.variables.filter(k => variable.name === k || data.configuration.settings.variables.find(j => j.name === k) === undefined).map(k => { return { name: k, value: k}})}
                             />
                         </Flex>
-        
+
                         <Flex direction="col" gap={0.5} class="col-span-2">
                             <span class="text-xs">Variable value</span>
                             <NumField bind:value={variable.value}/>
                         </Flex>
-                        
-                        <Button class="self-end" color="hover:bg-red-500" ringColor="ring-red-500" on:click={() => { data.configuration.settings.variables = data.configuration.settings.variables.filter(k => k !== variable)}}>Delete</Button>
+
+                        <Button class="self-end" color="hover:bg-red-500" ringColor="ring-red-500" onclick={() => { data.configuration.settings.variables = data.configuration.settings.variables.filter(k => k !== variable)}}>Delete</Button>
                     </Grid>
                 {/each}
             {/if}

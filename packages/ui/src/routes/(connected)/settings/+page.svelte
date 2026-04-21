@@ -9,7 +9,7 @@
 	import PasswordField from "$lib/components/inputs/PasswordField.svelte";
 	import { Icon } from "@steeze-ui/svelte-icon";
 	import { ArrowPath, ExclamationTriangle, Power } from "@steeze-ui/heroicons";
-    
+
 	import { locales, _ } from "svelte-i18n";
 	import type { ActionData, PageData } from "./$types";
 	import Label from "$lib/components/Label.svelte";
@@ -22,8 +22,7 @@
 	import Modal from "$lib/components/Modal.svelte";
 	import SvelteMarkdown from "@humanspeak/svelte-markdown";
 
-    export let data: PageData;
-    export let form: ActionData;
+    let { data, form }: { data: PageData; form: ActionData } = $props();
 
     const langs: { [x: string]: string } = {
 		en: 'English',
@@ -31,35 +30,30 @@
 		it: 'Italiano'
 	};
 
-    let showChangelog = false;
-
+    let showChangelog = $state(false);
 </script>
 
 {#if showChangelog}
-    <Modal title="Changelog" on:close={() => showChangelog = false}>
+    <Modal title="Changelog" onclose={() => showChangelog = false}>
         <SvelteMarkdown source={data.changelog} />
     </Modal>
 {/if}
 
-{#if form?.advancedLogin?.error !== undefined}
-    <Modal title="Error" on:close={() => form = null}>
+{#if form && "advancedLogin" in form}
+    <Modal title="Error" onclose={() => form = null}>
         <p class="text-red-500 font-semibold">{form.advancedLogin.error}</p>
     </Modal>
 {/if}
 
 <Wrapper>
     <Flex direction="col" gap={2}>
-    
+
         <h1>{$_('settings.lead')}</h1>
         <h2>{$_('settings.ui.lead')}</h2>
-        
+
         <SettingField label={$_('settings.ui.language')}>
             <form action="?/updateSettings" method="post" id="settings" use:enhance>
-                <Select bind:value={data.settings.lang} selectableValues={Object.keys(langs).map(k => { return { name: langs[k], value: k}})} form={{ name: "lang", validateOn: "change" }}>
-                    {#each $locales as locale}
-                        <option value={locale}>{langs[locale]}</option>
-                    {/each}
-                </Select>
+                <Select bind:value={data.settings.lang} selectableValues={Object.keys(langs).map(k => { return { name: langs[k], value: k}})} form={{ name: "lang", validateOn: "change" }} />
             </form>
         </SettingField>
 
@@ -71,7 +65,7 @@
 
         <SettingField label={$_('settings.machine.model')} value={$_(`machineModelName`)} />
         <SettingField label={$_('settings.machine.serial')} value={data.machine.serial.toLocaleUpperCase()} />
-        
+
         {#if data.machine.addons !== undefined && data.machine.addons.length > 0}
             <SettingField label={$_('settings.machine.addons')}>
                 <Flex gap={2} items="center">
@@ -81,20 +75,20 @@
                 </Flex>
             </SettingField>
         {/if}
-        
+
         {#if data.cycleCount !== undefined } <SettingField label={$_('settings.machine.cycle_count')} value={`${data.cycleCount.duration}`} /> {/if}
 
         <h2>{$_('settings.software.lead')}</h2>
-        
+
         <SettingField label={$_('settings.software.ui_version')} value={version} />
         <SettingField label={$_('settings.software.turbine_version')} value={data.machine.turbineVersion} />
         <SettingField label={$_('settings.software.machine_specs_version')}>
-            <Button size="small" color="hover:bg-indigo-500" ringColor="ring-indigo-500" on:click={() => showChangelog = true}>{$_('settings.software.show_changelog')}</Button>
+            <Button size="small" color="hover:bg-indigo-500" ringColor="ring-indigo-500" onclick={() => showChangelog = true}>{$_('settings.software.show_changelog')}</Button>
         </SettingField>
-        
+
         {#if data.machine.hypervisorData?.appState !== 'applied' && data.machine.hypervisorData?.overallDownloadProgress === null}
             <SettingField label={$_('settings.software.update')}>
-                {#if form?.update !== undefined && "success" in form.update}
+                {#if form && "update" in form && "success" in form.update}
                     {$_('settings.software.update_installing')}
                     <ProgressBar progress={null} />
                 {:else}
@@ -104,7 +98,7 @@
                 {/if}
             </SettingField>
         {/if}
-                
+
         <h2>{$_('settings.network.lead')}</h2>
 
         <SettingField label={$_('settings.network.vpn')} value={
@@ -132,11 +126,11 @@
         <h2 class="mt-8">{$_('settings.power.lead')}</h2>
 
         <Grid cols={3} gap={4}>
-            <Button color="hover:bg-indigo-500" ringColor="ring-indigo-500" on:click={() => window.location.reload()}>
+            <Button color="hover:bg-indigo-500" ringColor="ring-indigo-500" onclick={() => window.location.reload()}>
                 <Icon src={ArrowPath} class="h-4 w-4 inline mr-2 mb-1" />
                 {$_('settings.power.reload')}
             </Button>
-            
+
             <form action="?/reboot" method="post">
                 <Button class="w-full" color="hover:bg-amber-500" ringColor="ring-amber-500" disabled={$realtime.cycle !== undefined}>
                     <Icon src={ArrowPath} class="h-4 w-4 inline mr-2 mb-1" />
@@ -153,7 +147,7 @@
         </Grid>
 
         <h2 class="mt-8">{$_('settings.advanced.lead')}</h2>
-        
+
         <p class="text-orange-500">
             <Icon src={ExclamationTriangle} class="h-5 w-5 inline" />
             {$_('settings.advanced.sub')}
@@ -162,8 +156,8 @@
         <form action="?/advancedLogin" method="post" use:enhance class="flex flex-row items-end gap-4">
             <PasswordField placeholder={$_('password')} value="" class="grow" name="password" />
 
-            <Button 
-                color={"hover:bg-amber-500"} 
+            <Button
+                color={"hover:bg-amber-500"}
                 ringColor={"ring-amber-500"}
                 disabled={$realtime.cycle !== undefined}
             >

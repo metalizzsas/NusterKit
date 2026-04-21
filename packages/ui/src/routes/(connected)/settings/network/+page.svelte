@@ -22,18 +22,19 @@
         return () => clearInterval(interval);
     });
 
-    let password = "";
+    let password = $state("");
 
-    let processing: string | undefined = undefined;
-    let showDetails: string | undefined = undefined;
-    let wifiConnectError: string | undefined = undefined;
-    let wifiConnectErrorMessage: string | undefined = undefined;
+    let processing: string | undefined = $state(undefined);
+    let showDetails: string | undefined = $state(undefined);
+    let wifiConnectError: string | undefined = $state(undefined);
+    let wifiConnectErrorMessage: string | undefined = $state(undefined);
 
-    $: wired_device = $realtime.network.devices.find(d => d.iface == "enp1s0u1");
-    $: wifi_device = $realtime.network.devices.find(d => d.iface == "wlan0");
+    let wired_device = $derived($realtime.network.devices.find(d => d.iface == "enp1s0u1"));
+    let wifi_device = $derived($realtime.network.devices.find(d => d.iface == "wlan0"));
 
-    $: if(wifiConnectError) { setTimeout(() => wifiConnectError = undefined, 10000) }
-
+    $effect(() => {
+        if (wifiConnectError) { setTimeout(() => wifiConnectError = undefined, 10000) }
+    });
 </script>
 
 <Wrapper class="mb-6" padding="p-4">
@@ -53,7 +54,7 @@
     {#if wired_device}
         {@const connected = wired_device.address !== undefined}
         <Wrapper variant="muted" padding="p-4" class="self-start">
-            <p 
+            <p
                 class="-mb-1 text-sm"
                 class:text-amber-500={!connected}
                 class:text-emerald-500={connected}
@@ -65,12 +66,12 @@
                     <span>{$_('settings.network.interface.ip_4')}</span>
                     <Label>{wired_device.address}</Label>
                 </Flex>
-    
+
                 <Flex items="center" justify="between" class="mb-2">
                     <span>{$_('settings.network.interface.subnet_mask')}</span>
                     <Label>{wired_device.subnet}</Label>
                 </Flex>
-    
+
                 <Flex items="center" justify="between">
                     <span>{$_('settings.network.interface.gateway_4')}</span>
                     <Label>{wired_device.gateway}</Label>
@@ -82,7 +83,7 @@
     {#if wifi_device}
         {@const connected = wifi_device.address !== undefined}
         <Wrapper variant="muted" padding="p-4" class="self-start">
-            <p 
+            <p
                 class="-mb-1 text-sm"
                 class:text-amber-500={!connected}
                 class:text-emerald-500={connected}
@@ -108,7 +109,7 @@
 
             <Flex align="middle" justify="between" class="mb-4 mt-2">
                 <h4 class="leading-6">{$_('settings.network.available_networks')}</h4>
-                <button on:click={() => invalidateAll()} class="bg-gray-500 hover:bg-gray-600 group duration-200 py-0.5 pr-1.5 pl-2 rounded-md text-sm text-white">
+                <button onclick={() => invalidateAll()} class="bg-gray-500 hover:bg-gray-600 group duration-200 py-0.5 pr-1.5 pl-2 rounded-md text-sm text-white">
                     {$_('settings.network.refresh_available_networks')}
                     <Icon src={ArrowPath} class="h-4 w-4 inline ml-2 mb-0.5 group-hover:rotate-180 duration-500"/>
                 </button>
@@ -118,7 +119,7 @@
                 {#each $realtime.network.accessPoints.sort((a, b) => Number(b.active) - Number(a.active)) as ap (ap.ssid)}
                     <div class="flex flex-col gap-4 bg-zinc-200 dark:bg-zinc-800 px-3 py-2 rounded-xl">
 
-                        <button class="flex justify-between items-center w-full" on:click={() => showDetails = (showDetails === ap.ssid) ? undefined : ap.ssid}>
+                        <button class="flex justify-between items-center w-full" onclick={() => showDetails = (showDetails === ap.ssid) ? undefined : ap.ssid}>
                             <div class="text-left">
                                 <h5 class="-mb-1">{ap.ssid}</h5>
                                 {#if !ap.active}
@@ -144,7 +145,7 @@
                                     <Icon src={ArrowPath} class="h-6 w-6 text-amber-500 animate-spin" />
                                 {/if}
                             {/if}
-    
+
                         </button>
 
                         {#if showDetails === ap.ssid}

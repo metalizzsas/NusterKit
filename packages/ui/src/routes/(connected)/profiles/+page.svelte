@@ -1,5 +1,5 @@
 <script lang="ts">
-	
+
 	import { translateProfileName } from '$lib/utils/i18n/i18nprofile';
 
 	import { Icon } from '@steeze-ui/svelte-icon';
@@ -12,8 +12,7 @@
 	import type { PageData } from './$types';
 	import { goto } from '$app/navigation';
 
-	export let data: PageData;
-
+	let { data }: { data: PageData } = $props();
 </script>
 
 <Flex direction="row" gap={6}>
@@ -22,8 +21,8 @@
 			<h1>{$_(`profile.lead`)}</h1>
 			{#each data.profiles as profile}
 
-				<SelectableButton 
-					on:click={() => void goto(`/profiles/${profile.id}`)}
+				<SelectableButton
+					onclick={() => void goto(`/profiles/${profile.id}`)}
 				>
 					<Flex gap={4} items="center">
 						<Icon
@@ -37,9 +36,9 @@
 								{#if profile.isPremade}
 									{$_('profile.premades.true')}
 								{:else}
-									{$date(new Date(profile.modificationDate), { format: "medium"})} 
+									{$date(new Date(profile.modificationDate), { format: "medium"})}
 									—
-									{$time(new Date(profile.modificationDate), { format: "medium"})} 
+									{$time(new Date(profile.modificationDate), { format: "medium"})}
 								{/if}
 							</p>
 						</Flex>

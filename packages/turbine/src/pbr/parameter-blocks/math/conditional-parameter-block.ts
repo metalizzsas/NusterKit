@@ -1,4 +1,5 @@
 import type { AllParameterBlocks, ConditionalParameterBlock as ConditionalParameterBlockSpec } from "$types/spec/cycle/parameter";
+import type { PBRContext } from "../../../services/pbr-context";
 import { NumericParameterBlock } from "../numeric-parameter-block";
 import { ParameterBlockRegistry } from "../parameter-block-registry";
 
@@ -22,15 +23,15 @@ export class ConditionalParameterBlock extends NumericParameterBlock {
 		"!==": (x: number, y: number) => x === y,
 	};
 
-	constructor(obj: ConditionalParameterBlockSpec) {
+	constructor(obj: ConditionalParameterBlockSpec, ctx?: PBRContext) {
 		super(obj);
 
 		this.comparator = obj.conditional.comparison[1];
-		this.compare_left = ParameterBlockRegistry.Numeric(obj.conditional.comparison[0]);
-		this.compare_right = ParameterBlockRegistry.Numeric(obj.conditional.comparison[2]);
+		this.compare_left = ParameterBlockRegistry.Numeric(obj.conditional.comparison[0], ctx);
+		this.compare_right = ParameterBlockRegistry.Numeric(obj.conditional.comparison[2], ctx);
 
-		this.value_if_true = ParameterBlockRegistry.Numeric(obj.conditional.value_if_true);
-		this.value_if_false = ParameterBlockRegistry.Numeric(obj.conditional.value_if_false);
+		this.value_if_true = ParameterBlockRegistry.Numeric(obj.conditional.value_if_true, ctx);
+		this.value_if_false = ParameterBlockRegistry.Numeric(obj.conditional.value_if_false, ctx);
 	}
 
 	public get data(): number {

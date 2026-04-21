@@ -53,12 +53,12 @@ export const handle = (async ({ event, resolve }) => {
         api.GET("/realtime")
     ]);
 
-    const { dark, lang } = settingsResult.data as { dark: "1" | "0", lang: string };
+    const { theme, lang } = settingsResult.data as { theme: "1" | "0", lang: string };
     const realtimeData = realtimeResult.data as Status;
 
     event.locals.machine_configuration = machineData!;
     event.locals.settings = {
-        dark: parseInt(dark) as 1 | 0,
+        dark: parseInt(theme) as 1 | 0,
         lang
     };
     locale.set(lang);

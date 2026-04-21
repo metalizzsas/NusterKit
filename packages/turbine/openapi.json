@@ -1140,6 +1140,36 @@
                                   },
                                   "detailsShown": {
                                     "type": "boolean"
+                                  },
+                                  "floatMin": {
+                                    "type": "number"
+                                  },
+                                  "floatMax": {
+                                    "type": "number"
+                                  },
+                                  "floatStep": {
+                                    "type": "number"
+                                  },
+                                  "baseValue": {
+                                    "type": "number"
+                                  },
+                                  "incrementalRangeMin": {
+                                    "type": "number"
+                                  },
+                                  "incrementalRangeMax": {
+                                    "type": "number"
+                                  },
+                                  "units": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string",
+                                      "enum": [
+                                        "hours",
+                                        "minutes",
+                                        "seconds",
+                                        "milliseconds"
+                                      ]
+                                    }
                                   }
                                 },
                                 "required": [
@@ -1238,16 +1268,7 @@
                             "items": {
                               "type": "object",
                               "properties": {
-                                "name": {
-                                  "type": "string"
-                                },
                                 "io": {
-                                  "type": "string"
-                                },
-                                "value": {
-                                  "type": "number"
-                                },
-                                "unity": {
                                   "type": "string"
                                 },
                                 "logic": {
@@ -1261,7 +1282,6 @@
                                 }
                               },
                               "required": [
-                                "name",
                                 "io"
                               ],
                               "additionalProperties": false
@@ -18141,6 +18161,36 @@
                             },
                             "detailsShown": {
                               "type": "boolean"
+                            },
+                            "floatMin": {
+                              "type": "number"
+                            },
+                            "floatMax": {
+                              "type": "number"
+                            },
+                            "floatStep": {
+                              "type": "number"
+                            },
+                            "baseValue": {
+                              "type": "number"
+                            },
+                            "incrementalRangeMin": {
+                              "type": "number"
+                            },
+                            "incrementalRangeMax": {
+                              "type": "number"
+                            },
+                            "units": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "enum": [
+                                  "hours",
+                                  "minutes",
+                                  "seconds",
+                                  "milliseconds"
+                                ]
+                              }
                             }
                           },
                           "required": [
@@ -18207,6 +18257,36 @@
                         },
                         "detailsShown": {
                           "type": "boolean"
+                        },
+                        "floatMin": {
+                          "type": "number"
+                        },
+                        "floatMax": {
+                          "type": "number"
+                        },
+                        "floatStep": {
+                          "type": "number"
+                        },
+                        "baseValue": {
+                          "type": "number"
+                        },
+                        "incrementalRangeMin": {
+                          "type": "number"
+                        },
+                        "incrementalRangeMax": {
+                          "type": "number"
+                        },
+                        "units": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "enum": [
+                              "hours",
+                              "minutes",
+                              "seconds",
+                              "milliseconds"
+                            ]
+                          }
                         }
                       },
                       "required": [
@@ -18271,6 +18351,36 @@
                           },
                           "detailsShown": {
                             "type": "boolean"
+                          },
+                          "floatMin": {
+                            "type": "number"
+                          },
+                          "floatMax": {
+                            "type": "number"
+                          },
+                          "floatStep": {
+                            "type": "number"
+                          },
+                          "baseValue": {
+                            "type": "number"
+                          },
+                          "incrementalRangeMin": {
+                            "type": "number"
+                          },
+                          "incrementalRangeMax": {
+                            "type": "number"
+                          },
+                          "units": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "enum": [
+                                "hours",
+                                "minutes",
+                                "seconds",
+                                "milliseconds"
+                              ]
+                            }
                           }
                         },
                         "required": [
@@ -18372,6 +18482,36 @@
                           },
                           "detailsShown": {
                             "type": "boolean"
+                          },
+                          "floatMin": {
+                            "type": "number"
+                          },
+                          "floatMax": {
+                            "type": "number"
+                          },
+                          "floatStep": {
+                            "type": "number"
+                          },
+                          "baseValue": {
+                            "type": "number"
+                          },
+                          "incrementalRangeMin": {
+                            "type": "number"
+                          },
+                          "incrementalRangeMax": {
+                            "type": "number"
+                          },
+                          "units": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "enum": [
+                                "hours",
+                                "minutes",
+                                "seconds",
+                                "milliseconds"
+                              ]
+                            }
                           }
                         },
                         "required": [
@@ -18519,6 +18659,36 @@
                         },
                         "detailsShown": {
                           "type": "boolean"
+                        },
+                        "floatMin": {
+                          "type": "number"
+                        },
+                        "floatMax": {
+                          "type": "number"
+                        },
+                        "floatStep": {
+                          "type": "number"
+                        },
+                        "baseValue": {
+                          "type": "number"
+                        },
+                        "incrementalRangeMin": {
+                          "type": "number"
+                        },
+                        "incrementalRangeMax": {
+                          "type": "number"
+                        },
+                        "units": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "enum": [
+                              "hours",
+                              "minutes",
+                              "seconds",
+                              "milliseconds"
+                            ]
+                          }
                         }
                       },
                       "required": [
@@ -19095,6 +19265,36 @@
                         },
                         "detailsShown": {
                           "type": "boolean"
+                        },
+                        "floatMin": {
+                          "type": "number"
+                        },
+                        "floatMax": {
+                          "type": "number"
+                        },
+                        "floatStep": {
+                          "type": "number"
+                        },
+                        "baseValue": {
+                          "type": "number"
+                        },
+                        "incrementalRangeMin": {
+                          "type": "number"
+                        },
+                        "incrementalRangeMax": {
+                          "type": "number"
+                        },
+                        "units": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "enum": [
+                              "hours",
+                              "minutes",
+                              "seconds",
+                              "milliseconds"
+                            ]
+                          }
                         }
                       },
                       "required": [

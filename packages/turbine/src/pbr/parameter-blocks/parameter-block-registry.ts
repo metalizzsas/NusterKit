@@ -40,18 +40,18 @@ export class ParameterBlockRegistry {
 
 		if (ReadVariableParameterBlock.is_read_variable_pb(obj)) return new ReadVariableParameterBlock(obj, ctx!);
 
-		if (AddParameterBlock.is_add_pb(obj)) return new AddParameterBlock(obj);
-		if (MultiplyParameterBlock.is_multiply_pb(obj)) return new MultiplyParameterBlock(obj);
+		if (AddParameterBlock.is_add_pb(obj)) return new AddParameterBlock(obj, ctx);
+		if (MultiplyParameterBlock.is_multiply_pb(obj)) return new MultiplyParameterBlock(obj, ctx);
 
-		if (SubParameterBlock.is_sub_pb(obj)) return new SubParameterBlock(obj);
-		if (DivideParameterBlock.is_divide_pb(obj)) return new DivideParameterBlock(obj);
-		if (ReverseParameterBlock.is_reverse_pb(obj)) return new ReverseParameterBlock(obj);
+		if (SubParameterBlock.is_sub_pb(obj)) return new SubParameterBlock(obj, ctx);
+		if (DivideParameterBlock.is_divide_pb(obj)) return new DivideParameterBlock(obj, ctx);
+		if (ReverseParameterBlock.is_reverse_pb(obj)) return new ReverseParameterBlock(obj, ctx);
 
 		if (ProfileParameterBlock.is_profile_pb(obj)) return new ProfileParameterBlock(obj, ctx!);
 
 		if (IOReadParameterBlock.is_io_read_pb(obj)) return new IOReadParameterBlock(obj, ctx!);
 
-		if (ConditionalParameterBlock.is_conditional_pb(obj)) return new ConditionalParameterBlock(obj);
+		if (ConditionalParameterBlock.is_conditional_pb(obj)) return new ConditionalParameterBlock(obj, ctx);
 
 		if (ReadMachineVariableParameterBlock.is_read_machine_variable_pb(obj)) return new ReadMachineVariableParameterBlock(obj, ctx!);
 

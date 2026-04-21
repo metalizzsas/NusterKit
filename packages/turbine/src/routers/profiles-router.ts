@@ -120,7 +120,7 @@ export class ProfilesRouter implements ProfileService {
 	}
 
 	public async profileList(): Promise<ProfileHydrated[]> {
-		return (await prisma.profile.findMany({ include: { values: true }, order_by: [{ isPremade: "asc" }, { modificationDate: "desc" }] })).map((d) =>
+		return (await prisma.profile.findMany({ include: { values: true }, orderBy: [{ isPremade: "asc" }, { modificationDate: "desc" }] })).map((d) =>
 			this.hydrate_profile(d),
 		);
 	}

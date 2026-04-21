@@ -346,6 +346,13 @@ export const ProfileValueSchema = z.object({
 	type: z.string().optional(),
 	unity: z.string().optional(),
 	detailsShown: z.boolean().optional(),
+	floatMin: z.number().optional(),
+	floatMax: z.number().optional(),
+	floatStep: z.number().optional(),
+	baseValue: z.number().optional(),
+	incrementalRangeMin: z.number().optional(),
+	incrementalRangeMax: z.number().optional(),
+	units: z.array(z.enum(["hours", "minutes", "seconds", "milliseconds"])).optional(),
 });
 
 export const ProfileHydratedSchema = z.object({
@@ -373,10 +380,7 @@ export const ContainerRegulationHydratedSchema = z.object({
 });
 
 export const ContainerSensorHydratedSchema = z.object({
-	name: z.string(),
 	io: z.string(),
-	value: z.number().optional(),
-	unity: z.string().optional(),
 	logic: z.enum(["level-min", "level-max", "level-limit-max", "presence"]).optional(),
 });
 

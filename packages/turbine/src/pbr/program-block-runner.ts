@@ -371,6 +371,7 @@ export class ProgramBlockRunner {
 
 			//identifiers vars
 			name: this.name,
+			profileRequired: this.profileRequired,
 
 			//Inside definers
 			steps: this.steps,
@@ -378,6 +379,8 @@ export class ProgramBlockRunner {
 
 			//internals
 			currentStepIndex: this.currentStepIndex,
+			variables: this.variables,
+			timers: this.timers.map((t) => ({ name: t.name, enabled: t.enabled })),
 
 			//statics
 			profile: this.profile,

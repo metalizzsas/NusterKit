@@ -7,6 +7,7 @@
   },
   "scripts": {
     "portless": "portless proxy start",
+    "portless-stop": "portless proxy stop",
     "dev": "pnpm run dev:turbine & pnpm run dev:ui & pnpm run dev:simulation",
     "dev:turbine": "pnpm --filter @nuster/turbine run dev",
     "dev:ui": "pnpm --filter @nuster/ui run dev",

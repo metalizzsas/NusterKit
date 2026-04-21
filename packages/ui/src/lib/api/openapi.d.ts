@@ -301,6 +301,13 @@ export interface paths {
                                         type?: string;
                                         unity?: string;
                                         detailsShown?: boolean;
+                                        floatMin?: number;
+                                        floatMax?: number;
+                                        floatStep?: number;
+                                        baseValue?: number;
+                                        incrementalRangeMin?: number;
+                                        incrementalRangeMax?: number;
+                                        units?: ("hours" | "minutes" | "seconds" | "milliseconds")[];
                                     }[];
                                 };
                                 additionalInfo?: string[];
@@ -319,10 +326,7 @@ export interface paths {
                                     lifetimeRemaining: number;
                                 };
                                 sensors?: {
-                                    name: string;
                                     io: string;
-                                    value?: number;
-                                    unity?: string;
                                     /** @enum {string} */
                                     logic?: "level-min" | "level-max" | "level-limit-max" | "presence";
                                 }[];
@@ -3282,6 +3286,13 @@ export interface paths {
                                 type?: string;
                                 unity?: string;
                                 detailsShown?: boolean;
+                                floatMin?: number;
+                                floatMax?: number;
+                                floatStep?: number;
+                                baseValue?: number;
+                                incrementalRangeMin?: number;
+                                incrementalRangeMax?: number;
+                                units?: ("hours" | "minutes" | "seconds" | "milliseconds")[];
                             }[];
                         }[];
                     };
@@ -3310,6 +3321,13 @@ export interface paths {
                             type?: string;
                             unity?: string;
                             detailsShown?: boolean;
+                            floatMin?: number;
+                            floatMax?: number;
+                            floatStep?: number;
+                            baseValue?: number;
+                            incrementalRangeMin?: number;
+                            incrementalRangeMax?: number;
+                            units?: ("hours" | "minutes" | "seconds" | "milliseconds")[];
                         }[];
                     };
                 };
@@ -3334,6 +3352,13 @@ export interface paths {
                                 type?: string;
                                 unity?: string;
                                 detailsShown?: boolean;
+                                floatMin?: number;
+                                floatMax?: number;
+                                floatStep?: number;
+                                baseValue?: number;
+                                incrementalRangeMin?: number;
+                                incrementalRangeMax?: number;
+                                units?: ("hours" | "minutes" | "seconds" | "milliseconds")[];
                             }[];
                         };
                     };
@@ -3394,6 +3419,13 @@ export interface paths {
                                 type?: string;
                                 unity?: string;
                                 detailsShown?: boolean;
+                                floatMin?: number;
+                                floatMax?: number;
+                                floatStep?: number;
+                                baseValue?: number;
+                                incrementalRangeMin?: number;
+                                incrementalRangeMax?: number;
+                                units?: ("hours" | "minutes" | "seconds" | "milliseconds")[];
                             }[];
                         };
                     };
@@ -3482,6 +3514,13 @@ export interface paths {
                             type?: string;
                             unity?: string;
                             detailsShown?: boolean;
+                            floatMin?: number;
+                            floatMax?: number;
+                            floatStep?: number;
+                            baseValue?: number;
+                            incrementalRangeMin?: number;
+                            incrementalRangeMax?: number;
+                            units?: ("hours" | "minutes" | "seconds" | "milliseconds")[];
                         }[];
                     };
                 };
@@ -3926,6 +3965,13 @@ export interface paths {
                             type?: string;
                             unity?: string;
                             detailsShown?: boolean;
+                            floatMin?: number;
+                            floatMax?: number;
+                            floatStep?: number;
+                            baseValue?: number;
+                            incrementalRangeMin?: number;
+                            incrementalRangeMax?: number;
+                            units?: ("hours" | "minutes" | "seconds" | "milliseconds")[];
                         }[];
                     } | null;
                 };

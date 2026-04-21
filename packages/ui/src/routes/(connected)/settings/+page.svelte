@@ -30,6 +30,7 @@
 		it: 'Italiano'
 	};
 
+    let settings = $state({ lang: data.settings.lang, dark: data.settings.dark });
     let showChangelog = $state(false);
 </script>
 
@@ -53,12 +54,12 @@
 
         <SettingField label={$_('settings.ui.language')}>
             <form action="?/updateSettings" method="post" id="settings" use:enhance>
-                <Select bind:value={data.settings.lang} selectableValues={Object.keys(langs).map(k => { return { name: langs[k], value: k}})} form={{ name: "lang", validateOn: "change" }} />
+                <Select bind:value={settings.lang} selectableValues={Object.keys(langs).map(k => { return { name: langs[k], value: k}})} form={{ name: "lang", validateOn: "change" }} />
             </form>
         </SettingField>
 
         <SettingField label={$_('settings.ui.dark_mode')}>
-            <Toggle bind:value={data.settings.dark} form={{ formName: "settings", name: "dark", validateOn: "change" }} />
+            <Toggle bind:value={settings.dark} form={{ formName: "settings", name: "dark", validateOn: "change" }} />
         </SettingField>
 
         <h2>{$_('settings.machine.lead')}</h2>

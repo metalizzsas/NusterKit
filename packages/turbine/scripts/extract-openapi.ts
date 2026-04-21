@@ -12,15 +12,15 @@ import Fastify from "fastify";
 import fastifySwagger from "@fastify/swagger";
 import { serializerCompiler, validatorCompiler, jsonSchemaTransform } from "fastify-type-provider-zod";
 import {
-	machineRoutes,
-	systemRoutes,
-	ioRoutes,
-	profileRoutes,
-	maintenanceRoutes,
-	containerRoutes,
-	cycleRoutes,
-	callToActionRoutes,
-	networkRoutes,
+	machine_routes,
+	system_routes,
+	io_routes,
+	profile_routes,
+	maintenance_routes,
+	container_routes,
+	cycle_routes,
+	call_to_action_routes,
+	network_routes,
 } from "../src/routes/index.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -44,53 +44,53 @@ async function main() {
 
 	// Register all route plugins with minimal stub options.
 	// Handlers are never executed — we only need the schema metadata.
-	app.register(machineRoutes, {
-		machinesPath: "/dev/null",
-		productionEnabled: false,
-		softExit: async () => {},
-		getMachine: () => undefined,
+	app.register(machine_routes, {
+		machines_path: "/dev/null",
+		production_enabled: false,
+		soft_exit: async () => {},
+		get_machine: () => undefined,
 	});
 
-	app.register(systemRoutes, {
-		updateFile: "/dev/null",
-		settingsPath: "/dev/null",
-		softExit: async () => {},
+	app.register(system_routes, {
+		update_file: "/dev/null",
+		settings_path: "/dev/null",
+		soft_exit: async () => {},
 	});
 
-	app.register(ioRoutes, {
+	app.register(io_routes, {
 		prefix: "/v1/io",
 		gates: [] as never,
 	});
 
-	app.register(profileRoutes, {
+	app.register(profile_routes, {
 		prefix: "/v1/profiles",
-		profilesRouter: {} as never,
+		profiles_router: {} as never,
 	});
 
-	app.register(maintenanceRoutes, {
+	app.register(maintenance_routes, {
 		prefix: "/v1/maintenances",
 		tasks: [],
 	});
 
-	app.register(containerRoutes, {
+	app.register(container_routes, {
 		prefix: "/v1/containers",
 		containers: [],
 	});
 
-	app.register(cycleRoutes, {
+	app.register(cycle_routes, {
 		prefix: "/v1/cycle",
 		cycleTypes: [],
 		cyclePremades: [],
 		state: { program: undefined },
 	});
 
-	app.register(callToActionRoutes, {
+	app.register(call_to_action_routes, {
 		prefix: "/v1/calltoaction",
 	});
 
-	app.register(networkRoutes, {
+	app.register(network_routes, {
 		prefix: "/network",
-		networkRouter: {} as never,
+		network_router: {} as never,
 	});
 
 	await app.ready();

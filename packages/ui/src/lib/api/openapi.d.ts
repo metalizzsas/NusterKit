@@ -60,7 +60,7 @@ export interface paths {
                                     content: {
                                         name: string;
                                         /** @enum {string} */
-                                        size: "bit" | "word";
+                                        size: "bit" | "word" | "dword";
                                         /** @enum {string} */
                                         bus: "in" | "out";
                                         /** @enum {string} */
@@ -360,7 +360,7 @@ export interface paths {
                                 /** @enum {string} */
                                 bus: "in" | "out";
                                 /** @enum {string} */
-                                size: "bit" | "word";
+                                size: "bit" | "word" | "dword";
                                 mapOutMin?: number;
                                 mapOutMax?: number;
                             }[];
@@ -2407,14 +2407,15 @@ export interface paths {
                                 }[];
                                 iohandlers: {
                                     type: string;
-                                    ip: string;
+                                    ip?: string;
                                     ioScannerInterval?: number;
                                     size?: 16 | 32;
+                                    devicePath?: string;
                                 }[];
                                 iogates: {
                                     name: string;
                                     /** @enum {string} */
-                                    size: "bit" | "word";
+                                    size: "bit" | "word" | "dword";
                                     /** @enum {string} */
                                     bus: "in" | "out";
                                     /** @enum {string} */
@@ -2536,7 +2537,7 @@ export interface paths {
                                         content: {
                                             name: string;
                                             /** @enum {string} */
-                                            size: "bit" | "word";
+                                            size: "bit" | "word" | "dword";
                                             /** @enum {string} */
                                             bus: "in" | "out";
                                             /** @enum {string} */
@@ -2677,7 +2678,7 @@ export interface paths {
                                     content: {
                                         name: string;
                                         /** @enum {string} */
-                                        size: "bit" | "word";
+                                        size: "bit" | "word" | "dword";
                                         /** @enum {string} */
                                         bus: "in" | "out";
                                         /** @enum {string} */
@@ -2832,7 +2833,7 @@ export interface paths {
                                 content: {
                                     name: string;
                                     /** @enum {string} */
-                                    size: "bit" | "word";
+                                    size: "bit" | "word" | "dword";
                                     /** @enum {string} */
                                     bus: "in" | "out";
                                     /** @enum {string} */

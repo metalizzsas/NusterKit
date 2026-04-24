@@ -3,12 +3,36 @@ import type { IOGates } from "@nuster/turbine/types/spec/iogates";
 import { env } from "$env/dynamic/private";
 import { fail } from '@sveltejs/kit';
 
+export type SimulationGate = IOGates & { value: number; category?: string; locked?: boolean };
+
 export const load = async ({ fetch }) => {
-	const req = await fetch(`${env.SIMULATION_URL}/io`);
-	const gates = (await req.json()) as IOGates[];
+	let gates: SimulationGate[] = [];
+	let revpi: { devicePath: string; bytes: string } | null = null;
+	let connected = false;
+
+	try {
+		const req = await fetch(`${env.SIMULATION_URL}/io`);
+		if (req.ok) {
+			gates = (await req.json()) as SimulationGate[];
+			connected = true;
+		}
+	} catch {
+		// simulation-server offline — render the UI in disconnected state
+	}
+
+	try {
+		const revpi_req = await fetch(`${env.SIMULATION_URL}/revpi`);
+		if (revpi_req.ok) {
+			revpi = (await revpi_req.json()) as { devicePath: string; bytes: string };
+		}
+	} catch {
+		// RevPi controller not configured or server offline
+	}
 
 	return {
-		gates
+		gates,
+		revpi,
+		connected
 	};
 };
 

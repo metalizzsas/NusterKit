@@ -5,6 +5,7 @@ import { ModbusController } from "./controllers/modbus";
 
 import { Request, Response, Router as ExpressRouter } from "express";
 import { ENIPController } from "./controllers/enip";
+import { RevolutionPiController } from "./controllers/revolution-pi";
 import { deepInsert } from "./deepInsert";
 
 /** IOGates extended with a runtime `value` field for simulation */
@@ -18,7 +19,7 @@ function map(source: number, inMin: number, inMax: number, outMin: number, outMa
 export class SimulationMachine
 {
     config: MachineSpecs & { iogates: SimulationGate[] };
-    controllers: (ModbusController | ENIPController)[] = [];
+    controllers: (ModbusController | ENIPController | RevolutionPiController)[] = [];
 
     router: ExpressRouter;
 
@@ -53,9 +54,21 @@ export class SimulationMachine
             {
                 if(o instanceof ENIPController)
                     o.readGates();
+                else if(o instanceof RevolutionPiController)
+                    o.readGates();
             }
 
             res.json(this.config.iogates);
+        });
+
+        this.router.get("/revpi", (_, res: Response) => {
+            const revpi = this.controllers.find((c): c is RevolutionPiController => c instanceof RevolutionPiController);
+            if(!revpi)
+            {
+                res.status(404).json({ message: "No RevolutionPi controller configured" });
+                return;
+            }
+            res.json(revpi.snapshot());
         });
 
         this.router.get(`/io/:name`, (req: Request, res: Response) => {
@@ -90,7 +103,12 @@ export class SimulationMachine
             {
                 (gate as SimulationGate).value = parseInt(rawValue);
             }
-            
+
+            // If the gate belongs to a RevolutionPi controller, mirror the new value into its backing file
+            // so Turbine reads the same bytes via REVPI_DEVICE_PATH.
+            const owner = this.controllers.find(c => c instanceof RevolutionPiController && c.index === gate.controllerId);
+            if(owner instanceof RevolutionPiController)
+                owner.writeGate(gate as SimulationGate);
 
             res.status(200);
             res.write("ok");
@@ -103,7 +121,7 @@ export class SimulationMachine
      * @param controllers 
      * @param gates 
      */
-    setupAutomatons(controllers: IOHandlers[], gates: IOGates[])
+    setupAutomatons(controllers: IOHandlers[], gates: SimulationGate[])
     {
         for(const [index, controller] of controllers.entries())
         {
@@ -112,6 +130,7 @@ export class SimulationMachine
             {
                 case "wago": this.controllers.push(new ModbusController(controller, controllerGates, index)); break;
                 case "ex260sx": this.controllers.push(new ENIPController(controller, controllerGates, index)); break;
+                case "revolutionpi": this.controllers.push(new RevolutionPiController(controller, controllerGates as SimulationGate[], index)); break;
             }
         }
     }

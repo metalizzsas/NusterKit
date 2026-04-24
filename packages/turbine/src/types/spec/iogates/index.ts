@@ -4,7 +4,7 @@ interface IOGate {
 	name: string;
 
 	/** Gate controller data size */
-	size: "bit" | "word";
+	size: "bit" | "word" | "dword";
 	/** Gate bus */
 	bus: "in" | "out";
 	/** Gate type */

@@ -139,7 +139,7 @@ export const NusterSchema = z.object({
 
 const IOGateBaseSchema = z.object({
 	name: z.string(),
-	size: z.enum(["bit", "word"]),
+	size: z.enum(["bit", "word", "dword"]),
 	bus: z.enum(["in", "out"]),
 	type: z.enum(["default", "mapped", "pt100"]),
 	controllerId: z.number(),
@@ -157,12 +157,13 @@ export const IOGateSpecSchema = IOGateBaseSchema.extend({
 
 const IOHandlerBaseSchema = z.object({
 	type: z.string(),
-	ip: z.string(),
+	ip: z.string().optional(),
 	ioScannerInterval: z.number().optional(),
 });
 
 export const IOHandlerSpecSchema = IOHandlerBaseSchema.extend({
 	size: z.union([z.literal(16), z.literal(32)]).optional(),
+	devicePath: z.string().optional(),
 });
 
 // ============================================================
@@ -413,7 +414,7 @@ export const IOGateJSONSchema = z.object({
 	value: z.number(),
 	unity: z.string().optional(),
 	bus: z.enum(["in", "out"]),
-	size: z.enum(["bit", "word"]),
+	size: z.enum(["bit", "word", "dword"]),
 	mapOutMin: z.number().optional(),
 	mapOutMax: z.number().optional(),
 });

@@ -1,39 +1,75 @@
 <script lang="ts">
-	import type { IOGates } from '@metalizzsas/nuster-typings/build/spec/iogates';
+	import type { SimulationGate } from "../routes/+page.server";
+	import Element from "./element.svelte";
+	import { Switch } from "$lib/components/ui/switch";
+	import { Label } from "$lib/components/ui/label";
 
-	import { afterUpdate } from 'svelte';
-	import Element from './element.svelte';
+	interface Props {
+		gates: SimulationGate[];
+	}
 
-	export let gates: IOGates[];
+	let { gates }: Props = $props();
 
-	type gateStore = Record<string, Array<IOGates>>;
+	type GateStore = Record<string, Array<SimulationGate>>;
 
-	let history: [Array<Date>, gateStore] = [[], {}];
+	const history_dates: Date[] = [];
+	const history_data: GateStore = {};
+	let tick = $state(0);
+	let hide_inputs = $state(true);
 
-	let hideInputs = true;
+	$effect(() => {
+		void gates;
 
-	afterUpdate(() => {
-		history[0].push(new Date());
+		history_dates.push(new Date());
 
 		for (const g of gates) {
-			if (history[1][g.name] === undefined) history[1][g.name] = [];
-
-			history[1][g.name] = [...history[1][g.name], g];
+			if (history_data[g.name] === undefined) history_data[g.name] = [];
+			history_data[g.name] = [...history_data[g.name], g];
 		}
 
-		if (history[0].length > 50) {
-			history[0].splice(0, 1);
-			for (const key in history[1]) {
-				history[1][key].splice(0, 1);
+		if (history_dates.length > 50) {
+			history_dates.shift();
+			for (const key in history_data) {
+				history_data[key] = history_data[key].slice(1);
 			}
 		}
+
+		tick++;
+	});
+
+	const channel_keys = $derived.by(() => {
+		void tick;
+		return Object.keys(history_data).filter(
+			(k) => (hide_inputs ? history_data[k].at(0)?.bus != "in" : true),
+		);
+	});
+
+	const sample_count = $derived.by(() => {
+		void tick;
+		return history_dates.length;
 	});
 </script>
 
-<div style="margin: 0.5em 0;">Hide Inputs <input type="checkbox" bind:checked={hideInputs} /></div>
-
-<div style="display: flex; flex-direction: column; gap:0.25em;">
-	{#each Object.keys(history[1]).filter( (k) => (hideInputs ? history[1][k].at(0)?.bus != 'in' : true) ) as g}
-		<Element bind:gateHistory={history[1][g]} />
-	{/each}
+<div class="flex items-center justify-between gap-3 mb-4">
+	<div class="flex items-center gap-2">
+		<Label for="hide-inputs">Hide inputs</Label>
+		<Switch id="hide-inputs" bind:checked={hide_inputs} />
+	</div>
+	<span class="text-xs text-muted-foreground">
+		{channel_keys.length} channels · {sample_count}/50 samples
+	</span>
 </div>
+
+{#if channel_keys.length === 0}
+	<p class="text-muted-foreground text-sm py-8 text-center">
+		No channels. Toggle "Hide inputs" off to view input traces.
+	</p>
+{:else}
+	{#key tick}
+		<div class="flex flex-col gap-2">
+			{#each channel_keys as g (g)}
+				<Element gateHistory={history_data[g]} />
+			{/each}
+		</div>
+	{/key}
+{/if}

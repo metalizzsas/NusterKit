@@ -3,6 +3,7 @@ import { IOGate } from "../io/io-gates/io-gate";
 import { MappedGate } from "../io/io-gates/mapped-gate";
 import { PT100Gate } from "../io/io-gates/pt100-gate";
 import { EX260Sx } from "../io/io-handlers/ex260-sx";
+import { RevolutionPi } from "../io/io-handlers/revolution-pi";
 import { WAGO } from "../io/io-handlers/wago";
 import type { IOBus } from "../services/interfaces";
 import type { IOGateJSON, IOGatesHydrated } from "../types/hydrated/io";
@@ -26,9 +27,11 @@ export class IORouter implements IOBus {
 	constructor(handlers: IOHandlers[], gates: IOGates[]) {
 		// Register IO Handlers from their types
 		for (const handler of handlers) {
-			if (process.env.NODE_ENV != "production") handler.ip = "127.0.0.1";
+			if (handler.ip !== undefined) {
+				if (process.env.NODE_ENV != "production") handler.ip = "127.0.0.1";
 
-			if (process.env.SIMULATION_ADDRESS !== undefined) handler.ip = process.env.SIMULATION_ADDRESS;
+				if (process.env.SIMULATION_ADDRESS !== undefined) handler.ip = process.env.SIMULATION_ADDRESS;
+			}
 
 			if (handler.ioScannerInterval !== undefined) this.ioScannerInterval = handler.ioScannerInterval;
 
@@ -38,6 +41,9 @@ export class IORouter implements IOBus {
 					break;
 				case "ex260sx":
 					this.handlers.push(new EX260Sx(handler.ip, handler.size));
+					break;
+				case "revolutionpi":
+					this.handlers.push(new RevolutionPi(handler.devicePath));
 					break;
 			}
 		}

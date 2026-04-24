@@ -467,7 +467,8 @@
                                     "description": "Gate controller data size",
                                     "enum": [
                                       "bit",
-                                      "word"
+                                      "word",
+                                      "dword"
                                     ],
                                     "type": "string"
                                   },
@@ -1295,7 +1296,8 @@
                     "description": "Gate controller data size",
                     "enum": [
                       "bit",
-                      "word"
+                      "word",
+                      "dword"
                     ],
                     "type": "string"
                   },
@@ -1460,7 +1462,7 @@
                     "type": "number"
                   },
                   "ip": {
-                    "description": "IP Address on the local network",
+                    "description": "IP Address on the local network (required for network-based handlers)",
                     "type": "string"
                   },
                   "type": {
@@ -1483,7 +1485,7 @@
                     "type": "number"
                   },
                   "ip": {
-                    "description": "IP Address on the local network",
+                    "description": "IP Address on the local network (required for network-based handlers)",
                     "type": "string"
                   },
                   "size": {
@@ -1503,6 +1505,32 @@
                 "required": [
                   "ip",
                   "size",
+                  "type"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "devicePath": {
+                    "description": "Path to the piControl process image. Defaults to /dev/piControl0",
+                    "type": "string"
+                  },
+                  "ioScannerInterval": {
+                    "description": "IOScannerInterval",
+                    "type": "number"
+                  },
+                  "ip": {
+                    "description": "IP Address on the local network (required for network-based handlers)",
+                    "type": "string"
+                  },
+                  "type": {
+                    "const": "revolutionpi",
+                    "description": "Type of the IO Handler",
+                    "type": "string"
+                  }
+                },
+                "required": [
                   "type"
                 ],
                 "type": "object"

@@ -3,7 +3,7 @@ import { ENIPClient } from "enip-ts";
 import { MessageRouter } from "enip-ts/CIP/MessageRouter";
 import type { dataItem } from "enip-ts/Encapsulation/CPF";
 import ping from "ping";
-import type { EX260Sx as EX260SxConfig, IOBase } from "$types/spec/iohandlers";
+import type { EX260Sx as EX260SxConfig, IOBase, IOSize } from "$types/spec/iohandlers";
 import { TurbineEventLoop } from "../../events";
 import { AsyncMutex } from "../../utils/async-mutex";
 import { callback_with_timeout } from "../../utils/callback-with-timeout";
@@ -75,10 +75,10 @@ export class EX260Sx implements IOBase, EX260SxConfig {
 	 * Unused read data function
 	 * @unused
 	 * @param _address
-	 * @param _word
+	 * @param _size
 	 */
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	readData(_address: number, _word?: boolean | undefined): Promise<number> {
+	readData(_address: number, _size?: IOSize): Promise<number> {
 		throw new Error("Method not implemented.");
 	}
 
@@ -118,7 +118,9 @@ export class EX260Sx implements IOBase, EX260SxConfig {
 		);
 	}
 
-	async writeData(address: number, value: number): Promise<void> {
+	async writeData(address: number, value: number, size: IOSize = "bit"): Promise<void> {
+		if (size === "dword") throw new Error("EX260Sx: 32-bit (dword) writes are not supported");
+
 		if (this.unreachable) throw new Error("EX260Sx: Unreachable");
 
 		await this.write_mutex.acquire();

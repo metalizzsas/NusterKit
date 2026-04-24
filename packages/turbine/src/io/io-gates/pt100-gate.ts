@@ -10,7 +10,7 @@ export class PT100Gate extends IOGate implements PT100GateConfig {
 	bus = "in" as const;
 
 	public async read() {
-		const temp = await this.controller_instance.readData(this.address, true);
+		const temp = await this.controller_instance.readData(this.address, "word");
 		this.value = temp / 10;
 		TurbineEventLoop.emit(`io.updated.${this.name}`, this.toJSON());
 		return true;

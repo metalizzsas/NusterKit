@@ -187,7 +187,8 @@
                                             "type": "string",
                                             "enum": [
                                               "bit",
-                                              "word"
+                                              "word",
+                                              "dword"
                                             ]
                                           },
                                           "bus": {
@@ -1411,7 +1412,8 @@
                             "type": "string",
                             "enum": [
                               "bit",
-                              "word"
+                              "word",
+                              "dword"
                             ]
                           },
                           "mapOutMin": {
@@ -15667,11 +15669,13 @@
                                   ]
                                 }
                               ]
+                            },
+                            "devicePath": {
+                              "type": "string"
                             }
                           },
                           "required": [
-                            "type",
-                            "ip"
+                            "type"
                           ],
                           "additionalProperties": false
                         }
@@ -15688,7 +15692,8 @@
                               "type": "string",
                               "enum": [
                                 "bit",
-                                "word"
+                                "word",
+                                "dword"
                               ]
                             },
                             "bus": {
@@ -16257,7 +16262,8 @@
                                               "type": "string",
                                               "enum": [
                                                 "bit",
-                                                "word"
+                                                "word",
+                                                "dword"
                                               ]
                                             },
                                             "bus": {
@@ -16804,7 +16810,8 @@
                                             "type": "string",
                                             "enum": [
                                               "bit",
-                                              "word"
+                                              "word",
+                                              "dword"
                                             ]
                                           },
                                           "bus": {
@@ -17392,7 +17399,8 @@
                                           "type": "string",
                                           "enum": [
                                             "bit",
-                                            "word"
+                                            "word",
+                                            "dword"
                                           ]
                                         },
                                         "bus": {

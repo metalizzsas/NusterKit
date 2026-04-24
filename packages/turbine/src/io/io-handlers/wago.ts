@@ -1,6 +1,6 @@
 import ModbusTCP from "modbus-serial";
 import ping from "ping";
-import type { IOBase, WAGO as WAGOConfig } from "$types/spec/iohandlers";
+import type { IOBase, IOSize, WAGO as WAGOConfig } from "$types/spec/iohandlers";
 import { TurbineEventLoop } from "../../events";
 import { AsyncMutex } from "../../utils/async-mutex";
 
@@ -104,7 +104,9 @@ export class WAGO implements IOBase, WAGOConfig {
 		}
 	}
 
-	async writeData(address: number, data: number, word?: boolean): Promise<void> {
+	async writeData(address: number, data: number, size: IOSize = "bit"): Promise<void> {
+		if (size === "dword") throw new Error("WAGO: 32-bit (dword) writes are not supported");
+
 		if (this.unreachable) {
 			TurbineEventLoop.emit(`pbr.stop`, "controllerUnreachable");
 			return;
@@ -118,7 +120,7 @@ export class WAGO implements IOBase, WAGOConfig {
 				if (!connected) return;
 			}
 
-			if (word && word == true) {
+			if (size === "word") {
 				await this.client.writeRegister(address, data);
 			} else {
 				await this.client.writeCoil(address, data == 1);
@@ -128,7 +130,9 @@ export class WAGO implements IOBase, WAGOConfig {
 		}
 	}
 
-	async readData(address: number, word?: boolean): Promise<number> {
+	async readData(address: number, size: IOSize = "bit"): Promise<number> {
+		if (size === "dword") throw new Error("WAGO: 32-bit (dword) reads are not supported");
+
 		if (this.unreachable) {
 			TurbineEventLoop.emit(`pbr.stop`, "controllerUnreachable");
 			return 0;
@@ -144,7 +148,7 @@ export class WAGO implements IOBase, WAGOConfig {
 
 			let result = null;
 
-			if (word && word == true) {
+			if (size === "word") {
 				result = await this.client.readHoldingRegisters(address, 1);
 				return result.data[0];
 			} else {

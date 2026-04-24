@@ -25,7 +25,7 @@ export class MappedGate extends IOGate implements MappedGate {
 	}
 
 	public async read() {
-		const v = await super.read_from_controller(true);
+		const v = await super.read_from_controller("word");
 		const new_val = Math.floor(map(v, this.mapInMin, this.mapInMax, this.mapOutMin, this.mapOutMax) * 100) / 100;
 		this.value = new_val < 0 ? 0 : new_val;
 
@@ -45,7 +45,7 @@ export class MappedGate extends IOGate implements MappedGate {
 		TurbineEventLoop.emit("ws.dirty", "io");
 		TurbineEventLoop.emit("log", "info", "IOMG-" + this.name + ": Writing (" + data + ") to fieldbus.");
 
-		return super.writeto_controller(v, true);
+		return super.writeto_controller(v, "word");
 	}
 
 	toJSON() {

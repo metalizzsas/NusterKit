@@ -1,6 +1,6 @@
 import type { IOGateJSON } from "$types/hydrated/io";
 import type { IOGateBase, IOGates } from "$types/spec/iogates";
-import type { IOBase } from "$types/spec/iohandlers";
+import type { IOBase, IOSize } from "$types/spec/iohandlers";
 import { TurbineEventLoop } from "../../events";
 
 export class IOGate implements IOGateBase {
@@ -10,7 +10,7 @@ export class IOGate implements IOGateBase {
 	locked = false;
 	private _on_update: (options: { value: number; lock?: boolean; callback?: () => void | Promise<void> }) => Promise<void>;
 
-	size: "word" | "bit";
+	size: IOSize;
 	bus: "out" | "in";
 	type: IOGates["type"];
 
@@ -63,9 +63,8 @@ export class IOGate implements IOGateBase {
 	async read(): Promise<boolean> {
 		if (this.bus == "out") return true;
 
-		const word = this.size == "word" ? true : undefined;
 		try {
-			const controller_data = await this.read_from_controller(word);
+			const controller_data = await this.read_from_controller(this.size);
 			this.value = controller_data;
 			TurbineEventLoop.emit(`io.updated.${this.name}`, this.toJSON());
 		} catch (err) {
@@ -81,9 +80,8 @@ export class IOGate implements IOGateBase {
 
 		TurbineEventLoop.emit("log", "info", "IOG-" + this.name + ": Writing (" + data + ") to fieldbus.");
 
-		const word = this.size == "word" ? true : undefined;
 		try {
-			await this.writeto_controller(data, word);
+			await this.writeto_controller(data, this.size);
 		} catch (err) {
 			TurbineEventLoop.emit("log", "error", `IOG-${this.name}: Write failed: ${(err as Error).message}`);
 			return false;
@@ -96,12 +94,12 @@ export class IOGate implements IOGateBase {
 		return true;
 	}
 
-	async read_from_controller(word?: true): Promise<number> {
-		return await this.controller_instance.readData(this.address, word);
+	async read_from_controller(size?: IOSize): Promise<number> {
+		return await this.controller_instance.readData(this.address, size);
 	}
 
-	async writeto_controller(data: number, word?: true): Promise<boolean> {
-		await this.controller_instance.writeData(this.address, data, word);
+	async writeto_controller(data: number, size?: IOSize): Promise<boolean> {
+		await this.controller_instance.writeData(this.address, data, size);
 		return true;
 	}
 

@@ -22,5 +22,5 @@ export type IOGateJSON = {
 	value: number;
 	unity: string | undefined;
 	bus: "in" | "out";
-	size: "bit" | "word";
+	size: "bit" | "word" | "dword";
 };

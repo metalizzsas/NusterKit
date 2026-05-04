@@ -156,7 +156,9 @@ import { WebsocketDispatcher } from "./websocket/websocket-dispatcher";
 	// Global error handler
 	app.setErrorHandler((error, _request, reply) => {
 		const err = error instanceof Error ? error : new Error(String(error));
-		TurbineEventLoop.emit("log", "error", `Fastify: ${err.stack ?? err.message}`);
+		const cause = (err as Error & { cause?: unknown }).cause;
+		const cause_text = cause ? `\nCause: ${JSON.stringify(cause, null, 2)}` : "";
+		TurbineEventLoop.emit("log", "error", `Fastify: ${err.stack ?? err.message}${cause_text}`);
 		if (!reply.sent) {
 			reply.status(500).send({ error: "Internal server error" });
 		}

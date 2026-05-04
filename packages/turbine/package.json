@@ -126,7 +126,7 @@
     "@prisma/client": "^6.19.0",
     "ajv": "^8.18.0",
     "deep-extend": "^0.6.0",
-    "enip-ts": "2.0.0",
+    "enip-ts": "link:../../../ts-enip",
     "fastify": "^5.8.5",
     "fastify-type-provider-zod": "^6.1.0",
     "lockfile": "^1.0.4",

@@ -10,8 +10,8 @@ export class SetVariableProgramBlock extends ProgramBlock {
 
 	constructor(obj: SetVariableProgramBlockSpec, ctx: PBRContext) {
 		super(obj, ctx);
-		this.variable_name = ParameterBlockRegistry.String(obj.set_var[0]);
-		this.variable_value = ParameterBlockRegistry.Numeric(obj.set_var[1]);
+		this.variable_name = ParameterBlockRegistry.String(obj.set_var[0], ctx);
+		this.variable_value = ParameterBlockRegistry.Numeric(obj.set_var[1], ctx);
 	}
 
 	public async execute(): Promise<void> {

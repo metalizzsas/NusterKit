@@ -1,22 +1,14 @@
 <script lang="ts">
 	import type { SimulationGate } from "../routes/+page.server";
-	import { enhance } from "$app/forms";
-	import { Switch } from "$lib/components/ui/switch";
+	import { invalidateAll } from "$app/navigation";
 	import { Slider } from "$lib/components/ui/slider";
-	import { Badge } from "$lib/components/ui/badge";
-	import { Label } from "$lib/components/ui/label";
-	import { Card, CardContent } from "$lib/components/ui/card";
+	import { cn } from "$lib/utils";
 
 	interface Props {
 		gate: SimulationGate;
 	}
 
 	let { gate }: Props = $props();
-
-	let submit_button: HTMLButtonElement | undefined = $state();
-	let form_el: HTMLFormElement | undefined = $state();
-	let hidden_value: HTMLInputElement | undefined = $state();
-	let hidden_checked: HTMLInputElement | undefined = $state();
 
 	function map(source: number, in_min: number, in_max: number, out_min: number, out_max: number) {
 		return ((source - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
@@ -30,96 +22,120 @@
 
 	const is_on = $derived(gate.size === "bit" && gate.value === 1);
 	const editable = $derived(gate.bus === "in");
-	const switch_id = $derived(`gate-${gate.name}`);
 
-	function on_bit_toggle(checked: boolean) {
-		if (!hidden_checked || !submit_button) return;
-		hidden_checked.value = checked ? "on" : "";
-		submit_button.click();
+	async function update_value(value: number) {
+		await fetch("/api/io", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ gate: gate.name, value }),
+		});
+		await invalidateAll();
 	}
 
-	function on_slider_change(value: number) {
-		if (!hidden_value || !submit_button) return;
-		hidden_value.value = String(value);
-		submit_button.click();
+	function toggle() {
+		if (gate.size === "bit" && editable) update_value(is_on ? 0 : 1);
 	}
 </script>
 
-<Card class="py-4">
-	<CardContent class="px-4 space-y-3">
-		<form bind:this={form_el} action="?/updateGateValue" method="post" use:enhance class="space-y-3">
-			<div class="flex items-center justify-between gap-2">
-				<Badge variant={gate.bus === "in" ? "default" : "secondary"}>
-					{gate.bus === "in" ? "In" : "Out"}
-				</Badge>
-				<span class="text-xs text-muted-foreground font-mono">
-					{gate.size} @ {gate.address}
+{#if gate.size === "bit"}
+	<button
+		type="button"
+		onclick={toggle}
+		disabled={!editable}
+		class={cn(
+			"group relative flex flex-col gap-3 w-full min-h-[130px] rounded-xl border-2 p-5 text-left transition-all",
+			is_on
+				? "border-primary bg-primary/15"
+				: "border-border bg-card",
+			editable && "cursor-pointer hover:border-primary/70 active:scale-[0.98]",
+			!editable && "cursor-default",
+		)}
+	>
+		<div class="flex items-center gap-2">
+			<div
+				class={cn(
+					"size-3 rounded-full transition-colors",
+					is_on ? "bg-primary" : "bg-muted-foreground/40",
+				)}
+			></div>
+			<span class="text-xs font-mono text-muted-foreground">@{gate.address}</span>
+		</div>
+
+		<div class="text-base font-semibold leading-tight break-words" title={gate.name}>
+			{gate.name}
+		</div>
+
+		<div class="mt-auto flex items-baseline justify-between">
+			<span
+				class={cn(
+					"text-2xl font-bold tabular-nums",
+					is_on ? "text-primary" : "text-muted-foreground",
+				)}
+			>
+				{is_on ? "ON" : "OFF"}
+			</span>
+			{#if editable}
+				<span class="text-xs text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
+					tap to toggle
 				</span>
-			</div>
-
-			<div class="text-sm font-medium truncate" title={gate.name}>
-				{gate.name}
-			</div>
-
-			<input type="hidden" name="gate" value={gate.name} />
-			{#if gate.size === "bit"}
-				<input type="hidden" name="value_checked" bind:this={hidden_checked} />
-			{:else}
-				<input type="hidden" name="value" bind:this={hidden_value} />
 			{/if}
-			<button type="submit" bind:this={submit_button} aria-label="submit" class="sr-only"></button>
+		</div>
+	</button>
+{:else if gate.type === "mapped" || gate.type === "pt100"}
+	{@const value = gate.type === "pt100" ? gate.value / 10 : mapped_value}
+	{@const min = gate.type === "pt100" ? 0 : gate.mapOutMin}
+	{@const max = gate.type === "pt100" ? 100 : gate.mapOutMax}
+	{@const unit = gate.type === "pt100" ? "°C" : (gate.unity ?? "")}
+	<div class="flex flex-col gap-3 w-full min-h-[130px] rounded-xl border-2 border-border bg-card p-5">
+		<div class="flex items-center gap-2">
+			<div class="size-3 rounded-full bg-primary"></div>
+			<span class="text-xs font-mono text-muted-foreground">@{gate.address}</span>
+		</div>
 
-			<div class="pt-2 border-t">
-				{#if gate.size === "bit"}
-					<div class="flex items-center justify-between gap-3">
-						<span class="text-sm font-mono">{gate.value === 1 ? "HIGH" : "LOW"}</span>
-						{#if editable}
-							<Switch id={switch_id} checked={is_on} onCheckedChange={on_bit_toggle} />
-						{:else}
-							<Badge variant="outline">readback</Badge>
-						{/if}
-					</div>
-				{:else if gate.type === "mapped"}
-					<div class="space-y-2">
-						<div class="flex items-baseline justify-between">
-							<Label class="text-xs text-muted-foreground">{gate.unity ?? "value"}</Label>
-							<span class="font-mono text-sm font-semibold">{mapped_value.toFixed(1)}</span>
-						</div>
-						{#if editable}
-							<Slider
-								type="single"
-								value={mapped_value}
-								min={gate.mapOutMin}
-								max={gate.mapOutMax}
-								step={0.1}
-								onValueChange={on_slider_change}
-							/>
-						{/if}
-					</div>
-				{:else if gate.type === "pt100"}
-					<div class="space-y-2">
-						<div class="flex items-baseline justify-between">
-							<Label class="text-xs text-muted-foreground">°C</Label>
-							<span class="font-mono text-sm font-semibold">{(gate.value / 10).toFixed(1)}</span>
-						</div>
-						{#if editable}
-							<Slider
-								type="single"
-								value={gate.value / 10}
-								min={0}
-								max={100}
-								step={0.1}
-								onValueChange={on_slider_change}
-							/>
-						{/if}
-					</div>
-				{:else}
-					<div class="flex items-baseline justify-between">
-						<span class="font-mono text-sm font-semibold">{gate.value}</span>
-						<span class="text-xs text-muted-foreground">{gate.unity ?? "raw"}</span>
-					</div>
-				{/if}
+		<div class="text-sm font-semibold leading-tight break-words" title={gate.name}>
+			{gate.name}
+		</div>
+
+		<div class="flex items-baseline gap-2">
+			<span class="text-3xl font-bold tabular-nums">{value.toFixed(1)}</span>
+			{#if unit}
+				<span class="text-sm text-muted-foreground">{unit}</span>
+			{/if}
+		</div>
+
+		{#if editable}
+			<div class="mt-auto space-y-1">
+				<Slider
+					type="single"
+					value={value}
+					{min}
+					{max}
+					step={0.1}
+					onValueCommit={(v) => update_value(gate.type === "pt100" ? v * 10 : v)}
+				/>
+				<div class="flex justify-between text-xs text-muted-foreground">
+					<span>{min}</span>
+					<span>{max}</span>
+				</div>
 			</div>
-		</form>
-	</CardContent>
-</Card>
+		{/if}
+	</div>
+{:else}
+	<div class="flex flex-col gap-3 w-full min-h-[130px] rounded-xl border-2 border-border bg-card p-5">
+		<div class="flex items-center gap-2">
+			<div class="size-3 rounded-full bg-muted-foreground/40"></div>
+			<span class="text-xs font-mono text-muted-foreground">@{gate.address}</span>
+		</div>
+
+		<div class="text-sm font-semibold leading-tight break-words" title={gate.name}>
+			{gate.name}
+		</div>
+
+		<div class="mt-auto flex items-baseline gap-2">
+			<span class="text-3xl font-bold tabular-nums">{gate.value}</span>
+			{#if gate.unity}
+				<span class="text-sm text-muted-foreground">{gate.unity}</span>
+			{/if}
+		</div>
+	</div>
+{/if}

@@ -8,7 +8,8 @@
   "scripts": {
     "portless": "portless proxy start",
     "portless-stop": "portless proxy stop",
-    "dev": "pnpm run dev:turbine & pnpm run dev:ui & pnpm run dev:simulation",
+    "dev": "pnpm -r --parallel --filter '@nuster/turbine' --filter '@nuster/ui' --filter '@nuster/simulation-*' run dev",
+    "dev-no-sim": "pnpm -r --parallel --filter '@nuster/turbine' --filter '@nuster/ui' run dev",
     "dev:turbine": "pnpm --filter @nuster/turbine run dev",
     "dev:ui": "pnpm --filter @nuster/ui run dev",
     "dev:simulation": "pnpm -r --parallel --filter '@nuster/simulation-*' run dev",

@@ -32,7 +32,7 @@ export class ENIPController
         }
     };
 
-    constructor(controller: EX260Sx, gates: IOGates[], index: number)
+    constructor(controller: EX260Sx, gates: (IOGates & { value: number })[], index: number)
     {
         this.enip = new ENIPServer(this.vector);
         this.enip.listen();
@@ -41,7 +41,9 @@ export class ENIPController
 
         this.instanceData = Buffer.alloc(controller.size / 8);
 
-        this.gates = gates.map(k => ({ ...k, value: k.default }));
+        // Share references with SimulationMachine.config.iogates so readGates()
+        // mutations are visible through the /io endpoint.
+        this.gates = gates;
     }
 
     readGates()
@@ -52,38 +54,54 @@ export class ENIPController
         }
     }
 
-    private getCoil(address: number): number
+    private get total_bits(): 16 | 32
     {
-        let n = this.instanceData.length == 4 ? this.instanceData.readUInt32LE() : this.instanceData.readUInt16LE();
-
-        let size = this.instanceData.length == 4 ? 31 : 15;
-
-        let mask = 1 << size - address;
-
-        return ((n & mask) > 0) ? 1 : 0;
+        return this.instanceData.length === 4 ? 32 : 16;
     }
 
-    private setCoil(address: number, value: number)
-    { 
-        let data = this.instanceData.length == 4 ? this.instanceData.readUInt32LE() : this.instanceData.readUInt16LE();
+    private read_word(): number
+    {
+        return this.total_bits === 32 ? this.instanceData.readUInt32LE() : this.instanceData.readUInt16LE();
+    }
 
-        let mask = (value << (31 - address)) >>> 0;
+    private write_word(n: number)
+    {
+        if(this.total_bits === 32)
+            this.instanceData.writeUInt32LE(n >>> 0);
+        else
+            this.instanceData.writeUInt16LE(n & 0xffff);
+    }
 
-        data ^= mask;
+    private getCoil(address: number): number
+    {
+        const bit_pos = this.total_bits - 1 - address;
+        const mask = (1 << bit_pos) >>> 0;
+        return ((this.read_word() & mask) !== 0) ? 1 : 0;
+    }
 
-        this.instanceData.writeUInt32LE(data >>> 0);
+    /** Set a single bit at `address` (MSB-relative) to 0/1 in instanceData. */
+    setCoil(address: number, value: number)
+    {
+        const bit_pos = this.total_bits - 1 - address;
+        const mask = (1 << bit_pos) >>> 0;
+        let n = this.read_word();
 
-        const gate = this.gates.find(k => k.address == address);
+        n = value ? (n | mask) >>> 0 : (n & ~mask) >>> 0;
 
+        this.write_word(n);
+
+        const gate = this.gates.find(k => k.address === address);
         if(gate)
             gate.value = this.getCoil(address);
     }
 
+    get controller_index(): number
+    {
+        return this.index;
+    }
+
     close()
     {
-        // ENIPServer doesn't expose close() — access underlying net.Server directly
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const server = (this.enip as any).server as import("net").Server;
-        server.close();
+        this.enip.close().catch(() => { /* best-effort */ });
     }
 }

@@ -12,8 +12,8 @@ export class IOWriteProgramBlock extends ProgramBlock {
 
 	constructor(obj: IOWriteProgramBlockSpec, ctx: PBRContext) {
 		super(obj, ctx);
-		this.gateName = ParameterBlockRegistry.String(obj.io_write[0]);
-		this.gateValue = ParameterBlockRegistry.Numeric(obj.io_write[1]);
+		this.gateName = ParameterBlockRegistry.String(obj.io_write[0], ctx);
+		this.gateValue = ParameterBlockRegistry.Numeric(obj.io_write[1], ctx);
 	}
 
 	public async execute(signal?: AbortSignal): Promise<void> {

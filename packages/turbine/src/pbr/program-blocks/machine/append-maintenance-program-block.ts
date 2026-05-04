@@ -10,8 +10,8 @@ export class AppendMaintenanceProgramBlock extends ProgramBlock {
 
 	constructor(obj: AppendMaintenanceProgramBlockSpec, ctx: PBRContext) {
 		super(obj, ctx);
-		this.task_name = ParameterBlockRegistry.String(obj.append_maintenance[0]);
-		this.task_value = ParameterBlockRegistry.Numeric(obj.append_maintenance[1]);
+		this.task_name = ParameterBlockRegistry.String(obj.append_maintenance[0], ctx);
+		this.task_value = ParameterBlockRegistry.Numeric(obj.append_maintenance[1], ctx);
 	}
 
 	public async execute(): Promise<void> {

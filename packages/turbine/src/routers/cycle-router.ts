@@ -21,6 +21,6 @@ export class CycleRouter {
 	}
 
 	public get socket_data(): ProgramBlockRunnerHydrated | undefined {
-		return this.program as unknown as ProgramBlockRunnerHydrated;
+		return this.program?.toJSON() as ProgramBlockRunnerHydrated | undefined;
 	}
 }

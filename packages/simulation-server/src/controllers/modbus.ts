@@ -11,11 +11,13 @@ export class ModbusController
 
     index: number;
 
-    constructor(controller: IOHandlers, gates: IOGates[], index: number)
+    constructor(controller: IOHandlers, gates: (IOGates & { value: number })[], index: number)
     {
         this.index = index;
-        
-        this.gates = gates.map(k => ({ ...k, value: k.default }));
+
+        // Share references with SimulationMachine.config.iogates so getCoil/setCoil
+        // mutations are visible through the /io endpoint.
+        this.gates = gates;
 
         const vector: IServiceVector = {
             getCoil: this.getCoil.bind(this),

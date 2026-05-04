@@ -14,8 +14,8 @@ export class StartTimerProgramBlock extends ProgramBlock {
 
 	constructor(obj: StartTimerProgramBlockSpec, ctx: PBRContext) {
 		super(obj, ctx);
-		this.timer_name = ParameterBlockRegistry.String(obj.start_timer.timer_name);
-		this.timer_interval = ParameterBlockRegistry.Numeric(obj.start_timer.timer_interval);
+		this.timer_name = ParameterBlockRegistry.String(obj.start_timer.timer_name, ctx);
+		this.timer_interval = ParameterBlockRegistry.Numeric(obj.start_timer.timer_interval, ctx);
 		this.blocks = obj.start_timer.blocks.map((k) => ProgramBlockRegistry(k, ctx));
 	}
 

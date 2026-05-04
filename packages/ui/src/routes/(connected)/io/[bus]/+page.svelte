@@ -6,6 +6,6 @@
     let gates = $derived($realtime.io.filter(i => i.bus === $page.params.bus));
 </script>
 
-{#each gates as _, i}
-	<Gate bind:io={gates[i]} editable={gates[i].bus === "out"}/>
+{#each gates as gate (gate.name)}
+	<Gate io={gate} editable={gate.bus === "out"}/>
 {/each}

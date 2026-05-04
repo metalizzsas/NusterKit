@@ -1,7 +1,5 @@
 <script lang="ts">
 	import type { SimulationGate } from "../routes/+page.server";
-	import { Badge } from "$lib/components/ui/badge";
-	import { Card } from "$lib/components/ui/card";
 
 	interface Props {
 		gateHistory: SimulationGate[];
@@ -33,14 +31,10 @@
 	});
 </script>
 
-<Card class="grid grid-cols-[200px_1fr_auto] items-stretch overflow-hidden py-0 gap-0">
-	<div class="px-4 py-3 border-r flex flex-col justify-center gap-1">
+<div class="grid grid-cols-[200px_1fr_auto] items-stretch rounded-lg border bg-card overflow-hidden">
+	<div class="px-4 py-3 border-r flex flex-col justify-center">
 		<div class="text-sm font-medium truncate" title={gateHistory[0].name}>
 			{gateHistory[0].name}
-		</div>
-		<div class="flex items-center gap-2">
-			<Badge variant="outline" class="text-[10px]">{latest?.bus}</Badge>
-			<Badge variant="secondary" class="text-[10px]">{latest?.size}</Badge>
 		</div>
 	</div>
 
@@ -76,10 +70,9 @@
 		</svg>
 	</div>
 
-	<div class="px-4 py-3 border-l flex flex-col justify-center items-end gap-1 min-w-[90px]">
-		<span class="text-[10px] uppercase text-muted-foreground">Now</span>
-		<span class="font-mono text-base font-semibold">
+	<div class="px-4 py-3 border-l flex flex-col justify-center items-end min-w-[80px]">
+		<span class="font-mono text-base font-semibold tabular-nums">
 			{latest?.value ?? 0}
 		</span>
 	</div>
-</Card>
+</div>

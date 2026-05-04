@@ -15,7 +15,7 @@ export class ForProgramBlock extends ProgramBlock {
 	constructor(obj: ForProgramBlockSpec, ctx: PBRContext) {
 		super(obj, ctx);
 
-		this.limit = ParameterBlockRegistry.Numeric(obj.for.limit);
+		this.limit = ParameterBlockRegistry.Numeric(obj.for.limit, ctx);
 		this.blocks = obj.for.blocks.map((k) => ProgramBlockRegistry(k, ctx));
 
 		for (let i = 0; i < this.limit.data; i++) for (const block of this.blocks) this.estimatedRunTime += block.estimatedRunTime;

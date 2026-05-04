@@ -80,7 +80,7 @@ export async function cycle_routes(fastify: FastifyInstance, opts: CycleRoutesOp
 				return reply.status(400).send({ error });
 			}
 
-			return "ready";
+			return reply.status(200).send("");
 		},
 	);
 

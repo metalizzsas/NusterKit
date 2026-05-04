@@ -23,12 +23,13 @@
 
 	$effect.pre(() => {
 		if (typeof value === 'boolean') checked = value;
-		else if (typeof value === "undefined") { value = false; checked = false }
-		else value == 0 ? (checked = false) : (checked = true);
+		else if (typeof value === "undefined") checked = false;
+		else checked = value !== 0;
 	});
 </script>
 
 <button
+	type="button"
 	class="{!locked ? "dark:bg-white bg-black" : ($page.data.settings.dark) ? "toggle-bg-dark" : "toggle-bg"} relative block rounded-full h-6 w-12 min-h-fit min-w-fit toggle"
 	class:grayscale={locked && enableGrayScale}
 	class:checked={checked}
@@ -44,8 +45,8 @@
 			}
 			else
 			{
-				value == 0 ? (value = 1) : (value = 0);
-				value == 0 ? (checked = true) : (checked = false);
+				value = value == 0 ? 1 : 0;
+				checked = value !== 0;
 			}
 			change();
 			changeNum();
@@ -55,7 +56,7 @@
 />
 
 {#if form !== undefined}
-	<input type="hidden" name={form.name} bind:value form={form.formName} />
+	<input type="hidden" name={form.name} value={typeof value === "boolean" ? (value ? 1 : 0) : value} form={form.formName} />
 	{#if form.validateOn !== undefined}
 		<button type="submit" form={form.formName} class="hidden" bind:this={validateButton}/>
 	{/if}

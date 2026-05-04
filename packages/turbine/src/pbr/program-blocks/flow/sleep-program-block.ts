@@ -14,7 +14,7 @@ export class SleepProgramBlock extends ProgramBlock {
 
 	constructor(obj: SleepProgramBlockSpec, ctx: PBRContext) {
 		super(obj, ctx);
-		this.sleep_time = ParameterBlockRegistry.Numeric(obj.sleep);
+		this.sleep_time = ParameterBlockRegistry.Numeric(obj.sleep, ctx);
 		this.estimatedRunTime = this.sleep_time.data;
 	}
 

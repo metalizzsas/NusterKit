@@ -18,10 +18,10 @@ export class IfProgramBlock extends ProgramBlock {
 
 	constructor(obj: IfProgramBlockSpec, ctx: PBRContext) {
 		super(obj, ctx);
-		this.comparator = ParameterBlockRegistry.String(obj.if.comparison[1]);
+		this.comparator = ParameterBlockRegistry.String(obj.if.comparison[1], ctx);
 
-		this.left_side = ParameterBlockRegistry.Numeric(obj.if.comparison[0]);
-		this.right_side = ParameterBlockRegistry.Numeric(obj.if.comparison[2]);
+		this.left_side = ParameterBlockRegistry.Numeric(obj.if.comparison[0], ctx);
+		this.right_side = ParameterBlockRegistry.Numeric(obj.if.comparison[2], ctx);
 
 		this.true_blocks = obj.if.true_blocks.map((k) => ProgramBlockRegistry(k, ctx));
 		this.false_blocks = obj.if.false_blocks?.map((k) => ProgramBlockRegistry(k, ctx)) ?? [];

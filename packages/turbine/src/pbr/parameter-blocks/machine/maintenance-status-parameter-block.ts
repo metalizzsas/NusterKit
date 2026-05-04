@@ -17,10 +17,10 @@ export class MaintenanceStatusParameterBlock extends StatusParameterBlock {
 		this.ctx = ctx;
 
 		if (obj.maintenance_status instanceof Array) {
-			this.task_name = ParameterBlockRegistry.String(obj.maintenance_status[0]);
-			this.optional = ParameterBlockRegistry.Numeric(obj.maintenance_status[1]);
+			this.task_name = ParameterBlockRegistry.String(obj.maintenance_status[0], ctx);
+			this.optional = ParameterBlockRegistry.Numeric(obj.maintenance_status[1], ctx);
 		} else {
-			this.task_name = ParameterBlockRegistry.String(obj.maintenance_status);
+			this.task_name = ParameterBlockRegistry.String(obj.maintenance_status, ctx);
 			this.optional = ParameterBlockRegistry.Numeric(0);
 		}
 

@@ -14,8 +14,16 @@ export class ProgramBlockStep {
 
 	name: string;
 
+	#state: PBRStepState = "created";
 	/** Current step state, Setting this flag to `ENDING` should end the step faster */
-	state: PBRStepState = "created";
+	get state(): PBRStepState {
+		return this.#state;
+	}
+	set state(value: PBRStepState) {
+		if (this.#state === value) return;
+		this.#state = value;
+		TurbineEventLoop.emit("ws.dirty", "cycle");
+	}
 	type: PBRStepType = "single";
 
 	endReason?: string;
@@ -63,7 +71,7 @@ export class ProgramBlockStep {
 		this.crashStepFallback = obj.crashStepFallback;
 
 		if (obj.runAmount) {
-			this.runAmount = ParameterBlockRegistry.Numeric(obj.runAmount);
+			this.runAmount = ParameterBlockRegistry.Numeric(obj.runAmount, ctx);
 			this.type = (this.runAmount?.data ?? 0) > 1 ? "multiple" : "single";
 		}
 
@@ -176,8 +184,6 @@ export class ProgramBlockStep {
 
 		// Handle step end
 
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-expect-error
 		if (this.state === "crashed") {
 			this.state = "crashed";
 			TurbineEventLoop.emit("log", "info", `PBS-${this.name}: Ended step with state ${this.state}`);

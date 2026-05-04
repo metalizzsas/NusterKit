@@ -104,11 +104,19 @@ export class SimulationMachine
                 (gate as SimulationGate).value = parseInt(rawValue);
             }
 
-            // If the gate belongs to a RevolutionPi controller, mirror the new value into its backing file
-            // so Turbine reads the same bytes via REVPI_DEVICE_PATH.
-            const owner = this.controllers.find(c => c instanceof RevolutionPiController && c.index === gate.controllerId);
+            // Mirror the new value into the controller-specific backing store so Turbine
+            // reads the same value through its normal IO path. Without this, the next
+            // poll triggers readGates() which overwrites gate.value from the controller
+            // state (instanceData / RevPi file), losing the manual change.
+            const owner = this.controllers.find(c => {
+                if(c instanceof RevolutionPiController) return c.index === gate.controllerId;
+                if(c instanceof ENIPController) return c.controller_index === gate.controllerId;
+                return false;
+            });
             if(owner instanceof RevolutionPiController)
                 owner.writeGate(gate as SimulationGate);
+            else if(owner instanceof ENIPController && gate.size === "bit")
+                owner.setCoil(gate.address, (gate as SimulationGate).value);
 
             res.status(200);
             res.write("ok");

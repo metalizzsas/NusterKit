@@ -58,6 +58,9 @@ export class ProgramBlockRunner {
 	total_paused_time = 0;
 	pause_start_date?: number;
 
+	/** Periodic broadcast tick — keeps the UI's step progress in sync. */
+	private broadcast_interval?: ReturnType<typeof setInterval>;
+
 	constructor(object: ProgramBlockRunnerConfig, profile?: ProfileHydrated, service_registry?: ServiceRegistry) {
 		TurbineEventLoop.emit("log", "info", "PBR: Building PBR...");
 
@@ -261,6 +264,13 @@ export class ProgramBlockRunner {
 		this.status.mode = state;
 		TurbineEventLoop.emit("pbr.status.update", state);
 		TurbineEventLoop.emit("ws.dirty", "cycle");
+
+		if (state === "started" && this.broadcast_interval === undefined) {
+			this.broadcast_interval = setInterval(() => TurbineEventLoop.emit("ws.dirty", "cycle"), 500);
+		} else if (state === "ended" && this.broadcast_interval !== undefined) {
+			clearInterval(this.broadcast_interval);
+			this.broadcast_interval = undefined;
+		}
 	}
 
 	/**
@@ -331,6 +341,11 @@ export class ProgramBlockRunner {
 
 		this.dispose_events();
 
+		if (this.broadcast_interval !== undefined) {
+			clearInterval(this.broadcast_interval);
+			this.broadcast_interval = undefined;
+		}
+
 		//Append 1 to cycle count
 		this.ctx!.maintenance.append("cycleCount", 1);
 
@@ -374,7 +389,7 @@ export class ProgramBlockRunner {
 			profileRequired: this.profileRequired,
 
 			//Inside definers
-			steps: this.steps,
+			steps: this.steps.map((s) => s.toJSON()),
 			runConditions: this.allRunConditions.map((k) => k.toJSON()).filter((rc, i, a) => a.findIndex((rc2) => rc2.name === rc.name) === i),
 
 			//internals

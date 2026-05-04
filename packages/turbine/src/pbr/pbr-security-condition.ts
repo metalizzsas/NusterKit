@@ -2,6 +2,7 @@ import type { NumericParameterBlockHydrated, StatusParameterBlockHydrated } from
 import type { PBRMode } from "$types/hydrated/cycle/program-block-runner-hydrated";
 import type { IOGateJSON } from "$types/hydrated/io";
 import type { PBRRunCondition as PBRRunConditionConfig, PBRStartConditionResult } from "$types/spec/cycle/pbr-run-condition";
+import { TurbineEventLoop } from "../events";
 import type { PBRContext } from "../services/pbr-context";
 import { ParameterBlockRegistry } from "./parameter-blocks/parameter-block-registry";
 
@@ -14,7 +15,15 @@ export class PBRRunCondition {
 	disabled: NumericParameterBlockHydrated | undefined;
 	scc: PBRRunConditionConfig;
 
-	state: PBRStartConditionResult = "error";
+	#state: PBRStartConditionResult = "error";
+	get state(): PBRStartConditionResult {
+		return this.#state;
+	}
+	set state(value: PBRStartConditionResult) {
+		if (this.#state === value) return;
+		this.#state = value;
+		TurbineEventLoop.emit("ws.dirty", "cycle");
+	}
 
 	#statusBlock: StatusParameterBlockHydrated | undefined;
 	#pbrState: PBRMode = "creating";

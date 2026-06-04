@@ -19,6 +19,7 @@ pnpm workspaces with 4 packages:
 
 ```bash
 # Development (starts all packages in parallel)
+# Dev server is likely to be started already, so if you need to check the browser, check it directly
 pnpm run dev
 
 # Individual dev servers

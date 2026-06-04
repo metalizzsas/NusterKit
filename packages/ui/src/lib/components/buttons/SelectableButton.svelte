@@ -1,30 +1,28 @@
 <script lang="ts">
 	import type { Snippet } from "svelte";
+	import { Button as ShadcnButton } from "$lib/components/ui/button/index.js";
+	import { cn } from "$lib/utils/cn.js";
 
-    let {
-        selected = false,
-        onclick,
-        children,
-    }: {
-        selected?: boolean;
-        onclick?: (e: MouseEvent) => void;
-        children?: Snippet;
-    } = $props();
+	let {
+		selected = false,
+		onclick,
+		children,
+	}: {
+		selected?: boolean;
+		onclick?: (e: MouseEvent) => void;
+		children?: Snippet;
+	} = $props();
 </script>
 
-<button
-    class="hover:rounded-lg duration-300 py-2 px-4"
-
-    class:hover:bg-zinc-100={!selected}
-    class:dark:hover:bg-zinc-700={!selected}
-
-    class:rounded-lg={selected}
-    class:bg-zinc-200={selected}
-    class:dark:bg-zinc-500={selected}
-    class:hover:bg-zinc-300={selected}
-    class:dark:hover:bg-zinc-600={selected}
-
-    {onclick}
+<ShadcnButton
+	variant="ghost"
+	class={cn(
+		"h-auto min-h-12 w-full justify-start py-3 px-4 rounded-lg duration-300 border-transparent",
+		selected
+			? "bg-zinc-200 hover:bg-zinc-300 dark:bg-zinc-500 dark:hover:bg-zinc-600"
+			: "hover:bg-zinc-100 dark:hover:bg-zinc-700",
+	)}
+	{onclick}
 >
-    {@render children?.()}
-</button>
+	{@render children?.()}
+</ShadcnButton>

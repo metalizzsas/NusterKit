@@ -40,6 +40,9 @@ model Profile {
     modificationDate    DateTime    @default(now())
     isPremade           Boolean     @default(false)
 
+    /// Optional user folder used to sort profiles in the UI
+    folder              String?
+
     values              ProfileValue[]
 }
 

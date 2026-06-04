@@ -9,26 +9,36 @@
     import "@fontsource/inter/900.css";
 
 	import type { Snippet } from "svelte";
-	import Flex from "$lib/components/layout/flex.svelte";
 	import { initI18nMachine } from "$lib/utils/i18n/i18nmachine";
 	import { onDestroy, onMount } from "svelte";
 
-	import PillMenu from "./PillMenu.svelte";
+	import AppSidebar from "./AppSidebar.svelte";
+	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
 
-	import type { WebsocketData, Popup } from "$lib/types/turbine";
+	import type { WebsocketData, Popup, CallToActionFront } from "$lib/types/turbine";
     import { realtime, realtimeConnected, realtimeLock } from "$lib/utils/stores/nuster";
 	import Loadindicator from "$lib/components/LoadIndicator.svelte";
 	import { _ } from "svelte-i18n";
-	import Toast from "$lib/components/Toast.svelte";
-	import { flip } from "svelte/animate";
+	import { Toaster } from "$lib/components/ui/sonner/index.js";
+	import { toast } from "svelte-sonner";
+	import ToastCta from "$lib/components/ToastCta.svelte";
 	import type { PageData } from "./$types";
 	import { browser, version } from "$app/environment";
+	import { page } from "$app/stores";
 
     let { data, children }: { data: PageData; children: Snippet } = $props();
 
-    type Toast_popup = Popup<import("$lib/types/turbine").CallToActionFront> & { date: number };
-
-    let toasts: Array<Toast_popup> = $state([]);
+    // Sidebar default state: open on index, closed elsewhere.
+    // User-toggled state persists within a route, resets on navigation.
+    let sidebarOpen = $state($page.url.pathname === "/");
+    let lastPath = $state($page.url.pathname);
+    $effect(() => {
+        const path = $page.url.pathname;
+        if (path !== lastPath) {
+            sidebarOpen = path === "/";
+            lastPath = path;
+        }
+    });
 
     let websocketState: "connecting" | "connected" | "disconnected" = $state("connecting");
     let websocket: WebSocket | undefined = $state(undefined);
@@ -41,6 +51,49 @@
     onDestroy(() => {
         websocket?.close();
     });
+
+    const showPopup = (popup: Popup<CallToActionFront>) => {
+
+        if (popup.payload !== undefined)
+        {
+            for (const key in popup.payload)
+            {
+                if (key === "version")
+                {
+                    popup.payload[key] = version;
+                    continue;
+                }
+
+                popup.payload[key] = $_(popup.payload[key]);
+            }
+        }
+
+        // CTA-bearing popups always need acknowledgement → custom render, persistent
+        if (popup.callToActions !== undefined && popup.callToActions.length > 0)
+        {
+            toast.custom(ToastCta, {
+                componentProps: { popup },
+                duration: Number.POSITIVE_INFINITY,
+            });
+            return;
+        }
+
+        const title = $_(popup.title);
+        const description = $_(popup.message, { values: popup.payload });
+
+        if (popup.level === "error")
+        {
+            toast.error(title, { description, duration: Number.POSITIVE_INFINITY });
+        }
+        else if (popup.level === "warn")
+        {
+            toast.warning(title, { description, duration: 10_000 });
+        }
+        else
+        {
+            toast.info(title, { description, duration: 5_000 });
+        }
+    };
 
     const realtimeConnect = async () =>
     {
@@ -114,21 +167,7 @@
             }
             else if (data.type === "popup")
             {
-                if (data.message.payload !== undefined)
-                {
-                    for (const key in data.message.payload)
-                    {
-                        if (key === "version")
-                        {
-                            data.message.payload[key] = version;
-                            continue;
-                        }
-
-                        data.message.payload[key] = $_(data.message.payload[key]);
-                    }
-                }
-
-                toasts = [{...data.message, date: Date.now() }, ...toasts];
+                showPopup(data.message);
             }
         }
     }
@@ -137,7 +176,7 @@
         $realtime = data.machine_status;
     });
     $effect(() => {
-        if (websocketState === "disconnected") { toasts = []; }
+        if (websocketState === "disconnected") { toast.dismiss(); }
     });
     $effect(() => {
         if (browser) { document.querySelector("html")?.classList.toggle("dark", data.settings.dark === 1); }
@@ -146,25 +185,17 @@
 
 <Loadindicator />
 
-<div class="absolute inset-0 bg-indigo-300 dark:bg-zinc-900 bg-grid dark:bg-grid-dark -z-10"></div>
+<Toaster position="top-right" richColors closeButton />
 
-<div class="absolute p-6 pl-0 right-0 top-0 bottom-0 h-screen overflow-y-scroll w-1/2 z-20 flex flex-col gap-6 pointer-events-none" id="toasts">
-    {#each toasts as toast, i (toast.date)}
-        <div animate:flip={{ duration: 300 }}>
-            <Toast bind:toast={toasts[i]} exit={() => { toasts = toasts.filter(t => t !== toast)}} />
-        </div>
-    {/each}
-</div>
+<!-- Ambient background: clean base + a single soft indigo mesh glow. No grid, for a calmer, more refined feel. -->
+<div class="fixed inset-0 -z-10 bg-zinc-50 dark:bg-background"></div>
+<div class="fixed inset-0 -z-10 hidden dark:block bg-mesh-dark"></div>
 
-<div class="h-screen">
-    <Flex direction="col" gap={6} class="h-full">
-        <header class="mt-6 mx-6">
-            <nav class="bg-white dark:bg-zinc-800 p-2 rounded-full w-full drop-shadow-xl border border-indigo-400/50 dark:border-indigo-400/25">
-                <PillMenu />
-            </nav>
-        </header>
-        <main class="pb-6 mx-6 rounded-t-xl grow overflow-y-scroll">
+<Sidebar.Provider open={sidebarOpen} onOpenChange={(v) => (sidebarOpen = v)}>
+    <AppSidebar />
+    <Sidebar.Inset class="bg-transparent min-w-0">
+        <div class="h-screen min-w-0 overflow-x-hidden overflow-y-auto px-6 py-6">
             {@render children()}
-        </main>
-    </Flex>
-</div>
+        </div>
+    </Sidebar.Inset>
+</Sidebar.Provider>

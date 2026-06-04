@@ -930,6 +930,7 @@
                               ]
                             },
                             "estimatedRunTime": {
+                              "nullable": true,
                               "type": "number"
                             },
                             "overallPausedTime": {
@@ -1121,6 +1122,10 @@
                             "modificationDate": {
                               "type": "string",
                               "format": "date-time"
+                            },
+                            "folder": {
+                              "nullable": true,
+                              "type": "string"
                             },
                             "values": {
                               "type": "array",
@@ -18150,6 +18155,10 @@
                         "type": "string",
                         "format": "date-time"
                       },
+                      "folder": {
+                        "nullable": true,
+                        "type": "string"
+                      },
                       "values": {
                         "type": "array",
                         "items": {
@@ -18246,6 +18255,10 @@
                     "type": "boolean"
                   },
                   "modificationDate": {},
+                  "folder": {
+                    "nullable": true,
+                    "type": "string"
+                  },
                   "values": {
                     "type": "array",
                     "items": {
@@ -18339,6 +18352,10 @@
                     "modificationDate": {
                       "type": "string",
                       "format": "date-time"
+                    },
+                    "folder": {
+                      "nullable": true,
+                      "type": "string"
                     },
                     "values": {
                       "type": "array",
@@ -18470,6 +18487,10 @@
                     "modificationDate": {
                       "type": "string",
                       "format": "date-time"
+                    },
+                    "folder": {
+                      "nullable": true,
+                      "type": "string"
                     },
                     "values": {
                       "type": "array",
@@ -18648,6 +18669,10 @@
                     "type": "boolean"
                   },
                   "modificationDate": {},
+                  "folder": {
+                    "nullable": true,
+                    "type": "string"
+                  },
                   "values": {
                     "type": "array",
                     "items": {
@@ -19231,6 +19256,38 @@
         }
       }
     },
+    "/v1/cycle/types": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "profileRequired": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "profileRequired"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/cycle/{name}/{id}?": {
       "post": {
         "requestBody": {
@@ -19254,6 +19311,10 @@
                     "type": "boolean"
                   },
                   "modificationDate": {},
+                  "folder": {
+                    "nullable": true,
+                    "type": "string"
+                  },
                   "values": {
                     "type": "array",
                     "items": {

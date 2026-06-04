@@ -30,12 +30,7 @@
     const close = () => onclose?.();
 
     let keyboard: SimpleKeyboard | undefined = $state(undefined);
-    let keyboardWrapper: HTMLButtonElement = $state(undefined!);
     let layout: "shift" | "shiftOnce" | "default" = $state("default");
-
-    let keyboardLeft = $state(0);
-    let keyboardTop = $state(0);
-    let moving = $state(false);
 
     onMount(async () => {
 
@@ -95,12 +90,6 @@
 
             keyboard.setInput(`${value}`);
 
-            if (keyboardLeft === 0 && keyboardTop === 0)
-            {
-                keyboardLeft = window.innerWidth / 2 - (keyboardWrapper.clientWidth / 2);
-                keyboardTop = window.innerHeight / 2 - (keyboardWrapper.clientHeight / 2);
-            }
-
             $realtimeLock = true;
         }
     });
@@ -108,44 +97,82 @@
     onDestroy(() => {
         $realtimeLock = false;
     })
-
-    function mouseUp() { moving = false; }
-
-    function mouseDown() { moving = true; }
-
-    // TODO: Use Touch events
-    function mouseMove(e: MouseEvent) {
-        if (moving)
-        {
-            keyboardTop += e.movementY;
-            keyboardLeft += e.movementX;
-
-            if (keyboardTop < 0) keyboardTop = 0;
-            if (keyboardLeft < 0) keyboardLeft = 0;
-
-            if (keyboardTop > (window.innerHeight - keyboardWrapper.clientHeight)) keyboardTop = window.innerHeight - keyboardWrapper.clientHeight;
-            if (keyboardLeft > (window.innerWidth - keyboardWrapper.clientWidth)) keyboardLeft = window.innerWidth - keyboardWrapper.clientWidth;
-        }
-    }
 </script>
 
 <Portal target="body">
-    <button bind:this={keyboardWrapper} class="p-2 bg-white dark:bg-zinc-800 ring-4 ring-inset cursor-move dark:ring-white rounded-md absolute min-w-[65%]" style:left={`${keyboardLeft}px`} style:top={`${keyboardTop}px`} onmousedown={mouseDown}>
-        <Flex justify="between" class="mb-2" gap={2}>
-            {#if typeof value === "string" && isPassword === false}
-                <TextField bind:value={value} disabled keyboardEmbedded class="grow"/>
-            {:else if typeof value === "string" && isPassword === true}
-                <PasswordField bind:value={value} bind:secretShown={isPasswordShown} keyboardEmbedded disabled class="grow" />
-            {:else if typeof value === "number"}
-                <NumField bind:value={value} disabled keyboardEmbedded class="grow"/>
-            {/if}
+    <!-- OS-like bottom sheet -->
+    <div
+        class="nuster-keyboard fixed inset-x-0 bottom-0 z-50 border-t border-border bg-white/95 p-3 pb-4 shadow-[0_-12px_40px_rgba(0,0,0,0.18)] backdrop-blur animate-in slide-in-from-bottom duration-200 dark:bg-zinc-800/95"
+    >
+        <div class="mx-auto w-full max-w-4xl">
+            <Flex justify="between" class="mb-3" gap={2}>
+                {#if typeof value === "string" && isPassword === false}
+                    <TextField bind:value={value} disabled keyboardEmbedded class="grow"/>
+                {:else if typeof value === "string" && isPassword === true}
+                    <PasswordField bind:value={value} bind:secretShown={isPasswordShown} keyboardEmbedded disabled class="grow" />
+                {:else if typeof value === "number"}
+                    <NumField bind:value={value} disabled keyboardEmbedded class="grow"/>
+                {/if}
 
-            <Button onclick={close} color="hover:bg-red-500" ringColor="ring-red-500">
-                {$_('close-keyboard')}
-            </Button>
-        </Flex>
-        <div class="keyboard"/>
-    </button>
+                <Button onclick={close} color="hover:bg-red-500" ringColor="ring-red-500">
+                    {$_('close-keyboard')}
+                </Button>
+            </Flex>
+            <div class="keyboard"/>
+        </div>
+    </div>
 </Portal>
 
-<svelte:window onmouseup={mouseUp} onmousemove={mouseMove} />
+<style>
+    /* ── simple-keyboard theme, aligned with the app design system ─────── */
+
+    :global(.nuster-keyboard .hg-theme-default) {
+        background: transparent;
+        padding: 0;
+    }
+
+    :global(.nuster-keyboard .hg-button) {
+        height: 46px;
+        border-radius: 0.5rem;
+        border: 1px solid oklch(0.871 0.006 286.286);
+        background: oklch(0.985 0 0);
+        color: oklch(0.21 0.006 285.885);
+        box-shadow: 0 1px 0 rgb(0 0 0 / 0.04);
+        font-size: 0.95rem;
+        font-weight: 500;
+    }
+
+    /* Function keys (shift, caps, enter, backspace, …) read as secondary */
+    :global(.nuster-keyboard .hg-button.hg-functionBtn) {
+        background: oklch(0.945 0.002 286.35);
+        color: oklch(0.45 0.01 285.9);
+        font-size: 0.8rem;
+    }
+
+    :global(.nuster-keyboard .hg-button:active),
+    :global(.nuster-keyboard .hg-button.hg-activeButton) {
+        background: oklch(0.585 0.233 277.117);
+        border-color: oklch(0.585 0.233 277.117);
+        color: white;
+    }
+
+    /* Dark theme */
+    :global(.dark .nuster-keyboard .hg-button) {
+        border-color: oklch(1 0 0 / 0.09);
+        background: oklch(0.32 0.014 280);
+        color: oklch(0.985 0 0);
+        box-shadow: none;
+    }
+
+    :global(.dark .nuster-keyboard .hg-button.hg-functionBtn) {
+        background: oklch(0.265 0.012 280);
+        color: oklch(0.705 0.015 286.067);
+    }
+
+    :global(.dark .nuster-keyboard .hg-button:active),
+    :global(.dark .nuster-keyboard .hg-button.hg-activeButton) {
+        background: oklch(0.673 0.182 276.935);
+        border-color: oklch(0.673 0.182 276.935);
+        color: white;
+    }
+</style>

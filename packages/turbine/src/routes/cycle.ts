@@ -5,7 +5,7 @@ import type { ProfileHydrated } from "$types/hydrated/profiles";
 import type { CyclePremade, ProgramBlockRunner as ProgramBlockRunnerConfig } from "$types/spec/cycle";
 import { TurbineEventLoop } from "../events";
 import { ProgramBlockRunner } from "../pbr/program-block-runner";
-import { CyclePremadeSchema, CycleStartParamsSchema, ErrorResponseSchema, ProfileHydratedSchema } from "../schemas";
+import { CyclePremadeSchema, CycleStartParamsSchema, CycleTypeSchema, ErrorResponseSchema, ProfileHydratedSchema } from "../schemas";
 import type { ServiceRegistry } from "../services/interfaces";
 
 interface CycleRoutesOpts {
@@ -29,6 +29,18 @@ export async function cycle_routes(fastify: FastifyInstance, opts: CycleRoutesOp
 		},
 		async () => {
 			return cyclePremades;
+		},
+	);
+
+	app.get(
+		"/types",
+		{
+			schema: {
+				response: { 200: z.array(CycleTypeSchema) },
+			},
+		},
+		async () => {
+			return cycleTypes.map((c) => ({ name: c.name, profileRequired: c.profileRequired }));
 		},
 	);
 

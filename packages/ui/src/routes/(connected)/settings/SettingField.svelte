@@ -17,7 +17,7 @@
 <Flex items="center">
     <h4 class="font-medium">{label}</h4>
 
-    <div class="h-[1px] bg-zinc-300/50 grow" />
+    <div class="h-px grow bg-border" />
 
     {#if value !== undefined}
         {#if Array.isArray(value)}

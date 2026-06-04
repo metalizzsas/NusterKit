@@ -96,6 +96,10 @@
       "enabled": "Stato della regolazione",
       "current": "Valore attuale",
       "target": "Valore ricercato"
+    },
+    "empty": {
+      "title": "Nessun contenitore",
+      "description": "Nessun contenitore è configurato su questa macchina."
     }
   },
   "profile": {
@@ -132,6 +136,42 @@
       "count": "Numero di ripetizioni",
       "timeOn": "Tempo attivato",
       "timeOff": "Tempo disattivato"
+    },
+    "count": {
+      "one": "profilo",
+      "other": "profili"
+    },
+    "filter": {
+      "all": "Tutti",
+      "premade": "Costruttore",
+      "user": "Utente",
+      "search_placeholder": "Cerca un profilo…",
+      "empty_title": "Nessun risultato",
+      "empty_description": "Nessun profilo corrisponde alla tua ricerca."
+    },
+    "empty": {
+      "title": "Nessun profilo",
+      "description": "Crea un profilo da un ciclo o copia un profilo del costruttore."
+    },
+    "unsaved": {
+      "indicator": "Modifiche non salvate",
+      "title": "Modifiche non salvate",
+      "description": "Questo profilo contiene modifiche non salvate. Cosa vuoi fare?",
+      "cancel": "Annulla",
+      "discard": "Annulla le modifiche",
+      "save_and_leave": "Salva ed esci"
+    },
+    "autosave": {
+      "saving": "Salvataggio…",
+      "saved": "Salvato"
+    },
+    "folder": {
+      "label": "Cartella",
+      "all": "Tutte le cartelle",
+      "none": "Senza cartella",
+      "new": "Nuova cartella",
+      "name_placeholder": "Nome della cartella",
+      "create": "Crea"
     }
   },
   "settings": {
@@ -203,7 +243,8 @@
     "eta": {
       "null": "Sconosciuto",
       "remaining": "Tempo rimanente:",
-      "estimated": "Tempo stimato:"
+      "estimated": "Tempo stimato:",
+      "elapsed": "Tempo trascorso"
     },
     "end": {
       "lead": "Ciclo completato",
@@ -222,6 +263,23 @@
       "nextStep": "Passare questa tappa",
       "stop": "Interrompere il ciclo",
       "complete": "Terminare il ciclo"
+    },
+    "paused": "Ciclo in pausa",
+    "tap_again_to_clear": "Tocca di nuovo per rimuovere il ciclo",
+    "start": {
+      "step_type": "Passo 1 di 2",
+      "step_profile": "Passo 2 di 2",
+      "choose_type": "Scegli un tipo di ciclo",
+      "choose_profile": "Scegli un profilo",
+      "profile_required": "Profilo richiesto",
+      "no_profile_needed": "Avvio diretto",
+      "profile_count": "{n} profili disponibili",
+      "profile_count_one": "1 profilo disponibile",
+      "no_compatible_profiles": "Nessun profilo compatibile",
+      "no_compatible_profiles_sub": "Crea prima un profilo compatibile dalla pagina Profili.",
+      "back_to_types": "Cambia tipo di ciclo",
+      "change_selection": "Modifica la selezione",
+      "prepared": "Ciclo pronto"
     }
   },
   "gates": {
@@ -256,6 +314,10 @@
       "hours": "Ore",
       "time": "Durata",
       "duration": "Ore"
+    },
+    "empty": {
+      "title": "Nessuna attività di manutenzione",
+      "description": "Nessuna attività di manutenzione è configurata su questa macchina."
     }
   },
   "help": {

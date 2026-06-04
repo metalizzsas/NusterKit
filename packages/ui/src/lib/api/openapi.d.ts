@@ -249,7 +249,7 @@ export interface paths {
                                 status: {
                                     /** @enum {string} */
                                     mode: "creating" | "created" | "started" | "paused" | "ending" | "ended";
-                                    estimatedRunTime?: number;
+                                    estimatedRunTime?: number | null;
                                     overallPausedTime?: number;
                                     pausable: boolean;
                                     startDate?: number;
@@ -295,6 +295,7 @@ export interface paths {
                                     isPremade: boolean;
                                     /** Format: date-time */
                                     modificationDate: string;
+                                    folder?: string | null;
                                     values: {
                                         name: string;
                                         value: number;
@@ -3281,6 +3282,7 @@ export interface paths {
                             isPremade: boolean;
                             /** Format: date-time */
                             modificationDate: string;
+                            folder?: string | null;
                             values: {
                                 name: string;
                                 value: number;
@@ -3316,6 +3318,7 @@ export interface paths {
                         skeleton: string;
                         isPremade: boolean;
                         modificationDate: unknown;
+                        folder?: string | null;
                         values: {
                             name: string;
                             value: number;
@@ -3347,6 +3350,7 @@ export interface paths {
                             isPremade: boolean;
                             /** Format: date-time */
                             modificationDate: string;
+                            folder?: string | null;
                             values: {
                                 name: string;
                                 value: number;
@@ -3414,6 +3418,7 @@ export interface paths {
                             isPremade: boolean;
                             /** Format: date-time */
                             modificationDate: string;
+                            folder?: string | null;
                             values: {
                                 name: string;
                                 value: number;
@@ -3509,6 +3514,7 @@ export interface paths {
                         skeleton: string;
                         isPremade: boolean;
                         modificationDate: unknown;
+                        folder?: string | null;
                         values: {
                             name: string;
                             value: number;
@@ -3933,6 +3939,44 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/cycle/types": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            name: string;
+                            profileRequired: boolean;
+                        }[];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/cycle/{name}/{id}?": {
         parameters: {
             query?: never;
@@ -3960,6 +4004,7 @@ export interface paths {
                         skeleton: string;
                         isPremade: boolean;
                         modificationDate: unknown;
+                        folder?: string | null;
                         values: {
                             name: string;
                             value: number;

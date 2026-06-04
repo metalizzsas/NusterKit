@@ -4,7 +4,7 @@
 	import Flex from "$lib/components/layout/flex.svelte";
 	import Gate from "$lib/components/io/Gate.svelte";
 
-	import { ChevronDown, ChevronUp } from "@steeze-ui/heroicons";
+	import { CheckCircle, ExclamationCircle } from "@steeze-ui/heroicons";
 	import { Icon } from "@steeze-ui/svelte-icon";
 
 	import { realtime } from "$lib/utils/stores/nuster";
@@ -19,8 +19,6 @@
     let { data }: { data: PageData } = $props();
 
     type categoriesTypes = "products" | "sensors" | "regulation";
-
-    let expandedCategory: categoriesTypes | undefined = $state(undefined);
 
     const sensorIOFilter = (k: IOGateJSON | undefined): k is IOGateJSON => { return k !== undefined };
 
@@ -40,76 +38,57 @@
 
 {#if container}
 <Wrapper>
-    <Flex direction="col" gap={2}>
-        <h2 class="text-xl">{$_(`containers.${container.name}.name`)}</h2>
+    <Flex direction="col" gap={4}>
+        <div class="flex items-start justify-between gap-4">
+            <h2 class="text-xl">{$_(`containers.${container.name}.name`)}</h2>
+            <Icon
+                src={containerState.issues.length > 0 ? ExclamationCircle : CheckCircle}
+                theme="solid"
+                class={containerState.issues.length > 0 ? "h-7 w-7 shrink-0 text-amber-500" : "h-7 w-7 shrink-0 text-emerald-500"}
+            />
+        </div>
 
         {#if containerState.issues.length > 0}
-            <div>
-                <p>{$_('container.state.lead.error')}</p>
-                <ul>
-                    {#each containerState.issues as error}
-                        <li>{$_(`container.state.issues.${error}`)}</li>
+            <div class="rounded-lg border border-amber-500/30 bg-amber-500/5 px-4 py-3">
+                <p class="text-sm font-medium text-amber-700 dark:text-amber-400">{$_('container.state.lead.error')}</p>
+                <ul class="mt-1 flex flex-col gap-0.5">
+                    {#each containerState.issues as error (error)}
+                        <li class="flex items-center gap-2 text-sm text-zinc-700 dark:text-zinc-300">
+                            <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-amber-500"></span>
+                            {$_(`container.state.issues.${error}`)}
+                        </li>
                     {/each}
                 </ul>
             </div>
         {:else}
-            <p>{$_('container.state.lead.good')}</p>
+            <p class="text-sm text-zinc-600 dark:text-zinc-300">{$_('container.state.lead.good')}</p>
         {/if}
 
+        {#each categories as category (category)}
+            <section>
+                <Flex items="center" gap={3} class="mb-3">
+                    <h3 class="shrink-0 text-base font-semibold">
+                        {$_(`container.category.${category}`)}
+                        {#if category === "sensors"}
+                            <span class="font-normal text-sm text-zinc-500 dark:text-zinc-400">({container.sensors?.length})</span>
+                        {/if}
+                    </h3>
+                    <div class="h-px grow bg-border"></div>
+                </Flex>
 
-        <Flex direction="col" gap={0} class="-mx-6 -mb-6">
-
-            {#each categories as category}
-
-                {@const selected = expandedCategory === category}
-                <button
-                    class="duration-300 py-2 px-6"
-
-                    class:bg-zinc-200={selected}
-                    class:dark:bg-zinc-700={selected}
-                    class:hover:bg-zinc-100={selected}
-                    class:dark:hover:bg-zinc-600={selected}
-
-                    class:hover:bg-zinc-300={!selected}
-                    class:dark:hover:bg-zinc-700={!selected}
-
-                    class:last-of-type:rounded-b-xl={expandedCategory !== category}
-
-                    onclick={() => { if (expandedCategory === category) { expandedCategory = undefined } else { expandedCategory = category }}}
-                >
-                    <Flex direction={"row"} items="center">
-                        <h3>
-                            {$_(`container.category.${category}`)}
-                            {#if category === "sensors"}
-                                <span class="text-xs font-normal">({container.sensors?.length})</span>
-                            {/if}
-                        </h3>
-                        <div class="h-[1px] bg-indigo-500/50 w-auto grow" />
-                        <Icon src={expandedCategory === category ? ChevronUp : ChevronDown} class="h-4 w-4" />
+                {#if category === "products"}
+                    <ContainerProduct bind:container />
+                {:else if category === "sensors"}
+                    <Flex direction="col" gap={2}>
+                        {#each sensorIO as gate (gate.name)}
+                            <Gate io={gate} editable={false} />
+                        {/each}
                     </Flex>
-                </button>
-
-                <div
-                    class="duration-100"
-                    class:h-0={expandedCategory !== category}
-                    class:m-4={expandedCategory === category}
-                    class:px-2={expandedCategory === category}
-                    class:overflow-hidden={expandedCategory !== category}
-                >
-                    {#if expandedCategory === "products"}
-                        <ContainerProduct bind:container />
-                    {:else if expandedCategory === "sensors"}
-                        <Flex direction="col" gap={2}>
-                            {#each sensorIO as gate}
-                                <Gate io={gate} editable={false} />
-                            {/each}
-                        </Flex>
-                    {:else if expandedCategory === "regulation" && container.regulations !== undefined}
-                        <ContainerRegulation bind:container />
-                    {/if}
-                </div>
-            {/each}
-        </Flex>
+                {:else if category === "regulation" && container.regulations !== undefined}
+                    <ContainerRegulation bind:container />
+                {/if}
+            </section>
+        {/each}
     </Flex>
 </Wrapper>
 {/if}

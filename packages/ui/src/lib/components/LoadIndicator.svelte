@@ -10,28 +10,26 @@
 {#if isNavigating}
 	{#await delay() then}
 		<div
-			class="fixed top-0 left-0 right-0 h-[6px] bg-gradient-to-r from-indigo-500 to-fuchsia-500 via-orange-500 hue-rotate duration-300"
+			class="fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-indigo-500 to-transparent loading-shimmer z-50"
 			in:fly
 			out:fly
-		/>
+		></div>
 	{/await}
 {/if}
 
 <style>
-	@keyframes gradientMove {
+	@keyframes loading-shimmer-move {
 		0% {
-			background-position: 10% 0%;
-		}
-		50% {
-			background-position: 91% 100%;
+			background-position: -100% 0;
 		}
 		100% {
-			background-position: 10% 0%;
+			background-position: 200% 0;
 		}
 	}
 
-	.hue-rotate {
-		background-size: 200%;
-		animation: gradientMove infinite 2.5s ease-in-out;
+	.loading-shimmer {
+		background-size: 50% 100%;
+		background-repeat: no-repeat;
+		animation: loading-shimmer-move 1.5s linear infinite;
 	}
 </style>

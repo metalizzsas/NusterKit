@@ -24,6 +24,7 @@ export type MaintenanceHydrated = ResponseItem<"/v1/maintenances/", "get">;
 
 // --- Cycle types ---
 export type CyclePremade = ResponseItem<"/v1/cycle/premades", "get">;
+export type CycleType = ResponseItem<"/v1/cycle/types", "get">;
 
 // --- IO types ---
 // IO routes only have POST, extract from maintenances or define based on Status

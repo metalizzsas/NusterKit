@@ -13,7 +13,6 @@
     "connect": "Connect",
     "proceed": "Proceed",
     "password": "Password",
-
     "nuster": {
         "lead": "Nuster",
         "logo": "Nuster logo",
@@ -114,6 +113,10 @@
                     "message": "{container} → {regulation} regulation went over {securityMax}, it has been disabled."
                 }
             }
+        },
+        "empty": {
+            "title": "No containers",
+            "description": "No containers are configured on this machine."
         }
     },
     "profile": {
@@ -150,6 +153,42 @@
             "count": "Iteration count",
             "timeOn": "Time enabled",
             "timeOff": "Time disabled"
+        },
+        "count": {
+            "one": "profile",
+            "other": "profiles"
+        },
+        "filter": {
+            "all": "All",
+            "premade": "Premade",
+            "user": "User",
+            "search_placeholder": "Search for a profile…",
+            "empty_title": "No results",
+            "empty_description": "No profile matches your search."
+        },
+        "empty": {
+            "title": "No profiles",
+            "description": "Create a profile from a cycle or copy a premade profile."
+        },
+        "unsaved": {
+            "indicator": "Unsaved changes",
+            "title": "Unsaved changes",
+            "description": "This profile has unsaved changes. What would you like to do?",
+            "cancel": "Cancel",
+            "discard": "Discard changes",
+            "save_and_leave": "Save and leave"
+        },
+        "autosave": {
+            "saving": "Saving…",
+            "saved": "Saved"
+        },
+        "folder": {
+            "label": "Folder",
+            "all": "All folders",
+            "none": "No folder",
+            "new": "New folder",
+            "name_placeholder": "Folder name",
+            "create": "Create"
         }
     },
     "settings": {
@@ -265,7 +304,8 @@
             "remaining": "Remaining time:",
             "estimated": "Estimated duration:",
             "current": "Current duration:",
-            "paused": "Paused time:"
+            "paused": "Paused time:",
+            "elapsed": "Elapsed time"
         },
         "end": {
             "lead": "Cycle has ended.",
@@ -287,6 +327,23 @@
             "resume": "Resume cycle",
             "stop": "Stop cycle",
             "complete": "Complete cycle"
+        },
+        "paused": "Cycle paused",
+        "tap_again_to_clear": "Tap again to clear the cycle",
+        "start": {
+            "step_type": "Step 1 of 2",
+            "step_profile": "Step 2 of 2",
+            "choose_type": "Choose a cycle type",
+            "choose_profile": "Choose a profile",
+            "profile_required": "Profile required",
+            "no_profile_needed": "Direct start",
+            "profile_count": "{n} profiles available",
+            "profile_count_one": "1 profile available",
+            "no_compatible_profiles": "No compatible profile",
+            "no_compatible_profiles_sub": "Create a compatible profile from the Profiles page first.",
+            "back_to_types": "Change cycle type",
+            "change_selection": "Change selection",
+            "prepared": "Cycle ready"
         }
     },
     "gates": {
@@ -322,6 +379,10 @@
             "hours": "Hours",
             "time": "Duration",
             "duration": "Hours"
+        },
+        "empty": {
+            "title": "No maintenance tasks",
+            "description": "No maintenance tasks are configured on this machine."
         }
     },
     "help": {

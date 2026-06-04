@@ -1,28 +1,29 @@
-import type { ProfileHydrated, CyclePremade } from "$lib/api/types";
+import type { ProfileHydrated, CycleType } from "$lib/api/types";
 import type { Actions } from "./$types";
 import { fail, redirect } from "@sveltejs/kit";
 
 export const load = async ({ locals }) => {
 
-    let cyclePremades: Array<Omit<CyclePremade, "profile"> & { profile?: ProfileHydrated}> = [];
-
-    const { data: premadeData } = await locals.api.GET("/v1/cycle/premades");
-    let premades = premadeData as Array<CyclePremade>;
+    const { data: typesData } = await locals.api.GET("/v1/cycle/types");
+    const cycleTypes = (typesData ?? []) as Array<CycleType>;
 
     const { data: profileData } = await locals.api.GET("/v1/profiles/");
-    const profileList = profileData as Array<ProfileHydrated>;
+    const profileList = (profileData ?? []) as Array<ProfileHydrated>;
 
-    premades = [...profileList.filter(k => k.isPremade === false).map(k => { return { cycle: "default", profile: k.id, name: "user" } as CyclePremade}), ...premades];
-
-    cyclePremades = premades.map(k => {
-        return {
-            ...k,
-            profile: profileList.find(p => p.id === k.profile)
-        }
-    });
+    // Each cycle type carries its compatible profiles (matching skeleton),
+    // premade profiles first, then user profiles by latest modification.
+    const cycleStartOptions = cycleTypes.map((t) => ({
+        ...t,
+        profiles: profileList
+            .filter((p) => p.skeleton === t.name)
+            .sort((a, b) => {
+                if (a.isPremade !== b.isPremade) return a.isPremade ? -1 : 1;
+                return new Date(b.modificationDate ?? 0).getTime() - new Date(a.modificationDate ?? 0).getTime();
+            }),
+    }));
 
     return {
-        cyclePremades
+        cycleStartOptions
     };
 
 };

@@ -298,6 +298,12 @@ export const CyclePremadeSchema = z.object({
 	profile: z.string().optional(),
 });
 
+/** Lightweight view of a supported cycle type, exposed to the UI for the start-cycle flow. */
+export const CycleTypeSchema = z.object({
+	name: z.string(),
+	profileRequired: z.boolean(),
+});
+
 // ============================================================
 // Addon schemas
 // ============================================================
@@ -362,6 +368,7 @@ export const ProfileHydratedSchema = z.object({
 	skeleton: z.string(),
 	isPremade: z.boolean(),
 	modificationDate: z.coerce.date(),
+	folder: z.string().nullable().optional(),
 	values: z.array(ProfileValueSchema),
 });
 
@@ -466,9 +473,16 @@ export const ConfigurationSchema = z.object({
 // PBR Hydrated schemas (cycle runtime state)
 // ============================================================
 
+/**
+ * Runtime durations/progresses can be Infinity (e.g. sensor-driven steps) or NaN.
+ * JSON cannot carry those — serialize them as null, matching the legacy
+ * websocket behavior (JSON.stringify turns non-finite numbers into null).
+ */
+const FiniteOrNull = z.preprocess((v) => (typeof v === "number" && !Number.isFinite(v) ? null : v), z.number().nullable());
+
 export const PBRStatusSchema = z.object({
 	mode: z.enum(["creating", "created", "started", "paused", "ending", "ended"]),
-	estimatedRunTime: z.number().optional(),
+	estimatedRunTime: FiniteOrNull.optional(),
 	overallPausedTime: z.number().optional(),
 	pausable: z.boolean(),
 	startDate: z.number().optional(),
@@ -500,9 +514,9 @@ export const PBRStepHydratedSchema = z.object({
 	isEnabled: z.boolean(),
 	runAmount: z.number(),
 	runCount: z.number(),
-	duration: z.number().nullable(),
-	progress: z.number().nullable(),
-	progresses: z.array(z.number().nullable()),
+	duration: FiniteOrNull,
+	progress: FiniteOrNull,
+	progresses: z.array(FiniteOrNull),
 	startTime: z.number().optional(),
 	endTime: z.number().optional(),
 	endReason: z.string().optional(),

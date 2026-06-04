@@ -13,7 +13,6 @@
     "connect": "Connexion",
     "proceed": "Continuer",
     "password": "Mot de passe",
-
     "nuster": {
         "lead": "Nuster",
         "logo": "Logo nuster",
@@ -114,6 +113,10 @@
                     "message": "La régulation {container} → {regulation} est allé au dela de {securityMax}, elle a donc été désactivée."
                 }
             }
+        },
+        "empty": {
+            "title": "Aucun conteneur",
+            "description": "Aucun conteneur n'est configuré sur cette machine."
         }
     },
     "profile": {
@@ -150,6 +153,42 @@
             "count": "Nombre d'itérations",
             "timeOn": "Temps activé",
             "timeOff": "Temps désactivé"
+        },
+        "count": {
+            "one": "profil",
+            "other": "profils"
+        },
+        "filter": {
+            "all": "Tous",
+            "premade": "Constructeur",
+            "user": "Utilisateur",
+            "search_placeholder": "Rechercher un profil…",
+            "empty_title": "Aucun résultat",
+            "empty_description": "Aucun profil ne correspond à votre recherche."
+        },
+        "empty": {
+            "title": "Aucun profil",
+            "description": "Créez un profil depuis un cycle ou copiez un profil constructeur."
+        },
+        "unsaved": {
+            "indicator": "Modifications non sauvegardées",
+            "title": "Modifications non sauvegardées",
+            "description": "Ce profil contient des modifications non sauvegardées. Que souhaitez-vous faire ?",
+            "cancel": "Annuler",
+            "discard": "Abandonner les modifications",
+            "save_and_leave": "Sauvegarder et quitter"
+        },
+        "autosave": {
+            "saving": "Sauvegarde…",
+            "saved": "Sauvegardé"
+        },
+        "folder": {
+            "label": "Dossier",
+            "all": "Tous les dossiers",
+            "none": "Sans dossier",
+            "new": "Nouveau dossier",
+            "name_placeholder": "Nom du dossier",
+            "create": "Créer"
         }
     },
     "settings": {
@@ -171,7 +210,7 @@
         "software": {
             "lead": "Informations logiciel",
             "ui_version": "Version de l'interface",
-            "turbine_version": "Version de Turbine",            
+            "turbine_version": "Version de Turbine",
             "machine_specs_version": "Version des reglages machine",
             "show_changelog": "Afficher les notes de changement",
             "balena": "Version de balenaOS",
@@ -263,7 +302,8 @@
             "remaining": "Temps restant:",
             "estimated": "Temps estimé:",
             "current": "Temps passé:",
-            "paused": "Temps de pause:"
+            "paused": "Temps de pause:",
+            "elapsed": "Temps écoulé"
         },
         "end": {
             "lead": "Le cycle est terminé.",
@@ -285,6 +325,23 @@
             "nextStep": "Sauter l'étape",
             "stop": "Arrêter le cycle",
             "complete": "Terminer le cycle"
+        },
+        "paused": "Cycle en pause",
+        "tap_again_to_clear": "Appuyez à nouveau pour retirer le cycle",
+        "start": {
+            "step_type": "Étape 1 sur 2",
+            "step_profile": "Étape 2 sur 2",
+            "choose_type": "Choisissez un type de cycle",
+            "choose_profile": "Choisissez un profil",
+            "profile_required": "Profil requis",
+            "no_profile_needed": "Démarrage direct",
+            "profile_count": "{n} profils disponibles",
+            "profile_count_one": "1 profil disponible",
+            "no_compatible_profiles": "Aucun profil compatible",
+            "no_compatible_profiles_sub": "Créez d'abord un profil compatible depuis la page Profils.",
+            "back_to_types": "Changer de type de cycle",
+            "change_selection": "Modifier la sélection",
+            "prepared": "Cycle préparé"
         }
     },
     "gates": {
@@ -320,6 +377,10 @@
             "hours": "Heures",
             "time": "Durée",
             "duration": "Heures"
+        },
+        "empty": {
+            "title": "Aucune tâche de maintenance",
+            "description": "Aucune tâche de maintenance n'est configurée sur cette machine."
         }
     },
     "help": {

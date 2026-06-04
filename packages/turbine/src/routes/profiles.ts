@@ -59,6 +59,7 @@ export async function profile_routes(fastify: FastifyInstance, opts: ProfileRout
 					skeleton: copied.skeleton,
 					isPremade: false,
 					modificationDate: new Date(),
+					folder: copied.folder ?? null,
 					values: {
 						create: copied.values.map((v) => ({ key: v.key, value: v.value })),
 					},
@@ -145,6 +146,7 @@ export async function profile_routes(fastify: FastifyInstance, opts: ProfileRout
 						name: profile.name,
 						skeleton: profile.skeleton,
 						modificationDate: undefined,
+						folder: profile.folder ?? null,
 						values: {
 							deleteMany: { profileId: request.params.id },
 							create: profile.values.map((v) => ({ key: v.key, value: v.value })),

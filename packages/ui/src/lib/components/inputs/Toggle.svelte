@@ -1,6 +1,7 @@
 <script lang="ts">
-	import type { FormInput } from './formInput';
-	import { page } from '$app/stores';
+	import { Switch as SwitchPrimitive } from "bits-ui";
+	import { cn } from "$lib/utils/cn.js";
+	import type { FormInput } from "./formInput";
 
 	let {
 		value = $bindable(),
@@ -18,90 +19,58 @@
 		form?: FormInput<"change">;
 	} = $props();
 
-	let checked = $state(false);
 	let validateButton: HTMLButtonElement | undefined = $state();
 
-	$effect.pre(() => {
-		if (typeof value === 'boolean') checked = value;
-		else if (typeof value === "undefined") checked = false;
-		else checked = value !== 0;
-	});
+	let checked = $derived(typeof value === "boolean" ? value : typeof value === "undefined" ? false : value !== 0);
+
+	const on_change = (next: boolean) => {
+		if (locked) return;
+
+		if (typeof value === "boolean") value = next;
+		else value = next ? 1 : 0;
+
+		change();
+		changeNum();
+
+		if (form?.validateOn === "change" && validateButton !== undefined) {
+			setTimeout(() => validateButton?.click(), 10);
+		}
+	};
 </script>
 
-<button
-	type="button"
-	class="{!locked ? "dark:bg-white bg-black" : ($page.data.settings.dark) ? "toggle-bg-dark" : "toggle-bg"} relative block rounded-full h-6 w-12 min-h-fit min-w-fit toggle"
-	class:grayscale={locked && enableGrayScale}
-	class:checked={checked}
-	class:uncheked={!checked}
-	class:cursor-default={locked}
-	onclick={() => {
-		if (!locked)
-		{
-			if (typeof value === 'boolean')
-			{
-				value = !value;
-				checked = value;
-			}
-			else
-			{
-				value = value == 0 ? 1 : 0;
-				checked = value !== 0;
-			}
-			change();
-			changeNum();
-			if (form?.validateOn === "change" && validateButton !== undefined) { setTimeout(() => validateButton?.click(), 10); }
-		}
-	}}
-/>
+<!--
+	State-semantic switch (industrial io / settings): emerald track when on,
+	red track when off, white thumb. Same geometry as the shadcn Switch (44×24px).
+	bits-ui exposes state via `data-state` — use explicit `data-[state=…]` variants.
+-->
+<SwitchPrimitive.Root
+	{checked}
+	disabled={locked}
+	onCheckedChange={on_change}
+	class={cn(
+		"relative inline-flex h-6 w-11 shrink-0 items-center rounded-full border-2 border-transparent outline-none transition-all",
+		"data-[state=checked]:bg-emerald-500 data-[state=unchecked]:bg-red-500/80",
+		"focus-visible:ring-3 focus-visible:ring-ring/50",
+		locked && "cursor-default opacity-80",
+		locked && enableGrayScale && "grayscale",
+	)}
+>
+	<SwitchPrimitive.Thumb
+		class={cn(
+			"pointer-events-none block size-5 rounded-full bg-white shadow-sm ring-1 ring-black/5 transition-transform",
+			"data-[state=unchecked]:translate-x-0 data-[state=checked]:translate-x-5",
+		)}
+	/>
+</SwitchPrimitive.Root>
 
 {#if form !== undefined}
-	<input type="hidden" name={form.name} value={typeof value === "boolean" ? (value ? 1 : 0) : value} form={form.formName} />
+	<input
+		type="hidden"
+		name={form.name}
+		value={typeof value === "boolean" ? (value ? 1 : 0) : value}
+		form={form.formName}
+	/>
 	{#if form.validateOn !== undefined}
-		<button type="submit" form={form.formName} class="hidden" bind:this={validateButton}/>
+		<button type="submit" form={form.formName} class="hidden" bind:this={validateButton} aria-hidden="true"></button>
 	{/if}
 {/if}
-
-<style lang="postcss">
-	@reference "tailwindcss";
-
-	.toggle-bg-dark {
-		background: repeating-linear-gradient(
-			135deg,
-			white,
-			white 5px,
-			rgb(212 212 216) 5px,
-			rgb(212 212 216) 10px
-		);
-	}
-
-	.toggle-bg {
-		background: repeating-linear-gradient(
-			135deg,
-			black,
-			black 5px,
-			rgb(39 39 42) 5px,
-			rgb(39 39 42) 10px
-		);
-	}
-
-	.toggle::before {
-		@apply block h-4 w-4 rounded-full;
-		content: '';
-		position: absolute;
-		top: 0.25rem;
-		transition: all 0.1s ease-in-out;
-	}
-
-	.uncheked::before
-	{
-		@apply bg-red-500;
-		left: 0.25rem;
-	}
-
-	.checked::before
-	{
-		@apply bg-emerald-500;
-		transform: translateX(1.75rem);
-	}
-</style>

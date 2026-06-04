@@ -9,8 +9,19 @@ export const load = (async ({ locals, params }) => {
         params: { path: { id: params.id } }
     });
 
+    // Existing folders across all profiles, for the folder picker
+    const { data: allProfiles } = await locals.api.GET("/v1/profiles/");
+    const folders = [
+        ...new Set(
+            ((allProfiles ?? []) as ProfileHydrated[])
+                .map((p) => p.folder)
+                .filter((f): f is string => typeof f === "string" && f.length > 0),
+        ),
+    ].sort((a, b) => a.localeCompare(b));
+
     return {
-        profile: data as ProfileHydrated
+        profile: data as ProfileHydrated,
+        folders
     }
 
 }) satisfies PageServerLoad;

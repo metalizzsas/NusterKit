@@ -1,9 +1,12 @@
 <script lang="ts">
 	import type { Snippet } from "svelte";
+	import { Badge } from "$lib/components/ui/badge/index.js";
 
 	let { children }: { children?: Snippet } = $props();
 </script>
 
-<span class="py-0.5 px-2 rounded-full bg-zinc-800 dark:bg-white dark:text-zinc-800 text-white text-sm">
-    {@render children?.()}
-</span>
+<Badge
+	class="rounded-md bg-zinc-200/70 px-2 py-0.5 font-mono text-sm font-medium tabular-nums text-zinc-700 dark:bg-zinc-700/60 dark:text-zinc-200"
+>
+	{@render children?.()}
+</Badge>

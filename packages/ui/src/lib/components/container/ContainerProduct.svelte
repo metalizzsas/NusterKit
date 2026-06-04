@@ -86,40 +86,56 @@
                 {/each}
             </Grid>
         {:else if selectedMethod !== undefined}
-            <p class="text-zinc-700 dark:text-zinc-300 mb-2">{$_('container.product.action.product_choose')}</p>
+            <div class="rounded-xl border border-border bg-zinc-50/80 p-4 dark:bg-zinc-900/40">
+                <p class="mb-3 text-sm font-medium text-zinc-700 dark:text-zinc-200">
+                    {$_('container.product.action.product_choose')}
+                </p>
 
-            <form action="?/updateContainerProduct" method="post" use:enhance class="grid grid-cols-3 gap-4">
-                <input type="hidden" name="action_type" value={selectedMethod} />
-                <Select
-                    bind:value={selectedProduct}
-                    selectableValues={container.supportedProductSeries.map(k => { return {
-                        name: $_(`container.product.informations.product_series.${k}`),
-                        value: k
-                    }})}
-                    class="w-full"
-                    form={{ name: "product" }}
-                />
-
-                <Button
-                    class="w-full"
-                    color="{selectedProduct === undefined ? 'hover:bg-gray-500' : 'hover:bg-amber-500'}"
-                    ringColor="{selectedProduct === undefined ? 'ring-gray-500' : 'ring-amber-500'}"
+                <form
+                    action="?/updateContainerProduct"
+                    method="post"
+                    class="flex flex-col gap-3"
+                    use:enhance={() => {
+                        return async ({ update, result }) => {
+                            await update();
+                            if (result.type === "success") {
+                                selectedMethod = undefined;
+                                selectedProduct = undefined;
+                            }
+                        };
+                    }}
                 >
-                    <Flex gap={2} items="center">
-                        {$_(`containers.${container.name}.actions.${selectedMethod}`)}
-                        <Icon src={ArrowRight} class="h-4 w-4" />
+                    <input type="hidden" name="action_type" value={selectedMethod} />
+                    <Select
+                        bind:value={selectedProduct}
+                        selectableValues={container.supportedProductSeries.map(k => { return {
+                            name: $_(`container.product.informations.product_series.${k}`),
+                            value: k
+                        }})}
+                        class="w-full"
+                        form={{ name: "product" }}
+                    />
+
+                    <Flex gap={2} justify="end">
+                        <button
+                            type="button"
+                            class="rounded-lg px-4 py-2 text-sm font-medium text-zinc-600 transition-colors hover:bg-zinc-200/60 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white"
+                            onclick={() => { selectedMethod = undefined; selectedProduct = undefined; }}
+                        >
+                            {$_('cancel')}
+                        </button>
+
+                        <button
+                            type="submit"
+                            disabled={selectedProduct === undefined}
+                            class="flex items-center gap-2 rounded-lg bg-indigo-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-indigo-600 disabled:pointer-events-none disabled:opacity-40"
+                        >
+                            {$_(`containers.${container.name}.actions.${selectedMethod}`)}
+                            <Icon src={ArrowRight} theme="mini" class="h-4 w-4" />
+                        </button>
                     </Flex>
-                </Button>
-
-                <Button
-                    class="w-full"
-                    color="hover:bg-red-500"
-                    ringColor="ring-red-500"
-                    onclick={() => selectedMethod = undefined}
-                >
-                    {$_('cancel')}
-                </Button>
-            </form>
+                </form>
+            </div>
         {/if}
     </section>
 </Flex>

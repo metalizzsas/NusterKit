@@ -22,16 +22,18 @@
     import { version } from "$app/environment";
 	import * as Dialog from "$lib/components/ui/dialog/index.js";
 	import SvelteMarkdown from "@humanspeak/svelte-markdown";
+	import { untrack } from "svelte";
 
     let { data, form }: { data: PageData; form: ActionData } = $props();
 
     const langs: { [x: string]: string } = {
 		en: 'English',
 		fr: 'Français',
-		it: 'Italiano'
+		it: 'Italiano',
+		de: 'Deutsch'
 	};
 
-    let settings = $state({ lang: data.settings.lang, dark: data.settings.dark });
+    let settings = $state(untrack(() => ({ lang: data.settings.lang, dark: data.settings.dark })));
     let showChangelog = $state(false);
 </script>
 

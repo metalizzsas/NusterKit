@@ -7,6 +7,7 @@
 	import { page } from "$app/stores";
 	import { Icon } from "@steeze-ui/svelte-icon";
 	import { ArrowUturnLeft, Minus, Plus } from "@steeze-ui/heroicons";
+	import { untrack } from "svelte";
 
     let {
         io,
@@ -16,7 +17,7 @@
         editable?: boolean;
     } = $props();
 
-    let local_value = $state<number | boolean>(io.value);
+    let local_value = $state<number | boolean>(untrack(() => io.value));
     let focused = $state(false);
 
     $effect.pre(() => {
@@ -74,7 +75,7 @@
             {/if}
         </span>
     </span>
-    <div class="h-px grow bg-border" />
+    <div class="h-px grow bg-border"></div>
 
     {#if io.size === "bit"}
         <Toggle bind:value={local_value} change={on_toggle_change} locked={!editable || io.bus == "in" || io.locked} enableGrayScale={io.locked} />

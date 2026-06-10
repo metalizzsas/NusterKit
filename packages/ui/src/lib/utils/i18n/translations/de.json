@@ -1,0 +1,400 @@
+{
+    "ok": "Ok",
+    "yes": "Ja",
+    "true": "Ja",
+    "no": "Nein",
+    "false": "Nein",
+    "back": "Zurück",
+    "cancel": "Abbrechen",
+    "exit": "Zurück",
+    "locked": "Gesperrt",
+    "close-keyboard": "Tastatur schließen",
+    "close-modal": "Schließen",
+    "connect": "Verbinden",
+    "proceed": "Fortfahren",
+    "password": "Passwort",
+    "nuster": {
+        "lead": "Nuster",
+        "logo": "Nuster-Logo",
+        "toast-update": "Update installiert",
+        "toast-update-body": "Nuster wurde auf Version {version} aktualisiert."
+    },
+    "error": {
+        "render": {
+            "lead": "Fehler beim Laden dieser Seite",
+            "sub": "Das ist bedauerlich...",
+            "button": "Neu laden"
+        },
+        "loading": {
+            "lead": "Wird geladen",
+            "sub": "Nuster ist in wenigen Sekunden bereit."
+        }
+    },
+    "date": {
+        "days": "Tage",
+        "day": "Tag",
+        "hours": "Stunden",
+        "hour": "Stunde",
+        "minutes": "Minuten",
+        "minute": "Minute",
+        "seconds": "Sekunden",
+        "second": "Sekunde",
+        "milliseconds": "Millisekunden",
+        "millisecond": "Millisekunde"
+    },
+    "container": {
+        "lead": "Behälter",
+        "unselected": {
+            "lead": "Kein Behälter ausgewählt",
+            "sub": "Wählen Sie einen Behälter aus, um seine Eigenschaften anzuzeigen oder zu bearbeiten."
+        },
+        "category": {
+            "products": "Produkt",
+            "sensors": "Sensoren",
+            "regulation": "Regelung"
+        },
+        "state": {
+            "lead": {
+                "error": "Dieser Behälter hat Probleme:",
+                "good": "Der Zustand dieses Behälters ist in Ordnung."
+            },
+            "issues": {
+                "product_unloaded": "Kein Produkt geladen",
+                "product_lifespan": "Produktlebensdauer überschritten",
+                "product_lifespan_unknown": "Produktlebensdauer unbekannt",
+                "sensor": "Sensorfehler"
+            },
+            "infos": {
+                "regulation_active": "Regelung aktiv"
+            }
+        },
+        "product": {
+            "informations": {
+                "lead": "Produktinformationen",
+                "loaded_product": "Geladener Produkttyp:",
+                "lifetime_remaining": "Verbleibende Lebensdauer:",
+                "load_date": "Ladedatum:",
+                "unknownLifespan": "Lebensdauer nicht definiert",
+                "done": "Abgelaufen",
+                "product_series": {
+                    "usl_act": "USL Aktivator",
+                    "usl_ox": "USL Oxidationsmittel",
+                    "usl_rd": "USL Reduktionsmittel",
+                    "llc_ox": "LLC Oxidationsmittel",
+                    "llc_rd": "LLC Reduktionsmittel",
+                    "cv-01": "Kristalllack 01",
+                    "sv-01": "Glanzlack 01",
+                    "mv-01": "Mattlack 01",
+                    "cr-01": "CR-1",
+                    "water": "Wasser",
+                    "any": "Unbekannt"
+                }
+            },
+            "action": {
+                "lead": "Aktionen",
+                "product_choose": "Wählen Sie ein Produkt zum Laden:",
+                "default": {
+                    "load": "Produkt laden",
+                    "unload": "Produkt entladen"
+                }
+            }
+        },
+        "regulation": {
+            "enabled": "Regelungszustand",
+            "current": "Aktueller Wert",
+            "target": "Sollwert",
+            "modal": {
+                "security_disable": {
+                    "title": "Sicherheitsfehler",
+                    "message": "{gate} hat die Regelung {container} → {regulation} deaktiviert."
+                },
+                "over_security_max": {
+                    "title": "Sicherheitsfehler",
+                    "message": "Die Regelung {container} → {regulation} hat {securityMax} überschritten und wurde deaktiviert."
+                }
+            }
+        },
+        "empty": {
+            "title": "Keine Behälter",
+            "description": "Auf dieser Maschine sind keine Behälter konfiguriert."
+        }
+    },
+    "profile": {
+        "lead": "Profile",
+        "name": "Profilname",
+        "settings": "Profileinstellungen",
+        "defaultName": "Standard-Profilname",
+        "unselected": {
+            "lead": "Kein Profil ausgewählt.",
+            "sub": "Wählen Sie ein Profil aus, um seine Eigenschaften anzuzeigen oder zu bearbeiten."
+        },
+        "copy": {
+            "label": "Kopieren",
+            "button": "Profil kopieren",
+            "message": "Das Profil wurde nach {name} kopiert.",
+            "suffix": "Kopie"
+        },
+        "save": {
+            "button": "Profil speichern",
+            "message": "Das Profil wurde gespeichert."
+        },
+        "delete": {
+            "button": "Profil löschen",
+            "button_confirm": "Löschen des Profils bestätigen"
+        },
+        "premades": {
+            "true": "Herstellerprofil",
+            "false": "Benutzerprofil"
+        },
+        "rows": {
+            "enabled": "Aktiviert",
+            "speed": "Geschwindigkeit",
+            "duration": "Dauer",
+            "count": "Anzahl der Wiederholungen",
+            "timeOn": "Einschaltzeit",
+            "timeOff": "Ausschaltzeit"
+        },
+        "count": {
+            "one": "Profil",
+            "other": "Profile"
+        },
+        "filter": {
+            "all": "Alle",
+            "premade": "Hersteller",
+            "user": "Benutzer",
+            "search_placeholder": "Profil suchen…",
+            "empty_title": "Keine Ergebnisse",
+            "empty_description": "Kein Profil entspricht Ihrer Suche."
+        },
+        "empty": {
+            "title": "Keine Profile",
+            "description": "Erstellen Sie ein Profil aus einem Zyklus oder kopieren Sie ein Herstellerprofil."
+        },
+        "unsaved": {
+            "indicator": "Ungespeicherte Änderungen",
+            "title": "Ungespeicherte Änderungen",
+            "description": "Dieses Profil enthält ungespeicherte Änderungen. Was möchten Sie tun?",
+            "cancel": "Abbrechen",
+            "discard": "Änderungen verwerfen",
+            "save_and_leave": "Speichern und verlassen"
+        },
+        "autosave": {
+            "saving": "Wird gespeichert…",
+            "saved": "Gespeichert"
+        },
+        "folder": {
+            "label": "Ordner",
+            "all": "Alle Ordner",
+            "none": "Kein Ordner",
+            "new": "Neuer Ordner",
+            "name_placeholder": "Ordnername",
+            "create": "Erstellen"
+        }
+    },
+    "settings": {
+        "lead": "Einstellungen",
+        "ui": {
+            "lead": "Oberflächeneinstellungen",
+            "dark_mode": "Dunkelmodus",
+            "language": "Sprache"
+        },
+        "machine": {
+            "lead": "Maschineninformationen",
+            "model": "Modell",
+            "variant": "Variante",
+            "revision": "Revision",
+            "serial": "Seriennummer",
+            "addons": "Optionen",
+            "cycle_count": "Anzahl der Zyklen"
+        },
+        "software": {
+            "lead": "Softwareinformationen",
+            "ui_version": "Version der Oberfläche",
+            "turbine_version": "Turbine-Version",
+            "machine_specs_version": "Version der Maschinenspezifikationen",
+            "show_changelog": "Änderungsprotokoll anzeigen",
+            "balena": "BalenaOS-Version",
+            "update": "Update verfügbar",
+            "update_install": "Installieren",
+            "update_installing": "Wird installiert"
+        },
+        "network": {
+            "lead": "Netzwerkinformationen",
+            "ip": "IP-Adressen",
+            "mac": "MAC-Adressen",
+            "vpn": "Mit VPN verbunden",
+            "edit": "Netzwerkeinstellungen bearbeiten",
+            "edit_button": "Zu den Netzwerkeinstellungen",
+            "connected": {
+                "true": "Verbunden",
+                "false": "Getrennt"
+            },
+            "interface": {
+                "wired": "Kabelgebunden",
+                "wireless": "WLAN",
+                "ip_4": "IPv4-Adresse",
+                "gateway_4": "IPv4-Gateway",
+                "subnet_mask": "Subnetzmaske"
+            },
+            "wifi": {
+                "label": "WLAN-Einstellungen",
+                "button": "WLAN-Einstellungen ändern"
+            },
+            "errors": {
+                "wifi_missing_parameters": "Nicht genügend Parameter zum Verbinden",
+                "wifi_invalid_password": "Ungültiges Passwort"
+            },
+            "available_networks": "Verfügbare Netzwerke",
+            "refresh_available_networks": "Netzwerke suchen",
+            "connect": "Verbinden",
+            "disconnect": "Trennen",
+            "disconnect_first": "Bereits mit einem Netzwerk verbunden, trennen Sie zuerst die Verbindung.",
+            "network_quality": "Netzwerkqualität",
+            "wireless_connected": "Über WLAN verbunden",
+            "wired_connected": "Über Ethernet verbunden"
+        },
+        "advanced": {
+            "lead": "Erweiterte Einstellungen",
+            "sub": "Diese Funktion ist nicht für den Endbenutzer bestimmt.",
+            "password": "Passwort",
+            "edit": "Maschinenkonfiguration bearbeiten"
+        },
+        "machines": {
+            "metalfog": "Metalfog",
+            "smoothit": "Smoothit",
+            "uscleaner": "USCleaner"
+        },
+        "power": {
+            "lead": "Energieverwaltung",
+            "reboot": "Neu starten",
+            "shutdown": "Herunterfahren",
+            "reload": "Oberfläche neu laden",
+            "modal": {
+                "shutdown": {
+                    "title": "Wird heruntergefahren",
+                    "message": "Die Maschine wird heruntergefahren. Sobald der Bildschirm schwarz wird, können Sie die Maschine vom Strom trennen."
+                },
+                "reboot": {
+                    "title": "Neustart läuft",
+                    "message": "Die Maschine wird neu gestartet, bitte warten."
+                }
+            }
+        }
+    },
+    "cycle": {
+        "lead": "Zyklus",
+        "run_conditions_warning": "Eine der Sicherheitsbedingungen zeigt eine Warnung an. Sie können den Zyklus starten, das Ergebnis kann jedoch beeinträchtigt sein.",
+        "categories": {
+            "steps": "Zyklusschritte",
+            "status": "Zyklusstatus",
+            "additional_info": "Zusätzliche Informationen",
+            "security_conditions": "Sicherheitsbedingungen für den Start"
+        },
+        "unselected": {
+            "lead": "Kein Zyklus ausgewählt.",
+            "sub": "Wählen Sie einen Zyklus in der linken Liste aus, um Ihre Maschine zu verwenden. Probleme beim Starten Ihrer Maschine?",
+            "help": "Klicken Sie hier, um die Dokumentation zu lesen."
+        },
+        "unselected_informations": {
+            "lead": "Maschineninformationen",
+            "sub": "Die hier angezeigten Informationen sind nicht bearbeitbar. Gehen Sie zu den entsprechenden Abschnitten, um sie zu bearbeiten."
+        },
+        "eta": {
+            "null": "Unbekannt",
+            "remaining": "Verbleibende Zeit:",
+            "estimated": "Geschätzte Dauer:",
+            "current": "Aktuelle Dauer:",
+            "paused": "Pausenzeit:",
+            "elapsed": "Verstrichene Zeit"
+        },
+        "end": {
+            "lead": "Der Zyklus ist beendet.",
+            "duration": "Zyklusdauer:"
+        },
+        "end_reasons": {
+            "user": "Zyklus vom Benutzer abgebrochen",
+            "finished": "Erfolgreich abgeschlossen",
+            "error": "Der Zyklus wurde aufgrund eines Fehlers vorzeitig beendet",
+            "controllerTimeout": "Zeitüberschreitung des IO-Controllers",
+            "controllerError": "Fehler des IO-Controllers",
+            "controllerUnreachable": "IO-Controller ist nicht erreichbar",
+            "stepOvertime": "Ein Zyklusschritt hat zu lange gedauert. Möglicherweise ist ein ungewöhnliches Verhalten aufgetreten"
+        },
+        "buttons": {
+            "start": "Zyklus starten",
+            "nextStep": "Nächster Schritt",
+            "pause": "Zyklus pausieren",
+            "resume": "Zyklus fortsetzen",
+            "stop": "Zyklus stoppen",
+            "complete": "Zyklus abschließen"
+        },
+        "paused": "Zyklus pausiert",
+        "tap_again_to_clear": "Erneut tippen, um den Zyklus zu entfernen",
+        "start": {
+            "step_type": "Schritt 1 von 2",
+            "step_profile": "Schritt 2 von 2",
+            "choose_type": "Wählen Sie einen Zyklustyp",
+            "choose_profile": "Wählen Sie ein Profil",
+            "profile_required": "Profil erforderlich",
+            "no_profile_needed": "Direktstart",
+            "profile_count": "{n} Profile verfügbar",
+            "profile_count_one": "1 Profil verfügbar",
+            "no_compatible_profiles": "Kein kompatibles Profil",
+            "no_compatible_profiles_sub": "Erstellen Sie zuerst ein kompatibles Profil auf der Profilseite.",
+            "back_to_types": "Zyklustyp ändern",
+            "change_selection": "Auswahl ändern",
+            "prepared": "Zyklus bereit"
+        }
+    },
+    "gates": {
+        "lead": "E / A",
+        "reset": "Zurücksetzen",
+        "bus": {
+            "in": "Eingänge",
+            "out": "Ausgänge"
+        },
+        "categories": {
+            "generic": "Allgemein"
+        }
+    },
+    "maintenance": {
+        "lead": "Wartung",
+        "duration": "Dauer",
+        "last_operation": "Letzte durchgeführte Aufgabe",
+        "unselected": {
+            "lead": "Keine Wartung ausgewählt.",
+            "sub": "Wählen Sie eine Wartungsaufgabe aus, um ihre Eigenschaften anzuzeigen oder zu bearbeiten."
+        },
+        "sensor": {
+            "label": "Aufgabenwarnung",
+            "warning": "Diese Wartungsaufgabe erfordert, dass der verknüpfte manuelle Modus aktiviert ist, um ihren Status zu prüfen."
+        },
+        "procedure": {
+            "lead": "Wartungsverfahren",
+            "clear": "Wartungszähler zurücksetzen.",
+            "lang_unavailable": "Das Wartungsverfahren ist auf Deutsch nicht verfügbar."
+        },
+        "unity": {
+            "cycle": "Zyklen",
+            "hours": "Stunden",
+            "time": "Dauer",
+            "duration": "Stunden"
+        },
+        "empty": {
+            "title": "Keine Wartungsaufgaben",
+            "description": "Auf dieser Maschine sind keine Wartungsaufgaben konfiguriert."
+        }
+    },
+    "help": {
+        "category": {
+            "machine": "Maschine",
+            "software": "Nuster"
+        },
+        "lead": "Hilfe",
+        "unavailable": "Keine Hilfe in Ihrer Sprache verfügbar.",
+        "unselected": {
+            "lead": "Hilfecenter.",
+            "sub": "Navigieren Sie über die untenstehenden Elemente, um die Dokumentation zu lesen."
+        }
+    }
+}

@@ -17,19 +17,20 @@
 	import Button from "$lib/components/buttons/Button.svelte";
 	import TextField from "$lib/components/inputs/TextField.svelte";
 	import { Icon } from "@steeze-ui/svelte-icon";
-	import { XMark, ExclamationTriangle, Folder } from "@steeze-ui/heroicons";
+	import { XMark, ExclamationTriangle, Folder, ChevronLeft, ChevronRight } from "@steeze-ui/heroicons";
 	import * as Select from "$lib/components/ui/select/index.js";
 	import { page } from "$app/stores";
 	import { enhance } from "$app/forms";
 	import type { ActionData } from "../$types";
 	import type { ProfileHydrated } from "$lib/api/types";
+	import { untrack } from "svelte";
 
     let { data, form }: { data: PageData; form: ActionData } = $props();
 
     /* SvelteKit's `data` prop isn't a deep $state proxy, so nested mutations don't drive
        reactivity. Hold a local clone in $state and bind ProfileField to that. */
-    let profile = $state<ProfileHydrated>(structuredClone(data.profile));
-    let originalSnapshot = $state(JSON.stringify(profile));
+    let profile = $state<ProfileHydrated>(structuredClone(untrack(() => data.profile)));
+    let originalSnapshot = $state(untrack(() => JSON.stringify(profile)));
     let isDirty = $derived(JSON.stringify(profile) !== originalSnapshot);
 
     let deleteConfirm = $state(false);
@@ -78,6 +79,29 @@
     });
 
     let activeTab = $state<string | undefined>(undefined);
+
+    /* ── Tab strip scroll indicators ───────────────────────────────── */
+    let tabsScroller = $state<HTMLDivElement | undefined>(undefined);
+    let tabsOverflowLeft = $state(false);
+    let tabsOverflowRight = $state(false);
+
+    const updateTabsOverflow = () => {
+        const el = tabsScroller;
+        if (!el) return;
+        tabsOverflowLeft = el.scrollLeft > 2;
+        tabsOverflowRight = el.scrollLeft + el.clientWidth < el.scrollWidth - 2;
+    };
+
+    /* Track resizes of both the scroller and the tab list (categories can change). */
+    $effect(() => {
+        const el = tabsScroller;
+        if (!el) return;
+        updateTabsOverflow();
+        const observer = new ResizeObserver(updateTabsOverflow);
+        observer.observe(el);
+        if (el.firstElementChild) observer.observe(el.firstElementChild);
+        return () => observer.disconnect();
+    });
 
     /* Default the active tab to the first category once categories are computed,
        and reset it if the current tab disappears (e.g. visibility filter changes). */
@@ -216,9 +240,11 @@
 
 {#if activeTab !== undefined}
     <Tabs.Root bind:value={activeTab} class="w-full min-w-0">
-        <!-- Sticky segmented tab bar — swipe-scrollable on touch, no visible scrollbar. -->
+        <!-- Sticky segmented tab bar — swipe-scrollable on touch, no visible scrollbar.
+             Gradient + chevron overlays signal off-screen tabs on either side. -->
         <div class="sticky top-0 z-10 mb-4 w-full max-w-full bg-zinc-50/95 py-1 backdrop-blur dark:bg-background/95">
-            <div class="w-full overflow-x-auto overflow-y-hidden">
+            <div class="relative w-full">
+            <div bind:this={tabsScroller} onscroll={updateTabsOverflow} class="w-full overflow-x-auto overflow-y-hidden">
                 <Tabs.List
                     class="inline-flex h-auto w-max justify-start gap-0.5 rounded-xl bg-zinc-200/70 p-1 dark:bg-zinc-800/80"
                 >
@@ -249,6 +275,17 @@
                         </Tabs.Trigger>
                     {/each}
                 </Tabs.List>
+            </div>
+            {#if tabsOverflowLeft}
+                <div class="pointer-events-none absolute inset-y-0 left-0 flex w-12 items-center justify-start rounded-l-xl bg-gradient-to-r from-zinc-50 to-transparent pl-1 dark:from-background">
+                    <Icon src={ChevronLeft} theme="mini" class="h-4 w-4 text-zinc-500 dark:text-zinc-400" />
+                </div>
+            {/if}
+            {#if tabsOverflowRight}
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex w-12 items-center justify-end rounded-r-xl bg-gradient-to-l from-zinc-50 to-transparent pr-1 dark:from-background">
+                    <Icon src={ChevronRight} theme="mini" class="h-4 w-4 text-zinc-500 dark:text-zinc-400" />
+                </div>
+            {/if}
             </div>
         </div>
 

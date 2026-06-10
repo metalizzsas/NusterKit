@@ -172,7 +172,14 @@ export class ProgramBlockRunner {
 		};
 		TurbineEventLoop.on("pbr.set_pausable", this._on_set_pausable);
 
-		this._on_stop = (reason) => this.end(reason);
+		// pbr.stop est un événement GLOBAL : toutes les instances PBR vivantes le
+		// reçoivent. Un cycle qui n'est pas démarré n'a rien à arrêter -> on ignore,
+		// sinon end() spamme "Cannot end a cycle that has not started" (typiquement
+		// quand un cycle est préparé mais pas lancé, ou via d'autres PBR encore en vie).
+		this._on_stop = (reason) => {
+			if (this.status.mode !== "started") return;
+			this.end(reason);
+		};
 		TurbineEventLoop.on("pbr.stop", this._on_stop);
 	}
 

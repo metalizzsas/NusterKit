@@ -114,7 +114,7 @@ export class ProfilesRouter implements ProfileService {
 			return { key: v.name, value: v.value, profileId: profile_hydrated.id, id: undefined };
 		});
 
-		const return_profile: ProfileStored = { ...profile_hydrated, values: mapped_values };
+		const return_profile: ProfileStored = { ...profile_hydrated, values: mapped_values, folder: profile_hydrated.folder ?? null };
 
 		return return_profile;
 	}

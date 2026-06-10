@@ -5,6 +5,18 @@ export class DBusClient {
 
 	constructor() {
 		this.dbus = systemBus();
+
+		// La socket D-Bus peut émettre un 'error' (ex. EPIPE quand NetworkManager
+		// ne répond pas — typiquement en VM ou sans hôte balena complet). Sans
+		// listener 'error', Node transforme ça en exception non gérée qui TUE tout
+		// le process. On l'attrape : les fonctions réseau seront indisponibles,
+		// mais turbine reste debout.
+		(this.dbus as unknown as { connection?: { on?: (event: string, cb: (err: Error) => void) => void } }).connection?.on?.(
+			"error",
+			(err) => {
+				console.error(`[DBusClient] D-Bus connection error (ignored): ${err?.message ?? err}`);
+			},
+		);
 	}
 
 	/** Promisified version of `dbus.invoke` */

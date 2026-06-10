@@ -184,7 +184,9 @@ export class ProgramBlockStep {
 
 		// Handle step end
 
-		if (this.state === "crashed") {
+		// Cast: TS narrowe this.state au littéral "started" à ce point, mais
+		// state peut être passé à "crashed" pendant l'exécution async des blocks.
+		if ((this.state as PBRStepState) === "crashed") {
 			this.state = "crashed";
 			TurbineEventLoop.emit("log", "info", `PBS-${this.name}: Ended step with state ${this.state}`);
 			this.endTime = Date.now();

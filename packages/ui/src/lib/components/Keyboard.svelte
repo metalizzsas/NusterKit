@@ -118,7 +118,7 @@
                     {$_('close-keyboard')}
                 </Button>
             </Flex>
-            <div class="keyboard"/>
+            <div class="keyboard"></div>
         </div>
     </div>
 </Portal>

@@ -19,7 +19,7 @@
 
         <Flex items="center">
             <span>{$_('container.regulation.enabled')}</span>
-            <div class="h-[1px] grow bg-zinc-500/50" />
+            <div class="h-[1px] grow bg-zinc-500/50"></div>
             <form action="?/updateRegulationState" method="post" use:enhance>
                 <input type="hidden" name="sensor" value={regulation.name} />
                 <Toggle bind:value={regulation.state} form={{ name: "state", validateOn: "change" }}/>
@@ -28,7 +28,7 @@
 
         <Flex items="center">
             <span>{$_('container.regulation.current')}</span>
-            <div class="h-[1px] grow bg-zinc-500/50" />
+            <div class="h-[1px] grow bg-zinc-500/50"></div>
             <Label>
                 {regulation.current}
                 {#if regulation.currentUnity !== undefined}
@@ -39,7 +39,7 @@
 
         <Flex items="center">
             <span>{$_('container.regulation.target')}</span>
-            <div class="h-[1px] grow bg-zinc-500/50" />
+            <div class="h-[1px] grow bg-zinc-500/50"></div>
             <form action="?/updateRegulationTarget" method="post" use:enhance>
                 <input type="hidden" name="sensor" value={regulation.name} />
                 <NumField bind:value={regulation.target} max={regulation.maxTarget} name="target" validateOnChange />

@@ -556,7 +556,7 @@ export const StatusSchema = z.object({
 export const HypervisorDataSchema = z.object({
 	status: z.string(),
 	appState: z.string(),
-	overallDownloadProgress: z.number().optional(),
+	overallDownloadProgress: z.number().nullish(),
 	containers: z.array(
 		z.object({
 			status: z.string(),
@@ -576,7 +576,7 @@ export const HypervisorDataSchema = z.object({
 			imageId: z.number(),
 			dockerImageId: z.string(),
 			status: z.string(),
-			downloadProgress: z.number().optional(),
+			downloadProgress: z.number().nullish(),
 		}),
 	),
 	release: z.string(),

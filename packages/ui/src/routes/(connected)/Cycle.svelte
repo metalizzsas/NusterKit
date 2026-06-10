@@ -62,12 +62,12 @@
         </Button>
     </form>
 
-    <div class="h-0.5 bg-zinc-300/50 rounded-full mx-auto w-2/3 my-2" />
+    <div class="h-0.5 bg-zinc-300/50 rounded-full mx-auto w-2/3 my-2"></div>
 
     <Flex items="center">
 
         <h3 class="leading-10 font-semibold text-md">{$_('cycle.categories.security_conditions')}</h3>
-        <div class="h-[1px] bg-zinc-600/50 grow" />
+        <div class="h-[1px] bg-zinc-600/50 grow"></div>
         <div
             class:text-red-500={cycleData.runConditions.filter(k => k.result == "error").length > 0}
             class:text-amber-500={cycleData.runConditions.filter(k => k.result == "warning").length > 0}
@@ -82,13 +82,13 @@
         {#each cycleData.runConditions.filter(sc => sc.result != "disabled") as sc}
             <Flex direction="row" items="center">
                 <span>{$_(`cycle.run_conditions.${sc.name}`)}</span>
-                <div class="h-[1px] bg-zinc-600/50 grow" />
+                <div class="h-[1px] bg-zinc-600/50 grow"></div>
                 <div
                     class="rounded-full h-2.5 w-2.5"
                     class:bg-red-500={sc.result == "error"}
                     class:bg-amber-500={sc.result == "warning"}
                     class:bg-emerald-500={sc.result == "good"}
-                />
+                ></div>
             </Flex>
         {/each}
     </Flex>
@@ -206,7 +206,7 @@
         <Button class="mt-4 mb-6">{$_('cycle.buttons.complete')}</Button>
     </form>
 
-    <div class="h-0.5 bg-zinc-300/50 rounded-full mx-auto w-2/3 my-2" />
+    <div class="h-0.5 bg-zinc-300/50 rounded-full mx-auto w-2/3 my-2"></div>
 
     <div>
         <h3 class="leading-[4rem] mt-2">

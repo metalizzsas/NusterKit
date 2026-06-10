@@ -1,335 +1,400 @@
 {
-  "ok": "Ok",
-  "yes": "Sì",
-  "true": "Sì",
-  "no": "No",
-  "false": "No",
-  "back": "Indietro",
-  "cancel": "Annullare",
-  "exit": "",
-  "locked": "Bloccato",
-  "close-keyboard": "Chiudere la tastiera",
-  "close-modal": "Chiudere",
-  "connect": "Connessione",
-  "proceed": "Proseguire",
-  "nuster": {
-    "lead": "Nuster",
-    "logo": "Logo di Nuster"
-  },
-  "error": {
-    "render": {
-      "lead": "Errore visualizzazione pagina",
-      "sub": "Un errore si è verificato, sarete reindirizzati tra poco",
-      "button": "Ricaricare"
-    }
-  },
-  "date": {
-    "days": "Giorni",
-    "day": "Giorno",
-    "hours": "Ore",
-    "hour": "Ora",
-    "minutes": "Minuti",
-    "minute": "Minuto",
-    "seconds": "Secondi",
-    "second": "Secondo",
-    "milliseconds": "Millisecondi",
-    "millisecond": "Millisecondo"
-  },
-  "container": {
-    "lead": "Contenitori",
-    "unselected": {
-      "lead": "",
-      "sub": ""
+    "ok": "Ok",
+    "yes": "Sì",
+    "true": "Sì",
+    "no": "No",
+    "false": "No",
+    "back": "Indietro",
+    "cancel": "Annullare",
+    "exit": "Indietro",
+    "locked": "Bloccato",
+    "close-keyboard": "Chiudere la tastiera",
+    "close-modal": "Chiudere",
+    "connect": "Connessione",
+    "proceed": "Proseguire",
+    "password": "Password",
+    "nuster": {
+        "lead": "Nuster",
+        "logo": "Logo di Nuster",
+        "toast-update": "Aggiornamento installato",
+        "toast-update-body": "Nuster è stato aggiornato alla versione {version}."
     },
-    "category": {
-      "products": "Prodotto",
-      "sensors": "Sensori",
-      "regulation": "Regolazione"
-    },
-    "state": {
-      "lead": {
-        "error": "",
-        "good": ""
-      },
-      "issues": {
-        "product_unloaded": "",
-        "product_lifespan": "",
-        "product_lifespan_unknown": "",
-        "sensor": ""
-      },
-      "infos": {
-        "regulation_active": ""
-      }
-    },
-    "product": {
-      "informations": {
-        "lead": "Prodotto informazioni",
-        "loaded_product": "Serie del prodotto:",
-        "lifetime_remaining": "Durata di vita",
-        "load_date": "",
-        "unknownLifespan": "Scadenza non definita",
-        "done": "Scaduto",
-        "product_series": {
-          "usl_act": "USL Attivattore",
-          "usl_ox": "USL Ossidante",
-          "usl_rd": "USL Riduttore",
-          "llc_ox": "LLC Ossidante",
-          "llc_rd": "LLC Riduttore",
-          "cv-01": "Crystal varnish 01",
-          "sv-01": "Shiny varnish 01",
-          "mv-01": "Matte varnish 01",
-          "cr-01": "CR-1",
-          "water": "Acqua",
-          "any": "Sconosciuto"
+    "error": {
+        "render": {
+            "lead": "Errore visualizzazione pagina",
+            "sub": "Un errore si è verificato, sarete reindirizzati tra poco",
+            "button": "Ricaricare"
+        },
+        "loading": {
+            "lead": "Caricamento in corso",
+            "sub": "Nuster sarà pronto tra qualche secondo."
         }
-      },
-      "action": {
-        "lead": "Operazioni",
-        "product_choose": "Scegliete il prodoto da caricare in questo contenitore",
-        "default": {
-          "load": "Caricare un prodotto",
-          "unload": "Svuotare il prodotto"
+    },
+    "date": {
+        "days": "Giorni",
+        "day": "Giorno",
+        "hours": "Ore",
+        "hour": "Ora",
+        "minutes": "Minuti",
+        "minute": "Minuto",
+        "seconds": "Secondi",
+        "second": "Secondo",
+        "milliseconds": "Millisecondi",
+        "millisecond": "Millisecondo"
+    },
+    "container": {
+        "lead": "Contenitori",
+        "unselected": {
+            "lead": "Nessun contenitore selezionato",
+            "sub": "Selezionate un contenitore per visualizzare o modificare le sue proprietà."
+        },
+        "category": {
+            "products": "Prodotto",
+            "sensors": "Sensori",
+            "regulation": "Regolazione"
+        },
+        "state": {
+            "lead": {
+                "error": "Questo contenitore presenta dei problemi:",
+                "good": "Lo stato di questo contenitore è buono."
+            },
+            "issues": {
+                "product_unloaded": "Prodotto non caricato",
+                "product_lifespan": "Durata di vita del prodotto superata",
+                "product_lifespan_unknown": "Durata di vita del prodotto sconosciuta",
+                "sensor": "Errore sensore"
+            },
+            "infos": {
+                "regulation_active": "Regolazione attiva"
+            }
+        },
+        "product": {
+            "informations": {
+                "lead": "Informazioni prodotto",
+                "loaded_product": "Tipo di prodotto caricato:",
+                "lifetime_remaining": "Durata di vita rimanente:",
+                "load_date": "Data di caricamento:",
+                "unknownLifespan": "Scadenza non definita",
+                "done": "Scaduto",
+                "product_series": {
+                    "usl_act": "USL Attivatore",
+                    "usl_ox": "USL Ossidante",
+                    "usl_rd": "USL Riduttore",
+                    "llc_ox": "LLC Ossidante",
+                    "llc_rd": "LLC Riduttore",
+                    "cv-01": "Crystal varnish 01",
+                    "sv-01": "Shiny varnish 01",
+                    "mv-01": "Matte varnish 01",
+                    "cr-01": "CR-1",
+                    "water": "Acqua",
+                    "any": "Sconosciuto"
+                }
+            },
+            "action": {
+                "lead": "Operazioni",
+                "product_choose": "Scegliete il prodotto da caricare:",
+                "default": {
+                    "load": "Caricare un prodotto",
+                    "unload": "Svuotare il prodotto"
+                }
+            }
+        },
+        "regulation": {
+            "enabled": "Stato della regolazione",
+            "current": "Valore attuale",
+            "target": "Valore ricercato",
+            "modal": {
+                "security_disable": {
+                    "title": "Errore di sicurezza",
+                    "message": "{gate} ha disattivato la regolazione {container} → {regulation}."
+                },
+                "over_security_max": {
+                    "title": "Errore di sicurezza",
+                    "message": "La regolazione {container} → {regulation} ha superato {securityMax}, quindi è stata disattivata."
+                }
+            }
+        },
+        "empty": {
+            "title": "Nessun contenitore",
+            "description": "Nessun contenitore è configurato su questa macchina."
         }
-      }
     },
-    "regulation": {
-      "enabled": "Stato della regolazione",
-      "current": "Valore attuale",
-      "target": "Valore ricercato"
+    "profile": {
+        "lead": "Profili",
+        "name": "Nome del profilo",
+        "settings": "Parametri del profilo",
+        "defaultName": "Nome profilo predefinito",
+        "unselected": {
+            "lead": "Nessun profilo selezionato.",
+            "sub": "Selezionate un profilo per visualizzare o modificare i suoi parametri."
+        },
+        "copy": {
+            "label": "Copiare",
+            "button": "Copiare il profilo",
+            "message": "Il profilo è stato copiato in {name}.",
+            "suffix": "Copia"
+        },
+        "save": {
+            "button": "Salvare il profilo",
+            "message": "Il profilo è stato salvato."
+        },
+        "delete": {
+            "button": "Eliminare il profilo",
+            "button_confirm": "Confermare l'eliminazione del profilo"
+        },
+        "premades": {
+            "true": "Profili costruttore",
+            "false": "Profili utente"
+        },
+        "rows": {
+            "enabled": "Attivato",
+            "speed": "Velocità",
+            "duration": "Durata",
+            "count": "Numero di ripetizioni",
+            "timeOn": "Tempo attivato",
+            "timeOff": "Tempo disattivato"
+        },
+        "count": {
+            "one": "profilo",
+            "other": "profili"
+        },
+        "filter": {
+            "all": "Tutti",
+            "premade": "Costruttore",
+            "user": "Utente",
+            "search_placeholder": "Cerca un profilo…",
+            "empty_title": "Nessun risultato",
+            "empty_description": "Nessun profilo corrisponde alla tua ricerca."
+        },
+        "empty": {
+            "title": "Nessun profilo",
+            "description": "Crea un profilo da un ciclo o copia un profilo del costruttore."
+        },
+        "unsaved": {
+            "indicator": "Modifiche non salvate",
+            "title": "Modifiche non salvate",
+            "description": "Questo profilo contiene modifiche non salvate. Cosa vuoi fare?",
+            "cancel": "Annulla",
+            "discard": "Annulla le modifiche",
+            "save_and_leave": "Salva ed esci"
+        },
+        "autosave": {
+            "saving": "Salvataggio…",
+            "saved": "Salvato"
+        },
+        "folder": {
+            "label": "Cartella",
+            "all": "Tutte le cartelle",
+            "none": "Senza cartella",
+            "new": "Nuova cartella",
+            "name_placeholder": "Nome della cartella",
+            "create": "Crea"
+        }
     },
-    "empty": {
-      "title": "Nessun contenitore",
-      "description": "Nessun contenitore è configurato su questa macchina."
+    "settings": {
+        "lead": "Parametri",
+        "ui": {
+            "lead": "Parametri interfaccia",
+            "dark_mode": "Modalità scura",
+            "language": "Lingua"
+        },
+        "machine": {
+            "lead": "Informazioni macchina",
+            "model": "Modello",
+            "variant": "Variante",
+            "revision": "Revisione",
+            "serial": "Numero di serie",
+            "addons": "Opzioni",
+            "cycle_count": "Quantità di cicli"
+        },
+        "software": {
+            "lead": "Informazioni software",
+            "ui_version": "Versione dell'interfaccia",
+            "turbine_version": "Versione di Turbine",
+            "machine_specs_version": "Versione delle specifiche macchina",
+            "show_changelog": "Mostrare il changelog",
+            "balena": "Versione di balenaOS",
+            "update": "Aggiornamento disponibile",
+            "update_install": "Installare",
+            "update_installing": "Installazione in corso"
+        },
+        "network": {
+            "lead": "Informazioni rete",
+            "ip": "Indirizzi IP",
+            "mac": "Indirizzi MAC",
+            "vpn": "Connessione VPN",
+            "edit": "Modificare le impostazioni di rete",
+            "edit_button": "Vai alle impostazioni di rete",
+            "connected": {
+                "true": "Connesso",
+                "false": "Disconnesso"
+            },
+            "interface": {
+                "wired": "Rete cablata",
+                "wireless": "Wi-Fi",
+                "ip_4": "Indirizzo IPv4",
+                "gateway_4": "Gateway IPv4",
+                "subnet_mask": "Maschera di sottorete"
+            },
+            "wifi": {
+                "label": "Impostazioni Wi-Fi",
+                "button": "Aggiorna le impostazioni Wi-Fi"
+            },
+            "errors": {
+                "wifi_missing_parameters": "Parametri insufficienti per la connessione",
+                "wifi_invalid_password": "Password non valida"
+            },
+            "available_networks": "Reti disponibili",
+            "refresh_available_networks": "Cercare reti",
+            "connect": "Connettersi",
+            "disconnect": "Disconnettersi",
+            "disconnect_first": "Già connesso a una rete, disconnettersi prima.",
+            "network_quality": "Qualità della rete",
+            "wireless_connected": "Connesso tramite Wi-Fi",
+            "wired_connected": "Connesso tramite Ethernet"
+        },
+        "advanced": {
+            "lead": "Parametri avanzati",
+            "sub": "Questa funzionalità non è destinata all'utente finale.",
+            "password": "Password",
+            "edit": "Modificare la configurazione macchina"
+        },
+        "machines": {
+            "metalfog": "Metalfog",
+            "smoothit": "Smoothit",
+            "uscleaner": "USCleaner"
+        },
+        "power": {
+            "lead": "Gestione dell'alimentazione",
+            "reboot": "Riavviare",
+            "shutdown": "Spegnere",
+            "reload": "Ricaricare l'interfaccia",
+            "modal": {
+                "shutdown": {
+                    "title": "Spegnimento in corso",
+                    "message": "La macchina si sta spegnendo, quando lo schermo diventa nero potete scollegare la macchina."
+                },
+                "reboot": {
+                    "title": "Riavvio in corso",
+                    "message": "La macchina si sta riavviando, attendere."
+                }
+            }
+        }
+    },
+    "cycle": {
+        "lead": "Ciclo",
+        "run_conditions_warning": "Una delle condizioni di sicurezza presenta un avviso, potete avviare il ciclo ma il risultato potrebbe essere alterato.",
+        "categories": {
+            "steps": "Tappe del ciclo",
+            "status": "Stato del ciclo",
+            "additional_info": "Informazioni aggiuntive",
+            "security_conditions": "Condizioni di sicurezza"
+        },
+        "unselected": {
+            "lead": "Nessun ciclo selezionato.",
+            "sub": "Selezionate un ciclo nella lista a sinistra per iniziare a usare la macchina. Problemi ad avviare la macchina?",
+            "help": "Cliccate qui per leggere la documentazione."
+        },
+        "unselected_informations": {
+            "lead": "Informazioni macchina",
+            "sub": "Le informazioni visualizzate qui non sono modificabili, andate nelle sezioni corrispondenti per modificarle."
+        },
+        "eta": {
+            "null": "Sconosciuto",
+            "remaining": "Tempo rimanente:",
+            "estimated": "Tempo stimato:",
+            "current": "Tempo trascorso:",
+            "paused": "Tempo di pausa:",
+            "elapsed": "Tempo trascorso"
+        },
+        "end": {
+            "lead": "Ciclo completato",
+            "duration": "Durata del ciclo:"
+        },
+        "end_reasons": {
+            "user": "Fine utente",
+            "finished": "Realizzato con successo",
+            "error": "Ciclo terminato prematuramente a causa di un errore",
+            "controllerTimeout": "Tempo scaduto per la connessione al controllore IO",
+            "controllerError": "Errore di connessione al controllore IO",
+            "controllerUnreachable": "Controllore IO indisponibile",
+            "stepOvertime": "Una tappa del ciclo ha impiegato troppo tempo. Per evitare operazioni errate, si raccomanda di riavviare la macchina."
+        },
+        "buttons": {
+            "start": "Iniziare il ciclo",
+            "nextStep": "Passare questa tappa",
+            "pause": "Mettere in pausa",
+            "resume": "Riprendere il ciclo",
+            "stop": "Interrompere il ciclo",
+            "complete": "Terminare il ciclo"
+        },
+        "paused": "Ciclo in pausa",
+        "tap_again_to_clear": "Tocca di nuovo per rimuovere il ciclo",
+        "start": {
+            "step_type": "Passo 1 di 2",
+            "step_profile": "Passo 2 di 2",
+            "choose_type": "Scegli un tipo di ciclo",
+            "choose_profile": "Scegli un profilo",
+            "profile_required": "Profilo richiesto",
+            "no_profile_needed": "Avvio diretto",
+            "profile_count": "{n} profili disponibili",
+            "profile_count_one": "1 profilo disponibile",
+            "no_compatible_profiles": "Nessun profilo compatibile",
+            "no_compatible_profiles_sub": "Crea prima un profilo compatibile dalla pagina Profili.",
+            "back_to_types": "Cambia tipo di ciclo",
+            "change_selection": "Modifica la selezione",
+            "prepared": "Ciclo pronto"
+        }
+    },
+    "gates": {
+        "lead": "I / U",
+        "reset": "Azzeramento",
+        "bus": {
+            "in": "Ingressi",
+            "out": "Uscite"
+        },
+        "categories": {
+            "generic": "Generico"
+        }
+    },
+    "maintenance": {
+        "lead": "Manutenzione",
+        "duration": "Durata",
+        "last_operation": "Ultima operazione effettuata il",
+        "unselected": {
+            "lead": "Nessuna manutenzione selezionata.",
+            "sub": "Selezionate un'attività di manutenzione per visualizzare o modificare le sue proprietà."
+        },
+        "sensor": {
+            "label": "Avviso attività",
+            "warning": "Questa attività di manutenzione richiede che la modalità manuale collegata sia attivata per verificare il suo stato."
+        },
+        "procedure": {
+            "lead": "Procedura di manutenzione",
+            "clear": "Validare l'operazione di manutenzione",
+            "lang_unavailable": "La procedura di manutenzione non è disponibile in italiano."
+        },
+        "unity": {
+            "cycle": "Cicli",
+            "hours": "Ore",
+            "time": "Durata",
+            "duration": "Ore"
+        },
+        "empty": {
+            "title": "Nessuna attività di manutenzione",
+            "description": "Nessuna attività di manutenzione è configurata su questa macchina."
+        }
+    },
+    "help": {
+        "category": {
+            "machine": "Macchina",
+            "software": "Nuster"
+        },
+        "lead": "Aiuto",
+        "unavailable": "Nessun aiuto disponibile nella vostra lingua.",
+        "unselected": {
+            "lead": "Centro assistenza.",
+            "sub": "Navigate usando gli elementi qui sotto per leggere la documentazione."
+        }
     }
-  },
-  "profile": {
-    "lead": "Profili",
-    "name": "Nome del profilo",
-    "settings": "Parametri del profilo",
-    "defaultName": "Nome profilo predefinito",
-    "unselected": {
-      "lead": "",
-      "sub": ""
-    },
-    "copy": {
-      "label": "",
-      "button": "Copiare",
-      "message": "Il profilo è stato copiato in {name}.",
-      "suffix": ""
-    },
-    "save": {
-      "button": "Salvaguardare",
-      "message": "Il profilo è stato salvato."
-    },
-    "delete": {
-      "button": "Eliminare",
-      "button_confirm": "Conferma eliminare"
-    },
-    "premades": {
-      "true": "Profili costruttore",
-      "false": "Profili utente"
-    },
-    "rows": {
-      "enabled": "Attivato",
-      "speed": "Velocità",
-      "duration": "Durata",
-      "count": "Numero di ripetizioni",
-      "timeOn": "Tempo attivato",
-      "timeOff": "Tempo disattivato"
-    },
-    "count": {
-      "one": "profilo",
-      "other": "profili"
-    },
-    "filter": {
-      "all": "Tutti",
-      "premade": "Costruttore",
-      "user": "Utente",
-      "search_placeholder": "Cerca un profilo…",
-      "empty_title": "Nessun risultato",
-      "empty_description": "Nessun profilo corrisponde alla tua ricerca."
-    },
-    "empty": {
-      "title": "Nessun profilo",
-      "description": "Crea un profilo da un ciclo o copia un profilo del costruttore."
-    },
-    "unsaved": {
-      "indicator": "Modifiche non salvate",
-      "title": "Modifiche non salvate",
-      "description": "Questo profilo contiene modifiche non salvate. Cosa vuoi fare?",
-      "cancel": "Annulla",
-      "discard": "Annulla le modifiche",
-      "save_and_leave": "Salva ed esci"
-    },
-    "autosave": {
-      "saving": "Salvataggio…",
-      "saved": "Salvato"
-    },
-    "folder": {
-      "label": "Cartella",
-      "all": "Tutte le cartelle",
-      "none": "Senza cartella",
-      "new": "Nuova cartella",
-      "name_placeholder": "Nome della cartella",
-      "create": "Crea"
-    }
-  },
-  "settings": {
-    "lead": "Parametri",
-    "ui": {
-      "lead": "",
-      "dark_mode": "Modalità scuro",
-      "language": "Lingua"
-    },
-    "machine": {
-      "lead": "Informazioni macchina",
-      "model": "Modello",
-      "variant": "Variante",
-      "revision": "Revisione",
-      "serial": "Numero di serie",
-      "addons": "Opzioni",
-      "cycle_count": "Quantità di cicli"
-    },
-    "software": {
-      "lead": "",
-      "ui_version": "Versione di UI",
-      "turbine_version": "Versione di Turbine",
-      "machine_specs_version": "Versione di macchina",
-      "show_changelog": "Mostrare il changelog",
-      "balena": "Versione di balenaOS",
-      "update": "",
-      "update_install": "Installare l'aggiornamento",
-      "update_installing": ""
-    },
-    "network": {
-      "lead": "Informazioni rete",
-      "ip": "Indirizzo IP macchina",
-      "mac": "Liste degli indirizzi Mac",
-      "vpn": "Connessione VPN",
-      "wifi": {
-        "label": "Impostazioni Wi-Fi",
-        "button": "Aggiorna le impostazioni Wi-Fi"
-      }
-    },
-    "advanced": {
-      "lead": "",
-      "sub": "",
-      "password": "",
-      "edit": ""
-    },
-    "machines": {
-      "metalfog": "Metalfog",
-      "smoothit": "Smoothit",
-      "uscleaner": "USCleaner"
-    }
-  },
-  "cycle": {
-    "lead": "Ciclo",
-    "categories": {
-      "steps": "Tappe del ciclo",
-      "status": "Statuto del ciclo",
-      "additional_info": "Informazioni aggiuntive",
-      "security_conditions": "Condizioni di sicurezza"
-    },
-    "unselected": {
-      "lead": "",
-      "sub": "",
-      "help": ""
-    },
-    "unselected_informations": {
-      "lead": "",
-      "sub": ""
-    },
-    "eta": {
-      "null": "Sconosciuto",
-      "remaining": "Tempo rimanente:",
-      "estimated": "Tempo stimato:",
-      "elapsed": "Tempo trascorso"
-    },
-    "end": {
-      "lead": "Ciclo completato",
-      "duration": "Durata del ciclo:"
-    },
-    "end_reasons": {
-      "user": "Fine utente",
-      "finished": "Realizzato con successo",
-      "controllerTimeout": "Tempo scaduto per la connessione controlleur IO",
-      "controllerError": "Errore connessione controlleur IO",
-      "controllerUnreachable": "Controllore IO indisponibile",
-      "stepOvertime": "Una tappa del ciclo ha impiegato troppo tempo. Per evitare operazioni errate, si raccomanda di riavviare la macchina."
-    },
-    "buttons": {
-      "start": "Iniziare il ciclo",
-      "nextStep": "Passare questa tappa",
-      "stop": "Interrompere il ciclo",
-      "complete": "Terminare il ciclo"
-    },
-    "paused": "Ciclo in pausa",
-    "tap_again_to_clear": "Tocca di nuovo per rimuovere il ciclo",
-    "start": {
-      "step_type": "Passo 1 di 2",
-      "step_profile": "Passo 2 di 2",
-      "choose_type": "Scegli un tipo di ciclo",
-      "choose_profile": "Scegli un profilo",
-      "profile_required": "Profilo richiesto",
-      "no_profile_needed": "Avvio diretto",
-      "profile_count": "{n} profili disponibili",
-      "profile_count_one": "1 profilo disponibile",
-      "no_compatible_profiles": "Nessun profilo compatibile",
-      "no_compatible_profiles_sub": "Crea prima un profilo compatibile dalla pagina Profili.",
-      "back_to_types": "Cambia tipo di ciclo",
-      "change_selection": "Modifica la selezione",
-      "prepared": "Ciclo pronto"
-    }
-  },
-  "gates": {
-    "lead": "I / U",
-    "reset": "",
-    "bus": {
-      "in": "Ingressi",
-      "out": "Uscite"
-    },
-    "categories": {
-      "generic": "Generico"
-    }
-  },
-  "maintenance": {
-    "lead": "Manutenzione",
-    "duration": "Durata",
-    "unselected": {
-      "lead": "",
-      "sub": ""
-    },
-    "sensor": {
-      "label": "",
-      "warning": ""
-    },
-    "procedure": {
-      "lead": "Procedura di manutenzione",
-      "clear": "Validare l'operazione di manutenzione",
-      "lang_unavailable": ""
-    },
-    "unity": {
-      "cycle": "Cicli",
-      "hours": "Ore",
-      "time": "Durata",
-      "duration": "Ore"
-    },
-    "empty": {
-      "title": "Nessuna attività di manutenzione",
-      "description": "Nessuna attività di manutenzione è configurata su questa macchina."
-    }
-  },
-  "help": {
-    "lead": "",
-    "unavailable": "",
-    "unselected": {
-      "lead": "",
-      "sub": ""
-    },
-    "category": {
-      "software": "Nuster",
-      "machine": "Machina"
-    }
-  }
 }

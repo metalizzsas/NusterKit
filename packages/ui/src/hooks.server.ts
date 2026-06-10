@@ -20,26 +20,30 @@ export const handle = (async ({ event, resolve }) => {
     const currentPath = event.url.pathname;
     const redirect = (path: string) => new Response(null, { headers: { "Location": path }, status: 302 });
 
-    // Try to fetch machine data
+    // Try to fetch machine data.
+    // NB: openapi-fetch ne LÈVE PAS sur erreur HTTP (404/500) — il renvoie
+    // { data: undefined, response }. Il faut donc tester response.ok / data,
+    // sinon une machine non configurée (404) passait quand même en "connected"
+    // avec machine_configuration undefined -> crash de la sidebar, et la page
+    // /configure n'était jamais atteinte.
     let machineData: MachineData | undefined;
     try {
-        const { data } = await api.GET("/machine");
-        machineData = data as MachineData | undefined;
-    } catch (error) {
-        // Machine endpoint failed - check if turbine is reachable
-        try {
-            const { response } = await api.GET("/config/actual");
-            // Turbine is reachable - check if configured
-            if (response.status === 404) {
-                // Not configured - redirect to /configure
+        const { data, response } = await api.GET("/machine");
+        if (response.ok && data) {
+            machineData = data as MachineData;
+        } else {
+            // Pas de machine prête : turbine est-elle configurée ?
+            const { response: cfgResponse } = await api.GET("/config/actual");
+            if (cfgResponse.status === 404) {
+                // Non configurée -> page de configuration
                 return currentPath.startsWith("/configure") ? resolve(event) : redirect("/configure");
             }
-            // Configured but machine not ready - redirect to /loading
-            return currentPath.startsWith("/loading") ? resolve(event) : redirect("/loading");
-        } catch {
-            // Turbine unreachable - redirect to /loading
+            // Configurée mais machine pas encore prête -> loading
             return currentPath.startsWith("/loading") ? resolve(event) : redirect("/loading");
         }
+    } catch {
+        // turbine injoignable (erreur réseau) -> loading
+        return currentPath.startsWith("/loading") ? resolve(event) : redirect("/loading");
     }
 
     // Machine data retrieved successfully

@@ -272,7 +272,7 @@
 									{#if regulationState !== undefined}
 										<Flex items="center">
 											<p>{$_(`containers.${homeInfo.path[0]}.regulations.${homeInfo.path[1]}`)} → {$_('container.regulation.enabled')}</p>
-											<div class="h-[1px] grow bg-zinc-500/50" />
+											<div class="h-[1px] grow bg-zinc-500/50"></div>
 											<Toggle value={regulationState} locked={true}/>
 										</Flex>
 									{/if}
@@ -281,7 +281,7 @@
 									{#if regulation !== undefined}
 										<Flex items="center">
 											<p>{$_(`containers.${homeInfo.path[0]}.regulations.${homeInfo.path[1]}`)} → {$_('container.regulation.target')}</p>
-											<div class="h-[1px] grow bg-zinc-500/50" />
+											<div class="h-[1px] grow bg-zinc-500/50"></div>
 											<Label>{regulation.target} <span class="font-semibold">{regulation.currentUnity}</span></Label>
 										</Flex>
 									{/if}

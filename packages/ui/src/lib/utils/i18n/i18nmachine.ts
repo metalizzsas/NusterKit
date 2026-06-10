@@ -1,6 +1,6 @@
 import { addMessages } from 'svelte-i18n';
 
-const LANGUAGES = ['fr', 'en', 'it'] as const;
+const LANGUAGES = ['fr', 'en', 'it', 'de'] as const;
 
 export async function initI18nMachine()
 {

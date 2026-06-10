@@ -46,7 +46,7 @@
         "lead": "Containers",
         "unselected": {
             "lead": "No container selected",
-            "sub": "Select a container to view or edit it's properties."
+            "sub": "Select a container to view or edit its properties."
         },
         "category": {
             "products": "Product",
@@ -60,7 +60,7 @@
             },
             "issues": {
                 "product_unloaded": "Product unloaded",
-                "product_lifespan": "product lifetime exceeded",
+                "product_lifespan": "Product lifetime exceeded",
                 "product_lifespan_unknown": "Product lifetime is unknown",
                 "sensor": "Sensor error"
             },
@@ -70,7 +70,7 @@
         },
         "product": {
             "informations": {
-                "lead": "Product informations",
+                "lead": "Product information",
                 "loaded_product": "Loaded product type:",
                 "lifetime_remaining": "Lifetime remaining:",
                 "load_date": "Load date:",
@@ -78,9 +78,9 @@
                 "done": "Out of date",
                 "product_series": {
                     "usl_act": "USL Activator",
-                    "usl_ox": "USL Oxydiser",
+                    "usl_ox": "USL Oxidizer",
                     "usl_rd": "USL Reducer",
-                    "llc_ox": "LLC Oxydiser",
+                    "llc_ox": "LLC Oxidizer",
                     "llc_rd": "LLC Reducer",
                     "cv-01": "Crystal varnish 01",
                     "sv-01": "Shiny varnish 01",
@@ -136,7 +136,7 @@
         },
         "save": {
             "button": "Save profile",
-            "message": "Profile have been saved."
+            "message": "Profile has been saved."
         },
         "delete": {
             "button": "Delete profile",
@@ -199,7 +199,7 @@
             "language": "Language"
         },
         "machine": {
-            "lead": "Machine informations",
+            "lead": "Machine information",
             "model": "Model",
             "variant": "Variant",
             "revision": "Revision",
@@ -208,7 +208,7 @@
             "cycle_count": "Cycle count"
         },
         "software": {
-            "lead": "Software informations",
+            "lead": "Software information",
             "ui_version": "UI version",
             "turbine_version": "Turbine version",
             "machine_specs_version": "Machine specs version",
@@ -219,7 +219,7 @@
             "update_installing": "Installing"
         },
         "network": {
-            "lead": "Network informations",
+            "lead": "Network information",
             "ip": "IP addresses",
             "mac": "Mac addresses",
             "vpn": "Connected to VPN",
@@ -248,8 +248,8 @@
             "refresh_available_networks": "Seek networks",
             "connect": "Connect",
             "disconnect": "Disconnect",
-            "disconnect_first": "Already connected a to a network, disconnect first.",
-            "network_quality": "Network qualtity",
+            "disconnect_first": "Already connected to a network, disconnect first.",
+            "network_quality": "Network quality",
             "wireless_connected": "Connected with WiFi",
             "wired_connected": "Connected with Ethernet"
         },
@@ -283,21 +283,21 @@
     },
     "cycle": {
         "lead": "Cycle",
-        "run_conditions_warning": "Some of the safety are shows a warning, you can start the cycle but the result might be altered.",
+        "run_conditions_warning": "One of the safety conditions shows a warning, you can start the cycle but the result might be altered.",
         "categories": {
             "steps": "Cycle steps",
             "status": "Cycle status",
-            "additional_info": "Additional informations",
+            "additional_info": "Additional information",
             "security_conditions": "Starting security conditions"
         },
         "unselected": {
             "lead": "No cycle selected.",
-            "sub": "Select a cycle on the left list to start using your machine. Trouble starting your machine ?",
+            "sub": "Select a cycle on the left list to start using your machine. Trouble starting your machine?",
             "help": "Click here to read documentation."
         },
         "unselected_informations": {
-            "lead": "Machine informations",
-            "sub": "The informations displayed here are not editable, go to the corresponding sections to edit them."
+            "lead": "Machine information",
+            "sub": "The information displayed here is not editable, go to the corresponding sections to edit it."
         },
         "eta": {
             "null": "Unknown",
@@ -318,7 +318,7 @@
             "controllerTimeout": "IO Controller timed out",
             "controllerError": "IO Controller error",
             "controllerUnreachable": "IO Controller is unreachable",
-            "stepOvertime": "Cycle step has take too much time to end. Strange behavior might have happened"
+            "stepOvertime": "A cycle step took too long to complete. Unexpected behavior might have occurred, we recommend restarting the machine."
         },
         "buttons": {
             "start": "Start cycle",

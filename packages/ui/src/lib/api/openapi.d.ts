@@ -129,6 +129,13 @@ export interface paths {
                                         plus: string[];
                                         minus: string[];
                                     }[];
+                                } | {
+                                    path: string;
+                                    /** @enum {string} */
+                                    mode: "remove";
+                                    content: (string | number | {
+                                        [key: string]: unknown;
+                                    })[];
                                 })[];
                             }[];
                             settings: {
@@ -179,7 +186,7 @@ export interface paths {
                             hypervisorData?: {
                                 status: string;
                                 appState: string;
-                                overallDownloadProgress?: number;
+                                overallDownloadProgress?: number | null;
                                 containers: {
                                     status: string;
                                     serviceName: string;
@@ -196,7 +203,7 @@ export interface paths {
                                     imageId: number;
                                     dockerImageId: string;
                                     status: string;
-                                    downloadProgress?: number;
+                                    downloadProgress?: number | null;
                                 }[];
                                 release: string;
                             };
@@ -2607,6 +2614,13 @@ export interface paths {
                                             plus: string[];
                                             minus: string[];
                                         }[];
+                                    } | {
+                                        path: string;
+                                        /** @enum {string} */
+                                        mode: "remove";
+                                        content: (string | number | {
+                                            [key: string]: unknown;
+                                        })[];
                                     })[];
                                 }[];
                             };
@@ -2748,6 +2762,13 @@ export interface paths {
                                         plus: string[];
                                         minus: string[];
                                     }[];
+                                } | {
+                                    path: string;
+                                    /** @enum {string} */
+                                    mode: "remove";
+                                    content: (string | number | {
+                                        [key: string]: unknown;
+                                    })[];
                                 })[];
                             }[];
                             settings: {
@@ -2903,6 +2924,13 @@ export interface paths {
                                     plus: string[];
                                     minus: string[];
                                 }[];
+                            } | {
+                                path: string;
+                                /** @enum {string} */
+                                mode: "remove";
+                                content: (string | number | {
+                                    [key: string]: unknown;
+                                })[];
                             })[];
                         }[];
                         settings: {

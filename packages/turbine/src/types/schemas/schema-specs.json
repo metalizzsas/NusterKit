@@ -990,6 +990,42 @@
                         "content"
                       ],
                       "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "description": "Removes information from the base specs.\n\n- When `path` points to an **array** (e.g. `iogates`, `containers`,   `profilePremades`, `maintenance`, `nuster.homeInformations`), each entry of   `content` is a match criterion: primitives match array items by equality,   objects match items for which every listed field is equal (partial match).   Every matching item is removed.\n- When `path` points to an **object**, `content` is the list of property keys   to delete from it.",
+                      "properties": {
+                        "content": {
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "additionalProperties": {},
+                                "type": "object"
+                              }
+                            ]
+                          },
+                          "type": "array"
+                        },
+                        "mode": {
+                          "const": "remove",
+                          "type": "string"
+                        },
+                        "path": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "path",
+                        "mode",
+                        "content"
+                      ],
+                      "type": "object"
                     }
                   ]
                 },

@@ -20,6 +20,7 @@ type Addon = {
 		| ContainerRegulationsSecurityMax
 		| MaintenanceSensorLimitValue
 		| MaintenanceSensorBaseValue
+		| RemoveAddon
 	>;
 };
 
@@ -109,4 +110,23 @@ type MaintenanceSensorBaseValue = {
 	path: string;
 	mode: "set";
 	content: number;
+};
+
+/**
+ * Removes information from the base specs.
+ *
+ * - When `path` points to an **array** (e.g. `iogates`, `containers`,
+ *   `profilePremades`, `maintenance`, `nuster.homeInformations`), each entry of
+ *   `content` is a match criterion: primitives match array items by equality,
+ *   objects match items for which every listed field matches (partial match),
+ *   and nested arrays match as a prefix — `{ "io_write": ["regulators#rd-pressure"] }`
+ *   matches any `io_write` block whose first element is that gate, regardless of
+ *   the written value. Every matching item is removed.
+ * - When `path` points to an **object**, `content` is the list of property keys
+ *   to delete from it.
+ */
+type RemoveAddon = {
+	path: string;
+	mode: "remove";
+	content: Array<string | number | Record<string, unknown>>;
 };

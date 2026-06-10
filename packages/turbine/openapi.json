@@ -522,6 +522,43 @@
                                     "content"
                                   ],
                                   "additionalProperties": false
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "path": {
+                                      "type": "string"
+                                    },
+                                    "mode": {
+                                      "type": "string",
+                                      "enum": [
+                                        "remove"
+                                      ]
+                                    },
+                                    "content": {
+                                      "type": "array",
+                                      "items": {
+                                        "anyOf": [
+                                          {
+                                            "type": "string"
+                                          },
+                                          {
+                                            "type": "number"
+                                          },
+                                          {
+                                            "type": "object",
+                                            "additionalProperties": {}
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "required": [
+                                    "path",
+                                    "mode",
+                                    "content"
+                                  ],
+                                  "additionalProperties": false
                                 }
                               ]
                             }
@@ -757,6 +794,7 @@
                           "type": "string"
                         },
                         "overallDownloadProgress": {
+                          "nullable": true,
                           "type": "number"
                         },
                         "containers": {
@@ -822,6 +860,7 @@
                                 "type": "string"
                               },
                               "downloadProgress": {
+                                "nullable": true,
                                 "type": "number"
                               }
                             },
@@ -16602,6 +16641,43 @@
                                       "content"
                                     ],
                                     "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "path": {
+                                        "type": "string"
+                                      },
+                                      "mode": {
+                                        "type": "string",
+                                        "enum": [
+                                          "remove"
+                                        ]
+                                      },
+                                      "content": {
+                                        "type": "array",
+                                        "items": {
+                                          "anyOf": [
+                                            {
+                                              "type": "string"
+                                            },
+                                            {
+                                              "type": "number"
+                                            },
+                                            {
+                                              "type": "object",
+                                              "additionalProperties": {}
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    "required": [
+                                      "path",
+                                      "mode",
+                                      "content"
+                                    ],
+                                    "additionalProperties": false
                                   }
                                 ]
                               }
@@ -17141,6 +17217,43 @@
                                           "minus"
                                         ],
                                         "additionalProperties": false
+                                      }
+                                    }
+                                  },
+                                  "required": [
+                                    "path",
+                                    "mode",
+                                    "content"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "path": {
+                                      "type": "string"
+                                    },
+                                    "mode": {
+                                      "type": "string",
+                                      "enum": [
+                                        "remove"
+                                      ]
+                                    },
+                                    "content": {
+                                      "type": "array",
+                                      "items": {
+                                        "anyOf": [
+                                          {
+                                            "type": "string"
+                                          },
+                                          {
+                                            "type": "number"
+                                          },
+                                          {
+                                            "type": "object",
+                                            "additionalProperties": {}
+                                          }
+                                        ]
                                       }
                                     }
                                   },
@@ -17717,6 +17830,42 @@
                                         "active",
                                         "plus",
                                         "minus"
+                                      ]
+                                    }
+                                  }
+                                },
+                                "required": [
+                                  "path",
+                                  "mode",
+                                  "content"
+                                ]
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "path": {
+                                    "type": "string"
+                                  },
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "remove"
+                                    ]
+                                  },
+                                  "content": {
+                                    "type": "array",
+                                    "items": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "number"
+                                        },
+                                        {
+                                          "type": "object",
+                                          "additionalProperties": {}
+                                        }
                                       ]
                                     }
                                   }

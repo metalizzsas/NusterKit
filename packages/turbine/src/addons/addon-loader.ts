@@ -14,7 +14,7 @@ export function parse_addon(specs: MachineSpecs, addon: Addon): MachineSpecs {
 	TurbineEventLoop.emit("log", "info", "AddonLoader: Adding " + addon.addonName + ".");
 
 	for (const content of addon.content) {
-		TurbineEventLoop.emit("log", "info", " ↳ Adding content on " + content.path + " with " + content.mode + " mode.");
+		TurbineEventLoop.emit("log", "info", " ↳ Applying content on " + content.path + " with " + content.mode + " mode.");
 		specs = deep_insert(specs, content.content, content.path, content.mode);
 	}
 

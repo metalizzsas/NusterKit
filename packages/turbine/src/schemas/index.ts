@@ -316,6 +316,11 @@ const AddonContentSchema = z.union([
 	z.object({ path: z.string(), mode: z.literal("merge"), content: z.array(z.string()) }),
 	z.object({ path: z.string(), mode: z.literal("set"), content: z.number() }),
 	z.object({ path: z.string(), mode: z.literal("set"), content: z.array(ContainerRegulationSpecSchema) }),
+	z.object({
+		path: z.string(),
+		mode: z.literal("remove"),
+		content: z.array(z.union([z.string(), z.number(), z.record(z.string(), z.unknown())])),
+	}),
 ]);
 
 export const AddonSchema = z.object({

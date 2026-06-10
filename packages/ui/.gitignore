@@ -10,3 +10,7 @@ static/documentation/
 static/CHANGELOG.md
 # Playwright MCP screenshots/snapshots (local iteration)
 .playwright-mcp/
+
+# Playwright test artifacts
+test-results/
+playwright-report/

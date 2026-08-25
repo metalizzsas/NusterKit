@@ -24,7 +24,12 @@ COPY static/ ./static
 COPY src/ ./src
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install
-RUN pnpm build
+# Deliberately not `pnpm build`: it starts with `openapi:generate`, which reads
+# ../turbine/openapi.json — a sibling package this narrow build context does not
+# carry. The generated src/lib/api/openapi.d.ts is committed and comes in with
+# src/ above, so there is nothing to regenerate here. Same split as the turbine
+# image, which drops the matching `openapi:extract` step.
+RUN pnpm exec svelte-kit sync && pnpm exec vite build
 
 # Production final image
 FROM base AS production

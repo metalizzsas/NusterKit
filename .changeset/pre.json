@@ -1,0 +1,11 @@
+{
+  "mode": "pre",
+  "tag": "beta",
+  "initialVersions": {
+    "@nuster/simulation-server": "1.2.8",
+    "@nuster/simulation-ui": "1.2.4",
+    "@nuster/turbine": "2.3.4",
+    "@nuster/ui": "2.3.4"
+  },
+  "changesets": []
+}

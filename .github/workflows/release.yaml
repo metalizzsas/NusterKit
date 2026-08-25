@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - main
+      # Canal beta : mêmes étapes que main, mais changesets y tourne en mode
+      # `pre` (cf. .changeset/pre.json) — il publie donc des versions
+      # `x.y.z-beta.n` sous le dist-tag npm `beta`. Les ranges semver des
+      # consommateurs (`^2.3.1`) ignorent les prereleases : rien ne bouge
+      # pour main tant qu'on n'a pas fait `changeset pre exit`.
+      - beta
 
 jobs:
   release:
@@ -64,7 +70,12 @@ jobs:
     needs: release
     if: needs.release.outputs.published == 'true'
 
-    name: 🚀 Trigger Balena-cloud release deployment
-    uses: metalizzsas/nusterkit/.github/workflows/docker-release.yaml@main
+    name: 🐳 Publish docker images
+    # Référence locale (et non `@main`) : la branche beta doit utiliser SA
+    # version du workflow appelé, sinon elle appellerait celle de main — qui
+    # ne connaît pas l'entrée `moving_tag`.
+    uses: ./.github/workflows/docker-release.yaml
+    with:
+      # main -> `latest`, beta -> `beta`. Une beta ne déplace jamais `latest`.
+      moving_tag: ${{ github.ref_name == 'main' && 'latest' || 'beta' }}
     secrets: inherit
-  

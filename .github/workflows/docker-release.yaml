@@ -2,6 +2,15 @@ name: 🐳 Docker build
 
 on:
   workflow_call:
+    inputs:
+      moving_tag:
+        description: >
+          Tag mobile publié en plus du numéro de version.
+          `latest` depuis main, `beta` depuis la branche beta — pour qu'une
+          publication beta ne déplace jamais `latest`.
+        required: false
+        type: string
+        default: latest
 
 jobs:
   build:
@@ -49,6 +58,6 @@ jobs:
           push: true
           tags: | 
             nusterkit/${{ matrix.packages }}:${{ steps.get_version.outputs.version }} 
-            nusterkit/${{ matrix.packages }}:latest
+            nusterkit/${{ matrix.packages }}:${{ inputs.moving_tag }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache

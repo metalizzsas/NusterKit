@@ -140,6 +140,9 @@ importers:
       deep-extend:
         specifier: ^0.6.0
         version: 0.6.0
+      enip-ts:
+        specifier: 3.0.0
+        version: 3.0.0
       fastify:
         specifier: ^5.8.5
         version: 5.8.5
@@ -2147,6 +2150,10 @@ packages:
   enhanced-resolve@5.20.1:
     resolution: {integrity: sha512-Qohcme7V1inbAfvjItgw0EaxVX5q2rdVEZHRBrEQdRZTssLDGsL8Lwrznl8oQ/6kuTJONLaDcGjkNP247XEhcA==}
     engines: {node: '>=10.13.0'}
+
+  enip-ts@3.0.0:
+    resolution: {integrity: sha512-A4a9zCKS7wBk9c5S3hw0NqUblOSnGpGCOyfMd3TzRONx2Zqo70j1FEJpUm37VB3Ix2cW9HaYbFeldzdMXVMpyg==}
+    engines: {node: '>=24'}
 
   enquirer@2.4.1:
     resolution: {integrity: sha512-rRqJg/6gd538VHvR3PSrdRBb/1Vy2YfzHqzvbhGIQpDRKIa4FgV/54b5Q1xYSxOOwKvjXweS26E0Q+nAMwp2pQ==}
@@ -5623,6 +5630,8 @@ snapshots:
     dependencies:
       graceful-fs: 4.2.11
       tapable: 2.3.2
+
+  enip-ts@3.0.0: {}
 
   enquirer@2.4.1:
     dependencies:

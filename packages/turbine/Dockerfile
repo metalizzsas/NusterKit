@@ -21,7 +21,13 @@ COPY tsconfig.json .
 COPY tsconfig.build.json .
 COPY src/ ./src
 
-RUN pnpm build
+# Deliberately not `pnpm build`: that chain ends in `openapi:extract`, which
+# imports the app — and the app hits Prisma at load time, so it needs
+# DATABASE_URL and a migrated database, neither of which exists at image build
+# time. It also needs scripts/, which this narrow context does not copy.
+# openapi.json is committed and consumed by the UI; there is nothing to
+# regenerate here.
+RUN pnpm run build:prisma && pnpm run build:app && pnpm run build:schemas
 
 # Production final image
 FROM base AS production

@@ -17,6 +17,9 @@ jobs:
     name: Build and push docker images
     runs-on: ubuntu-latest
     strategy:
+      # The four images are independent. Without this, the first failure cancels
+      # the others and hides whether they would have built.
+      fail-fast: false
       matrix:
         packages: ["turbine", "ui", "simulation-ui", "simulation-server"]
     steps:

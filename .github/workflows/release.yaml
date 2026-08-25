@@ -81,8 +81,14 @@ jobs:
   docker-builds:
 
     needs: release
-    if: needs.release.outputs.published == 'true'
 
+    # Volontairement PAS conditionné à `published == 'true'`. Les images étaient
+    # jusqu'ici l'effet de bord d'une publication npm : un correctif portant
+    # uniquement sur un Dockerfile ne pouvait donc produire aucune image sans
+    # consommer un numéro de version, et une version publiée dont le build
+    # d'image échouait restait définitivement sans image. Le job tourne
+    # maintenant à chaque fois et chaque image décide, paquet par paquet, si sa
+    # version manque au registre.
     name: 🐳 Publish docker images
     # Référence locale (et non `@main`) : la branche beta doit utiliser SA
     # version du workflow appelé, sinon elle appellerait celle de main — qui

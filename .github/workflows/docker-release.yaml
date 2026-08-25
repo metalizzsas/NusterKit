@@ -52,7 +52,24 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
         
+      # Le job n'est plus déclenché par une publication npm : il tourne à chaque
+      # fois, et c'est ici qu'on décide. `imagetools inspect` sort en erreur si
+      # le tag n'existe pas — buildx est déjà installé, et l'appel passe par le
+      # login ci-dessus, donc il fonctionne aussi sur un dépôt privé.
+      - name: ❓ Does this version already have an image?
+        id: image_exists
+        run: |
+          image="nusterkit/${{ matrix.packages }}:${{ steps.get_version.outputs.version }}"
+          if docker buildx imagetools inspect "$image" > /dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "$image exists already — skipping the build."
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "$image is missing — building."
+          fi
+
       - name: 🧱 Build Docker image
+        if: steps.image_exists.outputs.exists == 'false'
         uses: docker/build-push-action@v5
         with:
           context: ./packages/${{ matrix.packages }}

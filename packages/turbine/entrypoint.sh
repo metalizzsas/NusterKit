@@ -9,4 +9,7 @@ fi
 
 find /data/logs -name "*.log" -type f -mtime +30 -delete || true
 pnpm exec prisma migrate deploy
-exec su-exec nodejs pnpm run start
+# `pnpm run start` is only ever `node build/app.js`. Going through pnpm here
+# dragged corepack into the runtime path, under a user that could not read the
+# activated version — which is what put this container in a restart loop.
+exec su-exec nodejs node build/app.js

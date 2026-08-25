@@ -3,8 +3,20 @@ FROM node:24-alpine@sha256:8510330d3eb72c804231a834b1a8ebb55cb3796c3e4431297a24d
 
 RUN apk add --no-cache openssl su-exec
 
+# Corepack shared between root (which runs the migration) and the nodejs user
+# (which runs the app):
+#  - COREPACK_HOME in a common, world-readable location. Left at its default it
+#    lands in root's home, the nodejs user never sees the activated version, and
+#    corepack falls back to downloading "latest".
+#  - DEFAULT_TO_LATEST=0: use the version prepared below, not whatever is newest.
+#  - ENABLE_DOWNLOAD_PROMPT=0: never ask a question. A container has no TTY, so
+#    the prompt hangs the process until the supervisor restarts it, forever.
+ENV COREPACK_HOME=/usr/local/corepack
+ENV COREPACK_DEFAULT_TO_LATEST=0
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 RUN corepack enable
 RUN corepack prepare pnpm@10.33.0 --activate
+RUN chmod -R a+rX "$COREPACK_HOME"
 
 WORKDIR /usr/src/app
 

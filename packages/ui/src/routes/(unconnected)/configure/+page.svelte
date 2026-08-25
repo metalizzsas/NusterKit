@@ -25,11 +25,11 @@
     let { data }: { data: PageData } = $props();
 
     // Local $state copy, deliberately. `data` comes from $props() and is not
-    // deeply reactive: mutating configuration.model through bind:value
+    // deeply reactive: mutating data.configuration.model through bind:value
     // notified nothing, so the derived specs never recomputed, the raw preview
     // never refreshed, and — worse — the hidden field still carried the
     // configuration as loaded. Editing anything silently saved the old values.
-    let configuration = $state(structuredClone(configuration));
+    let configuration = $state(structuredClone(data.configuration));
 
     let specs = $derived(data.configurations[`${configuration.model}`]);
 </script>

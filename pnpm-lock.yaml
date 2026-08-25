@@ -30,6 +30,9 @@ importers:
       cors:
         specifier: ^2.8.5
         version: 2.8.6
+      enip-ts:
+        specifier: 3.0.0
+        version: 3.0.0
       express:
         specifier: ^4.21.0
         version: 4.22.1

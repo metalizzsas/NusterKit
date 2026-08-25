@@ -18,7 +18,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "cors": "^2.8.5",
-    "enip-ts": "link:../../../ts-enip",
+    "enip-ts": "3.0.0",
     "express": "^4.21.0",
     "modbus-serial": "^8.0.25"
   },

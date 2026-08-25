@@ -1,5 +1,21 @@
 # @nuster/ui
 
+## 2.4.0-beta.3
+
+### Patch Changes
+
+-   [`f1e0184`](https://github.com/metalizzsas/NusterKit/commit/f1e01842d7262d25f86b7e44e559b9ba7af49a32) Thanks [@Kworz](https://github.com/Kworz)! - fix(configure): repair the broken state initializer, and fix the second screen too
+
+    beta.2 shipped a self-referencing initializer — `structuredClone(configuration)`
+    inside the declaration of `configuration` — which threw
+    `ReferenceError: Cannot access 'configuration' before initialization` while
+    rendering the configuration page, taking the whole UI container down on every
+    request.
+
+    The same non-reactive binding also affected the configuration editor reachable
+    from the settings screen, which was left untouched by the previous fix. Both
+    pages now bind to a local `$state` copy.
+
 ## 2.4.0-beta.2
 
 ### Patch Changes

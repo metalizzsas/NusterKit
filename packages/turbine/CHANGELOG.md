@@ -1,5 +1,17 @@
 # @nuster/turbine
 
+## 2.4.0-beta.4
+
+### Patch Changes
+
+- [`051d740`](https://github.com/metalizzsas/NusterKit/commit/051d7409696c8b3ba5beb052cba968415c22e19a) Thanks [@Kworz](https://github.com/Kworz)! - fix(docker): give the nodejs user ownership of /data
+
+  Turbine crashed on startup with
+  `EACCES: permission denied, open '/data/logs/log-….log'`, restarting forever.
+  The app moved to a non-root user, but nothing handed it the /data volume, which
+  belongs to root — it predates the change, and `prisma migrate deploy` still runs
+  as root just before. The entrypoint now chowns /data before dropping privileges.
+
 ## 2.4.0-beta.3
 
 ## 2.4.0-beta.2

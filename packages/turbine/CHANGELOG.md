@@ -1,5 +1,15 @@
 # @nuster/turbine
 
+## 2.4.0-beta.0
+
+### Minor Changes
+
+- [`ec97912`](https://github.com/metalizzsas/NusterKit/commit/ec9791248bb27a4497147dd255eba596f27a0994) Thanks [@Kworz](https://github.com/Kworz)! - feat(addons): add "remove" mode to strip entries from machine specs
+
+  Addons can now delete array items (by equality, partial object match, or nested-array
+  prefix) and object keys, in addition to `merge` and `set`. Required by the
+  `manual-pressure-regulators` option on metalfog machines.
+
 ## 2.3.4
 
 ## 2.3.3

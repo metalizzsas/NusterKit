@@ -1,5 +1,22 @@
 # @nuster/ui
 
+## 2.4.0-beta.0
+
+### Patch Changes
+
+-   [`70bf792`](https://github.com/metalizzsas/NusterKit/commit/70bf792ae625d8f89ff1f0875091438d6ba5cedb) Thanks [@Kworz](https://github.com/Kworz)! - fix(kiosk): detect the machine screen from the proxy route instead of the User-Agent
+
+    The floating keyboard was enabled by comparing the User-Agent to cog/WPE's exact
+    string, so switching the kiosk engine (cog/WPE -> Chromium via the balena browser
+    block) silently disabled it, leaving the operator unable to type on the touchscreen.
+    The reverse proxy now tags kiosk requests with `x-nuster-kiosk` and strips it from
+    external traffic. The User-Agent check is kept as a fallback for devices still
+    running the previous nginx setup.
+
+-   [#579](https://github.com/metalizzsas/NusterKit/pull/579) [`352220c`](https://github.com/metalizzsas/NusterKit/commit/352220c9720c1526ad69b770804b39ab343448e8) Thanks [@Kworz](https://github.com/Kworz)! - fix(regression): initial configuration screen was not reachable due to better loading screen implementation
+
+-   [#579](https://github.com/metalizzsas/NusterKit/pull/579) [`15edb0c`](https://github.com/metalizzsas/NusterKit/commit/15edb0c3de9f2967d43ff91e729dd0af76fd6111) Thanks [@Kworz](https://github.com/Kworz)! - feat: automatic reload on server render error
+
 ## 2.3.4
 
 ### Patch Changes

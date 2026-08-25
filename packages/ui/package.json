@@ -1,6 +1,6 @@
 {
 	"name": "@nuster/ui",
-	"version": "2.4.0-beta.0",
+	"version": "2.4.0-beta.1",
 	"private": true,
 	"description": "User interface for Turbine",
 	"main": "build/index.js",

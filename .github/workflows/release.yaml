@@ -81,6 +81,12 @@ jobs:
   docker-builds:
 
     needs: release
+    # `needs` pour l'ordre seulement : les images se construisent depuis les
+    # sources et ne consomment rien de l'étape de publication. Sans ce
+    # `!cancelled()`, un échec de publication npm — y compris le cas « rien à
+    # publier », où changesets tente de republier une version existante —
+    # empêchait toute image de sortir.
+    if: ${{ !cancelled() }}
 
     # Volontairement PAS conditionné à `published == 'true'`. Les images étaient
     # jusqu'ici l'effet de bord d'une publication npm : un correctif portant

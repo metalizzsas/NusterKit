@@ -71,6 +71,14 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     needs: [lint, test]
+
+    env:
+      # `prisma generate` refuses to run without a datasource URL, and
+      # `openapi:extract` boots the app, which queries the CallToAction table at
+      # load time. The build therefore needs a real, migrated database — the
+      # step below creates one. Absolute path so every step resolves it the
+      # same way regardless of its working directory.
+      DATABASE_URL: file:/tmp/nuster-ci.db
     steps:
       - name: 📚 Checkout repository
         uses: actions/checkout@v4
@@ -89,6 +97,9 @@ jobs:
 
       - name: 🔄 Sync packages
         run: pnpm run sync
+
+      - name: 🗄️ Prepare the build database
+        run: pnpm --filter @nuster/turbine exec prisma migrate deploy
 
       - name: 🧱 Build all packages
         run: pnpm run build

@@ -51,6 +51,13 @@ jobs:
           node-version: '24.x'
           cache: 'pnpm'
 
+      # Trusted publishing needs npm >= 11.5.1. `changeset publish` delegates to
+      # `pnpm publish`, which on pnpm 10 delegates in turn to npm — so it is npm
+      # that performs the OIDC exchange. Node 24 currently ships 11.9.0, but the
+      # runner image lags behind, and an older 24.x would ship an npm too old.
+      - name: ⛏️ Upgrade npm
+        run: npm install -g npm@latest
+
       - name: 📚 Install workspace packages
         run: pnpm install --no-frozen-lockfile
 
@@ -60,11 +67,6 @@ jobs:
       - name: 🧱 Build all packages
         run: pnpm build
 
-      - name: ⛭ Setup Pnpm github registry
-        run: pnpm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          
       - name: 📝 Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1

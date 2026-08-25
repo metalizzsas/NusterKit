@@ -9,9 +9,18 @@ import { locale } from "svelte-i18n";
  */
 export const handle = (async ({ event, resolve }) => {
     // Is UI Served for machine screen ? If so we should display the floating keyboard.
-    // We should take care of this User agent as it might change if we update balena-block/browser
+    //
+    // The machine screen is identified by its ROUTE, not by its browser engine: the
+    // reverse proxy tags requests coming from the kiosk with `x-nuster-kiosk`, and
+    // strips that header from external traffic. Sniffing the User-Agent instead tied
+    // this to one specific kiosk engine and silently disabled the keyboard — leaving
+    // the operator unable to type on the touchscreen — every time that engine changed
+    // (cog/WPE -> Chromium). Kept as a fallback so devices still on the previous
+    // nginx setup keep working until they get the new proxy.
     // In dev mode, this will always be true
-    event.locals.is_machine_screen = import.meta.env.DEV ? true : (event.request.headers.get("user-agent") == "Mozilla/5.0 (X11; Linux aarch64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Safari/605.1.15");
+    const is_kiosk_route = event.request.headers.get("x-nuster-kiosk") === "1";
+    const is_legacy_wpe_kiosk = event.request.headers.get("user-agent") === "Mozilla/5.0 (X11; Linux aarch64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Safari/605.1.15";
+    event.locals.is_machine_screen = import.meta.env.DEV ? true : (is_kiosk_route || is_legacy_wpe_kiosk);
 
     // Create typed API client and store in locals
     const api = createTurbineClient(env.TURBINE_URL);

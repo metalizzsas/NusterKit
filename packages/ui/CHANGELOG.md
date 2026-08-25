@@ -1,5 +1,22 @@
 # @nuster/ui
 
+## 2.4.0-beta.2
+
+### Patch Changes
+
+-   [`f8b6f23`](https://github.com/metalizzsas/NusterKit/commit/f8b6f23c0f4f379aea492cc26645b44d201edd32) Thanks [@Kworz](https://github.com/Kworz)! - fix(configure): edits to the machine configuration were discarded
+
+    Every field on the configuration screen bound straight to `data.configuration`,
+    which comes from `$props()` and is not deeply reactive under Svelte 5. Changing
+    the model select notified nothing: the derived specs never recomputed, so the
+    addon list and machine variables kept describing the previous model, and the raw
+    JSON preview never moved. The hidden form field carried
+    `JSON.stringify(data.configuration)` evaluated once, so saving wrote back the
+    configuration as originally loaded — edits were silently dropped rather than
+    rejected.
+
+    The form now binds to a local `$state` copy.
+
 ## 2.4.0-beta.1
 
 ## 2.4.0-beta.0

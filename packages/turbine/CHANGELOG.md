@@ -1,5 +1,38 @@
 # @nuster/turbine
 
+## 2.4.0-beta.5
+
+### Patch Changes
+
+- [`6b42942`](https://github.com/metalizzsas/NusterKit/commit/6b4294256d9a4cbe851d15c726c2ed3436ed996e) Thanks [@Kworz](https://github.com/Kworz)! - fix(containers): stop re-reading product data from the database on every broadcast
+
+  Building the machine status issued one `prisma.container.findUnique()` per
+  container, and it was rebuilt on every `ws.dirty` signal and on every client
+  connection. On SQLite a single connection serialises all of it, so at boot —
+  while migrations and the `/data` ownership pass still hold the disk — the kiosk
+  and the UI connecting together were enough to pile the queries up until Prisma
+  gave up with `Socket timeout`.
+
+  What is read there (`loadedProductType`, `loadDate`) only changes when a
+  container is loaded or emptied. It is now held in memory, written through on
+  load and unload, and hydrated once — concurrent callers share that single read.
+  The remaining time is still computed at each call, so it keeps decreasing.
+
+  This also removes the query that the `level-min` sensor handler issued on every
+  IO scan while a container read empty.
+
+- [`03b52c6`](https://github.com/metalizzsas/NusterKit/commit/03b52c6fa168e0c118d301e2fd2f7dd042c9bb0f) Thanks [@Kworz](https://github.com/Kworz)! - fix(io): stop one failed ping from disabling a controller until restart
+
+  A single failed ping latched `unreachable` on the WAGO and EX260Sx handlers, and
+  nothing ever cleared it: `connect()` refused every later attempt, the reconnect
+  loop stopped scheduling, and reads answered 0 (WAGO) or threw (EX260Sx) for the
+  lifetime of the process. Every IO-based run condition then showed red on a
+  machine whose sensors were fine, and only a restart recovered it — which is
+  exactly how it presented: red one day, green the next after a reboot.
+
+  A ping failure is now treated as transient: it is recorded, retried with the
+  existing backoff, and cleared as soon as a connection succeeds.
+
 ## 2.4.0-beta.4
 
 ### Patch Changes

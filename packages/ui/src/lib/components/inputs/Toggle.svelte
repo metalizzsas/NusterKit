@@ -10,6 +10,7 @@
 		locked = false,
 		enableGrayScale = false,
 		form = undefined,
+		touchTarget = false,
 	}: {
 		value: number | boolean;
 		change?: () => void;
@@ -17,6 +18,8 @@
 		locked?: boolean;
 		enableGrayScale?: boolean;
 		form?: FormInput<"change">;
+		/** Extend the tappable area past the 24px track, without changing what is drawn. */
+		touchTarget?: boolean;
 	} = $props();
 
 	let validateButton: HTMLButtonElement | undefined = $state();
@@ -51,6 +54,12 @@
 		"relative inline-flex h-6 w-11 shrink-0 items-center rounded-full border-2 border-transparent outline-none transition-all",
 		"data-[state=checked]:bg-emerald-500 data-[state=unchecked]:bg-red-500/80",
 		"focus-visible:ring-3 focus-visible:ring-ring/50",
+		// A 24px-tall track is well under what a finger can hit reliably. Grow the
+		// hit area to 44px with a pseudo-element rather than the track itself, so
+		// the switch keeps its size and the row keeps a dead zone on either side.
+		// The insets run from the padding box, which the 2px transparent border
+		// shrinks to 20px — hence 12px each way rather than 10.
+		touchTarget && "before:absolute before:-inset-x-2 before:-inset-y-3 before:content-['']",
 		locked && "cursor-default opacity-80",
 		locked && enableGrayScale && "grayscale",
 	)}

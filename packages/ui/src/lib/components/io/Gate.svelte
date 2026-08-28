@@ -66,7 +66,7 @@
         "grid h-11 w-10 shrink-0 place-items-center text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-700 dark:hover:bg-white/5 dark:hover:text-zinc-200";
 </script>
 
-<Flex items="center">
+<Flex items="center" class="w-full">
     <span>
         {$_('gates.names.' + io.name)}
         <span class="text-sm text-zinc-600 dark:text-zinc-400">
@@ -75,10 +75,12 @@
             {/if}
         </span>
     </span>
-    <div class="h-px grow bg-border"></div>
+    <!-- Filet de liaison : plus léger que les séparateurs de lignes, pour qu'il
+         relie le libellé à sa commande sans concurrencer le découpage des lignes. -->
+    <div class="h-px grow bg-border/50"></div>
 
     {#if io.size === "bit"}
-        <Toggle bind:value={local_value} change={on_toggle_change} locked={!editable || io.bus == "in" || io.locked} enableGrayScale={io.locked} />
+        <Toggle bind:value={local_value} change={on_toggle_change} locked={!editable || io.bus == "in" || io.locked} enableGrayScale={io.locked} touchTarget />
     {:else if editable === true}
         <Flex class="items-center" gap={2}>
             <!-- Reset to zero -->

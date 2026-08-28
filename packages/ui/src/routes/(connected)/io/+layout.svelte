@@ -41,7 +41,7 @@
 </div>
 
 <Wrapper>
-	<Flex direction="col" gap={1}>
+	<Flex direction="col" gap={6}>
 		{@render children()}
 	</Flex>
 </Wrapper>

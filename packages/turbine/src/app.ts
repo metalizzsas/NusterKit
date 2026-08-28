@@ -306,10 +306,16 @@ import { WebsocketDispatcher } from "./websocket/websocket-dispatcher";
 			// Send the configuration to the simulation server
 			if (process.env.SIMULATION_URL) {
 				TurbineEventLoop.emit("log", "warning", `DEV: Sending configuration to ${process.env.SIMULATION_URL} simulation server.`);
+				// Best effort: the simulation server is a dev convenience. Without a
+				// catch here the rejection is unhandled and takes the whole process
+				// down — so not having it running, or not having the proxy listening
+				// on 443, stopped turbine from booting at all.
 				fetch(`${process.env.SIMULATION_URL}/config`, {
 					method: "post",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({ configuration: parsed_configuration, specs: parsed_specs }),
+				}).catch((err) => {
+					TurbineEventLoop.emit("log", "warning", `DEV: Simulation server unreachable: ${(err as Error).message}`);
 				});
 			}
 

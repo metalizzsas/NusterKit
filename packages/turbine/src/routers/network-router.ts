@@ -13,8 +13,17 @@ export class NetworkRouter {
 	constructor() {
 		this.dbus_client = new DBusClient();
 
-		this.getDevices();
-		this.listWifiNetworks();
+		// Amorçage au démarrage, sans attendre. Les erreurs doivent être avalées
+		// ici : depuis que les appels D-Bus expirent au lieu de rester pendants,
+		// une machine dont le bus ne répond pas produirait deux rejets non gérés —
+		// donc un process mort au boot au lieu d'un simple écran réseau vide.
+		this.getDevices().catch((err) => {
+			TurbineEventLoop.emit("log", "warning", `Network: initial device scan failed: ${(err as Error).message}`);
+		});
+
+		this.listWifiNetworks().catch((err) => {
+			TurbineEventLoop.emit("log", "warning", `Network: initial wifi scan failed: ${(err as Error).message}`);
+		});
 	}
 
 	/**

@@ -21,6 +21,17 @@ export class Container implements ContainerConfig {
 
 	#products: Record<string, ContainerProduct>;
 
+	/**
+	 * En mémoire, la ligne persistée du bac — `null` quand aucun produit n'est
+	 * chargé, `undefined` tant qu'elle n'a pas été lue. Ce que la base contient
+	 * ne bouge qu'au chargement ou au déchargement ; rien ne justifie de la
+	 * relire au rythme du WebSocket, où une requête par bac et par diffusion
+	 * finissait par saturer l'unique connexion SQLite.
+	 */
+	#product_document?: { loadedProductType: string; loadDate: Date } | null;
+	/** Lecture en cours, partagée pour que N appels simultanés ne fassent qu'une requête */
+	#hydration?: Promise<void>;
+
 	// Stored listener references for cleanup in dispose()
 	private _on_unload!: () => void;
 	private _on_load!: (product_series: string) => void;
@@ -64,6 +75,37 @@ export class Container implements ContainerConfig {
 	}
 
 	/**
+	 * Lit la ligne persistée si elle ne l'est pas encore.
+	 * Les appels concurrents partagent la même requête.
+	 */
+	async #hydrate(): Promise<void> {
+		if (this.#product_document !== undefined) return;
+
+		this.#hydration ??= prisma.container
+			.findUnique({ where: { name: this.name } })
+			.then((document) => {
+				this.#product_document = document === null ? null : { loadedProductType: document.loadedProductType, loadDate: document.loadDate };
+			})
+			.finally(() => {
+				this.#hydration = undefined;
+			});
+
+		await this.#hydration;
+	}
+
+	/** Signale aux clients que le contenu du bac a changé */
+	#emit_update(): void {
+		this.socket_data()
+			.then((data) => {
+				TurbineEventLoop.emit(`container.updated.${this.name}`, data);
+				TurbineEventLoop.emit("ws.dirty", "containers");
+			})
+			.catch((err) => {
+				TurbineEventLoop.emit("log", "error", `Container-${this.name}: socket_data failed: ${(err as Error).message}`);
+			});
+	}
+
+	/**
 	 * Load product in
 	 * @param product_series
 	 * @returns
@@ -74,54 +116,40 @@ export class Container implements ContainerConfig {
 			return false;
 		}
 
-		const container = await prisma.container.findUnique({ where: { name: this.name } });
+		await this.#hydrate();
 
-		if (container === null) {
+		const load_date = new Date();
+
+		if (this.#product_document === null) {
 			TurbineEventLoop.emit("log", "info", `Container: ${this.name} was not found in database.`);
 
 			await prisma.container.create({
 				data: {
 					name: this.name,
 					loadedProductType: product_series,
-					loadDate: new Date().toISOString(),
+					loadDate: load_date.toISOString(),
 				},
 			});
-
-			this.socket_data()
-				.then((data) => {
-					TurbineEventLoop.emit(`container.updated.${this.name}`, data);
-					TurbineEventLoop.emit("ws.dirty", "containers");
-				})
-				.catch((err) => {
-					TurbineEventLoop.emit("log", "error", `Container-${this.name}: socket_data failed: ${(err as Error).message}`);
-				});
-
-			return true;
 		} else {
 			await prisma.container.update({
 				where: { name: this.name },
 				data: {
 					loadedProductType: product_series,
-					loadDate: new Date().toISOString(),
+					loadDate: load_date.toISOString(),
 				},
 			});
-
-			this.socket_data()
-				.then((data) => {
-					TurbineEventLoop.emit(`container.updated.${this.name}`, data);
-					TurbineEventLoop.emit("ws.dirty", "containers");
-				})
-				.catch((err) => {
-					TurbineEventLoop.emit("log", "error", `Container-${this.name}: socket_data failed: ${(err as Error).message}`);
-				});
-			return true;
 		}
+
+		this.#product_document = { loadedProductType: product_series, loadDate: load_date };
+		this.#emit_update();
+
+		return true;
 	}
 
 	async unload_product() {
-		const container = await prisma.container.findUnique({ where: { name: this.name } });
+		await this.#hydrate();
 
-		if (container) {
+		if (this.#product_document !== null) {
 			try {
 				await prisma.container.delete({ where: { name: this.name } });
 			} catch (ex) {
@@ -129,20 +157,16 @@ export class Container implements ContainerConfig {
 			}
 		}
 
-		this.socket_data()
-			.then((data) => {
-				TurbineEventLoop.emit(`container.updated.${this.name}`, data);
-				TurbineEventLoop.emit("ws.dirty", "containers");
-			})
-			.catch((err) => {
-				TurbineEventLoop.emit("log", "error", `Container-${this.name}: socket_data failed: ${(err as Error).message}`);
-			});
+		this.#product_document = null;
+		this.#emit_update();
 
 		return true;
 	}
 
 	async fetch_slot_data() {
-		const container_document = await prisma.container.findUnique({ where: { name: this.name } });
+		await this.#hydrate();
+
+		const container_document = this.#product_document;
 
 		if (container_document && this.isProductable) {
 			const product_life_span = this.#products[container_document.loadedProductType]?.lifespan ?? -1;
@@ -162,8 +186,8 @@ export class Container implements ContainerConfig {
 	}
 
 	async is_product_loaded(): Promise<boolean> {
-		const container = await prisma.container.findUnique({ where: { name: this.name } });
-		return container !== null;
+		await this.#hydrate();
+		return this.#product_document !== null;
 	}
 
 	get isProductable(): boolean {

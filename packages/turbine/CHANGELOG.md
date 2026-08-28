@@ -1,5 +1,35 @@
 # @nuster/turbine
 
+## 2.4.0-beta.7
+
+### Patch Changes
+
+- [`2fe4189`](https://github.com/metalizzsas/NusterKit/commit/2fe4189eddc534695160d63551f3c30573610de4) Thanks [@Kworz](https://github.com/Kworz)! - fix(network): stop a dead D-Bus connection from hanging /settings/network
+
+  The page never loaded and eventually returned a 500. `dbusInvoker` had no
+  timeout, and dbus-native buffers every message in an array until its handshake
+  emits `connect` — so when authentication fails, nothing is ever sent, no
+  callback ever runs, and the promise never settles. The request hung until the
+  client gave up.
+
+  Calls now time out after 10s, and a connection that errors, ends or times out is
+  dropped so the next call opens a fresh one — before, one failure disabled the
+  network features for the lifetime of the process. The scans fired from the
+  NetworkRouter constructor swallow their errors, since a rejection there would
+  now take the process down at boot.
+
+  The connection error is also logged properly: dbus-native hands back the
+  daemon's raw refusal line rather than an `Error`, which is why the cause was
+  hidden behind a `write EPIPE` — the symptom of the already-closed socket.
+
+- [`a5befcc`](https://github.com/metalizzsas/NusterKit/commit/a5befcca3a4f4cecc218102ab96f22c20b40b1c6) Thanks [@Kworz](https://github.com/Kworz)! - fix(dev): stop an unreachable simulation server from killing turbine
+
+  The configuration POST to `SIMULATION_URL` had no rejection handler, so the
+  unhandled rejection took the whole process down. Not running the simulation
+  server — or running it without the portless proxy listening on 443 — meant
+  turbine would not boot at all. It is a dev convenience; it now logs a warning
+  and carries on.
+
 ## 2.4.0-beta.6
 
 ### Patch Changes

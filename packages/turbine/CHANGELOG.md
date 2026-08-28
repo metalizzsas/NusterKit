@@ -1,5 +1,21 @@
 # @nuster/turbine
 
+## 2.4.0-beta.6
+
+### Patch Changes
+
+- [`3610672`](https://github.com/metalizzsas/NusterKit/commit/3610672ae8755158aa2f0e941bf418435b35ef5c) Thanks [@Kworz](https://github.com/Kworz)! - fix(docker): let the app take the balena update lock
+
+  `Lock: Updates locking failed. Error: EACCES: permission denied, open
+'/tmp/balena/updates.lock'`. The supervisor provides that directory as root, and
+  the app now runs as nodejs, so it could no longer create the lock file.
+
+  The lock is held for as long as the process lives and released when it exits —
+  it is what keeps the supervisor from swapping the container in the middle of a
+  cycle. The failure only logged, so the machine kept running with that protection
+  silently gone. The entrypoint now hands the directory to nodejs before dropping
+  privileges, as it already does for /data.
+
 ## 2.4.0-beta.5
 
 ### Patch Changes

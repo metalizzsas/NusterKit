@@ -17,6 +17,14 @@ pnpm exec prisma migrate deploy
 # the container restarts forever.
 chown -R nodejs:nodejs /data
 
+# The app holds /tmp/balena/updates.lock for as long as it runs, and that is what
+# stops the supervisor from swapping the container in the middle of a cycle. The
+# supervisor provides that directory as root while the app runs as nodejs, so it
+# needs handing over too — same reason as /data. Best effort: losing the lock is
+# bad, but it is not a reason to refuse to boot.
+mkdir -p /tmp/balena || true
+chown -R nodejs:nodejs /tmp/balena || true
+
 # `pnpm run start` is only ever `node build/app.js`. Going through pnpm here
 # dragged corepack into the runtime path, under a user that could not read the
 # activated version — which is what put this container in a restart loop.

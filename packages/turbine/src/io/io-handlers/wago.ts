@@ -30,7 +30,6 @@ export class WAGO implements IOBase, WAGOConfig {
 	async connect(): Promise<boolean> {
 		// Prevent overlapping connect attempts
 		if (this.connecting) return false;
-		if (this.unreachable) return false;
 
 		this.connecting = true;
 
@@ -40,8 +39,14 @@ export class WAGO implements IOBase, WAGOConfig {
 			});
 
 			if (!available) {
+				// A failed ping is a transient condition — a brief network drop, a switch
+				// renegotiating, the controller rebooting — not a verdict. Latching on it
+				// used to disable this handler for the lifetime of the process: readData
+				// then returned 0 for every gate, so every IO-based run condition went red
+				// on a machine whose sensors were fine, and only a restart recovered it.
+				if (!this.unreachable) TurbineEventLoop.emit("log", "error", `WAGO: Failed to ping ${this.ip}, retrying.`);
 				this.unreachable = true;
-				TurbineEventLoop.emit("log", "error", `WAGO: Failed to ping, cancelling connection.`);
+				this.schedule_reconnect();
 				return false;
 			}
 
@@ -51,6 +56,7 @@ export class WAGO implements IOBase, WAGOConfig {
 
 			if (this.connected) {
 				TurbineEventLoop.emit("log", "info", "WAGO: Connected");
+				this.unreachable = false;
 				this.reconnect_attempts = 0;
 				this.clear_reconnect_timer();
 				this.start_keep_alive();
@@ -77,6 +83,10 @@ export class WAGO implements IOBase, WAGOConfig {
 	}
 
 	private schedule_reconnect(): void {
+		// connect() schedules on failure and the timer below retries, so guard against
+		// two chains of attempts running side by side.
+		if (this.reconnect_timer) return;
+
 		this.reconnect_attempts++;
 		const delay = Math.min(BASE_RECONNECT_DELAY * 2 ** (this.reconnect_attempts - 1), MAX_RECONNECT_DELAY);
 		TurbineEventLoop.emit("log", "info", `WAGO: Reconnect attempt #${this.reconnect_attempts} in ${delay}ms`);
@@ -84,7 +94,7 @@ export class WAGO implements IOBase, WAGOConfig {
 		this.reconnect_timer = setTimeout(async () => {
 			this.reconnect_timer = undefined;
 			const success = await this.connect();
-			if (!success && !this.unreachable) {
+			if (!success) {
 				this.schedule_reconnect();
 			}
 		}, delay);

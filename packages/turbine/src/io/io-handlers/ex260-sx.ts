@@ -43,8 +43,6 @@ export class EX260Sx implements IOBase, EX260SxConfig {
 	async connect(): Promise<boolean> {
 		if (this.connected) return true;
 
-		if (this.unreachable) return false;
-
 		const available = await new Promise<boolean>((resolve) => {
 			ping.sys.probe(this.ip, (is_alive) => {
 				resolve(is_alive || false);
@@ -56,6 +54,7 @@ export class EX260Sx implements IOBase, EX260SxConfig {
 
 			if (session_id !== undefined) {
 				TurbineEventLoop.emit("log", "info", "EX260Sx: Connected");
+				this.unreachable = false;
 				this.connected = true;
 				return true;
 			} else {
@@ -65,8 +64,13 @@ export class EX260Sx implements IOBase, EX260SxConfig {
 				return false;
 			}
 		} else {
+			// Same defect as the WAGO handler: latching on one failed ping disabled this
+			// controller for the lifetime of the process, and read_data2 then threw on
+			// every call, so IO-based run conditions stayed red until a restart. A ping
+			// failure is transient — record it, keep answering, and let the next attempt
+			// clear it.
+			if (!this.unreachable) TurbineEventLoop.emit("log", "error", `EX260Sx: Failed to ping ${this.ip}, retrying.`);
 			this.unreachable = true;
-			TurbineEventLoop.emit("log", "error", `EX260Sx: Failed to ping, cancelling connection.`);
 			return false;
 		}
 	}
@@ -84,9 +88,11 @@ export class EX260Sx implements IOBase, EX260SxConfig {
 
 	//Shall only be used for local applications
 	async read_data2(address: number): Promise<Buffer> {
-		if (this.unreachable) throw new Error("EX260Sx: Unreachable");
-
+		// Reconnect first, then decide: guarding before the attempt meant nothing could
+		// ever clear `unreachable`, since every read threw before reaching connect().
 		await this.connect();
+
+		if (this.unreachable) throw new Error("EX260Sx: Unreachable");
 
 		//Path for ethernet ip protocol
 		const id_path = Buffer.from([0x20, 0x04, 0x24, address, 0x30, 0x03]);
@@ -121,11 +127,11 @@ export class EX260Sx implements IOBase, EX260SxConfig {
 	async writeData(address: number, value: number, size: IOSize = "bit"): Promise<void> {
 		if (size === "dword") throw new Error("EX260Sx: 32-bit (dword) writes are not supported");
 
-		if (this.unreachable) throw new Error("EX260Sx: Unreachable");
-
 		await this.write_mutex.acquire();
 		try {
 			await this.connect();
+
+			if (this.unreachable) throw new Error("EX260Sx: Unreachable");
 
 			//patch to prevent writing too early
 			await new Promise((resolve) => {

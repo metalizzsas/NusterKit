@@ -8,6 +8,7 @@
     "@nuster/ui": "2.3.4"
   },
   "changesets": [
+    "brave-jars-look",
     "brave-keys-listen",
     "brave-pandas-repeat",
     "great-pans-shave",

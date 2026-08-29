@@ -1,5 +1,7 @@
 # @nuster/ui
 
+## 2.4.0-beta.8
+
 ## 2.4.0-beta.7
 
 ### Patch Changes

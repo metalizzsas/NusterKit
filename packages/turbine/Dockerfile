@@ -1,13 +1,10 @@
 # base image used by builder and production
 FROM node:24-alpine@sha256:8510330d3eb72c804231a834b1a8ebb55cb3796c3e4431297a24d246b8add4d5 AS base
 
-RUN apk add --no-cache openssl su-exec
+RUN apk add --no-cache openssl
 
-# Corepack shared between root (which runs the migration) and the nodejs user
-# (which runs the app):
-#  - COREPACK_HOME in a common, world-readable location. Left at its default it
-#    lands in root's home, the nodejs user never sees the activated version, and
-#    corepack falls back to downloading "latest".
+# Corepack:
+#  - COREPACK_HOME in a common, world-readable location.
 #  - DEFAULT_TO_LATEST=0: use the version prepared below, not whatever is newest.
 #  - ENABLE_DOWNLOAD_PROMPT=0: never ask a question. A container has no TTY, so
 #    the prompt hangs the process until the supervisor restarts it, forever.
@@ -58,11 +55,6 @@ RUN pnpm build:prisma
 RUN pnpm rebuild
 
 COPY --from=build /usr/src/app/build/ ./build
-
-# Non-root user (entrypoint runs as root to chmod /dev/piControl0 on RevPi,
-# then drops to nodejs via su-exec before launching the node process)
-RUN addgroup -g 1001 -S nodejs && adduser -S nodejs -u 1001
-RUN chown -R nodejs:nodejs /usr/src/app
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD wget -qO- http://localhost:4080/machine || exit 1

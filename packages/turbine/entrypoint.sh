@@ -1,31 +1,28 @@
 #!/bin/sh
 set -e
 
-# Grant the non-root node process access to the RevolutionPi process image
-# when running on a RevPi host. No-op on other deployments.
-if [ -e /dev/piControl0 ]; then
-    chmod 0666 /dev/piControl0 || true
-fi
-
 find /data/logs -name "*.log" -type f -mtime +30 -delete || true
 pnpm exec prisma migrate deploy
 
-# /data belongs to root: the volume predates this image, and `migrate deploy`
-# just ran as root too. The app runs as nodejs and has to write the database and
-# create /data/logs there, so hand the volume over before dropping privileges.
-# Without this the logger dies on EACCES the moment it opens its first file, and
-# the container restarts forever.
-chown -R nodejs:nodejs /data
-
-# The app holds /tmp/balena/updates.lock for as long as it runs, and that is what
-# stops the supervisor from swapping the container in the middle of a cycle. The
-# supervisor provides that directory as root while the app runs as nodejs, so it
-# needs handing over too — same reason as /data. Best effort: losing the lock is
-# bad, but it is not a reason to refuse to boot.
-mkdir -p /tmp/balena || true
-chown -R nodejs:nodejs /tmp/balena || true
-
-# `pnpm run start` is only ever `node build/app.js`. Going through pnpm here
-# dragged corepack into the runtime path, under a user that could not read the
-# activated version — which is what put this container in a restart loop.
-exec su-exec nodejs node build/app.js
+# Le process tourne en root, délibérément.
+#
+# Il a tourné sous l'utilisateur `nodejs` d'avril à août 2026, et ça a cassé
+# l'accès à NetworkManager sans qu'on le relie : la politique D-Bus de l'hôte
+# laisse n'importe quel uid se connecter au bus système, puis ferme la connexion
+# de tout autre que root dès qu'il s'adresse à `org.freedesktop.NetworkManager`.
+# Mesuré sur machine : en root, `GetDevices` renvoie ses 15 interfaces ; sous
+# `nodejs`, la même connexion, authentifiée avec succès, meurt en `write EPIPE`
+# au premier message. `/settings/network` en est resté inutilisable.
+#
+# Le gain d'isolation était de toute façon nominal : le conteneur est
+# `privileged: true`, avec `NET_ADMIN` et l'accès aux périphériques. Descendre
+# d'uid derrière ça ne protégeait rien, et coûtait une fonction entière.
+#
+# Trois préparatifs ont disparu avec la bascule, chacun n'existant que pour
+# elle : `chmod 0666 /dev/piControl0` (accès RevPi), `chown -R /data` — qui
+# occupait le disque au démarrage, au moment précis où Prisma sature — et
+# `chown -R /tmp/balena` pour le verrou d'update du superviseur.
+#
+# `pnpm run start` n'a jamais été autre chose que `node build/app.js` : passer
+# par pnpm traînait corepack dans le chemin d'exécution.
+exec node build/app.js

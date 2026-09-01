@@ -4,14 +4,22 @@ type Row = { name: string; loadedProductType: string; loadDate: Date };
 
 const mocks = vi.hoisted(() => ({
 	rows: new Map<string, Row>(),
+	/** Requêtes de lecture, tous verbes confondus */
 	find_calls: 0,
+	/** Lectures unitaires : doivent rester à zéro, c'est la rafale du démarrage */
+	find_unique_calls: 0,
 }));
 
 vi.mock("../db", () => ({
 	prisma: {
 		container: {
+			findMany: async () => {
+				mocks.find_calls++;
+				return [...mocks.rows.values()];
+			},
 			findUnique: async ({ where }: { where: { name: string } }) => {
 				mocks.find_calls++;
+				mocks.find_unique_calls++;
 				return mocks.rows.get(where.name) ?? null;
 			},
 			create: async ({ data }: { data: { name: string; loadedProductType: string; loadDate: string } }) => {
@@ -39,6 +47,32 @@ describe("Container product data", () => {
 	beforeEach(() => {
 		mocks.rows.clear();
 		mocks.find_calls = 0;
+		mocks.find_unique_calls = 0;
+	});
+
+	test("les bacs d'une machine ne déclenchent qu'une requête au démarrage", async () => {
+		// Les cinq bacs de metalfog-m-2, dont trois chargeables.
+		mocks.rows.set("act", { name: "act", loadedProductType: "activant", loadDate: new Date() });
+		mocks.rows.set("ox", { name: "ox", loadedProductType: "oxydant", loadDate: new Date() });
+
+		const containers = ["ox", "rd", "act", "edi", "eff"].map(
+			(name) => new Container({ name, type: "tank", supportedProductSeries: ["activant", "oxydant"] }, { activant: { lifespan: 30 } }),
+		);
+
+		// Le premier statut complet les interroge tous en même temps. Une requête
+		// par bac se sérialisait sur l'unique connexion SQLite au démarrage, et les
+		// dernières de la file atteignaient le `Socket timeout` avant d'être servies.
+		const data = await Promise.all(containers.map((c) => c.socket_data()));
+
+		expect(mocks.find_calls).toBe(1);
+		expect(mocks.find_unique_calls).toBe(0);
+
+		// Et chaque bac doit avoir reçu sa propre ligne, pas celle d'un voisin.
+		expect(data.find((d) => d.name === "act")?.productData?.loadedProductType).toBe("activant");
+		expect(data.find((d) => d.name === "ox")?.productData?.loadedProductType).toBe("oxydant");
+		expect(data.find((d) => d.name === "rd")?.productData).toBeUndefined();
+
+		for (const container of containers) container.dispose();
 	});
 
 	test("diffuser le statut en boucle n'interroge la base qu'une fois", async () => {

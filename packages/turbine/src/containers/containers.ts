@@ -6,6 +6,36 @@ import { prisma } from "../db";
 import { TurbineEventLoop } from "../events";
 import { ContainerRegulation } from "./container-regulation";
 
+/** Ligne persistée d'un bac, telle qu'on la garde en mémoire. */
+type ProductDocument = { loadedProductType: string; loadDate: Date };
+
+/** Lecture groupée en cours, partagée par tous les bacs. */
+let pending_batch: Promise<Map<string, ProductDocument>> | undefined;
+
+/**
+ * Lit la table des bacs en UNE requête, partagée par toutes les instances.
+ *
+ * Une `findUnique` par bac faisait cinq requêtes simultanées sur
+ * `metalfog-m-2`, toutes déclenchées par le premier statut complet. Prisma sur
+ * SQLite les sérialise sur une connexion unique, et au démarrage — disque
+ * encore pris, clients qui se connectent ensemble — les dernières de la file
+ * atteignaient le `Socket timeout` avant d'être servies. Mettre le résultat en
+ * cache ne suffisait pas : ça supprimait les requêtes du régime établi, pas la
+ * rafale du démarrage, qui est exactement le moment qui pose problème.
+ */
+function load_all_products(): Promise<Map<string, ProductDocument>> {
+	pending_batch ??= prisma.container
+		.findMany()
+		.then((rows) => new Map(rows.map((row) => [row.name, { loadedProductType: row.loadedProductType, loadDate: row.loadDate }])))
+		.finally(() => {
+			// Libérée dès qu'elle est retombée : un échec doit pouvoir être rejoué,
+			// et les écritures alimentent le cache sans repasser par ici.
+			pending_batch = undefined;
+		});
+
+	return pending_batch;
+}
+
 export class Container implements ContainerConfig {
 	name: string;
 	type: string;
@@ -28,7 +58,7 @@ export class Container implements ContainerConfig {
 	 * relire au rythme du WebSocket, où une requête par bac et par diffusion
 	 * finissait par saturer l'unique connexion SQLite.
 	 */
-	#product_document?: { loadedProductType: string; loadDate: Date } | null;
+	#product_document?: ProductDocument | null;
 	/** Lecture en cours, partagée pour que N appels simultanés ne fassent qu'une requête */
 	#hydration?: Promise<void>;
 
@@ -81,10 +111,9 @@ export class Container implements ContainerConfig {
 	async #hydrate(): Promise<void> {
 		if (this.#product_document !== undefined) return;
 
-		this.#hydration ??= prisma.container
-			.findUnique({ where: { name: this.name } })
-			.then((document) => {
-				this.#product_document = document === null ? null : { loadedProductType: document.loadedProductType, loadDate: document.loadDate };
+		this.#hydration ??= load_all_products()
+			.then((rows) => {
+				this.#product_document = rows.get(this.name) ?? null;
 			})
 			.finally(() => {
 				this.#hydration = undefined;

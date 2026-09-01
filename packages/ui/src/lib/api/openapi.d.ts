@@ -201,7 +201,7 @@ export interface paths {
                                     appId: number;
                                     serviceName: string;
                                     imageId: number;
-                                    dockerImageId: string;
+                                    dockerImageId?: string | null;
                                     status: string;
                                     downloadProgress?: number | null;
                                 }[];

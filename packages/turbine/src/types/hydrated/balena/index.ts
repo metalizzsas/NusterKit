@@ -17,7 +17,8 @@ interface HypervisorData {
 		appId: number;
 		serviceName: string;
 		imageId: number;
-		dockerImageId: string;
+		/** Absent tant que l'image n'est pas téléchargée */
+		dockerImageId?: string | null;
 		status: string;
 		downloadProgress?: number;
 	}[];

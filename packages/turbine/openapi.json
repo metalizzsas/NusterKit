@@ -854,6 +854,7 @@
                                 "type": "number"
                               },
                               "dockerImageId": {
+                                "nullable": true,
                                 "type": "string"
                               },
                               "status": {
@@ -869,7 +870,6 @@
                               "appId",
                               "serviceName",
                               "imageId",
-                              "dockerImageId",
                               "status"
                             ],
                             "additionalProperties": false

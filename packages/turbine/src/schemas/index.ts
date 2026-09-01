@@ -579,7 +579,11 @@ export const HypervisorDataSchema = z.object({
 			appId: z.number(),
 			serviceName: z.string(),
 			imageId: z.number(),
-			dockerImageId: z.string(),
+			// Absent tant que l'image n'est pas téléchargée : le superviseur ne le
+			// renseigne qu'une fois l'image présente localement. L'exiger faisait
+			// échouer la sérialisation de `/machine` pendant toute la durée d'une
+			// mise à jour — précisément quand l'écran doit afficher la progression.
+			dockerImageId: z.string().nullish(),
 			status: z.string(),
 			downloadProgress: z.number().nullish(),
 		}),

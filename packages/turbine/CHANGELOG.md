@@ -1,5 +1,20 @@
 # @nuster/turbine
 
+## 2.4.0-beta.10
+
+### Patch Changes
+
+- [`abbd6eb`](https://github.com/metalizzsas/NusterKit/commit/abbd6ebe8b57a826b83ca5ed9dfb0d3096735c89) Thanks [@Kworz](https://github.com/Kworz)! - fix(machine): stop /machine from breaking while an update downloads
+
+  `FastifyError: Response doesn't match the schema` on every `/machine` call
+  during an update: the supervisor only fills `dockerImageId` once an image is
+  present locally, and the schema demanded a string. Every image still
+  downloading failed validation, so the endpoint 500'd for the whole duration of
+  the update — exactly when the screen needs to show its progress.
+
+  `dockerImageId` is now nullish, like the `downloadProgress` beside it, which is
+  absent for the same kind of reason.
+
 ## 2.4.0-beta.9
 
 ### Patch Changes

@@ -96,8 +96,15 @@ export class Container implements ContainerConfig {
 		TurbineEventLoop.on(`container.read.${this.name}`, this._on_read);
 
 		for (const sensor of this.sensors ?? []) {
+			// Écouteur `async` : rien n'attend la promesse qu'il renvoie, donc un rejet
+			// part en `unhandledRejection`. Le scanner io déclenche cet événement toutes
+			// les 500 ms par capteur — au démarrage, une base lente en produisait autant.
 			const handler = async (gate: IOGateJSON) => {
-				if (sensor.logic == "level-min" && gate.value == 0 && (await this.is_product_loaded()) == true) this.unload_product();
+				try {
+					if (sensor.logic == "level-min" && gate.value == 0 && (await this.is_product_loaded()) == true) this.unload_product();
+				} catch (err) {
+					TurbineEventLoop.emit("log", "warning", `Container-${this.name}: sensor check failed: ${(err as Error).message}`);
+				}
 			};
 			this._sensor_handlers.push({ event: `io.updated.${sensor.io}`, handler });
 			TurbineEventLoop.on(`io.updated.${sensor.io}`, handler);

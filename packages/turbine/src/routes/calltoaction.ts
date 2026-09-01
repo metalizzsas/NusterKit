@@ -2,13 +2,19 @@ import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { prisma } from "../db";
+import { TurbineEventLoop } from "../events";
 import { CallToActionIdParamsSchema, ErrorResponseSchema } from "../schemas";
 
 export async function call_to_action_routes(fastify: FastifyInstance) {
 	const app = fastify.withTypeProvider<ZodTypeProvider>();
 
-	// Clear old CTAs on startup
-	await prisma.callToAction.deleteMany({});
+	// Ménage au démarrage. Volontairement non bloquant : Fastify exécute
+	// l'enregistrement des plugins pendant `listen()`, donc une base lente au boot
+	// faisait rejeter `listen()` et le process sortait sans avoir servi une seule
+	// requête. Un reliquat de call-to-action ne justifie pas de refuser de démarrer.
+	await prisma.callToAction.deleteMany({}).catch((err: unknown) => {
+		TurbineEventLoop.emit("log", "warning", `CTA: startup cleanup skipped: ${(err as Error).message}`);
+	});
 
 	app.get(
 		"/:id",

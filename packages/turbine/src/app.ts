@@ -31,6 +31,47 @@ import { GracefulShutdown } from "./utils/graceful-shutdown";
 import { validate_env } from "./utils/validate-env";
 import { WebsocketDispatcher } from "./websocket/websocket-dispatcher";
 
+const UPDATE_LOCK_PATH = "/tmp/balena/updates.lock";
+
+/**
+ * Prend le verrou qui empêche le superviseur de remplacer le conteneur pendant
+ * un cycle.
+ *
+ * Il n'est jamais relâché explicitement : la libération se fait à la sortie du
+ * processus. Un process tué en laisse donc un derrière lui, et le suivant se
+ * prenait un `EEXIST` définitif — la machine tournait alors sans cette
+ * protection, en silence. Une seule instance de turbine écrit ce fichier : un
+ * verrou déjà présent au démarrage est forcément un reliquat.
+ */
+function take_update_lock(verb: "locked" | "re-locked"): void {
+	lock_file.lock(UPDATE_LOCK_PATH, (err) => {
+		if (!err) {
+			TurbineEventLoop.emit("log", "info", `Lock: Updates are now ${verb}.`);
+			return;
+		}
+
+		if ((err as NodeJS.ErrnoException).code !== "EEXIST") {
+			TurbineEventLoop.emit("log", "error", `Lock: Updates locking failed. ${err}`);
+			return;
+		}
+
+		TurbineEventLoop.emit("log", "warning", "Lock: Stale update lock left by a previous run, reclaiming it.");
+
+		try {
+			fs.unlinkSync(UPDATE_LOCK_PATH);
+		} catch (unlink_error) {
+			TurbineEventLoop.emit("log", "error", `Lock: Failed to clear the stale lock: ${(unlink_error as Error).message}`);
+			return;
+		}
+
+		lock_file.lock(UPDATE_LOCK_PATH, (retry_error) => {
+			retry_error
+				? TurbineEventLoop.emit("log", "error", `Lock: Updates locking failed. ${retry_error}`)
+				: TurbineEventLoop.emit("log", "info", `Lock: Updates are now ${verb}.`);
+		});
+	});
+}
+
 (async () => {
 	// Fail fast if required env vars are missing
 	validate_env();
@@ -103,14 +144,18 @@ import { WebsocketDispatcher } from "./websocket/websocket-dispatcher";
 		}
 	});
 
+	// Installés ici, et pas en fin de fichier comme avant : tout ce qui suit peut
+	// échouer, et une machine qui redémarre en boucle sans jamais dire pourquoi est
+	// le pire des cas. Une requête Prisma expirée pendant `app.listen()` rejetait
+	// avant que ces gardes n'existent — Node imprimait l'erreur brute et sortait,
+	// le superviseur relançait, et ça recommençait.
+	process.on("uncaughtException", (error: Error) => TurbineEventLoop.emit("log", "error", "unCaughtException: " + error.stack));
+	process.on("unhandledRejection", (error: Error) => TurbineEventLoop.emit("log", "error", "unhandledPromiseRejection: " + error.stack));
+
 	TurbineEventLoop.emit("log", "info", "Starting NusterTurbine");
 
 	/** Update locking the Balena Supervisor */
-	lock_file.lock("/tmp/balena/updates.lock", (err) => {
-		err
-			? TurbineEventLoop.emit("log", "error", `Lock: Updates locking failed. ${err}`)
-			: TurbineEventLoop.emit("log", "info", "Lock: Updates are now locked.");
-	});
+	take_update_lock("locked");
 
 	await migrate(base_path);
 
@@ -410,16 +455,8 @@ import { WebsocketDispatcher } from "./websocket/websocket-dispatcher";
 
 		TurbineEventLoop.emit("log", "info", "Update: Restarted proxy & wpe services.");
 
-		lock_file.lock("/tmp/balena/updates.lock", (err) => {
-			err
-				? TurbineEventLoop.emit("log", "error", `Lock: Updates locking failed. ${err}`)
-				: TurbineEventLoop.emit("log", "info", "Lock: Updates are now re-locked.");
-		});
+		take_update_lock("re-locked");
 	}
-
-	/** NodeJS process events */
-	process.on("uncaughtException", (error: Error) => TurbineEventLoop.emit("log", "error", "unCaughtException: " + error.stack));
-	process.on("unhandledRejection", (error: Error) => TurbineEventLoop.emit("log", "error", "unhandledPromiseRejection: " + error.stack));
 
 	const handle_shutdown_signal = async (signal: string) => {
 		TurbineEventLoop.emit("log", "info", `Shutdown: ${signal} detected.`);

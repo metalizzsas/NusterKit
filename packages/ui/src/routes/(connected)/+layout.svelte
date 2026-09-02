@@ -146,9 +146,17 @@
                             { iface: "enp1s0u1", path: "", gateway: "192.168.49.254", subnet: "255.255.255.0"  },
                             { iface: "wlan0", path: "", address: "192.168.49.193", gateway: "192.168.49.254", subnet: "255.255.255.0"  }
                         ],
+                        // Calqué sur ce que renvoie une vraie machine : un point
+                        // d'accès par radio, donc le même SSID en 2,4 et 5 GHz,
+                        // plus les réseaux masqués au SSID vide. Avec deux SSID
+                        // distincts, le défaut de clés dupliquées qui supprimait
+                        // tout le bloc wifi ne pouvait pas se voir en dev.
                         accessPoints: [
-                            { ssid: "Test", active: true, strength: 75, frenquency: 2500, encryption: 2, path: "" },
-                            { ssid: "Test2", active: false, strength: 75, frenquency: 2500, encryption: 2, path: "" }
+                            { ssid: "Test", active: true, strength: 75, frenquency: 2437, encryption: 2, path: "/AccessPoint/1" },
+                            { ssid: "Test2", active: false, strength: 74, frenquency: 2437, encryption: 2, path: "/AccessPoint/2" },
+                            { ssid: "Test2", active: false, strength: 55, frenquency: 5180, encryption: 2, path: "/AccessPoint/3" },
+                            { ssid: "", active: false, strength: 72, frenquency: 2437, encryption: 1416, path: "/AccessPoint/4" },
+                            { ssid: "", active: false, strength: 54, frenquency: 5180, encryption: 1416, path: "/AccessPoint/5" }
                         ]
                     }}
                 }

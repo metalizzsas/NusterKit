@@ -33,6 +33,28 @@
     let wired_device = $derived($realtime.network.devices.find(d => d.iface == "enp1s0u1"));
     let wifi_device = $derived($realtime.network.devices.find(d => d.iface == "wlan0"));
 
+    // Un scan renvoie un point d'accès par radio, pas par réseau : une box en
+    // 2,4 et 5 GHz apparaît deux fois sous le même SSID, et les réseaux masqués
+    // en renvoient autant au SSID vide. La liste était clée par SSID, donc ces
+    // doublons levaient `each_key_duplicate` — une erreur fatale qui supprimait
+    // tout le bloc wifi du rendu, sans rien afficher pour l'expliquer.
+    //
+    // On regroupe donc par SSID en gardant la meilleure réception, ce qui est de
+    // toute façon ce que l'opérateur veut voir : la connexion se fait par SSID,
+    // deux lignes identiques ne sont pas distinguables à l'usage. Les réseaux
+    // masqués sont écartés — on ne sait pas s'y connecter faute de SSID.
+    let access_points = $derived(
+        [...$realtime.network.accessPoints]
+            .filter(ap => ap.ssid !== "")
+            .reduce((kept: typeof $realtime.network.accessPoints, ap) => {
+                const seen = kept.find(k => k.ssid === ap.ssid);
+                if (seen === undefined) kept.push(ap);
+                else if (ap.active || (!seen.active && ap.strength > seen.strength)) kept[kept.indexOf(seen)] = ap;
+                return kept;
+            }, [])
+            .sort((a, b) => Number(b.active) - Number(a.active) || b.strength - a.strength)
+    );
+
     $effect(() => {
         if (wifiConnectError) { setTimeout(() => wifiConnectError = undefined, 10000) }
     });
@@ -119,7 +141,7 @@
             </Flex>
 
             <Grid cols={1} gap={3}>
-                {#each $realtime.network.accessPoints.sort((a, b) => Number(b.active) - Number(a.active)) as ap (ap.ssid)}
+                {#each access_points as ap (ap.ssid)}
                     {@const barColor = ap.active ? "bg-emerald-500" : "bg-zinc-500 dark:bg-zinc-300"}
                     <div class="flex flex-col gap-4 rounded-xl border border-border bg-white px-3.5 py-2.5 dark:bg-zinc-800/80">
 

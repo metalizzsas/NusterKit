@@ -18,31 +18,34 @@ export class ProfilesRouter implements ProfileService {
 		}
 
 		TurbineEventLoop.emit("log", "info", "ProfilesRouter: Updating premade profiles.");
-		prisma.profile
-			.deleteMany({ where: { isPremade: true } })
-			.then(async () => {
-				for (const p of profilePremades) {
-					const profile_base = await prisma.profile.create({
+
+		// Une seule transaction, et les valeurs écrites en imbriqué avec leur profil.
+		//
+		// Avant, ce semis faisait une écriture par profil PUIS une par valeur, chacune
+		// attendue à son tour — 84 transactions séparées sur `metalfog-m-2`. Prisma
+		// sérialise tout sur l'unique connexion SQLite, et la base tourne en
+		// journalisation par rollback : chaque transaction force son propre `fsync` sur
+		// l'eMMC. Le semis monopolisait donc la connexion plusieurs secondes au
+		// démarrage, et les requêtes qui arrivaient derrière — dont la lecture des bacs
+		// pour le premier statut complet — atteignaient le `Socket timeout` avant d'être
+		// servies. Ce n'était pas une base lente : elle fait 86 Ko sur un disque occupé
+		// à 10 %. Elle était occupée.
+		prisma
+			.$transaction([
+				prisma.profile.deleteMany({ where: { isPremade: true } }),
+				...profilePremades.map((p) =>
+					prisma.profile.create({
 						data: {
 							id: p.id,
 							name: p.name,
 							skeleton: p.skeleton,
 							isPremade: true,
 							modificationDate: new Date(),
+							values: { create: p.values.map((value) => ({ key: value.key, value: value.value })) },
 						},
-					});
-
-					for (const value of p.values) {
-						await prisma.profileValue.create({
-							data: {
-								key: value.key,
-								value: value.value,
-								profileId: profile_base.id,
-							},
-						});
-					}
-				}
-			})
+					}),
+				),
+			])
 			.catch((err) => {
 				TurbineEventLoop.emit("log", "error", `ProfilesRouter: premade sync failed: ${(err as Error).message}`);
 			});

@@ -216,7 +216,12 @@
             "balena": "BalenaOS version",
             "update": "Update available",
             "update_install": "Install",
-            "update_installing": "Installing"
+            "update_installing": "Installing",
+            "confirm": {
+                "title": "Install the update?",
+                "message": "The update will be downloaded and applied. The machine will restart its services and be unavailable for a few minutes."
+            },
+            "update_progress": "Downloading and applying the update. Do not cut the power."
         },
         "network": {
             "lead": "Network information",
@@ -277,6 +282,18 @@
                 "reboot": {
                     "title": "Restarting",
                     "message": "The machine is restarting, please wait."
+                },
+                "connection_live": "Machine connected",
+                "connection_lost": "Machine disconnected"
+            },
+            "confirm": {
+                "reboot": {
+                    "title": "Restart the machine?",
+                    "message": "The machine will stop and start again. The screen will be unavailable for about a minute."
+                },
+                "shutdown": {
+                    "title": "Shut the machine down?",
+                    "message": "The machine will stop. You can unplug it once the screen goes dark."
                 }
             }
         }

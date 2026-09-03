@@ -216,7 +216,12 @@
             "balena": "Versione di balenaOS",
             "update": "Aggiornamento disponibile",
             "update_install": "Installare",
-            "update_installing": "Installazione in corso"
+            "update_installing": "Installazione in corso",
+            "confirm": {
+                "title": "Installare l'aggiornamento?",
+                "message": "L'aggiornamento verrà scaricato e applicato. La macchina riavvierà i suoi servizi e non sarà disponibile per alcuni minuti."
+            },
+            "update_progress": "Download e applicazione dell'aggiornamento in corso. Non togliere l'alimentazione."
         },
         "network": {
             "lead": "Informazioni rete",
@@ -277,6 +282,18 @@
                 "reboot": {
                     "title": "Riavvio in corso",
                     "message": "La macchina si sta riavviando, attendere."
+                },
+                "connection_live": "Macchina connessa",
+                "connection_lost": "Macchina disconnessa"
+            },
+            "confirm": {
+                "reboot": {
+                    "title": "Riavviare la macchina?",
+                    "message": "La macchina si arresterà e ripartirà. Lo schermo non sarà disponibile per circa un minuto."
+                },
+                "shutdown": {
+                    "title": "Spegnere la macchina?",
+                    "message": "La macchina si arresterà. Potrà essere scollegata quando lo schermo sarà spento."
                 }
             }
         }

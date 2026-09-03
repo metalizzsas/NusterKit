@@ -216,7 +216,12 @@
             "balena": "BalenaOS-Version",
             "update": "Update verfügbar",
             "update_install": "Installieren",
-            "update_installing": "Wird installiert"
+            "update_installing": "Wird installiert",
+            "confirm": {
+                "title": "Update installieren?",
+                "message": "Das Update wird heruntergeladen und angewendet. Die Maschine startet ihre Dienste neu und ist einige Minuten lang nicht verfügbar."
+            },
+            "update_progress": "Update wird heruntergeladen und angewendet. Trennen Sie nicht die Stromversorgung."
         },
         "network": {
             "lead": "Netzwerkinformationen",
@@ -277,6 +282,18 @@
                 "reboot": {
                     "title": "Neustart läuft",
                     "message": "Die Maschine wird neu gestartet, bitte warten."
+                },
+                "connection_live": "Maschine verbunden",
+                "connection_lost": "Maschine getrennt"
+            },
+            "confirm": {
+                "reboot": {
+                    "title": "Maschine neu starten?",
+                    "message": "Die Maschine wird angehalten und neu gestartet. Der Bildschirm ist etwa eine Minute lang nicht verfügbar."
+                },
+                "shutdown": {
+                    "title": "Maschine ausschalten?",
+                    "message": "Die Maschine wird angehalten. Sobald der Bildschirm dunkel ist, können Sie sie vom Netz trennen."
                 }
             }
         }

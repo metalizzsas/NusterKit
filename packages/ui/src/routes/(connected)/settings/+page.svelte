@@ -16,8 +16,9 @@
 	import Label from "$lib/components/Label.svelte";
 	import ProgressBar from "$lib/components/ProgressBar.svelte";
 	import Grid from "$lib/components/layout/grid.svelte";
-	import { realtime } from "$lib/utils/stores/nuster";
+	import { realtime, realtimeConnected } from "$lib/utils/stores/nuster";
 	import { enhance } from "$app/forms";
+	import { invalidateAll } from "$app/navigation";
 
     import { version } from "$app/environment";
 	import * as Dialog from "$lib/components/ui/dialog/index.js";
@@ -35,7 +36,66 @@
 
     let settings = $state(untrack(() => ({ lang: data.settings.lang, dark: data.settings.dark })));
     let showChangelog = $state(false);
+
+    type MachineAction = "update" | "reboot" | "shutdown";
+
+    /** Action en attente de confirmation, et action en cours d'exécution. */
+    let pending: MachineAction | undefined = $state(undefined);
+    let running: MachineAction | undefined = $state(undefined);
+
+    /** Titre et message de la modale, selon l'action demandée. */
+    let confirm_title = $derived(pending === "update" ? "settings.software.confirm.title" : `settings.power.confirm.${pending}.title`);
+    let confirm_message = $derived(pending === "update" ? "settings.software.confirm.message" : `settings.power.confirm.${pending}.message`);
+
+    /**
+     * L'avancement du téléchargement vient du superviseur balena, qui n'est lu
+     * qu'au chargement de la page — il n'est pas diffusé par le WebSocket. On
+     * rafraîchit donc tant qu'une installation est en cours, sinon la barre
+     * resterait figée sur la valeur du premier rendu.
+     */
+    $effect(() => {
+        if (running !== "update") return;
+
+        const interval = setInterval(() => invalidateAll(), 3000);
+        return () => clearInterval(interval);
+    });
+
+    let download_progress = $derived(data.machine.hypervisorData?.overallDownloadProgress ?? null);
 </script>
+
+<Dialog.Root open={pending !== undefined} onOpenChange={(open) => { if (!open) pending = undefined; }}>
+    <Dialog.Content class="max-w-md">
+        <Dialog.Header>
+            <Dialog.Title>{$_(confirm_title)}</Dialog.Title>
+            <Dialog.Description>{$_(confirm_message)}</Dialog.Description>
+        </Dialog.Header>
+
+        <Dialog.Footer>
+            <Button color="hover:bg-zinc-500" ringColor="ring-zinc-500" onclick={() => pending = undefined}>
+                {$_('cancel')}
+            </Button>
+
+            <!-- Le formulaire vit dans la modale : son action suit l'opération
+                 demandée, et rien n'est envoyé tant qu'on n'a pas confirmé. -->
+            <form
+                method="post"
+                action={`?/${pending}`}
+                use:enhance={() => {
+                    running = pending;
+                    pending = undefined;
+                    return async ({ update }) => { await update({ reset: false }); };
+                }}
+            >
+                <Button
+                    color={pending === "shutdown" ? "hover:bg-red-500" : "hover:bg-amber-500"}
+                    ringColor={pending === "shutdown" ? "ring-red-500" : "ring-amber-500"}
+                >
+                    {$_('proceed')}
+                </Button>
+            </form>
+        </Dialog.Footer>
+    </Dialog.Content>
+</Dialog.Root>
 
 <Dialog.Root bind:open={showChangelog}>
     <Dialog.Content class="max-h-[80vh] max-w-2xl overflow-y-auto">
@@ -115,14 +175,15 @@
 
             {#if data.machine.hypervisorData?.appState !== 'applied' && data.machine.hypervisorData?.overallDownloadProgress === null}
                 <SettingField label={$_('settings.software.update')}>
-                    {#if form && "update" in form && "success" in form.update}
-                        {$_('settings.software.update_installing')}
-                        <ProgressBar progress={null} />
-                    {:else}
-                        <form action="?/update" method="post">
-                            <Button color={"hover:bg-indigo-500"} ringColor={"ring-indigo-500"} size="small" disabled={$realtime.cycle !== undefined}>{$_('settings.software.update_install')}</Button>
-                        </form>
-                    {/if}
+                    <Button
+                        color="hover:bg-indigo-500"
+                        ringColor="ring-indigo-500"
+                        size="small"
+                        disabled={$realtime.cycle !== undefined || running !== undefined}
+                        onclick={() => pending = "update"}
+                    >
+                        {$_('settings.software.update_install')}
+                    </Button>
                 </SettingField>
             {/if}
         </Flex>
@@ -166,20 +227,53 @@
                     {$_('settings.power.reload')}
                 </Button>
 
-                <form action="?/reboot" method="post">
-                    <Button class="w-full" color="hover:bg-amber-500" ringColor="ring-amber-500" disabled={$realtime.cycle !== undefined}>
-                        <Icon src={ArrowPath} class="mr-2 h-4 w-4" />
-                        {$_('settings.power.reboot')}
-                    </Button>
-                </form>
+                <Button
+                    class="w-full"
+                    color="hover:bg-amber-500"
+                    ringColor="ring-amber-500"
+                    disabled={$realtime.cycle !== undefined || running !== undefined}
+                    onclick={() => pending = "reboot"}
+                >
+                    <Icon src={ArrowPath} class="mr-2 h-4 w-4" />
+                    {$_('settings.power.reboot')}
+                </Button>
 
-                <form action="?/shutdown" method="post">
-                    <Button class="w-full" color="hover:bg-red-500" ringColor="ring-red-500" disabled={$realtime.cycle !== undefined}>
-                        <Icon src={Power} class="mr-2 h-4 w-4" />
-                        {$_('settings.power.shutdown')}
-                    </Button>
-                </form>
+                <Button
+                    class="w-full"
+                    color="hover:bg-red-500"
+                    ringColor="ring-red-500"
+                    disabled={$realtime.cycle !== undefined || running !== undefined}
+                    onclick={() => pending = "shutdown"}
+                >
+                    <Icon src={Power} class="mr-2 h-4 w-4" />
+                    {$_('settings.power.shutdown')}
+                </Button>
             </Flex>
+
+            <!-- Suivi de l'opération en cours. Sans lui, l'écran ne renvoyait
+                 rien après un clic : sur une machine qui met une minute à
+                 redémarrer, l'opérateur ne pouvait pas savoir si sa demande
+                 avait été prise en compte. -->
+            {#if running !== undefined}
+                <Wrapper variant="muted" padding="p-4">
+                    <Flex direction="col" gap={2}>
+                        <h3 class="leading-6">
+                            {$_(running === "update" ? 'settings.software.update_installing' : `settings.power.modal.${running}.title`)}
+                        </h3>
+
+                        <p class="text-sm text-zinc-600 dark:text-zinc-400">
+                            {$_(running === "update" ? 'settings.software.update_progress' : `settings.power.modal.${running}.message`)}
+                        </p>
+
+                        <ProgressBar progress={running === "update" ? download_progress : null} showProgressLabel={running === "update" && download_progress !== null} />
+
+                        <p class="flex items-center gap-1.5 text-sm" class:text-emerald-600={$realtimeConnected} class:text-amber-600={!$realtimeConnected}>
+                            <span class="h-2 w-2 rounded-full" class:bg-emerald-500={$realtimeConnected} class:bg-amber-500={!$realtimeConnected}></span>
+                            {$_(`settings.power.modal.connection_${$realtimeConnected ? 'live' : 'lost'}`)}
+                        </p>
+                    </Flex>
+                </Wrapper>
+            {/if}
         </Flex>
     </Wrapper>
 

@@ -216,7 +216,12 @@
             "balena": "Version de balenaOS",
             "update": "Mise a jour disponible",
             "update_install": "Installer",
-            "update_installing": "En cours d'installation"
+            "update_installing": "En cours d'installation",
+            "confirm": {
+                "title": "Installer la mise à jour ?",
+                "message": "La mise à jour sera téléchargée puis appliquée. La machine redémarrera ses services et sera indisponible quelques minutes."
+            },
+            "update_progress": "Téléchargement et application de la mise à jour. Ne coupez pas l'alimentation."
         },
         "network": {
             "lead": "Informations réseau",
@@ -275,6 +280,18 @@
                 "reboot": {
                     "title": "Redémarrage en cours",
                     "message": "La machine est en train de redémarrer, veuillez patienter."
+                },
+                "connection_live": "Machine connectée",
+                "connection_lost": "Machine déconnectée"
+            },
+            "confirm": {
+                "reboot": {
+                    "title": "Redémarrer la machine ?",
+                    "message": "La machine va s'arrêter puis redémarrer. L'écran sera indisponible pendant environ une minute."
+                },
+                "shutdown": {
+                    "title": "Éteindre la machine ?",
+                    "message": "La machine va s'arrêter. Vous pourrez la débrancher lorsque l'écran sera éteint."
                 }
             }
         }

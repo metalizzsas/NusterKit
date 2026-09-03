@@ -23,7 +23,7 @@
     "modbus-serial": "^8.0.25"
   },
   "devDependencies": {
-    "@nuster/turbine": "2.4.0-beta.11",
+    "@nuster/turbine": "2.4.0-beta.12",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/node": "^24.0.0",

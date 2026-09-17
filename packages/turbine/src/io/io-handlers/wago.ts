@@ -6,6 +6,16 @@ import { AsyncMutex } from "../../utils/async-mutex";
 
 const MAX_RECONNECT_DELAY = 30_000; // 30s cap
 const BASE_RECONNECT_DELAY = 2_000; // 2s initial
+/**
+ * Délai de réponse d'une requête Modbus. Sans lui, modbus-serial attend
+ * indéfiniment : sur une connexion TCP à demi ouverte — coupure sans FIN,
+ * automate qui redémarre — une écriture ne rendait jamais la main, le mutex
+ * restait pris, et toutes les E/S du WAGO se figeaient derrière elle. Le
+ * keepalive ne voyait rien, `isOpen` restant vrai sur un socket à demi ouvert.
+ * Sur machine : un `regulators#power ← 0` de fin d'étape resté pendu cinq
+ * minutes, jusqu'au `stepOvertime`.
+ */
+const MODBUS_TIMEOUT_MS = 2_000;
 
 export class WAGO implements IOBase, WAGOConfig {
 	type = "wago" as const;
@@ -24,7 +34,23 @@ export class WAGO implements IOBase, WAGOConfig {
 	constructor(ip: string) {
 		this.ip = ip;
 		this.client = new ModbusTCP();
+		this.client.setTimeout(MODBUS_TIMEOUT_MS);
 		this.connect();
+	}
+
+	/**
+	 * Une requête qui expire veut dire que la connexion ne répond plus, même si
+	 * le socket se croit ouvert. On le ferme pour que le keepalive le voie et
+	 * relance la reconnexion, plutôt que d'enchaîner les expirations.
+	 */
+	private drop_connection(reason: unknown): void {
+		TurbineEventLoop.emit("log", "error", `WAGO: Request failed, dropping the connection: ${(reason as Error)?.message ?? reason}`);
+		this.connected = false;
+		try {
+			this.client.close(() => {});
+		} catch {
+			// best-effort close
+		}
 	}
 
 	async connect(): Promise<boolean> {
@@ -130,10 +156,15 @@ export class WAGO implements IOBase, WAGOConfig {
 				if (!connected) return;
 			}
 
-			if (size === "word") {
-				await this.client.writeRegister(address, data);
-			} else {
-				await this.client.writeCoil(address, data == 1);
+			try {
+				if (size === "word") {
+					await this.client.writeRegister(address, data);
+				} else {
+					await this.client.writeCoil(address, data == 1);
+				}
+			} catch (err) {
+				this.drop_connection(err);
+				throw err;
 			}
 		} finally {
 			this.io_mutex.release();
@@ -156,14 +187,19 @@ export class WAGO implements IOBase, WAGOConfig {
 				if (!connected) return 0;
 			}
 
-			let result = null;
+			try {
+				if (size === "word") {
+					const result = await this.client.readHoldingRegisters(address, 1);
+					return result.data[0];
+				}
 
-			if (size === "word") {
-				result = await this.client.readHoldingRegisters(address, 1);
-				return result.data[0];
-			} else {
-				result = await this.client.readCoils(address, 1);
+				const result = await this.client.readCoils(address, 1);
 				return result.data[0] ? 1 : 0;
+			} catch (err) {
+				// On ne fabrique pas de lecture : la gate garde sa dernière valeur et
+				// journalise l'échec, le keepalive rétablit la connexion.
+				this.drop_connection(err);
+				throw err;
 			}
 		} finally {
 			this.io_mutex.release();

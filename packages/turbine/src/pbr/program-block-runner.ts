@@ -300,11 +300,32 @@ export class ProgramBlockRunner {
 		this.set_state("ending");
 		this.status.endReason = reason;
 
+		// Un cycle qui se termine ne commande plus rien. Les timers n'étaient vidés
+		// qu'à `dispose()`, appelé quand on referme le cycle à l'écran : entre les
+		// deux, un timer lancé par une étape continuait d'écrire sur les sorties.
+		// Sur machine, `motorRotation` a commandé le moteur toutes les 5 s pendant
+		// de longues minutes après un `stepOvertime`.
+		this.clear_timers();
+
 		this.steps.forEach((s) => s.crash("ending"));
 
 		if (reason !== undefined) TurbineEventLoop.emit("log", "warning", "PBR: Triggered cycle end with reason: " + reason);
 
 		this.add_event(`Cycle ended with reason ${reason}.`);
+	}
+
+	/** Arrête les timers lancés par les étapes. Idempotent : appelé à `end()` puis à `dispose()`. */
+	private clear_timers(): void {
+		const armed = this.timers.filter((t) => t.timer !== undefined);
+		if (armed.length === 0) return;
+
+		TurbineEventLoop.emit("log", "info", "PBR: Clearing timers.");
+		for (const timer of armed) {
+			TurbineEventLoop.emit("log", "info", " ↳ Clearing timer: " + timer.name);
+			clearInterval(timer.timer);
+			timer.timer = undefined;
+			timer.enabled = false;
+		}
 	}
 
 	/** Dispose the cycle before its deletion */
@@ -331,14 +352,7 @@ export class ProgramBlockRunner {
 			for (const sc of this.runConditions) sc.dispose();
 		}
 
-		//Clearing timer blocks
-		if (this.timers.length > 0) {
-			TurbineEventLoop.emit("log", "info", "PBR: Clearing timers.");
-			for (const timer of this.timers) {
-				TurbineEventLoop.emit("log", "info", " ↳ Clearing timer: " + timer.name);
-				clearInterval(timer.timer);
-			}
-		}
+		this.clear_timers();
 
 		// Dispose steps (removes listeners from all blocks, steps, and step run conditions)
 		TurbineEventLoop.emit("log", "info", "PBR: Disposing steps and blocks.");

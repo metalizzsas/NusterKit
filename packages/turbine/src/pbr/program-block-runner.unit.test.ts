@@ -88,6 +88,34 @@ describe("ProgramBlockRunner lifecycle", () => {
 		expect(pbr.currentStepIndex).toBe(2);
 	});
 
+	test("end() stops the timers started by steps, not just dispose()", async () => {
+		const config = create_minimal_config({
+			steps: [{ name: "step-1", isEnabled: 1, startBlocks: [], endBlocks: [], blocks: [{ sleep: 1 }] }],
+		});
+		const pbr = new ProgramBlockRunner(config, undefined, service_registry);
+		void pbr.run();
+		await new Promise((r) => setTimeout(r, 20));
+		expect(pbr.status.mode).toBe("started");
+
+		// Un timer tel qu'un bloc `start_timer` l'enregistre : il tourne tant qu'on
+		// ne le vide pas. Avant, seul dispose() le faisait — appelé quand on referme
+		// le cycle à l'écran. Entre la fin du cycle et ce moment, un timer lancé par
+		// une étape continuait de commander les sorties : sur machine, le moteur,
+		// toutes les 5 s, de longues minutes après un stepOvertime.
+		let ticks = 0;
+		pbr.timers.push({ name: "motorRotation", enabled: true, timer: setInterval(() => ticks++, 5) });
+
+		pbr.end("stepOvertime");
+
+		const ticks_at_end = ticks;
+		await new Promise((r) => setTimeout(r, 40));
+
+		expect(ticks).toBe(ticks_at_end);
+		expect(pbr.timers[0]?.timer).toBeUndefined();
+
+		pbr.dispose();
+	});
+
 	test("end() with reason transitions to ending → ended after dispose", async () => {
 		// Use a longer sleep so we have time to end it
 		const config = create_minimal_config({

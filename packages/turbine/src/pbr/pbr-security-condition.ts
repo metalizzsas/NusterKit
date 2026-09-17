@@ -60,6 +60,14 @@ export class PBRRunCondition {
 		}
 
 		if (pbrsc.checkchain.io !== undefined) {
+			// L'état naît à "error" et n'était mis à jour qu'au prochain événement
+			// `io.updated` — jamais avant le tick suivant du scanner, jamais du tout
+			// si une lecture échouait entre-temps. Le premier affichage était rouge
+			// par construction, pas par mesure, et « pas encore évalué » était
+			// indiscernable de « violé ». On part de la valeur courante de la gate.
+			const current = this.ctx.io.get_gate_value(pbrsc.checkchain.io.gateName);
+			if (current !== undefined) this.state = current === pbrsc.checkchain.io.gateValue ? "good" : "error";
+
 			this.#gateListenerReference = this.gate_listener.bind(this);
 			this.ctx.io.on(`updated.${pbrsc.checkchain.io.gateName}`, this.#gateListenerReference);
 		}
@@ -92,6 +100,7 @@ export class PBRRunCondition {
 		if (this.#pbrStateListenerReference) {
 			this.ctx.pbr_emitter.off("status.update", this.#pbrStateListenerReference);
 		}
+		this.#statusBlock?.dispose();
 		this.disabled_flag = true;
 	}
 

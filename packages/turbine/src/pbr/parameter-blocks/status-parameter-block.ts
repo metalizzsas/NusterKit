@@ -12,4 +12,11 @@ export class StatusParameterBlock extends ParameterBlock<"error" | "warning" | "
 	subscribe(callback: (data: "error" | "warning" | "good") => void) {
 		this.subscriber = callback;
 	}
+
+	/**
+	 * Libère ce que le bloc a pu enregistrer sur le bus d'événements. Les blocs
+	 * qui s'abonnent à quelque chose le surchargent ; sans ça, chaque création de
+	 * cycle laissait un écouteur de plus derrière elle.
+	 */
+	dispose(): void {}
 }

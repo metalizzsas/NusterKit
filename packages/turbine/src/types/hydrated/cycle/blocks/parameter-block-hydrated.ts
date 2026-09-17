@@ -11,4 +11,7 @@ export type StatusParameterBlockHydrated = ParameterBlockHydrated<"error" | "war
 
 	/** Subscribe to block data change */
 	subscribe(callback: (data: "error" | "warning" | "good") => void): void;
+
+	/** Release whatever the block registered on the event bus */
+	dispose(): void;
 };
